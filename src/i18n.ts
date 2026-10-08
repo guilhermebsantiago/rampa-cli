@@ -60,6 +60,8 @@ const messages = {
     agentBelowThreshold: '{count} finding(s) below the confidence threshold were left out; pass min_confidence "low" to include them.',
     agentJudgmentSkipped: 'Judgment skipped (no_llm): {count} candidate(s) for {criteria} were not judged, so those criteria were checked by {engineName} only.',
     agentNotCheckedList: '{count} of {total} WCAG 2.1 A/AA criteria: {list}',
+    agentSameFix: 'as in finding {n}',
+    agentLeftOut: '{count} more finding(s) are counted but not listed ({list}); pass a larger max_findings to list them, or fix these and check again.',
   },
   'pt-BR': {
     tagline: 'verificação de acessibilidade além da sintaxe',
@@ -110,6 +112,8 @@ const messages = {
     agentBelowThreshold: '{count} achado(s) abaixo do limiar de confiança ficaram de fora; passe min_confidence "low" para incluí-los.',
     agentJudgmentSkipped: 'Julgamento desligado (no_llm): {count} candidato(s) de {criteria} não foram julgados; esses critérios foram verificados só pelo {engineName}.',
     agentNotCheckedList: '{count} de {total} critérios WCAG 2.1 A/AA: {list}',
+    agentSameFix: 'como no achado {n}',
+    agentLeftOut: '{count} achado(s) a mais entram na contagem, mas não na lista ({list}); passe um max_findings maior para listá-los, ou corrija estes e verifique de novo.',
   },
 } as const
 

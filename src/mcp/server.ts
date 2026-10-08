@@ -36,6 +36,9 @@ const EXPLAIN_FINDING = `Explain a finding or a WCAG success criterion, without 
 
 const CRITERION_IDS = [...CRITERIA.keys()] as [string, ...string[]]
 
+/** Enough for a fix-and-check-again loop without flooding the agent's context. */
+const MAX_FINDINGS = 50
+
 /** Options shared by both check tools; each one overrides what the server was started with. */
 const checkOptions = {
   criteria: z
@@ -54,6 +57,13 @@ const checkOptions = {
     .describe("Language of the messages. Default: the server's --locale, RAMPA_LOCALE or en."),
   runs: z.number().int().min(1).max(5).optional().describe('Judgments per candidate, majority vote; confidence drops when runs disagree. Default 1; each run is one more model call per candidate.'),
   min_confidence: z.enum(['low', 'medium', 'high']).optional().describe('Leave out findings below this confidence. Default medium.'),
+  max_findings: z
+    .number()
+    .int()
+    .min(1)
+    .max(1000)
+    .optional()
+    .describe(`List at most this many findings; the rest are counted and summed up by criterion. Default ${MAX_FINDINGS}.`),
 }
 
 const READ_ONLY = { readOnlyHint: true, destructiveHint: false, idempotentHint: true } as const
@@ -65,9 +75,10 @@ export function createMcpServer(defaults: AgentDefaults): McpServer {
   const server = new McpServer({ name: 'rampa', title: 'Rampa', version: VERSION }, { instructions: INSTRUCTIONS })
   const remembered = new Map<string, RememberedFinding>()
 
-  const respond = (tool: string, label: string, started: number, outcome: AgentCheck, target = outcome.report.target): CallToolResult => {
-    const report: Report = { ...outcome.report, target }
-    const result = checkResult(report, outcome.engine)
+  const respond = (tool: string, label: string, started: number, outcome: AgentCheck, options: { maxFindings?: number | undefined; target?: string }): CallToolResult => {
+    const report: Report = { ...outcome.report, target: options.target ?? outcome.report.target }
+    const result = checkResult(report, outcome.engine, options.maxFindings ?? MAX_FINDINGS)
+    const target = report.target
     for (const finding of result.findings) {
       remembered.delete(finding.id)
       remembered.set(finding.id, { finding, target })
@@ -93,11 +104,12 @@ export function createMcpServer(defaults: AgentDefaults): McpServer {
       outputSchema: CheckResultSchema,
       annotations: { ...READ_ONLY, openWorldHint: true },
     },
-    async ({ target, ...args }, ctx) => {
+    async ({ target, max_findings, ...args }, ctx) => {
       const started = performance.now()
       try {
         const resolved = await resolveAgentTarget(target)
-        return respond('check_page', resolved.label, started, await runAgentCheck(resolved, args, defaults, controlOf(ctx)))
+        const outcome = await runAgentCheck(resolved, args, defaults, controlOf(ctx))
+        return respond('check_page', resolved.label, started, outcome, { maxFindings: max_findings })
       } catch (error) {
         return toolError(error, defaults.log)
       }
@@ -120,7 +132,7 @@ export function createMcpServer(defaults: AgentDefaults): McpServer {
       outputSchema: CheckResultSchema,
       annotations: { ...READ_ONLY, openWorldHint: true },
     },
-    async ({ html, base_url, ...args }, ctx) => {
+    async ({ html, base_url, max_findings, ...args }, ctx) => {
       const started = performance.now()
       let dir: string | undefined
       try {
@@ -130,7 +142,7 @@ export function createMcpServer(defaults: AgentDefaults): McpServer {
         const file = join(dir, 'page.html')
         await writeFile(file, base ? withBase(html, base) : html, 'utf8')
         const outcome = await runAgentCheck({ kind: 'web', url: pathToFileURL(file).href, label: 'inline HTML' }, args, defaults, controlOf(ctx))
-        return respond('check_html', 'inline HTML', started, outcome, base ? `inline HTML (base ${base})` : 'inline HTML')
+        return respond('check_html', 'inline HTML', started, outcome, { maxFindings: max_findings, target: base ? `inline HTML (base ${base})` : 'inline HTML' })
       } catch (error) {
         return toolError(error, defaults.log)
       } finally {

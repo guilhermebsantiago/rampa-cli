@@ -183,7 +183,7 @@ function explainFinding({ finding, target }: RememberedFinding, generalFix: stri
     fix = `Replace ${finding.patch.before} with ${finding.patch.after}.`
     if (finding.criterion === '1.1.1' && finding.source === 'judgment') fix += ' The suggested text describes what a model saw in the image: have a person review it.'
   } else if (finding.how_to_fix) {
-    fix = `${finding.how_to_fix}${finding.help_url ? ` More: ${finding.help_url}` : ''}`
+    fix = `${finding.how_to_fix}${/[.!?]$/.test(finding.how_to_fix) ? '' : '.'}${finding.help_url ? ` More: ${finding.help_url}` : ''}`
   } else {
     fix = generalFix ?? (finding.help_url ? `See ${finding.help_url}` : 'See the W3C Understanding document.')
   }

@@ -5,12 +5,14 @@ import { resolve } from 'node:path'
 import { Client, InMemoryTransport } from '@modelcontextprotocol/client'
 import { StdioClientTransport } from '@modelcontextprotocol/client/stdio'
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
+import { z } from 'zod'
 import { fileCache, memoryCache } from '../src/core/cache.ts'
 import { CRITERIA, DEFAULT_CRITERIA } from '../src/criteria/index.ts'
-import { type AgentDefaults, tolerantCache } from '../src/mcp/check.ts'
+import { type AgentDefaults, observedCache, observedProvider, tolerantCache } from '../src/mcp/check.ts'
 import type { CriteriaList, Explanation } from '../src/mcp/explain.ts'
 import type { CheckResult } from '../src/mcp/format.ts'
 import { createMcpServer, withBase } from '../src/mcp/server.ts'
+import type { JudgeRequest, ModelProvider } from '../src/providers/types.ts'
 import { launchBrowser } from '../src/surfaces/web.ts'
 
 // The recorded store page replays Gemma 4 12B's judgments from demo/recorded/cache: no browser, no model, no network.
@@ -59,7 +61,16 @@ describe('rampa mcp tools', () => {
     expect(tools.map((tool) => tool.name).sort()).toEqual(['check_html', 'check_page', 'explain_finding', 'list_criteria'])
     const checkPage = tools.find((tool) => tool.name === 'check_page')
     expect(checkPage?.inputSchema.required).toEqual(['target'])
-    expect(Object.keys(checkPage?.inputSchema.properties ?? {})).toEqual(['target', 'criteria', 'model', 'no_llm', 'locale', 'runs', 'min_confidence'])
+    expect(Object.keys(checkPage?.inputSchema.properties ?? {})).toEqual([
+      'target',
+      'criteria',
+      'model',
+      'no_llm',
+      'locale',
+      'runs',
+      'min_confidence',
+      'max_findings',
+    ])
     for (const tool of tools) {
       expect(tool.outputSchema).toBeDefined()
       expect(tool.annotations?.readOnlyHint).toBe(true)
@@ -132,6 +143,16 @@ describe('rampa mcp tools', () => {
     expect(check.summary.not_judged).toBe(13)
     expect(check.coverage.judged).toEqual([])
     expect(check.notes[0]).toMatch(/^Judgment skipped \(no_llm\): 13 candidate\(s\)/)
+  })
+
+  it('lists at most max_findings and counts the rest by criterion', async () => {
+    const result = await session.client.callTool({ name: 'check_page', arguments: { target: STORE, max_findings: 3 } })
+    const check = result.structuredContent as CheckResult
+    expect(check.findings).toHaveLength(3)
+    expect(check.summary).toMatchObject({ findings: 9, from_engine: 1, judged: 8, left_out: 6 })
+    expect(check.notes[0]).toBe(
+      '6 more finding(s) are counted but not listed (1.1.1: 1, 2.4.2: 1, 2.4.4: 1, 2.4.6: 2, 3.1.2: 1); pass a larger max_findings to list them, or fix these and check again.',
+    )
   })
 
   it('judges only the criteria asked for', async () => {
@@ -237,6 +258,37 @@ describe('rampa mcp defaults', () => {
     await close()
     expect(result.isError).toBe(true)
     expect(textOf(result)).toMatch(/^Ollama is not reachable at http:\/\/localhost:11434, so ollama:gemma4:12b cannot judge/)
+  })
+
+  it('counts each finished model call, and stops calling the model once the client cancels', async () => {
+    const controller = new AbortController()
+    let settled = 0
+    let calls = 0
+    const inner: ModelProvider = {
+      id: 'test:echo',
+      settings: 'reasoning=none',
+      async judge<T>(request: JudgeRequest<T>) {
+        calls++
+        return { output: request.schema.parse({}), inputTokens: 1, outputTokens: 1, latencyMs: 1, modelId: 'echo' }
+      },
+    }
+    const provider = observedProvider(inner, controller.signal, () => settled++)
+    const request = { system: '', user: '', schema: z.object({}), schemaName: 'test' }
+    await provider.judge(request)
+    controller.abort()
+    await expect(provider.judge(request)).rejects.toThrow('cancelled by the client')
+    expect({ calls, settled, id: provider.id, settings: provider.settings }).toEqual({ calls: 1, settled: 1, id: 'test:echo', settings: 'reasoning=none' })
+  })
+
+  it('counts a cached judgment, and an offline miss, as finished at the lookup', async () => {
+    const cache = memoryCache()
+    await cache.set('hit', { output: {}, inputTokens: 1, outputTokens: 1, latencyMs: 1, modelId: 'x', createdAt: '' })
+    let live = 0
+    let offline = 0
+    await observedCache(cache, false, () => live++).get('hit')
+    await observedCache(cache, false, () => live++).get('miss')
+    await observedCache(cache, true, () => offline++).get('miss')
+    expect({ live, offline }).toEqual({ live: 1, offline: 1 })
   })
 
   it('keeps judging when the cache cannot be written, and says so once', async () => {

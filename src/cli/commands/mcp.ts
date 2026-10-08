@@ -25,6 +25,8 @@ const log = (line: string) => {
 export async function runMcp(options: McpCommandOptions, context: GlobalContext): Promise<number> {
   // stdout carries the protocol and nothing else: whatever a dependency prints goes to stderr.
   console.log = console.info = console.debug = (...args: unknown[]) => console.error(...args)
+  // A stray rejection in a dependency must not take down a server the agent is still using.
+  process.on('unhandledRejection', (reason) => log(`rampa mcp: unhandled rejection: ${errorMessage(reason)}`))
 
   const server = () =>
     createMcpServer({

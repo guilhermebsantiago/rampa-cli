@@ -102,8 +102,10 @@ export async function runAgentCheck(target: Target, args: AgentCheckArgs, defaul
   if (control.signal.aborted) throw new RampaError('cancelled', 'The check was cancelled.')
 
   // Progress counts judgments: one step to collect, one per sample, one for the report.
-  const applicable = criteria.filter((criterion) => criterion.surfaces.includes(snapshot.surface))
-  const candidates = provider ? applicable.reduce((sum, criterion) => sum + criterion.candidates(snapshot, engine).length, 0) : 0
+  const counts = provider
+    ? criteria.filter((criterion) => criterion.surfaces.includes(snapshot.surface)).map((criterion) => ({ id: criterion.id, candidates: criterion.candidates(snapshot, engine).length }))
+    : []
+  const candidates = counts.reduce((sum, count) => sum + count.candidates, 0)
   const samples = candidates * runs
   const total = samples + 2
   let done = 0
@@ -111,7 +113,8 @@ export async function runAgentCheck(target: Target, args: AgentCheckArgs, defaul
     done = Math.min(done + 1, samples)
     control.progress?.(1 + done, total, `Judged ${done} of ${samples}`)
   }
-  control.progress?.(1, total, samples > 0 ? `Judging ${candidates} candidate(s) for ${applicable.map((c) => c.id).join(', ')}` : 'Building the report')
+  const judging = counts.filter((count) => count.candidates > 0).map((count) => count.id)
+  control.progress?.(1, total, samples > 0 ? `Judging ${candidates} candidate(s) for ${judging.join(', ')}` : 'Building the report')
 
   const report = await checkSnapshot(snapshot, engine, {
     criteria,
@@ -210,7 +213,7 @@ async function preflight(spec: string): Promise<void> {
 }
 
 /** Counts each finished call for progress and stops calling the model once the client cancels. */
-function observedProvider(provider: ModelProvider, signal: AbortSignal, onSettled: () => void): ModelProvider {
+export function observedProvider(provider: ModelProvider, signal: AbortSignal, onSettled: () => void): ModelProvider {
   return {
     ...provider,
     async judge<T>(request: JudgeRequest<T>) {
@@ -225,7 +228,7 @@ function observedProvider(provider: ModelProvider, signal: AbortSignal, onSettle
 }
 
 /** A cached sample, or an offline miss, finishes at the lookup; any other miss finishes when the model answers. */
-function observedCache(cache: JudgmentCache, offline: boolean, onSettled: () => void): JudgmentCache {
+export function observedCache(cache: JudgmentCache, offline: boolean, onSettled: () => void): JudgmentCache {
   return {
     async get(key) {
       const value = await cache.get(key)

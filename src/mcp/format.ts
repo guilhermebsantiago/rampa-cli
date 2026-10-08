@@ -50,6 +50,7 @@ export const CheckResultSchema = z.object({
     findings: z.number().int(),
     from_engine: z.number().int(),
     judged: z.number().int(),
+    left_out: z.number().int().describe('Findings beyond max_findings, counted above but not listed'),
     below_threshold: z.number().int(),
     waived: z.number().int(),
     discarded_claims: z.number().int().describe('Model claims dropped because their evidence was not on the page'),
@@ -133,10 +134,19 @@ export function agentFinding(finding: Finding, engine: EngineResults): AgentFind
   }
 }
 
-export function checkResult(report: Report, engine: EngineResults): CheckResult {
-  const findings = report.findings.map((finding) => agentFinding(finding, engine))
+/** A page can fail one axe-core rule on hundreds of elements; past `maxFindings` the rest are counted, not listed, to keep the agent's context usable. */
+export function checkResult(report: Report, engine: EngineResults, maxFindings = Number.POSITIVE_INFINITY): CheckResult {
+  const findings = report.findings.slice(0, maxFindings).map((finding) => agentFinding(finding, engine))
+  const leftOut = report.findings.slice(maxFindings)
   const sum = (key: 'judged' | 'discarded' | 'cannotTell' | 'candidates') =>
     report.criteria.filter((c) => c.applicable).reduce((total, c) => total + c[key], 0)
+  const notes = notesOf(report, findings)
+  if (leftOut.length > 0) {
+    const counts = new Map<string, number>()
+    for (const finding of leftOut) counts.set(finding.criterion, (counts.get(finding.criterion) ?? 0) + 1)
+    const list = [...counts].map(([criterion, count]) => `${criterion}: ${count}`).join(', ')
+    notes.unshift(t(report.locale, 'agentLeftOut', { count: leftOut.length, list }))
+  }
   return {
     target: report.target,
     surface: report.surface,
@@ -145,9 +155,10 @@ export function checkResult(report: Report, engine: EngineResults): CheckResult 
     engine: report.engine,
     findings,
     summary: {
-      findings: findings.length,
-      from_engine: findings.filter((f) => f.source === 'engine').length,
-      judged: findings.filter((f) => f.source === 'judgment').length,
+      findings: report.findings.length,
+      from_engine: report.findings.filter((f) => f.source === 'engine').length,
+      judged: report.findings.filter((f) => f.source === 'judgment').length,
+      left_out: leftOut.length,
       below_threshold: report.belowThreshold.length,
       waived: report.waived.length,
       discarded_claims: sum('discarded'),
@@ -167,7 +178,7 @@ export function checkResult(report: Report, engine: EngineResults): CheckResult 
       output_tokens: report.usage.outputTokens,
       estimated_cost_usd: estimateCostUsd(report.model, report.usage.inputTokens, report.usage.outputTokens) ?? null,
     },
-    notes: notesOf(report, findings),
+    notes,
     errors: report.errors,
   }
 }
@@ -230,6 +241,8 @@ export function checkText(report: Report, result: CheckResult): string {
       }),
     )
   }
+  // A rule that fails on many elements usually gives each the same advice; it is written out once.
+  const advice = new Map<string, number>()
   for (const [index, finding] of result.findings.entries()) {
     lines.push('', `${index + 1}. ${criterionLabel(finding.criterion, locale)}`)
     if (finding.selector) lines.push(`   ${t(locale, 'agentElement')}: ${finding.selector}`)
@@ -240,16 +253,17 @@ export function checkText(report: Report, result: CheckResult): string {
     } else if (finding.html) {
       lines.push(`   ${t(locale, 'agentMarkup')}: ${finding.html}`)
     }
-    if (finding.how_to_fix) lines.push(`   ${t(locale, 'agentHowToFix')}: ${finding.how_to_fix}`)
+    if (finding.how_to_fix) {
+      const key = `${finding.rule_id}|${finding.how_to_fix}`
+      const first = advice.get(key)
+      lines.push(`   ${t(locale, 'agentHowToFix')}: ${first === undefined ? finding.how_to_fix : t(locale, 'agentSameFix', { n: first })}`)
+      if (first === undefined) advice.set(key, index + 1)
+    }
     const details =
       finding.source === 'engine'
-        ? [`${report.engine.name} ${t(locale, 'engineRule')} ${finding.rule_id ?? ''}`, finding.help_url]
-        : [
-            `${t(locale, 'confidence')} ${t(locale, finding.confidence)}`,
-            finding.agreement && `${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`,
-            t(locale, 'verified'),
-          ]
-    lines.push(`   ${[...details, `id ${finding.id}`].filter(Boolean).join(' · ')}`)
+        ? [`${t(locale, 'engineRule')} ${finding.rule_id ?? ''} (${report.engine.name})`, finding.help_url]
+        : [finding.agreement && `${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`, t(locale, 'verified')]
+    lines.push(`   ${[`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`, ...details, `id ${finding.id}`].filter(Boolean).join(' · ')}`)
   }
 
   if (result.notes.length > 0) {
