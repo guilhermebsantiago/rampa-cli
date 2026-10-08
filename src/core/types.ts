@@ -110,6 +110,32 @@ export type AnyCriterion = Criterion<any, any>
 
 // Report
 
+/** Lines and columns are 1-based; columns count UTF-16 code units and the end column is exclusive, as in SARIF. */
+export interface SourceRegion {
+  startLine: number
+  startColumn: number
+  endLine: number
+  endColumn: number
+}
+
+/** The patch as an edit to the source file: replace the region with `text`. */
+export interface SourceFix {
+  region: SourceRegion
+  text: string
+  /** The element as written in the file, before and after the edit, for a readable diff. */
+  before: string
+  after: string
+}
+
+/** Where a finding sits in the source of a local page, when the element could be traced back to it. */
+export interface SourceLocation extends SourceRegion {
+  /** Relative to the repository root (or the working directory outside a repository), with forward slashes. */
+  file: string
+  /** The source text of the region. */
+  snippet: string
+  fix?: SourceFix | undefined
+}
+
 export interface Finding {
   /** Stable id used to waive a finding across runs. */
   fingerprint: string
@@ -127,6 +153,8 @@ export interface Finding {
   helpUrl?: string | undefined
   html?: string | undefined
   model?: string | undefined
+  /** Set for local pages, by `locateReport`. */
+  location?: SourceLocation | undefined
 }
 
 export interface Discarded {
@@ -162,6 +190,8 @@ export interface Report {
   rampaVersion: string
   createdAt: string
   target: string
+  /** The local file behind the target, relative like `SourceLocation.file`; set by `locateReport`. */
+  sourceFile?: string | undefined
   surface: Surface
   locale: Locale
   llm: 'on' | 'off' | 'no-model'

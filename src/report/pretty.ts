@@ -78,7 +78,7 @@ export function renderReport(report: Report, options: PrettyOptions): string {
 }
 
 /** What the judgment took: model calls, tokens and the estimated price, counting cached results at what they cost. */
-function usageLine(report: Report): string | undefined {
+export function usageLine(report: Report): string | undefined {
   const { usage, locale } = report
   if (usage.calls + usage.cachedCalls === 0) return undefined
   const decimal = (value: number, digits: number) => {
@@ -119,7 +119,7 @@ function renderFinding(finding: Finding, locale: Locale, p: Painter): string[] {
   return lines
 }
 
-function notesOf(report: Report, verbose: boolean): string[] {
+export function notesOf(report: Report, verbose: boolean): string[] {
   const locale = report.locale
   const notes: string[] = []
   const sum = (key: 'discarded' | 'cannotTell' | 'offlineMisses' | 'errors' | 'candidates') =>
