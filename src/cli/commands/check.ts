@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import type { Browser } from 'playwright-core'
-import { loadWaivers } from '../../config.ts'
+import { prepareAdoption, targetsOrConfig } from '../../adoption/apply.ts'
 import { fileCache } from '../../core/cache.ts'
 import { checkSnapshot } from '../../core/check.ts'
 import type { Confidence, Report } from '../../core/types.ts'
@@ -34,6 +34,10 @@ export interface CheckCommandOptions {
   /** Write each collected snapshot and its engine results here, to check later without a browser. */
   save?: string
   verbose?: boolean
+  /** Leave out the findings this baseline file has; false (--no-baseline) ignores the config's. */
+  baseline?: string | false
+  /** Takes over once every target is checked, instead of printing the report: rampa baseline records the findings. */
+  onReports?: (reports: Report[]) => Promise<number>
 }
 
 export async function resolveProvider(spec: string | undefined, offline: boolean, reasoning?: Reasoning): Promise<ModelProvider | undefined> {
@@ -50,14 +54,17 @@ export async function resolveProvider(spec: string | undefined, offline: boolean
 }
 
 export async function runCheck(targets: string[], options: CheckCommandOptions, context: GlobalContext): Promise<number> {
-  const resolved = await resolveTargets(targets)
+  const resolved = await resolveTargets(targetsOrConfig(targets, context.config))
   const criteria = resolveCriteria(options.criteria.split(','))
   const runs = Math.max(1, Number.parseInt(options.runs, 10) || 1)
   const spec = options.llm ? await chooseModel(options.model, context.config.model) : undefined
   const provider = await resolveProvider(spec, Boolean(options.offline), options.reasoning ?? context.config.reasoning)
   const needsImages = options.llm && criteria.some((criterion) => criterion.needs.vision)
   const cache = fileCache(options.cacheDir)
-  const waivers = await loadWaivers()
+  const adoption = await prepareAdoption(options.baseline, context.config)
+  if (adoption.invalidWaivers > 0) {
+    process.stderr.write(`rampa: ${adoption.invalidWaivers} waiver(s) in ${adoption.waiversFile} cannot apply; rampa waivers shows why.\n`)
+  }
   const progress = (message: string) => {
     if (process.stderr.isTTY && options.format === 'pretty') process.stderr.write(`\x1b[2K${message}\r`)
   }
@@ -98,7 +105,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
           locale: context.locale,
           minConfidence: options.minConfidence,
           concurrency: Math.max(1, Number.parseInt(options.concurrency, 10) || 4),
-          waivers,
+          waivers: adoption.waivers,
         }),
       )
     }
@@ -106,6 +113,9 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     progress('')
     await browser?.close()
   }
+  // Expired waivers and the baseline: from here on, findings are the new ones.
+  for (const [index, report] of reports.entries()) reports[index] = adoption.apply(report)
+  if (options.onReports) return options.onReports(reports)
 
   if (options.format === 'json') {
     const json = `${JSON.stringify(reports.length === 1 ? reports[0] : reports, null, 2)}\n`

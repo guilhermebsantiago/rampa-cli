@@ -1,4 +1,6 @@
 import type { z } from 'zod'
+import type { BaselineComparison } from '../adoption/baseline.ts'
+import type { Waiver } from '../adoption/waivers.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11ySnapshot, Surface } from '../snapshot/schema.ts'
 import type { Level } from '../wcag.ts'
@@ -178,6 +180,10 @@ export interface Report {
   findings: Finding[]
   belowThreshold: Finding[]
   waived: Finding[]
+  /** Waivers past their expiry date that matched findings of this run: those findings are reported again. */
+  expiredWaivers?: Waiver[] | undefined
+  /** Set with --baseline: findings the baseline already had are left out of findings and belowThreshold. */
+  baseline?: BaselineComparison | undefined
   discarded: Discarded[]
   criteria: CriterionSummary[]
   coverage: { engine: string[]; judged: string[]; notChecked: string[] }

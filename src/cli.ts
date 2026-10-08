@@ -1,9 +1,13 @@
 #!/usr/bin/env node
 import { Command, Option } from 'commander'
+import { CONFIG_FORMATS } from './adoption/init.ts'
+import { runBaseline } from './cli/commands/baseline.ts'
 import { runCheck } from './cli/commands/check.ts'
 import { runDoctor } from './cli/commands/doctor.ts'
 import { runEval } from './cli/commands/eval.ts'
+import { runInit } from './cli/commands/init.ts'
 import { runModels } from './cli/commands/models.ts'
+import { runWaive, runWaivers } from './cli/commands/waivers.ts'
 import type { GlobalContext } from './cli/context.ts'
 import { intro, menu } from './cli/intro.ts'
 import { loadConfig } from './config.ts'
@@ -62,7 +66,7 @@ const program = new Command()
 program
   .command('check')
   .description('check web pages, HTML files, folders or snapshot .json files')
-  .argument('<targets...>', 'URLs, .html files, folders or snapshot .json files')
+  .argument('[targets...]', "URLs, .html files, folders or snapshot .json files (default: the config's targets)")
   .option('-c, --criteria <ids>', 'criteria to judge, comma-separated', DEFAULT_CRITERIA.join(','))
   .option('-m, --model <provider:model>', 'model for the judgment layer, e.g. ollama:gemma4:12b')
   .option('--no-llm', 'deterministic layer only (the baseline)')
@@ -78,7 +82,59 @@ program
   .option('--cache-dir <dir>', 'judgment cache directory', '.rampa/cache')
   .option('--concurrency <n>', 'parallel model calls', '4')
   .option('--verbose', 'list discarded claims, low-confidence findings and unchecked criteria')
+  .option('--baseline <file>', 'report only the findings this baseline file does not have (rampa baseline writes it)')
+  .option('--no-baseline', 'ignore the baseline set in the config')
   .action(action(async (targets: string[], options, command: Command) => runCheck(targets, options, await context(command))))
+
+const collect = (value: string, previous: string[] = []) => [...previous, value]
+
+program
+  .command('init')
+  .description('set up Rampa in a project: config, waivers file, .gitignore and, with --github, a CI workflow')
+  .option('--targets <list>', 'pages to check, comma-separated: URLs, .html files or folders (default: a build folder with HTML)')
+  .option('-m, --model <provider:model>', 'pin a model in the config (default: none, so each machine picks one)')
+  .option('-c, --criteria <ids>', 'criteria to judge, comma-separated (default: all six)')
+  .addOption(new Option('--min-confidence <level>', 'hide findings below this level').choices(['low', 'medium', 'high']))
+  .option('--github', 'also write .github/workflows/rampa.yml, which runs the Rampa action')
+  .addOption(new Option('--config-format <format>', 'config file type (default: ts, or what this Node and package can load)').choices([...CONFIG_FORMATS]))
+  .option('-y, --yes', 'never ask: use the flags and what was detected')
+  .option('--force', 'overwrite an existing config and workflow (never the waivers)')
+  .option('--no-detect', 'do not look for local model servers')
+  .action(action(async (options, command: Command) => runInit(options, await context(command))))
+
+program
+  .command('waive')
+  .description('accept one finding on purpose, with a reason and an optional expiry date')
+  .argument('<id>', 'the finding id (its fingerprint), as the report shows it')
+  .requiredOption('--reason <text>', 'why the finding is acceptable')
+  .option('--expires <date>', 'last day the waiver applies, as YYYY-MM-DD')
+  .option('--file <path>', "waivers file (default: the config's, else .rampa/waivers.json)")
+  .option('--report <file>', 'JSON report from rampa check -o to record what the finding is; repeatable', collect)
+  .action(action(async (id: string, options, command: Command) => runWaive(id, options, await context(command))))
+
+program
+  .command('waivers')
+  .description('list the waivers and flag the expired and unused ones')
+  .option('--file <path>', "waivers file (default: the config's, else .rampa/waivers.json)")
+  .option('--report <file>', 'JSON report from rampa check -o, to flag waivers no finding needs; repeatable', collect)
+  .option('--prune', 'remove the expired waivers from the file')
+  .addOption(new Option('-f, --format <format>', 'output format').choices(['pretty', 'json']).default('pretty'))
+  .action(action(async (options, command: Command) => runWaivers(options, await context(command))))
+
+program
+  .command('baseline')
+  .description('record the current findings, so rampa check --baseline reports only new ones')
+  .argument('[targets...]', "URLs, .html files, folders or snapshot .json files (default: the config's targets)")
+  .option('-o, --out <file>', "baseline file (default: the config's baseline, else .rampa/baseline.json)")
+  .option('-c, --criteria <ids>', 'criteria to judge, comma-separated', DEFAULT_CRITERIA.join(','))
+  .option('-m, --model <provider:model>', 'model for the judgment layer; use the one CI uses')
+  .option('--no-llm', 'record engine findings only')
+  .option('-r, --runs <k>', 'judgments per candidate, majority vote', '1')
+  .addOption(new Option('--reasoning <level>', 'model reasoning effort (local models default to none)').choices([...REASONING_LEVELS]))
+  .option('--offline', 'use cached judgments only, never call the model')
+  .option('--cache-dir <dir>', 'judgment cache directory', '.rampa/cache')
+  .option('--concurrency <n>', 'parallel model calls', '4')
+  .action(action(async (targets: string[], options, command: Command) => runBaseline(targets, options, await context(command))))
 
 program
   .command('eval')

@@ -1,11 +1,18 @@
 import { access, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { WAIVERS_FILE, activeFingerprints, readWaivers, today } from './adoption/waivers.ts'
 import type { Confidence } from './core/types.ts'
 import type { Reasoning } from './providers/ai-sdk.ts'
 import { RampaError, errorMessage } from './core/util.ts'
 
 export interface RampaConfig {
+  /** What rampa check and rampa baseline check when no target is given: URLs, .html files, folders or snapshot .json files. */
+  targets?: string[]
+  /** A baseline file from rampa baseline: rampa check then reports only the findings it does not have. */
+  baseline?: string
+  /** The waivers file, `.rampa/waivers.json` by default. */
+  waivers?: string
   /** `provider:model`, e.g. `ollama:gemma4:12b`. */
   model?: string
   criteria?: string[]
@@ -45,11 +52,10 @@ export async function loadConfig(cwd = process.cwd()): Promise<{ config: RampaCo
   return { config: {} }
 }
 
-export async function loadWaivers(path = '.rampa/waivers.json'): Promise<Set<string>> {
-  try {
-    const entries = JSON.parse(await readFile(path, 'utf8')) as Array<{ fingerprint: string }>
-    return new Set(entries.map((entry) => entry.fingerprint))
-  } catch {
-    return new Set()
-  }
+/**
+ * Fingerprints of the waivers that apply today. Entries may be bare fingerprints or objects with a
+ * reason and an expiry date (see adoption/waivers.ts); expired and invalid ones do not apply.
+ */
+export async function loadWaivers(path = WAIVERS_FILE): Promise<Set<string>> {
+  return activeFingerprints(await readWaivers(path), today())
 }
