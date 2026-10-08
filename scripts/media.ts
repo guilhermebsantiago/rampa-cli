@@ -149,8 +149,11 @@ async function renderIntro(page: Page): Promise<void> {
   if (last) await writeFile(join(OUT, 'intro.png'), last)
 }
 
+// The README shows the published run, whatever model or locale a local .env picks.
+const PINNED = ['--model', 'ollama:gemma4:12b']
+
 function run(args: string[]): string {
-  const result = spawnSync(process.execPath, ['dist/cli.mjs', ...args], {
+  const result = spawnSync(process.execPath, ['dist/cli.mjs', ...args, ...PINNED, ...(args.includes('--locale') ? [] : ['--locale', 'en'])], {
     encoding: 'utf8',
     env: { ...process.env, FORCE_COLOR: '1' },
     maxBuffer: 16 * 1024 * 1024,

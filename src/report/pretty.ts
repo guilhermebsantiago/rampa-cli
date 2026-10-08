@@ -2,6 +2,7 @@ import { relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
+import { estimateCostUsd } from '../providers/models.ts'
 import { WCAG21_A_AA, compareCriteria, criterionLabel } from '../wcag.ts'
 import type { Painter } from './color.ts'
 
@@ -58,6 +59,9 @@ export function renderReport(report: Report, options: PrettyOptions): string {
     lines.push('')
   }
 
+  const usage = usageLine(report)
+  if (usage) lines.push(p.dim(usage), '')
+
   lines.push(p.bold(t(locale, 'coverageTitle')))
   const labels = [t(locale, 'coverageEngine', { engine: report.engine.name }), t(locale, 'coverageJudged'), t(locale, 'coverageNotChecked')]
   const width = Math.max(...labels.map((label) => label.length)) + 2
@@ -71,6 +75,26 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   lines.push(p.bold(t(locale, 'disclaimer')))
   lines.push(p.dim(t(locale, 'manualReview')))
   return lines.join('\n')
+}
+
+/** What the judgment took: model calls, tokens and the estimated price, counting cached results at what they cost. */
+function usageLine(report: Report): string | undefined {
+  const { usage, locale } = report
+  if (usage.calls + usage.cachedCalls === 0) return undefined
+  const decimal = (value: number, digits: number) => {
+    const text = value.toFixed(digits)
+    return locale === 'pt-BR' ? text.replace('.', ',') : text
+  }
+  const line = t(locale, 'usage', {
+    calls: usage.calls,
+    cached: usage.cachedCalls,
+    input: decimal(usage.inputTokens / 1000, 1),
+    output: decimal(usage.outputTokens / 1000, 1),
+  })
+  const cost = estimateCostUsd(report.model, usage.inputTokens, usage.outputTokens)
+  if (cost === undefined) return line
+  if (cost === 0) return `${line} · ${t(locale, 'usageLocal')}`
+  return `${line} · ${cost < 0.0001 ? `< US$ ${decimal(0.0001, 4)}` : `≈ US$ ${decimal(cost, 4)}`}`
 }
 
 function renderFinding(finding: Finding, locale: Locale, p: Painter): string[] {
