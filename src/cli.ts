@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command, Option } from 'commander'
 import { runCheck } from './cli/commands/check.ts'
+import { runCompare } from './cli/commands/compare.ts'
 import { runDoctor } from './cli/commands/doctor.ts'
 import { runEval } from './cli/commands/eval.ts'
 import { runModels } from './cli/commands/models.ts'
@@ -97,6 +98,14 @@ program
   .option('--out-dir <dir>', 'where runs are written', '.rampa/runs')
   .option('--concurrency <n>', 'pages evaluated in parallel', '4')
   .action(action(async (options, command: Command) => runEval(options, await context(command))))
+
+program
+  .command('compare')
+  .description('compare rampa eval runs per criterion: scores with intervals, pairs, cost, and a paired test for two runs')
+  .argument('<runs...>', 'run directories written by rampa eval, such as .rampa/runs/<run>')
+  .option('--markdown [file]', 'Markdown tables instead of the terminal view, or written to a file')
+  .option('--json [file]', 'the comparison as JSON instead of the terminal view, or written to a file')
+  .action(action(async (runs: string[], options) => runCompare(runs, options)))
 
 program
   .command('models')
