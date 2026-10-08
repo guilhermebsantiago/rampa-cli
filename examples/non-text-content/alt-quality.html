@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Conheça o Totó</title>
+    <style>
+      figure { display: inline-block; margin: 0 16px 16px 0; }
+      img { width: 160px; height: 160px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Conheça o Totó, o mascote da loja</h1>
+      <p>O Totó recebe os clientes na porta todas as manhãs.</p>
+      <!-- Placeholder alt: axe-core passes it because the alt exists. -->
+      <figure><img src="dog.svg" alt="img-1" /></figure>
+      <!-- Fluent but wrong: describes something the image does not show. -->
+      <figure><img src="dog.svg" alt="Uma bicicleta vermelha encostada no muro" /></figure>
+      <!-- Good alternative: should pass. -->
+      <figure><img src="dog.svg" alt="Totó, cachorro caramelo de desenho com coleira vermelha, sorrindo" /></figure>
+      <!-- No alt at all: the deterministic engine catches this one. -->
+      <figure><img src="dog.svg" /></figure>
+    </main>
+  </body>
+</html>

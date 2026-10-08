@@ -1,0 +1,189 @@
+{
+  "$id": "https://github.com/guilhermebsantiago/rampa-cli/schema/snapshot.schema.json",
+  "title": "Rampa accessibility snapshot",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "type": "number",
+      "const": 1
+    },
+    "surface": {
+      "type": "string",
+      "enum": [
+        "web",
+        "android",
+        "ios",
+        "windows",
+        "macos",
+        "image"
+      ]
+    },
+    "target": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "locale": {
+      "type": "string"
+    },
+    "viewport": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        },
+        "scale": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "width",
+        "height",
+        "scale"
+      ],
+      "additionalProperties": false
+    },
+    "root": {
+      "$ref": "#/$defs/__schema0"
+    },
+    "screenshot": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "html",
+            "android-xml",
+            "ios-xml",
+            "uia-xml"
+          ]
+        },
+        "path": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "path"
+      ],
+      "additionalProperties": false
+    },
+    "truncated": {
+      "type": "boolean"
+    },
+    "collectedAt": {
+      "type": "string"
+    },
+    "collector": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "version"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "surface",
+    "target",
+    "viewport",
+    "root",
+    "collectedAt",
+    "collector"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "__schema0": {
+      "type": "object",
+      "properties": {
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "lang": {
+          "type": "string"
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "bounds": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "x",
+            "y",
+            "width",
+            "height"
+          ],
+          "additionalProperties": false
+        },
+        "image": {
+          "type": "string"
+        },
+        "native": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {}
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/__schema0"
+          }
+        }
+      },
+      "required": [
+        "ref",
+        "role",
+        "states",
+        "native",
+        "children"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

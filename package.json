@@ -1,0 +1,62 @@
+{
+  "name": "rampa",
+  "version": "0.0.0",
+  "description": "Accessibility checks beyond syntax: a deterministic engine plus per-criterion LLM judgment with verified evidence.",
+  "keywords": [
+    "accessibility",
+    "a11y",
+    "wcag",
+    "axe-core",
+    "llm",
+    "cli"
+  ],
+  "license": "MIT",
+  "author": "Guilherme Santiago",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guilhermebsantiago/rampa-cli.git"
+  },
+  "type": "module",
+  "bin": {
+    "rampa": "./dist/cli.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "schema"
+  ],
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "packageManager": "pnpm@12.10.1",
+  "scripts": {
+    "build": "tsdown && node scripts/build-schema.ts",
+    "dev": "node src/cli.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^4.0.73",
+    "@ai-sdk/google": "^4.0.89",
+    "@ai-sdk/openai": "^4.0.85",
+    "@ai-sdk/openai-compatible": "^3.0.64",
+    "ai": "^7.0.129",
+    "axe-core": "^4.14.0",
+    "commander": "^15.0.0",
+    "playwright-core": "^1.63.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "tsdown": "^0.23.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  }
+}
