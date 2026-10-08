@@ -1,6 +1,8 @@
 import type { AnyCriterion } from '../core/types.ts'
 import { RampaError } from '../core/util.ts'
 import { headingsAndLabels } from './headings-and-labels.ts'
+import { identifyInputPurpose } from './identify-input-purpose.ts'
+import { imagesOfText } from './images-of-text.ts'
 import { languageOfPage } from './language-of-page.ts'
 import { languageOfParts } from './language-of-parts.ts'
 import { linkPurpose } from './link-purpose.ts'
@@ -10,6 +12,8 @@ import { pageTitled } from './page-titled.ts'
 /** Criteria with a judgment module. Others are covered only by the engine for now. */
 export const CRITERIA: ReadonlyMap<string, AnyCriterion> = new Map<string, AnyCriterion>([
   [nonTextContent.id, nonTextContent],
+  [identifyInputPurpose.id, identifyInputPurpose],
+  [imagesOfText.id, imagesOfText],
   [pageTitled.id, pageTitled],
   [linkPurpose.id, linkPurpose],
   [headingsAndLabels.id, headingsAndLabels],

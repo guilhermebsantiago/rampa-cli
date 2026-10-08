@@ -63,6 +63,15 @@ export function endTagOf(node: A11yNode): string {
   return `</${typeof node.native.tag === 'string' ? node.native.tag : node.role}>`
 }
 
+/** The start tag with one attribute set: its value replaced when present, the attribute added at the end otherwise. */
+export function withAttribute(startTag: string, name: string, value: string): string {
+  const quoted = `${name}="${escapeHtml(value)}"`
+  // Preceded by whitespace, so data-autocomplete never matches autocomplete.
+  const present = new RegExp(`(\\s)${name}(?:\\s*=\\s*(?:"[^"]*"|'[^']*'|[^\\s"'>]+))?(?=[\\s/>])`, 'i')
+  if (present.test(startTag)) return startTag.replace(present, `$1${quoted}`)
+  return startTag.replace(/\s*(\/?)>$/, ` ${quoted}$1>`)
+}
+
 /**
  * The quoted text must be the element's current text: the same words, at most trimmed.
  * A model that quotes something else is describing another element.

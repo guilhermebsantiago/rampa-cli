@@ -116,10 +116,13 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
 }
 
 const IMAGE_LIMIT = 25
+/** CSS backgrounds come after the images, with their own budget, so they never crowd images out. */
+const BACKGROUND_LIMIT = 10
 
 /** Element screenshots show the image exactly as people see it: size, crop, CSS and all. */
 async function captureImages(page: Page, root: A11yNode): Promise<void> {
   const targets: A11yNode[] = []
+  const backgrounds: A11yNode[] = []
   for (const node of walkTree(root)) {
     const attributes = (node.native.attributes ?? {}) as Record<string, string>
     const isImage =
@@ -127,14 +130,29 @@ async function captureImages(page: Page, root: A11yNode): Promise<void> {
       node.role === 'img' ||
       (node.native.tag === 'input' && attributes.type === 'image') ||
       (node.native.tag === 'canvas' && Boolean(node.name))
-    if (!isImage || node.states.includes('hidden') || !node.bounds) continue
-    if (node.bounds.width < 8 || node.bounds.height < 8) continue
-    targets.push(node)
-    if (targets.length >= IMAGE_LIMIT) break
+    if (node.states.includes('hidden') || !node.bounds) continue
+    if (isImage) {
+      if (node.bounds.width < 8 || node.bounds.height < 8 || targets.length >= IMAGE_LIMIT) continue
+      targets.push(node)
+    } else if (typeof node.native.backgroundImage === 'string' && backgrounds.length < BACKGROUND_LIMIT && !node.states.includes('offscreen')) {
+      // Icons and sprites this small hold no legible words; anything taller than a banner is a section with a pattern.
+      const { width, height } = node.bounds
+      if (width >= 24 && height >= 12 && height <= 1000) backgrounds.push(node)
+    }
   }
   for (const node of targets) {
     try {
       const png = await page.locator(`css=${node.ref}`).first().screenshot({ type: 'png', timeout: 5000, animations: 'disabled' })
+      node.image = `data:image/png;base64,${png.toString('base64')}`
+    } catch {
+      // Not visible or detached: criteria that need the image skip this node.
+    }
+  }
+  for (const node of backgrounds) {
+    try {
+      // Only the picture: the element's own text and children are hidden while the screenshot is taken.
+      const style = `${node.ref} { color: transparent !important; text-shadow: none !important; } ${node.ref} > * { visibility: hidden !important; }`
+      const png = await page.locator(`css=${node.ref}`).first().screenshot({ type: 'png', timeout: 5000, animations: 'disabled', style })
       node.image = `data:image/png;base64,${png.toString('base64')}`
     } catch {
       // Not visible or detached: criteria that need the image skip this node.

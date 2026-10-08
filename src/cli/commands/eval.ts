@@ -89,7 +89,7 @@ export async function runEval(options: EvalCommandOptions, context: GlobalContex
     for (const testcase of cases) {
       const ruleKind = rules.semantic.includes(testcase.ruleId) ? 'semantic' : 'syntax'
       jobs.push({ criterion, testcase, ruleKind })
-      if (options.pairs && ruleKind === 'semantic' && testcase.expected === 'passed') {
+      if (options.pairs && (rules.pairs ?? rules.semantic).includes(testcase.ruleId) && testcase.expected === 'passed') {
         for (const corruptor of CORRUPTORS[criterion.id] ?? []) jobs.push({ criterion, testcase, ruleKind, corruptor })
       }
     }

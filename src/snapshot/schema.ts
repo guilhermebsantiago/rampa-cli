@@ -29,7 +29,7 @@ export interface A11yNode {
   text?: string | undefined
   /** Language declared on this node itself: lang, accessibilityLanguage... */
   lang?: string | undefined
-  /** States such as hidden, aria-hidden, disabled, checked, expanded, selected, focusable. */
+  /** States such as hidden, aria-hidden, disabled, readonly, checked, expanded, selected, focusable. */
   states: string[]
   bounds?: Bounds | undefined
   /** The node as rendered (PNG data URI or file path), for criteria that need vision. */

@@ -169,6 +169,17 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     }
   }
 
+  /** A label's text without the control it wraps: a select would otherwise add every option to its own name. */
+  const labelText = (label: Element, control: Element): string => {
+    if (!label.contains(control)) return label.textContent ?? ''
+    let text = ''
+    const walker = document.createTreeWalker(label, NodeFilter.SHOW_TEXT)
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+      if (!control.contains(node)) text += ` ${node.textContent ?? ''}`
+    }
+    return text
+  }
+
   const accessibleName = (el: Element, role: string): string | undefined => {
     const labelledBy = el.getAttribute('aria-labelledby')
     if (labelledBy) {
@@ -188,7 +199,7 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     }
     if ((tag === 'input' || tag === 'select' || tag === 'textarea') && 'labels' in el) {
       const labels = (el as HTMLInputElement).labels
-      const text = labels ? Array.from(labels).map((label) => collapse(label.textContent)).filter(Boolean).join(' ') : ''
+      const text = labels ? Array.from(labels).map((label) => collapse(labelText(label, el))).filter(Boolean).join(' ') : ''
       if (text) return text
     }
     if (NAME_FROM_CONTENT.has(tag) || role === 'link' || role === 'button' || role === 'heading') {
@@ -275,6 +286,7 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     }
     if (el.closest('[aria-hidden="true"]')) states.push('aria-hidden')
     if ((el as HTMLInputElement).disabled === true || el.getAttribute('aria-disabled') === 'true') states.push('disabled')
+    if ((el as HTMLInputElement).readOnly === true || el.getAttribute('aria-readonly') === 'true') states.push('readonly')
     if ((el as HTMLInputElement).checked === true || el.getAttribute('aria-checked') === 'true') states.push('checked')
     const expanded = el.getAttribute('aria-expanded')
     if (expanded === 'true') states.push('expanded')
@@ -311,7 +323,21 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     if (el.hasAttribute('lang')) native.langText = langText(el)
     // Only blocks with inline children need it; for the rest, the node's own text is already in order.
     if (READING_BLOCKS.has(tag) && el.children.length > 0) native.readingText = readingText(el)
+    // A picture set in CSS has no alt to read, and banners with words baked in often arrive this way.
+    if (tag !== 'html' && tag !== 'body') {
+      const background = backgroundUrl(el)
+      if (background) native.backgroundImage = background
+    }
     return native
+  }
+
+  /** The first url() of the element's computed background-image; gradients are not pictures. */
+  const backgroundUrl = (el: Element): string | undefined => {
+    const value = getComputedStyle(el).backgroundImage
+    if (!value || !value.includes('url(')) return undefined
+    const url = /url\(\s*(["']?)(.*?)\1\s*\)/.exec(value)?.[2]
+    if (!url) return undefined
+    return url.startsWith('data:') ? 'data:…' : url.slice(0, 200)
   }
 
   const build = (el: Element): InPageNode | undefined => {
