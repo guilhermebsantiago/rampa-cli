@@ -81,6 +81,13 @@ function escapeAttribute(value: string): string {
   return value.replaceAll('&', '&amp;').replaceAll('"', '&quot;')
 }
 
+const GENERIC_WORDS = new Set(['product', 'produto', 'item', 'items', 'object', 'objeto', 'illustration', 'ilustração', 'figure', 'figura', 'thumbnail', 'miniatura'])
+
+/** A single category word ("product", "item") says nothing about this image. */
+export function isGenericAlt(alt: string): boolean {
+  return GENERIC_WORDS.has(normalizeForMatch(alt))
+}
+
 /** Cheap deterministic signal that agrees with the model on the obvious cases (img-1, IMG_2034.jpg). */
 export function looksLikePlaceholder(alt: string, src?: string): boolean {
   const value = alt.trim()
@@ -199,7 +206,11 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentJudg
       decorative: { en: 'names an image that is decorative', 'pt-BR': 'nomeia uma imagem decorativa' },
     }
     // The deterministic pattern wins over the model's label for the obvious cases.
-    const problem = looksLikePlaceholder(alt, candidate.context.src) ? 'filename_or_placeholder' : output.problem
+    const problem = looksLikePlaceholder(alt, candidate.context.src)
+      ? 'filename_or_placeholder'
+      : isGenericAlt(alt)
+        ? 'generic'
+        : output.problem
     const reason = reasons[problem][locale]
     return locale === 'pt-BR' ? `O texto alternativo "${alt}" ${reason}.` : `The text alternative "${alt}" ${reason}.`
   },

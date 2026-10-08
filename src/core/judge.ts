@@ -70,7 +70,15 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
       if (cached) {
         const parsed = criterion.schema.safeParse(cached.output)
         if (parsed.success) {
-          samples.push({ output: parsed.data, cached: true, inputTokens: 0, outputTokens: 0, latencyMs: 0, modelId: cached.modelId })
+          // Cached samples keep the tokens they cost, so totals show what the results took to produce.
+          samples.push({
+            output: parsed.data,
+            cached: true,
+            inputTokens: cached.inputTokens,
+            outputTokens: cached.outputTokens,
+            latencyMs: 0,
+            modelId: cached.modelId,
+          })
           continue
         }
       }

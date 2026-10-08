@@ -40,3 +40,7 @@ Bump the criterion's `version` whenever its prompt or logic changes; that invali
 ## Pull requests
 
 Keep them focused, include tests, and make sure `pnpm typecheck`, `pnpm test` and `pnpm build` pass.
+
+## README media
+
+Every image in the README is rendered from the real CLI by `pnpm media` (it needs a model or cached judgments). If your change alters what the CLI prints, run it and commit the new images with the change.

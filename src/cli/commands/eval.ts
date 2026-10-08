@@ -328,17 +328,21 @@ function renderSummary(summary: EvalSummary, p: ReturnType<typeof paint>): strin
       `${set.label.padEnd(28)}${String(b.n).padStart(4)}  ${num(b.precision)} ${num(b.recall)} ${num(b.f1)}        ${num(r.precision)} ${num(r.recall)} ${num(r.f1)}`,
     )
   }
+  if (summary.pairs.length > 0) lines.push('')
   for (const pair of summary.pairs) {
-    lines.push('')
     lines.push(`Pair discrimination (${pair.corruptor}): baseline ${pair.baseline}/${pair.total} · rampa ${p.bold(`${pair.rampa}/${pair.total}`)}`)
   }
   lines.push('')
-  const tokens = `${(summary.usage.inputTokens / 1000).toFixed(1)}k in / ${(summary.usage.outputTokens / 1000).toFixed(1)}k out`
-  const cost = summary.usage.costUsd === undefined ? '' : ` · ≈ US$ ${summary.usage.costUsd.toFixed(4)}`
+  const tokens = `${(summary.usage.inputTokens / 1000).toFixed(1)}k in / ${(summary.usage.outputTokens / 1000).toFixed(1)}k out tokens`
+  const cost =
+    summary.usage.costUsd === undefined
+      ? ''
+      : summary.usage.costUsd === 0
+        ? ' · local model, no API cost'
+        : ` · ≈ US$ ${summary.usage.costUsd.toFixed(4)}`
   if (summary.llm) {
-    lines.push(
-      `Judgment: ${summary.judgment.candidates} candidates · ${summary.judgment.discarded} discarded by verification · ${summary.judgment.cannotTell} cannot tell · ${summary.usage.calls} calls (${summary.usage.cachedCalls} cached) · ${tokens}${cost}`,
-    )
+    lines.push(`Judgment: ${summary.judgment.candidates} candidates · ${summary.judgment.discarded} discarded by verification · ${summary.judgment.cannotTell} cannot tell`)
+    lines.push(`Model calls: ${summary.usage.calls} new, ${summary.usage.cachedCalls} from cache · ${tokens}${cost}`)
   }
   if (summary.errors.length > 0) lines.push(p.yellow(`${summary.errors.length} page(s) with errors; first: ${summary.errors[0]?.error}`))
   return lines.join('\n')

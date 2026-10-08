@@ -1,74 +1,197 @@
-# Rampa
+<div align="center">
 
-Accessibility checks beyond syntax.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/media/banner-dark.png">
+  <img alt="rampa — Accessibility checks beyond syntax. A dashed staircase outline with a ramp laid over it." src="docs/media/banner-light.png" width="760">
+</picture>
 
-Rampa runs a deterministic engine (axe-core, on the web) and sends only what it cannot decide to an LLM, one WCAG success criterion at a time. Every claim the model makes must cite a node and a quote that exist on the page. Claims that do not hold are dropped before anyone reads them.
+[![CI](https://github.com/guilhermebsantiago/rampa-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/guilhermebsantiago/rampa-cli/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-0b7285)](LICENSE)
+![Node.js 22.12+](https://img.shields.io/badge/node-%E2%89%A5%2022.12-0b7285)
+![WCAG 2.1 AA](https://img.shields.io/badge/WCAG-2.1%20AA-0b7285)
+![Status: early](https://img.shields.io/badge/status-early-9a6700)
 
-> Rampa never says a page is accessible. It reports what was checked and what was not. No automated tool replaces a manual audit or testing with disabled people.
+**[Quick start](#quick-start)** · **[Before and after](#before-and-after)** · **[How it works](#how-it-works)** · **[Evaluation](#evaluation)** · **[Roadmap](#roadmap)**
 
-**Status:** early, local only (not on npm yet). The web surface works end to end. Two criteria have judgment modules: 1.1.1 Non-text Content, judged with vision, and 3.1.2 Language of Parts.
+<picture>
+  <source media="(prefers-reduced-motion: reduce)" srcset="docs/media/intro.png">
+  <img alt="A terminal: typing rampa plays a two-second animation in which a staircase turns into a ramp, then the RAMPA wordmark and the list of commands appear." src="docs/media/intro.gif" width="760">
+</picture>
+
+</div>
 
 ## Why
 
-Tools like axe-core, Pa11y and Lighthouse decide well what can be checked from attributes and computed styles, roughly 30–40% of WCAG success criteria. When they cannot judge meaning, they pass. Rampa adds a judgment layer for that residue and measures what it adds.
+Automated accessibility checkers are good at what attributes and styles can prove. Ask them about meaning and they pass:
 
-First results, from `rampa eval --criteria 3.1.2,1.1.1 --model ollama:gemma4:12b` on 2026-10-07: axe-core 4.14.0, Gemma 4 12B running locally, reasoning off, one run, ACT test cases `a9a1483e`.
+```html
+<img src="dog.jpg" alt="img-1">
+```
 
-| Set | Cases | axe-core P / R | Rampa P / R / F1 |
-| --- | --- | --- | --- |
-| 3.1.2, ACT de46e4 (valid tag, syntax) | 19 | 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
-| 3.1.2, ACT off6ek (language matches the text) | 13 | — / 0.00 | 0.75 / 0.75 / 0.75 |
-| 3.1.2, corrupted pairs (`lang` swapped) | 10 | — / 0.00 | 0.83 / 1.00 / 0.91 |
-| 1.1.1, ACT 23a2a8 (has a name, syntax) | 18 | 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
-| 1.1.1, ACT qt1vmo (name is descriptive) | 16 | — / 0.00 | 1.00 / 0.67 / 0.80 |
+axe-core reports this image as compliant, because it has an `alt`. A person using a screen reader hears "img-1". The same goes for a link that says "click here", or a Dutch quote marked as Spanish: valid syntax, wrong meaning. In February 2026, 95.9% of the top million home pages had detectable WCAG failures ([WebAIM Million](https://webaim.org/projects/million/)), and that counts only what tools can detect.
 
-axe-core gave the intact and the corrupted page the same verdict in every pair (0 of 5 for `lang`, 0 of 2 for `alt`); Rampa told them apart in 4 of 5 and 2 of 2. The judgment layer added no false positive on the syntax sets, and verification dropped one model claim that would have been one. The samples are small, so read these as a working pipeline, not as a result: the Wilson intervals are in `summary.json`.
+Rampa keeps the deterministic engine and adds a judgment layer for that residue:
+
+<table>
+<tr>
+<td width="33%" valign="top">
+
+**Deterministic first**
+
+axe-core decides everything rules can decide. Its findings go straight to the report, with no model involved.
+
+</td>
+<td width="33%" valign="top">
+
+**Judgment on the residue**
+
+A model sees only what the engine could not decide, one WCAG criterion at a time, with the image as it renders when the criterion needs vision.
+
+</td>
+<td width="33%" valign="top">
+
+**Evidence or nothing**
+
+Every claim must cite a node and a quote that exist on the page. Claims that do not check out are dropped and counted.
+
+</td>
+</tr>
+</table>
+
+> [!IMPORTANT]
+> Rampa never says a page is accessible. It reports what was checked and what was not. No automated tool replaces a manual audit or testing with disabled people.
+
+*Rampa* is Portuguese for ramp: the structure that turns a staircase into a way in for everyone.
+
+## Before and after
+
+[`examples/store/before.html`](examples/store/before.html) is a small shop page with the kind of problems a deterministic audit lets through. [`after.html`](examples/store/after.html) applies the patches Rampa suggested.
+
+| Image | Before | axe-core | Rampa | After |
+| :---: | --- | :---: | --- | --- |
+| <img src="examples/store/mug.svg" width="64" alt="Illustration: a blue mug with steam rising from it"> | `alt="IMG_2034.jpg"` | passes | file name or placeholder | `alt="Blue ceramic mug"` |
+| <img src="examples/store/umbrella.svg" width="64" alt="Illustration: a red umbrella in the rain"> | `alt="Ceramic coffee mug"` | passes | describes something the image does not show | `alt="Red rain umbrella"` |
+| <img src="examples/store/plant.svg" width="64" alt="Illustration: a potted plant with green leaves"> | `alt="product"` | passes | too generic | `alt="Potted plant with green leaves"` |
+| <img src="examples/store/logo.svg" width="40" alt="Illustration: the shop logo, a white ramp on a teal square"> | no `alt` | **fails** | reported by axe-core | `alt="Corner Store"` |
+| <img src="examples/non-text-content/dog.svg" width="64" alt="Illustration: a smiling cartoon dog with a red collar"> | `alt="Toto, our store mascot: a smiling cartoon dog with a red collar"` | passes | passes, no false positive | unchanged |
+| — | Dutch review marked `lang="es"` | passes | marked Spanish, the text is Dutch | `lang="nl"` |
+
+<img alt="Output of rampa check examples/store/before.html. Under WCAG 1.1.1, axe-core reports the logo without alternative text, and the judgment layer reports IMG_2034.jpg as a file name or placeholder, Ceramic coffee mug on an umbrella as describing something the image does not show, and product as too generic, each with its evidence and a patch with a suggested alt. Under WCAG 3.1.2, a review marked lang es is reported as Dutch, with a patch to lang nl. The coverage summary closes the report." src="docs/media/check-before.png" width="760">
+
+<img alt="Output of rampa check examples/store/after.html: no confirmed failures in what was checked, followed by the coverage summary." src="docs/media/check-after.png" width="760">
+
+The patches, as Rampa proposed them:
+
+```diff
+- <img src="mug.svg" alt="IMG_2034.jpg">
++ <img src="mug.svg" alt="A blue mug with steam rising from it">
+- <img src="umbrella.svg" alt="Ceramic coffee mug">
++ <img src="umbrella.svg" alt="Pink umbrella in the rain">
+- <img src="plant.svg" alt="product">
++ <img src="plant.svg" alt="Potted plant">
+- <blockquote lang="es">
++ <blockquote lang="nl">
+```
+
+A suggested `alt` is a proposal for a person to review, never a fix applied on its own: what a model says it sees cannot be checked against the page.
+
+<details>
+<summary><b>Reports in Portuguese</b> (<code>--locale pt-BR</code>)</summary>
+<br>
+
+Suggested alternatives follow the language of the page, and the report follows `--locale`.
+
+<img alt="Output of rampa check on a Portuguese page with --locale pt-BR. The report is in Portuguese: the alternative img-1 is a file name or placeholder, and Uma bicicleta vermelha encostada no muro describes something the image does not show; both patches suggest Ilustração de um cachorro marrom com coleira vermelha. axe-core reports one image without alternative text." src="docs/media/check-pt-br.png" width="760">
+
+</details>
 
 ## Quick start
 
-Requires Node.js 22.12+ and Chrome or Edge (or `npx playwright-core install chromium`).
+You need Node.js 22.12+, Chrome or Edge (or `npx playwright-core install chromium`), and a model: [Ollama](https://ollama.com) locally, or an API key.
 
 ```sh
+git clone https://github.com/guilhermebsantiago/rampa-cli.git
+cd rampa-cli
 pnpm install
 pnpm build
-node dist/cli.mjs                 # intro and commands
-node dist/cli.mjs doctor          # checks Node, browser, axe-core, Ollama and API keys
-node dist/cli.mjs check examples/non-text-content/alt-quality.html --model ollama:gemma4:12b --locale pt-BR
-node dist/cli.mjs check examples/language-of-parts/mismatch.html --model ollama:gemma4:12b
+
+ollama pull gemma4:12b                       # local, free, and it has vision
+node dist/cli.mjs doctor                     # checks Node, browser, axe-core, Ollama and keys
+node dist/cli.mjs check examples/store/before.html
 ```
 
-The first example is the case Rampa exists for: a picture of a dog with `alt="img-1"`. axe-core passes it because the alternative exists. Rampa looks at the image as rendered, flags the placeholder, and suggests an alternative in the page language:
+`pnpm link --global` puts `rampa` on your path. Rampa is not on npm yet; once it is, `pnpm dlx rampa check <url>` will be enough.
 
-```text
-WCAG 1.1.1 (A) — Conteúdo não textual
-  ✗ html > body > main > figure:nth-of-type(1) > img
-    O texto alternativo "img-1" é um nome de arquivo ou um placeholder.
-    Evidência: "img-1"
-    Patch:
-      - <img src="dog.svg" alt="img-1">
-      + <img src="dog.svg" alt="Ilustração de um cachorro marrom com coleira vermelha">
-    confiança alta · 1/1 rodadas · evidência verificada · id 81fa293e342a
+## Usage
+
+```sh
+rampa check https://example.com                     # a live page
+rampa check ./dist                                  # every .html file in a folder
+rampa check page.html --no-llm                      # the deterministic baseline only
+rampa check page.html --criteria 1.1.1              # one criterion
+rampa check page.html --runs 3                      # majority vote; agreement sets the confidence
+rampa check page.html --format json -o report.json  # for CI and other tools
+rampa check page.html --locale pt-BR                # report in Portuguese
+rampa check screen.json                             # a snapshot exported by any platform
 ```
-
-`pnpm link --global` makes `rampa` available everywhere. During development, `node src/cli.ts` runs the TypeScript sources directly.
-
-## Commands
 
 | Command | What it does |
 | --- | --- |
-| `rampa` | Intro animation and the list of commands |
+| `rampa` | The intro and the list of commands |
 | `rampa check <targets...>` | Checks URLs, `.html` files, folders or snapshot `.json` files |
-| `rampa eval` | Measures the baseline and the judgment layer on ACT test cases and corrupted pairs |
+| `rampa eval` | Measures the baseline and the judgment layer on W3C ACT test cases and corrupted pairs |
 | `rampa models` | Recommended models per criterion, and which are ready on this machine |
 | `rampa doctor` | Checks the environment |
 
-Useful `check` options: `--criteria 1.1.1,3.1.2`, `--model provider:model`, `--no-llm` (baseline only), `--runs 3` (majority vote), `--reasoning none|low|medium|high`, `--format json`, `--offline` (cached judgments only), `--fail-on confirmed|any|never`, `--locale pt-BR`, `--verbose`.
+Exit codes: `0` no confirmed failure, `1` at least one confirmed failure, `2` execution or configuration error.
 
-Exit codes: `0` no confirmed failure, `1` confirmed failure, `2` execution or configuration error.
+<details>
+<summary><b>All <code>check</code> options</b></summary>
+<br>
+
+| Option | Default | Effect |
+| --- | --- | --- |
+| `-c, --criteria <ids>` | `1.1.1,3.1.2` | Criteria to judge |
+| `-m, --model <provider:model>` | detected | Model for the judgment layer |
+| `--no-llm` | | Deterministic layer only |
+| `-r, --runs <k>` | `1` | Judgments per candidate, majority vote |
+| `--reasoning <level>` | `none` locally | `provider-default`, `none`, `minimal`, `low`, `medium`, `high` |
+| `-f, --format <format>` | `pretty` | `pretty` or `json` |
+| `-o, --output <file>` | | Also write the JSON report to a file |
+| `--fail-on <policy>` | `confirmed` | `confirmed`, `any` or `never` |
+| `--min-confidence <level>` | `medium` | Hide findings below `low`, `medium` or `high` |
+| `--offline` | | Cached judgments only, never call the model |
+| `--screenshots` | | Save full-page screenshots to `.rampa/screenshots` |
+| `--cache-dir <dir>` | `.rampa/cache` | Judgment cache |
+| `--concurrency <n>` | `4` | Parallel model calls |
+| `--locale <locale>` | `en` | `en` or `pt-BR` |
+| `--verbose` | | List discarded claims, low-confidence findings and unchecked criteria |
+
+</details>
+
+<details>
+<summary><b>Configuration file</b></summary>
+<br>
+
+`rampa.config.mjs` or `rampa.config.json` in the working directory (`rampa.config.ts` works on Node 22.18+). Command-line options win over the file.
+
+```js
+export default {
+  model: 'ollama:gemma4:12b',
+  criteria: ['1.1.1', '3.1.2'],
+  runs: 1,
+  locale: 'en',
+  minConfidence: 'medium',
+}
+```
+
+API keys never go in this file: use environment variables or a local `.env`.
+
+</details>
 
 ## Models
 
-Pass `--model provider:model`, set `model` in `rampa.config.mjs` or `.json` (`.ts` needs Node 22.18+), or let Rampa pick: a local Ollama model first, then the cheapest API with a key.
+Pass `--model provider:model`, set `model` in the config, or let Rampa choose: a local Ollama model first, then the cheapest API with a key.
 
 | Provider | Example | Credentials |
 | --- | --- | --- |
@@ -79,51 +202,105 @@ Pass `--model provider:model`, set `model` in `rampa.config.mjs` or `.json` (`.t
 | OpenRouter | `openrouter:<model>` | `OPENROUTER_API_KEY` |
 | Any OpenAI-compatible server | `openai-compatible:<model>` | `RAMPA_OPENAI_COMPATIBLE_URL`, optional `RAMPA_OPENAI_COMPATIBLE_KEY` |
 
-Keys only ever come from environment variables or a local `.env`, never from the config file. The recommendation per criterion is meant to come from `rampa eval`, not from generic benchmarks.
-
-1.1.1 needs a model with vision (`gemma4:12b` has it). Local models run with reasoning off by default (`--reasoning none`), which cut a judgment from about 6 s to 2 s on an RTX 5060 Ti with the same answer; reasoning effort is a variable worth measuring with `rampa eval`.
-
-**Subscriptions.** Anthropic does not allow third-party tools to offer claude.ai login or subscription limits unless approved ([Agent SDK docs](https://code.claude.com/docs/en/agent-sdk/overview)), so Rampa uses API keys. Claude Max and Team plans include monthly API credits ([Help Center](https://support.claude.com/en/articles/15036540)), which an API key can draw on.
+- **1.1.1 needs vision.** `gemma4:12b` has it and runs on a 16 GB GPU.
+- **Reasoning is off by default for local models.** On an RTX 5060 Ti that cut a judgment from about 6 s to 2 s with the same answer; `--reasoning` brings it back, and `rampa eval` can measure the trade-off.
+- **Subscriptions.** Anthropic does not allow third-party tools to offer claude.ai login or subscription limits unless approved ([Agent SDK docs](https://code.claude.com/docs/en/agent-sdk/overview)), so Rampa uses API keys. Claude Max and Team plans include monthly API credits ([Help Center](https://support.claude.com/en/articles/15036540)), which an API key can draw on.
+- **Recommendations come from measurement.** `rampa models` lists a starting point; the model per criterion should be chosen with `rampa eval`, not generic benchmarks.
 
 ## How it works
 
-1. **Collect.** The target becomes a normalized accessibility snapshot: the accessibility tree with ARIA roles, names, languages, states and bounds, plus each image as rendered and the source markup. Criteria never read the DOM directly, which keeps the core platform-agnostic.
-2. **Deterministic engine.** axe-core runs on the page. Its violations go straight to the report.
+1. **Collect.** The target becomes a normalized accessibility snapshot: the accessibility tree with ARIA roles, names, languages, states and bounds, plus each image as rendered and the source markup.
+2. **Deterministic engine.** axe-core runs on the page, and its violations go straight to the report.
 3. **Judgment.** Only the residue goes to the model: what the engine reported as incomplete, passed on syntax alone, or does not check at all. One prompt per criterion, minimal context, structured JSON output.
-4. **Verification.** The cited node must exist and the quoted text must be in it. Otherwise the claim dies here and is counted in the discard rate.
+4. **Verification.** The cited node must exist and the quoted text must be in it, or the claim is dropped and counted.
 5. **Report.** Findings by criterion, a patch when possible, and the coverage of the run: what the engine checked, what was judged, and what nobody checked.
 
-Judgments are cached by a hash of prompt, image, model and settings, so the same input never calls the model twice. `--runs k` asks k times and keeps the majority; agreement lowers or keeps the confidence.
+```mermaid
+flowchart LR
+  T["Page, app screen<br/>or snapshot.json"] --> S["Collect<br/>normalized snapshot"]
+  S --> E{"Deterministic engine<br/>axe-core"}
+  E -- "violation" --> R["Report<br/>findings + coverage"]
+  E -- "residue only" --> J["Judgment<br/>one criterion per prompt"]
+  J <--> C[("Cache")]
+  J --> V{"Verification<br/>node and quote exist?"}
+  V -- "yes" --> R
+  V -- "no" --> X["Discarded<br/>and counted"]
+```
+
+Judgments are cached by a hash of prompt, image, model and settings, so the same input never calls the model twice. `--runs k` asks k times and keeps the majority; when runs disagree, confidence drops.
 
 ### Any screen, not only the web
 
-`rampa check screen.json` accepts a snapshot exported by any platform that follows [`schema/snapshot.schema.json`](schema/snapshot.schema.json): an Android view hierarchy, an iOS XCUITest export, a desktop UI Automation tree. Android, iOS and image-only collectors are on the roadmap.
+Criteria never read the DOM. They read the snapshot, so the core is the same for any platform. `rampa check screen.json` accepts a snapshot from any exporter that follows [`schema/snapshot.schema.json`](schema/snapshot.schema.json): an Android view hierarchy, an iOS XCUITest export, a desktop UI Automation tree. The same 1.1.1 module judges an `alt`, a `contentDescription` or an `accessibilityLabel`. Android, iOS and image-only collectors are on the roadmap.
 
 ## Evaluation
 
+`rampa eval` measures, on the same pages, axe-core alone and axe-core with the judgment layer:
+
+<img alt="Output of rampa eval for WCAG 3.1.2 and 1.1.1 with ollama:gemma4:12b. On the syntax sets (ACT de46e4 and 23a2a8) both have precision and recall 1.00. On the semantic sets, axe-core has recall 0.00 and Rampa reaches F1 0.75 on off6ek and 0.80 on qt1vmo. On corrupted pairs, axe-core tells intact and corrupted apart in 0 of 5 lang pairs and 0 of 2 alt pairs; Rampa in 4 of 5 and 2 of 2. 37 candidates, 1 claim discarded by verification." src="docs/media/eval.png" width="760">
+
+| Set | Cases | axe-core P / R | Rampa P / R / F1 |
+| --- | :---: | :---: | :---: |
+| 3.1.2, ACT de46e4 (valid tag, syntax) | 19 | 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+| 3.1.2, ACT off6ek (language matches the text) | 13 | — / 0.00 | 0.75 / 0.75 / 0.75 |
+| 3.1.2, corrupted pairs (`lang` swapped) | 10 | — / 0.00 | 0.83 / 1.00 / 0.91 |
+| 1.1.1, ACT 23a2a8 (has a name, syntax) | 18 | 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+| 1.1.1, ACT qt1vmo (name is descriptive) | 16 | — / 0.00 | 1.00 / 0.67 / 0.80 |
+
+First run on 2026-10-07: axe-core 4.14.0, Gemma 4 12B on a local GPU, reasoning off, one run, ACT test cases `a9a1483e`. The judgment layer added no false positive on the syntax sets, and verification dropped one claim that would have been one. The samples are small; read these numbers as a working pipeline, not as a result. Wilson intervals are in each run's `summary.json`.
+
 ```sh
-node dist/cli.mjs eval --criteria 3.1.2 --no-llm                  # baseline only
-node dist/cli.mjs eval --criteria 3.1.2 --model ollama:gemma4:12b # baseline vs judgment
-node dist/cli.mjs eval --criteria 3.1.2 --model ollama:gemma4:12b --no-verify   # ablation
+rampa eval --criteria 1.1.1,3.1.2 --no-llm      # baseline only
+rampa eval --criteria 1.1.1,3.1.2               # baseline vs judgment
+rampa eval --criteria 1.1.1,3.1.2 --no-verify   # ablation: what verification is worth
+rampa eval --criteria 3.1.2 --runs 5            # variance between runs
 ```
 
-The W3C ACT test cases are downloaded at run time (not redistributed) and their SHA-256 is recorded with every run. Corrupted pairs follow [López-Gil & Pereira (2025)](https://doi.org/10.1007/s10209-024-01108-z): break a passing case on purpose and check that the verdict flips. Each run writes `results.jsonl` and `summary.json` to `.rampa/runs/`, with precision, recall, F1 and Wilson intervals per set, pair discrimination, discards, abstentions, tokens and estimated cost.
+The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/) are downloaded at run time and their SHA-256 is recorded with every run. Corrupted pairs follow [López-Gil & Pereira (2025)](https://doi.org/10.1007/s10209-024-01108-z): break a passing case on purpose (`alt` becomes `img-1`, `lang` becomes another valid language) and check that the verdict flips. A tool that gives both versions the same verdict is not judging.
+
+## Principles
+
+- **Never say "accessible."** Every report lists what was checked, what was judged, and what nobody checked.
+- **Verification is mandatory.** A model claim without evidence that checks out never reaches a person.
+- **False positives are a constraint, not a metric.** Noise is what makes teams switch a tool off; confidence thresholds and waivers are part of the design.
+- **Reproducible.** Model, prompt version and date are recorded; the same input gives the same verdict from the cache.
+- **Not an overlay.** Rampa runs in development and CI, never in production pages.
+- **Private by choice.** With Ollama, nothing leaves your machine. There is no telemetry.
+
+## Roadmap
+
+- [x] Web surface: Playwright and axe-core over a normalized snapshot
+- [x] WCAG 1.1.1 with vision, with a suggested `alt` as the patch
+- [x] WCAG 3.1.2, language of parts
+- [x] `rampa eval` with ACT test cases, corrupted pairs and the verification ablation
+- [ ] Publish on npm: `pnpm dlx rampa`
+- [ ] MCP server, so coding agents can call `rampa check`
+- [ ] Rampa Lab, a web app to explore evaluation runs
+- [ ] WCAG 2.4.4, link purpose with the destination page
+- [ ] SARIF and Markdown output, a GitHub Action that comments on pull requests
+- [ ] Android (adb and UI Automator), iOS (XCUITest export) and image-only surfaces
+- [ ] A false-positive study on real pages
 
 ## Development
 
 ```sh
 pnpm typecheck
-pnpm test        # unit tests; the web tests run when Chrome or Edge is available
+pnpm test        # unit tests; the browser tests run when Chrome or Edge is available
 pnpm build       # dist/ and schema/
+pnpm media       # re-renders every image in this README from the real CLI
 ```
 
-## Contributing
+During development, `node src/cli.ts` runs the TypeScript sources directly. Issues and pull requests are welcome; start with [CONTRIBUTING.md](CONTRIBUTING.md). To report a vulnerability, see [SECURITY.md](SECURITY.md).
 
-Issues and pull requests are welcome; start with [CONTRIBUTING.md](CONTRIBUTING.md). To report a vulnerability, see [SECURITY.md](SECURITY.md).
+<details>
+<summary><b>Em português</b></summary>
+<br>
 
-## Em português
+O Rampa verifica acessibilidade além da sintaxe. Ele roda o axe-core e manda só o resíduo que o axe não sabe decidir para um modelo, um critério WCAG por vez, e descarta toda alegação sem evidência conferível na página. No exemplo clássico, `alt="img-1"` numa foto de cachorro passa no axe-core porque o atributo existe; o Rampa olha a imagem, aponta o placeholder e sugere um texto alternativo no idioma da página.
 
-O Rampa verifica acessibilidade além da sintaxe: roda o axe-core e manda só o resíduo que ele não sabe decidir para um LLM, um critério WCAG por vez, e descarta toda alegação sem evidência conferível na página. Use `--locale pt-BR` para o relatório em português. O Rampa nunca declara uma página acessível e não substitui auditoria manual nem teste com pessoas com deficiência.
+Use `--locale pt-BR` para o relatório em português. O Rampa nunca declara uma página acessível e não substitui auditoria manual nem teste com pessoas com deficiência.
+
+</details>
 
 ## License
 
@@ -132,3 +309,4 @@ O Rampa verifica acessibilidade além da sintaxe: roda o axe-core e manda só o 
 - [axe-core](https://github.com/dequelabs/axe-core) (MPL-2.0) is a dependency, loaded unmodified from `node_modules`.
 - The prompts quote short normative passages of [WCAG 2.1](https://www.w3.org/TR/WCAG21/), Copyright © W3C, used under the [W3C Document License](https://www.w3.org/copyright/document-license/).
 - The [W3C ACT test cases](https://act-rules.github.io/pages/license/) are downloaded at run time and never redistributed.
+- The illustrations in `examples/` were drawn for this project and are covered by its MIT license.

@@ -44,7 +44,8 @@
     "dev": "node src/cli.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "media": "pnpm build && node scripts/media.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.73",
@@ -59,6 +60,9 @@
   },
   "devDependencies": {
     "@types/node": "^26.6.4",
+    "@types/pngjs": "^6.0.5",
+    "gifenc": "^1.0.3",
+    "pngjs": "^7.0.0",
     "tsdown": "^0.23.0",
     "typescript": "^7.0.2",
     "vitest": "^5.0.3"

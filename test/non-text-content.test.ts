@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { looksLikePlaceholder, nonTextContent } from '../src/criteria/non-text-content.ts'
+import { isGenericAlt, looksLikePlaceholder, nonTextContent } from '../src/criteria/non-text-content.ts'
 import type { EngineResults } from '../src/core/types.ts'
 import type { A11ySnapshot } from '../src/snapshot/schema.ts'
 import { node } from './helpers.ts'
@@ -102,5 +102,13 @@ describe('placeholder pattern', () => {
 
   it.each(['Totó sorrindo na porta da loja', 'Gráfico de vendas de 2025', 'Logo da Árvore'])('leaves %s alone', (alt) => {
     expect(looksLikePlaceholder(alt, 'https://example.com/logo.png')).toBe(false)
+  })
+})
+
+describe('generic alternatives', () => {
+  it('names a single category word as generic, whatever the model labeled it', () => {
+    expect(isGenericAlt('Product')).toBe(true)
+    expect(isGenericAlt('produto')).toBe(true)
+    expect(isGenericAlt('Potted plant')).toBe(false)
   })
 })

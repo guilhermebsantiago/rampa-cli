@@ -1,3 +1,5 @@
+import { relative, sep } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import type { Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { WCAG21_A_AA, compareCriteria, criterionLabel } from '../wcag.ts'
@@ -13,7 +15,7 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   const locale = report.locale
   const lines: string[] = []
 
-  lines.push(p.bold(report.target))
+  lines.push(p.bold(displayTarget(report.target)))
   const meta = [`${t(locale, 'surface')}: ${report.surface}`, `${report.engine.name} ${report.engine.version}`]
   if (report.model) meta.push(`${t(locale, 'model')}: ${report.model}`)
   lines.push(p.dim(meta.join(' · ')))
@@ -60,6 +62,7 @@ export function renderReport(report: Report, options: PrettyOptions): string {
     : t(locale, 'coverageNotCheckedCount', { count: report.coverage.notChecked.length, total: WCAG21_A_AA.length })
   lines.push(`  ${pad(t(locale, 'coverageNotChecked'))}${notCheckedText}`)
   lines.push(p.bold(t(locale, 'disclaimer')))
+  lines.push(p.dim(t(locale, 'manualReview')))
   return lines.join('\n')
 }
 
@@ -103,6 +106,17 @@ function notesOf(report: Report, verbose: boolean): string[] {
   if (sum('errors') > 0) notes.push(t(locale, 'judgmentErrors', { count: sum('errors'), error: report.errors[0] ?? '' }))
   if (!verbose && report.belowThreshold.length > 0) notes.push(t(locale, 'belowThreshold', { count: report.belowThreshold.length }))
   return notes
+}
+
+/** Local files show relative to the working directory, never as an absolute path. */
+export function displayTarget(target: string): string {
+  if (!target.startsWith('file://')) return target
+  try {
+    const path = relative(process.cwd(), fileURLToPath(target))
+    return path.startsWith('..') ? target : path.split(sep).join('/')
+  } catch {
+    return target
+  }
 }
 
 function list(items: readonly string[]): string {
