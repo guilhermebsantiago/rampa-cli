@@ -20,6 +20,8 @@
 
 </div>
 
+**Rampa is an open-source WCAG accessibility checker for the command line.** It runs [axe-core](https://github.com/dequelabs/axe-core), then asks a language model, one WCAG 2.1 success criterion at a time, about what rules cannot decide: whether an image's alt text describes it, a page title names the page, a link says where it goes, a heading or label describes its content, and the language attributes match the text. A finding is kept only when the element it cites exists and the text it quotes is in it. It runs on a local model through Ollama or on any major provider, and it is measured against the W3C ACT test cases. Site: [rampa.guilhermebs.com.br](https://rampa.guilhermebs.com.br) ([em português](https://rampa.guilhermebs.com.br/pt/)).
+
 ## Why
 
 Automated accessibility checkers are good at what attributes and styles can prove. Ask them about meaning and they pass:
@@ -28,7 +30,7 @@ Automated accessibility checkers are good at what attributes and styles can prov
 <img src="dog.jpg" alt="img-1">
 ```
 
-axe-core reports this image as compliant, because it has an `alt`. A person using a screen reader hears "img-1". The same goes for a link that says "click here", or a Dutch quote marked as Spanish: valid syntax, wrong meaning. In February 2026, 95.9% of the top million home pages had detectable WCAG failures ([WebAIM Million](https://webaim.org/projects/million/)), and that counts only what tools can detect.
+axe-core reports this image as compliant, because it has an `alt`. A person using a screen reader hears "img-1". The same goes for a page titled "Untitled document", a link that says "Click here", a heading "Section 2" over customer reviews, a field labeled "Field 1", or a Dutch quote marked as Spanish: valid syntax, wrong meaning. In February 2026, 95.9% of the top million home pages had detectable WCAG failures ([WebAIM Million](https://webaim.org/projects/million/)), and that counts only what tools can detect.
 
 Rampa keeps the deterministic engine and adds a judgment layer for that residue:
 
@@ -63,6 +65,21 @@ Every claim must cite a node and a quote that exist on the page. Claims that do 
 
 *Rampa* is Portuguese for ramp: the structure that turns a staircase into a way in for everyone.
 
+## What it judges
+
+Six WCAG 2.1 success criteria have a judgment module. For each, axe-core keeps the part rules can decide, and the model only sees the rest.
+
+| Criterion | axe-core checks | Rampa judges | Example it catches |
+| --- | --- | --- | --- |
+| 1.1.1 Non-text Content | an image has an alternative | the alternative serves the same purpose, seen against the image as rendered | `alt="img-1"` on a photo of a dog |
+| 2.4.2 Page Titled | the page has a title | the title describes the page | `<title>Untitled document</title>` |
+| 2.4.4 Link Purpose | a link has a name | the name, with its paragraph and heading, tells where the link goes | a lone "Click here" |
+| 2.4.6 Headings and Labels | headings are not empty, fields have a label | a heading describes the content under it; a label says what to enter | "Section 2" over reviews, "Field 1" on an email field |
+| 3.1.1 Language of Page | `lang` is present and valid | `lang` is the language most of the page is written in | `lang="en"` on a page in Portuguese |
+| 3.1.2 Language of Parts | `lang` values are valid | each passage is in the language it declares | a Dutch review marked `lang="es"` |
+
+Every finding cites the element and its current text, and verification drops any claim whose quote is not on the page. Each module has W3C ACT test cases to measure it against (see [Evaluation](#evaluation)).
+
 ## Before and after
 
 [`examples/store/before.html`](examples/store/before.html) is a small shop page with the kind of problems a deterministic audit lets through. [`after.html`](examples/store/after.html) applies the patches Rampa suggested.
@@ -75,8 +92,12 @@ Every claim must cite a node and a quote that exist on the page. Claims that do 
 | <img src="examples/store/logo.svg" width="40" alt="Illustration: the shop logo, a white ramp on a teal square"> | no `alt` | **fails** | reported by axe-core | `alt="Corner Store"` |
 | <img src="examples/non-text-content/dog.svg" width="64" alt="Illustration: a smiling cartoon dog with a red collar"> | `alt="Toto, our store mascot: a smiling cartoon dog with a red collar"` | passes | passes, no false positive | unchanged |
 | — | Dutch review marked `lang="es"` | passes | marked Spanish, the text is Dutch | `lang="nl"` |
+| — | `<title>Untitled document</title>` | passes | says nothing about the page | `New arrivals \| Corner Store` |
+| — | a lone link "Click here" | passes | does not tell where it goes | "Shipping and returns" |
+| — | heading "Section 2" over the reviews | passes | says nothing about the content | "What customers say" |
+| — | email field labeled "Field 1" | passes | does not say what to enter | "Email address" |
 
-<img alt="Output of rampa check examples/store/before.html. Under WCAG 1.1.1, axe-core reports the logo without alternative text, and the judgment layer reports IMG_2034.jpg as a file name or placeholder, Ceramic coffee mug on an umbrella as describing something the image does not show, and product as too generic, each with its evidence and a patch with a suggested alt. Under WCAG 3.1.2, a review marked lang es is reported as Dutch, with a patch to lang nl. The coverage summary closes the report." src="docs/media/check-before.png" width="760">
+<img alt="Output of rampa check examples/store/before.html. axe-core reports the logo without alternative text. The judgment layer reports IMG_2034.jpg as a file name, Ceramic coffee mug on an umbrella as describing something the image does not show, and product as too generic; the page title Untitled document as saying nothing about the page; the link Click here as not telling where it goes; the heading Section 2 as saying nothing about the reviews under it; the label Field 1 as not saying what to enter; and a review marked lang es as Dutch. Each finding has its evidence and a patch, and the coverage summary closes the report." src="docs/media/check-before.png" width="760">
 
 <img alt="Output of rampa check examples/store/after.html: no confirmed failures in what was checked, followed by the coverage summary." src="docs/media/check-after.png" width="760">
 
@@ -151,7 +172,7 @@ Exit codes: `0` no confirmed failure, `1` at least one confirmed failure, `2` ex
 
 | Option | Default | Effect |
 | --- | --- | --- |
-| `-c, --criteria <ids>` | `1.1.1,3.1.2` | Criteria to judge |
+| `-c, --criteria <ids>` | all six | Criteria to judge: `1.1.1`, `2.4.2`, `2.4.4`, `2.4.6`, `3.1.1`, `3.1.2` |
 | `-m, --model <provider:model>` | detected | Model for the judgment layer |
 | `--no-llm` | | Deterministic layer only |
 | `-r, --runs <k>` | `1` | Judgments per candidate, majority vote |
@@ -178,7 +199,7 @@ Exit codes: `0` no confirmed failure, `1` at least one confirmed failure, `2` ex
 ```js
 export default {
   model: 'ollama:gemma4:12b',
-  criteria: ['1.1.1', '3.1.2'],
+  criteria: ['1.1.1', '2.4.2', '2.4.4', '2.4.6', '3.1.1', '3.1.2'],
   runs: 1,
   locale: 'en',
   minConfidence: 'medium',
@@ -219,7 +240,7 @@ Model ids and prices were checked on each provider's own pages on 2026-10-07, an
 
 - **Every provider has a test.** It checks the request the provider builds (prompt, image and schema) and reads a reply in its wire format, with no network. The published evaluation ran on Ollama; tables for hosted models come next.
 - **Cloud details.** Vertex uses the `global` location unless `GOOGLE_VERTEX_LOCATION` says otherwise. Bedrock returns the JSON through a forced tool, which every Claude on Bedrock supports; with AWS SSO or profiles, export the session first with `eval "$(aws configure export-credentials --format env)"`. Azure takes your deployment name, not the model name.
-- **1.1.1 needs vision.** `gemma4:12b` has it and runs on a 16 GB GPU; for text-only models such as `groq:openai/gpt-oss-20b`, judge 3.1.2 alone with `--criteria 3.1.2`.
+- **1.1.1 needs vision.** `gemma4:12b` has it and runs on a 16 GB GPU; text-only models such as `groq:openai/gpt-oss-20b` judge the other five with `--criteria 2.4.2,2.4.4,2.4.6,3.1.1,3.1.2`.
 - **Reasoning is off by default for local models.** On an RTX 5060 Ti that cut a judgment from about 6 s to 2 s with the same answer; `--reasoning` brings it back, and `rampa eval` can measure the trade-off.
 - **Subscriptions.** Anthropic does not allow third-party tools to offer claude.ai login or subscription limits unless approved ([Agent SDK docs](https://code.claude.com/docs/en/agent-sdk/overview)), so Rampa uses API keys. Claude Max and Team plans include monthly API credits ([Help Center](https://support.claude.com/en/articles/15036540)), which an API key can draw on.
 - **Recommendations come from measurement.** `rampa models` lists a starting point; the model per criterion should be chosen with `rampa eval`, not generic benchmarks.
@@ -252,30 +273,45 @@ Criteria never read the DOM. They read the snapshot, so the core is the same for
 
 ## Evaluation
 
-`rampa eval` measures, on the same pages, axe-core alone and axe-core with the judgment layer:
+`rampa eval` measures, on the same pages, axe-core alone and axe-core with the judgment layer, for every criterion that has W3C ACT test cases:
 
-<img alt="Output of rampa eval for WCAG 3.1.2 and 1.1.1 with ollama:gemma4:12b. On the syntax sets (ACT de46e4 and 23a2a8) both have precision and recall 1.00. On the semantic sets, axe-core has recall 0.00 and Rampa reaches F1 0.75 on off6ek and 0.80 on qt1vmo. On corrupted pairs, axe-core tells intact and corrupted apart in 0 of 5 lang pairs and 0 of 2 alt pairs; Rampa in 4 of 5 and 2 of 2. 36 candidates, none discarded by verification." src="docs/media/eval.png" width="760">
+<img alt="Output of rampa eval for six criteria with ollama:gemma4:12b. On every syntax set axe-core has precision and recall 1.00. On the meaning sets axe-core has recall 0.00, and Rampa reaches F1 1.00 on qt1vmo and c4a8a4, 0.91 on cc0f0a, 0.89 on b49b2e and off6ek, 0.80 on 5effbb and 0.67 on ucwvc8. On corrupted pairs, axe-core tells intact and corrupted apart in 0 of 23 pairs, Rampa in 21." src="docs/media/eval.png" width="760">
 
-| Set | Cases | axe-core P / R | Rampa P / R / F1, both models |
-| --- | :---: | :---: | :---: |
-| 3.1.2, ACT de46e4 (valid tag, syntax) | 19 | 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
-| 3.1.2, ACT off6ek (language matches the text) | 13 | — / 0.00 | 0.75 / 0.75 / 0.75 |
-| 3.1.2, corrupted pairs (`lang` swapped) | 10 | — / 0.00 | 0.83 / 1.00 / 0.91 |
-| 1.1.1, ACT 23a2a8 (has a name, syntax) | 18 | 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
-| 1.1.1, ACT qt1vmo (name is descriptive) | 16 | — / 0.00 | 1.00 / 0.67 / 0.80 |
+| Criterion | ACT set | Tests | Cases | axe-core P / R | Rampa P / R / F1 |
+| --- | --- | --- | :---: | :---: | :---: |
+| 1.1.1 | 23a2a8, image has a name | syntax | 18 | 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+| 1.1.1 | qt1vmo, name describes the image | meaning | 16 | — / 0.00 | 1.00 / 1.00 / 1.00 |
+| 2.4.2 | 2779a5, page has a title | syntax | 12 | 1.00 / 1.00 | 0.50 / 1.00 / 0.67 |
+| 2.4.2 | c4a8a4, title describes the page | meaning | 6 | — / 0.00 | 1.00 / 1.00 / 1.00 |
+| 2.4.4 | c487ae, link has a name | syntax | 28 | 1.00 / 1.00 | 0.92 / 1.00 / 0.96 |
+| 2.4.4 | 5effbb, link in context is descriptive | meaning | 18 | — / 0.00 | 0.67 / 1.00 / 0.80 |
+| 2.4.6 | b49b2e, heading is descriptive | meaning | 12 | — / 0.00 | 0.80 / 1.00 / 0.89 |
+| 2.4.6 | cc0f0a, field label is descriptive | meaning | 16 | — / 0.00 | 1.00 / 0.83 / 0.91 |
+| 3.1.1 | b5c3f8 and bf051a, page has a valid lang | syntax | 11 | 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+| 3.1.1 | ucwvc8, lang matches the page | meaning | 14 | 0.00 / 0.00 | 0.50 / 1.00 / 0.67 |
+| 3.1.2 | de46e4, valid lang on parts | syntax | 19 | 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+| 3.1.2 | off6ek, lang matches the text | meaning | 13 | — / 0.00 | 0.80 / 1.00 / 0.89 |
 
-First run on 2026-10-07: axe-core 4.14.0, Gemma 4 12B on a local GPU, reasoning off, one run, ACT test cases `a9a1483e`. A second run from an empty cache gave the same numbers. The judgment layer added no false positive on the syntax sets, and no claim failed verification in this run; the unit tests show what happens to one that does. The samples are small; read these numbers as a working pipeline, not as a result. Wilson intervals are in each run's `summary.json`.
+Corrupted pairs, a passing page and a copy broken on purpose: axe-core tells **0 of 23** apart, Rampa **21**. By kind: `alt` 2 of 2, title 3 of 3, headings and labels 8 of 9, page `lang` 4 of 4, `lang` on parts 4 of 5. The two misses are intact pages Rampa also fails: a glossary under the heading "A", and a sentence that is English and French at once.
 
-On 2026-10-08, `openai:gpt-6-luna` (reasoning at its default, medium) got the same numbers, in two runs with fresh calls that gave the same verdict on all 73 cases: 36 judgments, 29 s, about US$ 0.005 per run. The errors are not the same. The two failures that both runs miss never reached a model: Rampa does not yet treat `<canvas>` as an image for 1.1.1 (qt1vmo, Failed Example 3), and for 3.1.2 it reads an image's `alt` but not a name that comes from `aria-labelledby` (off6ek, Failed Example 4). Both gaps are on the roadmap. The model errors are two false positives on the same sentence, "Paul put dire comment on tape", which is English and French at once: Gemma reads it as English where it is marked French, gpt-6-luna as French where it is marked English. Requiring both models to agree would remove both, but they come from one sentence built to be ambiguous, so that is a hypothesis to test, not a result.
+Run on 2026-10-08: axe-core 4.14.0, Gemma 4 12B on a local GPU, reasoning off, one run, ACT test cases `a9a1483e`. 142 judgments, none dropped by verification, no API cost. Read the numbers with these caveats:
+
+- **The new criteria were tuned on these cases.** The prompts and the context for 2.4.2, 2.4.4 and 2.4.6 were adjusted after reading this run's errors, without copying the test pages into the prompts. They need fresh pages before the numbers mean more than "the pipeline works".
+- **Two low precisions are scoring, not judgment.** 2779a5 only checks that a title exists, and its passing pages are titled "Title of the page." and "This page has a title"; Rampa says those describe nothing, which is right for 2.4.2. On ucwvc8 every passed and failed example is right; the false positives are pages the rule calls inapplicable, four of which axe-core fails for a missing or invalid `lang`.
+- **2.4.4 is the weakest.** Gemma still fails short link texts whose purpose comes from a description or a nested list, such as "Applicability" or "HTML".
+- **Real pages are noisier than test cases.** On this project's own landing page, Gemma flags three short English headings that a person would pass, such as the step name "Collect", and nothing on the Portuguese page. Before the context fixes of 2026-10-08 (text in reading order, sections that end with their element, sibling headings, link landmarks) it flagged eleven elements there.
+- **Small samples, one run.** Read these as a working pipeline, not as a result. Wilson intervals are in each run's `summary.json`.
+
+The first run, on 2026-10-07 with only 1.1.1 and 3.1.2, had recall 0.67 on qt1vmo and 0.75 on off6ek. An error analysis showed the misses never reached a model: Rampa did not treat `<canvas>` as an image, and did not count image names from `aria-labelledby` as text. With both fixed, recall is 1.00 on both. On those two criteria, `openai:gpt-6-luna` got the same numbers as Gemma in two runs with fresh calls (about US$ 0.005 per run); the model errors of the two fell on the same sentence, "Paul put dire comment on tape", which is English and French at once.
 
 ```sh
-rampa eval --criteria 1.1.1,3.1.2 --no-llm      # baseline only
-rampa eval --criteria 1.1.1,3.1.2               # baseline vs judgment
-rampa eval --criteria 1.1.1,3.1.2 --no-verify   # ablation: what verification is worth
-rampa eval --criteria 3.1.2 --runs 5            # variance between runs
+rampa eval --no-llm                 # baseline only
+rampa eval                          # baseline vs judgment, all six criteria
+rampa eval --no-verify              # ablation: what verification is worth
+rampa eval --criteria 3.1.2 --runs 5   # variance between runs
 ```
 
-The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/) are downloaded at run time and their SHA-256 is recorded with every run. Corrupted pairs follow [López-Gil & Pereira (2025)](https://doi.org/10.1007/s10209-024-01108-z): break a passing case on purpose (`alt` becomes `img-1`, `lang` becomes another valid language) and check that the verdict flips. A tool that gives both versions the same verdict is not judging.
+The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/) are downloaded at run time and their SHA-256 is recorded with every run. Corrupted pairs follow [López-Gil & Pereira (2025)](https://doi.org/10.1007/s10209-024-01108-z): break a passing case on purpose and check that the verdict flips. An `alt` becomes `img-1`, a `lang` becomes another valid language, the title becomes "Welcome", headings become "Part 1" and labels "Entry 1"; none of those words appear in the prompts. A tool that gives both versions the same verdict is not judging.
 
 ## Principles
 
@@ -290,16 +326,16 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 ## Roadmap
 
 - [x] Web surface: Playwright and axe-core over a normalized snapshot
-- [x] WCAG 1.1.1 with vision, with a suggested `alt` as the patch
-- [x] WCAG 3.1.2, language of parts
+- [x] WCAG 1.1.1 with vision, with a suggested `alt` as the patch, on `img`, `input type="image"`, `role="img"` and named `<canvas>`
+- [x] WCAG 2.4.2 page titled, 2.4.4 link purpose in context, 2.4.6 headings and labels
+- [x] WCAG 3.1.1 language of page and 3.1.2 language of parts, with image names from `aria-labelledby` counted as text
 - [x] `rampa eval` with ACT test cases, corrupted pairs and the verification ablation
 - [x] Local models and the major providers: OpenAI, Anthropic, Google, Azure, Bedrock, Vertex, Mistral, xAI, Groq, DeepSeek, Together, Fireworks, Cerebras, OpenRouter, Vercel AI Gateway
 - [ ] The evaluation table for each provider's recommended model
 - [ ] Publish on npm: `pnpm dlx rampa`
 - [ ] MCP server, so coding agents can call `rampa check`
 - [ ] Rampa Lab, a web app to explore evaluation runs
-- [ ] Close the two gaps the error analysis found: `<canvas>` as an image for 1.1.1, and image names from `aria-labelledby` as text for 3.1.2
-- [ ] WCAG 2.4.4, link purpose with the destination page
+- [ ] WCAG 2.4.4 with the destination page fetched, so a link can be compared with where it really goes
 - [ ] SARIF and Markdown output, a GitHub Action that comments on pull requests
 - [ ] Android (adb and UI Automator), iOS (XCUITest export) and image-only surfaces
 - [ ] A false-positive study on real pages

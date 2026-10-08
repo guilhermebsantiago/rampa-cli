@@ -122,7 +122,11 @@ async function captureImages(page: Page, root: A11yNode): Promise<void> {
   const targets: A11yNode[] = []
   for (const node of walkTree(root)) {
     const attributes = (node.native.attributes ?? {}) as Record<string, string>
-    const isImage = node.native.tag === 'img' || node.role === 'img' || (node.native.tag === 'input' && attributes.type === 'image')
+    const isImage =
+      node.native.tag === 'img' ||
+      node.role === 'img' ||
+      (node.native.tag === 'input' && attributes.type === 'image') ||
+      (node.native.tag === 'canvas' && Boolean(node.name))
     if (!isImage || node.states.includes('hidden') || !node.bounds) continue
     if (node.bounds.width < 8 || node.bounds.height < 8) continue
     targets.push(node)

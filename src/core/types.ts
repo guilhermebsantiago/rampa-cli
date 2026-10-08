@@ -70,8 +70,9 @@ export type Verification = { ok: true } | { ok: false; reason: string }
 
 export interface Patch {
   ref: string
-  kind: 'set-attribute'
-  attribute: string
+  /** Change one attribute, or the text an element shows (a link, a heading, a label, the page title). */
+  kind: 'set-attribute' | 'set-text'
+  attribute?: string | undefined
   from?: string | undefined
   to: string
   before?: string | undefined

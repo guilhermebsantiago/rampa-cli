@@ -227,7 +227,7 @@ try {
     'rampa check examples/non-text-content/alt-quality.html --locale pt-BR',
     ['check', 'examples/non-text-content/alt-quality.html', '--locale', 'pt-BR'],
   )
-  await renderCommand(page, 'eval', 'rampa eval --criteria 3.1.2,1.1.1', ['eval', '--criteria', '3.1.2,1.1.1'], (line) => !line.includes('Results:'))
+  await renderCommand(page, 'eval', 'rampa eval', ['eval'], (line) => !line.includes('Results:'))
   console.log(`media written to ${OUT}/`)
 } finally {
   await browser.close()

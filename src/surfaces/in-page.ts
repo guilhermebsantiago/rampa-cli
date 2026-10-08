@@ -57,9 +57,10 @@ export interface InPageOptions {
 
 export async function collectInPage(options: InPageOptions): Promise<InPageResult> {
   const MAX_HTML = 600
+  const READING_BLOCKS = new Set(['p', 'li', 'td', 'th', 'dt', 'dd', 'blockquote', 'figcaption', 'caption', 'label', 'legend', 'summary', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
   const MAX_PASS_NODES = 200
   const SKIP = new Set(['script', 'style', 'noscript', 'template', 'head', 'meta', 'link', 'title', 'base'])
-  const KEEP_ATTRS = ['id', 'class', 'lang', 'href', 'src', 'alt', 'title', 'type', 'role', 'name', 'for', 'aria-label', 'aria-labelledby', 'aria-hidden']
+  const KEEP_ATTRS = ['id', 'class', 'lang', 'href', 'src', 'alt', 'title', 'type', 'role', 'name', 'for', 'aria-label', 'aria-labelledby', 'aria-hidden', 'aria-level', 'aria-describedby', 'placeholder', 'autocomplete']
   const NAME_FROM_CONTENT = new Set(['a', 'button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'summary', 'option', 'th', 'td', 'li', 'label', 'legend', 'caption', 'figcaption'])
   const refs = new Map<Element, string>()
   let count = 0
@@ -207,7 +208,12 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   }
 
   /** Text in reading order whose closest lang ancestor is `el`. */
-  const langText = (el: Element): string => {
+  const langText = (el: Element): string => textInOrder(el, true)
+
+  /** Text in reading order, without what is hidden from the accessibility tree. */
+  const readingText = (el: Element): string => collapse(textInOrder(el, false)).slice(0, 1000)
+
+  const textInOrder = (el: Element, stopAtLang: boolean): string => {
     const parts: string[] = []
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT)
     let node: Node | null = walker.nextNode()
@@ -218,7 +224,11 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
           node = walker.nextSibling() ?? nextOutside(walker, el)
           continue
         }
-        if (element !== el && element.hasAttribute('lang')) {
+        if (element !== el && stopAtLang && element.hasAttribute('lang')) {
+          node = walker.nextSibling() ?? nextOutside(walker, el)
+          continue
+        }
+        if (element !== el && !stopAtLang && (element.getAttribute('aria-hidden') === 'true' || element.hasAttribute('hidden'))) {
           node = walker.nextSibling() ?? nextOutside(walker, el)
           continue
         }
@@ -227,9 +237,10 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
           node = walker.nextSibling() ?? nextOutside(walker, el)
           continue
         }
+        // An image is read by its accessible name: alt, aria-label, or the text aria-labelledby points to.
         if (element.localName === 'img') {
-          const alt = collapse(element.getAttribute('alt'))
-          if (alt) parts.push(alt)
+          const name = accessibleName(element, implicitRole(element))
+          if (name) parts.push(name)
         }
       } else {
         const text = collapse(node.textContent)
@@ -256,6 +267,12 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     const states: string[] = []
     const visible = typeof el.checkVisibility === 'function' ? el.checkVisibility({ visibilityProperty: true, checkVisibilityCSS: true } as CheckVisibilityOptions) : true
     if (!visible) states.push('hidden')
+    else {
+      const rect = el.getBoundingClientRect()
+      const left = rect.right + window.scrollX
+      const top = rect.bottom + window.scrollY
+      if (rect.width > 0 && (left <= 0 || top <= 0)) states.push('offscreen')
+    }
     if (el.closest('[aria-hidden="true"]')) states.push('aria-hidden')
     if ((el as HTMLInputElement).disabled === true || el.getAttribute('aria-disabled') === 'true') states.push('disabled')
     if ((el as HTMLInputElement).checked === true || el.getAttribute('aria-checked') === 'true') states.push('checked')
@@ -287,11 +304,13 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     }
     const native: Record<string, unknown> = { tag: el.localName, attributes }
     const tag = el.localName
-    if (el.hasAttribute('lang') || ['img', 'a', 'button', 'input', 'select', 'textarea'].includes(tag)) {
+    if (el.hasAttribute('lang') || ['img', 'a', 'button', 'input', 'select', 'textarea', 'canvas', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'label'].includes(tag)) {
       // The root keeps only its start tag: its outerHTML is the whole document, injected engine script included.
       native.html = el === document.documentElement ? startTag(el) : el.outerHTML.slice(0, MAX_HTML)
     }
     if (el.hasAttribute('lang')) native.langText = langText(el)
+    // Only blocks with inline children need it; for the rest, the node's own text is already in order.
+    if (READING_BLOCKS.has(tag) && el.children.length > 0) native.readingText = readingText(el)
     return native
   }
 

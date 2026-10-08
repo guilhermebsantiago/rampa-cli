@@ -41,7 +41,7 @@ export const WCAG21_A_AA: readonly SuccessCriterion[] = [
   { id: '2.4.3', level: 'A', name: { en: 'Focus Order' } },
   { id: '2.4.4', level: 'A', name: { en: 'Link Purpose (In Context)', 'pt-BR': 'Finalidade do link (em contexto)' } },
   { id: '2.4.5', level: 'AA', name: { en: 'Multiple Ways' } },
-  { id: '2.4.6', level: 'AA', name: { en: 'Headings and Labels' } },
+  { id: '2.4.6', level: 'AA', name: { en: 'Headings and Labels', 'pt-BR': 'Cabeçalhos e rótulos' } },
   { id: '2.4.7', level: 'AA', name: { en: 'Focus Visible' } },
   { id: '2.5.1', level: 'A', name: { en: 'Pointer Gestures' } },
   { id: '2.5.2', level: 'A', name: { en: 'Pointer Cancellation' } },

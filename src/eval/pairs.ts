@@ -84,7 +84,63 @@ export const altSwap: Corruptor = {
   },
 }
 
+/** 2.4.2: a title that says nothing about the page. The words are not among the prompt's examples, so the pair tests judgment, not recall. */
+export const titleGeneric: Corruptor = {
+  id: 'title-generic',
+  criterion: '2.4.2',
+  async apply(page) {
+    return page.evaluate(() => {
+      if (document.title.trim() === '') return 0
+      document.title = 'Welcome'
+      return 1
+    })
+  },
+}
+
+/** 2.4.6: number every heading and label instead of naming it, with words the prompt never shows. */
+export const headingGeneric: Corruptor = {
+  id: 'heading-generic',
+  criterion: '2.4.6',
+  async apply(page) {
+    return page.evaluate(() => {
+      let changed = 0
+      for (const [index, heading] of Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6, [role="heading"]')).entries()) {
+        if ((heading.textContent ?? '').trim() === '') continue
+        heading.textContent = `Part ${index + 1}`
+        changed++
+      }
+      for (const [index, label] of Array.from(document.querySelectorAll('label')).entries()) {
+        if (!label.control || (label.textContent ?? '').trim() === '') continue
+        // A wrapped field stays in place; only the label's own text changes.
+        for (const node of Array.from(label.childNodes)) if (node.nodeType === Node.TEXT_NODE) node.remove()
+        label.prepend(`Entry ${index + 1} `)
+        changed++
+      }
+      return changed
+    })
+  },
+}
+
+/** 3.1.1: declare another valid language on the root, as a template copied from another site would. */
+export const htmlLangSwap: Corruptor = {
+  id: 'html-lang-swap',
+  criterion: '3.1.1',
+  async apply(page) {
+    return page.evaluate((swap: Record<string, string>) => {
+      const root = document.documentElement
+      const declared = (root.getAttribute('lang') ?? '').trim()
+      if (declared === '') return 0
+      const primary = declared.split('-')[0]?.toLowerCase() ?? ''
+      root.setAttribute('lang', swap[primary] ?? (primary === 'es' ? 'nl' : 'es'))
+      return 1
+    }, LANGUAGE_SWAP)
+  },
+}
+
 export const CORRUPTORS: Readonly<Record<string, Corruptor[]>> = {
   '1.1.1': [altPlaceholder, altSwap],
+  '2.4.2': [titleGeneric],
+  '2.4.6': [headingGeneric],
+  '3.1.1': [htmlLangSwap],
   '3.1.2': [langSwap],
 }

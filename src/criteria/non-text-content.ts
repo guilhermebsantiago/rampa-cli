@@ -63,7 +63,13 @@ Reply only with JSON that matches the schema.`
 
 function isImageNode(node: A11yNode): boolean {
   const attributes = (node.native.attributes ?? {}) as Record<string, string>
-  return node.native.tag === 'img' || node.role === 'img' || (node.native.tag === 'input' && attributes.type === 'image')
+  return (
+    node.native.tag === 'img' ||
+    node.role === 'img' ||
+    (node.native.tag === 'input' && attributes.type === 'image') ||
+    // A canvas with a name is drawn content the name stands in for.
+    (node.native.tag === 'canvas' && Boolean(node.name))
+  )
 }
 
 function fileName(src: string | undefined): string | undefined {
@@ -218,7 +224,10 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentJudg
   patch(output, candidate) {
     const startTag = /^<[^>]*>/.exec(candidate.context.html)?.[0]
     const value = output.problem === 'decorative' ? '' : output.suggestedAlt.trim()
-    const after = startTag?.replace(/\balt\s*=\s*(["'])[^"']*\1/i, `alt="${escapeAttribute(value)}"`)
-    return { ref: candidate.ref, kind: 'set-attribute', attribute: 'alt', from: candidate.context.alt, to: value, before: startTag, after }
+    // Only img and input take alt; anything else, such as a canvas, is named with aria-label.
+    const attribute = startTag && /\balt\s*=/i.test(startTag) ? 'alt' : 'aria-label'
+    const pattern = attribute === 'alt' ? /\balt\s*=\s*(["'])[^"']*\1/i : /\baria-label\s*=\s*(["'])[^"']*\1/i
+    const after = startTag?.replace(pattern, `${attribute}="${escapeAttribute(value)}"`)
+    return { ref: candidate.ref, kind: 'set-attribute', attribute, from: candidate.context.alt, to: value, before: startTag, after }
   },
 }

@@ -81,11 +81,11 @@ passo "Provedores" \
   "rampa models" "rampa models"
 
 passo "Só o axe-core" \
-  "A linha de base. O axe pega a logo sem alt e aprova o resto: ele confere se o atributo existe, não o que ele diz." \
+  "A linha de base. O axe pega a logo sem alt e aprova o resto: o título 'Untitled document', o link 'Click here', o título 'Section 2', o campo 'Field 1'. Ele confere se o atributo existe, não o que ele diz." \
   "rampa check examples/store/before.html --no-llm" "rampa check $(alvo examples/store/before.html) --no-llm"
 
 passo "Com o julgamento" \
-  "O modelo só vê o resíduo, um critério por vez, e cada achado precisa citar evidência que confere no snapshot." \
+  "Seis critérios: imagem, título da página, link, títulos e rótulos, idioma da página e de trechos. O modelo só vê o resíduo, um critério por vez, e cada achado cita o texto que está de fato na página." \
   "rampa check examples/store/before.html" "rampa check $(alvo examples/store/before.html)"
 
 passo "Depois das correções" \
@@ -93,8 +93,9 @@ passo "Depois das correções" \
   "rampa check examples/store/after.html" "rampa check $(alvo examples/store/after.html)"
 
 passo "Em português" \
-  "Página em português: o alt sugerido sai no idioma da página." \
-  "rampa check examples/non-text-content/alt-quality.html" "rampa check $(alvo examples/non-text-content/alt-quality.html)"
+  "Duas páginas em português: o alt sugerido sai no idioma da página, e a segunda está marcada como inglês porque copiou o modelo de outro site." \
+  "rampa check examples/non-text-content/alt-quality.html examples/language-of-page/mismatch.html" \
+  "rampa check $(alvo examples/non-text-content/alt-quality.html); rampa check $(alvo examples/language-of-page/mismatch.html)"
 
 passo "O que o núcleo enxerga" \
   "Os critérios não leem o DOM: leem esta árvore normalizada. Web, Android ou iOS viram o mesmo formato." \
@@ -105,18 +106,19 @@ passo "Mesma análise, sem navegador" \
   "rampa check $REC/examples-store-before.snapshot.json $GRAVADO" "rampa check $REC/examples-store-before.snapshot.json $GRAVADO"
 
 if [ "$MODO" = offline ]; then
-  AVAL="rampa eval --criteria 3.1.2 $GRAVADO"
+  # 1.1.1 judges image crops, which differ from one browser build to another; the text criteria replay anywhere.
+  AVAL="rampa eval --criteria 2.4.2,2.4.4,2.4.6,3.1.1,3.1.2 $GRAVADO"
 else
-  AVAL="rampa eval --criteria 3.1.2,1.1.1 --model $MODELO"
+  AVAL="rampa eval --model $MODELO"
 fi
 passo "Avaliação contra o gabarito do W3C" \
-  "Casos ACT do W3C e pares corrompidos: o axe dá o mesmo veredito ao íntegro e ao corrompido; o Rampa separa. Precisa de internet." \
-  "rampa eval --criteria 3.1.2,1.1.1" "$AVAL"
+  "Casos ACT do W3C para os seis critérios, e pares corrompidos: o axe dá o mesmo veredito ao íntegro e ao corrompido; o Rampa separa. Precisa de internet." \
+  "rampa eval" "$AVAL"
 
 passo "A verificação, provada por teste" \
   "Uma alegação com trecho inventado nunca chega ao relatório. Os testes mostram cada forma de rejeição." \
-  "pnpm exec vitest run test/check.test.ts test/language-of-parts.test.ts" \
-  "pnpm exec vitest run test/check.test.ts test/language-of-parts.test.ts --reporter=verbose 2>&1 | grep -vE '^ *$' | tail -32"
+  "pnpm exec vitest run test/check.test.ts test/more-criteria.test.ts" \
+  "pnpm exec vitest run test/check.test.ts test/more-criteria.test.ts --reporter=verbose 2>&1 | grep -vE '^ *$' | tail -32"
 
 clear
 printf '%sObrigado!%s\n\n' "$BOLD" "$RESET"
