@@ -13,6 +13,9 @@ import { indexTree, inheritedLang, walkTree } from '../snapshot/tree.ts'
  * that have a non-empty alternative, seen as rendered, so the model can say
  * whether the text serves the same purpose and suggest a better one.
  * ACT reference rules: 23a2a8 (non-empty name) and qt1vmo (name is descriptive).
+ *
+ * The normative text in the prompt is quoted from WCAG 2.1
+ * (https://www.w3.org/TR/WCAG21/), Copyright © W3C, under the W3C Document License.
  */
 
 const ENGINE_RULES = ['image-alt', 'input-image-alt', 'role-img-alt', 'svg-img-alt'] as const

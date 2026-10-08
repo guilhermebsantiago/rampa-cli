@@ -12,6 +12,9 @@ import { indexTree, inheritedLang, textInheritingLang, walkTree } from '../snaps
  * The residue judged here: elements with a valid lang whose text may be in a
  * different language. ACT reference rules: de46e4 (valid tag) and off6ek
  * (language subtag matches the content).
+ *
+ * The normative text in the prompt is quoted from WCAG 2.1
+ * (https://www.w3.org/TR/WCAG21/), Copyright © W3C, under the W3C Document License.
  */
 
 const ENGINE_RULES = ['valid-lang'] as const

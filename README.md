@@ -6,7 +6,7 @@ Rampa runs a deterministic engine (axe-core, on the web) and sends only what it 
 
 > Rampa never says a page is accessible. It reports what was checked and what was not. No automated tool replaces a manual audit or testing with disabled people.
 
-**Status:** early, local only (not on npm yet). The web surface works end to end. Two criteria have judgment modules: 1.1.1 Non-text Content, judged with vision, and 3.1.2 Language of Parts. Design: [RFC-0001](https://claude.ai/code/artifact/5212bbc9-8f88-4505-bcce-0cbc4d07163f).
+**Status:** early, local only (not on npm yet). The web surface works end to end. Two criteria have judgment modules: 1.1.1 Non-text Content, judged with vision, and 3.1.2 Language of Parts.
 
 ## Why
 
@@ -117,10 +117,18 @@ pnpm test        # unit tests; the web tests run when Chrome or Edge is availabl
 pnpm build       # dist/ and schema/
 ```
 
+## Contributing
+
+Issues and pull requests are welcome; start with [CONTRIBUTING.md](CONTRIBUTING.md). To report a vulnerability, see [SECURITY.md](SECURITY.md).
+
 ## Em português
 
 O Rampa verifica acessibilidade além da sintaxe: roda o axe-core e manda só o resíduo que ele não sabe decidir para um LLM, um critério WCAG por vez, e descarta toda alegação sem evidência conferível na página. Use `--locale pt-BR` para o relatório em português. O Rampa nunca declara uma página acessível e não substitui auditoria manual nem teste com pessoas com deficiência.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE). Third-party material:
+
+- [axe-core](https://github.com/dequelabs/axe-core) (MPL-2.0) is a dependency, loaded unmodified from `node_modules`.
+- The prompts quote short normative passages of [WCAG 2.1](https://www.w3.org/TR/WCAG21/), Copyright © W3C, used under the [W3C Document License](https://www.w3.org/copyright/document-license/).
+- The [W3C ACT test cases](https://act-rules.github.io/pages/license/) are downloaded at run time and never redistributed.

@@ -8,7 +8,7 @@ const schema = z.toJSONSchema(A11ySnapshotSchema, { target: 'draft-2020-12' })
 await mkdir('schema', { recursive: true })
 await writeFile(
   'schema/snapshot.schema.json',
-  `${JSON.stringify({ $id: 'https://github.com/guilhermebsantiago/rampa-cli/schema/snapshot.schema.json', title: 'Rampa accessibility snapshot', ...schema }, null, 2)}\n`,
+  `${JSON.stringify({ $id: 'https://raw.githubusercontent.com/guilhermebsantiago/rampa-cli/main/schema/snapshot.schema.json', title: 'Rampa accessibility snapshot', ...schema }, null, 2)}\n`,
   'utf8',
 )
 console.log('schema/snapshot.schema.json written')
