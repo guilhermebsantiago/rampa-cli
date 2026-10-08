@@ -22,6 +22,14 @@ export interface EngineNode {
   html: string
   message?: string | undefined
   impact?: string | null | undefined
+  /** A message about this node, reported instead of the rule's help (tree and pixel rules). */
+  detail?: string | undefined
+  /** What the rule measured or read on this node, reported as evidence. */
+  evidence?: string | undefined
+  /** Defaults to high. Lower when the rule's input may be off, such as text a model located. */
+  confidence?: Confidence | undefined
+  /** The model that located the node in an image, when there was no accessibility tree to read it from. */
+  locatedBy?: string | undefined
 }
 
 export interface EngineRuleResult {
@@ -127,6 +135,8 @@ export interface Finding {
   helpUrl?: string | undefined
   html?: string | undefined
   model?: string | undefined
+  /** The model that located the cited element in an image: it was not read from an accessibility tree. */
+  locatedBy?: string | undefined
 }
 
 export interface Discarded {
@@ -175,4 +185,6 @@ export interface Report {
   coverage: { engine: string[]; judged: string[]; notChecked: string[] }
   usage: Usage
   errors: string[]
+  /** What the collector or the rules could not see or decide, in the report's language. */
+  notes?: string[] | undefined
 }

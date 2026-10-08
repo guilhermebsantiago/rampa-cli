@@ -57,11 +57,13 @@ export function engineFindings(engine: EngineResults): Finding[] {
         source: 'engine',
         ref: node.ref,
         target: node.target,
-        message: rule.help,
-        confidence: 'high',
+        message: node.detail ?? rule.help,
+        evidence: node.evidence,
+        confidence: node.confidence ?? 'high',
         ruleId: rule.ruleId,
         helpUrl: rule.helpUrl,
         html: node.html,
+        locatedBy: node.locatedBy,
       })
     }
   }

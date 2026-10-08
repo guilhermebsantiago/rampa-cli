@@ -49,6 +49,21 @@ const messages = {
     high: 'high',
     medium: 'medium',
     low: 'low',
+    disclaimerScreen: 'This report does not declare the screen accessible.',
+    disclaimerImage: 'This report does not declare the image accessible.',
+    locatedBy: 'Located by {model} in the image: not read from an accessibility tree',
+    noteNoScreenshot: 'No screenshot was taken, so images were not judged (1.1.1) and text contrast was not measured.',
+    noteNoLocale: 'The device did not report its language, so the language of the screen (3.1.1) was not checked.',
+    noteUiAutomator: 'Read from UI Automator, which does not expose headings, labelFor or the language of text: checks that need them did not run.',
+    noteAppiumSource: 'Read from an Appium page source, which marks headings but not labelFor or the language of text.',
+    noteXcuitest: 'Read from an XCUITest export, which does not expose labels tied to fields or the language of text.',
+    noteXcuitestNoTraits: 'The export has no accessibility traits, so headings were not found (2.4.6).',
+    noteIosLanguage:
+      'The export does not say which language the app ran in, so the language of the screen (3.1.1) was not checked. Pass language: to RampaExport, or launch the app with -AppleLanguages.',
+    noteImageScope:
+      'An image has no accessibility tree: names, roles, states, focus order, language and structure cannot be checked from pixels. Only text contrast is measured, where a model found text.',
+    noteImageNoModel: 'No model to find text in the image, so nothing was measured. Pass --model with a vision model.',
+    noteImageBlocks: '{model} located {kept} text block(s) in the image; {dropped} more were dropped because their box held no text.',
   },
   'pt-BR': {
     tagline: 'verificação de acessibilidade além da sintaxe',
@@ -89,6 +104,21 @@ const messages = {
     high: 'alta',
     medium: 'média',
     low: 'baixa',
+    disclaimerScreen: 'Este relatório não declara a tela acessível.',
+    disclaimerImage: 'Este relatório não declara a imagem acessível.',
+    locatedBy: 'Localizado por {model} na imagem: não lido de uma árvore de acessibilidade',
+    noteNoScreenshot: 'Sem captura de tela: as imagens não foram julgadas (1.1.1) e o contraste do texto não foi medido.',
+    noteNoLocale: 'O aparelho não informou o idioma, então o idioma da tela (3.1.1) não foi verificado.',
+    noteUiAutomator: 'Lido do UI Automator, que não expõe títulos, labelFor nem o idioma do texto: as verificações que dependem deles não rodaram.',
+    noteAppiumSource: 'Lido do page source do Appium, que marca títulos, mas não labelFor nem o idioma do texto.',
+    noteXcuitest: 'Lido de uma exportação do XCUITest, que não expõe rótulos ligados a campos nem o idioma do texto.',
+    noteXcuitestNoTraits: 'A exportação não tem os traits de acessibilidade, então os títulos não foram encontrados (2.4.6).',
+    noteIosLanguage:
+      'A exportação não diz em que idioma o app rodou, então o idioma da tela (3.1.1) não foi verificado. Passe language: ao RampaExport ou abra o app com -AppleLanguages.',
+    noteImageScope:
+      'Uma imagem não tem árvore de acessibilidade: nomes, papéis, estados, ordem de foco, idioma e estrutura não podem ser verificados em pixels. Só o contraste do texto é medido, onde um modelo encontrou texto.',
+    noteImageNoModel: 'Sem modelo para encontrar texto na imagem, nada foi medido. Use --model com um modelo de visão.',
+    noteImageBlocks: '{model} localizou {kept} bloco(s) de texto na imagem; outros {dropped} foram descartados porque a caixa não tinha texto.',
   },
 } as const
 
