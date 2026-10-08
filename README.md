@@ -37,7 +37,7 @@ node dist/cli.mjs check examples/non-text-content/alt-quality.html --model ollam
 node dist/cli.mjs check examples/language-of-parts/mismatch.html --model ollama:gemma4:12b
 ```
 
-The first example is the case Rampa exists for: a photo of a dog with `alt="img-1"`. axe-core passes it because the alternative exists. Rampa looks at the image as rendered, flags the placeholder, and suggests an alternative in the page language:
+The first example is the case Rampa exists for: a picture of a dog with `alt="img-1"`. axe-core passes it because the alternative exists. Rampa looks at the image as rendered, flags the placeholder, and suggests an alternative in the page language:
 
 ```text
 WCAG 1.1.1 (A) — Conteúdo não textual
@@ -68,7 +68,7 @@ Exit codes: `0` no confirmed failure, `1` confirmed failure, `2` execution or co
 
 ## Models
 
-Pass `--model provider:model`, set `model` in `rampa.config.ts`, or let Rampa pick: a local Ollama model first, then the cheapest API with a key.
+Pass `--model provider:model`, set `model` in `rampa.config.mjs` or `.json` (`.ts` needs Node 22.18+), or let Rampa pick: a local Ollama model first, then the cheapest API with a key.
 
 | Provider | Example | Credentials |
 | --- | --- | --- |
@@ -93,7 +93,7 @@ Keys only ever come from environment variables or a local `.env`, never from the
 4. **Verification.** The cited node must exist and the quoted text must be in it. Otherwise the claim dies here and is counted in the discard rate.
 5. **Report.** Findings by criterion, a patch when possible, and the coverage of the run: what the engine checked, what was judged, and what nobody checked.
 
-Judgments are cached by a hash of prompt, model and context, so the same input never calls the model twice. `--runs k` asks k times and keeps the majority; agreement lowers or keeps the confidence.
+Judgments are cached by a hash of prompt, image, model and settings, so the same input never calls the model twice. `--runs k` asks k times and keeps the majority; agreement lowers or keeps the confidence.
 
 ### Any screen, not only the web
 
@@ -107,7 +107,7 @@ node dist/cli.mjs eval --criteria 3.1.2 --model ollama:gemma4:12b # baseline vs 
 node dist/cli.mjs eval --criteria 3.1.2 --model ollama:gemma4:12b --no-verify   # ablation
 ```
 
-The W3C ACT test cases are downloaded at run time (not redistributed) and their SHA-256 is recorded with every run. Corrupted pairs follow López-Gil & Pereira (2025): break a passing case on purpose and check that the verdict flips. Each run writes `results.jsonl` and `summary.json` to `.rampa/runs/`, with precision, recall, F1 and Wilson intervals per set, pair discrimination, discards, abstentions, tokens and estimated cost.
+The W3C ACT test cases are downloaded at run time (not redistributed) and their SHA-256 is recorded with every run. Corrupted pairs follow [López-Gil & Pereira (2025)](https://doi.org/10.1007/s10209-024-01108-z): break a passing case on purpose and check that the verdict flips. Each run writes `results.jsonl` and `summary.json` to `.rampa/runs/`, with precision, recall, F1 and Wilson intervals per set, pair discrimination, discards, abstentions, tokens and estimated cost.
 
 ## Development
 
