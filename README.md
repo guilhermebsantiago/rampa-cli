@@ -266,7 +266,7 @@ Criteria never read the DOM. They read the snapshot, so the core is the same for
 
 First run on 2026-10-07: axe-core 4.14.0, Gemma 4 12B on a local GPU, reasoning off, one run, ACT test cases `a9a1483e`. A second run from an empty cache gave the same numbers. The judgment layer added no false positive on the syntax sets, and no claim failed verification in this run; the unit tests show what happens to one that does. The samples are small; read these numbers as a working pipeline, not as a result. Wilson intervals are in each run's `summary.json`.
 
-On 2026-10-08, `openai:gpt-6-luna` (reasoning at its default, medium) got the same numbers, in two runs with fresh calls that gave the same verdict on all 73 cases: 36 judgments, 29 s, about US$ 0.005 per run. The errors are not all the same. Both models miss the same two failures, and each flags a different passing example. Keeping a failure only when both models agree would have removed both false positives (off6ek precision 1.00, and the language pairs 5 of 5). With four errors in all, that is a hypothesis to test, not a result.
+On 2026-10-08, `openai:gpt-6-luna` (reasoning at its default, medium) got the same numbers, in two runs with fresh calls that gave the same verdict on all 73 cases: 36 judgments, 29 s, about US$ 0.005 per run. The errors are not the same. The two failures that both runs miss never reached a model: Rampa does not yet treat `<canvas>` as an image for 1.1.1 (qt1vmo, Failed Example 3), and for 3.1.2 it reads an image's `alt` but not a name that comes from `aria-labelledby` (off6ek, Failed Example 4). Both gaps are on the roadmap. The model errors are two false positives on the same sentence, "Paul put dire comment on tape", which is English and French at once: Gemma reads it as English where it is marked French, gpt-6-luna as French where it is marked English. Requiring both models to agree would remove both, but they come from one sentence built to be ambiguous, so that is a hypothesis to test, not a result.
 
 ```sh
 rampa eval --criteria 1.1.1,3.1.2 --no-llm      # baseline only
@@ -298,6 +298,7 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - [ ] Publish on npm: `pnpm dlx rampa`
 - [ ] MCP server, so coding agents can call `rampa check`
 - [ ] Rampa Lab, a web app to explore evaluation runs
+- [ ] Close the two gaps the error analysis found: `<canvas>` as an image for 1.1.1, and image names from `aria-labelledby` as text for 3.1.2
 - [ ] WCAG 2.4.4, link purpose with the destination page
 - [ ] SARIF and Markdown output, a GitHub Action that comments on pull requests
 - [ ] Android (adb and UI Automator), iOS (XCUITest export) and image-only surfaces
