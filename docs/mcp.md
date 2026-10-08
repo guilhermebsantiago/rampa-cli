@@ -217,7 +217,7 @@ All four are read-only. `check_page` and `check_html` take the same options:
 | Argument | Default | Effect |
 | --- | --- | --- |
 | `target` (`check_page`) | required | `http(s)` or `file` URL, an `.html` file or a snapshot `.json` recorded with `rampa check --save`. One page per call |
-| `html` (`check_html`) | required | A whole document or a fragment |
+| `html` (`check_html`) | required | A whole document or a fragment, up to 2,000,000 characters |
 | `base_url` (`check_html`) | | Where relative URLs point: an `http(s)` URL, a `file` URL or an absolute folder. Without it, relative images do not load, and images that do not render are not judged |
 | `criteria` | all six | Criteria to judge: `1.1.1`, `2.4.2`, `2.4.4`, `2.4.6`, `3.1.1`, `3.1.2`. axe-core checks the whole page either way |
 | `model` | the server's | `provider:model`, such as `ollama:gemma4:12b` |
@@ -227,7 +227,7 @@ All four are read-only. `check_page` and `check_html` take the same options:
 | `min_confidence` | `medium` | Leave out findings below `low`, `medium` or `high` |
 | `max_findings` | `25` | Findings to list; the rest are counted by criterion |
 
-`explain_finding` takes `finding_id`, an id from a check in the same session, or `criterion`, such as `"2.4.4"`.
+`explain_finding` takes `finding_id`, an id from a check in the same session, or `criterion`, such as `"2.4.4"`. Ids last until the server stops; with an unknown id and a criterion, it explains the criterion and says so in `warning`.
 
 ### What a check returns
 
@@ -284,7 +284,7 @@ A problem the agent can fix comes back as a tool error that says what to do, and
 | No model available | how to pass one, with examples, or to pass `no_llm: true` |
 | Ollama is down, or the model is not pulled | `ollama serve`, `ollama pull <model>`, or the models it has |
 | A missing API key | the variable to set, and where: the server's environment |
-| Every judgment failed | the model's error, and to try another model or `no_llm: true` |
+| The model failed on every candidate | the model's error, to try another model or `no_llm: true`, and the report with what axe-core found |
 
 ## Prompts that work well
 

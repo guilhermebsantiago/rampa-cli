@@ -2,13 +2,14 @@ import { spawn } from 'node:child_process'
 import { readdir } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { Client, InMemoryTransport } from '@modelcontextprotocol/client'
 import { StdioClientTransport } from '@modelcontextprotocol/client/stdio'
 import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
 import { z } from 'zod'
 import { fileCache, memoryCache } from '../src/core/cache.ts'
 import { CRITERIA, DEFAULT_CRITERIA } from '../src/criteria/index.ts'
-import { type AgentDefaults, observedCache, observedProvider, tolerantCache } from '../src/mcp/check.ts'
+import { type AgentDefaults, cancellable, observedCache, resolveAgentTarget, tolerantCache } from '../src/mcp/check.ts'
 import type { CriteriaList, Explanation } from '../src/mcp/explain.ts'
 import type { Finding } from '../src/core/types.ts'
 import { type CheckResult, pickFindings } from '../src/mcp/format.ts'
@@ -232,7 +233,9 @@ describe('rampa mcp tools', () => {
     expect(textOf(unknown)).toContain('No finding feedfacecafe in this session')
     const fallback = await session.client.callTool({ name: 'explain_finding', arguments: { finding_id: 'feedfacecafe', criterion: '2.4.4' } })
     expect(fallback.isError).toBeFalsy()
-    expect(textOf(fallback)).toMatch(/^No finding feedfacecafe in this session; this explains 2\.4\.4\./)
+    // Claude Code shows the model only the structured result, so the warning is there too.
+    expect((fallback.structuredContent as Explanation).warning).toBe('No finding feedfacecafe in this session; this explains 2.4.4 in general.')
+    expect(textOf(fallback)).toMatch(/^No finding feedfacecafe in this session; this explains 2\.4\.4 in general\./)
     const empty = await session.client.callTool({ name: 'explain_finding', arguments: {} })
     expect(textOf(empty)).toContain('Pass finding_id')
     const bogus = await session.client.callTool({ name: 'explain_finding', arguments: { criterion: '9.9.9' } })
@@ -282,9 +285,8 @@ describe('rampa mcp defaults', () => {
     expect(textOf(result)).toMatch(/^Ollama is not reachable at http:\/\/localhost:11434, so ollama:gemma4:12b cannot judge/)
   })
 
-  it('counts each finished model call, and stops calling the model once the client cancels', async () => {
+  it('stops calling the model once the client cancels, and keeps the provider identity for the cache', async () => {
     const controller = new AbortController()
-    let settled = 0
     let calls = 0
     const inner: ModelProvider = {
       id: 'test:echo',
@@ -294,23 +296,45 @@ describe('rampa mcp defaults', () => {
         return { output: request.schema.parse({}), inputTokens: 1, outputTokens: 1, latencyMs: 1, modelId: 'echo' }
       },
     }
-    const provider = observedProvider(inner, controller.signal, () => settled++)
+    const provider = cancellable(inner, controller.signal)
     const request = { system: '', user: '', schema: z.object({}), schemaName: 'test' }
     await provider.judge(request)
     controller.abort()
     await expect(provider.judge(request)).rejects.toThrow('cancelled by the client')
-    expect({ calls, settled, id: provider.id, settings: provider.settings }).toEqual({ calls: 1, settled: 1, id: 'test:echo', settings: 'reasoning=none' })
+    expect({ calls, id: provider.id, settings: provider.settings }).toEqual({ calls: 1, id: 'test:echo', settings: 'reasoning=none' })
   })
 
-  it('counts a cached judgment, and an offline miss, as finished at the lookup', async () => {
+  it('counts each sample once, at its cache lookup, hit or miss', async () => {
     const cache = memoryCache()
     await cache.set('hit', { output: {}, inputTokens: 1, outputTokens: 1, latencyMs: 1, modelId: 'x', createdAt: '' })
-    let live = 0
-    let offline = 0
-    await observedCache(cache, false, () => live++).get('hit')
-    await observedCache(cache, false, () => live++).get('miss')
-    await observedCache(cache, true, () => offline++).get('miss')
-    expect({ live, offline }).toEqual({ live: 1, offline: 1 })
+    let lookups = 0
+    const observed = observedCache(cache, () => lookups++)
+    expect(await observed.get('hit')).toBeDefined()
+    expect(await observed.get('miss')).toBeUndefined()
+    expect(lookups).toBe(2)
+  })
+
+  it('turns a model that fails every judgment into an error that still carries what axe-core found', async () => {
+    // Ollama answers the probe but rejects every request, as a text-only model rejects an image: no real model, no network.
+    vi.stubGlobal('fetch', async (input: string | URL | Request) => {
+      const url = String(input instanceof Request ? input.url : input)
+      if (url.endsWith('/api/tags')) return Response.json({ models: [{ name: 'gemma4:12b' }] })
+      return Response.json({ error: { message: 'this model does not accept images' } }, { status: 400 })
+    })
+    const { client, close } = await connect(defaults({ offline: false, cache: memoryCache() }))
+    const result = await client.callTool({ name: 'check_page', arguments: { target: STORE } })
+    await close()
+    expect(result.isError).toBe(true)
+    const text = textOf(result)
+    expect(text).toMatch(/^The model ollama:gemma4:12b failed on all 13 candidate\(s\): .*What axe-core found is below\./)
+    expect(text).toContain('Images must have alternative text')
+    expect(text).toContain('This report does not declare the page accessible.')
+  })
+
+  it('reads a file URL in any case', async () => {
+    const target = await resolveAgentTarget(pathToFileURL(STORE).href.replace(/^file:/, 'FILE:'))
+    expect(target).toMatchObject({ kind: 'web' })
+    expect(target.kind === 'web' && target.url.startsWith('file:///')).toBe(true)
   })
 
   it('keeps judging when the cache cannot be written, and says so once', async () => {

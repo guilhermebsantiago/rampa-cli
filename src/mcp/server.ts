@@ -10,7 +10,7 @@ import { CRITERIA, DEFAULT_CRITERIA } from '../criteria/index.ts'
 import { escapeHtml } from '../criteria/shared.ts'
 import type { Locale } from '../i18n.ts'
 import { VERSION } from '../version.ts'
-import { type AgentCheck, type AgentDefaults, type CallControl, resolveAgentTarget, runAgentCheck } from './check.ts'
+import { type AgentCheck, type AgentDefaults, type CallControl, judgmentFailure, resolveAgentTarget, runAgentCheck } from './check.ts'
 import { CriteriaListSchema, ExplanationSchema, type RememberedFinding, criteriaList, criteriaListText, explain, explanationText } from './explain.ts'
 import { CheckResultSchema, checkResult, checkText } from './format.ts'
 
@@ -47,6 +47,12 @@ const CRITERION_IDS = [...CRITERIA.keys()] as [string, ...string[]]
  * Claude Code moves a result into a file.
  */
 const MAX_FINDINGS = 25
+
+/**
+ * Characters of markup check_html accepts. JSON escaping and UTF-8 can make one character six bytes,
+ * and the whole request must fit the stdio transport's buffer (STDIO_BUFFER in the mcp command).
+ */
+export const MAX_HTML = 2_000_000
 
 /** Options shared by both check tools; each one overrides what the server was started with. */
 const checkOptions = {
@@ -98,6 +104,9 @@ export function createMcpServer(defaults: AgentDefaults): McpServer {
     }
     const seconds = ((performance.now() - started) / 1000).toFixed(1)
     defaults.log(`rampa mcp: ${tool} ${label}: ${result.summary.findings} finding(s), ${report.usage.calls} model call(s), ${report.usage.cachedCalls} cached, ${seconds} s`)
+    const failure = judgmentFailure(report)
+    // An error result reaches the model as text only, so the report goes along in the text.
+    if (failure) return { content: [{ type: 'text', text: `${failure}\n\n${checkText(report, result)}` }], isError: true }
     return { content: [{ type: 'text', text: checkText(report, result) }], structuredContent: result }
   }
 
@@ -131,7 +140,7 @@ export function createMcpServer(defaults: AgentDefaults): McpServer {
       title: 'Check HTML for accessibility problems',
       description: CHECK_HTML,
       inputSchema: z.object({
-        html: z.string().min(1).max(5_000_000).describe('The HTML to check: a whole document or a fragment.'),
+        html: z.string().min(1).max(MAX_HTML).describe('The HTML to check: a whole document or a fragment.'),
         base_url: z
           .string()
           .optional()
@@ -199,12 +208,10 @@ export function createMcpServer(defaults: AgentDefaults): McpServer {
               : 'Pass finding_id (from a check_page or check_html result) or criterion (such as "2.4.4").',
           )
         }
-        const explanation = explain(which, found)
+        const warning = id && !found ? `No finding ${id} in this session; this explains ${which} in general.` : undefined
+        const explanation = { ...(warning ? { warning } : {}), ...explain(which, found) }
         const text = explanationText(explanation)
-        return {
-          content: [{ type: 'text', text: id && !found ? `No finding ${id} in this session; this explains ${which}.\n\n${text}` : text }],
-          structuredContent: explanation,
-        }
+        return { content: [{ type: 'text', text: warning ? `${warning}\n\n${text}` : text }], structuredContent: explanation }
       } catch (error) {
         return toolError(error, defaults.log)
       }

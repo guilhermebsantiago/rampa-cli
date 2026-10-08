@@ -59,7 +59,9 @@ const NO_LLM_HINT = 'or pass no_llm: true to run only axe-core.'
 /** One page per call: a URL, an .html file or a snapshot .json, with errors an agent can act on. */
 export async function resolveAgentTarget(input: string): Promise<Target> {
   const value = input.trim()
-  const expanded = value === '~' || /^~[\\/]/.test(value) ? join(homedir(), value.slice(2)) : value
+  const home = value === '~' || /^~[\\/]/.test(value) ? join(homedir(), value.slice(2)) : value
+  // resolveTargets knows the file scheme only in lower case.
+  const expanded = home.replace(/^file:\/\//i, 'file://')
   if (/^[a-z][a-z0-9+.-]*:\/\//i.test(expanded) && !/^(https?|file):\/\//i.test(expanded)) {
     throw new RampaError('unsupported-target', `Unsupported target: ${input}. Pass an http(s) or file URL, an .html file or a snapshot .json.`)
   }
@@ -101,27 +103,33 @@ export async function runAgentCheck(target: Target, args: AgentCheckArgs, defaul
       : await collectRecording(target.path, target.label)
   if (control.signal.aborted) throw new RampaError('cancelled', 'The check was cancelled.')
 
-  // Progress counts judgments: one step to collect, one per sample, one for the report.
-  const counts = provider
-    ? criteria.filter((criterion) => criterion.surfaces.includes(snapshot.surface)).map((criterion) => ({ id: criterion.id, candidates: criterion.candidates(snapshot, engine).length }))
-    : []
-  const candidates = counts.reduce((sum, count) => sum + count.candidates, 0)
-  const samples = candidates * runs
-  const total = samples + 2
-  let done = 0
-  const step = () => {
-    done = Math.min(done + 1, samples)
-    control.progress?.(1 + done, total, `Judged ${done} of ${samples}`)
+  // Progress counts judgments as they start: one step to collect, one per sample, one for the report.
+  // Every sample begins with exactly one cache lookup, so counting lookups never counts a sample twice.
+  const progress = control.progress
+  let total = 2
+  let observed = defaults.cache
+  if (progress && provider) {
+    const counts = criteria
+      .filter((criterion) => criterion.surfaces.includes(snapshot.surface))
+      .map((criterion) => ({ id: criterion.id, candidates: criterion.candidates(snapshot, engine).length }))
+    const candidates = counts.reduce((sum, count) => sum + count.candidates, 0)
+    const samples = candidates * runs
+    total = samples + 2
+    const judging = counts.filter((count) => count.candidates > 0).map((count) => count.id)
+    progress(1, total, samples > 0 ? `Judging ${candidates} candidate(s) for ${judging.join(', ')}` : 'Building the report')
+    let started = 0
+    observed = observedCache(defaults.cache, () => {
+      started = Math.min(started + 1, samples)
+      progress(1 + started, total, `Judging ${started} of ${samples}`)
+    })
   }
-  const judging = counts.filter((count) => count.candidates > 0).map((count) => count.id)
-  control.progress?.(1, total, samples > 0 ? `Judging ${candidates} candidate(s) for ${judging.join(', ')}` : 'Building the report')
 
   const report = await checkSnapshot(snapshot, engine, {
     criteria,
     llm,
-    provider: provider && observedProvider(provider, control.signal, step),
+    provider: provider && cancellable(provider, control.signal),
     runs,
-    cache: observedCache(defaults.cache, defaults.offline, step),
+    cache: observed,
     offline: defaults.offline,
     locale,
     minConfidence: args.min_confidence ?? 'medium',
@@ -129,17 +137,19 @@ export async function runAgentCheck(target: Target, args: AgentCheckArgs, defaul
     waivers: await loadWaivers(),
   })
   if (control.signal.aborted) throw new RampaError('cancelled', 'The check was cancelled.')
+  progress?.(total, total, `Done: ${report.findings.length} finding(s)`)
+  return { report, engine }
+}
 
+/**
+ * When the model failed on every candidate it was asked about, the call is an error: the agent should
+ * fix the model or run without one. The deterministic findings still hold and go along with the message.
+ */
+export function judgmentFailure(report: Report): string | undefined {
   const judged = report.criteria.reduce((sum, c) => sum + c.judged, 0)
   const failed = report.criteria.reduce((sum, c) => sum + c.errors, 0)
-  if (failed > 0 && judged === 0) {
-    throw new RampaError(
-      'model-failed',
-      `The model ${report.model ?? ''} failed on all ${failed} candidate(s): ${report.errors[0] ?? 'unknown error'}. Check that it runs and is reachable from the server (rampa doctor), pass another model, ${NO_LLM_HINT}`,
-    )
-  }
-  control.progress?.(total, total, `Done: ${report.findings.length} finding(s)`)
-  return { report, engine }
+  if (failed === 0 || judged > 0) return undefined
+  return `The model ${report.model ?? ''} failed on all ${failed} candidate(s): ${report.errors[0] ?? 'unknown error'}. Check that it runs and is reachable from the server (rampa doctor), pass another model, ${NO_LLM_HINT} What axe-core found is below.`
 }
 
 /** A browser per call, closed when the call ends, so a server left running holds no browser between checks. */
@@ -212,28 +222,23 @@ async function preflight(spec: string): Promise<void> {
   }
 }
 
-/** Counts each finished call for progress and stops calling the model once the client cancels. */
-export function observedProvider(provider: ModelProvider, signal: AbortSignal, onSettled: () => void): ModelProvider {
+/** Stops calling the model once the client cancels; calls already in flight finish. */
+export function cancellable(provider: ModelProvider, signal: AbortSignal): ModelProvider {
   return {
     ...provider,
     async judge<T>(request: JudgeRequest<T>) {
       if (signal.aborted) throw new RampaError('cancelled', 'cancelled by the client')
-      try {
-        return await provider.judge(request)
-      } finally {
-        onSettled()
-      }
+      return provider.judge(request)
     },
   }
 }
 
-/** A cached sample, or an offline miss, finishes at the lookup; any other miss finishes when the model answers. */
-export function observedCache(cache: JudgmentCache, offline: boolean, onSettled: () => void): JudgmentCache {
+/** Calls `onLookup` as each sample starts: judge.ts looks every sample up in the cache once, hit or miss. */
+export function observedCache(cache: JudgmentCache, onLookup: () => void): JudgmentCache {
   return {
     async get(key) {
-      const value = await cache.get(key)
-      if (value || offline) onSettled()
-      return value
+      onLookup()
+      return cache.get(key)
     },
     set: (key, value) => cache.set(key, value),
   }

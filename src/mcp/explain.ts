@@ -104,6 +104,7 @@ const ExplainedFindingSchema = FindingSchema.extend({
 })
 
 export const ExplanationSchema = z.object({
+  warning: z.string().optional().describe('Set when the finding_id was not found, so this explains only the criterion'),
   criterion: z.object({
     id: z.string(),
     name: z.string(),

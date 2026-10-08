@@ -2,7 +2,7 @@ import { z } from 'zod'
 import type { EngineResults, Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
-import { displayTarget } from '../report/pretty.ts'
+import { displayTarget, usageLine } from '../report/pretty.ts'
 import { WCAG21_A_AA, criterionLabel, successCriterion } from '../wcag.ts'
 
 /**
@@ -45,7 +45,7 @@ export type AgentFinding = z.infer<typeof FindingSchema>
 export const CheckResultSchema = z.object({
   target: z.string(),
   surface: z.string(),
-  judgment: z.enum(['on', 'off', 'no-model']).describe('on: a model judged the residue; off: no_llm, axe-core only'),
+  judgment: z.enum(['on', 'off']).describe('on: a model judged the residue; off: no_llm, axe-core only'),
   model: z.string().optional(),
   engine: z.object({ name: z.string(), version: z.string() }),
   summary: z.object({
@@ -177,7 +177,8 @@ export function checkResult(report: Report, engine: EngineResults, maxFindings =
   return {
     target: report.target,
     surface: report.surface,
-    judgment: report.llm,
+    // A check without a model is a tool error before it gets here, so the report never says no-model.
+    judgment: report.llm === 'on' ? 'on' : 'off',
     model: report.model,
     engine: report.engine,
     summary: {
@@ -226,26 +227,6 @@ function notesOf(report: Report, findings: AgentFinding[]): string[] {
   if (sum('errors') > 0) notes.push(t(locale, 'judgmentErrors', { count: sum('errors'), error: report.errors[0] ?? '' }))
   if (report.belowThreshold.length > 0) notes.push(t(locale, 'agentBelowThreshold', { count: report.belowThreshold.length }))
   return notes
-}
-
-/** The same usage line as the terminal report: calls, tokens and the estimated price. */
-function usageLine(report: Report, result: CheckResult): string | undefined {
-  const { usage, locale } = report
-  if (usage.calls + usage.cachedCalls === 0) return undefined
-  const decimal = (value: number, digits: number) => {
-    const text = value.toFixed(digits)
-    return locale === 'pt-BR' ? text.replace('.', ',') : text
-  }
-  const line = t(locale, 'usage', {
-    calls: usage.calls,
-    cached: usage.cachedCalls,
-    input: decimal(usage.inputTokens / 1000, 1),
-    output: decimal(usage.outputTokens / 1000, 1),
-  })
-  const cost = result.usage.estimated_cost_usd
-  if (cost === null) return line
-  if (cost === 0) return `${line} · ${t(locale, 'usageLocal')}`
-  return `${line} · ${cost < 0.0001 ? `< US$ ${decimal(0.0001, 4)}` : `≈ US$ ${decimal(cost, 4)}`}`
 }
 
 /** Plain text for the agent and for whoever reads the transcript: no colors, tool arguments instead of CLI flags. */
@@ -297,7 +278,7 @@ export function checkText(report: Report, result: CheckResult): string {
     lines.push('', `${t(locale, 'agentNotes')}:`)
     for (const note of result.notes) lines.push(`- ${note}`)
   }
-  const usage = usageLine(report, result)
+  const usage = usageLine(report)
   if (usage) lines.push('', usage)
 
   const list = (items: readonly string[]) => (items.length === 0 ? '—' : items.join(', '))
