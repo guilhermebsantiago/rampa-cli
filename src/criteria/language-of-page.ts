@@ -59,6 +59,8 @@ export const languageOfPage: Criterion<LanguageOfPageContext, LanguageOfPageJudg
   needs: {},
   engineRules: ENGINE_RULES,
   schema: LanguageOfPageJudgment,
+  // The claim is about the declared language; which words the model quotes as proof varies.
+  subject: (candidate) => candidate.context.declared,
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<LanguageOfPageContext>[] {
     const root = snapshot.root

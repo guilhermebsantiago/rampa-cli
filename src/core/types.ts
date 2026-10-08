@@ -102,6 +102,12 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
   schema: z.ZodType<Out>
   verify(output: Out, candidate: Candidate<Ctx>, snapshot: A11ySnapshot): Verification
   message(output: Out, candidate: Candidate<Ctx>, locale: Locale): string
+  /**
+   * What a claim about the candidate is about, read from the snapshot: the alt text, the link text,
+   * the declared language. It keys the finding's fingerprint, which must never depend on the model's
+   * wording; without it, the criterion and the ref alone do.
+   */
+  subject?(candidate: Candidate<Ctx>): string
   patch?(output: Out, candidate: Candidate<Ctx>, snapshot: A11ySnapshot): Patch | undefined
 }
 
@@ -120,6 +126,8 @@ export interface Finding {
   target?: string | undefined
   message: string
   evidence?: string | undefined
+  /** What a judgment is about, as the snapshot has it (the alt text, the link text); never the model's words. */
+  subject?: string | undefined
   patch?: Patch | undefined
   confidence: Confidence
   agreement?: { votes: number; total: number } | undefined

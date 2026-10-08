@@ -62,6 +62,8 @@ export const languageOfParts: Criterion<LanguageOfPartsContext, LanguageOfPartsJ
   needs: {},
   engineRules: ENGINE_RULES,
   schema: LanguageOfPartsJudgment,
+  // The claim is about the declared language; which words the model quotes as proof varies.
+  subject: (candidate) => candidate.context.declared,
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<LanguageOfPartsContext>[] {
     const index = indexTree(snapshot.root)

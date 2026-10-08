@@ -151,14 +151,18 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
           const agreement = judgment.votes / Math.max(1, judgment.total)
           const confidence: Confidence =
             agreement === 1 ? output.confidence : agreement >= 2 / 3 ? minConfidence(output.confidence, 'medium') : 'low'
+          // Keyed on what was judged, never on the model's quote: models pick different words to quote
+          // from run to run, and a fingerprint that moves breaks every waiver and baseline holding it.
+          const subject = criterion.subject?.(judgment.candidate)
           findings.push({
-            fingerprint: fingerprint(criterion.id, judgment.candidate.ref, output.evidence),
+            fingerprint: fingerprint(criterion.id, judgment.candidate.ref, subject ?? ''),
             criterion: criterion.id,
             level: criterion.level,
             source: 'judgment',
             ref: judgment.candidate.ref,
             message: criterion.message(output, judgment.candidate, options.locale),
             evidence: output.evidence,
+            subject,
             patch: criterion.patch?.(output, judgment.candidate, snapshot),
             confidence,
             agreement: { votes: judgment.votes, total: judgment.total },
