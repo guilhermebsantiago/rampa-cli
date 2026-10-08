@@ -10,7 +10,8 @@ import { fileCache, memoryCache } from '../src/core/cache.ts'
 import { CRITERIA, DEFAULT_CRITERIA } from '../src/criteria/index.ts'
 import { type AgentDefaults, observedCache, observedProvider, tolerantCache } from '../src/mcp/check.ts'
 import type { CriteriaList, Explanation } from '../src/mcp/explain.ts'
-import type { CheckResult } from '../src/mcp/format.ts'
+import type { Finding } from '../src/core/types.ts'
+import { type CheckResult, pickFindings } from '../src/mcp/format.ts'
 import { createMcpServer, withBase } from '../src/mcp/server.ts'
 import type { JudgeRequest, ModelProvider } from '../src/providers/types.ts'
 import { launchBrowser } from '../src/surfaces/web.ts'
@@ -145,14 +146,35 @@ describe('rampa mcp tools', () => {
     expect(check.notes[0]).toMatch(/^Judgment skipped \(no_llm\): 13 candidate\(s\)/)
   })
 
-  it('lists at most max_findings and counts the rest by criterion', async () => {
+  it('lists at most max_findings, taken in turns from each rule and criterion, and counts the rest', async () => {
     const result = await session.client.callTool({ name: 'check_page', arguments: { target: STORE, max_findings: 3 } })
     const check = result.structuredContent as CheckResult
-    expect(check.findings).toHaveLength(3)
+    expect(check.findings.map((f) => `${f.criterion} ${f.source}`)).toEqual(['1.1.1 engine', '1.1.1 judgment', '2.4.2 judgment'])
     expect(check.summary).toMatchObject({ findings: 9, from_engine: 1, judged: 8, left_out: 6 })
     expect(check.notes[0]).toBe(
-      '6 more finding(s) are counted but not listed (1.1.1: 1, 2.4.2: 1, 2.4.4: 1, 2.4.6: 2, 3.1.2: 1); pass a larger max_findings to list them, or fix these and check again.',
+      '6 more finding(s) are counted but not listed (1.1.1: 2, 2.4.4: 1, 2.4.6: 2, 3.1.2: 1); pass a larger max_findings to list them, or fix these and check again.',
     )
+  })
+
+  it('keeps judged findings in the list when one rule fails on many elements', () => {
+    const finding = (criterion: string, source: 'engine' | 'judgment', ruleId?: string): Finding => ({
+      fingerprint: `${criterion}-${Math.random()}`,
+      criterion,
+      level: 'A',
+      source,
+      ruleId,
+      message: '',
+      confidence: 'high',
+    })
+    const findings = [
+      ...Array.from({ length: 30 }, () => finding('1.1.1', 'engine', 'image-alt')),
+      ...Array.from({ length: 120 }, () => finding('1.4.3', 'engine', 'color-contrast')),
+      ...Array.from({ length: 3 }, () => finding('2.4.4', 'judgment')),
+    ]
+    const picked = pickFindings(findings, 25)
+    expect(picked).toHaveLength(25)
+    expect(picked.filter((f) => f.source === 'judgment')).toHaveLength(3)
+    expect(picked.map((f) => f.criterion)).toEqual([...picked.map((f) => f.criterion)].sort())
   })
 
   it('judges only the criteria asked for', async () => {

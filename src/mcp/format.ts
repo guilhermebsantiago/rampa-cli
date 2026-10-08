@@ -7,7 +7,10 @@ import { WCAG21_A_AA, criterionLabel, successCriterion } from '../wcag.ts'
 
 /**
  * What a check returns to an agent: `structuredContent` follows CheckResultSchema, and the
- * text block says the same in plain words. Names are snake_case, like the tool arguments.
+ * text block says the same in plain words. Clients differ in which of the two reaches the
+ * model (Claude Code 2.1 passes only the structured content when both are present), so each
+ * carries the findings, the notes and the coverage statement on its own.
+ * Names are snake_case, like the tool arguments.
  */
 
 const PatchSchema = z.object({
@@ -35,22 +38,21 @@ export const FindingSchema = z.object({
   help_url: z.string().optional(),
   html: z.string().optional(),
   how_to_fix: z.string().optional().describe("axe-core's fix summary for this element"),
-  model: z.string().optional(),
 })
 export type AgentFinding = z.infer<typeof FindingSchema>
 
+// The short parts come first and the findings last, so a reader that skims, or a client that cuts a long result, keeps the coverage.
 export const CheckResultSchema = z.object({
   target: z.string(),
   surface: z.string(),
   judgment: z.enum(['on', 'off', 'no-model']).describe('on: a model judged the residue; off: no_llm, axe-core only'),
   model: z.string().optional(),
   engine: z.object({ name: z.string(), version: z.string() }),
-  findings: z.array(FindingSchema),
   summary: z.object({
     findings: z.number().int(),
     from_engine: z.number().int(),
     judged: z.number().int(),
-    left_out: z.number().int().describe('Findings beyond max_findings, counted above but not listed'),
+    left_out: z.number().int().describe('Findings past max_findings: counted here, not listed'),
     below_threshold: z.number().int(),
     waived: z.number().int(),
     discarded_claims: z.number().int().describe('Model claims dropped because their evidence was not on the page'),
@@ -58,11 +60,12 @@ export const CheckResultSchema = z.object({
     not_judged: z.number().int().describe('Candidates no model judged: no_llm, a cache miss offline, or a model error'),
   }),
   coverage: z.object({
+    statement: z.string(),
     checked_by_engine: z.array(z.string()),
     judged: z.array(z.string()),
     not_checked: z.array(z.string()),
-    statement: z.string(),
   }),
+  notes: z.array(z.string()),
   usage: z.object({
     model_calls: z.number().int(),
     cached_calls: z.number().int(),
@@ -70,8 +73,8 @@ export const CheckResultSchema = z.object({
     output_tokens: z.number().int(),
     estimated_cost_usd: z.number().nullable().describe('Price of the judgments in this report, cached ones included; 0 for local models, null when unknown'),
   }),
-  notes: z.array(z.string()),
   errors: z.array(z.string()),
+  findings: z.array(FindingSchema),
 })
 export type CheckResult = z.infer<typeof CheckResultSchema>
 
@@ -130,14 +133,38 @@ export function agentFinding(finding: Finding, engine: EngineResults): AgentFind
     help_url: finding.helpUrl,
     html: finding.html,
     how_to_fix: fixSummary(node?.message),
-    model: finding.model,
   }
+}
+
+/**
+ * At most `max` findings, taken in turns from each rule and each judged criterion, then put back in report order.
+ * Taking the first `max` would let a rule that fails on hundreds of elements (contrast, say) push the judged findings out of the list.
+ */
+export function pickFindings(findings: readonly Finding[], max: number): Finding[] {
+  if (findings.length <= max) return [...findings]
+  const groups = new Map<string, number[]>()
+  for (const [index, finding] of findings.entries()) {
+    const key = `${finding.criterion}|${finding.source === 'engine' ? finding.ruleId : 'judgment'}`
+    groups.set(key, [...(groups.get(key) ?? []), index])
+  }
+  const chosen = new Set<number>()
+  for (let round = 0; chosen.size < max; round++) {
+    const takers = [...groups.values()].filter((indexes) => round < indexes.length)
+    if (takers.length === 0) break
+    for (const indexes of takers) {
+      if (chosen.size >= max) break
+      chosen.add(indexes[round] as number)
+    }
+  }
+  return findings.filter((_, index) => chosen.has(index))
 }
 
 /** A page can fail one axe-core rule on hundreds of elements; past `maxFindings` the rest are counted, not listed, to keep the agent's context usable. */
 export function checkResult(report: Report, engine: EngineResults, maxFindings = Number.POSITIVE_INFINITY): CheckResult {
-  const findings = report.findings.slice(0, maxFindings).map((finding) => agentFinding(finding, engine))
-  const leftOut = report.findings.slice(maxFindings)
+  const listed = pickFindings(report.findings, maxFindings)
+  const findings = listed.map((finding) => agentFinding(finding, engine))
+  const isListed = new Set(listed)
+  const leftOut = report.findings.filter((finding) => !isListed.has(finding))
   const sum = (key: 'judged' | 'discarded' | 'cannotTell' | 'candidates') =>
     report.criteria.filter((c) => c.applicable).reduce((total, c) => total + c[key], 0)
   const notes = notesOf(report, findings)
@@ -153,7 +180,6 @@ export function checkResult(report: Report, engine: EngineResults, maxFindings =
     judgment: report.llm,
     model: report.model,
     engine: report.engine,
-    findings,
     summary: {
       findings: report.findings.length,
       from_engine: report.findings.filter((f) => f.source === 'engine').length,
@@ -166,11 +192,12 @@ export function checkResult(report: Report, engine: EngineResults, maxFindings =
       not_judged: sum('candidates') - sum('judged'),
     },
     coverage: {
+      statement: coverageStatement(report.locale),
       checked_by_engine: report.coverage.engine,
       judged: report.coverage.judged,
       not_checked: report.coverage.notChecked,
-      statement: coverageStatement(report.locale),
     },
+    notes,
     usage: {
       model_calls: report.usage.calls,
       cached_calls: report.usage.cachedCalls,
@@ -178,8 +205,8 @@ export function checkResult(report: Report, engine: EngineResults, maxFindings =
       output_tokens: report.usage.outputTokens,
       estimated_cost_usd: estimateCostUsd(report.model, report.usage.inputTokens, report.usage.outputTokens) ?? null,
     },
-    notes,
     errors: report.errors,
+    findings,
   }
 }
 

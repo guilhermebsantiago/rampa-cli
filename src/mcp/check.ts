@@ -240,9 +240,9 @@ export function observedCache(cache: JudgmentCache, offline: boolean, onSettled:
 }
 
 /**
- * A client may start the server in a folder it cannot write to, and judge.ts treats a failed
- * cache write as a failed judgment. Losing the cache must not lose the judgment, so a failed
- * write is reported once and skipped.
+ * A client may start the server in a folder it cannot write to (Claude Desktop may start it in
+ * `/` on macOS), and judge.ts treats a failed cache write as a failed judgment. Losing the cache
+ * must not lose the judgment, so a failed write is reported once and skipped.
  */
 export function tolerantCache(cache: JudgmentCache, log: (line: string) => void): JudgmentCache {
   let warned = false

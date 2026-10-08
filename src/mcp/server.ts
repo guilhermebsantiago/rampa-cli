@@ -14,9 +14,13 @@ import { type AgentCheck, type AgentDefaults, type CallControl, resolveAgentTarg
 import { CriteriaListSchema, ExplanationSchema, type RememberedFinding, criteriaList, criteriaListText, explain, explanationText } from './explain.ts'
 import { CheckResultSchema, checkResult, checkText } from './format.ts'
 
-/** Sent to the client at initialize; agents such as Claude Code put it in their context. */
-export const INSTRUCTIONS = `Rampa checks web pages against WCAG 2.1 A/AA. axe-core runs first; then a model judges, one criterion at a time, what axe-core cannot decide (whether alt text fits the image, the title fits the page, link text tells where it goes, headings and labels describe their content, lang matches the text), and a claim reaches the report only if its quoted evidence is on the page.
-- check_page takes a URL, a local .html file (absolute path) or a snapshot .json; check_html takes markup you have in hand.
+/**
+ * Sent to the client at initialize. Claude Code loads only these and the tool names up front and finds
+ * the tools by search, so the first sentence says when to reach for them. Clients cut this at 2,048 characters.
+ */
+export const INSTRUCTIONS = `Rampa checks web pages for accessibility problems against WCAG 2.1 A/AA. Use it when a task involves accessibility (a11y), WCAG, screen readers, alt text, page titles, link text, headings, form labels or the lang attribute, and after changing a page's markup.
+axe-core runs first; then a model judges, one criterion at a time, what axe-core cannot decide, and a claim reaches the report only if its quoted evidence is on the page.
+- check_page takes a URL, a local .html file (absolute path) or a snapshot .json; check_html takes markup you have in hand. list_criteria and explain_finding say what Rampa checks and how to fix a finding.
 - Each finding has a selector, the evidence and often a patch with the markup before and after. After fixing, check again to confirm.
 - Suggested alt texts describe what a model saw in the image: show them to the user for review.
 - Rampa never says a page is accessible. Relay the coverage: criteria it did not check need manual review and testing with people.
@@ -36,8 +40,12 @@ const EXPLAIN_FINDING = `Explain a finding or a WCAG success criterion, without 
 
 const CRITERION_IDS = [...CRITERIA.keys()] as [string, ...string[]]
 
-/** Enough for a fix-and-check-again loop without flooding the agent's context. */
-const MAX_FINDINGS = 50
+/**
+ * Enough for a fix-and-check-again loop without flooding the agent's context: 25 axe-core findings
+ * with their markup and advice come to about 20,000 characters, under the 50,000 past which
+ * Claude Code moves a result into a file.
+ */
+const MAX_FINDINGS = 25
 
 /** Options shared by both check tools; each one overrides what the server was started with. */
 const checkOptions = {
