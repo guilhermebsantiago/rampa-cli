@@ -103,6 +103,7 @@ export function menu(locale: Locale): string {
     ['rampa eval --criteria 1.1.1,3.1.2', t(locale, 'menuEval')],
     ['rampa models', t(locale, 'menuModels')],
     ['rampa doctor', t(locale, 'menuDoctor')],
+    ['rampa mcp', t(locale, 'menuMcp')],
   ]
   const width = Math.max(...rows.map(([command]) => command.length)) + 3
   return [

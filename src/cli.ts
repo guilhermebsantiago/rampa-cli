@@ -3,6 +3,7 @@ import { Command, Option } from 'commander'
 import { runCheck } from './cli/commands/check.ts'
 import { runDoctor } from './cli/commands/doctor.ts'
 import { runEval } from './cli/commands/eval.ts'
+import { runMcp } from './cli/commands/mcp.ts'
 import { runModels } from './cli/commands/models.ts'
 import type { GlobalContext } from './cli/context.ts'
 import { intro, menu } from './cli/intro.ts'
@@ -108,5 +109,16 @@ program
   .command('doctor')
   .description('check Node, the browser, axe-core, local model servers and provider credentials')
   .action(action(async (_options, command: Command) => runDoctor(await context(command))))
+
+program
+  .command('mcp')
+  .description('serve Rampa to coding agents over the Model Context Protocol, on stdio')
+  .option('-m, --model <provider:model>', 'default model for the judgment layer; a tool call can name another')
+  .option('--no-llm', 'deterministic layer only by default; a tool call can turn judgment back on')
+  .addOption(new Option('--reasoning <level>', 'model reasoning effort (local models default to none)').choices([...REASONING_LEVELS]))
+  .option('--offline', 'use cached judgments only, never call the model')
+  .option('--cache-dir <dir>', 'judgment cache directory', '.rampa/cache')
+  .option('--concurrency <n>', 'parallel model calls', '4')
+  .action(action(async (options, command: Command) => runMcp(options, await context(command))))
 
 await program.parseAsync()
