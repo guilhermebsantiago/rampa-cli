@@ -11,7 +11,8 @@ afterAll(async () => browser?.close())
 
 const example = (name: string) => pathToFileURL(resolve('examples/language-of-parts', name)).href
 
-describe.skipIf(!browser)('web surface', () => {
+// A cold browser on a CI runner needs more than the default 5 s for the first page.
+describe.skipIf(!browser)('web surface', { timeout: 30_000 }, () => {
   it('collects a valid snapshot and runs axe-core', async () => {
     if (!browser) return
     const { snapshot, engine } = await collectWeb(browser, example('mismatch.html'), { runAxe: true, locale: 'en' })
