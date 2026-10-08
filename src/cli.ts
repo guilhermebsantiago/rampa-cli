@@ -101,11 +101,12 @@ program
 program
   .command('models')
   .description('recommended models per criterion and what is ready on this machine')
-  .action(action(async () => runModels()))
+  .option('--default', 'print only the model rampa check would use without --model; exit 1 when there is none')
+  .action(action(async (options, command: Command) => runModels(options, await context(command))))
 
 program
   .command('doctor')
-  .description('check Node, the browser, axe-core, Ollama and API keys')
-  .action(action(async () => runDoctor()))
+  .description('check Node, the browser, axe-core, local model servers and provider credentials')
+  .action(action(async (_options, command: Command) => runDoctor(await context(command))))
 
 await program.parseAsync()

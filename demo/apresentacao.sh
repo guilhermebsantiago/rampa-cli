@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Demonstração guiada do Rampa. Cada passo mostra o comando e a fala, espera Enter, roda e espera de novo.
 #
-#   bash demo/apresentacao.sh                         detecta o modo sozinho
+#   bash demo/apresentacao.sh                         detecta o modelo: Ollama local ou um provedor com chave (.env)
 #   MODO=offline bash demo/apresentacao.sh            gravações: sem navegador, sem modelo, instantâneo
-#   MODO=ao-vivo MODELO=ollama:gemma4:e4b bash demo/apresentacao.sh
+#   MODELO=openai:gpt-6-luna bash demo/apresentacao.sh
 #   PASSO=5 bash demo/apresentacao.sh                 começa a partir do passo 5
 set -uo pipefail
 
@@ -19,12 +19,21 @@ rampa() { node "$ROOT/dist/cli.mjs" "$@"; }
 
 BOLD=$'\e[1m'; DIM=$'\e[2m'; CYAN=$'\e[36m'; GREEN=$'\e[32m'; YELLOW=$'\e[33m'; RESET=$'\e[0m'
 
-MODELO="${MODELO:-ollama:gemma4:12b}"
 REC="demo/recorded"
 GRAVADO="--offline --model ollama:gemma4:12b --cache-dir $REC/cache"
+# Sem MODELO, usa o que o Rampa escolheria: um modelo do Ollama ou o primeiro provedor com chave (no ambiente ou no .env).
+MODELO="${MODELO:-$(rampa models --default 2>/dev/null || true)}"
 if [ -z "${MODO:-}" ]; then
-  if curl -fsS -m 2 http://localhost:11434/api/tags 2>/dev/null | grep -q "\"${MODELO#ollama:}\""; then MODO=ao-vivo; else MODO=offline; fi
+  case "$MODELO" in
+    "") MODO=offline ;;
+    ollama:*) if curl -fsS -m 2 "${OLLAMA_BASE_URL:-http://localhost:11434}/api/tags" 2>/dev/null | grep -q "\"${MODELO#ollama:}\""; then MODO=ao-vivo; else MODO=offline; fi ;;
+    *) MODO=ao-vivo ;;
+  esac
 fi
+case "$MODELO" in
+  ollama:* | lmstudio:*) LOCAL=sim ;;
+  *) LOCAL=não ;;
+esac
 INICIO="${PASSO:-1}"
 N=0
 
@@ -60,9 +69,16 @@ passo "Abertura" \
   "Rampa é rampa em português: o que transforma uma escada em entrada para todo mundo." \
   "rampa" "rampa"
 
-passo "Ambiente" \
-  "Tudo roda local: Node, o Chromium do Fedora, axe-core e um modelo no Ollama. Nada sai da máquina." \
-  "rampa doctor" "rampa doctor"
+if [ "$MODO" = ao-vivo ] && [ "$LOCAL" = não ]; then
+  FALA_AMBIENTE="Node, o Chromium do Fedora e o axe-core rodam aqui. O julgamento vai por API (${MODELO%%:*}), porque este notebook não tem GPU. Com Ollama ou LM Studio, nada sairia da máquina."
+else
+  FALA_AMBIENTE="Tudo roda local: Node, o Chromium do Fedora, axe-core e um modelo no Ollama. Nada sai da máquina."
+fi
+passo "Ambiente" "$FALA_AMBIENTE" "rampa doctor" "rampa doctor"
+
+passo "Provedores" \
+  "O mesmo julgamento roda num modelo local ou nos grandes provedores: OpenAI, Anthropic, Google, Azure, Bedrock, Vertex, Mistral, xAI, Groq e outros. Qual modelo usar em cada critério, quem decide é o rampa eval." \
+  "rampa models" "rampa models"
 
 passo "Só o axe-core" \
   "A linha de base. O axe pega a logo sem alt e aprova o resto: ele confere se o atributo existe, não o que ele diz." \

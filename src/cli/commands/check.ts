@@ -9,7 +9,7 @@ import { RampaError } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
 import { emptyEngine } from '../../engine/axe.ts'
 import { type Reasoning, createModelProvider, providerIdentity } from '../../providers/ai-sdk.ts'
-import { defaultModel } from '../../providers/detect.ts'
+import { chooseModel } from '../../providers/detect.ts'
 import type { ModelProvider } from '../../providers/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
 import { renderReport } from '../../report/pretty.ts'
@@ -53,7 +53,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   const resolved = await resolveTargets(targets)
   const criteria = resolveCriteria(options.criteria.split(','))
   const runs = Math.max(1, Number.parseInt(options.runs, 10) || 1)
-  const spec = options.llm ? (options.model ?? context.config.model ?? (await defaultModel())) : undefined
+  const spec = options.llm ? await chooseModel(options.model, context.config.model) : undefined
   const provider = await resolveProvider(spec, Boolean(options.offline), options.reasoning ?? context.config.reasoning)
   const needsImages = options.llm && criteria.some((criterion) => criterion.needs.vision)
   const cache = fileCache(options.cacheDir)

@@ -1,96 +1,44 @@
-import { type LanguageModel, Output, generateText } from 'ai'
+import { Output, generateText } from 'ai'
+import { z } from 'zod'
 import { RampaError } from '../core/util.ts'
+import { PROVIDERS, type ProviderDef, findProvider } from './registry.ts'
 import type { ModelProvider } from './types.ts'
-
-const OLLAMA_URL = process.env.OLLAMA_BASE_URL ?? 'http://localhost:11434'
 
 export const REASONING_LEVELS = ['provider-default', 'none', 'minimal', 'low', 'medium', 'high'] as const
 export type Reasoning = (typeof REASONING_LEVELS)[number]
 
-interface Resolved {
-  model: LanguageModel
-  /** Claude 4.7+ and some OpenAI models reject non-default sampling parameters, so it is only set where accepted. */
-  temperature?: number | undefined
-  /** Reasoning level used when the user does not choose one. */
-  defaultReasoning: Reasoning
-}
+// The AI SDK prints provider warnings (an unsupported setting, a fallback) to the console, in the middle of the report.
+// RAMPA_DEBUG=1 brings them back.
+const sdkGlobals = globalThis as { AI_SDK_LOG_WARNINGS?: unknown }
+if (!process.env.RAMPA_DEBUG && sdkGlobals.AI_SDK_LOG_WARNINGS === undefined) sdkGlobals.AI_SDK_LOG_WARNINGS = false
 
-async function resolveModel(provider: string, modelId: string): Promise<Resolved> {
-  switch (provider) {
-    case 'anthropic': {
-      const { createAnthropic } = await import('@ai-sdk/anthropic')
-      return { model: createAnthropic()(modelId), defaultReasoning: 'provider-default' }
-    }
-    case 'openai': {
-      const { createOpenAI } = await import('@ai-sdk/openai')
-      return { model: createOpenAI()(modelId), defaultReasoning: 'provider-default' }
-    }
-    case 'google': {
-      const { createGoogleGenerativeAI } = await import('@ai-sdk/google')
-      const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY ?? process.env.GEMINI_API_KEY
-      return { model: createGoogleGenerativeAI(apiKey ? { apiKey } : {})(modelId), temperature: 0, defaultReasoning: 'provider-default' }
-    }
-    case 'ollama': {
-      const { createOpenAICompatible } = await import('@ai-sdk/openai-compatible')
-      const ollama = createOpenAICompatible({
-        name: 'ollama',
-        baseURL: `${OLLAMA_URL.replace(/\/$/, '')}/v1`,
-        apiKey: 'ollama',
-        supportsStructuredOutputs: true,
-      })
-      // Local thinking models spend most of their time reasoning; these judgments are short.
-      return { model: ollama(modelId), temperature: 0, defaultReasoning: 'none' }
-    }
-    case 'openrouter': {
-      const { createOpenAICompatible } = await import('@ai-sdk/openai-compatible')
-      const apiKey = process.env.OPENROUTER_API_KEY
-      if (!apiKey) throw new RampaError('missing-api-key', 'Set OPENROUTER_API_KEY to use openrouter:<model>.')
-      const openrouter = createOpenAICompatible({
-        name: 'openrouter',
-        baseURL: 'https://openrouter.ai/api/v1',
-        apiKey,
-        supportsStructuredOutputs: true,
-      })
-      return { model: openrouter(modelId), temperature: 0, defaultReasoning: 'provider-default' }
-    }
-    case 'openai-compatible': {
-      const { createOpenAICompatible } = await import('@ai-sdk/openai-compatible')
-      const baseURL = process.env.RAMPA_OPENAI_COMPATIBLE_URL
-      if (!baseURL) {
-        throw new RampaError('missing-base-url', 'Set RAMPA_OPENAI_COMPATIBLE_URL (for example http://localhost:1234/v1 for LM Studio).')
-      }
-      const compatible = createOpenAICompatible({
-        name: 'openai-compatible',
-        baseURL,
-        apiKey: process.env.RAMPA_OPENAI_COMPATIBLE_KEY ?? 'none',
-        supportsStructuredOutputs: true,
-      })
-      return { model: compatible(modelId), temperature: 0, defaultReasoning: 'provider-default' }
-    }
-    default:
-      throw new RampaError(
-        'unknown-provider',
-        `Unknown provider "${provider}". Use anthropic, openai, google, ollama, openrouter or openai-compatible, as provider:model.`,
-      )
-  }
-}
-
-/** `provider:model`, e.g. `ollama:gemma4:12b` or `anthropic:claude-haiku-5-5`. */
+/** `provider:model`, e.g. `ollama:gemma4:12b` or `anthropic:claude-haiku-5-5`. Aliases resolve to the provider's id. */
 export function parseModelSpec(spec: string): { provider: string; modelId: string } {
   const index = spec.indexOf(':')
   if (index <= 0 || index === spec.length - 1) {
     throw new RampaError('invalid-model', `Model must be provider:model, for example ollama:gemma4:12b. Got "${spec}".`)
   }
-  return { provider: spec.slice(0, index).toLowerCase(), modelId: spec.slice(index + 1) }
+  const prefix = spec.slice(0, index).toLowerCase()
+  return { provider: findProvider(prefix)?.id ?? prefix, modelId: spec.slice(index + 1) }
+}
+
+function providerFor(provider: string): ProviderDef {
+  const found = findProvider(provider)
+  if (!found) {
+    throw new RampaError('unknown-provider', `Unknown provider "${provider}". Use one of: ${PROVIDERS.map((p) => p.id).join(', ')}, as provider:model.`)
+  }
+  return found
 }
 
 export interface ProviderOptions {
   reasoning?: Reasoning | undefined
+  /** Replaces the network; for tests. */
+  fetch?: typeof globalThis.fetch | undefined
 }
 
-/** Local models default to no reasoning; hosted ones keep the provider's default. */
+/** Ollama defaults to no reasoning; hosted models keep the provider's default. */
 export function defaultReasoning(provider: string): Reasoning {
-  return provider === 'ollama' ? 'none' : 'provider-default'
+  return findProvider(provider)?.reasoning ?? 'provider-default'
 }
 
 /** Identity of a provider as the cache sees it, shared by live and offline runs. */
@@ -101,8 +49,13 @@ export function providerIdentity(spec: string, reasoning?: Reasoning): { id: str
 
 export async function createModelProvider(spec: string, options: ProviderOptions = {}): Promise<ModelProvider> {
   const { provider, modelId } = parseModelSpec(spec)
-  const resolved = await resolveModel(provider, modelId)
-  const reasoning = options.reasoning ?? resolved.defaultReasoning
+  const definition = providerFor(provider)
+  const missing = definition.missing()
+  if (missing.length > 0) {
+    throw new RampaError('missing-api-key', `${definition.name} needs ${missing.join(' and ')} to use ${definition.id}:${modelId}. See rampa doctor.`)
+  }
+  const resolved = await definition.create(modelId, options.fetch)
+  const reasoning = options.reasoning ?? definition.reasoning
   return {
     ...providerIdentity(spec, reasoning),
     async judge(request) {
@@ -122,14 +75,21 @@ export async function createModelProvider(spec: string, options: ProviderOptions
                 },
               ],
             }
+      const instructions = definition.schemaInPrompt
+        ? `${request.system}
+
+Answer with only a JSON object that follows this JSON schema:
+${JSON.stringify(z.toJSONSchema(request.schema))}`
+        : request.system
       const result = await generateText({
         model: resolved.model,
-        instructions: request.system,
+        instructions,
         ...input,
         output: Output.object({ schema: request.schema, name: request.schemaName }),
         maxRetries: 2,
         ...(reasoning === 'provider-default' ? {} : { reasoning }),
         ...(resolved.temperature === undefined ? {} : { temperature: resolved.temperature }),
+        ...(resolved.providerOptions === undefined ? {} : { providerOptions: resolved.providerOptions }),
       })
       return {
         output: result.output,

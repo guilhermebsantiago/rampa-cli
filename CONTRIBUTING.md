@@ -37,6 +37,14 @@ A criterion is one module in `src/criteria/` implementing the `Criterion` interf
 
 Bump the criterion's `version` whenever its prompt or logic changes; that invalidates cached judgments.
 
+## Adding a provider
+
+Providers live in one table, `src/providers/registry.ts`: the prefix, the environment variables, what is missing when they are not set, and a `create` that returns an [AI SDK](https://ai-sdk.dev) model. `rampa doctor`, `rampa models` and the automatic choice of a model all read that table. Then:
+
+1. Add a case to `test/providers.test.ts`. It checks the request the provider builds (prompt, image and schema) and reads a reply in its wire format, without a network.
+2. If the provider does not pass the JSON schema on to the model, set `schemaInPrompt`.
+3. Add its recommended model to `src/providers/models.ts` only after checking the id, the price and image input on the provider's own documentation, and add a row to the table in the README.
+
 ## Pull requests
 
 Keep them focused, include tests, and make sure `pnpm typecheck`, `pnpm test` and `pnpm build` pass.

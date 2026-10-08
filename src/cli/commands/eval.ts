@@ -8,7 +8,7 @@ import { resolveCriteria } from '../../criteria/index.ts'
 import { ACT_RULES, type ActOutcome, type ActTestcase, loadActTestcases, selectTestcases } from '../../eval/act.ts'
 import { type Scores, confusion, scores } from '../../eval/metrics.ts'
 import { CORRUPTORS, type Corruptor } from '../../eval/pairs.ts'
-import { defaultModel } from '../../providers/detect.ts'
+import { chooseModel } from '../../providers/detect.ts'
 import { estimateCostUsd } from '../../providers/models.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
@@ -71,7 +71,7 @@ export async function runEval(options: EvalCommandOptions, context: GlobalContex
   const criteria = resolveCriteria(options.criteria.split(','))
   const runs = Math.max(1, Number.parseInt(options.runs, 10) || 1)
   const limit = options.limit ? Number.parseInt(options.limit, 10) : undefined
-  const spec = options.llm ? (options.model ?? context.config.model ?? (await defaultModel())) : undefined
+  const spec = options.llm ? await chooseModel(options.model, context.config.model) : undefined
   const provider = await resolveProvider(spec, Boolean(options.offline), options.reasoning ?? context.config.reasoning)
   const llm = options.llm && provider !== undefined
   if (options.llm && !provider) {

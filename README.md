@@ -107,7 +107,7 @@ Suggested alternatives follow the language of the page, and the report follows `
 
 ## Quick start
 
-You need Node.js 22.12+, Chrome or Edge (or `npx playwright-core install chromium`), and a model: [Ollama](https://ollama.com) locally, or an API key.
+You need Node.js 22.12+, Chrome or Edge (or `npx playwright-core install chromium`), and a model: [Ollama](https://ollama.com) or LM Studio locally, or a key for any major provider (see [Models](#models)).
 
 ```sh
 git clone https://github.com/guilhermebsantiago/rampa-cli.git
@@ -116,7 +116,7 @@ pnpm install
 pnpm build
 
 ollama pull gemma4:12b                       # local, free, and it has vision
-node dist/cli.mjs doctor                     # checks Node, browser, axe-core, Ollama and keys
+node dist/cli.mjs doctor                     # checks Node, browser, axe-core, models and keys
 node dist/cli.mjs check examples/store/before.html
 ```
 
@@ -191,18 +191,35 @@ API keys never go in this file: use environment variables or a local `.env`.
 
 ## Models
 
-Pass `--model provider:model`, set `model` in the config, or let Rampa choose: a local Ollama model first, then the cheapest API with a key.
+The judgment runs on a local model or on any major provider, through the [AI SDK](https://ai-sdk.dev). Pass `--model provider:model`, set `RAMPA_MODEL` or `model` in the config, or let Rampa choose: a local Ollama model first, then the first provider in this table with credentials. `rampa models` shows what is ready on your machine, and `rampa doctor` says what is missing. Keys go in the environment or in a `.env` file in the working directory, never in the config file.
 
-| Provider | Example | Credentials |
-| --- | --- | --- |
-| Ollama (local) | `ollama:gemma4:12b` | none; `OLLAMA_BASE_URL` if not on localhost |
-| Anthropic | `anthropic:claude-haiku-5-5` | `ANTHROPIC_API_KEY` |
-| OpenAI | `openai:gpt-6-luna` | `OPENAI_API_KEY` |
-| Google | `google:gemini-3.5-flash-lite` | `GOOGLE_GENERATIVE_AI_API_KEY` or `GEMINI_API_KEY` |
-| OpenRouter | `openrouter:<model>` | `OPENROUTER_API_KEY` |
-| Any OpenAI-compatible server | `openai-compatible:<model>` | `RAMPA_OPENAI_COMPATIBLE_URL`, optional `RAMPA_OPENAI_COMPATIBLE_KEY` |
+| Provider | Recommended model | USD per 1M tokens, in / out | Credentials |
+| --- | --- | --- | --- |
+| Ollama (local) | `ollama:gemma4:12b` | free | none; `OLLAMA_BASE_URL` if not on localhost |
+| LM Studio (local) | `lmstudio:<loaded model>` | free | none; `LMSTUDIO_BASE_URL` if not on localhost:1234 |
+| Anthropic | `anthropic:claude-haiku-5-5` | 0.10 / 0.50 | `ANTHROPIC_API_KEY` |
+| OpenAI | `openai:gpt-6-luna` | 0.10 / 0.50 | `OPENAI_API_KEY` |
+| Google Gemini API | `google:gemini-3.5-flash-lite` | 0.30 / 2.50, free tier | `GEMINI_API_KEY` (or `GOOGLE_GENERATIVE_AI_API_KEY`) |
+| Vercel AI Gateway | `gateway:openai/gpt-6-luna` | the provider's price | `AI_GATEWAY_API_KEY` |
+| OpenRouter | `openrouter:openai/gpt-6-luna` | the provider's price | `OPENROUTER_API_KEY` |
+| Amazon Bedrock | `bedrock:global.anthropic.claude-haiku-5-5` | 0.10 / 0.50 | `AWS_REGION` and `AWS_BEARER_TOKEN_BEDROCK` (or `AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY`) |
+| Google Vertex AI | `vertex:gemini-3.5-flash-lite` | 0.30 / 2.50 | `GOOGLE_VERTEX_PROJECT` with Application Default Credentials (or `GOOGLE_VERTEX_API_KEY`) |
+| Mistral AI | `mistral:mistral-small-latest` | 0.15 / 0.60 | `MISTRAL_API_KEY` |
+| Together AI | `togetherai:Qwen/Qwen3.5-9B` | 0.17 / 0.25 | `TOGETHER_API_KEY` |
+| Fireworks AI | `fireworks:accounts/fireworks/models/glm-5p3-flash` | 0.15 / 0.50 | `FIREWORKS_API_KEY` |
+| DeepSeek | `deepseek:deepseek-flash` | 0.30 / 1.20, half off-peak | `DEEPSEEK_API_KEY` |
+| xAI | `xai:grok-4.20-0309-non-reasoning` | 1.25 / 2.50 | `XAI_API_KEY` |
+| Cerebras | `cerebras:qwen-3.8-27b` | 0.99 / 1.49 | `CEREBRAS_API_KEY` |
+| Groq | `groq:qwen/qwen3.8-27b` (preview) | 0.80 / 4.00 | `GROQ_API_KEY` |
+| Azure OpenAI | `azure:<deployment>`, for example of gpt-6-luna | 0.10 / 0.50 | `AZURE_API_KEY` and `AZURE_RESOURCE_NAME` (or `AZURE_BASE_URL`) |
+| Claude on Vertex AI | `vertex-anthropic:<model id as Vertex lists it>` | Vertex's price | `GOOGLE_VERTEX_PROJECT` with Application Default Credentials |
+| Any OpenAI-compatible server (vLLM, llama.cpp…) | `openai-compatible:<model>` | | `RAMPA_OPENAI_COMPATIBLE_URL`, optional `RAMPA_OPENAI_COMPATIBLE_KEY` |
 
-- **1.1.1 needs vision.** `gemma4:12b` has it and runs on a 16 GB GPU.
+Model ids and prices were checked on each provider's own pages on 2026-10-07, and every recommended model takes images. LM Studio and the last three need a name only you know, so Rampa never picks them on its own. Short aliases work too: `gemini:`, `aws:`, `together:`, `vercel:`.
+
+- **Every provider has a test.** It checks the request the provider builds (prompt, image and schema) and reads a reply in its wire format, with no network. The published evaluation ran on Ollama; tables for hosted models come next.
+- **Cloud details.** Vertex uses the `global` location unless `GOOGLE_VERTEX_LOCATION` says otherwise. Bedrock returns the JSON through a forced tool, which every Claude on Bedrock supports; with AWS SSO or profiles, export the session first with `eval "$(aws configure export-credentials --format env)"`. Azure takes your deployment name, not the model name.
+- **1.1.1 needs vision.** `gemma4:12b` has it and runs on a 16 GB GPU; for text-only models such as `groq:openai/gpt-oss-20b`, judge 3.1.2 alone with `--criteria 3.1.2`.
 - **Reasoning is off by default for local models.** On an RTX 5060 Ti that cut a judgment from about 6 s to 2 s with the same answer; `--reasoning` brings it back, and `rampa eval` can measure the trade-off.
 - **Subscriptions.** Anthropic does not allow third-party tools to offer claude.ai login or subscription limits unless approved ([Agent SDK docs](https://code.claude.com/docs/en/agent-sdk/overview)), so Rampa uses API keys. Claude Max and Team plans include monthly API credits ([Help Center](https://support.claude.com/en/articles/15036540)), which an API key can draw on.
 - **Recommendations come from measurement.** `rampa models` lists a starting point; the model per criterion should be chosen with `rampa eval`, not generic benchmarks.
@@ -265,7 +282,8 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - **False positives are a constraint, not a metric.** Noise is what makes teams switch a tool off; confidence thresholds and waivers are part of the design.
 - **Reproducible.** Model, prompt version and date are recorded; the same input gives the same verdict from the cache.
 - **Not an overlay.** Rampa runs in development and CI, never in production pages.
-- **Private by choice.** With Ollama, nothing leaves your machine. There is no telemetry.
+- **Private by choice.** With Ollama or LM Studio, nothing leaves your machine. There is no telemetry.
+- **No lock-in.** The same judgment runs on a local model or on any major provider, and `rampa eval` measures which model to trust for each criterion.
 
 ## Roadmap
 
@@ -273,6 +291,8 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - [x] WCAG 1.1.1 with vision, with a suggested `alt` as the patch
 - [x] WCAG 3.1.2, language of parts
 - [x] `rampa eval` with ACT test cases, corrupted pairs and the verification ablation
+- [x] Local models and the major providers: OpenAI, Anthropic, Google, Azure, Bedrock, Vertex, Mistral, xAI, Groq, DeepSeek, Together, Fireworks, Cerebras, OpenRouter, Vercel AI Gateway
+- [ ] The evaluation table for each provider's recommended model
 - [ ] Publish on npm: `pnpm dlx rampa`
 - [ ] MCP server, so coding agents can call `rampa check`
 - [ ] Rampa Lab, a web app to explore evaluation runs
@@ -298,7 +318,7 @@ During development, `node src/cli.ts` runs the TypeScript sources directly. [`de
 
 O Rampa verifica acessibilidade além da sintaxe. Ele roda o axe-core e manda só o resíduo que o axe não sabe decidir para um modelo, um critério WCAG por vez, e descarta toda alegação sem evidência conferível na página. No exemplo clássico, `alt="img-1"` numa foto de cachorro passa no axe-core porque o atributo existe; o Rampa olha a imagem, aponta o placeholder e sugere um texto alternativo no idioma da página.
 
-Use `--locale pt-BR` para o relatório em português. O Rampa nunca declara uma página acessível e não substitui auditoria manual nem teste com pessoas com deficiência.
+Use `--locale pt-BR` para o relatório em português. O julgamento roda num modelo local (Ollama ou LM Studio) ou nos grandes provedores, como OpenAI, Anthropic, Google, Azure, Bedrock, Vertex e Mistral; `rampa models` mostra o que está pronto na sua máquina. O Rampa nunca declara uma página acessível e não substitui auditoria manual nem teste com pessoas com deficiência.
 
 </details>
 
