@@ -237,7 +237,7 @@ Criteria never read the DOM. They read the snapshot, so the core is the same for
 
 `rampa eval` measures, on the same pages, axe-core alone and axe-core with the judgment layer:
 
-<img alt="Output of rampa eval for WCAG 3.1.2 and 1.1.1 with ollama:gemma4:12b. On the syntax sets (ACT de46e4 and 23a2a8) both have precision and recall 1.00. On the semantic sets, axe-core has recall 0.00 and Rampa reaches F1 0.75 on off6ek and 0.80 on qt1vmo. On corrupted pairs, axe-core tells intact and corrupted apart in 0 of 5 lang pairs and 0 of 2 alt pairs; Rampa in 4 of 5 and 2 of 2. 37 candidates, 1 claim discarded by verification." src="docs/media/eval.png" width="760">
+<img alt="Output of rampa eval for WCAG 3.1.2 and 1.1.1 with ollama:gemma4:12b. On the syntax sets (ACT de46e4 and 23a2a8) both have precision and recall 1.00. On the semantic sets, axe-core has recall 0.00 and Rampa reaches F1 0.75 on off6ek and 0.80 on qt1vmo. On corrupted pairs, axe-core tells intact and corrupted apart in 0 of 5 lang pairs and 0 of 2 alt pairs; Rampa in 4 of 5 and 2 of 2. 36 candidates, none discarded by verification." src="docs/media/eval.png" width="760">
 
 | Set | Cases | axe-core P / R | Rampa P / R / F1 |
 | --- | :---: | :---: | :---: |
@@ -247,7 +247,7 @@ Criteria never read the DOM. They read the snapshot, so the core is the same for
 | 1.1.1, ACT 23a2a8 (has a name, syntax) | 18 | 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
 | 1.1.1, ACT qt1vmo (name is descriptive) | 16 | — / 0.00 | 1.00 / 0.67 / 0.80 |
 
-First run on 2026-10-07: axe-core 4.14.0, Gemma 4 12B on a local GPU, reasoning off, one run, ACT test cases `a9a1483e`. The judgment layer added no false positive on the syntax sets, and verification dropped one claim that would have been one. The samples are small; read these numbers as a working pipeline, not as a result. Wilson intervals are in each run's `summary.json`.
+First run on 2026-10-07: axe-core 4.14.0, Gemma 4 12B on a local GPU, reasoning off, one run, ACT test cases `a9a1483e`. A second run from an empty cache gave the same numbers. The judgment layer added no false positive on the syntax sets, and no claim failed verification in this run; the unit tests show what happens to one that does. The samples are small; read these numbers as a working pipeline, not as a result. Wilson intervals are in each run's `summary.json`.
 
 ```sh
 rampa eval --criteria 1.1.1,3.1.2 --no-llm      # baseline only
@@ -290,7 +290,7 @@ pnpm build       # dist/ and schema/
 pnpm media       # re-renders every image in this README from the real CLI
 ```
 
-During development, `node src/cli.ts` runs the TypeScript sources directly. Issues and pull requests are welcome; start with [CONTRIBUTING.md](CONTRIBUTING.md). To report a vulnerability, see [SECURITY.md](SECURITY.md).
+During development, `node src/cli.ts` runs the TypeScript sources directly. [`demo/`](demo/) has a guided walkthrough and a Fedora setup script; with `MODO=offline` it replays recorded snapshots and judgments, with no browser and no model. Issues and pull requests are welcome; start with [CONTRIBUTING.md](CONTRIBUTING.md). To report a vulnerability, see [SECURITY.md](SECURITY.md).
 
 <details>
 <summary><b>Em português</b></summary>

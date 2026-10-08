@@ -74,6 +74,7 @@ program
   .addOption(new Option('--reasoning <level>', 'model reasoning effort (local models default to none)').choices([...REASONING_LEVELS]))
   .option('--offline', 'use cached judgments only, never call the model')
   .option('--screenshots', 'save full-page screenshots to .rampa/screenshots')
+  .option('--save <dir>', 'record each snapshot and its engine results, to check later without a browser')
   .option('--cache-dir <dir>', 'judgment cache directory', '.rampa/cache')
   .option('--concurrency <n>', 'parallel model calls', '4')
   .option('--verbose', 'list discarded claims, low-confidence findings and unchecked criteria')

@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs'
 import { mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
 import { type Browser, type Page, chromium } from 'playwright-core'
@@ -29,8 +30,22 @@ export interface Collected {
 
 const CHANNELS = ['chrome', 'msedge', 'chromium'] as const
 
-/** Uses the Chrome or Edge already installed; falls back to Playwright's Chromium if it was downloaded. */
+/** Distribution packages that are not Playwright channels, such as Fedora's `dnf install chromium`. */
+const SYSTEM_BROWSERS = ['/usr/bin/chromium-browser', '/usr/bin/chromium', '/usr/bin/google-chrome-stable', '/usr/bin/google-chrome', '/snap/bin/chromium']
+
+/**
+ * Uses the browser already on the machine: RAMPA_BROWSER_PATH if set, then Chrome or Edge,
+ * Playwright's Chromium if it was downloaded, and on Linux the distribution's Chromium.
+ */
 export async function launchBrowser(): Promise<Browser> {
+  const explicit = process.env.RAMPA_BROWSER_PATH
+  if (explicit) {
+    try {
+      return await chromium.launch({ executablePath: explicit, headless: true })
+    } catch (error) {
+      throw new RampaError('browser-not-found', `Could not start RAMPA_BROWSER_PATH=${explicit}: ${errorMessage(error)}`)
+    }
+  }
   const preferred = process.env.RAMPA_BROWSER_CHANNEL
   const channels = preferred ? [preferred] : CHANNELS
   const failures: string[] = []
@@ -41,9 +56,18 @@ export async function launchBrowser(): Promise<Browser> {
       failures.push(`${channel}: ${errorMessage(error)}`)
     }
   }
+  if (!preferred && process.platform === 'linux') {
+    for (const executablePath of SYSTEM_BROWSERS.filter((path) => existsSync(path))) {
+      try {
+        return await chromium.launch({ executablePath, headless: true })
+      } catch (error) {
+        failures.push(`${executablePath}: ${errorMessage(error)}`)
+      }
+    }
+  }
   throw new RampaError(
     'browser-not-found',
-    `No browser found. Install Chrome or Edge, or run "npx playwright-core install chromium".\n${failures.join('\n')}`,
+    `No browser found. Install Chrome, Edge or Chromium (Fedora: sudo dnf install chromium), or set RAMPA_BROWSER_PATH.\n${failures.join('\n')}`,
   )
 }
 

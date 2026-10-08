@@ -1,5 +1,5 @@
 import { mkdir, writeFile } from 'node:fs/promises'
-import { dirname } from 'node:path'
+import { dirname, join } from 'node:path'
 import type { Browser } from 'playwright-core'
 import { loadWaivers } from '../../config.ts'
 import { fileCache } from '../../core/cache.ts'
@@ -8,13 +8,13 @@ import type { Confidence, Report } from '../../core/types.ts'
 import { RampaError } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
 import { emptyEngine } from '../../engine/axe.ts'
-import { type Reasoning, createModelProvider } from '../../providers/ai-sdk.ts'
+import { type Reasoning, createModelProvider, providerIdentity } from '../../providers/ai-sdk.ts'
 import { defaultModel } from '../../providers/detect.ts'
 import type { ModelProvider } from '../../providers/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
 import { renderReport } from '../../report/pretty.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
-import { loadSnapshot, resolveTargets } from '../../surfaces/targets.ts'
+import { loadEngineFor, loadSnapshot, recordingName, resolveTargets } from '../../surfaces/targets.ts'
 import type { GlobalContext } from '../context.ts'
 
 export interface CheckCommandOptions {
@@ -31,6 +31,8 @@ export interface CheckCommandOptions {
   cacheDir: string
   concurrency: string
   reasoning?: Reasoning
+  /** Write each collected snapshot and its engine results here, to check later without a browser. */
+  save?: string
   verbose?: boolean
 }
 
@@ -38,7 +40,7 @@ export async function resolveProvider(spec: string | undefined, offline: boolean
   if (!spec) return undefined
   if (offline) {
     return {
-      id: spec,
+      ...providerIdentity(spec, reasoning),
       judge() {
         throw new RampaError('offline', 'Offline mode never calls the model.')
       },
@@ -74,8 +76,16 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
           screenshotDir: options.screenshots ? '.rampa/screenshots' : undefined,
           captureImages: needsImages,
         })
+        if (options.save) {
+          await mkdir(options.save, { recursive: true })
+          const name = recordingName(target.label)
+          // A local file is recorded by its relative path, so the recording is portable and leaks no home directory.
+          const snapshot = target.url.startsWith('file:') ? { ...collected.snapshot, target: target.label.replaceAll('\\', '/') } : collected.snapshot
+          await writeFile(join(options.save, `${name}.snapshot.json`), `${JSON.stringify(snapshot)}\n`, 'utf8')
+          await writeFile(join(options.save, `${name}.engine.json`), `${JSON.stringify(collected.engine)}\n`, 'utf8')
+        }
       } else {
-        collected = { snapshot: await loadSnapshot(target.path), engine: emptyEngine() }
+        collected = { snapshot: await loadSnapshot(target.path), engine: (await loadEngineFor(target.path)) ?? emptyEngine() }
       }
       reports.push(
         await checkSnapshot(collected.snapshot, collected.engine, {

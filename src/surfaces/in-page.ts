@@ -222,6 +222,11 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
           node = walker.nextSibling() ?? nextOutside(walker, el)
           continue
         }
+        // Text that is neither rendered nor in the accessibility tree (display: none) is not in scope.
+        if (element !== el && typeof element.checkVisibility === 'function' && !element.checkVisibility({ visibilityProperty: true, checkVisibilityCSS: true } as CheckVisibilityOptions)) {
+          node = walker.nextSibling() ?? nextOutside(walker, el)
+          continue
+        }
         if (element.localName === 'img') {
           const alt = collapse(element.getAttribute('alt'))
           if (alt) parts.push(alt)
@@ -269,6 +274,11 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     return { x: round(rect.x + window.scrollX), y: round(rect.y + window.scrollY), width: round(rect.width), height: round(rect.height) }
   }
 
+  const startTag = (el: Element): string =>
+    `<${el.localName}${Array.from(el.attributes)
+      .map((attribute) => ` ${attribute.name}="${attribute.value.replaceAll('"', '&quot;')}"`)
+      .join('')}>`
+
   const nativeOf = (el: Element): Record<string, unknown> => {
     const attributes: Record<string, string> = {}
     for (const name of KEEP_ATTRS) {
@@ -278,7 +288,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     const native: Record<string, unknown> = { tag: el.localName, attributes }
     const tag = el.localName
     if (el.hasAttribute('lang') || ['img', 'a', 'button', 'input', 'select', 'textarea'].includes(tag)) {
-      native.html = el.outerHTML.slice(0, MAX_HTML)
+      // The root keeps only its start tag: its outerHTML is the whole document, injected engine script included.
+      native.html = el === document.documentElement ? startTag(el) : el.outerHTML.slice(0, MAX_HTML)
     }
     if (el.hasAttribute('lang')) native.langText = langText(el)
     return native

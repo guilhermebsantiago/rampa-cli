@@ -25,6 +25,14 @@ describe.skipIf(!browser)('web surface', { timeout: 30_000 }, () => {
     expect(validLang?.nodes.map((n) => n.ref)).toContain('html > body > main > blockquote')
   })
 
+  it('leaves text that is not rendered out of the judgment', async () => {
+    if (!browser) return
+    const page = 'data:text/html,<html lang="en"><body><p lang="es"><span style="display:none">Het weer is vandaag mooi en zonnig.</span></p></body></html>'
+    const { snapshot, engine } = await collectWeb(browser, page, { runAxe: true, locale: 'en' })
+    expect(languageOfParts.candidates(snapshot, engine)).toEqual([])
+    expect(snapshot.root.native.html).toBe('<html lang="en">')
+  })
+
   it('hands the judgment layer exactly the elements with a declared language', async () => {
     if (!browser) return
     const { snapshot, engine } = await collectWeb(browser, example('mismatch.html'), { runAxe: true, locale: 'en' })

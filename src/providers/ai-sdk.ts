@@ -88,13 +88,23 @@ export interface ProviderOptions {
   reasoning?: Reasoning | undefined
 }
 
+/** Local models default to no reasoning; hosted ones keep the provider's default. */
+export function defaultReasoning(provider: string): Reasoning {
+  return provider === 'ollama' ? 'none' : 'provider-default'
+}
+
+/** Identity of a provider as the cache sees it, shared by live and offline runs. */
+export function providerIdentity(spec: string, reasoning?: Reasoning): { id: string; settings: string } {
+  const { provider, modelId } = parseModelSpec(spec)
+  return { id: `${provider}:${modelId}`, settings: `reasoning=${reasoning ?? defaultReasoning(provider)}` }
+}
+
 export async function createModelProvider(spec: string, options: ProviderOptions = {}): Promise<ModelProvider> {
   const { provider, modelId } = parseModelSpec(spec)
   const resolved = await resolveModel(provider, modelId)
   const reasoning = options.reasoning ?? resolved.defaultReasoning
   return {
-    id: `${provider}:${modelId}`,
-    settings: `reasoning=${reasoning}`,
+    ...providerIdentity(spec, reasoning),
     async judge(request) {
       const started = performance.now()
       const images = request.images ?? []

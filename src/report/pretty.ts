@@ -47,7 +47,14 @@ export function renderReport(report: Report, options: PrettyOptions): string {
 
   if (verbose && report.discarded.length > 0) {
     lines.push(p.bold(t(locale, 'discardedTitle')))
-    for (const item of report.discarded) lines.push(`  ${p.gray(item.ref)}  ${item.reason}`)
+    for (const item of report.discarded) {
+      lines.push(`  ${p.gray(item.ref)}  ${item.reason}`)
+      const claim = (item.output ?? {}) as Record<string, unknown>
+      const parts = [claim.verdict, claim.detectedLanguage && `${t(locale, 'detected')} ${claim.detectedLanguage}`, claim.problem !== 'none' && claim.problem]
+        .filter((part): part is string => typeof part === 'string' && part !== '')
+      if (typeof claim.evidence === 'string') parts.push(`"${claim.evidence.length > 70 ? `${claim.evidence.slice(0, 69)}…` : claim.evidence}"`)
+      if (parts.length > 0) lines.push(p.dim(`    ${t(locale, 'modelSaid')}: ${parts.join(' · ')}`))
+    }
     lines.push('')
   }
 
