@@ -123,9 +123,14 @@ describe('report wording per surface', () => {
     const { report } = await check('examples/android/login.xml')
     const finding = report.findings[1]
     if (!finding) throw new Error('no finding')
-    const located = { ...report, surface: 'image' as const, findings: [{ ...finding, locatedBy: 'ollama:gemma4:12b', html: '"Forgot password?" at x 300, y 1320 (480×80 px)' }] }
+    const located = {
+      ...report,
+      surface: 'image' as const,
+      findings: [{ ...finding, confidence: 'medium' as const, locatedBy: 'ollama:gemma4:12b', html: '"Forgot password?" at x 300, y 1320 (480×80 px)' }],
+    }
     expect(renderReport(located, { verbose: false, paint: paint(false) })).toContain(
       'Located by ollama:gemma4:12b in the image: not read from an accessibility tree · "Forgot password?" at x 300, y 1320 (480×80 px)',
     )
+    expect(renderReport({ ...located, locale: 'pt-BR' }, { verbose: false, paint: paint(false) })).toContain('média · regra text-contrast')
   })
 })

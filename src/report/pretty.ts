@@ -110,7 +110,7 @@ function renderFinding(finding: Finding, locale: Locale, p: Painter): string[] {
   // A screenshot has no tree: the element was placed by a model, and the reader should know.
   if (finding.locatedBy) lines.push(p.dim(`    ${t(locale, 'locatedBy', { model: finding.locatedBy })}${finding.html ? ` · ${finding.html}` : ''}`))
   if (finding.source === 'engine') {
-    lines.push(p.dim(`    ${finding.confidence === 'high' ? t(locale, 'high') : finding.confidence} · ${t(locale, 'engineRule')} ${finding.ruleId}`))
+    lines.push(p.dim(`    ${t(locale, finding.confidence)} · ${t(locale, 'engineRule')} ${finding.ruleId}`))
   } else {
     const parts = [`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`]
     if (finding.agreement) parts.push(`${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`)
