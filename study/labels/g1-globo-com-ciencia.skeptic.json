@@ -1,0 +1,18 @@
+{
+  "page": "https://g1.globo.com/ciencia/",
+  "reviewer": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "fa7cd4419fca",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The link's real accessible name is not '1 min'. The <a class=\"feed-post-figure-link\"> wraps <picture><img alt=\"Lago na Turquia tem minerais iguais aos de antigo lago em Marte - Programa: G1 Ciência e Saúde\"> plus the duration <p>1 min</p>. No aria-hidden or role=presentation is set, and the image is rendered: the snapshot's readingText for the cover div includes the alt, and the screenshot shows the thumbnail. Under accname, a link's name from content includes a child img's alt. So browsers and screen readers announce 'Lago na Turquia tem minerais iguais aos de antigo lago em Marte - Programa: G1 Ciência e Saúde 1 min'. That names the destination, whose title is 'Vídeo: Lago na Turquia tem minerais...'. The snapshot recorded '1 min' because the collector's accessibleName (src/surfaces/in-page.ts:208) uses el.textContent, which drops img alt. Even with a bare '1 min', the claim that nothing around it helps is false. The same feed-post card has an h2 just before it holding a link with the same href and the text 'Lago na Turquia tem minerais iguais aos de antigo lago em Marte' (H80 context). The suggested patch also drops the image's text alternative."
+    },
+    {
+      "fingerprint": "65776a87bebb",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "This is the same pattern. The link wraps <img alt=\"Qual é o limite para a autonomia num cenário de demência ou fim de vida? - Programa: Bom Dia Cidade – Ribeirão Preto\"> plus <p>3 min</p>. There is no aria-hidden, and the image is rendered (it is in the snapshot readingText and visible in the screenshot). So the computed accessible name begins with the article title, which is exactly the destination page's title and heading. The snapshot's '3 min' name comes from the collector using textContent, which ignores img alt. Context also gives the purpose: the same feed-post card's preceding h2 has a link with the identical href and the text 'Qual é o limite para a autonomia num cenário de demência ou fim de vida?'. The patch would replace the img with plain text, which only rewords a purpose already conveyed."
+    }
+  ]
+}

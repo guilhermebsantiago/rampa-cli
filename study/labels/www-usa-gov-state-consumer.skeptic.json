@@ -1,0 +1,54 @@
+{
+  "page": "https://www.usa.gov/state-consumer",
+  "reviewer": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "48f04deee7da",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The node is an empty <svg role=img aria-label=\"Information\"> inside the visually-hidden span #usa-alert--1__a11y-label (bounds x=-9992). It labels the type of the vote.gov info alert. The image the model saw is a 300x150 crop of the page's top-left corner (gov banner, alert, and the usa.gov logo), not the SVG, so the model compared the alt to the wrong picture and proposed 'usa.gov logo'. 'Information' is an adequate text alternative for an info-alert marker."
+    },
+    {
+      "fingerprint": "168921fa5d34",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop clearly shows the round 'usa gov' logo, so alt 'USAGov Logo' describes exactly what is shown. As the only content of the header link to '/', the org-name logo alt is the standard accepted pattern. The patch 'USA.gov home' only rewords text that already meets 1.1.1."
+    },
+    {
+      "fingerprint": "0033d785f020",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the X logo, and the alt 'X Twitter USAGov' correctly names the platform. It sits inside a share link whose aria-labelledby gives the name 'SHARE THIS PAGE: X Twitter USAGov', which conveys the purpose (share on X). The extra 'USAGov' is redundant but not a misdescription. The patch 'X (formerly Twitter)' is just a reword."
+    },
+    {
+      "fingerprint": "7261db0f89c5",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "#state-info is a USWDS combo box over the hidden select #stateselect, whose option values are destination URLs (e.g. https://www.alabamaag.gov/...). The form is a jump menu that sends the user to a state consumer-protection office's site. It does not collect information about the user, and 1.3.5 is scoped to input fields collecting information about the user. Autofill with address-level1 would also clash with the combo box's own listbox."
+    },
+    {
+      "fingerprint": "51e63b4fb0de",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The link has aria-labelledby=\"share-page fb\". Both IDs are unique, and #fb is an img with alt 'Facebook', so the accessible name is 'SHARE THIS PAGE: Facebook'. The snapshot recorded only 'SHARE THIS PAGE:', dropping the second IDREF's img alt. The visible Facebook icon also tells this link apart."
+    },
+    {
+      "fingerprint": "b86473a18d03",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "aria-labelledby=\"share-page twr\" resolves to 'SHARE THIS PAGE: X Twitter USAGov', because #twr is an img with that alt. The collector truncated the name to 'SHARE THIS PAGE:'. The link's purpose (share on X, href x.com/intent/post) is clear from its real name and its visible X icon."
+    },
+    {
+      "fingerprint": "1d57d81725c1",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "aria-labelledby=\"share-page em\" resolves to 'SHARE THIS PAGE: Email', because #em is an img with alt 'Email'. The collector dropped the img alt from the computed name. The mailto link's purpose is clear from its real name and its envelope icon."
+    },
+    {
+      "fingerprint": "9a4d81124cca",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The header search field has a programmatic label (sr-only <label for> 'Search') and sits inside a role=search form. It is immediately followed by a submit button showing the universal magnifying-glass icon (alt 'Search'). An adjacent button that names the field's function is a sufficient technique for 3.3.2 (G167), and a single search box with a search button is the canonical example. No visible <label> is required."
+    }
+  ]
+}

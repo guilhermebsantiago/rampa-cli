@@ -1,0 +1,42 @@
+{
+  "page": "https://drauziovarella.uol.com.br/atividade-fisica/o-que-acontece-no-corpo-durante-uma-caminhada/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "029179e2e04d",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The img is logo-drauzio.svg in an off-canvas nav (bounds x=-152, offscreen). The snapshot crop for that box does not show the Drauzio logo: it shows a slice of the UOL top bar with the orange '30' of the '30 uol' mark (visible at the top-left of screenshot.png). The model compared the alt to the wrong pixels and invented 'Logo 70 anos'. 'Logo Portal Drauzio Varella' names the brand of a logo that links to the home page, which is adequate under 1.1.1."
+    },
+    {
+      "fingerprint": "06e4e212eddf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a labeled illustration of a person walking, with arrows to OMBROS, BRAÇOS, GLÚTEOS, ABDÔMEN, COXAS, TORNOZELOS, PÉS and PANTURRILHAS. Its alt is the article's deck sentence ('Entenda o que muda no seu corpo...'), with a typo, copied from the subtitle above. It neither identifies nor describes the image. The adjacent list and paragraph do cover the same muscles, so alt='' or a short identifying alt would pass. A non-empty alt that is not an alternative for the image is still an F30-style 1.1.1 failure, and the suggested alt is a reasonable fix."
+    },
+    {
+      "fingerprint": "c36f36177d5d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The finding says the alt describes something the image does not show. That is false: the image shows people walking under the label ANDANDO, next to a running panel (CORRENDO). The illustration sits right after the paragraph that states the comparison it depicts (walking load is body weight plus 10-20%, running is two to three times body weight), and it has a credit figcaption. So it supports text that already carries the information, and a brief subject alt like 'caminhada' is acceptable. The suggested alt is a richer rewording, not a fix for a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "f07418bd65ed",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to /videos/preguica-animacao-01/. Its alt 'thumb anima preguica' is derived from the filename (drauzio-thumb-anima-preguica), which is a 1.1.1 failure (F30, filename used as text alternative). It should either name the destination ('Preguiça | Animação #01') or be alt='' with the link merged into the adjacent title link. The failure holds, but the model's stated reason and its patch are wrong. The crop it saw was polluted by an overlay (a black box with '1-8, 9-16...'), while the real thumbnail is 'ANIMA DRAW' with a Drauzio cartoon. The proposed alt 'Gráfico com a palavra ANIMA e uma lista de intervalos numéricos' would be incorrect."
+    },
+    {
+      "fingerprint": "1cbbc2992e75",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'ISTs' links to /tag/ists, and the link text names the destination's topic (Infecções Sexualmente Transmissíveis, the standard pt-BR acronym). It sits in the side-menu accordion group 'Saúde Íntima' next to Contraceptivo, Menopausa, Menstruação and Urologia, so the claim that nothing around it helps is wrong. Expanding an abbreviation falls under 3.1.4 (AAA), not 2.4.4. The patch 'Tags sobre ISTs' only rewords a link that already meets the criterion."
+    },
+    {
+      "fingerprint": "336dec5d4d96",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'TOC' links to /tag/toc inside the 'Saúde Mental' accordion group, next to Ansiedade, Burnout, Depressão, Fobias, TDAH and Transtorno bipolar. There it is the standard pt-BR acronym for Transtorno Obsessivo-Compulsivo and names the tag page it opens. The model misread it as 'table of contents' and proposed 'Sumário', which would make the link wrong. Expanding an abbreviation falls under 3.1.4 (AAA), not 2.4.4."
+    }
+  ]
+}

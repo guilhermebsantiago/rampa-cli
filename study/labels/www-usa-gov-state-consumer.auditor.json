@@ -1,0 +1,54 @@
+{
+  "page": "https://www.usa.gov/state-consumer",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "48f04deee7da",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is an empty <svg role=img aria-label=Information><title>Information</title></svg> inside the visually-hidden USWDS alert a11y-label span. It draws nothing on screen. Its only job is to tell screen reader users that the vote.gov banner is an informational alert, and 'Information' does that correctly. The claim that the image does not show this is wrong, and the suggested 'usa.gov logo' would be false."
+    },
+    {
+      "fingerprint": "168921fa5d34",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the USAGov logo, and it links to '/', the USAGov home page. alt='USAGov Logo' names what the image shows and tells the user which site the link goes to. The claim that it 'describes something the image does not show' is wrong, and changing it to 'USA.gov home' only rewords a text alternative that already passes."
+    },
+    {
+      "fingerprint": "0033d785f020",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The icon is the X logo inside the X share link. 'X Twitter USAGov' correctly names the service. The extra 'USAGov' is clumsy, but the link's accessible name is 'SHARE THIS PAGE: X Twitter USAGov', so the purpose is clear. The image does show what the alt says. The suggested 'X (formerly Twitter)' is just a rewording."
+    },
+    {
+      "fingerprint": "7261db0f89c5",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This combobox is a lookup and navigation control, not a field that collects the user's own data. The hidden select's option values are URLs of state consumer offices, the form's action is javascript:void(0), and Go goes to the chosen office. A user can pick any state, not just their home state. 1.3.5 covers inputs that collect information about the user, and a typical audit would not log a state picker for finding content. address-level1 autofill would also not fill this custom list correctly. This is borderline, because the label says 'your state'."
+    },
+    {
+      "fingerprint": "51e63b4fb0de",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The link has aria-labelledby='share-page fb'. Its computed accessible name in Edge is 'SHARE THIS PAGE: Facebook', and the Facebook icon is visible. The snapshot recorded the name as just 'SHARE THIS PAGE:', leaving out the image in aria-labelledby, so the claim that three links share one text is wrong. Each link's purpose is clear."
+    },
+    {
+      "fingerprint": "b86473a18d03",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The link has aria-labelledby='share-page twr'. Its real accessible name is 'SHARE THIS PAGE: X Twitter USAGov', and the X icon is visible. The snapshot dropped the img part of the name, so the link does not actually share its text with the other share links."
+    },
+    {
+      "fingerprint": "1d57d81725c1",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The link has aria-labelledby='share-page em'. Its real accessible name is 'SHARE THIS PAGE: Email', and the mail icon is visible. The snapshot's name, 'SHARE THIS PAGE:', is incomplete, so the duplicate-text claim is wrong."
+    },
+    {
+      "fingerprint": "9a4d81124cca",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the header search field. It already has a programmatic label (sr-only <label for> 'Search'), and right next to it is a submit button showing the magnifying-glass icon (alt 'Search'). Under 3.3.2 that matches sufficient technique G167, an adjacent button that labels the field's purpose. The search box with a magnifier button is a well-known pattern that audits do not log under 3.3.2. The suggested fix also adds a duplicate label."
+    }
+  ]
+}

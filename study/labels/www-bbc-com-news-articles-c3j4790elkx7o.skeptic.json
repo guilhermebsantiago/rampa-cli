@@ -1,0 +1,84 @@
+{
+  "page": "https://www.bbc.com/news/articles/c3j4790elkx7o",
+  "reviewer": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "e6a512eca1c0",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This img is BBC's lazy-load stand-in (src grey-placeholder.png, class hide-when-no-script). It sits under the real photo img:nth-of-type(2), which has the same bounds and alt \"A photo of Maricarmen Abascal at Madrid's Puerta del Sol\". The placeholder is pure decoration, but it is exposed as role=img with aria-label \"image unavailable\", so a screen reader announces a false 'image unavailable' before the real photo. 1.1.1 requires decoration to be ignorable by assistive technology (F39: non-null alt on an image that should be ignored), so this element does fail. The finding's diagnosis is wrong, though. Its crop showed the overlapping real photo. The patch, which gives the placeholder a description of that photo, would only duplicate the sibling's alt. The fix is alt=\"\" or aria-hidden=\"true\" on the placeholder."
+    },
+    {
+      "fingerprint": "a3d512cf8ba1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the same grey-placeholder.png stand-in, with aria-label \"image unavailable\", stacked under the real photo img:nth-of-type(2) (alt 'Carmen Pérez, a retired widow'). The image did load, so the label is false. It is a decorative placeholder that AT should ignore, and it is announced as an image, which is the F39 pattern of a 1.1.1 failure. The described fault holds at this element. The suggested patch (describing the woman) is wrong because it would duplicate the real image's alt. The placeholder should get alt=\"\" or aria-hidden=\"true\"."
+    },
+    {
+      "fingerprint": "c11dfb3fe076",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the placeholder img in the first 'More from the BBC' card (grey-placeholder.png, aria-label 'image unavailable'). Its crop is the plain grey box. The card's real photo is the sibling img:nth-of-type(2), with alt 'A man wearing, sunglasses, a green top and a green hat...'. The grey box is decoration, but it is exposed to AT with a non-null, misleading name, so the link announces 'image unavailable' even though the image is there. That fails 1.1.1 (F39). The patch aria-label=\"decorative\" is itself wrong, because AT would read 'decorative'. The right fix is alt=\"\" or aria-hidden=\"true\"."
+    },
+    {
+      "fingerprint": "5d2faf166670",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the placeholder img in the 'Tenants could be offered upgrades to downsize' card (grey-placeholder.png, aria-label 'image unavailable'). The real image is the sibling img:nth-of-type(2), with alt 'View across Croydon showing rows of terraced houses...'. A decorative loading placeholder that AT announces as 'image unavailable' fails 1.1.1 (F39), and the text is also untrue because the photo loaded. The failure holds, but the patch aria-label=\"decorative\" would still be announced. The placeholder should be alt=\"\" or aria-hidden."
+    },
+    {
+      "fingerprint": "f355e34bb3e6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the placeholder img in the Trump fuel card. Its sibling img:nth-of-type(2) is the real photo, with alt 'A customer wearing a backwards cap ... refuels a red vehicle...'. The crop showed that photo, which is why the model wanted to describe it. The placeholder's exposed name 'image unavailable' is noise and false for a decorative stand-in, which fails 1.1.1 (F39). The patch is wrong because it duplicates the real image's alt. The fix is alt=\"\" or aria-hidden=\"true\" on the placeholder."
+    },
+    {
+      "fingerprint": "6a347ad6746c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the placeholder img in the Monaco bomb suspect card. The real image is the sibling img:nth-of-type(2), with alt 'Former Security Service of Ukraine (SBU) officer Vitalii Zhykovych...'. The decorative grey-placeholder.png is exposed to AT as 'image unavailable', a misleading non-null alt on content that should be ignored, which fails 1.1.1 (F39). The patch (a hoodie/train description) is wrong. It duplicates and misreads the real photo. The placeholder only needs to be hidden from AT."
+    },
+    {
+      "fingerprint": "d68020df92e7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the placeholder img in the sixth 'More from the BBC' card. The real image is the sibling img:nth-of-type(2), with alt 'A police car and first responders pictured outside the John-Paul II primary school...'. As with the other six, the decorative grey placeholder is announced as 'image unavailable' although the photo is present, which fails 1.1.1 (F39). The suggested description patch would just duplicate the sibling's alt. The correct fix is alt=\"\" or aria-hidden=\"true\"."
+    },
+    {
+      "fingerprint": "a1115554d12b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Register' is the first of the two header account buttons, 'Register' and 'Sign In', in BBC's masthead. Its href is session.bbc.com/session?action=register. In a site header next to Sign In, 'Register' plainly means creating an account on this site, so a user can decide whether to follow it. 2.4.4 does not require the site's name to be repeated in the link. 'Register for a BBC account' only rewords a link that already passes."
+    },
+    {
+      "fingerprint": "57f3806363c3",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The card link's name contains the headline 'Tenants could be offered upgrades to downsize' and the standfirst 'The pilot, expected to launch at the end of October...'. The destination's h1 is exactly 'Tenants could be offered upgrades to downsize', and its meta description is that same standfirst. Only the title tag adds 'Croydon'. The link describes its destination precisely. The repeated '1 hr ago' is verbosity, not a 2.4.4 failure, and the patch only rewords it."
+    },
+    {
+      "fingerprint": "42a2cd21ac05",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Live' is item 13 of the footer section nav list (Home, News, Sport, Business, ... Audio, Video, Live, Weather), which mirrors the header nav. The destination /live is 'BBC Live & Breaking World and U.S. News', with h1 'Live Now'. A section name inside a list of site sections identifies the section it opens, so the link text plus its list context gives the purpose. 'Live news' only rewords it."
+    },
+    {
+      "fingerprint": "8c60e6133246",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Do not share or sell my info' is the US privacy opt-out link (CCPA/CPRA wording) in the footer legal links, next to Privacy Policy and Cookies. On bbc.com, the 'sharing' it opts out of is done through advertising cookies, and the destination 'How can I change my BBC cookie settings?' is where the user turns that off. The link text states the purpose, and 2.4.4 does not require it to repeat the destination's title. The patch would also strip the legally expected opt-out wording."
+    },
+    {
+      "fingerprint": "00f0498b339b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The destination is 'How to make Google put preferred sources up top when you search', and its description says 'A new feature lets you choose which publishers – including the BBC – appear at the top of your search results. Here's how to use it.' 'Preferred source' is the name of that Google feature, and the page tells you how to set the BBC as one. So 'Set Preferred Source' names the purpose the destination serves. Replacing it with the article title only rewords it."
+    },
+    {
+      "fingerprint": "acf32bf341cf",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This h2 is the headline of a 'More from the BBC' card. The text under it, 'The price of fuel has soared as the cost of living emerges as a key issue for millions of Americans', is about exactly that topic (fuel costs and US politics). It is also the destination article's own h1. The heading describes its content, and 'Trump's fuel cost policy' is a reword that loses information."
+    }
+  ]
+}

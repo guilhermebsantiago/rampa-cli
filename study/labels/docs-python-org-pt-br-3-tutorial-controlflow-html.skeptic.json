@@ -1,0 +1,132 @@
+{
+  "page": "https://docs.python.org/pt-br/3/tutorial/controlflow.html",
+  "reviewer": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "ab5ba5eda479",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The select is the docs.python.org translation switcher (div.language_switcher_placeholder in the top and bottom nav bars, options 'German | Deutsch' ... 'Brazilian Portuguese | Português brasileiro'). Choosing an option loads another translation of this documentation; it is not inside a form and nothing about the user is collected or submitted. 1.3.5 covers input fields that collect information about the user, so this navigation/display control is out of scope. Adding autocomplete=\"language\" would also let browser autofill fire the switcher's change handler and navigate away unexpectedly. (Top nav bar instance.)"
+    },
+    {
+      "fingerprint": "51e591d57c48",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The select is the docs.python.org translation switcher (div.language_switcher_placeholder in the top and bottom nav bars, options 'German | Deutsch' ... 'Brazilian Portuguese | Português brasileiro'). Choosing an option loads another translation of this documentation; it is not inside a form and nothing about the user is collected or submitted. 1.3.5 covers input fields that collect information about the user, so this navigation/display control is out of scope. Adding autocomplete=\"language\" would also let browser autofill fire the switcher's change handler and navigate away unexpectedly. (Bottom nav bar copy.)"
+    },
+    {
+      "fingerprint": "ace75b96c03d",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'próximo' sits in the Sphinx prev/next bar ('índice | módulos | próximo | anterior') under the breadcrumb 'O tutorial do Python » 4. Mais ferramentas de controle de fluxo'. In a sequential tutorial, 'next' names the action (go to the next chapter), and the link also has title=\"5. Estruturas de dados\", which browsers expose as its accessible description and screen readers announce. Its purpose is determinable, and the only other 'próximo' link goes to the same page. Rampa's link context reads only aria-describedby, so the judge never saw the title. The patch only rewords it. (Top nav bar.)"
+    },
+    {
+      "fingerprint": "2dcc77026e5b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the Sphinx cross-reference on the keyword 'else' (code-formatted). Its programmatically determined context, the paragraph it sits in, reads: \"Pode haver zero ou mais partes elif, e a parte else é opcional...\". The sentence names the keyword, and the link leads to the language reference for that keyword (compound_stmts.html#else, the else part of '8.1. A instrução if'). Text plus context tells the purpose, which is what 2.4.4 asks for, and every other link with this text on the page goes to the same anchor, so it is not ambiguous. The judge received that paragraph and still said 'nothing around it does'. The patch only rewords a link that already passes."
+    },
+    {
+      "fingerprint": "223c87b064be",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the Sphinx cross-reference on the keyword 'for' (code-formatted). Its programmatically determined context, the paragraph it sits in, reads: \"Nós vimos que a instrução for é um exemplo de construção...\". The sentence names the keyword, and the link leads to the language reference for that keyword ('8.3. A instrução for'). Text plus context tells the purpose, which is what 2.4.4 asks for, and every other link with this text on the page goes to the same anchor, so it is not ambiguous. The judge received that paragraph and still said 'nothing around it does'. The patch only rewords a link that already passes."
+    },
+    {
+      "fingerprint": "35f1f57fd538",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the Sphinx cross-reference on the keyword 'for' (code-formatted). Its programmatically determined context, the paragraph it sits in, reads: \"A instrução break sai imediatamente do laço de repetição mais interno, seja for ou while\". The sentence names the keyword, and the link leads to the language reference for that keyword ('8.3. A instrução for'). Text plus context tells the purpose, which is what 2.4.4 asks for, and every other link with this text on the page goes to the same anchor, so it is not ambiguous. The judge received that paragraph and still said 'nothing around it does'. The patch only rewords a link that already passes."
+    },
+    {
+      "fingerprint": "2d18502d70b6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the Sphinx cross-reference on the keyword 'while' (code-formatted). Its programmatically determined context, the paragraph it sits in, reads: \"A instrução break sai imediatamente do laço de repetição mais interno, seja for ou while\". The sentence names the keyword, and the link leads to the language reference for that keyword ('8.2. A instrução while'). Text plus context tells the purpose, which is what 2.4.4 asks for, and every other link with this text on the page goes to the same anchor, so it is not ambiguous. The judge received that paragraph and still said 'nothing around it does'. The patch only rewords a link that already passes."
+    },
+    {
+      "fingerprint": "8a2bda8370f8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the Sphinx cross-reference on the keyword 'continue' (code-formatted). Its programmatically determined context, the paragraph it sits in, reads: \"A instrução continue continua com a próxima iteração do laço\". The sentence names the keyword, and the link leads to the language reference for that keyword ('7.10. A instrução continue'). Text plus context tells the purpose, which is what 2.4.4 asks for, and every other link with this text on the page goes to the same anchor, so it is not ambiguous. The judge received that paragraph and still said 'nothing around it does'. The patch only rewords a link that already passes."
+    },
+    {
+      "fingerprint": "dec2c3791ee6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the Sphinx cross-reference on the keyword 'for' (code-formatted). Its programmatically determined context, the paragraph it sits in, reads: \"Em um laço for, a cláusula else é executada após o laço finalizar sua iteração final\". The sentence names the keyword, and the link leads to the language reference for that keyword ('8.3. A instrução for'). Text plus context tells the purpose, which is what 2.4.4 asks for, and every other link with this text on the page goes to the same anchor, so it is not ambiguous. The judge received that paragraph and still said 'nothing around it does'. The patch only rewords a link that already passes."
+    },
+    {
+      "fingerprint": "fd673aab57ff",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the Sphinx cross-reference on the keyword 'else' (code-formatted). Its programmatically determined context, the paragraph it sits in, reads: \"...outras maneiras de encerrar o laço mais cedo... também pularão a execução da cláusula else\". The sentence names the keyword, and the link leads to the language reference for that keyword (compound_stmts.html#else, the reference entry for the else keyword). Text plus context tells the purpose, which is what 2.4.4 asks for, and every other link with this text on the page goes to the same anchor, so it is not ambiguous. The judge received that paragraph and still said 'nothing around it does'. The patch only rewords a link that already passes. The anchor sits in the if-statement section rather than the loop-else text, but it is still the reference entry for the keyword the text names, so this is not a mismatch either."
+    },
+    {
+      "fingerprint": "d883f7b8422a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the Sphinx cross-reference on the keyword 'in' (code-formatted). Its programmatically determined context, the paragraph it sits in, reads: \"Este exemplo também introduz a palavra-chave in, que verifica se uma sequência contém ou não um determinado valor\". The sentence names the keyword, and the link leads to the language reference for that keyword ('6.10.2. Operações de teste de pertinência'). Text plus context tells the purpose, which is what 2.4.4 asks for, and every other link with this text on the page goes to the same anchor, so it is not ambiguous. The judge received that paragraph and still said 'nothing around it does'. The patch only rewords a link that already passes."
+    },
+    {
+      "fingerprint": "595523fbdc6d",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "'próximo' sits in the Sphinx prev/next bar ('índice | módulos | próximo | anterior') under the breadcrumb 'O tutorial do Python » 4. Mais ferramentas de controle de fluxo'. In a sequential tutorial, 'next' names the action (go to the next chapter), and the link also has title=\"5. Estruturas de dados\", which browsers expose as its accessible description and screen readers announce. Its purpose is determinable, and the only other 'próximo' link goes to the same page. Rampa's link context reads only aria-describedby, so the judge never saw the title. The patch only rewords it. (Bottom nav bar copy.)"
+    },
+    {
+      "fingerprint": "4c8b7dec7ca3",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The select's accessible name is 'Language', and its options are the documentation translations ('Brazilian Portuguese | Português brasileiro', 'English', ...). The label says exactly what the control chooses, which is all 2.4.6 asks. A select is chosen from, not typed into, so 'does not say what to enter' does not apply. That the label is English on a pt-BR page is a 3.1.2 matter, not 2.4.6. The patch only rewords a label that already passes."
+    },
+    {
+      "fingerprint": "bea0ee9c4d65",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The select is labelled 'Python version', and its options are documentation versions ('dev (3.16)', 'pre (3.15)', '3.14.8', '3.13', ...). The label describes the control's purpose, so it passes 2.4.6. The suggested 'Versão do Python para o ambiente de desenvolvimento' is wrong, because the control switches which docs version is shown and has nothing to do with the user's environment."
+    },
+    {
+      "fingerprint": "bedb36ff902d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the site search box (type=search, name=q, inside role=search) with the label 'Pesquisa rápida' ('quick search'). Searching this documentation is exactly what the label says, so it passes 2.4.6. The patch 'Pesquise por produto' invents a product catalog that does not exist here."
+    },
+    {
+      "fingerprint": "c7282cbc1bfb",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The select is wrapped in <label>Tema ...</label>, and its options are Automático/Claro/Escuro. 'Tema' ('theme') describes the purpose of the control, which is choosing the color theme, so it passes 2.4.6. 'Selecione o tema' only adds a verb to a label that already passes."
+    },
+    {
+      "fingerprint": "b12df4796235",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The h3 'Esta página' heads a sidebar box (role=note) whose content is 'Relatar um bug', 'Melhorar esta página', 'Mostrar o código-fonte' and 'Mostrar fonte da tradução', all actions about this page. The heading names that topic. 2.4.6 does not require headings to be longer or self-contained, and 'Sobre esta página' is a reword of the same thing."
+    },
+    {
+      "fingerprint": "8a4a5775a74a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the bottom nav bar copy of the translation switcher, with the accessible name 'Language' and the documentation languages as options. The label describes what the control chooses, which passes 2.4.6. A select has nothing to 'enter', and an English label on a pt-BR page is a 3.1.2 issue at most. The patch only rewords it."
+    },
+    {
+      "fingerprint": "11e62f635a37",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the bottom nav bar copy of the version switcher, labelled 'Python version' with doc versions as options. The label describes its purpose, which passes 2.4.6. 'Versão do Python' is just a translation of the same label, so at most this is a 3.1.2 language question, not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "ab6809878f76",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the bottom nav bar copy of the documentation search box (type=search, name=q, inside role=search), labelled 'Pesquisa rápida'. The label describes its purpose, which passes 2.4.6. The patch 'Pesquisar produtos' invents a product search that this site does not have."
+    },
+    {
+      "fingerprint": "52b596116338",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the bottom nav bar copy of the theme selector, <label>Tema <select>Automático/Claro/Escuro</select></label>. 'Tema' describes the purpose, which passes 2.4.6, and 'Selecione o tema' is only a reword."
+    }
+  ]
+}

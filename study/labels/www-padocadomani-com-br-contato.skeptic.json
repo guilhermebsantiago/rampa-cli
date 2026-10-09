@@ -1,0 +1,48 @@
+{
+  "page": "https://www.padocadomani.com.br/contato/",
+  "reviewer": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "c331c8eae740",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "#form-field-name is the first field of the visible 'para outros assuntos, preencha o formulário' contact form. Its placeholder 'nome completo' asks for the user's own full name. The markup (<input type=\"text\" name=\"form_fields[name]\" placeholder=\"nome completo\">) has no autocomplete attribute, so its purpose is not programmatically identified. 'name' is the matching input purpose from the WCAG list. This fails 1.3.5."
+    },
+    {
+      "fingerprint": "9e1ca29695b0",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "#form-field-email (placeholder 'e-mail', required) asks for the user's own address so the bakery can reply ('entraremos em contato o mais breve possível'). It has type=\"email\" but no autocomplete. type=email only sets the input format. It does not say the address belongs to the user, which is what autocomplete=\"email\" does. This fails 1.3.5."
+    },
+    {
+      "fingerprint": "b52e8e266f72",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The footer menu link 'eventos' goes to https://www.casamanioca.com.br/orcamento/, the events house of the same group (Grupo Maní). That page's title is 'Orçamento de evento - Casa Manioca', its h1 is 'orçamento de evento', and it holds a form to request a quote for a party or event (type of event, date, number of guests). So 'eventos' accurately describes where the link goes. The snapshot did not collect this cross-origin destination, so the model judged from the URL slug alone. The suggested 'Solicitar orçamento' would be less clear out of context because it drops the word 'events'."
+    },
+    {
+      "fingerprint": "0b9261bc02c1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h3 'delivery' sits inside the 'padoca joaquim antunes' block, among the sibling headings 'nosso endereço', 'nossos horários', 'formas de pagamento' and 'contato'. Under it are the delivery hours ('segunda a sexta: 8h às 18h30' and so on). 'delivery' is the everyday Brazilian Portuguese word for food delivery. The site's own /delivery/ page uses it as its title. The heading describes its content exactly, and 'Entrega em domicílio' is only a reword."
+    },
+    {
+      "fingerprint": "695b23cf536b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The h3 'importante' ends the Padoca Shopping Iguatemi block, after 'nosso endereço', 'salão', 'delivery', 'formas de pagamento' and 'contato'. Under it is a short notice: 'não aceitamos reservas; serviço de valet do Shopping Iguatemi'. In that series it labels the block of important notes, and the Understanding document for 2.4.6 says a single word is enough when it gives an appropriate cue. The suggested 'Informações importantes' says the same thing in more words, so it only rewords a heading that already passes."
+    },
+    {
+      "fingerprint": "36126811a32f",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the same 'importante' h3 in the Padoca da Mata block, again the last of the per-location headings. Under it is the notice 'não aceitamos reservas; não temos valet'. It works as a notes or notice label, just like the Iguatemi one. The suggested 'Informações importantes' is a synonym, not a more descriptive heading, so it only rewords a heading that already meets 2.4.6."
+    },
+    {
+      "fingerprint": "580e75b8ecae",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h3 'janaina fidalgo' sits in the 'fale com a nossa assessoria' section, right after the text 'entre em contato com o estúdio silo'. The only content under it is her email link, janaina@estudiosilo.com.br. The heading names the press contact whose address follows, so it describes its content. The suggested 'Contato' would remove the person's name and be less descriptive."
+    }
+  ]
+}

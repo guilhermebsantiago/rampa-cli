@@ -1,0 +1,60 @@
+{
+  "page": "https://www.debian.org/",
+  "reviewer": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "312d1f31a1e0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image the model saw (snapshot crop of Pics/calamares-installer.png) is a 'Debian GNU/Linux Installer' window with the Calamares sidebar (Welcome, Location, Keyboard, Partitions, Users, Summary, Install, Finish) on the Location step. That is the Calamares installer, so the alt 'Screenshot from the Calamares installer' describes what the image shows. It is one carousel slide, inside an article whose h3 is 'Screenshot Calamares Installer'. The claim that the alt describes something not shown is wrong. The patch only adds incidental detail (map pin on Johannesburg), which 1.1.1 does not need for an illustrative screenshot."
+    },
+    {
+      "fingerprint": "3bfde5d347e0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Blog' in the top navbar (next to Micronews, Planet, Wiki) links to https://bits.debian.org/, which is Debian's official blog, 'Bits from Debian'. The link's title attribute says so too. The link text matches the destination, so 2.4.4 is met. The patch only swaps in the blog's proper name."
+    },
+    {
+      "fingerprint": "3b635bc730f9",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Arguments against a failure: the link is in the section under h1 'The Community', and a preceding section heading is recognized link context (H80). The paragraph right below it reads 'Additional information about the Debian community'. The destination (intro/index#community) is the 'Debian is a Community' section of the intro page. So 'nothing around it does' is factually wrong. Arguments for a failure: that description is a sibling <p> with no programmatic tie to the link (F63 territory). Also, 'More...' appears twice on the page with different targets (#community and #software), so in a links list it is ambiguous unless the h1 context is counted. This is a borderline call, not a clear failure either way."
+    },
+    {
+      "fingerprint": "d9f8b65504aa",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 'Download' button sits in the block under h1 'The Operating System' and the immediately preceding h2 'Debian is a complete Free Operating System!'. It shares a container with the Debian logo (alt 'Debian') and an 'Other downloads' link. Link text plus the preceding heading (H80) gives the purpose: download Debian. The claim that nothing around it helps is false. 2.4.4 does not require the link text to name the exact ISO variant or version, so the patch only rewords a link that already meets the criterion."
+    },
+    {
+      "fingerprint": "bb2a7dab9bed",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the same pattern as the community 'More...' link. Arguments against a failure: it sits under h1 'The Operating System' (section-heading context, H80). The paragraph right below it reads 'Further links to downloads and software'. The destination is the 'Debian is an Operating System' section of intro/index#software. So 'nothing around it does' is wrong. Arguments for a failure: the description <p> is not programmatically tied to the link, and two identical 'More...' links on the page go to different targets. Whether the h1 section heading alone counts as enough programmatic context is debatable."
+    },
+    {
+      "fingerprint": "950e8b592464",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is part of the footer sentence 'How to set the default document language', placed under the language selector ('This page is also available in the following languages:'). It goes to ./intro/cn, 'Debian Website in different Languages', which is the content-negotiation page explaining how to set the browser's language preference for the site. Link text plus its sentence describes that destination exactly. The model compared the bare link text with the page title and ignored the sentence. The patch would remove the meaningful 'how to set' purpose."
+    },
+    {
+      "fingerprint": "3c1d13733839",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The sentence reads 'Web site source code is available.', and 'available' links to salsa.debian.org/webmaster-team/webwml, the website's source repository. Link text plus its enclosing sentence (programmatically determined context, G53) gives the purpose: the web site source code. The claim that nothing around it helps is false, so 2.4.4 is met."
+    },
+    {
+      "fingerprint": "908874656723",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The h2 'More...' is the last card in the h1 'The Community' section, after People, Our Philosophy and Get Involved. Its card text is 'Additional information about the Debian community'. Arguments against a failure: in the heading hierarchy, 'More...' under 'The Community' reads as 'more on the community', which is the purpose of that subsection, and 2.4.6 does not require long headings. Arguments for a failure: the heading text itself names no topic, and the page has two identical 'More...' h2s that look the same in a headings list. It is a weak heading, but whether it fails 2.4.6 depends on how much the parent heading counts."
+    },
+    {
+      "fingerprint": "a36b4febb5d9",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the same pattern as the community 'More...' heading. The h2 'More...' is the last card in the h1 'The Operating System' section (after Why Debian, User Support, Security Updates), and its card text is 'Further links to downloads and software'. The hierarchy gives it partial meaning ('more on the operating system'), but the heading text names no topic and duplicates the other 'More...' h2. This is a borderline 2.4.6 call, not a clear failure or a clear pass."
+    }
+  ]
+}

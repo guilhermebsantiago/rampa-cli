@@ -1,0 +1,132 @@
+{
+  "page": "https://docs.python.org/pt-br/3/tutorial/controlflow.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "ab5ba5eda479",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "1.3.5 covers input fields that collect information about the user. This select is the site's documentation language switcher in the 'Related' navigation bar. It is filled by a script, sits outside any form, submits nothing and only takes the reader to the translated copy of the docs. It is a site navigation/preference control, not a field collecting the user's 'preferred language' as personal data. Autofill on it would do nothing, and auditors do not log site language switchers under 1.3.5."
+    },
+    {
+      "fingerprint": "51e591d57c48",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the same language switcher repeated in the bottom 'Related' navigation bar. It is a navigation control that switches the docs translation, not a form field collecting user data, so 1.3.5 does not apply."
+    },
+    {
+      "fingerprint": "ace75b96c03d",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'próximo' (next) is in the role=navigation aria-label='Related' sequence bar, next to 'índice | módulos | próximo | anterior'. In that context its purpose is clear: go to the next chapter of the tutorial. The title attribute also names it ('5. Estruturas de dados'). Next/previous links in sequential navigation meet 2.4.4. The patch only rewords it."
+    },
+    {
+      "fingerprint": "2dcc77026e5b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link 'else' is a code-styled cross-reference inside the sentence 'Pode haver zero ou mais partes elif, e a parte else é opcional.' It goes to the language reference entry for else (compound_stmts.html#else). The enclosing paragraph is programmatically determined context and makes clear that the link points to the else keyword. The claim that 'nothing around it' explains it is wrong, and the patch only rewords it."
+    },
+    {
+      "fingerprint": "223c87b064be",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The sentence reads 'Nós vimos que a instrução for é um exemplo de construção'. The link 'for' goes to the reference section for the for statement (compound_stmts.html#for). Link text plus its sentence identifies the purpose, which is the reference for the for statement. That is the conventional keyword cross-reference in documentation and meets 2.4.4. The patch adds 'instrução', which the sentence already says."
+    },
+    {
+      "fingerprint": "35f1f57fd538",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The context is 'A instrução break sai imediatamente do laço de repetição mais interno, seja for ou while'. The link 'for' goes to the reference entry for the for statement, and its sentence makes that purpose clear (link text plus programmatically determined context). It is not a 2.4.4 failure, and the patch only rewords it."
+    },
+    {
+      "fingerprint": "2d18502d70b6",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link 'while' sits in the same sentence about loops ('seja for ou while') and goes to the reference entry for the while statement. Its purpose can be determined from the link text and the enclosing paragraph, so 2.4.4 is met. The patch only rewords it."
+    },
+    {
+      "fingerprint": "8a2bda8370f8",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The context is 'A instrução continue continua com a próxima iteração do laço'. The link 'continue' goes to the reference entry for the continue statement (simple_stmts.html#continue). The sentence names it a statement, so link text plus context identifies the destination. The patch adds a word that is already in the sentence."
+    },
+    {
+      "fingerprint": "dec2c3791ee6",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The context is 'Em um laço for, a cláusula else é executada...'. The link 'for' goes to the reference for the for statement, and the surrounding sentence makes that clear. This is a standard keyword cross-reference that meets 2.4.4 in context. The patch only rewords it."
+    },
+    {
+      "fingerprint": "fd673aab57ff",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The context is '...também pularão a execução da cláusula else'. The link 'else' goes to the reference entry for else, and the sentence calls it a clause. Link text plus enclosing paragraph identifies the purpose, so 2.4.4 is met. The patch 'cláusula else' duplicates words already in the sentence."
+    },
+    {
+      "fingerprint": "d883f7b8422a",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The sentence reads 'Este exemplo também introduz a palavra-chave in, que verifica se uma sequência contém ou não um determinado valor.' The link 'in' goes to expressions.html#in, the membership-test reference. The sentence names it a keyword and explains it, so the purpose is clear from link plus context. The claim that nothing around it helps is wrong, and the patch only rewords it."
+    },
+    {
+      "fingerprint": "595523fbdc6d",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the bottom copy of the 'Related' navigation bar. 'próximo' (next) in the índice/módulos/próximo/anterior sequence clearly goes to the next tutorial chapter, and its title names it ('5. Estruturas de dados'). It meets 2.4.4, and the patch only rewords it."
+    },
+    {
+      "fingerprint": "4c8b7dec7ca3",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Language' accurately describes a select whose options are documentation languages (for example 'Brazilian Portuguese | Português brasileiro'). 2.4.6 asks only that a label describe its purpose, and this one does. That the label is English on a pt-BR page is not a descriptiveness failure. The patch translates and rewords it without changing conformance."
+    },
+    {
+      "fingerprint": "bea0ee9c4d65",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Python version' accurately labels a select of documentation versions (3.16, 3.15, 3.14.8, ...). The label describes its purpose, so 2.4.6 is met. The suggested 'Versão do Python para o ambiente de desenvolvimento' also misstates what the control does, because it picks the docs version, not a development environment."
+    },
+    {
+      "fingerprint": "bedb36ff902d",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "A type=search field labelled 'Pesquisa rápida' (quick search) in the site header clearly takes a search query for the documentation. That describes its purpose and meets 2.4.6. The suggested 'Pesquise por produto' is also wrong, because nothing on the page searches products."
+    },
+    {
+      "fingerprint": "c7282cbc1bfb",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The label 'Tema' (theme) wraps a select with the options Automático/Claro/Escuro. It describes exactly what the control sets, the colour theme. 2.4.6 does not require an imperative such as 'Selecione o tema', so the patch only rewords it."
+    },
+    {
+      "fingerprint": "b12df4796235",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The sidebar h3 'Esta página' (this page) heads a role=note box with the actions 'Relatar um bug', 'Melhorar esta página', 'Mostrar o código-fonte' and 'Mostrar fonte da tradução'. These all act on the current page, so the heading describes its section. Short headings are acceptable under 2.4.6, and 'Sobre esta página' only rewords it."
+    },
+    {
+      "fingerprint": "8a4a5775a74a",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the bottom-bar copy of the language switcher. 'Language' describes a select of documentation languages and meets 2.4.6. The patch only translates and rewords it."
+    },
+    {
+      "fingerprint": "11e62f635a37",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the bottom-bar copy of the version switcher. 'Python version' describes a select of docs versions, and the suggested 'Versão do Python' is just a translation of the same label. Meets 2.4.6."
+    },
+    {
+      "fingerprint": "ab6809878f76",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the bottom-bar copy of the search field. 'Pesquisa rápida' on a type=search input clearly says to enter a search query and meets 2.4.6. The suggested 'Pesquisar produtos' invents a product search that the site does not have."
+    },
+    {
+      "fingerprint": "52b596116338",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the bottom-bar copy of the theme selector. 'Tema' with the options Automático/Claro/Escuro describes its purpose, and 'Selecione o tema' only rewords it."
+    }
+  ]
+}

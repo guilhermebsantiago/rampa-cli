@@ -1,0 +1,84 @@
+{
+  "page": "https://www.bbc.com/news/articles/c3j4790elkx7o",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "e6a512eca1c0",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This img is BBC's lazy-load stand-in (src grey-placeholder.png, aria-label 'image unavailable'). The real photo is its next sibling, with alt \"A photo of Maricarmen Abascal at Madrid's Puerta del Sol\" and a figcaption. On the live page the placeholder is only in the DOM until the real image loads, and then it is removed. Before that it is shown as a grey box. So the photo's text alternative is provided by its own img, and the placeholder's label matches what the placeholder shows. The vision crop at these bounds showed the sibling photo painted on top, which led the model to judge the placeholder against the photo. Putting a photo description on the placeholder would only repeat the sibling's alt. At most this is a best-practice note to aria-hide the placeholder, not a 1.1.1 failure for a missing alt for the photo."
+    },
+    {
+      "fingerprint": "a3d512cf8ba1",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Same pattern as e6a512eca1c0. A transient grey-placeholder.png sits beside the real img, whose alt is 'Carmen Pérez, a retired widow' and whose figcaption is 'Carmen Pérez says high rental costs have affected her health'. On the live page the placeholder is removed once the photo loads. The photo already has an equivalent alternative. The model compared the placeholder's status label with the photo in the crop, and its patch would duplicate the description. Not a 1.1.1 failure of this element."
+    },
+    {
+      "fingerprint": "c11dfb3fe076",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the lazy-load placeholder in a 'More from the BBC' card. The snapshot crop is a plain grey box, which is exactly what 'image unavailable' says, so the claim that it describes something the image does not show is wrong. The real img beside it has alt 'A man wearing, sunglasses, a green top and a green hat...', and the placeholder is removed once that image loads. The suggested aria-label 'decorative' is not a valid fix either: it would be announced as text."
+    },
+    {
+      "fingerprint": "5d2faf166670",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the grey lazy-load placeholder in the Croydon card. Its crop is a blank grey box, which 'image unavailable' describes accurately, and the sibling img has a full alt ('View across Croydon showing rows of terraced houses...'). The placeholder is removed when that image loads. The 'decorative' aria-label patch is meaningless. Not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "f355e34bb3e6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the grey placeholder in the fuel-price card. Its crop is a blank grey box, so 'image unavailable' matches what it shows. The real img beside it has alt 'A customer wearing a backwards cap and a blue tshirt refuels a red vehicle at a gas station...', and the placeholder is removed when that loads. The suggested description just repeats the sibling's alt on the placeholder, which would double the announcement. Not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "6a347ad6746c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the grey placeholder in the Monaco-bomb-suspect card, and its crop is blank grey. The real img has alt 'Former Security Service of Ukraine (SBU) officer Vitalii Zhykovych... attends a hearing...'. The suggested 'A person in a dark hoodie sitting on a train and looking at their phone' is invented: nothing in the crop or the page shows that. The placeholder's status label is accurate for the grey box, and the placeholder is removed once the photo loads. Not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "d68020df92e7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the grey placeholder in the Poland school attack card, and its crop is blank grey. The real img has alt 'A police car and first responders pictured outside the John-Paul II primary school...'. 'image unavailable' accurately describes the placeholder, which is removed once the photo loads. The suggested 'Firefighters and a police van' is not taken from the placeholder and would duplicate (and contradict) the sibling's alt. Not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "a1115554d12b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Register' sits in the BBC header's account area, beside 'Sign In', and goes to session.bbc.com?action=register. On a site header, 'Register' next to 'Sign In' plainly means creating an account on this site, so the purpose can be determined from the link text and its context. An auditor would not log this under 2.4.4. 'Register for a BBC account' only rewords it."
+    },
+    {
+      "fingerprint": "57f3806363c3",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The card link's text contains the headline 'Tenants could be offered upgrades to downsize' and its standfirst. The destination's h1 is exactly 'Tenants could be offered upgrades to downsize', and its meta description is the same standfirst. Only the <title> adds 'Croydon'. The link text matches the destination closely. The repeated '1 hr ago' is verbose but does not make the purpose unclear. Not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "42a2cd21ac05",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Live' is an item in the 'Footer navigation' list (Home, News, Sport, Business, ... Live, Weather). It goes to /live, whose title is 'BBC Live & Breaking World and U.S. News' and whose heading is 'Live Now'. A site section name inside a labelled site-navigation list is a clear link purpose (G91/H48 context). 'Live news' only rewords it."
+    },
+    {
+      "fingerprint": "8c60e6133246",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Do not share or sell my info' is the standard US privacy opt-out link. It goes to the BBC cookie settings page, where outside the UK the user turns off the personalised-advertising and other cookies. That is how the opt-out is actually carried out. The link text describes what the user goes there to do. 2.4.4 does not require link text to repeat the destination's page title, and using the title would hide the legally named purpose. Not a failure."
+    },
+    {
+      "fingerprint": "00f0498b339b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Set Preferred Source' sits in the footer legal and links list. It goes to the BBC article 'How to make Google put preferred sources up top when you search'. That page has an 'Add as preferred on Google' button and step-by-step instructions to set the BBC as a Google Preferred Source. The link text describes the purpose the user achieves there. 2.4.4 does not require the text to match the destination title, and the patch only rewords it."
+    },
+    {
+      "fingerprint": "acf32bf341cf",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The card's h2 'Trump wants to reduce the cost of fuel as the midterms loom - will it work?' sits above the standfirst 'The price of fuel has soared as the cost of living emerges as a key issue for millions of Americans.' It is also the exact title and h1 of the destination article. The heading accurately describes the card's content and meets 2.4.6. The model's 'different topic' claim is wrong, and 'Trump's fuel cost policy' only shortens it."
+    }
+  ]
+}

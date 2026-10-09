@@ -1,0 +1,50 @@
+[
+  {
+    "fingerprint": "4fbd50c91f66",
+    "label": "false_positive",
+    "cause": "model_error",
+    "rationale": "The image (decoded from the snapshot) is the INSS / Previdência logo: green and gold arcs around a blue tiled globe. It is the only content of a link in the 'Galeria de aplicativos' that opens the Meu INSS app entry. For a functional logo like this, alt text that names the app ('Meu INSS - Central de Serviços') is exactly what 1.1.1 needs. The suggested 'Logotipo do Meu INSS' describes how it looks rather than what it does, which is worse. The image shows what the alt names."
+  },
+  {
+    "fingerprint": "57b81ca117f3",
+    "label": "false_positive",
+    "cause": "criterion_misapplied",
+    "rationale": "This is the home page of the GOV.BR portal (I confirmed live that <title> is 'GOV.BR'). A home page's topic is the site itself, so a title naming the site identifies the page and meets 2.4.2. WCAG does not require a tagline. The patch only adds 'Serviços e Informações do Brasil', which makes the title wordier, not compliant."
+  },
+  {
+    "fingerprint": "147e906ce8b3",
+    "label": "false_positive",
+    "cause": "model_error",
+    "rationale": "The link text 'Agricultura e Pecuária' plus its description matches the destination categorias?id=agricultura-e-pecuaria. Fetched live, that page lists the Agricultura e Pecuária subcategories (apoio-e-promocao, cadastramento-e-certificacao, ...). The generic 'Categorias' title is a property of the destination page, not a link-purpose failure. The patch only drops the description and does not fix the alleged mismatch. A longer descriptive link name does not fail 2.4.4."
+  },
+  {
+    "fingerprint": "bb048e654aef",
+    "label": "false_positive",
+    "cause": "model_error",
+    "rationale": "This is the same pattern as the other category tiles. 'Educação e Pesquisa' plus its description leads to categorias?id=educacao-e-pesquisa, the Educação e Pesquisa category listing. The destination's generic <title> 'Categorias' does not make the link purpose unclear. The patch only shortens the name."
+  },
+  {
+    "fingerprint": "d31cc0467074",
+    "label": "false_positive",
+    "cause": "model_error",
+    "rationale": "This is the same pattern as the other category tiles. 'Justiça e Segurança' plus its description leads to categorias?id=justica-e-seguranca, the Justiça e Segurança category listing. The link text describes the destination. The generic 'Categorias' title is not a 2.4.4 failure of this link, and the patch only shortens the name."
+  },
+  {
+    "fingerprint": "342c5eb9d0d7",
+    "label": "false_positive",
+    "cause": "context_missing",
+    "rationale": "The snapshot did not collect this destination, so the model judged from the URL slug 'acesso-a-educacao-para-pessoas-com-deficiencia'. Fetched live, the page's <title> and h1 are both 'Serviços para pessoas com deficiência', which matches the link text exactly. It lists services: visitas a órgãos, apoio social, transporte, aposentadoria. The old Plone slug is not the page's purpose, and the patch would make the link less accurate."
+  },
+  {
+    "fingerprint": "ad34777c1823",
+    "label": "false_positive",
+    "cause": "context_missing",
+    "rationale": "Only the destination's title was read. Fetched live, the 'Termo de Uso e Aviso de Privacidade' page has a section headed '2.2. Declaração de Cookies' with subsections 2.2.1 to 2.2.5 (cookies essenciais, analíticos, de terceiros, ...) and 43 mentions of cookies. The link sits in the cookie banner ('Saiba mais em nossa Declaração de Cookies'), and the cookie declaration is on that page. The link text matches its purpose."
+  },
+  {
+    "fingerprint": "7bd64ea058fc",
+    "label": "false_positive",
+    "cause": "criterion_misapplied",
+    "rationale": "'DESTAQUE' ('Featured') is an h3 under the h2 'Serviços para você', next to its sibling h3 'MAIS ACESSADOS'. In that context it says what the block holds: featured services (Tela Brasil, Declarar IRPF, Renegociação de Dívidas, Celular Seguro, Bolsa Família). The block's class is also 'servicos-em-destaque-govbr'. 2.4.6 needs headings to describe topic or purpose, not to be self-contained. The patch 'Serviços em Destaque' only rewords a heading that already passes."
+  }
+]

@@ -1,0 +1,132 @@
+{
+  "page": "https://webaim.org/techniques/alttext/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "5722c411fd0b",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the opening image of the running example. The sentence right before it says 'Consider this image of Ellen Ochoa:', and the Note right after it says that most images in the article deliberately have alt=\"example image\" and that their content is given in the page text. The image's content is named next to it, so a screen reader user loses nothing important. The claim that the alt 'describes something the image does not show' is also wrong: the alt describes nothing at all, and the image really is an example. Rampa's 1.1.1 judge only gets ancestor text, so it saw neither the sentence before the image nor the Note."
+    },
+    {
+      "fingerprint": "a0c36aab1332",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Example 1 is a quiz-style exhibit: 'What would you choose as alt text for the image in Example 1?'. The answer text then describes the image ('this is Ellen Ochoa. Her mode of dress further conveys that she is an astronaut'), and the section's Note explains the alt=\"example image\" placeholder. If the article itself is treated as the context, alt=\"example image\" is a placeholder (F30) on an image that WebAIM says carries content, so a strict audit could log it. If the page is treated as a teaching exercise whose content is described in the text (the 1.1.1 test/exercise exception), it passes. Professional auditors would likely disagree on this one. The wording 'describes something the image does not show' is wrong either way, because the image is Ellen Ochoa in an orange flight suit and the alt claims nothing about it."
+    },
+    {
+      "fingerprint": "3f4555d2f7a1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This image is the only content of a working link to en.wikipedia.org/wiki/Ellen_Ochoa, so the link's accessible name is just 'example image'. A functional image's text alternative must convey what the link does, and the page itself says so ('When an image is the only content inside a link or button, alt text is all that a screen reader has to go on'). The didactic Note does not change what a screen reader user gets in a links list: a link called 'example image' that goes to Wikipedia. Strictly, this is a 1.1.1 failure (and it also affects 2.4.4). The message's wording ('describes something the image does not show') is wrong, but the underlying failure is real. The suggested alt is too long and should name the destination, e.g. 'Astronaut Ellen Ochoa'."
+    },
+    {
+      "fingerprint": "0e20bccf5734",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the improved version in Example 3. The same link holds the image and the visible text 'Ellen Ochoa, Astronaut', which gives both the content and the link's function. The image is redundant, so its alt adds noise but hides no information (H2: alt=\"\" is the recommended fix, as the page says). The suggested long description would make the redundancy worse. The claim that the alt describes something the image does not show is wrong."
+    },
+    {
+      "fingerprint": "f85d9239c278",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the PDF icon inside the link 'Download the employment application' (Example 4). The link text already conveys the link's function. The icon's only extra information is 'PDF', and that is a demo cue anyway: the link actually goes to an HTML placeholder page (media/generic_link.htm). The exercise text then describes the icon. A strict audit could log alt=\"example image\" because it does not convey the icon's content, while a context-aware audit would accept it as a documented teaching placeholder. The message is wrong as written, because the alt claims nothing false. The suggested 'PDF icon' is the option the page itself calls less appropriate than 'PDF'."
+    },
+    {
+      "fingerprint": "1f4252673b1d",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "On this page the separator is not pure decoration. It is the exhibit of Example 5, which the text names directly: 'What alt text would you choose for the horizontal separator image in Example 5?'. The page uses it to illustrate a decorative image, but the finding judges it as if it were a real separator in a real layout. F38 applies to pure decoration only, and this image is the subject of the discussion. The Note explains the placeholder, and the image is fully described in the text, so nothing is lost. Without the article context, the judge mistook a demo exhibit for real decoration."
+    },
+    {
+      "fingerprint": "1f128dfeedcf",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the Example 6 exhibit. The quiz text names its content ('Handshake', 'Businessmen shake hands to complete a contract'), and the article explains that in the scenario the image adds nothing important. A descriptive alt like the suggested 'Two people shaking hands to symbolize a business agreement' is exactly what WebAIM calls superfluous here. Read as a teaching exhibit, the content is in the text. Read as a stock photo in the scenario, the issue would be 'should be alt=\"\"', not 'too generic'. Either way, the claimed failure and the fix are not what an audit would log."
+    },
+    {
+      "fingerprint": "5aeb06a257d2",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Example 7 is Emanuel Leutze's 'Washington Crossing the Delaware'. The text near the image says only 'In this painting, the artist Emanuel Leutze used light, color, form...', and WebAIM itself notes that the content is not (entirely) in the surrounding text. The subject appears only in the quiz options and discussion that follow. A strict audit could log the placeholder alt on this informative image. Treating it as a documented teaching exhibit (the Note, and the test/exercise exception) would pass it. The suggested alt is also inaccurate: it describes 'figures appearing to be in distress or being rescued' on a 'frozen river', when the painting shows Washington and his troops crossing the icy Delaware."
+    },
+    {
+      "fingerprint": "bad24c81b056",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link text 'images' sits in 'This article is focused on images, but its principles also apply to multimedia...', and it goes to WebAIM's 'Accessible Images' article (/techniques/images). Read with its sentence (link context, G53), the text tells the user it leads to more about images, and that is where it goes. This meets 2.4.4. The suggested 'Accessible Images' only rewords it."
+    },
+    {
+      "fingerprint": "e649c021424c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link text 'off-screen' is in the sentence 'You would then use CSS to position the \"(PDF)\" text ... off-screen.' It goes to WebAIM's 'CSS in Action - Invisible Content Just for Screen Reader Users', which is the technique for placing content off-screen. The link text plus its sentence identify the purpose, so this meets 2.4.4. The suggested text uses the destination's title but adds no information a user needs."
+    },
+    {
+      "fingerprint": "365dacdec064",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the element name in 'The <figure> element, designed to contain an <img> and a <figcaption>...', under the h3 'Figure and figcaption'. It goes to Scott O'Hara's article about the figure element. Linking a term to further reading about that term is a clear purpose in context, and 2.4.4 does not require saying the destination is external or giving its title. The suggested 'How do you figure? (blog post)' only rewords it."
+    },
+    {
+      "fingerprint": "30a3cb2815a4",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The h2 'Introduction' opens the article's introduction, which defines alternative text and its functions. A heading that says 'this is the introduction' accurately describes that section's purpose. 2.4.6 requires descriptive headings, not topic-specific wording, so the suggested 'What is Alternative Text?' only rewords a heading that already passes."
+    },
+    {
+      "fingerprint": "e452dbb729d6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The section explains that the same image needs different alt text depending on how it is used ('This image may need vastly different alternative text depending on how it is used'). 'Context is Everything' states exactly that topic. The claim that it says nothing about its content is wrong, and the suggestion only rewords it."
+    },
+    {
+      "fingerprint": "6f0eee35ef1b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Example 1' is a numbered example inside h2 'Context is Everything'. The text refers to it by that name ('the image in Example 1'), and it contains an example. Under its parent heading, the heading describes its purpose. The Understanding doc says headings can be short and need not be long. The suggested 'Alt text for Ellen Ochoa image' would also be identical to the fix proposed for Example 2."
+    },
+    {
+      "fingerprint": "6c37dd554f66",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Example 2' is the second numbered example under 'Context is Everything', and the text refers to it by that name ('the image in Example 2'). In its hierarchy it accurately labels an example. The suggested 'Alt text for Ellen Ochoa image' would duplicate the Example 1 suggestion, making the two headings indistinguishable, which is worse."
+    },
+    {
+      "fingerprint": "79220212e281",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Example 3' is a numbered example under h2 'Functional Images', and its content is the linked-image example. Together with its parent heading it describes what it holds, so it meets 2.4.6. The suggested 'Alt text for linked images' only rewords it."
+    },
+    {
+      "fingerprint": "a72de6ac1282",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Example 4' sits under 'Functional Images', and later text refers back to it by name ('the PDF icon image in Example 4 above'). It is an accurate label for a numbered example. The suggested 'Example 4: Icon Alt Text' only rewords it."
+    },
+    {
+      "fingerprint": "401013e3db1a",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Example 5' is a numbered example under h2 'Decorative Images', and the text refers to it by that name. In context it describes its content. The suggested 'Decorative Images Example 5' just repeats the parent heading."
+    },
+    {
+      "fingerprint": "13c96542a208",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Example 6' is a numbered example under h2 'Decorative Images', and the text refers to it as 'the image in Example 6'. The heading is descriptive within its hierarchy, and the suggestion only adds the parent heading's words."
+    },
+    {
+      "fingerprint": "68adc76224bd",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The h4 'Example 7' sits under h3 'Complex images', and the text refers to it as 'the image in Example 7'. It accurately labels a numbered example. Putting the painting's subject into the heading, as suggested, would also reveal the answer to the exercise below it. This is a rewording, not a fix for a failure."
+    },
+    {
+      "fingerprint": "54fdf6095e87",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The footer h2 '©2026 WebAIM' heads WebAIM's footer block, which holds its address at Utah State University and phone number. The heading names the organization the block is about, so it does not 'name a different topic'. Using a copyright line as a heading is unusual, but it is not a 2.4.6 failure, and the suggested 'Copyright Information' describes the block's contents (contact details) less accurately."
+    }
+  ]
+}

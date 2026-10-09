@@ -1,0 +1,204 @@
+{
+  "page": "https://python.org.br/",
+  "reviewer": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "c47142456f72",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The hero.png crop is the Python Brasil 2026 conference banner. It reads 'O maior evento Python da America Latina', then '14 a 19 de Outubro de 2026 [Floripa/SC]', with a snake illustration. The image is the only content of a link to https://2026.pythonbrasil.org.br, so its alt is the link name. 'Python Brasil 2026 (14-19 de Outubro de 2026)' names the destination event and repeats the dates shown, which is right for a functional image. The claim that it describes something not shown is wrong. The patch drops the event name and keeps only the tagline, which would make the link purpose worse. The location 'Floripa/SC' is missing from the alt, but the finding does not claim that and its patch omits it too."
+    },
+    {
+      "fingerprint": "02d0b395504f",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "default.png is the generic Python logo, used as a stand-in in cards of groups with no logo. Here the image sits in the GruPy-MT card under h4 'GruPy-MT' and is not a link. In that slot it stands for the group, and a placeholder carries no information beyond that. The alt 'GruPy-MT' gives the same purpose. It is redundant at worst, and alt='' would be the cleaner choice. 1.1.1 does not require describing what a placeholder looks like. The patch ('Logotipo da linguagem de programacao Python') adds noise without restoring any lost information."
+    },
+    {
+      "fingerprint": "a52a17470b6c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Py013' is not a file name or placeholder text. It is the group's name, the same as the card heading h4 'Py013' (h6: 'Grupo de usuarios da Baixada Santista DDD 013'). The src is default.png, so it is not the file name either. The image is the generic Python-logo placeholder that stands for the group, and naming the group serves that purpose; F30 does not apply."
+    },
+    {
+      "fingerprint": "41a3c0a75dd4",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "pug-pi.png is the group's real logo: a pug in a cap with the text 'PUG PI python user group'. Alt 'Pug-PI' is the group's name, which is also the text in the logo. That is the standard alt for a logo, not a file name or placeholder. The patch only rewords it."
+    },
+    {
+      "fingerprint": "b5d9e4152f85",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "pug-se.png is the PUG-SE logo: a cashew fruit with a '>>>' prompt and the caption 'PUG-SE'. Alt 'Pug-SE' names the group and matches the text in the logo, so it is not a placeholder. The patch even misreads the cashew as a pear. It only adds visual detail, which 1.1.1 does not require for a logo."
+    },
+    {
+      "fingerprint": "d6d691480a36",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "grupypr.png is the GruPy-PR logo: a stylised snake and the wordmark 'pypr'. It sits in the GruPy-PR card (h6 'Grupo de usuarios do Parana'). For a logo, the alt names the organisation it stands for, and 'GruPy-PR' does. The image does show that group's logo. The patch only adds 'Logotipo da comunidade'."
+    },
+    {
+      "fingerprint": "c99648ff3337",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the same default.png generic Python-logo placeholder, not a link, in the card headed h4 'GruPy-RN'. The placeholder only stands in for the group's logo and carries no other information. Alt 'GruPy-RN' serves that purpose, redundant at worst. 1.1.1 does not require describing the placeholder's look, and the 'Python logo' patch adds nothing a user needs."
+    },
+    {
+      "fingerprint": "3d61aa848a53",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the default.png Python-logo placeholder in the PyTche card (h4 'PyTche', h6 'Grupo de usuarios do Rio Grande do Sul'). It is not a link. It stands in for a missing group logo, so naming the group serves the equivalent purpose. It is redundant at most, not a 1.1.1 failure, and describing the generic logo would not help users."
+    },
+    {
+      "fingerprint": "a369cfcc328c",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the default.png placeholder (generic Python logo) in the PyNorte card. The image carries no information beyond standing for the group. Alt 'PyNorte' serves that purpose, redundant at worst. The patch describing the Python logo does not fix any loss of information."
+    },
+    {
+      "fingerprint": "f82790564369",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the default.png placeholder in the GruPy-GO card, and it is not a link. The generic Python logo only stands in for the group's logo. Alt 'GruPy-GO' gives the same purpose, so 1.1.1 is met even if alt='' would be tidier. The patch only describes a meaningless placeholder."
+    },
+    {
+      "fingerprint": "76b3a07d36cd",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "pug-mg.png is the group's real logo: a red triangle with the Python logo and 'python-mg'. It sits in the card headed h4 'Pug-MG'. Alt 'Pug-MG' is the group's name, the correct alt for a logo, and not a file name or placeholder. The patch only rewords it to 'Logotipo da comunidade Python-MG'."
+    },
+    {
+      "fingerprint": "15f112b30092",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the default.png generic Python-logo placeholder in the card headed 'GruPy Sul Fluminense'. It stands in for a missing logo and is not a link. Alt naming the group serves the slot's purpose, redundant at worst. 1.1.1 does not require describing the placeholder."
+    },
+    {
+      "fingerprint": "e762fdfd3931",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the default.png placeholder in the Pydata BSB card (h6 'Comunidade do programa educacional PyData de Brasilia'). The generic Python logo adds no information. Alt 'Pydata BSB' names what the slot stands for, so the purpose is equivalent. The 'Logotipo do Python' patch is not an improvement a user needs."
+    },
+    {
+      "fingerprint": "bb411427fe6b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "pug-pe.png is the PUG-PE logo, with the wordmark 'PUG PE' under a Pernambuco-flag-style emblem. Alt 'Pug-PE' names the group, which is the right alt for a logo and not a placeholder. The patch hallucinates 'bandeira do Peru'."
+    },
+    {
+      "fingerprint": "5ad37f1b4447",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "pug-ma.png shows the Python logo next to the text 'PUG-MA'. Alt 'Pug-MA' is the same text as in the image and the group's name. It is neither a file name nor a placeholder, and the patch only rewords it."
+    },
+    {
+      "fingerprint": "b093685e33ab",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the default.png generic Python-logo placeholder in the PUG-PB card (h6 'Grupo de usuarios da Paraiba'). It is not a link. The placeholder only stands in for the group's logo, so alt 'PUG-PB' serves the equivalent purpose, redundant at worst. Describing the generic logo would not restore anything."
+    },
+    {
+      "fingerprint": "f01fd0435227",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "grupy-sanca.png shows the Python logo with the wordmark 'grupy-sanca'. Alt 'grupy-sanca' is exactly the text in the logo and the group's name, as the card heading also shows. It looks like the file name only because the file is named after the group. It is a correct logo alt, and the patch only rewords it."
+    },
+    {
+      "fingerprint": "1ae4978a9529",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the default.png placeholder in the Pug-CE card (h6 'Grupo de usuarios do Ceara'). The generic Python logo stands in for a missing group logo and is not a link. Alt naming the group serves that purpose, redundant at worst. 1.1.1 does not require describing the placeholder."
+    },
+    {
+      "fingerprint": "dc33b3c145c9",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the home page of python.org.br, the Python Brasil community site. Using the site name as the title of a home page is the normal way to meet 2.4.2 (G88): it identifies the site and that this is its front page. The inner pages use 'Python Brasil-<topic>', which shows the home title is deliberate. The patch only rewords an adequate title."
+    },
+    {
+      "fingerprint": "587e81c41e24",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Against a failure: 'Aprenda mais' is the name of a site section. The navbar's 'Aprenda mais' dropdown lists Web, Mobile, Games, Cientifico and Wiki. Each home card links to the first page of its section (Impressione-se goes to /empresas, Participe to /lista-de-discussoes), and this card goes to /web. That page is a set of Python courses and tutorials (Django, Flask, web2py), so it is learning material. For a failure: the text promises general 'learn more about the language', but the page is only about web frameworks, so someone after general learning would not expect it. The purpose is broadly right but narrower than stated, and sighted users get the same text. Whether that is a 2.4.4 failure is a judgment call."
+    },
+    {
+      "fingerprint": "206a388e8af8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Slack' sits in the GruPy-SP card under h4 'GruPy-SP' and h6 'Grupo de usuarios de Sao Paulo', next to Google Groups, Github, Facebook and Twitter. Together with that heading context (H80), the purpose is clear: the GruPy-SP Slack. grupysp.herokuapp.com is the kind of self-hosted Slack invite app (slackin) many communities used. The destination was never read, so the mismatch claim rests only on the hostname. The patch spells out what the context already gives."
+    },
+    {
+      "fingerprint": "85916dbd3340",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the same pattern in the GruPy-PR card (h4 'GruPy-PR', h6 'Grupo de usuarios do Parana'). 'Slack' goes to grupypr.herokuapp.com, a Slack-invite app. Link text plus the preceding heading gives the purpose, which 2.4.4 (In Context) allows. The mismatch claim comes from the hostname alone, since the destination was not read."
+    },
+    {
+      "fingerprint": "24a7593f33de",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the same pattern in the Python Sorocaba card (h4 'Python Sorocaba', h6 'Grupo de usuarios de Sorocaba'). 'Slack' goes to grupopythonsorocaba.herokuapp.com, the group's Slack invite app. The heading context makes the purpose clear, so 2.4.4 (In Context) is met. The patch adds the group name the heading already provides."
+    },
+    {
+      "fingerprint": "68400d39f949",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "h1 'APyB' heads a link card whose only other text is 'Conheca a Associacao Python Brasil.', and the card links to apyb.python.org.br. APyB is the association's own name, the same label the navbar uses. The heading names its topic, which is what 2.4.6 asks. Spelling out the acronym is a rewording, not a fix."
+    },
+    {
+      "fingerprint": "cc997db529db",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "h4 'Py013' is the name of the user group the card is about. It is followed directly by h6 'Grupo de usuarios da Baixada Santista DDD 013 (Litoral de SP)' and the group's links. A proper name is a descriptive heading for content about that entity. The patch only expands the name, which the subtitle already does."
+    },
+    {
+      "fingerprint": "f7c8cbe703da",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "h4 'GruPy-RP' names the group whose card follows: h6 'Grupo de usuarios de Ribeirao Preto', then its Slack, Meetup, Github and Google Groups links. The heading describes its topic. Expanding the name is a rewording that 2.4.6 does not require."
+    },
+    {
+      "fingerprint": "ed83a11b83c4",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "h4 'PyTche' is the group's name, followed by h6 'Grupo de usuarios do Rio Grande do Sul' and its Meetup and Telegram links. A heading that names the entity the section is about meets 2.4.6. The patch only adds the region the subtitle already states."
+    },
+    {
+      "fingerprint": "14e969fa6a54",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "h4 'GrupyBauru' names the group, followed by h6 'Comunidade Python de Bauru/SP e regiao' and its Telegram and Discord links. The heading identifies the topic of the card. The patch merges the subtitle into the heading, which is rewording."
+    },
+    {
+      "fingerprint": "b253a2397001",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "h4 'GruPy-Al' is the group's name, followed by h6 'Grupo de usuarios de Alagoas' and a Google Groups link. The heading names what the card is about, so 2.4.6 is met. 'GruPy-Alagoas' is just a rewording."
+    },
+    {
+      "fingerprint": "9d6783e3129d",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "h4 'Pug-MA' is the group's name, followed by h6 'Grupo de usuarios do Maranhao' and its links. The heading describes the card's topic. The patch copies the subtitle into the heading, which only rewords text that already meets 2.4.6."
+    },
+    {
+      "fingerprint": "42d280f8904d",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "h4 'PUG-PB' is the group's name, followed by h6 'Grupo de usuarios da Paraiba' and its Telegram, Github, Google Groups and Twitter links. The heading names the topic. The patch is a rewording that folds the subtitle in."
+    },
+    {
+      "fingerprint": "443c9889435f",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "h4 'grupy-sanca' is the group's name, which its logo also shows. It is followed by h6 'Grupo de usuarios Python de Sao Carlos (SP)' and the group's links. The heading describes the card's topic. The patch only folds the subtitle into it."
+    },
+    {
+      "fingerprint": "92344628bf55",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "h4 'Pug-SC' is the group's name, followed by h6 'Grupo de usuarios de Santa Catarina' and a Yahoo Groups link. A heading naming the group the card is about meets 2.4.6. The patch is a rewording."
+    }
+  ]
+}
