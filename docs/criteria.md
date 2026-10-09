@@ -77,10 +77,12 @@ The evaluation numbers below are from one run of Gemma 4 12B on a local GPU (Oll
 ## 2.4.6 Headings and Labels
 
 - **axe-core checks** that headings are not empty and fields have a label. It passes "Section 2" over reviews and "Field 1" on an email field.
-- **Rampa judges** every heading against the content it introduces (up to the next heading of its level or the end of its section, with the sections it sits in and its sibling headings), and every field label against the field.
+- **Rampa judges** every heading against the content it introduces (up to the next heading of its level or the end of its section), and every field label against the field.
+- **Context of a heading:** its parent heading and the sections above that, its sibling headings, and the numbered series it belongs to: the headings of the page that differ from it only by a number, such as "Example 1" to "Example 7". A heading in a header, footer, navigation, aside or dialog takes its parent only from that region. The prompt says that a heading in a numbered series or among parallel headings ("Do" and "Don't") passes under a parent heading that names their subject, and that a heading naming the part a section plays ("Introduction") describes it.
+- **Which label:** the text people see. When a field's name comes from `aria-label` and a visible `label` or a placeholder shows, the visible text is judged and patched; whether the two match is 2.5.3 (Label in Name), and a name nobody sees is 3.3.2. A field with only `aria-label` is judged on it.
 - **Cut-off text:** the collector records how much of a heading, `label` or `legend` shows when its box cuts it off (an ellipsis, a line clamp, a fixed box with hidden overflow). The prompt then says what people see, such as "Returns and refund…", and asks the model to judge that too.
-- **Verification:** the evidence must be the heading or label text; a fail needs a problem and a different suggestion under 160 characters.
-- **Patch:** replaces the heading or label text, or `aria-label`.
+- **Verification:** the evidence must be the heading or label text; a fail needs a problem and a different suggestion under 160 characters. A "says nothing" claim on a heading of a numbered series is dropped when its parent heading names a subject (it is not a placeholder, nor a number with at most one word, such as "Part 1"), so the real-page study's "Example 1" to "Example 7" are no longer reported.
+- **Patch:** replaces the heading or label text, the placeholder, or `aria-label`.
 - **Limits:** short headings that a person would pass, such as a step name, are sometimes flagged on real pages.
 
 ## 3.1.1 Language of Page
