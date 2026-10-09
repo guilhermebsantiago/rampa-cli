@@ -226,13 +226,17 @@ function criteriaTable(report: Report): string {
     const status = `${statusText(record.status, locale)}${record.target === 'beyond' ? ` (${t(locale, 'statusBeyond')})` : ''}`
     return `<tr><th scope="row">${e(record.id)} ${e(criterionName(record.id, locale) ?? '')}</th><td>${e(status)}</td><td>${e(methodsText(record, report))}</td><td>${e(record.manual)}</td></tr>`
   })
-  return `<details><summary>${e(t(locale, 'coverageCriteria').replace(/:$/, ''))}</summary>
+  const title = t(locale, 'coverageCriteria').replace(/:$/, '')
+  // Four columns do not fit a phone: the table scrolls in its own region, never the page.
+  return `<details><summary>${e(title)}</summary>
+<div class="scroll" role="region" aria-label="${e(title)}" tabindex="0">
 <table class="criteria-status">
 <thead><tr><th scope="col">${e(t(locale, 'criterionColumn'))}</th><th scope="col">${e(t(locale, 'statusColumn'))}</th><th scope="col">${e(t(locale, 'methodsColumn'))}</th><th scope="col">${e(t(locale, 'manualLabel'))}</th></tr></thead>
 <tbody>
 ${rows.join('\n')}
 </tbody>
 </table>
+</div>
 </details>`
 }
 
@@ -331,6 +335,8 @@ caption{text-align:left;font-weight:600;padding:.25rem 0}
 th,td{text-align:left;vertical-align:top;padding:.5rem;border-bottom:1px solid var(--border);overflow-wrap:break-word}
 thead th{border-bottom-width:2px}
 td,th[scope=row]{overflow-wrap:anywhere}
+.scroll{overflow-x:auto;max-width:100%}
+.criteria-status{min-width:32rem}
 .summary td{font-variant-numeric:tabular-nums}
 .coverage th{width:16rem;font-weight:600}
 .criteria{margin:.5rem 0 0;padding-left:1.25rem}
