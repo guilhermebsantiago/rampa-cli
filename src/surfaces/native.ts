@@ -92,7 +92,7 @@ export function captureImages(root: A11yNode, screenshot: RgbaImage, scale: numb
   let captured = 0
   for (const node of walkTree(root)) {
     if (captured >= IMAGE_LIMIT) break
-    if (!isImageLike(node) || !node.name?.trim() || !node.bounds || node.states.includes('hidden')) continue
+    if (!isImageLike(node) || !node.name?.trim() || !node.bounds || node.states.includes('hidden') || node.states.includes('offscreen')) continue
     const rect = toPixels(node.bounds, scale)
     if (rect.width < MIN_IMAGE_PIXELS || rect.height < MIN_IMAGE_PIXELS) continue
     const crop = cropImage(screenshot, rect)

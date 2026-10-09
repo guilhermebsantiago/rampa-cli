@@ -274,7 +274,8 @@ function textContrast(ctx: Context, screenshot: RgbaImage): Outcomes {
   for (const node of walkTree(ctx.snapshot.root)) {
     if (measured >= CONTRAST_LIMIT) break
     const text = renderedText(node)
-    if (!text || !node.bounds || hidden(node) || inactive(ctx, node)) continue
+    // Text scrolled off the screen is not in the screenshot.
+    if (!text || !node.bounds || hidden(node) || node.states.includes('offscreen') || inactive(ctx, node)) continue
     if ([...walkTree(node)].some((inner) => inner !== node && renderedText(inner))) continue
     // Logotypes have no contrast requirement; a model marks them when it locates text in an image.
     if (node.native.kind === 'logo' || node.native.kind === 'disabled') continue
