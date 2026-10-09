@@ -107,7 +107,7 @@ function criterionTitle(id: string, locale: Locale): string {
 }
 
 function setLabel(set: PageSet, locale: Locale): string {
-  const label = set.source === 'config' ? sm(locale, 'setConfig', { label: set.label }) : sm(locale, 'setTemplate', { label: set.label })
+  const label = set.source === 'config' ? sm(locale, 'setConfig', { label: set.label }) : sm(locale, 'setTemplate', { n: set.id.replace(/^template-/, '') })
   return sm(locale, 'setLine', {
     label,
     count: set.pages.length,

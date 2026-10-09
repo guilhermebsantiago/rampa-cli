@@ -329,7 +329,7 @@ describe('3.2.6 Consistent Help', () => {
     expect(help).toHaveLength(1)
     expect(help[0]).toMatchObject({ status: 'failure', confidence: 'high', pages: [u('/b')], comparedWith: [u('/'), u('/a')] })
     expect(help[0]?.message).toBe(
-      'The contact details “help@example.com” (mailto:help@example.com) is before the main content on /b, and after the main content on /, /a. Help repeated on several pages must keep the same order relative to the rest of the page (3.2.6).',
+      'The contact detail “help@example.com” (mailto:help@example.com) is before the main content on /b, and after the main content on /, /a. Help repeated on several pages must keep the same order relative to the rest of the page (3.2.6).',
     )
     expect(help[0]?.evidence).toBe('after the main content on /, /a · before the main content on /b')
     expect(help[0]?.elements).toContainEqual({ page: u('/b'), ref: 'header > a:nth-of-type(1)', name: 'help@example.com', html: '<a href="mailto:help@example.com">help@example.com</a>' })
@@ -367,7 +367,7 @@ describe('3.2.6 Consistent Help', () => {
     expect(report.findings.filter((finding) => finding.criterion === '3.2.6')).toEqual([])
     const reviews = report.review.filter((finding) => finding.criterion === '3.2.6')
     expect(reviews.map((finding) => [finding.subject, finding.pages.map((url) => new URL(url).pathname)])).toEqual([
-      ['The contact details “help@example.com” (mailto:help@example.com)', ['/c']],
+      ['The contact detail “help@example.com” (mailto:help@example.com)', ['/c']],
       ['The contact link “Get in touch” (/hello)', ['/b']],
     ])
     expect(reviews[1]?.message).toContain('Needs review: recognized as help by its text only.')
