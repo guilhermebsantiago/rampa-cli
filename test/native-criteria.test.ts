@@ -143,7 +143,7 @@ describe('2.4.4 on app screens', () => {
     if (!link) throw new Error('no link')
     expect(link.context).toMatchObject({ name: 'Forgot password?', heading: 'Welcome back' })
     expect(linkPurpose.prompt(link, screen).user).toContain('Markup: <XCUIElementTypeLink label="Forgot password?"')
-    const fail = { verdict: 'fail', evidence: 'Forgot password?', problem: 'generic', suggestedText: 'Reset your password', confidence: 'high' } as const
+    const fail = { promises: 'a way to recover the password', leadsTo: 'unknown', verdict: 'fail', evidence: 'Forgot password?', problem: 'generic', suggestedText: 'Reset your password', confidence: 'high' } as const
     expect(linkPurpose.patch?.(fail, link, screen)).toMatchObject({ kind: 'set-text', before: 'text = "Forgot password?"', after: 'text = "Reset your password"' })
   })
 })

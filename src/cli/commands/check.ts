@@ -4,7 +4,7 @@ import type { Browser } from 'playwright-core'
 import { loadWaivers } from '../../config.ts'
 import { type JudgmentCache, fileCache } from '../../core/cache.ts'
 import { checkSnapshot } from '../../core/check.ts'
-import type { Confidence, EngineResults, Report, Usage } from '../../core/types.ts'
+import type { AnyCriterion, Confidence, EngineResults, Report, Usage } from '../../core/types.ts'
 import { RampaError } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
 import { rulesNotes } from '../../engine/rules.ts'
@@ -18,6 +18,7 @@ import type { A11ySnapshot } from '../../snapshot/schema.ts'
 import { collectAndroid, fromScreen } from '../../surfaces/android/adb.ts'
 import { collectImage } from '../../surfaces/image.ts'
 import { type Target, loadRecorded, recordingName, resolveTargets, siblingPng } from '../../surfaces/targets.ts'
+import { type DestinationCache, type FollowLinks, type FollowOptions, destinationCache } from '../../surfaces/destinations.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import type { GlobalContext } from '../context.ts'
 
@@ -38,6 +39,14 @@ export interface CheckCommandOptions {
   /** Write each collected snapshot and its engine results here, to check later without a browser or a device. */
   save?: string
   verbose?: boolean
+  /** Which links to read before judging, for criteria that compare a link with where it leads. */
+  followLinks?: FollowLinks
+}
+
+/** Read links when a criterion needs their destinations and the judgment layer will run. */
+export function followOptions(policy: FollowLinks | undefined, llm: boolean, criteria: AnyCriterion[], cache: DestinationCache): FollowOptions | undefined {
+  if (!llm || !policy || policy === 'none' || !criteria.some((criterion) => criterion.needs.fetch)) return undefined
+  return { policy, cache }
 }
 
 export async function resolveProvider(spec: string | undefined, offline: boolean, reasoning?: Reasoning): Promise<ModelProvider | undefined> {
@@ -75,6 +84,8 @@ interface CollectContext {
   concurrency: number
   captureImages: boolean
   screenshots: boolean
+  /** Links to read before judging, when a criterion compares a link with where it leads. */
+  followLinks: FollowOptions | undefined
   browser: () => Promise<Browser>
 }
 
@@ -86,6 +97,7 @@ async function collect(target: Target, ctx: CollectContext): Promise<Collected> 
         locale: ctx.locale,
         screenshotDir: ctx.screenshots ? '.rampa/screenshots' : undefined,
         captureImages: ctx.captureImages,
+        followLinks: ctx.followLinks,
       })
       return { ...web, notes: [], record: true }
     }
@@ -145,6 +157,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   const spec = options.llm ? await chooseModel(options.model, context.config.model) : undefined
   const provider = await resolveProvider(spec, Boolean(options.offline), options.reasoning ?? context.config.reasoning)
   const needsImages = options.llm && criteria.some((criterion) => criterion.needs.vision)
+  const follow = followOptions(options.followLinks, options.llm, criteria, destinationCache({ dir: '.rampa/destinations' }))
   const cache = fileCache(options.cacheDir)
   const waivers = await loadWaivers()
   const concurrency = Math.max(1, Number.parseInt(options.concurrency, 10) || 4)
@@ -162,6 +175,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     concurrency,
     captureImages: needsImages,
     screenshots: Boolean(options.screenshots),
+    followLinks: follow,
     browser: async () => {
       browser ??= await launchBrowser()
       return browser

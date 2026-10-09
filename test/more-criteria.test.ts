@@ -123,7 +123,15 @@ describe('2.4.4 Link Purpose (In Context)', () => {
   it('rejects a quote that is not the link text and a fail with nothing to suggest', () => {
     const [candidate] = linkPurpose.candidates(storePage(), noFindings)
     if (!candidate) throw new Error('no candidate')
-    const fail = { verdict: 'fail', evidence: 'Click here', problem: 'generic', suggestedText: 'Shipping costs and times', confidence: 'high' } as const
+    const fail = {
+      promises: '',
+      leadsTo: '',
+      verdict: 'fail',
+      evidence: 'Click here',
+      problem: 'generic',
+      suggestedText: 'Shipping costs and times',
+      confidence: 'high',
+    } as const
     expect(linkPurpose.verify(fail, candidate, storePage())).toEqual({ ok: true })
     expect(linkPurpose.verify({ ...fail, evidence: 'Free shipping' }, candidate, storePage()).ok).toBe(false)
     expect(linkPurpose.verify({ ...fail, suggestedText: 'Click here' }, candidate, storePage()).ok).toBe(false)

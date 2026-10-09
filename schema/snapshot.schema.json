@@ -79,6 +79,57 @@
     "truncated": {
       "type": "boolean"
     },
+    "destinations": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "page",
+              "file",
+              "same-page",
+              "unreadable"
+            ]
+          },
+          "status": {
+            "type": "number"
+          },
+          "finalUrl": {
+            "type": "string"
+          },
+          "contentType": {
+            "type": "string"
+          },
+          "bytes": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "heading": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "section": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind"
+        ],
+        "additionalProperties": false
+      }
+    },
     "collectedAt": {
       "type": "string"
     },

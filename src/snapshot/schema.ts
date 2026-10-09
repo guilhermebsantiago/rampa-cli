@@ -54,6 +54,34 @@ export const A11yNodeSchema: z.ZodType<A11yNode> = z.lazy(() =>
   }),
 )
 
+/**
+ * What a link's address leads to, as Rampa read it one level deep (see docs/link-purpose.md).
+ * Recorded in the snapshot, so a saved snapshot is judged with the same facts offline.
+ */
+export const DestinationSchema = z.object({
+  /**
+   * page: an HTML page was read. file: something else was served, so only its type and size are known.
+   * same-page: the address points within the page itself. unreadable: nothing could be read; `reason` says why.
+   */
+  kind: z.enum(['page', 'file', 'same-page', 'unreadable']),
+  /** HTTP status of the last response; absent for local files. */
+  status: z.number().optional(),
+  /** Where the address ended after redirects, when that differs from the address itself. */
+  finalUrl: z.string().optional(),
+  contentType: z.string().optional(),
+  bytes: z.number().optional(),
+  title: z.string().optional(),
+  /** The page's first h1. */
+  heading: z.string().optional(),
+  /** The page's meta description. */
+  description: z.string().optional(),
+  /** The text where the address's #fragment points. */
+  section: z.string().optional(),
+  /** Why nothing could be read: not found, sign-in, timeout... */
+  reason: z.string().optional(),
+})
+export type Destination = z.infer<typeof DestinationSchema>
+
 export const A11ySnapshotSchema = z.object({
   schemaVersion: z.literal(1),
   surface: SurfaceSchema,
@@ -72,6 +100,8 @@ export const A11ySnapshotSchema = z.object({
     })
     .optional(),
   truncated: z.boolean().optional(),
+  /** Where the page's links lead, keyed by the href as written, for the links Rampa followed. */
+  destinations: z.record(z.string(), DestinationSchema).optional(),
   collectedAt: z.string(),
   collector: z.object({ name: z.string(), version: z.string() }),
 })
