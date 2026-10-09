@@ -38,7 +38,7 @@ export async function installGuard(context: BrowserContext): Promise<Guard> {
     const method = request.method()
     try {
       if (!SAFE_METHODS.has(method)) {
-        log.blocked.push({ method, url: request.url().slice(0, 300), at: now() })
+        log.blocked.push({ method, url: request.url().slice(0, 300), at: now(), type: request.resourceType() })
         return await route.abort('blockedbyclient')
       }
       if (request.resourceType() === 'eventsource') {

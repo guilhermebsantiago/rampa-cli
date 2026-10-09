@@ -106,7 +106,8 @@ export const ProbeRecordSchema = z.object({
   reason: z.string().optional(),
   /** What the network guard did while the probe ran; `at` is milliseconds since the probe started. */
   guard: z.object({
-    blocked: z.array(z.object({ method: z.string(), url: z.string(), at: z.number() })),
+    /** `type` is the browser's resource type: fetch, xhr, ping (sendBeacon), document, websocket... */
+    blocked: z.array(z.object({ method: z.string(), url: z.string(), at: z.number(), type: z.string().optional() })),
     navigations: z.array(z.object({ url: z.string(), at: z.number(), cause: z.string().optional() })),
     dialogs: z.array(z.object({ type: z.string(), message: z.string(), at: z.number() })),
   }),

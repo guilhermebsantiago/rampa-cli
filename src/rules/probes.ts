@@ -148,7 +148,8 @@ export function probeChecks(snapshot: A11ySnapshot, locale: Locale, rules: reado
 
 /** What the network guard stopped during a probe, for the coverage note: how many requests, and to which hosts. */
 export function guardNote(record: ProbeRecord, locale: Locale): string | undefined {
-  const blocked = Array.isArray(record.guard?.blocked) ? record.guard.blocked : []
+  // Beacons (sendBeacon, resource type ping) only report analytics: a page never waits on them to show content.
+  const blocked = (Array.isArray(record.guard?.blocked) ? record.guard.blocked : []).filter((entry) => entry.type !== 'ping')
   if (blocked.length === 0) return undefined
   const hosts = [
     ...new Set(

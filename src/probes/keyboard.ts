@@ -213,10 +213,35 @@ export function readFocus(): FocusRead {
 
 /** Runs in the page: whether `inner` is `outer` or inside it. */
 export function contains(args: { outer: string; inner: string }): boolean {
+  // `host path >>> path inside its shadow root`, as the kit writes refs into shadow roots.
+  const resolve = (ref: string): Element | null => {
+    const parts = ref.split(' >>> ')
+    let scope: Document | ShadowRoot | null = document
+    let el: Element | null = null
+    for (const part of parts) {
+      if (!scope) return null
+      el = scope.querySelector(part)
+      scope = el?.shadowRoot ?? null
+    }
+    return el
+  }
+  // Whether `a` holds `b`, crossing shadow roots on the way up from `b`.
+  const holds = (a: Element, b: Element): boolean => {
+    for (let node: Element | null = b; node; ) {
+      if (node === a) return true
+      const parent: Element | null = node.parentElement
+      if (parent) node = parent
+      else {
+        const root = node.getRootNode()
+        node = root instanceof ShadowRoot ? root.host : null
+      }
+    }
+    return false
+  }
   try {
-    const outer = document.querySelector(args.outer)
-    const inner = document.querySelector(args.inner)
-    return Boolean(outer && inner && (outer === inner || outer.contains(inner) || inner.contains(outer)))
+    const outer = resolve(args.outer)
+    const inner = resolve(args.inner)
+    return Boolean(outer && inner && (holds(outer, inner) || holds(inner, outer)))
   } catch {
     return false
   }
@@ -261,7 +286,6 @@ interface WalkResult {
 /** Whether one element holds the other; a ref into a shadow root (`host >>> inner`) is inside its host. */
 async function within(page: Page, outer: string, inner: string): Promise<boolean> {
   if (!outer || !inner) return false
-  if (inner.startsWith(`${outer} >>> `) || outer.startsWith(`${inner} >>> `)) return true
   return page.evaluate(contains, { outer, inner })
 }
 
@@ -274,7 +298,8 @@ const changeKind = (event: KeyEvent) => (event.type.startsWith('dialog-') ? 'dia
  * returns the change kinds that happened again, plus 'focus' when focus left it again. A newsletter
  * popup or a redirect on a timer that happened to fire during a key press does not repeat.
  */
-async function confirmChanges(page: Page, probe: ProbePage, ref: string, kinds: string[], movedAway: boolean, waitMs: number): Promise<string[]> {
+async function confirmChanges(page: Page, probe: ProbePage, stop: KeyStop, kinds: string[], movedAway: boolean, waitMs: number): Promise<string[]> {
+  const ref = stop.el?.ref ?? ''
   try {
     await page.evaluate(() => {
       const w = window as unknown as { __rampaSelf?: boolean }
@@ -287,36 +312,98 @@ async function confirmChanges(page: Page, probe: ProbePage, ref: string, kinds: 
     })
     await drainEvents(page, probe.guard.start)
     const from = probe.guard.now()
-    const focused = await page.evaluate((selector) => {
-      const w = window as unknown as { __rampaSelf?: boolean; __rampaKit: { deepActive(): Element | null } }
-      let el: HTMLElement | null = null
-      try {
-        el = document.querySelector<HTMLElement>(selector)
-      } catch {
-        return false
-      }
-      if (!el?.focus) return false
-      w.__rampaSelf = true
-      try {
-        el.focus({ preventScroll: true })
-      } finally {
-        w.__rampaSelf = false
-      }
-      return true
-    }, ref)
+    const focused = await page.evaluate(
+      ({ selector, inv }) => {
+        const w = window as unknown as { __rampaSelf?: boolean; __rampaInventory?: Element[]; __rampaKit: { deepActive(): Element | null } }
+        // The element itself when the walk knows it: the change being confirmed (a modal, a portal) can shift refs.
+        let el = (typeof inv === 'number' ? w.__rampaInventory?.[inv] : undefined) as HTMLElement | undefined | null
+        if (!el) {
+          try {
+            el = document.querySelector<HTMLElement>(selector)
+          } catch {
+            return false
+          }
+        }
+        if (!el?.focus) return false
+        // Landed: the element received a focus event, even if its own handler then sent focus on.
+        // Inert behind a modal, focus() does nothing, and nothing can be confirmed.
+        let landed = false
+        const mark = () => {
+          landed = true
+        }
+        el.addEventListener('focus', mark, { capture: true, once: true })
+        w.__rampaSelf = true
+        try {
+          el.focus({ preventScroll: true })
+        } finally {
+          w.__rampaSelf = false
+          el.removeEventListener('focus', mark, { capture: true })
+        }
+        return landed || w.__rampaKit.deepActive() === el
+      },
+      { selector: ref, inv: stop.inv },
+    )
     if (!focused) return []
     await page.waitForTimeout(Math.max(waitMs, 150))
     const again = [...(await drainEvents(page, probe.guard.start)), ...guardEvents(probe, from, probe.guard.now())]
     const repeated = new Set(again.filter((event) => CHANGE_TYPES.has(event.type) || event.type.startsWith('dialog-')).map(changeKind))
     const confirmed = kinds.filter((kind) => repeated.has(kind))
-    if (movedAway) {
+    // A focus move that came with a window, a modal or a navigation that did not happen again is that
+    // change's doing (a popup taking focus), not the element's.
+    if (movedAway && (kinds.length === 0 || confirmed.length > 0)) {
       const now = await page.evaluate(readFocus)
-      if (now.el?.ref !== ref) confirmed.push('focus')
+      if (now.el?.ref !== ref && !(await pulledFromElsewhere(page, stop, now, waitMs))) confirmed.push('focus')
     }
     return confirmed
   } catch {
     return []
   }
+}
+
+/**
+ * A control for a focus move: focus another control of the page. When focus goes to the same place from
+ * there too, a focus trap (a popup that opened meanwhile) is pulling it, not the element. Focus is put
+ * back where it was before returning.
+ */
+async function pulledFromElsewhere(page: Page, stop: KeyStop, now: FocusRead, waitMs: number): Promise<boolean> {
+  const other = await page.evaluate((inv) => {
+    const w = window as unknown as { __rampaSelf?: boolean; __rampaInventory?: Element[]; __rampaKit: { cssPath(el: Element): string; visible(el: Element): boolean } }
+    const own = typeof inv === 'number' ? w.__rampaInventory?.[inv] : undefined
+    const active = document.activeElement
+    const pick = (w.__rampaInventory ?? []).find((el) => el !== own && el !== active && !el.contains(active) && w.__rampaKit.visible(el)) as HTMLElement | undefined
+    if (!pick?.focus) return null
+    w.__rampaSelf = true
+    try {
+      pick.focus({ preventScroll: true })
+    } finally {
+      w.__rampaSelf = false
+    }
+    return w.__rampaKit.cssPath(pick)
+  }, stop.inv)
+  if (!other) return false
+  await page.waitForTimeout(Math.max(waitMs, 150))
+  const then = await page.evaluate(readFocus)
+  const pulled = then.el?.ref !== other && then.el?.ref === now.el?.ref
+  // Back where the element's own move had put focus, so the walk goes on from there.
+  if (now.el) {
+    await page.evaluate((ref) => {
+      const w = window as unknown as { __rampaSelf?: boolean }
+      let el: HTMLElement | null = null
+      try {
+        el = document.querySelector<HTMLElement>(ref)
+      } catch {
+        el = null
+      }
+      w.__rampaSelf = true
+      try {
+        el?.focus({ preventScroll: true })
+      } finally {
+        w.__rampaSelf = false
+      }
+    }, now.el.ref)
+  }
+  await drainEvents(page, 0)
+  return pulled
 }
 
 async function drainEvents(page: Page, start: number): Promise<KeyEvent[]> {
@@ -423,10 +510,15 @@ async function walk(page: Page, probe: ProbePage, key: 'Tab' | 'Shift+Tab', budg
     if (events.length > 0) stop.events = events
     const changes = [...new Set(events.filter((event) => CHANGE_TYPES.has(event.type) || event.type.startsWith('dialog-')).map(changeKind))]
     const movedAway = Boolean(stop.el && stop.after && !stop.afterWithin && stop.after.ref !== stop.el.ref)
-    if (stop.el && (changes.length > 0 || movedAway)) stop.confirmed = await confirmChanges(page, probe, stop.el.ref, changes, movedAway, rereadMs)
+    let settled: FocusRead | undefined
+    if (stop.el && (changes.length > 0 || movedAway)) {
+      stop.confirmed = await confirmChanges(page, probe, stop, changes, movedAway, rereadMs)
+      // The check moved focus: the walk goes on from where focus is now, not from where it was.
+      settled = await page.evaluate(readFocus)
+    }
     stops.push(stop)
 
-    const current = removed && target ? target.ref : keyOf(again.el || !read.el ? again : read)
+    const current = settled ? keyOf(settled) : removed && target ? target.ref : keyOf(again.el || !read.el ? again : read)
     if (current === OUTSIDE) {
       // Focus went back to the document: the walk went once around the page.
       if (stops.some((s) => s.el)) return { stops, end: 'cycled' }
