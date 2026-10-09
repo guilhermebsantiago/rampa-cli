@@ -130,6 +130,190 @@
         "additionalProperties": false
       }
     },
+    "observations": {
+      "type": "object",
+      "properties": {
+        "probes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "keyboard",
+                  "layout",
+                  "hover",
+                  "orientation",
+                  "media",
+                  "auth",
+                  "clock",
+                  "interact",
+                  "form"
+                ]
+              },
+              "version": {
+                "type": "string"
+              },
+              "conditions": {
+                "type": "object",
+                "properties": {
+                  "viewport": {
+                    "type": "object",
+                    "properties": {
+                      "width": {
+                        "type": "number"
+                      },
+                      "height": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "width",
+                      "height"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "deviceScaleFactor": {
+                    "type": "number"
+                  },
+                  "browser": {
+                    "type": "string"
+                  },
+                  "variant": {
+                    "type": "string"
+                  },
+                  "colorScheme": {
+                    "type": "string",
+                    "enum": [
+                      "light",
+                      "dark"
+                    ]
+                  },
+                  "reducedMotion": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "viewport",
+                  "deviceScaleFactor",
+                  "browser"
+                ],
+                "additionalProperties": false
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "complete",
+                  "partial",
+                  "skipped"
+                ]
+              },
+              "reason": {
+                "type": "string"
+              },
+              "guard": {
+                "type": "object",
+                "properties": {
+                  "blocked": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "method": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        },
+                        "at": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "method",
+                        "url",
+                        "at"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "navigations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "url": {
+                          "type": "string"
+                        },
+                        "at": {
+                          "type": "number"
+                        },
+                        "cause": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "url",
+                        "at"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "dialogs": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        },
+                        "at": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "message",
+                        "at"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "blocked",
+                  "navigations",
+                  "dialogs"
+                ],
+                "additionalProperties": false
+              },
+              "durationMs": {
+                "type": "number"
+              },
+              "data": {}
+            },
+            "required": [
+              "kind",
+              "version",
+              "conditions",
+              "status",
+              "guard",
+              "durationMs",
+              "data"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "probes"
+      ],
+      "additionalProperties": false
+    },
     "collectedAt": {
       "type": "string"
     },

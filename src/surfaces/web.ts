@@ -12,6 +12,7 @@ import { walkTree } from '../snapshot/tree.ts'
 import { type FollowOptions, followLinks } from './destinations.ts'
 import { type BrowserOptions, contextOptions, openPage, prepareContext } from './browser-options.ts'
 import { collectInPage } from './in-page.ts'
+import { type ProbeKind, runProbes } from '../probes/run.ts'
 
 export interface WebCollectOptions {
   runAxe: boolean
@@ -31,6 +32,8 @@ export interface WebCollectOptions {
   browserOptions?: BrowserOptions | undefined
   /** Reads the loaded page before collection; the crawler takes its links here, and may stop the collection by throwing. */
   inspect?: ((page: Page, response: Response | null) => Promise<void>) | undefined
+  /** Probes to run after collection, each on its own fresh page behind the network guard (docs/probes.md). */
+  probes?: readonly ProbeKind[] | undefined
 }
 
 export interface Collected {
@@ -47,11 +50,12 @@ const SYSTEM_BROWSERS = ['/usr/bin/chromium-browser', '/usr/bin/chromium', '/usr
  * Uses the browser already on the machine: RAMPA_BROWSER_PATH if set, then Chrome or Edge,
  * Playwright's Chromium if it was downloaded, and on Linux the distribution's Chromium.
  */
-export async function launchBrowser(): Promise<Browser> {
+export async function launchBrowser(options: { args?: string[] | undefined } = {}): Promise<Browser> {
+  const args = options.args ?? []
   const explicit = process.env.RAMPA_BROWSER_PATH
   if (explicit) {
     try {
-      return await chromium.launch({ executablePath: explicit, headless: true })
+      return await chromium.launch({ executablePath: explicit, headless: true, args })
     } catch (error) {
       throw new RampaError('browser-not-found', `Could not start RAMPA_BROWSER_PATH=${explicit}: ${errorMessage(error)}`)
     }
@@ -61,7 +65,7 @@ export async function launchBrowser(): Promise<Browser> {
   const failures: string[] = []
   for (const channel of channels) {
     try {
-      return await chromium.launch({ channel: channel === 'chromium' ? undefined : channel, headless: true })
+      return await chromium.launch({ channel: channel === 'chromium' ? undefined : channel, headless: true, args })
     } catch (error) {
       failures.push(`${channel}: ${errorMessage(error)}`)
     }
@@ -69,7 +73,7 @@ export async function launchBrowser(): Promise<Browser> {
   if (!preferred && process.platform === 'linux') {
     for (const executablePath of SYSTEM_BROWSERS.filter((path) => existsSync(path))) {
       try {
-        return await chromium.launch({ executablePath, headless: true })
+        return await chromium.launch({ executablePath, headless: true, args })
       } catch (error) {
         failures.push(`${executablePath}: ${errorMessage(error)}`)
       }
@@ -127,6 +131,10 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       destinations: Object.keys(destinations).length > 0 ? destinations : undefined,
       collectedAt: new Date().toISOString(),
       collector: { name: 'rampa-web', version: VERSION },
+    }
+    if (options.probes && options.probes.length > 0) {
+      const probes = await runProbes(browser, url, { kinds: options.probes, browserOptions: options.browserOptions, timeoutMs: options.timeoutMs })
+      snapshot.observations = { probes }
     }
     const engine = raw.axe ? engineFromAxe(raw.axe) : emptyEngine()
     return { snapshot, engine }

@@ -12,7 +12,7 @@ export const BASELINE_FILE = '.rampa/baseline.json'
 export interface BaselineEntry {
   fingerprint: string
   criterion: string
-  source: 'engine' | 'judgment'
+  source: 'engine' | 'judgment' | 'probe'
   /** The element: its snapshot ref, or the engine's selector when it has none. */
   ref?: string | undefined
   ruleId?: string | undefined

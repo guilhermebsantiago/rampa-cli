@@ -24,6 +24,7 @@ import { locateReport, readPageSource, repositoryRoot } from '../../source/locat
 import { type BrowserFlags, type BrowserOptions, parseBrowserFlags } from '../../surfaces/browser-options.ts'
 import { type CrawlFlags, crawlRequested } from '../../surfaces/crawl.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
+import { DETERMINISM_ARGS, type ProbeKind, parseProbeKinds } from '../../probes/run.ts'
 import type { GlobalContext } from '../context.ts'
 import { type FailOn, exitCode } from '../exit-code.ts'
 import { runSiteCheck } from './site.ts'
@@ -57,6 +58,8 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   onReports?: (reports: Report[]) => Promise<number>
   /** Which links to read before judging, for criteria that compare a link with where it leads. */
   followLinks?: FollowLinks
+  /** Probes to run on web pages after collection: layout, keyboard, all or none (docs/probes.md). */
+  probe?: string
 }
 
 /** Read links when a criterion needs their destinations and the judgment layer will run. */
@@ -104,6 +107,8 @@ interface CollectContext {
   followLinks: FollowOptions | undefined
   /** Viewport, device, session, headers and what to wait for, for web pages. */
   browserOptions: BrowserOptions | undefined
+  /** Probe kinds to run on web pages; empty runs none. */
+  probes: ProbeKind[]
   browser: () => Promise<Browser>
 }
 
@@ -117,6 +122,7 @@ async function collect(target: Target, ctx: CollectContext): Promise<Collected> 
         captureImages: ctx.captureImages,
         followLinks: ctx.followLinks,
         browserOptions: ctx.browserOptions,
+        probes: ctx.probes,
       })
       return { ...web, notes: [], record: true }
     }
@@ -171,7 +177,11 @@ async function saveRecording(dir: string, target: Target, collected: Collected):
 
 export async function runCheck(targets: string[], options: CheckCommandOptions, context: GlobalContext): Promise<number> {
   const browserOptions = parseBrowserFlags(options)
-  if (crawlRequested(options)) return runSiteCheck(targetsOrConfig(targets, context.config), options, context, browserOptions)
+  const probes = parseProbeKinds(options.probe)
+  if (crawlRequested(options)) {
+    if (probes.length > 0) process.stderr.write('rampa: --probe does not run with --crawl yet; the pages are checked without probes.\n')
+    return runSiteCheck(targetsOrConfig(targets, context.config), options, context, browserOptions)
+  }
   const resolved = await resolveTargets(targetsOrConfig(targets, context.config))
   const criteria = resolveCriteria(options.criteria.split(','))
   const runs = Math.max(1, Number.parseInt(options.runs, 10) || 1)
@@ -203,8 +213,10 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     screenshots: Boolean(options.screenshots),
     followLinks: follow,
     browserOptions,
+    probes,
     browser: async () => {
-      browser ??= await launchBrowser()
+      // Probes compare pixels: the browser renders with a fixed color profile and no LCD text.
+      browser ??= await launchBrowser(probes.length > 0 ? { args: DETERMINISM_ARGS } : {})
       return browser
     },
   }

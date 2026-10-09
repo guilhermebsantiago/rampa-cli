@@ -4,6 +4,7 @@ import { adoptionLines, noNewFindings } from '../adoption/render.ts'
 import type { Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
+import { probeCriterionName } from '../rules/probes.ts'
 import { WCAG21_A_AA, compareCriteria, criterionLabel } from '../wcag.ts'
 import type { Painter } from './color.ts'
 
@@ -41,6 +42,12 @@ export function renderReport(report: Report, options: PrettyOptions): string {
     lines.push('')
   }
 
+  if (report.needsReview && report.needsReview.length > 0) {
+    lines.push(p.bold(t(locale, 'needsReviewTitle')))
+    for (const item of report.needsReview) lines.push(...renderReview(item, locale, p))
+    lines.push('')
+  }
+
   const notes = notesOf(report, verbose)
   if (notes.length > 0) {
     for (const note of notes) lines.push(p.yellow(note))
@@ -75,6 +82,7 @@ export function renderReport(report: Report, options: PrettyOptions): string {
     ? list(report.coverage.notChecked)
     : t(locale, 'coverageNotCheckedCount', { count: report.coverage.notChecked.length, total: WCAG21_A_AA.length })
   lines.push(`  ${pad(t(locale, 'coverageNotChecked'))}${notCheckedText}`)
+  for (const line of probeCoverageLines(report)) lines.push(`  ${line}`)
   lines.push(p.bold(t(locale, report.surface === 'web' ? 'disclaimer' : report.surface === 'image' ? 'disclaimerImage' : 'disclaimerScreen')))
   lines.push(p.dim(t(locale, 'manualReview')))
   return lines.join('\n')
@@ -112,7 +120,12 @@ export function renderFinding(finding: Finding, locale: Locale, p: Painter): str
   }
   // A screenshot has no tree: the element was placed by a model, and the reader should know.
   if (finding.locatedBy) lines.push(p.dim(`    ${t(locale, 'locatedBy', { model: finding.locatedBy })}${finding.html ? ` · ${finding.html}` : ''}`))
-  if (finding.source === 'engine') {
+  if (finding.source === 'probe') {
+    const parts = [`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`, t(locale, 'experimental'), `${t(locale, 'probeRule')} ${finding.ruleId}`]
+    if (finding.beyondTarget) parts.push(t(locale, 'beyondTarget'))
+    parts.push(`id ${finding.fingerprint}`)
+    lines.push(p.dim(`    ${parts.join(' · ')}`))
+  } else if (finding.source === 'engine') {
     // The id is what a waiver names, so engine findings print it too.
     lines.push(p.dim(`    ${t(locale, finding.confidence)} · ${t(locale, 'engineRule')} ${finding.ruleId} · id ${finding.fingerprint}`))
   } else {
@@ -121,6 +134,41 @@ export function renderFinding(finding: Finding, locale: Locale, p: Painter): str
     parts.push(t(locale, 'verified'))
     parts.push(`id ${finding.fingerprint}`)
     lines.push(p.dim(`    ${parts.join(' · ')}`))
+  }
+  return lines
+}
+
+function renderReview(finding: Finding, locale: Locale, p: Painter): string[] {
+  const label = probeCriterionName(finding.criterion, locale)
+  const lines = [`  ${p.yellow('?')} ${finding.criterion}${label ? ` ${label}` : ''} · ${finding.ref ?? finding.target ?? ''}`, `    ${finding.message}`]
+  if (finding.evidence) lines.push(`    ${t(locale, 'evidence')}: ${finding.evidence}`)
+  lines.push(p.dim(`    ${t(locale, finding.confidence)} · ${t(locale, 'probeRule')} ${finding.ruleId} · id ${finding.fingerprint}`))
+  return lines
+}
+
+/** One line per criterion a probe rule checked: the method, its conditions and what it found. */
+export function probeCoverageLines(report: Report): string[] {
+  const { locale } = report
+  const rows = report.coverage.probes ?? []
+  if (rows.length === 0) return []
+  const lines = [t(locale, 'coverageProbed')]
+  for (const row of [...rows].sort((a, b) => compareCriteria(a.criterion, b.criterion))) {
+    const status =
+      row.status === 'failures'
+        ? t(locale, 'probeStatusFailures', { count: row.failures })
+        : row.status === 'needs-review'
+          ? t(locale, 'probeStatusReview', { count: row.review })
+          : row.status === 'no-failure-found'
+            ? t(locale, 'probeStatusClean')
+            : t(locale, 'probeStatusNotChecked')
+    const extra = [
+      row.status !== 'not-checked' ? t(locale, 'probeApplicable', { count: row.applicable }) : undefined,
+      row.failures > 0 && row.review > 0 ? t(locale, 'probeStatusReview', { count: row.review }) : undefined,
+      row.unmatched > 0 ? t(locale, 'probeUnmatched', { count: row.unmatched }) : undefined,
+      row.beyondTarget ? t(locale, 'beyondTarget') : undefined,
+      row.note,
+    ].filter(Boolean)
+    lines.push(`  ${row.criterion.padEnd(7)} ${row.method} (${row.rule}) · ${row.conditions}: ${status}${extra.length > 0 ? ` · ${extra.join(' · ')}` : ''}`)
   }
   return lines
 }

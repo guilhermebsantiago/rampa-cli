@@ -82,6 +82,43 @@ export const DestinationSchema = z.object({
 })
 export type Destination = z.infer<typeof DestinationSchema>
 
+/**
+ * What a probe saw while it drove the page read-only (keys, focus, viewport, injected CSS),
+ * after collection: facts, never verdicts. Rules turn them into findings, so a saved snapshot
+ * is judged again offline with no browser. See docs/probes.md.
+ */
+export const ProbeRecordSchema = z.object({
+  kind: z.enum(['keyboard', 'layout', 'hover', 'orientation', 'media', 'auth', 'clock', 'interact', 'form']),
+  /** The probe's version; each rule states which versions it reads. */
+  version: z.string(),
+  conditions: z.object({
+    viewport: z.object({ width: z.number(), height: z.number() }),
+    deviceScaleFactor: z.number(),
+    /** Such as 'msedge 141.0.3537.57 (headless)'. */
+    browser: z.string(),
+    /** 'reflow-320x256', 'text-spacing'... */
+    variant: z.string().optional(),
+    colorScheme: z.enum(['light', 'dark']).optional(),
+    reducedMotion: z.boolean().optional(),
+  }),
+  status: z.enum(['complete', 'partial', 'skipped']),
+  /** Why the probe stopped early or did not run: 'stop budget reached (150)', 'page navigated away'. */
+  reason: z.string().optional(),
+  /** What the network guard did while the probe ran; `at` is milliseconds since the probe started. */
+  guard: z.object({
+    blocked: z.array(z.object({ method: z.string(), url: z.string(), at: z.number() })),
+    navigations: z.array(z.object({ url: z.string(), at: z.number(), cause: z.string().optional() })),
+    dialogs: z.array(z.object({ type: z.string(), message: z.string(), at: z.number() })),
+  }),
+  durationMs: z.number(),
+  /** Per kind: refs, identities, bounds and measured numbers. */
+  data: z.unknown(),
+})
+export type ProbeRecord = z.infer<typeof ProbeRecordSchema>
+
+export const ObservationsSchema = z.object({ probes: z.array(ProbeRecordSchema) })
+export type Observations = z.infer<typeof ObservationsSchema>
+
 export const A11ySnapshotSchema = z.object({
   schemaVersion: z.literal(1),
   surface: SurfaceSchema,
@@ -102,6 +139,8 @@ export const A11ySnapshotSchema = z.object({
   truncated: z.boolean().optional(),
   /** Where the page's links lead, keyed by the href as written, for the links Rampa followed. */
   destinations: z.record(z.string(), DestinationSchema).optional(),
+  /** Facts recorded by probes (`--probe`), read by the probe rules; absent when no probe ran. */
+  observations: ObservationsSchema.optional(),
   collectedAt: z.string(),
   collector: z.object({ name: z.string(), version: z.string() }),
 })

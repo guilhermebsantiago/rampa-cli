@@ -160,7 +160,8 @@ export interface Finding {
   fingerprint: string
   criterion: string
   level: Level | undefined
-  source: 'engine' | 'judgment'
+  /** engine: axe-core or the tree rules; judgment: a model, verified; probe: a rule over facts a probe recorded. */
+  source: 'engine' | 'judgment' | 'probe'
   ref?: string | undefined
   target?: string | undefined
   message: string
@@ -178,6 +179,32 @@ export interface Finding {
   locatedBy?: string | undefined
   /** Set for local pages, by `locateReport`. */
   location?: SourceLocation | undefined
+  /** A check that has not passed the evaluation gate yet: reported below the threshold unless --min-confidence low. */
+  experimental?: boolean | undefined
+  /** A WCAG 2.2-only criterion in a WCAG 2.1 report: shown, never counted toward the exit code. */
+  beyondTarget?: boolean | undefined
+}
+
+/** What one probe rule did for one criterion: the method, its conditions and counts (docs/probes.md). */
+export interface ProbeCoverage {
+  criterion: string
+  /** The probe and its version, such as 'probe/layout@1'. */
+  method: string
+  /** The rule that read the probe's facts, such as 'rampa/reflow'. */
+  rule: string
+  /** What the probe emulated, such as '320×256 CSS px · chromium 141 (headless)'. */
+  conditions: string
+  status: 'failures' | 'no-failure-found' | 'needs-review' | 'not-checked'
+  /** Elements the rule could apply to. */
+  applicable: number
+  failures: number
+  review: number
+  /** Facts about elements that did not match the snapshot on the fresh load: never a finding. */
+  unmatched: number
+  /** Why the criterion was not checked, or what limits the result. */
+  note?: string | undefined
+  maturity: 'experimental' | 'stable'
+  beyondTarget?: boolean | undefined
 }
 
 export interface Discarded {
@@ -231,7 +258,15 @@ export interface Report {
   baseline?: BaselineComparison | undefined
   discarded: Discarded[]
   criteria: CriterionSummary[]
-  coverage: { engine: string[]; judged: string[]; notChecked: string[] }
+  coverage: {
+    engine: string[]
+    judged: string[]
+    notChecked: string[]
+    /** Criteria a probe rule checked, with its method and conditions; absent when no probe ran. */
+    probes?: ProbeCoverage[] | undefined
+  }
+  /** What a probe rule found that a person must look at: never a failure, never part of the exit code. */
+  needsReview?: Finding[] | undefined
   usage: Usage
   errors: string[]
   /** What the collector or the rules could not see or decide, in the report's language. */

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Guard fixture</title></head>
+<body>
+<main>
+  <h1>A page that tries to write, navigate and open windows</h1>
+  <form id="order" method="post" action="https://example.invalid/order"><input name="q" aria-label="Query"></form>
+</main>
+<script>
+  // Everything below happens on its own, shortly after load: the guard must stop and log each one.
+  setTimeout(() => {
+    fetch('https://example.invalid/collect', { method: 'POST', body: 'x' }).catch(() => {})
+    navigator.sendBeacon('https://example.invalid/beacon', 'y')
+    try { new WebSocket('wss://example.invalid/socket') } catch {}
+    try { new EventSource('https://example.invalid/stream') } catch {}
+    window.open('https://example.invalid/popup')
+    document.getElementById('order').requestSubmit()
+    alert('Subscribe now')
+    setTimeout(() => { location.href = 'https://example.invalid/next' }, 100)
+  }, 200)
+</script>
+</body>
+</html>

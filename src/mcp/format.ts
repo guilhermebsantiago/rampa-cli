@@ -27,7 +27,9 @@ export const FindingSchema = z.object({
   criterion: z.string(),
   criterion_name: z.string().optional(),
   level: z.enum(['A', 'AA', 'AAA']).optional(),
-  source: z.enum(['engine', 'judgment']).describe('engine: an axe-core rule failed; judgment: a model claim that passed verification'),
+  source: z
+    .enum(['engine', 'judgment', 'probe'])
+    .describe('engine: an axe-core rule failed; judgment: a model claim that passed verification; probe: a rule over what a probe measured on the page'),
   selector: z.string().optional().describe('The element: a CSS selector on the web, the native locator elsewhere'),
   message: z.string(),
   evidence: z.string().optional().describe('Text quoted from the element, checked to be on the page'),

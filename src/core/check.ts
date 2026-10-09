@@ -1,5 +1,6 @@
 import type { Locale } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
+import { probeChecks } from '../rules/probes.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
 import { WCAG21_A_AA, compareCriteria, successCriterion } from '../wcag.ts'
@@ -72,6 +73,9 @@ export function engineFindings(engine: EngineResults): Finding[] {
 
 export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResults, options: CheckOptions): Promise<Report> {
   const findings: Finding[] = engineFindings(engine)
+  // Facts a probe recorded in the snapshot, turned into findings by rules: no browser, no model.
+  const probe = probeChecks(snapshot, options.locale)
+  findings.push(...probe.findings)
   const discarded: Discarded[] = []
   const summaries: CriterionSummary[] = []
   const errors: string[] = []
@@ -178,8 +182,10 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const waived = findings.filter((f) => options.waivers?.has(f.fingerprint))
   const active = findings.filter((f) => !options.waivers?.has(f.fingerprint))
   const threshold = CONFIDENCE_RANK[options.minConfidence]
-  const reported = active.filter((f) => CONFIDENCE_RANK[f.confidence] >= threshold)
-  const belowThreshold = active.filter((f) => CONFIDENCE_RANK[f.confidence] < threshold)
+  // An experimental check reports below the default threshold until it passes the evaluation gate.
+  const shown = (f: Finding) => CONFIDENCE_RANK[f.confidence] >= threshold && (!f.experimental || options.minConfidence === 'low')
+  const reported = active.filter(shown)
+  const belowThreshold = active.filter((f) => !shown(f))
   reported.sort((a, b) => compareCriteria(a.criterion, b.criterion))
 
   const all = new Set(WCAG21_A_AA.map((sc) => sc.id))
@@ -187,7 +193,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     engine.rules.filter((r) => r.outcome !== 'inapplicable').flatMap((r) => r.criteria.filter((c) => all.has(c))),
   )
   const judged = summaries.filter((s) => s.judged > 0).map((s) => s.criterion)
-  const notChecked = [...all].filter((id) => !engineCovered.has(id) && !judged.includes(id))
+  const probed = new Set(probe.coverage.filter((c) => c.status !== 'not-checked').map((c) => c.criterion))
+  const notChecked = [...all].filter((id) => !engineCovered.has(id) && !judged.includes(id) && !probed.has(id))
 
   return {
     schemaVersion: 1,
@@ -208,7 +215,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       engine: [...engineCovered].sort(compareCriteria),
       judged: judged.sort(compareCriteria),
       notChecked: notChecked.sort(compareCriteria),
+      ...(probe.coverage.length > 0 ? { probes: probe.coverage } : {}),
     },
+    ...(probe.review.length > 0 ? { needsReview: probe.review.filter((f) => !options.waivers?.has(f.fingerprint)) } : {}),
     usage,
     errors,
   }

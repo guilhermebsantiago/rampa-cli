@@ -129,7 +129,7 @@ export interface RepeatedFinding {
   signature: string
   criterion: string
   level: Level | undefined
-  source: 'engine' | 'judgment'
+  source: 'engine' | 'judgment' | 'probe'
   ruleId?: string | undefined
   helpUrl?: string | undefined
   message: string

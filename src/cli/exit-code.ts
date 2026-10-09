@@ -21,13 +21,15 @@ export function parseFailOn(value: string): FailOn {
 }
 
 export function failingFindings(reports: readonly Report[], policy: FailOn): Finding[] {
-  const confirmed = reports.flatMap((report) => report.findings)
+  // A WCAG 2.2-only result in a 2.1 report is shown but never gates; needs-review items never do.
+  const counted = (finding: Finding) => !finding.beyondTarget
+  const confirmed = reports.flatMap((report) => report.findings).filter(counted)
   switch (policy) {
     case 'none':
     case 'never':
       return []
     case 'any':
-      return [...confirmed, ...reports.flatMap((report) => report.belowThreshold)]
+      return [...confirmed, ...reports.flatMap((report) => report.belowThreshold).filter(counted)]
     case 'A':
       return confirmed.filter((finding) => finding.level === 'A')
     case 'AA':
