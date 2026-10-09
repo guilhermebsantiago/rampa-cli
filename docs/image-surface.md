@@ -13,7 +13,7 @@ When the screen has an accessibility tree, check that instead: a web page, an [A
 
 ## What it does
 
-1. **Find the text.** A vision model lists each piece of text it sees: the text, what it is (a heading, a label, a placeholder, a logo…) and a box in thousandths of the image. One call per image, cached like a judgment.
+1. **Find the text.** A vision model lists each piece of text it sees: the text, what it is (a heading, a label, a placeholder, a logo…) and a box in thousandths of the image. That is one call per image; reading the boxes in step 2 takes one more per box. Every call is cached like a judgment, so a rerun or `--offline` costs nothing.
 2. **Check every box.** Models place boxes loosely, so each box is a claim to check, not a fact:
    - a box outside the image, inverted, or as large as much of the screen is dropped;
    - a box that holds no text pixels (only one flat color, or only a border) is dropped;
