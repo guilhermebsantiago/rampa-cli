@@ -7,10 +7,13 @@ import type { Reasoning } from '../../providers/ai-sdk.ts'
 import { chooseModel } from '../../providers/detect.ts'
 import { VERSION } from '../../version.ts'
 import type { GlobalContext } from '../context.ts'
+import { wcagOption } from './check.ts'
 
 export interface McpCommandOptions {
   model?: string
   llm: boolean
+  /** The WCAG version a call states coverage against when it names none. */
+  wcag?: string
   offline?: boolean
   reasoning?: Reasoning
   cacheDir: string
@@ -35,6 +38,7 @@ export async function runMcp(options: McpCommandOptions, context: GlobalContext)
     createMcpServer({
       model: options.model,
       llm: options.llm,
+      wcag: wcagOption(options.wcag),
       locale: context.locale,
       offline: Boolean(options.offline),
       reasoning: options.reasoning ?? context.config.reasoning,

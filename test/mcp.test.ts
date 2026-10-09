@@ -71,6 +71,7 @@ describe('rampa mcp tools', () => {
       'locale',
       'runs',
       'min_confidence',
+      'wcag',
       'max_findings',
     ])
     for (const tool of tools) {
@@ -87,11 +88,13 @@ describe('rampa mcp tools', () => {
     expect(list.judged.map((c) => c.id)).toEqual([...CRITERIA.keys()])
     expect(list.default_criteria).toEqual(DEFAULT_CRITERIA)
     expect(list.judged.find((c) => c.id === '1.1.1')).toMatchObject({ level: 'A', needs_vision: true, default: true })
-    expect(list.wcag).toHaveLength(50)
+    expect(list.wcag).toHaveLength(55)
     const checkedBy = (id: string) => list.wcag.find((sc) => sc.id === id)?.checked_by
     expect(checkedBy('1.1.1')).toEqual(['axe-core', 'rampa judgment'])
     expect(checkedBy('1.4.3')).toEqual(['axe-core'])
     expect(checkedBy('2.4.7')).toEqual([])
+    expect(checkedBy('2.5.8')).toEqual(['axe-core'])
+    expect(list.wcag.some((sc) => sc.id === '4.1.1')).toBe(false)
     expect(textOf(result)).toContain('never declares a page accessible')
   })
 
@@ -110,10 +113,12 @@ describe('rampa mcp tools', () => {
       confidence: 'high',
       patch: { kind: 'set-attribute', attribute: 'alt', before: '<img src="mug.svg" alt="IMG_2034.jpg">' },
     })
-    expect(check.coverage.judged).toEqual(['1.1.1', '1.3.5', '2.4.2', '2.4.4', '2.4.6', '3.1.1', '3.1.2'])
+    // The language identifier reads the page's long English text and decides 3.1.1 without the model: a rule, not a judgment.
+    expect(check.coverage.judged).toEqual(['1.1.1', '1.3.5', '2.4.2', '2.4.4', '2.4.6', '3.1.2'])
+    expect(check.coverage.checked_by_rules).toContain('3.1.1')
     expect(check.coverage.not_checked.length).toBeGreaterThan(30)
     expect(check.coverage.statement).toBe('This report does not declare the page accessible. What was not checked needs manual review and testing with people.')
-    expect(check.usage).toMatchObject({ model_calls: 0, cached_calls: 14, estimated_cost_usd: 0 })
+    expect(check.usage).toMatchObject({ model_calls: 0, cached_calls: 13, estimated_cost_usd: 0 })
     const text = textOf(result)
     expect(text).toContain('9 finding(s): 1 from axe-core, 8 judged with verified evidence.')
     expect(text).toContain('+ <blockquote lang="nl">')
@@ -211,7 +216,7 @@ describe('rampa mcp tools', () => {
     expect(explanation.criterion).toMatchObject({
       id: '1.1.1',
       judged_by_rampa: true,
-      understanding_url: 'https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html',
+      understanding_url: 'https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html',
     })
     expect(explanation.wcag_text).toMatch(/^All non-text content that is presented to the user has a text alternative/)
     expect(explanation.finding?.target).toBe('examples/store/before.html')
@@ -224,7 +229,7 @@ describe('rampa mcp tools', () => {
     const explanation = result.structuredContent as Explanation
     expect(explanation.criterion).toMatchObject({ name: 'Contrast (Minimum)', level: 'AA', judged_by_rampa: false })
     expect(explanation.criterion.axe_rules).toContain('color-contrast')
-    expect(explanation.how_to_fix.join(' ')).toContain('https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html')
+    expect(explanation.how_to_fix.join(' ')).toContain('https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html')
   })
 
   it('says what to pass when explain_finding cannot tell what to explain', async () => {
@@ -326,7 +331,7 @@ describe('rampa mcp defaults', () => {
     await close()
     expect(result.isError).toBe(true)
     const text = textOf(result)
-    expect(text).toMatch(/^The model ollama:gemma4:12b failed on all 14 candidate\(s\): .*What axe-core found is below\./)
+    expect(text).toMatch(/^The model ollama:gemma4:12b failed on all 13 candidate\(s\): .*What axe-core found is below\./)
     expect(text).toContain('Images must have alternative text')
     expect(text).toContain('This report does not declare the page accessible.')
   })

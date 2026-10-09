@@ -12,7 +12,7 @@ export const BASELINE_FILE = '.rampa/baseline.json'
 export interface BaselineEntry {
   fingerprint: string
   criterion: string
-  source: 'engine' | 'judgment' | 'probe'
+  source: 'engine' | 'judgment' | 'rule' | 'probe'
   /** The element: its snapshot ref, or the engine's selector when it has none. */
   ref?: string | undefined
   ruleId?: string | undefined
@@ -191,9 +191,11 @@ export function findTarget(baseline: BaselineFile, key: string): [string, Baseli
  * start tag for the engine, what was judged for a judgment. Undefined when there is nothing to go on.
  */
 function contentKey(entry: Pick<BaselineEntry, 'criterion' | 'source' | 'ruleId' | 'subject' | 'element'>): string | undefined {
-  if (entry.source === 'engine' || entry.source === 'probe') {
-    return entry.element ? `${entry.criterion}|${entry.source}|${entry.ruleId ?? ''}|${normalizeForMatch(entry.element)}` : undefined
-  }
+  if (entry.source === 'engine') return entry.element ? `${entry.criterion}|engine|${entry.ruleId ?? ''}|${normalizeForMatch(entry.element)}` : undefined
+  // A rule's hit is about what it read (the alt text, the title), like a judgment, and names its rule like the engine.
+  if (entry.source === 'rule') return entry.subject?.trim() ? `${entry.criterion}|rule|${entry.ruleId ?? ''}|${normalizeForMatch(entry.subject)}` : undefined
+  // A probe's hit is about the element it measured, like the engine's.
+  if (entry.source === 'probe') return entry.element ? `${entry.criterion}|probe|${entry.ruleId ?? ''}|${normalizeForMatch(entry.element)}` : undefined
   return entry.subject?.trim() ? `${entry.criterion}|judgment|${normalizeForMatch(entry.subject)}` : undefined
 }
 
@@ -204,13 +206,18 @@ function contentKey(entry: Pick<BaselineEntry, 'criterion' | 'source' | 'ruleId'
  */
 function rechecked(entry: BaselineEntry, report: Report): boolean {
   if (entry.source === 'engine') return report.engine.name !== 'none'
+  // Rules run on every check, with or without a model, and decide the same way on the same page.
+  if (entry.source === 'rule') return true
   // A probe finding is rechecked when its rule ran on a probe record this time and listed every failure it
   // counted: past the cap of findings per rule, a failure that is still there is simply not listed.
   if (entry.source === 'probe') {
     const rows = report.coverage.probes?.filter((row) => row.criterion === entry.criterion && row.status !== 'not-checked') ?? []
     if (rows.length === 0) return false
     const counted = rows.reduce((total, row) => total + row.failures, 0)
-    const listed = [...report.findings, ...report.belowThreshold, ...report.waived].filter((f) => f.source === 'probe' && f.criterion === entry.criterion).length
+    // Under --wcag 2.1, a 2.4.11 failure is listed beyond the target.
+    const listed = [...report.findings, ...report.belowThreshold, ...report.waived, ...(report.beyondTarget ?? [])].filter(
+      (f) => f.source === 'probe' && f.criterion === entry.criterion,
+    ).length
     return listed >= counted
   }
   if (report.llm !== 'on') return false

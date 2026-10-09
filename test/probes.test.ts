@@ -59,7 +59,10 @@ describe('probe rules over recorded observations', () => {
     expect(byCriterion['1.4.12']).toMatchObject({ status: 'not-checked', note: 'probe version 9 is not one this rule reads' })
     // An empty walk: 2.1.1 cannot say what was missed.
     expect(byCriterion['2.1.1']).toMatchObject({ status: 'not-checked' })
-    expect(byCriterion['2.4.11']).toMatchObject({ beyondTarget: true })
+    // 2.4.11 is in Rampa's default WCAG 2.2 target; under --wcag 2.1 it is beyond it.
+    expect(byCriterion['2.4.11']?.beyondTarget).toBeUndefined()
+    const older = probeChecks(snapshotWith([record('keyboard-walk', { data: 'not an object' })]), 'en', PROBE_RULES, '2.1')
+    expect(older.coverage.find((row) => row.criterion === '2.4.11')).toMatchObject({ beyondTarget: true })
   })
 
   it('keeps unchecked criteria in the "not checked" list and probed ones out of it', async () => {
@@ -68,6 +71,19 @@ describe('probe rules over recorded observations', () => {
     const probed = await checkSnapshot(snapshotWith([record('reflow-320x256', { data: { baseline: {}, variant: {} } })]), emptyEngine(), probeCheckOptions())
     expect(probed.coverage.notChecked).not.toContain('1.4.10')
     expect(probed.coverage.probes?.[0]).toMatchObject({ criterion: '1.4.10', status: 'no-failure-found', maturity: 'experimental' })
+  })
+
+  it('gives each probe rule a method of kind probe in the per-criterion coverage', async () => {
+    const skipped = await checkSnapshot(snapshotWith([record('reflow-320x256', { status: 'skipped', reason: 'x' })]), emptyEngine(), probeCheckOptions())
+    const unchecked = skipped.coverage.criteria?.find((c) => c.id === '1.4.10')
+    expect(unchecked?.status).toBe('not-checked')
+    expect(unchecked?.methods).toEqual([
+      { kind: 'probe', id: 'rampa/reflow', ran: false, applicable: 0, failures: 0, review: 0, maturity: 'experimental', probe: { method: 'probe/layout@1', conditions: expect.any(String), note: 'x' } },
+    ])
+    const probed = await checkSnapshot(snapshotWith([record('reflow-320x256', { data: { baseline: {}, variant: {} } })]), emptyEngine(), probeCheckOptions())
+    const checked = probed.coverage.criteria?.find((c) => c.id === '1.4.10')
+    expect(checked?.status).not.toBe('not-checked')
+    expect(checked?.methods).toEqual([expect.objectContaining({ kind: 'probe', id: 'rampa/reflow', ran: true, maturity: 'experimental' })])
   })
 })
 

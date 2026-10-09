@@ -60,7 +60,7 @@
     "dev": "node src/cli.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --dir test --hookTimeout 60000",
-    "test:watch": "vitest --dir test",
+    "test:watch": "vitest --dir test --hookTimeout 60000",
     "media": "pnpm build && node scripts/media.ts"
   },
   "dependencies": {
@@ -82,6 +82,7 @@
     "ai": "^7.0.130",
     "axe-core": "^4.14.0",
     "commander": "^15.0.0",
+    "eld": "^2.1.0",
     "playwright-core": "^1.63.0",
     "zod": "^4.6.5"
   },

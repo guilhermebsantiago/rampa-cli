@@ -59,7 +59,7 @@ export function inheritedLang(index: TreeIndex, ref: string, fallback?: string):
 export function textInheritingLang(node: A11yNode): string {
   const parts: string[] = []
   const visit = (current: A11yNode, isRoot: boolean): void => {
-    if (!isRoot && current.lang !== undefined) return
+    if (!isRoot && current.lang !== undefined && current.lang.trim() !== '') return
     if (current.text) parts.push(current.text)
     if (current.role === 'img' && current.name) parts.push(current.name)
     for (const child of current.children) visit(child, false)

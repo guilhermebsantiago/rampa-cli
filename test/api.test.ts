@@ -31,7 +31,7 @@ describe('check', () => {
 
   it('judges with the recorded model answers, offline', async () => {
     const [report] = await check(recorded, replay)
-    expect(report).toMatchObject({ llm: 'on', model: 'ollama:gemma4:12b', usage: { calls: 0, cachedCalls: 14 } })
+    expect(report).toMatchObject({ llm: 'on', model: 'ollama:gemma4:12b', usage: { calls: 0, cachedCalls: 13 } })
     expect(report?.findings.map((f) => `${f.criterion} ${f.source}`)).toEqual([
       '1.1.1 engine',
       '1.1.1 judgment',

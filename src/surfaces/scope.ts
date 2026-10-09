@@ -111,7 +111,7 @@ export function scopeTree(root: A11yNode, included: ReadonlySet<string>, exclude
 
 /** Texts the collector recorded for the whole subtree would still read what was removed from it. */
 function withoutRecordedText(node: A11yNode, children: A11yNode[]): A11yNode {
-  const { readingText: _reading, langText: _lang, ...native } = node.native
+  const { readingText: _reading, fullText: _full, langText: _lang, ...native } = node.native
   return { ...node, native, children }
 }
 

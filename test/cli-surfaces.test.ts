@@ -102,7 +102,8 @@ describe('rampa check on app screens', () => {
       ['1.4.3', 'email'],
       ['4.1.2', 'togglePassword'],
     ])
-    expect(report.coverage.engine).toEqual(['1.1.1', '1.4.3', '4.1.2'])
+    // 2.5.8 from the bounds, in points: every control of the login screen has room.
+    expect(report.coverage.engine).toEqual(['1.1.1', '1.4.3', '2.5.8', '4.1.2'])
     expect((await readdir(save)).sort()).toEqual(['examples-ios-login.engine.json', 'examples-ios-login.png', 'examples-ios-login.snapshot.json'])
   })
 
@@ -123,7 +124,7 @@ describe('report wording per surface', () => {
 
   it('speaks of a screen on apps and of an image for a screenshot', async () => {
     const android = await rendered('examples/android/login.xml')
-    expect(android).toContain('Surface: android · rampa-rules')
+    expect(android).toContain('Surface: android · WCAG 2.2 A/AA · rampa-rules')
     expect(android).toContain('This report does not declare the screen accessible.')
     const image = await rendered('examples/image/sign-in.png')
     expect(image).toContain('This report does not declare the image accessible.')

@@ -1,6 +1,7 @@
 import { Output, generateText } from 'ai'
 import { z } from 'zod'
 import { RampaError } from '../core/util.ts'
+import { createCliProvider } from './cli/provider.ts'
 import { PROVIDERS, type ProviderDef, findProvider } from './registry.ts'
 import type { ModelProvider } from './types.ts'
 
@@ -50,10 +51,15 @@ export function providerIdentity(spec: string, reasoning?: Reasoning): { id: str
 export async function createModelProvider(spec: string, options: ProviderOptions = {}): Promise<ModelProvider> {
   const { provider, modelId } = parseModelSpec(spec)
   const definition = providerFor(provider)
+  if (definition.cli) {
+    const reasoning = options.reasoning ?? definition.reasoning
+    return createCliProvider(definition.cli, modelId, providerIdentity(spec, reasoning), reasoning)
+  }
   const missing = definition.missing()
   if (missing.length > 0) {
     throw new RampaError('missing-api-key', `${definition.name} needs ${missing.join(' and ')} to use ${definition.id}:${modelId}. See rampa doctor.`)
   }
+  if (!definition.create) throw new RampaError('unknown-provider', `${definition.name} has no model to create.`)
   const resolved = await definition.create(modelId, options.fetch)
   const reasoning = options.reasoning ?? definition.reasoning
   return {

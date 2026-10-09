@@ -10,6 +10,7 @@ export function withConfigOptions<T extends object>(command: Command, options: T
   const fromConfig: Record<string, string | undefined> = {
     criteria: config.criteria?.join(','),
     minConfidence: config.minConfidence,
+    wcag: config.wcag === undefined ? undefined : String(config.wcag),
     runs: config.runs === undefined ? undefined : String(config.runs),
     cacheDir: config.cacheDir,
     concurrency: config.concurrency === undefined ? undefined : String(config.concurrency),

@@ -1,7 +1,7 @@
 import type { Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { displayTarget } from '../report/pretty.ts'
-import { WCAG21_A_AA, compareCriteria, criterionLabel } from '../wcag.ts'
+import { compareCriteria, criteriaFor, criterionLabel, versionOf } from '../wcag.ts'
 
 /** When reports pass, for the matchers, `assertRampa` and the fixture. */
 export interface AssertOptions {
@@ -39,7 +39,7 @@ const TEXT = {
     confidence: 'confidence {level}',
     runs: '{votes}/{total} runs',
     verified: 'evidence verified',
-    coverage: 'Coverage: {engine} checked {engineList}; judged with verified evidence: {judgedList}; not checked automatically: {count} of {total} WCAG 2.1 A/AA criteria.',
+    coverage: 'Coverage: {engine} checked {engineList}; judged with verified evidence: {judgedList}; not checked automatically: {count} of {total} WCAG {version} A/AA criteria.',
     none: 'none',
     waiverHint: 'To dismiss a finding on purpose, add its waiver id to .rampa/waivers.json or to the waivers option.',
     expectedFailures: 'Expected Rampa to find failures, and it found none.',
@@ -52,7 +52,7 @@ const TEXT = {
     findingsOne: '1 finding',
     findingsMany: '{count} findings',
     summaryJudged: 'judged: {list}',
-    summaryNotChecked: 'not checked automatically: {count} of {total} WCAG 2.1 A/AA criteria',
+    summaryNotChecked: 'not checked automatically: {count} of {total} WCAG {version} A/AA criteria',
     summaryModel: 'model {model}',
     summaryOff: 'judgment off (noLlm)',
     summaryNoModel: 'no model: {engine} only',
@@ -75,7 +75,7 @@ const TEXT = {
     confidence: 'confiança {level}',
     runs: '{votes}/{total} rodadas',
     verified: 'evidência verificada',
-    coverage: 'Cobertura: {engine} verificou {engineList}; julgado com evidência verificada: {judgedList}; não verificado automaticamente: {count} de {total} critérios WCAG 2.1 A/AA.',
+    coverage: 'Cobertura: {engine} verificou {engineList}; julgado com evidência verificada: {judgedList}; não verificado automaticamente: {count} de {total} critérios WCAG {version} A/AA.',
     none: 'nenhum',
     waiverHint: 'Para dispensar um achado de propósito, adicione o id em .rampa/waivers.json ou na opção waivers.',
     expectedFailures: 'Esperava que o Rampa encontrasse falhas, e ele não encontrou nenhuma.',
@@ -88,7 +88,7 @@ const TEXT = {
     findingsOne: '1 achado',
     findingsMany: '{count} achados',
     summaryJudged: 'julgado: {list}',
-    summaryNotChecked: 'não verificado automaticamente: {count} de {total} critérios WCAG 2.1 A/AA',
+    summaryNotChecked: 'não verificado automaticamente: {count} de {total} critérios WCAG {version} A/AA',
     summaryModel: 'modelo {model}',
     summaryOff: 'julgamento desligado (noLlm)',
     summaryNoModel: 'sem modelo: só o {engine}',
@@ -233,7 +233,8 @@ function coverageLine(report: Report): string {
     engineList: report.coverage.engine.join(', ') || none,
     judgedList: report.coverage.judged.join(', ') || none,
     count: report.coverage.notChecked.length,
-    total: WCAG21_A_AA.length,
+    total: criteriaFor(versionOf(report.wcagTarget)).length,
+    version: versionOf(report.wcagTarget),
   })
 }
 
@@ -250,7 +251,11 @@ export function summarize(report: Report): string {
   return [
     count === 1 ? text(locale, 'findingsOne') : text(locale, 'findingsMany', { count }),
     text(locale, 'summaryJudged', { list: report.coverage.judged.join(', ') || text(locale, 'none') }),
-    text(locale, 'summaryNotChecked', { count: report.coverage.notChecked.length, total: WCAG21_A_AA.length }),
+    text(locale, 'summaryNotChecked', {
+      count: report.coverage.notChecked.length,
+      total: criteriaFor(versionOf(report.wcagTarget)).length,
+      version: versionOf(report.wcagTarget),
+    }),
     judgment,
   ].join(' · ')
 }

@@ -22,6 +22,8 @@ export interface InPageAxeNode {
   html: string
   message?: string | undefined
   impact?: string | null | undefined
+  /** target-size only: an exception of WCAG 2.5.8 the page shows for this target (rules/target-size.ts applies it). */
+  exempt?: 'user-agent-control' | 'equivalent-target' | undefined
 }
 
 export interface InPageAxeRule {
@@ -51,6 +53,8 @@ export interface InPageResult {
 export interface InPageOptions {
   runAxe: boolean
   axeTags: string[]
+  /** Rules to run besides the tags, such as experimental ones the tags leave out. */
+  axeRules?: string[] | undefined
   axeLocale: unknown
   maxNodes: number
   /** axe-core's own context, to check part of the page: selectors to include and exclude. The whole document when absent. */
@@ -62,7 +66,9 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   const READING_BLOCKS = new Set(['p', 'li', 'td', 'th', 'dt', 'dd', 'blockquote', 'figcaption', 'caption', 'label', 'legend', 'summary', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
   const MAX_PASS_NODES = 200
   const SKIP = new Set(['script', 'style', 'noscript', 'template', 'head', 'meta', 'link', 'title', 'base'])
-  const KEEP_ATTRS = ['id', 'class', 'lang', 'href', 'src', 'alt', 'title', 'type', 'role', 'name', 'for', 'aria-label', 'aria-labelledby', 'aria-hidden', 'aria-level', 'aria-describedby', 'placeholder', 'autocomplete', 'pattern']
+  const KEEP_ATTRS = ['id', 'class', 'lang', 'href', 'src', 'alt', 'title', 'type', 'role', 'name', 'for', 'aria-label', 'aria-labelledby', 'aria-hidden', 'aria-level', 'aria-describedby', 'placeholder', 'autocomplete', 'pattern',
+    // What a field accepts, and whether its form validates it: the cognitive profile reads them (coga/input-formats).
+    'maxlength', 'minlength', 'min', 'max', 'step', 'inputmode', 'required', 'aria-required', 'novalidate', 'formnovalidate']
   const NAME_FROM_CONTENT = new Set(['a', 'button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'summary', 'option', 'th', 'td', 'li', 'label', 'legend', 'caption', 'figcaption'])
   const refs = new Map<Element, string>()
   let count = 0
@@ -164,6 +170,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
         return 'dialog'
       case 'figure':
         return 'figure'
+      case 'fieldset':
+        return 'group'
       case 'svg':
         return 'graphics-document'
       default:
@@ -204,6 +212,12 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       const text = labels ? Array.from(labels).map((label) => collapse(labelText(label, el))).filter(Boolean).join(' ') : ''
       if (text) return text
     }
+    // A fieldset is a group named by its legend.
+    if (tag === 'fieldset') {
+      const legend = Array.from(el.children).find((child) => child.localName === 'legend')
+      const text = collapse(legend?.textContent)
+      if (text) return text.slice(0, 300)
+    }
     if (NAME_FROM_CONTENT.has(tag) || role === 'link' || role === 'button' || role === 'heading') {
       const text = collapse(el.textContent)
       if (text) return text.slice(0, 300)
@@ -220,14 +234,37 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     return collapse(text) || undefined
   }
 
-  /** Text in reading order whose closest lang ancestor is `el`. */
+  /**
+   * Text that inherits its language from `el`, as ACT defines it (rules ucwvc8, off6ek): text nodes in reading order
+   * whose closest ancestor with a non-empty lang is `el`, and the names and descriptions of those elements that come
+   * from attributes. The page title, which inherits the root's language, is the snapshot's title.
+   */
   const langText = (el: Element): string => textInOrder(el, true)
 
+  /** What a screen reader reads for an element besides its text: names and descriptions set in attributes. */
+  const attributeTexts = (el: Element): string[] => {
+    if (el.closest('[aria-hidden="true"]')) return []
+    const byIds = (attribute: string): string =>
+      (el.getAttribute(attribute) ?? '')
+        .split(/\s+/)
+        .map((id) => (id ? collapse(document.getElementById(id)?.textContent) : ''))
+        .filter(Boolean)
+        .join(' ')
+    const texts: string[] = []
+    const tag = el.localName
+    const labelledBy = byIds('aria-labelledby')
+    const label = labelledBy || collapse(el.getAttribute('aria-label'))
+    if (label) texts.push(label)
+    else if (tag === 'img' || tag === 'area' || (tag === 'input' && el.getAttribute('type') === 'image')) texts.push(collapse(el.getAttribute('alt')))
+    texts.push(collapse(el.getAttribute('title')), byIds('aria-describedby'), collapse(el.getAttribute('aria-description')))
+    return texts.filter(Boolean)
+  }
+
   /** Text in reading order, without what is hidden from the accessibility tree. */
-  const readingText = (el: Element): string => collapse(textInOrder(el, false)).slice(0, 1000)
+  const readingText = (el: Element): string => collapse(textInOrder(el, false))
 
   const textInOrder = (el: Element, stopAtLang: boolean): string => {
-    const parts: string[] = []
+    const parts: string[] = stopAtLang ? attributeTexts(el) : []
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT)
     let node: Node | null = walker.nextNode()
     while (node) {
@@ -237,7 +274,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
           node = walker.nextSibling() ?? nextOutside(walker, el)
           continue
         }
-        if (element !== el && stopAtLang && element.hasAttribute('lang')) {
+        // An empty lang declares nothing: its text still inherits, as ACT reads it.
+        if (element !== el && stopAtLang && (element.getAttribute('lang') ?? '').trim() !== '') {
           node = walker.nextSibling() ?? nextOutside(walker, el)
           continue
         }
@@ -250,8 +288,11 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
           node = walker.nextSibling() ?? nextOutside(walker, el)
           continue
         }
-        // An image is read by its accessible name: alt, aria-label, or the text aria-labelledby points to.
-        if (element.localName === 'img') {
+        if (stopAtLang) {
+          // Names and descriptions set in attributes are read in the element's language too.
+          parts.push(...attributeTexts(element))
+        } else if (element.localName === 'img') {
+          // An image is read by its accessible name: alt, aria-label, or the text aria-labelledby points to.
           const name = accessibleName(element, implicitRole(element))
           if (name) parts.push(name)
         }
@@ -326,16 +367,146 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       native.html = el === document.documentElement ? startTag(el) : el.outerHTML.slice(0, MAX_HTML)
     }
     if (el.hasAttribute('lang')) native.langText = langText(el)
+    // A heading or label cut off on screen (ellipsis, line clamp, a fixed box): the share of it that shows.
+    if (/^h[1-6]$/.test(tag) || tag === 'label' || tag === 'legend' || el.getAttribute('role') === 'heading') {
+      const shown = shownShare(el)
+      if (shown !== undefined) native.shown = shown
+    }
     // Only blocks with inline children need it; for the rest, the node's own text is already in order.
     // A short div or span reads as one sentence, such as "Read more about the archive" around a link.
     const sentence = (tag === 'div' || tag === 'span') && (el.textContent ?? '').length <= 300
-    if ((READING_BLOCKS.has(tag) || sentence) && el.children.length > 0) native.readingText = readingText(el)
+    if ((READING_BLOCKS.has(tag) || sentence) && el.children.length > 0) {
+      const reading = readingText(el)
+      native.readingText = reading.slice(0, 1000)
+      // Text measurements and the search for an abbreviation's expansion need the whole block; criteria keep the short one.
+      if (reading.length > 1000) native.fullText = reading.slice(0, 20000)
+    }
     // A picture set in CSS has no alt to read, and banners with words baked in often arrive this way.
     if (tag !== 'html' && tag !== 'body') {
       const background = backgroundUrl(el)
       if (background) native.backgroundImage = background
     }
+    // Structure facts the rules read: what a label labels, a role the browser keeps or drops, a table's grid.
+    if (tag === 'label') {
+      const control = (el as HTMLLabelElement).control
+      native.labelControl = control ? cssPath(control) : null
+    }
+    const explicit = collapse(el.getAttribute('role')).toLowerCase().split(' ')[0] ?? ''
+    // role="presentation" loses to focus and to global ARIA attributes, and the element keeps its own role.
+    if (explicit === 'presentation' || explicit === 'none') native.presentational = !roleConflict(el)
+    if (tag === 'table' || explicit === 'table' || explicit === 'grid' || explicit === 'treegrid') native.table = tableFacts(el)
     return native
+  }
+
+  /**
+   * How much of an element's text shows when its box cuts it off: the visible width (or height, for text clamped to
+   * some lines) over the width or height its content needs, rounded to hundredths. Undefined when nothing is cut.
+   */
+  const shownShare = (el: Element): number | undefined => {
+    if (!(el instanceof HTMLElement) || el.clientWidth === 0 || el.clientHeight === 0) return undefined
+    const style = getComputedStyle(el)
+    const clamped = style.getPropertyValue('-webkit-line-clamp')
+    const cutX = el.scrollWidth > el.clientWidth + 1 && style.overflowX !== 'visible'
+    const cutY = el.scrollHeight > el.clientHeight + 1 && (style.overflowY !== 'visible' || (clamped !== '' && clamped !== 'none'))
+    if (!cutX && !cutY) return undefined
+    const share = (cutX ? el.clientWidth / el.scrollWidth : 1) * (cutY ? el.clientHeight / el.scrollHeight : 1)
+    return Math.round(share * 100) / 100
+  }
+
+  const GLOBAL_ARIA = ['aria-atomic', 'aria-busy', 'aria-controls', 'aria-current', 'aria-describedby', 'aria-details', 'aria-disabled', 'aria-dropeffect', 'aria-errormessage', 'aria-flowto', 'aria-grabbed', 'aria-haspopup', 'aria-invalid', 'aria-keyshortcuts', 'aria-label', 'aria-labelledby', 'aria-live', 'aria-owns', 'aria-relevant', 'aria-roledescription']
+  const roleConflict = (el: Element): boolean =>
+    el.hasAttribute('tabindex') || (el instanceof HTMLElement && el.tabIndex >= 0 && ['a', 'button', 'input', 'select', 'textarea'].includes(el.localName)) || GLOBAL_ARIA.some((name) => el.hasAttribute(name))
+
+  const MAX_CELLS = 1000
+  /** All tables of a page together: a page of layout tables must not make the snapshot huge. */
+  let cellBudget = 4000
+  /**
+   * The table's cells on the HTML table grid, with their spans, scope, headers and ids, so a rule can run
+   * the HTML algorithm that assigns header cells to cells. An ARIA table (role table or grid) is read from
+   * its rows and cells, one slot per cell, aria-colspan included.
+   */
+  const tableFacts = (table: Element) => {
+    interface Cell {
+      ref: string
+      header: boolean
+      x: number
+      y: number
+      w: number
+      h: number
+      scope: string
+      headers: string[]
+      id: string
+      role: string
+      empty: boolean
+      hidden: boolean
+    }
+    const cells: Cell[] = []
+    const fact = (cell: Element, header: boolean, x: number, y: number, w: number, h: number, scope: string): Cell => ({
+      ref: cssPath(cell),
+      header,
+      x,
+      y,
+      w,
+      h,
+      scope,
+      headers: collapse(cell.getAttribute('headers')).split(' ').filter(Boolean),
+      id: cell.id,
+      role: collapse(cell.getAttribute('role')).toLowerCase().split(' ')[0] ?? '',
+      empty: collapse(cell.textContent) === '' && !cell.querySelector('img[alt]:not([alt=""]), [aria-label], svg[role="img"], input, select, textarea, button'),
+      hidden:
+        (typeof cell.checkVisibility === 'function' && !cell.checkVisibility({ visibilityProperty: true, checkVisibilityCSS: true } as CheckVisibilityOptions)) ||
+        cell.closest('[aria-hidden="true"]') !== null,
+    })
+    let truncatedCells = false
+    if (table instanceof HTMLTableElement) {
+      const taken = new Set<string>()
+      const rows = Array.from(table.rows)
+      rows.forEach((row, y) => {
+        let x = 0
+        for (const cell of Array.from(row.cells)) {
+          if (cells.length >= MAX_CELLS || cellBudget <= 0) {
+            truncatedCells = true
+            return
+          }
+          while (taken.has(`${x},${y}`)) x++
+          const w = Math.max(1, Math.min(cell.colSpan || 1, 1000))
+          // A rowspan never reaches past the last row; 0 means "to the end".
+          const h = Math.max(1, Math.min(cell.rowSpan === 0 ? rows.length - y : cell.rowSpan || 1, rows.length - y))
+          for (let dx = 0; dx < w; dx++) for (let dy = 0; dy < h; dy++) taken.add(`${x + dx},${y + dy}`)
+          cells.push(fact(cell, cell.localName === 'th', x, y, w, h, collapse(cell.getAttribute('scope')).toLowerCase()))
+          cellBudget--
+          x += w
+        }
+      })
+    } else {
+      // Rows of this table, not of a table nested in it.
+      const rows = Array.from(table.querySelectorAll('[role="row"]')).filter(
+        (row) => row.parentElement?.closest('[role="table"], [role="grid"], [role="treegrid"], table') === table,
+      )
+      rows.forEach((row, y) => {
+        let x = 0
+        const own = Array.from(row.querySelectorAll('[role="cell"], [role="gridcell"], [role="columnheader"], [role="rowheader"]')).filter((cell) => cell.closest('[role="row"]') === row)
+        for (const cell of own) {
+          const role = collapse(cell.getAttribute('role')).toLowerCase()
+          const w = Math.max(1, Number.parseInt(cell.getAttribute('aria-colspan') ?? '1', 10) || 1)
+          if (cells.length >= MAX_CELLS || cellBudget <= 0) {
+            truncatedCells = true
+            return
+          }
+          cells.push(fact(cell, role === 'columnheader' || role === 'rowheader', x, y, w, 1, role === 'columnheader' ? 'col' : role === 'rowheader' ? 'row' : ''))
+          cellBudget--
+          x += w
+        }
+      })
+    }
+    return {
+      kind: table instanceof HTMLTableElement ? 'html' : 'aria',
+      busy: table.getAttribute('aria-busy') === 'true',
+      caption: table instanceof HTMLTableElement && table.caption ? collapse(table.caption.textContent).slice(0, 200) : '',
+      summary: collapse(table.getAttribute('summary')).slice(0, 200),
+      cells,
+      truncated: truncatedCells,
+    }
   }
 
   /** The first url() of the element's computed background-image; gradients are not pictures. */
@@ -377,6 +548,13 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
 
   const root = build(document.documentElement)
   if (!root) throw new Error('The page has no document element')
+  // The head is left out of the tree; the viewport meta element is a fact rules read (ACT b4f0c3). Names are case-insensitive.
+  const metaViewport = Array.from(document.querySelectorAll('meta[name][content]'))
+    .filter((meta) => collapse(meta.getAttribute('name')).toLowerCase() === 'viewport')
+    .map((meta) => ({ ref: cssPath(meta), content: (meta.getAttribute('content') ?? '').slice(0, 500) }))
+  if (metaViewport.length > 0) root.native.metaViewport = metaViewport
+  // Left on the page so the collector can map nodes it learns about over CDP (Chromium's form issues) to refs.
+  ;(window as unknown as { __rampaRefs?: Map<Element, string> }).__rampaRefs = refs
 
   const result: InPageResult = {
     title: document.title,
@@ -408,7 +586,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     }
     const axe = (window as unknown as { axe: AxeApi }).axe
     if (options.axeLocale) axe.configure({ locale: options.axeLocale })
-    const raw = await axe.run(options.axeContext ?? document, { runOnly: { type: 'tag', values: options.axeTags } })
+    const extra = options.axeRules && options.axeRules.length > 0 ? { rules: Object.fromEntries(options.axeRules.map((id) => [id, { enabled: true }])) } : {}
+    const raw = await axe.run(options.axeContext ?? document, { runOnly: { type: 'tag', values: options.axeTags }, ...extra })
     const refOfTarget = (target: unknown): string | undefined => {
       if (!Array.isArray(target) || target.length !== 1 || typeof target[0] !== 'string') return undefined
       try {
@@ -418,27 +597,119 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
         return undefined
       }
     }
-    const mapRules = (rules: AxeRuleResult[], limit: number): InPageAxeRule[] =>
+
+    // WCAG 2.5.8 exceptions that axe-core's target-size does not know (docs/plans/wcag-coverage.md, A5). The facts are
+    // recorded on the node, and the engine moves exempt targets out of the failures, so a recording replays the same.
+    let clean: Document | undefined
+    let frame: HTMLIFrameElement | undefined
+    const cleanDocument = (): Document | undefined => {
+      if (clean) return clean
+      try {
+        frame = document.createElement('iframe')
+        frame.setAttribute('aria-hidden', 'true')
+        frame.tabIndex = -1
+        frame.style.cssText = 'position:absolute;left:-10000px;top:0;width:800px;height:400px;border:0;visibility:hidden'
+        document.body.appendChild(frame)
+        const doc = frame.contentDocument
+        if (!doc) return undefined
+        try {
+          // Standards mode, as the page most likely is; a page that enforces Trusted Types refuses it.
+          doc.open()
+          doc.write('<!doctype html><html><head></head><body></body></html>')
+          doc.close()
+        } catch {
+          // The empty document the frame starts with will do.
+        }
+        if (!doc.body) return undefined
+        clean = doc
+        return doc
+      } catch {
+        return undefined
+      }
+    }
+    const NATIVE_CONTROLS = new Set(['input', 'select', 'button', 'textarea'])
+    const BOX = ['padding-top', 'padding-right', 'padding-bottom', 'padding-left', 'border-top-width', 'border-right-width', 'border-bottom-width', 'border-left-width', 'box-sizing']
+    /**
+     * A user agent control: a native control the author did not restyle. Its padding, borders, font size and
+     * appearance equal those of a copy in an empty frame, where no author style applies, and layout did not
+     * make it smaller than that copy (a flex row may stretch a checkbox, which only helps).
+     */
+    const userAgentControl = (el: Element): boolean => {
+      if (!NATIVE_CONTROLS.has(el.localName) || (el.localName === 'input' && (el.getAttribute('type') ?? '').toLowerCase() === 'hidden')) return false
+      const doc = cleanDocument()
+      if (!doc) return false
+      const copy = doc.importNode(el, true) as HTMLElement
+      copy.removeAttribute('id')
+      doc.body.appendChild(copy)
+      try {
+        const page = getComputedStyle(el)
+        const bare = doc.defaultView?.getComputedStyle(copy)
+        if (!bare) return false
+        if (page.appearance === 'none' || page.appearance !== bare.appearance) return false
+        const type = (el.getAttribute('type') ?? '').toLowerCase()
+        const props = type === 'checkbox' || type === 'radio' ? BOX : [...BOX, 'font-size']
+        if (props.some((prop) => page.getPropertyValue(prop) !== bare.getPropertyValue(prop))) return false
+        const mine = el.getBoundingClientRect()
+        const theirs = copy.getBoundingClientRect()
+        return mine.width >= theirs.width - 0.5 && mine.height >= theirs.height - 0.5
+      } finally {
+        copy.remove()
+      }
+    }
+    /** An equivalent target: another visible link to the same address whose box holds a 24 by 24 square. */
+    const equivalentTarget = (el: Element): boolean => {
+      const link = el.closest('a[href], area[href]') as HTMLAnchorElement | HTMLAreaElement | null
+      if (!link) return false
+      for (const other of Array.from(document.querySelectorAll<HTMLAnchorElement | HTMLAreaElement>('a[href], area[href]'))) {
+        if (other === link || other.href !== link.href || other.contains(link) || link.contains(other)) continue
+        const box = other.getBoundingClientRect()
+        const style = getComputedStyle(other)
+        if (box.width >= 24 && box.height >= 24 && style.visibility !== 'hidden' && style.display !== 'none') return true
+      }
+      return false
+    }
+    const exemptOf = (target: unknown): InPageAxeNode['exempt'] => {
+      if (!Array.isArray(target) || target.length !== 1 || typeof target[0] !== 'string') return undefined
+      try {
+        const el = document.querySelector(target[0])
+        if (!el) return undefined
+        if (userAgentControl(el)) return 'user-agent-control'
+        if (equivalentTarget(el)) return 'equivalent-target'
+      } catch {
+        return undefined
+      }
+      return undefined
+    }
+
+    const mapRules = (rules: AxeRuleResult[], limit: number, exceptions = false): InPageAxeRule[] =>
       rules.map((rule) => ({
         id: rule.id,
         tags: rule.tags,
         help: rule.help,
         helpUrl: rule.helpUrl,
         impact: rule.impact ?? null,
-        nodes: rule.nodes.slice(0, limit).map((node) => ({
-          ref: refOfTarget(node.target),
-          target: JSON.stringify(node.target),
-          html: String(node.html).slice(0, MAX_HTML),
-          message: node.failureSummary,
-          impact: node.impact ?? null,
-        })),
+        nodes: rule.nodes.slice(0, limit).map((node) => {
+          const exempt = exceptions && rule.id === 'target-size' ? exemptOf(node.target) : undefined
+          return {
+            ref: refOfTarget(node.target),
+            target: JSON.stringify(node.target),
+            html: String(node.html).slice(0, MAX_HTML),
+            message: node.failureSummary,
+            impact: node.impact ?? null,
+            ...(exempt ? { exempt } : {}),
+          }
+        }),
       }))
-    result.axe = {
-      version: axe.version,
-      violations: mapRules(raw.violations, Number.POSITIVE_INFINITY),
-      incomplete: mapRules(raw.incomplete, Number.POSITIVE_INFINITY),
-      passes: mapRules(raw.passes, MAX_PASS_NODES),
-      inapplicable: mapRules(raw.inapplicable, 0),
+    try {
+      result.axe = {
+        version: axe.version,
+        violations: mapRules(raw.violations, Number.POSITIVE_INFINITY, true),
+        incomplete: mapRules(raw.incomplete, Number.POSITIVE_INFINITY, true),
+        passes: mapRules(raw.passes, MAX_PASS_NODES),
+        inapplicable: mapRules(raw.inapplicable, 0),
+      }
+    } finally {
+      frame?.remove()
     }
   }
 

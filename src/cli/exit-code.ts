@@ -1,4 +1,5 @@
 import { InvalidArgumentError } from 'commander'
+import type { Advisory } from '../advisory/types.ts'
 import type { Finding, Report } from '../core/types.ts'
 
 /**
@@ -7,10 +8,11 @@ import type { Finding, Report } from '../core/types.ts'
  * - any: also the findings below it
  * - A: confirmed findings on Level A criteria
  * - AA: confirmed findings on Level A or AA criteria, what AA conformance needs
+ * - advisory: confirmed findings, and also the confirmed advisories of a --profile; no other policy sees advisories
  * - none (or never): never on findings
  * Waived findings never count.
  */
-export const FAIL_ON = ['confirmed', 'any', 'A', 'AA', 'none', 'never'] as const
+export const FAIL_ON = ['confirmed', 'any', 'A', 'AA', 'advisory', 'none', 'never'] as const
 export type FailOn = (typeof FAIL_ON)[number]
 
 /** Accepts the levels in any case: `--fail-on aa`. */
@@ -34,9 +36,15 @@ export function failingFindings(reports: readonly Report[], policy: FailOn): Fin
       return confirmed.filter((finding) => finding.level === 'A')
     case 'AA':
       return confirmed.filter((finding) => finding.level === 'A' || finding.level === 'AA')
+    case 'advisory':
     case 'confirmed':
       return confirmed
   }
+}
+
+/** Advisories that fail the run: only under --fail-on advisory, and only confirmed ones (never waived or below the threshold). */
+export function failingAdvisories(reports: readonly Report[], policy: FailOn): Advisory[] {
+  return policy === 'advisory' ? reports.flatMap((report) => report.advisory?.results ?? []) : []
 }
 
 /**
@@ -45,5 +53,7 @@ export function failingFindings(reports: readonly Report[], policy: FailOn): Fin
  */
 export function exitCode(reports: readonly Report[], policy: FailOn): 0 | 1 | 2 {
   if (reports.some((report) => report.criteria.some((criterion) => criterion.errors > 0 && criterion.judged === 0))) return 2
-  return failingFindings(reports, policy).length > 0 ? 1 : 0
+  // The model step of an advisory check matters only when advisories can fail the run.
+  if (policy === 'advisory' && reports.some((report) => report.advisory?.checks.some((check) => (check.model?.errors ?? 0) > 0 && check.model?.answered === 0))) return 2
+  return failingFindings(reports, policy).length + failingAdvisories(reports, policy).length > 0 ? 1 : 0
 }

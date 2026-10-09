@@ -1,12 +1,14 @@
 import { relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { adoptionLines, noNewFindings } from '../adoption/render.ts'
+import { am } from '../advisory/messages.ts'
 import type { Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
-import { estimateCostUsd } from '../providers/models.ts'
-import { probeCriterionName } from '../rules/probes.ts'
-import { WCAG21_A_AA, compareCriteria, criterionLabel } from '../wcag.ts'
+import { estimateCostUsd, subscriptionOf } from '../providers/models.ts'
+import { compareCriteria, criterionLabel, criteriaFor, versionOf } from '../wcag.ts'
+import { advisoryLines, cogaCoverage } from './advisory.ts'
 import type { Painter } from './color.ts'
+import { coverageRows, methodsText, plural, reviewGroups, statusText } from './common.ts'
 
 export interface PrettyOptions {
   verbose: boolean
@@ -19,7 +21,8 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   const lines: string[] = []
 
   lines.push(p.bold(displayTarget(report.target)))
-  const meta = [`${t(locale, 'surface')}: ${report.surface}`, `${report.engine.name} ${report.engine.version}`]
+  const version = versionOf(report.wcagTarget)
+  const meta = [`${t(locale, 'surface')}: ${report.surface}`, t(locale, 'wcagTarget', { version }), `${report.engine.name} ${report.engine.version}`]
   if (report.model) meta.push(`${t(locale, 'model')}: ${report.model}`)
   lines.push(p.dim(meta.join(' · ')))
   lines.push('')
@@ -41,10 +44,17 @@ export function renderReport(report: Report, options: PrettyOptions): string {
     for (const finding of byCriterion.get(criterion) ?? []) lines.push(...renderFinding(finding, locale, p))
     lines.push('')
   }
+  // Advisories of a --profile come after the WCAG findings, in a section of their own.
+  lines.push(...advisoryLines(report, verbose, p))
 
-  if (report.needsReview && report.needsReview.length > 0) {
-    lines.push(p.bold(t(locale, 'needsReviewTitle')))
-    for (const item of report.needsReview) lines.push(...renderReview(item, locale, p))
+  const review = reviewGroups(report)
+  if (review.length > 0) {
+    lines.push(p.bold(t(locale, 'reviewTitle')), p.dim(t(locale, 'reviewIntro', { engine: report.engine.name })))
+    for (const group of review) {
+      lines.push(`  ${p.yellow('?')} ${criterionLabel(group.criterion, locale)}: ${plural(locale, 'reviewElements', group.items.length)} · ${group.ruleId}`)
+      lines.push(p.dim(`    ${group.reason}`))
+      if (verbose) for (const item of group.items.slice(0, 20)) lines.push(p.dim(`    ${item.ref ?? item.target ?? ''}${item.message !== group.reason ? `: ${item.message}` : ''}`))
+    }
     lines.push('')
   }
 
@@ -73,18 +83,28 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   if (usage) lines.push(p.dim(usage), '')
 
   lines.push(p.bold(t(locale, 'coverageTitle')))
-  const labels = [t(locale, 'coverageEngine', { engine: report.engine.name }), t(locale, 'coverageJudged'), t(locale, 'coverageNotChecked')]
-  const width = Math.max(...labels.map((label) => label.length)) + 2
-  const pad = (label: string) => label.padEnd(width)
-  lines.push(`  ${pad(t(locale, 'coverageEngine', { engine: report.engine.name }))}${list(report.coverage.engine)}`)
-  lines.push(`  ${pad(t(locale, 'coverageJudged'))}${list(report.coverage.judged)}`)
-  const notCheckedText = verbose
-    ? list(report.coverage.notChecked)
-    : t(locale, 'coverageNotCheckedCount', { count: report.coverage.notChecked.length, total: WCAG21_A_AA.length })
-  lines.push(`  ${pad(t(locale, 'coverageNotChecked'))}${notCheckedText}`)
-  for (const line of probeCoverageLines(report)) lines.push(`  ${line}`)
+  const rows = coverageRows(report)
+  const width = Math.max(...rows.map((row) => row.label.length)) + 2
+  for (const row of rows) {
+    const text =
+      row.key !== 'notChecked'
+        ? row.text
+        : verbose
+          ? list(row.criteria)
+          : t(locale, 'coverageNotCheckedCount', { count: row.criteria.length, total: criteriaFor(version).length, version })
+    lines.push(`  ${row.label.padEnd(width)}${text}`)
+    // Under the probed line, one line per criterion a probe rule checked: the method, its conditions and what it found.
+    if (row.key === 'probes') for (const line of probeCoverageLines(report).slice(1)) lines.push(`  ${line}`)
+  }
+  lines.push(p.dim(`  ${t(locale, version === '2.1' ? 'coverageParsing21' : 'coverageParsing22')}`))
+  // The cognitive profile's coverage, after the WCAG lines: what it screened, never a verdict.
+  const coga = cogaCoverage(report, verbose)
+  if (coga && 'off' in coga) lines.push(p.dim(`  ${coga.off}`))
+  else if (coga) lines.push(`  ${coga.title}`, ...coga.lines.map((line) => `    ${line}`))
+  if (verbose) lines.push(...criteriaLines(report, p))
   lines.push(p.bold(t(locale, report.surface === 'web' ? 'disclaimer' : report.surface === 'image' ? 'disclaimerImage' : 'disclaimerScreen')))
   lines.push(p.dim(t(locale, 'manualReview')))
+  if (report.advisory) lines.push(p.dim(am(locale, 'cogaPeople')))
   return lines.join('\n')
 }
 
@@ -102,6 +122,9 @@ export function usageLine(report: Report): string | undefined {
     input: decimal(usage.inputTokens / 1000, 1),
     output: decimal(usage.outputTokens / 1000, 1),
   })
+  // A subscription has no per-token price to show; the usage counts against the plan's limits instead.
+  const subscription = subscriptionOf(report.model)
+  if (subscription) return `${line} · ${t(locale, 'usageSubscription', subscription)}`
   const cost = estimateCostUsd(report.model, usage.inputTokens, usage.outputTokens)
   if (cost === undefined) return line
   if (cost === 0) return `${line} · ${t(locale, 'usageLocal')}`
@@ -122,12 +145,14 @@ export function renderFinding(finding: Finding, locale: Locale, p: Painter): str
   if (finding.locatedBy) lines.push(p.dim(`    ${t(locale, 'locatedBy', { model: finding.locatedBy })}${finding.html ? ` · ${finding.html}` : ''}`))
   if (finding.source === 'probe') {
     const parts = [`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`, t(locale, 'experimental'), `${t(locale, 'probeRule')} ${finding.ruleId}`]
-    if (finding.beyondTarget) parts.push(t(locale, 'beyondTarget'))
+    if (finding.beyondTarget) parts.push(t(locale, 'probeBeyondTarget'))
     parts.push(`id ${finding.fingerprint}`)
     lines.push(p.dim(`    ${parts.join(' · ')}`))
   } else if (finding.source === 'engine') {
     // The id is what a waiver names, so engine findings print it too.
     lines.push(p.dim(`    ${t(locale, finding.confidence)} · ${t(locale, 'engineRule')} ${finding.ruleId} · id ${finding.fingerprint}`))
+  } else if (finding.source === 'rule') {
+    lines.push(p.dim(`    ${t(locale, 'confidence')} ${t(locale, finding.confidence)} · ${t(locale, 'rampaRule')} ${finding.ruleId} · id ${finding.fingerprint}`))
   } else {
     const parts = [`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`]
     if (finding.agreement) parts.push(`${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`)
@@ -135,14 +160,6 @@ export function renderFinding(finding: Finding, locale: Locale, p: Painter): str
     parts.push(`id ${finding.fingerprint}`)
     lines.push(p.dim(`    ${parts.join(' · ')}`))
   }
-  return lines
-}
-
-function renderReview(finding: Finding, locale: Locale, p: Painter): string[] {
-  const label = probeCriterionName(finding.criterion, locale)
-  const lines = [`  ${p.yellow('?')} ${finding.criterion}${label ? ` ${label}` : ''} · ${finding.ref ?? finding.target ?? ''}`, `    ${finding.message}`]
-  if (finding.evidence) lines.push(`    ${t(locale, 'evidence')}: ${finding.evidence}`)
-  lines.push(p.dim(`    ${t(locale, finding.confidence)} · ${t(locale, 'probeRule')} ${finding.ruleId} · id ${finding.fingerprint}`))
   return lines
 }
 
@@ -169,7 +186,7 @@ export function probeCoverageLines(report: Report): string[] {
       row.status !== 'not-checked' ? t(locale, 'probeApplicable', { count: row.applicable }) : undefined,
       row.failures > 0 && row.review > 0 ? t(locale, 'probeStatusReview', { count: row.review }) : undefined,
       row.unmatched > 0 ? t(locale, 'probeUnmatched', { count: row.unmatched }) : undefined,
-      row.beyondTarget ? t(locale, 'beyondTarget') : undefined,
+      row.beyondTarget ? t(locale, 'probeBeyondTarget') : undefined,
       row.note,
     ].filter(Boolean)
     lines.push(`  ${row.criterion.padEnd(7)} ${row.method} (${row.rule}) · ${row.conditions}: ${status}${extra.length > 0 ? ` · ${extra.join(' · ')}` : ''}`)
@@ -195,7 +212,33 @@ export function notesOf(report: Report, verbose: boolean): string[] {
   if (sum('offlineMisses') > 0) notes.push(t(locale, 'offlineMisses', { count: sum('offlineMisses') }))
   if (sum('errors') > 0) notes.push(t(locale, 'judgmentErrors', { count: sum('errors'), error: report.errors[0] ?? '' }))
   if (!verbose && report.belowThreshold.length > 0) notes.push(t(locale, 'belowThreshold', { count: report.belowThreshold.length }))
+  const beyond = beyondTargetNote(report)
+  if (beyond) notes.push(beyond)
   return notes
+}
+
+/** Findings on WCAG 2.2 criteria in a 2.1 run, counted by criterion; undefined when there are none. */
+export function beyondTargetNote(report: Report): string | undefined {
+  const beyond = report.beyondTarget ?? []
+  if (beyond.length === 0) return undefined
+  const counts = new Map<string, number>()
+  for (const finding of beyond) counts.set(finding.criterion, (counts.get(finding.criterion) ?? 0) + 1)
+  const list = [...counts].sort(([a], [b]) => compareCriteria(a, b)).map(([criterion, count]) => `${criterion} (${count})`)
+  return t(report.locale, 'beyondTarget', { count: beyond.length, list: list.join(', ') })
+}
+
+/** --verbose: each criterion with its status and the methods behind it, then what stays manual. */
+function criteriaLines(report: Report, p: Painter): string[] {
+  const records = report.coverage.criteria ?? []
+  if (records.length === 0) return []
+  const { locale } = report
+  const lines = ['', p.bold(`  ${t(locale, 'coverageCriteria')}`)]
+  for (const record of records) {
+    const status = `${statusText(record.status, locale)}${record.target === 'beyond' ? ` (${t(locale, 'statusBeyond')})` : ''}`
+    lines.push(`  ${record.id.padEnd(7)}${status.padEnd(26)} ${methodsText(record, report)}`)
+    lines.push(p.dim(`         ${t(locale, 'manualLabel')}: ${record.manual}`))
+  }
+  return lines
 }
 
 /** Local files show relative to the working directory, never as an absolute path. */

@@ -74,7 +74,7 @@ describe.skipIf(skip !== undefined)('a real @playwright/test run', () => {
     expect(attachment?.contentType).toBe('application/json')
     const attached = JSON.parse(Buffer.from(attachment?.body ?? '', 'base64').toString('utf8'))
     expect(attached).toMatchObject({ target: 'https://shop.test/cart', scope: { include: ['#newsletter'], exclude: [] }, llm: 'off', findings: [] })
-    expect(fixture?.annotations).toContainEqual({ type: 'rampa', description: expect.stringMatching(/^0 findings · judged: none · not checked automatically: \d+ of 50 WCAG 2\.1 A\/AA criteria · judgment off \(noLlm\)$/) })
+    expect(fixture?.annotations).toContainEqual({ type: 'rampa', description: expect.stringMatching(/^0 findings · judged: none · not checked automatically: \d+ of 55 WCAG 2\.2 A\/AA criteria · judgment off \(noLlm\)$/) })
 
     const failing = tests.get('a failing component lists each finding')
     expect(failing?.expectedStatus).toBe('failed')

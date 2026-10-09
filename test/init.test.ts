@@ -220,6 +220,8 @@ describe('the workflow rampa init writes', () => {
   it('runs axe-core alone in CI when the config pins a local model, which a runner does not have', () => {
     const workflow = workflowSource(settings('ts', { model: 'ollama:gemma4:12b' }))
     expect(workflow).toContain('          model: none\n')
+    // A subscription CLI is signed in on this machine only, and its plan is for the user's own work.
+    expect(workflowSource(settings('ts', { model: 'codex:default' }))).toContain('          model: none\n')
   })
 
   it('passes the key of a hosted model the config pins', () => {

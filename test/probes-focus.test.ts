@@ -1,10 +1,11 @@
 import { afterAll, describe, expect, it } from 'vitest'
 import { checkSnapshot } from '../src/core/check.ts'
-import type { Report } from '../src/core/types.ts'
+import type { EngineResults, Report } from '../src/core/types.ts'
 import { exitCode } from '../src/cli/exit-code.ts'
 import type { RgbaImage } from '../src/pixels/png.ts'
 import { diffImages } from '../src/probes/pixels.ts'
 import { DETERMINISM_ARGS } from '../src/probes/run.ts'
+import type { A11ySnapshot } from '../src/snapshot/schema.ts'
 import { collectWeb, launchBrowser } from '../src/surfaces/web.ts'
 import { byRule, fixture, probeCheckOptions, reviewByRule } from './probe-helpers.ts'
 
@@ -39,19 +40,20 @@ const browser = await launchBrowser({ args: DETERMINISM_ARGS }).catch((error: un
 // Closing Edge can take long on a loaded machine.
 afterAll(async () => browser?.close(), 60_000)
 
-const reports = new Map<string, Promise<Report>>()
-function probed(name: string): Promise<Report> {
-  let report = reports.get(name)
-  if (!report) {
-    report = (async () => {
+const runs = new Map<string, Promise<{ report: Report; snapshot: A11ySnapshot; engine: EngineResults }>>()
+function probedRun(name: string): Promise<{ report: Report; snapshot: A11ySnapshot; engine: EngineResults }> {
+  let run = runs.get(name)
+  if (!run) {
+    run = (async () => {
       if (!browser) throw new Error('no browser')
       const { snapshot, engine } = await collectWeb(browser, fixture(name), { runAxe: false, locale: 'en', probes: ['keyboard'] })
-      return checkSnapshot(snapshot, engine, probeCheckOptions())
+      return { report: await checkSnapshot(snapshot, engine, probeCheckOptions()), snapshot, engine }
     })()
-    reports.set(name, report)
+    runs.set(name, run)
   }
-  return report
+  return run
 }
+const probed = async (name: string): Promise<Report> => (await probedRun(name)).report
 
 describe.skipIf(!browser)('focus visible and focus not obscured', { timeout: 120_000 }, () => {
   it('2.4.7: fails no change anywhere and focus removed on arrival; a faint change and a change elsewhere go to review', async () => {
@@ -69,7 +71,7 @@ describe.skipIf(!browser)('focus visible and focus not obscured', { timeout: 120
     expect(report.coverage.probes?.find((c) => c.criterion === '2.4.7')).toMatchObject({ status: 'failures', failures: 2, review: 2, method: 'probe/keyboard@2' })
   })
 
-  it('2.4.11: fails an element entirely under an opaque banner, names the banner, and never counts toward the exit code', async () => {
+  it('2.4.11: fails an element entirely under an opaque banner, names the banner, and counts only under WCAG 2.2', async () => {
     const report = await probed('focus-obscured.html')
     // Once at the run's window size and once in the narrow walk at 390×844, as two findings.
     const [finding, narrow, ...rest] = byRule(report, 'rampa/focus-obscured')
@@ -83,15 +85,23 @@ describe.skipIf(!browser)('focus visible and focus not obscured', { timeout: 120
       '5×5 hit grid at 1280×800, both directions',
       '5×5 hit grid at 390×844, both directions',
     ])
-    expect(finding?.beyondTarget).toBe(true)
+    // In Rampa's default WCAG 2.2 target, 2.4.11 counts like any other criterion.
+    expect(finding?.beyondTarget).toBeUndefined()
     expect(finding?.evidence).toMatch(/25 of 25 grid points hit <div> "Cookies" #cookies \(position: fixed, .*painting it changed 0 px and hiding it 0 px; scroll-padding-bottom: \d+px on html/)
     // The same element shows no focus change either: reported under 2.4.7 at medium, pointing at 2.4.11.
     const visible = byRule(report, 'rampa/focus-visible').find((f) => f.ref === '#second')
     expect(visible?.confidence).toBe('medium')
     expect(visible?.evidence).toContain('(see 2.4.11)')
     const only = { ...report, findings: report.findings.filter((f) => f.criterion === '2.4.11') }
-    expect(exitCode([only], 'confirmed')).toBe(0)
-    expect(exitCode([only], 'any')).toBe(0)
+    expect(exitCode([only], 'confirmed')).toBe(1)
+    // Under --wcag 2.1 it is beyond the target: shown apart, marked, and never counted, even with --fail-on any.
+    const { snapshot, engine } = await probedRun('focus-obscured.html')
+    const older = await checkSnapshot(snapshot, engine, probeCheckOptions({ wcag: '2.1' }))
+    expect(older.findings.filter((f) => f.criterion === '2.4.11')).toEqual([])
+    const beyond = (older.beyondTarget ?? []).filter((f) => f.criterion === '2.4.11')
+    expect(beyond).toHaveLength(2)
+    expect(beyond.every((f) => f.beyondTarget)).toBe(true)
+    expect(exitCode([{ ...older, findings: [], belowThreshold: beyond }], 'any')).toBe(0)
   })
 
   it('finds nothing with a visible ring, a sticky header kept clear by scroll-padding, and a translucent bar', async () => {

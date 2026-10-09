@@ -2,6 +2,9 @@ import { existsSync } from 'node:fs'
 import { homedir } from 'node:os'
 import { join } from 'node:path'
 import type { LanguageModel } from 'ai'
+import { codex } from './cli/codex.ts'
+import { geminiCli } from './cli/gemini.ts'
+import type { CliAdapter } from './cli/types.ts'
 
 type Fetch = typeof globalThis.fetch
 
@@ -17,7 +20,8 @@ export interface ProviderDef {
   id: string
   aliases?: readonly string[] | undefined
   name: string
-  where: 'local' | 'api'
+  /** `subscription`: an agent CLI the user installed and signed in to, billed to their plan instead of per token. */
+  where: 'local' | 'api' | 'subscription'
   /** Environment variables the provider reads; doctor shows the ones that are set. */
   env: readonly string[]
   /** Credentials still missing, in words; empty when the provider can be called. */
@@ -28,8 +32,10 @@ export interface ProviderDef {
   reasoning: 'none' | 'provider-default'
   /** The provider falls back to plain JSON mode without passing the schema on, so the instructions carry it. */
   schemaInPrompt?: boolean | undefined
-  /** `fetch` replaces the network in tests. */
-  create(modelId: string, fetch?: Fetch): Promise<ProviderModel>
+  /** `fetch` replaces the network in tests. Absent for subscription CLIs, which judge through `cli` instead. */
+  create?(modelId: string, fetch?: Fetch): Promise<ProviderModel>
+  /** The agent CLI that judges in place of an AI SDK model. */
+  cli?: CliAdapter | undefined
 }
 
 const value = (name: string): string | undefined => process.env[name] || undefined
@@ -321,6 +327,29 @@ export const PROVIDERS: readonly ProviderDef[] = [
       const compatible = await openAICompatible('openai-compatible', baseURL, value('RAMPA_OPENAI_COMPATIBLE_KEY') ?? 'none', fetch)
       return { model: compatible(modelId), temperature: 0 }
     },
+  },
+  // Subscriptions: the official agent CLI the user installed and signed in to, in its non-interactive mode.
+  // Whether it is installed and signed in is checked when the provider is created; see src/providers/cli.
+  {
+    id: 'codex',
+    aliases: ['codex-cli'],
+    name: 'Codex CLI',
+    where: 'subscription',
+    env: [codex.binEnv],
+    missing: () => [],
+    example: 'default',
+    reasoning: 'provider-default',
+    cli: codex,
+  },
+  {
+    id: 'gemini-cli',
+    name: 'Gemini CLI',
+    where: 'subscription',
+    env: [geminiCli.binEnv],
+    missing: () => [],
+    example: 'default',
+    reasoning: 'provider-default',
+    cli: geminiCli,
   },
 ]
 

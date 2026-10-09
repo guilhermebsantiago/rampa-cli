@@ -1,17 +1,21 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import type { Browser } from 'playwright-core'
+import { resolveProfiles } from '../../advisory/profile.ts'
 import { loadWaivers } from '../../config.ts'
 import { fileCache } from '../../core/cache.ts'
 import { type CheckOptions, checkSnapshot } from '../../core/check.ts'
-import { type SitePage, type SiteReport, countReuse, findingSignatures, siteExitCode, summarizeSite } from '../../core/site.ts'
+import { type SiteCriteriaReport, type SitePage, type SiteReport, countReuse, findingSignatures, siteExitCode, summarizeSite } from '../../core/site.ts'
+import { type Sibling, siblingsOf } from '../../core/siblings.ts'
 import type { Report } from '../../core/types.ts'
-import { RampaError } from '../../core/util.ts'
+import { RampaError, errorMessage } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
 import { emptyEngine } from '../../engine/axe.ts'
 import { chooseModel } from '../../providers/detect.ts'
 import type { ModelProvider } from '../../providers/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
+import { type SitePageRecord, pageSetsOf, runSiteCriteria, siteFactsOf } from '../../site/index.ts'
+import { withSiteCriteria } from '../../core/coverage.ts'
 import { renderSiteReport } from '../../report/site.ts'
 import { type BrowserOptions, addSiteCookies, contextOptions, describeConditions, webUrl } from '../../surfaces/browser-options.ts'
 import {
@@ -32,7 +36,8 @@ import { recordingName } from '../../surfaces/targets.ts'
 import { type Collected, collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import { VERSION } from '../../version.ts'
 import type { GlobalContext } from '../context.ts'
-import { type CheckCommandOptions, resolveProvider } from './check.ts'
+import { type CheckCommandOptions, resolveProvider, wcagOption } from './check.ts'
+import { DEFAULT_WCAG, wcagTarget } from '../../wcag.ts'
 
 const SKIP_ORDER: readonly SkipReason[] = ['robots', 'off-site', 'http', 'not-html', 'error']
 
@@ -47,6 +52,8 @@ interface SiteRun {
   check: Omit<CheckOptions, 'cache'>
   needsImages: boolean
   progress: (message: string) => void
+  /** The config's named sets of pages, checked before the crawl starts. */
+  pageSets: Record<string, string[]> | undefined
 }
 
 /** `rampa check <url> --crawl`: the pages of a site, one summary for the site and a report per page. */
@@ -58,6 +65,8 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
     return url
   })
   const criteria = resolveCriteria(options.criteria.split(','))
+  // A mistake in the config's sets stops the run here, before any page is loaded or judged.
+  const pageSets = pageSetsOf(context.config.pageSets)
   const spec = options.llm ? await chooseModel(options.model, context.config.model) : undefined
   const provider = await resolveProvider(spec, Boolean(options.offline), options.reasoning ?? context.config.reasoning)
   const check: Omit<CheckOptions, 'cache'> = {
@@ -70,6 +79,9 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
     minConfidence: options.minConfidence,
     concurrency: Math.max(1, Number.parseInt(options.concurrency, 10) || 4),
     waivers: await loadWaivers(),
+    profiles: resolveProfiles(options.profile, context.config.profiles),
+    coga: context.config.coga,
+    wcag: wcagOption(options.wcag),
   }
   const progress = (message: string) => {
     if (process.stderr.isTTY && options.format === 'pretty') process.stderr.write(`\x1b[2K${message}\r`)
@@ -94,6 +106,7 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
       check,
       needsImages: options.llm && criteria.some((criterion) => criterion.needs.vision),
       progress,
+      pageSets,
     }
     for (const site of await resolveSites(targets, fetch)) sites.push(await checkSite(site, run))
   } finally {
@@ -139,6 +152,9 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
 
   const cache = countReuse(fileCache(options.cacheDir))
   const pages: Array<SitePage & { index: number }> = []
+  const titles: Sibling[] = []
+  // What the criteria across pages (3.2.3, 3.2.6) read of each page, kept instead of the snapshot.
+  const records: Array<SitePageRecord & { index: number }> = []
   // Pages load in parallel but are judged one at a time, in turn: a judgment made for one
   // page is in the cache before the next page asks for it, so a shared header costs one call.
   let judging: Promise<unknown> = Promise.resolve()
@@ -155,6 +171,7 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
         screenshotDir: options.screenshots ? '.rampa/screenshots' : undefined,
         captureImages: run.needsImages,
         browserOptions: run.browserOptions,
+        wcag: run.check.wcag,
         inspect: async (page, response) => {
           finalUrl = page.url()
           const verdict = frontier.arrived(task, finalUrl, response?.status(), response?.headers()['content-type'])
@@ -167,19 +184,54 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
       if (error.skip) frontier.skipped.push(error.skip)
       return
     }
-    const snapshot = { ...collected.snapshot, target: finalUrl }
-    if (options.save) await saveRecording(options.save, snapshot, collected)
-    const turn = judging.then(() => {
+    const title = collected.snapshot.title?.trim()
+    if (title) titles.push({ url: finalUrl, title })
+    let record: SitePageRecord | undefined
+    try {
+      record = siteFactsOf({ ...collected.snapshot, target: finalUrl })
+    } catch {
+      // A page the criteria across pages cannot read is left out of every set; its own report stands.
+    }
+    const turn = judging.then(async () => {
       cache.page = turns++
-      return checkSnapshot(snapshot, collected.engine, { ...run.check, cache })
+      // The titles of the pages read so far, so 2.4.2 can tell whether this page's title sets it apart from them.
+      const siblings = siblingsOf(finalUrl, titles)
+      const snapshot = { ...collected.snapshot, target: finalUrl, ...(siblings.length > 0 ? { siblings } : {}) }
+      if (options.save) await saveRecording(options.save, snapshot, collected)
+      return { snapshot, report: await checkSnapshot(snapshot, collected.engine, { ...run.check, cache }) }
     })
     judging = turn.catch(() => undefined)
-    const report = await turn
+    const { snapshot, report } = await turn
     pages.push({ url: finalUrl, report, signatures: findingSignatures(report.findings, snapshot), index: task.index })
+    if (record) records.push({ ...record, index: task.index })
   })
 
   pages.sort((a, b) => a.index - b.index)
+  records.sort((a, b) => a.index - b.index)
   const first: Report | undefined = pages[0]?.report
+  let siteCriteria: SiteCriteriaReport | undefined
+  try {
+    siteCriteria = runSiteCriteria(records, {
+      origin: site.origin,
+      locale: run.context.locale,
+      minConfidence: options.minConfidence,
+      waivers: run.check.waivers,
+      pageSets: run.pageSets,
+      wcag: run.check.wcag ?? DEFAULT_WCAG,
+    })
+  } catch (error) {
+    // The pages are checked and judged by now: a comparison that fails must not lose their report.
+    process.stderr.write(`rampa: the criteria across pages (3.2.3, 3.2.6) did not run: ${errorMessage(error)}\n`)
+  }
+  const summary = summarizeSite(pages, cache.reused)
+  // 3.2.3 and 3.2.6 get a method of kind site, the status it gives, and leave "not checked" when they compared something.
+  if (siteCriteria) {
+    summary.coverage = withSiteCriteria(summary.coverage, siteCriteria, {
+      version: run.check.wcag ?? DEFAULT_WCAG,
+      locale: run.context.locale,
+      minConfidence: options.minConfidence,
+    })
+  }
   return {
     schemaVersion: 1,
     kind: 'site',
@@ -206,6 +258,7 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
       sitemapErrors: sitemaps.failed,
     },
     browser: describeConditions(run.browserOptions),
+    wcagTarget: wcagTarget(run.check.wcag ?? DEFAULT_WCAG),
     locale: run.context.locale,
     llm: first?.llm ?? (!options.llm ? 'off' : run.provider || options.offline ? 'on' : 'no-model'),
     model: run.provider?.id,
@@ -214,8 +267,9 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
     notChecked: [...frontier.skipped].sort((a, b) => SKIP_ORDER.indexOf(a.reason) - SKIP_ORDER.indexOf(b.reason) || a.url.localeCompare(b.url)),
     notLoaded: frontier.notLoaded,
     beyondDepth: frontier.beyondDepth,
-    summary: summarizeSite(pages, cache.reused),
+    summary,
     pages: pages.map((page) => page.report),
+    siteCriteria,
   }
 }
 

@@ -15,6 +15,7 @@ import {
   parseAutocomplete,
   samePurpose,
 } from './autofill.ts'
+import type { AutocompleteIssue } from '../surfaces/form-issues.ts'
 import { attributesOf, failedByEngine, isHidden, startTagOf, verifyQuote, withAttribute } from './shared.ts'
 
 /**
@@ -69,6 +70,10 @@ export interface IdentifyInputPurposeContext {
   otherFields: string[]
   /** Facts about the field and its form, one per line, for the prompt. */
   facts: string
+  /** Chromium's own autocomplete issues on the field (CDP Audits) that still hold for it. */
+  formIssues?: AutocompleteIssue[] | undefined
+  /** A word around the field that names someone else's data ("recipient", "destinatário"): a fail stays below the threshold. */
+  someoneElse?: string | undefined
 }
 
 const SYSTEM = `You check exactly one WCAG 2.1 success criterion: 1.3.5 Identify Input Purpose (Level AA).
@@ -99,7 +104,7 @@ Reply only with JSON that matches the schema.`
 export const identifyInputPurpose: Criterion<IdentifyInputPurposeContext, IdentifyInputPurposeJudgment> = {
   id: '1.3.5',
   level: 'AA',
-  version: '1',
+  version: '2',
   act: ['73f2c2'],
   surfaces: ['web'],
   needs: {},
@@ -124,6 +129,8 @@ export const identifyInputPurpose: Criterion<IdentifyInputPurposeContext, Identi
       const form = formOf(index, node)
       const others = form ? fieldNames(form, node) : fieldsAround(index, node)
       const buttons = form ? buttonNames(form) : []
+      const legend = legendOf(index, node)
+      const formIssues = chromeIssues(node, autocomplete)
       const facts = [
         `Field: ${field === 'select' || field === 'textarea' ? field : `input type="${field}"`}`,
         attributes.name ? `name="${attributes.name}"` : undefined,
@@ -132,20 +139,25 @@ export const identifyInputPurpose: Criterion<IdentifyInputPurposeContext, Identi
         field === 'select' ? optionsOf(node) : undefined,
         autocompleteFact(autocomplete),
         `Under the visible heading: ${heading ?? 'none'}`,
-        legendOf(index, node) ? `In the group: ${legendOf(index, node)}` : undefined,
+        legend ? `In the group: ${legend}` : undefined,
+        ...formIssues.map((issue) => `Chromium's own form check: ${CHROME_ISSUES[issue]}`),
         form ? undefined : 'Not inside a form element',
         others.length > 0 ? `Other fields ${form ? 'in the same form' : 'around it'}: ${others.map((name) => `"${name}"`).join(', ')}` : undefined,
         buttons.length > 0 ? `Buttons in the same form: ${buttons.map((name) => `"${name}"`).join(', ')}` : undefined,
       ]
         .filter((line) => line !== undefined)
         .join('\n')
+      const someoneElse = someoneElseWord([label, placeholder, legend, heading])
       candidates.push({
         ref: node.ref,
-        context: { label, placeholder, control: field, autocomplete, startTag: startTagOf(node), otherFields: others, facts },
+        context: { label, placeholder, control: field, autocomplete, startTag: startTagOf(node), otherFields: others, facts, formIssues, someoneElse },
       })
     }
     return candidates
   },
+
+  // Whose data a field holds is the judgment most often wrong; words for another person keep a fail for review.
+  confidenceCap: (candidate) => (candidate.context.someoneElse ? 'low' : undefined),
 
   prompt(candidate, snapshot) {
     const c = candidate.context
@@ -183,14 +195,14 @@ export const identifyInputPurpose: Criterion<IdentifyInputPurposeContext, Identi
     if (locale === 'pt-BR') {
       // The Portuguese descriptions carry their article: "o e-mail", "a data de nascimento".
       const head = `O campo "${c.label}" pede ${wanted} de quem preenche`
-      if (current.kind === 'missing') return `${head}, mas não identifica essa finalidade: falta autocomplete="${purpose}".`
+      if (current.kind === 'missing') return `${head}, mas não identifica essa finalidade: falta autocomplete="${purpose}".${corroborated(c, locale)}`
       if (current.kind === 'token') return `${head}, mas autocomplete="${current.raw}" indica ${describeField(current.field, locale) ?? current.field}.`
-      return `${head}, mas autocomplete="${current.raw}" não identifica essa finalidade.`
+      return `${head}, mas autocomplete="${current.raw}" não identifica essa finalidade.${corroborated(c, locale)}`
     }
     const head = `The field "${c.label}" asks for the user's ${wanted}`
-    if (current.kind === 'missing') return `${head} but does not identify that purpose: autocomplete="${purpose}" is missing.`
+    if (current.kind === 'missing') return `${head} but does not identify that purpose: autocomplete="${purpose}" is missing.${corroborated(c, locale)}`
     if (current.kind === 'token') return `${head}, but autocomplete="${current.raw}" says it holds their ${describeField(current.field, locale) ?? current.field}.`
-    return `${head}, but autocomplete="${current.raw}" does not identify that purpose.`
+    return `${head}, but autocomplete="${current.raw}" does not identify that purpose.${corroborated(c, locale)}`
   },
 
   patch(output, candidate): Patch | undefined {
@@ -295,4 +307,51 @@ function optionsOf(select: A11yNode): string | undefined {
     if (options.length >= 6) break
   }
   return options.length > 0 ? `Options: ${options.join(', ')}${options.length >= 6 ? ', …' : ''}` : undefined
+}
+
+/** What each of Chromium's autocomplete issues says, for the prompt. */
+const CHROME_ISSUES: Record<AutocompleteIssue, string> = {
+  FormAutocompleteAttributeEmptyError: 'the autocomplete attribute is empty.',
+  FormInputHasWrongButWellIntendedAutocompleteValueError: 'the autocomplete value looks like a misspelled or invented token.',
+  FormInputAssignedAutocompleteValueToIdOrNameAttributeError: 'the name or id is an autocomplete token, but the field has no autocomplete attribute.',
+}
+
+/**
+ * Chromium's autocomplete issues that still hold for the field as collected: each is checked against the attribute
+ * it is about, since a script may have changed the field after the browser raised it.
+ */
+function chromeIssues(node: A11yNode, autocomplete: AutocompleteValue): AutocompleteIssue[] {
+  const raw: unknown[] = Array.isArray(node.native.formIssues) ? node.native.formIssues : []
+  return raw.filter((issue): issue is AutocompleteIssue => {
+    if (issue === 'FormAutocompleteAttributeEmptyError') return autocomplete.kind !== 'missing' && autocomplete.raw.trim() === ''
+    if (issue === 'FormInputHasWrongButWellIntendedAutocompleteValueError') return autocomplete.kind === 'invalid'
+    if (issue === 'FormInputAssignedAutocompleteValueToIdOrNameAttributeError') return autocomplete.kind === 'missing'
+    return false
+  })
+}
+
+/** Said after a finding Chromium's own form check backs, so the reader knows a second check agrees. */
+function corroborated(context: IdentifyInputPurposeContext, locale: string): string {
+  if (!context.formIssues?.length) return ''
+  return locale === 'pt-BR' ? ' A verificação de formulários do próprio Chromium também aponta este campo.' : " Chromium's own form check flags this field too."
+}
+
+/**
+ * Words that say a field asks for someone else's data: a gift's recipient, an emergency contact, a child. The model
+ * decides whose data it is; when one of these is around the field, a fail stays below the threshold.
+ */
+const SOMEONE_ELSE = [
+  // en
+  'recipient', 'gift', 'giftee', 'beneficiary', 'emergency contact', 'next of kin', 'guardian', 'child', 'children', 'spouse',
+  'friend', 'referral', 'dependent', 'dependant', 'family member', 'colleague', 'contact person',
+  // pt
+  'destinatário', 'destinatária', 'presenteado', 'presenteada', 'beneficiário', 'beneficiária', 'contato de emergência', 'responsável',
+  'filho', 'filha', 'cônjuge', 'amigo', 'amiga', 'indicação', 'indique', 'dependente',
+  // es
+  'destinatario', 'destinataria', 'regalo', 'beneficiario', 'beneficiaria', 'contacto de emergencia', 'tutor', 'hijo', 'hija', 'cónyuge',
+]
+
+function someoneElseWord(texts: ReadonlyArray<string | undefined>): string | undefined {
+  const words = ` ${texts.filter(Boolean).join(' ').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ')} `
+  return SOMEONE_ELSE.find((word) => words.includes(` ${word} `))
 }

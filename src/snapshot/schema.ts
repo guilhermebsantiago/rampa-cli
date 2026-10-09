@@ -142,6 +142,8 @@ export const A11ySnapshotSchema = z.object({
   destinations: z.record(z.string(), DestinationSchema).optional(),
   /** Facts recorded by probes (`--probe`), read by the probe rules; absent when no probe ran. */
   observations: ObservationsSchema.optional(),
+  /** Other pages of the same site that a crawl had read when this one was judged, with their titles (2.4.2). */
+  siblings: z.array(z.object({ url: z.string(), title: z.string() })).optional(),
   collectedAt: z.string(),
   collector: z.object({ name: z.string(), version: z.string() }),
 })

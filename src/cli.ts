@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command, Option } from 'commander'
 import { CONFIG_FORMATS } from './adoption/init.ts'
+import { PROFILES } from './advisory/types.ts'
 import { runBaseline } from './cli/commands/baseline.ts'
 import { runCheck } from './cli/commands/check.ts'
 import { runCompare } from './cli/commands/compare.ts'
@@ -95,6 +96,7 @@ const check = program
   .option('-m, --model <provider:model>', 'model for the judgment layer, e.g. ollama:gemma4:12b')
   .option('--no-llm', 'deterministic layer only (the baseline)')
   .option('-r, --runs <k>', 'judgments per candidate, majority vote', '1')
+  .addOption(new Option('--wcag <version>', 'WCAG version to state coverage against: 2.2 (default) or 2.1').choices(['2.1', '2.2']).default('2.2'))
   .addOption(new Option('-f, --format <format>', 'output format').choices([...FORMATS]).default('pretty'))
   .option('-o, --output <file>', 'write the report to a file instead of the terminal; with pretty, the file gets JSON')
   .option('--json <file>', 'also write the JSON report to a file')
@@ -102,7 +104,7 @@ const check = program
   .option('--markdown <file>', 'also write a Markdown report (pull request comments)')
   .option('--html <file>', 'also write a single-file HTML report')
   .addOption(
-    new Option('--fail-on <policy>', 'exit 1 on: confirmed findings, any finding, Level A ones, Level A or AA ones, or none')
+    new Option('--fail-on <policy>', 'exit 1 on: confirmed findings, any finding, Level A ones, Level A or AA ones, confirmed findings or advisories, or none')
       .choices([...FAIL_ON])
       .argParser(parseFailOn)
       .default('confirmed'),
@@ -123,6 +125,9 @@ const check = program
   .option('--probe <kinds>', 'drive web pages read-only after collection: layout, keyboard, all or none (default: none; docs/probes.md)')
   .option('--baseline <file>', 'report only the findings this baseline file does not have (rampa baseline writes it)')
   .option('--no-baseline', 'ignore the baseline set in the config')
+  .addOption(
+    new Option('--profile <name>', 'also run advisory checks beyond WCAG: cognitive (W3C COGA guidance; advisories, never WCAG failures)').choices([...PROFILES]),
+  )
   .action(action(async (targets: string[], options, command: Command) => runCheck(targets, ...(await configured(command, options)))))
 // Crawl and browser options live with their modules; --help lists them under their own headings.
 for (const option of [...crawlOptions(), ...browserOptions()]) check.addOption(option)
@@ -172,6 +177,7 @@ program
   .option('-m, --model <provider:model>', 'model for the judgment layer; use the one CI uses')
   .option('--no-llm', 'record engine findings only')
   .option('-r, --runs <k>', 'judgments per candidate, majority vote', '1')
+  .addOption(new Option('--wcag <version>', 'WCAG version to state coverage against: 2.2 (default) or 2.1').choices(['2.1', '2.2']).default('2.2'))
   .addOption(new Option('--reasoning <level>', 'model reasoning effort (local models default to none)').choices([...REASONING_LEVELS]))
   .option('--offline', 'use cached judgments only, never call the model')
   .option('--cache-dir <dir>', 'judgment cache directory', '.rampa/cache')
@@ -182,12 +188,14 @@ program
   .command('eval')
   .description('measure the baseline and the judgment layer against W3C ACT test cases and corrupted pairs')
   .option('-c, --criteria <ids>', 'criteria to evaluate, comma-separated', DEFAULT_CRITERIA.join(','))
+  .option('--rules <ids>', 'instead of criteria, Rampa rules to measure against their ACT test cases, with no model (meta-viewport,refresh-header)')
   .option('-m, --model <provider:model>', 'model for the judgment layer')
   .option('--no-llm', 'measure the deterministic baseline only')
   .option('--no-pairs', 'skip the corrupted pairs')
   .option('--no-verify', 'ablation: keep model claims that fail verification')
   .option('-r, --runs <k>', 'judgments per candidate, majority vote', '1')
   .option('--limit <n>', 'evaluate at most n test cases (smoke test)')
+  .addOption(new Option('--wcag <version>', 'WCAG version to state coverage against: 2.2 (default) or 2.1').choices(['2.1', '2.2']).default('2.2'))
   .addOption(new Option('--reasoning <level>', 'model reasoning effort').choices([...REASONING_LEVELS]))
   .option('--offline', 'use cached judgments only')
   .option('--refresh', 'download the ACT test cases again')
@@ -225,6 +233,7 @@ program
   .description('serve Rampa to coding agents over the Model Context Protocol, on stdio')
   .option('-m, --model <provider:model>', 'default model for the judgment layer; a tool call can name another')
   .option('--no-llm', 'deterministic layer only by default; a tool call can turn judgment back on')
+  .addOption(new Option('--wcag <version>', 'default WCAG version to state coverage against: 2.2 or 2.1; a tool call can name the other').choices(['2.1', '2.2']).default('2.2'))
   .addOption(new Option('--reasoning <level>', 'model reasoning effort (local models default to none)').choices([...REASONING_LEVELS]))
   .option('--offline', 'use cached judgments only, never call the model')
   .option('--cache-dir <dir>', 'judgment cache directory', '.rampa/cache')

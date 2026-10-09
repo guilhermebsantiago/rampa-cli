@@ -1,6 +1,6 @@
 # Judged criteria
 
-Rampa runs axe-core first and reports its violations as they are. A judgment module then sends a model only the residue for one WCAG 2.1 success criterion: what the engine passed on syntax, could not decide, or does not check. Each module lives in `src/criteria/` and does the same six things:
+Rampa runs axe-core first and reports its violations as they are. A judgment module then sends a model only the residue for one WCAG success criterion: what the engine passed on syntax, could not decide, or does not check. Each module lives in `src/criteria/` and does the same six things:
 
 1. **Candidates.** Picks the nodes to judge from the normalized snapshot, never the DOM, and leaves out nodes the engine already failed.
 2. **Prompt.** One criterion per prompt, with the normative WCAG text and only the context that criterion needs. Page data sits inside tags the model is told never to obey.
@@ -41,6 +41,8 @@ The evaluation numbers below are from one run of Gemma 4 12B on a local GPU (Oll
 - **axe-core checks** that an `autocomplete` value is a valid token for the input type (ACT 73f2c2). It says nothing when the attribute is missing, or when the token is valid but names other data, such as a phone field with `autocomplete="email"` (failure F107).
 - **Rampa judges** every text-like field that takes input (text, email, tel, url, password, number, date, month, `select`, `textarea`; not search boxes, buttons, checkboxes, hidden, disabled or read-only fields): whose information it collects (the user's, someone else's, nobody's), which of the 53 WCAG input purposes it asks for, and whether its `autocomplete` names that purpose.
 - **Context:** the label (or the placeholder when there is none), the input type, `name` and `id`, a select's first options, what the current `autocomplete` value means, the heading above, the fieldset legend, the other fields in the form (a "Name" next to "Card number" is the name on the card) and the form's buttons. The prompt lists every token with its meaning, because local models never read the JSON schema.
+- **Chromium's form issues:** the collector reads the issues Chromium raises on its own form check (the Audits domain of the DevTools protocol, as in the Issues panel): an empty `autocomplete`, a token that is wrong but well intended (`telephone`), and a token written in `name` or `id` with no `autocomplete`. An issue that still holds for the field as collected goes into the prompt as corroboration, and the message of a fail says that Chromium flags the field too. It never makes a finding by itself: Chromium also flags valid tokens it does not fill, such as `nickname`.
+- **Someone else's data:** when the label, placeholder, legend or heading has a word for another person ("recipient", "gift", "emergency contact", "destinatário", "cônjuge", "beneficiario"), a fail stays below the confidence threshold, since whose data a field holds is the call the model most often gets wrong.
 - **Verification:** the evidence must be the label or placeholder. A fail must be about the user's own data and name a purpose that is in the WCAG list (not `one-time-code`), that is not a transaction amount or currency (the Understanding document notes those are rarely about the user), and that axe-core's own type table allows on that input, so the patch can never break the engine rule. A mismatch claim is dropped when the current token already names that purpose or a close one (`tel` and `tel-national`, `email` and `username`, `new-password` and `current-password`). A language or country selector with no other field around it is a page switcher, not data entry, and is dropped.
 - **Patch:** adds or replaces `autocomplete`, keeping a `section-*` prefix and `billing` or `shipping`.
 - **Evaluation:** ACT 73f2c2 measures the engine; with judgment, precision drops to 0.83 because two of its inapplicable cases, a "Username" field with `autocomplete=""`, are 1.3.5 failures that Rampa reports. No ACT rule judges missing or mismatched tokens, so pairs come from 73f2c2's passing pages, with the token removed (`autocomplete-drop`) or swapped for a valid token for unrelated data (`autocomplete-swap`): 8 of 9 and 6 of 7. The miss in each is "Partner's email address", someone else's data, where passing is right.
@@ -59,7 +61,7 @@ The evaluation numbers below are from one run of Gemma 4 12B on a local GPU (Oll
 ## 2.4.2 Page Titled
 
 - **axe-core checks** that the page has a non-empty title. It passes "Untitled document".
-- **Rampa judges** a non-empty title against the page's address, first headings and opening text.
+- **Rampa judges** a non-empty title against the page's address, first headings and opening text. In a site check (`rampa check --crawl` or `--sitemap`), the titles of up to ten other pages the crawl has read, the closest by address first, go along, and a title that matches one of them, or differs only by the site name, does not tell the page apart. Which pages are listed depends on what the crawl had read when the page was judged.
 - **Verification:** the evidence must be the title; a fail needs a problem and a different suggested title under 140 characters.
 - **Patch:** replaces the text of `<title>`.
 - **Limits:** the syntax set 2779a5 titles its passing pages "Title of the page.", which Rampa rightly says describes nothing, so its precision there is a scoring artifact.
@@ -67,15 +69,16 @@ The evaluation numbers below are from one run of Gemma 4 12B on a local GPU (Oll
 ## 2.4.4 Link Purpose (In Context)
 
 - **axe-core checks** that a link has a name. It passes "Click here".
-- **Rampa judges** links with text (links whose only content is an image are left to 1.1.1) with their programmatically determined context: the paragraph, list items or cell around them, the heading above, the landmark, `aria-describedby` and the target of a same-page link.
-- **Verification:** the evidence must be the link text; a fail needs a problem and a different suggested text.
+- **Rampa judges** links with text (links whose only content is an image are left to 1.1.1) with their programmatically determined context: the paragraph, list items or cell around them, the heading above, the landmark, `aria-describedby` and the target of a same-page link. It also reads where each link leads (title, first heading, description, file type) and, for links that share a text, how many places they lead to and whether their context tells them apart; see [link-purpose.md](link-purpose.md).
+- **Verification:** the evidence must be the link text; a fail needs a problem and a different suggested text; a mismatch needs a known destination, and an ambiguous claim needs the link-set fact behind it.
 - **Patch:** replaces the link text, or `aria-label` when the name comes from it.
-- **Limits:** the destination page is not fetched yet. Short texts whose purpose comes from a description or a nested list are its weakest cases.
+- **Limits:** a broken link is never a finding, because it is not a WCAG failure. ACT's fd3a94 accepts copies of a page and links "ambiguous to everyone" that Rampa reports, which is its weakest set.
 
 ## 2.4.6 Headings and Labels
 
 - **axe-core checks** that headings are not empty and fields have a label. It passes "Section 2" over reviews and "Field 1" on an email field.
 - **Rampa judges** every heading against the content it introduces (up to the next heading of its level or the end of its section, with the sections it sits in and its sibling headings), and every field label against the field.
+- **Cut-off text:** the collector records how much of a heading, `label` or `legend` shows when its box cuts it off (an ellipsis, a line clamp, a fixed box with hidden overflow). The prompt then says what people see, such as "Returns and refund…", and asks the model to judge that too.
 - **Verification:** the evidence must be the heading or label text; a fail needs a problem and a different suggestion under 160 characters.
 - **Patch:** replaces the heading or label text, or `aria-label`.
 - **Limits:** short headings that a person would pass, such as a step name, are sometimes flagged on real pages.
@@ -83,17 +86,21 @@ The evaluation numbers below are from one run of Gemma 4 12B on a local GPU (Oll
 ## 3.1.1 Language of Page
 
 - **axe-core checks** that the page declares a valid language. It passes `lang="en"` on a page in Portuguese.
-- **Rampa judges** the text that inherits the root language against the declared language.
-- **Verification:** the evidence must be an excerpt of that text; the detected language must be a valid BCP 47 tag, different from the declared one on a fail and the same on a pass.
+- **Rampa judges** the text that inherits the root language against the declared language. That text follows ACT ucwvc8: the page title, the text in reading order, and the names and descriptions set in attributes (`alt`, `aria-label`, `aria-labelledby`, `title`, `aria-describedby`); text under an element with its own non-empty `lang` is left out, and an empty `lang` declares nothing.
+- **Language identifier:** an n-gram identifier (ELD, small database, 60 languages) reads the same text first. It was chosen over franc by measuring both on 1,246 texts in pt, en, es, nl, fr and de: ELD read 87% of the texts under 16 characters and 97% of those up to 40 correctly, franc-min 23% and 69%. A long text it reads clearly (150 letters, 20 words, one language well ahead and no large part in another) is decided without a model: a mismatch fails, and the message says so. Short or mixed text goes to the model. Languages it has no n-grams for, and pairs it confuses (Danish, Norwegian and Swedish; Croatian, Serbian and Bosnian; Malay and Indonesian; Czech and Slovak), are never decided by it. In the per-criterion coverage, what it decided is a method of kind `rule`, `rampa/language-id`, apart from the judgment: with judgment on and no model configured, 3.1.1 and 3.1.2 are then checked by that rule instead of "not checked". With `--no-llm` it decides nothing.
+- **Verification:** the evidence must be an excerpt of the title or the text; the detected language must be a valid BCP 47 tag, different from the declared one on a fail and the same on a pass. A model's fail is dropped when a confident reading (60 letters or more) says the text is in the declared language or in another language than the model named, and when the declared language fits the words as well as any other ("Paul put dire comment on tape" is English and French, so the page has no default language).
 - **Patch:** sets the root `lang` to the detected primary subtag.
+- **Evaluation:** ucwvc8 precision 0.56 and recall 1.00 (0.50 and 1.00 before the identifier); the four false positives left are axe-core failures on inapplicable cases, which the scoring fix in the coverage plan (A2) removes. Pairs (`html-lang-swap`): 4 of 4.
 
 ## 3.1.2 Language of Parts
 
 - **axe-core checks** that `lang` values are valid. It passes a Dutch review marked `lang="es"`.
-- **Rampa judges** each element with a valid `lang` whose text may be in another language, allowing the criterion's exceptions (proper names, technical terms, words of indeterminate language, vernacular).
-- **Verification:** the evidence must be an excerpt of the element's text; a fail needs a different, valid detected language and no exception.
-- **Patch:** sets the element's `lang`.
-- **Limits:** a sentence that is two languages at once ("Paul put dire comment on tape") is the known model error.
+- **Rampa judges** each element with a valid `lang` whose text may be in another language, allowing the criterion's exceptions (proper names, technical terms, words of indeterminate language, vernacular). A long element the language identifier reads clearly is decided without a model, as for 3.1.1.
+- **Unmarked passages:** text with no `lang` of its own that inherits the page's language is read by the identifier in windows of five words, so a quote inside a sentence is found as well as a whole paragraph. Runs it reads as another language (20 letters and 3 words at least) go to the model with the text around them, and the model names the exception that covers them, if any; with no exception and another language, the passage fails. A passage under 60 letters stays below the confidence threshold. At most eight per page, the longest first.
+- **Verification:** the evidence must be an excerpt of the element's text; a fail needs a different, valid detected language and no exception. The identifier drops a model's fail as for 3.1.1; a pass that names an exception is left to the model.
+- **Patch:** sets the element's `lang`; for a passage, the block's `lang`, or a `<span lang>` around a phrase.
+- **Evaluation:** off6ek precision 1.00 and recall 1.00 (0.80 and 1.00 before: "Paul put dire comment on tape" marked French is no longer failed). Pairs: `lang-swap` 5 of 5 (4 of 5 before); `lang-drop`, which takes the `lang` off every passage in another language than the page, 1 of 5: two of its passages are that two-language sentence, which rightly passes, one is "Bonne année !", too short to nominate, and a Dutch phrase between two English spans was not failed.
+- **Limits:** a phrase of one or two words in another language is not nominated; only the model, on a marked element, can judge it.
 
 ## 3.3.2 Labels or Instructions
 

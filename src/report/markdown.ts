@@ -11,15 +11,21 @@ import {
   findingPlace,
   diffLines,
   levelBreakdown,
+  methodsText,
   pageLabel,
+  parsingNote,
   patchOf,
   plural,
+  reviewGroups,
+  statusText,
   runUsageLine,
   safeUrl,
   shownFindings,
   toolsLine,
   understandingUrl,
+  wcagVersion,
 } from './common.ts'
+import { advisoryMarkdown, cogaClause } from './advisory.ts'
 import { notesOf } from './pretty.ts'
 
 /**
@@ -55,8 +61,9 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
   if (reports.length === 0) head.push(`**${t(locale, 'noPages')}**`)
   else if (confirmed.length > 0) {
     const counts = countLevels(confirmed)
+    const version = wcagVersion(reports[0] ?? {})
     head.push(
-      `**${plural(locale, 'confirmedCount', confirmed.length)}** ${plural(locale, 'onPages', reports.length)}: ${levelBreakdown(counts, locale)}.`,
+      `**${plural(locale, 'confirmedCount', confirmed.length)}** ${plural(locale, 'onPages', reports.length, { version })}: ${levelBreakdown(counts, locale, version)}.`,
     )
   } else {
     head.push(`**${plural(locale, 'noFindingsPages', reports.length)}**`)
@@ -72,7 +79,16 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
     else cleanPages.push('<details>', `<summary>${line}</summary>`, '', ...capped(clean.map((label) => `- ${code(label)}`), MAX_LIST, locale), '</details>', '')
   }
 
-  const tail = [...notesSection(reports, verbose), ...coverageSection(reports), ...waiverSection(all, locale), footer(reports)]
+  const tailWith = (criteria: boolean) => [
+    ...reviewSection(reports),
+    ...notesSection(reports, verbose),
+    ...coverageSection(reports, verbose, criteria),
+    ...waiverSection(all, locale),
+    footer(reports),
+  ]
+  // The per-criterion table goes when a short limit leaves no room for it; the rows and the statement stay.
+  let tail = tailWith(true)
+  if ([...head, ...cleanPages, ...tail].join('\n').length + 300 > maxLength) tail = tailWith(false)
   // What is left for findings once the fixed parts and the omission note are counted.
   const budget = maxLength - [...head, ...cleanPages, ...tail].join('\n').length - 300
 
@@ -103,8 +119,10 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
     }
   }
   if (omitted > 0) body.push(`> ${plural(locale, 'omittedFindings', omitted)}`, '')
+  // Advisories get what the findings left of the budget: they are what a long comment drops first.
+  const advisories = advisoryMarkdown(reports, verbose, budget - used, { prose, code })
 
-  return `${[...head, ...body, ...cleanPages, ...tail].join('\n').trimEnd()}\n`
+  return `${[...head, ...body, ...advisories, ...cleanPages, ...tail].join('\n').trimEnd()}\n`
 }
 
 /** At most `max` lines, then one that counts the rest. */
@@ -139,11 +157,11 @@ function findingBlock(finding: Finding, report: Report): string {
   const confidence = `${t(locale, 'confidence')} ${t(locale, finding.confidence)}`
   meta.push(meta.length === 0 ? capitalize(confidence) : confidence)
   if (finding.agreement) meta.push(`${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`)
-  if (finding.source === 'engine' && finding.ruleId) {
+  if (finding.source !== 'judgment' && finding.ruleId) {
     const help = safeUrl(finding.helpUrl)
     // In angle brackets, a ) in the address cannot end the link early.
     const rule = help ? `[${prose(finding.ruleId)}](<${help}>)` : code(finding.ruleId)
-    meta.push(`${t(locale, 'engineRule')} ${rule} (${prose(report.engine.name)})`)
+    meta.push(finding.source === 'rule' ? `${t(locale, 'rampaRule')} ${rule}` : `${t(locale, 'engineRule')} ${rule} (${prose(report.engine.name)})`)
   }
   if (report.findings.includes(finding)) meta.push(`id ${code(finding.fingerprint)}`)
   else meta.push(`${t(locale, 'belowThresholdShort')} · id ${code(finding.fingerprint)}`)
@@ -157,10 +175,6 @@ function notesSection(reports: readonly Report[], verbose: boolean): string[] {
   const notes = reports.flatMap((report) => {
     const lines = notesOf(report, verbose).map((note) => `${prefix(report)}${prose(note)}`)
     if (report.waived.length > 0) lines.push(`${prefix(report)}${plural(locale, 'waivedCount', report.waived.length, { file: code(WAIVERS_FILE) })}`)
-    // What a probe rule found that a person must look at: listed, never counted as a failure.
-    for (const item of report.needsReview ?? []) {
-      lines.push(`${prefix(report)}${t(locale, 'needsReviewNote')} · ${item.criterion} ${code(item.ref ?? item.target ?? '')}: ${prose(item.message)}`)
-    }
     return lines
   })
   const usage = runUsageLine(reports)
@@ -169,8 +183,25 @@ function notesSection(reports: readonly Report[], verbose: boolean): string[] {
   return [`#### ${t(locale, 'notesTitle')}`, '', ...capped(notes.map((note) => `- ${note}`), MAX_LIST, locale), '']
 }
 
+/** What the engine could not decide, by criterion and rule: for a person to look at, never a failure. */
+function reviewSection(reports: readonly Report[]): string[] {
+  const locale = reports[0]?.locale ?? 'en'
+  const lines: string[] = []
+  for (const report of reports) {
+    for (const group of reviewGroups(report)) {
+      const name = criterionName(group.criterion, locale)
+      const where = reports.length > 1 ? `${code(pageLabel(report))}: ` : ''
+      const rule = safeUrl(group.helpUrl) ? `[${prose(group.ruleId)}](<${safeUrl(group.helpUrl)}>)` : code(group.ruleId)
+      lines.push(`- ${where}**WCAG ${group.criterion}**${name ? ` ${prose(name)}` : ''}: ${plural(locale, 'reviewElements', group.items.length)} · ${rule} — ${prose(group.reason)}`)
+    }
+  }
+  if (lines.length === 0) return []
+  const engine = reports[0]?.engine.name ?? 'axe-core'
+  return [`#### ${t(locale, 'reviewTitle')}`, '', t(locale, 'reviewIntro', { engine }), '', ...capped(lines, MAX_LIST, locale), '']
+}
+
 /** The coverage statement, always in the open: an empty report must not read as a clean page. */
-function coverageSection(reports: readonly Report[]): string[] {
+function coverageSection(reports: readonly Report[], verbose: boolean, withCriteria: boolean): string[] {
   const locale = reports[0]?.locale ?? 'en'
   const lines = [`#### ${t(locale, 'coverageTitle')}`, '']
   const first = reports[0]
@@ -180,15 +211,32 @@ function coverageSection(reports: readonly Report[]): string[] {
       const summary = t(locale, 'coverageNotChecked').replace(/:$/, '')
       lines.push('', '<details>', `<summary>${summary}</summary>`, '', first.coverage.notChecked.join(', '), '</details>')
     }
+    const records = withCriteria ? (first.coverage.criteria ?? []) : []
+    if (records.length > 0) {
+      const head = [t(locale, 'criterionColumn'), t(locale, 'statusColumn'), t(locale, 'methodsColumn'), ...(verbose ? [t(locale, 'manualLabel')] : [])]
+      lines.push('', '<details>', `<summary>${prose(t(locale, 'coverageCriteria').replace(/:$/, ''))}</summary>`, '')
+      lines.push(`| ${head.join(' | ')} |`, `| ${head.map(() => '---').join(' | ')} |`)
+      for (const record of records) {
+        const status = `${statusText(record.status, locale)}${record.target === 'beyond' ? ` (${t(locale, 'statusBeyond')})` : ''}`
+        const cells = [`${record.id} ${prose(criterionName(record.id, locale) ?? '')}`, status, prose(methodsText(record, first)), ...(verbose ? [prose(record.manual)] : [])]
+        lines.push(`| ${cells.join(' | ')} |`)
+      }
+      lines.push('', '</details>')
+    }
   } else if (first) {
-    const labels = coverageRows(first).map((row) => row.label.replace(/:$/, ''))
+    const withRules = reports.some((report) => (report.coverage.rules?.length ?? 0) > 0)
+    const withProbes = reports.some((report) => report.coverage.probes !== undefined)
+    const labels = coverageRows(first, true, withRules, withProbes).map((row) => row.label.replace(/:$/, ''))
     lines.push(`| ${t(locale, 'page')} | ${labels.join(' | ')} |`, `| --- | ${labels.map(() => '---').join(' | ')} |`)
     for (const report of reports.slice(0, MAX_LIST)) {
-      const cells = coverageRows(report).map((row) => row.text)
+      const cells = coverageRows(report, true, withRules, withProbes).map((row) => row.text)
       lines.push(`| ${code(pageLabel(report))} | ${cells.map((cell) => prose(cell)).join(' | ')} |`)
     }
     if (reports.length > MAX_LIST) lines.push('', plural(locale, 'andMore', reports.length - MAX_LIST))
   }
+  if (first) lines.push('', `${parsingNote(first)} ${t(locale, 'coverageNoPass')}`)
+  const coga = first ? cogaClause(first) : undefined
+  if (coga) lines.push('', prose(`${coga}.`))
   lines.push('', `**${t(locale, 'disclaimer')}** ${t(locale, 'manualReview')}`, '')
   return lines
 }

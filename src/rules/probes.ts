@@ -3,7 +3,7 @@ import type { Confidence, Finding, ProbeCoverage } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot, ProbeRecord } from '../snapshot/schema.ts'
 import { type TreeIndex, indexTree } from '../snapshot/tree.ts'
-import { successCriterion } from '../wcag.ts'
+import { DEFAULT_WCAG, type WcagVersion, beyondTarget, successCriterion } from '../wcag.ts'
 
 /**
  * Rules over probe observations: pure functions of the snapshot, so a saved snapshot gives the
@@ -35,17 +35,13 @@ export interface ProbeRule {
   run(record: ProbeRecord, ctx: ProbeRuleContext): ProbeRuleResult
 }
 
-/** WCAG 2.2-only criteria Rampa's 2.1 table does not list yet; a result for them is beyond the target. */
-const WCAG22_ONLY: Record<string, { level: 'A' | 'AA'; name: Record<Locale, string> }> = {
-  '2.4.11': { level: 'AA', name: { en: 'Focus Not Obscured (Minimum)', 'pt-BR': 'Foco não obscurecido (mínimo)' } },
-}
-
-export function isBeyondTarget(criterion: string): boolean {
-  return criterion in WCAG22_ONLY && !successCriterion(criterion)
+/** A WCAG 2.2-only criterion (2.4.11) in a run that targets WCAG 2.1: its result is beyond the target, never counted. */
+export function isBeyondTarget(criterion: string, version: WcagVersion = DEFAULT_WCAG): boolean {
+  return beyondTarget(criterion, version)
 }
 
 export function probeCriterionName(criterion: string, locale: Locale): string | undefined {
-  return WCAG22_ONLY[criterion]?.name[locale]
+  return successCriterion(criterion)?.name[locale]
 }
 
 export interface ProbeFindingInput {
@@ -60,12 +56,12 @@ export interface ProbeFindingInput {
 }
 
 export function probeFinding(input: ProbeFindingInput): Finding {
-  const beyond = isBeyondTarget(input.criterion)
+  // Whether the criterion is beyond the run's target is set by probeChecks, which knows the WCAG version.
   const html = typeof input.node.native.html === 'string' ? input.node.native.html : undefined
   return {
     fingerprint: fingerprint(input.criterion, input.node.ref, `${input.rule}|${input.subject}`),
     criterion: input.criterion,
-    level: successCriterion(input.criterion)?.level ?? WCAG22_ONLY[input.criterion]?.level,
+    level: successCriterion(input.criterion)?.level,
     source: 'probe',
     ref: input.node.ref,
     target: input.node.ref,
@@ -75,7 +71,6 @@ export function probeFinding(input: ProbeFindingInput): Finding {
     ruleId: input.rule,
     html,
     experimental: true,
-    ...(beyond ? { beyondTarget: true } : {}),
   }
 }
 
@@ -87,8 +82,21 @@ export function conditionsText(record: ProbeRecord, what: string): string {
   return `${what} · ${record.conditions.browser}`
 }
 
-/** Runs every probe rule over the snapshot's observations. */
-export function probeChecks(snapshot: A11ySnapshot, locale: Locale, rules: readonly ProbeRule[]): ProbeRuleResult {
+/**
+ * Runs every probe rule over the snapshot's observations. A result for a WCAG 2.2-only criterion (2.4.11) in a run
+ * that targets 2.1 is marked beyond the target: shown, never counted.
+ */
+export function probeChecks(snapshot: A11ySnapshot, locale: Locale, rules: readonly ProbeRule[], version: WcagVersion = DEFAULT_WCAG): ProbeRuleResult {
+  const result = probeResults(snapshot, locale, rules, version)
+  for (const finding of [...result.findings, ...result.review]) if (isBeyondTarget(finding.criterion, version)) finding.beyondTarget = true
+  for (const row of result.coverage) {
+    if (isBeyondTarget(row.criterion, version)) row.beyondTarget = true
+    else delete row.beyondTarget
+  }
+  return result
+}
+
+function probeResults(snapshot: A11ySnapshot, locale: Locale, rules: readonly ProbeRule[], version: WcagVersion): ProbeRuleResult {
   const result: ProbeRuleResult = { findings: [], review: [], coverage: [] }
   const records = snapshot.observations?.probes ?? []
   if (records.length === 0) return result
@@ -112,7 +120,7 @@ export function probeChecks(snapshot: A11ySnapshot, locale: Locale, rules: reado
           unmatched: 0,
           note,
           maturity: 'experimental',
-          ...(isBeyondTarget(criterion) ? { beyondTarget: true } : {}),
+          ...(isBeyondTarget(criterion, version) ? { beyondTarget: true } : {}),
         })
       }
       continue

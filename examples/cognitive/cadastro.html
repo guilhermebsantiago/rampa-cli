@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cadastro no programa de benefícios</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 32px; color: #1f2328; max-width: 40rem; }
+      label, legend { display: block; margin-top: 12px; font-weight: 600; }
+      input { display: block; margin-top: 4px; padding: 6px; }
+      .hint { color: #57606a; font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Cadastro no programa de benefícios</h1>
+      <p>
+        Para receber o benefício, informe o NIS e o CPF do responsável pela família. O cadastro leva cerca de dez minutos e pode ser
+        retomado depois. Se você não sabe o seu NIS, procure o CRAS mais perto da sua casa, leve um documento com foto, o comprovante de
+        residência e a carteira de trabalho, e peça a consulta no atendimento.
+      </p>
+      <p>
+        O Cadastro Único (CadÚnico) reúne as informações das famílias de baixa renda. Os dados informados aqui são usados só para conferir
+        se a família tem direito ao benefício e não são compartilhados com empresas. Depois do envio, a análise leva até trinta dias, e o
+        resultado aparece nesta página e no aplicativo.
+      </p>
+      <form>
+        <label for="nis">NIS</label>
+        <input id="nis" name="nis" />
+
+        <label for="cpf">CPF</label>
+        <input id="cpf" name="cpf" pattern="\d{11}" maxlength="11" aria-describedby="cpf-hint" />
+        <span id="cpf-hint" class="hint">Ex.: 123.456.789-09</span>
+
+        <label for="cep">CEP</label>
+        <input id="cep" name="cep" type="number" autocomplete="postal-code" />
+
+        <input id="email" type="email" name="email" placeholder="Seu e-mail" />
+
+        <label><input type="checkbox" name="seguro" checked /> Seguro residencial + R$ 12,90 por mês</label>
+        <label><input type="checkbox" name="novidades" checked /> Quero receber novidades por e-mail</label>
+
+        <button type="submit">ENVIAR</button>
+      </form>
+    </main>
+  </body>
+</html>

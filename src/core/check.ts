@@ -1,10 +1,17 @@
+import type { CogaSettings } from '../advisory/check.ts'
+import { runProfiles } from '../advisory/profile.ts'
+import type { Profile } from '../advisory/types.ts'
 import type { Locale } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import { probeChecks } from '../rules/probes.ts'
 import { PROBE_RULES } from '../rules/registry.ts'
+import { RULE_CHECKS, type RuleCheck, type RuleStageResult, emptyRuleStage, runRuleChecks } from '../rules/index.ts'
+import { reviewLabelInName } from '../rules/label-in-name.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
+import { AXE_REVIEW_RULES, EXPERIMENTAL_RULES } from '../engine/axe.ts'
+import { criteriaCoverage, engineCoverage, reviewItems, reviewOnlyCriteria, ruleCoverage } from './coverage.ts'
 import { VERSION } from '../version.ts'
-import { WCAG21_A_AA, compareCriteria, successCriterion } from '../wcag.ts'
+import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria, criteriaFor, successCriterion, wcagTarget } from '../wcag.ts'
 import type { JudgmentCache } from './cache.ts'
 import { judgeCandidates } from './judge.ts'
 import {
@@ -16,6 +23,7 @@ import {
   type EngineResults,
   type Finding,
   type Report,
+  type ReviewItem,
   type Usage,
   minConfidence,
 } from './types.ts'
@@ -34,11 +42,19 @@ export interface CheckOptions {
   concurrency: number
   /** Fingerprints of findings someone dismissed on purpose. */
   waivers?: ReadonlySet<string> | undefined
+  /** The WCAG version the report states coverage against; 2.2 by default. */
+  wcag?: WcagVersion | undefined
   /**
    * Ablation switch for the evaluation: when false, claims that fail
    * verification are kept as findings instead of discarded. Never use it in CI.
    */
   verify?: boolean | undefined
+  /** Advisory profiles to run on top of the WCAG check, such as ['cognitive']: their results go to report.advisory, never to findings. */
+  profiles?: readonly Profile[] | undefined
+  /** Settings of the cognitive profile (`coga` in rampa.config.*). */
+  coga?: CogaSettings | undefined
+  /** Rampa's own rules (src/rules) to run next to the engine: all of them by default, none with false. */
+  rules?: readonly RuleCheck[] | false | undefined
 }
 
 export function fingerprint(criterion: string, ref: string | undefined, detail: string): string {
@@ -51,6 +67,8 @@ export function engineFindings(engine: EngineResults): Finding[] {
     if (rule.outcome !== 'violation') continue
     const criteria = [...rule.criteria].sort(compareCriteria)
     const criterion = criteria[0] ?? 'best-practice'
+    // An experimental axe-core rule Rampa runs on purpose reports needs review only (core/coverage.ts, reviewItems).
+    if (AXE_REVIEW_RULES.includes(rule.ruleId)) continue
     for (const node of rule.nodes) {
       findings.push({
         fingerprint: fingerprint(criterion, node.ref ?? node.target, rule.ruleId),
@@ -61,7 +79,7 @@ export function engineFindings(engine: EngineResults): Finding[] {
         target: node.target,
         message: node.detail ?? rule.help,
         evidence: node.evidence,
-        confidence: node.confidence ?? 'high',
+        confidence: node.confidence ?? (EXPERIMENTAL_RULES.has(rule.ruleId) ? 'low' : 'high'),
         ruleId: rule.ruleId,
         helpUrl: rule.helpUrl,
         html: node.html,
@@ -73,10 +91,12 @@ export function engineFindings(engine: EngineResults): Finding[] {
 }
 
 export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResults, options: CheckOptions): Promise<Report> {
-  const findings: Finding[] = engineFindings(engine)
+  const stage: RuleStageResult = options.rules === false ? emptyRuleStage() : runRuleChecks(snapshot, engine, options.locale, options.rules ?? RULE_CHECKS)
+  // Label-in-name failures that differ only by a hyphen or a shortened word go to review (src/rules/label-in-name.ts).
+  const fromEngine = options.rules === false ? engineFindings(engine) : reviewLabelInName(engineFindings(engine), snapshot, options.locale)
   // Facts a probe recorded in the snapshot, turned into findings by rules: no browser, no model.
-  const probe = probeChecks(snapshot, options.locale, PROBE_RULES)
-  findings.push(...probe.findings)
+  const probe = probeChecks(snapshot, options.locale, PROBE_RULES, options.wcag ?? DEFAULT_WCAG)
+  let findings: Finding[] = [...fromEngine, ...stage.findings, ...probe.findings]
   const discarded: Discarded[] = []
   const summaries: CriterionSummary[] = []
   const errors: string[] = []
@@ -99,11 +119,16 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     summaries.push(summary)
     if (!summary.applicable) continue
 
-    const candidates = criterion.candidates(snapshot, engine)
+    await criterion.prepare?.()
+    // An element a stable rule already failed for this criterion is decided: the model is not asked again.
+    const failedByRule = stage.decided.get(criterion.id)
+    const candidates = criterion.candidates(snapshot, engine).filter((candidate) => !failedByRule?.has(candidate.ref))
     summary.candidates = candidates.length
-    if (!llmActive || candidates.length === 0) continue
+    // With judgment on but no model to ask, what the criterion decides by itself is still judged; --no-llm judges nothing.
+    const judged = llmActive ? candidates : options.llm ? candidates.filter((candidate) => criterion.decide?.(candidate, snapshot) !== undefined) : []
+    if (judged.length === 0) continue
 
-    const judgments = await judgeCandidates(criterion, snapshot, candidates, {
+    const judgments = await judgeCandidates(criterion, snapshot, judged, {
       provider: options.provider,
       runs: options.runs,
       cache: options.cache,
@@ -112,7 +137,13 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     })
 
     for (const judgment of judgments) {
+      // A candidate the criterion passed or failed without a model counts in the coverage as its own method (kind rule).
+      if (judgment.samples.some((sample) => sample.decided) && (judgment.status === 'passed' || judgment.status === 'failed')) {
+        summary.decided = (summary.decided ?? 0) + 1
+        if (judgment.status === 'failed') summary.decidedFailed = (summary.decidedFailed ?? 0) + 1
+      }
       for (const sample of judgment.samples) {
+        if (sample.decided) continue
         if (sample.cached) usage.cachedCalls++
         else if (sample.output) usage.calls++
         usage.inputTokens += sample.inputTokens
@@ -156,8 +187,10 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
           const output = judgment.representative
           if (!output) continue
           const agreement = judgment.votes / Math.max(1, judgment.total)
-          const confidence: Confidence =
+          const voted: Confidence =
             agreement === 1 ? output.confidence : agreement >= 2 / 3 ? minConfidence(output.confidence, 'medium') : 'low'
+          const confidence = minConfidence(voted, criterion.confidenceCap?.(judgment.candidate) ?? 'high')
+          const decided = judgment.samples.some((sample) => sample.decided)
           // Keyed on what was judged, never on the model's quote: models pick different words to quote
           // from run to run, and a fingerprint that moves breaks every waiver and baseline holding it.
           const subject = criterion.subject?.(judgment.candidate)
@@ -172,16 +205,26 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             subject,
             patch: criterion.patch?.(output, judgment.candidate, snapshot),
             confidence,
-            agreement: { votes: judgment.votes, total: judgment.total },
-            model: options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId,
+            // A judgment the criterion made without a model names no model; its message says what decided it.
+            agreement: decided ? undefined : { votes: judgment.votes, total: judgment.total },
+            model: decided ? undefined : (options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId),
           })
         }
       }
     }
   }
 
+  // A judgment and a rule that fail the same element for the same criterion are one finding: the judgment's,
+  // which says more and carries the patch. The rule's stays only where the model did not fail the element.
+  const judgedFailures = new Set(findings.filter((f) => f.source === 'judgment').map((f) => `${f.criterion}|${f.ref}`))
+  findings = findings.filter((f) => f.source !== 'rule' || !judgedFailures.has(`${f.criterion}|${f.ref}`))
+
+  const version = options.wcag ?? DEFAULT_WCAG
   const waived = findings.filter((f) => options.waivers?.has(f.fingerprint))
-  const active = findings.filter((f) => !options.waivers?.has(f.fingerprint))
+  const unwaived = findings.filter((f) => !options.waivers?.has(f.fingerprint))
+  // A WCAG 2.2 criterion in a 2.1 run is reported apart, and never counted.
+  const beyond = unwaived.filter((f) => beyondTarget(f.criterion, version))
+  const active = unwaived.filter((f) => !beyondTarget(f.criterion, version))
   const threshold = CONFIDENCE_RANK[options.minConfidence]
   // An experimental check reports below the default threshold until it passes the evaluation gate.
   const shown = (f: Finding) => CONFIDENCE_RANK[f.confidence] >= threshold && (!f.experimental || options.minConfidence === 'low')
@@ -189,13 +232,57 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const belowThreshold = active.filter((f) => !shown(f))
   reported.sort((a, b) => compareCriteria(a.criterion, b.criterion))
 
-  const all = new Set(WCAG21_A_AA.map((sc) => sc.id))
-  const engineCovered = new Set(
-    engine.rules.filter((r) => r.outcome !== 'inapplicable').flatMap((r) => r.criteria.filter((c) => all.has(c))),
+  // 4.1.1 is never counted: WCAG 2.2 removed it, and under 2.1 it is satisfied by definition for HTML and XML.
+  const all = new Set(criteriaFor(version).flatMap((sc) => (sc.removedIn ? [] : [sc.id])))
+  const engineCovered = engineCoverage(engine, version)
+  // What a judged criterion decided without a model (the language identifier on 3.1.1 and 3.1.2) is checked by a rule, not judged.
+  const selfDecided = summaries.filter((s) => (s.decided ?? 0) > 0 && all.has(s.criterion)).map((s) => s.criterion)
+  const ruleCovered = [...new Set([...ruleCoverage(stage.ran, version), ...selfDecided])].sort(compareCriteria)
+  const judged = summaries.filter((s) => s.judged - (s.decided ?? 0) > 0 && all.has(s.criterion)).map((s) => s.criterion)
+  // Criteria a probe rule decided something for: it found failures or found none in what it measured.
+  const probed = [...new Set(probe.coverage.filter((row) => (row.status === 'failures' || row.status === 'no-failure-found') && all.has(row.criterion)).map((row) => row.criterion))]
+  // What axe-core could not decide, and what Rampa's rules and probe rules sent to review: never a failure.
+  const probeReview = probe.review.filter((f) => !options.waivers?.has(f.fingerprint)).map(reviewItemOf)
+  const review = [...reviewItems(engine), ...stage.review, ...probeReview].sort((a, b) => compareCriteria(a.criterion, b.criterion))
+  // Findings beyond the target still give their criterion its status, by the same threshold.
+  const beyondShown = beyond.filter(shown)
+  const beyondBelow = beyond.filter((f) => !shown(f))
+  const records = criteriaCoverage({
+    engine,
+    summaries,
+    criteria: options.criteria,
+    llmActive,
+    reported: [...reported, ...beyondShown],
+    belowThreshold: [...belowThreshold, ...beyondBelow],
+    review,
+    rules: stage.ran,
+    probes: probe.coverage,
+    version,
+    locale: options.locale,
+  })
+  const reviewOnly = reviewOnlyCriteria(records, [...engineCovered, ...ruleCovered, ...probed], judged)
+  const notChecked = [...all].filter(
+    (id) => !engineCovered.includes(id) && !ruleCovered.includes(id) && !judged.includes(id) && !probed.includes(id) && !reviewOnly.includes(id),
   )
-  const judged = summaries.filter((s) => s.judged > 0).map((s) => s.criterion)
-  const probed = new Set(probe.coverage.filter((c) => c.status !== 'not-checked').map((c) => c.criterion))
-  const notChecked = [...all].filter((id) => !engineCovered.has(id) && !judged.includes(id) && !probed.has(id))
+
+  const advisory =
+    options.profiles && options.profiles.length > 0
+      ? await runProfiles(snapshot, engine, {
+          profiles: options.profiles,
+          locale: options.locale,
+          findings: [...reported, ...belowThreshold],
+          llm: options.llm,
+          provider: options.provider,
+          offline: options.offline,
+          cache: options.cache,
+          runs: options.runs,
+          concurrency: options.concurrency,
+          minConfidence: options.minConfidence,
+          waivers: options.waivers,
+          coga: options.coga,
+        })
+      : undefined
+  if (advisory) for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) usage[key] += advisory.usage[key]
 
   return {
     schemaVersion: 1,
@@ -203,23 +290,42 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     createdAt: new Date().toISOString(),
     target: snapshot.target,
     surface: snapshot.surface,
+    wcagTarget: wcagTarget(version),
     locale: options.locale,
     llm: !options.llm ? 'off' : llmActive ? 'on' : 'no-model',
     model: options.provider?.id,
     engine: engine.engine,
     findings: reported,
     belowThreshold,
+    ...(beyond.length > 0 ? { beyondTarget: beyond } : {}),
     waived,
     discarded,
     criteria: summaries,
     coverage: {
-      engine: [...engineCovered].sort(compareCriteria),
+      engine: engineCovered,
       judged: judged.sort(compareCriteria),
       notChecked: notChecked.sort(compareCriteria),
+      ...(ruleCovered.length > 0 ? { rules: ruleCovered } : {}),
       ...(probe.coverage.length > 0 ? { probes: probe.coverage } : {}),
+      criteria: records,
     },
-    ...(probe.review.length > 0 ? { needsReview: probe.review.filter((f) => !options.waivers?.has(f.fingerprint)) } : {}),
+    ...(review.length > 0 ? { needsReview: review } : {}),
     usage,
     errors,
+    ...(advisory ? { advisory: advisory.section } : {}),
+  }
+}
+
+/** A probe rule's item to review, in the shape of the engine's and the rules' (core/coverage.ts): never a finding. */
+function reviewItemOf(finding: Finding): ReviewItem {
+  return {
+    criterion: finding.criterion,
+    level: finding.level,
+    ruleId: finding.ruleId ?? 'probe',
+    ref: finding.ref,
+    target: finding.target,
+    html: finding.html,
+    message: finding.message,
+    ...(finding.evidence ? { evidence: finding.evidence } : {}),
   }
 }
