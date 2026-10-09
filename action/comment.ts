@@ -193,7 +193,11 @@ export async function runComment({ argv, env, fetch: call, log = console.log }: 
     return 0
   } catch (error) {
     const status = error instanceof GitHubError ? error.status : undefined
-    const hint = status === 403 || status === 404 ? ' The token cannot write here, as on pull requests from forks; the report is in the job summary.' : ''
+    const hints: Record<number, string> = {
+      403: ' The token cannot write here, as on pull requests from forks; the report is in the job summary.',
+      404: ' The pull request was not found, or the token cannot see it.',
+    }
+    const hint = (status && hints[status]) ?? ''
     log(`::warning::Could not comment on pull request #${issue}: ${error instanceof Error ? error.message : String(error)}${hint}`)
     return 0
   }

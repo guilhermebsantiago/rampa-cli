@@ -1,0 +1,11 @@
+# Hooks for the pre-commit framework (https://pre-commit.com); docs/pre-commit.md shows how to use them.
+- id: rampa
+  name: rampa (WCAG 2.1 A/AA)
+  description: Checks the HTML files in a commit with Rampa. By default only the deterministic layer runs (--no-llm); add --model to the args for the judgment layer.
+  entry: scripts/pre-commit.mjs
+  language: script
+  types: [html]
+  args: [--no-llm]
+  # One run for all the files: one browser, and the first run's build is never raced.
+  require_serial: true
+  minimum_pre_commit_version: '3.0.0'

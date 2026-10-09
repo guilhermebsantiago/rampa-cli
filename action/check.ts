@@ -183,7 +183,9 @@ function main(): number {
   }
   if (plan.warning) console.log(`::warning::${plan.warning}`)
   console.log(`rampa ${plan.args.join(' ')}`)
-  const run = spawnSync(process.execPath, [cli, ...plan.args], { stdio: 'inherit', env: { ...env, FORCE_COLOR: env.FORCE_COLOR ?? '1' } })
+  // The job log shows colors, unless the workflow asked for none.
+  const color = env.FORCE_COLOR === undefined && env.NO_COLOR === undefined ? { FORCE_COLOR: '1' } : {}
+  const run = spawnSync(process.execPath, [cli, ...plan.args], { stdio: 'inherit', env: { ...env, ...color } })
   const exitCode = run.status ?? 2
 
   let findings = 0

@@ -139,6 +139,14 @@ describe('comment script', () => {
     expect(log[0]).toMatch(/^::warning::Could not comment on pull request #7: POST .* HTTP 403 .*as on pull requests from forks/)
   })
 
+  it('says so when the pull request is not there', async () => {
+    const github = fakeGitHub()
+    const log: string[] = []
+    const code = await runComment({ argv: ['--body-file', bodyFile, '--issue', '8'], env, fetch: github.fetch, log: (line) => log.push(line) })
+    expect(code).toBe(0)
+    expect(log[0]).toMatch(/^::warning::Could not comment on pull request #8: GET .* HTTP 404 .* The pull request was not found, or the token cannot see it\.$/)
+  })
+
   it('does nothing outside a pull request', async () => {
     const push = join(dir, 'push.json')
     writeFileSync(push, JSON.stringify({ ref: 'refs/heads/main' }))
