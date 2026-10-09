@@ -109,15 +109,15 @@ What `--probe all` adds, and what each criterion still needs from a person. Ever
 
 ## Cost
 
-Measured on 2026-10-09 with Microsoft Edge 154 headless on a Windows 11 desktop that other jobs were loading at the same time:
+Measured on 2026-10-09 with Microsoft Edge 154 headless on a Windows 11 desktop that other jobs were loading at the same time (one run each; live pages change between runs):
 
-| Page | Reflow | Text spacing | Keyboard walk (with pixels) |
-|---|---|---|---|
-| rampa.guilhermebs.com.br | 1.7 s | 1.6 s | 25.7 s, 50 + 50 stops, 0.26 s per stop |
-| www.gov.uk | 1.0 s | 2.0 s | 42.1 s, 89 + 89 stops, 0.24 s per stop |
-| agenciabrasil.ebc.com.br | 4.5 s | 3.2 s | 67.8 s, 150 stops (budget reached), 0.45 s per stop |
+| Page | Reflow | Text spacing | Keyboard walk at 1280×800, with pixels | Walk at 390×844, 2.4.11 only |
+|---|---|---|---|---|
+| rampa.guilhermebs.com.br | 1.2 s | 1.2 s | 24.5 s, 50 + 50 stops, 0.24 s per stop | 4.0 s, 49 + 49 stops |
+| www.gov.uk | 0.9 s | 0.9 s | 40.3 s, 89 + 89 stops, 0.23 s per stop | 6.5 s, 89 + 89 stops |
+| agenciabrasil.ebc.com.br | 3.3 s | 2.6 s | 45.3 s, 150 stops (budget reached), 0.30 s per stop | 10.5 s, 150 stops (budget reached) |
 
-The layout probes are within the plan's 2–5 s per page. The keyboard walk is above the plan's 0.2 s per stop: each forward stop takes three region captures, a backward stop only the hit grid, and a page whose pixels move on its own adds the viewport confirmation. The 390×844 walk for 2.4.11 only places focus and runs the grid: it skips the idle recording and the 150 ms second read, and took 6.4 s for gov.uk's 178 stops (0.04 s per stop). Budgets: 150 stops per direction, 120 s per walk, 4,000 measured boxes per layout. Each record keeps `durationMs`, and a record cut short says why in `reason`. A saved snapshot with all probes is a few hundred kilobytes; screenshots are kept as hashes, not images.
+The layout probes are within the plan's 2–5 s per page. The main keyboard walk is above the plan's 0.2 s per stop: each forward stop waits 150 ms to read focus again and takes three region captures, a backward stop only the hit grid, and a page whose pixels move on their own adds the viewport confirmation. The 390×844 walk only places focus and runs the grid (no idle recording, no second read), about 0.05 s per stop. Budgets: 150 stops per direction, 120 s per walk, 4,000 measured boxes per layout. Each record keeps `durationMs`, and a record cut short says why in `reason`. A saved snapshot with all probes is about 0.5 MB; screenshots are kept as hashes, not images.
 
 ## Not yet
 
@@ -212,6 +212,6 @@ These ride on the keyboard walk (probe version 2). The walk turns off animated s
 
 **2.4.11, the probe.** At every stop, forward and backward, a 5×5 `elementFromPoint` grid over the part of the focused element inside the viewport. It runs in the main walk and again in a second, lighter walk at 390×844 (a phone held upright, where sticky headers and bottom bars cover the most), which records only where focus lands, the grid and its pixel checks (no idle recording, no second read of focus); each window size gets its own coverage line, and a finding names the window it was found in. A point counts as covered when it hits something that is neither the element, inside it, nor an ancestor of it (an ancestor on top means the element lets the pointer through, which is not evidence of a cover). When every point is covered, two pixel checks follow: the element is painted magenta, then hidden; neither may change a pixel of the region. Focus is given back to the element afterwards.
 
-**2.4.11, the rule.** Every point covered and neither check changed a pixel: failure, high. The finding names the cover, raised to its fixed or sticky layer, with its size and position, and suggests `scroll-padding-top` or `scroll-padding-bottom` of its height when it sits at the top or bottom of the window. A cover that lets pixels through (translucent) is not reported, and is counted in the coverage note; a partial cover is not reported (that is 2.4.12, AAA). 2.4.11 is new in WCAG 2.2: under Rampa's WCAG 2.1 target the result is marked "beyond the 2.1 target" and never counts toward the exit code, even with `--fail-on any`.
+**2.4.11, the rule.** Every point covered and neither check changed a pixel: failure, high. The finding names the cover, raised to its fixed or sticky layer, with its size and position, and suggests `scroll-padding-top` or `scroll-padding-bottom` of its height when it sits at the top or bottom of the window. A cookie or consent banner shown on arrival counts as author content: the Understanding says such a banner fails if it entirely obscures a component receiving focus, and passes when it is modal or the page reserves `scroll-padding` for it. A cover that lets pixels through (translucent) is not reported, and is counted in the coverage note; a partial cover is not reported (that is 2.4.12, AAA). 2.4.11 is new in WCAG 2.2: under Rampa's WCAG 2.1 target the result is marked "beyond the 2.1 target" and never counts toward the exit code, even with `--fail-on any`.
 
 **Limits.** Chromium scrolls an out-of-view focused element to the middle of the window, so a fixed banner mostly covers elements that were already in view; other browsers scroll differently. 2.1.1, 2.1.2, 3.2.1 and 2.4.7 use only the run's window size; the 390×844 walk serves 2.4.11 alone, in desktop mode (the viewport meta is not applied, unless `--device` emulates a phone). A faint change is a pixel count, not a judgment of perceptibility, and forced colors are not tested. Focus indicators drawn with `:focus-visible` survive the probe's refocus (Chromium keeps the keyboard modality), but a page that changes its indicator on `focus` events may show the second focus differently.
