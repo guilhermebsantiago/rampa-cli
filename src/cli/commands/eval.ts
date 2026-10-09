@@ -11,10 +11,11 @@ import { CORRUPTORS, type Corruptor } from '../../eval/pairs.ts'
 import { chooseModel } from '../../providers/detect.ts'
 import { estimateCostUsd } from '../../providers/models.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
+import { type FollowLinks, type FollowOptions, destinationCache } from '../../surfaces/destinations.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import { VERSION } from '../../version.ts'
 import type { GlobalContext } from '../context.ts'
-import { resolveProvider } from './check.ts'
+import { followOptions, resolveProvider } from './check.ts'
 
 export interface EvalCommandOptions {
   criteria: string
@@ -30,6 +31,12 @@ export interface EvalCommandOptions {
   outDir: string
   concurrency: string
   reasoning?: import('../../providers/ai-sdk.ts').Reasoning
+  /**
+   * same-origin by default: the outcomes of ACT fd3a94 depend on where its links lead (an instant redirect, a copy
+   * of a page), and those pages sit on the same W3C host as the test pages the eval already loads. Third-party
+   * sites the test pages link to are never contacted.
+   */
+  followLinks?: FollowLinks
 }
 
 type PageVerdict = 'failed' | 'passed'
@@ -89,12 +96,15 @@ export async function runEval(options: EvalCommandOptions, context: GlobalContex
     for (const testcase of cases) {
       const ruleKind = rules.semantic.includes(testcase.ruleId) ? 'semantic' : 'syntax'
       jobs.push({ criterion, testcase, ruleKind })
-      if (options.pairs && ruleKind === 'semantic' && testcase.expected === 'passed') {
-        for (const corruptor of CORRUPTORS[criterion.id] ?? []) jobs.push({ criterion, testcase, ruleKind, corruptor })
+      if (options.pairs && testcase.expected === 'passed') {
+        for (const corruptor of CORRUPTORS[criterion.id] ?? []) {
+          if (corruptor.rules ? corruptor.rules.includes(testcase.ruleId) : ruleKind === 'semantic') jobs.push({ criterion, testcase, ruleKind, corruptor })
+        }
       }
     }
   }
 
+  const destinations = destinationCache({ dir: '.rampa/destinations' })
   const browser = await launchBrowser()
   let done = 0
   const tick = () => {
@@ -104,7 +114,8 @@ export async function runEval(options: EvalCommandOptions, context: GlobalContex
   let records: Array<EvalRecord | undefined>
   try {
     records = await mapLimit(jobs, Math.max(1, Number.parseInt(options.concurrency, 10) || 4), async (job) => {
-      const record = await runJob(job, { browser, provider, llm, runs, cache, offline: Boolean(options.offline), verify: options.verify })
+      const follow = followOptions(options.followLinks, llm, [job.criterion], destinations)
+      const record = await runJob(job, { browser, provider, llm, runs, cache, offline: Boolean(options.offline), verify: options.verify, follow })
       tick()
       return record
     })
@@ -114,7 +125,16 @@ export async function runEval(options: EvalCommandOptions, context: GlobalContex
   }
 
   const valid = records.filter((r): r is EvalRecord => r !== undefined)
-  const summary = summarize(valid, { model: provider?.id, runs, llm, verify: options.verify, actSha256: dataset.sha256, criteria: criteria.map((c) => c.id) })
+  const followed = llm && criteria.some((criterion) => criterion.needs.fetch) ? (options.followLinks ?? 'none') : undefined
+  const summary = summarize(valid, {
+    model: provider?.id,
+    runs,
+    llm,
+    verify: options.verify,
+    actSha256: dataset.sha256,
+    criteria: criteria.map((c) => c.id),
+    followLinks: followed,
+  })
   const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
   const dir = join(options.outDir, `${stamp}-${(provider?.id ?? 'baseline').replace(/[^\w.-]+/g, '-')}`)
   await mkdir(dir, { recursive: true })
@@ -135,6 +155,7 @@ async function runJob(
     cache: ReturnType<typeof fileCache>
     offline: boolean
     verify: boolean
+    follow?: FollowOptions | undefined
   },
 ): Promise<EvalRecord | undefined> {
   const { criterion, testcase, corruptor } = job
@@ -156,6 +177,8 @@ async function runJob(
       runAxe: true,
       locale: 'en',
       captureImages: ctx.llm && Boolean(criterion.needs.vision),
+      followLinks: ctx.follow,
+      requireOk: true,
       mutate: corruptor
         ? async (page) => {
             changed = await corruptor.apply(page)
@@ -224,6 +247,8 @@ export interface EvalSummary {
   verify: boolean
   actSha256: string
   criteria: string[]
+  /** Which links were read before judging, when a criterion compares links with where they lead. */
+  followLinks?: FollowLinks | undefined
   sets: SetScores[]
   pairs: Array<{ criterion: string; corruptor: string; total: number; baseline: number; rampa: number }>
   judgment: { candidates: number; discarded: number; cannotTell: number }
@@ -233,7 +258,7 @@ export interface EvalSummary {
 
 function summarize(
   records: EvalRecord[],
-  meta: { model: string | undefined; runs: number; llm: boolean; verify: boolean; actSha256: string; criteria: string[] },
+  meta: { model: string | undefined; runs: number; llm: boolean; verify: boolean; actSha256: string; criteria: string[]; followLinks?: FollowLinks | undefined },
 ): EvalSummary {
   const ok = records.filter((r) => !r.error)
   const sets: SetScores[] = []
@@ -292,6 +317,7 @@ function summarize(
     verify: meta.verify,
     actSha256: meta.actSha256,
     criteria: meta.criteria,
+    followLinks: meta.followLinks,
     sets,
     pairs,
     judgment: {
@@ -316,7 +342,8 @@ function renderSummary(summary: EvalSummary, p: ReturnType<typeof paint>): strin
     `${summary.runs} run(s)`,
     summary.verify ? 'verification on' : p.yellow('verification OFF (ablation)'),
     `ACT ${summary.actSha256.slice(0, 8)}`,
-  ]
+    summary.followLinks ? `links followed: ${summary.followLinks}` : undefined,
+  ].filter((part) => part !== undefined)
   lines.push(p.bold(head.join(' · ')))
   lines.push('')
   lines.push(p.dim(`${''.padEnd(34)}${'baseline (axe-core)'.padEnd(26)}rampa (axe-core + judgment)`))

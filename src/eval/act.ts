@@ -22,8 +22,8 @@ export interface ActTestcase {
 export const ACT_RULES: Record<string, { syntax: string[]; semantic: string[] }> = {
   '1.1.1': { syntax: ['23a2a8'], semantic: ['qt1vmo'] },
   '2.4.2': { syntax: ['2779a5'], semantic: ['c4a8a4'] },
-  // fd3a94 compares links with identical names across a page; Rampa judges one link at a time.
-  '2.4.4': { syntax: ['c487ae'], semantic: ['5effbb'] },
+  // fd3a94 compares links with identical names and context: Rampa states, as a fact, where each one leads.
+  '2.4.4': { syntax: ['c487ae'], semantic: ['5effbb', 'fd3a94'] },
   '2.4.6': { syntax: [], semantic: ['b49b2e', 'cc0f0a'] },
   '3.1.1': { syntax: ['b5c3f8', 'bf051a'], semantic: ['ucwvc8'] },
   '3.1.2': { syntax: ['de46e4'], semantic: ['off6ek'] },

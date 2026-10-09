@@ -26,6 +26,8 @@ export const LANGUAGE_SWAP: Readonly<Record<string, string>> = {
 export interface Corruptor {
   id: string
   criterion: string
+  /** ACT rules whose passed examples it breaks; by default the criterion's semantic rules. */
+  rules?: readonly string[] | undefined
   /** Mutates the live page; returns how many elements were changed (0 = no pair). */
   apply(page: Page): Promise<number>
 }
@@ -137,9 +139,80 @@ export const htmlLangSwap: Corruptor = {
   },
 }
 
+/**
+ * 2.4.4: give every link whose text stands alone a text that says nothing, with words the prompt never shows.
+ * A link whose paragraph, item or cell holds more words is left alone, since that context could still explain it;
+ * links that end up sharing the text with nothing to tell them apart fail too. Image-only links are 1.1.1's.
+ */
+export const linkGeneric: Corruptor = {
+  id: 'link-generic',
+  criterion: '2.4.4',
+  rules: ['c487ae', '5effbb'],
+  async apply(page) {
+    return page.evaluate(() => {
+      const words = (element: Element) => (element.textContent ?? '').replace(/\s+/g, ' ').trim()
+      let changed = 0
+      for (const link of Array.from(document.querySelectorAll('a[href]:not([role]), area[href]:not([role]), [role="link"]'))) {
+        if (link.closest('[aria-hidden="true"]') || (typeof link.checkVisibility === 'function' && !link.checkVisibility())) continue
+        const block = link.parentElement?.closest('p, li, td, th, dd, dt, blockquote, figcaption, caption')
+        if (block && words(block) !== words(link)) continue
+        const labelledBy = (link.getAttribute('aria-labelledby') ?? '').split(/\s+/).flatMap((id) => document.getElementById(id) ?? [])
+        if (labelledBy.length > 0) {
+          labelledBy.forEach((label, i) => {
+            label.textContent = i === 0 ? 'Check it out' : ''
+          })
+        } else if (link.hasAttribute('aria-label')) {
+          link.setAttribute('aria-label', 'Check it out')
+        } else {
+          // Only the words change: images inside the link stay.
+          const walker = document.createTreeWalker(link, NodeFilter.SHOW_TEXT)
+          const texts: Text[] = []
+          for (let text = walker.nextNode(); text; text = walker.nextNode()) if ((text.textContent ?? '').trim()) texts.push(text as Text)
+          if (texts.length === 0) continue
+          texts.forEach((text, i) => {
+            text.textContent = i === 0 ? 'Check it out' : ''
+          })
+        }
+        changed++
+      }
+      return changed
+    })
+  },
+}
+
+/**
+ * 2.4.4: point every link that has an address at a part of the page about something else. The new part is in
+ * the page, so the pair needs no network, and its words are not among the prompt's examples.
+ */
+export const linkMismatch: Corruptor = {
+  id: 'link-mismatch',
+  criterion: '2.4.4',
+  rules: ['c487ae', '5effbb'],
+  async apply(page) {
+    return page.evaluate(() => {
+      let changed = 0
+      for (const link of Array.from(document.querySelectorAll('a[href]:not([role]), area[href]:not([role])'))) {
+        if (link.closest('[aria-hidden="true"]') || (typeof link.checkVisibility === 'function' && !link.checkVisibility())) continue
+        const named = (link.textContent ?? '').trim() !== '' || link.hasAttribute('aria-label') || link.hasAttribute('aria-labelledby')
+        if (!named) continue
+        link.setAttribute('href', '#hours')
+        changed++
+      }
+      if (changed > 0) {
+        const hours = document.createElement('p')
+        hours.id = 'hours'
+        hours.textContent = 'Opening hours: Monday to Friday, nine to five.'
+        document.body.append(hours)
+      }
+      return changed
+    })
+  },
+}
+
 export const CORRUPTORS: Readonly<Record<string, Corruptor[]>> = {
   '1.1.1': [altPlaceholder, altSwap],
   '2.4.2': [titleGeneric],
+  '2.4.4': [linkGeneric, linkMismatch],
   '2.4.6': [headingGeneric],
   '3.1.1': [htmlLangSwap],
   '3.1.2': [langSwap],

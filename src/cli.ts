@@ -11,6 +11,7 @@ import { RampaError, errorMessage } from './core/util.ts'
 import { DEFAULT_CRITERIA } from './criteria/index.ts'
 import { REASONING_LEVELS } from './providers/ai-sdk.ts'
 import { resolveLocale } from './i18n.ts'
+import { FOLLOW_LINKS } from './surfaces/destinations.ts'
 import { VERSION } from './version.ts'
 
 // API keys can live in a local .env (never in rampa.config.*).
@@ -78,6 +79,11 @@ program
   .option('--cache-dir <dir>', 'judgment cache directory', '.rampa/cache')
   .option('--concurrency <n>', 'parallel model calls', '4')
   .option('--verbose', 'list discarded claims, low-confidence findings and unchecked criteria')
+  .addOption(
+    new Option('--follow-links <policy>', "read where links lead, to compare them with their text (2.4.4); same-origin reads a local page's local files")
+      .choices([...FOLLOW_LINKS])
+      .default('same-origin'),
+  )
   .action(action(async (targets: string[], options, command: Command) => runCheck(targets, options, await context(command))))
 
 program
@@ -96,6 +102,11 @@ program
   .option('--cache-dir <dir>', 'judgment cache directory', '.rampa/cache')
   .option('--out-dir <dir>', 'where runs are written', '.rampa/runs')
   .option('--concurrency <n>', 'pages evaluated in parallel', '4')
+  .addOption(
+    new Option('--follow-links <policy>', 'read where links lead (2.4.4); same-origin reaches only the W3C host of the test pages')
+      .choices([...FOLLOW_LINKS])
+      .default('same-origin'),
+  )
   .action(action(async (options, command: Command) => runEval(options, await context(command))))
 
 program

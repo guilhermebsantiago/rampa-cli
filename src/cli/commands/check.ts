@@ -4,7 +4,7 @@ import type { Browser } from 'playwright-core'
 import { loadWaivers } from '../../config.ts'
 import { fileCache } from '../../core/cache.ts'
 import { checkSnapshot } from '../../core/check.ts'
-import type { Confidence, Report } from '../../core/types.ts'
+import type { AnyCriterion, Confidence, Report } from '../../core/types.ts'
 import { RampaError } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
 import { emptyEngine } from '../../engine/axe.ts'
@@ -13,6 +13,7 @@ import { chooseModel } from '../../providers/detect.ts'
 import type { ModelProvider } from '../../providers/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
 import { renderReport } from '../../report/pretty.ts'
+import { type DestinationCache, type FollowLinks, type FollowOptions, destinationCache } from '../../surfaces/destinations.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import { loadEngineFor, loadSnapshot, recordingName, resolveTargets } from '../../surfaces/targets.ts'
 import type { GlobalContext } from '../context.ts'
@@ -34,6 +35,14 @@ export interface CheckCommandOptions {
   /** Write each collected snapshot and its engine results here, to check later without a browser. */
   save?: string
   verbose?: boolean
+  /** Which links to read before judging, for criteria that compare a link with where it leads. */
+  followLinks?: FollowLinks
+}
+
+/** Read links when a criterion needs their destinations and the judgment layer will run. */
+export function followOptions(policy: FollowLinks | undefined, llm: boolean, criteria: AnyCriterion[], cache: DestinationCache): FollowOptions | undefined {
+  if (!llm || !policy || policy === 'none' || !criteria.some((criterion) => criterion.needs.fetch)) return undefined
+  return { policy, cache }
 }
 
 export async function resolveProvider(spec: string | undefined, offline: boolean, reasoning?: Reasoning): Promise<ModelProvider | undefined> {
@@ -56,6 +65,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   const spec = options.llm ? await chooseModel(options.model, context.config.model) : undefined
   const provider = await resolveProvider(spec, Boolean(options.offline), options.reasoning ?? context.config.reasoning)
   const needsImages = options.llm && criteria.some((criterion) => criterion.needs.vision)
+  const follow = followOptions(options.followLinks, options.llm, criteria, destinationCache({ dir: '.rampa/destinations' }))
   const cache = fileCache(options.cacheDir)
   const waivers = await loadWaivers()
   const progress = (message: string) => {
@@ -75,6 +85,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
           locale: context.locale,
           screenshotDir: options.screenshots ? '.rampa/screenshots' : undefined,
           captureImages: needsImages,
+          followLinks: follow,
         })
         if (options.save) {
           await mkdir(options.save, { recursive: true })

@@ -300,7 +300,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     const attributes: Record<string, string> = {}
     for (const name of KEEP_ATTRS) {
       const value = el.getAttribute(name)
-      if (value !== null) attributes[name] = value.slice(0, 200)
+      // An address is kept whole, so the link can be followed; a cut one would lead somewhere else.
+      if (value !== null) attributes[name] = value.slice(0, name === 'href' ? 2000 : 200)
     }
     const native: Record<string, unknown> = { tag: el.localName, attributes }
     const tag = el.localName
@@ -310,7 +311,9 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     }
     if (el.hasAttribute('lang')) native.langText = langText(el)
     // Only blocks with inline children need it; for the rest, the node's own text is already in order.
-    if (READING_BLOCKS.has(tag) && el.children.length > 0) native.readingText = readingText(el)
+    // A short div or span reads as one sentence, such as "Read more about the archive" around a link.
+    const sentence = (tag === 'div' || tag === 'span') && (el.textContent ?? '').length <= 300
+    if ((READING_BLOCKS.has(tag) || sentence) && el.children.length > 0) native.readingText = readingText(el)
     return native
   }
 

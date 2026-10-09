@@ -9,6 +9,7 @@ import type { Locale } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
 import { walkTree } from '../snapshot/tree.ts'
+import { type FollowOptions, followLinks } from './destinations.ts'
 import { collectInPage } from './in-page.ts'
 
 export interface WebCollectOptions {
@@ -21,6 +22,10 @@ export interface WebCollectOptions {
   captureImages?: boolean | undefined
   /** Changes the page before collection; used by the eval to build corrupted pairs. */
   mutate?: ((page: Page) => Promise<void>) | undefined
+  /** Read where the page's links lead, for criteria that compare a link with its destination. */
+  followLinks?: FollowOptions | undefined
+  /** Fail on an HTTP error answer (404, 429...) instead of checking the error page; the eval needs the real test page. */
+  requireOk?: boolean | undefined
 }
 
 export interface Collected {
@@ -75,7 +80,9 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
   const context = await browser.newContext({ viewport: { width: 1280, height: 800 }, bypassCSP: true })
   const page = await context.newPage()
   try {
-    await page.goto(url, { waitUntil: 'load', timeout: options.timeoutMs ?? 30_000 })
+    const response = await page.goto(url, { waitUntil: 'load', timeout: options.timeoutMs ?? 30_000 })
+    const status = response?.status() ?? 0
+    if (options.requireOk && status >= 400) throw new RampaError('http-error', `HTTP ${status} at ${url}`)
     if (options.mutate) await options.mutate(page)
     if (options.runAxe) await page.addScriptTag({ content: await axeSource() })
     const raw = await page.evaluate(collectInPage, {
@@ -87,6 +94,11 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
 
     const root = raw.root as A11yNode
     if (options.captureImages) await captureImages(page, root)
+    // Relative links resolve against the document's base: the address after redirects, or its <base href>.
+    const destinations =
+      options.followLinks && options.followLinks.policy !== 'none'
+        ? await followLinks(root, await page.evaluate(() => document.baseURI), options.followLinks)
+        : {}
 
     let screenshot: string | undefined
     if (options.screenshotDir) {
@@ -105,6 +117,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       root,
       screenshot,
       truncated: raw.truncated || undefined,
+      destinations: Object.keys(destinations).length > 0 ? destinations : undefined,
       collectedAt: new Date().toISOString(),
       collector: { name: 'rampa-web', version: VERSION },
     }
