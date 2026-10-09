@@ -164,14 +164,15 @@ export function criteriaCoverage(input: CoverageInput): CriterionCoverage[] {
     for (const { decided: _, ...method } of byRule.values()) methods.push(method)
 
     let judgedDecided = 0
-    // Candidates the model never judged, past the cap or the time limit: a judgment that ran leaves them to a person.
+    // Candidates the model was to judge and never did, past the cap or the time limit, are left to a person, even when an
+    // engine rule found nothing to fail: the criterion needs review, never "no failure found".
     let leftUnjudged = false
     if (module && summary?.applicable) {
       // The model's share: the candidates the criterion did not decide by itself.
       const ran = input.llmActive && (summary.judged - selfDecided > 0 || summary.candidates - selfDecided === 0)
       judgedDecided = summary.judged - summary.cannotTell - selfDecided
       const notJudged = (summary.capped ?? 0) + (summary.timedOut ?? 0)
-      leftUnjudged = ran && notJudged > 0
+      leftUnjudged = input.llmActive && notJudged > 0
       methods.push({
         kind: 'judgment',
         id: `judgment/${sc.id}@${module.version}`,

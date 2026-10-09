@@ -155,12 +155,21 @@ describe('a time limit per page', () => {
     expect(report.usage.cachedCalls).toBe(3)
   })
 
-  it('judges nothing when the limit ran out while the page loaded, and says the criterion was not checked', async () => {
+  it('judges nothing when the limit ran out while the page loaded, and leaves the criterion to a person', async () => {
     const model = stubModel()
     const report = await checkSnapshot(listing(4), NO_ENGINE, options(model, { deadline: Date.now() - 1 }))
     expect(model.asked).toHaveLength(0)
     expect(report.criteria[0]).toMatchObject({ judged: 0, timedOut: 4 })
-    expect(report.coverage.criteria?.find((c) => c.id === '2.4.4')?.status).toBe('not-checked')
+    const record = report.coverage.criteria?.find((c) => c.id === '2.4.4')
+    expect(record?.status).toBe('needs-review')
+    expect(record?.methods.find((m) => m.kind === 'judgment')).toMatchObject({ ran: false, applicable: 4, notJudged: 4 })
+    // An engine rule that found nothing to fail does not make it "no failure found".
+    const linkName: EngineResults = {
+      engine: { name: 'axe-core', version: 'test' },
+      rules: [{ ruleId: 'link-name', outcome: 'pass', criteria: ['2.4.4', '4.1.2'], help: '', nodes: [{ ref: '#a0', target: '#a0', html: '' }] }],
+    }
+    const passed = await checkSnapshot(listing(4), linkName, options(stubModel(), { deadline: Date.now() - 1 }))
+    expect(passed.coverage.criteria?.find((c) => c.id === '2.4.4')?.status).toBe('needs-review')
   })
 })
 
