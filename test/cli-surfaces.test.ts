@@ -1,4 +1,4 @@
-import { mkdtemp, readFile, readdir } from 'node:fs/promises'
+import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
@@ -81,6 +81,17 @@ describe('rampa check on app screens', () => {
     const replay = await check(join(save, 'examples-android-login.snapshot.json'))
     expect(replay.report.findings.map((f) => f.fingerprint)).toEqual(first.report.findings.map((f) => f.fingerprint))
     expect(replay.report.notes?.[0]).toBe('Read from UI Automator, which does not expose headings, labelFor or the language of text: checks that need them did not run.')
+  })
+
+  it('runs the rules on an app snapshot recorded without engine results, with the screenshot it names', async () => {
+    const save = await mkdtemp(join(tmpdir(), 'rampa-save-'))
+    await check('examples/ios/login.json', { save })
+    await rm(join(save, 'examples-ios-login.engine.json'))
+    const loaded = await loadRecorded(join(save, 'examples-ios-login.snapshot.json'), 'en')
+    expect(loaded.from).toBe('snapshot')
+    expect(loaded.notes).toEqual(['Read from an XCUITest export, which does not expose labels tied to fields or the language of text.'])
+    const contrast = loaded.engine.rules.filter((rule) => rule.ruleId === 'text-contrast' && rule.outcome === 'violation')
+    expect(contrast.flatMap((rule) => rule.nodes.map((n) => n.ref))).toEqual(['email'])
   })
 
   it('checks an XCUITest export and records it with its screenshot', async () => {
