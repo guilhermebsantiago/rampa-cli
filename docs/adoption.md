@@ -27,7 +27,7 @@ rampa init --targets dist,http://localhost:4173/ --model ollama:gemma4:12b --yes
 | `.gitignore` | `.rampa/cache`, `.rampa/runs`, `.rampa/screenshots` and `.rampa/act`: local files, never worth committing |
 | `.github/workflows/rampa.yml` | With `--github`: runs the Rampa action on pull requests and on `main`, with the report as a pull request comment and the findings in code scanning |
 
-It never replaces a file that exists: it says it kept it. `--force` overwrites the config and the workflow, never the waivers, which hold decisions. Running `rampa init` again is safe: it only adds what is missing. It prints what it created, updated or kept.
+It never replaces a file that exists: it says it kept it. `--force` overwrites the config and the workflow, never the waivers, which hold decisions. `rampa init` runs even when the current config does not load, and says so, so `rampa init --force` can replace a broken one. Running `rampa init` again is safe: it only adds what is missing. It prints what it created, updated or kept.
 
 | Option | Effect |
 | --- | --- |

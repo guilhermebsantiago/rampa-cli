@@ -135,4 +135,20 @@ describe('adopting Rampa on a page with known problems', { timeout: 120_000 }, (
     expect(rampa(dir, 'waive', 'not-an-id', '--reason', 'x')).toMatchObject({ code: 2, err: expect.stringContaining('is not a finding id') })
     expect(rampa(dir, 'waive', '5f085d8a3b9c', '--reason', 'x', '--expires', '2001-01-01')).toMatchObject({ code: 2, err: expect.stringContaining('already past') })
   })
+
+  it('runs init when the config does not load, so it can write one that does', async () => {
+    const dir = await storeProject()
+    await writeFile(join(dir, 'rampa.config.json'), '{"targets": [')
+    expect(rampa(dir, 'check', '--no-llm')).toMatchObject({ code: 2, err: expect.stringContaining('Could not load rampa.config.json') })
+
+    const kept = rampa(dir, 'init', '--yes', '--no-detect')
+    expect(kept.code).toBe(0)
+    expect(kept.out).toContain('rampa.config.json does not load')
+
+    const fixed = rampa(dir, 'init', '--yes', '--no-detect', '--force', '--config-format', 'mjs', '--targets', 'store.snapshot.json')
+    expect(fixed.code).toBe(0)
+    expect(fixed.out).toContain('created     rampa.config.mjs')
+    // Rampa reads the new file before the broken one, so check runs on its targets.
+    expect(rampa(dir, 'check', '--no-llm').code).toBe(1)
+  })
 })

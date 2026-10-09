@@ -100,10 +100,9 @@ export async function runInit(options: InitCommandOptions, context: GlobalContex
 }
 
 async function detectModel(): Promise<ModelSuggestion> {
-  // defaultModel probes Ollama itself; when it picked an Ollama model, a second probe would say nothing new.
-  const [automatic, lmStudio] = await Promise.all([defaultModel(), probeLmStudio()])
-  const ollama = automatic?.startsWith('ollama:') ? { reachable: true, models: [automatic.slice('ollama:'.length)] } : await probeOllama()
-  return suggestModel({ ollama, lmStudio }, automatic)
+  // One request to each server, at the same time; defaultModel picks from the Ollama answer instead of asking again.
+  const [ollama, lmStudio] = await Promise.all([probeOllama(), probeLmStudio()])
+  return suggestModel({ ollama, lmStudio }, await defaultModel(ollama))
 }
 
 /** The same settings, asked one by one with the flags and what was detected as the defaults. */

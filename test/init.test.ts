@@ -107,6 +107,22 @@ describe('rampa init', () => {
     expect((await loadConfig(dir)).config.targets).toEqual(['dist'])
   })
 
+  it('says when the config it keeps does not load, since init goes on without it', async () => {
+    const other = await project({ 'package.json': '{"type":"module"}', 'rampa.config.json': '{"targets": [' })
+    const kept = await runInitSteps(other, settings('ts'), { force: false })
+    expect(kept.steps[0]).toMatchObject({ path: 'rampa.config.json', action: 'kept' })
+    expect(kept.warnings.join(' ')).toMatch(/rampa\.config\.json does not load: .+ Fix it, or run rampa init --force to write a new one\./)
+
+    const same = await project({ 'package.json': '{"type":"module"}', 'rampa.config.ts': 'export default { targets: [\n' })
+    const keptSame = await runInitSteps(same, settings('ts'), { force: false })
+    expect(keptSame.steps[0]).toMatchObject({ path: 'rampa.config.ts', action: 'kept' })
+    expect(keptSame.warnings.join(' ')).toMatch(/rampa\.config\.ts does not load/)
+
+    // A config that loads draws no warning.
+    const fine = await project({ 'package.json': '{"type":"module"}', 'rampa.config.json': '{"targets": ["dist"]}' })
+    expect((await runInitSteps(fine, settings('ts'), { force: false })).warnings.join(' ')).not.toMatch(/does not load/)
+  })
+
   it('adds only the missing .gitignore lines, and warns when the whole .rampa folder is ignored', async () => {
     expect(gitignoreChanges('node_modules\n/.rampa/cache/\n.rampa/runs').missing).toEqual(['.rampa/screenshots', '.rampa/act'])
     expect(gitignoreChanges('.rampa/\n').ignoresAll).toBe(true)

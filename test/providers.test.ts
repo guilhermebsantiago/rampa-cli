@@ -184,5 +184,7 @@ describe('providers', () => {
     expect(await defaultModel()).toBeUndefined()
     vi.stubEnv('OPENAI_API_KEY', 'test')
     expect(await defaultModel()).toBe('openai:gpt-6-luna')
+    // An Ollama probe the caller made already is used as it is: no request of its own, which would fail here.
+    expect(await defaultModel({ reachable: true, models: ['qwen3.5:9b'] })).toBe('ollama:qwen3.5:9b')
   })
 })

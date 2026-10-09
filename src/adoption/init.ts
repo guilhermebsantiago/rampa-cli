@@ -268,10 +268,18 @@ export async function runInitSteps(
   const at = (path: string) => join(cwd, path)
 
   const configName = `rampa.config.${settings.format}`
-  const others: string[] = []
-  for (const name of CONFIG_NAMES) if (name !== configName && (await exists(at(name)))) others.push(name)
+  const existing: string[] = []
+  for (const name of CONFIG_NAMES) if (await exists(at(name))) existing.push(name)
+  const others = existing.filter((name) => name !== configName)
+  // init goes on when the config does not load, so it says so about the one it keeps (the one loadConfig reads).
+  const checkKept = async () => {
+    const read = existing[0]
+    const problem = read === undefined ? undefined : await configLoadProblem(at(read))
+    if (problem) warnings.push(`${read} does not load: ${problem} Fix it, or run rampa init --force to write a new one.`)
+  }
   if (others.length > 0 && !options.force) {
     steps.push({ path: others[0] ?? configName, action: 'kept', detail: 'a config file exists; --force writes a new one' })
+    await checkKept()
   } else {
     const typed = settings.format !== 'json' && rampaResolves(cwd)
     const action = await writeNew(at(configName), configSource(settings, { typed, suggestedModel: options.suggestedModel }), options.force)
@@ -284,7 +292,8 @@ export async function runInitSteps(
           : `${other} also exists; Rampa now reads ${configName} instead, so remove ${other}.`,
       )
     }
-    if (action !== 'kept') {
+    if (action === 'kept') await checkKept()
+    else {
       const problem = await configLoadProblem(at(configName))
       if (problem) warnings.push(`${configName} does not load on this Node: ${problem} Try --config-format mjs.`)
     }
