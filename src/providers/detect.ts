@@ -1,16 +1,19 @@
+import { type CliStatus, probeCli } from './cli/provider.ts'
 import { RECOMMENDED } from './models.ts'
-import { PROVIDERS, findProvider, lmStudioUrl, ollamaUrl } from './registry.ts'
+import { PROVIDERS, type ProviderDef, findProvider, lmStudioUrl, ollamaUrl } from './registry.ts'
 
 export interface ProviderStatus {
   id: string
   name: string
-  where: 'local' | 'api'
-  /** Credentials are complete (API) or the server answers (local). */
+  where: ProviderDef['where']
+  /** Credentials are complete (API), the server answers (local) or the CLI is installed and signed in (subscription). */
   ready: boolean
   /** Credentials still missing, in words. */
   missing: string[]
   /** Variables of this provider that are set. */
   set: string[]
+  /** Subscription CLIs: where it is, its version and how it is signed in. */
+  cli?: CliStatus | undefined
 }
 
 export interface Environment {
@@ -20,9 +23,10 @@ export interface Environment {
 }
 
 export async function detectEnvironment(): Promise<Environment> {
-  const [ollama, lmStudio] = await Promise.all([probeOllama(), probeLmStudio()])
+  const [ollama, lmStudio, clis] = await Promise.all([probeOllama(), probeLmStudio(), probeClis()])
   const providers = PROVIDERS.map((provider) => {
-    const missing = provider.missing()
+    const cli = clis.get(provider.id)
+    const missing = [...provider.missing(), ...cliNeeds(provider, cli)]
     const reachable = provider.id === 'ollama' ? ollama.reachable : provider.id === 'lmstudio' ? lmStudio.reachable : true
     return {
       id: provider.id,
@@ -31,9 +35,27 @@ export async function detectEnvironment(): Promise<Environment> {
       ready: missing.length === 0 && reachable,
       missing,
       set: provider.env.filter((name) => Boolean(process.env[name])),
+      cli,
     }
   })
   return { providers, ollama, lmStudio }
+}
+
+/** Installed and signed in, asked of each CLI without calling a model. */
+async function probeClis(): Promise<Map<string, CliStatus>> {
+  const entries = await Promise.all(
+    PROVIDERS.flatMap((provider) => (provider.cli ? [probeCli(provider.cli).then((status) => [provider.id, status] as const)] : [])),
+  )
+  return new Map(entries)
+}
+
+/** What a subscription CLI still needs, in words; a sign-in the CLI cannot report counts as present. */
+function cliNeeds(provider: ProviderDef, status: CliStatus | undefined): string[] {
+  if (!provider.cli || !status) return []
+  if (!status.installed) return [`${provider.cli.name} (${provider.cli.command} on PATH)`]
+  if (status.signIn?.signedIn === false) return [`a sign-in (${provider.cli.signInHint})`]
+  if (status.signIn?.subscription === false) return [`a ${provider.cli.plan} subscription sign-in`]
+  return []
 }
 
 export async function probeOllama(): Promise<{ reachable: boolean; models: string[] }> {

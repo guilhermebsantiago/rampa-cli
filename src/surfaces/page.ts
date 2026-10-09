@@ -1,11 +1,12 @@
 import { mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
 import { RampaError, sha256 } from '../core/util.ts'
-import { AXE_TAGS, axeLocale, axeSource, emptyEngine, engineFromAxe } from '../engine/axe.ts'
+import { AXE_REVIEW_RULES, axeLocale, axeSource, axeTags, emptyEngine, engineFromAxe } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { walkTree } from '../snapshot/tree.ts'
 import { VERSION } from '../version.ts'
+import type { WcagVersion } from '../wcag.ts'
 import { collectInPage } from './in-page.ts'
 import { type Scope, resolveScopeInPage, scopeTree } from './scope.ts'
 import type { Collected } from './web.ts'
@@ -35,6 +36,8 @@ export interface PageCollectOptions {
   captureImages?: boolean | undefined
   /** Check only part of the page. */
   scope?: Scope | undefined
+  /** Which WCAG version's axe-core rules run; 2.2 by default. */
+  wcag?: WcagVersion | undefined
 }
 
 const MAX_NODES = 5000
@@ -54,7 +57,8 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
   await driver.run(await axeSource())
   const raw = await driver.evaluate(collectInPage, {
     runAxe: true,
-    axeTags: AXE_TAGS,
+    axeTags: axeTags(options.wcag),
+    axeRules: AXE_REVIEW_RULES,
     axeLocale: await axeLocale(options.locale),
     maxNodes,
     axeContext: scope ? { ...(scope.include.length > 0 ? { include: scope.include } : {}), exclude: scope.exclude } : undefined,

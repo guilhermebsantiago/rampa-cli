@@ -63,6 +63,19 @@ export async function loadActTestcases(dir: string, refresh: boolean): Promise<A
   return { testcases: data.testcases, sha256: sha256(text), path }
 }
 
+/**
+ * The test cases of ACT rules a Rampa rule (src/rules) lists, for the eval path with no model.
+ * ACT publishes some pages twice, under WCAG 2.1 and 2.2 copies of a rule: each URL is kept once.
+ */
+export function selectRuleTestcases(dataset: ActDataset, actRules: readonly string[]): ActTestcase[] {
+  const seen = new Set<string>()
+  return dataset.testcases.filter((tc) => {
+    if (!actRules.includes(tc.ruleId) || !/\.html?$/i.test(tc.url) || seen.has(tc.url)) return false
+    seen.add(tc.url)
+    return true
+  })
+}
+
 export function selectTestcases(dataset: ActDataset, criterion: string): ActTestcase[] {
   const rules = ACT_RULES[criterion]
   if (!rules) return []

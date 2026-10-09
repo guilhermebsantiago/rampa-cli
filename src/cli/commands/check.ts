@@ -28,9 +28,12 @@ import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import type { GlobalContext } from '../context.ts'
 import { type FailOn, exitCode } from '../exit-code.ts'
 import { runSiteCheck } from './site.ts'
+import { DEFAULT_WCAG, type WcagVersion, parseWcagVersion } from '../../wcag.ts'
 
 export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   criteria: string
+  /** The WCAG version to state coverage against: '2.2' (default) or '2.1'. */
+  wcag?: string
   model?: string
   llm: boolean
   runs: string
@@ -108,6 +111,7 @@ interface CollectContext {
   /** Viewport, device, session, headers and what to wait for, for web pages. */
   browserOptions: BrowserOptions | undefined
   browser: () => Promise<Browser>
+  wcag: WcagVersion
 }
 
 async function collect(target: Target, ctx: CollectContext): Promise<Collected> {
@@ -120,6 +124,7 @@ async function collect(target: Target, ctx: CollectContext): Promise<Collected> 
         captureImages: ctx.captureImages,
         followLinks: ctx.followLinks,
         browserOptions: ctx.browserOptions,
+        wcag: ctx.wcag,
       })
       return { ...web, notes: [], record: true }
     }
@@ -174,6 +179,7 @@ async function saveRecording(dir: string, target: Target, collected: Collected):
 
 export async function runCheck(targets: string[], options: CheckCommandOptions, context: GlobalContext): Promise<number> {
   const browserOptions = parseBrowserFlags(options)
+  const wcag = wcagOption(options.wcag)
   if (crawlRequested(options)) return runSiteCheck(targetsOrConfig(targets, context.config), options, context, browserOptions)
   const resolved = await resolveTargets(targetsOrConfig(targets, context.config))
   const criteria = resolveCriteria(options.criteria.split(','))
@@ -207,6 +213,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     screenshots: Boolean(options.screenshots),
     followLinks: follow,
     browserOptions,
+    wcag,
     browser: async () => {
       browser ??= await launchBrowser()
       return browser
@@ -230,6 +237,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
         waivers: adoption.waivers,
         profiles,
         coga: context.config.coga,
+        wcag,
       })
       const notes = [...collected.notes, ...rulesNotes(collected.engine, context.locale)]
       if (notes.length > 0) report.notes = notes
@@ -262,6 +270,14 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   }
 
   return exitCode(reports, options.failOn)
+}
+
+/** `--wcag`, or the config's `wcag`: 2.2 when neither is set. */
+export function wcagOption(value: string | undefined): WcagVersion {
+  if (value === undefined) return DEFAULT_WCAG
+  const version = parseWcagVersion(value)
+  if (!version) throw new RampaError('invalid-option', `--wcag takes 2.1 or 2.2; got "${value}".`)
+  return version
 }
 
 async function writeOutput(file: string, text: string): Promise<void> {

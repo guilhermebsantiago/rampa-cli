@@ -13,13 +13,19 @@ import {
   findingPlace,
   diffLines,
   levelBreakdown,
+  methodsText,
   pageLabel,
+  parsingNote,
   patchOf,
   plural,
+  reviewGroups,
+  statusText,
   safeUrl,
   shownFindings,
   toolsLine,
   understandingUrl,
+  wcagUrl,
+  wcagVersion,
 } from './common.ts'
 import { advisoryHtml, cogaCoverage } from './advisory.ts'
 import { notesOf, usageLine } from './pretty.ts'
@@ -40,11 +46,12 @@ export function renderHtml(reports: readonly Report[], options: HtmlOptions = {}
   const confirmed = reports.flatMap((report) => report.findings)
   const subject = reports.length === 1 && reports[0] ? pageLabel(reports[0]) : plural(locale, 'pagesCount', reports.length)
   const created = reports.map((report) => report.createdAt).sort().at(-1) ?? new Date().toISOString()
+  const version = wcagVersion(reports[0] ?? {})
   const lead =
     reports.length === 0
       ? t(locale, 'noPages')
       : confirmed.length > 0
-        ? `${plural(locale, 'confirmedCount', confirmed.length)} ${plural(locale, 'onPages', reports.length)}: ${levelBreakdown(countLevels(confirmed), locale)}.`
+        ? `${plural(locale, 'confirmedCount', confirmed.length)} ${plural(locale, 'onPages', reports.length, { version })}: ${levelBreakdown(countLevels(confirmed), locale, version)}.`
         : plural(locale, 'noFindingsPages', reports.length)
 
   const parts: string[] = []
@@ -80,7 +87,7 @@ export function renderHtml(reports: readonly Report[], options: HtmlOptions = {}
   parts.push(aboutSection(reports, locale))
   parts.push(`</main>
 <footer class="wrap">
-<p>${e(t(locale, 'generatedBy', { tool: `Rampa ${VERSION}` }))} · <a href="${PROJECT_URL}">${e(t(locale, 'projectLink'))}</a> · <a href="https://www.w3.org/TR/WCAG21/">${e(t(locale, 'wcagLink'))}</a></p>
+<p>${e(t(locale, 'generatedBy', { tool: `Rampa ${VERSION}` }))} · <a href="${PROJECT_URL}">${e(t(locale, 'projectLink'))}</a> · <a href="${wcagUrl(version)}">${e(t(locale, 'wcagLink', { version }))}</a></p>
 </footer>
 </body>
 </html>
@@ -116,7 +123,7 @@ function pageSection(report: Report, index: number, several: boolean, verbose: b
   // With one page, the header already counts the findings.
   const counts = countLevels(report.findings)
   if (several || counts.total === 0) {
-    const lead = counts.total > 0 ? `${plural(locale, 'confirmedCount', counts.total)}: ${levelBreakdown(counts, locale)}.` : t(locale, 'noFindings')
+    const lead = counts.total > 0 ? `${plural(locale, 'confirmedCount', counts.total)}: ${levelBreakdown(counts, locale, wcagVersion(report))}.` : t(locale, 'noFindings')
     out.push(`<p class="page-lead">${e(lead)}</p>`)
   }
 
@@ -141,6 +148,8 @@ function pageSection(report: Report, index: number, several: boolean, verbose: b
     out.push('</div>')
   }
 
+  const review = reviewBlock(report)
+  if (review) out.push(review)
   // Advisories of a --profile: a section of their own after the findings, never mixed with them.
   if (report.advisory) out.push(advisoryHtml(report, index, verbose))
   out.push(`<h3>${e(t(locale, 'coverageTitle'))}</h3>`)
@@ -179,8 +188,9 @@ function findingItem(finding: Finding, report: Report): string {
   const meta: string[] = [`${e(t(locale, 'confidence'))} ${e(t(locale, finding.confidence))}`]
   if (finding.agreement) meta.push(`${finding.agreement.votes}/${finding.agreement.total} ${e(t(locale, 'runs'))}`)
   if (finding.source === 'judgment') meta.push(e(t(locale, 'verified')))
-  if (finding.source === 'engine' && finding.ruleId) {
-    const rule = `${e(t(locale, 'engineRule'))} ${e(finding.ruleId)} (${e(report.engine.name)})`
+  if (finding.source !== 'judgment' && finding.ruleId) {
+    const rule =
+      finding.source === 'rule' ? `${e(t(locale, 'rampaRule'))} ${e(finding.ruleId)}` : `${e(t(locale, 'engineRule'))} ${e(finding.ruleId)} (${e(report.engine.name)})`
     const help = safeUrl(finding.helpUrl)
     meta.push(help ? `<a href="${e(help)}">${rule}</a>` : rule)
   }
@@ -191,11 +201,54 @@ function findingItem(finding: Finding, report: Report): string {
   return out.join('')
 }
 
+/** What the engine could not decide, by criterion and rule, with the elements folded. */
+function reviewBlock(report: Report): string {
+  const groups = reviewGroups(report)
+  if (groups.length === 0) return ''
+  const locale = report.locale
+  const items = groups.map((group) => {
+    const name = criterionName(group.criterion, locale)
+    const help = safeUrl(group.helpUrl)
+    const rule = help ? `<a href="${e(help)}">${e(group.ruleId)}</a>` : e(group.ruleId)
+    const elements = group.items
+      .slice(0, 50)
+      .map((item) => `<li><code>${e(item.ref ?? item.target ?? '')}</code>${item.message !== group.reason ? ` ${e(item.message)}` : ''}</li>`)
+      .join('')
+    return `<li><strong>WCAG ${e(group.criterion)}${name ? ` ${e(name)}` : ''}</strong>: ${e(plural(locale, 'reviewElements', group.items.length))} · ${rule}<br>${e(group.reason)}<details><summary>${e(plural(locale, 'reviewElements', group.items.length))}</summary><ul>${elements}</ul></details></li>`
+  })
+  return `<h3>${e(t(locale, 'reviewTitle'))}</h3>
+<p>${e(t(locale, 'reviewIntro', { engine: report.engine.name }))}</p>
+<ul class="review">${items.join('\n')}</ul>`
+}
+
+/** Each criterion with its status, the methods behind it and what stays manual. */
+function criteriaTable(report: Report): string {
+  const records = report.coverage.criteria ?? []
+  if (records.length === 0) return ''
+  const locale = report.locale
+  const rows = records.map((record) => {
+    const status = `${statusText(record.status, locale)}${record.target === 'beyond' ? ` (${t(locale, 'statusBeyond')})` : ''}`
+    return `<tr><th scope="row">${e(record.id)} ${e(criterionName(record.id, locale) ?? '')}</th><td>${e(status)}</td><td>${e(methodsText(record, report))}</td><td>${e(record.manual)}</td></tr>`
+  })
+  const title = t(locale, 'coverageCriteria').replace(/:$/, '')
+  // Four columns do not fit a phone: the table scrolls in its own region, never the page.
+  return `<details><summary>${e(title)}</summary>
+<div class="scroll" role="region" aria-label="${e(`${title}: ${pageLabel(report)}`)}" tabindex="0">
+<table class="criteria-status">
+<thead><tr><th scope="col">${e(t(locale, 'criterionColumn'))}</th><th scope="col">${e(t(locale, 'statusColumn'))}</th><th scope="col">${e(t(locale, 'methodsColumn'))}</th><th scope="col">${e(t(locale, 'manualLabel'))}</th></tr></thead>
+<tbody>
+${rows.join('\n')}
+</tbody>
+</table>
+</div>
+</details>`
+}
+
 function coverageTable(report: Report, verbose: boolean): string {
   const locale = report.locale
-  const rows = coverageRows(report).map((row, index) => {
+  const rows = coverageRows(report).map((row) => {
     const cell =
-      index === 2 && row.criteria.length > 0
+      row.key === 'notChecked' && row.criteria.length > 0
         ? `<details><summary>${e(row.text)}</summary><ul class="criteria">${row.criteria
             .map((id) => `<li>${e(id)} ${e(criterionName(id, locale) ?? '')} (${e(successCriterion(id)?.level ?? '')})</li>`)
             .join('')}</ul></details>`
@@ -212,7 +265,9 @@ function coverageTable(report: Report, verbose: boolean): string {
 <tbody>
 ${rows.join('\n')}
 </tbody>
-</table>`
+</table>
+<p class="parsing">${e(parsingNote(report))} ${e(t(locale, 'coverageNoPass'))}</p>
+${criteriaTable(report)}`
 }
 
 function aboutSection(reports: readonly Report[], locale: Locale): string {
@@ -290,6 +345,8 @@ caption{text-align:left;font-weight:600;padding:.25rem 0}
 th,td{text-align:left;vertical-align:top;padding:.5rem;border-bottom:1px solid var(--border);overflow-wrap:break-word}
 thead th{border-bottom-width:2px}
 td,th[scope=row]{overflow-wrap:anywhere}
+.scroll{overflow-x:auto;max-width:100%}
+.criteria-status{min-width:32rem}
 .summary td{font-variant-numeric:tabular-nums}
 .coverage th{width:16rem;font-weight:600}
 .criteria{margin:.5rem 0 0;padding-left:1.25rem}

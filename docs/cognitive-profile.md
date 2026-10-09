@@ -123,6 +123,8 @@ Testing with people should include people with cognitive and learning disabiliti
 
 A pattern is never marked "passed" or "met": the Note defines no conformance, and "screened" means only that some sub-checks ran. With the profile off, a web report says in one line that COGA guidance was not screened.
 
+These lines come after the WCAG coverage of the run (the coverage rows and each criterion's status, described in [WCAG 2.2](wcag-2-2.md)), in every format. The profile adds no method to a WCAG criterion and changes no criterion's status: its 3.1.4 and 3.1.5 are AAA, outside the A/AA target of a run whether it targets WCAG 2.2 or 2.1. Its `needsReview` (3.1.5) is a list of criteria, apart from the report's `needsReview`, which lists elements axe-core or Rampa's rules could not decide.
+
 ## In each output
 
 | Output | Advisories |

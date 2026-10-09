@@ -7,9 +7,20 @@ import type { Advisory } from '../advisory/types.ts'
 import type { Confidence, Finding, Report, SourceRegion } from '../core/types.ts'
 import { sha256 } from '../core/util.ts'
 import { type Locale, t } from '../i18n.ts'
-import { successCriterion } from '../wcag.ts'
+import { type WcagVersion, successCriterion } from '../wcag.ts'
 import { VERSION } from '../version.ts'
-import { PROJECT_URL, WAIVERS_FILE, coverageStatement, criterionName, pageLabel, safeUrl, understandingUrl } from './common.ts'
+import {
+  PROJECT_URL,
+  WAIVERS_FILE,
+  coverageStatement,
+  criterionName,
+  pageLabel,
+  reviewGroups,
+  reviewOnly,
+  safeUrl,
+  understandingUrl,
+  wcagVersion,
+} from './common.ts'
 
 /**
  * SARIF 2.1.0, the format GitHub code scanning and most IDEs read. One rule per WCAG
@@ -104,6 +115,7 @@ type Kind = 'confirmed' | 'below-threshold' | 'waived'
 
 export function toSarif(reports: readonly Report[], options: SarifOptions = {}): SarifLog {
   const locale: Locale = reports[0]?.locale ?? 'en'
+  const version = wcagVersion(reports[0] ?? {})
   const rules: Rule[] = []
   const ruleIndex = new Map<string, number>()
   const artifacts: SarifLog['runs'][number]['artifacts'] = []
@@ -116,7 +128,7 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
     const id = ruleIdOf(finding)
     let index = ruleIndex.get(id)
     if (index === undefined) {
-      index = rules.push(ruleOf(finding, locale)) - 1
+      index = rules.push(ruleOf(finding, locale, version)) - 1
       ruleIndex.set(id, index)
     }
     return { id, index }
@@ -199,11 +211,21 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
           coverage: reports.map((report) => ({
             target: pageLabel(report),
             surface: report.surface,
+            wcagTarget: report.wcagTarget ?? 'wcag21-aa',
             llm: report.llm,
             model: report.model,
             checkedByEngine: report.coverage.engine,
             judged: report.coverage.judged,
+            needsReviewOnly: reviewOnly(report),
             notChecked: report.coverage.notChecked,
+            // Undecided results are not SARIF results: code scanning would show them as alerts. They are counted here.
+            needsReview: reviewGroups(report).map((group) => ({ criterion: group.criterion, ruleId: group.ruleId, count: group.items.length, reason: group.reason })),
+            criteria: (report.coverage.criteria ?? []).map((record) => ({
+              id: record.id,
+              target: record.target,
+              status: record.status,
+              methods: record.methods.map((m) => ({ kind: m.kind, id: m.id, ran: m.ran, applicable: m.applicable, failures: m.failures, review: m.review })),
+            })),
             ...(report.advisory
               ? {
                   advisory: {
@@ -233,7 +255,7 @@ function plainText(text: string): string {
   return text.replace(/\\(?=[[\]])/g, '\\\\').replace(/[[\]]/g, '\\$&')
 }
 
-function ruleOf(finding: Finding, locale: Locale): Rule {
+function ruleOf(finding: Finding, locale: Locale, version: WcagVersion): Rule {
   const sc = successCriterion(finding.criterion)
   if (!sc) {
     const help = safeUrl(finding.helpUrl)
@@ -256,14 +278,14 @@ function ruleOf(finding: Finding, locale: Locale): Rule {
     id: ruleIdOf(finding),
     name: pascalCase(sc.name.en),
     shortDescription: { text: title },
-    fullDescription: { text: t(locale, 'sarifRuleDescription', { id: sc.id, name, level: sc.level }) },
+    fullDescription: { text: t(locale, 'sarifRuleDescription', { id: sc.id, name, level: sc.level, version: sc.since === '2.2' ? '2.2' : version }) },
     help: {
       text: `${t(locale, 'understanding', { id: sc.id, name })}: ${url}\n${t(locale, 'sarifWaive', { file: WAIVERS_FILE })}`,
       markdown: `[${t(locale, 'understanding', { id: sc.id, name })}](${url})\n\n${t(locale, 'sarifWaive', { file: `\`${WAIVERS_FILE}\`` })}`,
     },
     helpUri: url,
     defaultConfiguration: { level: 'error' },
-    properties: { tags: ['accessibility', 'wcag', 'wcag21', `wcag-${sc.level.toLowerCase()}`, `wcag-${sc.id}`], wcagLevel: sc.level },
+    properties: { tags: ['accessibility', 'wcag', sc.since === '2.2' ? 'wcag22' : 'wcag21', `wcag-${sc.level.toLowerCase()}`, `wcag-${sc.id}`], wcagLevel: sc.level },
   }
 }
 

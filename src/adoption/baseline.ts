@@ -12,7 +12,7 @@ export const BASELINE_FILE = '.rampa/baseline.json'
 export interface BaselineEntry {
   fingerprint: string
   criterion: string
-  source: 'engine' | 'judgment'
+  source: 'engine' | 'judgment' | 'rule'
   /** The element: its snapshot ref, or the engine's selector when it has none. */
   ref?: string | undefined
   ruleId?: string | undefined
@@ -89,7 +89,7 @@ export function entryOf(finding: Finding): BaselineEntry {
     ref: finding.ref ?? finding.target,
     ruleId: finding.ruleId,
     subject: finding.subject,
-    element: finding.source === 'engine' ? startTag(finding.html) : undefined,
+    element: finding.source !== 'judgment' ? startTag(finding.html) : undefined,
     message: finding.message,
   }
 }
@@ -192,6 +192,8 @@ export function findTarget(baseline: BaselineFile, key: string): [string, Baseli
  */
 function contentKey(entry: Pick<BaselineEntry, 'criterion' | 'source' | 'ruleId' | 'subject' | 'element'>): string | undefined {
   if (entry.source === 'engine') return entry.element ? `${entry.criterion}|engine|${entry.ruleId ?? ''}|${normalizeForMatch(entry.element)}` : undefined
+  // A rule's hit is about what it read (the alt text, the title), like a judgment, and names its rule like the engine.
+  if (entry.source === 'rule') return entry.subject?.trim() ? `${entry.criterion}|rule|${entry.ruleId ?? ''}|${normalizeForMatch(entry.subject)}` : undefined
   return entry.subject?.trim() ? `${entry.criterion}|judgment|${normalizeForMatch(entry.subject)}` : undefined
 }
 
@@ -202,6 +204,8 @@ function contentKey(entry: Pick<BaselineEntry, 'criterion' | 'source' | 'ruleId'
  */
 function rechecked(entry: BaselineEntry, report: Report): boolean {
   if (entry.source === 'engine') return report.engine.name !== 'none'
+  // Rules run on every check, with or without a model, and decide the same way on the same page.
+  if (entry.source === 'rule') return true
   if (report.llm !== 'on') return false
   const summary = report.criteria.find((c) => c.criterion === entry.criterion)
   if (!summary?.applicable || summary.cannotTell > 0 || summary.errors > 0 || summary.offlineMisses > 0) return false

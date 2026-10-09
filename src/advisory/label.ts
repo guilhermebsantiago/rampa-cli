@@ -3,7 +3,7 @@ import { patternTitle } from './coga.ts'
 import { am } from './messages.ts'
 import type { Basis, Impact } from './types.ts'
 
-/** WCAG criteria the profile reports beyond the A/AA target. criterionLabel (src/wcag.ts) knows only 2.1 A/AA. */
+/** WCAG criteria the profile reports beyond the A/AA target. criterionLabel (src/wcag.ts) knows only A/AA (2.1 and 2.2). */
 const BEYOND_NAMES: Record<string, { en: string; 'pt-BR': string }> = {
   '3.1.4': { en: 'Abbreviations', 'pt-BR': 'Abreviaturas' },
   '3.1.5': { en: 'Reading Level', 'pt-BR': 'Nível de leitura' },

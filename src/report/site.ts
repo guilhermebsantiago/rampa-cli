@@ -1,9 +1,10 @@
 import type { RepeatedFinding, SiteReport } from '../core/site.ts'
 import type { CriterionSummary, Finding } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
-import { estimateCostUsd } from '../providers/models.ts'
+import { estimateCostUsd, subscriptionOf } from '../providers/models.ts'
 import type { CrawlSkip } from '../surfaces/crawl.ts'
-import { WCAG21_A_AA, compareCriteria, criterionLabel } from '../wcag.ts'
+import { compareCriteria, criteriaFor, criterionLabel, versionOf } from '../wcag.ts'
+import { reviewOnlyCriteria } from '../core/coverage.ts'
 import { siteAdvisoryLines } from './advisory.ts'
 import { type PrettyOptions, renderFinding } from './pretty.ts'
 
@@ -238,14 +239,21 @@ export function renderSiteReport(site: SiteReport, options: PrettyOptions): stri
   lines.push(p.bold(t(locale, 'coverageTitle')))
   const engineLabel = t(locale, 'coverageEngine', { engine: site.engine.name })
   const labels = [engineLabel, t(locale, 'coverageJudged'), t(locale, 'coverageNotChecked'), st(locale, 'coveragePages')]
-  const width = Math.max(...labels.map((label) => label.length)) + 2
   const coverage = site.summary.coverage
+  const rules = coverage.rules ?? []
+  if (rules.length > 0) labels.push(t(locale, 'coverageRules'))
+  const width = Math.max(...labels.map((label) => label.length)) + 2
+  const version = versionOf(site.pages[0]?.wcagTarget)
   lines.push(`  ${engineLabel.padEnd(width)}${list(coverage.engine)}`)
+  if (rules.length > 0) lines.push(`  ${t(locale, 'coverageRules').padEnd(width)}${list(rules)}`)
   lines.push(`  ${t(locale, 'coverageJudged').padEnd(width)}${list(coverage.judged)}`)
+  const review = reviewOnlyCriteria(coverage.criteria ?? [], [...coverage.engine, ...rules], coverage.judged)
+  if (review.length > 0) lines.push(`  ${t(locale, 'coverageReview').padEnd(width)}${list(review)}`)
   const notChecked = verbose
     ? list(coverage.notChecked)
-    : t(locale, 'coverageNotCheckedCount', { count: coverage.notChecked.length, total: WCAG21_A_AA.length })
+    : t(locale, 'coverageNotCheckedCount', { count: coverage.notChecked.length, total: criteriaFor(version).length, version })
   lines.push(`  ${t(locale, 'coverageNotChecked').padEnd(width)}${notChecked}`)
+  lines.push(p.dim(`  ${t(locale, version === '2.1' ? 'coverageParsing21' : 'coverageParsing22')}`))
   const found = site.pages.length + site.notChecked.length + site.notLoaded
   lines.push(`  ${st(locale, 'coveragePages').padEnd(width)}${st(locale, 'coveragePagesCount', { checked: site.pages.length, found })}`)
   lines.push(p.bold(st(locale, 'disclaimer')))
@@ -376,6 +384,13 @@ function siteNotes(site: SiteReport, verbose: boolean): string[] {
     if (candidates > 0) notes.push(t(locale, 'judgmentSkipped', { count: candidates, criteria }))
   }
   if (site.llm === 'no-model') notes.push(t(locale, 'noModel'))
+  const review = site.pages.flatMap((report) => report.needsReview ?? [])
+  if (review.length > 0) {
+    const counts = new Map<string, number>()
+    for (const item of review) counts.set(item.criterion, (counts.get(item.criterion) ?? 0) + 1)
+    const list = [...counts].sort(([a], [b]) => compareCriteria(a, b)).map(([criterion, count]) => `${criterion}: ${count}`)
+    notes.push(t(locale, 'reviewNote', { count: review.length, engine: site.engine.name, list: list.join(', ') }))
+  }
   if (sum('discarded') > 0) notes.push(t(locale, 'discarded', { count: sum('discarded') }))
   if (sum('cannotTell') > 0) notes.push(t(locale, 'cannotTell', { count: sum('cannotTell') }))
   if (sum('offlineMisses') > 0) notes.push(t(locale, 'offlineMisses', { count: sum('offlineMisses') }))
@@ -406,8 +421,10 @@ function usageLine(site: SiteReport): string | undefined {
     }),
   ]
   if (usage.reusedAcrossPages > 0) parts.push(st(locale, 'reused', { count: usage.reusedAcrossPages }))
+  const subscription = subscriptionOf(site.model)
   const cost = estimateCostUsd(site.model, usage.inputTokens, usage.outputTokens)
-  if (cost === 0) parts.push(t(locale, 'usageLocal'))
+  if (subscription) parts.push(t(locale, 'usageSubscription', subscription))
+  else if (cost === 0) parts.push(t(locale, 'usageLocal'))
   else if (cost !== undefined) parts.push(cost < 0.0001 ? `< US$ ${decimal(0.0001, 4)}` : `≈ US$ ${decimal(cost, 4)}`)
   return parts.join(' · ')
 }

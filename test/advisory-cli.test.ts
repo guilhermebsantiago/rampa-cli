@@ -12,7 +12,8 @@ const CLI = resolve('src/cli.ts')
 const env = Object.fromEntries(Object.entries(process.env).filter(([name]) => !name.startsWith('RAMPA_')))
 
 function rampa(cwd: string, ...args: string[]) {
-  const run = spawnSync(process.execPath, [CLI, ...args], { cwd, encoding: 'utf8', env: { ...env, NO_COLOR: '1' } })
+  // The locale and the model are pinned, so the run reads the same on any machine.
+  const run = spawnSync(process.execPath, [CLI, ...args], { cwd, encoding: 'utf8', env: { ...env, NO_COLOR: '1', RAMPA_LOCALE: 'en', RAMPA_MODEL: '' } })
   return { code: run.status, out: run.stdout, err: run.stderr }
 }
 

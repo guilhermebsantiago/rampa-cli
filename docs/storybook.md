@@ -96,7 +96,7 @@ A story that fails, as the test-runner prints it (from `ollama:gemma4:12b`, URL 
      Judged:    ollama:gemma4:12b · confidence high · 1/1 runs · evidence verified
      Waiver id: 9bf1f75b079a
 
-  Coverage: axe-core checked 1.1.1, 1.3.1, 1.4.1, 1.4.3, 2.4.4, 4.1.2; judged with verified evidence: 1.1.1, 2.4.4, 2.4.6; not checked automatically: 43 of 50 WCAG 2.1 A/AA criteria.
+  Coverage: axe-core checked 1.1.1, 1.3.1, 1.4.1, 1.4.3, 2.4.4, 4.1.2; judged with verified evidence: 1.1.1, 2.4.4, 2.4.6; not checked automatically: 48 of 55 WCAG 2.2 A/AA criteria.
   This report does not declare the page accessible.
 ```
 

@@ -5,7 +5,8 @@ import { indexTree } from '../snapshot/tree.ts'
 import type { BrowserConditions } from '../surfaces/browser-options.ts'
 import type { CrawlSkip } from '../surfaces/crawl.ts'
 import type { Robots } from '../surfaces/robots.ts'
-import { type Level, WCAG21_A_AA, compareCriteria } from '../wcag.ts'
+import { type Level, type WcagTarget, compareCriteria, versionOf } from '../wcag.ts'
+import { mergeCoverage } from './coverage.ts'
 import type { JudgmentCache } from './cache.ts'
 import type { Confidence, Finding, Patch, Report, Usage } from './types.ts'
 import { normalizeForMatch, sha256 } from './util.ts'
@@ -129,7 +130,7 @@ export interface RepeatedFinding {
   signature: string
   criterion: string
   level: Level | undefined
-  source: 'engine' | 'judgment'
+  source: 'engine' | 'judgment' | 'rule'
   ruleId?: string | undefined
   helpUrl?: string | undefined
   message: string
@@ -217,20 +218,17 @@ export function summarizeSite(pages: readonly SitePage[], reusedAcrossPages: num
     usage.latencyMs += page.report.usage.latencyMs
   }
 
-  const engine = new Set(pages.flatMap((page) => page.report.coverage.engine))
-  const judged = new Set(pages.flatMap((page) => page.report.coverage.judged))
-  const notChecked = WCAG21_A_AA.map((sc) => sc.id).filter((id) => !engine.has(id) && !judged.has(id))
+  const coverage = mergeCoverage(
+    pages.map((page) => page.report),
+    versionOf(pages[0]?.report.wcagTarget),
+  )
   return {
     pagesChecked: pages.length,
     findings: { total, repeated: total - specificCount, pageSpecific: specificCount },
     repeated,
     pageSpecific,
     usage,
-    coverage: {
-      engine: [...engine].sort(compareCriteria),
-      judged: [...judged].sort(compareCriteria),
-      notChecked: notChecked.sort(compareCriteria),
-    },
+    coverage,
   }
 }
 
@@ -258,6 +256,8 @@ export interface SiteReport {
   }
   /** What the browser emulated and carried; header and cookie values are never recorded. */
   browser: BrowserConditions
+  /** What every page was checked against. */
+  wcagTarget?: WcagTarget | undefined
   locale: Locale
   llm: Report['llm']
   model?: string | undefined

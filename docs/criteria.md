@@ -1,6 +1,6 @@
 # Judged criteria
 
-Rampa runs axe-core first and reports its violations as they are. A judgment module then sends a model only the residue for one WCAG 2.1 success criterion: what the engine passed on syntax, could not decide, or does not check. Each module lives in `src/criteria/` and does the same six things:
+Rampa runs axe-core first and reports its violations as they are. A judgment module then sends a model only the residue for one WCAG success criterion: what the engine passed on syntax, could not decide, or does not check. Each module lives in `src/criteria/` and does the same six things:
 
 1. **Candidates.** Picks the nodes to judge from the normalized snapshot, never the DOM, and leaves out nodes the engine already failed.
 2. **Prompt.** One criterion per prompt, with the normative WCAG text and only the context that criterion needs. Page data sits inside tags the model is told never to obey.
@@ -67,10 +67,10 @@ The evaluation numbers below are from one run of Gemma 4 12B on a local GPU (Oll
 ## 2.4.4 Link Purpose (In Context)
 
 - **axe-core checks** that a link has a name. It passes "Click here".
-- **Rampa judges** links with text (links whose only content is an image are left to 1.1.1) with their programmatically determined context: the paragraph, list items or cell around them, the heading above, the landmark, `aria-describedby` and the target of a same-page link.
-- **Verification:** the evidence must be the link text; a fail needs a problem and a different suggested text.
+- **Rampa judges** links with text (links whose only content is an image are left to 1.1.1) with their programmatically determined context: the paragraph, list items or cell around them, the heading above, the landmark, `aria-describedby` and the target of a same-page link. It also reads where each link leads (title, first heading, description, file type) and, for links that share a text, how many places they lead to and whether their context tells them apart; see [link-purpose.md](link-purpose.md).
+- **Verification:** the evidence must be the link text; a fail needs a problem and a different suggested text; a mismatch needs a known destination, and an ambiguous claim needs the link-set fact behind it.
 - **Patch:** replaces the link text, or `aria-label` when the name comes from it.
-- **Limits:** the destination page is not fetched yet. Short texts whose purpose comes from a description or a nested list are its weakest cases.
+- **Limits:** a broken link is never a finding, because it is not a WCAG failure. ACT's fd3a94 accepts copies of a page and links "ambiguous to everyone" that Rampa reports, which is its weakest set.
 
 ## 2.4.6 Headings and Labels
 
