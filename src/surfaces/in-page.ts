@@ -281,6 +281,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     if (expanded === 'false') states.push('collapsed')
     if (el.getAttribute('aria-selected') === 'true') states.push('selected')
     if (el instanceof HTMLElement && el.tabIndex >= 0) states.push('focusable')
+    // An image that failed to load shows the browser's broken-image icon, not the picture its alternative describes.
+    if (el instanceof HTMLImageElement && el.complete && el.naturalWidth === 0) states.push('broken')
     return states
   }
 

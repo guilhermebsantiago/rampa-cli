@@ -117,7 +117,11 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
 
 const IMAGE_LIMIT = 25
 
-/** Element screenshots show the image exactly as people see it: size, crop, CSS and all. */
+/**
+ * Element screenshots show the image exactly as people see it: size, crop, CSS and all.
+ * An image that did not load is left without one: its screenshot would show the broken-image icon,
+ * and a judgment of the alternative against that icon would be wrong.
+ */
 async function captureImages(page: Page, root: A11yNode): Promise<void> {
   const targets: A11yNode[] = []
   for (const node of walkTree(root)) {
@@ -127,7 +131,7 @@ async function captureImages(page: Page, root: A11yNode): Promise<void> {
       node.role === 'img' ||
       (node.native.tag === 'input' && attributes.type === 'image') ||
       (node.native.tag === 'canvas' && Boolean(node.name))
-    if (!isImage || node.states.includes('hidden') || !node.bounds) continue
+    if (!isImage || node.states.includes('hidden') || node.states.includes('broken') || !node.bounds) continue
     if (node.bounds.width < 8 || node.bounds.height < 8) continue
     targets.push(node)
     if (targets.length >= IMAGE_LIMIT) break

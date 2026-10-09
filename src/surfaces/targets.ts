@@ -44,7 +44,10 @@ export async function loadSnapshot(path: string): Promise<A11ySnapshot> {
   const data: unknown = JSON.parse(await readFile(path, 'utf8'))
   const parsed = A11ySnapshotSchema.safeParse(data)
   if (!parsed.success) {
-    throw new RampaError('invalid-snapshot', `${path} is not a valid Rampa snapshot:\n${parsed.error.message}`)
+    // The first few problems, one line: a .json that is not a snapshot at all fails on every field.
+    const issues = parsed.error.issues.map((issue) => `${issue.path.map(String).join('.') || 'the file'}: ${issue.message}`)
+    const more = issues.length > 3 ? `, and ${issues.length - 3} more` : ''
+    throw new RampaError('invalid-snapshot', `${path} is not a valid Rampa snapshot (${issues.slice(0, 3).join('; ')}${more})`)
   }
   return parsed.data
 }
