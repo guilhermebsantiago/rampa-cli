@@ -97,6 +97,37 @@ export function isGenericAlt(alt: string): boolean {
   return GENERIC_WORDS.has(normalizeForMatch(alt))
 }
 
+/** Words that name a kind of image or say it has none, in the supported languages: a label, not a description. */
+const LABEL_WORDS = new Set([
+  'decorative', 'decorativo', 'decorativa', 'decoration', 'decoração', 'decoracao', 'decoración', 'decoracion',
+  'image', 'imagem', 'imagen', 'img', 'picture',
+  'photo', 'foto', 'photograph', 'fotografia', 'fotografía',
+  'icon', 'ícone', 'icone', 'icono',
+  'none', 'empty', 'nenhum', 'nenhuma', 'vazio', 'vazia', 'ninguno', 'ninguna', 'vacío', 'vacio', 'vacía', 'vacia',
+])
+
+function altWords(value: string): string[] {
+  return normalizeForMatch(value)
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter(Boolean)
+}
+
+/** A suggestion such as "decorative" or "ícone" is a label for the image, not a text alternative for it. */
+export function isLabelAlt(suggested: string): boolean {
+  const words = altWords(suggested)
+  const labels = new Set([...LABEL_WORDS].flatMap(altWords))
+  return words.length > 0 && words.every((word) => labels.has(word))
+}
+
+/** The suggestion adds no word to the current alternative: it only removes words or reorders them. */
+export function onlyRewords(suggested: string, current: string): boolean {
+  const words = altWords(suggested)
+  const currentWords = new Set(altWords(current))
+  return words.length > 0 && words.every((word) => currentWords.has(word))
+}
+
 /** Cheap deterministic signal that agrees with the model on the obvious cases (img-1, IMG_2034.jpg). */
 export function looksLikePlaceholder(alt: string, src?: string): boolean {
   const value = alt.trim()
@@ -201,6 +232,10 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentJudg
         if (suggested.length > 250) return { ok: false, reason: 'suggested alternative too long' }
         if (normalizeForMatch(suggested) === normalizeForMatch(candidate.context.alt)) {
           return { ok: false, reason: 'suggested alternative equals the current one' }
+        }
+        if (isLabelAlt(suggested)) return { ok: false, reason: 'suggested alternative is a label, not a description' }
+        if (onlyRewords(suggested, candidate.context.alt)) {
+          return { ok: false, reason: 'suggested alternative only rewords the current one' }
         }
       }
     }

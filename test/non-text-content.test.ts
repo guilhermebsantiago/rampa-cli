@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { isGenericAlt, looksLikePlaceholder, nonTextContent } from '../src/criteria/non-text-content.ts'
+import { isGenericAlt, isLabelAlt, looksLikePlaceholder, nonTextContent, onlyRewords } from '../src/criteria/non-text-content.ts'
 import type { EngineResults } from '../src/core/types.ts'
 import type { A11ySnapshot } from '../src/snapshot/schema.ts'
 import { node } from './helpers.ts'
@@ -110,5 +110,74 @@ describe('generic alternatives', () => {
     expect(isGenericAlt('Product')).toBe(true)
     expect(isGenericAlt('produto')).toBe(true)
     expect(isGenericAlt('Potted plant')).toBe(false)
+  })
+})
+
+describe('1.1.1 suggestions that are labels or rewordings', () => {
+  // Modeled on the real-page study's dev split: a quick-access icon inside a link on a university home page.
+  function quickAccess(): A11ySnapshot {
+    return {
+      ...gallery(),
+      target: 'test://quick-access',
+      root: node({
+        ref: 'html',
+        role: 'document',
+        lang: 'pt-BR',
+        children: [
+          node({
+            ref: '#bus-link',
+            role: 'link',
+            name: 'ÍCONE - Ônibus da UFC',
+            children: [
+              node({
+                ref: '#bus-icon',
+                role: 'img',
+                name: 'ÍCONE - Ônibus da UFC',
+                image: PNG,
+                bounds: { x: 0, y: 0, width: 48, height: 48 },
+                native: { tag: 'img', attributes: { src: 'onibus.png', alt: 'ÍCONE - Ônibus da UFC' }, html: '<img src="onibus.png" alt="ÍCONE - Ônibus da UFC">' },
+              }),
+            ],
+          }),
+        ],
+      }),
+    }
+  }
+  const [icon] = nonTextContent.candidates(quickAccess(), { engine: engine.engine, rules: [] })
+  if (!icon) throw new Error('no candidate')
+  const claim = {
+    verdict: 'fail' as const,
+    evidence: 'ÍCONE - Ônibus da UFC',
+    problem: 'wrong_content' as const,
+    imageShows: 'A white bus pictogram on a blue square',
+    suggestedAlt: 'Ônibus da UFC',
+    confidence: 'high' as const,
+  }
+
+  it('drops a fail whose suggestion only removes words from the current alternative', () => {
+    expect(nonTextContent.verify(claim, icon, quickAccess())).toEqual({ ok: false, reason: 'suggested alternative only rewords the current one' })
+    expect(nonTextContent.verify({ ...claim, suggestedAlt: 'UFC: ônibus' }, icon, quickAccess()).ok).toBe(false)
+  })
+
+  it.each(['decorative', 'Decorativo', 'ícone', 'Icono', 'imagem', 'Imagen', 'photo', 'foto', 'icon', '[decorative image]'])('drops a fail whose suggestion is the label "%s"', (suggestedAlt) => {
+    expect(nonTextContent.verify({ ...claim, problem: 'missing_information', suggestedAlt }, icon, quickAccess())).toEqual({
+      ok: false,
+      reason: 'suggested alternative is a label, not a description',
+    })
+  })
+
+  it('keeps a fail whose suggestion describes the destination', () => {
+    expect(nonTextContent.verify({ ...claim, suggestedAlt: 'Horários e rotas do ônibus da UFC' }, icon, quickAccess())).toEqual({ ok: true })
+  })
+
+  it('keeps a decorative claim, which suggests no text', () => {
+    expect(nonTextContent.verify({ ...claim, problem: 'decorative', suggestedAlt: '' }, icon, quickAccess())).toEqual({ ok: true })
+  })
+
+  it('recognizes labels and rewordings', () => {
+    expect(isLabelAlt('Imagem decorativa')).toBe(true)
+    expect(isLabelAlt('Ícone de ônibus')).toBe(false)
+    expect(onlyRewords('Transparência e Prestação de Contas', 'ÍCONE - Transparência e Prestação de Contas')).toBe(true)
+    expect(onlyRewords('Ônibus da UFC: horários', 'ÍCONE - Ônibus da UFC')).toBe(false)
   })
 })
