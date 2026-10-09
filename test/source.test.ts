@@ -158,7 +158,7 @@ describe('locateReport', () => {
     expect(label?.after).toBe('<label for="email">Email address</label>')
     // The source keeps its self-closing slash; the snapshot's markup never had it.
     const mug = edits.find((f) => f.location?.startLine === 22)?.location?.fix
-    expect(mug?.after).toBe('<img src="mug.svg" alt="Blue mug with steaming hot drink" />')
+    expect(mug?.after).toBe('<img src="mug.svg" alt="Blue mug with steam" />')
   })
 
   it('dedents an element written over several lines and changes only its line', async () => {
