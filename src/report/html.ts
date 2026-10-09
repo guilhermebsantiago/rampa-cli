@@ -229,7 +229,7 @@ function criteriaTable(report: Report): string {
   const title = t(locale, 'coverageCriteria').replace(/:$/, '')
   // Four columns do not fit a phone: the table scrolls in its own region, never the page.
   return `<details><summary>${e(title)}</summary>
-<div class="scroll" role="region" aria-label="${e(title)}" tabindex="0">
+<div class="scroll" role="region" aria-label="${e(`${title}: ${pageLabel(report)}`)}" tabindex="0">
 <table class="criteria-status">
 <thead><tr><th scope="col">${e(t(locale, 'criterionColumn'))}</th><th scope="col">${e(t(locale, 'statusColumn'))}</th><th scope="col">${e(t(locale, 'methodsColumn'))}</th><th scope="col">${e(t(locale, 'manualLabel'))}</th></tr></thead>
 <tbody>
