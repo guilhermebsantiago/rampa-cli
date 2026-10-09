@@ -9,7 +9,7 @@ import { ACT_RULES, type ActOutcome, type ActTestcase, loadActTestcases, selectT
 import { type Scores, confusion, scores } from '../../eval/metrics.ts'
 import { CORRUPTORS, type Corruptor } from '../../eval/pairs.ts'
 import { chooseModel } from '../../providers/detect.ts'
-import { estimateCostUsd } from '../../providers/models.ts'
+import { estimateCostUsd, subscriptionOf } from '../../providers/models.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
 import { type FollowLinks, type FollowOptions, destinationCache } from '../../surfaces/destinations.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
@@ -369,8 +369,10 @@ function renderSummary(summary: EvalSummary, p: ReturnType<typeof paint>): strin
   }
   lines.push('')
   const tokens = `${(summary.usage.inputTokens / 1000).toFixed(1)}k in / ${(summary.usage.outputTokens / 1000).toFixed(1)}k out tokens`
-  const cost =
-    summary.usage.costUsd === undefined
+  const subscription = subscriptionOf(summary.model)
+  const cost = subscription
+    ? ` · on your ${subscription.plan} plan, through ${subscription.cli}`
+    : summary.usage.costUsd === undefined
       ? ''
       : summary.usage.costUsd === 0
         ? ' · local model, no API cost'

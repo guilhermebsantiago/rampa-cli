@@ -1,7 +1,7 @@
 import type { RepeatedFinding, SiteReport } from '../core/site.ts'
 import type { CriterionSummary, Finding } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
-import { estimateCostUsd } from '../providers/models.ts'
+import { estimateCostUsd, subscriptionOf } from '../providers/models.ts'
 import type { CrawlSkip } from '../surfaces/crawl.ts'
 import { WCAG21_A_AA, compareCriteria, criterionLabel } from '../wcag.ts'
 import { type PrettyOptions, renderFinding } from './pretty.ts'
@@ -402,8 +402,10 @@ function usageLine(site: SiteReport): string | undefined {
     }),
   ]
   if (usage.reusedAcrossPages > 0) parts.push(st(locale, 'reused', { count: usage.reusedAcrossPages }))
+  const subscription = subscriptionOf(site.model)
   const cost = estimateCostUsd(site.model, usage.inputTokens, usage.outputTokens)
-  if (cost === 0) parts.push(t(locale, 'usageLocal'))
+  if (subscription) parts.push(t(locale, 'usageSubscription', subscription))
+  else if (cost === 0) parts.push(t(locale, 'usageLocal'))
   else if (cost !== undefined) parts.push(cost < 0.0001 ? `< US$ ${decimal(0.0001, 4)}` : `≈ US$ ${decimal(cost, 4)}`)
   return parts.join(' · ')
 }

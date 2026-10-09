@@ -35,7 +35,8 @@ export async function runModels(options: { default?: boolean }, context: GlobalC
     const models = RECOMMENDED.filter((model) => providerOf(model.spec) === provider.id)
     if (models.length === 0) {
       const mark = state?.ready ? p.green('●') : p.gray('○')
-      line(mark, provider.name, `${provider.id}:${provider.example}`, needs || p.dim('any model it serves'))
+      const note = provider.where === 'subscription' ? `${'your plan'.padEnd(24)}the models the CLI offers on your plan` : 'any model it serves'
+      line(mark, provider.name, `${provider.id}:${provider.example}`, needs || p.dim(note))
       continue
     }
     models.forEach((model, index) => {
@@ -45,8 +46,9 @@ export async function runModels(options: { default?: boolean }, context: GlobalC
       line(ready(model) ? p.green('●') : p.gray('○'), index === 0 ? provider.name : '', model.spec, `${price.padEnd(13)}${vision.padEnd(11)}${note}`)
     })
   }
-  console.log(`\n  ${p.green('●')} ready here   ${p.gray('○')} needs credentials, ollama pull or a loaded model`)
+  console.log(`\n  ${p.green('●')} ready here   ${p.gray('○')} needs credentials, a signed-in CLI, ollama pull or a loaded model`)
   console.log('  Choose with --model provider:model, RAMPA_MODEL or the config file. 1.1.1 and 1.4.5 need vision.')
+  console.log('  Subscriptions run the agent CLI you signed in to and count against your plan; Rampa never picks one on its own.')
   console.log(p.dim('  The model per criterion should come from rampa eval and rampa compare (docs/models.md), not from generic benchmarks.\n'))
   return 0
 }

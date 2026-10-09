@@ -1,3 +1,5 @@
+import { findProvider } from './registry.ts'
+
 /**
  * Starting-point recommendations, as of 2026-10-07. The final recommendation
  * comes from `rampa eval`, not from generic benchmarks.
@@ -53,4 +55,12 @@ export function estimateCostUsd(spec: string | undefined, inputTokens: number, o
   const info = RECOMMENDED.find((m) => m.spec === spec)
   if (!info) return undefined
   return (inputTokens * info.input + outputTokens * info.output) / 1_000_000
+}
+
+/** The CLI and plan behind a `provider:model` that runs on a subscription, for the report to say so instead of a price. */
+export function subscriptionOf(spec: string | undefined): { cli: string; plan: string } | undefined {
+  const index = spec?.indexOf(':') ?? -1
+  if (!spec || index <= 0) return undefined
+  const cli = findProvider(spec.slice(0, index))?.cli
+  return cli ? { cli: cli.name, plan: cli.plan } : undefined
 }

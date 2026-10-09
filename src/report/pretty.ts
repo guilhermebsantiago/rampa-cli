@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url'
 import { adoptionLines, noNewFindings } from '../adoption/render.ts'
 import type { Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
-import { estimateCostUsd } from '../providers/models.ts'
+import { estimateCostUsd, subscriptionOf } from '../providers/models.ts'
 import { WCAG21_A_AA, compareCriteria, criterionLabel } from '../wcag.ts'
 import type { Painter } from './color.ts'
 
@@ -94,6 +94,9 @@ export function usageLine(report: Report): string | undefined {
     input: decimal(usage.inputTokens / 1000, 1),
     output: decimal(usage.outputTokens / 1000, 1),
   })
+  // A subscription has no per-token price to show; the usage counts against the plan's limits instead.
+  const subscription = subscriptionOf(report.model)
+  if (subscription) return `${line} · ${t(locale, 'usageSubscription', subscription)}`
   const cost = estimateCostUsd(report.model, usage.inputTokens, usage.outputTokens)
   if (cost === undefined) return line
   if (cost === 0) return `${line} · ${t(locale, 'usageLocal')}`
