@@ -328,13 +328,15 @@ describe.skipIf(!browser)('rules on real pages', { timeout: 30_000 }, () => {
       '<button aria-label="Information about shipping">Info</button>',
       '<button aria-label="Next page">Previous</button>',
       '<button aria-label="Quantity">Qty</button>',
+      // ACT 2ee8b8 Failed Example 16: text hidden from assistive technology is still on screen.
+      '<a aria-label="Download specification" href="#">Download <span aria-hidden="true">gizmo</span> specification</a>',
     ].join('')
     const { report } = await check(`data:text/html,<html lang="en"><head><title>Cart</title></head><body><main>${encodeURIComponent(buttons)}</main></body></html>`)
     const byText = report.findings
       .filter((f) => f.ruleId === 'label-content-name-mismatch')
-      .map((f) => `${/>([^<]*)</.exec(f.html ?? '')?.[1]} ${f.confidence}`)
+      .map((f) => `${/>([^<]*)</.exec(f.html ?? '')?.[1]?.trim()} ${f.confidence}`)
       .sort()
-    expect(byText).toEqual(['E-mail low', 'Info low', 'Previous high', 'Qty high'])
+    expect(byText).toEqual(['Download high', 'E-mail low', 'Info low', 'Previous high', 'Qty high'])
   })
 })
 

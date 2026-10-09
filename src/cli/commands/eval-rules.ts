@@ -3,7 +3,7 @@ import { join } from 'node:path'
 import { memoryCache } from '../../core/cache.ts'
 import { checkSnapshot } from '../../core/check.ts'
 import { errorMessage, mapLimit } from '../../core/util.ts'
-import { emptyEngine } from '../../engine/axe.ts'
+import { AXE_REVIEW_RULES, emptyEngine } from '../../engine/axe.ts'
 import { type ActTestcase, loadActTestcases, selectRuleTestcases } from '../../eval/act.ts'
 import { type Scores, confusion, scores } from '../../eval/metrics.ts'
 import type { Painter } from '../../report/color.ts'
@@ -114,7 +114,8 @@ async function runRuleJob(rule: RuleCheck, testcase: ActTestcase, browser: Await
       concurrency: 1,
       rules: [rule],
     })
-    const axe = engine.rules.some((r) => r.outcome === 'violation' && r.criteria.includes(criterion))
+    // axe-core as it reports failures: the experimental rules Rampa runs for review only are left out.
+    const axe = engine.rules.some((r) => r.outcome === 'violation' && r.criteria.includes(criterion) && !AXE_REVIEW_RULES.includes(r.ruleId))
     // The rule alone, without leaving to axe-core what it already failed.
     const alone = runRuleChecks(snapshot, emptyEngine(), 'en', [rule]).findings.length > 0
     const ruled = report.findings.some((f) => f.ruleId === rule.id)

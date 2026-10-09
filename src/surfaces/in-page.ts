@@ -362,6 +362,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     el.hasAttribute('tabindex') || (el instanceof HTMLElement && el.tabIndex >= 0 && ['a', 'button', 'input', 'select', 'textarea'].includes(el.localName)) || GLOBAL_ARIA.some((name) => el.hasAttribute(name))
 
   const MAX_CELLS = 1000
+  /** All tables of a page together: a page of layout tables must not make the snapshot huge. */
+  let cellBudget = 4000
   /**
    * The table's cells on the HTML table grid, with their spans, scope, headers and ids, so a rule can run
    * the HTML algorithm that assigns header cells to cells. An ARIA table (role table or grid) is read from
@@ -402,15 +404,21 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     let truncatedCells = false
     if (table instanceof HTMLTableElement) {
       const taken = new Set<string>()
-      Array.from(table.rows).forEach((row, y) => {
+      const rows = Array.from(table.rows)
+      rows.forEach((row, y) => {
         let x = 0
         for (const cell of Array.from(row.cells)) {
+          if (cells.length >= MAX_CELLS || cellBudget <= 0) {
+            truncatedCells = true
+            return
+          }
           while (taken.has(`${x},${y}`)) x++
           const w = Math.max(1, Math.min(cell.colSpan || 1, 1000))
-          const h = Math.max(1, Math.min(cell.rowSpan || 1, 65534))
+          // A rowspan never reaches past the last row; 0 means "to the end".
+          const h = Math.max(1, Math.min(cell.rowSpan === 0 ? rows.length - y : cell.rowSpan || 1, rows.length - y))
           for (let dx = 0; dx < w; dx++) for (let dy = 0; dy < h; dy++) taken.add(`${x + dx},${y + dy}`)
-          if (cells.length >= MAX_CELLS) truncatedCells = true
-          else cells.push(fact(cell, cell.localName === 'th', x, y, w, h, collapse(cell.getAttribute('scope')).toLowerCase()))
+          cells.push(fact(cell, cell.localName === 'th', x, y, w, h, collapse(cell.getAttribute('scope')).toLowerCase()))
+          cellBudget--
           x += w
         }
       })
@@ -425,8 +433,12 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
         for (const cell of own) {
           const role = collapse(cell.getAttribute('role')).toLowerCase()
           const w = Math.max(1, Number.parseInt(cell.getAttribute('aria-colspan') ?? '1', 10) || 1)
-          if (cells.length >= MAX_CELLS) truncatedCells = true
-          else cells.push(fact(cell, role === 'columnheader' || role === 'rowheader', x, y, w, 1, role === 'columnheader' ? 'col' : role === 'rowheader' ? 'row' : ''))
+          if (cells.length >= MAX_CELLS || cellBudget <= 0) {
+            truncatedCells = true
+            return
+          }
+          cells.push(fact(cell, role === 'columnheader' || role === 'rowheader', x, y, w, 1, role === 'columnheader' ? 'col' : role === 'rowheader' ? 'row' : ''))
+          cellBudget--
           x += w
         }
       })

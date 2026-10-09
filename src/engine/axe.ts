@@ -13,8 +13,10 @@ export const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']
 /**
  * Experimental axe-core rules for 1.3.1 that a tag run leaves out. They run in the same axe-core run,
  * and what they report is needs review only: below the threshold, never a failure on its own.
+ * p-as-heading, which the plan also named, is left out: on real pages it flagged verdict words and
+ * statistics, never a heading (docs/rules.md).
  */
-export const AXE_REVIEW_RULES = ['td-has-header', 'table-fake-caption', 'p-as-heading']
+export const AXE_REVIEW_RULES = ['td-has-header', 'table-fake-caption']
 
 let source: Promise<string> | undefined
 

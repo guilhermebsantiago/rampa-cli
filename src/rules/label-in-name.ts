@@ -1,7 +1,6 @@
 import type { Finding } from '../core/types.ts'
-import { subtreeText } from '../criteria/shared.ts'
 import type { Locale } from '../i18n.ts'
-import type { A11ySnapshot } from '../snapshot/schema.ts'
+import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree } from '../snapshot/tree.ts'
 
 /**
@@ -51,6 +50,22 @@ const NOTES: Record<'hyphenation' | 'abbreviation', Record<Locale, string>> = {
   },
 }
 
+/**
+ * The text a person sees in the control. Text hidden only from assistive technology (aria-hidden) is still
+ * on screen and part of the visible label: "Download <span aria-hidden>gizmo</span> specification" shows
+ * three words (ACT 2ee8b8, Failed Example 16).
+ */
+function shownText(node: A11yNode): string {
+  const parts: string[] = []
+  const visit = (current: A11yNode): void => {
+    if (current.states.includes('hidden')) return
+    if (current.text) parts.push(current.text)
+    for (const child of current.children) visit(child)
+  }
+  visit(node)
+  return parts.join(' ').replace(/\s+/g, ' ').trim()
+}
+
 export function reviewLabelInName(findings: Finding[], snapshot: A11ySnapshot, locale: Locale): Finding[] {
   if (!findings.some((finding) => finding.ruleId === LABEL_IN_NAME_RULE)) return findings
   const index = indexTree(snapshot.root)
@@ -59,7 +74,7 @@ export function reviewLabelInName(findings: Finding[], snapshot: A11ySnapshot, l
     const node = index.get(finding.ref)?.node
     const name = node?.name?.trim()
     if (!node || !name) return finding
-    const visible = subtreeText(node)
+    const visible = shownText(node)
     const kind = nearMatch(visible, name)
     if (!kind) return finding
     return { ...finding, confidence: 'low', message: `${finding.message} ${NOTES[kind][locale]}`, evidence: `"${visible}" / "${name}"` }

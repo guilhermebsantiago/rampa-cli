@@ -86,14 +86,23 @@ A `fieldset` now has the role `group`, named by its `legend`. 2.4.6 reads that n
 | `rampa/orphan-label` | 1.3.1 (the narrow case of F111) | A visible `<label>` that labels nothing, is referenced by no `aria-labelledby`, and sits in a container with exactly one field and no other label, while the field's name does not contain the label's text. The finding is on the field | labels that wrap their field; labels above a group of fields, such as a date of birth with three selects; fields whose name already says the label's words; fields axe-core already fails for having no name (`label`, `select-name`) | `for="<field id>"` on the label, when the field has an id |
 | `rampa/duplicate-id-reference` | 4.1.2 | An `aria-labelledby`, `aria-describedby` or `label for` that points at an id used by more than one element, when the browser resolves it to the first element but a closer one with the same id is the one beside the reference. This is the repeated-component case, where every card's button gets the first card's title as its name | duplicates whose texts are the same, which a person would hear the same way; a `for` whose nearer element is not a field | none: each id must become unique |
 
-**Experimental axe-core rules.** `td-has-header`, `table-fake-caption` and `p-as-heading` are experimental in axe-core 4.14, so a tag run leaves them out. Rampa enables them in the same axe-core run through `rules`, and reports what they find at low confidence, as needs review only (`AXE_REVIEW_RULES` in `src/engine/axe.ts`).
+**Experimental axe-core rules.** `td-has-header` and `table-fake-caption` are experimental in axe-core 4.14, so a tag run leaves them out. Rampa enables them in the same axe-core run through `rules`, and reports what they find at low confidence, as needs review only (`AXE_REVIEW_RULES` in `src/engine/axe.ts`).
+
+The plan also named `p-as-heading`. It is left out because every hit on the real pages below was wrong:
+
+- the verdict words "✓ Passes" and "✗ Fails" on rampa.guilhermebs.com.br;
+- three statistics such as "1,9%" on ibge.gov.br.
+
+None of them was a heading.
 
 **2.5.3 Label in Name.** axe-core's `label-content-name-mismatch` compares letters exactly. It fails "E-mail" against the name "Email address", and "Info" against "Information about shipping". Speech input may well match those; whether it does is for a person to try. Rampa moves those failures below the threshold, with the reason added to the message, when either of these holds:
 
 - the visible label and the name differ only by hyphens;
 - every visible word of three letters or more begins a word of the name, in order.
 
-Every other mismatch stays as axe-core reported it, for example "Previous" for "Next page", or "Qty" for "Quantity". This review runs inside the check on axe-core's own findings (`src/rules/label-in-name.ts`). It is not a rule with hits of its own.
+Every other mismatch stays as axe-core reported it, for example "Previous" for "Next page", or "Qty" for "Quantity". The visible label includes text hidden only from assistive technology, which is still on screen: "Download <span aria-hidden>gizmo</span> specification" against "Download specification" stays a failure. This review runs inside the check on axe-core's own findings (`src/rules/label-in-name.ts`). It is not a rule with hits of its own.
+
+On the 38 test pages of ACT 2ee8b8, axe-core alone fails all 16 failed examples and 2 inapplicable ones: "University Ave." for "University Avenue", and "nonstandard" for "non-standard". After the review, the 16 failures stay, with no new miss, and both of those flags go to review.
 
 ## Evaluating the rules
 
@@ -130,6 +139,28 @@ The fixtures in `test/fixtures/rules/` come in pairs of three pages:
 - `content-fail.html` and `structure-fail.html`: one planted failure for each rule, each found exactly once;
 - `content-pass.html` and `structure-pass.html`: the same page fixed, with nothing reported;
 - `content-controls.html` and `structure-controls.html`: near misses, each of which looks like a failure and is not, with nothing reported. They include the d0f69e passed examples, a table where `role="presentation"` loses to `aria-label`, and an id used twice with the same text.
+
+### Real pages
+
+On 2026-10-09 the rules ran with `rampa check <url> --no-llm --min-confidence low` on nine public pages:
+
+- rampa.guilhermebs.com.br;
+- en.wikipedia.org/wiki/Main_Page;
+- gov.br/pt-br;
+- un.org/en;
+- pt.wikipedia.org/wiki/Brasil;
+- ibge.gov.br;
+- MDN's `<table>` reference;
+- correios.com.br;
+- europa.eu/youreurope.
+
+| Page | Rampa rule hits | Read by hand |
+|---|---|---|
+| rampa.guilhermebs.com.br, en.wikipedia.org, gov.br, un.org, MDN, correios.com.br, europa.eu | none | — |
+| ibge.gov.br | `language-switcher-lang`: the "English" link, with no `lang`, on a pt-BR page | true |
+| pt.wikipedia.org/wiki/Brasil | `table-header-cells`: 8 headers of a navbox, now as review | The HTML table model assigns them to no cell, because a picture cell spans their row. Browsers guess. The headers now go to review with a request for `scope` (they were failures before this was found) |
+
+Rampa's rules found one failure on these pages, and it was true. They found no false positive. This is far from the plan's gate: 35 reviewed findings per rule are needed before a rule becomes stable. Every rule stays experimental.
 
 ## The interface
 
