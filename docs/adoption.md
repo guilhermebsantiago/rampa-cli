@@ -82,7 +82,7 @@ A baseline finding counts as no longer found only where the run could have found
 
 - **Record with the model CI uses.** Another model judges differently. Recording with a local model and checking with a hosted one will show differences that are not changes to the site.
 - **Record again after fixes.** The report lists what is no longer found. `rampa baseline` replaces the entries of the targets it checks and keeps the other targets in the file, so you can update one page at a time.
-- **It refuses an incomplete run.** If the model failed on some candidates, or `--offline` had no cached answer for them, `rampa baseline` writes nothing and exits with 2: the baseline would miss their findings.
+- **It refuses an incomplete run.** If no model was available, the model failed on some candidates, or `--offline` had no cached answer for them, `rampa baseline` writes nothing and exits with 2: the baseline would miss their findings, and would replace a record a model judged. An engine-only baseline takes `--no-llm`, on purpose.
 - **Targets are keys.** A local file is recorded by its path from the working directory, so run Rampa from the project root. A URL is recorded as given; a check of the same path on another host, such as a preview deployment, matches it when only one recorded URL has that path.
 
 ## Waivers: accept a finding on purpose
@@ -118,7 +118,7 @@ The file is a JSON array. An entry is an object with a `fingerprint`, or the bar
 
 - **Expiry.** A waiver applies through its `expires` date, on the calendar of the machine that runs the check (CI runners use UTC). After that it no longer hides its finding, and the report names the waiver that expired. The finding comes back even if the baseline knows it: an expired waiver asks someone to look again.
 - **Broken entries never apply.** An entry without a fingerprint, or with an `expires` that is not a `YYYY-MM-DD` date, hides nothing; `rampa check` warns about it and `rampa waivers` shows why. A file that is not valid JSON is an error, rather than silently no waivers.
-- **Unused waivers.** Given JSON reports, `rampa waivers --report` flags the waivers that match no finding in them: the finding was fixed, or its element changed. A waiver for a page the reports did not check is not flagged.
+- **Unused waivers.** Given JSON reports, `rampa waivers --report` flags the waivers that match no finding in them: the finding was fixed, or its element changed. A waiver for a page the reports did not check is not flagged, and neither is one that does not record its page, such as a bare fingerprint.
 - **Waived findings in the report.** The report counts them ("2 finding(s) waived"), and the JSON report lists them under `waived`.
 
 The file is `.rampa/waivers.json` unless the config's `waivers` or `--file` says otherwise.

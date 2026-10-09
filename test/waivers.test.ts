@@ -79,7 +79,7 @@ describe('waiver files', () => {
     expect(JSON.parse(await readFile(path, 'utf8'))).toEqual(['bbbbbbbbbbbb', { note: 'kept as written' }])
   })
 
-  it('flags a waiver as unused only when the reports checked its page', async () => {
+  it('flags a waiver as unused only when the reports checked its page, which a bare fingerprint does not name', async () => {
     const file = await readWaivers(
       await waiversFile([
         { fingerprint: 'aaaaaaaaaaaa', target: 'dist/index.html' },
@@ -95,7 +95,8 @@ describe('waiver files', () => {
       waived: [{ fingerprint: 'aaaaaaaaaaaa' }],
     } as unknown as Report
     const statuses = listWaivers(file, '2026-10-08', [report]).map((item) => `${item.waiver?.fingerprint} ${item.status} ${item.inReports}`)
-    expect(statuses).toEqual(['aaaaaaaaaaaa active true', 'bbbbbbbbbbbb unused false', 'cccccccccccc active undefined', 'dddddddddddd unused false'])
+    // dddddddddddd does not say its page, so it may be for one the reports did not check.
+    expect(statuses).toEqual(['aaaaaaaaaaaa active true', 'bbbbbbbbbbbb unused false', 'cccccccccccc active undefined', 'dddddddddddd active undefined'])
     expect(listWaivers(file, '2026-10-08').every((item) => item.status === 'active')).toBe(true)
   })
 })

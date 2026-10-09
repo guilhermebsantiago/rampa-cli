@@ -35,6 +35,12 @@ async function context(command: Command): Promise<GlobalContext> {
   }
 }
 
+/** The context without the config file, for a command that must run when the file is broken. */
+function bareContext(command: Command): GlobalContext {
+  const globals = command.optsWithGlobals<{ locale?: string; motion?: boolean }>()
+  return { locale: resolveLocale(globals.locale ?? process.env.RAMPA_LOCALE), motion: globals.motion, config: {} }
+}
+
 /** The context, and the options with the config file's values where the command line left defaults. */
 async function configured<O extends object>(command: Command, options: O): Promise<[O, GlobalContext]> {
   const ctx = await context(command)
@@ -107,7 +113,8 @@ program
   .option('-y, --yes', 'never ask: use the flags and what was detected')
   .option('--force', 'overwrite an existing config and workflow (never the waivers)')
   .option('--no-detect', 'do not look for local model servers')
-  .action(action(async (options, command: Command) => runInit(options, await context(command))))
+  // A config that does not load must not stop init, which can write one that does.
+  .action(action(async (options, command: Command) => runInit(options, await context(command).catch(() => bareContext(command)))))
 
 program
   .command('waive')

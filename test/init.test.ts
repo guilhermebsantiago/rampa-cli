@@ -111,12 +111,14 @@ describe('rampa init', () => {
     expect(gitignoreChanges('node_modules\n/.rampa/cache/\n.rampa/runs').missing).toEqual(['.rampa/screenshots', '.rampa/act'])
     expect(gitignoreChanges('.rampa/\n').ignoresAll).toBe(true)
     expect(gitignoreChanges('.rampa/*\n').ignoresAll).toBe(true)
-    expect(gitignoreChanges('.rampa/*\n!.rampa/waivers.json\n').ignoresAll).toBe(false)
+    // Re-including the waivers alone still leaves the baseline out of the repository.
+    expect(gitignoreChanges('.rampa/*\n!.rampa/waivers.json\n').blocked).toEqual(['.rampa/baseline.json'])
+    expect(gitignoreChanges('.rampa/*\n!.rampa/waivers.json\n!.rampa/baseline.json\n').ignoresAll).toBe(false)
 
     const dir = await project({ '.gitignore': 'node_modules\n.rampa/', 'package.json': '{"type":"module"}' })
     const result = await runInitSteps(dir, settings('ts'), { force: false })
     expect(await read(dir, '.gitignore')).toBe(`node_modules\n.rampa/\n\n# Rampa: local files. Commit .rampa/waivers.json and .rampa/baseline.json.\n${IGNORED.join('\n')}\n`)
-    expect(result.warnings.join(' ')).toMatch(/ignores all of \.rampa/)
+    expect(result.warnings.join(' ')).toMatch(/ignores \.rampa\/waivers\.json and \.rampa\/baseline\.json, which the team needs committed/)
 
     const windows = await project({ '.gitignore': 'node_modules\r\n', 'package.json': '{"type":"module"}' })
     await runInitSteps(windows, settings('ts'), { force: false })

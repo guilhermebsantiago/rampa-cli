@@ -231,11 +231,16 @@ export function compareWithBaseline(report: Report, baseline: BaselineFile, file
     used.add(index)
     matched.add(finding)
   }
+  // By content only when the pairing is certain: one leftover entry and one unmatched finding with
+  // that key. Two "Read more" links could be either one, and a wrong guess hides a new problem.
   const entryKeys = entries.map(contentKey)
-  for (const finding of current) {
-    if (matched.has(finding)) continue
-    const key = contentKey(entryOf(finding))
-    if (key === undefined) continue
+  const leftover = current.filter((finding) => !matched.has(finding))
+  const findingKeys = new Map(leftover.map((finding) => [finding, contentKey(entryOf(finding))]))
+  const count = <T>(items: Iterable<T>, key: T) => [...items].filter((item) => item === key).length
+  const openKeys = entryKeys.filter((_, index) => !used.has(index))
+  for (const finding of leftover) {
+    const key = findingKeys.get(finding)
+    if (key === undefined || count(openKeys, key) !== 1 || count(findingKeys.values(), key) !== 1) continue
     const index = entryKeys.findIndex((candidateKey, candidate) => !used.has(candidate) && candidateKey === key)
     if (index === -1) continue
     used.add(index)

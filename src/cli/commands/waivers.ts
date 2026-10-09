@@ -161,8 +161,9 @@ export function listWaivers(file: WaiverFile, on: string, reports?: readonly Rep
     const status = statusOf(entry, on)
     const waiver = entry.waiver
     if (status === 'invalid' || !waiver) return { index, waiver, status: 'invalid' as const, problem: entry.problem ?? 'not a waiver', raw: entry.raw }
-    // A waiver for a page the reports did not check may still be needed there.
-    const coveredByReports = seen !== undefined && (waiver.target === undefined || checked?.has(waiver.target) === true)
+    // A waiver for a page the reports did not check may still be needed there, and one that does not
+    // say its page (a bare fingerprint) may be for any page, so neither is called unused.
+    const coveredByReports = seen !== undefined && waiver.target !== undefined && checked?.has(waiver.target) === true
     const inReports = coveredByReports ? seen.has(waiver.fingerprint) : undefined
     return {
       index,
@@ -211,7 +212,7 @@ function renderListed(item: Listed, p: Painter, withReports: boolean): string {
   if (item.status === 'invalid' || !waiver) {
     return `  ${p.red('✗')} entry ${item.index + 1}  ${p.red('invalid')}: ${item.problem}\n    ${p.dim(JSON.stringify(item.raw))}\n`
   }
-  const use = !withReports ? '' : item.inReports ? ', in use' : ', its page is not in the reports'
+  const use = !withReports ? '' : item.inReports ? ', in use' : waiver.target ? ', its page is not in the reports' : ', no page recorded to check against'
   const state =
     item.status === 'expired'
       ? p.yellow(`expired on ${waiver.expires}: no longer applies`)

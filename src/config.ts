@@ -31,7 +31,7 @@ export function defineConfig(config: RampaConfig): RampaConfig {
   return config
 }
 
-const FILES = ['rampa.config.ts', 'rampa.config.mts', 'rampa.config.js', 'rampa.config.mjs', 'rampa.config.json']
+export const FILES = ['rampa.config.ts', 'rampa.config.mts', 'rampa.config.js', 'rampa.config.mjs', 'rampa.config.json']
 
 export async function loadConfig(cwd = process.cwd()): Promise<{ config: RampaConfig; path?: string }> {
   for (const file of FILES) {

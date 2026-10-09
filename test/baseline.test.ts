@@ -2,8 +2,9 @@ import { mkdtemp, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { type BaselineFile, compareWithBaseline, readBaseline, recordBaseline, targetKey, writeBaseline } from '../src/adoption/baseline.ts'
+import { saveBaseline } from '../src/cli/commands/baseline.ts'
 import type { Finding, Report } from '../src/core/types.ts'
 import { CWD, engineFinding, fileUrl, judgmentFinding, report, summary } from './adoption-helpers.ts'
 
@@ -60,6 +61,20 @@ describe('baseline files', () => {
   })
 })
 
+describe('rampa baseline', () => {
+  it('writes nothing when no model was available, rather than an engine-only record by accident', async () => {
+    const dir = await mkdtemp(join(tmpdir(), 'rampa-baseline-'))
+    const out = join(dir, 'baseline.json')
+    const stderr = vi.spyOn(process.stderr, 'write').mockImplementation(() => true)
+    try {
+      expect(await saveBaseline([report({ llm: 'no-model', findings: [alt] })], out, { locale: 'en', motion: false, config: {} })).toBe(2)
+    } finally {
+      stderr.mockRestore()
+    }
+    await expect(readBaseline(out)).rejects.toThrow(/Baseline not found/)
+  })
+})
+
 function baselineOf(...findings: Finding[]): BaselineFile {
   return recordBaseline([report({ findings })], undefined, CWD)
 }
@@ -85,6 +100,16 @@ describe('comparing with a baseline', () => {
     const copy = { ...logo, fingerprint: '333333333333', ref: 'footer > img' }
     const compared = compareWithBaseline(report({ findings: [logo, copy] }), baselineOf(logo), 'b.json', { cwd: CWD })
     expect(compared.findings).toEqual([copy])
+  })
+
+  it('does not guess between findings that share their content', () => {
+    const readMore = (fingerprint: string, ref: string) => judgmentFinding(fingerprint, '2.4.4', ref, 'Read more')
+    const baseline = baselineOf(readMore('aaaaaaaaaaa1', 'li:nth-of-type(1) > a'), readMore('aaaaaaaaaaa2', 'li:nth-of-type(2) > a'))
+    // Both links moved and a third appeared: no pairing is certain, so all three are reported.
+    const now = [readMore('bbbbbbbbbbb1', 'li:nth-of-type(2) > a'), readMore('bbbbbbbbbbb2', 'li:nth-of-type(3) > a'), readMore('bbbbbbbbbbb3', 'li:nth-of-type(4) > a')]
+    const compared = compareWithBaseline(report({ findings: now }), baseline, 'b.json', { cwd: CWD })
+    expect(compared.findings).toHaveLength(3)
+    expect(compared.baseline?.moved).toBe(0)
   })
 
   it('does not match a judgment by content when the judged text changed', () => {

@@ -76,8 +76,9 @@ export async function runInit(options: InitCommandOptions, context: GlobalContex
   for (const warning of result.warnings) out(`  ${p.yellow('!')} ${warning}`)
   out()
   if (settings.targets.length === 0) out(`  ${p.yellow('No targets yet:')} set targets in the config, or pass them to rampa check.`)
-  if (suggestion) out(`  ${p.bold('Model:')} ${suggestion.note}`)
-  else if (settings.model) out(`  ${p.bold('Model:')} ${settings.model}, pinned in the config.`)
+  // A model typed in the interview is the one the config pins, whatever was detected.
+  if (settings.model) out(`  ${p.bold('Model:')} ${settings.model}, pinned in the config.`)
+  else if (suggestion) out(`  ${p.bold('Model:')} ${suggestion.note}`)
   if (settings.github) {
     const ci = !settings.model
       ? 'In CI, without a model and its API key, the action runs axe-core alone; the workflow says where to add them.'
@@ -99,7 +100,9 @@ export async function runInit(options: InitCommandOptions, context: GlobalContex
 }
 
 async function detectModel(): Promise<ModelSuggestion> {
-  const [ollama, lmStudio, automatic] = await Promise.all([probeOllama(), probeLmStudio(), defaultModel()])
+  // defaultModel probes Ollama itself; when it picked an Ollama model, a second probe would say nothing new.
+  const [automatic, lmStudio] = await Promise.all([defaultModel(), probeLmStudio()])
+  const ollama = automatic?.startsWith('ollama:') ? { reachable: true, models: [automatic.slice('ollama:'.length)] } : await probeOllama()
   return suggestModel({ ollama, lmStudio }, automatic)
 }
 

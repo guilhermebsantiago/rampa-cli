@@ -1,7 +1,8 @@
 import { createRequire } from 'node:module'
 import { access, mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
-import { loadConfig } from '../config.ts'
+import { pathToFileURL } from 'node:url'
+import { FILES as CONFIG_NAMES } from '../config.ts'
 import type { Confidence } from '../core/types.ts'
 import { errorMessage } from '../core/util.ts'
 import { DEFAULT_CRITERIA } from '../criteria/index.ts'
@@ -13,8 +14,6 @@ import { WAIVERS_FILE } from './waivers.ts'
 export const CONFIG_FORMATS = ['ts', 'mts', 'mjs', 'json'] as const
 export type ConfigFormat = (typeof CONFIG_FORMATS)[number]
 
-/** Every name loadConfig reads, in the order it tries them. */
-const CONFIG_NAMES = ['rampa.config.ts', 'rampa.config.mts', 'rampa.config.js', 'rampa.config.mjs', 'rampa.config.json']
 
 export const WORKFLOW_FILE = '.github/workflows/rampa.yml'
 
@@ -43,7 +42,7 @@ export interface InitResult {
   warnings: string[]
 }
 
-async function exists(path: string): Promise<boolean> {
+export async function exists(path: string): Promise<boolean> {
   try {
     await access(path)
     return true
@@ -224,13 +223,26 @@ export function isLocalModel(spec: string): boolean {
 const bare = (line: string) => line.trim().replace(/^\//, '').replace(/\/$/, '')
 
 /** The lines .gitignore still lacks, and whether it ignores the whole .rampa folder, waivers included. */
-export function gitignoreChanges(existing: string): { missing: string[]; ignoresAll: boolean } {
+export function gitignoreChanges(existing: string): { missing: string[]; ignoresAll: boolean; blocked: string[] } {
   const lines = existing.split(/\r?\n/).map(bare)
+  const committed = [WAIVERS_FILE, BASELINE_FILE]
   // Git cannot re-include a file inside an ignored folder, only one matched by a wildcard.
-  const reincluded = lines.includes('!.rampa/waivers.json')
-  return {
-    missing: IGNORED.filter((pattern) => !lines.includes(pattern)),
-    ignoresAll: lines.includes('.rampa') || (!reincluded && (lines.includes('.rampa/*') || lines.includes('.rampa/**'))),
+  const wildcard = lines.includes('.rampa/*') || lines.includes('.rampa/**')
+  const blocked = lines.includes('.rampa') ? committed : wildcard ? committed.filter((file) => !lines.includes(`!${file}`)) : []
+  return { missing: IGNORED.filter((pattern) => !lines.includes(pattern)), ignoresAll: blocked.length > 0, blocked }
+}
+
+/**
+ * Why the file just written does not load, or undefined. The query makes Node read the file again:
+ * an import of the same URL earlier in this process, such as the config of the run itself, is cached.
+ */
+async function configLoadProblem(path: string): Promise<string | undefined> {
+  try {
+    if (path.endsWith('.json')) JSON.parse(await readFile(path, 'utf8'))
+    else await import(`${pathToFileURL(path).href}?rampa-init=${Date.now()}`)
+    return undefined
+  } catch (error) {
+    return errorMessage(error)
   }
 }
 
@@ -273,11 +285,8 @@ export async function runInitSteps(
       )
     }
     if (action !== 'kept') {
-      try {
-        await loadConfig(cwd)
-      } catch (error) {
-        warnings.push(`${configName} does not load on this Node: ${errorMessage(error)} Try --config-format mjs.`)
-      }
+      const problem = await configLoadProblem(at(configName))
+      if (problem) warnings.push(`${configName} does not load on this Node: ${problem} Try --config-format mjs.`)
     }
   }
 
@@ -291,7 +300,7 @@ export async function runInitSteps(
 
   const gitignore = at('.gitignore')
   const current = (await exists(gitignore)) ? await readFile(gitignore, 'utf8') : undefined
-  const { missing, ignoresAll } = gitignoreChanges(current ?? '')
+  const { missing, blocked } = gitignoreChanges(current ?? '')
   if (missing.length > 0) {
     // The file's own line ending, so a CRLF file does not end up mixed.
     const eol = current?.includes('\r\n') ? '\r\n' : '\n'
@@ -300,8 +309,10 @@ export async function runInitSteps(
     await writeFile(gitignore, `${current ?? ''}${separator}${block}${eol}`, 'utf8')
     steps.push({ path: '.gitignore', action: current === undefined ? 'created' : 'updated', detail: `+ ${missing.join(', ')}` })
   } else steps.push({ path: '.gitignore', action: 'kept', detail: 'already ignores the local Rampa files' })
-  if (ignoresAll) {
-    warnings.push('.gitignore ignores all of .rampa, so the waivers and the baseline would never be committed. Replace that line with the four .rampa/ lines above.')
+  if (blocked.length > 0) {
+    warnings.push(
+      `.gitignore ignores ${blocked.join(' and ')}, which the team needs committed. Replace the line that ignores .rampa with the four .rampa/ lines above, or re-include ${blocked.map((file) => `!${file}`).join(' and ')}.`,
+    )
   }
 
   if (settings.github) {

@@ -1,5 +1,5 @@
-import { access } from 'node:fs/promises'
 import { BASELINE_FILE, type BaselineFile, readBaseline, recordBaseline, targetKey, writeBaseline } from '../../adoption/baseline.ts'
+import { exists } from '../../adoption/init.ts'
 import type { Report } from '../../core/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
 import type { GlobalContext } from '../context.ts'
@@ -28,14 +28,6 @@ export async function runBaseline(targets: string[], options: BaselineCommandOpt
   )
 }
 
-async function exists(path: string): Promise<boolean> {
-  try {
-    await access(path)
-    return true
-  } catch {
-    return false
-  }
-}
 
 /**
  * Writes the baseline unless the run missed findings it would have had: a model that failed, or
@@ -45,6 +37,13 @@ export async function saveBaseline(reports: Report[], out: string, context: Glob
   const p = paint(colorsEnabled())
   if (reports.length === 0) {
     process.stderr.write(`\nrampa: not writing ${out}: the targets hold no page to check.\n`)
+    return 2
+  }
+  // Without a model the run finds no judgment findings, and the record would replace one a model judged.
+  if (reports.some((report) => report.llm === 'no-model')) {
+    process.stderr.write(
+      `\nrampa: not writing ${out}: no model was available, so the baseline would have no judgment findings. Pass --model (the one CI uses), or --no-llm for an engine-only baseline on purpose.\n`,
+    )
     return 2
   }
   const missed = reports.reduce((total, report) => total + report.criteria.reduce((sum, c) => sum + c.errors + c.offlineMisses, 0), 0)
@@ -76,10 +75,6 @@ export async function saveBaseline(reports: Report[], out: string, context: Glob
   const first = reports[0]
   if (first?.llm === 'on') console.log(p.dim(`  Judged by ${first.model} · criteria ${first.criteria.map((c) => c.criterion).join(', ')}`))
   else if (first?.llm === 'off') console.log(p.dim('  Engine findings only (--no-llm). Checks with a model will report judgment findings as new.'))
-  else if (first) {
-    console.log(p.yellow('  No model was available, so this baseline has engine findings only. Record it with the model CI uses (--model),'))
-    console.log(p.yellow('  or every judgment finding there counts as new.'))
-  }
 
   console.log('')
   console.log(`  Commit ${out}. Then ${p.cyan(`rampa check --baseline ${out}`)} reports only new findings,`)
