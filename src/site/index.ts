@@ -132,7 +132,8 @@ function renderFinding(finding: SiteFinding, locale: Locale, p: Painter, mark: s
 
 /** The site report's section for the criteria across pages: the sets, then failures and needs review by criterion. */
 export function renderSiteCriteria(report: SiteCriteriaReport | undefined, locale: Locale, options: { paint: Painter; verbose: boolean }): string[] {
-  if (!report) return []
+  // No page was checked: the site report already says so.
+  if (!report || (report.sets.length === 0 && report.unassigned.length === 0)) return []
   const { paint: p, verbose } = options
   const lines: string[] = [p.bold(sm(locale, 'sectionTitle')), p.dim(sm(locale, 'sectionLine'))]
   const compared = report.sets.filter((set) => set.pages.length >= 2)

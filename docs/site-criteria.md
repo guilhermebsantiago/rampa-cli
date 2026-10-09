@@ -140,6 +140,7 @@ A finding across pages counts like a page's finding: with the default `--fail-on
 - **Document order, not visual order.** Items are compared in DOM order, which is what a screen reader follows and what a menu shows when CSS does not reorder it. CSS `order`, `flex-direction: row-reverse` or absolute positioning can show another order on screen; that is not compared yet.
 - **One viewport per crawl.** Pages are compared at the viewport they were crawled at. Run the crawl again with `--device "iPhone 13"` to compare the phone layout, where menus are often different.
 - **Landmarks are needed.** A site that marks up its header, menu and footer with plain `div`s has no navigation Rampa can find; its pages are listed under "No navigation found".
+- **A main landmark around the whole page.** When `<main>` wraps the header and the footer too, as some single-page apps do, nothing is outside it, and 3.2.6 has no header or footer to compare; navigation landmarks are still compared for 3.2.3.
 - **Help that is not a link or a known widget** is not recognized: a phone number in plain text, a contact form, a chat widget from a vendor not on the list, or one that loads only after a consent banner or a delay.
 - **Sets are a proposal.** A site may mean several sets where Rampa sees one template, or one set across two templates. Name the sets in the config when it matters.
 - **A page cut short** by the collector's limit of elements loses what comes last, often its footer; what is missing is not compared.
