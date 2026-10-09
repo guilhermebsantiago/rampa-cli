@@ -108,7 +108,7 @@ describe.skipIf(!available)('rampa check --crawl, across pages', { timeout: 90_0
     const site = await startConsistencySite('consistent')
     sites.push(site)
     const { stdout } = await cli(['check', `${site.origin}/`, '--no-llm', '--criteria', '2.4.2'])
-    expect(stdout).toContain('Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site; run with --crawl or --sitemap.')
+    expect(stdout).toContain('Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site; crawl its address with --crawl or --sitemap.')
   })
 })
 

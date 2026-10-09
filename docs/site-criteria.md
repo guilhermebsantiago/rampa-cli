@@ -5,13 +5,15 @@ Two WCAG criteria cannot be checked on one page, because they are about what sta
 - **3.2.3 Consistent Navigation (AA).** Navigation repeated on several pages of a set keeps the same relative order.
 - **3.2.6 Consistent Help (A, new in WCAG 2.2).** Help repeated on several pages of a set (contact details, a way to reach a person, self-help, a chat) keeps the same order relative to the rest of the page.
 
-With `--crawl` or `--sitemap`, Rampa compares the pages it checked, and the site report gets an "Across pages" section. No model is involved: these are rules over the snapshots, and a saved snapshot gives the same result. A single-page check cannot compare anything, so its report says so in a note: "Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site; run with --crawl or --sitemap."
+With `--crawl` or `--sitemap`, Rampa compares the pages it checked, and the site report gets an "Across pages" section. No model is involved: these are rules over the snapshots, and a saved snapshot gives the same result. A single-page check cannot compare anything, so its report says so in a note: "Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site; crawl its address with --crawl or --sitemap."
 
 ```sh
 rampa check https://example.com --crawl --no-llm --max-pages 30
 rampa check https://example.com --crawl --no-llm --verbose     # also the experimental findings and the items to review
 rampa check https://example.com --sitemap --min-confidence low  # experimental findings as failures, in the exit code
 ```
+
+They run on every crawl, whatever `--criteria` says: that option picks the judgment modules, and these two need no model. A folder of `.html` files is checked page by page, not as a site; serve it and crawl its address to compare its pages.
 
 Both checks are **experimental**. Their findings sit below the default confidence threshold, as every new check does until it passes the evaluation gate (section 4.9 of the [coverage plan](plans/wcag-coverage.md)). The report counts them and `--verbose` shows them. `--min-confidence low` reports them as failures, and then they count in the exit code.
 
@@ -125,6 +127,7 @@ A finding across pages counts like a page's finding: with the default `--fail-on
 - **Landmarks are needed.** A site that marks up its header, menu and footer with plain `div`s has no navigation Rampa can find; its pages are listed under "No navigation found".
 - **Help that is not a link or a known widget** is not recognized: a phone number in plain text, a contact form, a chat widget from a vendor not on the list, or one that loads only after a consent banner or a delay.
 - **Sets are a proposal.** A site may mean several sets where Rampa sees one template, or one set across two templates. Name the sets in the config when it matters.
+- **A page cut short** by the collector's limit of elements loses what comes last, often its footer; what is missing is not compared.
 - **What a crawl did not load** is not compared: pages beyond `--max-pages`, pages behind a sign-in without `--storage-state`, and states a person reaches by clicking.
 - **Changes a person asked for** (3.2.3 and 3.2.6 both allow them, such as a reordered personal menu) look the same as any other change.
 - **3.2.6 is a WCAG 2.2 criterion.** A report that targets WCAG 2.1 shows it, but it is beyond that target.

@@ -47,7 +47,7 @@ const messages = {
     coverageLabel: 'Compared across pages:',
     coverageRan: '{id} ({sets} set(s), {compared} compared)',
     coverageNothing: '{ids}: no set of two or more pages to compare',
-    singlePage: 'Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site; run with --crawl or --sitemap.',
+    singlePage: 'Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site; crawl its address with --crawl or --sitemap.',
   },
   'pt-BR': {
     navigation: 'A navegação',
@@ -94,7 +94,7 @@ const messages = {
     coverageLabel: 'Comparado entre páginas:',
     coverageRan: '{id} ({sets} conjunto(s), {compared} comparado(s))',
     coverageNothing: '{ids}: nenhum conjunto de duas ou mais páginas para comparar',
-    singlePage: 'Não verificados numa página isolada: 3.2.3 Navegação consistente e 3.2.6 Ajuda consistente comparam as páginas de um site; rode com --crawl ou --sitemap.',
+    singlePage: 'Não verificados numa página isolada: 3.2.3 Navegação consistente e 3.2.6 Ajuda consistente comparam as páginas de um site; rastreie o endereço do site com --crawl ou --sitemap.',
   },
 } as const
 
