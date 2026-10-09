@@ -22,7 +22,7 @@ rampa init --targets dist,http://localhost:4173/ --model ollama:gemma4:12b --yes
 
 | It writes | What for |
 | --- | --- |
-| `rampa.config.ts` | Targets, criteria, minimum confidence and report language; a model only if you pin one |
+| `rampa.config.ts` (or `.mts`, `.mjs`: see below) | Targets, criteria, minimum confidence and report language; a model only if you pin one |
 | `.rampa/waivers.json` | An empty list of waivers, to commit |
 | `.gitignore` | `.rampa/cache`, `.rampa/runs`, `.rampa/screenshots` and `.rampa/act`: local files, never worth committing |
 | `.github/workflows/rampa.yml` | With `--github`: runs the Rampa action on pull requests and on `main`, with the report as a pull request comment and the findings in code scanning |
@@ -95,7 +95,7 @@ rampa waivers --report report.json # also flags waivers no finding needs anymore
 rampa waivers --prune              # removes the expired ones
 ```
 
-The id is the one the terminal report prints after `id`, or `fingerprint` in the JSON report. `rampa waive` records the reason (required), the author (`git config user.name`), the date and, with `--expires`, the last day the waiver applies. With `--report`, it also records what the finding is, so whoever reviews the change sees what is being waived; without it, Rampa looks the id up in the baseline. Waiving an id that is already waived renews it with the new reason and dates.
+The id is the one the terminal report prints after `id`, or `fingerprint` in the JSON report. `rampa waive` records the reason (required), the author (`git config user.name`), the date and, with `--expires`, the last day the waiver applies. With `--report`, it also records what the finding is, so whoever reviews the change sees what is being waived; without it, Rampa looks the id up in the baseline. Waiving an id that is already waived renews it with the new reason and dates; without `--expires`, the renewed waiver has no expiry date.
 
 ```json
 [
