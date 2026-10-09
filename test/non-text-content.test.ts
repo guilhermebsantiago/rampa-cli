@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { isGenericAlt, isLabelAlt, looksLikePlaceholder, nonTextContent, onlyRewords } from '../src/criteria/non-text-content.ts'
+import { isGenericAlt, isLabelAlt, looksLikePlaceholder, namesPurpose, nonTextContent, onlyRewords } from '../src/criteria/non-text-content.ts'
 import type { EngineResults } from '../src/core/types.ts'
 import type { A11ySnapshot } from '../src/snapshot/schema.ts'
 import { node } from './helpers.ts'
@@ -179,5 +179,120 @@ describe('1.1.1 suggestions that are labels or rewordings', () => {
     expect(isLabelAlt('Ícone de ônibus')).toBe(false)
     expect(onlyRewords('Transparência e Prestação de Contas', 'ÍCONE - Transparência e Prestação de Contas')).toBe(true)
     expect(onlyRewords('Ônibus da UFC: horários', 'ÍCONE - Ônibus da UFC')).toBe(false)
+  })
+})
+
+describe('1.1.1 functional images', () => {
+  // Modeled on the real-page study's dev split: the quick-access tiles of www.ufc.br, a pictogram that is all its
+  // link holds, titled like the caption under it, and an app tile on www.gov.br.
+  const icon = (ref: string, alt: string, src: string) =>
+    node({ ref, role: 'img', name: alt, image: PNG, bounds: { x: 0, y: 0, width: 100, height: 66 }, native: { tag: 'img', attributes: { src, alt }, html: `<img src="${src}" alt="${alt}">` } })
+  const link = (ref: string, attributes: Record<string, string>, children: ReturnType<typeof node>[], name?: string) =>
+    node({ ref, role: 'link', name, native: { tag: 'a', attributes }, children })
+  function tiles(): A11ySnapshot {
+    return {
+      ...gallery(),
+      target: 'test://tiles',
+      destinations: { '/sisu': { kind: 'page', title: 'Sisu na UFC', heading: 'Boas-vindas' } },
+      root: node({
+        ref: 'html',
+        role: 'document',
+        lang: 'pt-BR',
+        children: [
+          node({
+            ref: '#tile-ti',
+            children: [
+              link('#ti-link', { href: '/ti', title: 'Solicitação de Serviços de TI' }, [icon('#ti', 'ÍCONE - Solicitação de Serviços de TI', 'ti.png')], 'Solicitação de Serviços de TI'),
+              node({ ref: '#ti-caption', role: 'paragraph', children: [node({ ref: '#ti-text', role: 'link', text: 'Solicitação de Serviços de TI' })] }),
+            ],
+          }),
+          node({
+            ref: '#tile-contact',
+            children: [
+              link('#contact-link', { href: '/contatos', title: 'Atendimento ao Servidor' }, [icon('#contact', 'ícone representativo de telefone e e-mail', 'contatos.png')], 'Atendimento ao Servidor'),
+              node({ ref: '#contact-caption', role: 'paragraph', text: 'Atendimento ao Servidor' }),
+            ],
+          }),
+          link('#sisu-link', { href: '/sisu' }, [icon('#sisu', 'ÍCONE SISU', 'sisu.png')]),
+          node({
+            ref: '#app',
+            children: [
+              link('#app-link', { href: '#' }, [icon('#inss', 'Meu INSS - Central de Serviços', 'imagem.png')]),
+              node({ ref: '#app-name', text: 'Meu INSS - Central de Serviços' }),
+              node({ ref: '#app-about', text: 'O aplicativo é um canal de contato online com os cidadãos.', states: ['hidden'] }),
+            ],
+          }),
+          link('#story-link', { href: '/story' }, [icon('#story', 'A dog on a beach', 'dog.jpg'), node({ ref: '#story-title', text: 'Dogs at the beach' })]),
+          link('#labelled-link', { href: '/', 'aria-label': 'Home' }, [icon('#logo', 'Logo', 'logo.png')], 'Home'),
+        ],
+      }),
+    }
+  }
+  const candidates = nonTextContent.candidates(tiles(), { engine: engine.engine, rules: [] })
+  const byRef = (ref: string) => {
+    const candidate = candidates.find((c) => c.ref === ref)
+    if (!candidate) throw new Error(`no candidate ${ref}`)
+    return candidate
+  }
+  const claim = (evidence: string) => ({
+    verdict: 'fail' as const,
+    evidence,
+    problem: 'wrong_content' as const,
+    imageShows: 'A pictogram',
+    suggestedAlt: 'Pictograma de um computador com uma engrenagem',
+    confidence: 'high' as const,
+  })
+
+  it('knows an image that is all its link holds, with what says where the link leads', () => {
+    expect(byRef('#ti').context.functional).toEqual({ control: 'link', title: 'Solicitação de Serviços de TI', href: '/ti', nextTo: 'Solicitação de Serviços de TI' })
+    expect(byRef('#sisu').context.functional).toMatchObject({ href: '/sisu', destination: 'Sisu na UFC · Boas-vindas' })
+    // Text that is not rendered is not next to anything.
+    expect(byRef('#inss').context.functional?.nextTo).toBe('Meu INSS - Central de Serviços')
+    // A link with text of its own, or named by its own aria-label, does not take its name from the image.
+    expect(byRef('#story').context.functional).toBeUndefined()
+    expect(byRef('#logo').context.functional).toBeUndefined()
+  })
+
+  it('frames the judgment by the link purpose, with the page data inside <content>', () => {
+    const prompt = nonTextContent.prompt(byRef('#ti'), tiles())
+    expect(prompt.user).toContain('The image is the only content of a link')
+    expect(prompt.user).toContain('a pictogram or a logo stands for the destination or the action')
+    const content = prompt.user.slice(prompt.user.indexOf('<content>'))
+    expect(content).toContain('Title of the link: "Solicitação de Serviços de TI"')
+    expect(content).toContain('Text next to the link: Solicitação de Serviços de TI')
+    expect(nonTextContent.prompt(byRef('#sisu'), tiles()).user).toContain('The link leads to: /sisu (a page titled "Sisu na UFC · Boas-vindas")')
+    // An image that is not all its link holds keeps the prompt it had.
+    expect(nonTextContent.prompt(byRef('#story'), tiles()).user).not.toContain('only content')
+  })
+
+  it('drops a "does not show" claim when the alternative names the link title, destination or caption', () => {
+    const reason = 'the alternative names the purpose of the link it is the only content of'
+    expect(nonTextContent.verify(claim('ÍCONE - Solicitação de Serviços de TI'), byRef('#ti'), tiles())).toEqual({ ok: false, reason })
+    expect(nonTextContent.verify(claim('ÍCONE SISU'), byRef('#sisu'), tiles())).toEqual({ ok: false, reason })
+    expect(nonTextContent.verify(claim('Meu INSS - Central de Serviços'), byRef('#inss'), tiles())).toEqual({ ok: false, reason })
+    // Framed by the link purpose, the model says the same claim as "it does not say where the link leads".
+    expect(nonTextContent.verify({ ...claim('ÍCONE SISU'), problem: 'missing_information', suggestedAlt: 'Sisu na UFC' }, byRef('#sisu'), tiles())).toEqual({ ok: false, reason })
+  })
+
+  it('keeps the claim when the alternative names something else, and keeps other problems', () => {
+    expect(nonTextContent.verify(claim('ícone representativo de telefone e e-mail'), byRef('#contact'), tiles())).toEqual({ ok: true })
+    expect(nonTextContent.verify({ ...claim('ícone representativo de telefone e e-mail'), problem: 'missing_information', suggestedAlt: 'Atendimento ao Servidor' }, byRef('#contact'), tiles())).toEqual({ ok: true })
+    expect(nonTextContent.verify({ ...claim('ÍCONE SISU'), problem: 'filename_or_placeholder' }, byRef('#sisu'), tiles())).toEqual({ ok: true })
+    expect(nonTextContent.verify(claim('A dog on a beach'), byRef('#story'), tiles())).toEqual({ ok: true })
+  })
+
+  it('says a kept claim is about the link purpose', () => {
+    expect(nonTextContent.message(claim('ícone representativo de telefone e e-mail'), byRef('#contact'), 'en')).toBe(
+      'The text alternative "ícone representativo de telefone e e-mail" is all its link holds, and does not say where the link leads.',
+    )
+    expect(nonTextContent.message(claim('A dog on a beach'), byRef('#story'), 'en')).toBe('The text alternative "A dog on a beach" describes something the image does not show.')
+  })
+
+  it('matches an alternative with a purpose without the words that name the kind of picture', () => {
+    expect(namesPurpose('ÍCONE - SOUGOV', ['SouGov.BR - Portal do Servidor'])).toBe(true)
+    expect(namesPurpose('Logo UFC', ['Universidade Federal do Ceará - UFC'])).toBe(true)
+    expect(namesPurpose('ícone representativo de telefone e e-mail', ['Atendimento ao Servidor'])).toBe(false)
+    expect(namesPurpose('ÍCONE', ['Ícone'])).toBe(false)
+    expect(namesPurpose('Bus', [undefined, ''])).toBe(false)
   })
 })

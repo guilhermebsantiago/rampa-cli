@@ -13,6 +13,7 @@ import { walkTree } from '../snapshot/tree.ts'
 import { type FollowOptions, followLinks } from './destinations.ts'
 import { type BrowserOptions, contextOptions, openPage, prepareContext } from './browser-options.ts'
 import { attachFormIssues } from './form-issues.ts'
+import { captureImageNodes, imageTargets, isCapturableImage } from './image-capture.ts'
 import { collectInPage } from './in-page.ts'
 import { type ProbeKind, runProbes } from '../probes/run.ts'
 
@@ -173,46 +174,43 @@ function navigatedAway(error: unknown): boolean {
   return /Execution context was destroyed|because of a navigation|Cannot find context with specified id/i.test(errorMessage(error))
 }
 
-const IMAGE_LIMIT = 25
 /** CSS backgrounds come after the images, with their own budget, so they never crowd images out. */
 const BACKGROUND_LIMIT = 10
 
 /**
- * Element screenshots show the image exactly as people see it: size, crop, CSS and all.
- * An image that did not load is left without one: its screenshot would show the broken-image icon,
- * and a judgment of the alternative against that icon would be wrong.
+ * Element screenshots show the image exactly as people see it: size, crop, CSS and all. Images go
+ * through image-capture.ts, which scrolls each into view, waits for it to load, and leaves it without a
+ * capture, saying why, when the screenshot would not be its own pixels. An image that did not load is
+ * left without one too: its screenshot would show the broken-image icon, not the picture.
  */
 async function captureImages(page: Page, root: A11yNode): Promise<void> {
-  const targets: A11yNode[] = []
   const backgrounds: A11yNode[] = []
   for (const node of walkTree(root)) {
-    const attributes = (node.native.attributes ?? {}) as Record<string, string>
-    const isImage =
-      node.native.tag === 'img' ||
-      node.role === 'img' ||
-      (node.native.tag === 'input' && attributes.type === 'image') ||
-      (node.native.tag === 'canvas' && Boolean(node.name))
-    if (node.states.includes('hidden') || node.states.includes('broken') || !node.bounds) continue
-    if (isImage) {
-      if (node.bounds.width < 8 || node.bounds.height < 8 || targets.length >= IMAGE_LIMIT) continue
-      targets.push(node)
-    } else if (typeof node.native.backgroundImage === 'string' && backgrounds.length < BACKGROUND_LIMIT && !node.states.includes('offscreen')) {
+    if (node.states.includes('hidden') || !node.bounds || isCapturableImage(node)) continue
+    if (typeof node.native.backgroundImage === 'string' && backgrounds.length < BACKGROUND_LIMIT && !node.states.includes('offscreen')) {
       // Icons and sprites this small hold no line of text; anything taller than a banner is a section with a pattern.
       const { width, height } = node.bounds
       if (width >= 24 && height >= 12 && (width > 40 || height > 40) && height <= 1000) backgrounds.push(node)
     }
   }
-  const layers = targets.length + backgrounds.length > 0 ? await markLayers(page) : 0
+  const layers = imageTargets(root).length + backgrounds.length > 0 ? await markLayers(page) : 0
+  // CSS scale: a phone's pixel ratio would send the model images up to nine times larger, for the same picture.
+  const shoot = (ref: string, style?: string) => page.locator(`css=${ref}`).first().screenshot({ type: 'png', timeout: 5000, animations: 'disabled', style, scale: 'css' })
   try {
-    for (const [node, background] of [...targets.map((n) => [n, false] as const), ...backgrounds.map((n) => [n, true] as const)]) {
+    await captureImageNodes(
+      {
+        // biome-ignore lint/suspicious/noExplicitAny: Playwright's evaluate infers its argument type from a generic it cannot see here
+        evaluate: <Arg, Result>(fn: (arg: Arg) => Result | Promise<Result>, arg: Arg) => page.evaluate(fn as (arg: any) => Result | Promise<Result>, arg),
+        screenshot: (ref) => shoot(ref).catch(() => undefined),
+      },
+      root,
+      { beforeEach: layers > 0 ? (node) => showLayersAround(page, node.ref) : undefined },
+    )
+    for (const node of backgrounds) {
       try {
         if (layers > 0) await showLayersAround(page, node.ref)
         // A background is captured alone: the element's own text and children are hidden while the screenshot is taken.
-        const style = background
-          ? `${node.ref} { color: transparent !important; text-shadow: none !important; } ${node.ref} > * { visibility: hidden !important; }`
-          : undefined
-        // CSS scale: a phone's pixel ratio would send the model images up to nine times larger, for the same picture.
-        const png = await page.locator(`css=${node.ref}`).first().screenshot({ type: 'png', timeout: 5000, animations: 'disabled', style, scale: 'css' })
+        const png = await shoot(node.ref, `${node.ref} { color: transparent !important; text-shadow: none !important; } ${node.ref} > * { visibility: hidden !important; }`)
         node.image = `data:image/png;base64,${png.toString('base64')}`
       } catch {
         // Not visible or detached: criteria that need the image skip this node.

@@ -8,6 +8,7 @@ import { walkTree } from '../snapshot/tree.ts'
 import { VERSION } from '../version.ts'
 import type { WcagVersion } from '../wcag.ts'
 import { type CdpSessionLike, attachFormIssues } from './form-issues.ts'
+import { captureImageNodes } from './image-capture.ts'
 import { collectInPage } from './in-page.ts'
 import { type Scope, resolveScopeInPage, scopeTree } from './scope.ts'
 import type { Collected } from './web.ts'
@@ -127,26 +128,11 @@ async function scopeRoot(driver: PageDriver, root: A11yNode, scope: Scope, page:
   return scoped
 }
 
-const IMAGE_LIMIT = 25
-
-/** The images `collectWeb` captures, taken through the driver: as people see them, size, crop, CSS and all. */
+/**
+ * The images `collectWeb` captures, taken through the driver: as people see them, size, crop, CSS and all,
+ * each scrolled into view and loaded first, and left without a capture, saying why, when the screenshot
+ * would not be its own pixels (image-capture.ts).
+ */
 async function captureImages(driver: PageDriver, root: A11yNode): Promise<void> {
-  const targets: A11yNode[] = []
-  for (const node of walkTree(root)) {
-    const attributes = (node.native.attributes ?? {}) as Record<string, string>
-    const isImage =
-      node.native.tag === 'img' ||
-      node.role === 'img' ||
-      (node.native.tag === 'input' && attributes.type === 'image') ||
-      (node.native.tag === 'canvas' && Boolean(node.name))
-    if (!isImage || node.states.includes('hidden') || !node.bounds) continue
-    if (node.bounds.width < 8 || node.bounds.height < 8) continue
-    targets.push(node)
-    if (targets.length >= IMAGE_LIMIT) break
-  }
-  for (const node of targets) {
-    // Not visible or detached: criteria that need the image skip this node.
-    const png = await driver.screenshotElement(node.ref)
-    if (png) node.image = `data:image/png;base64,${Buffer.from(png).toString('base64')}`
-  }
+  await captureImageNodes({ evaluate: (fn, arg) => driver.evaluate(fn, arg), screenshot: (ref) => driver.screenshotElement(ref) }, root)
 }

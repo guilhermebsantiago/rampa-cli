@@ -252,7 +252,8 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
         coga: context.config.coga,
         wcag,
       })
-      const notes = [...collected.notes, ...rulesNotes(collected.engine, context.locale)]
+      // The collector's notes first, then what the check said about the snapshot (images left without a capture).
+      const notes = [...collected.notes, ...(report.notes ?? []), ...rulesNotes(collected.engine, context.locale)]
       if (collected.snapshot.surface === 'web') notes.push(singlePageNote(context.locale))
       if (notes.length > 0) report.notes = notes
       if (collected.usage) {
