@@ -20,7 +20,7 @@
 
 </div>
 
-**Rampa is an open-source WCAG accessibility checker for the command line.** It runs [axe-core](https://github.com/dequelabs/axe-core), then asks a language model, one WCAG 2.1 success criterion at a time, about what rules cannot decide: whether an image's alt text describes it, a page title names the page, a link says where it goes, a heading or label describes its content, and the language attributes match the text. A finding is kept only when the element it cites exists and the text it quotes is in it. It runs on a local model through Ollama or on any major provider, and it is measured against the W3C ACT test cases. Site: [rampa.guilhermebs.com.br](https://rampa.guilhermebs.com.br) ([em português](https://rampa.guilhermebs.com.br/pt/)).
+**Rampa is an open-source WCAG accessibility checker for the command line.** It runs [axe-core](https://github.com/dequelabs/axe-core), then asks a language model, one WCAG 2.1 success criterion at a time, about what rules cannot decide: whether an image's alt text describes it, a page title names the page, a link says where it goes and matches where it leads, a heading or label describes its content, a form field identifies what it collects, a field's label is visible, and the language attributes match the text. A finding is kept only when the element it cites exists and the text it quotes is in it. It runs on a local model through Ollama or on any major provider, it is measured against the W3C ACT test cases, and it works where you do: in a terminal, in CI with SARIF and pull request comments, inside Playwright tests, and for coding agents over MCP. Site: [rampa.guilhermebs.com.br](https://rampa.guilhermebs.com.br) ([em português](https://rampa.guilhermebs.com.br/pt/)).
 
 ## Why
 
@@ -67,16 +67,19 @@ Every claim must cite a node and a quote that exist on the page. Claims that do 
 
 ## What it judges
 
-Six WCAG 2.1 success criteria have a judgment module. For each, axe-core keeps the part rules can decide, and the model only sees the rest.
+Nine WCAG 2.1 success criteria have a judgment module; eight run by default, and 1.4.5 runs when you ask for it. For each, axe-core keeps the part rules can decide, and the model only sees the rest. [docs/criteria.md](docs/criteria.md) describes each module: its context, verification and limits.
 
 | Criterion | axe-core checks | Rampa judges | Example it catches |
 | --- | --- | --- | --- |
 | 1.1.1 Non-text Content | an image has an alternative | the alternative serves the same purpose, seen against the image as rendered | `alt="img-1"` on a photo of a dog |
+| 1.3.5 Identify Input Purpose | `autocomplete` values are valid | a field that collects the user's own data names its purpose with the right token | an email field with no `autocomplete` |
+| 1.4.5 Images of Text (on request) | nothing | an image whose content is text that could be real text, logos excepted | a banner that is a picture of a sentence |
 | 2.4.2 Page Titled | the page has a title | the title describes the page | `<title>Untitled document</title>` |
-| 2.4.4 Link Purpose | a link has a name | the name, with its paragraph and heading, tells where the link goes | a lone "Click here" |
+| 2.4.4 Link Purpose | a link has a name | the name, with its context and the page it really leads to, tells where the link goes ([details](docs/link-purpose.md)) | a lone "Click here"; "Pricing" that opens a blog post |
 | 2.4.6 Headings and Labels | headings are not empty, fields have a label | a heading describes the content under it; a label says what to enter | "Section 2" over reviews, "Field 1" on an email field |
 | 3.1.1 Language of Page | `lang` is present and valid | `lang` is the language most of the page is written in | `lang="en"` on a page in Portuguese |
 | 3.1.2 Language of Parts | `lang` values are valid | each passage is in the language it declares | a Dutch review marked `lang="es"` |
+| 3.3.2 Labels or Instructions | a field has a name | the name is visible on screen, and an enforced pattern is explained | a field named only by `aria-label` |
 
 Every finding cites the element and its current text, and verification drops any claim whose quote is not on the page. Each module has W3C ACT test cases to measure it against (see [Evaluation](#evaluation)).
 
@@ -96,6 +99,7 @@ Every finding cites the element and its current text, and verification drops any
 | — | a lone link "Click here" | passes | does not tell where it goes | "Shipping and returns" |
 | — | heading "Section 2" over the reviews | passes | says nothing about the content | "What customers say" |
 | — | email field labeled "Field 1" | passes | does not say what to enter | "Email address" |
+| — | the same field without `autocomplete` | passes | does not identify what it collects | `autocomplete="email"` |
 
 <img alt="Output of rampa check examples/store/before.html. axe-core reports the logo without alternative text. The judgment layer reports IMG_2034.jpg as a file name, Ceramic coffee mug on an umbrella as describing something the image does not show, and product as too generic; the page title Untitled document as saying nothing about the page; the link Click here as not telling where it goes; the heading Section 2 as saying nothing about the reviews under it; the label Field 1 as not saying what to enter; and a review marked lang es as Dutch. Each finding has its evidence and a patch, and the coverage summary closes the report." src="docs/media/check-before.png" width="760">
 
@@ -152,19 +156,29 @@ rampa check page.html --no-llm                      # the deterministic baseline
 rampa check page.html --criteria 1.1.1              # one criterion
 rampa check page.html --runs 3                      # majority vote; agreement sets the confidence
 rampa check page.html --format json -o report.json  # for CI and other tools
+rampa check page.html --sarif r.sarif --markdown r.md --html r.html   # more reports from one run
+rampa check page.html --fail-on AA                  # exit 1 only for Level A and AA findings
+rampa check https://example.com --crawl --max-pages 20                # a whole site, shared components once
+rampa check https://example.com --device "iPhone 15" --color-scheme dark
 rampa check page.html --locale pt-BR                # report in Portuguese
 rampa check screen.json                             # a snapshot exported by any platform
+rampa check android:                                # the screen on a connected Android device
 ```
 
 | Command | What it does |
 | --- | --- |
 | `rampa` | The intro and the list of commands |
-| `rampa check <targets...>` | Checks URLs, `.html` files, folders or snapshot `.json` files |
+| `rampa check <targets...>` | Checks URLs, `.html` files, folders, snapshots, Android screens, XCUITest exports or PNG screenshots |
+| `rampa init` | Sets Rampa up in a project: config, waivers, `.gitignore` and, with `--github`, a CI workflow |
+| `rampa baseline` | Records today's findings, so `rampa check --baseline` reports only new ones |
+| `rampa waive <id>` / `rampa waivers` | Accepts a finding with a reason and an expiry date; lists expired and unused waivers |
 | `rampa eval` | Measures the baseline and the judgment layer on W3C ACT test cases and corrupted pairs |
+| `rampa compare <runs...>` | Compares eval runs per criterion, with intervals and a paired test |
+| `rampa mcp` | Serves Rampa to coding agents over the Model Context Protocol |
 | `rampa models` | Recommended models per criterion, and which are ready on this machine |
 | `rampa doctor` | Checks the environment |
 
-Exit codes: `0` no confirmed failure, `1` at least one confirmed failure, `2` execution or configuration error.
+Exit codes: `0` no confirmed failure, `1` at least one confirmed failure (see `--fail-on`), `2` execution, configuration or usage error.
 
 <details>
 <summary><b>All <code>check</code> options</b></summary>
@@ -172,14 +186,20 @@ Exit codes: `0` no confirmed failure, `1` at least one confirmed failure, `2` ex
 
 | Option | Default | Effect |
 | --- | --- | --- |
-| `-c, --criteria <ids>` | all six | Criteria to judge: `1.1.1`, `2.4.2`, `2.4.4`, `2.4.6`, `3.1.1`, `3.1.2` |
+| `-c, --criteria <ids>` | eight | Criteria to judge: `1.1.1`, `1.3.5`, `2.4.2`, `2.4.4`, `2.4.6`, `3.1.1`, `3.1.2`, `3.3.2`, and `1.4.5` on request |
 | `-m, --model <provider:model>` | detected | Model for the judgment layer |
 | `--no-llm` | | Deterministic layer only |
 | `-r, --runs <k>` | `1` | Judgments per candidate, majority vote |
 | `--reasoning <level>` | `none` locally | `provider-default`, `none`, `minimal`, `low`, `medium`, `high` |
-| `-f, --format <format>` | `pretty` | `pretty` or `json` |
-| `-o, --output <file>` | | Also write the JSON report to a file |
-| `--fail-on <policy>` | `confirmed` | `confirmed`, `any` or `never` |
+| `-f, --format <format>` | `pretty` | `pretty`, `json`, `sarif`, `markdown` or `html` ([formats](docs/output-formats.md)) |
+| `-o, --output <file>` | | Write the report to a file; with `pretty`, the file gets JSON |
+| `--json`, `--sarif`, `--markdown`, `--html <file>` | | Also write that format from the same run |
+| `--fail-on <policy>` | `confirmed` | `confirmed`, `any`, `A`, `AA` or `none` |
+| `--baseline <file>` | | Report only findings the baseline does not have ([adoption](docs/adoption.md)) |
+| `--follow-links <policy>` | `same-origin` | Read where links lead for 2.4.4: `none`, `same-origin` or `all` |
+| `--save <dir>` | | Record each snapshot and its engine results, to check later without a browser |
+| `--crawl`, `--sitemap`, `--max-pages` | | Check a whole site ([crawl](docs/crawl.md)) |
+| `--storage-state`, `--header`, `--device`, `--viewport`, `--color-scheme`, `--wait-for` | | Pages behind a login, phones, dark mode ([browser options](docs/browser-options.md)) |
 | `--min-confidence <level>` | `medium` | Hide findings below `low`, `medium` or `high` |
 | `--offline` | | Cached judgments only, never call the model |
 | `--screenshots` | | Save full-page screenshots to `.rampa/screenshots` |
@@ -199,16 +219,33 @@ Exit codes: `0` no confirmed failure, `1` at least one confirmed failure, `2` ex
 ```js
 export default {
   model: 'ollama:gemma4:12b',
-  criteria: ['1.1.1', '2.4.2', '2.4.4', '2.4.6', '3.1.1', '3.1.2'],
+  criteria: ['1.1.1', '1.3.5', '2.4.2', '2.4.4', '2.4.6', '3.1.1', '3.1.2', '3.3.2'],
   runs: 1,
   locale: 'en',
   minConfidence: 'medium',
 }
 ```
 
-API keys never go in this file: use environment variables or a local `.env`.
+API keys never go in this file: use environment variables or a local `.env`. `rampa init` writes a starting config for you.
 
 </details>
+
+## Use it where you work
+
+| Where | How | Guide |
+| --- | --- | --- |
+| GitHub Actions | `uses: guilhermebsantiago/rampa-cli@main`: SARIF to code scanning and one sticky pull request comment, with each finding's patch | [docs/github-action.md](docs/github-action.md) |
+| Reports | SARIF, Markdown for pull requests, a single-file HTML report, JSON; `file:line` for local pages | [docs/output-formats.md](docs/output-formats.md) |
+| Pre-commit | the pre-commit framework, Husky, lint-staged or Lefthook, on staged `.html` files | [docs/pre-commit.md](docs/pre-commit.md) |
+| Playwright tests | `import { checkPage } from 'rampa/playwright'` and `await expect(page).toPassRampa()`, scoped to a component if you like | [docs/playwright.md](docs/playwright.md) |
+| Storybook | the test runner's `postVisit` hook, one story at a time | [docs/storybook.md](docs/storybook.md) |
+| Your own code | `import { check } from 'rampa'` | [docs/api.md](docs/api.md) |
+| Coding agents | `rampa mcp` for Claude Code, Cursor, VS Code and others: check, fix, check again | [docs/mcp.md](docs/mcp.md) |
+| Whole sites | `--crawl` or `--sitemap`, robots.txt respected, a shared header reported once | [docs/crawl.md](docs/crawl.md) |
+| Existing codebases | `rampa init`, a baseline so CI fails only on new findings, waivers with reasons and expiry | [docs/adoption.md](docs/adoption.md) |
+| Android and iOS | `rampa check android:` over adb; XCUITest exports from a Swift helper | [docs/android.md](docs/android.md), [docs/ios.md](docs/ios.md) |
+| Screenshots | `rampa check screen.png`: text contrast measured from pixels, nothing it cannot see | [docs/image-surface.md](docs/image-surface.md) |
+| Choosing a model | `rampa eval` per criterion, then `rampa compare` | [docs/models.md](docs/models.md) |
 
 ## Models
 
@@ -240,7 +277,7 @@ Model ids and prices were checked on each provider's own pages on 2026-10-07, an
 
 - **Every provider has a test.** It checks the request the provider builds (prompt, image and schema) and reads a reply in its wire format, with no network. The published evaluation ran on Ollama; tables for hosted models come next.
 - **Cloud details.** Vertex uses the `global` location unless `GOOGLE_VERTEX_LOCATION` says otherwise. Bedrock returns the JSON through a forced tool, which every Claude on Bedrock supports; with AWS SSO or profiles, export the session first with `eval "$(aws configure export-credentials --format env)"`. Azure takes your deployment name, not the model name.
-- **1.1.1 needs vision.** `gemma4:12b` has it and runs on a 16 GB GPU; text-only models such as `groq:openai/gpt-oss-20b` judge the other five with `--criteria 2.4.2,2.4.4,2.4.6,3.1.1,3.1.2`.
+- **1.1.1 and 1.4.5 need vision.** `gemma4:12b` has it and runs on a 16 GB GPU; [docs/models.md](docs/models.md) lists other local vision models that work. Text-only models such as `groq:openai/gpt-oss-20b` judge the rest with `--criteria 1.3.5,2.4.2,2.4.4,2.4.6,3.1.1,3.1.2,3.3.2`.
 - **Reasoning is off by default for local models.** On an RTX 5060 Ti that cut a judgment from about 6 s to 2 s with the same answer; `--reasoning` brings it back, and `rampa eval` can measure the trade-off.
 - **Subscriptions.** Anthropic does not allow third-party tools to offer claude.ai login or subscription limits unless approved ([Agent SDK docs](https://code.claude.com/docs/en/agent-sdk/overview)), so Rampa uses API keys. Claude Max and Team plans include monthly API credits ([Help Center](https://support.claude.com/en/articles/15036540)), which an API key can draw on.
 - **Recommendations come from measurement.** `rampa models` lists a starting point; the model per criterion should be chosen with `rampa eval`, not generic benchmarks.
@@ -269,7 +306,7 @@ Judgments are cached by a hash of prompt, image, model and settings, so the same
 
 ### Any screen, not only the web
 
-Criteria never read the DOM. They read the snapshot, so the core is the same for any platform. `rampa check screen.json` accepts a snapshot from any exporter that follows [`schema/snapshot.schema.json`](schema/snapshot.schema.json): an Android view hierarchy, an iOS XCUITest export, a desktop UI Automation tree. The same 1.1.1 module judges an `alt`, a `contentDescription` or an `accessibilityLabel`. Android, iOS and image-only collectors are on the roadmap.
+Criteria never read the DOM. They read the snapshot, so the core is the same for any platform. `rampa check screen.json` accepts a snapshot from any exporter that follows [`schema/snapshot.schema.json`](schema/snapshot.schema.json): an Android view hierarchy, an iOS XCUITest export, a desktop UI Automation tree. The same 1.1.1 module judges an `alt`, a `contentDescription` or an `accessibilityLabel`. `rampa check android:` reads a device over adb and UI Automator, a Swift helper exports iOS screens from XCUITest, and `rampa check screen.png` measures text contrast where no tree exists. Each report says what its source could not show.
 
 ## Evaluation
 
@@ -333,12 +370,20 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - [x] Local models and the major providers: OpenAI, Anthropic, Google, Azure, Bedrock, Vertex, Mistral, xAI, Groq, DeepSeek, Together, Fireworks, Cerebras, OpenRouter, Vercel AI Gateway
 - [ ] The evaluation table for each provider's recommended model
 - [ ] Publish on npm: `pnpm dlx rampa`
-- [ ] MCP server, so coding agents can call `rampa check`
-- [ ] Rampa Lab, a web app to explore evaluation runs
-- [ ] WCAG 2.4.4 with the destination page fetched, so a link can be compared with where it really goes
-- [ ] SARIF and Markdown output, a GitHub Action that comments on pull requests
-- [ ] Android (adb and UI Automator), iOS (XCUITest export) and image-only surfaces
+- [x] MCP server, so coding agents can call `rampa check`
+- [x] WCAG 2.4.4 with the destination page fetched, so a link can be compared with where it really goes
+- [x] WCAG 1.3.5 identify input purpose, 3.3.2 labels or instructions, and 1.4.5 images of text on request
+- [x] SARIF, Markdown and HTML reports, a GitHub Action that comments on pull requests, a pre-commit hook
+- [x] Playwright and Storybook integration, and a library API
+- [x] Whole-site crawls, pages behind a login, devices and dark mode
+- [x] `rampa init`, baselines and waivers with expiry, for codebases that already have findings
+- [x] Android (adb and UI Automator), iOS (XCUITest export) and image-only surfaces
+- [x] `rampa compare`, to choose a model per criterion
+- [ ] Rampa Lab, a web app to explore evaluation runs (built, not yet published)
 - [ ] A false-positive study on real pages
+- [ ] WCAG 2.2, and checks that drive the page: keyboard and focus order, focus visible, reflow, text spacing, content on hover
+- [ ] An opt-in cognitive accessibility profile, from the W3C COGA guidance
+- [ ] Judging on a Claude, ChatGPT or Gemini subscription through their official CLIs
 
 ## Development
 
