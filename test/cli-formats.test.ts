@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest'
 const recorded = ['demo/recorded/examples-store-before.snapshot.json', '--offline', '--cache-dir', 'demo/recorded/cache', '--model', 'ollama:gemma4:12b']
 
 function rampa(...args: string[]) {
-  const run = spawnSync(process.execPath, ['src/cli.ts', 'check', ...args], { encoding: 'utf8', env: { ...process.env, NO_COLOR: '1' } })
+  const run = spawnSync(process.execPath, ['src/cli.ts', 'check', ...args], { encoding: 'utf8', env: { ...process.env, NO_COLOR: '1', RAMPA_LOCALE: 'en', RAMPA_MODEL: '' } })
   return { code: run.status, stdout: run.stdout, stderr: run.stderr }
 }
 

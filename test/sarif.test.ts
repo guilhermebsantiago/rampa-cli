@@ -106,11 +106,11 @@ describe('SARIF', () => {
     expect(link?.locations[0]?.logicalLocations).toEqual([{ fullyQualifiedName: 'html > body > main > p:nth-of-type(2) > a', kind: 'element' }])
     expect(link?.fixes).toEqual([
       {
-        description: { text: 'Change the text to "View shipping information"' },
+        description: { text: 'Change the text to "Shipping information"' },
         artifactChanges: [
           {
             artifactLocation: { uri: 'examples/store/before.html', uriBaseId: SOURCE_ROOT, index: 0 },
-            replacements: [{ deletedRegion: { startLine: 31, startColumn: 34, endLine: 31, endColumn: 44 }, insertedContent: { text: 'View shipping information' } }],
+            replacements: [{ deletedRegion: { startLine: 31, startColumn: 34, endLine: 31, endColumn: 44 }, insertedContent: { text: 'Shipping information' } }],
           },
         ],
       },
@@ -161,7 +161,7 @@ describe('SARIF', () => {
     expect(note?.message.text).toContain('Not checked automatically: 38 of 50 WCAG 2.1 A/AA criteria')
     expect(note?.message.text).toContain('This report does not declare the page accessible.')
     expect(run?.properties.coverage).toEqual([
-      expect.objectContaining({ target: 'examples/store/after.html', judged: ['1.1.1', '2.4.2', '2.4.4', '2.4.6', '3.1.1', '3.1.2'] }),
+      expect.objectContaining({ target: 'examples/store/after.html', judged: ['1.1.1', '1.3.5', '2.4.2', '2.4.4', '2.4.6', '3.1.1', '3.1.2'] }),
     ])
     expect(run?.tool.extensions).toEqual([{ name: 'axe-core', version: '4.14.0', informationUri: 'https://github.com/dequelabs/axe-core' }])
   })

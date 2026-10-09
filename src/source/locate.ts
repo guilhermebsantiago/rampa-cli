@@ -37,6 +37,7 @@ export const KEPT_ATTRIBUTES = [
   'aria-describedby',
   'placeholder',
   'autocomplete',
+  'pattern',
 ] as const
 
 /** The collector cuts attribute values at this length. */

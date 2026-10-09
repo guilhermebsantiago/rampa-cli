@@ -19,7 +19,7 @@ describe('Markdown report', () => {
         '',
         '```diff',
         '- <a href="shipping.html">Click here</a>',
-        '+ <a href="shipping.html">View shipping information</a>',
+        '+ <a href="shipping.html">Shipping information</a>',
         '```',
         'Evidence: "Click here" · confidence high · 1/1 runs · id `1af8a73e209d`',
       ].join('\n'),

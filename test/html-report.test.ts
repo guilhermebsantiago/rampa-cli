@@ -49,7 +49,7 @@ describe('HTML report', () => {
     expect(html).toContain('<p class="where"><code>examples/store/before.html:31</code> <code class="selector">html &gt; body &gt; main &gt; p:nth-of-type(2) &gt; a</code></p>')
     expect(html).toContain('<p>Evidence: <q>Click here</q></p>')
     expect(html).toContain(
-      '<pre class="diff"><code><del>- &lt;a href=&quot;shipping.html&quot;&gt;Click here&lt;/a&gt;</del><ins>+ &lt;a href=&quot;shipping.html&quot;&gt;View shipping information&lt;/a&gt;</ins></code></pre>',
+      '<pre class="diff"><code><del>- &lt;a href=&quot;shipping.html&quot;&gt;Click here&lt;/a&gt;</del><ins>+ &lt;a href=&quot;shipping.html&quot;&gt;Shipping information&lt;/a&gt;</ins></code></pre>',
     )
     expect(html).toContain('id <code>1af8a73e209d</code>')
     expect(html).toContain('This report does not declare the page accessible.')

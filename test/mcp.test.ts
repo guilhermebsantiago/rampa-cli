@@ -110,10 +110,10 @@ describe('rampa mcp tools', () => {
       confidence: 'high',
       patch: { kind: 'set-attribute', attribute: 'alt', before: '<img src="mug.svg" alt="IMG_2034.jpg">' },
     })
-    expect(check.coverage.judged).toEqual(DEFAULT_CRITERIA)
+    expect(check.coverage.judged).toEqual(['1.1.1', '1.3.5', '2.4.2', '2.4.4', '2.4.6', '3.1.1', '3.1.2'])
     expect(check.coverage.not_checked.length).toBeGreaterThan(30)
     expect(check.coverage.statement).toBe('This report does not declare the page accessible. What was not checked needs manual review and testing with people.')
-    expect(check.usage).toMatchObject({ model_calls: 0, cached_calls: 13, estimated_cost_usd: 0 })
+    expect(check.usage).toMatchObject({ model_calls: 0, cached_calls: 14, estimated_cost_usd: 0 })
     const text = textOf(result)
     expect(text).toContain('9 finding(s): 1 from axe-core, 8 judged with verified evidence.')
     expect(text).toContain('+ <blockquote lang="nl">')
@@ -144,7 +144,7 @@ describe('rampa mcp tools', () => {
     expect(check.findings.map((f) => f.source)).toEqual(['engine'])
     expect(check.summary.not_judged).toBe(14)
     expect(check.coverage.judged).toEqual([])
-    expect(check.notes[0]).toMatch(/^Judgment skipped \(no_llm\): 13 candidate\(s\)/)
+    expect(check.notes[0]).toMatch(/^Judgment skipped \(no_llm\): 14 candidate\(s\)/)
   })
 
   it('lists at most max_findings, taken in turns from each rule and criterion, and counts the rest', async () => {
@@ -326,7 +326,7 @@ describe('rampa mcp defaults', () => {
     await close()
     expect(result.isError).toBe(true)
     const text = textOf(result)
-    expect(text).toMatch(/^The model ollama:gemma4:12b failed on all 13 candidate\(s\): .*What axe-core found is below\./)
+    expect(text).toMatch(/^The model ollama:gemma4:12b failed on all 14 candidate\(s\): .*What axe-core found is below\./)
     expect(text).toContain('Images must have alternative text')
     expect(text).toContain('This report does not declare the page accessible.')
   })
