@@ -14,6 +14,14 @@ import { escapeHtml, failedByEngine, isHidden, subtreeText, verifyQuote } from '
  * headings and opening text. ACT reference rules: 2779a5 (non-empty title) and c4a8a4
  * (title is descriptive).
  *
+ * Web pages only. For software, WCAG2ICT replaces this criterion with "Non-web Software
+ * Titled": where the platform has a title property for windows or screens, each one has a
+ * title that describes its name, topic or purpose. On Android that is the window title,
+ * which only `uiautomator dump --windows` reports and which single-activity apps leave as
+ * the app name while their screens change; on iOS it is usually the navigation bar.
+ * Judging those with this prompt would flag every screen of such apps, so app snapshots
+ * record the title they have and this module leaves them out.
+ *
  * The normative text in the prompt is quoted from WCAG 2.1
  * (https://www.w3.org/TR/WCAG21/), Copyright © W3C, under the W3C Document License.
  */

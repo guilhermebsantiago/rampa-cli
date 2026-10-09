@@ -4,6 +4,7 @@ import { normalizeForMatch, truncate } from '../core/util.ts'
 import { languageName } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree, inheritedLang, walkTree } from '../snapshot/tree.ts'
+import { isNativeSurface, nameProperty, propertyLine, propertyPatch } from './shared.ts'
 
 /**
  * WCAG 2.1 SC 1.1.1 Non-text Content (A), the quality of a text alternative.
@@ -68,7 +69,9 @@ function isImageNode(node: A11yNode): boolean {
     node.role === 'img' ||
     (node.native.tag === 'input' && attributes.type === 'image') ||
     // A canvas with a name is drawn content the name stands in for.
-    (node.native.tag === 'canvas' && Boolean(node.name))
+    (node.native.tag === 'canvas' && Boolean(node.name)) ||
+    // A control drawn as an image, such as an Android ImageButton: its name is its text alternative.
+    node.native.imageControl === true
   )
 }
 
@@ -140,12 +143,14 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentJudg
         parentRef = parent.parentRef
       }
       const attributes = (node.native.attributes ?? {}) as Record<string, string>
+      // Native nodes have no markup; their source is the node as the platform's tools show it.
+      const markup = typeof node.native.html === 'string' ? node.native.html.replace(/src="data:[^"]{40,}"/, 'src="data:…"') : typeof node.native.source === 'string' ? node.native.source : ''
       candidates.push({
         ref: node.ref,
         context: {
           alt,
           role: node.role,
-          html: truncate(typeof node.native.html === 'string' ? node.native.html.replace(/src="data:[^"]{40,}"/, 'src="data:…"') : '', 500),
+          html: truncate(markup, 500),
           src: fileName(attributes.src),
           language: inheritedLang(index, node.ref, snapshot.locale) ?? node.lang ?? 'en',
           actionText,
@@ -221,7 +226,24 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentJudg
     return locale === 'pt-BR' ? `O texto alternativo "${alt}" ${reason}.` : `The text alternative "${alt}" ${reason}.`
   },
 
-  patch(output, candidate) {
+  patch(output, candidate, snapshot) {
+    if (isNativeSurface(snapshot.surface)) {
+      const node = indexTree(snapshot.root).get(candidate.ref)?.node
+      const property = node ? nameProperty(snapshot.surface, node) : 'name'
+      const from = candidate.context.alt
+      if (output.problem !== 'decorative') return propertyPatch(snapshot.surface, candidate.ref, property, from, output.suggestedAlt.trim())
+      // Decorative: hidden from screen readers rather than described.
+      const [hide, value] = snapshot.surface === 'android' ? ['importantForAccessibility', 'no'] : ['isAccessibilityElement', false]
+      return {
+        ref: candidate.ref,
+        kind: 'set-attribute',
+        attribute: hide,
+        from,
+        to: String(value),
+        before: propertyLine(snapshot.surface, property, from),
+        after: propertyLine(snapshot.surface, hide, value),
+      }
+    }
     const startTag = /^<[^>]*>/.exec(candidate.context.html)?.[0]
     const value = output.problem === 'decorative' ? '' : output.suggestedAlt.trim()
     // Only img and input take alt; anything else, such as a canvas, is named with aria-label.
