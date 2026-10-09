@@ -1,7 +1,7 @@
 import type { Finding, ProbeCoverage } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
 import { matchNode, nameOf } from '../probes/identity.ts'
-import { type LayoutBox, type LayoutMeasure, partlyClipped, pastRightEdge, wholeBox } from '../probes/layout.ts'
+import { type LayoutBox, type LayoutMeasure, cutAtRightEdge, partlyClipped, pastRightEdge, wholeBox } from '../probes/layout.ts'
 import type { A11yNode, ProbeRecord } from '../snapshot/schema.ts'
 import { type ProbeRule, type ProbeRuleContext, asArray, asRecord, conditionsText, coverageStatus, probeFinding } from './probes.ts'
 
@@ -78,18 +78,20 @@ function newOverlaps(ctx: ProbeRuleContext, before: LayoutMeasure, after: Layout
   return { hits, unmatched }
 }
 
-const REFLOW_TEXT: Record<Locale, { past: string; clipped: string; clippedReview: string; overlap: string }> = {
+const REFLOW_TEXT: Record<Locale, { past: string; clipped: string; clippedReview: string; overlap: string; edge: string }> = {
   en: {
     past: 'At 320 CSS px wide (1280 px at 400% zoom) the page scrolls sideways and this content runs past the right edge: reading it needs scrolling in two directions.',
     clipped: 'Text that is whole at 1280 px wide is cut off at 320 CSS px wide.',
     clippedReview: 'Text that is whole at 1280 px wide is cut at 320 CSS px wide; a name or title holds the full text, or its container hides other content too, as a carousel does. Check that the text can be read.',
     overlap: 'At 320 CSS px wide this text overlaps other text that it did not overlap at 1280 px.',
+    edge: 'At 320 CSS px wide this content runs past the right edge of a window that does not scroll sideways, so its end cannot be reached. Check whether it is hidden on purpose.',
   },
   'pt-BR': {
     past: 'Com 320 px CSS de largura (1280 px com zoom de 400%) a página rola para o lado e este conteúdo passa da borda direita: lê-lo exige rolar em duas direções.',
     clipped: 'Texto que aparece inteiro com 1280 px de largura fica cortado com 320 px CSS.',
     clippedReview: 'Texto inteiro com 1280 px de largura fica cortado com 320 px CSS; um nome ou title tem o texto completo, ou o contêiner também esconde outro conteúdo, como num carrossel. Confira se o texto pode ser lido.',
     overlap: 'Com 320 px CSS de largura este texto se sobrepõe a outro texto, o que não acontecia com 1280 px.',
+    edge: 'Com 320 px CSS de largura este conteúdo passa da borda direita de uma janela que não rola para o lado, e o fim dele fica inalcançável. Confira se está escondido de propósito.',
   },
 }
 
@@ -135,6 +137,34 @@ export const reflowRule: ProbeRule = {
           evidence: `viewport 320×256 CSS px, page scroll width ${r1(after.scrollWidth)} px; ${nameOf(node, box)} spans x ${r1(vis.x)}–${r1(right)} px, ${r1(right - after.clientWidth)} px past the right edge (${after.clientWidth} px)`,
           confidence: 'high',
           subject: 'past-edge',
+        }),
+      )
+    }
+
+    // A window that does not scroll sideways (overflow hidden on html or body) cuts what runs past its edge.
+    const baseline = new Map(before.boxes.map((box) => [box.ref, box]))
+    let edges = 0
+    for (const box of after.boxes) {
+      if (exempt(box) || !cutAtRightEdge(box, after)) continue
+      const was = baseline.get(box.ref)
+      // Cut at 1280 px too (a ticker, a track) is not something the narrow window did.
+      if (!was?.vis || was.vis.x + was.vis.width > before.clientWidth + 1) continue
+      const node = matchNode(ctx.index, box.ref, box.id)
+      if (!node) {
+        unmatched++
+        continue
+      }
+      if (edges++ >= MAX_REPORTED) continue
+      const vis = box.vis ?? box.rect
+      review.push(
+        probeFinding({
+          criterion: '1.4.10',
+          rule: this.id,
+          node,
+          message: text.edge,
+          evidence: `viewport 320×256 CSS px, the window does not scroll sideways; ${nameOf(node, box)} spans x ${r1(vis.x)}–${r1(vis.x + vis.width)} px, ${r1(vis.x + vis.width - after.clientWidth)} px past the right edge (${after.clientWidth} px)`,
+          confidence: 'medium',
+          subject: 'edge',
         }),
       )
     }

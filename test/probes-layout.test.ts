@@ -62,6 +62,16 @@ describe.skipIf(!browser)('reflow probe (1.4.10)', { timeout: 60_000 }, () => {
     expect(coverage?.applicable).toBeGreaterThan(5)
   })
 
+  it('sends text cut by a window that cannot scroll sideways to review, and leaves a menu waiting off-canvas alone', async () => {
+    const { snapshot, engine } = await probed('reflow-hidden.html')
+    const report = await checkSnapshot(snapshot, engine, probeCheckOptions())
+    // A script can scroll a window with overflow hidden; a person cannot, so nothing here "scrolls sideways".
+    expect(byRule(report, 'rampa/reflow')).toEqual([])
+    const review = reviewByRule(report, 'rampa/reflow')
+    expect(review.map((f) => f.ref)).toEqual(['#notice'])
+    expect(review[0]?.evidence).toMatch(/the window does not scroll sideways; <p> "Offices close.*px past the right edge \(320 px\)$/)
+  })
+
   it('keeps experimental findings below the default threshold', async () => {
     const { snapshot, engine } = await probed('reflow-fail.html')
     const report = await checkSnapshot(snapshot, engine, probeCheckOptions({ minConfidence: 'medium' }))

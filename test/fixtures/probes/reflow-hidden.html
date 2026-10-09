@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reflow behind overflow hidden</title>
+<style>
+  /* The window never scrolls sideways, so what runs past its edge is out of reach. */
+  html, body { overflow-x: hidden; }
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  #notice { width: 700px; padding: 0 8px; }
+  /* An off-canvas menu waits wholly outside the window: it must not count. */
+  #drawer { position: absolute; top: 0; left: 100%; width: 260px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Notice</h1>
+  <p id="notice">Offices close at noon on Friday for maintenance of the building's electrical systems; plan your visit accordingly.</p>
+</main>
+<nav id="drawer" aria-label="Menu"><a href="#a">Account</a> <a href="#b">Orders</a></nav>
+</body>
+</html>

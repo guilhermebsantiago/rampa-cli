@@ -60,7 +60,7 @@ export interface LayoutMeasure {
   /** document.documentElement.clientWidth: the width a reader sees without scrolling. */
   clientWidth: number
   scrollWidth: number
-  /** The window really scrolls sideways (overflow on html or body can hide what scrollWidth reports). */
+  /** A person can scroll the window sideways: it moves when scrolled, and neither html nor body hides overflow. */
   scrollsX: boolean
   /** Boxes measured; `boxes` keeps only those a rule may need. */
   measured: number
@@ -84,7 +84,10 @@ export function measureLayout(limits: LayoutLimits): LayoutMeasure {
   const clientWidth = root.clientWidth
   const scrollWidth = Math.max(root.scrollWidth, document.body?.scrollWidth ?? 0)
   window.scrollTo(100000, 0)
-  const scrollsX = window.scrollX > 0
+  // A script can scroll a window whose overflow is hidden; a person cannot. Hidden on html or body
+  // (body's value goes to the window when html's is visible) means nobody reaches what is past the edge.
+  const locked = (el: Element | null) => (el ? ['hidden', 'clip'].includes(getComputedStyle(el).overflowX) : false)
+  const scrollsX = window.scrollX > 0 && !locked(root) && !locked(document.body)
   window.scrollTo(0, 0)
   const sx = window.scrollX
   const sy = window.scrollY
@@ -336,13 +339,22 @@ export function pastRightEdge(box: LayoutBox, measure: LayoutMeasure): boolean {
 }
 
 /**
+ * Partly cut by the right edge of a window that does not scroll sideways (overflow hidden on
+ * html or body): the part past the edge cannot be reached at all. Wholly outside is not counted,
+ * since off-canvas menus wait there.
+ */
+export function cutAtRightEdge(box: LayoutBox, measure: LayoutMeasure): boolean {
+  return Boolean(!measure.scrollsX && box.vis && !box.scroller && box.vis.x < measure.clientWidth - 1 && box.vis.x + box.vis.width > measure.clientWidth + 1)
+}
+
+/**
  * Keeps what a rule may read: the boxes that are cut, past the edge or overlapping after the
  * change, and the same elements before it. A page with thousands of text boxes stays small.
  */
 export function slimPair(before: LayoutMeasure, after: LayoutMeasure): { before: LayoutMeasure; after: LayoutMeasure } {
   const keep = new Set<string>()
   for (const box of after.boxes) {
-    if (partlyClipped(box) || box.ellipsis || pastRightEdge(box, after) || (box.scroller && !box.twoD)) keep.add(box.ref)
+    if (partlyClipped(box) || box.ellipsis || pastRightEdge(box, after) || cutAtRightEdge(box, after) || (box.scroller && !box.twoD)) keep.add(box.ref)
   }
   const overlapRefs = new Set(after.overlaps.flatMap((o) => [o.a, o.b]))
   for (const ref of overlapRefs) keep.add(ref)
