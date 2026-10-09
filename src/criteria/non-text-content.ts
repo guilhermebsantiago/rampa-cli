@@ -184,6 +184,9 @@ export function namesPurpose(alt: string, purposes: ReadonlyArray<string | undef
   })
 }
 
+/** The longest text next to a functional image that is still read as its caption when matching its purpose. */
+const CAPTION_MAX = 80
+
 /** Everything a person reads in a subtree, without one branch of it: text, and the names of images. */
 function textWithout(root: A11yNode, left: A11yNode): string {
   const parts: string[] = []
@@ -347,7 +350,9 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentJudg
       // which an alternative that names the link's title, destination or caption refutes just as well.
       const f = candidate.context.functional
       const aboutPurpose = output.problem === 'wrong_content' || output.problem === 'missing_information'
-      if (aboutPurpose && f && namesPurpose(candidate.context.alt, [f.title, f.destination, f.nextTo])) {
+      // Only a caption counts as the text next to it: a paragraph holds the words of almost any short alternative.
+      const caption = f?.nextTo && f.nextTo.length <= CAPTION_MAX ? f.nextTo : undefined
+      if (aboutPurpose && f && namesPurpose(candidate.context.alt, [f.title, f.destination, caption])) {
         return { ok: false, reason: `the alternative names the purpose of the ${f.control} it is the only content of` }
       }
       const suggested = output.suggestedAlt.trim()

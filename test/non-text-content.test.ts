@@ -281,6 +281,13 @@ describe('1.1.1 functional images', () => {
     expect(nonTextContent.verify(claim('A dog on a beach'), byRef('#story'), tiles())).toEqual({ ok: true })
   })
 
+  it('reads the text next to the link as its purpose only when it is a caption, not a paragraph', () => {
+    const inss = byRef('#inss')
+    const paragraph = `Meu INSS reúne os serviços da Previdência Social. ${'Consulte benefícios, extratos e agendamentos pela internet. '.repeat(2)}`
+    const nextToParagraph = { ...inss, context: { ...inss.context, alt: 'Meu INSS', functional: { control: 'link' as const, nextTo: paragraph } } }
+    expect(nonTextContent.verify(claim('Meu INSS'), nextToParagraph, tiles())).toEqual({ ok: true })
+  })
+
   it('says a kept claim is about the link purpose', () => {
     expect(nonTextContent.message(claim('ícone representativo de telefone e e-mail'), byRef('#contact'), 'en')).toBe(
       'The text alternative "ícone representativo de telefone e e-mail" is all its link holds, and does not say where the link leads.',
