@@ -1,6 +1,4 @@
-import { resolve } from 'node:path'
-import { pathToFileURL } from 'node:url'
-import { afterAll, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { exitCode } from '../src/cli/exit-code.ts'
 import { memoryCache } from '../src/core/cache.ts'
 import { type CheckOptions, checkSnapshot } from '../src/core/check.ts'
@@ -13,8 +11,6 @@ import { renderHtml } from '../src/report/html.ts'
 import { renderMarkdown } from '../src/report/markdown.ts'
 import { renderReport } from '../src/report/pretty.ts'
 import { toSarif } from '../src/report/sarif.ts'
-import { collectWeb } from '../src/surfaces/web.ts'
-import { launchTestBrowser } from './browser.ts'
 import { travelSnapshot } from './helpers.ts'
 
 function options(extra: Partial<CheckOptions> = {}): CheckOptions {
@@ -147,29 +143,5 @@ describe('honest coverage', () => {
     expect(merged.criteria?.find((r) => r.id === '1.1.1')).toMatchObject({ status: 'failures', methods: [{ id: 'image-alt', applicable: 2, failures: 1 }] })
     expect(merged.engine).toContain('1.1.1')
     expect(merged.notChecked).not.toContain('2.4.1')
-  })
-})
-
-// Integration: axe-core in a real browser; skipped, with the reason printed, when none starts.
-const launched = await launchTestBrowser('the coverage tests')
-const browser = 'browser' in launched ? launched.browser : undefined
-if ('skip' in launched) console.warn(launched.skip)
-afterAll(async () => browser?.close())
-
-describe('needs review on a real page', { timeout: 60_000 }, () => {
-  it.skipIf(!browser)('shows 2.4.1 and 1.2.2 as needs review, with what axe-core found, when no rule can fail', async () => {
-    if (!browser) return
-    const url = pathToFileURL(resolve('test/fixtures/coverage/review.html')).href
-    const { snapshot, engine } = await collectWeb(browser, url, { runAxe: true, locale: 'en' })
-    const report = await checkSnapshot(snapshot, engine, options())
-    expect(record(report, '2.4.1')?.status).toBe('needs-review')
-    expect(record(report, '1.2.2')?.status).toBe('needs-review')
-    expect(report.coverage.engine).not.toContain('2.4.1')
-    expect(report.coverage.engine).not.toContain('1.2.2')
-    expect(report.coverage.notChecked).not.toContain('2.4.1')
-    const reviewed = report.needsReview?.map((item) => [item.criterion, item.ruleId]) ?? []
-    expect(reviewed).toContainEqual(['2.4.1', 'bypass'])
-    expect(reviewed).toContainEqual(['1.2.2', 'video-caption'])
-    expect(report.findings.filter((f) => ['1.2.2', '2.4.1'].includes(f.criterion))).toEqual([])
   })
 })

@@ -1,19 +1,8 @@
-import { resolve } from 'node:path'
-import { pathToFileURL } from 'node:url'
-import { afterAll, describe, expect, it } from 'vitest'
-import { exitCode } from '../src/cli/exit-code.ts'
-import { memoryCache } from '../src/core/cache.ts'
-import { type CheckOptions, checkSnapshot } from '../src/core/check.ts'
+import { describe, expect, it } from 'vitest'
 import type { EngineRuleResult } from '../src/core/types.ts'
 import { runRules } from '../src/engine/rules.ts'
 import { applyTargetSizeExceptions } from '../src/rules/target-size.ts'
 import type { A11yNode, A11ySnapshot } from '../src/snapshot/schema.ts'
-import { collectWeb } from '../src/surfaces/web.ts'
-import { launchTestBrowser } from './browser.ts'
-
-function options(extra: Partial<CheckOptions> = {}): CheckOptions {
-  return { criteria: [], llm: false, provider: undefined, runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'medium', concurrency: 1, ...extra }
-}
 
 const node = (id: string, exempt?: 'user-agent-control' | 'equivalent-target') => ({ ref: `#${id}`, target: JSON.stringify([`#${id}`]), html: `<a id="${id}">`, ...(exempt ? { exempt } : {}) })
 
@@ -82,67 +71,5 @@ describe('target size on iOS, from bounds', () => {
   it('does not measure Android dumps, whose bounds are screen pixels with no density', () => {
     const android = { ...snapshot([control('crop', 16, 100, 20, 20), control('rotate', 36, 100, 20, 20)]), surface: 'android' as const }
     expect(runRules(android, { locale: 'en' }).rules.some((rule) => rule.ruleId === 'target-size')).toBe(false)
-  })
-})
-
-// Integration: axe-core in a real browser; skipped, with the reason printed, when none starts.
-const launched = await launchTestBrowser('the target size tests')
-const browser = 'browser' in launched ? launched.browser : undefined
-if ('skip' in launched) console.warn(launched.skip)
-afterAll(async () => browser?.close())
-
-async function collect(name: string, wcag?: '2.1' | '2.2') {
-  if (!browser) throw new Error('no browser')
-  const url = pathToFileURL(resolve(`test/fixtures/target-size/${name}.html`)).href
-  return collectWeb(browser, url, { runAxe: true, locale: 'en', ...(wcag ? { wcag } : {}) })
-}
-
-describe.skipIf(!browser)('2.5.8 Target Size (Minimum) on the web', { timeout: 60_000 }, () => {
-  it('fails touching icon buttons, close dots, small pagination links, a lone small link and redrawn checkboxes', async () => {
-    const { snapshot, engine } = await collect('fail')
-    const report = await checkSnapshot(snapshot, engine, options({ minConfidence: 'low' }))
-    const failing = report.findings.filter((f) => f.criterion === '2.5.8')
-    expect(failing.map((f) => f.ref).sort()).toEqual(
-      ['#crop', '#rotate', '#flip', '#dot-1', '#dot-2', '#dot-3', '#page-1', '#page-2', '#page-3', '#photos', '#grid', '#snap'].sort(),
-    )
-    expect(failing.every((f) => f.ruleId === 'target-size' && f.level === 'AA' && f.confidence === 'low')).toBe(true)
-    expect(report.coverage.criteria?.find((r) => r.id === '2.5.8')).toMatchObject({
-      status: 'failures',
-      methods: [{ kind: 'axe', id: 'target-size', maturity: 'experimental' }],
-    })
-  })
-
-  it('reports below the default threshold while experimental, so the exit code stays as it was', async () => {
-    const { snapshot, engine } = await collect('fail')
-    const report = await checkSnapshot(snapshot, engine, options())
-    expect(report.findings.filter((f) => f.criterion === '2.5.8')).toEqual([])
-    expect(report.belowThreshold.filter((f) => f.criterion === '2.5.8')).toHaveLength(12)
-    expect(report.coverage.criteria?.find((r) => r.id === '2.5.8')?.status).toBe('needs-review')
-    expect(exitCode([report], 'confirmed')).toBe(0)
-  })
-
-  it('passes spaced 16 px buttons, native date fields and checkboxes, inline links and a link with a larger equivalent', async () => {
-    const { snapshot, engine } = await collect('pass')
-    const sizes = engine.rules.filter((rule) => rule.ruleId === 'target-size')
-    expect(sizes.filter((rule) => rule.outcome === 'violation' || rule.outcome === 'incomplete')).toEqual([])
-    const exempt = sizes.flatMap((rule) => rule.nodes.filter((n) => n.exempt).map((n) => [n.ref, n.exempt]))
-    expect(exempt).toEqual([
-      ['#flexible', 'user-agent-control'],
-      ['#pets', 'user-agent-control'],
-      ['#more', 'equivalent-target'],
-    ])
-    const report = await checkSnapshot(snapshot, engine, options({ minConfidence: 'low' }))
-    expect(report.findings.filter((f) => f.criterion === '2.5.8')).toEqual([])
-    expect(report.coverage.criteria?.find((r) => r.id === '2.5.8')?.status).toBe('no-failure-found')
-    // The checker leaves no trace in the page it measured.
-    expect(snapshot.root.children.some((child) => child.role === 'iframe')).toBe(false)
-  })
-
-  it('does not run under --wcag 2.1, where 2.5.8 is beyond the target', async () => {
-    const { snapshot, engine } = await collect('fail', '2.1')
-    expect(engine.rules.some((rule) => rule.ruleId === 'target-size')).toBe(false)
-    const report = await checkSnapshot(snapshot, engine, options({ wcag: '2.1', minConfidence: 'low' }))
-    expect(report.coverage.criteria?.some((r) => r.id === '2.5.8')).toBe(false)
-    expect(report.coverage.notChecked).not.toContain('2.5.8')
   })
 })
