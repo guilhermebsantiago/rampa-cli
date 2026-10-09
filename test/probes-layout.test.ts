@@ -1,7 +1,8 @@
 import { mkdtemp, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import { afterAll, describe, expect, it } from 'vitest'
+import { check } from '../src/api/check.ts'
 import { checkSnapshot } from '../src/core/check.ts'
 import type { Report } from '../src/core/types.ts'
 import { DETERMINISM_ARGS } from '../src/probes/run.ts'
@@ -70,6 +71,14 @@ describe.skipIf(!browser)('reflow probe (1.4.10)', { timeout: 60_000 }, () => {
     const review = reviewByRule(report, 'rampa/reflow')
     expect(review.map((f) => f.ref)).toEqual(['#notice'])
     expect(review[0]?.evidence).toMatch(/the window does not scroll sideways; <p> "Offices close.*px past the right edge \(320 px\)$/)
+  })
+
+  it('runs from the programmatic check() too', async () => {
+    if (!browser) return
+    const [report] = await check(resolve('test/fixtures/probes/reflow-fail.html'), { noLlm: true, config: false, waivers: [], probes: ['layout'], browser })
+    expect(report?.coverage.probes?.find((c) => c.criterion === '1.4.10')).toMatchObject({ status: 'failures', failures: 2 })
+    // Experimental: below the default threshold.
+    expect(report?.belowThreshold.filter((f) => f.ruleId === 'rampa/reflow')).toHaveLength(2)
   })
 
   it('keeps experimental findings below the default threshold', async () => {

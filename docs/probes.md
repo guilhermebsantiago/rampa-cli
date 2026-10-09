@@ -121,7 +121,7 @@ The layout probes are within the plan's 2–5 s per page. The main keyboard walk
 
 ## Not yet
 
-- `--probe` runs from `rampa check` on URLs and HTML files. It does not run with `--crawl`, from the programmatic API, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
+- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard']`. Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
 - The `rampa.config` file has no `probe` key yet.
 - Captures are not written next to a saved snapshot; only their hashes are recorded.
 - The activate class (clicks, Enter and Space, `--probe interact`) and `--allow-submit` do not exist yet; nothing here clicks or submits.

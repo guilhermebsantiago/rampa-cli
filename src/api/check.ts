@@ -3,6 +3,7 @@ import type { Report } from '../core/types.ts'
 import { RampaError } from '../core/util.ts'
 import { locateReport, readPageSource, repositoryRoot } from '../source/locate.ts'
 import { loadRecorded, resolveTargets } from '../surfaces/targets.ts'
+import { DETERMINISM_ARGS, type ProbeKind } from '../probes/run.ts'
 import { type Collected, collectWeb, launchBrowser } from '../surfaces/web.ts'
 import { type RampaOptions, judge, resolveSettings } from './options.ts'
 
@@ -11,6 +12,8 @@ export interface CheckTargetsOptions extends RampaOptions {
   browser?: Browser | undefined
   /** Save a full-page screenshot of each web target in this directory, like --screenshots. */
   screenshotDir?: string | undefined
+  /** Probes to run on web targets after collection, like --probe: 'layout', 'keyboard' (docs/probes.md). */
+  probes?: readonly ProbeKind[] | undefined
 }
 
 /**
@@ -30,12 +33,14 @@ export async function check(targets: string | readonly string[], options: CheckT
     for (const target of resolved) {
       let collected: Collected
       if (target.kind === 'web') {
-        if (!browser) browser = launched = await launchBrowser()
+        // Probes compare pixels: a browser Rampa starts gets the fixed rendering flags; one passed in is used as it is.
+        if (!browser) browser = launched = await launchBrowser(options.probes?.length ? { args: DETERMINISM_ARGS } : {})
         collected = await collectWeb(browser, target.url, {
           runAxe: true,
           locale: settings.locale,
           screenshotDir: options.screenshotDir,
           captureImages: settings.captureImages,
+          probes: options.probes,
         })
       } else if (target.kind === 'snapshot') {
         // A recorded snapshot or an XCUITest export, read the way the CLI reads it.

@@ -35,6 +35,7 @@ export { type PageSource, locateReport, readPageSource, repositoryRoot } from '.
 export { A11yNodeSchema, A11ySnapshotSchema, SURFACES, type A11yNode, type A11ySnapshot, type Surface } from './snapshot/schema.ts'
 export { type BrowserOptions, parseBrowserFlags } from './surfaces/browser-options.ts'
 export { collectWeb, launchBrowser } from './surfaces/web.ts'
+export { PROBE_KINDS, type ProbeKind } from './probes/run.ts'
 export { type AdbRunner, collectAndroid } from './surfaces/android/adb.ts'
 export { snapshotFromUiAutomator } from './surfaces/android/uiautomator.ts'
 export { collectImage } from './surfaces/image.ts'
