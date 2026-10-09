@@ -69,6 +69,9 @@ Every claim must cite a node and a quote that exist on the page. Claims that do 
 
 Nine WCAG success criteria have a judgment module; eight run by default, and 1.4.5 runs when you ask for it. For each, axe-core keeps the part rules can decide, and the model only sees the rest. [docs/criteria.md](docs/criteria.md) describes each module: its context, verification and limits.
 
+> [!NOTE]
+> On real pages, judgments about ordinary titles, links, headings and labels were mostly false positives in the [first real-page study](docs/studies/real-pages-2026-10.md): with Gemma 4 12B, precision was 0 of 55 on 2.4.4 and 0 of 45 on 2.4.6, while the W3C test cases scored much higher. So for 2.4.2, 2.4.4 and 2.4.6, a finding keeps its confidence only when the text is generic by a fixed list ("Click here", "Section 2", "Untitled document", "Field 1"); any other is reported at low confidence, below the default threshold: `--verbose` lists it, it never fails a build, and `rampa eval` still scores it.
+
 | Criterion | axe-core checks | Rampa judges | Example it catches |
 | --- | --- | --- | --- |
 | 1.1.1 Non-text Content | an image has an alternative | the alternative serves the same purpose, seen against the image as rendered | `alt="img-1"` on a photo of a dog |
@@ -91,6 +94,7 @@ Rampa reports against WCAG 2.2 by default (`--wcag 2.1` for the older target), a
 | --- | --- | --- |
 | Rampa rules (experimental) | Deterministic checks axe-core does not make: placeholder alt text, framework default titles, viewport zoom, the HTTP Refresh header, language switchers, table headers, layout tables, labels that name nothing, ids that hijack a name | [docs/rules.md](docs/rules.md) |
 | WCAG 2.2 | 2.5.8 Target Size (experimental), the 2.2 list and honest coverage: axe-core's "incomplete" results become items to review, never "checked" | [docs/wcag-2-2.md](docs/wcag-2-2.md) |
+| Probes (experimental, `--probe layout|keyboard|all`) | Drive the page read-only: reflow at 320 CSS px (1.4.10), text spacing (1.4.12), keyboard reachability and traps (2.1.1, 2.1.2), change on focus (3.2.1), focus visible and not obscured (2.4.7, 2.4.11) | [docs/probes.md](docs/probes.md) |
 | Site criteria (experimental) | With `--crawl` or `--sitemap`: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help, across the pages of a template | [docs/site-criteria.md](docs/site-criteria.md) |
 | Cognitive profile | `--profile cognitive`: advisories from the W3C COGA guidance (input formats that reject how people write, labels that are only a placeholder, pre-ticked paid options, unexplained abbreviations) plus readability measurements. Advisories are never WCAG failures and never change the exit code unless you ask | [docs/cognitive-profile.md](docs/cognitive-profile.md) |
 
@@ -359,7 +363,7 @@ Run on 2026-10-09: axe-core 4.14.0, Gemma 4 12B on a local GPU, reasoning off, o
 - **The prompts were tuned on these cases.** Every criterion added since the first run had its prompt and context adjusted after reading its errors here, without copying the test pages into the prompts. Until fresh pages confirm them, the numbers say "the pipeline works", not more.
 - **Some low precisions are scoring, not judgment.** 2779a5 only checks that a title exists, and its passing pages are titled "Title of the page."; Rampa says those describe nothing, which is right for 2.4.2. On ucwvc8 every passed and failed example is right; the false positives are pages the rule calls inapplicable, four of which axe-core fails for a missing or invalid `lang`. On 73f2c2 the two false positives are `autocomplete=""` on a username field, which is a real 1.3.5 failure that the rule leaves out.
 - **Where Rampa is weak.** fd3a94 asks whether links that share a name lead to equivalent places, and ACT accepts copies of a page and links "ambiguous to everyone" that Rampa reports. On 1.4.5, Gemma reads "WCAG Rocks" as a logo, and Rampa follows the WCAG Understanding document, not the ACT case, on an image of text shown next to the same real text.
-- **Real pages are noisier than test cases.** On this project's own landing page, Gemma flagged three short English headings that a person would pass. A false-positive study on real pages is on the roadmap.
+- **Real pages are noisier than test cases.** The [real-page study](docs/studies/real-pages-2026-10.md) (24 public pages, two independent LLM judges per finding, a pre-annotation pending human review) found precision of 0.13 on the dev pages and 0.12 on the test pages across all judged findings: 1.3.5 held up, 1.1.1 was weak, and 2.4.2, 2.4.4 and 2.4.6 were almost all false positives. Its dev-split suggestions drive the next changes.
 - **Small samples, one run.** Read these as a working pipeline, not as a result. Wilson intervals are in each run's `summary.json`, and `rampa compare` puts two runs side by side.
 
 The first run, on 2026-10-07 with only 1.1.1 and 3.1.2, had recall 0.67 on qt1vmo and 0.75 on off6ek. An error analysis showed the misses never reached a model: Rampa did not treat `<canvas>` as an image, and did not count image names from `aria-labelledby` as text. On those two criteria, `openai:gpt-6-luna` got the same numbers as Gemma in two runs with fresh calls (about US$ 0.005 per run).
@@ -405,12 +409,15 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - [x] Android (adb and UI Automator), iOS (XCUITest export) and image-only surfaces
 - [x] `rampa compare`, to choose a model per criterion
 - [x] [Rampa Lab](https://guilhermebsantiago.github.io/rampa-lab/), a web app to explore evaluation runs in the browser
-- [ ] A false-positive study on real pages
+- [x] A first false-positive study on real pages ([report](docs/studies/real-pages-2026-10.md)); human review of its labels is next
+- [ ] The study's dev-split fixes: destination evidence for 2.4.4, functional icons and stacked carousel images for 1.1.1, honeypot fields, home pages titled with the site's name
 - [x] WCAG 2.2 by default, with a status for every criterion and axe-core's incomplete results kept for review
 - [x] Deterministic Rampa rules, and 2.5.8 target size (experimental)
 - [x] Site criteria over a crawl: 3.2.3 consistent navigation and 3.2.6 consistent help (experimental)
 - [x] An opt-in cognitive accessibility profile from the W3C COGA guidance: first four checks ([plan](docs/plans/cognitive-profile.md))
-- [ ] Checks that drive the page: keyboard reachability and traps, focus visible and not obscured, reflow, text spacing, content on hover ([plan](docs/plans/wcag-coverage.md))
+- [x] Probes that drive the page, opt-in with `--probe`: reflow at 320 px, text spacing, keyboard reachability and traps, change on focus, focus visible and not obscured ([docs/probes.md](docs/probes.md))
+- [x] A language identifier that decides long, clear 3.1.1 and 3.1.2 cases without a model and drops model claims that contradict it
+- [ ] Content on hover or focus, and the rest of the probe waves ([plan](docs/plans/wcag-coverage.md))
 - [ ] The rest of the WCAG 2.2 waves: frames and shadow roots, the browser's accessibility tree, pixel contrast, zoom, media, error states
 - [x] ChatGPT and Gemini subscriptions through their official CLIs
 
