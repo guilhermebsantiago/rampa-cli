@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Delivery details | Corner Store</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 32px; color: #1f2328; }
+      form { display: grid; gap: 12px; max-width: 360px; }
+      input { padding: 8px; font-size: 16px; }
+      .search { display: flex; gap: 4px; margin-bottom: 24px; }
+      .hint { color: #57606a; font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <!-- A search field named by aria-label, with a magnifying glass button beside it: the icon labels it. -->
+      <form class="search" role="search">
+        <input id="q" type="search" aria-label="Search the store" />
+        <button type="submit" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="2" /><line x1="13" y1="13" x2="18" y2="18" stroke="currentColor" stroke-width="2" /></svg>
+        </button>
+      </form>
+    </header>
+    <main>
+      <h1>Delivery details</h1>
+      <form>
+        <label for="street">Street and number</label>
+        <input id="street" type="text" autocomplete="address-line1" />
+        <label for="town">Town</label>
+        <input id="town" type="text" autocomplete="address-level2" />
+        <label for="tax-id">Tax ID</label>
+        <input id="tax-id" type="text" inputmode="numeric" pattern="\d{11}" aria-describedby="tax-id-hint" />
+        <span id="tax-id-hint" class="hint">Eleven digits, no dots or dashes: 12345678909</span>
+        <button type="submit">Continue</button>
+      </form>
+    </main>
+  </body>
+</html>

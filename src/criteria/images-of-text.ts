@@ -1,9 +1,9 @@
 import { z } from 'zod'
 import type { Candidate, Criterion, EngineResults, Patch, PromptImage, Verification } from '../core/types.ts'
-import { letterCount, normalizeForMatch, truncate } from '../core/util.ts'
+import { letterCount, truncate } from '../core/util.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { type TreeIndex, indexTree, walkTree } from '../snapshot/tree.ts'
-import { attributesOf, escapeHtml, startTagOf } from './shared.ts'
+import { attributesOf, contentWords, escapeHtml, phraseIn, sharedWords, startTagOf } from './shared.ts'
 
 /**
  * WCAG 2.1 SC 1.4.5 Images of Text (AA).
@@ -165,11 +165,11 @@ export const imagesOfText: Criterion<ImagesOfTextContext, ImagesOfTextJudgment> 
     // picture. Only a real description counts: "Main banner" says nothing either way.
     const altWords = contentWords(c.alt)
     for (const word of GENERIC_ALT_WORDS) altWords.delete(word)
-    if (altWords.size >= 3 && overlap(contentWords(text), altWords) === 0) {
+    if (altWords.size >= 3 && sharedWords(contentWords(text), altWords) === 0) {
       return { ok: false, reason: 'the transcription shares no word with the text alternative' }
     }
     // Understanding 1.4.5: an image of text shown in addition to the same text meets the criterion.
-    if (shownAsText(text, c.nearbyText)) return { ok: false, reason: 'the same words are shown as real text next to the image' }
+    if (phraseIn(text, c.nearbyText)) return { ok: false, reason: 'the same words are shown as real text next to the image' }
     // The definition leaves out screenshots, charts and diagrams; the page's own alternative or file name may say that is what it is.
     const kind = PICTURE_KINDS.exec(`${c.alt} ${c.src ?? ''}`)?.[0]
     if (kind) return { ok: false, reason: `the page calls it a ${kind.toLowerCase()}, which is not an image of text` }
@@ -272,11 +272,6 @@ function visibleText(root: A11yNode, skip: A11yNode): string {
   return parts.join(' ').replace(/\s+/g, ' ').trim()
 }
 
-const STOPWORDS = new Set([
-  'the', 'and', 'for', 'with', 'from', 'this', 'that', 'our', 'your', 'you', 'are', 'its', 'into', 'all',
-  'uma', 'com', 'para', 'por', 'dos', 'das', 'nos', 'nas', 'que', 'del', 'los', 'las', 'une', 'les', 'des', 'und', 'der', 'die', 'das',
-])
-
 /** Pictures the definition of an image of text leaves out, as alternatives and file names name them. */
 const PICTURE_KINDS = /\b(?:screenshot|screen ?shot|screen capture|captura de (?:tela|pantalla)|diagram|diagrama|flowchart|chart|graph|gráfico|map|mapa)s?\b/i
 
@@ -285,33 +280,3 @@ const GENERIC_ALT_WORDS = [
   'image', 'imagem', 'imagen', 'picture', 'photo', 'foto', 'banner', 'principal', 'main', 'hero', 'slide', 'carousel', 'carrossel',
   'promo', 'promocional', 'graphic', 'gráfico', 'icon', 'ícone', 'thumbnail', 'miniatura',
 ]
-
-function words(text: string): string[] {
-  return normalizeForMatch(text)
-    .split(/[^\p{L}\p{N}]+/u)
-    .filter((word) => word !== '')
-}
-
-function contentWords(text: string): Set<string> {
-  return new Set(words(text).filter((word) => word.length >= 3 && !STOPWORDS.has(word)))
-}
-
-function overlap(a: Set<string>, b: Set<string>): number {
-  let count = 0
-  for (const word of a) if (b.has(word)) count++
-  return count
-}
-
-/**
- * Whether the words in the image also appear as text next to it: a short text as the same
- * phrase, a longer one with nearly all its words, as a transcription may slip on a few.
- */
-export function shownAsText(transcription: string, nearby: string | undefined): boolean {
-  if (!nearby) return false
-  const said = words(transcription)
-  if (said.length === 0) return false
-  const around = words(nearby)
-  if (said.length <= 3) return ` ${around.join(' ')} `.includes(` ${said.join(' ')} `)
-  const present = new Set(around)
-  return said.filter((word) => present.has(word)).length >= said.length * 0.9
-}

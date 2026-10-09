@@ -46,7 +46,7 @@ export async function runModels(options: { default?: boolean }, context: GlobalC
     })
   }
   console.log(`\n  ${p.green('●')} ready here   ${p.gray('○')} needs credentials, ollama pull or a loaded model`)
-  console.log('  Choose with --model provider:model, RAMPA_MODEL or the config file. 1.1.1 needs vision.')
+  console.log('  Choose with --model provider:model, RAMPA_MODEL or the config file. 1.1.1 and 1.4.5 need vision.')
   console.log(p.dim('  The model per criterion should come from rampa eval, not from generic benchmarks.\n'))
   return 0
 }

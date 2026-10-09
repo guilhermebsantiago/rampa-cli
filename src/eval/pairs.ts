@@ -226,6 +226,48 @@ export const textAsImage: Corruptor = {
   },
 }
 
+/**
+ * 3.3.2: move every visible label into aria-label and take it off the screen. Screen readers
+ * get the same name, so axe-core still passes; people looking at the page see bare fields.
+ */
+export const labelHidden: Corruptor = {
+  id: 'label-hidden',
+  criterion: '3.3.2',
+  async apply(page) {
+    return page.evaluate((skipped: string[]) => {
+      let changed = 0
+      const gone = new Set<Element>()
+      const fields = Array.from(document.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input, select, textarea'))
+      for (const field of fields) {
+        if (field instanceof HTMLInputElement && skipped.includes(field.type)) continue
+        const byId = (field.getAttribute('aria-labelledby') ?? '').split(/\s+/).flatMap((id) => document.getElementById(id) ?? [])
+        const sources = [...Array.from(field.labels ?? []), ...byId]
+        // The field's own content, such as a select's options, is not part of its label.
+        const textOf = (el: Element) =>
+          Array.from(el.childNodes)
+            .filter((child) => !child.contains(field))
+            .map((child) => child.textContent ?? '')
+            .join(' ')
+        const name = sources.map(textOf).join(' ').replace(/\s+/g, ' ').trim()
+        if (name === '') continue
+        field.setAttribute('aria-label', name)
+        field.removeAttribute('aria-labelledby')
+        for (const source of sources) gone.add(source)
+        changed++
+      }
+      for (const source of gone) {
+        // A label that wraps its field loses only its text; any other source leaves the page.
+        if (source.querySelector('input, select, textarea')) {
+          for (const child of Array.from(source.childNodes)) if (!child.contains(source.querySelector('input, select, textarea'))) child.remove()
+        } else {
+          source.remove()
+        }
+      }
+      return changed
+    }, NOT_DATA_FIELDS)
+  },
+}
+
 export const CORRUPTORS: Readonly<Record<string, Corruptor[]>> = {
   '1.1.1': [altPlaceholder, altSwap],
   '1.3.5': [autocompleteDrop, autocompleteSwap],
@@ -234,4 +276,5 @@ export const CORRUPTORS: Readonly<Record<string, Corruptor[]>> = {
   '2.4.6': [headingGeneric],
   '3.1.1': [htmlLangSwap],
   '3.1.2': [langSwap],
+  '3.3.2': [labelHidden],
 }

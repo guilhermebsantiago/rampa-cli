@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import type { EngineResults } from '../src/core/types.ts'
-import { type ImagesOfTextJudgment, imagesOfText, shownAsText } from '../src/criteria/images-of-text.ts'
+import { type ImagesOfTextJudgment, imagesOfText } from '../src/criteria/images-of-text.ts'
+import { phraseIn } from '../src/criteria/shared.ts'
 import type { A11yNode, A11ySnapshot } from '../src/snapshot/schema.ts'
 import { node } from './helpers.ts'
 
@@ -195,12 +196,12 @@ describe('1.4.5 verification', () => {
   })
 
   it('matches short texts as a phrase and long ones by nearly all their words', () => {
-    expect(shownAsText('Welcome', 'Welcome to our store')).toBe(true)
-    expect(shownAsText('Our store', 'Welcome to our store')).toBe(true)
-    expect(shownAsText('Store welcome', 'Welcome to our store')).toBe(false)
-    expect(shownAsText('Ten ways to cut your energy bill this winter', 'Read: ten ways to cut your energy bill this winter!')).toBe(true)
-    expect(shownAsText('Ten ways to cut your water bill this summer', 'Read: ten ways to cut your energy bill this winter!')).toBe(false)
-    expect(shownAsText('Welcome', undefined)).toBe(false)
+    expect(phraseIn('Welcome', 'Welcome to our store')).toBe(true)
+    expect(phraseIn('Our store', 'Welcome to our store')).toBe(true)
+    expect(phraseIn('Store welcome', 'Welcome to our store')).toBe(false)
+    expect(phraseIn('Ten ways to cut your energy bill this winter', 'Read: ten ways to cut your energy bill this winter!')).toBe(true)
+    expect(phraseIn('Ten ways to cut your water bill this summer', 'Read: ten ways to cut your energy bill this winter!')).toBe(false)
+    expect(phraseIn('Welcome', undefined)).toBe(false)
   })
 })
 

@@ -32,6 +32,9 @@ export const ACT_RULES: Record<string, { syntax: string[]; semantic: string[]; p
   '2.4.6': { syntax: [], semantic: ['b49b2e', 'cc0f0a'] },
   '3.1.1': { syntax: ['b5c3f8', 'bf051a'], semantic: ['ucwvc8'] },
   '3.1.2': { syntax: ['de46e4'], semantic: ['off6ek'] },
+  // No ACT rule covers 3.3.2. cc0f0a's passing pages have visible labels; with each label moved
+  // into aria-label, screen readers still get the name but nothing on screen says what to enter.
+  '3.3.2': { syntax: [], semantic: [], pairs: ['cc0f0a'] },
 }
 
 export interface ActDataset {
@@ -63,6 +66,6 @@ export async function loadActTestcases(dir: string, refresh: boolean): Promise<A
 export function selectTestcases(dataset: ActDataset, criterion: string): ActTestcase[] {
   const rules = ACT_RULES[criterion]
   if (!rules) return []
-  const wanted = new Set([...rules.syntax, ...rules.semantic])
+  const wanted = new Set([...rules.syntax, ...rules.semantic, ...(rules.pairs ?? [])])
   return dataset.testcases.filter((tc) => wanted.has(tc.ruleId) && /\.html?$/i.test(tc.url))
 }
