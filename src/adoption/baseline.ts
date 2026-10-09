@@ -204,8 +204,15 @@ function contentKey(entry: Pick<BaselineEntry, 'criterion' | 'source' | 'ruleId'
  */
 function rechecked(entry: BaselineEntry, report: Report): boolean {
   if (entry.source === 'engine') return report.engine.name !== 'none'
-  // A probe finding is rechecked when its rule ran on a probe record this time.
-  if (entry.source === 'probe') return Boolean(report.coverage.probes?.some((row) => row.criterion === entry.criterion && row.status !== 'not-checked'))
+  // A probe finding is rechecked when its rule ran on a probe record this time and listed every failure it
+  // counted: past the cap of findings per rule, a failure that is still there is simply not listed.
+  if (entry.source === 'probe') {
+    const rows = report.coverage.probes?.filter((row) => row.criterion === entry.criterion && row.status !== 'not-checked') ?? []
+    if (rows.length === 0) return false
+    const counted = rows.reduce((total, row) => total + row.failures, 0)
+    const listed = [...report.findings, ...report.belowThreshold, ...report.waived].filter((f) => f.source === 'probe' && f.criterion === entry.criterion).length
+    return listed >= counted
+  }
   if (report.llm !== 'on') return false
   const summary = report.criteria.find((c) => c.criterion === entry.criterion)
   if (!summary?.applicable || summary.cannotTell > 0 || summary.errors > 0 || summary.offlineMisses > 0) return false

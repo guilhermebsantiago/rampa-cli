@@ -1,7 +1,7 @@
 import type { Finding, ProbeCoverage } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
 import { matchNode, nameOf } from '../probes/identity.ts'
-import { type LayoutBox, type LayoutMeasure, cutAtRightEdge, partlyClipped, pastRightEdge, wholeBox } from '../probes/layout.ts'
+import { type LayoutBox, type LayoutMeasure, cutAtRightEdge, overlapPair, overlapSide, pairOf, partlyClipped, pastRightEdge, wholeBox } from '../probes/layout.ts'
 import type { A11yNode, ProbeRecord } from '../snapshot/schema.ts'
 import { type ProbeRule, type ProbeRuleContext, asArray, asRecord, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
 
@@ -61,11 +61,11 @@ interface Hit {
 
 /** Partly cut after the change, whole before it, on the same page: the comparison both layout rules make. */
 function clippedHits(ctx: ProbeRuleContext, before: LayoutMeasure, after: LayoutMeasure, skip: (box: LayoutBox) => boolean) {
-  const baseline = new Map(before.boxes.map((box) => [box.ref, box]))
+  const baseline = new Map(before.boxes.map((box) => [pairOf(box), box]))
   const hits: Hit[] = []
   let unmatched = 0
   for (const box of after.boxes) {
-    if (skip(box) || !partlyClipped(box) || !wholeBox(baseline.get(box.ref))) continue
+    if (skip(box) || !partlyClipped(box) || !wholeBox(baseline.get(pairOf(box)))) continue
     const node = matchNode(ctx.index, box.ref, box.id)
     if (!node) unmatched++
     else hits.push({ box, node })
@@ -75,14 +75,14 @@ function clippedHits(ctx: ProbeRuleContext, before: LayoutMeasure, after: Layout
 
 /** Text of two elements that overlaps after the change and did not before. */
 function newOverlaps(ctx: ProbeRuleContext, before: LayoutMeasure, after: LayoutMeasure, skip: (ref: string) => boolean) {
-  const old = new Set(before.overlaps.flatMap((o) => [`${o.a}|${o.b}`, `${o.b}|${o.a}`]))
-  const byRef = new Map(after.boxes.map((box) => [box.ref, box]))
+  const old = new Set(before.overlaps.map(overlapPair))
+  const byPair = new Map(after.boxes.map((box) => [pairOf(box), box]))
   const hits: Array<{ node: A11yNode; other: string; width: number; height: number }> = []
   let unmatched = 0
   for (const overlap of after.overlaps) {
-    if (old.has(`${overlap.a}|${overlap.b}`) || skip(overlap.a) || skip(overlap.b)) continue
-    const a = byRef.get(overlap.a)
-    const b = byRef.get(overlap.b)
+    if (old.has(overlapPair(overlap)) || skip(overlap.a) || skip(overlap.b)) continue
+    const a = byPair.get(overlapSide(overlap, 'a'))
+    const b = byPair.get(overlapSide(overlap, 'b'))
     const node = a ? matchNode(ctx.index, a.ref, a.id) : undefined
     const other = b ? matchNode(ctx.index, b.ref, b.id) : undefined
     if (!node || !other) {
@@ -162,11 +162,11 @@ export const reflowRule: ProbeRule = {
     }
 
     // A window that does not scroll sideways (overflow hidden on html or body) cuts what runs past its edge.
-    const baseline = new Map(before.boxes.map((box) => [box.ref, box]))
+    const baseline = new Map(before.boxes.map((box) => [pairOf(box), box]))
     let edges = 0
     for (const box of after.boxes) {
       if (exempt(box) || !cutAtRightEdge(box, after)) continue
-      const was = baseline.get(box.ref)
+      const was = baseline.get(pairOf(box))
       // Cut at 1280 px too (a ticker, a track) is not something the narrow window did.
       if (!was?.vis || was.vis.x + was.vis.width > before.clientWidth + 1) continue
       const node = matchNode(ctx.index, box.ref, box.id)

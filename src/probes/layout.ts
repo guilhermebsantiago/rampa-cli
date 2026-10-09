@@ -19,6 +19,11 @@ export const REFLOW_VIEWPORT = { width: 320, height: 256 }
 
 export interface LayoutBox {
   ref: string
+  /**
+   * The element's key on this page, kept in the page across the two measurements: a ref shifts when
+   * responsive scripts add or remove siblings, the element does not. Pairs a box with itself.
+   */
+  key?: number | undefined
   id: InPageIdentity
   tag: string
   kind: 'text' | 'control'
@@ -51,6 +56,9 @@ export interface LayoutBox {
 export interface LayoutOverlap {
   a: string
   b: string
+  /** The two elements' keys (LayoutBox.key). */
+  ka?: number | undefined
+  kb?: number | undefined
   width: number
   height: number
 }
@@ -130,6 +138,18 @@ export function measureLayout(limits: LayoutLimits): LayoutMeasure {
   }
   const work: Work[] = []
   let truncated = false
+  const store = window as unknown as { __rampaKeys?: WeakMap<Element, number>; __rampaNextKey?: number }
+  const keys = store.__rampaKeys ?? new WeakMap<Element, number>()
+  store.__rampaKeys = keys
+  const keyOf = (el: Element): number => {
+    let key = keys.get(el)
+    if (key === undefined) {
+      key = (store.__rampaNextKey ?? 0) + 1
+      store.__rampaNextKey = key
+      keys.set(el, key)
+    }
+    return key
+  }
 
   const elements: Element[] = []
   const gather = (scope: Document | ShadowRoot) => {
@@ -241,6 +261,7 @@ export function measureLayout(limits: LayoutLimits): LayoutMeasure {
     const names = [el.getAttribute('title'), el.closest('[title]')?.getAttribute('title'), el.getAttribute('aria-label')].map(collapse)
     const box: LayoutBox = {
       ref: kit.cssPath(el),
+      key: keyOf(el),
       id: kit.identity(el),
       tag: el.localName,
       kind,
@@ -306,7 +327,7 @@ export function measureLayout(limits: LayoutLimits): LayoutMeasure {
       const key = fa.i < fb.i ? `${fa.i}|${fb.i}` : `${fb.i}|${fa.i}`
       if (seen.has(key)) continue
       seen.add(key)
-      overlaps.push({ a: ea.box.ref, b: eb.box.ref, width: round(width), height: round(height) })
+      overlaps.push({ a: ea.box.ref, b: eb.box.ref, ka: ea.box.key, kb: eb.box.key, width: round(width), height: round(height) })
       if (overlaps.length >= limits.maxOverlaps) break
     }
   }
@@ -357,15 +378,34 @@ export function cutAtRightEdge(box: LayoutBox, measure: LayoutMeasure): boolean 
 export function slimPair(before: LayoutMeasure, after: LayoutMeasure): { before: LayoutMeasure; after: LayoutMeasure } {
   const keep = new Set<string>()
   for (const box of after.boxes) {
-    if (partlyClipped(box) || box.ellipsis || pastRightEdge(box, after) || cutAtRightEdge(box, after) || (box.scroller && !box.twoD)) keep.add(box.ref)
+    if (partlyClipped(box) || box.ellipsis || pastRightEdge(box, after) || cutAtRightEdge(box, after) || (box.scroller && !box.twoD)) keep.add(pairOf(box))
   }
-  const overlapRefs = new Set(after.overlaps.flatMap((o) => [o.a, o.b]))
-  for (const ref of overlapRefs) keep.add(ref)
-  const afterOverlapKeys = new Set(after.overlaps.map((o) => `${o.a}|${o.b}`))
+  for (const overlap of after.overlaps) for (const side of overlapSides(overlap)) keep.add(side)
+  const afterOverlaps = new Set(after.overlaps.map(overlapPair))
   return {
-    before: { ...before, boxes: before.boxes.filter((box) => keep.has(box.ref)), overlaps: before.overlaps.filter((o) => afterOverlapKeys.has(`${o.a}|${o.b}`) || afterOverlapKeys.has(`${o.b}|${o.a}`)) },
-    after: { ...after, boxes: after.boxes.filter((box) => keep.has(box.ref)) },
+    before: { ...before, boxes: before.boxes.filter((box) => keep.has(pairOf(box))), overlaps: before.overlaps.filter((o) => afterOverlaps.has(overlapPair(o))) },
+    after: { ...after, boxes: after.boxes.filter((box) => keep.has(pairOf(box))) },
   }
+}
+
+/** What pairs a box before a change with itself after it: its key when it has one, else its ref. */
+export function pairOf(box: Pick<LayoutBox, 'key' | 'ref'>): string {
+  return typeof box.key === 'number' ? `k${box.key}` : box.ref
+}
+
+function overlapSides(o: LayoutOverlap): [string, string] {
+  return typeof o.ka === 'number' && typeof o.kb === 'number' ? [`k${o.ka}`, `k${o.kb}`] : [o.a, o.b]
+}
+
+/** An overlap's two sides, in order, so that a|b and b|a are one pair. */
+export function overlapPair(o: LayoutOverlap): string {
+  return overlapSides(o).sort().join('|')
+}
+
+/** The pairing key of one side of an overlap: 'a' or 'b'. */
+export function overlapSide(o: LayoutOverlap, side: 'a' | 'b'): string {
+  const [a, b] = overlapSides(o)
+  return side === 'a' ? a : b
 }
 
 const SETTLE = { quietMs: 300, capMs: 3000 }

@@ -39,7 +39,7 @@ export interface Kit {
   deepActive(): Element | null
   rect(el: Element): InPageRect
   /** Hook events since the last drain: window.open, submit, showModal, history, focusin, script focus. */
-  drain(): Array<{ type: string; at: number; detail?: string | undefined; ref?: string | undefined; el?: InPageElement | undefined; rect?: InPageRect | undefined }>
+  drain(): Array<{ type: string; at: number; detail?: string | undefined; ref?: string | undefined; el?: InPageElement | undefined; rect?: InPageRect | undefined; inv?: number | undefined }>
 }
 
 /** Installs `window.__rampaKit`; safe to call twice. */
@@ -134,6 +134,10 @@ export function installKit(): void {
     const r = el.getBoundingClientRect()
     return { x: round(r.x), y: round(r.y), width: round(r.width), height: round(r.height) }
   }
+  const inventoryIndex = (el: Element): number | undefined => {
+    const i = ((window as unknown as { __rampaInventory?: Element[] }).__rampaInventory ?? []).indexOf(el)
+    return i >= 0 ? i : undefined
+  }
   const drain = () => {
     const events = w.__rampaEvents ?? []
     w.__rampaEvents = []
@@ -142,7 +146,7 @@ export function installKit(): void {
       at: event.at,
       detail: event.detail,
       ref: event.target ? cssPath(event.target) : undefined,
-      ...(event.type === 'focusin' && event.target ? { el: describe(event.target), rect: rect(event.target) } : {}),
+      ...(event.type === 'focusin' && event.target ? { el: describe(event.target), rect: rect(event.target), inv: inventoryIndex(event.target) } : {}),
     }))
   }
   w.__rampaKit = { cssPath, identity, describe, visible, deepActive, rect, drain }

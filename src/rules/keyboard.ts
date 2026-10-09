@@ -112,6 +112,8 @@ export const keyboardReachRule: ProbeRule = {
     }
     const stops = [...walk.forward, ...walk.backward].filter((stop) => stop.el)
     const reached = new Set(stops.map((stop) => stop.el?.ref))
+    // By the element itself when the walk could tell: a ref can shift while the page changes under the walk.
+    const reachedIndex = new Set(stops.flatMap((stop) => (typeof stop.inv === 'number' ? [stop.inv] : [])))
     const widgets = new Set(stops.flatMap((stop) => (stop.widget ? [stop.widget] : [])))
     const hrefs = new Set(stops.flatMap((stop) => (stop.href ? [stop.href] : [])))
     const radios = new Set(stops.flatMap((stop) => (stop.radioGroup ? [stop.radioGroup] : [])))
@@ -121,7 +123,7 @@ export const keyboardReachRule: ProbeRule = {
     let failures = 0
     let unmatched = 0
     for (const control of walk.inventory) {
-      if (reached.has(control.ref) || control.holdsReached || control.shadow || control.changed) continue
+      if (reached.has(control.ref) || (control.i !== undefined && reachedIndex.has(control.i)) || control.holdsReached || control.shadow || control.changed) continue
       if (control.widget && (widgets.has(control.widget) || reached.has(control.widget))) continue
       if (control.radioGroup && radios.has(control.radioGroup)) continue
       if (control.href && hrefs.has(control.href)) continue

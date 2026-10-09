@@ -35,6 +35,8 @@ export interface Control {
   holdsReached?: boolean | undefined
   /** Visible before the walk but not after it, or the other way round (a carousel that turned): not judged. */
   changed?: boolean | undefined
+  /** The element's place in the inventory, kept in the page: refs shift when the DOM changes, elements do not. */
+  i?: number | undefined
   shadow?: boolean | undefined
 }
 
@@ -45,6 +47,7 @@ export interface KeyEvent {
   ref?: string | undefined
   el?: InPageElement | undefined
   rect?: InPageRect | undefined
+  inv?: number | undefined
 }
 
 export interface KeyStop {
@@ -58,6 +61,8 @@ export interface KeyStop {
   scroll?: { x: number; y: number } | undefined
   /** The focused element is a frame: focus is inside its document. */
   frame?: boolean | undefined
+  /** Its place in the inventory (Control.i), when it is in it. */
+  inv?: number | undefined
   widget?: string | undefined
   href?: string | undefined
   radioGroup?: string | undefined
@@ -112,7 +117,9 @@ export interface KeyboardData {
 }
 
 /** Runs in the page: the controls 2.1.1 expects Tab to reach. Needs the kit. */
-export function inventoryControls(): Control[] {
+export function inventoryControls(store: boolean): Control[] {
+  const w = window as unknown as { __rampaInventory?: Element[] }
+  const stored = store ? [] : (w.__rampaInventory ?? [])
   const kit = (window as unknown as { __rampaKit: { describe(el: Element): InPageElement; visible(el: Element): boolean; cssPath(el: Element): string } }).__rampaKit
   const NATIVE = 'a[href],area[href],button,input:not([type=hidden]),select,textarea,summary,iframe,[contenteditable]:not([contenteditable=false])'
   const ROLES = [
@@ -153,13 +160,23 @@ export function inventoryControls(): Control[] {
     if (widget) control.widget = kit.cssPath(widget)
     if (el instanceof HTMLInputElement && el.type === 'radio' && el.name) control.radioGroup = `${el.form ? kit.cssPath(el.form) : ''}|${el.name}`
     if (described.shadow) control.shadow = true
+    if (store) {
+      control.i = stored.length
+      stored.push(el)
+    } else {
+      const i = stored.indexOf(el)
+      if (i >= 0) control.i = i
+    }
     controls.push(control)
   }
+  if (store) w.__rampaInventory = stored
   return controls
 }
 
 interface FocusRead {
   el: InPageElement | null
+  /** The focused element's place in the inventory, when it is in it. */
+  inv?: number
   rect?: InPageRect
   scroll: { x: number; y: number }
   frame?: boolean
@@ -175,6 +192,9 @@ export function readFocus(): FocusRead {
   const scroll = { x: Math.round(window.scrollX), y: Math.round(window.scrollY) }
   if (!el) return { el: null, scroll }
   const read: FocusRead = { el: kit.describe(el), rect: kit.rect(el), scroll }
+  const inventory = (window as unknown as { __rampaInventory?: Element[] }).__rampaInventory ?? []
+  const inv = inventory.indexOf(el)
+  if (inv >= 0) read.inv = inv
   if (el.localName === 'iframe' || el.localName === 'frame' || el.localName === 'object' || el.localName === 'embed') read.frame = true
   const widget = el.parentElement?.closest('[role=tablist],[role=menu],[role=menubar],[role=listbox],[role=radiogroup],[role=tree],[role=treegrid],[role=grid],[role=toolbar]')
   if (widget) read.widget = kit.cssPath(widget)
@@ -362,14 +382,17 @@ async function walk(page: Page, probe: ProbePage, key: 'Tab' | 'Shift+Tab', budg
     const removed = Boolean(target && !read.el)
     if (removed && target) {
       stop.el = target
+      if (landed[0]?.inv !== undefined) stop.inv = landed[0].inv
       stop.after = null
     } else if (movedOn && target) {
       stop.el = target
       if (landed[0]?.rect) stop.rect = landed[0].rect
+      if (landed[0]?.inv !== undefined) stop.inv = landed[0].inv
       stop.after = read.el
       stop.afterWithin = await within(page, target.ref, read.el?.ref ?? '')
     } else {
       if (read.rect) stop.rect = read.rect
+      if (read.inv !== undefined) stop.inv = read.inv
       if (read.frame) stop.frame = true
       if (read.widget) stop.widget = read.widget
       if (read.href) stop.href = read.href
@@ -495,7 +518,7 @@ export async function runKeyboardWalk(browser: Browser, url: string, options: Pr
     await drainEvents(page, probe.guard.start)
     if (!hooks.placementOnly) await page.waitForTimeout(IDLE_MS)
     const idle = [...(await drainEvents(page, probe.guard.start)), ...guardEvents(probe, idleFrom, probe.guard.now())]
-    const inventory = await page.evaluate(inventoryControls)
+    const inventory = await page.evaluate(inventoryControls, true)
     // Scrolling that animates moves the focused element while it is measured: the walk scrolls at once.
     await page.addStyleTag({ content: '*, *::before, *::after { scroll-behavior: auto !important; }' }).catch(() => undefined)
     const startFocus = await page.evaluate(() => {
@@ -536,9 +559,9 @@ export async function runKeyboardWalk(browser: Browser, url: string, options: Pr
     await markHolders(inventory, reached)(page)
     // Pages change while they are walked (carousels turn, panels close): a control 2.1.1 can judge
     // was a visible candidate both before and after the walk, with the same tabindex.
-    const afterwards = new Map((await page.evaluate(inventoryControls).catch(() => [] as Control[])).map((control) => [control.ref, control]))
+    const afterwards = new Map((await page.evaluate(inventoryControls, false).catch(() => [] as Control[])).map((control) => [control.i, control]))
     for (const control of inventory) {
-      const later = afterwards.get(control.ref)
+      const later = afterwards.get(control.i)
       if (!later || later.tabindex !== control.tabindex) control.changed = true
     }
 
