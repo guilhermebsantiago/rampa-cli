@@ -108,6 +108,14 @@ describe.skipIf(!available)('rampa check --crawl', { timeout: 60_000 }, () => {
     expect(signedIn.report.browser).toMatchObject({ storageState: true })
   })
 
+  it('sends --header with every request for the site, robots.txt and the start page included', async () => {
+    const { site, paths } = await crawl({ header: ['X-Test: ok'], maxPages: '2' })
+    expect(paths).toEqual(['/', '/about'])
+    const own = site.requests.filter((request) => request.server === 'site' && ['/robots.txt', '/', '/about'].includes(request.path))
+    expect(own.map((request) => request.path)).toEqual(expect.arrayContaining(['/robots.txt', '/', '/about']))
+    expect(own.every((request) => request.headers['x-test'] === 'ok')).toBe(true)
+  })
+
   it('follows the robots.txt group for Rampa, which can let it into a site closed to other crawlers', async () => {
     const { report, site, paths } = await crawl({ maxPages: '2' }, 'User-agent: *\nDisallow: /\n\nUser-agent: Rampa\nAllow: /\nDisallow: /about\n')
     expect(report.crawl.robots.group).toBe('rampa')
