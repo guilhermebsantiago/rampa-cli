@@ -1,0 +1,171 @@
+name: Rampa accessibility check
+description: Check pages and HTML files against WCAG 2.1 A/AA with axe-core and verified LLM judgment, upload SARIF to code scanning and comment on pull requests.
+author: Guilherme Santiago
+branding:
+  icon: eye
+  color: purple
+
+# Rampa is not on npm yet, so the action builds the CLI from its own checkout.
+# Inputs reach the scripts through env, never through ${{ }} inside a script.
+
+inputs:
+  targets:
+    description: URLs, .html files or folders to check, separated by spaces or new lines. Quote a path that has spaces.
+    required: true
+  criteria:
+    description: Criteria to judge, comma-separated, such as 1.1.1,2.4.4. Empty judges all six.
+    required: false
+    default: ''
+  model:
+    description: >-
+      Model for the judgment layer, as provider:model (for example anthropic:claude-haiku-5-5);
+      put its API key in the env of the step that uses the action. Empty uses the model Rampa
+      detects from RAMPA_MODEL or an API key in the environment, and runs only the deterministic
+      layer (--no-llm) when there is none. "none" always runs --no-llm.
+    required: false
+    default: ''
+  fail-on:
+    description: When the action fails - confirmed (any confirmed finding), any (also those below the confidence threshold), A, AA or none.
+    required: false
+    default: confirmed
+  locale:
+    description: Report language, en or pt-BR.
+    required: false
+    default: en
+  comment:
+    description: Post the Markdown report as one pull request comment, edited on every run.
+    required: false
+    default: 'true'
+  comment-key:
+    description: Gives a job its own sticky comment when several jobs report on the same pull request.
+    required: false
+    default: ''
+  sarif:
+    description: Upload the SARIF report to GitHub code scanning. Needs the security-events write permission.
+    required: false
+    default: 'true'
+  sarif-category:
+    description: Code scanning category, to tell apart several Rampa uploads in one repository.
+    required: false
+    default: rampa
+  summary:
+    description: Add the Markdown report to the job summary.
+    required: false
+    default: 'true'
+  working-directory:
+    description: Where rampa runs, relative to the workspace. Targets, .rampa/waivers.json and the judgment cache are read from there.
+    required: false
+    default: '.'
+  args:
+    description: More options for rampa check, such as --min-confidence high or --runs 3.
+    required: false
+    default: ''
+  github-token:
+    description: Token for the pull request comment.
+    required: false
+    default: ${{ github.token }}
+  node-version:
+    description: Node.js version that builds and runs Rampa; 22.18 or later. Empty uses the Node.js already on the runner.
+    required: false
+    default: '24'
+
+outputs:
+  findings:
+    description: Number of confirmed findings.
+    value: ${{ steps.check.outputs.findings }}
+  exit-code:
+    description: Exit code of rampa check - 0 passed, 1 failed the fail-on policy, 2 could not finish.
+    value: ${{ steps.check.outputs.exit-code }}
+  sarif:
+    description: Path of the SARIF report.
+    value: ${{ steps.check.outputs.sarif }}
+  markdown:
+    description: Path of the Markdown report.
+    value: ${{ steps.check.outputs.markdown }}
+  html:
+    description: Path of the single-file HTML report.
+    value: ${{ steps.check.outputs.html }}
+  json:
+    description: Path of the JSON report.
+    value: ${{ steps.check.outputs.json }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Node.js
+      if: inputs.node-version != ''
+      uses: actions/setup-node@v5
+      with:
+        node-version: ${{ inputs.node-version }}
+        # The automatic cache would read the calling repository's package.json, not Rampa's.
+        package-manager-cache: false
+
+    - name: Build Rampa
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      env:
+        COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
+        # With NODE_ENV=production in the job, pnpm would skip the build tools.
+        NODE_ENV: development
+      # pnpm through corepack, at the version package.json pins, without the shims of
+      # `corepack enable`, which would change pnpm for the rest of the job.
+      run: |
+        if command -v corepack >/dev/null 2>&1; then
+          pnpm() { corepack pnpm "$@"; }
+        elif ! command -v pnpm >/dev/null 2>&1; then
+          echo "::error::Building Rampa needs corepack (Node.js 24 or earlier) or pnpm on the path."
+          exit 1
+        fi
+        pnpm install --frozen-lockfile
+        pnpm build
+
+    - name: Check accessibility
+      id: check
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        INPUT_TARGETS: ${{ inputs.targets }}
+        INPUT_CRITERIA: ${{ inputs.criteria }}
+        INPUT_MODEL: ${{ inputs.model }}
+        INPUT_FAIL_ON: ${{ inputs.fail-on }}
+        INPUT_LOCALE: ${{ inputs.locale }}
+        INPUT_ARGS: ${{ inputs.args }}
+        INPUT_SUMMARY: ${{ inputs.summary }}
+        RAMPA_CLI: ${{ github.action_path }}/dist/cli.mjs
+      run: node "$GITHUB_ACTION_PATH/action/check.ts"
+
+    # Skipped for pull requests from forks: on pull_request the token cannot upload, and on
+    # pull_request_target the results would be filed under the base branch.
+    - name: Upload SARIF to code scanning
+      if: >-
+        inputs.sarif == 'true' && steps.check.outputs.sarif != '' &&
+        (github.event.pull_request == null || github.event.pull_request.head.repo.full_name == github.repository)
+      uses: github/codeql-action/upload-sarif@v4
+      continue-on-error: true
+      with:
+        sarif_file: ${{ steps.check.outputs.sarif }}
+        category: ${{ inputs.sarif-category }}
+
+    - name: Comment on the pull request
+      if: inputs.comment == 'true' && steps.check.outputs.markdown != ''
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        INPUT_COMMENT_KEY: ${{ inputs.comment-key }}
+        RAMPA_MARKDOWN: ${{ steps.check.outputs.markdown }}
+      run: node "$GITHUB_ACTION_PATH/action/comment.ts" --body-file "$RAMPA_MARKDOWN"
+
+    - name: Result
+      shell: bash
+      env:
+        RAMPA_EXIT_CODE: ${{ steps.check.outputs.exit-code }}
+        RAMPA_FINDINGS: ${{ steps.check.outputs.findings }}
+        RAMPA_FAIL_ON: ${{ inputs.fail-on }}
+      run: |
+        code="${RAMPA_EXIT_CODE:-2}"
+        if [ "$code" = "1" ]; then
+          echo "::error::Findings fail the fail-on policy (${RAMPA_FAIL_ON:-confirmed}); ${RAMPA_FINDINGS:-0} confirmed in all. The report lists them."
+        elif [ "$code" != "0" ]; then
+          echo "::error::rampa check could not finish (exit code $code); the Check accessibility step says why."
+        fi
+        exit "$code"

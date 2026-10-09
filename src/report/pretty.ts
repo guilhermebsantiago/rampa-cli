@@ -110,7 +110,8 @@ function renderFinding(finding: Finding, locale: Locale, p: Painter): string[] {
   // A screenshot has no tree: the element was placed by a model, and the reader should know.
   if (finding.locatedBy) lines.push(p.dim(`    ${t(locale, 'locatedBy', { model: finding.locatedBy })}${finding.html ? ` · ${finding.html}` : ''}`))
   if (finding.source === 'engine') {
-    lines.push(p.dim(`    ${t(locale, finding.confidence)} · ${t(locale, 'engineRule')} ${finding.ruleId}`))
+    // The id is what a waiver names, so engine findings print it too.
+    lines.push(p.dim(`    ${t(locale, finding.confidence)} · ${t(locale, 'engineRule')} ${finding.ruleId} · id ${finding.fingerprint}`))
   } else {
     const parts = [`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`]
     if (finding.agreement) parts.push(`${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`)
@@ -121,7 +122,7 @@ function renderFinding(finding: Finding, locale: Locale, p: Painter): string[] {
   return lines
 }
 
-function notesOf(report: Report, verbose: boolean): string[] {
+export function notesOf(report: Report, verbose: boolean): string[] {
   const locale = report.locale
   // What the collector could not see comes first: it frames everything below it.
   const notes: string[] = [...(report.notes ?? [])]

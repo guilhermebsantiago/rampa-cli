@@ -6,6 +6,7 @@ import { runEval } from './cli/commands/eval.ts'
 import { runMcp } from './cli/commands/mcp.ts'
 import { runModels } from './cli/commands/models.ts'
 import type { GlobalContext } from './cli/context.ts'
+import { FAIL_ON, parseFailOn } from './cli/exit-code.ts'
 import { intro, menu } from './cli/intro.ts'
 import { loadConfig } from './config.ts'
 import { RampaError, errorMessage } from './core/util.ts'
@@ -13,6 +14,7 @@ import { DEFAULT_CRITERIA } from './criteria/index.ts'
 import { REASONING_LEVELS } from './providers/ai-sdk.ts'
 import { resolveLocale } from './i18n.ts'
 import { FOLLOW_LINKS } from './surfaces/destinations.ts'
+import { FORMATS } from './report/formats.ts'
 import { VERSION } from './version.ts'
 
 // API keys can live in a local .env (never in rampa.config.*).
@@ -52,6 +54,8 @@ const program = new Command()
   .option('--locale <locale>', 'report language: en (default) or pt-BR')
   .option('--no-motion', 'skip the intro animation')
   .showHelpAfterError()
+  // A usage error exits 2, like any configuration error: 1 must keep meaning "findings" for CI.
+  .exitOverride((error) => process.exit(error.exitCode === 0 ? 0 : 2))
   .action(
     action(async (_options: unknown, command: Command) => {
       const ctx = await context(command)
@@ -69,9 +73,18 @@ program
   .option('-m, --model <provider:model>', 'model for the judgment layer, e.g. ollama:gemma4:12b')
   .option('--no-llm', 'deterministic layer only (the baseline)')
   .option('-r, --runs <k>', 'judgments per candidate, majority vote', '1')
-  .addOption(new Option('-f, --format <format>', 'output format').choices(['pretty', 'json']).default('pretty'))
-  .option('-o, --output <file>', 'also write the JSON report to a file')
-  .addOption(new Option('--fail-on <policy>', 'exit code policy').choices(['confirmed', 'any', 'never']).default('confirmed'))
+  .addOption(new Option('-f, --format <format>', 'output format').choices([...FORMATS]).default('pretty'))
+  .option('-o, --output <file>', 'write the report to a file instead of the terminal; with pretty, the file gets JSON')
+  .option('--json <file>', 'also write the JSON report to a file')
+  .option('--sarif <file>', 'also write a SARIF 2.1.0 report (GitHub code scanning)')
+  .option('--markdown <file>', 'also write a Markdown report (pull request comments)')
+  .option('--html <file>', 'also write a single-file HTML report')
+  .addOption(
+    new Option('--fail-on <policy>', 'exit 1 on: confirmed findings, any finding, Level A ones, Level A or AA ones, or none')
+      .choices([...FAIL_ON])
+      .argParser(parseFailOn)
+      .default('confirmed'),
+  )
   .addOption(new Option('--min-confidence <level>', 'hide findings below this level').choices(['low', 'medium', 'high']).default('medium'))
   .addOption(new Option('--reasoning <level>', 'model reasoning effort (local models default to none)').choices([...REASONING_LEVELS]))
   .option('--offline', 'use cached judgments only, never call the model')

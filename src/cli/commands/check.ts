@@ -19,17 +19,26 @@ import { collectAndroid, fromScreen } from '../../surfaces/android/adb.ts'
 import { collectImage } from '../../surfaces/image.ts'
 import { type Target, loadRecorded, recordingName, resolveTargets, siblingPng } from '../../surfaces/targets.ts'
 import { type DestinationCache, type FollowLinks, type FollowOptions, destinationCache } from '../../surfaces/destinations.ts'
+import { FILE_FORMATS, type Format, formatReports } from '../../report/formats.ts'
+import { locateReport, readPageSource, repositoryRoot } from '../../source/locate.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import type { GlobalContext } from '../context.ts'
+import { type FailOn, exitCode } from '../exit-code.ts'
 
 export interface CheckCommandOptions {
   criteria: string
   model?: string
   llm: boolean
   runs: string
-  format: 'pretty' | 'json'
+  format: Format
+  /** The report in --format; with pretty, the terminal keeps it and the file gets JSON. */
   output?: string
-  failOn: 'confirmed' | 'any' | 'never'
+  /** Extra copies in other formats, any combination. */
+  json?: string
+  sarif?: string
+  markdown?: string
+  html?: string
+  failOn: FailOn
   minConfidence: Confidence
   offline?: boolean
   screenshots?: boolean
@@ -161,6 +170,8 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   const cache = fileCache(options.cacheDir)
   const waivers = await loadWaivers()
   const concurrency = Math.max(1, Number.parseInt(options.concurrency, 10) || 4)
+  // Source paths are relative to the repository root, as GitHub resolves them.
+  const root = (await repositoryRoot()) ?? process.cwd()
   const progress = (message: string) => {
     if (process.stderr.isTTY && options.format === 'pretty') process.stderr.write(`\x1b[2K${message}\r`)
   }
@@ -203,32 +214,32 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
       if (collected.usage) {
         for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) report.usage[key] += collected.usage[key]
       }
-      reports.push(report)
+      // A local page gets file:line for each finding, and its patches as edits to the file.
+      const source = await readPageSource(collected.snapshot.target, root)
+      reports.push(source ? locateReport(report, collected.snapshot, source) : report)
     }
   } finally {
     progress('')
     await browser?.close()
   }
 
-  if (options.format === 'json') {
-    const json = `${JSON.stringify(reports.length === 1 ? reports[0] : reports, null, 2)}\n`
-    if (options.output) {
-      await mkdir(dirname(options.output), { recursive: true })
-      await writeFile(options.output, json, 'utf8')
-    } else process.stdout.write(json)
-  } else {
-    const p = paint(colorsEnabled())
-    const text = reports.map((report) => renderReport(report, { verbose: Boolean(options.verbose), paint: p })).join('\n\n')
-    process.stdout.write(`\n${text}\n`)
-    if (options.output) {
-      await mkdir(dirname(options.output), { recursive: true })
-      await writeFile(options.output, `${JSON.stringify(reports.length === 1 ? reports[0] : reports, null, 2)}\n`, 'utf8')
-    }
+  const formatOptions = { verbose: Boolean(options.verbose), paint: paint(colorsEnabled()) }
+  const render = (format: Format) => formatReports(format, reports, formatOptions)
+  if (!options.output) process.stdout.write(render(options.format))
+  else if (options.format === 'pretty') {
+    // With pretty, -o keeps its original meaning: the terminal shows the report and the file gets the JSON.
+    process.stdout.write(render('pretty'))
+    await writeOutput(options.output, render('json'))
+  } else await writeOutput(options.output, render(options.format))
+  for (const format of FILE_FORMATS) {
+    const file = options[format]
+    if (file) await writeOutput(file, render(format))
   }
 
-  const allFailed = reports.some((r) => r.criteria.some((c) => c.errors > 0 && c.judged === 0))
-  if (allFailed) return 2
-  if (options.failOn === 'never') return 0
-  const failing = reports.some((r) => r.findings.length > 0 || (options.failOn === 'any' && r.belowThreshold.length > 0))
-  return failing ? 1 : 0
+  return exitCode(reports, options.failOn)
+}
+
+async function writeOutput(file: string, text: string): Promise<void> {
+  await mkdir(dirname(file), { recursive: true })
+  await writeFile(file, text, 'utf8')
 }
