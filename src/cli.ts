@@ -3,6 +3,7 @@ import { Command, Option } from 'commander'
 import { CONFIG_FORMATS } from './adoption/init.ts'
 import { runBaseline } from './cli/commands/baseline.ts'
 import { runCheck } from './cli/commands/check.ts'
+import { runCompare } from './cli/commands/compare.ts'
 import { runDoctor } from './cli/commands/doctor.ts'
 import { runEval } from './cli/commands/eval.ts'
 import { runMcp } from './cli/commands/mcp.ts'
@@ -198,6 +199,14 @@ program
       .default('same-origin'),
   )
   .action(action(async (options, command: Command) => runEval(options, await context(command))))
+
+program
+  .command('compare')
+  .description('compare rampa eval runs per criterion: scores with intervals, pairs, cost, and a paired test for two runs')
+  .argument('<runs...>', 'run directories written by rampa eval, such as .rampa/runs/<run>')
+  .option('--markdown [file]', 'Markdown tables instead of the terminal view, or written to a file')
+  .option('--json [file]', 'the comparison as JSON instead of the terminal view, or written to a file')
+  .action(action(async (runs: string[], options) => runCompare(runs, options)))
 
 program
   .command('models')
