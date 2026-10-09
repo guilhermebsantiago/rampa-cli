@@ -50,6 +50,10 @@ export interface PageTitledContext {
   language: string
   /** Titles of other pages of the same site, when a crawl read them. */
   siblings?: string[] | undefined
+  /** The page is a site's home page: its address is the root ("/") or a language root ("/pt", "/en-us/"). */
+  home?: boolean | undefined
+  /** On a home page, the part of the title that is the site's or organization's name, read from the address. */
+  siteName?: string | undefined
 }
 
 const SYSTEM = `You check exactly one WCAG 2.1 success criterion: 2.4.2 Page Titled (Level A).
@@ -78,6 +82,7 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
   // Only default or generic titles keep the model's confidence; see generic-text.ts.
   confidenceCap: (candidate) => (genericTitle(candidate.context.title) ? undefined : 'low'),
   subject: (candidate) => candidate.context.title,
+  decidedBy: 'rampa/home-page-title',
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<PageTitledContext>[] {
     const title = snapshot.title?.trim() ?? ''
@@ -87,6 +92,8 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
       if (node.role === 'heading' && node.name && !isHidden(node) && headings.length < 8) headings.push(node.name)
     }
     const body = snapshot.root.children.find((child) => child.native.tag === 'body') ?? snapshot.root
+    const home = homePageHost(snapshot.target)
+    const siteName = home ? siteNameIn(title, home) : undefined
     return [
       {
         ref: snapshot.root.ref,
@@ -97,9 +104,19 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
           opening: truncate(subtreeText(body), 700),
           language: snapshot.locale ?? snapshot.root.lang ?? 'en',
           siblings: siblingTitles(snapshot),
+          ...(home ? { home: true } : {}),
+          ...(siteName ? { siteName } : {}),
         },
       },
     ]
+  },
+
+  // A home page titled with the site's name passes (technique G88, Understanding 2.4.2): no model is asked.
+  // A generic title such as "Home" still goes to the model, even where the site is called that.
+  decide(candidate) {
+    const { home, siteName, title } = candidate.context
+    if (!home || !siteName || genericTitle(title)) return undefined
+    return { verdict: 'pass', evidence: title, problem: 'none', suggestedTitle: '', confidence: 'high' }
   },
 
   prompt(candidate, snapshot) {
@@ -109,6 +126,12 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
       `Write suggestedTitle in: ${languageName(c.language, 'en')} (${c.language})`,
       'The page title:',
       `<title>${c.title}</title>`,
+      ...(c.home
+        ? [
+            '',
+            "This page is the site's home page: its address is the root of the site or of a language. On a home page, the name of the site or of the organization describes the page (WCAG technique G88), so a title that is that name passes.",
+          ]
+        : []),
       ...(c.siblings?.length
         ? [
             '',
@@ -179,6 +202,72 @@ function addressOf(target: string): string {
   } catch {
     return target.split(/[\\/]/).pop() ?? target
   }
+}
+
+const LANGUAGE_ROOT = /^\/(?:([a-z]{2}(?:[-_](?:[a-z]{2}|\d{3}|[a-z]{4}))?)\/?)?(?:index\.(?:html?|php|aspx?|jsp))?$/i
+const languageNames = new Intl.DisplayNames(['en'], { type: 'language', fallback: 'none' })
+
+/**
+ * The host of a web page that is a site's home page: its path is "/" or a language root such as "/pt", "/pt-br/"
+ * or "/en-US/index.html", whose first part is a language Intl knows ("/go" and "/tv" are not). Undefined otherwise.
+ */
+export function homePageHost(target: string): string | undefined {
+  let url: URL
+  try {
+    url = new URL(target)
+  } catch {
+    return undefined
+  }
+  if ((url.protocol !== 'http:' && url.protocol !== 'https:') || url.hostname === '') return undefined
+  const match = LANGUAGE_ROOT.exec(url.pathname)
+  if (!match) return undefined
+  const language = match[1]?.replace('_', '-')
+  if (language) {
+    try {
+      if (languageNames.of(language) === undefined) return undefined
+    } catch {
+      return undefined
+    }
+  }
+  return url.hostname.toLowerCase()
+}
+
+/** Labels of a domain that name no one: top and second level domains such as "com", "gov" or "org" in "gov.br". */
+const DOMAIN_LEVELS = new Set(['com', 'org', 'net', 'gov', 'edu', 'ac', 'co', 'mil', 'int', 'nom', 'ind', 'art', 'res', 'med', 'jus', 'leg', 'mp', 'eng', 'adv', 'pro', 'tec', 'info', 'biz'])
+/** Words a name's initials skip, in the languages Rampa reports in and their neighbours. */
+const LINKING_WORDS = new Set(['of', 'the', 'and', 'for', 'de', 'do', 'da', 'dos', 'das', 'e', 'del', 'la', 'las', 'los', 'el', 'y', 'des', 'du', 'et', 'le', 'les', 'und', 'der', 'die', 'für', 'von'])
+
+const compact = (text: string) =>
+  text
+    .normalize('NFKD')
+    .replace(/\p{M}/gu, '')
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]/gu, '')
+
+/**
+ * The part of a home page's title that is the site's or the organization's name, as its address spells it: the whole
+ * host ("GOV.BR" on www.gov.br), a label of it ("MIT" on www.mit.edu, "Debian" in "Debian -- The Universal Operating
+ * System"), or the initials of a name ("Universidade Federal do Ceará" on www.ufc.br). Undefined when no part is.
+ */
+export function siteNameIn(title: string, host: string): string | undefined {
+  const bare = host.replace(/^(www\d*|m)\./, '')
+  const labels = bare.split('.')
+  const names = labels.slice(0, -1).filter((label) => label.length >= 2 && !DOMAIN_LEVELS.has(label)).map(compact)
+  const whole = compact(bare)
+  const parts = [...new Set([...title.split(/\s+[-–—|:·•»›~]+\s+|\s*[|·•»›]\s*/u), title].map((part) => part.trim()).filter(Boolean))]
+  for (const part of parts) {
+    const words = part.split(/[^\p{L}\p{N}]+/u).filter(Boolean)
+    const initials = (list: string[]) => compact(list.map((word) => word[0] ?? '').join(''))
+    const capitalized = words.filter((word) => /^\p{Lu}/u.test(word))
+    const meaningful = words.filter((word) => !LINKING_WORDS.has(word.toLowerCase()))
+    const candidates = [compact(part), ...(words.length > 1 ? [initials(capitalized), initials(meaningful)] : [])]
+    if (candidates.some((candidate) => candidate.length >= 2 && (candidate === whole || names.includes(candidate)))) return part
+    // A word of the title that is the host's own name, "Debian" in "Debian -- The Universal Operating System",
+    // or the host written out, "Welcome to GOV.UK".
+    if (words.some((word) => compact(word).length >= 3 && names.includes(compact(word)))) return part
+    if (new RegExp(`(^|[^\\p{L}\\p{N}.])${bare.replaceAll('.', '\\.')}($|[^\\p{L}\\p{N}])`, 'iu').test(part)) return part
+  }
+  return undefined
 }
 
 /** Titles of the other pages a crawl read, deduplicated; undefined outside a crawl. */
