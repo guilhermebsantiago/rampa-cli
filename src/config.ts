@@ -2,6 +2,7 @@ import { access, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { WAIVERS_FILE, activeFingerprints, readWaivers, today } from './adoption/waivers.ts'
+import type { CogaSettings } from './advisory/check.ts'
 import type { Confidence } from './core/types.ts'
 import type { Reasoning } from './providers/ai-sdk.ts'
 import { RampaError, errorMessage } from './core/util.ts'
@@ -25,6 +26,10 @@ export interface RampaConfig {
   motion?: boolean
   cacheDir?: string
   concurrency?: number
+  /** Advisory profiles run on top of the WCAG check, like --profile: ['cognitive'] (docs/cognitive-profile.md). */
+  profiles?: string[]
+  /** Settings of the cognitive profile: abbreviations the project treats as known, its glossary, and whether it is a public body. */
+  coga?: Omit<CogaSettings, 'dictionaries'>
 }
 
 export function defineConfig(config: RampaConfig): RampaConfig {

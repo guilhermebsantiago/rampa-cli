@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import type { Browser } from 'playwright-core'
+import { resolveProfiles } from '../../advisory/profile.ts'
 import { loadWaivers } from '../../config.ts'
 import { fileCache } from '../../core/cache.ts'
 import { type CheckOptions, checkSnapshot } from '../../core/check.ts'
@@ -70,6 +71,8 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
     minConfidence: options.minConfidence,
     concurrency: Math.max(1, Number.parseInt(options.concurrency, 10) || 4),
     waivers: await loadWaivers(),
+    profiles: resolveProfiles(options.profile, context.config.profiles),
+    coga: context.config.coga,
   }
   const progress = (message: string) => {
     if (process.stderr.isTTY && options.format === 'pretty') process.stderr.write(`\x1b[2K${message}\r`)

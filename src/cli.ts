@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command, Option } from 'commander'
 import { CONFIG_FORMATS } from './adoption/init.ts'
+import { PROFILES } from './advisory/types.ts'
 import { runBaseline } from './cli/commands/baseline.ts'
 import { runCheck } from './cli/commands/check.ts'
 import { runCompare } from './cli/commands/compare.ts'
@@ -102,7 +103,7 @@ const check = program
   .option('--markdown <file>', 'also write a Markdown report (pull request comments)')
   .option('--html <file>', 'also write a single-file HTML report')
   .addOption(
-    new Option('--fail-on <policy>', 'exit 1 on: confirmed findings, any finding, Level A ones, Level A or AA ones, or none')
+    new Option('--fail-on <policy>', 'exit 1 on: confirmed findings, any finding, Level A ones, Level A or AA ones, confirmed findings or advisories, or none')
       .choices([...FAIL_ON])
       .argParser(parseFailOn)
       .default('confirmed'),
@@ -122,6 +123,9 @@ const check = program
   )
   .option('--baseline <file>', 'report only the findings this baseline file does not have (rampa baseline writes it)')
   .option('--no-baseline', 'ignore the baseline set in the config')
+  .addOption(
+    new Option('--profile <name>', 'also run advisory checks beyond WCAG: cognitive (W3C COGA guidance; advisories, never WCAG failures)').choices([...PROFILES]),
+  )
   .action(action(async (targets: string[], options, command: Command) => runCheck(targets, ...(await configured(command, options)))))
 // Crawl and browser options live with their modules; --help lists them under their own headings.
 for (const option of [...crawlOptions(), ...browserOptions()]) check.addOption(option)

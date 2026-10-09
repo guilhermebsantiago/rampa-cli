@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import type { Browser } from 'playwright-core'
 import { prepareAdoption, targetsOrConfig } from '../../adoption/apply.ts'
+import { resolveProfiles } from '../../advisory/profile.ts'
 import { type JudgmentCache, fileCache } from '../../core/cache.ts'
 import { checkSnapshot } from '../../core/check.ts'
 import type { AnyCriterion, Confidence, EngineResults, Report, Usage } from '../../core/types.ts'
@@ -57,6 +58,8 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   onReports?: (reports: Report[]) => Promise<number>
   /** Which links to read before judging, for criteria that compare a link with where it leads. */
   followLinks?: FollowLinks
+  /** An advisory profile to run on top of the WCAG check (--profile cognitive); the config's profiles otherwise. */
+  profile?: string
 }
 
 /** Read links when a criterion needs their destinations and the judgment layer will run. */
@@ -174,6 +177,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   if (crawlRequested(options)) return runSiteCheck(targetsOrConfig(targets, context.config), options, context, browserOptions)
   const resolved = await resolveTargets(targetsOrConfig(targets, context.config))
   const criteria = resolveCriteria(options.criteria.split(','))
+  const profiles = resolveProfiles(options.profile, context.config.profiles)
   const runs = Math.max(1, Number.parseInt(options.runs, 10) || 1)
   const spec = options.llm ? await chooseModel(options.model, context.config.model) : undefined
   const provider = await resolveProvider(spec, Boolean(options.offline), options.reasoning ?? context.config.reasoning)
@@ -224,6 +228,8 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
         minConfidence: options.minConfidence,
         concurrency,
         waivers: adoption.waivers,
+        profiles,
+        coga: context.config.coga,
       })
       const notes = [...collected.notes, ...rulesNotes(collected.engine, context.locale)]
       if (notes.length > 0) report.notes = notes

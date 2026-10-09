@@ -1,10 +1,12 @@
 import { relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { adoptionLines, noNewFindings } from '../adoption/render.ts'
+import { am } from '../advisory/messages.ts'
 import type { Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
 import { WCAG21_A_AA, compareCriteria, criterionLabel } from '../wcag.ts'
+import { advisoryLines, cogaCoverage } from './advisory.ts'
 import type { Painter } from './color.ts'
 
 export interface PrettyOptions {
@@ -40,6 +42,8 @@ export function renderReport(report: Report, options: PrettyOptions): string {
     for (const finding of byCriterion.get(criterion) ?? []) lines.push(...renderFinding(finding, locale, p))
     lines.push('')
   }
+  // Advisories of a --profile come after the WCAG findings, in a section of their own.
+  lines.push(...advisoryLines(report, verbose, p))
 
   const notes = notesOf(report, verbose)
   if (notes.length > 0) {
@@ -75,8 +79,12 @@ export function renderReport(report: Report, options: PrettyOptions): string {
     ? list(report.coverage.notChecked)
     : t(locale, 'coverageNotCheckedCount', { count: report.coverage.notChecked.length, total: WCAG21_A_AA.length })
   lines.push(`  ${pad(t(locale, 'coverageNotChecked'))}${notCheckedText}`)
+  const coga = cogaCoverage(report, verbose)
+  if (coga && 'off' in coga) lines.push(p.dim(`  ${coga.off}`))
+  else if (coga) lines.push(`  ${coga.title}`, ...coga.lines.map((line) => `    ${line}`))
   lines.push(p.bold(t(locale, report.surface === 'web' ? 'disclaimer' : report.surface === 'image' ? 'disclaimerImage' : 'disclaimerScreen')))
   lines.push(p.dim(t(locale, 'manualReview')))
+  if (report.advisory) lines.push(p.dim(am(locale, 'cogaPeople')))
   return lines.join('\n')
 }
 

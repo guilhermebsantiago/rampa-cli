@@ -20,6 +20,7 @@ import {
   toolsLine,
   understandingUrl,
 } from './common.ts'
+import { advisoryMarkdown, cogaClause } from './advisory.ts'
 import { notesOf } from './pretty.ts'
 
 /**
@@ -103,8 +104,10 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
     }
   }
   if (omitted > 0) body.push(`> ${plural(locale, 'omittedFindings', omitted)}`, '')
+  // Advisories get what the findings left of the budget: they are what a long comment drops first.
+  const advisories = advisoryMarkdown(reports, verbose, budget - used, { prose, code })
 
-  return `${[...head, ...body, ...cleanPages, ...tail].join('\n').trimEnd()}\n`
+  return `${[...head, ...body, ...advisories, ...cleanPages, ...tail].join('\n').trimEnd()}\n`
 }
 
 /** At most `max` lines, then one that counts the rest. */
@@ -185,6 +188,8 @@ function coverageSection(reports: readonly Report[]): string[] {
     }
     if (reports.length > MAX_LIST) lines.push('', plural(locale, 'andMore', reports.length - MAX_LIST))
   }
+  const coga = first ? cogaClause(first) : undefined
+  if (coga) lines.push('', prose(`${coga}.`))
   lines.push('', `**${t(locale, 'disclaimer')}** ${t(locale, 'manualReview')}`, '')
   return lines
 }

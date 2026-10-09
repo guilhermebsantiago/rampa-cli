@@ -4,6 +4,7 @@ import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
 import type { CrawlSkip } from '../surfaces/crawl.ts'
 import { WCAG21_A_AA, compareCriteria, criterionLabel } from '../wcag.ts'
+import { siteAdvisoryLines } from './advisory.ts'
 import { type PrettyOptions, renderFinding } from './pretty.ts'
 
 const messages = {
@@ -221,6 +222,9 @@ export function renderSiteReport(site: SiteReport, options: PrettyOptions): stri
     if (site.beyondDepth > 0) lines.push(p.dim(`  ${st(locale, 'beyondDepth', { count: site.beyondDepth, depth: site.crawl.maxDepth ?? 0 })}`))
     lines.push('')
   }
+
+  // Advisories of a --profile are counted per page here; each page's own report lists them.
+  lines.push(...siteAdvisoryLines(site.pages, path, p))
 
   const notes = siteNotes(site, verbose)
   if (notes.length > 0) {

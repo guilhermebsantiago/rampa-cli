@@ -1,3 +1,6 @@
+import type { CogaSettings } from '../advisory/check.ts'
+import { runProfiles } from '../advisory/profile.ts'
+import type { Profile } from '../advisory/types.ts'
 import type { Locale } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
@@ -37,6 +40,10 @@ export interface CheckOptions {
    * verification are kept as findings instead of discarded. Never use it in CI.
    */
   verify?: boolean | undefined
+  /** Advisory profiles to run on top of the WCAG check, such as ['cognitive']: their results go to report.advisory, never to findings. */
+  profiles?: readonly Profile[] | undefined
+  /** Settings of the cognitive profile (`coga` in rampa.config.*). */
+  coga?: CogaSettings | undefined
 }
 
 export function fingerprint(criterion: string, ref: string | undefined, detail: string): string {
@@ -189,6 +196,25 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const judged = summaries.filter((s) => s.judged > 0).map((s) => s.criterion)
   const notChecked = [...all].filter((id) => !engineCovered.has(id) && !judged.includes(id))
 
+  const advisory =
+    options.profiles && options.profiles.length > 0
+      ? await runProfiles(snapshot, engine, {
+          profiles: options.profiles,
+          locale: options.locale,
+          findings: [...reported, ...belowThreshold],
+          llm: options.llm,
+          provider: options.provider,
+          offline: options.offline,
+          cache: options.cache,
+          runs: options.runs,
+          concurrency: options.concurrency,
+          minConfidence: options.minConfidence,
+          waivers: options.waivers,
+          coga: options.coga,
+        })
+      : undefined
+  if (advisory) for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) usage[key] += advisory.usage[key]
+
   return {
     schemaVersion: 1,
     rampaVersion: VERSION,
@@ -211,5 +237,6 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     },
     usage,
     errors,
+    ...(advisory ? { advisory: advisory.section } : {}),
   }
 }

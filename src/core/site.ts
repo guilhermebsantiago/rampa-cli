@@ -278,6 +278,11 @@ export function siteExitCode(sites: readonly SiteReport[], failOn: string): numb
   const reports = sites.flatMap((site) => site.pages)
   if (reports.some((report) => report.criteria.some((c) => c.errors > 0 && c.judged === 0))) return 2
   if (failOn === 'never') return 0
-  const failing = reports.some((report) => report.findings.length > 0 || (failOn === 'any' && report.belowThreshold.length > 0))
+  const failing = reports.some(
+    (report) =>
+      report.findings.length > 0 ||
+      (failOn === 'any' && report.belowThreshold.length > 0) ||
+      (failOn === 'advisory' && (report.advisory?.results.length ?? 0) > 0),
+  )
   return failing ? 1 : 0
 }

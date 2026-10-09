@@ -1,6 +1,7 @@
 import type { Finding, Report } from '../core/types.ts'
 import { type Locale, type MessageKey, t } from '../i18n.ts'
 import { WCAG21_A_AA, compareCriteria, successCriterion } from '../wcag.ts'
+import { cogaClause } from './advisory.ts'
 import { displayTarget, usageLine } from './pretty.ts'
 
 /** Helpers shared by the Markdown, HTML and SARIF reports. */
@@ -98,6 +99,8 @@ export function coverageRows(report: Report): Array<{ label: string; criteria: s
 export function coverageStatement(report: Report): string {
   const { locale } = report
   const parts = coverageRows(report).map((row) => `${row.label} ${row.text}`)
+  const coga = cogaClause(report)
+  if (coga) parts.push(coga)
   return `${parts.join('; ')}. ${t(locale, 'disclaimer')} ${t(locale, 'manualReview')}`
 }
 

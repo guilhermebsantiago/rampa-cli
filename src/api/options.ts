@@ -1,4 +1,5 @@
 import { access } from 'node:fs/promises'
+import { resolveProfiles } from '../advisory/profile.ts'
 import { resolveProvider } from '../cli/commands/check.ts'
 import { type RampaConfig, loadConfig, loadWaivers } from '../config.ts'
 import { type JudgmentCache, fileCache } from '../core/cache.ts'
@@ -43,6 +44,8 @@ export interface RampaOptions {
   concurrency?: number | undefined
   /** Settings to fall back on: rampa.config.* in the working directory by default, an object of your own, or false for none. */
   config?: RampaConfig | false | undefined
+  /** Advisory profiles, like --profile: ['cognitive'] adds report.advisory, which never changes findings. Default: the config's. */
+  profiles?: readonly string[] | undefined
 }
 
 export interface Settings extends CheckOptions {
@@ -76,6 +79,8 @@ export async function resolveSettings(options: RampaOptions = {}): Promise<Setti
     minConfidence,
     concurrency: whole(options.concurrency ?? config.concurrency, 4),
     waivers: await waiversFrom(options.waivers),
+    profiles: resolveProfiles(undefined, options.profiles ?? config.profiles),
+    coga: config.coga,
     // As `rampa check` decides, so a report counts the same candidates as the CLI's.
     captureImages: llm && criteria.some((criterion) => criterion.needs.vision),
   }

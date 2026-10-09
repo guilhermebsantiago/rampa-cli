@@ -1,4 +1,5 @@
 import type { z } from 'zod'
+import type { AdvisorySection } from '../advisory/types.ts'
 import type { BaselineComparison } from '../adoption/baseline.ts'
 import type { Waiver } from '../adoption/waivers.ts'
 import type { Locale } from '../i18n.ts'
@@ -236,4 +237,9 @@ export interface Report {
   errors: string[]
   /** What the collector or the rules could not see or decide, in the report's language. */
   notes?: string[] | undefined
+  /**
+   * Set with --profile: advisories beyond WCAG conformance, such as the cognitive profile's (src/advisory/types.ts).
+   * They live outside findings, so nothing that reads findings (exit code, baseline, toPassRampa, MCP) sees them.
+   */
+  advisory?: AdvisorySection | undefined
 }

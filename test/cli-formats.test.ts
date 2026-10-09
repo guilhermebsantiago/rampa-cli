@@ -54,7 +54,7 @@ describe('rampa check output', { timeout: 60_000 }, () => {
     expect(rampa(...recorded, '--format', 'json', '--fail-on', 'aa').code).toBe(1)
     const wrong = rampa(...recorded, '--fail-on', 'AAA')
     expect(wrong.code).toBe(2)
-    expect(wrong.stderr).toContain("argument 'AAA' is invalid. Allowed choices are confirmed, any, A, AA, none, never.")
+    expect(wrong.stderr).toContain("argument 'AAA' is invalid. Allowed choices are confirmed, any, A, AA, advisory, none, never.")
     expect(rampa(...recorded, '--format', 'xml').code).toBe(2)
   })
 })

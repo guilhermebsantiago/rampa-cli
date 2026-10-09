@@ -21,6 +21,7 @@ import {
   toolsLine,
   understandingUrl,
 } from './common.ts'
+import { advisoryHtml, cogaCoverage } from './advisory.ts'
 import { notesOf, usageLine } from './pretty.ts'
 
 /**
@@ -140,8 +141,10 @@ function pageSection(report: Report, index: number, several: boolean, verbose: b
     out.push('</div>')
   }
 
+  // Advisories of a --profile: a section of their own after the findings, never mixed with them.
+  if (report.advisory) out.push(advisoryHtml(report, index, verbose))
   out.push(`<h3>${e(t(locale, 'coverageTitle'))}</h3>`)
-  out.push(coverageTable(report))
+  out.push(coverageTable(report, verbose))
   if (verbose && report.discarded.length > 0) {
     out.push(`<details><summary>${e(t(locale, 'discardedTitle'))} (${report.discarded.length})</summary><ul>`)
     for (const item of report.discarded) out.push(`<li><code>${e(item.ref)}</code> ${e(item.reason)}</li>`)
@@ -188,7 +191,7 @@ function findingItem(finding: Finding, report: Report): string {
   return out.join('')
 }
 
-function coverageTable(report: Report): string {
+function coverageTable(report: Report, verbose: boolean): string {
   const locale = report.locale
   const rows = coverageRows(report).map((row, index) => {
     const cell =
@@ -199,6 +202,11 @@ function coverageTable(report: Report): string {
         : e(row.text)
     return `<tr><th scope="row">${e(row.label.replace(/:$/, ''))}</th><td>${cell}</td></tr>`
   })
+  const coga = cogaCoverage(report, verbose)
+  if (coga && 'off' in coga) {
+    const [head = '', ...rest] = coga.off.split(': ')
+    rows.push(`<tr><th scope="row">${e(head)}</th><td>${e(rest.join(': '))}</td></tr>`)
+  } else if (coga) rows.push(`<tr><th scope="row">${e(coga.title.replace(/:$/, ''))}</th><td>${coga.lines.map((line) => e(line)).join('<br>')}</td></tr>`)
   return `<table class="coverage">
 <caption>${e(t(locale, 'coverageCaption', { page: pageLabel(report) }))}</caption>
 <tbody>
@@ -264,6 +272,7 @@ h3{margin:2rem 0 .5rem;font-size:1.15rem}
 .findings{list-style:none;margin:0;padding:0}
 .finding{margin:0 0 1rem;padding:1rem;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
 .finding p{margin:.35rem 0}
+.advisory{border-style:dashed}
 .where code{font-weight:600}
 .where .selector{font-weight:400;color:var(--muted)}
 .message{font-size:1.05rem}

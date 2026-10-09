@@ -1,5 +1,9 @@
 import { isAbsolute } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { patternTitle } from '../advisory/coga.ts'
+import { beyondName } from '../advisory/label.ts'
+import { am } from '../advisory/messages.ts'
+import type { Advisory } from '../advisory/types.ts'
 import type { Confidence, Finding, Report, SourceRegion } from '../core/types.ts'
 import { sha256 } from '../core/util.ts'
 import { type Locale, t } from '../i18n.ts'
@@ -133,6 +137,23 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
       ...(options.verbose ? report.waived.map((finding): [Finding, Kind] => [finding, 'waived']) : []),
     ]
     for (const [finding, kind] of entries) results.push(resultOf(finding, kind, report, artifact, ruleFor(finding)))
+    // Advisories of a --profile: their own rules, always at level note, so code scanning never reads them as failures.
+    const advisories: Array<[Advisory, Kind]> = report.advisory
+      ? [
+          ...report.advisory.results.map((advisory): [Advisory, Kind] => [advisory, 'confirmed']),
+          ...(options.verbose ? report.advisory.belowThreshold.map((advisory): [Advisory, Kind] => [advisory, 'below-threshold']) : []),
+          ...(options.verbose ? report.advisory.waived.map((advisory): [Advisory, Kind] => [advisory, 'waived']) : []),
+        ]
+      : []
+    for (const [advisory, kind] of advisories) {
+      const id = advisoryRuleId(advisory)
+      let index = ruleIndex.get(id)
+      if (index === undefined) {
+        index = rules.push(advisoryRuleOf(advisory, locale)) - 1
+        ruleIndex.set(id, index)
+      }
+      results.push(advisoryResultOf(advisory, kind, report, artifact, { id, index }))
+    }
 
     const where = [{ physicalLocation: { artifactLocation: artifact } }]
     const note = { text: plainText(`${pageLabel(report)}: ${coverageStatement(report)}`) }
@@ -183,6 +204,15 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
             checkedByEngine: report.coverage.engine,
             judged: report.coverage.judged,
             notChecked: report.coverage.notChecked,
+            ...(report.advisory
+              ? {
+                  advisory: {
+                    profiles: report.advisory.profiles,
+                    screened: Object.entries(report.advisory.coverage.patterns).filter(([, status]) => status === 'screened').map(([slug]) => slug),
+                    beyondTarget: report.advisory.coverage.beyondTarget,
+                  },
+                }
+              : {}),
           })),
         },
       },
@@ -331,4 +361,64 @@ function pascalCase(text: string): string {
     .filter(Boolean)
     .map((word) => word[0]?.toUpperCase() + word.slice(1))
     .join('')
+}
+
+/** `coga/input-formats` for an advisory; `wcag-aaa/3.1.4` for a WCAG criterion beyond the run's target. */
+export function advisoryRuleId(advisory: Pick<Advisory, 'check' | 'kind' | 'basis'>): string {
+  return advisory.kind === 'beyond-target' && advisory.basis.framework === 'wcag' ? `wcag-${advisory.basis.level.toLowerCase()}/${advisory.basis.id}` : advisory.check
+}
+
+function advisoryRuleOf(advisory: Advisory, locale: Locale): Rule {
+  const basis = advisory.basis
+  const url = safeUrl(basis.url) ?? PROJECT_URL
+  const full =
+    basis.framework === 'coga'
+      ? am(locale, 'sarifAdvisoryRule', { pattern: basis.pattern, title: patternTitle(basis.pattern, locale) })
+      : am(locale, 'sarifBeyondRule', { version: basis.version, id: basis.id, name: beyondName(basis.id, locale), level: basis.level })
+  const id = advisoryRuleId(advisory)
+  return {
+    id,
+    name: pascalCase(id),
+    shortDescription: { text: advisory.label },
+    fullDescription: { text: full },
+    help: { text: `${full}\n${url}`, markdown: `[${advisory.label}](${url})\n\n${full}` },
+    helpUri: url,
+    defaultConfiguration: { level: 'note' },
+    properties: {
+      tags: basis.framework === 'coga' ? ['accessibility', 'coga', 'advisory', 'not-wcag'] : ['accessibility', 'wcag', `wcag-${basis.level.toLowerCase()}`, 'beyond-target'],
+    },
+  }
+}
+
+function advisoryResultOf(advisory: Advisory, kind: Kind, report: Report, artifact: ArtifactLocation, rule: { id: string; index: number }): SarifResult {
+  const locale = report.locale
+  const parts = [`${advisory.label}: ${advisory.message}`]
+  if (advisory.evidence) parts.push(`${t(locale, 'evidence')}: "${advisory.evidence}".`)
+  parts.push(`(id ${advisory.fingerprint})`)
+  const location: Location = { physicalLocation: { artifactLocation: artifact } }
+  if (advisory.ref) location.logicalLocations = [{ fullyQualifiedName: advisory.ref, kind: 'element' }]
+  const result: SarifResult = {
+    ruleId: rule.id,
+    ruleIndex: rule.index,
+    // Never an error or a warning, whatever its confidence: an advisory is not a failure.
+    level: 'note',
+    message: { text: plainText(parts.join(' ')) },
+    locations: [location],
+    partialFingerprints: { [FINGERPRINT_KEY]: sha256([artifact.uri, advisory.check, advisory.ref ?? '', advisory.subject ?? ''].join('|')).slice(0, 32) },
+    properties: {
+      advisory: true,
+      kind: advisory.kind,
+      check: advisory.check,
+      impact: advisory.impact,
+      findingId: advisory.fingerprint,
+      source: advisory.source,
+      confidence: advisory.confidence,
+      basis: advisory.basis,
+      ...(advisory.model ? { model: advisory.model } : {}),
+      ...(advisory.patch?.before && advisory.patch.after ? { patch: { before: advisory.patch.before, after: advisory.patch.after } } : {}),
+      ...(kind === 'below-threshold' ? { belowThreshold: true } : {}),
+    },
+  }
+  if (kind === 'waived') result.suppressions = [{ kind: 'external', status: 'accepted', justification: t(locale, 'sarifWaived', { file: WAIVERS_FILE }) }]
+  return result
 }
