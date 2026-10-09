@@ -94,7 +94,7 @@ Rampa reports against WCAG 2.2 by default (`--wcag 2.1` for the older target), a
 | --- | --- | --- |
 | Rampa rules (experimental) | Deterministic checks axe-core does not make: placeholder alt text, framework default titles, viewport zoom, the HTTP Refresh header, language switchers, table headers, layout tables, labels that name nothing, ids that hijack a name | [docs/rules.md](docs/rules.md) |
 | WCAG 2.2 | 2.5.8 Target Size (experimental), the 2.2 list and honest coverage: axe-core's "incomplete" results become items to review, never "checked" | [docs/wcag-2-2.md](docs/wcag-2-2.md) |
-| Probes (experimental, `--probe layout|keyboard|all`) | Drive the page read-only: reflow at 320 CSS px (1.4.10), text spacing (1.4.12), keyboard reachability and traps (2.1.1, 2.1.2), change on focus (3.2.1), focus visible and not obscured (2.4.7, 2.4.11) | [docs/probes.md](docs/probes.md) |
+| Probes (experimental, `--probe layout|keyboard|hover|all`) | Drive the page read-only: text cut at 200% zoom (1.4.4), reflow at 320 CSS px (1.4.10), text spacing (1.4.12), content on hover or focus (1.4.13), keyboard reachability and traps (2.1.1, 2.1.2), change on focus (3.2.1), focus visible and not obscured (2.4.7, 2.4.11) | [docs/probes.md](docs/probes.md) |
 | Site criteria (experimental) | With `--crawl` or `--sitemap`: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help, across the pages of a template | [docs/site-criteria.md](docs/site-criteria.md) |
 | Cognitive profile | `--profile cognitive`: advisories from the W3C COGA guidance (input formats that reject how people write, labels that are only a placeholder, pre-ticked paid options, unexplained abbreviations) plus readability measurements. Advisories are never WCAG failures and never change the exit code unless you ask | [docs/cognitive-profile.md](docs/cognitive-profile.md) |
 
@@ -415,9 +415,9 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - [x] Deterministic Rampa rules, and 2.5.8 target size (experimental)
 - [x] Site criteria over a crawl: 3.2.3 consistent navigation and 3.2.6 consistent help (experimental)
 - [x] An opt-in cognitive accessibility profile from the W3C COGA guidance: first four checks ([plan](docs/plans/cognitive-profile.md))
-- [x] Probes that drive the page, opt-in with `--probe`: reflow at 320 px, text spacing, keyboard reachability and traps, change on focus, focus visible and not obscured ([docs/probes.md](docs/probes.md))
+- [x] Probes that drive the page, opt-in with `--probe`: text cut at 200% zoom, reflow at 320 px, text spacing, content on hover or focus, keyboard reachability and traps, change on focus, focus visible and not obscured ([docs/probes.md](docs/probes.md))
 - [x] A language identifier that decides long, clear 3.1.1 and 3.1.2 cases without a model and drops model claims that contradict it
-- [ ] Content on hover or focus, and the rest of the probe waves ([plan](docs/plans/wcag-coverage.md))
+- [ ] The rest of the probe waves ([plan](docs/plans/wcag-coverage.md))
 - [ ] The rest of the WCAG 2.2 waves: frames and shadow roots, the browser's accessibility tree, pixel contrast, zoom, media, error states
 - [x] ChatGPT and Gemini subscriptions through their official CLIs
 
