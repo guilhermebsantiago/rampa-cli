@@ -125,7 +125,10 @@ export function assess(reports: readonly Report[], options: AssertOptions = {}):
       ...(options.failOn === 'any' ? report.belowThreshold.map((finding) => ({ finding, belowThreshold: true })) : []),
     ]
     if (findings.length > 0) failing.push({ report, findings })
-    problems.push(...judgmentProblems(report, Boolean(options.requireJudgment)))
+    for (const problem of judgmentProblems(report, Boolean(options.requireJudgment))) {
+      // Several reports of one run usually share a problem, such as no model; it is said once.
+      if (!problems.includes(problem)) problems.push(problem)
+    }
   }
   return { pass: failing.length === 0 && problems.length === 0, failing, problems }
 }
@@ -242,7 +245,7 @@ export function summarize(report: Report): string {
       ? text(locale, 'summaryOff')
       : report.llm === 'no-model'
         ? text(locale, 'summaryNoModel', { engine: report.engine.name })
-        : text(locale, 'summaryModel', { model: report.model ?? '' })
+        : text(locale, 'summaryModel', { model: report.model ?? '—' })
   return [
     count === 1 ? text(locale, 'findingsOne') : text(locale, 'findingsMany', { count }),
     text(locale, 'summaryJudged', { list: report.coverage.judged.join(', ') || text(locale, 'none') }),

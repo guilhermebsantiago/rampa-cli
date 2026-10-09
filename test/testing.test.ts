@@ -124,6 +124,12 @@ describe('assess', () => {
     expect(assess([noModel], { requireJudgment: true }).problems).toEqual(['no model was configured, so only axe-core ran; pass model, set RAMPA_MODEL or start Ollama'])
     expect(assess([offline], { requireJudgment: true }).problems).toEqual(['2 candidate(s) had no cached judgment (offline)'])
     expect(assess([await passing()], { requireJudgment: true }).pass).toBe(true)
+    // Reports of one run that share a problem say it once.
+    expect(assess([off, off, noModel], { requireJudgment: true }).problems).toEqual([
+      'the judgment layer was off (noLlm), so only axe-core ran',
+      'no model was configured, so only axe-core ran; pass model, set RAMPA_MODEL or start Ollama',
+    ])
+    expect(summarize(offline)).toMatch(/ · model —$/)
   })
 })
 

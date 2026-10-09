@@ -108,8 +108,14 @@ async function scopeRoot(driver: PageDriver, root: A11yNode, scope: Scope, page:
     const why = page.truncated ? `: the collector stopped after ${page.maxNodes} elements, before reaching them (raise maxNodes)` : ''
     throw new RampaError('scope-not-collected', `The elements matched by ${quoted(scope.include)} on ${page.url} are not in the snapshot${why}.`)
   }
-  const scoped = scopeTree(root, new Set(answer.included), new Set(answer.excluded))
+  const included = new Set(answer.included)
+  const scoped = scopeTree(root, included, new Set(answer.excluded))
   if (!scoped) throw new RampaError('scope-empty', `Nothing on ${page.url} is left to check: ${quoted(scope.exclude)} covers all of it.`)
+  // A component that is not rendered yet, such as a closed dialog, would pass a check of nothing.
+  const roots = [...walkTree(scoped)].filter((node) => included.has(node.ref))
+  if (roots.length > 0 && !roots.some((node) => [...walkTree(node)].some((inner) => !inner.states.includes('hidden')))) {
+    throw new RampaError('scope-hidden', `${quoted(scope.include)} on ${page.url} matches only elements that are not rendered (display: none or visibility: hidden), so there is nothing to check. Show them first.`)
+  }
   return scoped
 }
 

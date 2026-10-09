@@ -148,7 +148,7 @@ await rampa.check({ exclude: ['#chat-widget', '.ad-slot'] })
 - axe-core gets the selectors as its own context, so its rules run only there.
 - The snapshot keeps what the selectors match, whole. Its ancestors stay only as a skeleton, so the language, landmark and field group around the component still inform the judgment, but nothing else outside it is judged or sent to the model. An exclude inside an include works as in axe-core.
 - With `include`, 2.4.2 Page Titled and 3.1.1 Language of Page are about the page, not the component: the report lists them as not applicable, and its coverage as not checked.
-- A selector that matches nothing, or does not parse, throws. A typo would otherwise check nothing and pass.
+- A selector that matches nothing, or does not parse, throws, and so does a scope with nothing rendered in it, such as a dialog that is not open yet. Each would otherwise check nothing and pass.
 - The report records the scope (`report.scope`), and failure messages show it.
 
 ## The model, locally and in CI

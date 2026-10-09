@@ -132,6 +132,19 @@ describe.skipIf(!browser)('checkPage in a real browser', { timeout: 30_000 }, ()
     await expect(checkPage(page, { ...isolated(), noLlm: true, include: '#cart >' })).rejects.toThrow('"#cart >" is not a valid CSS selector')
   })
 
+  it('refuses a component that is not rendered yet, such as a closed dialog', async () => {
+    const page = await openShop()
+    await page.evaluate(() => {
+      const newsletter = document.querySelector<HTMLElement>('#newsletter')
+      if (newsletter) newsletter.style.display = 'none'
+    })
+    await expect(checkPage(page, { ...isolated(), noLlm: true, include: '#newsletter' })).rejects.toThrow(
+      '"#newsletter" on https://shop.test/cart matches only elements that are not rendered (display: none or visibility: hidden), so there is nothing to check.',
+    )
+    // A hidden part next to rendered ones is checked as usual.
+    await expect(checkPage(page, { ...isolated(), noLlm: true, include: ['#newsletter', '#cart'] })).resolves.toMatchObject({ llm: 'off' })
+  })
+
   it('runs axe-core on a page whose CSP blocks inline scripts', async () => {
     const page = await openShop({ csp: "default-src 'self'; script-src 'self'" })
     // The page really blocks an inline script tag, which is why Rampa evaluates axe-core instead of adding one.
