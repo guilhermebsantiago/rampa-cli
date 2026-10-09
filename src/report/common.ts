@@ -79,14 +79,23 @@ export function levelBreakdown(counts: LevelCounts, locale: Locale): string {
   return parts.join(', ')
 }
 
-/** The three lines of coverage, as the terminal report words them. */
-export function coverageRows(report: Report): Array<{ label: string; criteria: string[]; text: string }> {
+/**
+ * The lines of coverage, as the terminal report words them. The line for Rampa's rules is there when
+ * a rule looked at the page, or when `withRules` asks for it (a table of several pages keeps its columns).
+ */
+export function coverageRows(
+  report: Report,
+  withRules = (report.coverage.rules?.length ?? 0) > 0,
+): Array<{ kind: 'engine' | 'rules' | 'judged' | 'notChecked'; label: string; criteria: string[]; text: string }> {
   const { locale } = report
   const list = (items: readonly string[]) => (items.length === 0 ? '—' : items.join(', '))
+  const rules = report.coverage.rules ?? []
   return [
-    { label: t(locale, 'coverageEngine', { engine: report.engine.name }), criteria: report.coverage.engine, text: list(report.coverage.engine) },
-    { label: t(locale, 'coverageJudged'), criteria: report.coverage.judged, text: list(report.coverage.judged) },
+    { kind: 'engine' as const, label: t(locale, 'coverageEngine', { engine: report.engine.name }), criteria: report.coverage.engine, text: list(report.coverage.engine) },
+    ...(withRules ? [{ kind: 'rules' as const, label: t(locale, 'coverageRules'), criteria: rules, text: list(rules) }] : []),
+    { kind: 'judged' as const, label: t(locale, 'coverageJudged'), criteria: report.coverage.judged, text: list(report.coverage.judged) },
     {
+      kind: 'notChecked' as const,
       label: t(locale, 'coverageNotChecked'),
       criteria: report.coverage.notChecked,
       text: t(locale, 'coverageNotCheckedOf', { count: report.coverage.notChecked.length, total: WCAG21_A_AA.length }),

@@ -172,6 +172,8 @@ function explainFinding({ finding, target }: RememberedFinding, generalFix: stri
   const why =
     finding.source === 'engine'
       ? `The axe-core rule ${finding.rule_id ?? ''} failed on this element: ${finding.message}.`
+      : finding.source === 'rule'
+        ? `The Rampa rule ${finding.rule_id ?? ''} failed on this element, with no model involved: ${finding.message}`
       : [
           finding.message,
           finding.evidence ? `The evidence quoted from the element, "${finding.evidence}", is on the page: the claim passed Rampa's verification.` : undefined,

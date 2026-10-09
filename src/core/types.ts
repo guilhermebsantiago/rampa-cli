@@ -160,7 +160,8 @@ export interface Finding {
   fingerprint: string
   criterion: string
   level: Level | undefined
-  source: 'engine' | 'judgment'
+  /** engine: axe-core or the tree rules; rule: a Rampa rule over the snapshot (src/rules); judgment: a model, verified. */
+  source: 'engine' | 'judgment' | 'rule'
   ref?: string | undefined
   target?: string | undefined
   message: string
@@ -231,7 +232,8 @@ export interface Report {
   baseline?: BaselineComparison | undefined
   discarded: Discarded[]
   criteria: CriterionSummary[]
-  coverage: { engine: string[]; judged: string[]; notChecked: string[] }
+  /** rules: criteria a Rampa rule looked at on this page (src/rules); absent when none did. */
+  coverage: { engine: string[]; judged: string[]; notChecked: string[]; rules?: string[] | undefined }
   usage: Usage
   errors: string[]
   /** What the collector or the rules could not see or decide, in the report's language. */

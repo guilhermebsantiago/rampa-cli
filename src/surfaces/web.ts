@@ -91,15 +91,34 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     if (options.requireOk && status >= 400) throw new RampaError('http-error', `HTTP ${status} at ${url}`)
     if (options.inspect) await options.inspect(page, response)
     if (options.mutate) await options.mutate(page)
-    if (options.runAxe) await page.addScriptTag({ content: await axeSource() })
-    const raw = await page.evaluate(collectInPage, {
-      runAxe: options.runAxe,
-      axeTags: AXE_TAGS,
-      axeLocale: options.runAxe ? await axeLocale(options.locale) : undefined,
-      maxNodes: options.maxNodes ?? 5000,
-    })
+    const collect = async () => {
+      if (options.runAxe) await page.addScriptTag({ content: await axeSource() })
+      return page.evaluate(collectInPage, {
+        runAxe: options.runAxe,
+        axeTags: AXE_TAGS,
+        axeLocale: options.runAxe ? await axeLocale(options.locale) : undefined,
+        maxNodes: options.maxNodes ?? 5000,
+      })
+    }
+    // A page that redirects at once (a 0 s refresh, in a meta element or a Refresh header) navigates while it is
+    // being read. The redirect is recorded and the page it lands on is collected, instead of failing the target.
+    const loaded = response?.url() ?? url
+    let raw: Awaited<ReturnType<typeof collect>>
+    try {
+      raw = await collect()
+    } catch (error) {
+      if (!navigatedAway(error)) throw error
+      const timeout = Math.min(options.timeoutMs ?? 30_000, 10_000)
+      await page.waitForURL((address) => address.href !== loaded, { waitUntil: 'load', timeout }).catch(() => undefined)
+      raw = await collect()
+    }
 
     const root = raw.root as A11yNode
+    // Response headers are facts the rules read: a Refresh header works like <meta http-equiv="refresh">, out of axe-core's sight.
+    const refresh = response?.headers().refresh
+    if (refresh !== undefined) root.native.httpRefresh = refresh.slice(0, 500)
+    // What was collected is the page the redirect led to; the snapshot keeps the address asked for, and says where it ended.
+    if (response && page.url() !== loaded) root.native.redirectedTo = page.url()
     if (options.captureImages) await captureImages(page, root)
     // Relative links resolve against the document's base: the address after redirects, or its <base href>.
     const destinations =
@@ -133,6 +152,11 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
   } finally {
     await context.close()
   }
+}
+
+/** The errors Playwright raises when the page navigates while a script runs in it. */
+function navigatedAway(error: unknown): boolean {
+  return /Execution context was destroyed|because of a navigation|Cannot find context with specified id/i.test(errorMessage(error))
 }
 
 const IMAGE_LIMIT = 25

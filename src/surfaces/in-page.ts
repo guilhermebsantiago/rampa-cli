@@ -377,6 +377,11 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
 
   const root = build(document.documentElement)
   if (!root) throw new Error('The page has no document element')
+  // The head is left out of the tree; the viewport meta element is a fact rules read (ACT b4f0c3). Names are case-insensitive.
+  const metaViewport = Array.from(document.querySelectorAll('meta[name][content]'))
+    .filter((meta) => collapse(meta.getAttribute('name')).toLowerCase() === 'viewport')
+    .map((meta) => ({ ref: cssPath(meta), content: (meta.getAttribute('content') ?? '').slice(0, 500) }))
+  if (metaViewport.length > 0) root.native.metaViewport = metaViewport
 
   const result: InPageResult = {
     title: document.title,

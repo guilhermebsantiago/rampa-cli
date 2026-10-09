@@ -66,10 +66,13 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   if (usage) lines.push(p.dim(usage), '')
 
   lines.push(p.bold(t(locale, 'coverageTitle')))
+  const rules = report.coverage.rules ?? []
   const labels = [t(locale, 'coverageEngine', { engine: report.engine.name }), t(locale, 'coverageJudged'), t(locale, 'coverageNotChecked')]
+  if (rules.length > 0) labels.push(t(locale, 'coverageRules'))
   const width = Math.max(...labels.map((label) => label.length)) + 2
   const pad = (label: string) => label.padEnd(width)
   lines.push(`  ${pad(t(locale, 'coverageEngine', { engine: report.engine.name }))}${list(report.coverage.engine)}`)
+  if (rules.length > 0) lines.push(`  ${pad(t(locale, 'coverageRules'))}${list(rules)}`)
   lines.push(`  ${pad(t(locale, 'coverageJudged'))}${list(report.coverage.judged)}`)
   const notCheckedText = verbose
     ? list(report.coverage.notChecked)
@@ -115,6 +118,8 @@ export function renderFinding(finding: Finding, locale: Locale, p: Painter): str
   if (finding.source === 'engine') {
     // The id is what a waiver names, so engine findings print it too.
     lines.push(p.dim(`    ${t(locale, finding.confidence)} · ${t(locale, 'engineRule')} ${finding.ruleId} · id ${finding.fingerprint}`))
+  } else if (finding.source === 'rule') {
+    lines.push(p.dim(`    ${t(locale, 'confidence')} ${t(locale, finding.confidence)} · ${t(locale, 'rampaRule')} ${finding.ruleId} · id ${finding.fingerprint}`))
   } else {
     const parts = [`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`]
     if (finding.agreement) parts.push(`${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`)

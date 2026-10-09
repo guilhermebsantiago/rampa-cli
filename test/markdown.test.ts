@@ -71,7 +71,7 @@ describe('Markdown report', () => {
     const markdown = renderMarkdown([before, after])
     expect(markdown).toContain('**9 confirmed findings** on 2 pages checked against WCAG 2.1 A/AA')
     expect(markdown).toContain('No confirmed failures in what was checked on 1 more page: `examples/store/after.html`')
-    expect(markdown).toContain('| Page | Checked by axe-core (partial) | Judged with verified evidence | Not checked automatically |')
+    expect(markdown).toContain('| Page | Checked by axe-core (partial) | Checked by Rampa rules (partial) | Judged with verified evidence | Not checked automatically |')
     expect(markdown).toContain('| `examples/store/after.html` |')
   })
 

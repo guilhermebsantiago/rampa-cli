@@ -176,8 +176,9 @@ function findingItem(finding: Finding, report: Report): string {
   const meta: string[] = [`${e(t(locale, 'confidence'))} ${e(t(locale, finding.confidence))}`]
   if (finding.agreement) meta.push(`${finding.agreement.votes}/${finding.agreement.total} ${e(t(locale, 'runs'))}`)
   if (finding.source === 'judgment') meta.push(e(t(locale, 'verified')))
-  if (finding.source === 'engine' && finding.ruleId) {
-    const rule = `${e(t(locale, 'engineRule'))} ${e(finding.ruleId)} (${e(report.engine.name)})`
+  if (finding.source !== 'judgment' && finding.ruleId) {
+    const rule =
+      finding.source === 'rule' ? `${e(t(locale, 'rampaRule'))} ${e(finding.ruleId)}` : `${e(t(locale, 'engineRule'))} ${e(finding.ruleId)} (${e(report.engine.name)})`
     const help = safeUrl(finding.helpUrl)
     meta.push(help ? `<a href="${e(help)}">${rule}</a>` : rule)
   }
@@ -190,9 +191,9 @@ function findingItem(finding: Finding, report: Report): string {
 
 function coverageTable(report: Report): string {
   const locale = report.locale
-  const rows = coverageRows(report).map((row, index) => {
+  const rows = coverageRows(report).map((row) => {
     const cell =
-      index === 2 && row.criteria.length > 0
+      row.kind === 'notChecked' && row.criteria.length > 0
         ? `<details><summary>${e(row.text)}</summary><ul class="criteria">${row.criteria
             .map((id) => `<li>${e(id)} ${e(criterionName(id, locale) ?? '')} (${e(successCriterion(id)?.level ?? '')})</li>`)
             .join('')}</ul></details>`

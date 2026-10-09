@@ -1,5 +1,7 @@
 import type { Locale } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
+import { RULE_CHECKS, type RuleCheck, type RuleStageResult, emptyRuleStage, runRuleChecks } from '../rules/index.ts'
+import { reviewLabelInName } from '../rules/label-in-name.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
 import { WCAG21_A_AA, compareCriteria, successCriterion } from '../wcag.ts'
@@ -37,6 +39,8 @@ export interface CheckOptions {
    * verification are kept as findings instead of discarded. Never use it in CI.
    */
   verify?: boolean | undefined
+  /** Rampa's own rules (src/rules) to run next to the engine: all of them by default, none with false. */
+  rules?: readonly RuleCheck[] | false | undefined
 }
 
 export function fingerprint(criterion: string, ref: string | undefined, detail: string): string {
@@ -71,7 +75,10 @@ export function engineFindings(engine: EngineResults): Finding[] {
 }
 
 export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResults, options: CheckOptions): Promise<Report> {
-  const findings: Finding[] = engineFindings(engine)
+  const stage: RuleStageResult = options.rules === false ? emptyRuleStage() : runRuleChecks(snapshot, engine, options.locale, options.rules ?? RULE_CHECKS)
+  // Label-in-name failures that differ only by a hyphen or a shortened word go to review (src/rules/label-in-name.ts).
+  const fromEngine = options.rules === false ? engineFindings(engine) : reviewLabelInName(engineFindings(engine), snapshot, options.locale)
+  let findings: Finding[] = [...fromEngine, ...stage.findings]
   const discarded: Discarded[] = []
   const summaries: CriterionSummary[] = []
   const errors: string[] = []
@@ -94,7 +101,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     summaries.push(summary)
     if (!summary.applicable) continue
 
-    const candidates = criterion.candidates(snapshot, engine)
+    // An element a stable rule already failed for this criterion is decided: the model is not asked again.
+    const decided = stage.decided.get(criterion.id)
+    const candidates = criterion.candidates(snapshot, engine).filter((candidate) => !decided?.has(candidate.ref))
     summary.candidates = candidates.length
     if (!llmActive || candidates.length === 0) continue
 
@@ -175,6 +184,11 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     }
   }
 
+  // A judgment and a rule that fail the same element for the same criterion are one finding: the judgment's,
+  // which says more and carries the patch. The rule's stays only where the model did not fail the element.
+  const judgedFailures = new Set(findings.filter((f) => f.source === 'judgment').map((f) => `${f.criterion}|${f.ref}`))
+  findings = findings.filter((f) => f.source !== 'rule' || !judgedFailures.has(`${f.criterion}|${f.ref}`))
+
   const waived = findings.filter((f) => options.waivers?.has(f.fingerprint))
   const active = findings.filter((f) => !options.waivers?.has(f.fingerprint))
   const threshold = CONFIDENCE_RANK[options.minConfidence]
@@ -187,7 +201,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     engine.rules.filter((r) => r.outcome !== 'inapplicable').flatMap((r) => r.criteria.filter((c) => all.has(c))),
   )
   const judged = summaries.filter((s) => s.judged > 0).map((s) => s.criterion)
-  const notChecked = [...all].filter((id) => !engineCovered.has(id) && !judged.includes(id))
+  const ruleCovered = new Set(stage.ran.filter((rule) => rule.applicable > 0).flatMap((rule) => rule.criteria.filter((c) => all.has(c))))
+  const notChecked = [...all].filter((id) => !engineCovered.has(id) && !judged.includes(id) && !ruleCovered.has(id))
 
   return {
     schemaVersion: 1,
@@ -208,6 +223,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       engine: [...engineCovered].sort(compareCriteria),
       judged: judged.sort(compareCriteria),
       notChecked: notChecked.sort(compareCriteria),
+      ...(ruleCovered.size > 0 ? { rules: [...ruleCovered].sort(compareCriteria) } : {}),
     },
     usage,
     errors,

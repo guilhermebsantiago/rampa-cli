@@ -10,6 +10,7 @@ import { type Locale, resolveLocale } from '../i18n.ts'
 import { REASONING_LEVELS, type Reasoning } from '../providers/ai-sdk.ts'
 import { defaultModel } from '../providers/detect.ts'
 import type { ModelProvider } from '../providers/types.ts'
+import type { RuleCheck } from '../rules/types.ts'
 import type { Collected } from '../surfaces/web.ts'
 
 /**
@@ -82,8 +83,8 @@ export async function resolveSettings(options: RampaOptions = {}): Promise<Setti
 }
 
 /** Judges what a surface collected, as `rampa check` does. `criteria` narrows the configured ones. */
-export function judge(collected: Collected, settings: Settings, criteria: AnyCriterion[] = settings.criteria): Promise<Report> {
-  return checkSnapshot(collected.snapshot, collected.engine, { ...settings, criteria })
+export function judge(collected: Collected, settings: Settings, criteria: AnyCriterion[] = settings.criteria, rules?: readonly RuleCheck[]): Promise<Report> {
+  return checkSnapshot(collected.snapshot, collected.engine, { ...settings, criteria, rules })
 }
 
 let detected: Promise<string | undefined> | undefined

@@ -16,6 +16,7 @@ import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import { VERSION } from '../../version.ts'
 import type { GlobalContext } from '../context.ts'
 import { followOptions, resolveProvider } from './check.ts'
+import { runRuleEval } from './eval-rules.ts'
 
 export interface EvalCommandOptions {
   criteria: string
@@ -37,6 +38,8 @@ export interface EvalCommandOptions {
    * sites the test pages link to are never contacted.
    */
   followLinks?: FollowLinks
+  /** Rampa rules to measure against their ACT test cases, with no model, instead of the judged criteria. */
+  rules?: string
 }
 
 type PageVerdict = 'failed' | 'passed'
@@ -78,6 +81,7 @@ interface Job {
 
 export async function runEval(options: EvalCommandOptions, context: GlobalContext): Promise<number> {
   const p = paint(colorsEnabled())
+  if (options.rules) return runRuleEval({ ...options, rules: options.rules }, p)
   const criteria = resolveCriteria(options.criteria.split(','))
   const runs = Math.max(1, Number.parseInt(options.runs, 10) || 1)
   const limit = options.limit ? Number.parseInt(options.limit, 10) : undefined

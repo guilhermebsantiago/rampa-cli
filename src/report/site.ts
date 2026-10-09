@@ -234,9 +234,12 @@ export function renderSiteReport(site: SiteReport, options: PrettyOptions): stri
   lines.push(p.bold(t(locale, 'coverageTitle')))
   const engineLabel = t(locale, 'coverageEngine', { engine: site.engine.name })
   const labels = [engineLabel, t(locale, 'coverageJudged'), t(locale, 'coverageNotChecked'), st(locale, 'coveragePages')]
-  const width = Math.max(...labels.map((label) => label.length)) + 2
   const coverage = site.summary.coverage
+  const rules = coverage.rules ?? []
+  if (rules.length > 0) labels.push(t(locale, 'coverageRules'))
+  const width = Math.max(...labels.map((label) => label.length)) + 2
   lines.push(`  ${engineLabel.padEnd(width)}${list(coverage.engine)}`)
+  if (rules.length > 0) lines.push(`  ${t(locale, 'coverageRules').padEnd(width)}${list(rules)}`)
   lines.push(`  ${t(locale, 'coverageJudged').padEnd(width)}${list(coverage.judged)}`)
   const notChecked = verbose
     ? list(coverage.notChecked)

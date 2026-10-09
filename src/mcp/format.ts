@@ -27,7 +27,9 @@ export const FindingSchema = z.object({
   criterion: z.string(),
   criterion_name: z.string().optional(),
   level: z.enum(['A', 'AA', 'AAA']).optional(),
-  source: z.enum(['engine', 'judgment']).describe('engine: an axe-core rule failed; judgment: a model claim that passed verification'),
+  source: z
+    .enum(['engine', 'judgment', 'rule'])
+    .describe('engine: an axe-core rule failed; rule: a Rampa rule over the page failed, with no model; judgment: a model claim that passed verification'),
   selector: z.string().optional().describe('The element: a CSS selector on the web, the native locator elsewhere'),
   message: z.string(),
   evidence: z.string().optional().describe('Text quoted from the element, checked to be on the page'),
@@ -62,6 +64,7 @@ export const CheckResultSchema = z.object({
   coverage: z.object({
     statement: z.string(),
     checked_by_engine: z.array(z.string()),
+    checked_by_rules: z.array(z.string()).optional().describe("Criteria Rampa's own rules looked at, with no model"),
     judged: z.array(z.string()),
     not_checked: z.array(z.string()),
   }),
@@ -144,7 +147,7 @@ export function pickFindings(findings: readonly Finding[], max: number): Finding
   if (findings.length <= max) return [...findings]
   const groups = new Map<string, number[]>()
   for (const [index, finding] of findings.entries()) {
-    const key = `${finding.criterion}|${finding.source === 'engine' ? finding.ruleId : 'judgment'}`
+    const key = `${finding.criterion}|${finding.source !== 'judgment' ? finding.ruleId : 'judgment'}`
     groups.set(key, [...(groups.get(key) ?? []), index])
   }
   const chosen = new Set<number>()
@@ -195,6 +198,7 @@ export function checkResult(report: Report, engine: EngineResults, maxFindings =
     coverage: {
       statement: coverageStatement(report.locale),
       checked_by_engine: report.coverage.engine,
+      ...(report.coverage.rules?.length ? { checked_by_rules: report.coverage.rules } : {}),
       judged: report.coverage.judged,
       not_checked: report.coverage.notChecked,
     },
@@ -270,6 +274,8 @@ export function checkText(report: Report, result: CheckResult): string {
     const details =
       finding.source === 'engine'
         ? [`${t(locale, 'engineRule')} ${finding.rule_id ?? ''} (${report.engine.name})`, finding.help_url]
+        : finding.source === 'rule'
+          ? [`${t(locale, 'rampaRule')} ${finding.rule_id ?? ''}`, finding.help_url]
         : [finding.agreement && `${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`, t(locale, 'verified')]
     lines.push(`   ${[`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`, ...details, `id ${finding.id}`].filter(Boolean).join(' · ')}`)
   }
@@ -285,6 +291,7 @@ export function checkText(report: Report, result: CheckResult): string {
   const notChecked = report.coverage.notChecked
   lines.push('', t(locale, 'coverageTitle'))
   lines.push(`  ${t(locale, 'coverageEngine', { engine: report.engine.name })} ${list(report.coverage.engine)}`)
+  if (report.coverage.rules?.length) lines.push(`  ${t(locale, 'coverageRules')} ${list(report.coverage.rules)}`)
   lines.push(`  ${t(locale, 'coverageJudged')} ${list(report.coverage.judged)}`)
   lines.push(
     `  ${t(locale, 'coverageNotChecked')} ${t(locale, 'agentNotCheckedList', { count: notChecked.length, total: WCAG21_A_AA.length, list: list(notChecked) })}`,

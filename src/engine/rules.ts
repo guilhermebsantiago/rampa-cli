@@ -13,7 +13,13 @@ import { VERSION } from '../version.ts'
  * (Android, iOS and other native snapshots) and text contrast measured from the
  * screenshot. Like axe-core on the web, a violation goes straight to the report, with no
  * model involved; what a rule cannot decide is reported as incomplete, never as a failure.
+ *
+ * Rampa's rules over any snapshot, the web's included, live in src/rules and run in the check
+ * itself, after the engine, with finding source `rule`: they are re-exported here so one module
+ * lists every deterministic check Rampa has.
  */
+
+export { RULE_CHECKS, runRuleChecks } from '../rules/index.ts'
 
 export const RULES_ENGINE = 'rampa-rules'
 

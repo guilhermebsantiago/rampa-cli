@@ -129,7 +129,7 @@ export interface RepeatedFinding {
   signature: string
   criterion: string
   level: Level | undefined
-  source: 'engine' | 'judgment'
+  source: 'engine' | 'judgment' | 'rule'
   ruleId?: string | undefined
   helpUrl?: string | undefined
   message: string
@@ -219,7 +219,8 @@ export function summarizeSite(pages: readonly SitePage[], reusedAcrossPages: num
 
   const engine = new Set(pages.flatMap((page) => page.report.coverage.engine))
   const judged = new Set(pages.flatMap((page) => page.report.coverage.judged))
-  const notChecked = WCAG21_A_AA.map((sc) => sc.id).filter((id) => !engine.has(id) && !judged.has(id))
+  const rules = new Set(pages.flatMap((page) => page.report.coverage.rules ?? []))
+  const notChecked = WCAG21_A_AA.map((sc) => sc.id).filter((id) => !engine.has(id) && !judged.has(id) && !rules.has(id))
   return {
     pagesChecked: pages.length,
     findings: { total, repeated: total - specificCount, pageSpecific: specificCount },
@@ -230,6 +231,7 @@ export function summarizeSite(pages: readonly SitePage[], reusedAcrossPages: num
       engine: [...engine].sort(compareCriteria),
       judged: [...judged].sort(compareCriteria),
       notChecked: notChecked.sort(compareCriteria),
+      ...(rules.size > 0 ? { rules: [...rules].sort(compareCriteria) } : {}),
     },
   }
 }
