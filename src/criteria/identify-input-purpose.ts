@@ -37,6 +37,8 @@ const FIELD_TAGS = new Set(['input', 'select', 'textarea'])
 const SKIPPED_TYPES = new Set(['hidden', 'submit', 'reset', 'button', 'image', 'checkbox', 'radio', 'file', 'range', 'color', 'week', 'time', 'datetime-local', 'search'])
 /** In the WCAG list, but the Understanding notes an amount is rarely information about the user. */
 const NOT_ABOUT_USER = new Set(['transaction-amount', 'transaction-currency'])
+/** Purposes a page switcher also shows: on its own, such a selector changes the page instead of collecting data. */
+const SWITCHER_PURPOSES = new Set(['language', 'country', 'country-name'])
 
 export const ABOUT = ['user', 'someone_else', 'not_personal'] as const
 
@@ -63,6 +65,8 @@ export interface IdentifyInputPurposeContext {
   control: string
   autocomplete: AutocompleteValue
   startTag: string
+  /** Labels of the other fields in the same form, or around the field when there is no form. */
+  otherFields: string[]
   /** Facts about the field and its form, one per line, for the prompt. */
   facts: string
 }
@@ -83,7 +87,7 @@ First write in asks what the field asks the person to enter, in a few words.
 Set about to whose information it is:
 - "user": the person filling in the form, such as their own name, email address or delivery address.
 - "someone_else": another person, such as a gift recipient, a child or an emergency contact.
-- "not_personal": nobody's personal information, such as a search, a quantity, a discount code, a message or a date to book.
+- "not_personal": nobody's personal information, such as a search, a quantity, a discount code, a message or a date to book. A control that changes the page itself, such as a switcher for the site's language or currency, a sort order or a filter, collects nothing about the user.
 Set purpose to the token above that names what the label asks for, whatever the field's autocomplete says now; "none" when no token fits. A field that accepts either of two kinds of data, such as "email or username", has no single purpose: use "none".
 Then compare purpose with the field's autocomplete:
 - "pass": about is not "user", purpose is "none", or the autocomplete already names that purpose.
@@ -118,7 +122,7 @@ export const identifyInputPurpose: Criterion<IdentifyInputPurposeContext, Identi
       if (!label) continue
       const autocomplete = parseAutocomplete(attributes.autocomplete)
       const form = formOf(index, node)
-      const others = form ? fieldNames(form, node) : []
+      const others = form ? fieldNames(form, node) : fieldsAround(index, node)
       const buttons = form ? buttonNames(form) : []
       const facts = [
         `Field: ${field === 'select' || field === 'textarea' ? field : `input type="${field}"`}`,
@@ -130,14 +134,14 @@ export const identifyInputPurpose: Criterion<IdentifyInputPurposeContext, Identi
         `Under the visible heading: ${heading ?? 'none'}`,
         legendOf(index, node) ? `In the group: ${legendOf(index, node)}` : undefined,
         form ? undefined : 'Not inside a form element',
-        others.length > 0 ? `Other fields in the same form: ${others.map((name) => `"${name}"`).join(', ')}` : undefined,
+        others.length > 0 ? `Other fields ${form ? 'in the same form' : 'around it'}: ${others.map((name) => `"${name}"`).join(', ')}` : undefined,
         buttons.length > 0 ? `Buttons in the same form: ${buttons.map((name) => `"${name}"`).join(', ')}` : undefined,
       ]
         .filter((line) => line !== undefined)
         .join('\n')
       candidates.push({
         ref: node.ref,
-        context: { label, placeholder, control: field, autocomplete, startTag: startTagOf(node), facts },
+        context: { label, placeholder, control: field, autocomplete, startTag: startTagOf(node), otherFields: others, facts },
       })
     }
     return candidates
@@ -158,6 +162,9 @@ export const identifyInputPurpose: Criterion<IdentifyInputPurposeContext, Identi
     if (output.purpose === 'none') return { ok: false, reason: 'fail verdict without a purpose' }
     if (!isPurpose(output.purpose)) return { ok: false, reason: `"${output.purpose}" is not an input purpose WCAG lists` }
     if (NOT_ABOUT_USER.has(output.purpose)) return { ok: false, reason: `"${output.purpose}" is not information about the user` }
+    if (SWITCHER_PURPOSES.has(output.purpose) && c.otherFields.length === 0) {
+      return { ok: false, reason: 'a language or country selector with no other field around it switches the page; it collects nothing' }
+    }
     // The token the fix would add has to be one the browser and axe-core accept on this control.
     if (!isAppropriate(output.purpose, c.control)) {
       return { ok: false, reason: `autocomplete="${output.purpose}" does not apply to ${c.control === 'select' || c.control === 'textarea' ? c.control : `an input of type ${c.control}`}` }
@@ -257,6 +264,15 @@ function fieldNames(form: A11yNode, self: A11yNode): string[] {
     if (names.length >= 8) break
   }
   return names
+}
+
+/** Outside a form, the fields of the closest container around the field that has any, a few levels up. */
+function fieldsAround(index: TreeIndex, node: A11yNode): string[] {
+  for (const parent of ancestors(index, node).slice(0, 4)) {
+    const names = fieldNames(parent, node)
+    if (names.length > 0) return names
+  }
+  return []
 }
 
 function buttonNames(form: A11yNode): string[] {

@@ -61,6 +61,26 @@ function checkout(): A11ySnapshot {
             node({ ref: 'button', role: 'button', name: 'Continue to payment', native: { tag: 'button' } }),
           ],
         }),
+        // A footer that switches the page's language, and a sign-up block built without a form element.
+        node({
+          ref: 'footer form',
+          role: 'form',
+          native: { tag: 'form' },
+          children: [
+            node({
+              ref: '#lang',
+              role: 'combobox',
+              name: 'Language',
+              native: { tag: 'select', attributes: { id: 'lang' }, html: '<select id="lang">' },
+              children: ['English', 'Português'].map((language) => node({ ref: `option-${language}`, name: language, native: { tag: 'option' } })),
+            }),
+          ],
+        }),
+        node({
+          ref: 'div.signup',
+          native: { tag: 'div' },
+          children: [field('#first', 'First name', { id: 'first' }), node({ ref: 'div.signup > div', native: { tag: 'div' }, children: [field('#last', 'Last name', { id: 'last' })] })],
+        }),
       ],
     }),
   }
@@ -143,7 +163,13 @@ describe('1.3.5 candidates', () => {
   it('judges every text-like field that takes input, and leaves the rest out', () => {
     const refs = identifyInputPurpose.candidates(checkout(), engineFailsTown).map((c) => c.ref)
     // Search boxes, fields the engine failed, fields that take no input and fields with nothing to read stay out.
-    expect(refs).toEqual(['#email', '#phone', '#zip', '#code', '#country'])
+    expect(refs).toEqual(['#email', '#phone', '#zip', '#code', '#country', '#lang', '#first', '#last'])
+  })
+
+  it('lists the fields around one that has no form element, and none for a lone selector', () => {
+    expect(candidate('#last').context.otherFields).toEqual(['First name'])
+    expect(candidate('#last').context.facts).toContain('Not inside a form element\nOther fields around it: "First name"')
+    expect(candidate('#lang').context.otherFields).toEqual([])
   })
 
   it('gives the model the field, its autocomplete and the form around it', () => {
@@ -205,6 +231,16 @@ describe('1.3.5 verification', () => {
     expect(identifyInputPurpose.verify({ ...emailFail, evidence: 'Phone', purpose: 'email' }, phone, checkout()).ok).toBe(false)
   })
 
+  it('drops a language or country claim on a selector that is alone, as a page switcher is', () => {
+    const language = { ...emailFail, evidence: 'Language', purpose: 'language' } as const
+    expect(identifyInputPurpose.verify(language, candidate('#lang'), checkout())).toEqual({
+      ok: false,
+      reason: 'a language or country selector with no other field around it switches the page; it collects nothing',
+    })
+    const country = { ...emailFail, evidence: 'Country', purpose: 'country-name' } as const
+    expect(identifyInputPurpose.verify(country, candidate('#country'), checkout())).toEqual({ ok: true })
+  })
+
   it('lets a pass through with only the quote checked', () => {
     const pass = { ...emailFail, verdict: 'pass', about: 'not_personal', purpose: 'none', evidence: 'Discount code' } as const
     expect(identifyInputPurpose.verify(pass, candidate('#code'), checkout())).toEqual({ ok: true })
@@ -260,6 +296,9 @@ describe('1.3.5 through the pipeline', () => {
       'Discount code': { ...emailFail, verdict: 'pass', about: 'not_personal', purpose: 'none', evidence: 'Discount code' },
       // A fail that says the data is someone else's contradicts itself: dropped.
       Country: { ...emailFail, evidence: 'Country', about: 'someone_else', purpose: 'country-name' },
+      Language: { ...emailFail, verdict: 'pass', about: 'not_personal', purpose: 'none', evidence: 'Language' },
+      'First name': { ...emailFail, verdict: 'pass', about: 'not_personal', purpose: 'none', evidence: 'First name' },
+      'Last name': { ...emailFail, verdict: 'pass', about: 'not_personal', purpose: 'none', evidence: 'Last name' },
     }
     const provider: ModelProvider = {
       id: 'test:scripted',
@@ -280,7 +319,7 @@ describe('1.3.5 through the pipeline', () => {
       concurrency: 1,
     })
     expect(report.findings.filter((f) => f.source === 'judgment').map((f) => f.ref)).toEqual(['#email', '#phone', '#zip'])
-    expect(report.criteria[0]).toMatchObject({ candidates: 5, failed: 3, passed: 1, discarded: 1 })
+    expect(report.criteria[0]).toMatchObject({ candidates: 8, failed: 3, passed: 4, discarded: 1 })
     expect(report.discarded[0]).toMatchObject({ ref: '#country', reason: 'fail verdict for information that is not about the user' })
     expect(report.coverage.judged).toContain('1.3.5')
   })

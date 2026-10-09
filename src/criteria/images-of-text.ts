@@ -61,18 +61,20 @@ Describe what the image shows in imageShows, in one short sentence.
 Copy into evidence every word of text you can read in the image, exactly as written, in reading order. Leave it empty when the image shows no text.
 Set exception to the first case that applies:
 - "no_text": the image shows no text.
-- "incidental": the text is a minor part of a picture with significant other content.
-- "logotype": the text is the logo or brand name of a company, a product or the site, drawn as their mark.
+- "incidental": the text is part of a picture with significant other visual content, such as a screenshot of an interface or a document, a chart, a diagram, a map or a photograph.
+- "logotype": the text is the logo, monogram or brand name of a company, a product, a publication or the site, drawn as their mark.
 - "essential": the exact look of the text is the point, such as a typeface sample or a historical document.
-- "symbol": the text is a single character or a symbol that is not a word, such as "B" for bold.
+- "symbol": the text is a single character, initials or a symbol that is not a word, such as "B" for bold.
 - "decorative": the image conveys nothing.
-- "none": none of these; the image is mostly text that conveys information and could be real text styled with CSS, such as a heading, a sentence, a quote, a menu item or a button label drawn as a picture.
+- "none": none of these; the image is mostly text that conveys information and could be real text styled with CSS, such as a heading, a sentence, a quote or a button label drawn as a picture.
 Set verdict to "fail" when exception is "none", and to "pass" otherwise. Use "cannot_tell" only when the image is too small or blurred to read.
 Reply only with JSON that matches the schema.`
 
-/** Smallest rendered size that can hold legible words; smaller images are icons. */
+/** Smallest rendered size that can hold legible words. */
 const MIN_WIDTH = 24
 const MIN_HEIGHT = 12
+/** A picture no larger than this on either side is an icon, not a line of text. */
+const ICON_SIZE = 40
 
 export const imagesOfText: Criterion<ImagesOfTextContext, ImagesOfTextJudgment> = {
   id: '1.4.5',
@@ -91,6 +93,7 @@ export const imagesOfText: Criterion<ImagesOfTextContext, ImagesOfTextJudgment> 
       const kind = pictureKind(node)
       if (!kind || !node.image || node.states.includes('hidden')) continue
       if (!node.bounds || node.bounds.width < MIN_WIDTH || node.bounds.height < MIN_HEIGHT) continue
+      if (node.bounds.width <= ICON_SIZE && node.bounds.height <= ICON_SIZE) continue
       const attributes = attributesOf(node)
       const source = kind === 'background' ? String(node.native.backgroundImage) : attributes.src
       const alt = node.name?.trim() ?? ''
@@ -155,15 +158,21 @@ export const imagesOfText: Criterion<ImagesOfTextContext, ImagesOfTextJudgment> 
     }
     if (output.verdict !== 'fail') return { ok: true }
     if (output.exception !== 'none') return { ok: false, reason: 'fail verdict while naming an exception' }
-    // An image of text has words in it: no transcription, or a lone character, is no claim.
-    if (letterCount(text) < 2) return { ok: false, reason: 'image of text claimed, but no words were transcribed' }
-    // A descriptive alternative that shares no word with the transcription means one of them describes another picture.
+    // An image of text has words in it. Nothing transcribed is no claim, and a lone character or
+    // a pair of initials is a symbol or a monogram, like the Understanding's "B" for bold.
+    if (letterCount(text) < 3) return { ok: false, reason: 'image of text claimed, but no words were transcribed' }
+    // A descriptive alternative that shares no word with the transcription means one of them describes another
+    // picture. Only a real description counts: "Main banner" says nothing either way.
     const altWords = contentWords(c.alt)
-    if (altWords.size >= 2 && overlap(contentWords(text), altWords) === 0) {
+    for (const word of GENERIC_ALT_WORDS) altWords.delete(word)
+    if (altWords.size >= 3 && overlap(contentWords(text), altWords) === 0) {
       return { ok: false, reason: 'the transcription shares no word with the text alternative' }
     }
     // Understanding 1.4.5: an image of text shown in addition to the same text meets the criterion.
     if (shownAsText(text, c.nearbyText)) return { ok: false, reason: 'the same words are shown as real text next to the image' }
+    // The definition leaves out screenshots, charts and diagrams; the page's own alternative or file name may say that is what it is.
+    const kind = PICTURE_KINDS.exec(`${c.alt} ${c.src ?? ''}`)?.[0]
+    if (kind) return { ok: false, reason: `the page calls it a ${kind.toLowerCase()}, which is not an image of text` }
     return { ok: true }
   },
 
@@ -267,6 +276,15 @@ const STOPWORDS = new Set([
   'the', 'and', 'for', 'with', 'from', 'this', 'that', 'our', 'your', 'you', 'are', 'its', 'into', 'all',
   'uma', 'com', 'para', 'por', 'dos', 'das', 'nos', 'nas', 'que', 'del', 'los', 'las', 'une', 'les', 'des', 'und', 'der', 'die', 'das',
 ])
+
+/** Pictures the definition of an image of text leaves out, as alternatives and file names name them. */
+const PICTURE_KINDS = /\b(?:screenshot|screen ?shot|screen capture|captura de (?:tela|pantalla)|diagram|diagrama|flowchart|chart|graph|gráfico|map|mapa)s?\b/i
+
+/** Words an alternative uses to name the kind of picture rather than what it shows. */
+const GENERIC_ALT_WORDS = [
+  'image', 'imagem', 'imagen', 'picture', 'photo', 'foto', 'banner', 'principal', 'main', 'hero', 'slide', 'carousel', 'carrossel',
+  'promo', 'promocional', 'graphic', 'gráfico', 'icon', 'ícone', 'thumbnail', 'miniatura',
+]
 
 function words(text: string): string[] {
   return normalizeForMatch(text)

@@ -51,11 +51,12 @@ function home(): A11ySnapshot {
           children: [
             picture('#logo', 'Corner Store', { attributes: { src: 'brand/logo.svg' } }),
             picture('#cart', 'Cart', { bounds: { x: 0, y: 0, width: 16, height: 16 } }),
+            picture('#account', 'Account', { bounds: { x: 0, y: 0, width: 32, height: 32 } }),
             node({
               ref: 'form',
               role: 'form',
               native: { tag: 'form' },
-              children: [picture('#go', 'Search', { role: 'button', native: { tag: 'input' }, attributes: { type: 'image', name: 'q' }, bounds: { x: 0, y: 0, width: 40, height: 20 } })],
+              children: [picture('#go', 'Search', { role: 'button', native: { tag: 'input' }, attributes: { type: 'image', name: 'q' }, bounds: { x: 0, y: 0, width: 80, height: 24 } })],
             }),
           ],
         }),
@@ -83,7 +84,7 @@ function home(): A11ySnapshot {
           bounds: { x: 0, y: 0, width: 1200, height: 400 },
           children: [node({ ref: '#hero > h2', role: 'heading', name: 'Autumn arrivals', text: 'Autumn arrivals', native: { tag: 'h2' } })],
         }),
-        picture('#chart', 'Sales by month', { role: 'img', native: { tag: 'div' }, attributes: { role: 'img' } }),
+        picture('#chart', 'Bar chart of umbrella sales by month', { role: 'img', native: { tag: 'div' }, attributes: { role: 'img' } }),
         node({ ref: '#emoji', role: 'img', name: 'smile', image: PNG, bounds: { x: 0, y: 0, width: 40, height: 40 }, native: { tag: 'span' }, children: [node({ ref: '#emoji-text', text: '😀' })] }),
         picture('#gone', 'Old banner', { states: ['hidden'] }),
         picture('#uncaptured', 'Not captured', { image: undefined }),
@@ -114,11 +115,11 @@ describe('1.4.5 candidates', () => {
   })
 
   it('records how each picture is drawn and what text is visible next to it', () => {
-    expect(candidate('#go').context).toMatchObject({ kind: 'input', alt: 'Search', actionText: 'Search', width: 40, height: 20 })
+    expect(candidate('#go').context).toMatchObject({ kind: 'input', alt: 'Search', actionText: 'Search', width: 80, height: 24 })
     expect(candidate('#banner').context).toMatchObject({ kind: 'img', alt: 'Summer sale', src: 'banner.png', nearbyText: 'Shop the season.' })
     expect(candidate('#welcome').context).toMatchObject({ kind: 'img', alt: '', nearbyText: 'Welcome to our store' })
     expect(candidate('#hero').context).toMatchObject({ kind: 'background', src: 'hero-autumn.jpg' })
-    expect(candidate('#chart').context.kind).toBe('role-img')
+    expect(candidate('#chart').context).toMatchObject({ kind: 'role-img', alt: 'Bar chart of umbrella sales by month' })
   })
 
   it('sends the rendered picture with what it is and the text around it', () => {
@@ -136,12 +137,14 @@ describe('1.4.5 verification', () => {
     expect(imagesOfText.verify(bannerFail, candidate('#banner'), home())).toEqual({ ok: true })
   })
 
-  it('drops a fail with nothing transcribed, or a lone character', () => {
+  it('drops a fail with nothing transcribed, a lone character or a pair of initials', () => {
     expect(imagesOfText.verify({ ...bannerFail, evidence: '' }, candidate('#banner'), home())).toEqual({
       ok: false,
       reason: 'image of text claimed, but no words were transcribed',
     })
     expect(imagesOfText.verify({ ...bannerFail, evidence: 'A' }, candidate('#go'), home()).ok).toBe(false)
+    expect(imagesOfText.verify({ ...bannerFail, evidence: 'NP.' }, candidate('#welcome'), home()).ok).toBe(false)
+    expect(imagesOfText.verify({ ...bannerFail, evidence: 'Go!' }, candidate('#go'), home()).ok).toBe(false)
   })
 
   it('drops a fail that names an exception', () => {
@@ -151,6 +154,24 @@ describe('1.4.5 verification', () => {
   it('drops a transcription that shares no word with a descriptive alternative', () => {
     const chart = { ...bannerFail, evidence: 'Free delivery today' }
     expect(imagesOfText.verify(chart, candidate('#chart'), home())).toEqual({ ok: false, reason: 'the transcription shares no word with the text alternative' })
+  })
+
+  it('drops a claim on a picture the page itself calls a screenshot, a chart or a diagram', () => {
+    const banner = candidate('#banner')
+    const screenshot = { ...banner, context: { ...banner.context, alt: 'Screenshot of the menu: New repository is outlined' } }
+    expect(imagesOfText.verify({ ...bannerFail, evidence: 'New repository Import repository' }, screenshot, home())).toEqual({
+      ok: false,
+      reason: 'the page calls it a screenshot, which is not an image of text',
+    })
+    const byFileName = { ...banner, context: { ...banner.context, alt: '', src: 'sales-chart-2026.png' } }
+    expect(imagesOfText.verify(bannerFail, byFileName, home()).ok).toBe(false)
+  })
+
+  it('does not hold a generic alternative against the transcription', () => {
+    const page = home()
+    const banner = candidate('#banner')
+    const generic = { ...banner, context: { ...banner.context, alt: 'Banner principal' } }
+    expect(imagesOfText.verify({ ...bannerFail, evidence: 'Free delivery today' }, generic, page)).toEqual({ ok: true })
   })
 
   it('drops a fail when the same words are shown as real text next to the image', () => {

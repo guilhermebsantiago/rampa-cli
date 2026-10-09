@@ -1,4 +1,4 @@
-import { mkdtemp, writeFile } from 'node:fs/promises'
+import { mkdtemp, readFile, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -73,7 +73,43 @@ describe.skipIf(!browser)('web surface', { timeout: 30_000 }, () => {
     // An icon-sized background holds no legible words and is not captured.
     expect(nodes.find((n) => attributesOf(n).class === 'icon')?.image).toBeUndefined()
   })
+
+  it('captures an image without the fixed layers painted over it, and puts them back', async () => {
+    if (!browser) return
+    const screenshots = await mkdtemp(join(tmpdir(), 'rampa-shots-'))
+    const { snapshot } = await collectWeb(browser, await page(OVERLAY), { runAxe: false, locale: 'en', captureImages: true, screenshotDir: screenshots })
+    const nodes = [...walkTree(snapshot.root)]
+    // The photo under the cookie banner comes out green only; the logo inside the sticky header still shows.
+    expect(colorsOf(nodes.find((n) => attributesOf(n).id === 'photo')?.image)).toEqual(['0,128,0'])
+    expect(colorsOf(nodes.find((n) => attributesOf(n).id === 'logo')?.image)).toEqual(['0,0,255'])
+    // The full-page screenshot, taken after the captures, has the banner back.
+    const page_ = PNG.sync.read(await readFile(snapshot.screenshot ?? ''))
+    let red = 0
+    for (let i = 0; i < page_.data.length; i += 4) if (page_.data[i] === 255 && page_.data[i + 1] === 0 && page_.data[i + 2] === 0) red++
+    expect(red).toBeGreaterThan(1000)
+  })
 })
+
+function colorsOf(image: string | undefined): string[] {
+  const png = PNG.sync.read(Buffer.from((image ?? '').split(',')[1] ?? '', 'base64'))
+  const colors = new Set<string>()
+  for (let i = 0; i < png.data.length; i += 4) colors.add(`${png.data[i]},${png.data[i + 1]},${png.data[i + 2]}`)
+  return [...colors]
+}
+
+const svg = (color: string) => `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='100'><rect width='300' height='100' fill='${color}'/></svg>`
+
+const OVERLAY = `<!doctype html><html lang="en"><head><style>
+body { margin: 0; }
+header { position: sticky; top: 0; height: 60px; background: white; }
+#logo { width: 120px; height: 40px; display: block; }
+#photo { width: 300px; height: 100px; display: block; margin-top: 20px; }
+.cookies { position: fixed; left: 0; top: 70px; width: 100%; height: 60px; background: rgb(255, 0, 0); }
+</style></head><body>
+<header><img id="logo" alt="Shop" src="${svg('rgb(0,0,255)')}"></header>
+<img id="photo" alt="A green field" src="${svg('rgb(0,128,0)')}">
+<div class="cookies">We use cookies</div>
+</body></html>`
 
 const FORM = `<!doctype html><html lang="en"><body><form>
 <label>Birthday month <select><option>January</option><option>February</option></select></label>
