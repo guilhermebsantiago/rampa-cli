@@ -60,7 +60,11 @@ export interface BaselineComparison {
   unchecked: BaselineEntry[]
 }
 
-/** A file path relative to the working directory, with forward slashes; any other target as it is. */
+/**
+ * A file path relative to the working directory, with forward slashes; any other target as it is.
+ * displayTarget in report/pretty.ts shows targets the same way; this one takes the directory, so a
+ * key does not depend on where the code that computes it runs.
+ */
 export function targetKey(target: string, cwd: string = process.cwd()): string {
   if (!target.startsWith('file:')) return target
   try {

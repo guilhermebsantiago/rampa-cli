@@ -3,6 +3,10 @@ import type { Locale } from '../i18n.ts'
 import type { Painter } from '../report/color.ts'
 import type { BaselineEntry } from './baseline.ts'
 
+/**
+ * What the waivers and the baseline add to a report, in the format of i18n.ts and read the same way
+ * (see say below). They live here, like a criterion's own messages, next to the only code that uses them.
+ */
 const messages = {
   en: {
     noNew: 'No new confirmed failures in what was checked; the baseline holds back {count} known finding(s).',
