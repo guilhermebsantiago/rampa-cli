@@ -40,7 +40,7 @@ describe.skipIf(!browser)('keyboard walk', { timeout: 120_000 }, () => {
     expect(findings[1]?.evidence).toContain('it has tabindex="-1"')
     // The listbox is reported once, not once per option.
     expect(findings.filter((f) => f.ref?.startsWith('#colors'))).toHaveLength(1)
-    expect(coverageOf(report, '2.1.1')).toMatchObject({ status: 'failures', failures: 3, method: 'probe/keyboard@1' })
+    expect(coverageOf(report, '2.1.1')).toMatchObject({ status: 'failures', failures: 3, method: 'probe/keyboard@2' })
   })
 
   it('3.2.1: fails a navigation, a new window, a submission and a focus move caused by focus alone', async () => {

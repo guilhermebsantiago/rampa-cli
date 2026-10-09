@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Focus passes</title>
+<style>
+  /* The page keeps focused elements clear of its sticky header. */
+  html { scroll-padding-top: 80px; scroll-padding-bottom: 100px; }
+  body { font: 16px Arial, sans-serif; margin: 0; }
+  :focus-visible { outline: 3px solid #005fcc; outline-offset: 2px; }
+  header { position: sticky; top: 0; height: 64px; background: #fff; border-bottom: 1px solid #333; z-index: 2; }
+  section { height: 500px; padding: 1rem; }
+  /* A translucent bar over the second link: what is under it still shows. */
+  #hint { position: fixed; left: 0; right: 0; bottom: 0; height: 250px; background: rgba(0, 0, 0, 0.25); }
+</style>
+</head>
+<body>
+<header><a id="home" href="#top">Home</a></header>
+<main>
+  <section><a id="first" href="#1">First article</a> <button id="save" type="button">Save</button></section>
+  <section><a id="second" href="#2">Second article</a></section>
+  <section><a id="third" href="#3">Third article</a></section>
+</main>
+<div id="hint"></div>
+</body>
+</html>

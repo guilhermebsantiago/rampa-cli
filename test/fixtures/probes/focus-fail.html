@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Focus visible failures</title>
+<style>
+  body { font: 16px Arial, sans-serif; margin: 1rem; background: #fff; color: #111; }
+  a, button { display: inline-block; margin: 8px; }
+  /* F78: the indicator is removed and nothing replaces it. */
+  #no-ring:focus { outline: none; }
+  /* A faint indicator: the background goes from white to a near-white gray. */
+  #faint { border: 1px solid #333; background: #fff; padding: 6px 12px; font: inherit; }
+  #faint:focus { outline: none; background: #f4f4f4; }
+  /* The only change on focus is far from the element. */
+  #far:focus { outline: none; }
+  #status { position: absolute; top: 300px; left: 600px; }
+  #far:focus ~ #status::after { content: 'Editing'; }
+  #ok:focus-visible { outline: 3px solid #005fcc; outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Focus</h1>
+  <a id="ok" href="#a">Visible ring</a>
+  <a id="no-ring" href="#b">No ring</a>
+  <button id="faint" type="button">Faint</button>
+  <!-- F55: focus is removed as soon as it arrives. -->
+  <button id="blurry" type="button" onfocus="this.blur()">Blurs itself</button>
+  <a id="far" href="#c">Far change</a>
+  <span id="status"></span>
+</main>
+</body>
+</html>

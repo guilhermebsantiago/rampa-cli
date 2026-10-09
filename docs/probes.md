@@ -154,3 +154,27 @@ The criterion is about the user's override, not the author's values; axe-core's 
 Evidence names the key sequence (`Tab ×4`), the element, what followed and how many milliseconds later.
 
 **Limits.** Chromium's Tab order only, at one viewport. States reached by activating something (menus, dialogs opened by a button) are not walked. Inside a cross-origin frame the walk sees only the frame element, and stops after 60 stops inside one frame. Elements in open shadow roots are walked but are unmatched in the snapshot, so they are never reported. An event that a page fires more than 150 ms after focus may be attributed to the next stop. 2.1.1 does not test that a reached control can be operated with the keyboard; that needs the activate class (C2).
+
+### 2.4.7 Focus Visible and 2.4.11 Focus Not Obscured (`--probe keyboard`)
+
+These ride on the keyboard walk (probe version 2). The walk turns off animated scrolling (`scroll-behavior: auto`) and, before measuring a stop, waits for scrolling to stop (at most 1.5 s), so a page that scrolls with a library is measured where it lands.
+
+**2.4.7, the probe.** At each forward stop, the element's box plus a 32 px margin is captured focused. Focus is then taken away with `blur()` and the same region is captured twice: the second capture marks pixels that change on their own (carousels, video, animation) as noise, never counted. Focus is then given back to the element with `focus({ preventScroll: true })`, so the next Tab reaches the element's own key handlers, as it would with no capture in between. When nothing changed in the region, the whole viewport is captured focused and blurred to confirm, because ACT oj04fd counts a change anywhere in the viewport. The record keeps, per stop, the region, the element's box, how many pixels changed, how many by at least 3:1 contrast, how many *noticeably* (3:1, or 48 in one color channel, which catches a change of hue), how many were noise, the bounding box of the change, its main colors, and hashes of the two captures. Captures are not saved as images.
+
+**2.4.7, the rule.** A changed pixel does not prove that focus is visible (the plan's correction to the research), so a change is never a pass:
+
+| Observation | Result |
+|---|---|
+| No pixel changes in the region or anywhere in the viewport (captured twice) | failure, high |
+| The same, when the element is entirely under other content (see 2.4.11) | failure, medium, pointing to 2.4.11 |
+| Focus is back on the document 150 ms after it arrived (F55) | failure, high |
+| Nothing changes around the element, but something changes elsewhere in the viewport | needs review |
+| Fewer pixels change noticeably than a 1 px outline around the element would paint (its perimeter) | needs review |
+| Pixels that change on their own cover more than 10% of the region, and nothing else changed | not judged; counted in the coverage note |
+| Any other change | no failure found |
+
+**2.4.11, the probe.** At every stop, forward and backward, a 5×5 `elementFromPoint` grid over the part of the focused element inside the viewport. A point counts as covered when it hits something that is neither the element, inside it, nor an ancestor of it (an ancestor on top means the element lets the pointer through, which is not evidence of a cover). When every point is covered, two pixel checks follow: the element is painted magenta, then hidden; neither may change a pixel of the region. Focus is given back to the element afterwards.
+
+**2.4.11, the rule.** Every point covered and neither check changed a pixel: failure, high. The finding names the cover, raised to its fixed or sticky layer, with its size and position, and suggests `scroll-padding-top` or `scroll-padding-bottom` of its height when it sits at the top or bottom of the window. A cover that lets pixels through (translucent) is not reported, and is counted in the coverage note; a partial cover is not reported (that is 2.4.12, AAA). 2.4.11 is new in WCAG 2.2: under Rampa's WCAG 2.1 target the result is marked "beyond the 2.1 target" and never counts toward the exit code, even with `--fail-on any`.
+
+**Limits.** Chromium scrolls an out-of-view focused element to the middle of the window, so a fixed banner mostly covers elements that were already in view; other browsers scroll differently. Only the run's viewport is walked (the plan's second viewport, 390×844, is not run yet). A faint change is a pixel count, not a judgment of perceptibility, and forced colors are not tested. Focus indicators drawn with `:focus-visible` survive the probe's refocus (Chromium keeps the keyboard modality), but a page that changes its indicator on `focus` events may show the second focus differently.

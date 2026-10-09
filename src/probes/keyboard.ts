@@ -284,7 +284,12 @@ async function walk(page: Page, probe: ProbePage, key: 'Tab' | 'Shift+Tab', budg
     const landed = early.filter((event) => event.type === 'focusin' && event.el)
     const target = landed[0]?.el
     const movedOn = Boolean(target && read.el && target.ref !== read.el.ref && !read.frame)
-    if (movedOn && target) {
+    // Focus that landed and was taken away at once (F55): the key reached the element, then the document had focus.
+    const removed = Boolean(target && !read.el)
+    if (removed && target) {
+      stop.el = target
+      stop.after = null
+    } else if (movedOn && target) {
       stop.el = target
       stop.after = read.el
       stop.afterWithin = await page.evaluate(contains, { outer: target.ref, inner: read.el?.ref ?? '' })
@@ -294,22 +299,25 @@ async function walk(page: Page, probe: ProbePage, key: 'Tab' | 'Shift+Tab', budg
       if (read.widget) stop.widget = read.widget
       if (read.href) stop.href = read.href
       if (read.radioGroup) stop.radioGroup = read.radioGroup
-      if (hook && read.el) await hook(page, stop, probe)
     }
     await waitUntil(page, pressedAt, REREAD_MS)
     const again = await page.evaluate(readFocus)
-    if (!movedOn && keyOf(again) !== keyOf(read)) {
+    if (!movedOn && !removed && keyOf(again) !== keyOf(read)) {
       stop.after = again.el
       if (read.el && again.el) stop.afterWithin = await page.evaluate(contains, { outer: read.el.ref, inner: again.el.ref })
     }
     const late = await drainEvents(page, probe.guard.start)
-    const events = [...early, ...late, ...guardEvents(probe, from, probe.guard.now())].filter(
+    // The key's window ends here: what the page does in reaction to the hook's own blur and refocus is not the key's doing.
+    const until = probe.guard.now()
+    // Pixels and other per-stop work, once the page has had its turn and focus is still where Tab put it.
+    if (hook && read.el && !movedOn && !removed && keyOf(again) === keyOf(read)) await hook(page, stop, probe)
+    const events = [...early, ...late, ...guardEvents(probe, from, until)].filter(
       (event) => event.type !== 'focusin' && event.type !== 'script-focus' && event.type !== 'script-blur',
     )
     if (events.length > 0) stop.events = events
     stops.push(stop)
 
-    const current = keyOf(again.el || !read.el ? again : read)
+    const current = removed && target ? target.ref : keyOf(again.el || !read.el ? again : read)
     if (current === OUTSIDE) {
       // Focus went back to the document: the walk went once around the page.
       if (stops.some((s) => s.el)) return { stops, end: 'cycled' }
@@ -402,6 +410,8 @@ export async function runKeyboardWalk(browser: Browser, url: string, options: Pr
     await page.waitForTimeout(IDLE_MS)
     const idle = [...(await drainEvents(page, probe.guard.start)), ...guardEvents(probe, idleFrom, probe.guard.now())]
     const inventory = await page.evaluate(inventoryControls)
+    // Scrolling that animates moves the focused element while it is measured: the walk scrolls at once.
+    await page.addStyleTag({ content: '*, *::before, *::after { scroll-behavior: auto !important; }' }).catch(() => undefined)
     await page.evaluate(() => {
       ;(document.activeElement as HTMLElement | null)?.blur?.()
       window.scrollTo(0, 0)
@@ -454,6 +464,10 @@ export async function runKeyboardWalk(browser: Browser, url: string, options: Pr
   }
 }
 
+/** Version 2 adds the focus pixels (2.4.7) and the obscured checks (2.4.11) to every stop. */
+export const FOCUS_VERSION = '2'
+
 export async function keyboardProbe(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
-  return [await runKeyboardWalk(browser, url, options)]
+  const { backwardFocusHook, forwardFocusHook } = await import('./focus.ts')
+  return [await runKeyboardWalk(browser, url, options, { forwardHook: forwardFocusHook, backwardHook: backwardFocusHook, version: FOCUS_VERSION })]
 }
