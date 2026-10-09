@@ -417,7 +417,7 @@ export async function runKeyboardWalk(browser: Browser, url: string, options: Pr
     await page.addStyleTag({ content: '*, *::before, *::after { scroll-behavior: auto !important; }' }).catch(() => undefined)
     await page.evaluate(() => {
       ;(document.activeElement as HTMLElement | null)?.blur?.()
-      window.scrollTo(0, 0)
+      window.scrollTo({ left: 0, top: 0, behavior: 'instant' as ScrollBehavior })
     })
 
     const forward = await walk(page, probe, 'Tab', STOP_BUDGET, deadline, hooks.forwardHook)

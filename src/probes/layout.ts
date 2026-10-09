@@ -79,16 +79,18 @@ const LIMITS: LayoutLimits = { maxBoxes: 4000, maxOverlaps: 400 }
 /** Runs in the page; needs the kit (kit.ts). Self-contained: Playwright serializes it with toString(). */
 export function measureLayout(limits: LayoutLimits): LayoutMeasure {
   const kit = (window as unknown as { __rampaKit: { cssPath(el: Element): string; identity(el: Element): InPageIdentity; visible(el: Element): boolean } }).__rampaKit
-  window.scrollTo(0, 0)
+  // Instant: with scroll-behavior: smooth, a plain scrollTo animates and has not moved yet when it returns.
+  const jump = (left: number, top: number) => window.scrollTo({ left, top, behavior: 'instant' as ScrollBehavior })
+  jump(0, 0)
   const root = document.documentElement
   const clientWidth = root.clientWidth
   const scrollWidth = Math.max(root.scrollWidth, document.body?.scrollWidth ?? 0)
-  window.scrollTo(100000, 0)
+  jump(100000, 0)
   // A script can scroll a window whose overflow is hidden; a person cannot. Hidden on html or body
   // (body's value goes to the window when html's is visible) means nobody reaches what is past the edge.
   const locked = (el: Element | null) => (el ? ['hidden', 'clip'].includes(getComputedStyle(el).overflowX) : false)
   const scrollsX = window.scrollX > 0 && !locked(root) && !locked(document.body)
-  window.scrollTo(0, 0)
+  jump(0, 0)
   const sx = window.scrollX
   const sy = window.scrollY
   const SKIP = new Set(['script', 'style', 'noscript', 'template', 'head', 'meta', 'link', 'title', 'base', 'option', 'optgroup', 'br', 'wbr'])
