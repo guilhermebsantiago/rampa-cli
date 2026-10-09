@@ -273,14 +273,16 @@ The judgment runs on a local model or on any major provider, through the [AI SDK
 | Azure OpenAI | `azure:<deployment>`, for example of gpt-6-luna | 0.10 / 0.50 | `AZURE_API_KEY` and `AZURE_RESOURCE_NAME` (or `AZURE_BASE_URL`) |
 | Claude on Vertex AI | `vertex-anthropic:<model id as Vertex lists it>` | Vertex's price | `GOOGLE_VERTEX_PROJECT` with Application Default Credentials |
 | Any OpenAI-compatible server (vLLM, llama.cpp…) | `openai-compatible:<model>` | | `RAMPA_OPENAI_COMPATIBLE_URL`, optional `RAMPA_OPENAI_COMPATIBLE_KEY` |
+| Codex CLI (ChatGPT plans) | `codex:default` | your plan's limits | `codex` installed and signed in with ChatGPT |
+| Gemini CLI (Gemini Code Assist) | `gemini-cli:default` | your license's limits | `gemini` installed and signed in with Google |
 
-Model ids and prices were checked on each provider's own pages on 2026-10-07, and every recommended model takes images. LM Studio and the last three need a name only you know, so Rampa never picks them on its own. Short aliases work too: `gemini:`, `aws:`, `together:`, `vercel:`.
+Model ids and prices were checked on each provider's own pages on 2026-10-07, and every recommended model takes images. LM Studio, Azure, Claude on Vertex AI and OpenAI-compatible servers need a name only you know, and the two CLIs run on your plan, so Rampa never picks them on its own. Short aliases work too: `gemini:`, `aws:`, `together:`, `vercel:`.
 
 - **Every provider has a test.** It checks the request the provider builds (prompt, image and schema) and reads a reply in its wire format, with no network. The published evaluation ran on Ollama; tables for hosted models come next.
 - **Cloud details.** Vertex uses the `global` location unless `GOOGLE_VERTEX_LOCATION` says otherwise. Bedrock returns the JSON through a forced tool, which every Claude on Bedrock supports; with AWS SSO or profiles, export the session first with `eval "$(aws configure export-credentials --format env)"`. Azure takes your deployment name, not the model name.
 - **1.1.1 and 1.4.5 need vision.** `gemma4:12b` has it and runs on a 16 GB GPU; [docs/models.md](docs/models.md) lists other local vision models that work. Text-only models such as `groq:openai/gpt-oss-20b` judge the rest with `--criteria 1.3.5,2.4.2,2.4.4,2.4.6,3.1.1,3.1.2,3.3.2`.
 - **Reasoning is off by default for local models.** On an RTX 5060 Ti that cut a judgment from about 6 s to 2 s with the same answer; `--reasoning` brings it back, and `rampa eval` can measure the trade-off.
-- **Subscriptions.** Anthropic does not allow third-party tools to offer claude.ai login or subscription limits unless approved ([Agent SDK docs](https://code.claude.com/docs/en/agent-sdk/overview)), so Rampa uses API keys. Claude Max and Team plans include monthly API credits ([Help Center](https://support.claude.com/en/articles/15036540)), which an API key can draw on.
+- **Subscriptions.** Codex CLI (ChatGPT plans) and Gemini CLI (Gemini Code Assist) can judge on a subscription through their official CLIs: you install and sign in to the CLI, and Rampa runs it in its non-interactive mode with your own setup kept out, never reading the credentials ([docs/subscriptions.md](docs/subscriptions.md)). Claude plans are not supported: Anthropic's terms say Pro and Max usage limits assume ordinary, individual usage, and that third-party developers may not route requests through plan credentials on behalf of their users ([Legal and compliance](https://code.claude.com/docs/en/legal-and-compliance)). With Claude, use an API key; Claude Max and Team plans include monthly API credits ([Help Center](https://support.claude.com/en/articles/15036540)) that a key can draw on.
 - **Recommendations come from measurement.** `rampa models` lists a starting point; the model per criterion should be chosen with `rampa eval`, not generic benchmarks.
 
 ## How it works
@@ -391,7 +393,7 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - [ ] A false-positive study on real pages
 - [ ] WCAG 2.2, and checks that drive the page: keyboard and focus order, focus visible, reflow, text spacing, content on hover
 - [ ] An opt-in cognitive accessibility profile, from the W3C COGA guidance
-- [ ] Judging on a Claude, ChatGPT or Gemini subscription through their official CLIs
+- [x] ChatGPT and Gemini subscriptions through their official CLIs
 
 ## Development
 
