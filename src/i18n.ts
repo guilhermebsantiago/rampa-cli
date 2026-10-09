@@ -62,6 +62,23 @@ const messages = {
     agentNotCheckedList: '{count} of {total} WCAG 2.1 A/AA criteria: {list}',
     agentSameFix: 'as in finding {n}',
     agentLeftOut: '{count} more finding(s) are counted but not listed ({list}); pass a larger max_findings to list them, or fix these and check again.',
+    disclaimerScreen: 'This report does not declare the screen accessible.',
+    disclaimerImage: 'This report does not declare the image accessible.',
+    locatedBy: 'Located by {model} in the image: not read from an accessibility tree',
+    noteNoScreenshot: 'No usable screenshot, so images were not judged (1.1.1) and text contrast was not measured.',
+    noteNoLocale: 'The language the screen is in is not known, so the language of the screen (3.1.1) was not checked.',
+    noteUiAutomator: 'Read from UI Automator, which does not expose headings, labelFor or the language of text: checks that need them did not run.',
+    noteAppiumSource: 'Read from an Appium page source, which marks headings but not labelFor or the language of text.',
+    noteXcuitest: 'Read from an XCUITest export, which does not expose labels tied to fields or the language of text.',
+    noteXcuitestNoTraits: 'The export has no accessibility traits, so headings were not found (2.4.6).',
+    noteIosLanguage:
+      'The export does not say which language the app ran in, so the language of the screen (3.1.1) was not checked. Pass language: to RampaExport, or launch the app with -AppleLanguages.',
+    noteImageScope:
+      'An image has no accessibility tree: names, roles, states, focus order, language and structure cannot be checked from pixels. Only text contrast is measured, where a model found text.',
+    noteImageNoModel: 'No model to find text in the image, so nothing was measured. Pass --model with a vision model.',
+    noteImageBlocks: '{model} located {kept} text block(s) in the image; {dropped} more did not hold up against the pixels and were dropped.',
+    noteImageOffline: 'No cached text locations for this image (--offline), so nothing was measured.',
+    noteImageError: 'The model could not locate text in the image, so nothing was measured: {error}',
   },
   'pt-BR': {
     tagline: 'verificação de acessibilidade além da sintaxe',
@@ -114,6 +131,23 @@ const messages = {
     agentNotCheckedList: '{count} de {total} critérios WCAG 2.1 A/AA: {list}',
     agentSameFix: 'como no achado {n}',
     agentLeftOut: '{count} achado(s) a mais entram na contagem, mas não na lista ({list}); passe um max_findings maior para listá-los, ou corrija estes e verifique de novo.',
+    disclaimerScreen: 'Este relatório não declara a tela acessível.',
+    disclaimerImage: 'Este relatório não declara a imagem acessível.',
+    locatedBy: 'Localizado por {model} na imagem: não lido de uma árvore de acessibilidade',
+    noteNoScreenshot: 'Sem captura de tela utilizável: as imagens não foram julgadas (1.1.1) e o contraste do texto não foi medido.',
+    noteNoLocale: 'O idioma em que a tela está não é conhecido, então o idioma da tela (3.1.1) não foi verificado.',
+    noteUiAutomator: 'Lido do UI Automator, que não expõe títulos, labelFor nem o idioma do texto: as verificações que dependem deles não rodaram.',
+    noteAppiumSource: 'Lido do page source do Appium, que marca títulos, mas não labelFor nem o idioma do texto.',
+    noteXcuitest: 'Lido de uma exportação do XCUITest, que não expõe rótulos ligados a campos nem o idioma do texto.',
+    noteXcuitestNoTraits: 'A exportação não tem os traits de acessibilidade, então os títulos não foram encontrados (2.4.6).',
+    noteIosLanguage:
+      'A exportação não diz em que idioma o app rodou, então o idioma da tela (3.1.1) não foi verificado. Passe language: ao RampaExport ou abra o app com -AppleLanguages.',
+    noteImageScope:
+      'Uma imagem não tem árvore de acessibilidade: nomes, papéis, estados, ordem de foco, idioma e estrutura não podem ser verificados em pixels. Só o contraste do texto é medido, onde um modelo encontrou texto.',
+    noteImageNoModel: 'Sem modelo para encontrar texto na imagem, nada foi medido. Use --model com um modelo de visão.',
+    noteImageBlocks: '{model} localizou {kept} bloco(s) de texto na imagem; outros {dropped} não se sustentaram nos pixels e foram descartados.',
+    noteImageOffline: 'Sem localizações de texto em cache para esta imagem (--offline), então nada foi medido.',
+    noteImageError: 'O modelo não conseguiu localizar texto na imagem, então nada foi medido: {error}',
   },
 } as const
 

@@ -1,6 +1,6 @@
-import type { EngineResults, Verification } from '../core/types.ts'
+import type { EngineResults, Patch, Verification } from '../core/types.ts'
 import { normalizeForMatch } from '../core/util.ts'
-import type { A11yNode } from '../snapshot/schema.ts'
+import type { A11yNode, Surface } from '../snapshot/schema.ts'
 
 /** Refs of the nodes the engine already failed on these rules: they go to the report as they are, never to the model. */
 export function failedByEngine(engine: EngineResults, rules: readonly string[]): Set<string> {
@@ -52,6 +52,8 @@ export function startTagOf(node: A11yNode): string {
   const html = typeof node.native.html === 'string' ? node.native.html : ''
   const recorded = /^<[^>]*>/.exec(html)?.[0]
   if (recorded) return recorded
+  // A native node as its platform's tools show it: <android.widget.ImageView content-desc="…">.
+  if (typeof node.native.source === 'string') return node.native.source
   const tag = typeof node.native.tag === 'string' ? node.native.tag : node.role
   const attributes = Object.entries(attributesOf(node))
     .map(([name, value]) => ` ${name}="${escapeHtml(value)}"`)
@@ -61,6 +63,44 @@ export function startTagOf(node: A11yNode): string {
 
 export function endTagOf(node: A11yNode): string {
   return `</${typeof node.native.tag === 'string' ? node.native.tag : node.role}>`
+}
+
+/**
+ * On Android and iOS a name lives in a property the developer sets, not in markup, so a
+ * patch shows that property: android:contentDescription="…", accessibilityLabel = "…".
+ */
+export type NativeSurface = 'android' | 'ios'
+
+export function isNativeSurface(surface: Surface): surface is NativeSurface {
+  return surface === 'android' || surface === 'ios'
+}
+
+const NAME_PROPERTIES: Record<NativeSurface, Record<string, string>> = {
+  android: { 'content-desc': 'contentDescription', hint: 'hint', text: 'text' },
+  ios: { label: 'accessibilityLabel', placeholder: 'placeholder', text: 'text' },
+}
+
+/** The property a native node's name comes from, as the collector recorded it. */
+export function nameProperty(surface: NativeSurface, node: A11yNode): string {
+  const from = typeof node.native.nameFrom === 'string' ? node.native.nameFrom : surface === 'android' ? 'content-desc' : 'label'
+  return NAME_PROPERTIES[surface][from] ?? NAME_PROPERTIES[surface][surface === 'android' ? 'content-desc' : 'label'] ?? 'name'
+}
+
+export function propertyLine(surface: NativeSurface, property: string, value: string | boolean): string {
+  if (surface === 'android') return `android:${property}="${escapeHtml(String(value))}"`
+  return typeof value === 'boolean' ? `${property} = ${value}` : `${property} = "${value.replaceAll('\\', '\\\\').replaceAll('"', '\\"')}"`
+}
+
+export function propertyPatch(surface: NativeSurface, ref: string, property: string, from: string, to: string): Patch {
+  return {
+    ref,
+    kind: property === 'text' ? 'set-text' : 'set-attribute',
+    attribute: property,
+    from,
+    to,
+    before: propertyLine(surface, property, from),
+    after: propertyLine(surface, property, to),
+  }
 }
 
 /**

@@ -3,6 +3,7 @@ import { errorMessage } from '../../core/util.ts'
 import { chooseModel, detectEnvironment } from '../../providers/detect.ts'
 import { hasGoogleAdc, lmStudioUrl, ollamaUrl } from '../../providers/registry.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
+import { adbVersion } from '../../surfaces/android/adb.ts'
 import { launchBrowser } from '../../surfaces/web.ts'
 import { VERSION } from '../../version.ts'
 import type { GlobalContext } from '../context.ts'
@@ -41,6 +42,10 @@ export async function runDoctor(context: GlobalContext): Promise<number> {
     bad('Browser', errorMessage(error))
     failures++
   }
+
+  const adb = await adbVersion()
+  if (adb) ok('adb', `platform-tools ${adb} (for android: targets)`)
+  else info('adb', 'not found (optional, for android: targets; see docs/android.md)')
 
   const env = await detectEnvironment()
   if (env.ollama.reachable) {

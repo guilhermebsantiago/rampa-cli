@@ -4,7 +4,19 @@ import { normalizeForMatch, truncate } from '../core/util.ts'
 import { languageName } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree, inheritedLang, walkTree } from '../snapshot/tree.ts'
-import { attributesOf, endTagOf, escapeHtml, failedByEngine, isHidden, readingTextOf, startTagOf, verifyQuote } from './shared.ts'
+import {
+  attributesOf,
+  endTagOf,
+  escapeHtml,
+  failedByEngine,
+  isHidden,
+  isNativeSurface,
+  nameProperty,
+  propertyPatch,
+  readingTextOf,
+  startTagOf,
+  verifyQuote,
+} from './shared.ts'
 
 /**
  * WCAG 2.1 SC 2.4.6 Headings and Labels (AA).
@@ -43,7 +55,7 @@ export interface HeadingsAndLabelsContext {
   kind: 'heading' | 'label'
   text: string
   /** The element whose text a fix changes: the heading, the field's label element, or the field itself for aria-label. */
-  target: { ref: string; startTag: string; endTag: string; attribute?: 'aria-label' | undefined } | undefined
+  target: { ref: string; startTag: string; endTag: string; attribute?: 'aria-label' | undefined; property?: string | undefined } | undefined
   level?: number | undefined
   /** Heading: the content it introduces. Label: the field and what surrounds it. */
   content: string
@@ -102,6 +114,7 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
       fieldPlaces.set(key, [...(fieldPlaces.get(key) ?? []), groupOf(index, node) ?? headingSoFar])
     }
 
+    const native = isNativeSurface(snapshot.surface) ? snapshot.surface : undefined
     ordered.forEach((node, position) => {
       if (isHidden(node) || failed.has(node.ref)) return
       const language = inheritedLang(index, node.ref, snapshot.locale) ?? node.lang ?? 'en'
@@ -119,7 +132,9 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
           context: {
             kind: 'heading',
             text: node.name.trim(),
-            target: { ref: node.ref, startTag: startTagOf(node), endTag: endTagOf(node) },
+            target: native
+              ? { ref: node.ref, startTag: '', endTag: '', property: nameProperty(native, node) }
+              : { ref: node.ref, startTag: startTagOf(node), endTag: endTagOf(node) },
             level,
             outline,
             siblings,
@@ -135,17 +150,25 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
         const places = fieldPlaces.get(normalizeForMatch(node.name)) ?? []
         const group = groupOf(index, node)
         const label = labelElement(ordered, node)
-        const target = attributes['aria-label']
-          ? { ref: node.ref, startTag: startTagOf(node), endTag: '', attribute: 'aria-label' as const }
-          : label
-            ? { ref: label.ref, startTag: startTagOf(label), endTag: endTagOf(label) }
-            : undefined
+        // On Android and iOS the label is a property of the field itself: content-desc, hint, accessibilityLabel.
+        const target = native
+          ? { ref: node.ref, startTag: '', endTag: '', property: nameProperty(native, node) }
+          : attributes['aria-label']
+            ? { ref: node.ref, startTag: startTagOf(node), endTag: '', attribute: 'aria-label' as const }
+            : label
+              ? { ref: label.ref, startTag: startTagOf(label), endTag: endTagOf(label) }
+              : undefined
+        const facts = native
+          ? nativeFieldFacts(node)
+          : [
+              `Field: ${node.role}${attributes.type ? `, type="${attributes.type}"` : ''}`,
+              attributes.name ? `name="${attributes.name}"` : undefined,
+              attributes.id ? `id="${attributes.id}"` : undefined,
+              attributes.autocomplete ? `autocomplete="${attributes.autocomplete}"` : undefined,
+              attributes.placeholder ? `placeholder="${attributes.placeholder}"` : undefined,
+            ]
         const field = [
-          `Field: ${node.role}${attributes.type ? `, type="${attributes.type}"` : ''}`,
-          attributes.name ? `name="${attributes.name}"` : undefined,
-          attributes.id ? `id="${attributes.id}"` : undefined,
-          attributes.autocomplete ? `autocomplete="${attributes.autocomplete}"` : undefined,
-          attributes.placeholder ? `placeholder="${attributes.placeholder}"` : undefined,
+          ...facts,
           lastHeading ? `Under the visible heading: ${lastHeading}` : 'Under the visible heading: none',
           group ? `In the group: ${group}` : undefined,
           places.length > 1 ? sharedLabel(places) : undefined,
@@ -221,11 +244,12 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
     return locale === 'pt-BR' ? `O rótulo "${text}" ${reason}.` : `The label "${text}" ${reason}.`
   },
 
-  patch(output, candidate): Patch | undefined {
+  patch(output, candidate, snapshot): Patch | undefined {
     const target = candidate.context.target
     const value = output.suggestedText.trim()
     if (!target || value === '') return undefined
     const from = candidate.context.text
+    if (target.property && isNativeSurface(snapshot.surface)) return propertyPatch(snapshot.surface, target.ref, target.property, from, value)
     if (target.attribute) {
       const after = target.startTag.replace(/\baria-label\s*=\s*(["'])[^"']*\1/i, `aria-label="${escapeHtml(value)}"`)
       return { ref: target.ref, kind: 'set-attribute', attribute: target.attribute, from, to: value, before: target.startTag, after }
@@ -239,6 +263,22 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
       after: `${target.startTag}${escapeHtml(value)}${target.endTag}`,
     }
   },
+}
+
+const NAME_SOURCES: Record<string, string> = {
+  'content-desc': 'its contentDescription',
+  hint: 'its hint, shown inside the field while it is empty',
+  text: 'its text',
+  label: 'its accessibilityLabel',
+  placeholder: 'its placeholder, shown inside the field while it is empty',
+}
+
+/** An Android or iOS field as the model needs it: its type, its id, and where its label comes from. */
+function nativeFieldFacts(node: A11yNode): Array<string | undefined> {
+  const type = typeof node.native.class === 'string' ? node.native.class : typeof node.native.elementType === 'string' ? node.native.elementType : ''
+  const id = typeof node.native.resourceId === 'string' ? `resource-id="${node.native.resourceId}"` : typeof node.native.identifier === 'string' ? `identifier="${node.native.identifier}"` : undefined
+  const from = typeof node.native.nameFrom === 'string' ? NAME_SOURCES[node.native.nameFrom] : undefined
+  return [`Field: ${node.role}${type ? `, ${type}` : ''}`, id, from ? `The label is ${from}` : undefined, node.states.includes('password') ? 'A password field' : undefined]
 }
 
 function headingLevel(node: A11yNode): number {

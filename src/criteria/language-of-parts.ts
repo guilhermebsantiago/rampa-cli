@@ -4,6 +4,7 @@ import { canonicalLanguageTag, letterCount, normalizeForMatch, primarySubtag, tr
 import { languageName } from '../i18n.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree, inheritedLang, textInheritingLang, walkTree } from '../snapshot/tree.ts'
+import { propertyPatch } from './shared.ts'
 
 /**
  * WCAG 2.1 SC 3.1.2 Language of Parts (AA).
@@ -12,6 +13,12 @@ import { indexTree, inheritedLang, textInheritingLang, walkTree } from '../snaps
  * The residue judged here: elements with a valid lang whose text may be in a
  * different language. ACT reference rules: de46e4 (valid tag) and off6ek
  * (language subtag matches the content).
+ *
+ * WCAG2ICT applies it to app screens as written. There a passage declares its language
+ * with a LocaleSpan (Android) or accessibilityLanguage (iOS) and inherits the language the
+ * app runs in. UI Automator and XCUITest do not report either, so on those snapshots no
+ * node declares a language and nothing is judged; snapshots from exporters that record
+ * the language of a node are judged like web pages.
  *
  * The normative text in the prompt is quoted from WCAG 2.1
  * (https://www.w3.org/TR/WCAG21/), Copyright © W3C, under the W3C Document License.
@@ -58,7 +65,7 @@ export const languageOfParts: Criterion<LanguageOfPartsContext, LanguageOfPartsJ
   level: 'AA',
   version: '1',
   act: ['de46e4', 'off6ek'],
-  surfaces: ['web'],
+  surfaces: ['web', 'android', 'ios'],
   needs: {},
   engineRules: ENGINE_RULES,
   schema: LanguageOfPartsJudgment,
@@ -87,7 +94,7 @@ export const languageOfParts: Criterion<LanguageOfPartsContext, LanguageOfPartsJ
           declared,
           inherited: inheritedLang(index, node.ref, snapshot.locale),
           text: truncate(text, 1200),
-          html: truncate(typeof node.native.html === 'string' ? node.native.html : '', 800),
+          html: truncate(typeof node.native.html === 'string' ? node.native.html : typeof node.native.source === 'string' ? node.native.source : '', 800),
         },
       })
     }
@@ -142,9 +149,16 @@ export const languageOfParts: Criterion<LanguageOfPartsContext, LanguageOfPartsJ
       : `Marked as lang="${declared}", but the text is in ${name} (${detected}).`
   },
 
-  patch(output, candidate) {
+  patch(output, candidate, snapshot) {
     const detected = canonicalLanguageTag(output.detectedLanguage)
     if (!detected) return undefined
+    const from = candidate.context.declared
+    const to = primarySubtag(detected)
+    if (snapshot.surface === 'ios') return propertyPatch('ios', candidate.ref, 'accessibilityLanguage', from, to)
+    if (snapshot.surface === 'android') {
+      const span = (tag: string) => `LocaleSpan(Locale.forLanguageTag("${tag}"))`
+      return { ref: candidate.ref, kind: 'set-attribute', attribute: 'LocaleSpan', from, to, before: span(from), after: span(to) }
+    }
     const startTag = /^<[^>]*>/.exec(candidate.context.html)?.[0]
     const after = startTag?.replace(/\blang\s*=\s*(["'])[^"']*\1/i, `lang="${primarySubtag(detected)}"`)
     return {

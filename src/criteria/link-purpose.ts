@@ -4,7 +4,18 @@ import { normalizeForMatch, truncate } from '../core/util.ts'
 import { languageName } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree, inheritedLang, walkTree } from '../snapshot/tree.ts'
-import { attributesOf, endTagOf, escapeHtml, failedByEngine, isHidden, startTagOf, subtreeText, verifyQuote } from './shared.ts'
+import {
+  attributesOf,
+  endTagOf,
+  escapeHtml,
+  failedByEngine,
+  isHidden,
+  isNativeSurface,
+  propertyPatch,
+  startTagOf,
+  subtreeText,
+  verifyQuote,
+} from './shared.ts'
 
 /**
  * WCAG 2.1 SC 2.4.4 Link Purpose (In Context) (A).
@@ -181,10 +192,12 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
     return locale === 'pt-BR' ? `O texto do link "${name}" ${reason}.` : `The link text "${name}" ${reason}.`
   },
 
-  patch(output, candidate): Patch | undefined {
+  patch(output, candidate, snapshot): Patch | undefined {
     const c = candidate.context
     const value = output.suggestedText.trim()
     if (value === '') return undefined
+    // An app's link is text in a text view: the fix changes that text.
+    if (isNativeSurface(snapshot.surface)) return propertyPatch(snapshot.surface, candidate.ref, 'text', c.name, value)
     if (c.labelledByAttribute) {
       const after = c.startTag.replace(/\baria-label\s*=\s*(["'])[^"']*\1/i, `aria-label="${escapeHtml(value)}"`)
       return { ref: candidate.ref, kind: 'set-attribute', attribute: 'aria-label', from: c.name, to: value, before: c.startTag, after }

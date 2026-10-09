@@ -4,7 +4,7 @@ import { canonicalLanguageTag, letterCount, normalizeForMatch, primarySubtag, tr
 import { languageName } from '../i18n.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { textInheritingLang } from '../snapshot/tree.ts'
-import { failedByEngine, startTagOf } from './shared.ts'
+import { failedByEngine, isNativeSurface, startTagOf } from './shared.ts'
 
 /**
  * WCAG 2.1 SC 3.1.1 Language of Page (A).
@@ -14,6 +14,14 @@ import { failedByEngine, startTagOf } from './shared.ts'
  * in Portuguese. The residue judged here: the page's own text, the part that inherits
  * the root language, read against the declared language. ACT reference rules: b5c3f8,
  * bf051a (declared and valid) and ucwvc8 (matches the default language).
+ *
+ * On an app screen (Android, iOS), WCAG2ICT reads the criterion as the default language of
+ * the software, and notes that an app that uses the platform's language setting and shows
+ * its interface in that language satisfies it. The declared language there is the language
+ * the app runs in: its own language setting, else the device's on Android, and only a
+ * language the test states on iOS, where the app's localization decides it. A screen
+ * mostly in another language is read with the wrong voice unless the app marks the text's
+ * language, which neither UI Automator nor XCUITest shows; the message says so.
  *
  * The normative text in the prompt is quoted from WCAG 2.1
  * (https://www.w3.org/TR/WCAG21/), Copyright © W3C, under the W3C Document License.
@@ -35,6 +43,8 @@ export interface LanguageOfPageContext {
   declared: string
   text: string
   startTag: string
+  /** On an app screen, the screen reader that reads it in the declared language. */
+  reader?: 'TalkBack' | 'VoiceOver' | undefined
 }
 
 const SYSTEM = `You check exactly one WCAG 2.1 success criterion: 3.1.1 Language of Page (Level A).
@@ -55,7 +65,7 @@ export const languageOfPage: Criterion<LanguageOfPageContext, LanguageOfPageJudg
   level: 'A',
   version: '1',
   act: ['b5c3f8', 'bf051a', 'ucwvc8'],
-  surfaces: ['web'],
+  surfaces: ['web', 'android', 'ios'],
   needs: {},
   engineRules: ENGINE_RULES,
   schema: LanguageOfPageJudgment,
@@ -67,12 +77,17 @@ export const languageOfPage: Criterion<LanguageOfPageContext, LanguageOfPageJudg
     if (declared === '' || !canonicalLanguageTag(declared) || failedByEngine(engine, ENGINE_RULES).size > 0) return []
     const text = typeof root.native.langText === 'string' ? root.native.langText : textInheritingLang(root)
     if (letterCount(text) < 12) return []
-    return [{ ref: root.ref, context: { declared, text: truncate(text, 1500), startTag: startTagOf(root) } }]
+    const context: LanguageOfPageContext = { declared, text: truncate(text, 1500), startTag: startTagOf(root) }
+    if (isNativeSurface(snapshot.surface)) context.reader = snapshot.surface === 'android' ? 'TalkBack' : 'VoiceOver'
+    return [{ ref: root.ref, context }]
   },
 
   prompt(candidate, snapshot) {
     const { declared, text } = candidate.context
-    const user = [`Surface: ${snapshot.surface}`, `Declared page language (lang on the root element): ${declared}`, '', '<text>', text, '</text>'].join('\n')
+    const declaration = isNativeSurface(snapshot.surface)
+      ? `Declared language of the screen (the language the app runs in): ${declared}`
+      : `Declared page language (lang on the root element): ${declared}`
+    const user = [`Surface: ${snapshot.surface}`, declaration, '', '<text>', text, '</text>'].join('\n')
     return { system: SYSTEM, user }
   },
 
@@ -93,12 +108,22 @@ export const languageOfPage: Criterion<LanguageOfPageContext, LanguageOfPageJudg
     const detected = canonicalLanguageTag(output.detectedLanguage) ?? output.detectedLanguage
     const name = languageName(detected, locale)
     const declared = candidate.context.declared
+    const reader = candidate.context.reader
+    if (reader) {
+      const marker = reader === 'TalkBack' ? 'LocaleSpan' : 'accessibilityLanguage'
+      const runs = languageName(declared, locale)
+      return locale === 'pt-BR'
+        ? `O app roda em ${runs} (${declared}), mas a maior parte do texto da tela está em ${name} (${detected}). O ${reader} lê esse texto como ${runs}, a menos que o app marque o idioma do texto (${marker}), o que a captura não mostra.`
+        : `The app runs in ${runs} (${declared}), but most of the screen's text is in ${name} (${detected}). ${reader} reads it as ${runs} unless the app marks the text's language (${marker}), which the capture does not show.`
+    }
     return locale === 'pt-BR'
       ? `A página está marcada como lang="${declared}", mas a maior parte do texto está em ${name} (${detected}).`
       : `The page is marked lang="${declared}", but most of its text is in ${name} (${detected}).`
   },
 
-  patch(output, candidate): Patch | undefined {
+  patch(output, candidate, snapshot): Patch | undefined {
+    // An app's language comes from its localizations and settings, not from one attribute.
+    if (isNativeSurface(snapshot.surface)) return undefined
     const detected = canonicalLanguageTag(output.detectedLanguage)
     if (!detected) return undefined
     const value = primarySubtag(detected)

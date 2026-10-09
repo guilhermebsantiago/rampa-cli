@@ -1,20 +1,24 @@
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import type { Browser } from 'playwright-core'
 import { loadWaivers } from '../../config.ts'
-import { fileCache } from '../../core/cache.ts'
+import { type JudgmentCache, fileCache } from '../../core/cache.ts'
 import { checkSnapshot } from '../../core/check.ts'
-import type { Confidence, Report } from '../../core/types.ts'
+import type { Confidence, EngineResults, Report, Usage } from '../../core/types.ts'
 import { RampaError } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
-import { emptyEngine } from '../../engine/axe.ts'
+import { rulesNotes } from '../../engine/rules.ts'
+import type { Locale } from '../../i18n.ts'
 import { type Reasoning, createModelProvider, providerIdentity } from '../../providers/ai-sdk.ts'
 import { chooseModel } from '../../providers/detect.ts'
 import type { ModelProvider } from '../../providers/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
 import { renderReport } from '../../report/pretty.ts'
+import type { A11ySnapshot } from '../../snapshot/schema.ts'
+import { collectAndroid, fromScreen } from '../../surfaces/android/adb.ts'
+import { collectImage } from '../../surfaces/image.ts'
+import { type Target, loadRecorded, recordingName, resolveTargets, siblingPng } from '../../surfaces/targets.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
-import { loadEngineFor, loadSnapshot, recordingName, resolveTargets } from '../../surfaces/targets.ts'
 import type { GlobalContext } from '../context.ts'
 
 export interface CheckCommandOptions {
@@ -31,7 +35,7 @@ export interface CheckCommandOptions {
   cacheDir: string
   concurrency: string
   reasoning?: Reasoning
-  /** Write each collected snapshot and its engine results here, to check later without a browser. */
+  /** Write each collected snapshot and its engine results here, to check later without a browser or a device. */
   save?: string
   verbose?: boolean
 }
@@ -49,6 +53,91 @@ export async function resolveProvider(spec: string | undefined, offline: boolean
   return createModelProvider(spec, { reasoning })
 }
 
+/** One target, ready to check: the snapshot, the deterministic results, and what the collector could not see. */
+interface Collected {
+  snapshot: A11ySnapshot
+  engine: EngineResults
+  notes: string[]
+  /** Model calls made while collecting: an image's text is located by a model. */
+  usage?: Usage | undefined
+  /** Kept next to a recording: the raw UI Automator dump and the screenshot. */
+  dump?: string | undefined
+  png?: Buffer | undefined
+  /** Whether --save records it: a recorded snapshot is already a recording. */
+  record: boolean
+}
+
+interface CollectContext {
+  locale: Locale
+  provider: ModelProvider | undefined
+  cache: JudgmentCache
+  offline: boolean
+  concurrency: number
+  captureImages: boolean
+  screenshots: boolean
+  browser: () => Promise<Browser>
+}
+
+async function collect(target: Target, ctx: CollectContext): Promise<Collected> {
+  switch (target.kind) {
+    case 'web': {
+      const web = await collectWeb(await ctx.browser(), target.url, {
+        runAxe: true,
+        locale: ctx.locale,
+        screenshotDir: ctx.screenshots ? '.rampa/screenshots' : undefined,
+        captureImages: ctx.captureImages,
+      })
+      return { ...web, notes: [], record: true }
+    }
+    case 'android': {
+      const android = await collectAndroid({ serial: target.serial, locale: ctx.locale, captureImages: ctx.captureImages })
+      return { ...android, dump: android.screen.xml, png: android.screen.png, record: true }
+    }
+    case 'android-dump': {
+      const screen = { xml: await readFile(target.path, 'utf8'), png: await siblingPng(target.path), locale: undefined, localeSource: undefined }
+      const android = fromScreen(screen, ctx.locale, ctx.captureImages)
+      android.snapshot.source = { kind: 'android-xml', path: target.label.replaceAll('\\', '/') }
+      return { ...android, record: true }
+    }
+    case 'image': {
+      const image = await collectImage(target.path, {
+        provider: ctx.provider,
+        cache: ctx.cache,
+        offline: ctx.offline,
+        locale: ctx.locale,
+        label: target.label.replaceAll('\\', '/'),
+        concurrency: ctx.concurrency,
+      })
+      return { ...image, record: true }
+    }
+    case 'snapshot': {
+      const loaded = await loadRecorded(target.path, ctx.locale, ctx.captureImages)
+      return { ...loaded, record: loaded.from === 'xcuitest' }
+    }
+  }
+}
+
+/** Snapshot and engine results, plus the raw dump and the screenshot for an app screen, to check later without a device. */
+async function saveRecording(dir: string, target: Target, collected: Collected): Promise<void> {
+  await mkdir(dir, { recursive: true })
+  const { snapshot: collectedSnapshot } = collected
+  // A live screen has no file name; the app and the screen title name it.
+  const name = recordingName(target.kind === 'android' ? `android ${collectedSnapshot.target} ${collectedSnapshot.title ?? ''}` : target.label)
+  let snapshot = collectedSnapshot
+  // A local file is recorded by its relative path, so the recording is portable and leaks no home directory.
+  if (target.kind === 'web' && target.url.startsWith('file:')) snapshot = { ...snapshot, target: target.label.replaceAll('\\', '/') }
+  if (collected.dump !== undefined) {
+    await writeFile(join(dir, `${name}.xml`), collected.dump, 'utf8')
+    snapshot = { ...snapshot, source: { kind: 'android-xml', path: `${name}.xml` } }
+  }
+  if (collected.png) {
+    await writeFile(join(dir, `${name}.png`), collected.png)
+    snapshot = { ...snapshot, screenshot: `${name}.png` }
+  }
+  await writeFile(join(dir, `${name}.snapshot.json`), `${JSON.stringify(snapshot)}\n`, 'utf8')
+  await writeFile(join(dir, `${name}.engine.json`), `${JSON.stringify(collected.engine)}\n`, 'utf8')
+}
+
 export async function runCheck(targets: string[], options: CheckCommandOptions, context: GlobalContext): Promise<number> {
   const resolved = await resolveTargets(targets)
   const criteria = resolveCriteria(options.criteria.split(','))
@@ -58,49 +147,49 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   const needsImages = options.llm && criteria.some((criterion) => criterion.needs.vision)
   const cache = fileCache(options.cacheDir)
   const waivers = await loadWaivers()
+  const concurrency = Math.max(1, Number.parseInt(options.concurrency, 10) || 4)
   const progress = (message: string) => {
     if (process.stderr.isTTY && options.format === 'pretty') process.stderr.write(`\x1b[2K${message}\r`)
   }
 
   const reports: Report[] = []
   let browser: Browser | undefined
+  const ctx: CollectContext = {
+    locale: context.locale,
+    provider,
+    cache,
+    offline: Boolean(options.offline),
+    concurrency,
+    captureImages: needsImages,
+    screenshots: Boolean(options.screenshots),
+    browser: async () => {
+      browser ??= await launchBrowser()
+      return browser
+    },
+  }
   try {
     for (const target of resolved) {
       progress(`… ${target.label}`)
-      let collected
-      if (target.kind === 'web') {
-        browser ??= await launchBrowser()
-        collected = await collectWeb(browser, target.url, {
-          runAxe: true,
-          locale: context.locale,
-          screenshotDir: options.screenshots ? '.rampa/screenshots' : undefined,
-          captureImages: needsImages,
-        })
-        if (options.save) {
-          await mkdir(options.save, { recursive: true })
-          const name = recordingName(target.label)
-          // A local file is recorded by its relative path, so the recording is portable and leaks no home directory.
-          const snapshot = target.url.startsWith('file:') ? { ...collected.snapshot, target: target.label.replaceAll('\\', '/') } : collected.snapshot
-          await writeFile(join(options.save, `${name}.snapshot.json`), `${JSON.stringify(snapshot)}\n`, 'utf8')
-          await writeFile(join(options.save, `${name}.engine.json`), `${JSON.stringify(collected.engine)}\n`, 'utf8')
-        }
-      } else {
-        collected = { snapshot: await loadSnapshot(target.path), engine: (await loadEngineFor(target.path)) ?? emptyEngine() }
+      const collected = await collect(target, ctx)
+      if (options.save && collected.record) await saveRecording(options.save, target, collected)
+      const report = await checkSnapshot(collected.snapshot, collected.engine, {
+        criteria,
+        llm: options.llm,
+        provider,
+        runs,
+        cache,
+        offline: Boolean(options.offline),
+        locale: context.locale,
+        minConfidence: options.minConfidence,
+        concurrency,
+        waivers,
+      })
+      const notes = [...collected.notes, ...rulesNotes(collected.engine, context.locale)]
+      if (notes.length > 0) report.notes = notes
+      if (collected.usage) {
+        for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) report.usage[key] += collected.usage[key]
       }
-      reports.push(
-        await checkSnapshot(collected.snapshot, collected.engine, {
-          criteria,
-          llm: options.llm,
-          provider,
-          runs,
-          cache,
-          offline: Boolean(options.offline),
-          locale: context.locale,
-          minConfidence: options.minConfidence,
-          concurrency: Math.max(1, Number.parseInt(options.concurrency, 10) || 4),
-          waivers,
-        }),
-      )
+      reports.push(report)
     }
   } finally {
     progress('')
