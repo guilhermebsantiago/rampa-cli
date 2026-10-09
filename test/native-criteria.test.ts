@@ -202,7 +202,7 @@ describe('3.1.2 and 2.4.2 on app screens', () => {
       minConfidence: 'medium',
       concurrency: 1,
     })
-    expect(report.criteria.filter((c) => !c.applicable).map((c) => c.criterion)).toEqual(['2.4.2'])
+    expect(report.criteria.filter((c) => !c.applicable).map((c) => c.criterion)).toEqual(['1.3.5', '2.4.2', '3.3.2'])
     expect(report.criteria.find((c) => c.criterion === '3.1.1')?.candidates).toBe(1)
   })
 })

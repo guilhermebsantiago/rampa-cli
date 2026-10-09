@@ -60,7 +60,7 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   const READING_BLOCKS = new Set(['p', 'li', 'td', 'th', 'dt', 'dd', 'blockquote', 'figcaption', 'caption', 'label', 'legend', 'summary', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
   const MAX_PASS_NODES = 200
   const SKIP = new Set(['script', 'style', 'noscript', 'template', 'head', 'meta', 'link', 'title', 'base'])
-  const KEEP_ATTRS = ['id', 'class', 'lang', 'href', 'src', 'alt', 'title', 'type', 'role', 'name', 'for', 'aria-label', 'aria-labelledby', 'aria-hidden', 'aria-level', 'aria-describedby', 'placeholder', 'autocomplete']
+  const KEEP_ATTRS = ['id', 'class', 'lang', 'href', 'src', 'alt', 'title', 'type', 'role', 'name', 'for', 'aria-label', 'aria-labelledby', 'aria-hidden', 'aria-level', 'aria-describedby', 'placeholder', 'autocomplete', 'pattern']
   const NAME_FROM_CONTENT = new Set(['a', 'button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'summary', 'option', 'th', 'td', 'li', 'label', 'legend', 'caption', 'figcaption'])
   const refs = new Map<Element, string>()
   let count = 0
@@ -169,6 +169,17 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     }
   }
 
+  /** A label's text without the control it wraps: a select would otherwise add every option to its own name. */
+  const labelText = (label: Element, control: Element): string => {
+    if (!label.contains(control)) return label.textContent ?? ''
+    let text = ''
+    const walker = document.createTreeWalker(label, NodeFilter.SHOW_TEXT)
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+      if (!control.contains(node)) text += ` ${node.textContent ?? ''}`
+    }
+    return text
+  }
+
   const accessibleName = (el: Element, role: string): string | undefined => {
     const labelledBy = el.getAttribute('aria-labelledby')
     if (labelledBy) {
@@ -188,7 +199,7 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     }
     if ((tag === 'input' || tag === 'select' || tag === 'textarea') && 'labels' in el) {
       const labels = (el as HTMLInputElement).labels
-      const text = labels ? Array.from(labels).map((label) => collapse(label.textContent)).filter(Boolean).join(' ') : ''
+      const text = labels ? Array.from(labels).map((label) => collapse(labelText(label, el))).filter(Boolean).join(' ') : ''
       if (text) return text
     }
     if (NAME_FROM_CONTENT.has(tag) || role === 'link' || role === 'button' || role === 'heading') {
@@ -275,11 +286,12 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     }
     if (el.closest('[aria-hidden="true"]')) states.push('aria-hidden')
     if ((el as HTMLInputElement).disabled === true || el.getAttribute('aria-disabled') === 'true') states.push('disabled')
+    if ((el as HTMLInputElement).readOnly === true || el.getAttribute('aria-readonly') === 'true') states.push('readonly')
     if ((el as HTMLInputElement).checked === true || el.getAttribute('aria-checked') === 'true') states.push('checked')
     const expanded = el.getAttribute('aria-expanded')
     if (expanded === 'true') states.push('expanded')
     if (expanded === 'false') states.push('collapsed')
-    if (el.getAttribute('aria-selected') === 'true') states.push('selected')
+    if (el.getAttribute('aria-selected') === 'true' || (el instanceof HTMLOptionElement && el.selected)) states.push('selected')
     if (el instanceof HTMLElement && el.tabIndex >= 0) states.push('focusable')
     // An image that failed to load shows the browser's broken-image icon, not the picture its alternative describes.
     if (el instanceof HTMLImageElement && el.complete && el.naturalWidth === 0) states.push('broken')
@@ -316,7 +328,21 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     // A short div or span reads as one sentence, such as "Read more about the archive" around a link.
     const sentence = (tag === 'div' || tag === 'span') && (el.textContent ?? '').length <= 300
     if ((READING_BLOCKS.has(tag) || sentence) && el.children.length > 0) native.readingText = readingText(el)
+    // A picture set in CSS has no alt to read, and banners with words baked in often arrive this way.
+    if (tag !== 'html' && tag !== 'body') {
+      const background = backgroundUrl(el)
+      if (background) native.backgroundImage = background
+    }
     return native
+  }
+
+  /** The first url() of the element's computed background-image; gradients are not pictures. */
+  const backgroundUrl = (el: Element): string | undefined => {
+    const value = getComputedStyle(el).backgroundImage
+    if (!value || !value.includes('url(')) return undefined
+    const url = /url\(\s*(["']?)(.*?)\1\s*\)/.exec(value)?.[2]
+    if (!url) return undefined
+    return url.startsWith('data:') ? 'data:…' : url.slice(0, 200)
   }
 
   const build = (el: Element): InPageNode | undefined => {

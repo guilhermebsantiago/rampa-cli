@@ -129,6 +129,8 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
 }
 
 const IMAGE_LIMIT = 25
+/** CSS backgrounds come after the images, with their own budget, so they never crowd images out. */
+const BACKGROUND_LIMIT = 10
 
 /**
  * Element screenshots show the image exactly as people see it: size, crop, CSS and all.
@@ -137,6 +139,7 @@ const IMAGE_LIMIT = 25
  */
 async function captureImages(page: Page, root: A11yNode): Promise<void> {
   const targets: A11yNode[] = []
+  const backgrounds: A11yNode[] = []
   for (const node of walkTree(root)) {
     const attributes = (node.native.attributes ?? {}) as Record<string, string>
     const isImage =
@@ -144,17 +147,76 @@ async function captureImages(page: Page, root: A11yNode): Promise<void> {
       node.role === 'img' ||
       (node.native.tag === 'input' && attributes.type === 'image') ||
       (node.native.tag === 'canvas' && Boolean(node.name))
-    if (!isImage || node.states.includes('hidden') || node.states.includes('broken') || !node.bounds) continue
-    if (node.bounds.width < 8 || node.bounds.height < 8) continue
-    targets.push(node)
-    if (targets.length >= IMAGE_LIMIT) break
-  }
-  for (const node of targets) {
-    try {
-      const png = await page.locator(`css=${node.ref}`).first().screenshot({ type: 'png', timeout: 5000, animations: 'disabled' })
-      node.image = `data:image/png;base64,${png.toString('base64')}`
-    } catch {
-      // Not visible or detached: criteria that need the image skip this node.
+    if (node.states.includes('hidden') || node.states.includes('broken') || !node.bounds) continue
+    if (isImage) {
+      if (node.bounds.width < 8 || node.bounds.height < 8 || targets.length >= IMAGE_LIMIT) continue
+      targets.push(node)
+    } else if (typeof node.native.backgroundImage === 'string' && backgrounds.length < BACKGROUND_LIMIT && !node.states.includes('offscreen')) {
+      // Icons and sprites this small hold no line of text; anything taller than a banner is a section with a pattern.
+      const { width, height } = node.bounds
+      if (width >= 24 && height >= 12 && (width > 40 || height > 40) && height <= 1000) backgrounds.push(node)
     }
   }
+  const layers = targets.length + backgrounds.length > 0 ? await markLayers(page) : 0
+  try {
+    for (const [node, background] of [...targets.map((n) => [n, false] as const), ...backgrounds.map((n) => [n, true] as const)]) {
+      try {
+        if (layers > 0) await showLayersAround(page, node.ref)
+        // A background is captured alone: the element's own text and children are hidden while the screenshot is taken.
+        const style = background
+          ? `${node.ref} { color: transparent !important; text-shadow: none !important; } ${node.ref} > * { visibility: hidden !important; }`
+          : undefined
+        const png = await page.locator(`css=${node.ref}`).first().screenshot({ type: 'png', timeout: 5000, animations: 'disabled', style })
+        node.image = `data:image/png;base64,${png.toString('base64')}`
+      } catch {
+        // Not visible or detached: criteria that need the image skip this node.
+      }
+    }
+  } finally {
+    if (layers > 0) await restoreLayers(page)
+  }
+}
+
+/**
+ * Fixed and sticky layers (cookie banners, chat buttons, sticky headers) paint over whatever
+ * sits under them in an element screenshot. They are marked once, keeping their own visibility.
+ */
+async function markLayers(page: Page): Promise<number> {
+  return page.evaluate(() => {
+    let count = 0
+    for (const el of Array.from(document.querySelectorAll<HTMLElement>('body *'))) {
+      const { position } = getComputedStyle(el)
+      if (position !== 'fixed' && position !== 'sticky') continue
+      el.setAttribute('data-rampa-layer', el.style.getPropertyValue('visibility'))
+      count++
+    }
+    return count
+  })
+}
+
+/** Hides every marked layer except those that hold the target or sit inside it. */
+async function showLayersAround(page: Page, ref: string): Promise<void> {
+  await page.evaluate((selector) => {
+    const target = document.querySelector(selector)
+    for (const el of Array.from(document.querySelectorAll<HTMLElement>('[data-rampa-layer]'))) {
+      if (target && (el.contains(target) || target.contains(el))) {
+        const saved = el.getAttribute('data-rampa-layer')
+        if (saved) el.style.setProperty('visibility', saved)
+        else el.style.removeProperty('visibility')
+      } else {
+        el.style.setProperty('visibility', 'hidden', 'important')
+      }
+    }
+  }, ref)
+}
+
+async function restoreLayers(page: Page): Promise<void> {
+  await page.evaluate(() => {
+    for (const el of Array.from(document.querySelectorAll<HTMLElement>('[data-rampa-layer]'))) {
+      const saved = el.getAttribute('data-rampa-layer')
+      if (saved) el.style.setProperty('visibility', saved)
+      else el.style.removeProperty('visibility')
+      el.removeAttribute('data-rampa-layer')
+    }
+  })
 }

@@ -142,7 +142,7 @@ describe('rampa mcp tools', () => {
     const check = result.structuredContent as CheckResult
     expect(check.judgment).toBe('off')
     expect(check.findings.map((f) => f.source)).toEqual(['engine'])
-    expect(check.summary.not_judged).toBe(13)
+    expect(check.summary.not_judged).toBe(14)
     expect(check.coverage.judged).toEqual([])
     expect(check.notes[0]).toMatch(/^Judgment skipped \(no_llm\): 13 candidate\(s\)/)
   })

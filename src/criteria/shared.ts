@@ -65,6 +65,52 @@ export function endTagOf(node: A11yNode): string {
   return `</${typeof node.native.tag === 'string' ? node.native.tag : node.role}>`
 }
 
+/** The start tag with one attribute set: its value replaced when present, the attribute added at the end otherwise. */
+export function withAttribute(startTag: string, name: string, value: string): string {
+  const quoted = `${name}="${escapeHtml(value)}"`
+  // Preceded by whitespace, so data-autocomplete never matches autocomplete.
+  const present = new RegExp(`(\\s)${name}(?:\\s*=\\s*(?:"[^"]*"|'[^']*'|[^\\s"'>]+))?(?=[\\s/>])`, 'i')
+  if (present.test(startTag)) return startTag.replace(present, `$1${quoted}`)
+  return startTag.replace(/\s*(\/?)>$/, ` ${quoted}$1>`)
+}
+
+/** The words of a text, lowercased, without punctuation. */
+export function wordsOf(text: string): string[] {
+  return normalizeForMatch(text)
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter((word) => word !== '')
+}
+
+const STOPWORDS = new Set([
+  'the', 'and', 'for', 'with', 'from', 'this', 'that', 'our', 'your', 'you', 'are', 'its', 'into', 'all',
+  'uma', 'com', 'para', 'por', 'dos', 'das', 'nos', 'nas', 'que', 'del', 'los', 'las', 'une', 'les', 'des', 'und', 'der', 'die', 'das',
+])
+
+/** The words of a text that carry meaning: three letters or more, common short words left out. */
+export function contentWords(text: string): Set<string> {
+  return new Set(wordsOf(text).filter((word) => word.length >= 3 && !STOPWORDS.has(word)))
+}
+
+export function sharedWords(a: Set<string>, b: Set<string>): number {
+  let count = 0
+  for (const word of a) if (b.has(word)) count++
+  return count
+}
+
+/**
+ * Whether a phrase appears in a text: a short phrase as the same words in a row, a longer one
+ * with nearly all its words, so a slip in a transcription does not hide a match.
+ */
+export function phraseIn(phrase: string, text: string | undefined): boolean {
+  if (!text) return false
+  const said = wordsOf(phrase)
+  if (said.length === 0) return false
+  const around = wordsOf(text)
+  if (said.length <= 3) return ` ${around.join(' ')} `.includes(` ${said.join(' ')} `)
+  const present = new Set(around)
+  return said.filter((word) => present.has(word)).length >= said.length * 0.9
+}
+
 /**
  * On Android and iOS a name lives in a property the developer sets, not in markup, so a
  * patch shows that property: android:contentDescription="…", accessibilityLabel = "…".

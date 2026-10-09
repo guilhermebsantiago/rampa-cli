@@ -43,7 +43,8 @@ type PageVerdict = 'failed' | 'passed'
 
 export interface EvalRecord {
   schemaVersion: 1
-  set: 'act' | 'pair-corrupted'
+  /** pair-intact: a passing page of a rule used only for pairs; it scores the pairs, not an ACT set. */
+  set: 'act' | 'pair-intact' | 'pair-corrupted'
   criterion: string
   ruleId: string
   ruleKind: 'syntax' | 'semantic'
@@ -71,6 +72,8 @@ interface Job {
   testcase: ActTestcase
   ruleKind: 'syntax' | 'semantic'
   corruptor?: Corruptor | undefined
+  /** The page only serves as the intact half of pairs. */
+  intact?: boolean | undefined
 }
 
 export async function runEval(options: EvalCommandOptions, context: GlobalContext): Promise<number> {
@@ -95,10 +98,14 @@ export async function runEval(options: EvalCommandOptions, context: GlobalContex
     if (limit !== undefined) cases = cases.slice(0, limit)
     for (const testcase of cases) {
       const ruleKind = rules.semantic.includes(testcase.ruleId) ? 'semantic' : 'syntax'
-      jobs.push({ criterion, testcase, ruleKind })
+      // A rule listed only for pairs is about another criterion: its passing pages lend the intact half, nothing else.
+      const intact = !rules.syntax.includes(testcase.ruleId) && !rules.semantic.includes(testcase.ruleId)
+      if (intact && testcase.expected !== 'passed') continue
+      jobs.push({ criterion, testcase, ruleKind, intact })
       if (options.pairs && testcase.expected === 'passed') {
         for (const corruptor of CORRUPTORS[criterion.id] ?? []) {
-          if (corruptor.rules ? corruptor.rules.includes(testcase.ruleId) : ruleKind === 'semantic') jobs.push({ criterion, testcase, ruleKind, corruptor })
+          const applies = corruptor.rules ? corruptor.rules.includes(testcase.ruleId) : (rules.pairs ?? rules.semantic).includes(testcase.ruleId)
+          if (applies) jobs.push({ criterion, testcase, ruleKind, corruptor })
         }
       }
     }
@@ -162,7 +169,7 @@ async function runJob(
   let changed: number | undefined
   const base: Omit<EvalRecord, 'baseline' | 'rampa' | 'candidates' | 'discarded' | 'cannotTell' | 'findings' | 'usage'> = {
     schemaVersion: 1,
-    set: corruptor ? 'pair-corrupted' : 'act',
+    set: corruptor ? 'pair-corrupted' : job.intact ? 'pair-intact' : 'act',
     criterion: criterion.id,
     ruleId: testcase.ruleId,
     ruleKind: job.ruleKind,
@@ -256,7 +263,7 @@ export interface EvalSummary {
   errors: Array<{ testcaseId: string; error: string }>
 }
 
-function summarize(
+export function summarize(
   records: EvalRecord[],
   meta: { model: string | undefined; runs: number; llm: boolean; verify: boolean; actSha256: string; criteria: string[]; followLinks?: FollowLinks | undefined },
 ): EvalSummary {
@@ -275,7 +282,7 @@ function summarize(
     }
     const corrupted = ofCriterion.filter((r) => r.set === 'pair-corrupted')
     if (corrupted.length > 0) {
-      const intact = ofCriterion.filter((r) => r.set === 'act' && corrupted.some((c) => c.testcaseId === r.testcaseId))
+      const intact = ofCriterion.filter((r) => r.set !== 'pair-corrupted' && corrupted.some((c) => c.testcaseId === r.testcaseId))
       const subset = [...intact, ...corrupted]
       sets.push({ label: 'pairs (intact + corrupted)', criterion, baseline: score(subset, 'baseline'), rampa: score(subset, 'rampa') })
     }
@@ -289,7 +296,8 @@ function summarize(
       let rampa = 0
       const ofCorruptor = corrupted.filter((r) => r.corruptor === corruptor)
       for (const bad of ofCorruptor) {
-        const good = ok.find((r) => r.set === 'act' && r.testcaseId === bad.testcaseId)
+        // Two criteria can draw on the same test page; the intact half is this criterion's.
+        const good = ok.find((r) => r.set !== 'pair-corrupted' && r.criterion === bad.criterion && r.testcaseId === bad.testcaseId)
         if (!good) continue
         if (good.baseline === 'passed' && bad.baseline === 'failed') baseline++
         if (good.rampa === 'passed' && bad.rampa === 'failed') rampa++

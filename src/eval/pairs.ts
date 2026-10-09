@@ -209,11 +209,145 @@ export const linkMismatch: Corruptor = {
   },
 }
 
+/** Field types that take no autocomplete token worth judging. */
+const NOT_DATA_FIELDS = ['hidden', 'submit', 'reset', 'button', 'image', 'checkbox', 'radio', 'file']
+
+/** 1.3.5: take the token off every field, as a form rebuilt without its autocomplete attributes would be. */
+export const autocompleteDrop: Corruptor = {
+  id: 'autocomplete-drop',
+  criterion: '1.3.5',
+  async apply(page) {
+    return page.evaluate((skipped: string[]) => {
+      let changed = 0
+      for (const field of Array.from(document.querySelectorAll('input[autocomplete], select[autocomplete], textarea[autocomplete]'))) {
+        const value = (field.getAttribute('autocomplete') ?? '').trim().toLowerCase()
+        if (value === '' || value === 'on' || value === 'off') continue
+        if (field instanceof HTMLInputElement && skipped.includes(field.type)) continue
+        field.removeAttribute('autocomplete')
+        changed++
+      }
+      return changed
+    }, NOT_DATA_FIELDS)
+  },
+}
+
+/**
+ * 1.3.5: give every text field a valid token for unrelated data, a name suffix, so axe-core's
+ * syntax check still passes (failure F107). Only fields where that token is allowed change.
+ */
+export const autocompleteSwap: Corruptor = {
+  id: 'autocomplete-swap',
+  criterion: '1.3.5',
+  async apply(page) {
+    return page.evaluate(() => {
+      let changed = 0
+      for (const field of Array.from(document.querySelectorAll('input[autocomplete], select[autocomplete], textarea[autocomplete]'))) {
+        if (field instanceof HTMLInputElement && field.type !== 'text') continue
+        const terms = (field.getAttribute('autocomplete') ?? '').trim().toLowerCase().split(/\s+/)
+        if (terms.length === 1 && ['', 'on', 'off'].includes(terms[0] ?? '')) continue
+        // The section and billing or shipping stay; a contact qualifier would make the new token invalid.
+        const kept = terms.filter((term) => term.startsWith('section-') || term === 'billing' || term === 'shipping')
+        field.setAttribute('autocomplete', [...kept, 'honorific-suffix'].join(' '))
+        changed++
+      }
+      return changed
+    })
+  },
+}
+
+/** Words rendered into the 1.4.5 corruption; none of them appear in the prompts. */
+const PICTURED_SENTENCE = 'Members save twenty percent this week'
+
+/**
+ * 1.4.5: swap every image that has an alternative for a picture of a sentence, with the
+ * sentence as its alt, the way a banner made in an image editor reaches a page.
+ */
+export const textAsImage: Corruptor = {
+  id: 'text-as-image',
+  criterion: '1.4.5',
+  async apply(page) {
+    return page.evaluate(async (sentence: string) => {
+      const targets = Array.from(document.querySelectorAll('img[alt], input[type="image"]')).filter((el) => (el.getAttribute('alt') ?? '').trim() !== '')
+      if (targets.length === 0) return 0
+      const canvas = document.createElement('canvas')
+      canvas.width = 720
+      canvas.height = 96
+      const context = canvas.getContext('2d')
+      if (!context) return 0
+      context.fillStyle = '#ffffff'
+      context.fillRect(0, 0, canvas.width, canvas.height)
+      context.fillStyle = '#1f2328'
+      context.font = 'bold 32px Georgia, serif'
+      context.textBaseline = 'middle'
+      context.fillText(sentence, 20, canvas.height / 2, canvas.width - 40)
+      const url = canvas.toDataURL('image/png')
+      for (const target of targets) {
+        // At its own size, so the words stay legible where the old image was a small icon.
+        target.removeAttribute('width')
+        target.removeAttribute('height')
+        target.setAttribute('src', url)
+        target.setAttribute('alt', sentence)
+      }
+      await Promise.all(
+        targets.map((target) =>
+          target instanceof HTMLImageElement ? target.decode().catch(() => undefined) : new Promise((resolve) => setTimeout(resolve, 100)),
+        ),
+      )
+      return targets.length
+    }, PICTURED_SENTENCE)
+  },
+}
+
+/**
+ * 3.3.2: move every visible label into aria-label and take it off the screen. Screen readers
+ * get the same name, so axe-core still passes; people looking at the page see bare fields.
+ */
+export const labelHidden: Corruptor = {
+  id: 'label-hidden',
+  criterion: '3.3.2',
+  async apply(page) {
+    return page.evaluate((skipped: string[]) => {
+      let changed = 0
+      const gone = new Set<Element>()
+      const fields = Array.from(document.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input, select, textarea'))
+      for (const field of fields) {
+        if (field instanceof HTMLInputElement && skipped.includes(field.type)) continue
+        const byId = (field.getAttribute('aria-labelledby') ?? '').split(/\s+/).flatMap((id) => document.getElementById(id) ?? [])
+        const sources = [...Array.from(field.labels ?? []), ...byId]
+        // The field's own content, such as a select's options, is not part of its label.
+        const textOf = (el: Element) =>
+          Array.from(el.childNodes)
+            .filter((child) => !child.contains(field))
+            .map((child) => child.textContent ?? '')
+            .join(' ')
+        const name = sources.map(textOf).join(' ').replace(/\s+/g, ' ').trim()
+        if (name === '') continue
+        field.setAttribute('aria-label', name)
+        field.removeAttribute('aria-labelledby')
+        for (const source of sources) gone.add(source)
+        changed++
+      }
+      for (const source of gone) {
+        // A label that wraps its field loses only its text; any other source leaves the page.
+        if (source.querySelector('input, select, textarea')) {
+          for (const child of Array.from(source.childNodes)) if (!child.contains(source.querySelector('input, select, textarea'))) child.remove()
+        } else {
+          source.remove()
+        }
+      }
+      return changed
+    }, NOT_DATA_FIELDS)
+  },
+}
+
 export const CORRUPTORS: Readonly<Record<string, Corruptor[]>> = {
   '1.1.1': [altPlaceholder, altSwap],
+  '1.3.5': [autocompleteDrop, autocompleteSwap],
+  '1.4.5': [textAsImage],
   '2.4.2': [titleGeneric],
   '2.4.4': [linkGeneric, linkMismatch],
   '2.4.6': [headingGeneric],
   '3.1.1': [htmlLangSwap],
   '3.1.2': [langSwap],
+  '3.3.2': [labelHidden],
 }

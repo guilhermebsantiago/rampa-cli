@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Delivery details | Corner Store</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 32px; color: #1f2328; }
+      form { display: grid; gap: 12px; max-width: 360px; }
+      input { padding: 8px; font-size: 16px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Delivery details</h1>
+      <form>
+        <!-- Names only screen readers get: axe-core passes them, nothing on screen says what to type. -->
+        <input id="street" type="text" aria-label="Street and number" autocomplete="address-line1" />
+        <input id="town" type="text" aria-label="Town" autocomplete="address-level2" />
+        <!-- A visible label, but the field only takes eleven digits, and nothing says so. -->
+        <label for="tax-id">Tax ID</label>
+        <input id="tax-id" type="text" inputmode="numeric" pattern="\d{11}" />
+        <button type="submit">Continue</button>
+      </form>
+    </main>
+  </body>
+</html>

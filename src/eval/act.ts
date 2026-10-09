@@ -17,16 +17,24 @@ export interface ActTestcase {
 
 /**
  * ACT rules used as gold data per criterion. Syntax rules measure the engine;
- * semantic rules measure the judgment layer.
+ * semantic rules measure the judgment layer. The passed cases of the `pairs` rules
+ * (the semantic rules when not set) are the intact half of the corrupted pairs.
  */
-export const ACT_RULES: Record<string, { syntax: string[]; semantic: string[] }> = {
+export const ACT_RULES: Record<string, { syntax: string[]; semantic: string[]; pairs?: string[] }> = {
   '1.1.1': { syntax: ['23a2a8'], semantic: ['qt1vmo'] },
+  // No ACT rule judges whether a field that has no token should have one; the fields of 73f2c2's
+  // passing cases, each with a valid token for what it asks, become pairs when the token goes.
+  '1.3.5': { syntax: ['73f2c2'], semantic: [], pairs: ['73f2c2'] },
+  '1.4.5': { syntax: [], semantic: ['0va7u6'] },
   '2.4.2': { syntax: ['2779a5'], semantic: ['c4a8a4'] },
   // fd3a94 compares links with identical names and context: Rampa states, as a fact, where each one leads.
   '2.4.4': { syntax: ['c487ae'], semantic: ['5effbb', 'fd3a94'] },
   '2.4.6': { syntax: [], semantic: ['b49b2e', 'cc0f0a'] },
   '3.1.1': { syntax: ['b5c3f8', 'bf051a'], semantic: ['ucwvc8'] },
   '3.1.2': { syntax: ['de46e4'], semantic: ['off6ek'] },
+  // No ACT rule covers 3.3.2. cc0f0a's passing pages have visible labels; with each label moved
+  // into aria-label, screen readers still get the name but nothing on screen says what to enter.
+  '3.3.2': { syntax: [], semantic: [], pairs: ['cc0f0a'] },
 }
 
 export interface ActDataset {
@@ -58,6 +66,6 @@ export async function loadActTestcases(dir: string, refresh: boolean): Promise<A
 export function selectTestcases(dataset: ActDataset, criterion: string): ActTestcase[] {
   const rules = ACT_RULES[criterion]
   if (!rules) return []
-  const wanted = new Set([...rules.syntax, ...rules.semantic])
+  const wanted = new Set([...rules.syntax, ...rules.semantic, ...(rules.pairs ?? [])])
   return dataset.testcases.filter((tc) => wanted.has(tc.ruleId) && /\.html?$/i.test(tc.url))
 }

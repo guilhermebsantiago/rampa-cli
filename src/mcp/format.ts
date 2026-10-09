@@ -14,7 +14,7 @@ import { WCAG21_A_AA, criterionLabel, successCriterion } from '../wcag.ts'
  */
 
 const PatchSchema = z.object({
-  kind: z.enum(['set-attribute', 'set-text']),
+  kind: z.enum(['set-attribute', 'set-text', 'replace-element']),
   attribute: z.string().optional(),
   from: z.string().optional(),
   to: z.string(),
