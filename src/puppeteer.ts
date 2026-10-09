@@ -6,6 +6,7 @@
 import { type CheckPageOptions, checkDriver } from './api/page.ts'
 import type { Report } from './core/types.ts'
 import type { CdpSessionLike } from './surfaces/form-issues.ts'
+import { type LibraryFrame, libraryFrameDriver } from './surfaces/frames.ts'
 import type { PageDriver } from './surfaces/page.ts'
 import { createMatchers } from './testing/matchers.ts'
 
@@ -21,6 +22,8 @@ export interface PuppeteerPage {
   url(): string
   // biome-ignore lint/suspicious/noExplicitAny: Puppeteer's evaluate is generic over its arguments; any keeps it assignable
   evaluate(pageFunction: string | ((...args: any[]) => unknown), ...args: any[]): Promise<unknown>
+  /** Every Puppeteer Page has it; it reaches the page's frames, other origins included. Without it, axe-core checks the top frame only. */
+  evaluateHandle?: LibraryFrame['evaluateHandle']
   $(selector: string): Promise<PuppeteerElement | null>
   screenshot(options?: { path?: string; fullPage?: boolean }): Promise<Uint8Array | string>
 }
@@ -31,8 +34,10 @@ export interface PuppeteerElement {
 }
 
 export function puppeteerDriver(page: PuppeteerPage): PageDriver {
+  const frames = page.evaluateHandle ? libraryFrameDriver(page as LibraryFrame) : undefined
   return {
     url: () => page.url(),
+    ...(frames?.child ? { child: frames.child } : {}),
     evaluate: <Arg, Result>(fn: (arg: Arg) => Result | Promise<Result>, arg: Arg) => page.evaluate(fn, arg) as Promise<Result>,
     async run(source) {
       await page.evaluate(source)

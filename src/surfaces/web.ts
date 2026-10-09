@@ -14,6 +14,7 @@ import { type FollowOptions, followLinks } from './destinations.ts'
 import { type BrowserOptions, contextOptions, openPage, prepareContext } from './browser-options.ts'
 import { attachFormIssues } from './form-issues.ts'
 import { captureImageNodes, imageTargets, isCapturableImage } from './image-capture.ts'
+import { libraryFrameDriver, runAxeInFrames } from './frames.ts'
 import { collectInPage } from './in-page.ts'
 import { type ProbeKind, runProbes } from '../probes/run.ts'
 
@@ -102,13 +103,12 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     if (options.mutate) await options.mutate(page)
     const collect = async () => {
       if (options.runAxe) await page.addScriptTag({ content: await axeSource() })
-      return page.evaluate(collectInPage, {
-        runAxe: options.runAxe,
-        axeTags: axeTags(options.wcag),
-        axeRules: AXE_REVIEW_RULES,
-        axeLocale: options.runAxe ? await axeLocale(options.locale) : undefined,
-        maxNodes: options.maxNodes ?? 5000,
-      })
+      const tree = await page.evaluate(collectInPage, { maxNodes: options.maxNodes ?? 5000 })
+      // After the tree: the engine's results are mapped to the refs the collector gave their elements.
+      const checked = options.runAxe
+        ? await runAxeInFrames(libraryFrameDriver(page), { tags: axeTags(options.wcag), rules: AXE_REVIEW_RULES, locale: await axeLocale(options.locale) }, axeSource)
+        : undefined
+      return { ...tree, axe: checked?.axe, engineFrames: checked?.frames ?? [] }
     }
     // A page that redirects at once (a 0 s refresh, in a meta element or a Refresh header) navigates while it is
     // being read. The redirect is recorded and the page it lands on is collected, instead of failing the target.

@@ -10,6 +10,7 @@
 import { type CheckPageOptions, checkDriver } from './api/page.ts'
 import type { Report } from './core/types.ts'
 import type { CdpSessionLike } from './surfaces/form-issues.ts'
+import { type LibraryFrame, libraryFrameDriver } from './surfaces/frames.ts'
 import type { PageDriver } from './surfaces/page.ts'
 import { type RampaFixtures as Fixtures, type RampaHelper as Helper, createFixtures } from './testing/fixtures.ts'
 import { createMatchers } from './testing/matchers.ts'
@@ -30,13 +31,17 @@ export interface PlaywrightPage {
   url(): string
   // biome-ignore lint/suspicious/noExplicitAny: Playwright's evaluate is generic; any keeps every version's overloads assignable
   evaluate(pageFunction: string | ((arg: any) => unknown), arg?: any): Promise<unknown>
+  /** Every Playwright Page has it; it reaches the page's frames, other origins included. Without it, axe-core checks the top frame only. */
+  evaluateHandle?: LibraryFrame['evaluateHandle']
   locator(selector: string): { first(): { screenshot(options?: { type?: 'png'; timeout?: number; animations?: 'disabled' }): Promise<Uint8Array> } }
   screenshot(options?: { path?: string; fullPage?: boolean }): Promise<Uint8Array>
 }
 
 export function playwrightDriver(page: PlaywrightPage): PageDriver {
+  const frames = page.evaluateHandle ? libraryFrameDriver(page as LibraryFrame) : undefined
   return {
     url: () => page.url(),
+    ...(frames?.child ? { child: frames.child } : {}),
     evaluate: <Arg, Result>(fn: (arg: Arg) => Result | Promise<Result>, arg: Arg) => page.evaluate(fn, arg) as Promise<Result>,
     async run(source) {
       await page.evaluate(source)

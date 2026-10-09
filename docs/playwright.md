@@ -218,7 +218,7 @@ Where there is no `expect.extend`, `assertRampa(report, options)` throws the sam
 
 ## What to know
 
-- **The main frame and its light DOM.** The collector does not enter iframes or shadow roots. axe-core does reach shadow DOM, so its findings can point inside a shadow root while the judgment layer never sees it.
+- **The main frame and its light DOM.** The collector does not enter iframes or shadow roots. axe-core runs in every frame, frames of other origins included, through the page's frame API (`evaluateHandle`, which every Playwright and Puppeteer page has), and it reaches open shadow roots, so its findings can point inside a frame or a shadow root while the judgment layer never sees it. A finding in a frame names the frame first: `#checkout |> html > body > img`.
 - **The page is touched, a little.** Rampa evaluates axe-core in the page (replacing a `window.axe` your app may have loaded) instead of adding a script tag, so a strict Content-Security-Policy does not stop it. For 1.1.1 it screenshots each image as rendered, with Playwright's `animations: 'disabled'`, as `toHaveScreenshot` does, and then scrolls the page back to where it was.
 - **One check at a time per page.** axe-core cannot run twice at once in the same page.
 - **Language of Page and the title on components.** A scoped check never judges them; check the page itself, unscoped, for those.

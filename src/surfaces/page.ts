@@ -1,13 +1,14 @@
 import { mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
 import { RampaError, sha256 } from '../core/util.ts'
-import { AXE_REVIEW_RULES, axeLocale, axeSource, axeTags, emptyEngine, engineFromAxe } from '../engine/axe.ts'
+import { AXE_REVIEW_RULES, axeLocale, axeSource, axeTags, engineFromAxe } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { walkTree } from '../snapshot/tree.ts'
 import { VERSION } from '../version.ts'
 import type { WcagVersion } from '../wcag.ts'
 import { type CdpSessionLike, attachFormIssues } from './form-issues.ts'
+import { type FrameDriver, runAxeInFrames } from './frames.ts'
 import { captureImageNodes } from './image-capture.ts'
 import { collectInPage } from './in-page.ts'
 import { type Scope, resolveScopeInPage, scopeTree } from './scope.ts'
@@ -18,12 +19,8 @@ import type { Collected } from './web.ts'
  * Playwright and Puppeteer pages both provide it, so each adapter is a few lines and
  * the code that runs in the page is the same for both.
  */
-export interface PageDriver {
+export interface PageDriver extends FrameDriver {
   url(): string
-  /** Runs a self-contained function in the page with one JSON argument, and returns its JSON result. */
-  evaluate<Arg, Result>(fn: (arg: Arg) => Result | Promise<Result>, arg: Arg): Promise<Result>
-  /** Runs script source in the page as a <script> would, without adding one, so the page's CSP cannot block it. */
-  run(source: string): Promise<void>
   /** A PNG of the element a ref resolves to, as rendered; undefined when it cannot be captured. */
   screenshotElement(ref: string): Promise<Uint8Array | undefined>
   /** A full-page PNG written to `path`. */
@@ -59,14 +56,17 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
   if (scope) assertSelectors(await driver.evaluate(resolveScopeInPage, { ...scope, refs: [] }), url)
 
   await driver.run(await axeSource())
-  const raw = await driver.evaluate(collectInPage, {
-    runAxe: true,
-    axeTags: axeTags(options.wcag),
-    axeRules: AXE_REVIEW_RULES,
-    axeLocale: await axeLocale(options.locale),
-    maxNodes,
-    axeContext: scope ? { ...(scope.include.length > 0 ? { include: scope.include } : {}), exclude: scope.exclude } : undefined,
-  })
+  const raw = await driver.evaluate(collectInPage, { maxNodes })
+  const checked = await runAxeInFrames(
+    driver,
+    {
+      tags: axeTags(options.wcag),
+      rules: AXE_REVIEW_RULES,
+      locale: await axeLocale(options.locale),
+      context: scope ? { ...(scope.include.length > 0 ? { include: scope.include } : {}), exclude: scope.exclude } : undefined,
+    },
+    axeSource,
+  )
 
   let root = raw.root as A11yNode
   if (driver.cdp) await attachFormIssues(driver.cdp, root)
@@ -98,8 +98,7 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
     collectedAt: new Date().toISOString(),
     collector: { name: 'rampa-web', version: VERSION },
   }
-  const engine = raw.axe ? engineFromAxe(raw.axe) : emptyEngine()
-  return { snapshot, engine }
+  return { snapshot, engine: engineFromAxe(checked.axe) }
 }
 
 function assertSelectors(answer: { invalid: Array<{ selector: string; error: string }>; unmatched: string[] }, url: string): void {

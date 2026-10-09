@@ -1,7 +1,10 @@
 /**
  * Runs inside the browser page through `page.evaluate`. Playwright serializes
- * the function with toString(), so it must not reference anything outside its
- * own body: no imports, no module-level helpers.
+ * each exported function with toString(), so it must not reference anything
+ * outside its own body: no imports, no module-level helpers.
+ *
+ * Refs follow snapshot/refs.ts: a CSS selector per document or shadow root,
+ * joined by ` >>> ` into an open shadow root and by ` |> ` into a frame.
  */
 
 export interface InPageNode {
@@ -35,36 +38,29 @@ export interface InPageAxeRule {
   nodes: InPageAxeNode[]
 }
 
+export interface InPageAxe {
+  version: string
+  violations: InPageAxeRule[]
+  incomplete: InPageAxeRule[]
+  passes: InPageAxeRule[]
+  inapplicable: InPageAxeRule[]
+}
+
 export interface InPageResult {
   title: string
   lang: string | undefined
   viewport: { width: number; height: number; scale: number }
   root: InPageNode
   truncated: boolean
-  axe?: {
-    version: string
-    violations: InPageAxeRule[]
-    incomplete: InPageAxeRule[]
-    passes: InPageAxeRule[]
-    inapplicable: InPageAxeRule[]
-  }
 }
 
 export interface InPageOptions {
-  runAxe: boolean
-  axeTags: string[]
-  /** Rules to run besides the tags, such as experimental ones the tags leave out. */
-  axeRules?: string[] | undefined
-  axeLocale: unknown
   maxNodes: number
-  /** axe-core's own context, to check part of the page: selectors to include and exclude. The whole document when absent. */
-  axeContext?: { include?: string[] | undefined; exclude?: string[] | undefined } | undefined
 }
 
 export async function collectInPage(options: InPageOptions): Promise<InPageResult> {
   const MAX_HTML = 600
   const READING_BLOCKS = new Set(['p', 'li', 'td', 'th', 'dt', 'dd', 'blockquote', 'figcaption', 'caption', 'label', 'legend', 'summary', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
-  const MAX_PASS_NODES = 200
   const SKIP = new Set(['script', 'style', 'noscript', 'template', 'head', 'meta', 'link', 'title', 'base'])
   const KEEP_ATTRS = ['id', 'class', 'lang', 'href', 'src', 'alt', 'title', 'type', 'role', 'name', 'for', 'aria-label', 'aria-labelledby', 'aria-hidden', 'aria-level', 'aria-describedby', 'placeholder', 'autocomplete', 'pattern',
     // What a field accepts, and whether its form validates it: the cognitive profile reads them (coga/input-formats).
@@ -75,27 +71,37 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   let truncated = false
 
   const escapeId = (value: string): string => CSS.escape(value)
-  const hasUniqueId = (el: Element): boolean => el.id !== '' && document.querySelectorAll(`#${escapeId(el.id)}`).length === 1
+  const isDocument = (node: Node): node is Document => node.nodeType === 9
+  const isShadowRoot = (node: Node): node is ShadowRoot => node.nodeType === 11 && 'host' in node
+  // An id anchors a ref only in a document (the page's or a frame's), as in the probe kit: a shadow root's chain starts at its own children.
+  const hasUniqueId = (el: Element): boolean => {
+    if (el.id === '') return false
+    const root = el.getRootNode()
+    return isDocument(root) && root.querySelectorAll(`#${escapeId(el.id)}`).length === 1
+  }
+  /** The element's ref (snapshot/refs.ts): its path in its own document or shadow root, behind the ref of the host or frame that holds it. */
   const cssPath = (el: Element): string => {
-    if (hasUniqueId(el)) return `#${escapeId(el.id)}`
     const parts: string[] = []
     let current: Element | null = el
     while (current) {
-      if (current !== el && hasUniqueId(current)) {
+      if (hasUniqueId(current)) {
         parts.unshift(`#${escapeId(current.id)}`)
         break
       }
       const parent: Element | null = current.parentElement
       const tag = current.localName
-      if (!parent) {
-        parts.unshift(tag)
-        break
-      }
-      const sameTag = Array.from(parent.children).filter((child) => child.localName === tag)
+      // At the top of a shadow root the siblings are the root's own children.
+      const siblings = parent ? parent.children : (current.parentNode as ParentNode | null)?.children
+      const sameTag = siblings ? Array.from(siblings).filter((child) => child.localName === tag) : [current]
       parts.unshift(sameTag.length > 1 ? `${tag}:nth-of-type(${sameTag.indexOf(current) + 1})` : tag)
+      if (!parent) break
       current = parent
     }
-    return parts.join(' > ')
+    const path = parts.join(' > ')
+    const root = el.getRootNode()
+    if (isShadowRoot(root)) return `${cssPath(root.host)} >>> ${path}`
+    const frame = el.ownerDocument === document ? null : el.ownerDocument.defaultView?.frameElement
+    return frame ? `${cssPath(frame)} |> ${path}` : path
   }
 
   const collapse = (value: string | null | undefined): string => (value ?? '').replace(/\s+/g, ' ').trim()
@@ -553,165 +559,269 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     .filter((meta) => collapse(meta.getAttribute('name')).toLowerCase() === 'viewport')
     .map((meta) => ({ ref: cssPath(meta), content: (meta.getAttribute('content') ?? '').slice(0, 500) }))
   if (metaViewport.length > 0) root.native.metaViewport = metaViewport
-  // Left on the page so the collector can map nodes it learns about over CDP (Chromium's form issues) to refs.
-  ;(window as unknown as { __rampaRefs?: Map<Element, string> }).__rampaRefs = refs
+  // Left on the page so the collector can map nodes it learns about over CDP (Chromium's form issues) and the
+  // engine's results to refs, and find the element of a ref again (image captures, scoping).
+  const page = window as unknown as { __rampaRefs?: Map<Element, string>; __rampaNodes?: Map<string, Element>; __rampaRefOf?: (el: Element) => string }
+  page.__rampaRefs = refs
+  page.__rampaNodes = new Map(Array.from(refs, ([el, ref]) => [ref, el]))
+  page.__rampaRefOf = (el: Element) => refs.get(el) ?? cssPath(el)
 
-  const result: InPageResult = {
+  return {
     title: document.title,
     lang: document.documentElement.getAttribute('lang') ?? undefined,
     viewport: { width: window.innerWidth, height: window.innerHeight, scale: window.devicePixelRatio },
     root,
     truncated,
   }
+}
 
-  if (options.runAxe) {
-    interface AxeNodeResult {
-      target: unknown
-      html: string
-      failureSummary?: string
-      impact?: string | null
-    }
-    interface AxeRuleResult {
-      id: string
-      tags: string[]
-      help: string
-      helpUrl: string
-      impact?: string | null
-      nodes: AxeNodeResult[]
-    }
-    interface AxeApi {
-      version: string
-      configure(spec: { locale: unknown }): void
-      run(context: unknown, options: unknown): Promise<Record<'violations' | 'incomplete' | 'passes' | 'inapplicable', AxeRuleResult[]>>
-    }
-    const axe = (window as unknown as { axe: AxeApi }).axe
-    if (options.axeLocale) axe.configure({ locale: options.axeLocale })
-    const extra = options.axeRules && options.axeRules.length > 0 ? { rules: Object.fromEntries(options.axeRules.map((id) => [id, { enabled: true }])) } : {}
-    const raw = await axe.run(options.axeContext ?? document, { runOnly: { type: 'tag', values: options.axeTags }, ...extra })
-    const refOfTarget = (target: unknown): string | undefined => {
-      if (!Array.isArray(target) || target.length !== 1 || typeof target[0] !== 'string') return undefined
-      try {
-        const el = document.querySelector(target[0])
-        return el ? (refs.get(el) ?? cssPath(el)) : undefined
-      } catch {
-        return undefined
-      }
-    }
+/** What axe-core's partial run in one frame hands back: its results, kept in the page for the top frame, and the frames it holds. */
+export interface InPagePartial {
+  partial?: unknown
+  frames: Array<{ frameSelector: unknown; frameContext: unknown }>
+}
 
-    // WCAG 2.5.8 exceptions that axe-core's target-size does not know (docs/plans/wcag-coverage.md, A5). The facts are
-    // recorded on the node, and the engine moves exempt targets out of the failures, so a recording replays the same.
-    let clean: Document | undefined
-    let frame: HTMLIFrameElement | undefined
-    const cleanDocument = (): Document | undefined => {
-      if (clean) return clean
-      try {
-        frame = document.createElement('iframe')
-        frame.setAttribute('aria-hidden', 'true')
-        frame.tabIndex = -1
-        frame.style.cssText = 'position:absolute;left:-10000px;top:0;width:800px;height:400px;border:0;visibility:hidden'
-        document.body.appendChild(frame)
-        const doc = frame.contentDocument
-        if (!doc) return undefined
-        try {
-          // Standards mode, as the page most likely is; a page that enforces Trusted Types refuses it.
-          doc.open()
-          doc.write('<!doctype html><html><head></head><body></body></html>')
-          doc.close()
-        } catch {
-          // The empty document the frame starts with will do.
-        }
-        if (!doc.body) return undefined
-        clean = doc
-        return doc
-      } catch {
-        return undefined
-      }
-    }
-    const NATIVE_CONTROLS = new Set(['input', 'select', 'button', 'textarea'])
-    const BOX = ['padding-top', 'padding-right', 'padding-bottom', 'padding-left', 'border-top-width', 'border-right-width', 'border-bottom-width', 'border-left-width', 'box-sizing']
-    /**
-     * A user agent control: a native control the author did not restyle. Its padding, borders, font size and
-     * appearance equal those of a copy in an empty frame, where no author style applies, and layout did not
-     * make it smaller than that copy (a flex row may stretch a checkbox, which only helps).
-     */
-    const userAgentControl = (el: Element): boolean => {
-      if (!NATIVE_CONTROLS.has(el.localName) || (el.localName === 'input' && (el.getAttribute('type') ?? '').toLowerCase() === 'hidden')) return false
-      const doc = cleanDocument()
-      if (!doc) return false
-      const copy = doc.importNode(el, true) as HTMLElement
-      copy.removeAttribute('id')
-      doc.body.appendChild(copy)
-      try {
-        const page = getComputedStyle(el)
-        const bare = doc.defaultView?.getComputedStyle(copy)
-        if (!bare) return false
-        if (page.appearance === 'none' || page.appearance !== bare.appearance) return false
-        const type = (el.getAttribute('type') ?? '').toLowerCase()
-        const props = type === 'checkbox' || type === 'radio' ? BOX : [...BOX, 'font-size']
-        if (props.some((prop) => page.getPropertyValue(prop) !== bare.getPropertyValue(prop))) return false
-        const mine = el.getBoundingClientRect()
-        const theirs = copy.getBoundingClientRect()
-        return mine.width >= theirs.width - 0.5 && mine.height >= theirs.height - 0.5
-      } finally {
-        copy.remove()
-      }
-    }
-    /** An equivalent target: another visible link to the same address whose box holds a 24 by 24 square. */
-    const equivalentTarget = (el: Element): boolean => {
-      const link = el.closest('a[href], area[href]') as HTMLAnchorElement | HTMLAreaElement | null
-      if (!link) return false
-      for (const other of Array.from(document.querySelectorAll<HTMLAnchorElement | HTMLAreaElement>('a[href], area[href]'))) {
-        if (other === link || other.href !== link.href || other.contains(link) || link.contains(other)) continue
-        const box = other.getBoundingClientRect()
-        const style = getComputedStyle(other)
-        if (box.width >= 24 && box.height >= 24 && style.visibility !== 'hidden' && style.display !== 'none') return true
-      }
-      return false
-    }
-    const exemptOf = (target: unknown): InPageAxeNode['exempt'] => {
-      if (!Array.isArray(target) || target.length !== 1 || typeof target[0] !== 'string') return undefined
-      try {
-        const el = document.querySelector(target[0])
-        if (!el) return undefined
-        if (userAgentControl(el)) return 'user-agent-control'
-        if (equivalentTarget(el)) return 'equivalent-target'
-      } catch {
-        return undefined
-      }
-      return undefined
-    }
+/**
+ * Runs axe-core in this frame only (`axe.runPartial`), after listing the frames it holds with the context each
+ * must be checked in (`axe.utils.getFrameContexts`). The collector visits those frames through the browser
+ * library, which reaches frames of other origins too, and finishes the run in the top frame (`axeFinishInPage`).
+ * With `keep`, the result stays on the page for the finish instead of crossing to the collector and back.
+ */
+export async function axePartialInPage(arg: { context: unknown; options: unknown; keep: boolean }): Promise<InPagePartial> {
+  interface AxePartialApi {
+    runPartial(context: unknown, options: unknown): Promise<unknown>
+    utils: { getFrameContexts(context: unknown, options: unknown): Array<{ frameSelector: unknown; frameContext: unknown }> }
+  }
+  const page = window as unknown as { axe: AxePartialApi; __rampaAxePartial?: unknown }
+  const context = arg.context ?? document
+  const frames = page.axe.utils.getFrameContexts(context, arg.options)
+  const partial = await page.axe.runPartial(context, arg.options)
+  if (!arg.keep) return { partial, frames }
+  page.__rampaAxePartial = partial
+  return { frames }
+}
 
-    const mapRules = (rules: AxeRuleResult[], limit: number, exceptions = false): InPageAxeRule[] =>
-      rules.map((rule) => ({
-        id: rule.id,
-        tags: rule.tags,
-        help: rule.help,
-        helpUrl: rule.helpUrl,
-        impact: rule.impact ?? null,
-        nodes: rule.nodes.slice(0, limit).map((node) => {
-          const exempt = exceptions && rule.id === 'target-size' ? exemptOf(node.target) : undefined
-          return {
-            ref: refOfTarget(node.target),
-            target: JSON.stringify(node.target),
-            html: String(node.html).slice(0, MAX_HTML),
-            message: node.failureSummary,
-            impact: node.impact ?? null,
-            ...(exempt ? { exempt } : {}),
-          }
-        }),
-      }))
+/**
+ * Runs in the frame that holds a frame axe-core named: that frame element's ref, as the collector in the top
+ * frame gave it (snapshot/refs.ts). Null when the top frame is not this page's to read (another origin).
+ */
+export function frameRefInPage(selector: unknown): string | null {
+  const page = window as unknown as { axe?: { utils: { shadowSelect(selector: unknown): Element | null } } }
+  let el: Element | null = null
+  try {
+    el = page.axe?.utils.shadowSelect(selector) ?? null
+  } catch {
+    el = null
+  }
+  if (!el) return null
+  try {
+    const top = window.top as unknown as { __rampaRefOf?: (el: Element) => string } | null
+    return typeof top?.__rampaRefOf === 'function' ? top.__rampaRefOf(el) : null
+  } catch {
+    return null
+  }
+}
+
+/**
+ * Runs in the top frame: finishes axe-core's run with the partial results of every frame, in the order
+ * `axePartialInPage` listed them (null for a frame that could not be checked), and maps each result to the
+ * collector's ref of its element. axe-core gives a frame's element as the frame's selector, then the
+ * element's; a shadow root's as an array of selectors. An element in a frame of another origin cannot be
+ * found from here: its ref is the frame's, then axe-core's own selectors in it.
+ */
+export async function axeFinishInPage(arg: { partials: unknown[]; options: unknown; locale: unknown }): Promise<InPageAxe> {
+  const MAX_HTML = 600
+  const MAX_PASS_NODES = 200
+  interface AxeNodeResult {
+    target: unknown
+    html: string
+    failureSummary?: string
+    impact?: string | null
+  }
+  interface AxeRuleResult {
+    id: string
+    tags: string[]
+    help: string
+    helpUrl: string
+    impact?: string | null
+    nodes: AxeNodeResult[]
+  }
+  interface AxeApi {
+    version: string
+    configure(spec: { locale: unknown }): void
+    finishRun(partials: unknown[], options: unknown): Promise<Record<'violations' | 'incomplete' | 'passes' | 'inapplicable', AxeRuleResult[]>>
+  }
+  const page = window as unknown as { axe: AxeApi; __rampaAxePartial?: unknown; __rampaRefOf?: (el: Element) => string }
+  const axe = page.axe
+  if (arg.locale) axe.configure({ locale: arg.locale })
+  const top = page.__rampaAxePartial
+  page.__rampaAxePartial = undefined
+  const raw = await axe.finishRun([top, ...arg.partials], arg.options)
+
+  const refOf = (el: Element): string | undefined => page.__rampaRefOf?.(el)
+  const partText = (part: unknown): string => (Array.isArray(part) ? part.map(String).join(' >>> ') : String(part))
+  /** axe-core's selector for one document: a string, or an array that crosses shadow roots. */
+  const selectIn = (scope: Document, part: unknown): Element | null => {
+    const chain = Array.isArray(part) ? part : [part]
+    let root: Document | ShadowRoot | null = scope
+    let el: Element | null = null
+    for (const selector of chain) {
+      if (!root || typeof selector !== 'string') return null
+      el = root.querySelector(selector)
+      if (!el) return null
+      root = el.shadowRoot
+    }
+    return el
+  }
+  const located = new Map<string, { el?: Element | undefined; ref?: string | undefined }>()
+  const locate = (target: unknown): { el?: Element | undefined; ref?: string | undefined } => {
+    if (!Array.isArray(target) || target.length === 0) return {}
+    const key = JSON.stringify(target)
+    const known = located.get(key)
+    if (known) return known
+    let found: { el?: Element | undefined; ref?: string | undefined } = {}
     try {
-      result.axe = {
-        version: axe.version,
-        violations: mapRules(raw.violations, Number.POSITIVE_INFINITY, true),
-        incomplete: mapRules(raw.incomplete, Number.POSITIVE_INFINITY, true),
-        passes: mapRules(raw.passes, MAX_PASS_NODES),
-        inapplicable: mapRules(raw.inapplicable, 0),
+      let scope: Document = document
+      let el: Element | null = null
+      for (let i = 0; i < target.length; i++) {
+        if (i > 0 && el) {
+          let doc: Document | null = null
+          try {
+            doc = (el as HTMLIFrameElement).contentDocument
+          } catch {
+            doc = null
+          }
+          if (!doc) {
+            const frameRef = refOf(el)
+            found = frameRef ? { ref: `${frameRef} |> ${target.slice(i).map(partText).join(' |> ')}` } : {}
+            el = null
+            break
+          }
+          scope = doc
+        }
+        el = selectIn(scope, target[i])
+        if (!el) break
       }
-    } finally {
-      frame?.remove()
+      if (el) found = { el, ref: refOf(el) }
+    } catch {
+      found = {}
     }
+    located.set(key, found)
+    return found
   }
 
-  return result
+  // WCAG 2.5.8 exceptions that axe-core's target-size does not know (docs/plans/wcag-coverage.md, A5). The facts are
+  // recorded on the node, and the engine moves exempt targets out of the failures, so a recording replays the same.
+  let clean: Document | undefined
+  let frame: HTMLIFrameElement | undefined
+  const cleanDocument = (): Document | undefined => {
+    if (clean) return clean
+    try {
+      frame = document.createElement('iframe')
+      frame.setAttribute('aria-hidden', 'true')
+      frame.tabIndex = -1
+      frame.style.cssText = 'position:absolute;left:-10000px;top:0;width:800px;height:400px;border:0;visibility:hidden'
+      document.body.appendChild(frame)
+      const doc = frame.contentDocument
+      if (!doc) return undefined
+      try {
+        // Standards mode, as the page most likely is; a page that enforces Trusted Types refuses it.
+        doc.open()
+        doc.write('<!doctype html><html><head></head><body></body></html>')
+        doc.close()
+      } catch {
+        // The empty document the frame starts with will do.
+      }
+      if (!doc.body) return undefined
+      clean = doc
+      return doc
+    } catch {
+      return undefined
+    }
+  }
+  // An element of a frame is styled by its own window.
+  const styleOf = (el: Element): CSSStyleDeclaration => (el.ownerDocument.defaultView ?? window).getComputedStyle(el)
+  const NATIVE_CONTROLS = new Set(['input', 'select', 'button', 'textarea'])
+  const BOX = ['padding-top', 'padding-right', 'padding-bottom', 'padding-left', 'border-top-width', 'border-right-width', 'border-bottom-width', 'border-left-width', 'box-sizing']
+  /**
+   * A user agent control: a native control the author did not restyle. Its padding, borders, font size and
+   * appearance equal those of a copy in an empty frame, where no author style applies, and layout did not
+   * make it smaller than that copy (a flex row may stretch a checkbox, which only helps).
+   */
+  const userAgentControl = (el: Element): boolean => {
+    if (!NATIVE_CONTROLS.has(el.localName) || (el.localName === 'input' && (el.getAttribute('type') ?? '').toLowerCase() === 'hidden')) return false
+    const doc = cleanDocument()
+    if (!doc) return false
+    const copy = doc.importNode(el, true) as HTMLElement
+    copy.removeAttribute('id')
+    doc.body.appendChild(copy)
+    try {
+      const own = styleOf(el)
+      const bare = doc.defaultView?.getComputedStyle(copy)
+      if (!bare) return false
+      if (own.appearance === 'none' || own.appearance !== bare.appearance) return false
+      const type = (el.getAttribute('type') ?? '').toLowerCase()
+      const props = type === 'checkbox' || type === 'radio' ? BOX : [...BOX, 'font-size']
+      if (props.some((prop) => own.getPropertyValue(prop) !== bare.getPropertyValue(prop))) return false
+      const mine = el.getBoundingClientRect()
+      const theirs = copy.getBoundingClientRect()
+      return mine.width >= theirs.width - 0.5 && mine.height >= theirs.height - 0.5
+    } finally {
+      copy.remove()
+    }
+  }
+  /** An equivalent target: another visible link to the same address, in the same document, whose box holds a 24 by 24 square. */
+  const equivalentTarget = (el: Element): boolean => {
+    const link = el.closest('a[href], area[href]') as HTMLAnchorElement | HTMLAreaElement | null
+    if (!link) return false
+    for (const other of Array.from(el.ownerDocument.querySelectorAll<HTMLAnchorElement | HTMLAreaElement>('a[href], area[href]'))) {
+      if (other === link || other.href !== link.href || other.contains(link) || link.contains(other)) continue
+      const box = other.getBoundingClientRect()
+      const style = styleOf(other)
+      if (box.width >= 24 && box.height >= 24 && style.visibility !== 'hidden' && style.display !== 'none') return true
+    }
+    return false
+  }
+  const exemptOf = (el: Element | undefined): InPageAxeNode['exempt'] => {
+    if (!el) return undefined
+    try {
+      if (userAgentControl(el)) return 'user-agent-control'
+      if (equivalentTarget(el)) return 'equivalent-target'
+    } catch {
+      return undefined
+    }
+    return undefined
+  }
+
+  const mapRules = (rules: AxeRuleResult[], limit: number, exceptions = false): InPageAxeRule[] =>
+    rules.map((rule) => ({
+      id: rule.id,
+      tags: rule.tags,
+      help: rule.help,
+      helpUrl: rule.helpUrl,
+      impact: rule.impact ?? null,
+      nodes: rule.nodes.slice(0, limit).map((node) => {
+        const where = locate(node.target)
+        const exempt = exceptions && rule.id === 'target-size' ? exemptOf(where.el) : undefined
+        return {
+          ref: where.ref,
+          target: JSON.stringify(node.target),
+          html: String(node.html).slice(0, MAX_HTML),
+          message: node.failureSummary,
+          impact: node.impact ?? null,
+          ...(exempt ? { exempt } : {}),
+        }
+      }),
+    }))
+  try {
+    return {
+      version: axe.version,
+      violations: mapRules(raw.violations, Number.POSITIVE_INFINITY, true),
+      incomplete: mapRules(raw.incomplete, Number.POSITIVE_INFINITY, true),
+      passes: mapRules(raw.passes, MAX_PASS_NODES),
+      inapplicable: mapRules(raw.inapplicable, 0),
+    }
+  } finally {
+    frame?.remove()
+  }
 }
