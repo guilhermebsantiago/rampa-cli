@@ -3,7 +3,7 @@ import type { Locale } from '../i18n.ts'
 import { matchNode, nameOf } from '../probes/identity.ts'
 import type { Control, KeyEvent, KeyStop, TrapAttempt } from '../probes/keyboard.ts'
 import type { ProbeRecord } from '../snapshot/schema.ts'
-import { type ProbeRule, type ProbeRuleContext, asArray, asRecord, conditionsText, coverageStatus, probeFinding } from './probes.ts'
+import { type ProbeRule, type ProbeRuleContext, asArray, asRecord, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
 
 const MAX_REPORTED = 10
 export const KEYBOARD_VERSIONS = ['1', '2'] as const
@@ -54,10 +54,19 @@ function notChecked(criterion: string, rule: string, record: ProbeRecord, what: 
   return { ...coverageFor(criterion, rule, record, what, { applicable: 0, failures: 0, review: 0, unmatched: 0 }, note), status: 'not-checked' }
 }
 
-const walkText = (walk: Walk) =>
-  `Tab ×${walk.forward.length} forward${walk.backward.length > 0 ? ` and Shift+Tab ×${walk.backward.length} backward` : ''}`
+const walkText = (walk: Walk, locale: Locale) =>
+  say(
+    locale,
+    `Tab ×${walk.forward.length} forward${walk.backward.length > 0 ? ` and Shift+Tab ×${walk.backward.length} backward` : ''}`,
+    `Tab ×${walk.forward.length} para a frente${walk.backward.length > 0 ? ` e Shift+Tab ×${walk.backward.length} para trás` : ''}`,
+  )
 
-const viewportText = (walk: Walk) => `keyboard walk at ${walk.viewport.width}×${walk.viewport.height}`
+export const viewportText = (walk: Walk, locale: Locale) =>
+  say(locale, `keyboard walk at ${walk.viewport.width}×${walk.viewport.height}`, `navegação por teclado em ${walk.viewport.width}×${walk.viewport.height}`)
+
+/** "the walk stopped early (budget)", in the report's language. */
+export const stoppedEarly = (walk: Walk, locale: Locale) =>
+  say(locale, `the walk stopped early (${walk.end.forward})`, `a navegação parou antes do fim (${walk.end.forward})`)
 
 const REACH_TEXT: Record<Locale, { message: string; widget: string }> = {
   en: {
@@ -87,9 +96,14 @@ export const keyboardReachRule: ProbeRule = {
   criteria: ['2.1.1'],
   run(record, ctx) {
     const walk = walkOf(record)
-    const what = viewportText(walk)
+    const what = viewportText(walk, ctx.locale)
     if (walk.end.forward !== 'cycled') {
-      return { findings: [], review: [], coverage: [notChecked('2.1.1', this.id, record, what, `the walk did not go round the page (${walk.end.forward}), so what it missed is unknown`)] }
+      const note = say(
+        ctx.locale,
+        `the walk did not go round the page (${walk.end.forward}), so what it missed is unknown`,
+        `a navegação não deu a volta na página (${walk.end.forward}), então não se sabe o que ela deixou de alcançar`,
+      )
+      return { findings: [], review: [], coverage: [notChecked('2.1.1', this.id, record, what, note)] }
     }
     const stops = [...walk.forward, ...walk.backward].filter((stop) => stop.el)
     const reached = new Set(stops.map((stop) => stop.el?.ref))
@@ -117,10 +131,10 @@ export const keyboardReachRule: ProbeRule = {
       }
       const negative = control.tabindex !== undefined && control.tabindex < 0
       const why = negative
-        ? `it has tabindex="${control.tabindex}", which takes it out of the Tab order`
+        ? say(ctx.locale, `it has tabindex="${control.tabindex}", which takes it out of the Tab order`, `ele tem tabindex="${control.tabindex}", que o tira da ordem do Tab`)
         : NATIVE_FOCUSABLE.has(control.tag)
-          ? 'it is a native control that never took focus'
-          : `it has role="${control.role}" and no tabindex, so it cannot take focus`
+          ? say(ctx.locale, 'it is a native control that never took focus', 'é um controle nativo que nunca recebeu foco')
+          : say(ctx.locale, `it has role="${control.role}" and no tabindex, so it cannot take focus`, `ele tem role="${control.role}" e nenhum tabindex, então não recebe foco`)
       failures++
       if (findings.length >= MAX_REPORTED) continue
       findings.push(
@@ -129,7 +143,11 @@ export const keyboardReachRule: ProbeRule = {
           rule: this.id,
           node,
           message: control.widget ? text.widget : text.message,
-          evidence: `${walkText(walk)} reached ${reached.size} element(s), never ${nameOf(node, control)}; ${why}`,
+          evidence: say(
+            ctx.locale,
+            `${walkText(walk, ctx.locale)} reached ${reached.size} element(s), never ${nameOf(node, control)}; ${why}`,
+            `${walkText(walk, ctx.locale)} chegaram a ${reached.size} elemento(s), nunca a ${nameOf(node, control)}; ${why}`,
+          ),
           // A negative tabindex is often a duplicate of a link that is reached by another address, which the walk cannot see.
           confidence: negative ? 'medium' : 'high',
           subject: 'unreached',
@@ -140,7 +158,7 @@ export const keyboardReachRule: ProbeRule = {
     return {
       findings,
       review: [],
-      coverage: [coverageFor('2.1.1', this.id, record, what, { applicable: walk.inventory.length, failures, review: 0, unmatched }, hidden > 0 ? `${hidden} more failure(s) not listed` : undefined)],
+      coverage: [coverageFor('2.1.1', this.id, record, what, { applicable: walk.inventory.length, failures, review: 0, unmatched }, moreNotListed(ctx.locale, hidden) || undefined)],
     }
   },
 }
@@ -171,7 +189,7 @@ export const keyboardTrapRule: ProbeRule = {
   criteria: ['2.1.2'],
   run(record, ctx) {
     const walk = walkOf(record)
-    const what = viewportText(walk)
+    const what = viewportText(walk, ctx.locale)
     const text = TRAP_TEXT[ctx.locale]
     const findings: Finding[] = []
     const review: Finding[] = []
@@ -179,7 +197,13 @@ export const keyboardTrapRule: ProbeRule = {
     const notes: string[] = []
     for (const trap of walk.traps) {
       if (trap.left) {
-        notes.push(`focus cycled through ${trap.cycle.length} element(s) and left with ${trap.leftWith ?? 'a key'}`)
+        notes.push(
+          say(
+            ctx.locale,
+            `focus cycled through ${trap.cycle.length} element(s) and left with ${trap.leftWith ?? 'a key'}`,
+            `o foco circulou por ${trap.cycle.length} elemento(s) e saiu com ${(trap.leftWith ?? 'uma tecla').replaceAll(', then ', ', depois ')}`,
+          ),
+        )
         continue
       }
       const matched = trap.cycle.map((el) => ({ el, node: matchNode(ctx.index, el.ref, el.id) }))
@@ -189,14 +213,22 @@ export const keyboardTrapRule: ProbeRule = {
         continue
       }
       const names = matched.slice(0, 4).map((item) => (item.node ? nameOf(item.node) : item.el.ref))
-      const evidence = `${trap.direction === 'forward' ? 'Tab' : 'Shift+Tab'} cycles through ${trap.cycle.length} element(s) (${names.join(', ')}${trap.cycle.length > 4 ? ', …' : ''}); focus did not leave with ${trap.tried.join('; ')}, in ${trap.rounds} round(s)${trap.dialog ? `; all inside ${trap.dialog}` : ''}${trap.exitHint ? `; nearby text: "${trap.exitHint}"` : ''}`
+      const key = trap.direction === 'forward' ? 'Tab' : 'Shift+Tab'
+      const list = `${names.join(', ')}${trap.cycle.length > 4 ? ', …' : ''}`
+      const evidence = say(
+        ctx.locale,
+        `${key} cycles through ${trap.cycle.length} element(s) (${list}); focus did not leave with ${trap.tried.join('; ')}, in ${trap.rounds} round(s)${trap.dialog ? `; all inside ${trap.dialog}` : ''}${trap.exitHint ? `; nearby text: "${trap.exitHint}"` : ''}`,
+        `${key} circula por ${trap.cycle.length} elemento(s) (${list}); o foco não saiu com ${trap.tried.join('; ').replaceAll(', then ', ', depois ')}, em ${trap.rounds} rodada(s)${trap.dialog ? `; todos dentro de ${trap.dialog}` : ''}${trap.exitHint ? `; texto próximo: "${trap.exitHint}"` : ''}`,
+      )
       if (trap.dialog) review.push(probeFinding({ criterion: '2.1.2', rule: this.id, node: first.node, message: text.dialog, evidence, confidence: 'medium', subject: 'trap' }))
       else if (trap.exitHint) review.push(probeFinding({ criterion: '2.1.2', rule: this.id, node: first.node, message: text.hint, evidence, confidence: 'medium', subject: 'trap' }))
       else findings.push(probeFinding({ criterion: '2.1.2', rule: this.id, node: first.node, message: text.trap, evidence, confidence: 'high', subject: 'trap' }))
     }
     const applicable = new Set([...walk.forward, ...walk.backward].flatMap((stop) => (stop.el ? [stop.el.ref] : []))).size
-    if (walk.end.forward === 'budget' || walk.end.forward === 'time') notes.push(`the walk stopped early (${walk.end.forward}); a trap after that point is not seen`)
-    if (walk.end.forward === 'frame') notes.push('focus stayed inside a frame, which the walk cannot see into')
+    if (walk.end.forward === 'budget' || walk.end.forward === 'time') {
+      notes.push(`${stoppedEarly(walk, ctx.locale)}${say(ctx.locale, '; a trap after that point is not seen', '; uma armadilha depois desse ponto não é vista')}`)
+    }
+    if (walk.end.forward === 'frame') notes.push(say(ctx.locale, 'focus stayed inside a frame, which the walk cannot see into', 'o foco ficou dentro de um frame, que a navegação não enxerga por dentro'))
     const counts = { applicable, failures: findings.length, review: review.length, unmatched }
     return { findings, review, coverage: [coverageFor('2.1.2', this.id, record, what, counts, notes.join('; ') || undefined)] }
   },
@@ -252,7 +284,7 @@ export const onFocusRule: ProbeRule = {
   criteria: ['3.2.1'],
   run(record, ctx) {
     const walk = walkOf(record)
-    const what = viewportText(walk)
+    const what = viewportText(walk, ctx.locale)
     const idle = new Set(walk.idle.map((event) => `${event.type}|${event.detail ?? ''}`))
     const words = CHANGE_WORDS[ctx.locale]
     const text = ON_FOCUS_TEXT[ctx.locale]
@@ -276,11 +308,16 @@ export const onFocusRule: ProbeRule = {
         continue
       }
       const keys = `${stop.key} ×${stop.n}`
-      const describe = (event: KeyEvent) => `${words[event.type.startsWith('dialog-') ? 'dialog' : event.type] ?? event.type}${event.detail ? ` (${event.detail.slice(0, 120)})` : ''} at +${Math.max(0, Math.round(event.at - stop.at))} ms`
-      const idleNote = `nothing like it in ${walk.idleMs} ms with no key pressed`
+      const at = (event: KeyEvent) => `${say(ctx.locale, 'at', 'em')} +${Math.max(0, Math.round(event.at - stop.at))} ms`
+      const describe = (event: KeyEvent) => `${words[event.type.startsWith('dialog-') ? 'dialog' : event.type] ?? event.type}${event.detail ? ` (${event.detail.slice(0, 120)})` : ''} ${at(event)}`
+      const idleNote = say(ctx.locale, `nothing like it in ${walk.idleMs} ms with no key pressed`, `nada parecido em ${walk.idleMs} ms sem tecla pressionada`)
+      const focusOn = say(ctx.locale, `${keys}: focus on ${nameOf(node, stop.el)}; then`, `${keys}: foco em ${nameOf(node, stop.el)}; depois`)
       if (high.length > 0 || dialogs.length > 0 || moved) {
         const parts = [...high, ...dialogs].map(describe)
-        if (moved) parts.push(`${words.focus}: focus went to ${moved.label ? `<${moved.tag}> "${moved.label}"` : `<${moved.tag}>`} ${moved.ref}`)
+        if (moved) {
+          const target = `${moved.label ? `<${moved.tag}> "${moved.label}"` : `<${moved.tag}>`} ${moved.ref}`
+          parts.push(`${words.focus}: ${say(ctx.locale, 'focus went to', 'o foco foi para')} ${target}`)
+        }
         const confidence = high.length > 0 ? 'high' : 'medium'
         const kinds = [...high.map((event) => words[event.type] ?? event.type), ...(dialogs.length > 0 ? [words.dialog] : []), ...(moved ? [words.focus] : [])]
         if (findings.length < MAX_REPORTED) {
@@ -290,7 +327,7 @@ export const onFocusRule: ProbeRule = {
               rule: this.id,
               node,
               message: text.change.replace('{what}', [...new Set(kinds)].join(', ')),
-              evidence: `${keys}: focus on ${nameOf(node, stop.el)}; then ${parts.join('; ')}; ${idleNote}`,
+              evidence: `${focusOn} ${parts.join('; ')}; ${idleNote}`,
               confidence,
               subject: [...new Set([...high, ...dialogs].map((event) => event.type))].concat(moved ? ['focus'] : []).join(','),
             }),
@@ -303,14 +340,14 @@ export const onFocusRule: ProbeRule = {
             rule: this.id,
             node,
             message: text.review.replace('{what}', words.history ?? 'history'),
-            evidence: `${keys}: focus on ${nameOf(node, stop.el)}; then ${history.map(describe).join('; ')}; ${idleNote}`,
+            evidence: `${focusOn} ${history.map(describe).join('; ')}; ${idleNote}`,
             confidence: 'low',
             subject: 'history',
           }),
         )
       }
     }
-    const notes = walk.end.forward === 'cycled' ? undefined : `the walk stopped early (${walk.end.forward})`
+    const notes = walk.end.forward === 'cycled' ? undefined : stoppedEarly(walk, ctx.locale)
     return { findings, review, coverage: [coverageFor('3.2.1', this.id, record, what, { applicable: visited.size, failures: findings.length, review: review.length, unmatched }, notes)] }
   },
 }

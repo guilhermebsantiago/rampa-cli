@@ -153,6 +153,16 @@ export function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === 'object' && !Array.isArray(value) ? (value as Record<string, unknown>) : {}
 }
 
+/** The report's language for a piece of evidence or a note: English, or Brazilian Portuguese. */
+export function say(locale: Locale, en: string, pt: string): string {
+  return locale === 'pt-BR' ? pt : en
+}
+
+/** "N more failures not listed", in the report's language. */
+export function moreNotListed(locale: Locale, count: number): string {
+  return count > 0 ? say(locale, `${count} more failure(s) not listed`, `mais ${count} falha(s) não listada(s)`) : ''
+}
+
 export function px(value: number): string {
   return `${Math.round(value * 10) / 10} px`
 }

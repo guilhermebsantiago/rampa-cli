@@ -3,7 +3,7 @@ import type { Locale } from '../i18n.ts'
 import { matchNode, nameOf } from '../probes/identity.ts'
 import { type LayoutBox, type LayoutMeasure, cutAtRightEdge, partlyClipped, pastRightEdge, wholeBox } from '../probes/layout.ts'
 import type { A11yNode, ProbeRecord } from '../snapshot/schema.ts'
-import { type ProbeRule, type ProbeRuleContext, asArray, asRecord, conditionsText, coverageStatus, probeFinding } from './probes.ts'
+import { type ProbeRule, type ProbeRuleContext, asArray, asRecord, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
 
 /** Findings per rule and kind; the rest are counted in the coverage line, never dropped silently. */
 const MAX_REPORTED = 10
@@ -26,14 +26,30 @@ export function measureOf(value: unknown): LayoutMeasure {
 
 const r1 = (value: number) => Math.round(value)
 
-function cutText(box: LayoutBox): string {
+function cutText(box: LayoutBox, locale: Locale): string {
   const across = box.cut.left + box.cut.right
   const down = box.cut.top + box.cut.bottom
-  return [across >= 1 ? `${r1(across)} px cut across` : '', down >= 1 ? `${r1(down)} px cut down` : ''].filter(Boolean).join(', ')
+  return [
+    across >= 1 ? say(locale, `${r1(across)} px cut across`, `${r1(across)} px cortados na horizontal`) : '',
+    down >= 1 ? say(locale, `${r1(down)} px cut down`, `${r1(down)} px cortados na vertical`) : '',
+  ]
+    .filter(Boolean)
+    .join(', ')
+}
+
+/** Why a cut may not lose the text, as evidence: a full text elsewhere, a carousel, an ellipsis. */
+function cutContext(box: LayoutBox, locale: Locale): string {
+  return [
+    box.full ? say(locale, '; a name or title holds the full text', '; um nome ou title tem o texto completo') : '',
+    (box.hiddenPeers ?? 0) > 0
+      ? say(locale, `; that container also hides ${box.hiddenPeers} other text box(es) completely`, `; esse contêiner também esconde ${box.hiddenPeers} outra(s) caixa(s) de texto por inteiro`)
+      : '',
+    box.ellipsis ? say(locale, '; shown with an ellipsis', '; mostrado com reticências') : '',
+  ].join('')
 }
 
 function clipperName(ctx: ProbeRuleContext, box: LayoutBox): string {
-  if (!box.clipBy) return 'an ancestor'
+  if (!box.clipBy) return say(ctx.locale, 'an ancestor', 'um ancestral')
   const node = ctx.index.get(box.clipBy)?.node
   return node ? `<${String(node.native.tag ?? 'element')}> ${box.clipBy}` : box.clipBy
 }
@@ -134,7 +150,11 @@ export const reflowRule: ProbeRule = {
           rule: this.id,
           node,
           message: text.past,
-          evidence: `viewport 320×256 CSS px, page scroll width ${r1(after.scrollWidth)} px; ${nameOf(node, box)} spans x ${r1(vis.x)}–${r1(right)} px, ${r1(right - after.clientWidth)} px past the right edge (${after.clientWidth} px)`,
+          evidence: say(
+            ctx.locale,
+            `viewport 320×256 CSS px, page scroll width ${r1(after.scrollWidth)} px; ${nameOf(node, box)} spans x ${r1(vis.x)}–${r1(right)} px, ${r1(right - after.clientWidth)} px past the right edge (${after.clientWidth} px)`,
+            `janela de 320×256 px CSS, largura de rolagem da página ${r1(after.scrollWidth)} px; ${nameOf(node, box)} ocupa x ${r1(vis.x)}–${r1(right)} px, ${r1(right - after.clientWidth)} px além da borda direita (${after.clientWidth} px)`,
+          ),
           confidence: 'high',
           subject: 'past-edge',
         }),
@@ -162,7 +182,11 @@ export const reflowRule: ProbeRule = {
           rule: this.id,
           node,
           message: text.edge,
-          evidence: `viewport 320×256 CSS px, the window does not scroll sideways; ${nameOf(node, box)} spans x ${r1(vis.x)}–${r1(vis.x + vis.width)} px, ${r1(vis.x + vis.width - after.clientWidth)} px past the right edge (${after.clientWidth} px)`,
+          evidence: say(
+            ctx.locale,
+            `viewport 320×256 CSS px, the window does not scroll sideways; ${nameOf(node, box)} spans x ${r1(vis.x)}–${r1(vis.x + vis.width)} px, ${r1(vis.x + vis.width - after.clientWidth)} px past the right edge (${after.clientWidth} px)`,
+            `janela de 320×256 px CSS, que não rola para o lado; ${nameOf(node, box)} ocupa x ${r1(vis.x)}–${r1(vis.x + vis.width)} px, ${r1(vis.x + vis.width - after.clientWidth)} px além da borda direita (${after.clientWidth} px)`,
+          ),
           confidence: 'medium',
           subject: 'edge',
         }),
@@ -175,7 +199,11 @@ export const reflowRule: ProbeRule = {
     let clippedFailures = 0
     for (const { box, node } of clipped.hits) {
       const doubtful = box.full || (box.hiddenPeers ?? 0) > 0 || box.ellipsis
-      const evidence = `at 1280×1024 whole; at 320×256 ${cutText(box)} by ${clipperName(ctx, box)}${box.full ? '; a name or title holds the full text' : ''}${(box.hiddenPeers ?? 0) > 0 ? `; that container also hides ${box.hiddenPeers} other text box(es) completely` : ''}${box.ellipsis ? '; shown with an ellipsis' : ''}`
+      const evidence = say(
+        ctx.locale,
+        `at 1280×1024 whole; at 320×256 ${cutText(box, ctx.locale)} by ${clipperName(ctx, box)}${cutContext(box, ctx.locale)}`,
+        `com 1280×1024 inteiro; com 320×256 ${cutText(box, ctx.locale)} por ${clipperName(ctx, box)}${cutContext(box, ctx.locale)}`,
+      )
       if (doubtful) {
         review.push(probeFinding({ criterion: '1.4.10', rule: this.id, node, message: text.clippedReview, evidence, confidence: 'medium', subject: 'clipped' }))
       } else if (clippedFailures < MAX_REPORTED) {
@@ -194,7 +222,11 @@ export const reflowRule: ProbeRule = {
           rule: this.id,
           node: hit.node,
           message: text.overlap,
-          evidence: `${nameOf(hit.node)} and ${hit.other} overlap by ${r1(hit.width)}×${r1(hit.height)} px at 320×256`,
+          evidence: say(
+            ctx.locale,
+            `${nameOf(hit.node)} and ${hit.other} overlap by ${r1(hit.width)}×${r1(hit.height)} px at 320×256`,
+            `${nameOf(hit.node)} e ${hit.other} se sobrepõem em ${r1(hit.width)}×${r1(hit.height)} px com 320×256`,
+          ),
           confidence: 'low',
           subject: `overlap|${hit.other}`,
         }),
@@ -204,15 +236,15 @@ export const reflowRule: ProbeRule = {
     const failures = past.length + clipped.hits.filter(({ box }) => !(box.full || (box.hiddenPeers ?? 0) > 0 || box.ellipsis)).length
     const hidden = failures - findings.length
     const notes = [
-      hidden > 0 ? `${hidden} more failure(s) not listed` : '',
-      after.truncated ? 'box budget reached' : '',
-      after.scrollsX ? '' : 'the page does not scroll sideways at 320 px',
+      moreNotListed(ctx.locale, hidden),
+      after.truncated ? say(ctx.locale, 'box budget reached', 'limite de caixas atingido') : '',
+      after.scrollsX ? '' : say(ctx.locale, 'the page does not scroll sideways at 320 px', 'a página não rola para o lado com 320 px'),
     ].filter(Boolean)
     const coverage: ProbeCoverage = {
       criterion: '1.4.10',
       method: `probe/layout@${record.version}`,
       rule: this.id,
-      conditions: conditionsText(record, '320×256 CSS px from 1280×1024'),
+      conditions: conditionsText(record, say(ctx.locale, '320×256 CSS px from 1280×1024', '320×256 px CSS a partir de 1280×1024')),
       status: coverageStatus(failures, review.length),
       applicable: after.measured,
       failures,
@@ -265,7 +297,11 @@ export const textSpacingRule: ProbeRule = {
 
     const clipped = clippedHits(ctx, before, after, () => false)
     for (const { box, node } of clipped.hits) {
-      const evidence = `before: whole; with the spacing: ${cutText(box)} by ${clipperName(ctx, box)}${box.ellipsis ? ', shown with an ellipsis' : ''}${box.full ? '; a name or title holds the full text' : ''}${(box.hiddenPeers ?? 0) > 0 ? `; that container also hides ${box.hiddenPeers} other text box(es) completely` : ''}`
+      const evidence = say(
+        ctx.locale,
+        `before: whole; with the spacing: ${cutText(box, ctx.locale)} by ${clipperName(ctx, box)}${cutContext(box, ctx.locale)}`,
+        `antes: inteiro; com o espaçamento: ${cutText(box, ctx.locale)} por ${clipperName(ctx, box)}${cutContext(box, ctx.locale)}`,
+      )
       if (box.ellipsis && box.full) continue
       if (box.ellipsis) {
         failures++
@@ -286,7 +322,11 @@ export const textSpacingRule: ProbeRule = {
           rule: this.id,
           node: hit.node,
           message: text.overlap,
-          evidence: `${nameOf(hit.node)} and ${hit.other} overlap by ${r1(hit.width)}×${r1(hit.height)} px with the spacing applied`,
+          evidence: say(
+            ctx.locale,
+            `${nameOf(hit.node)} and ${hit.other} overlap by ${r1(hit.width)}×${r1(hit.height)} px with the spacing applied`,
+            `${nameOf(hit.node)} e ${hit.other} se sobrepõem em ${r1(hit.width)}×${r1(hit.height)} px com o espaçamento aplicado`,
+          ),
           confidence: 'low',
           subject: `overlap|${hit.other}`,
         }),
@@ -295,15 +335,15 @@ export const textSpacingRule: ProbeRule = {
 
     const hidden = failures - findings.length
     const notes = [
-      hidden > 0 ? `${hidden} more failure(s) not listed` : '',
-      skipped.length > 0 ? `not applied: ${skipped.join(', ')}` : '',
-      after.truncated ? 'box budget reached' : '',
+      moreNotListed(ctx.locale, hidden),
+      skipped.length > 0 ? say(ctx.locale, `not applied: ${skipped.join(', ')}`, `não aplicado: ${skipped.join(', ')}`) : '',
+      after.truncated ? say(ctx.locale, 'box budget reached', 'limite de caixas atingido') : '',
     ].filter(Boolean)
     const coverage: ProbeCoverage = {
       criterion: '1.4.12',
       method: `probe/layout@${record.version}`,
       rule: this.id,
-      conditions: conditionsText(record, 'spacing overrides at 1280×1024'),
+      conditions: conditionsText(record, say(ctx.locale, 'spacing overrides at 1280×1024', 'espaçamento do usuário em 1280×1024')),
       status: coverageStatus(failures, review.length),
       applicable: after.measured,
       failures,

@@ -110,6 +110,13 @@ describe.skipIf(!browser)('reflow probe (1.4.10)', { timeout: 60_000 }, () => {
     expect(report.coverage.probes?.find((c) => c.criterion === '1.4.12')).toMatchObject({ status: 'failures', failures: 3, review: 1 })
   })
 
+  it('writes the evidence and the coverage line in the report language', async () => {
+    const { snapshot, engine } = await probed('spacing-fail.html')
+    const report = await checkSnapshot(snapshot, engine, probeCheckOptions({ locale: 'pt-BR' }))
+    expect(byRule(report, 'rampa/text-spacing').find((f) => f.ref === '#card')?.evidence).toMatch(/^antes: inteiro; com o espaçamento: \d+ px cortados na vertical por <div> #card$/)
+    expect(report.coverage.probes?.find((c) => c.criterion === '1.4.12')?.conditions).toMatch(/^espaçamento do usuário em 1280×1024 · /)
+  })
+
   it('finds nothing when boxes grow, the full text is in a title, text scrolls, or text was already cut', async () => {
     const { snapshot, engine } = await probed('spacing-pass.html')
     const report = await checkSnapshot(snapshot, engine, probeCheckOptions())
