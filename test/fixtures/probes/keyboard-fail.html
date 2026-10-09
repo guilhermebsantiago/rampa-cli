@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Keyboard failures</title>
+<style>
+  body { font: 16px Arial, sans-serif; margin: 1rem; }
+  [role=button], [role=option] { display: inline-block; padding: 4px 8px; border: 1px solid #333; cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Checkout</h1>
+  <a id="start" href="#cart">Cart</a>
+  <!-- 2.1.1: a div with a button role and a click handler, but no tabindex. -->
+  <div id="fake-save" role="button" onclick="this.textContent = 'Saved'">Save for later</div>
+  <!-- 2.1.1: a native button taken out of the Tab order. -->
+  <button id="hidden-from-tab" type="button" tabindex="-1">Delete draft</button>
+  <!-- 2.1.1: a listbox none of whose options can take focus. -->
+  <ul id="colors" role="listbox" aria-label="Color">
+    <li role="option" aria-selected="true">Red</li>
+    <li role="option">Blue</li>
+  </ul>
+  <!-- 3.2.1: focus alone loads another page. -->
+  <label>Country <input id="country" name="country" onfocus="location.href = 'https://example.invalid/shipping'"></label>
+  <!-- 3.2.1: focus alone opens a window. -->
+  <a id="help" href="#help-text" onfocus="window.open('https://example.invalid/help')">Help</a>
+  <!-- 3.2.1: focus alone submits the form. -->
+  <form id="coupon-form" action="https://example.invalid/coupon" method="get">
+    <label>Coupon <input id="coupon" name="coupon" onfocus="this.form.requestSubmit()"></label>
+  </form>
+  <!-- 3.2.1: focus is moved away by script. -->
+  <button id="mover" type="button" onfocus="document.getElementById('end').focus()">Gift options</button>
+  <a id="skipped" href="#skipped-text">Gift wrap details</a>
+  <a id="end" href="#done">Place order</a>
+</main>
+</body>
+</html>

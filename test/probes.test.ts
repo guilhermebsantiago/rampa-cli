@@ -62,7 +62,8 @@ describe('probe stage', () => {
 const launched = await launchTestBrowser('the probe guard tests')
 if ('skip' in launched) process.stderr.write(`\n${launched.skip}\n`)
 const browser = 'browser' in launched ? launched.browser : undefined
-afterAll(async () => browser?.close())
+// Closing Edge can take long on a loaded machine.
+afterAll(async () => browser?.close(), 60_000)
 
 describe.skipIf(!browser)('network guard', { timeout: 30_000 }, () => {
   it('aborts writes, answers navigations locally, blocks sockets, closes popups and dismisses dialogs', async () => {

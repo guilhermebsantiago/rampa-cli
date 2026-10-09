@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Keyboard trap</title>
+</head>
+<body>
+<main>
+  <h1>Editor</h1>
+  <a id="before" href="#intro">Introduction</a>
+  <!-- 2.1.2 (ACT 80af7b failed example): a widget that sends focus back to its own start on Tab, and to its end on Shift+Tab. -->
+  <div id="editor">
+    <button id="bold" type="button">Bold</button>
+    <button id="italic" type="button">Italic</button>
+    <textarea id="text" aria-label="Text"></textarea>
+  </div>
+  <a id="after" href="#outro">Conclusion</a>
+</main>
+<script>
+  const first = document.getElementById('bold')
+  const last = document.getElementById('text')
+  document.getElementById('editor').addEventListener('keydown', (event) => {
+    if (event.key !== 'Tab') {
+      // Escape and the arrows do nothing either.
+      if (event.key === 'Escape' || event.key.startsWith('Arrow')) event.preventDefault()
+      return
+    }
+    if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
+    else if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus() }
+  })
+</script>
+</body>
+</html>

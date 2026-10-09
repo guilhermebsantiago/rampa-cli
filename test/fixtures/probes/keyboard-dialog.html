@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cookie dialog</title>
+</head>
+<body>
+<main>
+  <h1>News</h1>
+  <a href="#latest">Latest</a>
+</main>
+<!-- A modal dialog that keeps focus inside and ignores Esc, but closes with its own buttons: review, not a failure. -->
+<div id="consent" role="dialog" aria-modal="true" aria-label="Cookies">
+  <p>We use cookies.</p>
+  <button id="accept" type="button">Accept</button>
+  <button id="reject" type="button">Reject</button>
+</div>
+<script>
+  const accept = document.getElementById('accept')
+  const reject = document.getElementById('reject')
+  document.getElementById('consent').addEventListener('keydown', (event) => {
+    if (event.key !== 'Tab') return
+    event.preventDefault()
+    ;(document.activeElement === accept ? reject : accept).focus()
+  })
+  for (const button of [accept, reject]) button.addEventListener('click', () => document.getElementById('consent').remove())
+  accept.focus()
+</script>
+</body>
+</html>

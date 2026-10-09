@@ -38,8 +38,8 @@ export interface Kit {
   /** The focused element, through open shadow roots; same-origin frames report the frame element. */
   deepActive(): Element | null
   rect(el: Element): InPageRect
-  /** Hook events since the last drain: window.open, submit, showModal, history, script focus. */
-  drain(): Array<{ type: string; at: number; detail?: string | undefined; ref?: string | undefined }>
+  /** Hook events since the last drain: window.open, submit, showModal, history, focusin, script focus. */
+  drain(): Array<{ type: string; at: number; detail?: string | undefined; ref?: string | undefined; el?: InPageElement | undefined }>
 }
 
 /** Installs `window.__rampaKit`; safe to call twice. */
@@ -137,7 +137,13 @@ export function installKit(): void {
   const drain = () => {
     const events = w.__rampaEvents ?? []
     w.__rampaEvents = []
-    return events.map((event) => ({ type: event.type, at: event.at, detail: event.detail, ref: event.target ? cssPath(event.target) : undefined }))
+    return events.map((event) => ({
+      type: event.type,
+      at: event.at,
+      detail: event.detail,
+      ref: event.target ? cssPath(event.target) : undefined,
+      ...(event.type === 'focusin' && event.target ? { el: describe(event.target) } : {}),
+    }))
   }
   w.__rampaKit = { cssPath, identity, describe, visible, deepActive, rect, drain }
 }
@@ -185,6 +191,10 @@ export function installHooks(): void {
       return original.call(this, data, unused, url)
     }
   }
+  // Every element that receives focus, in order: a script that moves focus on shows as a second one.
+  // The focus event in the capture phase runs before the element's own handlers, which may move focus on
+  // before focusin is ever dispatched. The type stays 'focusin' for the walk.
+  window.addEventListener('focus', (event) => { if (event.target instanceof Element) push('focusin', undefined, event.target) }, true)
   const focus = HTMLElement.prototype.focus
   HTMLElement.prototype.focus = function (this: HTMLElement, options?: FocusOptions) {
     push('script-focus', undefined, this)

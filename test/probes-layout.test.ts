@@ -18,7 +18,8 @@ const browser = await launchBrowser({ args: DETERMINISM_ARGS }).catch((error: un
   process.stderr.write(`\nSkipping the layout probe tests: no browser started (${error instanceof Error ? error.message.split('\n')[0] : String(error)}).\n`)
   return undefined
 })
-afterAll(async () => browser?.close())
+// Closing Edge can take long on a loaded machine.
+afterAll(async () => browser?.close(), 60_000)
 
 const collected = new Map<string, Collected>()
 async function probed(name: string): Promise<Collected> {

@@ -59,7 +59,7 @@
     "build": "tsdown && node scripts/build-schema.ts",
     "dev": "node src/cli.ts",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run --dir test",
+    "test": "vitest run --dir test --hookTimeout 60000",
     "test:watch": "vitest --dir test",
     "media": "pnpm build && node scripts/media.ts"
   },

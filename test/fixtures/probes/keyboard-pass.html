@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Keyboard passes</title>
+<style>
+  body { font: 16px Arial, sans-serif; margin: 1rem; }
+  .skip { position: absolute; left: -9999px; }
+  .skip:focus { left: 1rem; }
+  .carousel { overflow: hidden; width: 300px; white-space: nowrap; }
+  .slide { display: inline-block; width: 300px; }
+  [role=tab] { padding: 4px 8px; border: 1px solid #333; }
+  .card { border: 1px solid #333; padding: 8px; margin: 8px 0; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<main id="main">
+  <h1>Settings</h1>
+  <!-- A tablist with roving tabindex: Tab reaches the selected tab, arrows the others. -->
+  <div role="tablist" aria-label="Sections">
+    <button role="tab" id="tab-1" aria-selected="true" tabindex="0">Profile</button>
+    <button role="tab" id="tab-2" aria-selected="false" tabindex="-1">Billing</button>
+  </div>
+  <!-- One radio of a group is in the Tab order. -->
+  <fieldset><legend>Plan</legend>
+    <label><input type="radio" name="plan" value="free" checked> Free</label>
+    <label><input type="radio" name="plan" value="pro"> Pro</label>
+  </fieldset>
+  <!-- A card whose image link repeats the heading link, out of the Tab order on purpose. -->
+  <div class="card">
+    <a href="#article-1" tabindex="-1"><span>Photo of the article</span></a>
+    <h2><a href="#article-1">Read the article</a></h2>
+  </div>
+  <!-- A carousel slide out of view, with its link out of the Tab order. -->
+  <div class="carousel">
+    <div class="slide"><a href="#offer-1">First offer</a></div><div class="slide"><a href="#offer-2" tabindex="-1">Second offer</a></div>
+  </div>
+  <!-- Disabled and hidden controls are not expected to take focus. -->
+  <button type="button" disabled>Unavailable</button>
+  <a href="#decorative" aria-hidden="true" tabindex="-1">Decorative link</a>
+  <!-- Focus changes how the field looks, nothing else. -->
+  <label>Name <input id="name" name="name" onfocus="this.style.outline = '3px solid #005fcc'"></label>
+  <button id="save" type="button">Save</button>
+</main>
+<script>
+  // The page changes its own address every 400 ms with no input: never caused by focus.
+  let tick = 0
+  setInterval(() => history.replaceState(null, '', `#t${tick++ % 2}`), 400)
+</script>
+</body>
+</html>

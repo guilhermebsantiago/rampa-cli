@@ -1,6 +1,7 @@
 import type { Browser } from 'playwright-core'
 import { RampaError, errorMessage } from '../core/util.ts'
 import type { ProbeRecord } from '../snapshot/schema.ts'
+import { keyboardProbe } from './keyboard.ts'
 import { layoutProbes } from './layout.ts'
 import { PROBE_KINDS, type ProbeKind, type ProbeOptions, skippedRecord } from './page.ts'
 
@@ -33,7 +34,7 @@ export type ProbeStep = (browser: Browser, url: string, options: ProbeOptions) =
 
 /** Runs each requested kind in turn; a probe that fails is recorded as skipped and never fails the check. */
 export async function runProbes(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
-  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes }
+  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe }
   const records: ProbeRecord[] = []
   for (const kind of options.kinds) {
     const started = Date.now()
