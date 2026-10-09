@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs'
 import { mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
-import { type Browser, type Page, chromium } from 'playwright-core'
+import { type Browser, type Page, type Response, chromium } from 'playwright-core'
 import type { EngineResults } from '../core/types.ts'
 import { RampaError, errorMessage, sha256 } from '../core/util.ts'
 import { AXE_TAGS, axeLocale, axeSource, emptyEngine, engineFromAxe } from '../engine/axe.ts'
@@ -9,6 +9,7 @@ import type { Locale } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
 import { walkTree } from '../snapshot/tree.ts'
+import { type BrowserOptions, contextOptions, openPage, prepareContext } from './browser-options.ts'
 import { collectInPage } from './in-page.ts'
 
 export interface WebCollectOptions {
@@ -21,6 +22,10 @@ export interface WebCollectOptions {
   captureImages?: boolean | undefined
   /** Changes the page before collection; used by the eval to build corrupted pairs. */
   mutate?: ((page: Page) => Promise<void>) | undefined
+  /** Viewport, device, color scheme, session, headers and what to wait for; see docs/browser-options.md. */
+  browserOptions?: BrowserOptions | undefined
+  /** Reads the loaded page before collection; the crawler takes its links here, and may stop the collection by throwing. */
+  inspect?: ((page: Page, response: Response | null) => Promise<void>) | undefined
 }
 
 export interface Collected {
@@ -72,10 +77,12 @@ export async function launchBrowser(): Promise<Browser> {
 }
 
 export async function collectWeb(browser: Browser, url: string, options: WebCollectOptions): Promise<Collected> {
-  const context = await browser.newContext({ viewport: { width: 1280, height: 800 }, bypassCSP: true })
+  const context = await browser.newContext(contextOptions(options.browserOptions))
   const page = await context.newPage()
   try {
-    await page.goto(url, { waitUntil: 'load', timeout: options.timeoutMs ?? 30_000 })
+    await prepareContext(context, url, options.browserOptions)
+    const response = await openPage(page, url, options.browserOptions, options.timeoutMs)
+    if (options.inspect) await options.inspect(page, response)
     if (options.mutate) await options.mutate(page)
     if (options.runAxe) await page.addScriptTag({ content: await axeSource() })
     const raw = await page.evaluate(collectInPage, {
@@ -134,7 +141,8 @@ async function captureImages(page: Page, root: A11yNode): Promise<void> {
   }
   for (const node of targets) {
     try {
-      const png = await page.locator(`css=${node.ref}`).first().screenshot({ type: 'png', timeout: 5000, animations: 'disabled' })
+      // CSS scale: a phone's pixel ratio would send the model images up to nine times larger, for the same picture.
+      const png = await page.locator(`css=${node.ref}`).first().screenshot({ type: 'png', timeout: 5000, animations: 'disabled', scale: 'css' })
       node.image = `data:image/png;base64,${png.toString('base64')}`
     } catch {
       // Not visible or detached: criteria that need the image skip this node.

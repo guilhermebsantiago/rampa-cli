@@ -6,6 +6,7 @@ import { runEval } from './cli/commands/eval.ts'
 import { runModels } from './cli/commands/models.ts'
 import type { GlobalContext } from './cli/context.ts'
 import { intro, menu } from './cli/intro.ts'
+import { browserOptions, crawlOptions } from './cli/web-options.ts'
 import { loadConfig } from './config.ts'
 import { RampaError, errorMessage } from './core/util.ts'
 import { DEFAULT_CRITERIA } from './criteria/index.ts'
@@ -59,7 +60,7 @@ const program = new Command()
     }),
   )
 
-program
+const check = program
   .command('check')
   .description('check web pages, HTML files, folders or snapshot .json files')
   .argument('<targets...>', 'URLs, .html files, folders or snapshot .json files')
@@ -79,6 +80,8 @@ program
   .option('--concurrency <n>', 'parallel model calls', '4')
   .option('--verbose', 'list discarded claims, low-confidence findings and unchecked criteria')
   .action(action(async (targets: string[], options, command: Command) => runCheck(targets, options, await context(command))))
+// Crawl and browser options live with their modules; --help lists them under their own headings.
+for (const option of [...crawlOptions(), ...browserOptions()]) check.addOption(option)
 
 program
   .command('eval')

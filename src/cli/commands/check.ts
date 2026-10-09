@@ -13,11 +13,14 @@ import { chooseModel } from '../../providers/detect.ts'
 import type { ModelProvider } from '../../providers/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
 import { renderReport } from '../../report/pretty.ts'
+import { type BrowserFlags, parseBrowserFlags } from '../../surfaces/browser-options.ts'
+import { type CrawlFlags, crawlRequested } from '../../surfaces/crawl.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import { loadEngineFor, loadSnapshot, recordingName, resolveTargets } from '../../surfaces/targets.ts'
 import type { GlobalContext } from '../context.ts'
+import { runSiteCheck } from './site.ts'
 
-export interface CheckCommandOptions {
+export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   criteria: string
   model?: string
   llm: boolean
@@ -50,6 +53,8 @@ export async function resolveProvider(spec: string | undefined, offline: boolean
 }
 
 export async function runCheck(targets: string[], options: CheckCommandOptions, context: GlobalContext): Promise<number> {
+  const browserOptions = parseBrowserFlags(options)
+  if (crawlRequested(options)) return runSiteCheck(targets, options, context, browserOptions)
   const resolved = await resolveTargets(targets)
   const criteria = resolveCriteria(options.criteria.split(','))
   const runs = Math.max(1, Number.parseInt(options.runs, 10) || 1)
@@ -75,6 +80,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
           locale: context.locale,
           screenshotDir: options.screenshots ? '.rampa/screenshots' : undefined,
           captureImages: needsImages,
+          browserOptions,
         })
         if (options.save) {
           await mkdir(options.save, { recursive: true })

@@ -97,7 +97,7 @@ function usageLine(report: Report): string | undefined {
   return `${line} · ${cost < 0.0001 ? `< US$ ${decimal(0.0001, 4)}` : `≈ US$ ${decimal(cost, 4)}`}`
 }
 
-function renderFinding(finding: Finding, locale: Locale, p: Painter): string[] {
+export function renderFinding(finding: Finding, locale: Locale, p: Painter): string[] {
   const lines: string[] = []
   lines.push(`  ${p.redBold('✗')} ${finding.ref ?? finding.target ?? ''}`)
   lines.push(`    ${finding.message}`)
