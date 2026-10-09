@@ -63,7 +63,9 @@ const messages = {
     noteImageScope:
       'An image has no accessibility tree: names, roles, states, focus order, language and structure cannot be checked from pixels. Only text contrast is measured, where a model found text.',
     noteImageNoModel: 'No model to find text in the image, so nothing was measured. Pass --model with a vision model.',
-    noteImageBlocks: '{model} located {kept} text block(s) in the image; {dropped} more were dropped because their box held no text.',
+    noteImageBlocks: '{model} located {kept} text block(s) in the image; {dropped} more did not hold up against the pixels and were dropped.',
+    noteImageOffline: 'No cached text locations for this image (--offline), so nothing was measured.',
+    noteImageError: 'The model could not locate text in the image, so nothing was measured: {error}',
   },
   'pt-BR': {
     tagline: 'verificação de acessibilidade além da sintaxe',
@@ -118,7 +120,9 @@ const messages = {
     noteImageScope:
       'Uma imagem não tem árvore de acessibilidade: nomes, papéis, estados, ordem de foco, idioma e estrutura não podem ser verificados em pixels. Só o contraste do texto é medido, onde um modelo encontrou texto.',
     noteImageNoModel: 'Sem modelo para encontrar texto na imagem, nada foi medido. Use --model com um modelo de visão.',
-    noteImageBlocks: '{model} localizou {kept} bloco(s) de texto na imagem; outros {dropped} foram descartados porque a caixa não tinha texto.',
+    noteImageBlocks: '{model} localizou {kept} bloco(s) de texto na imagem; outros {dropped} não se sustentaram nos pixels e foram descartados.',
+    noteImageOffline: 'Sem localizações de texto em cache para esta imagem (--offline), então nada foi medido.',
+    noteImageError: 'O modelo não conseguiu localizar texto na imagem, então nada foi medido: {error}',
   },
 } as const
 
