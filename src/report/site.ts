@@ -2,10 +2,10 @@ import type { RepeatedFinding, SiteReport } from '../core/site.ts'
 import type { CriterionSummary, Finding } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
-import { renderSiteCriteria, siteCriteriaCoverage } from '../site/index.ts'
 import type { CrawlSkip } from '../surfaces/crawl.ts'
 import { WCAG21_A_AA, compareCriteria, criterionLabel } from '../wcag.ts'
 import { type PrettyOptions, renderFinding } from './pretty.ts'
+import { renderSiteCriteria, siteCriteriaCoverage } from '../site/index.ts'
 
 const messages = {
   en: {
@@ -245,10 +245,10 @@ export function renderSiteReport(site: SiteReport, options: PrettyOptions): stri
     ? list(coverage.notChecked)
     : t(locale, 'coverageNotCheckedCount', { count: coverage.notChecked.length, total: WCAG21_A_AA.length })
   lines.push(`  ${t(locale, 'coverageNotChecked').padEnd(width)}${notChecked}`)
-  const across = siteCriteriaCoverage(site.siteCriteria, locale)
-  if (across) lines.push(`  ${across.label.padEnd(width)}${across.value}`)
   const found = site.pages.length + site.notChecked.length + site.notLoaded
   lines.push(`  ${st(locale, 'coveragePages').padEnd(width)}${st(locale, 'coveragePagesCount', { checked: site.pages.length, found })}`)
+  const across = siteCriteriaCoverage(site.siteCriteria, locale)
+  if (across) lines.push(`  ${across.label.padEnd(width)}${across.value}`)
   lines.push(p.bold(st(locale, 'disclaimer')))
   lines.push(p.dim(t(locale, 'manualReview')))
   return lines.join('\n')
