@@ -33,6 +33,8 @@ export interface Control {
   radioGroup?: string | undefined
   /** A focusable element the walk reached sits inside this control. */
   holdsReached?: boolean | undefined
+  /** Visible before the walk but not after it, or the other way round (a carousel that turned): not judged. */
+  changed?: boolean | undefined
   shadow?: boolean | undefined
 }
 
@@ -431,6 +433,13 @@ export async function runKeyboardWalk(browser: Browser, url: string, options: Pr
     if (forward.end === 'cycled') backward = await walk(page, probe, 'Shift+Tab', Math.min(STOP_BUDGET, forward.stops.length + 10), deadline, hooks.backwardHook, rereadMs)
     const reached = new Set([...forward.stops, ...backward.stops].flatMap((stop) => (stop.el ? [stop.el.ref] : [])))
     await markHolders(inventory, reached)(page)
+    // Pages change while they are walked (carousels turn, panels close): a control 2.1.1 can judge
+    // was a visible candidate both before and after the walk, with the same tabindex.
+    const afterwards = new Map((await page.evaluate(inventoryControls).catch(() => [] as Control[])).map((control) => [control.ref, control]))
+    for (const control of inventory) {
+      const later = afterwards.get(control.ref)
+      if (!later || later.tabindex !== control.tabindex) control.changed = true
+    }
 
     const traps = [forward.trap, backward.trap].filter((trap): trap is TrapAttempt => trap !== undefined)
     const data: KeyboardData = {

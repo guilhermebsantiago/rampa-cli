@@ -116,7 +116,7 @@ export const keyboardReachRule: ProbeRule = {
     let failures = 0
     let unmatched = 0
     for (const control of walk.inventory) {
-      if (reached.has(control.ref) || control.holdsReached || control.shadow) continue
+      if (reached.has(control.ref) || control.holdsReached || control.shadow || control.changed) continue
       if (control.widget && (widgets.has(control.widget) || reached.has(control.widget))) continue
       if (control.radioGroup && radios.has(control.radioGroup)) continue
       if (control.href && hrefs.has(control.href)) continue
