@@ -78,7 +78,7 @@ export function renderHtml(reports: readonly Report[], options: HtmlOptions = {}
   parts.push(aboutSection(reports, locale))
   parts.push(`</main>
 <footer class="wrap">
-<p>${withMarkup(locale, 'generatedBy', 'tool', `<a href="${PROJECT_URL}">Rampa</a> ${e(VERSION)}`)} · <a href="https://www.w3.org/TR/WCAG21/">${e(t(locale, 'wcagLink'))}</a></p>
+<p>${e(t(locale, 'generatedBy', { tool: `Rampa ${VERSION}` }))} · <a href="${PROJECT_URL}">${e(t(locale, 'projectLink'))}</a> · <a href="https://www.w3.org/TR/WCAG21/">${e(t(locale, 'wcagLink'))}</a></p>
 </footer>
 </body>
 </html>

@@ -38,6 +38,8 @@ describe('rampa check output', { timeout: 60_000 }, () => {
     const dir = mkdtempSync(join(tmpdir(), 'rampa-cli-'))
     const run = rampa(...recorded, '-o', join(dir, 'report.json'))
     expect(run.stdout).toContain('Coverage of this run')
+    // Engine findings print their id too, so they can be waived from the terminal.
+    expect(run.stdout).toContain('high · rule image-alt · id 5f085d8a3b9c')
     expect((JSON.parse(readFileSync(join(dir, 'report.json'), 'utf8')) as { findings: unknown[] }).findings).toHaveLength(9)
     expect(existsSync(join(dir, 'report.sarif'))).toBe(false)
   })

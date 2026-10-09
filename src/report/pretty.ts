@@ -108,7 +108,10 @@ function renderFinding(finding: Finding, locale: Locale, p: Painter): string[] {
     lines.push(`      ${p.green(`+ ${finding.patch.after}`)}`)
   }
   if (finding.source === 'engine') {
-    lines.push(p.dim(`    ${finding.confidence === 'high' ? t(locale, 'high') : finding.confidence} · ${t(locale, 'engineRule')} ${finding.ruleId}`))
+    // The id is what a waiver names, so engine findings print it too.
+    lines.push(
+      p.dim(`    ${finding.confidence === 'high' ? t(locale, 'high') : finding.confidence} · ${t(locale, 'engineRule')} ${finding.ruleId} · id ${finding.fingerprint}`),
+    )
   } else {
     const parts = [`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`]
     if (finding.agreement) parts.push(`${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`)
