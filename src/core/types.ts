@@ -215,6 +215,8 @@ export interface Report {
   target: string
   /** The local file behind the target, relative like `SourceLocation.file`; set by `locateReport`. */
   sourceFile?: string | undefined
+  /** Set when only part of the page was checked: the selectors it was scoped to (checkPage with include or exclude). */
+  scope?: { include: string[]; exclude: string[] } | undefined
   surface: Surface
   locale: Locale
   llm: 'on' | 'off' | 'no-model'

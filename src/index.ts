@@ -1,3 +1,7 @@
+export { check, type CheckTargetsOptions } from './api/check.ts'
+export type { RampaOptions } from './api/options.ts'
+export { type AssertOptions, formatFindings } from './testing/format.ts'
+export { assertRampa } from './testing/matchers.ts'
 export { defineConfig, loadConfig, loadWaivers, type RampaConfig } from './config.ts'
 export {
   compareWithBaseline,

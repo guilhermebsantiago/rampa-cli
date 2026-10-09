@@ -37,6 +37,14 @@
       "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
     },
+    "./playwright": {
+      "types": "./dist/playwright.d.mts",
+      "default": "./dist/playwright.mjs"
+    },
+    "./puppeteer": {
+      "types": "./dist/puppeteer.d.mts",
+      "default": "./dist/puppeteer.mjs"
+    },
     "./package.json": "./package.json"
   },
   "files": [
@@ -77,8 +85,17 @@
     "playwright-core": "^1.63.0",
     "zod": "^4.6.5"
   },
+  "peerDependencies": {
+    "@playwright/test": ">=1.40.0"
+  },
+  "peerDependenciesMeta": {
+    "@playwright/test": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@modelcontextprotocol/client": "^2.3.1",
+    "@playwright/test": "~1.63.0",
     "@types/node": "^26.6.4",
     "@types/pngjs": "^6.0.5",
     "gifenc": "^1.0.3",

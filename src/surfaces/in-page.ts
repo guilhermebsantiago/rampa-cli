@@ -53,6 +53,8 @@ export interface InPageOptions {
   axeTags: string[]
   axeLocale: unknown
   maxNodes: number
+  /** axe-core's own context, to check part of the page: selectors to include and exclude. The whole document when absent. */
+  axeContext?: { include?: string[] | undefined; exclude?: string[] | undefined } | undefined
 }
 
 export async function collectInPage(options: InPageOptions): Promise<InPageResult> {
@@ -402,11 +404,11 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     interface AxeApi {
       version: string
       configure(spec: { locale: unknown }): void
-      run(context: Document, options: unknown): Promise<Record<'violations' | 'incomplete' | 'passes' | 'inapplicable', AxeRuleResult[]>>
+      run(context: unknown, options: unknown): Promise<Record<'violations' | 'incomplete' | 'passes' | 'inapplicable', AxeRuleResult[]>>
     }
     const axe = (window as unknown as { axe: AxeApi }).axe
     if (options.axeLocale) axe.configure({ locale: options.axeLocale })
-    const raw = await axe.run(document, { runOnly: { type: 'tag', values: options.axeTags } })
+    const raw = await axe.run(options.axeContext ?? document, { runOnly: { type: 'tag', values: options.axeTags } })
     const refOfTarget = (target: unknown): string | undefined => {
       if (!Array.isArray(target) || target.length !== 1 || typeof target[0] !== 'string') return undefined
       try {
