@@ -91,6 +91,42 @@ Coverage of this run
     1.4.10  probe/layout@1 (rampa/reflow) · 320×256 CSS px · chromium 141 (headless): 2 failure(s) · 512 element(s)
 ```
 
+## Coverage by criterion and method
+
+What `--probe all` adds, and what each criterion still needs from a person. Every rule is experimental.
+
+| SC | Method (probe, rule) | Failure | Needs review | Stays manual |
+|---|---|---|---|---|
+| 1.4.10 Reflow | `probe/layout@1`, `rampa/reflow`: 320×256 CSS px from 1280×1024 | content past the right edge of a page that scrolls sideways; text cut at 320 px that was whole at 1280 px | doubtful cuts; new overlaps | lost functionality; content gone behind collapsed menus (F102); the two-dimensional exception beyond element types |
+| 1.4.12 Text Spacing | `probe/layout@1`, `rampa/text-spacing`: the four values as user overrides | text cut that was whole (F104); an ellipsis with no full text (medium) | doubtful cuts; new overlaps | scripts where a metric does not apply; text in canvas and images |
+| 2.1.1 Keyboard | `probe/keyboard@2`, `rampa/keyboard-reach`: Tab and Shift+Tab walk | a control neither walk reached (medium for a negative tabindex) | — | operating what was reached; drag and drop; states after interaction; handler-only controls |
+| 2.1.2 No Keyboard Trap | `probe/keyboard@2`, `rampa/keyboard-trap` | a cycle Tab, Shift+Tab, Esc and the arrows never leave, twice | traps inside dialogs; traps with exit text | traps after interaction; plug-ins |
+| 2.4.7 Focus Visible | `probe/keyboard@2`, `rampa/focus-visible`: focused and blurred captures | no pixel changes in the region or the viewport; focus removed on arrival (F55) | a change only elsewhere; a faint change | whether a change is perceivable; forced colors; other browsers |
+| 2.4.11 Focus Not Obscured (Minimum) | `probe/keyboard@2`, `rampa/focus-obscured`: 5×5 hit grid, confirmed by pixels | the element entirely under author content (beyond the 2.1 target) | — | content the user opened or moved; other viewports |
+| 3.2.1 On Focus | `probe/keyboard@2`, `rampa/on-focus` | navigation, new window, submission or modal on focus (high); a browser dialog or a script focus move (medium) | an address change with no load | focus by mouse; changes after interaction; content changes that change meaning |
+
+"No failure found" in a coverage line applies to the conditions it names: one browser engine, one viewport, the states the observe class reached. It is never a pass.
+
+## Cost
+
+Measured on 2026-10-09 with Microsoft Edge 154 headless on a Windows 11 desktop that other jobs were loading at the same time:
+
+| Page | Reflow | Text spacing | Keyboard walk (with pixels) |
+|---|---|---|---|
+| rampa.guilhermebs.com.br | 1.7 s | 1.6 s | 25.7 s, 50 + 50 stops, 0.26 s per stop |
+| www.gov.uk | 1.0 s | 2.0 s | 42.1 s, 89 + 89 stops, 0.24 s per stop |
+| agenciabrasil.ebc.com.br | 4.5 s | 3.2 s | 67.8 s, 150 stops (budget reached), 0.45 s per stop |
+
+The layout probes are within the plan's 2–5 s per page. The keyboard walk is above the plan's 0.2 s per stop: each forward stop takes three region captures, a backward stop only the hit grid, and a page whose pixels move on its own adds the viewport confirmation. Budgets: 150 stops per direction, 120 s per walk, 4,000 measured boxes per layout. Each record keeps `durationMs`, and a record cut short says why in `reason`. A saved snapshot with all probes is a few hundred kilobytes; screenshots are kept as hashes, not images.
+
+## Not yet
+
+- `--probe` runs from `rampa check` on URLs and HTML files. It does not run with `--crawl`, from the programmatic API, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
+- The `rampa.config` file has no `probe` key yet.
+- Captures are not written next to a saved snapshot; only their hashes are recorded.
+- The activate class (clicks, Enter and Space, `--probe interact`) and `--allow-submit` do not exist yet; nothing here clicks or submits.
+- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the probe test files were run five times in a row by hand.
+
 ## The checks
 
 ### 1.4.10 Reflow (`--probe layout`, rule `rampa/reflow`)

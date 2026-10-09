@@ -89,7 +89,7 @@ export function entryOf(finding: Finding): BaselineEntry {
     ref: finding.ref ?? finding.target,
     ruleId: finding.ruleId,
     subject: finding.subject,
-    element: finding.source === 'engine' ? startTag(finding.html) : undefined,
+    element: finding.source !== 'judgment' ? startTag(finding.html) : undefined,
     message: finding.message,
   }
 }
@@ -191,7 +191,9 @@ export function findTarget(baseline: BaselineFile, key: string): [string, Baseli
  * start tag for the engine, what was judged for a judgment. Undefined when there is nothing to go on.
  */
 function contentKey(entry: Pick<BaselineEntry, 'criterion' | 'source' | 'ruleId' | 'subject' | 'element'>): string | undefined {
-  if (entry.source === 'engine') return entry.element ? `${entry.criterion}|engine|${entry.ruleId ?? ''}|${normalizeForMatch(entry.element)}` : undefined
+  if (entry.source === 'engine' || entry.source === 'probe') {
+    return entry.element ? `${entry.criterion}|${entry.source}|${entry.ruleId ?? ''}|${normalizeForMatch(entry.element)}` : undefined
+  }
   return entry.subject?.trim() ? `${entry.criterion}|judgment|${normalizeForMatch(entry.subject)}` : undefined
 }
 
@@ -202,6 +204,8 @@ function contentKey(entry: Pick<BaselineEntry, 'criterion' | 'source' | 'ruleId'
  */
 function rechecked(entry: BaselineEntry, report: Report): boolean {
   if (entry.source === 'engine') return report.engine.name !== 'none'
+  // A probe finding is rechecked when its rule ran on a probe record this time.
+  if (entry.source === 'probe') return Boolean(report.coverage.probes?.some((row) => row.criterion === entry.criterion && row.status !== 'not-checked'))
   if (report.llm !== 'on') return false
   const summary = report.criteria.find((c) => c.criterion === entry.criterion)
   if (!summary?.applicable || summary.cannotTell > 0 || summary.errors > 0 || summary.offlineMisses > 0) return false

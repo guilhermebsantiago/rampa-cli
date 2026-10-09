@@ -1,14 +1,75 @@
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { afterAll, describe, expect, it } from 'vitest'
+import { checkSnapshot } from '../src/core/check.ts'
+import { emptyEngine } from '../src/engine/axe.ts'
 import { matchNode, snapshotSignature } from '../src/probes/identity.ts'
 import { openProbePage } from '../src/probes/page.ts'
 import { parseProbeKinds } from '../src/probes/run.ts'
-import { A11ySnapshotSchema, type A11ySnapshot } from '../src/snapshot/schema.ts'
+import { probeChecks } from '../src/rules/probes.ts'
+import { PROBE_RULES } from '../src/rules/registry.ts'
+import { A11ySnapshotSchema, type A11ySnapshot, type ProbeRecord } from '../src/snapshot/schema.ts'
 import { indexTree } from '../src/snapshot/tree.ts'
 import { launchTestBrowser } from './browser.ts'
+import { probeCheckOptions } from './probe-helpers.ts'
 
 const fixture = (name: string) => pathToFileURL(resolve('test/fixtures/probes', name)).href
+
+const record = (variant: string, overrides: Partial<ProbeRecord> = {}): ProbeRecord => ({
+  kind: variant === 'keyboard-walk' ? 'keyboard' : 'layout',
+  version: variant === 'keyboard-walk' ? '2' : '1',
+  conditions: { viewport: { width: 320, height: 256 }, deviceScaleFactor: 1, browser: 'chromium 1 (headless)', variant },
+  status: 'complete',
+  guard: { blocked: [], navigations: [], dialogs: [] },
+  durationMs: 1,
+  data: null,
+  ...overrides,
+})
+
+const snapshotWith = (probes: ProbeRecord[]): A11ySnapshot => ({
+  schemaVersion: 1,
+  surface: 'web',
+  target: 'https://example.com/',
+  viewport: { width: 1280, height: 800, scale: 1 },
+  root: { ref: 'html', role: 'document', states: [], native: { tag: 'html', attributes: {} }, children: [] },
+  observations: { probes },
+  collectedAt: new Date(0).toISOString(),
+  collector: { name: 'rampa-web', version: '0' },
+})
+
+describe('probe rules over recorded observations', () => {
+  it('reports nothing, not even coverage, when no probe ran', () => {
+    const result = probeChecks({ ...snapshotWith([]), observations: undefined }, 'en', PROBE_RULES)
+    expect(result).toEqual({ findings: [], review: [], coverage: [] })
+  })
+
+  it('says "not checked" with the reason for a skipped probe, an unknown version or an unreadable record', () => {
+    const result = probeChecks(
+      snapshotWith([
+        record('reflow-320x256', { status: 'skipped', reason: 'probe failed: net::ERR_NAME_NOT_RESOLVED' }),
+        record('text-spacing', { version: '9' }),
+        record('keyboard-walk', { data: 'not an object' }),
+      ]),
+      'en',
+      PROBE_RULES,
+    )
+    expect(result.findings).toEqual([])
+    const byCriterion = Object.fromEntries(result.coverage.map((row) => [row.criterion, row]))
+    expect(byCriterion['1.4.10']).toMatchObject({ status: 'not-checked', note: 'probe failed: net::ERR_NAME_NOT_RESOLVED' })
+    expect(byCriterion['1.4.12']).toMatchObject({ status: 'not-checked', note: 'probe version 9 is not one this rule reads' })
+    // An empty walk: 2.1.1 cannot say what was missed.
+    expect(byCriterion['2.1.1']).toMatchObject({ status: 'not-checked' })
+    expect(byCriterion['2.4.11']).toMatchObject({ beyondTarget: true })
+  })
+
+  it('keeps unchecked criteria in the "not checked" list and probed ones out of it', async () => {
+    const report = await checkSnapshot(snapshotWith([record('reflow-320x256', { status: 'skipped', reason: 'x' })]), emptyEngine(), probeCheckOptions())
+    expect(report.coverage.notChecked).toContain('1.4.10')
+    const probed = await checkSnapshot(snapshotWith([record('reflow-320x256', { data: { baseline: {}, variant: {} } })]), emptyEngine(), probeCheckOptions())
+    expect(probed.coverage.notChecked).not.toContain('1.4.10')
+    expect(probed.coverage.probes?.[0]).toMatchObject({ criterion: '1.4.10', status: 'no-failure-found', maturity: 'experimental' })
+  })
+})
 
 describe('probe stage', () => {
   it('parses --probe', () => {

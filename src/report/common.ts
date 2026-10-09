@@ -83,7 +83,7 @@ export function levelBreakdown(counts: LevelCounts, locale: Locale): string {
 export function coverageRows(report: Report): Array<{ label: string; criteria: string[]; text: string }> {
   const { locale } = report
   const list = (items: readonly string[]) => (items.length === 0 ? '—' : items.join(', '))
-  const probed = [...new Set((report.coverage.probes ?? []).filter((row) => row.status !== 'not-checked').map((row) => row.criterion))]
+  const probed = [...new Set((report.coverage.probes ?? []).filter((row) => row.status !== 'not-checked').map((row) => row.criterion))].sort(compareCriteria)
   const probeRow = report.coverage.probes ? [{ label: t(locale, 'coverageProbed'), criteria: probed, text: list(probed) }] : []
   return [
     { label: t(locale, 'coverageEngine', { engine: report.engine.name }), criteria: report.coverage.engine, text: list(report.coverage.engine) },

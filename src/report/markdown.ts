@@ -157,6 +157,10 @@ function notesSection(reports: readonly Report[], verbose: boolean): string[] {
   const notes = reports.flatMap((report) => {
     const lines = notesOf(report, verbose).map((note) => `${prefix(report)}${prose(note)}`)
     if (report.waived.length > 0) lines.push(`${prefix(report)}${plural(locale, 'waivedCount', report.waived.length, { file: code(WAIVERS_FILE) })}`)
+    // What a probe rule found that a person must look at: listed, never counted as a failure.
+    for (const item of report.needsReview ?? []) {
+      lines.push(`${prefix(report)}${t(locale, 'needsReviewNote')} · ${item.criterion} ${code(item.ref ?? item.target ?? '')}: ${prose(item.message)}`)
+    }
     return lines
   })
   const usage = runUsageLine(reports)
