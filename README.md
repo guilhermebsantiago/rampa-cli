@@ -246,6 +246,7 @@ API keys never go in this file: use environment variables or a local `.env`. `ra
 | Android and iOS | `rampa check android:` over adb; XCUITest exports from a Swift helper | [docs/android.md](docs/android.md), [docs/ios.md](docs/ios.md) |
 | Screenshots | `rampa check screen.png`: text contrast measured from pixels, nothing it cannot see | [docs/image-surface.md](docs/image-surface.md) |
 | Choosing a model | `rampa eval` per criterion, then `rampa compare` | [docs/models.md](docs/models.md) |
+| Exploring an evaluation | load a run folder in [Rampa Lab](https://guilhermebsantiago.github.io/rampa-lab/): scores, case by case, two runs compared; files stay in your browser | |
 
 ## Models
 
@@ -386,7 +387,7 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - [x] `rampa init`, baselines and waivers with expiry, for codebases that already have findings
 - [x] Android (adb and UI Automator), iOS (XCUITest export) and image-only surfaces
 - [x] `rampa compare`, to choose a model per criterion
-- [ ] Rampa Lab, a web app to explore evaluation runs (built, not yet published)
+- [x] [Rampa Lab](https://guilhermebsantiago.github.io/rampa-lab/), a web app to explore evaluation runs in the browser
 - [ ] A false-positive study on real pages
 - [ ] WCAG 2.2, and checks that drive the page: keyboard and focus order, focus visible, reflow, text spacing, content on hover
 - [ ] An opt-in cognitive accessibility profile, from the W3C COGA guidance
