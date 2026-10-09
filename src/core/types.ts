@@ -270,6 +270,11 @@ export interface CoverageMethod {
   failures: number
   /** Elements left to a person: undecided by the engine, or where the model abstained. */
   review: number
+  /**
+   * For judgment: candidates it applied to but never judged, past the per-criterion cap (`--max-candidates`) or after
+   * the time limit (`--time-limit`). They are left to a person too. Absent when none.
+   */
+  notJudged?: number | undefined
   /** The rule can only pass or ask for review: it never reports a failure. */
   reviewOnly?: boolean | undefined
   /** Experimental methods report below the default confidence threshold until they pass the evaluation gate. */
@@ -314,6 +319,13 @@ export interface CriterionSummary {
   decided?: number | undefined
   /** Of those, the ones it failed. */
   decidedFailed?: number | undefined
+  /**
+   * Candidates the model never judged because the criterion reached its cap on this page (`--max-candidates`):
+   * the ones further down the page, after those with a generic text. Absent when none.
+   */
+  capped?: number | undefined
+  /** Candidates the model never judged because the time limit ran out first (`--time-limit`). Absent when none. */
+  timedOut?: number | undefined
 }
 
 export interface Usage {

@@ -13,6 +13,13 @@ export interface JudgeOptions {
   /** Read the cache only, never call the model. */
   offline: boolean
   concurrency: number
+  /**
+   * Aborted when the time limit runs out: no call starts after it, a call under way is given up, and the candidate is
+   * 'not-judged'. Cached judgments are still read.
+   */
+  signal?: AbortSignal | undefined
+  /** The moment the signal aborts, in milliseconds since the epoch: checked before each call, between timer ticks too. */
+  deadline?: number | undefined
 }
 
 export interface Sample<Out> {
@@ -27,7 +34,7 @@ export interface Sample<Out> {
   modelId?: string | undefined
 }
 
-export type JudgmentStatus = 'failed' | 'passed' | 'cannot_tell' | 'discarded' | 'error' | 'offline-miss'
+export type JudgmentStatus = 'failed' | 'passed' | 'cannot_tell' | 'discarded' | 'error' | 'offline-miss' | 'not-judged'
 
 export interface CandidateJudgment<Ctx, Out extends JudgmentBase> {
   candidate: Candidate<Ctx>
@@ -41,6 +48,7 @@ export interface CandidateJudgment<Ctx, Out extends JudgmentBase> {
 }
 
 const OFFLINE_MISS = 'offline-miss'
+const TIME_UP = 'time limit reached'
 
 export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
   criterion: Criterion<Ctx, Out>,
@@ -91,14 +99,22 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
         samples.push({ error: OFFLINE_MISS, cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
         continue
       }
+      if (options.signal?.aborted || (options.deadline !== undefined && Date.now() >= options.deadline)) {
+        samples.push({ error: TIME_UP, cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
+        break
+      }
       try {
-        const response = await options.provider.judge({
-          system: prompt.system,
-          user: prompt.user,
-          images: prompt.images,
-          schema: criterion.schema,
-          schemaName,
-        })
+        const response = await untilAborted(
+          options.provider.judge({
+            system: prompt.system,
+            user: prompt.user,
+            images: prompt.images,
+            schema: criterion.schema,
+            schemaName,
+            signal: options.signal,
+          }),
+          options.signal,
+        )
         await options.cache.set(key, {
           output: response.output,
           inputTokens: response.inputTokens,
@@ -116,9 +132,14 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
           modelId: response.modelId,
         })
       } catch (error) {
-        samples.push({ error: errorMessage(error), cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
+        // A call the time limit cut short is not a model error: the candidate was not judged.
+        samples.push({ error: options.signal?.aborted ? TIME_UP : errorMessage(error), cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
+        if (options.signal?.aborted) break
       }
     }
+
+    // A vote the time limit cut short is no vote: the candidate counts as not judged, whatever samples it has.
+    if (samples.some((s) => s.error === TIME_UP)) return { candidate, samples, status: 'not-judged', votes: 0, total: 0 }
 
     const outputs = samples.flatMap((s) => (s.output ? [criterion.settle?.(s.output, candidate) ?? s.output] : []))
     if (outputs.length === 0) {
@@ -146,6 +167,26 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
     }
     const status: JudgmentStatus = !verification.ok ? 'discarded' : verdict === 'fail' ? 'failed' : 'passed'
     return { candidate, samples, status, verdict, votes, total: outputs.length, representative: claim, verification }
+  })
+}
+
+/** The call's result, or a rejection as soon as the signal aborts, for a provider that does not stop by itself. */
+function untilAborted<T>(call: Promise<T>, signal: AbortSignal | undefined): Promise<T> {
+  if (!signal) return call
+  return new Promise<T>((resolve, reject) => {
+    const abort = () => reject(signal.reason)
+    if (signal.aborted) abort()
+    else signal.addEventListener('abort', abort, { once: true })
+    call.then(
+      (value) => {
+        signal.removeEventListener('abort', abort)
+        resolve(value)
+      },
+      (error: unknown) => {
+        signal.removeEventListener('abort', abort)
+        reject(error)
+      },
+    )
   })
 }
 

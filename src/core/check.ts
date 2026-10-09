@@ -1,7 +1,7 @@
 import type { CogaSettings } from '../advisory/check.ts'
 import { runProfiles } from '../advisory/profile.ts'
 import type { Profile } from '../advisory/types.ts'
-import type { Locale } from '../i18n.ts'
+import { type Locale, t } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import { probeChecks } from '../rules/probes.ts'
 import { PROBE_RULES } from '../rules/registry.ts'
@@ -16,6 +16,7 @@ import type { JudgmentCache } from './cache.ts'
 import { judgeCandidates } from './judge.ts'
 import {
   type AnyCriterion,
+  type Candidate,
   CONFIDENCE_RANK,
   type Confidence,
   type CriterionSummary,
@@ -55,7 +56,23 @@ export interface CheckOptions {
   coga?: CogaSettings | undefined
   /** Rampa's own rules (src/rules) to run next to the engine: all of them by default, none with false. */
   rules?: readonly RuleCheck[] | false | undefined
+  /**
+   * The most candidates of one criterion the model judges on a page (`--max-candidates`), so a long page finishes:
+   * those whose text is generic first, then in page order. The rest are counted as not judged, in the criterion's
+   * summary, its coverage and a note. What a criterion decides without a model never counts. Default
+   * DEFAULT_MAX_CANDIDATES; 0 for no cap.
+   */
+  maxCandidates?: number | undefined
+  /**
+   * When to stop asking the model, in milliseconds since the epoch (`--time-limit`). Candidates not judged by then
+   * are counted as not judged, and the report is written with what was collected and judged, and a note on the rest.
+   * Cached judgments are still read.
+   */
+  deadline?: number | undefined
 }
+
+/** Candidates per criterion and page the model judges at most unless `maxCandidates` says otherwise. */
+export const DEFAULT_MAX_CANDIDATES = 50
 
 export function fingerprint(criterion: string, ref: string | undefined, detail: string): string {
   return sha256(`${criterion}|${ref ?? ''}|${normalizeForMatch(detail)}`).slice(0, 12)
@@ -102,6 +119,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const errors: string[] = []
   const usage: Usage = { calls: 0, cachedCalls: 0, inputTokens: 0, outputTokens: 0, latencyMs: 0 }
   const llmActive = options.llm && (options.provider !== undefined || options.offline)
+  const cap = options.maxCandidates ?? DEFAULT_MAX_CANDIDATES
+  // A timer that does not keep the process alive; the report is written when it fires, with what was judged by then.
+  const signal = options.deadline === undefined ? undefined : AbortSignal.timeout(Math.max(0, options.deadline - Date.now()))
 
   for (const criterion of options.criteria) {
     const summary: CriterionSummary = {
@@ -125,7 +145,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     const candidates = criterion.candidates(snapshot, engine).filter((candidate) => !failedByRule?.has(candidate.ref))
     summary.candidates = candidates.length
     // With judgment on but no model to ask, what the criterion decides by itself is still judged; --no-llm judges nothing.
-    const judged = llmActive ? candidates : options.llm ? candidates.filter((candidate) => criterion.decide?.(candidate, snapshot) !== undefined) : []
+    const judgeable = llmActive ? candidates : options.llm ? candidates.filter((candidate) => criterion.decide?.(candidate, snapshot) !== undefined) : []
+    const judged = capCandidates(criterion, snapshot, judgeable, cap)
+    if (judged.length < judgeable.length) summary.capped = judgeable.length - judged.length
     if (judged.length === 0) continue
 
     const judgments = await judgeCandidates(criterion, snapshot, judged, {
@@ -134,6 +156,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       cache: options.cache,
       offline: options.offline,
       concurrency: options.concurrency,
+      signal,
+      deadline: options.deadline,
     })
 
     for (const judgment of judgments) {
@@ -159,6 +183,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
         }
         case 'offline-miss':
           summary.offlineMisses++
+          continue
+        case 'not-judged':
+          summary.timedOut = (summary.timedOut ?? 0) + 1
           continue
         case 'cannot_tell':
           summary.judged++
@@ -213,6 +240,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       }
     }
   }
+
+  const notes = notJudgedNotes(summaries, cap, options.locale)
 
   // A judgment and a rule that fail the same element for the same criterion are one finding: the judgment's,
   // which says more and carries the patch. The rule's stays only where the model did not fail the element.
@@ -312,8 +341,39 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     ...(review.length > 0 ? { needsReview: review } : {}),
     usage,
     errors,
+    ...(notes.length > 0 ? { notes } : {}),
     ...(advisory ? { advisory: advisory.section } : {}),
   }
+}
+
+/**
+ * The candidates the model judges when a criterion has more than `cap` that need it: those whose text is generic
+ * (the criterion keeps the model's confidence on them, see criteria/generic-text.ts) come first, then the rest in page
+ * order, and the chosen ones keep their page order. Candidates the criterion decides without a model always stay.
+ */
+export function capCandidates<C extends Candidate<unknown>>(criterion: AnyCriterion, snapshot: A11ySnapshot, candidates: C[], cap: number): C[] {
+  if (cap <= 0 || candidates.length <= cap) return candidates
+  const decided = new Set(candidates.filter((candidate) => criterion.decide?.(candidate, snapshot) !== undefined))
+  const asked = candidates.filter((candidate) => !decided.has(candidate))
+  if (asked.length <= cap) return candidates
+  const first = asked.filter((candidate) => criterion.confidenceCap?.(candidate) === undefined)
+  const chosen = new Set([...first, ...asked.filter((candidate) => !first.includes(candidate))].slice(0, cap))
+  return candidates.filter((candidate) => decided.has(candidate) || chosen.has(candidate))
+}
+
+/** What the report says about candidates the model never judged: past the cap, and after the time limit. */
+function notJudgedNotes(summaries: readonly CriterionSummary[], cap: number, locale: Locale): string[] {
+  const notes: string[] = []
+  const list = (key: 'capped' | 'timedOut') =>
+    summaries
+      .filter((s) => (s[key] ?? 0) > 0)
+      .map((s) => t(locale, 'notJudgedItem', { criterion: s.criterion, count: s[key] ?? 0, total: s.candidates }))
+      .join(', ')
+  const capped = list('capped')
+  if (capped) notes.push(t(locale, 'notJudgedCap', { max: cap, list: capped }))
+  const timedOut = list('timedOut')
+  if (timedOut) notes.push(t(locale, 'notJudgedTime', { list: timedOut }))
+  return notes
 }
 
 /** A probe rule's item to review, in the shape of the engine's and the rules' (core/coverage.ts): never a finding. */

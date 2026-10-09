@@ -190,7 +190,10 @@ export function methodText(method: CoverageMethod, report: Pick<Report, 'locale'
   // A probe that did not check says why (skipped, or a record its rule cannot read).
   if (!method.ran) return `${name} ${t(locale, 'methodNotRun')}${method.probe?.note ? ` (${method.probe.note})` : ''}`
   const tags = [method.reviewOnly ? t(locale, 'methodReviewOnly') : undefined, method.maturity === 'experimental' ? t(locale, 'methodExperimental') : undefined].filter(Boolean)
-  const counts = t(locale, 'methodCounts', { applicable: method.applicable, failures: method.failures, review: method.review })
+  const counts = [
+    t(locale, 'methodCounts', { applicable: method.applicable, failures: method.failures, review: method.review }),
+    ...(method.notJudged ? [t(locale, 'methodNotJudged', { count: method.notJudged })] : []),
+  ].join(', ')
   return `${name} (${counts}${tags.length > 0 ? `; ${tags.join(', ')}` : ''})`
 }
 

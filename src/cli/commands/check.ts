@@ -22,7 +22,7 @@ import { type Target, loadRecorded, recordingName, resolveTargets, siblingPng } 
 import { type DestinationCache, type FollowLinks, type FollowOptions, destinationCache } from '../../surfaces/destinations.ts'
 import { FILE_FORMATS, type Format, formatReports } from '../../report/formats.ts'
 import { locateReport, readPageSource, repositoryRoot } from '../../source/locate.ts'
-import { type BrowserFlags, type BrowserOptions, parseBrowserFlags } from '../../surfaces/browser-options.ts'
+import { type BrowserFlags, type BrowserOptions, parseBrowserFlags, wholeNumber } from '../../surfaces/browser-options.ts'
 import { type CrawlFlags, crawlRequested } from '../../surfaces/crawl.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import { DETERMINISM_ARGS, type ProbeKind, parseProbeKinds } from '../../probes/run.ts'
@@ -53,6 +53,10 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   screenshots?: boolean
   cacheDir: string
   concurrency: string
+  /** Candidates per criterion and page the model judges at most; '0' for no cap. */
+  maxCandidates?: string
+  /** Seconds after a page starts loading when Rampa stops asking the model and reports what was judged. */
+  timeLimit?: string
   reasoning?: Reasoning
   /** Write each collected snapshot and its engine results here, to check later without a browser or a device. */
   save?: string
@@ -202,6 +206,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   const follow = followOptions(options.followLinks, options.llm, criteria, destinationCache({ dir: '.rampa/destinations' }))
   const cache = fileCache(options.cacheDir)
   const concurrency = Math.max(1, Number.parseInt(options.concurrency, 10) || 4)
+  const { maxCandidates, timeLimitMs } = judgingLimits(options)
   // Source paths are relative to the repository root, as GitHub resolves them.
   const root = (await repositoryRoot()) ?? process.cwd()
   const adoption = await prepareAdoption(options.baseline, context.config)
@@ -235,6 +240,8 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   try {
     for (const target of resolved) {
       progress(`… ${target.label}`)
+      // The time limit counts from here, so it also covers loading the page, as a timeout around the whole run would.
+      const deadline = timeLimitMs === undefined ? undefined : Date.now() + timeLimitMs
       const collected = await collect(target, ctx)
       if (options.save && collected.record) await saveRecording(options.save, target, collected)
       const report = await checkSnapshot(collected.snapshot, collected.engine, {
@@ -251,8 +258,11 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
         profiles,
         coga: context.config.coga,
         wcag,
+        maxCandidates,
+        deadline,
       })
-      const notes = [...collected.notes, ...rulesNotes(collected.engine, context.locale)]
+      // What the collector could not see first, then what the model did not judge (past the cap or the time limit).
+      const notes = [...collected.notes, ...(report.notes ?? []), ...rulesNotes(collected.engine, context.locale)]
       if (collected.snapshot.surface === 'web') notes.push(singlePageNote(context.locale))
       if (notes.length > 0) report.notes = notes
       if (collected.usage) {
@@ -284,6 +294,14 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   }
 
   return exitCode(reports, options.failOn)
+}
+
+/** --max-candidates (0 for no cap) and --time-limit in milliseconds, undefined when it is not set. */
+export function judgingLimits(options: Pick<CheckCommandOptions, 'maxCandidates' | 'timeLimit'>): { maxCandidates: number | undefined; timeLimitMs: number | undefined } {
+  return {
+    maxCandidates: options.maxCandidates === undefined ? undefined : wholeNumber(options.maxCandidates, '--max-candidates', 0),
+    timeLimitMs: options.timeLimit === undefined ? undefined : wholeNumber(options.timeLimit, '--time-limit', 1) * 1000,
+  }
 }
 
 /** `--wcag`, or the config's `wcag`: 2.2 when neither is set. */

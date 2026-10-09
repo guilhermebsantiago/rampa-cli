@@ -78,6 +78,7 @@ Each method in a record has a `kind`: `axe` (an axe-core rule), `rule` (a Rampa 
 - `applicable`: how many elements the method applied to. Passing elements count up to 200 per rule.
 - `failures`: how many elements failed.
 - `review`: how many elements a person must review.
+- `notJudged`: for a judgment, how many candidates the model never judged, past the per-criterion cap (`--max-candidates`) or after the time limit (`--time-limit`). A person must review them too; absent when none.
 - `reviewOnly`: set for rules that can never report a failure.
 - `maturity`: `stable` or `experimental`.
 

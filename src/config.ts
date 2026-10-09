@@ -28,6 +28,10 @@ export interface RampaConfig {
   motion?: boolean
   cacheDir?: string
   concurrency?: number
+  /** Candidates per criterion and page the model judges at most, like --max-candidates; 0 for no cap. */
+  maxCandidates?: number
+  /** Seconds after a page starts loading when Rampa stops asking the model and reports what was judged, like --time-limit. */
+  timeLimit?: number
   /**
    * Sets of pages for the criteria that compare pages (3.2.3, 3.2.6), by name: path patterns
    * in robots.txt syntax, as --include. Pages in no named set are grouped by template.

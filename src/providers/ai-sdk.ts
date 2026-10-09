@@ -93,6 +93,7 @@ ${JSON.stringify(z.toJSONSchema(request.schema))}`
         ...input,
         output: Output.object({ schema: request.schema, name: request.schemaName }),
         maxRetries: 2,
+        ...(request.signal ? { abortSignal: request.signal } : {}),
         ...(reasoning === 'provider-default' ? {} : { reasoning }),
         ...(resolved.temperature === undefined ? {} : { temperature: resolved.temperature }),
         ...(resolved.providerOptions === undefined ? {} : { providerOptions: resolved.providerOptions }),

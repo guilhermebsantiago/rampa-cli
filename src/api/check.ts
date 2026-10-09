@@ -6,7 +6,7 @@ import { locateReport, readPageSource, repositoryRoot } from '../source/locate.t
 import { loadRecorded, resolveTargets } from '../surfaces/targets.ts'
 import { DETERMINISM_ARGS, type ProbeKind } from '../probes/run.ts'
 import { type Collected, collectWeb, launchBrowser } from '../surfaces/web.ts'
-import { type RampaOptions, judge, resolveSettings } from './options.ts'
+import { type RampaOptions, deadlineOf, judge, resolveSettings } from './options.ts'
 
 export interface CheckTargetsOptions extends RampaOptions {
   /** A Playwright browser to reuse for web targets. By default Rampa starts Chrome or Edge, like the CLI, and closes it at the end. */
@@ -32,6 +32,7 @@ export async function check(targets: string | readonly string[], options: CheckT
   let launched: Browser | undefined
   try {
     for (const target of resolved) {
+      const deadline = deadlineOf(settings)
       let collected: Collected
       if (target.kind === 'web') {
         // Probes compare pixels: a browser Rampa starts gets the fixed rendering flags; one passed in is used as it is.
@@ -54,7 +55,7 @@ export async function check(targets: string | readonly string[], options: CheckT
           `${target.label}: check() takes URLs, .html files, folders and snapshot .json files. Android devices, UI Automator dumps and screenshots need the CLI: rampa check ${target.label}`,
         )
       }
-      const report = await judge(collected, settings)
+      const report = await judge(collected, { ...settings, deadline })
       // As in rampa check: 3.2.3 and 3.2.6 compare pages, which a single page cannot do.
       if (collected.snapshot.surface === 'web') report.notes = [...(report.notes ?? []), singlePageNote(settings.locale)]
       // A local page gets file:line for each finding, and its patches as edits to the file, like rampa check.

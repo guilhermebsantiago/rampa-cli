@@ -47,7 +47,7 @@ It never replaces a file that exists: it says it kept it. `--force` overwrites t
 
 **The workflow.** It asks for `pull-requests: write` and `security-events: write`, which the action's pull request comment and code scanning upload need, and passes `locale` because the action's own default (`en`) would otherwise override the config's. Build or start the site in the steps before it; the comments in the file show where.
 
-**The config file.** With `targets` in the config, `rampa check` and `rampa baseline` need no arguments. `criteria`, `minConfidence`, `runs`, `cacheDir` and `concurrency` apply too; the command line still wins over the file.
+**The config file.** With `targets` in the config, `rampa check` and `rampa baseline` need no arguments. `criteria`, `minConfidence`, `runs`, `cacheDir`, `concurrency`, `maxCandidates` and `timeLimit` apply too; the command line still wins over the file.
 
 ## Baselines: report only what is new
 

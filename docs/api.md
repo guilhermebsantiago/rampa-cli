@@ -39,6 +39,8 @@ interface RampaOptions {
   cacheDir?: string                    // --cache-dir
   cache?: JudgmentCache                // a cache of your own, such as memoryCache()
   concurrency?: number                 // --concurrency
+  maxCandidates?: number               // --max-candidates; 50 by default, 0 for no cap
+  timeLimit?: number                   // --time-limit, in seconds per page; no limit by default
   config?: RampaConfig | false         // rampa.config.* by default; false for none
 }
 ```
