@@ -72,12 +72,13 @@ When axe-core cannot decide an element, the report lists it under **Needs review
 
 Rampa never marks a criterion as passed. Each record also carries `manual`, the part of the criterion that a person still has to review or test, in the report's language.
 
-Each method in a record has a `kind`: `axe` (an axe-core rule), `rule` (a Rampa rule; also `rampa/language-id`, what the language identifier decided for 3.1.1 and 3.1.2 without a model), `judgment` (a model, with verified evidence), `site` (a comparison across a crawl's pages, 3.2.3 and 3.2.6) or `probe` (a rule over what a probe measured with `--probe`, with the probe, its conditions and any note in `probe`; see [Probes](probes.md)). Each has these fields:
+Each method in a record has a `kind`: `axe` (an axe-core rule), `rule` (a Rampa rule; also `rampa/language-id`, what the language identifier decided for 3.1.1 and 3.1.2 without a model, and `rampa/home-page-title`, a home page titled with its site's name that 2.4.2 passed without a model), `judgment` (a model, with verified evidence), `site` (a comparison across a crawl's pages, 3.2.3 and 3.2.6) or `probe` (a rule over what a probe measured with `--probe`, with the probe, its conditions and any note in `probe`; see [Probes](probes.md)). Each has these fields:
 
 - `ran`: false when the method applied but did not run: a judgment with `--no-llm`, or a probe that was skipped.
 - `applicable`: how many elements the method applied to. Passing elements count up to 200 per rule.
 - `failures`: how many elements failed.
 - `review`: how many elements a person must review.
+- `notJudged`: for a judgment, how many candidates the model never judged, past the per-criterion cap (`--max-candidates`) or after the time limit (`--time-limit`). A person must review them too; absent when none.
 - `reviewOnly`: set for rules that can never report a failure.
 - `maturity`: `stable` or `experimental`.
 

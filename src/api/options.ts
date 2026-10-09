@@ -44,6 +44,10 @@ export interface RampaOptions {
   cache?: JudgmentCache | undefined
   /** Parallel model calls, like --concurrency. Default 4. */
   concurrency?: number | undefined
+  /** Candidates per criterion and page the model judges at most, like --max-candidates; the rest are counted as not judged. Default 50; 0 for no cap. */
+  maxCandidates?: number | undefined
+  /** Seconds after a page starts being read when Rampa stops asking the model and reports what was judged, like --time-limit. Default: no limit. */
+  timeLimit?: number | undefined
   /** The WCAG version reports state coverage against, like --wcag: '2.2' (default) or '2.1'. */
   wcag?: WcagVersion | undefined
   /** Settings to fall back on: rampa.config.* in the working directory by default, an object of your own, or false for none. */
@@ -55,6 +59,8 @@ export interface RampaOptions {
 export interface Settings extends CheckOptions {
   /** Images are captured only when a criterion that needs vision will be judged. */
   captureImages: boolean
+  /** The time limit per page in milliseconds; each check turns it into a `deadline` when it starts reading the page. */
+  timeLimitMs?: number | undefined
 }
 
 export async function resolveSettings(options: RampaOptions = {}): Promise<Settings> {
@@ -82,6 +88,8 @@ export async function resolveSettings(options: RampaOptions = {}): Promise<Setti
     locale: resolveLocale(options.locale ?? process.env.RAMPA_LOCALE ?? config.locale),
     minConfidence,
     concurrency: whole(options.concurrency ?? config.concurrency, 4),
+    maxCandidates: count(options.maxCandidates ?? config.maxCandidates, 'maxCandidates'),
+    timeLimitMs: seconds(options.timeLimit ?? config.timeLimit),
     wcag: wcagSetting(options.wcag ?? config.wcag),
     waivers: await waiversFrom(options.waivers),
     profiles: resolveProfiles(undefined, options.profiles ?? config.profiles),
@@ -122,6 +130,25 @@ function wcagSetting(value: string | undefined): WcagVersion {
   const version = parseWcagVersion(String(value))
   if (!version) throw new RampaError('invalid-option', `wcag must be '2.1' or '2.2'. Got "${String(value)}".`)
   return version
+}
+
+/** A cap of zero or more, or undefined for Rampa's default. */
+function count(value: number | undefined, name: string): number | undefined {
+  if (value === undefined) return undefined
+  if (!Number.isSafeInteger(value) || value < 0) throw new RampaError('invalid-option', `${name} must be a whole number of at least 0. Got "${String(value)}".`)
+  return value
+}
+
+/** A time limit in seconds, as milliseconds; undefined when none is set. */
+function seconds(value: number | undefined): number | undefined {
+  if (value === undefined) return undefined
+  if (!Number.isFinite(value) || value <= 0) throw new RampaError('invalid-option', `timeLimit must be a number of seconds above 0. Got "${String(value)}".`)
+  return Math.round(value * 1000)
+}
+
+/** The moment a page's time limit runs out, counted from now. */
+export function deadlineOf(settings: Settings): number | undefined {
+  return settings.timeLimitMs === undefined ? undefined : Date.now() + settings.timeLimitMs
 }
 
 function whole(value: number | undefined, fallback: number): number {

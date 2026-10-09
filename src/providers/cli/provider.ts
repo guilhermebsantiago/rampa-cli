@@ -129,6 +129,8 @@ export async function createCliProvider(
       if (fatal) throw fatal
       return slot(async () => {
         if (fatal) throw fatal
+        // A call that waited for its turn past the time limit is not started.
+        request.signal?.throwIfAborted()
         const dir = await mkdtemp(join(workdir, 'call-'))
         const started = performance.now()
         try {

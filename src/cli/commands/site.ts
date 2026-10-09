@@ -36,7 +36,7 @@ import { recordingName } from '../../surfaces/targets.ts'
 import { type Collected, collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import { VERSION } from '../../version.ts'
 import type { GlobalContext } from '../context.ts'
-import { type CheckCommandOptions, resolveProvider, wcagOption } from './check.ts'
+import { type CheckCommandOptions, judgingLimits, resolveProvider, wcagOption } from './check.ts'
 import { DEFAULT_WCAG, wcagTarget } from '../../wcag.ts'
 
 const SKIP_ORDER: readonly SkipReason[] = ['robots', 'off-site', 'http', 'not-html', 'error']
@@ -50,6 +50,8 @@ interface SiteRun {
   context: GlobalContext
   provider: ModelProvider | undefined
   check: Omit<CheckOptions, 'cache'>
+  /** --time-limit per page, in milliseconds; undefined for none. */
+  timeLimitMs: number | undefined
   needsImages: boolean
   progress: (message: string) => void
   /** The config's named sets of pages, checked before the crawl starts. */
@@ -69,6 +71,7 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
   const pageSets = pageSetsOf(context.config.pageSets)
   const spec = options.llm ? await chooseModel(options.model, context.config.model) : undefined
   const provider = await resolveProvider(spec, Boolean(options.offline), options.reasoning ?? context.config.reasoning)
+  const { maxCandidates, timeLimitMs } = judgingLimits(options)
   const check: Omit<CheckOptions, 'cache'> = {
     criteria,
     llm: options.llm,
@@ -82,6 +85,7 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
     profiles: resolveProfiles(options.profile, context.config.profiles),
     coga: context.config.coga,
     wcag: wcagOption(options.wcag),
+    maxCandidates,
   }
   const progress = (message: string) => {
     if (process.stderr.isTTY && options.format === 'pretty') process.stderr.write(`\x1b[2K${message}\r`)
@@ -104,6 +108,7 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
       context,
       provider,
       check,
+      timeLimitMs,
       needsImages: options.llm && criteria.some((criterion) => criterion.needs.vision),
       progress,
       pageSets,
@@ -198,7 +203,9 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
       const siblings = siblingsOf(finalUrl, titles)
       const snapshot = { ...collected.snapshot, target: finalUrl, ...(siblings.length > 0 ? { siblings } : {}) }
       if (options.save) await saveRecording(options.save, snapshot, collected)
-      return { snapshot, report: await checkSnapshot(snapshot, collected.engine, { ...run.check, cache }) }
+      // Pages are judged one at a time, so a page's time limit counts from its turn, not from its load.
+      const deadline = run.timeLimitMs === undefined ? undefined : Date.now() + run.timeLimitMs
+      return { snapshot, report: await checkSnapshot(snapshot, collected.engine, { ...run.check, cache, deadline }) }
     })
     judging = turn.catch(() => undefined)
     const { snapshot, report } = await turn

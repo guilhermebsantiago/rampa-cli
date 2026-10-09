@@ -17,6 +17,7 @@ import { FAIL_ON, parseFailOn } from './cli/exit-code.ts'
 import { intro, menu } from './cli/intro.ts'
 import { browserOptions, crawlOptions } from './cli/web-options.ts'
 import { loadConfig } from './config.ts'
+import { DEFAULT_MAX_CANDIDATES } from './core/check.ts'
 import { RampaError, errorMessage } from './core/util.ts'
 import { DEFAULT_CRITERIA } from './criteria/index.ts'
 import { REASONING_LEVELS } from './providers/ai-sdk.ts'
@@ -116,6 +117,8 @@ const check = program
   .option('--save <dir>', 'record each snapshot and its engine results, to check later without a browser or a device')
   .option('--cache-dir <dir>', 'judgment cache directory', '.rampa/cache')
   .option('--concurrency <n>', 'parallel model calls', '4')
+  .option('--max-candidates <n>', 'judge at most n candidates per criterion and page, generic texts first; the rest are reported as not judged (0: no cap)', String(DEFAULT_MAX_CANDIDATES))
+  .option('--time-limit <seconds>', 'stop asking the model this many seconds after a page starts loading, and report what was judged by then (default: no limit)')
   .option('--verbose', 'list discarded claims, low-confidence findings and unchecked criteria')
   .addOption(
     new Option('--follow-links <policy>', "read where links lead, to compare them with their text (2.4.4); same-origin reads a local page's local files")

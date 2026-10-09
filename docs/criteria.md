@@ -23,6 +23,8 @@ Nine criteria have a module. Eight run by default; 1.4.5 runs when asked for (`-
 | [3.1.2 Language of Parts](#312-language-of-parts) | AA | yes | | valid-lang | de46e4 (syntax), off6ek |
 | [3.3.2 Labels or Instructions](#332-labels-or-instructions) | A | yes | | label, select-name, form-field-multiple-labels | none; pairs from cc0f0a |
 
+**Long pages.** On each page, a criterion sends the model at most 50 candidates (`--max-candidates`, or `maxCandidates` in the config; 0 for no cap): those whose text is on the generic lists, such as "Read more", first, then the rest in page order. What a criterion decides without a model never counts. `--time-limit <seconds>` stops asking the model that long after a page starts loading (in a crawl, after its turn to be judged starts); a call under way is given up, cached judgments are still read, and the report has what was collected and judged until then. Candidates left out either way are counted in the criterion's summary (`capped`, `timedOut`) and in its coverage (`notJudged` on the judgment method, which leaves a criterion with no failure as "needs review", even when an engine rule found nothing to fail), and a note says which. The real-page study lost four of its twelve dev pages, all long listings and references, to a 900 s timeout that left no report.
+
 **Why 1.4.5 is not on by default.** It adds a vision call for every picture larger than an icon, which doubles the image work 1.1.1 already does, and whether a banner that pairs a product photo with a headline is an image of text is a call people still disagree on.
 
 The evaluation numbers below are from one run of Gemma 4 12B on a local GPU (Ollama, reasoning off) on 2026-10-09, ACT test cases `a9a1483e`. The prompts of 1.3.5, 1.4.5 and 3.3.2 were revised after reading the errors of earlier runs on these same cases, without copying test pages into the prompts, so read the numbers as a working pipeline, not a result.
@@ -64,6 +66,7 @@ The evaluation numbers below are from one run of Gemma 4 12B on a local GPU (Oll
 
 - **axe-core checks** that the page has a non-empty title. It passes "Untitled document".
 - **Rampa judges** a non-empty title against the page's address, first headings and opening text. In a site check (`rampa check --crawl` or `--sitemap`), the titles of up to ten other pages the crawl has read, the closest by address first, go along, and a title that matches one of them, or differs only by the site name, does not tell the page apart. Which pages are listed depends on what the crawl had read when the page was judged.
+- **Home pages:** on a site's root ("/") or a language root ("/pt", "/pt-br/", "/en-US/index.html"), the name of the site or organization describes the page (technique G88, Understanding 2.4.2). When the title, or a part of it between separators such as " - " or " | ", is that name as the address spells it (the host, "GOV.BR" on www.gov.br; a label of it, "MIT" on www.mit.edu; or the initials of a name, "Universidade Federal do Ceará" on www.ufc.br), the title passes without a model; in the coverage this is a method of kind `rule`, `rampa/home-page-title`. A generic title such as "Home" still goes to the model, and so does a home page whose name the address does not spell, with a line in the prompt that it is a home page. These were the real-page study's two 2.4.2 false positives on its dev split.
 - **Verification:** the evidence must be the title; a fail needs a problem and a different suggested title under 140 characters.
 - **Patch:** replaces the text of `<title>`.
 - **Limits:** the syntax set 2779a5 titles its passing pages "Title of the page.", which Rampa rightly says describes nothing, so its precision there is a scoring artifact.
@@ -79,10 +82,12 @@ The evaluation numbers below are from one run of Gemma 4 12B on a local GPU (Oll
 ## 2.4.6 Headings and Labels
 
 - **axe-core checks** that headings are not empty and fields have a label. It passes "Section 2" over reviews and "Field 1" on an email field.
-- **Rampa judges** every heading against the content it introduces (up to the next heading of its level or the end of its section, with the sections it sits in and its sibling headings), and every field label against the field.
+- **Rampa judges** every heading against the content it introduces (up to the next heading of its level or the end of its section), and every field label against the field.
+- **Context of a heading:** its parent heading and the sections above that, its sibling headings, and the numbered series it belongs to: the headings of the page that differ from it only by a number, such as "Example 1" to "Example 7". A heading in a header, footer, navigation, aside or dialog takes its parent only from that region. The prompt says that a heading in a numbered series or among parallel headings ("Do" and "Don't") passes under a parent heading that names their subject, and that a heading naming the part a section plays ("Introduction") describes it.
+- **Which label:** the text people see. When a field's name comes from `aria-label` and a visible `label` or a placeholder shows, the visible text is judged and patched; whether the two match is 2.5.3 (Label in Name), and a name nobody sees is 3.3.2. A field with only `aria-label` is judged on it.
 - **Cut-off text:** the collector records how much of a heading, `label` or `legend` shows when its box cuts it off (an ellipsis, a line clamp, a fixed box with hidden overflow). The prompt then says what people see, such as "Returns and refund…", and asks the model to judge that too.
-- **Verification:** the evidence must be the heading or label text; a fail needs a problem and a different suggestion under 160 characters.
-- **Patch:** replaces the heading or label text, or `aria-label`.
+- **Verification:** the evidence must be the heading or label text; a fail needs a problem and a different suggestion under 160 characters. A "says nothing" claim on a heading of a numbered series is dropped when its parent heading names a subject (it is not a placeholder, nor a number with at most one word, such as "Part 1"), so the real-page study's "Example 1" to "Example 7" are no longer reported.
+- **Patch:** replaces the heading or label text, the placeholder, or `aria-label`.
 - **Limits:** short headings that a person would pass, such as a step name, are sometimes flagged on real pages.
 
 ## 3.1.1 Language of Page

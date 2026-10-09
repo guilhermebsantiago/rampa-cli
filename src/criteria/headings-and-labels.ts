@@ -16,8 +16,10 @@ import {
   readingTextOf,
   startTagOf,
   verifyQuote,
+  withAttribute,
 } from './shared.ts'
 import { genericHeadingOrLabel } from './generic-text.ts'
+import { labelsOf, shownText } from './labels-or-instructions.ts'
 
 /**
  * WCAG 2.1 SC 2.4.6 Headings and Labels (AA).
@@ -54,16 +56,24 @@ export type HeadingsAndLabelsJudgment = z.infer<typeof HeadingsAndLabelsJudgment
 
 export interface HeadingsAndLabelsContext {
   kind: 'heading' | 'label'
+  /** The text people see: the heading, or the field's visible label (its placeholder when nothing else shows). */
   text: string
-  /** The element whose text a fix changes: the heading, the field's label element, or the field itself for aria-label. */
-  target: { ref: string; startTag: string; endTag: string; attribute?: 'aria-label' | undefined; property?: string | undefined } | undefined
+  /**
+   * The element whose text a fix changes: the heading, the field's label element, or the field itself for
+   * aria-label (a field with no visible label) and for a placeholder (the only visible text of a field named in aria-label).
+   */
+  target:
+    | { ref: string; startTag: string; endTag: string; attribute?: 'aria-label' | 'placeholder' | undefined; property?: string | undefined }
+    | undefined
   level?: number | undefined
   /** Heading: the content it introduces. Label: the field and what surrounds it. */
   content: string
-  /** Heading: the headings of the sections it sits in, outermost first. */
+  /** Heading: the headings of the sections it sits in, outermost first; the last one is its parent heading. */
   outline?: string[] | undefined
   /** Heading: the other headings of the same level in the same section, in order. */
   siblings?: string[] | undefined
+  /** Heading: the headings of the page that differ from it only by a number ("Example 1" to "Example 7"), itself included, in order. */
+  series?: string[] | undefined
   /** The part of the text that shows on screen, when its box cuts it off. */
   shown?: string | undefined
   language: string
@@ -76,7 +86,8 @@ You receive ONE heading with the content it introduces, or ONE form field label 
 
 For a heading, decide whether it describes the topic or purpose of the content under it.
 For a label, decide whether it describes the purpose of the field: what to enter or choose.
-- "pass": it does, even briefly. Headings and labels are short on purpose; they do not need to say everything. A heading passes when it names the subject, states the section's main point, names a step in a sequence, or names what the section helps you do. A short heading passes when the content or the headings around it make it clear, such as a letter over an alphabetical index, or "Payment" over card number fields.
+- "pass": it does, even briefly. Headings and labels are short on purpose; they do not need to say everything. A heading passes when it names the subject, states the section's main point, names a step in a sequence, names the part the section plays in the document ("Introduction", "Summary", "References"), or names what the section helps you do. A short heading passes when the content or the headings around it make it clear, such as a letter over an alphabetical index, or "Payment" over card number fields.
+  Read a heading together with its parent heading. Headings in a numbered series ("Example 1", "Example 2", "Example 3") or a set of parallel headings ("Do" and "Don't", "Featured" and "Most visited") under a parent heading that names their subject each pass: the parent says what they are examples, steps or parts of, and each heading says which one it is.
 - "fail": only for one of these:
   - problem "generic": the text would fit any section of any page, because it names no subject at all: a numbering or a placeholder word ("Section 2", "Title", "Heading", "Field 1", "Input", "Text"). A word that names a subject or an action is not generic, however short.
   - problem "mismatch": the content is not about what the text names at all; it names a different subject, or different data than the field asks for. A broader, narrower or figurative name for the same subject is not a mismatch.
@@ -93,7 +104,7 @@ Reply only with JSON that matches the schema.`
 export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndLabelsJudgment> = {
   id: '2.4.6',
   level: 'AA',
-  version: '2',
+  version: '3',
   act: ['b49b2e', 'cc0f0a'],
   surfaces: ['web', 'android', 'ios', 'windows', 'macos'],
   needs: {},
@@ -109,18 +120,23 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
     const ordered = [...walkTree(snapshot.root)]
     const candidates: Candidate<HeadingsAndLabelsContext>[] = []
     let lastHeading: string | undefined
-    const outlines = headingOutlines(ordered)
+    const outlines = headingOutlines(ordered, index)
+    const native = isNativeSurface(snapshot.surface) ? snapshot.surface : undefined
+    const shownLabels = new Map<A11yNode, ShownLabel | undefined>()
+    const shownLabel = (field: A11yNode) => {
+      if (!shownLabels.has(field)) shownLabels.set(field, native ? undefined : visibleInsteadOfAriaLabel(field, ordered))
+      return shownLabels.get(field)
+    }
     // For each label text, where its fields sit: their group name, or else the visible heading above them.
     const fieldPlaces = new Map<string, string[]>()
     let headingSoFar = ''
     for (const node of ordered) {
       if (node.role === 'heading' && node.name?.trim() && !isHidden(node) && !node.states.includes('offscreen')) headingSoFar = node.name.trim()
       if (!FIELD_ROLES.has(node.role) || !node.name?.trim() || isHidden(node)) continue
-      const key = normalizeForMatch(node.name)
+      const key = normalizeForMatch(shownLabel(node)?.text ?? node.name)
       fieldPlaces.set(key, [...(fieldPlaces.get(key) ?? []), groupOf(index, node) ?? headingSoFar])
     }
 
-    const native = isNativeSurface(snapshot.surface) ? snapshot.surface : undefined
     ordered.forEach((node, position) => {
       if (isHidden(node) || failed.has(node.ref)) return
       const language = inheritedLang(index, node.ref, snapshot.locale) ?? node.lang ?? 'en'
@@ -129,7 +145,7 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
         // A heading moved off-screen explains nothing to the people who read the visible label.
         if (!node.states.includes('offscreen')) lastHeading = node.name.trim()
         const level = headingLevel(node)
-        const { outline, siblings } = outlines.get(node) ?? { outline: [], siblings: [] }
+        const { outline, siblings, series } = outlines.get(node) ?? { outline: [], siblings: [], series: undefined }
         const content = sectionText(ordered, position, level, sectionOf(index, node))
         // A heading with nothing under it has no topic to compare with.
         if (content === '') return
@@ -144,6 +160,7 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
             level,
             outline,
             siblings,
+            ...(series ? { series } : {}),
             content: truncate(content, 700),
             shown: shownPart(node.name.trim(), node),
             language,
@@ -154,16 +171,20 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
 
       if (FIELD_ROLES.has(node.role) && node.name?.trim()) {
         const attributes = attributesOf(node)
-        const places = fieldPlaces.get(normalizeForMatch(node.name)) ?? []
+        // A name in aria-label is what screen readers get; people read the visible label or placeholder, and that is
+        // the label judged here. Whether the two match is 2.5.3 (Label in Name); a name nobody sees is 3.3.2.
+        const shown = shownLabel(node)
+        const text = shown?.text ?? node.name.trim()
+        const places = fieldPlaces.get(normalizeForMatch(text)) ?? []
         const group = groupOf(index, node)
-        const label = labelElement(ordered, node)
+        const label = shown ? shown.label : labelElement(ordered, node)
         // On Android and iOS the label is a property of the field itself: content-desc, hint, accessibilityLabel.
         const target = native
           ? { ref: node.ref, startTag: '', endTag: '', property: nameProperty(native, node) }
-          : attributes['aria-label']
-            ? { ref: node.ref, startTag: startTagOf(node), endTag: '', attribute: 'aria-label' as const }
-            : label
-              ? { ref: label.ref, startTag: startTagOf(label), endTag: endTagOf(label) }
+          : label && (shown || !attributes['aria-label'])
+            ? { ref: label.ref, startTag: startTagOf(label), endTag: endTagOf(label) }
+            : shown || attributes['aria-label']
+              ? { ref: node.ref, startTag: startTagOf(node), endTag: '', attribute: shown ? ('placeholder' as const) : ('aria-label' as const) }
               : undefined
         const facts = native
           ? nativeFieldFacts(node)
@@ -184,7 +205,7 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
           .join('\n')
         candidates.push({
           ref: node.ref,
-          context: { kind: 'label', text: node.name.trim(), target, content: field, shown: label ? shownPart(node.name.trim(), label) : undefined, language },
+          context: { kind: 'label', text, target, content: field, shown: label ? shownPart(text, label) : undefined, language },
         })
       }
     })
@@ -202,8 +223,7 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
             '',
             'Content under the heading:',
             '<content>',
-            ...(c.outline?.length ? [`It sits in the sections: ${c.outline.join(' > ')}`] : []),
-            ...(c.siblings?.length ? [`Other headings at its level in the same section: ${c.siblings.join(' | ')}`] : []),
+            ...headingPlace(c),
             c.content,
             '</content>',
           ]
@@ -226,6 +246,12 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
       if (suggested.length > 160) return { ok: false, reason: 'suggested text too long' }
       if (normalizeForMatch(suggested) === normalizeForMatch(candidate.context.text)) {
         return { ok: false, reason: 'suggested text equals the current one' }
+      }
+      // "Example 3" among "Example 1" to "Example 7", under a heading that names what they are examples of, says which one it is.
+      const { kind, series, outline, text } = candidate.context
+      const parent = outline?.at(-1)
+      if (output.problem === 'generic' && kind === 'heading' && series && parent && namesSeriesSubject(parent, text)) {
+        return { ok: false, reason: 'generic claim on a heading in a numbered series under a parent heading that names their subject' }
       }
     }
     return { ok: true }
@@ -257,9 +283,12 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
     const value = output.suggestedText.trim()
     if (!target || value === '') return undefined
     const from = candidate.context.text
+    // A heading renamed after its parent or a sibling would head two sections with one text: the claim stands, the fix does not.
+    const taken = [...(candidate.context.outline ?? []).slice(-1), ...(candidate.context.siblings ?? [])].map(normalizeForMatch)
+    if (candidate.context.kind === 'heading' && taken.includes(normalizeForMatch(value))) return undefined
     if (target.property && isNativeSurface(snapshot.surface)) return propertyPatch(snapshot.surface, target.ref, target.property, from, value)
     if (target.attribute) {
-      const after = target.startTag.replace(/\baria-label\s*=\s*(["'])[^"']*\1/i, `aria-label="${escapeHtml(value)}"`)
+      const after = withAttribute(target.startTag, target.attribute, value)
       return { ref: target.ref, kind: 'set-attribute', attribute: target.attribute, from, to: value, before: target.startTag, after }
     }
     return {
@@ -295,29 +324,77 @@ function headingLevel(node: A11yNode): number {
   return Number.isFinite(fromAria) && fromAria > 0 ? fromAria : fromTag ? Number(fromTag) : 2
 }
 
-/** For each visible heading: the headings of the sections it sits in, and its siblings at the same level. */
-function headingOutlines(ordered: A11yNode[]): Map<A11yNode, { outline: string[]; siblings: string[] }> {
-  const open: string[] = []
-  const placed: { node: A11yNode; text: string; level: number; outline: string[] }[] = []
+interface HeadingPlace {
+  outline: string[]
+  siblings: string[]
+  series: string[] | undefined
+}
+
+/**
+ * For each visible heading: the headings of the sections it sits in, its siblings at the same level, and the
+ * numbered series it belongs to: the headings of the page that differ from it only by a number.
+ * A heading in a header, footer, navigation, aside or dialog takes its sections only from that region, and one
+ * outside takes none from inside it: "Causes" over the footer's links is not a part of the newsletter heading above it.
+ */
+function headingOutlines(ordered: A11yNode[], index: ReturnType<typeof indexTree>): Map<A11yNode, HeadingPlace> {
+  const open: Array<{ text: string; region: A11yNode | undefined } | undefined> = []
+  const placed: { node: A11yNode; text: string; level: number; outline: string[]; region: A11yNode | undefined }[] = []
   for (const node of ordered) {
     const text = node.role === 'heading' ? node.name?.trim() : undefined
     if (!text || isHidden(node)) continue
     const level = headingLevel(node)
-    const outline = open.slice(0, level - 1).filter(Boolean)
+    const region = regionOf(index, node)
+    const outline = open
+      .slice(0, level - 1)
+      .flatMap((entry) => (entry && entry.region === region ? [entry.text] : []))
     open.length = level - 1
-    open[level - 1] = text
-    placed.push({ node, text, level, outline })
+    open[level - 1] = { text, region }
+    placed.push({ node, text, level, outline, region })
   }
-  const result = new Map<A11yNode, { outline: string[]; siblings: string[] }>()
+  const stems = new Map<string, string[]>()
+  for (const heading of placed) {
+    const stem = seriesStem(heading.text)
+    if (stem !== undefined) stems.set(stem, [...(stems.get(stem) ?? []), heading.text])
+  }
+  const result = new Map<A11yNode, HeadingPlace>()
   for (const heading of placed) {
     const key = heading.outline.join('\u0000')
     const siblings = placed
-      .filter((other) => other !== heading && other.level === heading.level && other.outline.join('\u0000') === key)
+      .filter((other) => other !== heading && other.level === heading.level && other.region === heading.region && other.outline.join('\u0000') === key)
       .map((other) => other.text)
       .slice(0, 8)
-    result.set(heading.node, { outline: heading.outline, siblings })
+    const stem = seriesStem(heading.text)
+    const members = stem === undefined ? [] : [...new Set(stems.get(stem))]
+    result.set(heading.node, { outline: heading.outline, siblings, series: members.length > 1 ? members.slice(0, 12) : undefined })
   }
   return result
+}
+
+/** A heading's text with each number in it replaced by "#": "Example 1" and "Example 7" share "example #". Undefined without a number. */
+export function seriesStem(text: string): string | undefined {
+  const value = normalizeForMatch(text).replace(/[\s.:;,–—-]+$/u, '')
+  return /\d/.test(value) ? value.replace(/\d+/g, '#') : undefined
+}
+
+/**
+ * Whether a parent heading names the subject of a numbered series under it: it is not a placeholder, and not a number
+ * with at most one word ("Part 1", "Example 2", "3"), which would make it a member of a series itself.
+ */
+export function namesSeriesSubject(parent: string, heading: string): boolean {
+  if (!/\p{L}/u.test(parent) || genericHeadingOrLabel(parent, 'heading')) return false
+  const stem = seriesStem(parent)
+  if (stem === undefined) return true
+  return stem !== seriesStem(heading) && !/^(\p{L}+\s*)?#(\s*\p{L}+)?$/u.test(stem)
+}
+
+/** Where a heading sits, for the prompt: its parent heading and the sections above that, its siblings, and its numbered series. */
+function headingPlace(c: HeadingsAndLabelsContext): string[] {
+  const outline = c.outline ?? []
+  return [
+    ...(outline.length > 0 ? [`It sits in the sections: ${outline.join(' > ')} (its parent heading: ${outline.at(-1)})`] : []),
+    ...(c.siblings?.length ? [`Other headings at its level in the same section: ${c.siblings.join(' | ')}`] : []),
+    ...(c.series ? [`It is one of a numbered series of headings on the page: ${c.series.join(' | ')}`] : []),
+  ]
 }
 
 /** States, as a fact, whether the fields that share a label are told apart by where they sit. */
@@ -335,6 +412,21 @@ function groupOf(index: ReturnType<typeof indexTree>, node: A11yNode): string | 
     const parent = index.get(parentRef)
     if (!parent) break
     if ((parent.node.role === 'group' || parent.node.role === 'radiogroup') && parent.node.name?.trim()) return parent.node.name.trim()
+    parentRef = parent.parentRef
+  }
+  return undefined
+}
+
+const REGION_TAGS = new Set(['header', 'footer', 'nav', 'aside', 'dialog'])
+const REGION_ROLES = new Set(['banner', 'contentinfo', 'navigation', 'complementary', 'dialog', 'alertdialog'])
+
+/** The closest region around a heading whose headings form an outline of their own: a header, footer, navigation, aside or dialog. */
+function regionOf(index: ReturnType<typeof indexTree>, node: A11yNode): A11yNode | undefined {
+  let parentRef = index.get(node.ref)?.parentRef
+  while (parentRef) {
+    const parent = index.get(parentRef)
+    if (!parent) break
+    if (REGION_TAGS.has(String(parent.node.native.tag ?? '')) || REGION_ROLES.has(parent.node.role)) return parent.node
     parentRef = parent.parentRef
   }
   return undefined
@@ -396,6 +488,30 @@ function* walkInside(node: A11yNode): Generator<A11yNode> {
     yield child
     yield* walkInside(child)
   }
+}
+
+interface ShownLabel {
+  text: string
+  /** The label element that shows the text; undefined when the text is the field's placeholder. */
+  label: A11yNode | undefined
+}
+
+/**
+ * For a field named in aria-label, the text people see in its place: a label element on screen, else its placeholder,
+ * which shows until they type. Undefined when the name comes from elsewhere, or when nothing visible names the field.
+ */
+function visibleInsteadOfAriaLabel(field: A11yNode, ordered: A11yNode[]): ShownLabel | undefined {
+  const attributes = attributesOf(field)
+  const ariaLabel = attributes['aria-label']?.trim()
+  // aria-labelledby wins over aria-label, and its text is already the field's name.
+  if (!ariaLabel || attributes['aria-labelledby']?.trim()) return undefined
+  if (normalizeForMatch(ariaLabel) !== normalizeForMatch(field.name ?? '')) return undefined
+  for (const label of labelsOf(field, ordered)) {
+    const text = shownText(label, field)
+    if (text) return { text, label }
+  }
+  const placeholder = attributes.placeholder?.replace(/\s+/g, ' ').trim()
+  return placeholder ? { text: placeholder, label: undefined } : undefined
 }
 
 /** The label element that names a field: one with for="id", or one that wraps it. */

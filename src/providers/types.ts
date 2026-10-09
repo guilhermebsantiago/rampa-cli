@@ -6,6 +6,8 @@ export interface JudgeRequest<T> {
   images?: Array<{ data: Uint8Array; mediaType: string }> | undefined
   schema: z.ZodType<T>
   schemaName: string
+  /** Aborts the call when the time limit runs out (`--time-limit`); a provider that cannot cancel may ignore it. */
+  signal?: AbortSignal | undefined
 }
 
 export interface JudgeResponse<T> {

@@ -164,10 +164,15 @@ export function criteriaCoverage(input: CoverageInput): CriterionCoverage[] {
     for (const { decided: _, ...method } of byRule.values()) methods.push(method)
 
     let judgedDecided = 0
+    // Candidates the model was to judge and never did, past the cap or the time limit, are left to a person, even when an
+    // engine rule found nothing to fail: the criterion needs review, never "no failure found".
+    let leftUnjudged = false
     if (module && summary?.applicable) {
       // The model's share: the candidates the criterion did not decide by itself.
       const ran = input.llmActive && (summary.judged - selfDecided > 0 || summary.candidates - selfDecided === 0)
       judgedDecided = summary.judged - summary.cannotTell - selfDecided
+      const notJudged = (summary.capped ?? 0) + (summary.timedOut ?? 0)
+      leftUnjudged = input.llmActive && notJudged > 0
       methods.push({
         kind: 'judgment',
         id: `judgment/${sc.id}@${module.version}`,
@@ -175,6 +180,7 @@ export function criteriaCoverage(input: CoverageInput): CriterionCoverage[] {
         applicable: summary.candidates - selfDecided,
         failures: summary.failed - selfFailed,
         review: summary.cannotTell,
+        ...(notJudged > 0 ? { notJudged } : {}),
         maturity: 'stable',
       })
     }
@@ -185,7 +191,8 @@ export function criteriaCoverage(input: CoverageInput): CriterionCoverage[] {
     // A rule that can only pass or ask for review leaves its criterion to a person when nothing else decided
     // it: bypass passes on a page with any heading, and that says nothing about whether blocks can be skipped.
     const onlyReviewApplied = !ruleDecided && judgedDecided <= 0 && methods.some((m) => m.reviewOnly && m.applicable > 0)
-    const reviewHere = belowHere || onlyReviewApplied || methods.some((m) => m.review > 0) || input.review.some((item) => item.criterion === sc.id)
+    const reviewHere =
+      belowHere || onlyReviewApplied || leftUnjudged || methods.some((m) => m.review > 0) || input.review.some((item) => item.criterion === sc.id)
 
     let status: CoverageStatus
     if (sc.removedIn && version === '2.1') status = 'satisfied-by-definition'
@@ -266,6 +273,7 @@ export function mergeCoverage(reports: readonly Report[], version: WcagVersion):
           same.applicable += method.applicable
           same.failures += method.failures
           same.review += method.review
+          if (method.notJudged) same.notJudged = (same.notJudged ?? 0) + method.notJudged
         }
       }
     }

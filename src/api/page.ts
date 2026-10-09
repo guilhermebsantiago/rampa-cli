@@ -2,7 +2,7 @@ import type { CriterionSummary, Report } from '../core/types.ts'
 import { RULE_CHECKS } from '../rules/index.ts'
 import { type PageDriver, collectPage } from '../surfaces/page.ts'
 import { normalizeScope } from '../surfaces/scope.ts'
-import { type RampaOptions, judge, resolveSettings } from './options.ts'
+import { type RampaOptions, deadlineOf, judge, resolveSettings } from './options.ts'
 
 export interface CheckPageOptions extends RampaOptions {
   /**
@@ -24,7 +24,8 @@ export const PAGE_CRITERIA: ReadonlySet<string> = new Set(['2.4.2', '3.1.1'])
 
 /** Checks an open page through a driver; the Playwright and Puppeteer adapters are thin wrappers around it. */
 export async function checkDriver(driver: PageDriver, options: CheckPageOptions = {}): Promise<Report> {
-  const settings = await resolveSettings(options)
+  const resolved = await resolveSettings(options)
+  const settings = { ...resolved, deadline: deadlineOf(resolved) }
   const scope = normalizeScope(options.include, options.exclude)
   const collected = await collectPage(driver, {
     locale: settings.locale,
