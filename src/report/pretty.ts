@@ -161,7 +161,10 @@ export function probeCoverageLines(report: Report): string[] {
           : row.status === 'no-failure-found'
             ? t(locale, 'probeStatusClean')
             : t(locale, 'probeStatusNotChecked')
+    // Experimental failures sit below the threshold: the line says so, next to "No confirmed failures".
+    const hidden = row.failures > 0 && !report.findings.some((f) => f.source === 'probe' && f.criterion === row.criterion && f.ruleId === row.rule)
     const extra = [
+      hidden ? t(locale, 'probeBelowThreshold') : undefined,
       row.status !== 'not-checked' ? t(locale, 'probeApplicable', { count: row.applicable }) : undefined,
       row.failures > 0 && row.review > 0 ? t(locale, 'probeStatusReview', { count: row.review }) : undefined,
       row.unmatched > 0 ? t(locale, 'probeUnmatched', { count: row.unmatched }) : undefined,
