@@ -1,10 +1,12 @@
 import { spawn } from 'node:child_process'
-import { mkdtemp, readFile } from 'node:fs/promises'
+import { mkdtemp, readFile, readdir } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import { type CheckCommandOptions, runCheck } from '../src/cli/commands/check.ts'
 import type { SiteReport } from '../src/core/site.ts'
+import { runSiteCriteria, siteFactsOf } from '../src/site/index.ts'
+import { loadSnapshot } from '../src/surfaces/targets.ts'
 import { browserForTests } from './browser.ts'
 import { type ConsistencySite, type ConsistencyVariant, startConsistencySite } from './consistency-fixture.ts'
 
@@ -64,7 +66,8 @@ describe.skipIf(!available)('criteria across the pages of a crawl', { timeout: 9
   })
 
   it('names the page whose navigation and help changed order, with the order observed on each page', async () => {
-    const { code, report, path } = await crawl('inconsistent')
+    const saved = await mkdtemp(join(tmpdir(), 'rampa-site-criteria-saved-'))
+    const { code, report, site, path } = await crawl('inconsistent', { save: saved })
     expect(code).toBe(1)
     const findings = report.siteCriteria?.findings ?? []
     expect(findings.map((finding) => [finding.criterion, finding.subject, finding.pages.map(path)])).toEqual([
@@ -75,6 +78,12 @@ describe.skipIf(!available)('criteria across the pages of a crawl', { timeout: 9
     expect(findings[0]?.elements.find((element) => path(element.page) === '/pricing' && element.name === 'Docs')?.ref).toMatch(/nav/)
     expect(findings[1]?.evidence).toMatch(/^after the main content on .+ · before the main content on \/pricing$/)
     expect(report.siteCriteria?.review).toEqual([])
+
+    // The same comparison from the saved snapshots, with no browser.
+    const files = (await readdir(saved)).filter((file) => file.endsWith('.snapshot.json'))
+    const pages = await Promise.all(files.map(async (file) => siteFactsOf(await loadSnapshot(join(saved, file)))))
+    const replay = runSiteCriteria(pages, { origin: site.origin, locale: 'en', minConfidence: 'low' })
+    expect(replay.findings.map((finding) => finding.fingerprint).sort()).toEqual(findings.map((finding) => finding.fingerprint).sort())
   })
 
   it('compares the sets named in the config', async () => {

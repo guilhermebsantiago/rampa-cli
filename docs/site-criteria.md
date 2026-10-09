@@ -116,6 +116,21 @@ Each finding has `criterion`, `level`, `status` (`failure` or `review`), `set`, 
 
 `summary.coverage.notChecked` no longer lists 3.2.3 once a set was compared, and the coverage block prints a line such as `Compared across pages: 3.2.3 (2 set(s), 10 compared); 3.2.6 (2 set(s), 0 compared)`.
 
+## From saved snapshots, without a browser
+
+The criteria read only the snapshots, so a crawl saved with `--save <dir>` can be compared again later, with other sets or after an update, through the API:
+
+```ts
+import { readdir } from 'node:fs/promises'
+import { loadSnapshot, runSiteCriteria, siteFactsOf } from 'rampa'
+
+const files = (await readdir('.rampa/crawl')).filter((file) => file.endsWith('.snapshot.json'))
+const pages = await Promise.all(files.map(async (file) => siteFactsOf(await loadSnapshot(`.rampa/crawl/${file}`))))
+const report = runSiteCriteria(pages, { origin: 'https://example.com', locale: 'en', minConfidence: 'low', pageSets: { docs: ['/docs/'] } })
+```
+
+Pages are compared in the order given, which is the crawl's order in a live run.
+
 ## Exit codes
 
 A finding across pages counts like a page's finding: with the default `--fail-on confirmed`, only findings at or above the threshold make the exit code 1, which means none while the checks are experimental, unless `--min-confidence low`. `--fail-on any` also counts the ones below the threshold. Needs review never changes the exit code.
