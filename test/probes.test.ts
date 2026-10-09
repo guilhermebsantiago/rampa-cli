@@ -71,6 +71,47 @@ describe('probe rules over recorded observations', () => {
   })
 })
 
+describe('3.2.1 over recorded walks', () => {
+  const button = { ref: '#b', role: 'button', name: 'Buy', states: [], native: { tag: 'button', attributes: { id: 'b', type: 'button' } }, children: [] }
+  const el = { ref: '#b', id: { tag: 'button', sig: 'button|b||button||' }, tag: 'button', role: 'button', label: 'Buy' }
+  const walkWith = (stop: Record<string, unknown>) => {
+    const snapshot = snapshotWith([
+      record('keyboard-walk', {
+        data: {
+          viewport: { width: 1280, height: 800 },
+          idleMs: 1500,
+          idle: [],
+          inventory: [],
+          forward: [{ n: 1, key: 'Tab', at: 0, el, ...stop }, { n: 2, key: 'Tab', at: 200, el: null }],
+          backward: [],
+          end: { forward: 'cycled', backward: 'cycled' },
+          traps: [],
+          budget: 150,
+        },
+      }),
+    ])
+    snapshot.root.children = [button]
+    return probeChecks(snapshot, 'en', PROBE_RULES)
+  }
+
+  it('fails a change that happened again when focus came back', () => {
+    const result = walkWith({ events: [{ type: 'open', at: 5, detail: 'https://example.invalid/' }], confirmed: ['open'] })
+    expect(result.findings.filter((f) => f.ruleId === 'rampa/on-focus').map((f) => f.confidence)).toEqual(['high'])
+  })
+
+  it('sends a change that did not happen again to review: a timer may have fired during the key press', () => {
+    const result = walkWith({ events: [{ type: 'open', at: 5, detail: 'https://example.invalid/' }], confirmed: [] })
+    expect(result.findings.filter((f) => f.ruleId === 'rampa/on-focus')).toEqual([])
+    expect(result.review.filter((f) => f.ruleId === 'rampa/on-focus').map((f) => f.evidence)).toEqual([expect.stringContaining('it did not happen again when focus came back')])
+  })
+
+  it('ignores a focus guard that moves focus on by design', () => {
+    const after = { ref: '#first', id: { tag: 'a', sig: 'a|first||||#x' }, tag: 'a', role: 'link', label: 'First' }
+    const result = walkWith({ rect: { x: 0, y: 0, width: 0, height: 0 }, after, afterWithin: false, confirmed: ['focus'] })
+    expect([...result.findings, ...result.review].filter((f) => f.ruleId === 'rampa/on-focus')).toEqual([])
+  })
+})
+
 describe('probe stage', () => {
   it('parses --probe', () => {
     expect(parseProbeKinds(undefined)).toEqual([])

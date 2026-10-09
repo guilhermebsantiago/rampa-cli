@@ -74,6 +74,14 @@ describe.skipIf(!browser)('keyboard walk', { timeout: 120_000 }, () => {
     expect(review[0]?.evidence).toContain('all inside #consent')
   })
 
+  it('after an autofocused field, judges reach only once the backward walk has gone round too', async () => {
+    const report = await probed('keyboard-autofocus.html')
+    expect(byRule(report, 'rampa/keyboard-reach')).toEqual([])
+    expect(report.coverage.probes?.find((c) => c.criterion === '2.1.1')?.status).toBe('no-failure-found')
+    // The toggle input is clipped to nothing and drawn by its label: 2.4.11 cannot judge it, and says so.
+    expect(byRule(report, 'rampa/focus-obscured')).toEqual([])
+  })
+
   it('walks into a frame and a shadow root without reporting a change of context', async () => {
     const report = await probed('keyboard-shadow.html')
     expect(byRule(report, 'rampa/on-focus')).toEqual([])
@@ -84,9 +92,10 @@ describe.skipIf(!browser)('keyboard walk', { timeout: 120_000 }, () => {
 
   it('finds nothing with roving tabindex, radio groups, duplicate links, clipped slides, skip links or background timers', async () => {
     const report = await probed('keyboard-pass.html')
-    for (const rule of ['rampa/keyboard-reach', 'rampa/keyboard-trap', 'rampa/on-focus']) {
+    for (const rule of ['rampa/keyboard-reach', 'rampa/keyboard-trap', 'rampa/on-focus', 'rampa/focus-visible', 'rampa/focus-obscured']) {
       expect(byRule(report, rule)).toEqual([])
-      expect(reviewByRule(report, rule)).toEqual([])
+      // The browser's own ring on the carousel link is partly cut by the carousel: a faint change, for review.
+      if (rule !== 'rampa/focus-visible') expect(reviewByRule(report, rule)).toEqual([])
     }
     expect(coverageOf(report, '2.1.1')).toMatchObject({ status: 'no-failure-found' })
     expect(coverageOf(report, '3.2.1')).toMatchObject({ status: 'no-failure-found' })

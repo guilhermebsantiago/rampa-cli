@@ -17,6 +17,8 @@ export interface Walk {
   idleMs: number
   traps: TrapAttempt[]
   viewport: { width: number; height: number }
+  /** Focus was on this element at load (autofocus): the forward walk started there. */
+  startFocus?: string | null | undefined
 }
 
 /** Reads the walk back from a record: a snapshot is input, so every list is checked. */
@@ -34,6 +36,7 @@ export function walkOf(record: ProbeRecord): Walk {
     idleMs: Number(data.idleMs) || 0,
     traps: asArray<TrapAttempt>(data.traps).filter((trap) => Array.isArray(trap?.cycle)),
     viewport: { width: Number(viewport.width) || 0, height: Number(viewport.height) || 0 },
+    startFocus: typeof data.startFocus === 'string' ? data.startFocus : null,
   }
 }
 
@@ -97,11 +100,13 @@ export const keyboardReachRule: ProbeRule = {
   run(record, ctx) {
     const walk = walkOf(record)
     const what = viewportText(walk, ctx.locale)
-    if (walk.end.forward !== 'cycled') {
+    // From the top of the page, one forward round reaches everything Tab can; from an autofocused field it
+    // reaches only what follows it, and the backward walk must go round too.
+    if (walk.end.forward !== 'cycled' || (walk.startFocus && walk.end.backward !== 'cycled')) {
       const note = say(
         ctx.locale,
-        `the walk did not go round the page (${walk.end.forward}), so what it missed is unknown`,
-        `a navegação não deu a volta na página (${walk.end.forward}), então não se sabe o que ela deixou de alcançar`,
+        `the walk did not go round the page (forward: ${walk.end.forward}, backward: ${walk.end.backward}), so what it missed is unknown`,
+        `a navegação não deu a volta na página (para a frente: ${walk.end.forward}, para trás: ${walk.end.backward}), então não se sabe o que ela deixou de alcançar`,
       )
       return { findings: [], review: [], coverage: [notChecked('2.1.1', this.id, record, what, note)] }
     }
@@ -257,14 +262,16 @@ const CHANGE_WORDS: Record<Locale, Record<string, string>> = {
   },
 }
 
-const ON_FOCUS_TEXT: Record<Locale, { change: string; review: string }> = {
+const ON_FOCUS_TEXT: Record<Locale, { change: string; review: string; once: string }> = {
   en: {
     change: 'Moving keyboard focus to this element, with nothing activated, {what}: a change of context on focus.',
     review: 'Moving keyboard focus to this element {what}. Check whether the content changed in a way that changes its meaning.',
+    once: 'Once, while keyboard focus moved to this element, the page {what}; it did not happen again when focus came back. A timer may have caused it. Check whether focus does.',
   },
   'pt-BR': {
     change: 'Mover o foco do teclado para este elemento, sem ativar nada, {what}: uma mudança de contexto ao receber foco.',
     review: 'Mover o foco do teclado para este elemento {what}. Confira se o conteúdo mudou de um jeito que muda seu sentido.',
+    once: 'Uma vez, quando o foco do teclado chegou a este elemento, a página {what}; isso não se repetiu quando o foco voltou. Pode ter sido um temporizador. Confira se o foco causa isso.',
   },
 }
 
@@ -291,6 +298,7 @@ export const onFocusRule: ProbeRule = {
     const findings: Finding[] = []
     const review: Finding[] = []
     let unmatched = 0
+    let failures = 0
     const visited = new Set<string>()
     // Each element once: the backward walk focuses the same elements again.
     for (const stop of [...walk.forward, ...walk.backward]) {
@@ -299,7 +307,9 @@ export const onFocusRule: ProbeRule = {
       const events = (stop.events ?? []).filter((event) => !idle.has(`${event.type}|${event.detail ?? ''}`))
       const high = events.filter((event) => HIGH_EVENTS.has(event.type))
       const dialogs = events.filter((event) => event.type.startsWith('dialog-'))
-      const moved = stop.after && !stop.afterWithin && stop.after.ref !== stop.el.ref ? stop.after : undefined
+      // A focus guard (a 0 or 1 px sentinel at the edge of a modal) moves focus on by design.
+      const sentinel = Boolean(stop.rect && (stop.rect.width < 2 || stop.rect.height < 2))
+      const moved = stop.after && !stop.afterWithin && stop.after.ref !== stop.el.ref && !sentinel ? stop.after : undefined
       const history = events.filter((event) => event.type === 'history')
       if (high.length + dialogs.length + history.length === 0 && !moved) continue
       const node = matchNode(ctx.index, stop.el.ref, stop.el.id)
@@ -313,23 +323,45 @@ export const onFocusRule: ProbeRule = {
       const idleNote = say(ctx.locale, `nothing like it in ${walk.idleMs} ms with no key pressed`, `nada parecido em ${walk.idleMs} ms sem tecla pressionada`)
       const focusOn = say(ctx.locale, `${keys}: focus on ${nameOf(node, stop.el)}; then`, `${keys}: foco em ${nameOf(node, stop.el)}; depois`)
       if (high.length > 0 || dialogs.length > 0 || moved) {
+        // A change that happened again when focus came back to the element is its doing; once may be a timer.
+        // Records without a confirmation step (older ones) count every change as confirmed.
+        const kindOf = (event: KeyEvent) => (event.type.startsWith('dialog-') ? 'dialog' : event.type === 'popup' ? 'open' : event.type)
+        const sure = (kind: string) => !stop.confirmed || stop.confirmed.includes(kind)
         const parts = [...high, ...dialogs].map(describe)
         if (moved) {
           const target = `${moved.label ? `<${moved.tag}> "${moved.label}"` : `<${moved.tag}>`} ${moved.ref}`
           parts.push(`${words.focus}: ${say(ctx.locale, 'focus went to', 'o foco foi para')} ${target}`)
         }
-        const confidence = high.length > 0 ? 'high' : 'medium'
+        const confirmedHigh = high.filter((event) => sure(kindOf(event)))
+        const confirmedOther = dialogs.some((event) => sure(kindOf(event))) || Boolean(moved && sure('focus'))
         const kinds = [...high.map((event) => words[event.type] ?? event.type), ...(dialogs.length > 0 ? [words.dialog] : []), ...(moved ? [words.focus] : [])]
-        if (findings.length < MAX_REPORTED) {
-          findings.push(
+        const subject = [...new Set([...high, ...dialogs].map((event) => event.type))].concat(moved ? ['focus'] : []).join(',')
+        const repeatNote = stop.confirmed ? say(ctx.locale, '; it happened again when focus came back', '; repetiu-se quando o foco voltou') : ''
+        if (confirmedHigh.length > 0 || confirmedOther) {
+          if (findings.length < MAX_REPORTED) {
+            findings.push(
+              probeFinding({
+                criterion: '3.2.1',
+                rule: this.id,
+                node,
+                message: text.change.replace('{what}', [...new Set(kinds)].join(', ')),
+                evidence: `${focusOn} ${parts.join('; ')}; ${idleNote}${repeatNote}`,
+                confidence: confirmedHigh.length > 0 ? 'high' : 'medium',
+                subject,
+              }),
+            )
+          }
+          failures++
+        } else {
+          review.push(
             probeFinding({
               criterion: '3.2.1',
               rule: this.id,
               node,
-              message: text.change.replace('{what}', [...new Set(kinds)].join(', ')),
-              evidence: `${focusOn} ${parts.join('; ')}; ${idleNote}`,
-              confidence,
-              subject: [...new Set([...high, ...dialogs].map((event) => event.type))].concat(moved ? ['focus'] : []).join(','),
+              message: text.once.replace('{what}', [...new Set(kinds)].join(', ')),
+              evidence: `${focusOn} ${parts.join('; ')}; ${idleNote}${say(ctx.locale, '; it did not happen again when focus came back', '; não se repetiu quando o foco voltou')}`,
+              confidence: 'low',
+              subject,
             }),
           )
         }
@@ -347,7 +379,7 @@ export const onFocusRule: ProbeRule = {
         )
       }
     }
-    const notes = walk.end.forward === 'cycled' ? undefined : stoppedEarly(walk, ctx.locale)
-    return { findings, review, coverage: [coverageFor('3.2.1', this.id, record, what, { applicable: visited.size, failures: findings.length, review: review.length, unmatched }, notes)] }
+    const notes = [walk.end.forward === 'cycled' ? '' : stoppedEarly(walk, ctx.locale), moreNotListed(ctx.locale, failures - findings.length)].filter(Boolean).join('; ')
+    return { findings, review, coverage: [coverageFor('3.2.1', this.id, record, what, { applicable: visited.size, failures, review: review.length, unmatched }, notes || undefined)] }
   },
 }

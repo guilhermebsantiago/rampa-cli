@@ -46,6 +46,11 @@ export interface Obscured {
   /** Pixels that changed when the element was painted, and when it was hidden. */
   painted?: number | undefined
   hidden?: number | undefined
+  /**
+   * The element paints nothing of its own (opacity 0, clipped, 1 px): a styled checkbox or toggle drawn by
+   * its label or a sibling. Pixels cannot say whether it is covered.
+   */
+  selfHidden?: boolean | undefined
 }
 
 export type FocusStop = KeyStop & { focus?: FocusPixels | undefined; obscured?: Obscured | undefined }
@@ -61,6 +66,7 @@ export function obscuredGrid(): Obscured {
   const y0 = Math.max(r.top, 0)
   const y1 = Math.min(r.bottom, window.innerHeight)
   if (x1 - x0 < 1 || y1 - y0 < 1) return { points: 0, covered: 0 }
+  const labels: Element[] = 'labels' in el && (el as HTMLInputElement).labels ? Array.from((el as HTMLInputElement).labels ?? []) : []
   const tally = new Map<Element, number>()
   let points = 0
   let covered = 0
@@ -77,11 +83,15 @@ export function obscuredGrid(): Obscured {
       points++
       // An ancestor on top means the element lets the pointer through: not evidence of a cover.
       if (!hit || hit === el || el.contains(hit) || hit.contains(el)) continue
+      // The element's own label is part of the component, not something covering it.
+      if (labels.some((label) => label === hit || label.contains(hit))) continue
       covered++
       tally.set(hit, (tally.get(hit) ?? 0) + 1)
     }
   }
   const result: Obscured = { points, covered }
+  const style = getComputedStyle(el)
+  if (style.opacity === '0' || r.width <= 1 || r.height <= 1 || style.clipPath !== 'none' || (style.clip !== 'auto' && style.clip !== '')) result.selfHidden = true
   const top = [...tally.entries()].sort((a, b) => b[1] - a[1])[0]?.[0]
   if (top) {
     let layer: Element = top

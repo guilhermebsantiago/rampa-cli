@@ -183,12 +183,17 @@ function obscuredRuleFor(variant: string): ProbeRule {
       let unmatched = 0
       const measured = new Set<string>()
       let translucent = 0
+      let selfHidden = 0
       const reported = new Set<string>()
       for (const stop of [...walk.forward, ...walk.backward] as FocusStop[]) {
         const grid = stop.obscured
         if (!stop.el || !grid || grid.points === 0) continue
         measured.add(stop.el.ref)
         if (grid.covered < grid.points || reported.has(stop.el.ref)) continue
+        if (grid.selfHidden) {
+          selfHidden++
+          continue
+        }
         if (grid.painted !== 0 || grid.hidden !== 0) {
           translucent++
           continue
@@ -234,6 +239,9 @@ function obscuredRuleFor(variant: string): ProbeRule {
           ? say(ctx.locale, `${translucent} stop(s) fully under content that lets pixels through: not reported`, `${translucent} parada(s) sob conteúdo translúcido: não relatada(s)`)
           : '',
         moreNotListed(ctx.locale, failures - findings.length),
+        selfHidden > 0
+          ? say(ctx.locale, `${selfHidden} control(s) that paint nothing of their own (drawn by a label or a sibling): not judged`, `${selfHidden} controle(s) que não pintam nada próprio (desenhados por um rótulo ou um irmão): não julgado(s)`)
+          : '',
       ].filter(Boolean)
       return {
         findings,

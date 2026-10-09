@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sign in</title>
+<style>
+  body { font: 16px Arial, sans-serif; margin: 1rem; }
+  :focus-visible { outline: 3px solid #005fcc; outline-offset: 2px; }
+  /* A toggle drawn by its label: the input paints nothing of its own (Bootstrap's .btn-check). */
+  .btn-check { position: absolute; clip: rect(0, 0, 0, 0); pointer-events: none; }
+  .btn { display: inline-block; padding: 6px 12px; border: 1px solid #333; }
+  .btn-check:focus-visible + .btn { outline: 3px solid #005fcc; }
+</style>
+</head>
+<body>
+<!-- Controls before an autofocused field: the forward walk starts at the field, the backward walk reaches these. -->
+<nav aria-label="Site">
+  <a href="#home">Home</a> <a href="#news">News</a> <a href="#shop">Shop</a> <a href="#help">Help</a> <a href="#about">About</a>
+</nav>
+<main>
+  <h1>Sign in</h1>
+  <form action="#" method="get">
+    <label>Email <input id="email" name="email" type="email" autofocus></label>
+    <input class="btn-check" id="remember" type="checkbox" name="remember">
+    <label class="btn" for="remember">Remember me</label>
+  </form>
+  <a href="#reset">Forgot your password?</a>
+</main>
+</body>
+</html>

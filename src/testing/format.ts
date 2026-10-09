@@ -120,10 +120,11 @@ export function assess(reports: readonly Report[], options: AssertOptions = {}):
   const failing: Assessment['failing'] = []
   const problems: string[] = []
   for (const report of reports) {
+    // As the exit code: a WCAG 2.2-only result in a 2.1 report is shown but never fails.
     const findings = [
       ...report.findings.map((finding) => ({ finding, belowThreshold: false })),
       ...(options.failOn === 'any' ? report.belowThreshold.map((finding) => ({ finding, belowThreshold: true })) : []),
-    ]
+    ].filter(({ finding }) => !finding.beyondTarget)
     if (findings.length > 0) failing.push({ report, findings })
     for (const problem of judgmentProblems(report, Boolean(options.requireJudgment))) {
       // Several reports of one run usually share a problem, such as no model; it is said once.

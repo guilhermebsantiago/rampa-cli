@@ -44,6 +44,7 @@ export interface KeyEvent {
   detail?: string | undefined
   ref?: string | undefined
   el?: InPageElement | undefined
+  rect?: InPageRect | undefined
 }
 
 export interface KeyStop {
@@ -66,6 +67,11 @@ export interface KeyStop {
   afterWithin?: boolean | undefined
   /** What happened between this key press and the next. */
   events?: KeyEvent[] | undefined
+  /**
+   * The change kinds that happened again when focus was given back to the element once more: a change of
+   * context that repeats is the element's doing, not a timer's. Absent when nothing needed confirming.
+   */
+  confirmed?: string[] | undefined
 }
 
 export interface TrapAttempt {
@@ -98,6 +104,11 @@ export interface KeyboardData {
   end: { forward: WalkEnd; backward: WalkEnd }
   traps: TrapAttempt[]
   budget: number
+  /**
+   * The element that had focus when the page loaded (autofocus), if any. The walk starts from it, so
+   * what comes before it is reached only by the backward walk.
+   */
+  startFocus?: string | null | undefined
 }
 
 /** Runs in the page: the controls 2.1.1 expects Tab to reach. Needs the kit. */
@@ -219,6 +230,67 @@ interface WalkResult {
   trap?: TrapAttempt | undefined
 }
 
+/** Whether one element holds the other; a ref into a shadow root (`host >>> inner`) is inside its host. */
+async function within(page: Page, outer: string, inner: string): Promise<boolean> {
+  if (!outer || !inner) return false
+  if (inner.startsWith(`${outer} >>> `) || outer.startsWith(`${inner} >>> `)) return true
+  return page.evaluate(contains, { outer, inner })
+}
+
+/** Event types that are a change of context for 3.2.1. */
+const CHANGE_TYPES = new Set(['navigation', 'popup', 'open', 'submit', 'modal'])
+const changeKind = (event: KeyEvent) => (event.type.startsWith('dialog-') ? 'dialog' : event.type === 'popup' ? 'open' : event.type)
+
+/**
+ * Gives focus back to the element once more (a script focus, which runs the same focus handlers) and
+ * returns the change kinds that happened again, plus 'focus' when focus left it again. A newsletter
+ * popup or a redirect on a timer that happened to fire during a key press does not repeat.
+ */
+async function confirmChanges(page: Page, probe: ProbePage, ref: string, kinds: string[], movedAway: boolean, waitMs: number): Promise<string[]> {
+  try {
+    await page.evaluate(() => {
+      const w = window as unknown as { __rampaSelf?: boolean }
+      w.__rampaSelf = true
+      try {
+        ;(document.activeElement as HTMLElement | null)?.blur?.()
+      } finally {
+        w.__rampaSelf = false
+      }
+    })
+    await drainEvents(page, probe.guard.start)
+    const from = probe.guard.now()
+    const focused = await page.evaluate((selector) => {
+      const w = window as unknown as { __rampaSelf?: boolean; __rampaKit: { deepActive(): Element | null } }
+      let el: HTMLElement | null = null
+      try {
+        el = document.querySelector<HTMLElement>(selector)
+      } catch {
+        return false
+      }
+      if (!el?.focus) return false
+      w.__rampaSelf = true
+      try {
+        el.focus({ preventScroll: true })
+      } finally {
+        w.__rampaSelf = false
+      }
+      return true
+    }, ref)
+    if (!focused) return []
+    await page.waitForTimeout(Math.max(waitMs, 150))
+    const again = [...(await drainEvents(page, probe.guard.start)), ...guardEvents(probe, from, probe.guard.now())]
+    const repeated = new Set(again.filter((event) => CHANGE_TYPES.has(event.type) || event.type.startsWith('dialog-')).map(changeKind))
+    const confirmed = kinds.filter((kind) => repeated.has(kind))
+    if (movedAway) {
+      const now = await page.evaluate(readFocus)
+      if (now.el?.ref !== ref) confirmed.push('focus')
+    }
+    return confirmed
+  } catch {
+    return []
+  }
+}
+
 async function drainEvents(page: Page, start: number): Promise<KeyEvent[]> {
   const events = await page.evaluate(() =>
     (window as unknown as { __rampaKit: { drain(): Array<{ type: string; at: number; detail?: string; ref?: string }> } }).__rampaKit.drain(),
@@ -293,8 +365,9 @@ async function walk(page: Page, probe: ProbePage, key: 'Tab' | 'Shift+Tab', budg
       stop.after = null
     } else if (movedOn && target) {
       stop.el = target
+      if (landed[0]?.rect) stop.rect = landed[0].rect
       stop.after = read.el
-      stop.afterWithin = await page.evaluate(contains, { outer: target.ref, inner: read.el?.ref ?? '' })
+      stop.afterWithin = await within(page, target.ref, read.el?.ref ?? '')
     } else {
       if (read.rect) stop.rect = read.rect
       if (read.frame) stop.frame = true
@@ -306,7 +379,7 @@ async function walk(page: Page, probe: ProbePage, key: 'Tab' | 'Shift+Tab', budg
     const again = await page.evaluate(readFocus)
     if (!movedOn && !removed && keyOf(again) !== keyOf(read)) {
       stop.after = again.el
-      if (read.el && again.el) stop.afterWithin = await page.evaluate(contains, { outer: read.el.ref, inner: again.el.ref })
+      if (read.el && again.el) stop.afterWithin = await within(page, read.el.ref, again.el.ref)
     }
     const late = await drainEvents(page, probe.guard.start)
     // The key's window ends here: what the page does in reaction to the hook's own blur and refocus is not the key's doing.
@@ -317,6 +390,9 @@ async function walk(page: Page, probe: ProbePage, key: 'Tab' | 'Shift+Tab', budg
       (event) => event.type !== 'focusin' && event.type !== 'script-focus' && event.type !== 'script-blur',
     )
     if (events.length > 0) stop.events = events
+    const changes = [...new Set(events.filter((event) => CHANGE_TYPES.has(event.type) || event.type.startsWith('dialog-')).map(changeKind))]
+    const movedAway = Boolean(stop.el && stop.after && !stop.afterWithin && stop.after.ref !== stop.el.ref)
+    if (stop.el && (changes.length > 0 || movedAway)) stop.confirmed = await confirmChanges(page, probe, stop.el.ref, changes, movedAway, rereadMs)
     stops.push(stop)
 
     const current = removed && target ? target.ref : keyOf(again.el || !read.el ? again : read)
@@ -422,15 +498,40 @@ export async function runKeyboardWalk(browser: Browser, url: string, options: Pr
     const inventory = await page.evaluate(inventoryControls)
     // Scrolling that animates moves the focused element while it is measured: the walk scrolls at once.
     await page.addStyleTag({ content: '*, *::before, *::after { scroll-behavior: auto !important; }' }).catch(() => undefined)
-    await page.evaluate(() => {
-      ;(document.activeElement as HTMLElement | null)?.blur?.()
+    const startFocus = await page.evaluate(() => {
+      const kit = (window as unknown as { __rampaKit: { deepActive(): Element | null; cssPath(el: Element): string } }).__rampaKit
+      const active = kit.deepActive()
+      const ref = active ? kit.cssPath(active) : null
+      const w = window as unknown as { __rampaSelf?: boolean }
+      w.__rampaSelf = true
+      try {
+        ;(document.activeElement as HTMLElement | null)?.blur?.()
+        // Focusing the body for a moment moves the sequential starting point to the top of the page, so the
+        // first Tab reaches the first control even when a field had autofocus.
+        const body = document.body
+        if (body) {
+          const had = body.getAttribute('tabindex')
+          body.setAttribute('tabindex', '-1')
+          body.focus({ preventScroll: true })
+          if (had === null) body.removeAttribute('tabindex')
+          else body.setAttribute('tabindex', had)
+          body.blur()
+        }
+      } finally {
+        w.__rampaSelf = false
+      }
       window.scrollTo({ left: 0, top: 0, behavior: 'instant' as ScrollBehavior })
+      return ref
     })
 
+    // What the page did in response to the reset belongs to no key.
+    await drainEvents(page, probe.guard.start)
     const rereadMs = hooks.placementOnly ? 0 : REREAD_MS
     const forward = await walk(page, probe, 'Tab', STOP_BUDGET, deadline, hooks.forwardHook, rereadMs)
     let backward: WalkResult = { stops: [], end: 'not-run' }
-    if (forward.end === 'cycled') backward = await walk(page, probe, 'Shift+Tab', Math.min(STOP_BUDGET, forward.stops.length + 10), deadline, hooks.backwardHook, rereadMs)
+    // The whole budget: blur() leaves the starting point on an autofocused field, so the forward walk may start
+    // mid-page, and only the backward walk reaches what comes before it.
+    if (forward.end === 'cycled') backward = await walk(page, probe, 'Shift+Tab', STOP_BUDGET, deadline, hooks.backwardHook, rereadMs)
     const reached = new Set([...forward.stops, ...backward.stops].flatMap((stop) => (stop.el ? [stop.el.ref] : [])))
     await markHolders(inventory, reached)(page)
     // Pages change while they are walked (carousels turn, panels close): a control 2.1.1 can judge
@@ -447,6 +548,7 @@ export async function runKeyboardWalk(browser: Browser, url: string, options: Pr
       idleMs: hooks.placementOnly ? 0 : IDLE_MS,
       idle,
       inventory,
+      startFocus,
       forward: forward.stops,
       backward: backward.stops,
       end: { forward: forward.end, backward: backward.end },
@@ -494,7 +596,14 @@ export const NARROW_VIEWPORT = { width: 390, height: 844 }
  */
 export async function keyboardProbe(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
   const { backwardFocusHook, forwardFocusHook } = await import('./focus.ts')
-  const records = [await runKeyboardWalk(browser, url, options, { forwardHook: forwardFocusHook, backwardHook: backwardFocusHook, version: FOCUS_VERSION })]
+  const records: ProbeRecord[] = []
+  const firstStarted = Date.now()
+  try {
+    records.push(await runKeyboardWalk(browser, url, options, { forwardHook: forwardFocusHook, backwardHook: backwardFocusHook, version: FOCUS_VERSION }))
+  } catch (error) {
+    // Recorded under the walk's own variant, so every keyboard rule says "not checked" and why.
+    records.push(skippedRecord('keyboard', FOCUS_VERSION, 'keyboard-walk', `probe failed: ${(error instanceof Error ? error.message : String(error)).split('\n')[0]}`, Date.now() - firstStarted))
+  }
   const variant = `keyboard-walk-${NARROW_VIEWPORT.width}x${NARROW_VIEWPORT.height}`
   const started = Date.now()
   try {

@@ -39,7 +39,7 @@ export interface Kit {
   deepActive(): Element | null
   rect(el: Element): InPageRect
   /** Hook events since the last drain: window.open, submit, showModal, history, focusin, script focus. */
-  drain(): Array<{ type: string; at: number; detail?: string | undefined; ref?: string | undefined; el?: InPageElement | undefined }>
+  drain(): Array<{ type: string; at: number; detail?: string | undefined; ref?: string | undefined; el?: InPageElement | undefined; rect?: InPageRect | undefined }>
 }
 
 /** Installs `window.__rampaKit`; safe to call twice. */
@@ -142,7 +142,7 @@ export function installKit(): void {
       at: event.at,
       detail: event.detail,
       ref: event.target ? cssPath(event.target) : undefined,
-      ...(event.type === 'focusin' && event.target ? { el: describe(event.target) } : {}),
+      ...(event.type === 'focusin' && event.target ? { el: describe(event.target), rect: rect(event.target) } : {}),
     }))
   }
   w.__rampaKit = { cssPath, identity, describe, visible, deepActive, rect, drain }
@@ -158,7 +158,8 @@ export function installHooks(): void {
   if (w.__rampaEvents) return
   w.__rampaEvents = []
   const push = (type: string, detail?: string, target?: Element | null) => {
-    if (w.__rampaSelf) return
+    // The probe's own focus and blur calls are not the page's doing; what the page does in response still is.
+    if (w.__rampaSelf && (type === 'focusin' || type === 'script-focus' || type === 'script-blur')) return
     w.__rampaEvents?.push({ type, at: Date.now(), detail: detail?.slice(0, 300), target: target ?? null })
   }
   window.open = ((url?: string | URL) => {

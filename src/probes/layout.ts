@@ -337,7 +337,8 @@ export function wholeBox(box: LayoutBox | undefined): boolean {
 }
 
 export function pastRightEdge(box: LayoutBox, measure: LayoutMeasure): boolean {
-  return Boolean(measure.scrollsX && box.vis && !box.scroller && box.vis.x + box.vis.width > measure.clientWidth + 1)
+  // A fixed layer does not move with the page: one parked past the edge (an off-canvas menu) is never scrolled to.
+  return Boolean(measure.scrollsX && box.vis && !box.scroller && !box.fixed && box.vis.x + box.vis.width > measure.clientWidth + 1)
 }
 
 /**
@@ -346,7 +347,7 @@ export function pastRightEdge(box: LayoutBox, measure: LayoutMeasure): boolean {
  * since off-canvas menus wait there.
  */
 export function cutAtRightEdge(box: LayoutBox, measure: LayoutMeasure): boolean {
-  return Boolean(!measure.scrollsX && box.vis && !box.scroller && box.vis.x < measure.clientWidth - 1 && box.vis.x + box.vis.width > measure.clientWidth + 1)
+  return Boolean(!measure.scrollsX && box.vis && !box.scroller && !box.fixed && box.vis.x < measure.clientWidth - 1 && box.vis.x + box.vis.width > measure.clientWidth + 1)
 }
 
 /**

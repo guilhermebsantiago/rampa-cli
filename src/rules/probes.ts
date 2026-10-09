@@ -121,7 +121,9 @@ export function probeChecks(snapshot: A11ySnapshot, locale: Locale, rules: reado
       const out = rule.run(record, ctx)
       result.findings.push(...out.findings)
       result.review.push(...out.review)
-      result.coverage.push(...out.coverage)
+      // A page that needed a blocked request (a POST for its data) may have rendered less on the probe's load.
+      const blocked = guardNote(record, locale)
+      result.coverage.push(...out.coverage.map((row) => (blocked ? { ...row, note: row.note ? `${row.note}; ${blocked}` : blocked } : row)))
     } catch (error) {
       // A record that does not have the shape the rule expects (an edited or foreign snapshot) checks nothing.
       for (const criterion of rule.criteria) {
@@ -142,6 +144,29 @@ export function probeChecks(snapshot: A11ySnapshot, locale: Locale, rules: reado
     }
   }
   return result
+}
+
+/** What the network guard stopped during a probe, for the coverage note: how many requests, and to which hosts. */
+export function guardNote(record: ProbeRecord, locale: Locale): string | undefined {
+  const blocked = Array.isArray(record.guard?.blocked) ? record.guard.blocked : []
+  if (blocked.length === 0) return undefined
+  const hosts = [
+    ...new Set(
+      blocked.map((entry) => {
+        try {
+          return new URL(entry.url).hostname
+        } catch {
+          return entry.url.slice(0, 40)
+        }
+      }),
+    ),
+  ]
+  const list = `${hosts.slice(0, 3).join(', ')}${hosts.length > 3 ? ', …' : ''}`
+  return say(
+    locale,
+    `the guard blocked ${blocked.length} request(s) to ${list}; content that needed them may be missing`,
+    `o guarda bloqueou ${blocked.length} requisição(ões) para ${list}; conteúdo que dependia delas pode faltar`,
+  )
 }
 
 /** Narrowing helpers for probe data read back from a file: a snapshot is input, not trusted code. */
