@@ -56,6 +56,7 @@ Each report says what was found, what was judged and what was not checked. This 
   "createdAt": "2026-10-09T00:25:49.464Z",
   "target": "examples/store/before.html",
   "surface": "web",
+  "wcagTarget": "wcag22-aa",
   "locale": "en",
   "llm": "on",
   "model": "ollama:gemma4:12b",
@@ -102,9 +103,24 @@ Each report says what was found, what was judged and what was not checked. This 
     { "criterion": "2.4.4", "applicable": true, "candidates": 1, "judged": 1, "failed": 1, "passed": 0, "cannotTell": 0, "discarded": 0, "errors": 0, "offlineMisses": 0 }
   ],
   "coverage": {
-    "engine": ["1.1.1", "1.3.1", "1.3.5", "1.4.3", "2.4.1", "2.4.2", "2.4.4", "3.1.1", "3.1.2", "3.3.2", "4.1.2"],
+    "engine": ["1.1.1", "1.3.1", "1.3.5", "1.4.3", "2.4.2", "2.4.4", "3.1.1", "3.1.2", "4.1.2"],
     "judged": ["2.4.4"],
-    "notChecked": ["…39 WCAG 2.1 A/AA criteria…"]
+    "notChecked": ["…44 WCAG 2.2 A/AA criteria…"],
+    "criteria": [
+      {
+        "id": "2.4.4",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          { "kind": "axe", "id": "link-name", "ran": true, "applicable": 1, "failures": 0, "review": 0, "maturity": "stable" },
+          { "kind": "axe", "id": "area-alt", "ran": true, "applicable": 0, "failures": 0, "review": 0, "maturity": "stable" },
+          { "kind": "judgment", "id": "judgment/2.4.4@2", "ran": true, "applicable": 1, "failures": 1, "review": 0, "maturity": "stable" }
+        ],
+        "manual": "The \"ambiguous to users in general\" exception; destinations behind login"
+      },
+      "…one record for each of the 55 criteria…"
+    ]
   },
   "usage": { "calls": 0, "cachedCalls": 1, "inputTokens": 547, "outputTokens": 53, "latencyMs": 0 },
   "errors": []
@@ -114,7 +130,9 @@ Each report says what was found, what was judged and what was not checked. This 
 - `findings` are confirmed: at or above `minConfidence`, not waived. `belowThreshold`, `waived` and `discarded` (claims that failed verification against the snapshot) are kept apart, never mixed in.
 - `llm` is `on`, `off` (`noLlm`) or `no-model` (judgment wanted, no model found).
 - `criteria` counts, per criterion, the candidates left for judgment and what happened to them; `offlineMisses` and `errors` count the ones that were not judged.
-- `coverage` lists the criteria axe-core checked (partly), the ones judged with verified evidence, and the ones nobody checked.
+- `wcagTarget` is what the run checked against: `wcag22-aa` by default, `wcag21-aa` with `wcag: '2.1'`.
+- `coverage` lists the criteria axe-core checked (partly), the ones judged with verified evidence, and the ones nothing automated checked. `coverage.criteria` gives each criterion a status and the methods behind it; a criterion whose only result is something to review, such as 2.4.1 and 3.3.2 here, is in neither list. See [WCAG 2.2 and coverage](wcag-2-2.md).
+- `needsReview`, when present, lists what axe-core could not decide: never findings.
 - A report from a scoped `checkPage` also has `scope: { include, exclude }`.
 
 The types are exported: `Report`, `Finding`, `Patch`, `CriterionSummary`, `Usage`, `Confidence` and the rest of `src/core/types.ts`.

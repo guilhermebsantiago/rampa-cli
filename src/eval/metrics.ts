@@ -1,3 +1,14 @@
+import type { EngineResults } from '../core/types.ts'
+
+/**
+ * Whether the engine fails an ACT test case: a violation counts only from a rule that implements
+ * that ACT rule (axe-core's `actIds`). A rule for the same criterion that tests something else,
+ * such as html-lang-valid on a page of ucwvc8 (language matches the content), is not the rule under test.
+ */
+export function engineFailsAct(engine: EngineResults, criterion: string, actRuleId: string, actIds: ReadonlyMap<string, readonly string[]>): boolean {
+  return engine.rules.some((rule) => rule.outcome === 'violation' && rule.criteria.includes(criterion) && (actIds.get(rule.ruleId) ?? []).includes(actRuleId))
+}
+
 export interface Confusion {
   tp: number
   fp: number

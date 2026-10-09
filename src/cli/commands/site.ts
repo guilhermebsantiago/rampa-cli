@@ -32,7 +32,8 @@ import { recordingName } from '../../surfaces/targets.ts'
 import { type Collected, collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import { VERSION } from '../../version.ts'
 import type { GlobalContext } from '../context.ts'
-import { type CheckCommandOptions, resolveProvider } from './check.ts'
+import { type CheckCommandOptions, resolveProvider, wcagOption } from './check.ts'
+import { DEFAULT_WCAG, wcagTarget } from '../../wcag.ts'
 
 const SKIP_ORDER: readonly SkipReason[] = ['robots', 'off-site', 'http', 'not-html', 'error']
 
@@ -70,6 +71,7 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
     minConfidence: options.minConfidence,
     concurrency: Math.max(1, Number.parseInt(options.concurrency, 10) || 4),
     waivers: await loadWaivers(),
+    wcag: wcagOption(options.wcag),
   }
   const progress = (message: string) => {
     if (process.stderr.isTTY && options.format === 'pretty') process.stderr.write(`\x1b[2K${message}\r`)
@@ -155,6 +157,7 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
         screenshotDir: options.screenshots ? '.rampa/screenshots' : undefined,
         captureImages: run.needsImages,
         browserOptions: run.browserOptions,
+        wcag: run.check.wcag,
         inspect: async (page, response) => {
           finalUrl = page.url()
           const verdict = frontier.arrived(task, finalUrl, response?.status(), response?.headers()['content-type'])
@@ -206,6 +209,7 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
       sitemapErrors: sitemaps.failed,
     },
     browser: describeConditions(run.browserOptions),
+    wcagTarget: wcagTarget(run.check.wcag ?? DEFAULT_WCAG),
     locale: run.context.locale,
     llm: first?.llm ?? (!options.llm ? 'off' : run.provider || options.offline ? 'on' : 'no-model'),
     model: run.provider?.id,

@@ -1,6 +1,6 @@
 # Judged criteria
 
-Rampa runs axe-core first and reports its violations as they are. A judgment module then sends a model only the residue for one WCAG 2.1 success criterion: what the engine passed on syntax, could not decide, or does not check. Each module lives in `src/criteria/` and does the same six things:
+Rampa runs axe-core first and reports its violations as they are. A judgment module then sends a model only the residue for one WCAG success criterion: what the engine passed on syntax, could not decide, or does not check. Each module lives in `src/criteria/` and does the same six things:
 
 1. **Candidates.** Picks the nodes to judge from the normalized snapshot, never the DOM, and leaves out nodes the engine already failed.
 2. **Prompt.** One criterion per prompt, with the normative WCAG text and only the context that criterion needs. Page data sits inside tags the model is told never to obey.

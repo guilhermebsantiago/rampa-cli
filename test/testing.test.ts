@@ -76,7 +76,7 @@ describe('formatFindings', () => {
         '   Judged:    test:scripted · confidence high · 1/1 runs · evidence verified',
         '   Waiver id: <id>',
         '',
-        'Coverage: axe-core checked 1.1.1, 3.1.2; judged with verified evidence: 3.1.2; not checked automatically: 48 of 50 WCAG 2.1 A/AA criteria.',
+        'Coverage: axe-core checked 1.1.1, 3.1.2; judged with verified evidence: 3.1.2; not checked automatically: 53 of 55 WCAG 2.2 A/AA criteria.',
         'This report does not declare the page accessible.',
         '',
         'To dismiss a finding on purpose, add its waiver id to .rampa/waivers.json or to the waivers option.',
@@ -222,7 +222,7 @@ describe('fixture', () => {
       { type: 'rampa', description: summarize(result) },
       { type: 'rampa', description: summarize(result) },
     ])
-    expect(summarize(result)).toBe('2 findings · judged: 3.1.2 · not checked automatically: 48 of 50 WCAG 2.1 A/AA criteria · model test:scripted')
+    expect(summarize(result)).toBe('2 findings · judged: 3.1.2 · not checked automatically: 53 of 55 WCAG 2.2 A/AA criteria · model test:scripted')
   })
 
   it('reads the fixtures it needs from a destructured first parameter, as Playwright requires', () => {

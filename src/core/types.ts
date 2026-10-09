@@ -3,7 +3,7 @@ import type { BaselineComparison } from '../adoption/baseline.ts'
 import type { Waiver } from '../adoption/waivers.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11ySnapshot, Surface } from '../snapshot/schema.ts'
-import type { Level } from '../wcag.ts'
+import type { Level, WcagTarget } from '../wcag.ts'
 
 export type Confidence = 'low' | 'medium' | 'high'
 
@@ -32,6 +32,8 @@ export interface EngineNode {
   confidence?: Confidence | undefined
   /** The model that located the node in an image, when there was no accessibility tree to read it from. */
   locatedBy?: string | undefined
+  /** WCAG 2.5.8: an exception the page shows for this target; an exempt target is never a failure. */
+  exempt?: 'user-agent-control' | 'equivalent-target' | undefined
 }
 
 export interface EngineRuleResult {
@@ -180,6 +182,55 @@ export interface Finding {
   location?: SourceLocation | undefined
 }
 
+/**
+ * Something the engine could not decide (an axe-core "incomplete"), for a person to look at.
+ * It is never a failure, never in the findings and never changes the exit code.
+ */
+export interface ReviewItem {
+  criterion: string
+  level: Level | undefined
+  ruleId: string
+  ref?: string | undefined
+  target?: string | undefined
+  html?: string | undefined
+  /** Why the engine could not decide, in its own words. */
+  message: string
+  helpUrl?: string | undefined
+}
+
+/** A criterion's result in one run. Never "passed": a clean result is "no failure found" in what was checked. */
+export type CoverageStatus = 'failures' | 'needs-review' | 'no-failure-found' | 'no-applicable-content' | 'not-checked' | 'satisfied-by-definition'
+
+/** One way a criterion was checked: an engine rule, or the judgment of a model. */
+export interface CoverageMethod {
+  /** axe: an axe-core rule; rule: a Rampa rule over the tree or the pixels; judgment: a model, with verified evidence. */
+  kind: 'axe' | 'rule' | 'judgment'
+  /** The rule id, or `judgment/<criterion>@<version>`. */
+  id: string
+  /** False when the method applied but did not run, such as judgment with --no-llm. */
+  ran: boolean
+  /** Elements the method applied to (candidates, for judgment); passing elements are capped at 200 per rule. */
+  applicable: number
+  failures: number
+  /** Elements left to a person: undecided by the engine, or where the model abstained. */
+  review: number
+  /** The rule can only pass or ask for review: it never reports a failure. */
+  reviewOnly?: boolean | undefined
+  /** Experimental methods report below the default confidence threshold until they pass the evaluation gate. */
+  maturity: 'stable' | 'experimental'
+}
+
+export interface CriterionCoverage {
+  id: string
+  level: Level
+  /** beyond: a WCAG 2.2 criterion in a run that targets 2.1; reported, never counted. */
+  target: 'in' | 'beyond'
+  status: CoverageStatus
+  methods: CoverageMethod[]
+  /** What a person still has to review or test, in the report's language. */
+  manual: string
+}
+
 export interface Discarded {
   criterion: string
   ref: string
@@ -218,12 +269,19 @@ export interface Report {
   /** Set when only part of the page was checked: the selectors it was scoped to (checkPage with include or exclude). */
   scope?: { include: string[]; exclude: string[] } | undefined
   surface: Surface
+  /** What the run checked against: WCAG 2.2 A/AA by default, or 2.1 with --wcag 2.1. Reports written before it existed targeted 2.1. */
+  wcagTarget?: WcagTarget | undefined
   locale: Locale
   llm: 'on' | 'off' | 'no-model'
   model?: string | undefined
   engine: { name: string; version: string }
   findings: Finding[]
   belowThreshold: Finding[]
+  /**
+   * Findings on WCAG 2.2 criteria in a run that targets WCAG 2.1 (a recording made under 2.2, say):
+   * reported, never counted toward the target or the exit code.
+   */
+  beyondTarget?: Finding[] | undefined
   waived: Finding[]
   /** Waivers past their expiry date that matched findings of this run: those findings are reported again. */
   expiredWaivers?: Waiver[] | undefined
@@ -231,7 +289,14 @@ export interface Report {
   baseline?: BaselineComparison | undefined
   discarded: Discarded[]
   criteria: CriterionSummary[]
-  coverage: { engine: string[]; judged: string[]; notChecked: string[] }
+  /**
+   * engine: criteria where an engine rule able to report a failure decided at least one element;
+   * judged: criteria a model judged; notChecked: criteria of the target with neither, and no result to
+   * review (4.1.1 is never listed). criteria: one record per criterion, with its status and methods.
+   */
+  coverage: { engine: string[]; judged: string[]; notChecked: string[]; criteria?: CriterionCoverage[] | undefined }
+  /** What the engine could not decide, for a person to look at; never a failure. */
+  needsReview?: ReviewItem[] | undefined
   usage: Usage
   errors: string[]
   /** What the collector or the rules could not see or decide, in the report's language. */

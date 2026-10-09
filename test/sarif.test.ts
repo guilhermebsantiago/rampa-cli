@@ -84,7 +84,7 @@ describe('SARIF', () => {
     expect(rules[2]).toMatchObject({
       name: 'LinkPurposeInContext',
       shortDescription: { text: 'WCAG 2.4.4 Link Purpose (In Context) (Level A)' },
-      helpUri: 'https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html',
+      helpUri: 'https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html',
       properties: { wcagLevel: 'A' },
     })
     expect(rules[3]?.properties.tags).toContain('wcag-aa')
@@ -158,7 +158,7 @@ describe('SARIF', () => {
     expect(run?.results).toHaveLength(0)
     const note = run?.invocations[0]?.toolExecutionNotifications.find((n) => n.descriptor.id === 'coverage')
     expect(note?.level).toBe('note')
-    expect(note?.message.text).toContain('Not checked automatically: 38 of 50 WCAG 2.1 A/AA criteria')
+    expect(note?.message.text).toContain('Not checked automatically: 43 of 55 WCAG 2.2 A/AA criteria')
     expect(note?.message.text).toContain('This report does not declare the page accessible.')
     expect(run?.properties.coverage).toEqual([
       expect.objectContaining({ target: 'examples/store/after.html', judged: ['1.1.1', '1.3.5', '2.4.2', '2.4.4', '2.4.6', '3.1.1', '3.1.2'] }),
@@ -192,7 +192,7 @@ describe('SARIF', () => {
     expect(rules.map((rule) => [rule.id, rule.helpUri])).toEqual([
       ['region', 'https://dequeuniversity.com/rules/axe/4.14/region'],
       ['heading-order', 'https://dequeuniversity.com/rules/axe/4.14/heading-order'],
-      ['WCAG-2.4.4', 'https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html'],
+      ['WCAG-2.4.4', 'https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html'],
     ])
     expect(log.runs[0]?.results[2]?.message.text).toContain('"\\[Download\\](https://evil.example/x)"')
     expectValid(log)

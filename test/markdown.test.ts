@@ -7,14 +7,14 @@ describe('Markdown report', () => {
   it('opens with the marker a bot finds its comment by, and a summary line', async () => {
     const markdown = renderMarkdown([(await recordedReport()).report])
     expect(markdown.startsWith(`${MARKDOWN_MARKER}\n## Rampa accessibility report\n`)).toBe(true)
-    expect(markdown).toContain('**9 confirmed findings** on 1 page checked against WCAG 2.1 A/AA: 6 at Level A, 3 at Level AA.')
+    expect(markdown).toContain('**9 confirmed findings** on 1 page checked against WCAG 2.2 A/AA: 6 at Level A, 3 at Level AA.')
   })
 
   it('writes a finding as criterion and file:line, message, diff, evidence, confidence and id', async () => {
     const markdown = renderMarkdown([(await recordedReport()).report])
     expect(markdown).toContain(
       [
-        '**[WCAG 2.4.4 (A)](https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html "Link Purpose (In Context)")** — `examples/store/before.html:31`\\',
+        '**[WCAG 2.4.4 (A)](https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html "Link Purpose (In Context)")** — `examples/store/before.html:31`\\',
         'The link text "Click here" does not tell where the link goes, and nothing around it does.',
         '',
         '```diff',
@@ -51,7 +51,7 @@ describe('Markdown report', () => {
     const markdown = renderMarkdown([(await recordedReport()).report])
     const coverage = markdown.indexOf('#### Coverage of this run')
     expect(coverage).toBeGreaterThan(markdown.lastIndexOf('id `'))
-    expect(markdown).toContain('- Not checked automatically: 38 of 50 WCAG 2.1 A/AA criteria')
+    expect(markdown).toContain('- Not checked automatically: 43 of 55 WCAG 2.2 A/AA criteria')
     expect(markdown).toContain('**This report does not declare the page accessible.** What was not checked needs manual review and testing with people.')
     expect(markdown).toContain('<summary>False positive? Waive it</summary>')
     expect(markdown).toContain('"fingerprint": "5f085d8a3b9c"')
@@ -69,9 +69,9 @@ describe('Markdown report', () => {
     const before = (await recordedReport()).report
     const after = (await recordedReport('examples-store-after')).report
     const markdown = renderMarkdown([before, after])
-    expect(markdown).toContain('**9 confirmed findings** on 2 pages checked against WCAG 2.1 A/AA')
+    expect(markdown).toContain('**9 confirmed findings** on 2 pages checked against WCAG 2.2 A/AA')
     expect(markdown).toContain('No confirmed failures in what was checked on 1 more page: `examples/store/after.html`')
-    expect(markdown).toContain('| Page | Checked by axe-core (partial) | Judged with verified evidence | Not checked automatically |')
+    expect(markdown).toContain('| Page | Checked by axe-core (partial) | Judged with verified evidence | Needs review only | Not checked automatically |')
     expect(markdown).toContain('| `examples/store/after.html` |')
   })
 
@@ -85,7 +85,7 @@ describe('Markdown report', () => {
   it('speaks Portuguese with --locale pt-BR', async () => {
     const markdown = renderMarkdown([(await recordedReport('examples-store-before', { locale: 'pt-BR' })).report])
     expect(markdown).toContain('## Relatório de acessibilidade do Rampa')
-    expect(markdown).toContain('**9 achados confirmados** em 1 página verificada contra a WCAG 2.1 A/AA: 6 de nível A, 3 de nível AA.')
+    expect(markdown).toContain('**9 achados confirmados** em 1 página verificada contra a WCAG 2.2 A/AA: 6 de nível A, 3 de nível AA.')
     expect(markdown).toContain('O texto do link "Click here" não diz para onde o link leva, e nada ao redor diz.')
     expect(markdown).toContain('Evidência: "Click here" · confiança alta · 1/1 rodadas')
     expect(markdown).toContain('<summary>mais 4 achados nesta página</summary>')
