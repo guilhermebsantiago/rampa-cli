@@ -124,6 +124,7 @@ The layout probes are within the plan's 2–5 s per page. The main keyboard walk
 
 - `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard']`. Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
 - The `rampa.config` file has no `probe` key yet.
+- Items to review appear in the terminal report, the JSON (`needsReview`) and the Markdown notes; the HTML and SARIF reports list probe findings and the probed criteria, but not the items to review.
 - Captures are not written next to a saved snapshot; only their hashes are recorded.
 - The activate class (clicks, Enter and Space, `--probe interact`) and `--allow-submit` do not exist yet; nothing here clicks or submits.
 - The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing.
