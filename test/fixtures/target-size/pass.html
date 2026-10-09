@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Booking</title>
+<style>
+  body { font: 16px/1.5 system-ui, sans-serif; margin: 2rem; }
+  .tools { display: flex; gap: 12px; }
+  .tools button { width: 16px; height: 16px; padding: 0; margin: 0; border: 0; background: #1f2328; }
+  .dates { display: flex; gap: 0; margin-top: 2rem; }
+  .cards { display: flex; gap: 0; margin-top: 2rem; }
+  .cards .card { display: block; width: 200px; height: 120px; }
+  .cards .more { display: block; width: 14px; height: 14px; font-size: 10px; line-height: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Booking</h1>
+  <!-- 16 px buttons 12 px apart: each 24 px circle stays clear of its neighbors. -->
+  <div class="tools">
+    <button type="button" id="zoom-in" aria-label="Zoom in"></button>
+    <button type="button" id="zoom-out" aria-label="Zoom out"></button>
+    <button type="button" id="reset" aria-label="Reset"></button>
+  </div>
+  <!-- Native date inputs and checkboxes, as the browser draws them: a user agent control. -->
+  <form class="dates">
+    <label for="from">From</label><input type="date" id="from" name="from">
+    <label for="to">To</label><input type="date" id="to" name="to">
+    <input type="checkbox" id="flexible" name="flexible"><input type="checkbox" id="pets" name="pets" aria-label="Pets">
+    <label for="flexible">Flexible dates</label>
+  </form>
+  <!-- Inline links in a sentence are exempt. -->
+  <p>Read the <a href="/terms">terms</a>, the <a href="/privacy">privacy policy</a> and <a href="/faq">questions</a> before you book.</p>
+  <!-- A small link whose destination a 200 × 120 card also reaches: an equivalent target. -->
+  <div class="cards">
+    <a class="card" href="/rooms/12" id="card">Room 12, sea view</a>
+    <a class="more" href="/rooms/12" id="more" aria-label="More about room 12">›</a>
+    <a class="card" href="/rooms/14" id="next-card">Room 14, garden view</a>
+  </div>
+</main>
+</body>
+</html>

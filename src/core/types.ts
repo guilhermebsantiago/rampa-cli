@@ -32,6 +32,8 @@ export interface EngineNode {
   confidence?: Confidence | undefined
   /** The model that located the node in an image, when there was no accessibility tree to read it from. */
   locatedBy?: string | undefined
+  /** WCAG 2.5.8: an exception the page shows for this target; an exempt target is never a failure. */
+  exempt?: 'user-agent-control' | 'equivalent-target' | undefined
 }
 
 export interface EngineRuleResult {

@@ -3,6 +3,7 @@ import { createRequire } from 'node:module'
 import type { EngineOutcome, EngineResults, EngineRuleResult } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
 import type { InPageResult } from '../surfaces/in-page.ts'
+import { applyTargetSizeExceptions } from '../rules/target-size.ts'
 import { DEFAULT_WCAG, type WcagVersion, criterionFromAxeTag } from '../wcag.ts'
 
 const require = createRequire(import.meta.url)
@@ -90,7 +91,7 @@ export function engineFromAxe(axe: NonNullable<InPageResult['axe']>): EngineResu
       })
     }
   }
-  return { engine: { name: 'axe-core', version: axe.version }, rules }
+  return { engine: { name: 'axe-core', version: axe.version }, rules: applyTargetSizeExceptions(rules) }
 }
 
 export function emptyEngine(name = 'none'): EngineResults {
