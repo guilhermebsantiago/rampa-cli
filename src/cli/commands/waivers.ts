@@ -147,6 +147,8 @@ interface Listed {
   status: 'active' | 'expired' | 'invalid' | 'unused'
   /** Days until it expires, for an active waiver with an expiry date. */
   daysLeft?: number | undefined
+  /** Whether the reports have its finding; undefined without reports, or when they did not check its page. */
+  inReports?: boolean | undefined
   problem?: string | undefined
   raw?: unknown
 }
@@ -161,12 +163,13 @@ export function listWaivers(file: WaiverFile, on: string, reports?: readonly Rep
     if (status === 'invalid' || !waiver) return { index, waiver, status: 'invalid' as const, problem: entry.problem ?? 'not a waiver', raw: entry.raw }
     // A waiver for a page the reports did not check may still be needed there.
     const coveredByReports = seen !== undefined && (waiver.target === undefined || checked?.has(waiver.target) === true)
-    const unused = status === 'active' && coveredByReports && !seen?.has(waiver.fingerprint)
+    const inReports = coveredByReports ? seen.has(waiver.fingerprint) : undefined
     return {
       index,
       waiver,
-      status: unused ? ('unused' as const) : status,
+      status: status === 'active' && inReports === false ? ('unused' as const) : status,
       daysLeft: status === 'active' && waiver.expires ? daysBetween(on, waiver.expires) : undefined,
+      inReports,
     }
   })
 }
@@ -208,16 +211,15 @@ function renderListed(item: Listed, p: Painter, withReports: boolean): string {
   if (item.status === 'invalid' || !waiver) {
     return `  ${p.red('✗')} entry ${item.index + 1}  ${p.red('invalid')}: ${item.problem}\n    ${p.dim(JSON.stringify(item.raw))}\n`
   }
+  const use = !withReports ? '' : item.inReports ? ', in use' : ', its page is not in the reports'
   const state =
     item.status === 'expired'
       ? p.yellow(`expired on ${waiver.expires}: no longer applies`)
       : item.status === 'unused'
         ? p.yellow('unused: no finding in the reports has this id')
         : item.daysLeft !== undefined
-          ? `active, ${item.daysLeft === 0 ? 'last day today' : `expires in ${item.daysLeft} day(s)`} (${waiver.expires})`
-          : withReports
-            ? 'active, in use'
-            : 'active'
+          ? `active${use}, ${item.daysLeft === 0 ? 'last day today' : `expires in ${item.daysLeft} day(s)`} (${waiver.expires})`
+          : `active${use}`
   const mark = item.status === 'active' ? p.green('✓') : p.yellow('!')
   const lines = [`  ${mark} ${p.bold(waiver.fingerprint)}  ${state}`]
   lines.push(`    ${waiver.reason ? `Reason: ${waiver.reason}` : p.yellow('no reason given')}`)

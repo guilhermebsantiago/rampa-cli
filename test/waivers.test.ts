@@ -94,8 +94,8 @@ describe('waiver files', () => {
       belowThreshold: [],
       waived: [{ fingerprint: 'aaaaaaaaaaaa' }],
     } as unknown as Report
-    const statuses = listWaivers(file, '2026-10-08', [report]).map((item) => `${item.waiver?.fingerprint} ${item.status}`)
-    expect(statuses).toEqual(['aaaaaaaaaaaa active', 'bbbbbbbbbbbb unused', 'cccccccccccc active', 'dddddddddddd unused'])
+    const statuses = listWaivers(file, '2026-10-08', [report]).map((item) => `${item.waiver?.fingerprint} ${item.status} ${item.inReports}`)
+    expect(statuses).toEqual(['aaaaaaaaaaaa active true', 'bbbbbbbbbbbb unused false', 'cccccccccccc active undefined', 'dddddddddddd unused false'])
     expect(listWaivers(file, '2026-10-08').every((item) => item.status === 'active')).toBe(true)
   })
 })
