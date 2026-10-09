@@ -8,7 +8,7 @@
 [![CI](https://github.com/guilhermebsantiago/rampa-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/guilhermebsantiago/rampa-cli/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-0b7285)](LICENSE)
 ![Node.js 22.12+](https://img.shields.io/badge/node-%E2%89%A5%2022.12-0b7285)
-![WCAG 2.1 AA](https://img.shields.io/badge/WCAG-2.1%20AA-0b7285)
+![WCAG 2.2 AA](https://img.shields.io/badge/WCAG-2.2%20AA-0b7285)
 ![Status: early](https://img.shields.io/badge/status-early-9a6700)
 
 **[Quick start](#quick-start)** · **[Before and after](#before-and-after)** · **[How it works](#how-it-works)** · **[Evaluation](#evaluation)** · **[Roadmap](#roadmap)**
@@ -20,7 +20,7 @@
 
 </div>
 
-**Rampa is an open-source WCAG accessibility checker for the command line.** It runs [axe-core](https://github.com/dequelabs/axe-core), then asks a language model, one WCAG 2.1 success criterion at a time, about what rules cannot decide: whether an image's alt text describes it, a page title names the page, a link says where it goes and matches where it leads, a heading or label describes its content, a form field identifies what it collects, a field's label is visible, and the language attributes match the text. A finding is kept only when the element it cites exists and the text it quotes is in it. It runs on a local model through Ollama or on any major provider, it is measured against the W3C ACT test cases, and it works where you do: in a terminal, in CI with SARIF and pull request comments, inside Playwright tests, and for coding agents over MCP. Site: [rampa.guilhermebs.com.br](https://rampa.guilhermebs.com.br) ([em português](https://rampa.guilhermebs.com.br/pt/)).
+**Rampa is an open-source WCAG accessibility checker for the command line.** It runs [axe-core](https://github.com/dequelabs/axe-core), then asks a language model, one WCAG 2.2 success criterion at a time, about what rules cannot decide: whether an image's alt text describes it, a page title names the page, a link says where it goes and matches where it leads, a heading or label describes its content, a form field identifies what it collects, a field's label is visible, and the language attributes match the text. A finding is kept only when the element it cites exists and the text it quotes is in it. It runs on a local model through Ollama or on any major provider, it is measured against the W3C ACT test cases, and it works where you do: in a terminal, in CI with SARIF and pull request comments, inside Playwright tests, and for coding agents over MCP. Site: [rampa.guilhermebs.com.br](https://rampa.guilhermebs.com.br) ([em português](https://rampa.guilhermebs.com.br/pt/)).
 
 ## Why
 
@@ -67,7 +67,7 @@ Every claim must cite a node and a quote that exist on the page. Claims that do 
 
 ## What it judges
 
-Nine WCAG 2.1 success criteria have a judgment module; eight run by default, and 1.4.5 runs when you ask for it. For each, axe-core keeps the part rules can decide, and the model only sees the rest. [docs/criteria.md](docs/criteria.md) describes each module: its context, verification and limits.
+Nine WCAG success criteria have a judgment module; eight run by default, and 1.4.5 runs when you ask for it. For each, axe-core keeps the part rules can decide, and the model only sees the rest. [docs/criteria.md](docs/criteria.md) describes each module: its context, verification and limits.
 
 | Criterion | axe-core checks | Rampa judges | Example it catches |
 | --- | --- | --- | --- |
@@ -82,6 +82,19 @@ Nine WCAG 2.1 success criteria have a judgment module; eight run by default, and
 | 3.3.2 Labels or Instructions | a field has a name | the name is visible on screen, and an enforced pattern is explained | a field named only by `aria-label` |
 
 Every finding cites the element and its current text, and verification drops any claim whose quote is not on the page. Each module has W3C ACT test cases to measure it against (see [Evaluation](#evaluation)).
+
+### Beyond judgment
+
+Rampa reports against WCAG 2.2 by default (`--wcag 2.1` for the older target), and every report gives each of the 55 A/AA criteria a status: failures, needs review, no failure found, no applicable content, or not checked. Never "passed". Around the judged criteria:
+
+| What | Checks | Guide |
+| --- | --- | --- |
+| Rampa rules (experimental) | Deterministic checks axe-core does not make: placeholder alt text, framework default titles, viewport zoom, the HTTP Refresh header, language switchers, table headers, layout tables, labels that name nothing, ids that hijack a name | [docs/rules.md](docs/rules.md) |
+| WCAG 2.2 | 2.5.8 Target Size (experimental), the 2.2 list and honest coverage: axe-core's "incomplete" results become items to review, never "checked" | [docs/wcag-2-2.md](docs/wcag-2-2.md) |
+| Site criteria (experimental) | With `--crawl` or `--sitemap`: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help, across the pages of a template | [docs/site-criteria.md](docs/site-criteria.md) |
+| Cognitive profile | `--profile cognitive`: advisories from the W3C COGA guidance (input formats that reject how people write, labels that are only a placeholder, pre-ticked paid options, unexplained abbreviations) plus readability measurements. Advisories are never WCAG failures and never change the exit code unless you ask | [docs/cognitive-profile.md](docs/cognitive-profile.md) |
+
+Experimental checks report at low confidence, below the default threshold, until enough of their findings have been reviewed by a person; `--verbose` or `--min-confidence low` shows them. The plans behind this are in [docs/plans](docs/plans).
 
 ## Before and after
 
@@ -161,6 +174,8 @@ rampa check page.html --fail-on AA                  # exit 1 only for Level A an
 rampa check https://example.com --crawl --max-pages 20                # a whole site, shared components once
 rampa check https://example.com --device "iPhone 15" --color-scheme dark
 rampa check page.html --locale pt-BR                # report in Portuguese
+rampa check page.html --wcag 2.1                    # report against WCAG 2.1 instead of 2.2
+rampa check page.html --profile cognitive           # add the cognitive accessibility advisories
 rampa check screen.json                             # a snapshot exported by any platform
 rampa check android:                                # the screen on a connected Android device
 ```
@@ -391,8 +406,12 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - [x] `rampa compare`, to choose a model per criterion
 - [x] [Rampa Lab](https://guilhermebsantiago.github.io/rampa-lab/), a web app to explore evaluation runs in the browser
 - [ ] A false-positive study on real pages
-- [ ] WCAG 2.2, and checks that drive the page: keyboard and focus order, focus visible, reflow, text spacing, content on hover
-- [ ] An opt-in cognitive accessibility profile, from the W3C COGA guidance
+- [x] WCAG 2.2 by default, with a status for every criterion and axe-core's incomplete results kept for review
+- [x] Deterministic Rampa rules, and 2.5.8 target size (experimental)
+- [x] Site criteria over a crawl: 3.2.3 consistent navigation and 3.2.6 consistent help (experimental)
+- [x] An opt-in cognitive accessibility profile from the W3C COGA guidance: first four checks ([plan](docs/plans/cognitive-profile.md))
+- [ ] Checks that drive the page: keyboard reachability and traps, focus visible and not obscured, reflow, text spacing, content on hover ([plan](docs/plans/wcag-coverage.md))
+- [ ] The rest of the WCAG 2.2 waves: frames and shadow roots, the browser's accessibility tree, pixel contrast, zoom, media, error states
 - [x] ChatGPT and Gemini subscriptions through their official CLIs
 
 ## Development
@@ -421,6 +440,6 @@ Use `--locale pt-BR` para o relatório em português. O julgamento roda num mode
 [MIT](LICENSE). Third-party material:
 
 - [axe-core](https://github.com/dequelabs/axe-core) (MPL-2.0) is a dependency, loaded unmodified from `node_modules`.
-- The prompts quote short normative passages of [WCAG 2.1](https://www.w3.org/TR/WCAG21/), Copyright © W3C, used under the [W3C Document License](https://www.w3.org/copyright/document-license/).
+- The prompts quote short normative passages of [WCAG 2.1](https://www.w3.org/TR/WCAG21/) and [WCAG 2.2](https://www.w3.org/TR/WCAG22/), Copyright © W3C, used under the [W3C Document License](https://www.w3.org/copyright/document-license/).
 - The [W3C ACT test cases](https://act-rules.github.io/pages/license/) are downloaded at run time and never redistributed.
 - The illustrations in `examples/` were drawn for this project and are covered by its MIT license.
