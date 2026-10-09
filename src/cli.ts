@@ -8,6 +8,7 @@ import { runEval } from './cli/commands/eval.ts'
 import { runInit } from './cli/commands/init.ts'
 import { runModels } from './cli/commands/models.ts'
 import { runWaive, runWaivers } from './cli/commands/waivers.ts'
+import { withConfigOptions } from './cli/config-options.ts'
 import type { GlobalContext } from './cli/context.ts'
 import { intro, menu } from './cli/intro.ts'
 import { loadConfig } from './config.ts'
@@ -32,6 +33,12 @@ async function context(command: Command): Promise<GlobalContext> {
     motion: globals.motion === false ? false : config.motion,
     config,
   }
+}
+
+/** The context, and the options with the config file's values where the command line left defaults. */
+async function configured<O extends object>(command: Command, options: O): Promise<[O, GlobalContext]> {
+  const ctx = await context(command)
+  return [withConfigOptions(command, options, ctx.config), ctx]
 }
 
 function action<A extends unknown[]>(handler: (...args: A) => Promise<number>) {
@@ -84,7 +91,7 @@ program
   .option('--verbose', 'list discarded claims, low-confidence findings and unchecked criteria')
   .option('--baseline <file>', 'report only the findings this baseline file does not have (rampa baseline writes it)')
   .option('--no-baseline', 'ignore the baseline set in the config')
-  .action(action(async (targets: string[], options, command: Command) => runCheck(targets, options, await context(command))))
+  .action(action(async (targets: string[], options, command: Command) => runCheck(targets, ...(await configured(command, options)))))
 
 const collect = (value: string, previous: string[] = []) => [...previous, value]
 
@@ -134,7 +141,7 @@ program
   .option('--offline', 'use cached judgments only, never call the model')
   .option('--cache-dir <dir>', 'judgment cache directory', '.rampa/cache')
   .option('--concurrency <n>', 'parallel model calls', '4')
-  .action(action(async (targets: string[], options, command: Command) => runBaseline(targets, options, await context(command))))
+  .action(action(async (targets: string[], options, command: Command) => runBaseline(targets, ...(await configured(command, options)))))
 
 program
   .command('eval')

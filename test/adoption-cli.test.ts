@@ -85,6 +85,15 @@ describe('adopting Rampa on a page with known problems', { timeout: 120_000 }, (
     expect(await json(join(dir, '.rampa/waivers.json'))).toEqual([])
   })
 
+  it('takes criteria and the other check options from the config the way rampa init writes it', async () => {
+    const dir = await storeProject()
+    expect(rampa(dir, 'init', '--yes', '--no-detect', '--targets', 'store.snapshot.json', '--criteria', '3.1.2').code).toBe(0)
+    const fromConfig = rampa(dir, 'check', '--no-llm')
+    expect(fromConfig.out).toContain('candidate(s) for 3.1.2 were not judged')
+    const fromFlag = rampa(dir, 'check', '--no-llm', '--criteria', '1.1.1,2.4.4')
+    expect(fromFlag.out).toContain('candidate(s) for 1.1.1, 2.4.4 were not judged')
+  })
+
   it('renews a waiver without losing what it was about', async () => {
     const dir = await storeProject()
     expect(rampa(dir, 'check', 'store.snapshot.json', '--no-llm', '-f', 'json', '-o', 'report.json').code).toBe(1)
