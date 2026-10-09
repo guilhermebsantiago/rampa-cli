@@ -96,6 +96,13 @@ export async function runAgentCheck(target: Target, args: AgentCheckArgs, defaul
   const runs = args.runs ?? 1
   const provider = llm ? await providerFor(args.model ?? defaults.model, defaults) : undefined
 
+  // Android devices, UI Automator dumps and screenshots need the CLI's collectors and their notes; a call checks a page.
+  if (target.kind !== 'web' && target.kind !== 'snapshot') {
+    throw new RampaError(
+      'unsupported-target',
+      `${target.label} is an ${target.kind === 'image' ? 'image' : 'Android'} target, which check_page does not take. Run \`rampa check ${target.label}\` in a terminal, or pass a URL, an .html file or a snapshot .json.`,
+    )
+  }
   control.progress?.(0, undefined, target.kind === 'web' ? `Loading ${target.label} and running axe-core` : `Reading ${target.label}`)
   const { snapshot, engine } =
     target.kind === 'web'
