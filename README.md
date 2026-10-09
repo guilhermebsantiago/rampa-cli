@@ -101,7 +101,7 @@ Every finding cites the element and its current text, and verification drops any
 | — | email field labeled "Field 1" | passes | does not say what to enter | "Email address" |
 | — | the same field without `autocomplete` | passes | does not identify what it collects | `autocomplete="email"` |
 
-<img alt="Output of rampa check examples/store/before.html. axe-core reports the logo without alternative text. The judgment layer reports IMG_2034.jpg as a file name, Ceramic coffee mug on an umbrella as describing something the image does not show, and product as too generic; the page title Untitled document as saying nothing about the page; the link Click here as not telling where it goes; the heading Section 2 as saying nothing about the reviews under it; the label Field 1 as not saying what to enter; and a review marked lang es as Dutch. Each finding has its evidence and a patch, and the coverage summary closes the report." src="docs/media/check-before.png" width="760">
+<img alt="Output of rampa check examples/store/before.html. axe-core reports the logo without alternative text. The judgment layer reports IMG_2034.jpg as a file name, Ceramic coffee mug on an umbrella as describing something the image does not show, and product as too generic; the page title Untitled document as saying nothing about the page; the link Click here as not telling where it goes; the heading Section 2 as saying nothing about the reviews under it; the label Field 1 as not saying what to enter; the same email field as not identifying its purpose with autocomplete; and a review marked lang es as Dutch. Each finding has its evidence and a patch, and the coverage summary closes the report." src="docs/media/check-before.png" width="760">
 
 <img alt="Output of rampa check examples/store/after.html: no confirmed failures in what was checked, followed by the coverage summary." src="docs/media/check-after.png" width="760">
 
@@ -310,18 +310,21 @@ Criteria never read the DOM. They read the snapshot, so the core is the same for
 
 ## Evaluation
 
-`rampa eval` measures, on the same pages, axe-core alone and axe-core with the judgment layer, for every criterion that has W3C ACT test cases:
+`rampa eval` measures, on the same pages, axe-core alone and axe-core with the judgment layer, for every criterion that has W3C ACT test cases, plus corrupted pairs for each judged criterion:
 
-<img alt="Output of rampa eval for six criteria with ollama:gemma4:12b. On every syntax set axe-core has precision and recall 1.00. On the meaning sets axe-core has recall 0.00, and Rampa reaches F1 1.00 on qt1vmo and c4a8a4, 0.91 on cc0f0a, 0.89 on b49b2e and off6ek, 0.80 on 5effbb and 0.67 on ucwvc8. On corrupted pairs, axe-core tells intact and corrupted apart in 0 of 23 pairs, Rampa in 21." src="docs/media/eval.png" width="760">
+<img alt="Output of rampa eval for nine criteria with ollama:gemma4:12b. On every syntax set axe-core has precision and recall 1.00. On the meaning sets axe-core has recall 0.00, and Rampa reaches F1 1.00 on qt1vmo and c4a8a4, 0.92 on 5effbb, 0.91 on cc0f0a, 0.89 on b49b2e and off6ek, 0.75 on 0va7u6, 0.70 on fd3a94 and 0.67 on ucwvc8. On corrupted pairs, axe-core tells intact and corrupted apart in none of 71 pairs, Rampa in 66." src="docs/media/eval.png" width="760">
 
 | Criterion | ACT set | Tests | Cases | axe-core P / R | Rampa P / R / F1 |
 | --- | --- | --- | :---: | :---: | :---: |
 | 1.1.1 | 23a2a8, image has a name | syntax | 18 | 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
 | 1.1.1 | qt1vmo, name describes the image | meaning | 16 | — / 0.00 | 1.00 / 1.00 / 1.00 |
+| 1.3.5 | 73f2c2, autocomplete is valid | syntax | 30 | 1.00 / 1.00 | 0.83 / 1.00 / 0.91 |
+| 1.4.5 | 0va7u6, image contains no text | meaning | 15 | — / 0.00 | 1.00 / 0.60 / 0.75 |
 | 2.4.2 | 2779a5, page has a title | syntax | 12 | 1.00 / 1.00 | 0.50 / 1.00 / 0.67 |
 | 2.4.2 | c4a8a4, title describes the page | meaning | 6 | — / 0.00 | 1.00 / 1.00 / 1.00 |
-| 2.4.4 | c487ae, link has a name | syntax | 28 | 1.00 / 1.00 | 0.92 / 1.00 / 0.96 |
-| 2.4.4 | 5effbb, link in context is descriptive | meaning | 18 | — / 0.00 | 0.67 / 1.00 / 0.80 |
+| 2.4.4 | c487ae, link has a name | syntax | 28 | 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+| 2.4.4 | 5effbb, link in context is descriptive | meaning | 18 | — / 0.00 | 0.86 / 1.00 / 0.92 |
+| 2.4.4 | fd3a94, links with the same name serve the same purpose | meaning | 24 | — / 0.00 | 0.58 / 0.88 / 0.70 |
 | 2.4.6 | b49b2e, heading is descriptive | meaning | 12 | — / 0.00 | 0.80 / 1.00 / 0.89 |
 | 2.4.6 | cc0f0a, field label is descriptive | meaning | 16 | — / 0.00 | 1.00 / 0.83 / 0.91 |
 | 3.1.1 | b5c3f8 and bf051a, page has a valid lang | syntax | 11 | 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
@@ -329,26 +332,30 @@ Criteria never read the DOM. They read the snapshot, so the core is the same for
 | 3.1.2 | de46e4, valid lang on parts | syntax | 19 | 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
 | 3.1.2 | off6ek, lang matches the text | meaning | 13 | — / 0.00 | 0.80 / 1.00 / 0.89 |
 
-Corrupted pairs, a passing page and a copy broken on purpose: axe-core tells **0 of 23** apart, Rampa **21**. By kind: `alt` 2 of 2, title 3 of 3, headings and labels 8 of 9, page `lang` 4 of 4, `lang` on parts 4 of 5. The two misses are intact pages Rampa also fails: a glossary under the heading "A", and a sentence that is English and French at once.
+3.3.2 has no ACT rule of its own; it is measured on pairs only.
 
-Run on 2026-10-08: axe-core 4.14.0, Gemma 4 12B on a local GPU, reasoning off, one run, ACT test cases `a9a1483e`. 142 judgments, none dropped by verification, no API cost. Read the numbers with these caveats:
+Corrupted pairs, a passing page and a copy broken on purpose: axe-core tells **none of 71** apart, Rampa **66**. By kind: `alt` 2 of 2; `autocomplete` removed 8 of 9 and swapped for other data 6 of 7; text pictured as an image 4 of 4; title 3 of 3; link text made generic 10 of 11 and pointed elsewhere 10 of 10; headings and labels 8 of 9; page `lang` 4 of 4; `lang` on parts 4 of 5; labels moved off the screen 7 of 7.
 
-- **The new criteria were tuned on these cases.** The prompts and the context for 2.4.2, 2.4.4 and 2.4.6 were adjusted after reading this run's errors, without copying the test pages into the prompts. They need fresh pages before the numbers mean more than "the pipeline works".
-- **Two low precisions are scoring, not judgment.** 2779a5 only checks that a title exists, and its passing pages are titled "Title of the page." and "This page has a title"; Rampa says those describe nothing, which is right for 2.4.2. On ucwvc8 every passed and failed example is right; the false positives are pages the rule calls inapplicable, four of which axe-core fails for a missing or invalid `lang`.
-- **2.4.4 is the weakest.** Gemma still fails short link texts whose purpose comes from a description or a nested list, such as "Applicability" or "HTML".
-- **Real pages are noisier than test cases.** On this project's own landing page, Gemma flags three short English headings that a person would pass, such as the step name "Collect", and nothing on the Portuguese page. Before the context fixes of 2026-10-08 (text in reading order, sections that end with their element, sibling headings, link landmarks) it flagged eleven elements there.
-- **Small samples, one run.** Read these as a working pipeline, not as a result. Wilson intervals are in each run's `summary.json`.
+Run on 2026-10-09: axe-core 4.14.0, Gemma 4 12B on a local GPU, reasoning off, one run, ACT test cases `a9a1483e`. 271 judgments, 4 dropped by verification, no API cost. Read the numbers with these caveats:
 
-The first run, on 2026-10-07 with only 1.1.1 and 3.1.2, had recall 0.67 on qt1vmo and 0.75 on off6ek. An error analysis showed the misses never reached a model: Rampa did not treat `<canvas>` as an image, and did not count image names from `aria-labelledby` as text. With both fixed, recall is 1.00 on both. On those two criteria, `openai:gpt-6-luna` got the same numbers as Gemma in two runs with fresh calls (about US$ 0.005 per run); the model errors of the two fell on the same sentence, "Paul put dire comment on tape", which is English and French at once.
+- **The prompts were tuned on these cases.** Every criterion added since the first run had its prompt and context adjusted after reading its errors here, without copying the test pages into the prompts. Until fresh pages confirm them, the numbers say "the pipeline works", not more.
+- **Some low precisions are scoring, not judgment.** 2779a5 only checks that a title exists, and its passing pages are titled "Title of the page."; Rampa says those describe nothing, which is right for 2.4.2. On ucwvc8 every passed and failed example is right; the false positives are pages the rule calls inapplicable, four of which axe-core fails for a missing or invalid `lang`. On 73f2c2 the two false positives are `autocomplete=""` on a username field, which is a real 1.3.5 failure that the rule leaves out.
+- **Where Rampa is weak.** fd3a94 asks whether links that share a name lead to equivalent places, and ACT accepts copies of a page and links "ambiguous to everyone" that Rampa reports. On 1.4.5, Gemma reads "WCAG Rocks" as a logo, and Rampa follows the WCAG Understanding document, not the ACT case, on an image of text shown next to the same real text.
+- **Real pages are noisier than test cases.** On this project's own landing page, Gemma flagged three short English headings that a person would pass. A false-positive study on real pages is on the roadmap.
+- **Small samples, one run.** Read these as a working pipeline, not as a result. Wilson intervals are in each run's `summary.json`, and `rampa compare` puts two runs side by side.
+
+The first run, on 2026-10-07 with only 1.1.1 and 3.1.2, had recall 0.67 on qt1vmo and 0.75 on off6ek. An error analysis showed the misses never reached a model: Rampa did not treat `<canvas>` as an image, and did not count image names from `aria-labelledby` as text. On those two criteria, `openai:gpt-6-luna` got the same numbers as Gemma in two runs with fresh calls (about US$ 0.005 per run).
 
 ```sh
 rampa eval --no-llm                 # baseline only
-rampa eval                          # baseline vs judgment, all six criteria
+rampa eval                          # baseline vs judgment, the default criteria
+rampa eval --criteria 1.4.5         # one criterion
 rampa eval --no-verify              # ablation: what verification is worth
 rampa eval --criteria 3.1.2 --runs 5   # variance between runs
+rampa compare .rampa/runs/<a> .rampa/runs/<b>   # two runs, case by case
 ```
 
-The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/) are downloaded at run time and their SHA-256 is recorded with every run. Corrupted pairs follow [López-Gil & Pereira (2025)](https://doi.org/10.1007/s10209-024-01108-z): break a passing case on purpose and check that the verdict flips. An `alt` becomes `img-1`, a `lang` becomes another valid language, the title becomes "Welcome", headings become "Part 1" and labels "Entry 1"; none of those words appear in the prompts. A tool that gives both versions the same verdict is not judging.
+The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/) are downloaded at run time and their SHA-256 is recorded with every run. Corrupted pairs follow [López-Gil & Pereira (2025)](https://doi.org/10.1007/s10209-024-01108-z): break a passing case on purpose and check that the verdict flips. An `alt` becomes `img-1`, a `lang` becomes another valid language, the title becomes "Welcome", headings become "Part 1" and labels "Entry 1", a link says "Check it out"; none of those words appear in the prompts. A tool that gives both versions the same verdict is not judging.
 
 ## Principles
 
