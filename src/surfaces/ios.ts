@@ -191,7 +191,8 @@ export function importXcuitest(data: unknown, options: IosImportOptions): IosImp
 
     let name: string | undefined
     let nameFrom: string | undefined
-    if (label) [name, nameFrom] = [label, 'label']
+    // A label's and a link's accessibilityLabel is their visible text: a fix changes the text, so both stay the same.
+    if (label) [name, nameFrom] = [label, type === 'staticText' || type === 'link' ? 'text' : 'label']
     else if (FIELD_TYPES.has(type) && placeholder) [name, nameFrom] = [placeholder, 'placeholder']
 
     const states: string[] = []

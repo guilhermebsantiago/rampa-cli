@@ -124,6 +124,14 @@ describe('2.4.6 on app screens', () => {
     if (!promo) throw new Error('no promo label')
     expect(promo.context.content).toContain('identifier="promo"')
     expect(headingsAndLabels.patch?.({ ...fail, suggestedText: 'Promo code' }, promo, screen)?.after).toBe('accessibilityLabel = "Promo code"')
+    // A heading drawn by a label: the fix changes what it shows, so VoiceOver keeps reading what people see.
+    const welcome = headingsAndLabels.candidates(screen, none).find((c) => c.context.text === 'Welcome back')
+    if (!welcome) throw new Error('no heading')
+    expect(headingsAndLabels.patch?.({ ...fail, evidence: 'Welcome back', suggestedText: 'Sign in' }, welcome, screen)).toMatchObject({
+      kind: 'set-text',
+      before: 'text = "Welcome back"',
+      after: 'text = "Sign in"',
+    })
   })
 })
 
