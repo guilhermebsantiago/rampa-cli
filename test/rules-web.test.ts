@@ -246,10 +246,12 @@ beforeAll(async () => {
   await new Promise<void>((done) => server?.listen(0, '127.0.0.1', done))
   origin = `http://127.0.0.1:${(server?.address() as AddressInfo).port}`
 })
+// A loaded machine can take a while to close a browser; the default 10 s hook timeout is not enough there.
 afterAll(async () => {
-  await browser?.close()
+  server?.closeAllConnections()
   await new Promise((done) => server?.close(done))
-})
+  await browser?.close()
+}, 60_000)
 
 describe.skipIf(!browser)('rules on real pages', { timeout: 30_000 }, () => {
   const check = async (url: string) => {

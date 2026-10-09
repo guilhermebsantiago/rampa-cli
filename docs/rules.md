@@ -2,7 +2,7 @@
 
 Rampa's rules are deterministic checks over the snapshot, with no model. They sit next to axe-core: axe-core checks syntax across the whole page, and each Rampa rule reports one narrow failure that axe-core does not, where the page's own text or markup gives the failure away. Findings from a rule have `source: "rule"` and a rule id in the `rampa/` namespace.
 
-This is wave A3 of the [WCAG coverage plan](plans/wcag-coverage.md). A rule ships only when its false-positive risk is very low. Anything a rule cannot decide is left to judgment or to a person.
+The content rules are wave A3 of the [WCAG coverage plan](plans/wcag-coverage.md), and the structure rules are wave A4. A rule ships only when its false-positive risk is very low. Anything a rule cannot decide is left to judgment or to a person.
 
 ## Where rules run
 
@@ -55,6 +55,8 @@ When a rule is promoted to `stable`, its findings keep the rule's own confidence
 
 ## The rules
 
+### Content rules
+
 | Rule | WCAG | Reports | Leaves out on purpose | Patch |
 |---|---|---|---|---|
 | `rampa/placeholder-alt` | 1.1.1 (F30) | An image whose text alternative is a file name (`IMG_2034.jpg`, `/assets/hero.webp`), a camera or screenshot file name (`DSC01234`, `PXL_20230812_142233`, `Screenshot 2023-08-12 …`), a placeholder word with an optional number (`image`, `foto 3`, `spacer`, `alt text`), or its own file name when that name has a separator (`hero-banner` for `hero-banner.png`) | `logo`, `icon`, `banner` and single real words such as `team`, which may be all an image needs and stay with judgment; product names such as `RX100` or `Canon EOS R5`; images hidden from assistive technology | none: only a person, or the 1.1.1 judgment, can write the alternative |
@@ -64,6 +66,27 @@ When a rule is promoted to `stable`, its findings keep the rule's own confidence
 | `rampa/refresh-header` | 2.2.1 | A `Refresh` HTTP header that reloads or redirects the page after more than 0 seconds and at most 20 hours, parsed by the HTML declarative refresh steps. axe-core's `meta-refresh` cannot see headers | `Refresh: 0`, an immediate redirect, which is not a time limit; delays over 20 hours, which the 20-hour exception allows; values browsers ignore (`+5`, `; 30`, `0: url`) | none: the fix is on the server (a 301 or 302 redirect, or no refresh) |
 | `rampa/language-switcher-lang` | 3.1.2 | A link, button, tab, option or menu item whose whole text is a language's own name in that language (`Português`, `Deutsch`, `日本語`, `English (United States)`, from CLDR through `Intl.DisplayNames`), when that language is not the page's and nothing in the control declares `lang` | the page's own language; names spelled the same in the page's language (`Italiano` on a Portuguese page); text that only contains a language's name (`Read in English`); a page with no declared language, which axe-core's `html-has-lang` reports; controls hidden from assistive technology | `lang="<code>"` on the control |
 | `rampa/no-visible-label` | 3.3.2 | A field whose name comes only from `aria-label`, `title` or a hidden label, with no visible label, no placeholder, no option shown, no legend, and no visible text, button or picture near it. The candidates are the 3.3.2 module's own, so the rule sees what the model would see | search fields, whose magnifier icon is often drawn in CSS and is not in the snapshot; fields with any visible text or button within the three levels that 3.3.2 looks at; fields next to an image, an `svg` or a CSS background | a visible `<label>` holding the field's current name (inputs only) |
+
+### Structure rules: 1.3.1 and 4.1.2
+
+These rules are wave A4 of the plan. They read structure that the markup states and the browser computes, from facts the collector records on each node's `native`:
+
+| Field | What it holds |
+|---|---|
+| `table` | On each `table` element, and on each element with role `table`, `grid` or `treegrid`: the cells on the HTML table grid. Each cell has its ref, header or not, x, y, colspan and rowspan, `scope`, `headers` ids, `id`, explicit role, and whether it is empty or hidden. The table also records `aria-busy`, its caption and its `summary`. The record stops at 1,000 cells and says when it did. An ARIA table is read from its `row` elements and their cells, `aria-colspan` included. |
+| `labelControl` | On each `label`, the ref of the control it labels (`label.control`), or `null` when it labels nothing. |
+| `presentational` | On an element with `role="presentation"` or `role="none"`: `true` when the browser keeps that role, `false` when focus or a global ARIA attribute makes the browser ignore it. |
+
+A `fieldset` now has the role `group`, named by its `legend`. 2.4.6 reads that name when it compares field labels within a group.
+
+| Rule | WCAG | Reports | Leaves out on purpose | Patch |
+|---|---|---|---|---|
+| `rampa/table-header-cells` | 1.3.1 (ACT d0f69e) | A header cell that heads no cell. It ports the HTML algorithm that assigns header cells to cells: the `headers` attribute when a cell has one; otherwise a scan left along the cell's rows and up its columns, where a block of headers hides the headers beyond it. As in the ACT rule, header cells count as cells, and an empty cell counts. axe-core's `th-has-data-cells` can only pass or return incomplete | empty or hidden header cells, and header cells whose role was changed to `cell`; tables marked presentational. These go to **review** instead of failing: a table that holds only headers, a table marked `aria-busy`, a table with `rowgroup` or `colgroup` scopes, which the port reads as row and column scopes | none |
+| `rampa/presentational-table` | 1.3.1 (F46, F92) | A table with `role="presentation"` or `role="none"`, a role the browser keeps, that still has visible header cells, a caption or a `summary` | a table where focus or a global ARIA attribute makes the browser ignore the role, so it is still a table | none: the fix depends on whether the table holds data (remove the role) or layout (use `td` and no caption) |
+| `rampa/orphan-label` | 1.3.1 (the narrow case of F111) | A visible `<label>` that labels nothing, is referenced by no `aria-labelledby`, and sits in a container with exactly one field and no other label, while the field's name does not contain the label's text. The finding is on the field | labels that wrap their field; labels above a group of fields, such as a date of birth with three selects; fields whose name already says the label's words; fields axe-core already fails for having no name (`label`, `select-name`) | `for="<field id>"` on the label, when the field has an id |
+| `rampa/duplicate-id-reference` | 4.1.2 | An `aria-labelledby`, `aria-describedby` or `label for` that points at an id used by more than one element, when the browser resolves it to the first element but a closer one with the same id is the one beside the reference. This is the repeated-component case, where every card's button gets the first card's title as its name | duplicates whose texts are the same, which a person would hear the same way; a `for` whose nearer element is not a field | none: each id must become unique |
+
+**Experimental axe-core rules.** `td-has-header`, `table-fake-caption` and `p-as-heading` are experimental in axe-core 4.14, so a tag run leaves them out. Rampa enables them in the same axe-core run through `rules`, and reports what they find at low confidence, as needs review only (`AXE_REVIEW_RULES` in `src/engine/axe.ts`).
 
 **2.5.3 Label in Name.** axe-core's `label-content-name-mismatch` compares letters exactly. It fails "E-mail" against the name "Email address", and "Info" against "Information about shipping". Speech input may well match those; whether it does is for a person to try. Rampa moves those failures below the threshold, with the reason added to the message, when either of these holds:
 
@@ -94,15 +117,19 @@ Results on 2026-10-09, with the ACT file whose SHA-256 starts with `a9a1483e`:
 |---|:---:|:---:|:---:|:---:|
 | `meta-viewport` · b4f0c3 | 16 | 1.00 / 0.71 | 1.00 / 1.00 | 1.00 / 1.00 |
 | `refresh-header` · bc659a | 15 | 1.00 / 1.00 | — / 0.00 | 1.00 / 1.00 |
+| `table-header-cells` · d0f69e | 16 | — / 0.00 | 1.00 / 1.00 | 1.00 / 1.00 |
 
 - **b4f0c3.** axe-core misses Failed Examples 3 and 7 of the second version of the rule in the ACT file: `user-scalable=invalid` and `maximum-scale=invalid`. The rule finds both, and flags no passed or inapplicable page.
 - **bc659a.** The test cases are all meta elements, so the header rule never fires on them. What this set measures is that collection survives the two immediate redirects (Passed Examples 1 and 2), which now land on github.com and w3.org and are recorded. A local server in `test/rules-web.test.ts` checks the header itself: a timed header fails, and an immediate one is recorded.
 
-The fixtures in `test/fixtures/rules/` come in three pages:
+- **d0f69e.** axe-core's `th-has-data-cells` never fails a page, so it finds none of the three failed examples. The rule finds all three and flags none of the passed or inapplicable examples.
+- **Other rules' pages.** Every rule also ran on the 73 test pages of ACT a25f45, bc4a75, ff89c9 and 6cfa84, which test other failures. Nothing failed on a passed or inapplicable page. a25f45 Passed Example 6, a table that holds only headers, goes to review, not to failure. The hits on a25f45 Failed Examples 1 and 3 are true d0f69e failures: their `headers` attributes point at ids that do not exist, or at the cell itself.
 
-- `content-fail.html`: one planted failure for each rule, each found exactly once;
-- `content-pass.html`: the same page fixed, with nothing reported;
-- `content-controls.html`: near misses, each of which looks like a failure and is not, with nothing reported.
+The fixtures in `test/fixtures/rules/` come in pairs of three pages:
+
+- `content-fail.html` and `structure-fail.html`: one planted failure for each rule, each found exactly once;
+- `content-pass.html` and `structure-pass.html`: the same page fixed, with nothing reported;
+- `content-controls.html` and `structure-controls.html`: near misses, each of which looks like a failure and is not, with nothing reported. They include the d0f69e passed examples, a table where `role="presentation"` loses to `aria-label`, and an id used twice with the same text.
 
 ## The interface
 

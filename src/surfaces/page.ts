@@ -1,7 +1,7 @@
 import { mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
 import { RampaError, sha256 } from '../core/util.ts'
-import { AXE_TAGS, axeLocale, axeSource, emptyEngine, engineFromAxe } from '../engine/axe.ts'
+import { AXE_REVIEW_RULES, AXE_TAGS, axeLocale, axeSource, emptyEngine, engineFromAxe } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { walkTree } from '../snapshot/tree.ts'
@@ -55,6 +55,7 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
   const raw = await driver.evaluate(collectInPage, {
     runAxe: true,
     axeTags: AXE_TAGS,
+    axeRules: AXE_REVIEW_RULES,
     axeLocale: await axeLocale(options.locale),
     maxNodes,
     axeContext: scope ? { ...(scope.include.length > 0 ? { include: scope.include } : {}), exclude: scope.exclude } : undefined,

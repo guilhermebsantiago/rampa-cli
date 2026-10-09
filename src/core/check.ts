@@ -1,3 +1,4 @@
+import { AXE_REVIEW_RULES } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import { RULE_CHECKS, type RuleCheck, type RuleStageResult, emptyRuleStage, runRuleChecks } from '../rules/index.ts'
@@ -53,6 +54,8 @@ export function engineFindings(engine: EngineResults): Finding[] {
     if (rule.outcome !== 'violation') continue
     const criteria = [...rule.criteria].sort(compareCriteria)
     const criterion = criteria[0] ?? 'best-practice'
+    // An experimental axe-core rule Rampa runs on purpose reports needs review: below the threshold.
+    const review = AXE_REVIEW_RULES.includes(rule.ruleId)
     for (const node of rule.nodes) {
       findings.push({
         fingerprint: fingerprint(criterion, node.ref ?? node.target, rule.ruleId),
@@ -63,7 +66,7 @@ export function engineFindings(engine: EngineResults): Finding[] {
         target: node.target,
         message: node.detail ?? rule.help,
         evidence: node.evidence,
-        confidence: node.confidence ?? 'high',
+        confidence: review ? 'low' : (node.confidence ?? 'high'),
         ruleId: rule.ruleId,
         helpUrl: rule.helpUrl,
         html: node.html,

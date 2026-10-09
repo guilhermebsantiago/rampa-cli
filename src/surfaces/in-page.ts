@@ -51,6 +51,8 @@ export interface InPageResult {
 export interface InPageOptions {
   runAxe: boolean
   axeTags: string[]
+  /** Rules to run besides the tags, such as experimental ones the tags leave out. */
+  axeRules?: string[] | undefined
   axeLocale: unknown
   maxNodes: number
   /** axe-core's own context, to check part of the page: selectors to include and exclude. The whole document when absent. */
@@ -164,6 +166,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
         return 'dialog'
       case 'figure':
         return 'figure'
+      case 'fieldset':
+        return 'group'
       case 'svg':
         return 'graphics-document'
       default:
@@ -203,6 +207,12 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       const labels = (el as HTMLInputElement).labels
       const text = labels ? Array.from(labels).map((label) => collapse(labelText(label, el))).filter(Boolean).join(' ') : ''
       if (text) return text
+    }
+    // A fieldset is a group named by its legend.
+    if (tag === 'fieldset') {
+      const legend = Array.from(el.children).find((child) => child.localName === 'legend')
+      const text = collapse(legend?.textContent)
+      if (text) return text.slice(0, 300)
     }
     if (NAME_FROM_CONTENT.has(tag) || role === 'link' || role === 'button' || role === 'heading') {
       const text = collapse(el.textContent)
@@ -335,7 +345,100 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       const background = backgroundUrl(el)
       if (background) native.backgroundImage = background
     }
+    // Structure facts the rules read: what a label labels, a role the browser keeps or drops, a table's grid.
+    if (tag === 'label') {
+      const control = (el as HTMLLabelElement).control
+      native.labelControl = control ? cssPath(control) : null
+    }
+    const explicit = collapse(el.getAttribute('role')).toLowerCase().split(' ')[0] ?? ''
+    // role="presentation" loses to focus and to global ARIA attributes, and the element keeps its own role.
+    if (explicit === 'presentation' || explicit === 'none') native.presentational = !roleConflict(el)
+    if (tag === 'table' || explicit === 'table' || explicit === 'grid' || explicit === 'treegrid') native.table = tableFacts(el)
     return native
+  }
+
+  const GLOBAL_ARIA = ['aria-atomic', 'aria-busy', 'aria-controls', 'aria-current', 'aria-describedby', 'aria-details', 'aria-disabled', 'aria-dropeffect', 'aria-errormessage', 'aria-flowto', 'aria-grabbed', 'aria-haspopup', 'aria-invalid', 'aria-keyshortcuts', 'aria-label', 'aria-labelledby', 'aria-live', 'aria-owns', 'aria-relevant', 'aria-roledescription']
+  const roleConflict = (el: Element): boolean =>
+    el.hasAttribute('tabindex') || (el instanceof HTMLElement && el.tabIndex >= 0 && ['a', 'button', 'input', 'select', 'textarea'].includes(el.localName)) || GLOBAL_ARIA.some((name) => el.hasAttribute(name))
+
+  const MAX_CELLS = 1000
+  /**
+   * The table's cells on the HTML table grid, with their spans, scope, headers and ids, so a rule can run
+   * the HTML algorithm that assigns header cells to cells. An ARIA table (role table or grid) is read from
+   * its rows and cells, one slot per cell, aria-colspan included.
+   */
+  const tableFacts = (table: Element) => {
+    interface Cell {
+      ref: string
+      header: boolean
+      x: number
+      y: number
+      w: number
+      h: number
+      scope: string
+      headers: string[]
+      id: string
+      role: string
+      empty: boolean
+      hidden: boolean
+    }
+    const cells: Cell[] = []
+    const fact = (cell: Element, header: boolean, x: number, y: number, w: number, h: number, scope: string): Cell => ({
+      ref: cssPath(cell),
+      header,
+      x,
+      y,
+      w,
+      h,
+      scope,
+      headers: collapse(cell.getAttribute('headers')).split(' ').filter(Boolean),
+      id: cell.id,
+      role: collapse(cell.getAttribute('role')).toLowerCase().split(' ')[0] ?? '',
+      empty: collapse(cell.textContent) === '' && !cell.querySelector('img[alt]:not([alt=""]), [aria-label], svg[role="img"], input, select, textarea, button'),
+      hidden:
+        (typeof cell.checkVisibility === 'function' && !cell.checkVisibility({ visibilityProperty: true, checkVisibilityCSS: true } as CheckVisibilityOptions)) ||
+        cell.closest('[aria-hidden="true"]') !== null,
+    })
+    let truncatedCells = false
+    if (table instanceof HTMLTableElement) {
+      const taken = new Set<string>()
+      Array.from(table.rows).forEach((row, y) => {
+        let x = 0
+        for (const cell of Array.from(row.cells)) {
+          while (taken.has(`${x},${y}`)) x++
+          const w = Math.max(1, Math.min(cell.colSpan || 1, 1000))
+          const h = Math.max(1, Math.min(cell.rowSpan || 1, 65534))
+          for (let dx = 0; dx < w; dx++) for (let dy = 0; dy < h; dy++) taken.add(`${x + dx},${y + dy}`)
+          if (cells.length >= MAX_CELLS) truncatedCells = true
+          else cells.push(fact(cell, cell.localName === 'th', x, y, w, h, collapse(cell.getAttribute('scope')).toLowerCase()))
+          x += w
+        }
+      })
+    } else {
+      // Rows of this table, not of a table nested in it.
+      const rows = Array.from(table.querySelectorAll('[role="row"]')).filter(
+        (row) => row.parentElement?.closest('[role="table"], [role="grid"], [role="treegrid"], table') === table,
+      )
+      rows.forEach((row, y) => {
+        let x = 0
+        const own = Array.from(row.querySelectorAll('[role="cell"], [role="gridcell"], [role="columnheader"], [role="rowheader"]')).filter((cell) => cell.closest('[role="row"]') === row)
+        for (const cell of own) {
+          const role = collapse(cell.getAttribute('role')).toLowerCase()
+          const w = Math.max(1, Number.parseInt(cell.getAttribute('aria-colspan') ?? '1', 10) || 1)
+          if (cells.length >= MAX_CELLS) truncatedCells = true
+          else cells.push(fact(cell, role === 'columnheader' || role === 'rowheader', x, y, w, 1, role === 'columnheader' ? 'col' : role === 'rowheader' ? 'row' : ''))
+          x += w
+        }
+      })
+    }
+    return {
+      kind: table instanceof HTMLTableElement ? 'html' : 'aria',
+      busy: table.getAttribute('aria-busy') === 'true',
+      caption: table instanceof HTMLTableElement && table.caption ? collapse(table.caption.textContent).slice(0, 200) : '',
+      summary: collapse(table.getAttribute('summary')).slice(0, 200),
+      cells,
+      truncated: truncatedCells,
+    }
   }
 
   /** The first url() of the element's computed background-image; gradients are not pictures. */
@@ -413,7 +516,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     }
     const axe = (window as unknown as { axe: AxeApi }).axe
     if (options.axeLocale) axe.configure({ locale: options.axeLocale })
-    const raw = await axe.run(options.axeContext ?? document, { runOnly: { type: 'tag', values: options.axeTags } })
+    const extra = options.axeRules && options.axeRules.length > 0 ? { rules: Object.fromEntries(options.axeRules.map((id) => [id, { enabled: true }])) } : {}
+    const raw = await axe.run(options.axeContext ?? document, { runOnly: { type: 'tag', values: options.axeTags }, ...extra })
     const refOfTarget = (target: unknown): string | undefined => {
       if (!Array.isArray(target) || target.length !== 1 || typeof target[0] !== 'string') return undefined
       try {

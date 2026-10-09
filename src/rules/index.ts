@@ -6,12 +6,13 @@ import { indexTree } from '../snapshot/tree.ts'
 import { successCriterion } from '../wcag.ts'
 import { CONTENT_RULES } from './content.ts'
 import { noVisibleLabelRule } from './forms.ts'
+import { STRUCTURE_RULES } from './structure.ts'
 import type { RuleCheck } from './types.ts'
 
 export type { Hit, RuleCheck, RuleContext, RuleRun } from './types.ts'
 
 /** Every Rampa rule, for every surface; each says where it applies. */
-export const RULE_CHECKS: readonly RuleCheck[] = [...CONTENT_RULES, noVisibleLabelRule]
+export const RULE_CHECKS: readonly RuleCheck[] = [...CONTENT_RULES, noVisibleLabelRule, ...STRUCTURE_RULES]
 
 export interface RuleStageResult {
   findings: Finding[]

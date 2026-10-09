@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { type Browser, type Page, type Response, chromium } from 'playwright-core'
 import type { EngineResults } from '../core/types.ts'
 import { RampaError, errorMessage, sha256 } from '../core/util.ts'
-import { AXE_TAGS, axeLocale, axeSource, emptyEngine, engineFromAxe } from '../engine/axe.ts'
+import { AXE_REVIEW_RULES, AXE_TAGS, axeLocale, axeSource, emptyEngine, engineFromAxe } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
@@ -96,6 +96,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       return page.evaluate(collectInPage, {
         runAxe: options.runAxe,
         axeTags: AXE_TAGS,
+        axeRules: AXE_REVIEW_RULES,
         axeLocale: options.runAxe ? await axeLocale(options.locale) : undefined,
         maxNodes: options.maxNodes ?? 5000,
       })

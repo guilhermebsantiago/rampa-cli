@@ -10,6 +10,12 @@ const require = createRequire(import.meta.url)
 /** WCAG 2.0 and 2.1, levels A and AA. */
 export const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']
 
+/**
+ * Experimental axe-core rules for 1.3.1 that a tag run leaves out. They run in the same axe-core run,
+ * and what they report is needs review only: below the threshold, never a failure on its own.
+ */
+export const AXE_REVIEW_RULES = ['td-has-header', 'table-fake-caption', 'p-as-heading']
+
 let source: Promise<string> | undefined
 
 export function axeSource(): Promise<string> {
