@@ -1,0 +1,19 @@
+{
+  "page": "https://mwpt.com.br/acessibilidade-digital/",
+  "labeler": "auditor",
+  "labeledAt": "2026-10-09",
+  "judgments": [
+    {
+      "fingerprint": "d701da097842",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the visible desktop logo (275x52 at 1280px). It is the only content of the header link to the home page; the mobile variant is hidden. It shows the WPT polygon mark and the words 'web para todos'. The alt 'Logotipo SVG Movimento Web para Todos - Construa com a gente uma internet inclusiva' gives the organization's full name, which covers the text in the logo and identifies the home-page link (G91/H30). The link also has aria-describedby 'Voltar para a Home'. The model is right that the tagline does not appear in the image, and 'Logotipo SVG' is noise. Still, 1.1.1 asks for an equivalent purpose, not a literal description, and surplus words that do not mislead are not a failure (this is not F30 filename or placeholder text). An auditor would note it as advisory verbosity at most. The patch 'Movimento Web para Todos' only trims an alt that already passes."
+    },
+    {
+      "fingerprint": "06ab7ea602c3",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The footer sub-item 'Teste de acessibilidade' under 'Transformação' links to /transformacao/. I loaded that page live. Its title is 'Transformação - WPT' and its H1 is 'O seu site é acessível?', followed by 'A gente vai te ajudar a descobrir... encaminharemos gratuitamente uma avaliação básica de acessibilidade da página.' The destination is WPT's free accessibility-check offer, so 'Teste de acessibilidade' describes it accurately. The snapshot's destination H1 and description say the same thing. The model compared the link text only with the generic section title. Its patch, which renames the link to the page title 'Transformação - WPT', would make the link less descriptive. The snapshot shows mojibake in accented text ('Transforma��o'), but that did not cause this error."
+    }
+  ]
+}

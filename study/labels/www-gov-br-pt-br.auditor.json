@@ -1,0 +1,54 @@
+{
+  "page": "https://www.gov.br/pt-br",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "4fbd50c91f66",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the third card in 'Você já conhece os aplicativos móveis...'. The snapshot crop is dimmed by the cookie overlay, but it clearly shows the INSS logo: green and gold arcs around a blue grid globe. That logo is the Meu INSS app icon. The img is the only content of the a.app-toggle-trigger that opens the app's details, so its alt is the link's name. alt='Meu INSS - Central de Serviços' names the app, matching the card's own title span and the App Store and Google Play links. That is the correct text alternative for an app icon used as a control. The claim that the alt describes something the image does not show is wrong. The suggested 'Logotipo do Meu INSS' only rewords an alt that already passes, and it drops the app name a user needs."
+    },
+    {
+      "fingerprint": "57b81ca117f3",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the home page of the federal portal gov.br. Its title 'GOV.BR' is the portal's name, and the h1 'Serviços e Informações do Brasil' and the content are the portal's front door. On a site's home page, the site name identifies the page's subject. Inner pages carry their own topic titles, for example 'Consultar CNPJ' and 'Termo de Uso e Aviso de Privacidade'. A professional audit would not log a home page titled with the site name as a 2.4.2 failure. The suggested title is a nicer wording, not a fix for a failure."
+    },
+    {
+      "fingerprint": "147e906ce8b3",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a category tile under 'Navegue por categoria'. Its name is the visible title 'Agricultura e Pecuária' plus the description on the back of the card. It goes to categorias?id=agricultura-e-pecuaria. I loaded that page live. The generic 'Categorias' template opens on the Agricultura e Pecuária category, with h2 'Agricultura e Pecuária' and h3 'AGRICULTURA E PECUÁRIA' over its subcategories (Apoio e Promoção, Cadastramento e Certificação...). The link text describes the destination exactly, and the id in the href already showed that. A generic <title> on the destination is not a 2.4.4 failure of this link. A longer accessible name is not one either. The patch only shortens text that already passes."
+    },
+    {
+      "fingerprint": "bb048e654aef",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Same pattern as 147e906ce8b3. The tile 'Educação e Pesquisa' plus its description goes to categorias?id=educacao-e-pesquisa. That is the shared 'Categorias' template, which opens on the Educação e Pesquisa category. The link text states the destination's purpose. A generic destination <title> does not make the link fail 2.4.4, and dropping the description only rewords a passing link."
+    },
+    {
+      "fingerprint": "d31cc0467074",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Same pattern as 147e906ce8b3. The tile 'Justiça e Segurança' plus its description goes to categorias?id=justica-e-seguranca. That is the 'Categorias' template, which opens on the Justiça e Segurança category. The link purpose is clear from its text, and the id in the href matches it. The finding mistakes the destination's generic title for a mismatch."
+    },
+    {
+      "fingerprint": "342c5eb9d0d7",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This footer link sits under 'TEMAS EM DESTAQUE', next to 'Serviços para Imigrantes'. Its URL slug is temas/acesso-a-educacao-para-pessoas-com-deficiencia. I loaded it live. The title is 'Serviços para pessoas com deficiência' and the H1 is 'Serviços para pessoas com deficiência'. The page lists services such as visits to public bodies, social support, transport, retirement and benefits, and accessibility support. The link text matches the destination exactly. The snapshot never fetched this destination (it is not in 'destinations'), so the model judged from the stale URL slug alone. The suggested 'Acesso à educação para pessoas com deficiência' would actually mislabel the page."
+    },
+    {
+      "fingerprint": "ad34777c1823",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The link sits in the cookie banner sentence 'Saiba mais em nossa Declaração de Cookies.' and goes to /termos-de-uso, whose title is 'Termo de Uso e Aviso de Privacidade'. I loaded it live. The Aviso de Privacidade includes a section headed '2.2. Declaração de Cookies', with subsections on essential, analytics, third-party and social-media cookies and on browser settings. The link text names exactly what the user finds there. 2.4.4 does not require link text to repeat the destination's page title. The model saw only the title and h1, not that section. Pointing the link at the section anchor would be nicer, but that is not a failure. The suggested 'Termos de Uso e Aviso de Privacidade' would hide the link's real purpose in the cookie context."
+    },
+    {
+      "fingerprint": "7bd64ea058fc",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The h3 'DESTAQUE' sits under h2 'Serviços para você', next to its sibling h3 'MAIS ACESSADOS'. Beneath it are the featured services: Tela Brasil, Entregar Meu Imposto de Renda, Renegociação de Dívidas, Celular Seguro and Bolsa Família. In that hierarchy 'Destaque' (Featured) describes the section's purpose. The Understanding document for 2.4.6 says headings need not be lengthy, and a word can suffice when it gives an appropriate cue. The suggested 'Serviços em Destaque' only rewords a heading that already passes."
+    }
+  ]
+}

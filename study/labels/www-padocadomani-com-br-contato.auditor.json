@@ -1,0 +1,49 @@
+{
+  "page": "https://www.padocadomani.com.br/contato/",
+  "labeler": "auditor",
+  "labeledAt": "2026-10-09",
+  "judgments": [
+    {
+      "fingerprint": "c331c8eae740",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The contact form's 'nome completo' input collects the user's own full name (Input Purpose 'name'). The snapshot and the live HTML show no autocomplete attribute and nothing else that identifies the purpose programmatically. That fails 1.3.5, and the fix autocomplete=\"name\" is correct (technique H98)."
+    },
+    {
+      "fingerprint": "9e1ca29695b0",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The required 'e-mail' input collects the user's own email address (Input Purpose 'email'). The live HTML has no autocomplete attribute. type=\"email\" only sets the data format and is not the sufficient technique for 1.3.5, so an auditor logs it as a failure; autocomplete=\"email\" fixes it."
+    },
+    {
+      "fingerprint": "b52e8e266f72",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This footer menu link 'eventos' opens casamanioca.com.br/orcamento/, which I loaded live. The page title is 'Orçamento de evento - Casa Manioca' and its H1 is 'orçamento de evento', a quote-request form for events. The link text describes the destination accurately. The model treated the '/orcamento/' path as a mismatch with 'eventos' when it is the events booking page. The suggested 'Solicitar orçamento' only rewords text that already passes."
+    },
+    {
+      "fingerprint": "0b9261bc02c1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "In the 'padoca joaquim antunes' store section, the H3 'delivery' sits between 'nossos horários' and 'formas de pagamento', directly above the delivery hours (segunda a sexta: 8h às 18h30, etc.). It describes its section exactly, and 'delivery' is the site's own nav term for this service. The patch is only a Portuguese rewording."
+    },
+    {
+      "fingerprint": "695b23cf536b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "In the Iguatemi store section, the H3 'importante' introduces the notice 'não aceitamos reservas; serviço de valet do Shopping Iguatemi'. It signals the purpose of the block, an important notice, among parallel headings (endereço, salão, delivery, contato). 2.4.6 asks that headings describe topic or purpose, not that they summarize the content. 'Informações importantes' is a reword with the same meaning."
+    },
+    {
+      "fingerprint": "36126811a32f",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Same pattern in the 'padoca da mata' section: the H3 'importante' introduces the notice 'não aceitamos reservas; não temos valet'. As a label for a short important notice it describes its purpose well enough. The patch only rewords it to 'Informações importantes'."
+    },
+    {
+      "fingerprint": "580e75b8ecae",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Under the H2 'fale com a nossa assessoria' (contact the press office), the H3 'janaina fidalgo' names the press contact and is followed only by her email janaina@estudiosilo.com.br. The heading accurately identifies whom the content under it is about. Replacing it with 'Contato' would lose information rather than fix a failure."
+    }
+  ]
+}

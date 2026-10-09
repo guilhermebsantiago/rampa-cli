@@ -1,0 +1,30 @@
+{
+  "page": "https://www.barebones.com/contact/technical.html",
+  "reviewer": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "1b7c71701730",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "#realname is the visible 'Name *' field of a support form that asks for the user's own name. Its markup (<input type=\"text\" id=\"realname\" name=\"realname\" required>) has no autocomplete attribute, so its purpose is not programmatically identified. autocomplete=\"name\" is the matching input purpose from the WCAG list. This fails 1.3.5."
+    },
+    {
+      "fingerprint": "c8a04dec1927",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "#website is a spam honeypot, not a field that collects information about the user. Its label and the input sit at x/y -9999 (snapshot state 'offscreen'), it has tabindex=-1 and autocomplete=off, and it does not appear in the screenshot. 1.3.5 only covers inputs that collect information about the user, and people are meant to leave this one empty. The suggested autocomplete=\"url\" would make browsers fill the trap and get real users flagged as spam."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "#email asks for the user's own email address: the helper text says 'otherwise, we will not be able to respond to you'. It has type=\"email\" but no autocomplete attribute. Under 1.3.5, type=email only sets the input format. It does not say the address belongs to the user, which is what autocomplete=\"email\" does. Leaving autocomplete out fails 1.3.5."
+    },
+    {
+      "fingerprint": "4b7d4cf36cf1",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "#website is a hidden honeypot (offscreen at -9999, tabindex=-1, autocomplete=off, not shown in the screenshot). 3.3.2 applies when content requires user input, and this field is meant to stay empty. It already has a programmatic label, <label for=\"website\">Website *</label>, hidden offscreen together with the input, so the suggested patch adds a duplicate of a label that already exists. Exposing a honeypot to screen readers can be an accessibility problem, but it is not a missing label or instructions under 3.3.2."
+    }
+  ]
+}

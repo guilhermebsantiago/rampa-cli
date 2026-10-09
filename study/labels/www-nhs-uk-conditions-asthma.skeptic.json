@@ -1,0 +1,30 @@
+{
+  "page": "https://www.nhs.uk/conditions/asthma/",
+  "reviewer": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "3337bf4de43b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "2.4.4 allows link purpose to be determined from programmatically determined context. The link is in an li whose text is 'Website: www.asthmaandlung.org.uk', under the h3 'Asthma and Lung UK' and the description 'Information and support for anyone affected by lung conditions including asthma.' The domain also names the organisation, and the link goes to that organisation's homepage. In context the purpose (the Asthma and Lung UK website) is clear. The patch only rewords it."
+    },
+    {
+      "fingerprint": "730e790c092a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The input is the site search box (name=q, placeholder 'Search', combobox with search suggestions) in the NHS header. The label 'Search the NHS website' describes exactly what the field is for. The suggested 'Search for information on the NHS website' is a reword of a label that already passes 2.4.6."
+    },
+    {
+      "fingerprint": "e7615aab728f",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This h3 is nested under the h2 'Things you can do to help with asthma', after the intro 'there are things you can do to help prevent symptoms'. It is the standard NHS do/don't list component, so 'Do' labels the list of recommended actions that follows it ('always have your inhaler with you', etc.). Read in the heading hierarchy it describes its topic. 2.4.6 does not require headings to be self-contained or verbose, so the patch only rewords it."
+    },
+    {
+      "fingerprint": "c1c48ec8d037",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the paired 'Don't' h3 under the h2 'Things you can do to help with asthma'. The items under it ('do not smoke', 'do not take medicines ... without checking') are exactly the things not to do, so the heading describes its topic within the hierarchy. 'Things to avoid' is only a reword of a heading that already passes 2.4.6."
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "page": "https://webaim.org/techniques/alttext/",
+  "reviewer": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "5722c411fd0b",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The image is a photo of Ellen Ochoa in an orange NASA suit. It is the opening example of an alt-text tutorial. The text right before it says 'Consider this image of Ellen Ochoa:', and the Note right after it (#context > div:nth-of-type(1) > p) says 'most images within this article have been given alt=\"example image\". However, the content of the images is typically presented within page context.' Later text adds 'Her mode of dress further conveys that she is an astronaut.' So the placeholder alt is deliberate and documented, and the surrounding text gives the content. Also, the claim that 'example image' describes something the image does not show is false: it is accurate as far as it goes."
+    },
+    {
+      "fingerprint": "a0c36aab1332",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the Example 1 exercise image, and the page asks 'What would you choose as alt text for the image in Example 1?' Then it gives the answer: alt=\"Astronaut Ellen Ochoa\". 1.1.1's test/exercise provision covers this case. If the image had the full text alternative, the answer would be given away, so a text alternative that only identifies the image is enough. The page documents that 'example image' is used for this reason, and the body text describes the content (Ellen Ochoa, dressed as an astronaut). The patch is in fact the answer to the exercise."
+    },
+    {
+      "fingerprint": "3f4555d2f7a1",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the Example 3 exercise ('Note that this image is linked (and is the only content within that link). What alt text would you choose here?'). The same documented placeholder convention and test/exercise provision apply, and 'Ellen Ochoa, Astronaut' follows right after the link. However, unlike the other examples, the image is the only content of a live link to en.wikipedia.org/wiki/Ellen_Ochoa. Its accessible name, 'example image', conveys none of the link's function, for example to a user navigating by links. The exercise framing may not fully excuse that. The stated reason ('describes something the image does not show') is wrong either way, and the patch describes appearance rather than function."
+    },
+    {
+      "fingerprint": "0e20bccf5734",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the improved version of Example 3. The link wraps both the image and the text <strong>Ellen Ochoa, Astronaut</strong>, so the link text already conveys the function and the content (who is pictured). The page says that in this case the image should be alt=\"\" to avoid redundancy. The placeholder follows the article's documented 'example image' convention for demo images. The patch would add the redundant description the page warns against, so it does not fix a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "f85d9239c278",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the Example 4 exercise image (a 32px Adobe PDF icon), which the page asks about: 'What alt text would you choose for the icon image in Example 4?' The link's function comes from its text, 'Download the employment application', and the link actually goes to a placeholder HTML page. The icon's content ('PDF') is the exercise answer, and the body text discusses it. The documented placeholder alt and the test/exercise provision apply. The patch, 'PDF icon', is an option the page itself says is not the most appropriate."
+    },
+    {
+      "fingerprint": "1f4252673b1d",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "On a normal page the separator would be decorative, but here it is the subject of Example 5 ('What alt text would you choose for the horizontal separator image in Example 5?'). In this tutorial the image is discussed content, not decoration. Giving it alt=\"\" would hide the image the exercise text refers to from screen reader users. The non-empty placeholder identifies it as the example, as the article's Note documents."
+    },
+    {
+      "fingerprint": "1f128dfeedcf",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the handshake photo in Example 6, an alt-text exercise. The page asks 'What would be the appropriate alt attribute for the image in Example 6?', and the options and discussion describe it in text ('Handshake', 'Businessmen shake hands to complete a contract'). The placeholder is the article's documented convention under the test/exercise provision. The patch is almost exactly one of the answers the page explicitly calls superfluous."
+    },
+    {
+      "fingerprint": "5aeb06a257d2",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the Example 7 exercise image, Leutze's 'Washington Crossing the Delaware'. The body text says 'In this painting, the artist Emanuel Leutze used light, color, form...', and the answer options describe it ('Painting of George Washington crossing the Delaware River', plus a detailed version). The placeholder follows the documented 'example image' convention, and putting the answer in the alt would defeat the exercise. The patch is also inaccurate: it says 'figures appearing to be in distress or being rescued' and 'frozen river'."
+    },
+    {
+      "fingerprint": "bad24c81b056",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "2.4.4 allows the purpose of a link to come from its context. The sentence is 'This article is focused on images, but its principles also apply to multimedia and other non-text content.' The link goes to WebAIM's 'Accessible Images' article (/techniques/images). In a WebAIM techniques article, a link on 'images' clearly leads to WebAIM's material on images, which matches the destination. The patch only rewords it."
+    },
+    {
+      "fingerprint": "e649c021424c",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link sits in 'You would then use CSS to position the \"(PDF)\" text (the span class=\"pdficon\" element) off-screen.' The destination is 'CSS in Action - Invisible Content Just for Screen Reader Users', the technique for positioning text off-screen. The link text together with its sentence says what the link is for (how to position content off-screen). 2.4.4 is met in context."
+    },
+    {
+      "fingerprint": "365dacdec064",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link is the code-formatted term <figure> in the sentence 'The <figure> element, designed to contain an <img> and a <figcaption>, is self-contained...'. It goes to Scott O'Hara's article on the figure element ('How do you figure?'). With its sentence, the link clearly leads to more information about the <figure> element, which is what the destination is. 2.4.4 does not require naming the site or the article title. The patch only rewords the link."
+    },
+    {
+      "fingerprint": "30a3cb2815a4",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Introduction' is the first h2 under the h1 'Alternative Text' and heads the article's introductory section, which defines alt text and its functions. A heading that names the section's role in the article describes its purpose, as 2.4.6 requires (topic or purpose). The patch is only a reword."
+    },
+    {
+      "fingerprint": "e452dbb729d6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The section under 'Context is Everything' is about how the same image needs different alt text depending on its context ('This image may need vastly different alternative text depending on how it is used'). Under the h1 'Alternative Text', the heading states the section's thesis exactly. 'Context in Alternative Text' says the same thing in different words."
+    },
+    {
+      "fingerprint": "6f0eee35ef1b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Example 1' is an h3 under the h2 'Context is Everything' and heads a numbered worked exercise. The page refers to its exercises by these numbers ('the image in Example 1', 'Example 4 above'), so the heading describes its purpose within the heading hierarchy. 2.4.6 does not require each heading to be self-contained. The patch would also partly give away the exercise."
+    },
+    {
+      "fingerprint": "6c37dd554f66",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Example 2' is the second numbered exercise h3 under 'Context is Everything', and the text refers to it by that name ('the image in Example 2'). In the hierarchy it describes its purpose. The patch, 'Alt text for Ellen Ochoa image', would be identical to the patch proposed for Example 1, which makes the headings less distinguishable."
+    },
+    {
+      "fingerprint": "79220212e281",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Example 3' is the first numbered exercise h3 under the h2 'Functional Images'. The parent heading gives the topic (functional images), and the number identifies the exercise the text refers to. 2.4.6 is met within the heading hierarchy, and the patch only rewords."
+    },
+    {
+      "fingerprint": "a72de6ac1282",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Example 4' is an exercise h3 under 'Functional Images', and later text refers to it by that name ('If the PDF icon image in Example 4 above...'). It describes its purpose in the hierarchy. Adding 'Icon Alt Text' is a reword and would hint at the answer."
+    },
+    {
+      "fingerprint": "401013e3db1a",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Example 5' is an exercise h3 under the h2 'Decorative Images'. The parent heading supplies the topic, and the numbered label identifies the exercise. The patch, 'Decorative Images Example 5', only repeats the parent heading, which shows the topic was already clear."
+    },
+    {
+      "fingerprint": "13c96542a208",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Example 6' is an exercise h3 under 'Decorative Images'. Within the hierarchy, the heading says what the block is: the sixth worked example of choosing alt text. The patch, 'Example 6: Decorative Images', only appends the parent heading's text."
+    },
+    {
+      "fingerprint": "68adc76224bd",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Example 7' is an h4 exercise under the h3 'Complex images' (within 'Advanced Images'). It is the numbered example of a complex image, and the hierarchy conveys that. The patch would put the exercise's answer ('George Washington crossing the Delaware River') in the heading. 2.4.6 does not require that."
+    },
+    {
+      "fingerprint": "54fdf6095e87",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The only content between this h2 and the next h2 ('Check Your Accessibility') is WebAIM's contact block: 'Utah State University 6807 Old Main Hill Logan, UT 84322-6807 435.797.7024'. The heading names WebAIM, the organization whose address follows, so it does not name a different topic. The proposed 'Copyright Information' would mislabel an address block."
+    }
+  ]
+}

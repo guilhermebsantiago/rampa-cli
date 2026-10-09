@@ -1,0 +1,30 @@
+{
+  "page": "https://www.nhs.uk/conditions/asthma/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "3337bf4de43b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "2.4.4 allows purpose from link text plus programmatically determined context. The link sits in an li that reads 'Website: www.asthmaandlung.org.uk', under h3 'Asthma and Lung UK' and its description paragraph (H80/G53). It goes to that charity's home page, and the domain names the destination. An auditor would not log a meaningful home-page URL labelled 'Website:' as a 2.4.4 failure. The patch only rewords it."
+    },
+    {
+      "fingerprint": "730e790c092a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The site search combobox (name=q) has the label 'Search the NHS website', which accurately describes what the field takes and does. The claim that it 'names different data than the field asks for' is wrong. The suggested label is a near-synonym with no conformance gain."
+    },
+    {
+      "fingerprint": "e7615aab728f",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The h3 'Do' is the standard NHS do/don't list label, nested under h2 'Things you can do to help with asthma'. In that context it describes its content (things to do). 2.4.6 does not require long headings, and the Understanding doc says a short heading is fine if it describes the section. No auditor would fail this. The patch only rewords it."
+    },
+    {
+      "fingerprint": "c1c48ec8d037",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The h3 'Don't' pairs with 'Do' under h2 'Things you can do to help with asthma' and introduces a list of 'do not ...' items, so in context it describes its content accurately. That meets 2.4.6. The suggested 'Things to avoid' only rewords it."
+    }
+  ]
+}

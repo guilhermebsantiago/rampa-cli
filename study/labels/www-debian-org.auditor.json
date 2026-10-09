@@ -1,0 +1,60 @@
+{
+  "page": "https://www.debian.org/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "312d1f31a1e0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image (Pics/calamares-installer.png, a carousel slide under h3 'Screenshot Calamares Installer') is a screenshot of the Calamares-based 'Debian GNU/Linux Installer' window. Its sidebar shows Welcome, Location, Keyboard, Partitions, Users, Summary, Install and Finish, and the Location step is open. alt='Screenshot from the Calamares installer' is accurate and fits the image's purpose. The claim that it describes something the image does not show is false. The suggested alt only adds incidental detail (the Johannesburg pin), which 1.1.1 does not require."
+    },
+    {
+      "fingerprint": "3bfde5d347e0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Blog' is the first item of the top navigation list (Blog, Micronews, Planet, Wiki). It goes to https://bits.debian.org/, 'Bits from Debian', which is the official Debian blog (the link's title says so too). The link text accurately names the destination, so the claim that it does not match is wrong. The patch only rewords it."
+    },
+    {
+      "fingerprint": "3b635bc730f9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link text is only 'More...'. It is the whole content of an h2, so the heading containing it adds nothing, and the nearest preceding heading is 'Get Involved, Contribute'. The description 'Additional information about the Debian community' is in a sibling <p>, not in the same sentence, paragraph, list item or table cell, and nothing ties it to the link (no aria-describedby or aria-label). A second, identical 'More...' link on the page goes to a different destination (intro/index#software). Strict 2.4.4 practice (F63, WebAIM checklist) logs this. Only the distant h1 'The Community' argues for a pass. The fix is right."
+    },
+    {
+      "fingerprint": "d9f8b65504aa",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The 'Download' button sits under h1 'The Operating System' and h2 'Debian is a complete Free Operating System!', in a container next to the logo img alt='Debian'. The preceding heading (H80) makes its purpose clear: download Debian. It is the only plain 'Download' link on the page, and it does go straight to the current Debian installer image. 2.4.4 does not require the version or file format in the link text. 'Nothing around it does' is wrong, and the patch only adds detail."
+    },
+    {
+      "fingerprint": "bb2a7dab9bed",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the same pattern as the community column. The link text 'More...' is the whole content of its h2, and the nearest preceding heading is 'Security Updates'. 'Further links to downloads and software' is in a separate sibling <p> that is not tied to the link. The link shares the text 'More...' with another link that goes to a different destination (intro/index#community). The purpose cannot be determined from the link text plus programmatically determined context, so a strict audit logs it under 2.4.4."
+    },
+    {
+      "fingerprint": "950e8b592464",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "In context the link reads 'How to set the default document language' ('How to set' is in the same #langSelector text block, right under the language selector). It goes to ./intro/cn, 'Debian Website in different Languages'. That page explains content negotiation: how to set the browser's language preference and override it with a cookie. That is exactly what the link text plus its context promises. A link does not have to repeat the destination's title, so the mismatch claim is wrong."
+    },
+    {
+      "fingerprint": "3c1d13733839",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The enclosing sentence in #fineprint is 'Web site source code is available.' The link 'available' goes to the webwml repository on salsa.debian.org, which holds the website source. The link text plus its sentence (G53, same paragraph) makes the purpose clear, so 2.4.4 is met. The claim that nothing around it helps is wrong, and the patch only rewords it."
+    },
+    {
+      "fingerprint": "908874656723",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "h2 'More...' heads a block whose only content is the link and 'Additional information about the Debian community'. 'More...' names neither a topic nor a purpose. A heading list shows two identical 'More...' h2s, at the same level as 'People', 'Our Philosophy' and the others. This is not a short heading that works in context (like 'Do' under a specific parent). It is a generic word that is insufficiently clear under 2.4.6. A professional audit would log it. The proposed heading fixes it."
+    },
+    {
+      "fingerprint": "a36b4febb5d9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the same as the community column. h2 'More...' heads the block 'Further links to downloads and software', and the page has a second, identical 'More...' h2. The heading does not describe the topic or purpose of its content, so it is insufficiently clear for heading navigation and fails 2.4.6. A descriptive heading such as 'More downloads and software' is the right fix."
+    }
+  ]
+}

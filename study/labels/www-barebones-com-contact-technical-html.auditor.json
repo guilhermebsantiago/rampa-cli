@@ -1,0 +1,30 @@
+{
+  "page": "https://www.barebones.com/contact/technical.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "1b7c71701730",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "#realname is the visible, required 'Name *' field of a support form; it collects the user's own name (an Input Purposes entry, 'name') and has no autocomplete attribute (confirmed in snapshot and live HTML). Missing autocomplete on a user-information field is a standard 1.3.5 failure (technique H98 not met)."
+    },
+    {
+      "fingerprint": "c8a04dec1927",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "#website is a spam honeypot, not a field for the user: its row is styled position:absolute;left:-9999px;top:-9999px;height:0;width:0;overflow:hidden (site CSS 'form .row.website'), the input has tabindex=-1 and autocomplete=off, and it is not required. It is not meant to collect information about the user, so 1.3.5 does not apply. The suggested autocomplete=url would invite autofill and break the trap. The snapshot showed the offscreen state and tabindex=-1, so the model had what it needed and misread the element."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "#email is the visible, required 'Email Address *' field and collects the user's own email (Input Purposes 'email'). It has type=email but no autocomplete attribute (confirmed live). type=email does not identify the purpose per H98, and auditors routinely log missing autocomplete=email as a 1.3.5 failure."
+    },
+    {
+      "fingerprint": "4b7d4cf36cf1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The same honeypot #website is deliberately hidden offscreen and removed from the tab order; it does not ask sighted users for input, so 3.3.2 (labels or instructions when content requires user input) does not apply. It also has a programmatic label <label for=website>. The suggested visible label would expose the trap and cause real users to fill it. A real concern does exist (the honeypot stays in the accessibility tree as 'Website *', so screen reader users may reach it), but it is a different issue with the opposite fix (hide it from AT or label it 'leave blank'), not the missing visible label claimed here."
+    }
+  ]
+}

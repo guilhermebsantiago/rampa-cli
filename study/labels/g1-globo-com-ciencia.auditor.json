@@ -1,0 +1,18 @@
+{
+  "page": "https://g1.globo.com/ciencia/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "fa7cd4419fca",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "This is the video thumbnail link (a.feed-post-figure-link). Besides the '1 min' duration it holds an img with alt=\"Lago na Turquia tem minerais iguais aos de antigo lago em Marte - Programa: G1 Ciência e Saúde \". That img is not aria-hidden and has no presentation role, and the snapshot records the alt on the img node. In the live page, Edge's accessibility tree (CDP getPartialAXTree) computes the link's name from its contents as 'Lago na Turquia tem minerais iguais aos de antigo lago em Marte - Programa: G1 Ciência e Saúde 1 min'. That name alone describes the destination, a video page titled 'Vídeo: Lago na Turquia tem minerais iguais aos de antigo lago em Marte'. The snapshot recorded the name as '1 min' because the collector's accessibleName() in src/surfaces/in-page.ts uses el.textContent for links and leaves out img alt text inside the link. The model judged that wrong name. On top of that, the h2 link with the same headline and the same href comes just before it in the same feed-post. The suggested patch would also drop the image and replace the current name with a weaker one. Not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "65776a87bebb",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Same pattern as fa7cd4419fca. The thumbnail link holds an img with alt=\"Qual é o limite para a autonomia num cenário de demência ou fim de vida? - Programa: Bom Dia Cidade – Ribeirão Preto \" (not hidden), plus the '3 min' duration. On the live page Edge computes the link's name as 'Qual é o limite para a autonomia num cenário de demência ou fim de vida? - Programa: Bom Dia Cidade – Ribeirão Preto 3 min'. That matches the destination's title and h1, 'Qual é o limite para a autonomia num cenário de demência ou fim de vida?'. The snapshot recorded '3 min' only because the collector's name function uses textContent and ignores img alt. The h2 headline link to the same URL is also in the same feed-post container. The link purpose is clear from the link text itself, so the suggested rewrite is unnecessary. (One small inaccuracy: the patch calls it '3 min de leitura', but the item is a video.) Not a 2.4.4 failure."
+    }
+  ]
+}

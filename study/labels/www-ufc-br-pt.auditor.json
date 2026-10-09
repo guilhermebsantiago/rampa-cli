@@ -1,0 +1,144 @@
+{
+  "page": "https://www.ufc.br/pt",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "c0ee65426d95",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The real file slideshow-portal-eu2026-preto.png is the Encontros Universitários 2026 logo (UFC crest, 'ENCONTROS UNIVERSITÁRIOS 2026') next to 'UNIVERSIDADE PELA VIDA DE TODAS AS MULHERES', so the alt is accurate. The snapshot's image for this ref is a viewport crop of the carousel at capture time and shows slide 1 (teacher, laptop, students) instead. The patch describes that wrong slide and would make the alt incorrect."
+    },
+    {
+      "fingerprint": "aa64e1145705",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "slideshow-260910-premiocatedra.png really does show a laptop on a black table, with code and a glowing AI brain graphic on screen, so the alt is accurate. The crop sent to the judge was slide 1 of the carousel (all three slide refs got the same 1280x500 crop), and the patch ('Professor apresentando conteúdo...') describes that wrong image."
+    },
+    {
+      "fingerprint": "e1485b5008bf",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "slideshow-guiacontraassedio.png really is a hand holding a phone whose screen shows the purple cover 'UFC sem assédio e discriminação', so the alt is accurate. The judge saw slide 1's crop instead of this hidden slide, and the patch describes that other photo."
+    },
+    {
+      "fingerprint": "62b85d546344",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This image is the only content of a link to the Pró-Reitoria de Assistência Estudantil and shows a mortarboard over an open hand (the student-assistance pictogram). Alt 'ÍCONE - Assistência Estudantil' gives the link's purpose, which is what 1.1.1 asks of a functional image. The 'ÍCONE -' prefix is verbose but is not a failure. The claim that the image does not show this is wrong, and the patch only drops the prefix."
+    },
+    {
+      "fingerprint": "d9a797de727b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is a calendar pictogram and the only content of a link to the 2026 university calendar. Alt 'ÍCONE - Calendário Universitário' names the link's purpose. The patch alt=\"decorative\" is harmful: the link would be announced as 'decorative'."
+    },
+    {
+      "fingerprint": "1a74cbdb9b6e",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is a bus pictogram linking to the UFC bus itineraries, so alt 'ÍCONE - Ônibus da UFC' matches both the picture and the link's purpose. The patch only removes the 'ÍCONE -' prefix."
+    },
+    {
+      "fingerprint": "44cd8ccd7619",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is a plate-and-cutlery pictogram and the only content of a link to the Restaurante Universitário page, so the alt states the link's purpose. Replacing it with alt=\"decorative\" would make the link name meaningless."
+    },
+    {
+      "fingerprint": "0832a0f3fc9a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the Sistema de Bibliotecas logo mark (a stylised 'B') in a link to biblioteca.ufc.br. Alt 'ÍCONE - Sistema de Bibliotecas' identifies the destination. The patch 'Logo do Sistema de Bibliotecas' is a rewording with no conformance gain."
+    },
+    {
+      "fingerprint": "fdc19437c8a7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The icon is a telephone handset with an '@' sign, so 'ícone representativo de telefone e e-mail' describes exactly what it shows. It links to the PROGEP 'endereços e telefones' contact page, which the alt conveys well enough, and the same destination's visible link 'Atendimento ao Servidor' follows it. The 'does not show' claim is false, and 'Contato' is only a rewording."
+    },
+    {
+      "fingerprint": "2d4d0c2d965f",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The pictogram (mortarboard and certificate) is the only content of a link to the courses page for staff, and alt 'ÍCONE - Cursos e formações' names that purpose. The patch alt=\"decorative\" would empty the link's meaning."
+    },
+    {
+      "fingerprint": "b607279659ce",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The pictogram (person with a heart) links to the PROGEP Qualidade de Vida page, and the alt names that purpose. Nothing is misdescribed, and the patch alt=\"decorative\" would be a regression on a functional image."
+    },
+    {
+      "fingerprint": "e265ddbe86f0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The IT-service pictogram links to the appsti ticket system, and alt 'ÍCONE - Solicitação de Serviços de TI' states that purpose. The patch only strips 'ÍCONE -'."
+    },
+    {
+      "fingerprint": "7ec1aae49074",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is a people-with-signal pictogram in a link to the gov.br SouGov page, so alt 'ÍCONE - SOUGOV' identifies the destination. 'Logotipo do SouGov.BR' is a rewording, and the image is not even the SouGov logo."
+    },
+    {
+      "fingerprint": "b73344b9807b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The computer-screen pictogram links to sisu.ufc.br, so alt 'ÍCONE SISU' names the destination. The patch 'Sisu na UFC' only rewords it."
+    },
+    {
+      "fingerprint": "5aea9a6db690",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image really is an information pictogram (open hand under speech bubbles with an 'i'), so the stated defect, that the alt describes something the image does not show, is wrong. The patch keeps 'Acesso à Informação'. The real question is that this icon link goes to ouvidoria.ufc.br (Ouvidoria Geral), so its accessible name names a different service than its destination. Because the adjacent visible link reads 'Ouvidoria | Fala.BR' and Fala.BR is the joint ombudsman and access-to-information platform, auditors could reasonably pass it or log it. This finding neither names that issue nor fixes it."
+    },
+    {
+      "fingerprint": "966d0573bcfe",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The document pictogram links to the PROPLAD licitações page, and alt 'ÍCONES - Licitações e Contratos' states the purpose. The patch alt=\"decorative\" would remove the link's only name."
+    },
+    {
+      "fingerprint": "a6c672b4fe67",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The document-with-magnifier pictogram links to the transparency and accountability page, and the alt names that purpose. The patch only removes the prefix."
+    },
+    {
+      "fingerprint": "b84e27f5a027",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the UFC home page. A title that is the organisation and site name, 'Universidade Federal do Ceará', describes a home page's topic and purpose (G88). No auditor would fail 2.4.2 here. The patch is a rewording."
+    },
+    {
+      "fingerprint": "dc1e23b8bcb8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link's accessible name is the logo alt ('Logomarca dos Encontros Universitários 2026...') plus 'EU 2026 ocorrem de 4 a 6 de novembro...'. It goes to the ufcinforma tag page 'Encontros Universitários', whose first item is this same headline. EU = Encontros Universitários, so the purpose matches the destination."
+    },
+    {
+      "fingerprint": "0f2915059229",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The destination article's heading is exactly 'Edital oferta 65 vagas de professor efetivo nos campi de Fortaleza, Crateús, Itapajé, Quixadá, Russas e Sobral', and the link's category label is 'CONCURSO PÚBLICO'. Only the URL slug says 61, and that is stale. The link text describes the destination precisely, and the patch would introduce a wrong number."
+    },
+    {
+      "fingerprint": "8615bfc491b0",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "/pt/cultura is the Cultura section page: its breadcrumb reads 'Início > Cultura', its heading is 'Cultura', and it lists the Museu de Arte, Casa José de Alencar and so on. Only its <title> is the site-wide generic one, and its h1 is the logo link. The destination summary therefore looked like the home page. 'CULTURA' heading a footer group of culture links is clear, and the patch 'Página inicial da UFC' would be wrong."
+    },
+    {
+      "fingerprint": "3a2dd10c6f96",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The footer link 'ufc.br' goes to https://www.ufc.br/, the university portal that the domain itself names. A domain that identifies the destination site is acceptable link text for a home-page link. 2.4.4 does not ban URL-like text when the purpose is clear, and the patch only rewords it."
+    },
+    {
+      "fingerprint": "ff5287e3ccde",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the first link in a list of campus names: Fortaleza, Sobral, Quixadá, Crateús, Russas, Itapajé. Each links to its campus site, and the Fortaleza (headquarters) campus is served by the main portal www.ufc.br. In that list context the purpose is clear. The patch 'Página inicial da UFC' would break the campus list."
+    }
+  ]
+}

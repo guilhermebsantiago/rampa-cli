@@ -1,0 +1,66 @@
+{
+  "page": "https://www.mit.edu/",
+  "reviewer": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "f6f18e3a8b04",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image (MIT-Aging-Cells-SLsub.jpg, seen in the snapshot crop and the screenshot) is a stylized 3D illustration of a cell in bright purple, blue, green and orange. 'colorful cell' is accurate, so the claim that it 'describes something the image does not show' is false. The patch only gives a longer description of the same picture. The image is also the only content of a link to the same news.mit.edu story as the 'Healthier aging' heading link directly below it. That functional-alt question is not what this finding claims, and the patch would not address it either."
+    },
+    {
+      "fingerprint": "53c16bea045b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the home page of www.mit.edu. Every inner page follows the pattern '<Page> | MIT - Massachusetts Institute of Technology' (Education, Research, Visit, Resources...), and the home page carries the site name alone. Naming the site is the accepted descriptive title for a home page (WCAG technique G88 and the Understanding 2.4.2 examples). Adding '| Home' only rewords a title that already meets the criterion."
+    },
+    {
+      "fingerprint": "17223c162af3",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Give' is the last item in MIT's primary navigation (Education, Research, Innovation, Admissions + Aid, ... Give). On a university site that clearly means donating to the institution. The destination /building-a-better-world is the fundraising page: title 'Better World', description 'The generosity of MIT's global community powers the education...', with 'Make a gift' and 'Give to MIT' links. So the link text matches its purpose. The suggested 'Building a Better World' is less clear about what the link does."
+    },
+    {
+      "fingerprint": "d3652513c8ef",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The destination /archive/spotlight/shape-sensing-sheet/ is the spotlight archive view: body class 'archive spotlight', wrapper 'spotlight-archive-mod', and a 'spotlight-archive-nav-mod' that holds <spotlights-archive-dd> (a month picker) and <spotlights-list> (a list of other spotlights). Both are rendered client-side, so the collector recorded only the title and heading. The link really does let the user explore more spotlights. The patch 'Read about the Shape-sensing sheet spotlight' would describe the destination less well, because the story itself is already linked as 'Full story' right next to it."
+    },
+    {
+      "fingerprint": "7addebbd9f48",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Healthier aging' is the heading-link of a news card. The card's text says researchers 'developed a noninvasive way to identify senescent cells ... within aging tissue. The advance could help diagnose age-related disorders'. The link goes to news.mit.edu/.../unmasking-zombie-cells-aging-tissue-ai-powered-barcode, which is that story; even the URL slug is about aging tissue. The teaser headline names the topic of the story it opens, so there is no mismatch. The patch only rewords it to the article's own headline."
+    },
+    {
+      "fingerprint": "7574e5e6987d",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The card reads 'Benefits for all Americans' with the text 'MIT's vital research and education ... continue to advance national security, economic competitiveness, and quality of life for all Americans.' The link goes to understanding.mit.edu ('Understanding MIT'). That site sets out MIT's value to the nation under headings such as American Innovation, National Security, Affordability and Mobility, and MIT Across America. So the link text matches the destination's content. The destination is cross-origin and was not collected, so the model judged from the domain name alone. Swapping in the site name 'Understanding MIT' would be less descriptive."
+    },
+    {
+      "fingerprint": "f226813c489b",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This link sits in the sentence 'Explore more spotlights, or subscribe to receive daily or weekly doses of MIT in your inbox.' It goes to the same spotlight archive page as 'Explore more spotlights', which has a JS-rendered month picker and a list of other spotlights (spotlight-archive-nav-mod, <spotlights-list>). The collector captured only the destination's title, so the model treated it as a single-story page. In its sentence, the text accurately describes the purpose. The patch 'Spotlight: Shape-sensing sheet' would misdescribe the link as a link to today's story."
+    },
+    {
+      "fingerprint": "22726d8ee25c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The footer link 'Visit' sits directly under MIT's name and address ('77 Massachusetts Avenue, Cambridge, MA, USA') in a utility list (Visit, Map, Events, People, Jobs, Contact). Its destination /visitmit is titled 'Visit | MIT', and the page describes visiting MIT in Cambridge. The link text is the destination's own title, and the context makes it 'visit MIT'. 'Visit MIT' only rewords text that already meets 2.4.4."
+    },
+    {
+      "fingerprint": "fae5fb11152a",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The h4 'Top resources for' is directly followed by a list of audiences: prospective students, current students, faculty & staff, alumni, parents & families, all resources. The heading and each item read together ('Top resources for current students'). The heading names the section's topic, top resources by audience, which is what 2.4.6 asks. The patch 'Top resources for MIT' adds nothing and misreads the pattern."
+    },
+    {
+      "fingerprint": "1e2deae89814",
+      "label": "uncertain",
+      "cause": "other",
+      "rationale": "The h4.spotlight__date 'Oct 9, 2026' is a date in the spotlight's meta line, followed by 'Full story', another h4 'Share:', and 'Explore more spotlights'. Spotlights on this site are identified by date (the section's h2 is 'Spotlight: Oct 9, 2026'), so the date does identify which spotlight the meta belongs to. The real defect is heading markup used for styling metadata, which is a 1.3.1 matter, not a heading that fails to describe its topic. Whether 2.4.6 applies is borderline. The suggested 'Event Date' would not be a fix anyway: it is less informative and still not a real heading."
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "page": "https://drauziovarella.uol.com.br/atividade-fisica/o-que-acontece-no-corpo-durante-uma-caminhada/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "029179e2e04d",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The image is the site logo (logo-drauzio.svg, a yellow bar and the word DRAUZIO) inside the link to the home page. alt=\"Logo Portal Drauzio Varella\" correctly names the site, so it meets 1.1.1. This copy sits offscreen at x=-152 in the hidden mobile nav, so the snapshot crop shows unrelated pixels (an orange \"30\" on a dark background). The suggested \"Logo 70 anos\" alt comes from that bad crop and is not in the logo."
+    },
+    {
+      "fingerprint": "06e4e212eddf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The alt is the article's subtitle (\"Entenda o que muda no seu corpo...\") and says nothing about the image. The illustration shows a person walking, with arrows to labeled muscle groups (ombros, braços, glúteos, abdômen, coxas, tornozelos, pés, panturrilhas). The figcaption only gives the illustrator credit. A non-empty alt that is not an alternative for the image is an F30-style failure of 1.1.1. The nearby text repeats the information, so alt=\"\" or a short description would pass, but this alt does not. The suggested description fits the image."
+    },
+    {
+      "fingerprint": "c36f36177d5d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The illustration has two panels that compare walking and running stride, and it contains the words ANDANDO and CORRENDO. alt=\"caminhada\" names only one half and leaves out the text in the image, so it is not an equivalent for an informative image under the \"Menos sobrecarga\" walking-vs-running section. The finding's wording (\"does not show\") is loose, but the element does fail 1.1.1, and the suggested alt names both panels and their labels."
+    },
+    {
+      "fingerprint": "f07418bd65ed",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The real thumbnail reads ANIMA DRAW / PREGUIÇA (a zebra and Drauzio) and links to the video \"Preguiça | Animação #01\". The heading link next to it has the same title. alt=\"thumb anima preguica\" is clumsy and comes from the filename, but it names the same video. The finding says the alt describes something not shown, which is false. The suggested \"Gráfico com a palavra ANIMA e uma lista de intervalos numéricos\" describes a snapshot crop that an overlay covered (a black box with 1-8, 9-16...), not the image."
+    },
+    {
+      "fingerprint": "1cbbc2992e75",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is a sidebar menu link to /tag/ists under the \"Saúde Íntima\" category, next to Contraceptivo, Menopausa and Menstruação. \"ISTs\" (infecções sexualmente transmissíveis) is the usual pt-BR term on a health portal, and the link opens the ISTs tag page, so its purpose is clear from the text. Expanding the abbreviation is a 3.1.4 matter, not 2.4.4. \"Tags sobre ISTs\" only rewords text that already passes."
+    },
+    {
+      "fingerprint": "336dec5d4d96",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a sidebar menu link to /tag/toc under \"Saúde Mental\", next to Ansiedade, Burnout, Depressão and TDAH. TOC is the standard pt-BR abbreviation for transtorno obsessivo-compulsivo, and the link opens that tag page, so it meets 2.4.4. The suggested \"Sumário\" shows the model read TOC as \"table of contents\". That label would mislead users about the destination."
+    }
+  ]
+}

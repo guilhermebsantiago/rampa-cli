@@ -1,0 +1,126 @@
+{
+  "page": "https://www.ibge.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "1c893433de7e",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 24px globe.svg icon inside the header link 'Outros idiomas' (gtranslate). Edge names the link 'globe Outros idiomas'. The alt 'globe' matches the file name, but it also correctly describes what the icon shows: a globe. It is not a meaningless filename or placeholder, so this is not F30. The icon is redundant with the link text, so alt='' would be cleaner, and an English word on a pt-BR page is clumsy. A professional audit would note that as advisory at most, not as a 1.1.1 failure. The patch 'Mudar idioma' would make the name 'Mudar idioma Outros idiomas', which only rewords and duplicates the text."
+    },
+    {
+      "fingerprint": "de8e0383feb2",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "In the 'Cidades e Estados' quick facts, code.svg is a 40px badge or ID-card icon next to the visible label 'Código Municipal' and its value (for example 1302603). An icon that labels a data field is properly described by what it stands for, so alt='Código Municipal' serves the equivalent purpose. It repeats the adjacent text but is not wrong. The suggested 'Carteira' (wallet) misreads the icon and would make the alternative worse. The real placeholder alts in this block are on the sibling icons ('MOD_QUICK_FACTS_POPESTIMADA', 'MOD_QUICK_FACTS_AREA'), not on this one."
+    },
+    {
+      "fingerprint": "2c52891e3bda",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card 1 of 'Nossos sites'. The img (banner-avaliacao.jpg, a clipboard with a checklist and star rating) sits in a link whose visible text is 'Pesquisa de Avaliação de Serviços Participe!'. Its alt is the placeholder 'imagem banner', and Edge computes the link name as 'imagem banner Pesquisa de Avaliação de Serviços Participe!'. 'imagem banner' is not an alternative for anything. It is the F30/F39 pattern, a placeholder like alt='image'. The visible text already names the site, so the icon should have alt='' or a real equivalent. This is a genuine 1.1.1 failure."
+    },
+    {
+      "fingerprint": "b3bbf885356b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card 2 of 'Nossos sites'. The img (lateral-sidra.png, a bar-chart icon) sits in a link whose visible text is 'SIDRA Pesquise e consuma os dados do IBGE'. Its alt is the placeholder 'imagem banner', and Edge computes the link name as 'imagem banner SIDRA Pesquise e consuma os dados do IBGE'. 'imagem banner' is not an alternative for anything. It is the F30/F39 pattern, a placeholder like alt='image'. The visible text already names the site, so the icon should have alt='' or a real equivalent. This is a genuine 1.1.1 failure."
+    },
+    {
+      "fingerprint": "0e38411fe359",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card 3 of 'Nossos sites'. The img (banner-programa.jpg, a pixel-block map of Brazil) sits in a link whose visible text is 'Programa Nacional de Inteligência e Governança Estatística e Geocientífica para subsidiar Políticas Públicas Preditivas'. Its alt is the placeholder 'imagem banner', and Edge computes the link name as 'imagem banner Programa Nacional de Inteligência e Governança Estatística e Geocientífica para subsidiar Políticas Públicas Preditivas'. 'imagem banner' is not an alternative for anything. It is the F30/F39 pattern, a placeholder like alt='image'. The visible text already names the site, so the icon should have alt='' or a real equivalent. This is a genuine 1.1.1 failure. The patch 'Logotipo do programa' is weak, but the defect is real."
+    },
+    {
+      "fingerprint": "45bab32f2922",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card 4 of 'Nossos sites'. The img (respondendo.png, an orange mobile-phone icon) sits in a link whose visible text is 'Respondendo Espaço para o informante do IBGE tirar dúvidas e verificar a identidade do entrevistador'. Its alt is the placeholder 'imagem banner', and Edge computes the link name as 'imagem banner Respondendo Espaço para o informante do IBGE tirar dúvidas e verificar a identidade do entrevistador'. 'imagem banner' is not an alternative for anything. It is the F30/F39 pattern, a placeholder like alt='image'. The visible text already names the site, so the icon should have alt='' or a real equivalent. This is a genuine 1.1.1 failure."
+    },
+    {
+      "fingerprint": "64b87c1e9e29",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card 5 of 'Nossos sites'. The img (lateral-educa.png, two hexagons) sits in a link whose visible text is 'IBGEeduca Para crianças, jovens e professores'. Its alt is the placeholder 'imagem banner', and Edge computes the link name as 'imagem banner IBGEeduca Para crianças, jovens e professores'. 'imagem banner' is not an alternative for anything. It is the F30/F39 pattern, a placeholder like alt='image'. The visible text already names the site, so the icon should have alt='' or a real equivalent. This is a genuine 1.1.1 failure."
+    },
+    {
+      "fingerprint": "0ede23b04920",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card 6 of 'Nossos sites'. The img (lateral-loja.png, a shopping-bag icon) sits in a link whose visible text is 'Loja Livros e outros produtos para venda e download'. Its alt is the placeholder 'imagem banner', and Edge computes the link name as 'imagem banner Loja Livros e outros produtos para venda e download'. 'imagem banner' is not an alternative for anything. It is the F30/F39 pattern, a placeholder like alt='image'. The visible text already names the site, so the icon should have alt='' or a real equivalent. This is a genuine 1.1.1 failure."
+    },
+    {
+      "fingerprint": "24efd47a93b0",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card 7 of 'Nossos sites'. The img (icon-ods.png, the SDG colour wheel) sits in a link whose visible text is 'ODS Indicadores Brasileiros para os Objetivos de Desenvolvimento Sustentável'. Its alt is the placeholder 'imagem banner', and Edge computes the link name as 'imagem banner ODS Indicadores Brasileiros para os Objetivos de Desenvolvimento Sustentável'. 'imagem banner' is not an alternative for anything. It is the F30/F39 pattern, a placeholder like alt='image'. The visible text already names the site, so the icon should have alt='' or a real equivalent. This is a genuine 1.1.1 failure."
+    },
+    {
+      "fingerprint": "faf372b7a65a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card 8 of 'Nossos sites'. The img (ence.png, the ENCE gear emblem) sits in a link whose visible text is 'ENCE Escola Nacional de Ciências Estatísticas'. Its alt is the placeholder 'imagem banner', and Edge computes the link name as 'imagem banner ENCE Escola Nacional de Ciências Estatísticas'. 'imagem banner' is not an alternative for anything. It is the F30/F39 pattern, a placeholder like alt='image'. The visible text already names the site, so the icon should have alt='' or a real equivalent. This is a genuine 1.1.1 failure."
+    },
+    {
+      "fingerprint": "f14f48747d70",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card 9 of 'Nossos sites'. The img (microdados.jpg, the Censo 2022 logo) sits in a link whose visible text is 'Microdados do Censo 2022 Use os dados do Censo para fazer suas próprias tabulações'. Its alt is the placeholder 'imagem banner', and Edge computes the link name as 'imagem banner Microdados do Censo 2022 Use os dados do Censo para fazer suas próprias tabulações'. 'imagem banner' is not an alternative for anything. It is the F30/F39 pattern, a placeholder like alt='image'. The visible text already names the site, so the icon should have alt='' or a real equivalent. This is a genuine 1.1.1 failure."
+    },
+    {
+      "fingerprint": "2bfc79014148",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card 10 of 'Nossos sites'. The img (meu-estado.jpg, an image of the text 'Meu Estado Nosso IBGE') sits in a link whose visible text is 'Meu Estado Nosso IBGE Conheça o IBGE no seu Estado'. Its alt is the placeholder 'imagem banner', and Edge computes the link name as 'imagem banner Meu Estado Nosso IBGE Conheça o IBGE no seu Estado'. 'imagem banner' is not an alternative for anything. It is the F30/F39 pattern, a placeholder like alt='image'. The visible text already names the site, so the icon should have alt='' or a real equivalent. This is a genuine 1.1.1 failure."
+    },
+    {
+      "fingerprint": "ac9812fb9339",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card 11 of 'Nossos sites'. The img (panorama.jpg, the Censo 2022 logo) sits in a link whose visible text is 'Panorama Censo 2022 Tudo o que você precisa saber sobre os resultados do Censo 2022'. Its alt is the placeholder 'imagem banner', and Edge computes the link name as 'imagem banner Panorama Censo 2022 Tudo o que você precisa saber sobre os resultados do Censo 2022'. 'imagem banner' is not an alternative for anything. It is the F30/F39 pattern, a placeholder like alt='image'. The visible text already names the site, so the icon should have alt='' or a real equivalent. This is a genuine 1.1.1 failure."
+    },
+    {
+      "fingerprint": "296c7586ccc0",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card 12 of 'Nossos sites'. The img (casabrasil.jpg, the handwritten 'Casa Brasil IBGE' logotype) sits in a link whose visible text is 'Casa Brasil IBGE Um espaço de memória e tecnologia que reúne num só lugar as várias áreas do IBGE'. Its alt is the placeholder 'imagem banner', and Edge computes the link name as 'imagem banner Casa Brasil IBGE Um espaço de memória e tecnologia que reúne num só lugar as várias áreas do IBGE'. 'imagem banner' is not an alternative for anything. It is the F30/F39 pattern, a placeholder like alt='image'. The visible text already names the site, so the icon should have alt='' or a real equivalent. This is a genuine 1.1.1 failure."
+    },
+    {
+      "fingerprint": "7e31a458c259",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the home page of the IBGE portal. 'IBGE | Portal do IBGE | IBGE' repeats IBGE, but it names the site and says this is the portal's front page. On a site's home page, the site name is the page's topic. Inner pages have their own topic titles, for example 'Mensal | IBGE' and 'Avaliação dos Dados sobre a Biodiversidade Brasileira | IBGE', so titles tell pages apart. A professional audit would not log this under 2.4.2. Spelling out the institute's full name only rewords a title that already passes."
+    },
+    {
+      "fingerprint": "b64bc5d96a75",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The card is in the 'Próximas divulgações' carousel (release calendar). It gives the date and the name of the 15/10 release. The collector's destination fetch got a 403. I loaded the target live: it is the product page 'Avaliação dos Dados sobre a Biodiversidade Brasileira' (Informações Geocientíficas Experimentais). IBGE's own monthly calendar links this same release to the same page, tagged data-produto-id='38371'. So the release is registered under that biodiversity-data product, and the card follows the section's pattern, where each release links to its product page (PMS links to the PMS page, and so on). The link text accurately names the release, and its purpose in the calendar context is clear. The patch would replace the release name with the product name, so the card would no longer say what is being released on 15/10."
+    },
+    {
+      "fingerprint": "cba44e77c1c0",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The card is the last slide of the 'Próximas divulgações' carousel, whose heading link and 'Calendário Completo' button also go to /calendario/mensal.html. It goes to the IBGE monthly release calendar ('Mensal | IBGE'). I loaded that page live: it lists '16/10/2026 Pesquisa Nacional por Amostra de Domicílios Contínua: Trabalho de Crianças e Adolescentes de 5 a 17 anos de idade 2025', which links on to the related announcement. In a release-calendar section, a card naming a scheduled release that opens the calendar entry for that release has a determinable purpose. 2.4.4 does not require the link text to match the destination's page title. The patch 'Calendário mensal de divulgações' would remove the release name and make the card less informative."
+    },
+    {
+      "fingerprint": "d65c7774db2e",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The h6 heads an indicator card: <h6>PIB<small>SCNT<span>Acumulado 4 trimestres</span></small></h6>, followed by the value 1,9% and '2º tri 2026'. The small is display:block. Edge computes the heading name as 'PIB SCNT Acumulado 4 trimestres', and the snapshot's readingText also has the spaces. The snapshot name 'PIBSCNTAcumulado 4 trimestres' dropped them. Read correctly, the heading names the indicator (GDP, quarterly national accounts, 4-quarter accumulation) whose value follows, so it meets 2.4.6. The patch only rewords it."
+    },
+    {
+      "fingerprint": "418ce55f7c95",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The heading is <h6>Indústria<small>PIM-PF</small></h6>, with the small as a block, followed by '-0,6%' and 'ago 2026'. Edge computes the name as 'Indústria PIM-PF', but the snapshot name ran it together as 'IndústriaPIM-PF'. The heading names the indicator (industry, from the Pesquisa Industrial Mensal - Produção Física) whose value follows, so it describes its content. The patch 'Indústria - PIM-PF' only adds a separator, which confirms the model reacted to the joined string."
+    },
+    {
+      "fingerprint": "1bbe93249867",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The heading is <h6>Serviços<small>PMS</small></h6>, followed by '0,0%' and 'jul 2026'. Edge's name is 'Serviços PMS', but the snapshot had 'ServiçosPMS'. It names the services indicator from the Pesquisa Mensal de Serviços, which is the content under it, so it meets 2.4.6. The patch 'Serviços de Preços ao Consumidor (PMS)' expands PMS wrongly and would mislabel the indicator."
+    }
+  ]
+}
