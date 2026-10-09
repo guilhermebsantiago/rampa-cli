@@ -129,8 +129,16 @@ export function inventoryControls(store: boolean): Control[] {
   const WIDGETS = '[role=tablist],[role=menu],[role=menubar],[role=listbox],[role=radiogroup],[role=tree],[role=treegrid],[role=grid],[role=toolbar],select,datalist'
   const selector = `${NATIVE},${ROLES.map((role) => `[role=${role}]`).join(',')}`
   const controls: Control[] = []
+  // An open modal dialog makes the rest of the page inert without any attribute saying so.
+  let modal: Element | null = null
+  try {
+    modal = document.querySelector('dialog:modal')
+  } catch {
+    modal = null
+  }
   for (const el of Array.from(document.querySelectorAll(selector))) {
     if (controls.length >= 1000) break
+    if (modal && !modal.contains(el)) continue
     if (el.localName === 'summary' && el.parentElement?.localName !== 'details') continue
     if (el.closest('[inert]') || el.closest('[aria-hidden="true"]')) continue
     if ((el as HTMLInputElement).disabled === true || el.closest('[aria-disabled="true"]') || el.closest('fieldset:disabled')) continue

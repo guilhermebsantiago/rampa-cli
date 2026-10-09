@@ -82,6 +82,12 @@ describe.skipIf(!browser)('keyboard walk', { timeout: 120_000 }, () => {
     expect(byRule(report, 'rampa/focus-obscured')).toEqual([])
   })
 
+  it('leaves the page behind an open native modal dialog out of 2.1.1, and finds no trap in the dialog', async () => {
+    const report = await probed('keyboard-modal.html')
+    expect(byRule(report, 'rampa/keyboard-reach')).toEqual([])
+    expect(byRule(report, 'rampa/keyboard-trap')).toEqual([])
+  })
+
   it('walks into a frame and a shadow root without reporting a change of context', async () => {
     const report = await probed('keyboard-shadow.html')
     expect(byRule(report, 'rampa/on-focus')).toEqual([])
