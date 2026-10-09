@@ -130,7 +130,11 @@ function hidden(node: A11yNode): boolean {
   return node.states.includes('hidden') || node.states.includes('aria-hidden')
 }
 
-/** Disabled itself or inside something disabled: inactive components are out of scope for contrast and names alike. */
+/**
+ * Disabled, inside something disabled, or in a window behind the active one. WCAG exempts
+ * inactive components from contrast, and a window behind another is not what the
+ * screenshot shows. Names have no such exemption: a disabled control is still announced.
+ */
 function inactive(ctx: Context, node: A11yNode): boolean {
   let current: A11yNode | undefined = node
   while (current) {
@@ -167,7 +171,7 @@ function controlNames(ctx: Context, images: boolean): Outcomes {
   const passes: EngineNode[] = []
   const platform = platformOf(ctx)
   for (const node of walkTree(ctx.snapshot.root)) {
-    if (node === ctx.snapshot.root || !isControl(node) || hidden(node) || inactive(ctx, node)) continue
+    if (node === ctx.snapshot.root || !isControl(node) || hidden(node)) continue
     const named = Boolean(node.name?.trim() || nameFromContent(node))
     const image = isImageLike(node) || (!named && hasImageInside(node))
     if (image !== images) continue
@@ -227,7 +231,7 @@ function fieldNames(ctx: Context): Outcomes {
   const incomplete: EngineNode[] = []
   const passes: EngineNode[] = []
   for (const node of walkTree(ctx.snapshot.root)) {
-    if (!FIELD_ROLES.has(node.role) || hidden(node) || inactive(ctx, node)) continue
+    if (!FIELD_ROLES.has(node.role) || hidden(node)) continue
     if (node.name?.trim()) {
       passes.push(engineNode(node))
       continue

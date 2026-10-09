@@ -40,9 +40,14 @@ describe('tree rules on Android', () => {
     expect(rule?.nodes[0]?.detail).toBe('This image button has no text and no contentDescription, so TalkBack cannot say what it does.')
   })
 
-  it('passes named controls and leaves disabled ones and fields to their own rules', () => {
+  it('passes named controls, disabled ones included, and leaves fields to their own rule', () => {
     expect(outcome(engine, 'control-name', 'violation')).toEqual([])
-    expect(outcome(engine, 'control-name', 'pass')).toEqual(['com.example.shop:id/remember', 'com.example.shop:id/sign_in', 'com.example.shop:id/forgot'])
+    expect(outcome(engine, 'control-name', 'pass')).toEqual([
+      'com.example.shop:id/remember',
+      'com.example.shop:id/sign_in',
+      'com.example.shop:id/forgot',
+      'com.example.shop:id/create',
+    ])
     expect(outcome(engine, 'field-name', 'pass')).toEqual(['com.example.shop:id/email', 'com.example.shop:id/password'])
     expect(outcome(engine, 'image-name', 'pass')).toEqual(['com.example.shop:id/logo'])
   })
@@ -120,6 +125,11 @@ describe('tree rules on other surfaces', () => {
     const field = node({ ref: 'email', role: 'textbox' })
     expect(outcome(runRules(screen('ios', field), { locale: 'en' }), 'field-name', 'violation')).toEqual(['email'])
     expect(outcome(runRules(screen('android', field), { locale: 'en' }), 'field-name', 'incomplete')).toEqual(['email'])
+  })
+
+  it('fails a disabled control without a name too: only contrast exempts inactive components', () => {
+    const button = node({ ref: 'next', role: 'button', states: ['disabled'] })
+    expect(outcome(runRules(screen('ios', button), { locale: 'en' }), 'control-name', 'violation')).toEqual(['next'])
   })
 
   it('names the platform attribute in the message', () => {
