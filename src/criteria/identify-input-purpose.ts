@@ -16,7 +16,7 @@ import {
   samePurpose,
 } from './autofill.ts'
 import type { AutocompleteIssue } from '../surfaces/form-issues.ts'
-import { attributesOf, failedByEngine, isHidden, startTagOf, verifyQuote, withAttribute } from './shared.ts'
+import { attributesOf, failedByEngine, isHidden, isHoneypot, startTagOf, verifyQuote, withAttribute } from './shared.ts'
 
 /**
  * WCAG 2.1 SC 1.3.5 Identify Input Purpose (AA).
@@ -220,6 +220,8 @@ function fieldOf(node: A11yNode): string | undefined {
   if (!FIELD_TAGS.has(tag) || isHidden(node)) return undefined
   // Fields that take no input collect nothing (axe-core leaves them out for the same reason).
   if (node.states.includes('disabled') || node.states.includes('readonly')) return undefined
+  // A spam trap collects nothing from people: a token would have browsers fill it and spring it.
+  if (isHoneypot(node)) return undefined
   const control = inputType(tag, attributesOf(node).type)
   return SKIPPED_TYPES.has(control) ? undefined : control
 }

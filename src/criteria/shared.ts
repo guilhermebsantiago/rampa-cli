@@ -19,6 +19,21 @@ export function isHidden(node: A11yNode): boolean {
   return node.states.includes('hidden') || node.states.includes('aria-hidden')
 }
 
+/**
+ * A spam trap: a field placed out of sight (outside the page area, or squeezed to a pixel or less)
+ * that is also out of the tab order or named like a trap ("honeypot", "hp", "website").
+ * It is not meant for people, so asking for a token or a visible label would spring or show the trap.
+ */
+export function isHoneypot(node: A11yNode): boolean {
+  const bounds = node.bounds
+  const outOfSight = node.states.includes('offscreen') || (bounds !== undefined && (bounds.width <= 1 || bounds.height <= 1))
+  if (!outOfSight) return false
+  const attributes = attributesOf(node)
+  if (attributes.tabindex?.trim() === '-1') return true
+  const words = `${attributes.name ?? ''} ${attributes.id ?? ''}`.toLowerCase().split(/[^a-z0-9]+/)
+  return words.some((word) => word === 'hp' || word === 'website' || word.includes('honey'))
+}
+
 /** Everything a person reads in a subtree: text, and the names of images, in document order. */
 export function subtreeText(node: A11yNode): string {
   const parts: string[] = []

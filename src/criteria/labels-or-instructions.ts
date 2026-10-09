@@ -11,6 +11,7 @@ import {
   escapeHtml,
   failedByEngine,
   isHidden,
+  isHoneypot,
   phraseIn,
   sharedWords,
   startTagOf,
@@ -250,6 +251,8 @@ function fieldOf(node: A11yNode): string | undefined {
   const tag = typeof node.native.tag === 'string' ? node.native.tag : ''
   if ((tag !== 'input' && tag !== 'select' && tag !== 'textarea') || isHidden(node)) return undefined
   if (node.states.includes('disabled') || node.states.includes('readonly')) return undefined
+  // A spam trap is not meant for people: a visible label would show it to them.
+  if (isHoneypot(node)) return undefined
   const control = inputType(tag, attributesOf(node).type)
   return SKIPPED_TYPES.has(control) ? undefined : control
 }
