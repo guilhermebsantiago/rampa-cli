@@ -267,7 +267,7 @@ async function tryEscape(page: Page, cycle: Set<string>, rounds: number): Promis
   return { left: false, tried, rounds }
 }
 
-async function walk(page: Page, probe: ProbePage, key: 'Tab' | 'Shift+Tab', budget: number, deadline: number, hook?: StopHook): Promise<WalkResult> {
+async function walk(page: Page, probe: ProbePage, key: 'Tab' | 'Shift+Tab', budget: number, deadline: number, hook?: StopHook, rereadMs = REREAD_MS): Promise<WalkResult> {
   const stops: KeyStop[] = []
   const seen = new Map<string, number>()
   let frameRun = 0
@@ -300,7 +300,7 @@ async function walk(page: Page, probe: ProbePage, key: 'Tab' | 'Shift+Tab', budg
       if (read.href) stop.href = read.href
       if (read.radioGroup) stop.radioGroup = read.radioGroup
     }
-    await waitUntil(page, pressedAt, REREAD_MS)
+    await waitUntil(page, pressedAt, rereadMs)
     const again = await page.evaluate(readFocus)
     if (!movedOn && !removed && keyOf(again) !== keyOf(read)) {
       stop.after = again.el
@@ -399,6 +399,11 @@ export interface KeyboardProbeOptions {
   /** Another window size than the run's, such as the narrow walk for 2.4.11. */
   viewport?: { width: number; height: number } | undefined
   variant?: string | undefined
+  /**
+   * A walk that only measures where focus lands (the narrow walk for 2.4.11) skips the idle
+   * recording and does not wait to read focus again: no rule reads what the page did there.
+   */
+  placementOnly?: boolean | undefined
 }
 
 export async function runKeyboardWalk(browser: Browser, url: string, options: ProbeOptions, hooks: KeyboardProbeOptions = {}): Promise<ProbeRecord> {
@@ -410,7 +415,7 @@ export async function runKeyboardWalk(browser: Browser, url: string, options: Pr
     // What the page does on its own, with no key pressed.
     const idleFrom = probe.guard.now()
     await drainEvents(page, probe.guard.start)
-    await page.waitForTimeout(IDLE_MS)
+    if (!hooks.placementOnly) await page.waitForTimeout(IDLE_MS)
     const idle = [...(await drainEvents(page, probe.guard.start)), ...guardEvents(probe, idleFrom, probe.guard.now())]
     const inventory = await page.evaluate(inventoryControls)
     // Scrolling that animates moves the focused element while it is measured: the walk scrolls at once.
@@ -420,16 +425,17 @@ export async function runKeyboardWalk(browser: Browser, url: string, options: Pr
       window.scrollTo({ left: 0, top: 0, behavior: 'instant' as ScrollBehavior })
     })
 
-    const forward = await walk(page, probe, 'Tab', STOP_BUDGET, deadline, hooks.forwardHook)
+    const rereadMs = hooks.placementOnly ? 0 : REREAD_MS
+    const forward = await walk(page, probe, 'Tab', STOP_BUDGET, deadline, hooks.forwardHook, rereadMs)
     let backward: WalkResult = { stops: [], end: 'not-run' }
-    if (forward.end === 'cycled') backward = await walk(page, probe, 'Shift+Tab', Math.min(STOP_BUDGET, forward.stops.length + 10), deadline, hooks.backwardHook)
+    if (forward.end === 'cycled') backward = await walk(page, probe, 'Shift+Tab', Math.min(STOP_BUDGET, forward.stops.length + 10), deadline, hooks.backwardHook, rereadMs)
     const reached = new Set([...forward.stops, ...backward.stops].flatMap((stop) => (stop.el ? [stop.el.ref] : [])))
     await markHolders(inventory, reached)(page)
 
     const traps = [forward.trap, backward.trap].filter((trap): trap is TrapAttempt => trap !== undefined)
     const data: KeyboardData = {
       viewport: probe.conditions.viewport,
-      idleMs: IDLE_MS,
+      idleMs: hooks.placementOnly ? 0 : IDLE_MS,
       idle,
       inventory,
       forward: forward.stops,
@@ -484,7 +490,7 @@ export async function keyboardProbe(browser: Browser, url: string, options: Prob
   const started = Date.now()
   try {
     records.push(
-      await runKeyboardWalk(browser, url, options, { forwardHook: backwardFocusHook, backwardHook: backwardFocusHook, version: FOCUS_VERSION, viewport: NARROW_VIEWPORT, variant }),
+      await runKeyboardWalk(browser, url, options, { forwardHook: backwardFocusHook, backwardHook: backwardFocusHook, version: FOCUS_VERSION, viewport: NARROW_VIEWPORT, variant, placementOnly: true }),
     )
   } catch (error) {
     records.push(skippedRecord('keyboard', FOCUS_VERSION, variant, `probe failed: ${(error instanceof Error ? error.message : String(error)).split('\n')[0]}`, Date.now() - started))
