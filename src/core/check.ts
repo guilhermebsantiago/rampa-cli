@@ -1,6 +1,7 @@
 import type { Locale } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import { probeChecks } from '../rules/probes.ts'
+import { PROBE_RULES } from '../rules/registry.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
 import { WCAG21_A_AA, compareCriteria, successCriterion } from '../wcag.ts'
@@ -74,7 +75,7 @@ export function engineFindings(engine: EngineResults): Finding[] {
 export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResults, options: CheckOptions): Promise<Report> {
   const findings: Finding[] = engineFindings(engine)
   // Facts a probe recorded in the snapshot, turned into findings by rules: no browser, no model.
-  const probe = probeChecks(snapshot, options.locale)
+  const probe = probeChecks(snapshot, options.locale, PROBE_RULES)
   findings.push(...probe.findings)
   const discarded: Discarded[] = []
   const summaries: CriterionSummary[] = []

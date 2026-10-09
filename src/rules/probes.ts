@@ -83,15 +83,12 @@ export function coverageStatus(failures: number, review: number): ProbeCoverage[
   return failures > 0 ? 'failures' : review > 0 ? 'needs-review' : 'no-failure-found'
 }
 
-/** The rules every report runs; a rule with no record to read reports nothing, not even coverage. */
-export const PROBE_RULES: ProbeRule[] = []
-
 export function conditionsText(record: ProbeRecord, what: string): string {
   return `${what} · ${record.conditions.browser}`
 }
 
 /** Runs every probe rule over the snapshot's observations. */
-export function probeChecks(snapshot: A11ySnapshot, locale: Locale, rules: readonly ProbeRule[] = PROBE_RULES): ProbeRuleResult {
+export function probeChecks(snapshot: A11ySnapshot, locale: Locale, rules: readonly ProbeRule[]): ProbeRuleResult {
   const result: ProbeRuleResult = { findings: [], review: [], coverage: [] }
   const records = snapshot.observations?.probes ?? []
   if (records.length === 0) return result

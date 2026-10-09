@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reflow failures</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  /* C32 fails: a fixed-width column that never narrows. */
+  #fixed-column { width: 900px; margin: 0 auto; }
+  /* F104-like: a fixed height with overflow hidden; at 320 px the text wraps to more lines than fit. */
+  #promo { height: 44px; overflow: hidden; border: 1px solid #333; padding: 4px; max-width: 600px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Store news</h1>
+  <div id="promo">Free shipping on every order over fifty dollars this week, with returns accepted for thirty days.</div>
+  <div id="fixed-column">
+    <p id="wide-text">This column is 900 pixels wide at every window size, so at 320 pixels the reader has to scroll sideways on every line.</p>
+    <a id="wide-link" href="#details">Read the shipping details</a>
+  </div>
+</main>
+</body>
+</html>

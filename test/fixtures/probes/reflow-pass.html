@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reflow passes</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { max-width: 60rem; margin: 0 auto; padding: 0 1rem; }
+  /* C31/C32: content narrows with the window. */
+  .card { border: 1px solid #333; padding: 0.5rem; margin-bottom: 1rem; }
+  /* A long address breaks instead of widening the page. */
+  .url { overflow-wrap: anywhere; }
+  /* A data table may scroll on its own: it needs two dimensions (exception). */
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; min-width: 700px; }
+  th, td { border: 1px solid #333; padding: 4px; }
+  /* Code keeps its lines. */
+  pre { overflow-x: auto; }
+  /* An off-canvas menu: hidden, but it widens the document. It must not count. */
+  #drawer { position: absolute; top: 0; left: 100%; width: 300px; visibility: hidden; }
+  /* A carousel: one slide shows, the others are hidden by the track. */
+  .carousel { overflow: hidden; white-space: nowrap; }
+  .slide { display: inline-block; width: 100%; white-space: normal; vertical-align: top; }
+  /* Visually hidden text is clipped at every size; it is not newly clipped. */
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Reports</h1>
+  <p class="card">Quarterly reports for every region, with the figures broken down by month and by product line.</p>
+  <p class="url">Download them from https://example.com/reports/2026/quarterly/regions/all-regions-with-monthly-breakdown.pdf today.</p>
+  <span class="sr-only">Skip to the table of figures for every month and every region</span>
+  <div class="table-wrap">
+    <table>
+      <caption>Sales by region</caption>
+      <tr><th>Region</th><th>January</th><th>February</th><th>March</th><th>April</th><th>May</th></tr>
+      <tr><td>North</td><td>1,200</td><td>1,350</td><td>1,410</td><td>1,390</td><td>1,500</td></tr>
+    </table>
+  </div>
+  <pre><code>rampa check https://example.com --probe layout --save .rampa/recordings --min-confidence low</code></pre>
+  <div class="carousel">
+    <div class="slide">First slide: the spring collection is here.</div><div class="slide">Second slide: free returns all season.</div>
+  </div>
+</main>
+<nav id="drawer" aria-label="Menu"><a href="#a">Account</a> <a href="#b">Orders</a></nav>
+</body>
+</html>
