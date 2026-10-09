@@ -2,6 +2,7 @@ import type { RepeatedFinding, SiteReport } from '../core/site.ts'
 import type { CriterionSummary, Finding } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
+import { renderSiteCriteria, siteCriteriaCoverage } from '../site/index.ts'
 import type { CrawlSkip } from '../surfaces/crawl.ts'
 import { WCAG21_A_AA, compareCriteria, criterionLabel } from '../wcag.ts'
 import { type PrettyOptions, renderFinding } from './pretty.ts'
@@ -162,7 +163,7 @@ export function renderSiteReport(site: SiteReport, options: PrettyOptions): stri
   lines.push('')
 
   if (site.pages.length === 0) lines.push(p.yellow(st(locale, 'noPages')), '')
-  else if (site.summary.findings.total === 0) lines.push(p.green(t(locale, 'noFindings')), '')
+  else if (site.summary.findings.total === 0 && !site.siteCriteria?.findings.length) lines.push(p.green(t(locale, 'noFindings')), '')
 
   if (site.summary.repeated.length > 0) {
     lines.push(p.bold(st(locale, 'repeatedTitle')), '')
@@ -212,6 +213,8 @@ export function renderSiteReport(site: SiteReport, options: PrettyOptions): stri
     }
   }
 
+  lines.push(...renderSiteCriteria(site.siteCriteria, locale, { paint: p, verbose }))
+
   if (site.notChecked.length > 0 || site.notLoaded > 0) {
     lines.push(p.bold(st(locale, 'notCheckedTitle')))
     const width = Math.min(48, Math.max(0, ...site.notChecked.map((skip) => path(skip.url).length)) + 2)
@@ -242,6 +245,8 @@ export function renderSiteReport(site: SiteReport, options: PrettyOptions): stri
     ? list(coverage.notChecked)
     : t(locale, 'coverageNotCheckedCount', { count: coverage.notChecked.length, total: WCAG21_A_AA.length })
   lines.push(`  ${t(locale, 'coverageNotChecked').padEnd(width)}${notChecked}`)
+  const across = siteCriteriaCoverage(site.siteCriteria, locale)
+  if (across) lines.push(`  ${across.label.padEnd(width)}${across.value}`)
   const found = site.pages.length + site.notChecked.length + site.notLoaded
   lines.push(`  ${st(locale, 'coveragePages').padEnd(width)}${st(locale, 'coveragePagesCount', { checked: site.pages.length, found })}`)
   lines.push(p.bold(st(locale, 'disclaimer')))

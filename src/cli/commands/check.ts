@@ -26,6 +26,7 @@ import { type CrawlFlags, crawlRequested } from '../../surfaces/crawl.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import type { GlobalContext } from '../context.ts'
 import { type FailOn, exitCode } from '../exit-code.ts'
+import { singlePageNote } from '../../site/index.ts'
 import { runSiteCheck } from './site.ts'
 
 export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
@@ -226,6 +227,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
         waivers: adoption.waivers,
       })
       const notes = [...collected.notes, ...rulesNotes(collected.engine, context.locale)]
+      if (collected.snapshot.surface === 'web') notes.push(singlePageNote(context.locale))
       if (notes.length > 0) report.notes = notes
       if (collected.usage) {
         for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) report.usage[key] += collected.usage[key]

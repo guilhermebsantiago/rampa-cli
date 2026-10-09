@@ -1,6 +1,7 @@
 import type { Browser } from 'playwright-core'
 import type { Report } from '../core/types.ts'
 import { RampaError } from '../core/util.ts'
+import { singlePageNote } from '../site/index.ts'
 import { locateReport, readPageSource, repositoryRoot } from '../source/locate.ts'
 import { loadRecorded, resolveTargets } from '../surfaces/targets.ts'
 import { type Collected, collectWeb, launchBrowser } from '../surfaces/web.ts'
@@ -48,6 +49,8 @@ export async function check(targets: string | readonly string[], options: CheckT
         )
       }
       const report = await judge(collected, settings)
+      // As in rampa check: 3.2.3 and 3.2.6 compare pages, which a single page cannot do.
+      if (collected.snapshot.surface === 'web') report.notes = [...(report.notes ?? []), singlePageNote(settings.locale)]
       // A local page gets file:line for each finding, and its patches as edits to the file, like rampa check.
       const source = await readPageSource(collected.snapshot.target, root)
       reports.push(source ? locateReport(report, collected.snapshot, source) : report)

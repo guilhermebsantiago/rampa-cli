@@ -25,6 +25,11 @@ export interface RampaConfig {
   motion?: boolean
   cacheDir?: string
   concurrency?: number
+  /**
+   * Sets of pages for the criteria that compare pages (3.2.3, 3.2.6), by name: path patterns
+   * in robots.txt syntax, as --include. Pages in no named set are grouped by template.
+   */
+  pageSets?: Record<string, string[]>
 }
 
 export function defineConfig(config: RampaConfig): RampaConfig {

@@ -12,6 +12,7 @@ import { emptyEngine } from '../../engine/axe.ts'
 import { chooseModel } from '../../providers/detect.ts'
 import type { ModelProvider } from '../../providers/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
+import { type SitePageRecord, runSiteCriteria, siteCriteriaChecked, siteFactsOf } from '../../site/index.ts'
 import { renderSiteReport } from '../../report/site.ts'
 import { type BrowserOptions, addSiteCookies, contextOptions, describeConditions, webUrl } from '../../surfaces/browser-options.ts'
 import {
@@ -139,6 +140,8 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
 
   const cache = countReuse(fileCache(options.cacheDir))
   const pages: Array<SitePage & { index: number }> = []
+  // What the criteria across pages (3.2.3, 3.2.6) read of each page, kept instead of the snapshot.
+  const records: Array<SitePageRecord & { index: number }> = []
   // Pages load in parallel but are judged one at a time, in turn: a judgment made for one
   // page is in the cache before the next page asks for it, so a shared header costs one call.
   let judging: Promise<unknown> = Promise.resolve()
@@ -169,6 +172,11 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
     }
     const snapshot = { ...collected.snapshot, target: finalUrl }
     if (options.save) await saveRecording(options.save, snapshot, collected)
+    try {
+      records.push({ ...siteFactsOf(snapshot), index: task.index })
+    } catch {
+      // A page the criteria across pages cannot read is left out of every set; its own report stands.
+    }
     const turn = judging.then(() => {
       cache.page = turns++
       return checkSnapshot(snapshot, collected.engine, { ...run.check, cache })
@@ -179,7 +187,18 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
   })
 
   pages.sort((a, b) => a.index - b.index)
+  records.sort((a, b) => a.index - b.index)
   const first: Report | undefined = pages[0]?.report
+  const siteCriteria = runSiteCriteria(records, {
+    origin: site.origin,
+    locale: run.context.locale,
+    minConfidence: options.minConfidence,
+    waivers: run.check.waivers,
+    pageSets: run.context.config.pageSets,
+  })
+  const summary = summarizeSite(pages, cache.reused)
+  const compared = new Set(siteCriteriaChecked(siteCriteria))
+  summary.coverage.notChecked = summary.coverage.notChecked.filter((id) => !compared.has(id))
   return {
     schemaVersion: 1,
     kind: 'site',
@@ -214,8 +233,9 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
     notChecked: [...frontier.skipped].sort((a, b) => SKIP_ORDER.indexOf(a.reason) - SKIP_ORDER.indexOf(b.reason) || a.url.localeCompare(b.url)),
     notLoaded: frontier.notLoaded,
     beyondDepth: frontier.beyondDepth,
-    summary: summarizeSite(pages, cache.reused),
+    summary,
     pages: pages.map((page) => page.report),
+    siteCriteria,
   }
 }
 
