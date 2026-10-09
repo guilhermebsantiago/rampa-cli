@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { encodePng } from '../src/pixels/png.ts'
-import { type AdbRunner, adbPath, adbVersion, captureAndroid, chooseDevice, collectAndroid, parseAppLocales, parseDevices, systemAdb } from '../src/surfaces/android/adb.ts'
+import { type AdbRunner, adbPath, adbVersion, captureAndroid, chooseDevice, collectAndroid, fromScreen, parseAppLocales, parseDevices, systemAdb } from '../src/surfaces/android/adb.ts'
 import { WHITE, blank, drawText } from './screens.ts'
 
 const fixture = (name: string) => readFileSync(new URL(`./fixtures/android/${name}`, import.meta.url), 'utf8')
@@ -103,7 +103,7 @@ describe('capturing a screen', () => {
     expect(capture).toMatchObject({ locale: 'pt-BR', localeSource: 'device', png: undefined })
     expect(capture.xml).toContain('com.example.shop:id/login_root')
     const collected = await collectAndroid({ locale: 'pt-BR', adb })
-    expect(collected.notes[0]).toBe('Sem captura de tela: as imagens não foram julgadas (1.1.1) e o contraste do texto não foi medido.')
+    expect(collected.notes[0]).toBe('Sem captura de tela utilizável: as imagens não foram julgadas (1.1.1) e o contraste do texto não foi medido.')
   })
 
   it('explains why UI Automator could not read the screen', async () => {
@@ -115,6 +115,14 @@ describe('capturing a screen', () => {
       'shell uiautomator dump /data/local/tmp/rampa-window.xml': idle,
     })
     await expect(captureAndroid(adb)).rejects.toThrow(/screen never went idle\. Turn off animations/)
+  })
+
+  it('checks the screen without a screenshot that was cut short, and says so', () => {
+    const cut = png.subarray(0, 200)
+    const collected = fromScreen({ xml: fixture('login.xml'), png: cut, locale: 'en-US', localeSource: 'device' }, 'en')
+    expect(collected.snapshot.surface).toBe('android')
+    expect(collected.engine.rules.some((rule) => rule.ruleId === 'text-contrast')).toBe(false)
+    expect(collected.notes[0]).toBe('No usable screenshot, so images were not judged (1.1.1) and text contrast was not measured.')
   })
 
   it('reads the per-app language only when one is set', () => {

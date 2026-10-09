@@ -6,7 +6,7 @@ import { RampaError } from '../core/util.ts'
 import { emptyEngine } from '../engine/axe.ts'
 import { runRules } from '../engine/rules.ts'
 import { type Locale, t } from '../i18n.ts'
-import { type RgbaImage, decodePng, isPng, pngFromBase64 } from '../pixels/png.ts'
+import { type RgbaImage, isPng, pngFromBase64, tryDecodePng } from '../pixels/png.ts'
 import { type A11ySnapshot, A11ySnapshotSchema } from '../snapshot/schema.ts'
 import { importXcuitest, isXcuitestExport } from './ios.ts'
 
@@ -134,11 +134,11 @@ async function screenshotOf(snapshot: A11ySnapshot, snapshotPath: string): Promi
   if (!value) return undefined
   if (value.startsWith('data:')) {
     const png = pngFromBase64(value)
-    return png ? decodePng(png) : undefined
+    return png ? tryDecodePng(png) : undefined
   }
   for (const candidate of isAbsolute(value) ? [value] : [join(dirname(snapshotPath), value), resolve(value)]) {
     const bytes = await readFile(candidate).catch(() => undefined)
-    if (bytes && isPng(bytes)) return decodePng(bytes)
+    if (bytes && isPng(bytes)) return tryDecodePng(bytes)
   }
   return undefined
 }

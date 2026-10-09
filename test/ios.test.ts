@@ -142,7 +142,7 @@ describe('a bare export', () => {
       'Lido de uma exportação do XCUITest, que não expõe rótulos ligados a campos nem o idioma do texto.',
       'A exportação não tem os traits de acessibilidade, então os títulos não foram encontrados (2.4.6).',
       'A exportação não diz em que idioma o app rodou, então o idioma da tela (3.1.1) não foi verificado. Passe language: ao RampaExport ou abra o app com -AppleLanguages.',
-      'Sem captura de tela: as imagens não foram julgadas (1.1.1) e o contraste do texto não foi medido.',
+      'Sem captura de tela utilizável: as imagens não foram julgadas (1.1.1) e o contraste do texto não foi medido.',
     ])
   })
 

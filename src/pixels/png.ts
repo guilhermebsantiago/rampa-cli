@@ -308,6 +308,15 @@ export function pngDataUri(image: RgbaImage): string {
   return `data:image/png;base64,${encodePng(image).toString('base64')}`
 }
 
+/** A screenshot that may be cut short or damaged: undefined instead of an error, since checks can run without one. */
+export function tryDecodePng(bytes: Uint8Array): RgbaImage | undefined {
+  try {
+    return decodePng(bytes)
+  } catch {
+    return undefined
+  }
+}
+
 /** PNG bytes from a data URI or bare base64, as exporters write them. */
 export function pngFromBase64(value: string): Buffer | undefined {
   const match = /^data:image\/png;base64,(.*)$/s.exec(value)

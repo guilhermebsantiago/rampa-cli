@@ -5,7 +5,7 @@ import { RampaError } from '../../core/util.ts'
 import type { EngineResults } from '../../core/types.ts'
 import { runRules } from '../../engine/rules.ts'
 import { type Locale, t } from '../../i18n.ts'
-import { decodePng, isPng } from '../../pixels/png.ts'
+import { isPng, tryDecodePng } from '../../pixels/png.ts'
 import type { A11ySnapshot } from '../../snapshot/schema.ts'
 import { appWindows, readUiAutomatorDump, snapshotFromUiAutomator } from './uiautomator.ts'
 
@@ -234,7 +234,7 @@ export async function collectAndroid(options: AndroidCollectOptions): Promise<An
 
 /** A screen, captured live or saved as a dump and a screenshot, as a snapshot and the rules' results. */
 export function fromScreen(screen: AndroidScreen, locale: Locale, captureImages = true): AndroidCollected {
-  const screenshot = screen.png ? decodePng(screen.png) : undefined
+  const screenshot = screen.png ? tryDecodePng(screen.png) : undefined
   const snapshot = snapshotFromUiAutomator(screen.xml, { locale: screen.locale, localeSource: screen.localeSource, screenshot, captureImages })
   const engine = runRules(snapshot, { locale, screenshot })
   const notes: string[] = []

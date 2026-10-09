@@ -3,7 +3,7 @@ import type { EngineResults } from '../core/types.ts'
 import { RampaError } from '../core/util.ts'
 import { runRules } from '../engine/rules.ts'
 import { type Locale, t } from '../i18n.ts'
-import { decodePng, pngFromBase64 } from '../pixels/png.ts'
+import { pngFromBase64, tryDecodePng } from '../pixels/png.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { walkTree } from '../snapshot/tree.ts'
 import { VERSION } from '../version.ts'
@@ -253,7 +253,7 @@ export function importXcuitest(data: unknown, options: IosImportOptions): IosImp
   const root = finishTree(draft, `/${draft.type}`, 'name')
 
   const png = exported.screenshot ? pngFromBase64(exported.screenshot) : undefined
-  const screenshot = png ? decodePng(png) : undefined
+  const screenshot = png ? tryDecodePng(png) : undefined
   const scale = screenshot ? screenshotScale(screenshot.width, screen.width) : 1
   if (screenshot && options.captureImages !== false) captureImages(root, screenshot, scale)
 
