@@ -25,7 +25,8 @@ Every probe in this release is in the **observe** class:
 
 - it presses Tab, Shift+Tab and Esc, and the arrow keys only to try to leave a suspected keyboard trap;
 - it resizes the viewport and injects CSS;
-- it moves focus away with `blur()` to compare a focused element with its unfocused self;
+- it moves focus away with `blur()` to compare a focused element with its unfocused self, and gives it back with `focus()`;
+- it focuses the page's `body` for a moment before the walk, so the first Tab starts at the top of the page;
 - it never clicks, never presses Enter or Space on a control, never types, and never submits a form.
 
 Each probe kind opens its own browser context with the same storage state, headers, cookies, color scheme and device settings as the collection (the layout probes force a 1280×1024 desktop window, as browser zoom would), and loads the page fresh, so one probe's state never leaks into another's.
@@ -88,7 +89,7 @@ Coverage of this run
   Judged with verified evidence:  …
   Not checked automatically:      41 of 50 WCAG 2.1 A/AA criteria (--verbose lists them)
   Probed (experimental):
-    1.4.10  probe/layout@1 (rampa/reflow) · 320×256 CSS px · chromium 141 (headless): 2 failure(s) · 512 element(s)
+    1.4.10  probe/layout@1 (rampa/reflow) · 320×256 CSS px from 1280×1024 · chromium 154.0.4258.62 (headless): 2 failure(s) · experimental, below the threshold (--verbose shows them) · 4 element(s)
 ```
 
 ## Coverage by criterion and method
@@ -97,7 +98,7 @@ What `--probe all` adds, and what each criterion still needs from a person. Ever
 
 | SC | Method (probe, rule) | Failure | Needs review | Stays manual |
 |---|---|---|---|---|
-| 1.4.10 Reflow | `probe/layout@1`, `rampa/reflow`: 320×256 CSS px from 1280×1024 | content past the right edge of a page that scrolls sideways; text cut at 320 px that was whole at 1280 px | doubtful cuts; new overlaps | lost functionality; content gone behind collapsed menus (F102); the two-dimensional exception beyond element types |
+| 1.4.10 Reflow | `probe/layout@1`, `rampa/reflow`: 320×256 CSS px from 1280×1024 | content past the right edge of a page that scrolls sideways; text cut at 320 px that was whole at 1280 px | doubtful cuts; new overlaps; text cut by a window that cannot scroll sideways | lost functionality; content gone behind collapsed menus (F102); the two-dimensional exception beyond element types |
 | 1.4.12 Text Spacing | `probe/layout@1`, `rampa/text-spacing`: the four values as user overrides | text cut that was whole (F104); an ellipsis with no full text (medium) | doubtful cuts; new overlaps | scripts where a metric does not apply; text in canvas and images |
 | 2.1.1 Keyboard | `probe/keyboard@2`, `rampa/keyboard-reach`: Tab and Shift+Tab walk | a control neither walk reached (medium for a negative tabindex) | — | operating what was reached; drag and drop; states after interaction; handler-only controls |
 | 2.1.2 No Keyboard Trap | `probe/keyboard@2`, `rampa/keyboard-trap` | a cycle Tab, Shift+Tab, Esc and the arrows never leave, twice | traps inside dialogs; traps with exit text | traps after interaction; plug-ins |
@@ -140,7 +141,7 @@ Each element gets a key in the page that holds across the two measurements, so a
 
 | Observation | Result |
 |---|---|
-| The window scrolls sideways at 320 px and visible text or a control, outside exempt content, extends past the right edge (1 px tolerance) | failure, high |
+| The window scrolls sideways at 320 px and visible text or a control, outside exempt content and fixed layers (an off-canvas menu parked to the right never scrolls into view), extends past the right edge (1 px tolerance) | failure, high |
 | Text partly cut at 320 px (2 px across, or a quarter of a line down) that was whole at 1280 px | failure, high |
 | The same, when a `title` or `aria-label` holds the full text, the cutting container hides other text completely (a carousel), or it shows an ellipsis | needs review |
 | The window cannot scroll sideways, and text or a control that sat inside it at 1280 px is partly past its right edge at 320 px (wholly outside is an off-canvas menu and is not counted) | needs review |
