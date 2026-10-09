@@ -25,7 +25,7 @@ rampa init --targets dist,http://localhost:4173/ --model ollama:gemma4:12b --yes
 | `rampa.config.ts` | Targets, criteria, minimum confidence and report language; a model only if you pin one |
 | `.rampa/waivers.json` | An empty list of waivers, to commit |
 | `.gitignore` | `.rampa/cache`, `.rampa/runs`, `.rampa/screenshots` and `.rampa/act`: local files, never worth committing |
-| `.github/workflows/rampa.yml` | With `--github`: runs the Rampa action on pull requests and on `main` |
+| `.github/workflows/rampa.yml` | With `--github`: runs the Rampa action on pull requests and on `main`, with the report as a pull request comment and the findings in code scanning |
 
 It never replaces a file that exists: it says it kept it. `--force` overwrites the config and the workflow, never the waivers, which hold decisions. Running `rampa init` again is safe: it only adds what is missing. It prints what it created, updated or kept.
 
@@ -43,9 +43,11 @@ It never replaces a file that exists: it says it kept it. `--force` overwrites t
 
 **The config file type.** Node runs a TypeScript config by stripping its types (Node 22.18 and later). It reads a `.ts` file by the rules of its package, so `rampa init` writes `rampa.config.ts` in a package with `"type": "module"`, and `rampa.config.mts` otherwise: in a `"type": "commonjs"` package a `.ts` config fails on `export default`, and in a package without `"type"` Node parses it twice and prints a warning on every run. On a Node without type stripping it writes `rampa.config.mjs`. When `rampa` resolves from the project, the config imports `defineConfig` from it for types; otherwise it is a plain object, so it loads without Rampa installed.
 
-**The model.** `rampa init` asks your Ollama and LM Studio servers what they have and says what `rampa check` will use. It does not pin a local model in the config on its own, because a CI runner has no local model: there, give the workflow a model and its API key, or Rampa runs axe-core alone.
+**The model.** `rampa init` asks your Ollama and LM Studio servers what they have and says what `rampa check` will use. It does not pin a local model in the config on its own, because a CI runner has no local model. If you pin one with `--model`, the workflow sets `model: none`, so CI runs axe-core alone instead of failing on a model it cannot reach, until you name a hosted model there. A hosted model pinned in the config runs in CI with its key from the repository's secrets, which the workflow reads.
 
-**The targets.** With `targets` in the config, `rampa check` and `rampa baseline` need no arguments. Arguments still win over the config.
+**The workflow.** It asks for `pull-requests: write` and `security-events: write`, which the action's pull request comment and code scanning upload need, and passes `locale` because the action's own default (`en`) would otherwise override the config's. Build or start the site in the steps before it; the comments in the file show where.
+
+**The config file.** With `targets` in the config, `rampa check` and `rampa baseline` need no arguments. `criteria`, `minConfidence`, `runs`, `cacheDir` and `concurrency` apply too; the command line still wins over the file.
 
 ## Baselines: report only what is new
 

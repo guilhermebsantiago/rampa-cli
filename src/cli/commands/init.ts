@@ -8,6 +8,7 @@ import {
   defaultConfigFormat,
   defaultSettings,
   detectTargets,
+  isLocalModel,
   runInitSteps,
   suggestModel,
 } from '../../adoption/init.ts'
@@ -77,8 +78,13 @@ export async function runInit(options: InitCommandOptions, context: GlobalContex
   if (settings.targets.length === 0) out(`  ${p.yellow('No targets yet:')} set targets in the config, or pass them to rampa check.`)
   if (suggestion) out(`  ${p.bold('Model:')} ${suggestion.note}`)
   else if (settings.model) out(`  ${p.bold('Model:')} ${settings.model}, pinned in the config.`)
-  if (settings.github && (settings.model?.startsWith('ollama:') || settings.model?.startsWith('lmstudio:') || suggestion?.automatic)) {
-    out(`  ${p.dim('CI has no local model: give the workflow a model and its API key, or it runs axe-core alone.')}`)
+  if (settings.github) {
+    const ci = !settings.model
+      ? 'In CI, without a model and its API key, the action runs axe-core alone; the workflow says where to add them.'
+      : isLocalModel(settings.model)
+        ? 'A CI runner has no local model, so the workflow sets model: none (axe-core alone) until you give it a hosted one.'
+        : `The workflow runs ${settings.model} with a key from the repository's secrets: add it there.`
+    out(`  ${p.dim(ci)}`)
   }
   out()
   out(`  ${p.bold('Next')}`)

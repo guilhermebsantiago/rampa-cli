@@ -6,6 +6,7 @@ import type { Confidence } from '../core/types.ts'
 import { errorMessage } from '../core/util.ts'
 import { DEFAULT_CRITERIA } from '../criteria/index.ts'
 import type { Locale } from '../i18n.ts'
+import { findProvider } from '../providers/registry.ts'
 import { BASELINE_FILE } from './baseline.ts'
 import { WAIVERS_FILE } from './waivers.ts'
 
@@ -141,10 +142,32 @@ export function configSource(settings: InitSettings, options: { typed: boolean; 
 
 /**
  * A workflow that runs the Rampa action on pull requests and on main. It sticks to the action's
- * inputs: targets, criteria, model, fail-on, locale, comment and sarif.
+ * inputs: targets, criteria, model, fail-on, locale, comment and sarif. The action runs rampa check
+ * at the root of the repository, so the config, its baseline and the waivers apply there too.
  */
 export function workflowSource(settings: InitSettings): string {
-  const targets = settings.targets.length > 0 ? settings.targets.join(' ') : 'dist'
+  // The action takes targets separated by spaces.
+  const targets = yamlText(settings.targets.length > 0 ? settings.targets.join(' ') : 'dist')
+  const pinned = settings.model
+  const provider = pinned ? findProvider(pinned.slice(0, pinned.indexOf(':'))) : undefined
+  // Only a provider whose first variable is its API key gets a ready secret line; rampa doctor lists the rest.
+  const key = provider?.where === 'api' && provider.env[0]?.endsWith('_API_KEY') ? provider.env[0] : undefined
+  // With no model input the action uses the one Rampa picks, the config's included: a local model
+  // there would fail on a runner, so the workflow says none (axe-core alone) until it has a hosted one.
+  const model = pinned && isLocalModel(pinned)
+    ? [
+        '          # The config pins a local model, which a CI runner does not have: none runs axe-core alone.',
+        '          # For the judgment layer, name a hosted model here and set its key below.',
+        '          model: none',
+      ]
+    : pinned
+      ? [`          # The config's model, ${pinned}, runs with the key below.`]
+      : ['          # Without a model and its API key, only the deterministic engine (axe-core) runs.', '          # model: anthropic:claude-haiku-5-5']
+  const env = key
+    ? [`        # Plus any other variable rampa doctor says ${provider?.name} needs.`, '        env:', `          ${key}: \${{ secrets.${key} }}`]
+    : pinned && !isLocalModel(pinned)
+      ? [`        # Set the credentials ${provider?.name ?? pinned} needs as secrets, under env (rampa doctor lists them).`]
+      : ['        # env:', '        #   ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}']
   return `# Accessibility checks with Rampa: https://github.com/guilhermebsantiago/rampa-cli/blob/main/docs/adoption.md
 name: accessibility
 
@@ -155,6 +178,10 @@ on:
 
 permissions:
   contents: read
+  # comment: the report as one comment on the pull request.
+  pull-requests: write
+  # sarif: the findings in code scanning.
+  security-events: write
 
 jobs:
   rampa:
@@ -171,17 +198,26 @@ jobs:
       - uses: guilhermebsantiago/rampa-cli@main
         with:
           targets: ${targets}
-          # With baseline set in rampa.config, only findings missing from the baseline fail the job.
+          # With baseline set in the Rampa config, only findings the baseline does not have fail the job.
           fail-on: confirmed
-          # Without a model and its key, only the deterministic engine (axe-core) runs.
-          # model: anthropic:claude-haiku-5-5
+${model.join('\n')}
           # criteria: ${settings.criteria.join(',')}
-          # locale: ${settings.locale}
-          # comment: true
-          # sarif: true
-        # env:
-        #   ANTHROPIC_API_KEY: \${{ secrets.ANTHROPIC_API_KEY }}
+          locale: ${settings.locale}
+          comment: true
+          sarif: true
+${env.join('\n')}
 `
+}
+
+/** A YAML scalar: plain when it can be, single-quoted when a character would change its meaning. */
+function yamlText(value: string): string {
+  const plain = /^[\w./~$][^#'"]*$/.test(value) && !/:\s|\s$/.test(value)
+  return plain ? value : `'${value.replaceAll("'", "''")}'`
+}
+
+/** Models served on the machine itself, which a CI runner does not have. */
+export function isLocalModel(spec: string): boolean {
+  return findProvider(spec.slice(0, spec.indexOf(':')))?.where === 'local'
 }
 
 /** Normalizes an ignore pattern for comparison: no leading or trailing slash. */

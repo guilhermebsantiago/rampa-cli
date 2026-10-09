@@ -161,16 +161,35 @@ describe('rampa init', () => {
 })
 
 describe('the workflow rampa init writes', () => {
-  it('uses only inputs the Rampa action has', () => {
-    const workflow = workflowSource(settings('ts', { targets: ['dist', 'http://localhost:4173/'] }))
-    const inputs = [...workflow.matchAll(/^\s+#?\s?([a-z-]+): /gm)]
-      .map((match) => match[1])
-      .filter((name, index, all) => all.indexOf(name) === index)
+  it('uses only inputs the Rampa action has, with the permissions they need', () => {
+    const workflow = workflowSource(settings('ts', { targets: ['dist', 'http://localhost:4173/'], locale: 'pt-BR' }))
     const step = workflow.slice(workflow.indexOf('rampa-cli@main'))
-    const withInputs = [...step.matchAll(/^ {10}#? ?([a-z-]+): /gm)].map((match) => match[1])
-    expect(withInputs).toEqual(['targets', 'fail-on', 'model', 'criteria', 'locale', 'comment', 'sarif'])
-    expect(inputs.length).toBeGreaterThan(0)
+    const inputs = [...step.matchAll(/^ {10}#? ?([a-z-]+): /gm)].map((match) => match[1])
+    expect(inputs).toEqual(['targets', 'fail-on', 'model', 'criteria', 'locale', 'comment', 'sarif'])
     expect(workflow).toContain('targets: dist http://localhost:4173/')
-    expect(workflow).toContain('${{ secrets.ANTHROPIC_API_KEY }}')
+    // The action's locale input defaults to en and would override the config's.
+    expect(workflow).toContain('          locale: pt-BR\n')
+    expect(workflow).toContain('  pull-requests: write\n')
+    expect(workflow).toContain('  security-events: write\n')
+    expect(workflow).toContain('        #   ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}')
+    expect(workflow).toContain('          # model: anthropic:claude-haiku-5-5')
+  })
+
+  it('quotes targets that YAML would otherwise misread', () => {
+    expect(workflowSource(settings('ts', { targets: ['http://localhost:3000/#top'] }))).toContain("targets: 'http://localhost:3000/#top'\n")
+    expect(workflowSource(settings('ts', { targets: ["docs/it's.html"] }))).toContain("targets: 'docs/it''s.html'\n")
+    expect(workflowSource(settings('ts', { targets: ['site/index.html', 'https://example.com/a?b=c'] }))).toContain('targets: site/index.html https://example.com/a?b=c\n')
+  })
+
+  it('runs axe-core alone in CI when the config pins a local model, which a runner does not have', () => {
+    const workflow = workflowSource(settings('ts', { model: 'ollama:gemma4:12b' }))
+    expect(workflow).toContain('          model: none\n')
+  })
+
+  it('passes the key of a hosted model the config pins', () => {
+    const workflow = workflowSource(settings('ts', { model: 'anthropic:claude-haiku-5-5' }))
+    expect(workflow).not.toMatch(/^ {10}model:/m)
+    expect(workflow).toContain('        env:\n          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}\n')
+    expect(workflowSource(settings('ts', { model: 'bedrock:global.anthropic.claude-haiku-5-5' }))).toContain('Set the credentials Amazon Bedrock needs as secrets')
   })
 })
