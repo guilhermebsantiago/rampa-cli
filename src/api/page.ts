@@ -1,4 +1,5 @@
 import type { CriterionSummary, Report } from '../core/types.ts'
+import { RULE_CHECKS } from '../rules/index.ts'
 import { type PageDriver, collectPage } from '../surfaces/page.ts'
 import { normalizeScope } from '../surfaces/scope.ts'
 import { type RampaOptions, judge, resolveSettings } from './options.ts'
@@ -31,11 +32,18 @@ export async function checkDriver(driver: PageDriver, options: CheckPageOptions 
     screenshotDir: options.screenshotDir,
     captureImages: settings.captureImages,
     scope,
+    wcag: settings.wcag,
   })
   if (!scope) return judge(collected, settings)
 
   const component = scope.include.length > 0
-  const report = await judge(collected, settings, component ? settings.criteria.filter((criterion) => !PAGE_CRITERIA.has(criterion.id)) : settings.criteria)
+  const report = await judge(
+    collected,
+    settings,
+    component ? settings.criteria.filter((criterion) => !PAGE_CRITERIA.has(criterion.id)) : settings.criteria,
+    // The rules that read the page as a whole (its title, head or response) have nothing to read in a component.
+    component ? RULE_CHECKS.filter((rule) => !rule.page) : undefined,
+  )
   // A criterion left out stays in the report as not applicable, so the coverage shows it was not judged rather than hiding it.
   const criteria = settings.criteria.map((criterion) => report.criteria.find((summary) => summary.criterion === criterion.id) ?? notApplicable(criterion.id))
   const { schemaVersion, rampaVersion, createdAt, target, ...rest } = report

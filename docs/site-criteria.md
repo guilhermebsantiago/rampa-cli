@@ -115,10 +115,11 @@ The site report gets a `siteCriteria` object:
 | `findings`, `belowThreshold` | Failures at or above `--min-confidence`, and the rest; experimental checks are always below it unless the threshold is `low` |
 | `review` | Needs review: never a failure, never in the exit code |
 | `waived` | Findings whose fingerprint is in the waivers file |
+| `beyondTarget` | Under `--wcag 2.1` only: failures on 3.2.6, which is new in WCAG 2.2. Reported, never counted toward the target or the exit code |
 
 Each finding has `criterion`, `level`, `status` (`failure` or `review`), `set`, `subject`, `message`, `evidence` (the order observed, as text, one line per distinct order), `pages` (the pages named), `comparedWith`, `items`, `elements` (`page`, `ref`, `name`, `html`), `observed` (for each distinct order, its `pages` and the `order`), `confidence`, `experimental` and a `fingerprint`. The fingerprint is made of the criterion, the set (its name in the config, or the language and viewport of a proposed set), the component and the items, never the pages, so it stays the same when the crawl finds the problem from other pages, and the same problem in the English and the Portuguese pages are two findings; put it in the waivers file to waive the finding.
 
-`summary.coverage.notChecked` no longer lists 3.2.3 once a set was compared, and the coverage block prints a line such as `Compared across pages: 3.2.3 (2 set(s), 10 compared); 3.2.6 (2 set(s), 0 compared)`.
+`summary.coverage.notChecked` no longer lists 3.2.3 once a set was compared, `summary.coverage.site` lists the criteria that compared something, and the coverage block prints a line such as `Compared across pages: 3.2.3 (2 set(s), 10 compared); 3.2.6 (2 set(s), 0 compared)`. In the per-criterion coverage (`summary.coverage.criteria`, see [WCAG 2.2](wcag-2-2.md)), each criterion that ran has a method of kind `site` (`site/3.2.3@<version>`) with what it compared, its failures and what needs review, and the status it found: failures, needs review (a failure below the threshold, or an item to review), no failure found (something compared), or no applicable content (sets compared, nothing found on two pages of one). Across the pages, the most telling status wins.
 
 ## From saved snapshots, without a browser
 
@@ -150,4 +151,4 @@ A finding across pages counts like a page's finding: with the default `--fail-on
 - **A page cut short** by the collector's limit of elements loses what comes last, often its footer; what is missing is not compared.
 - **What a crawl did not load** is not compared: pages beyond `--max-pages`, pages behind a sign-in without `--storage-state`, and states a person reaches by clicking.
 - **Changes a person asked for** (3.2.3 and 3.2.6 both allow them, such as a reordered personal menu) look the same as any other change.
-- **3.2.6 is new in WCAG 2.2.** A run that targets WCAG 2.1 still compares and reports it; treat its findings as beyond that target.
+- **3.2.6 is new in WCAG 2.2.** A run that targets WCAG 2.1 (`--wcag 2.1`) still compares it, and puts its failures in `siteCriteria.beyondTarget`: one line in the report says how many there are (`--verbose` lists them), they never change the exit code, and the coverage lists 3.2.6 as beyond the target, with its status.

@@ -209,7 +209,7 @@ rampa mcp: check_html inline HTML: 3 finding(s), 5 model call(s), 0 cached, 8.7 
 | --- | --- | --- |
 | `check_page` | Checks one page: a URL, an `.html` file or a snapshot `.json` | a browser for URLs and HTML; a model unless `no_llm` |
 | `check_html` | Checks markup the agent has in hand, through a temporary file it deletes afterwards | a browser; a model unless `no_llm` |
-| `list_criteria` | What Rampa judges, and whether axe-core, Rampa or only a person checks each of the 50 WCAG 2.1 A/AA criteria | nothing |
+| `list_criteria` | What Rampa judges, and whether axe-core, Rampa or only a person checks each of the 55 WCAG 2.2 A/AA criteria | nothing |
 | `explain_finding` | The WCAG text, why a finding failed, how to fix it, and links to the W3C Understanding document and ACT rules | nothing |
 
 All four are read-only. `check_page` and `check_html` take the same options:
@@ -226,6 +226,7 @@ All four are read-only. `check_page` and `check_html` take the same options:
 | `runs` | `1` | Judgments per candidate, 1 to 5, majority vote |
 | `min_confidence` | `medium` | Leave out findings below `low`, `medium` or `high` |
 | `max_findings` | `25` | Findings to list; the rest are counted by criterion |
+| `wcag` | the server's `--wcag`, else `2.2` | `2.2` (55 criteria) or `2.1` (50) |
 
 `explain_finding` takes `finding_id`, an id from a check in the same session, or `criterion`, such as `"2.4.4"`. Ids last until the server stops; with an unknown id and a criterion, it explains the criterion and says so in `warning`.
 
@@ -238,13 +239,17 @@ Each result has a short text report and the same content as structured data. Cli
   "target": "examples/store/before.html",
   "judgment": "on",
   "model": "ollama:gemma4:12b",
-  "summary": { "findings": 9, "from_engine": 1, "judged": 8, "left_out": 0, "discarded_claims": 0, "not_judged": 0 },
+  "wcag_target": "wcag22-aa",
+  "summary": { "findings": 9, "from_engine": 1, "judged": 8, "left_out": 0, "discarded_claims": 0, "not_judged": 0, "needs_review": 0 },
   "coverage": {
     "statement": "This report does not declare the page accessible. What was not checked needs manual review and testing with people.",
-    "checked_by_engine": ["1.1.1", "1.3.1", "1.3.5", "1.4.3", "2.4.1", "2.4.2", "2.4.4", "3.1.1", "3.1.2", "3.3.2", "4.1.2"],
-    "judged": ["1.1.1", "2.4.2", "2.4.4", "2.4.6", "3.1.1", "3.1.2"],
-    "not_checked": ["1.2.1", "1.2.2", "…"]
+    "checked_by_engine": ["1.1.1", "1.3.1", "1.3.5", "1.4.3", "2.4.2", "2.4.4", "3.1.1", "3.1.2", "4.1.2"],
+    "judged": ["1.1.1", "1.3.5", "2.4.2", "2.4.4", "2.4.6", "3.1.1", "3.1.2"],
+    "needs_review_only": ["2.4.1", "3.3.2"],
+    "not_checked": ["1.2.1", "1.2.2", "…"],
+    "criteria": [{ "id": "1.1.1", "status": "failures", "checked_by": ["image-alt", "judgment/1.1.1@2"] }, "…"]
   },
+  "needs_review": [],
   "notes": ["Suggested text alternatives describe what the model saw in the image, which cannot be verified against the page: show them to a person before they ship."],
   "usage": { "model_calls": 0, "cached_calls": 13, "estimated_cost_usd": 0 },
   "findings": [

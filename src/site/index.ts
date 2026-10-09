@@ -1,10 +1,10 @@
 import type { PageSet, SiteCriteriaReport, SiteCriterion, SiteCriterionSummary, SiteFinding, SitePageFacts } from '../core/site.ts'
 import { CONFIDENCE_RANK, type Confidence } from '../core/types.ts'
 import { RampaError } from '../core/util.ts'
-import type { Locale } from '../i18n.ts'
+import { type Locale, t } from '../i18n.ts'
 import type { Painter } from '../report/color.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
-import { compareCriteria } from '../wcag.ts'
+import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria } from '../wcag.ts'
 import { consistentHelp } from './consistent-help.ts'
 import { consistentNavigation } from './consistent-navigation.ts'
 import { listPages, pathOf, sm } from './messages.ts'
@@ -39,6 +39,8 @@ export interface SiteCriteriaOptions {
   waivers?: ReadonlySet<string> | undefined
   /** Sets named in the config: a name and path patterns in robots.txt syntax, as --include. */
   pageSets?: Readonly<Record<string, readonly string[]>> | undefined
+  /** The run's WCAG target, 2.2 by default: under 2.1, 3.2.6 is beyond it, and its failures are reported apart. */
+  wcag?: WcagVersion | undefined
 }
 
 /**
@@ -82,13 +84,18 @@ export function runSiteCriteria(pages: readonly SitePageRecord[], options: SiteC
 
   all.sort((a, b) => compareCriteria(a.criterion, b.criterion) || a.set.localeCompare(b.set) || a.subject.localeCompare(b.subject))
   const threshold = CONFIDENCE_RANK[options.minConfidence]
+  const version = options.wcag ?? DEFAULT_WCAG
   const report: SiteCriteriaReport = { sets, unassigned, criteria, findings: [], belowThreshold: [], review: [], waived: [] }
+  const beyond: SiteFinding[] = []
   for (const finding of all) {
     if (options.waivers?.has(finding.fingerprint)) report.waived.push(finding)
     else if (finding.status === 'review') report.review.push(finding)
+    // A WCAG 2.2 criterion in a 2.1 run (3.2.6) is reported apart, and never counted.
+    else if (beyondTarget(finding.criterion, version)) beyond.push(finding)
     else if (CONFIDENCE_RANK[finding.experimental ? 'low' : finding.confidence] >= threshold) report.findings.push(finding)
     else report.belowThreshold.push(finding)
   }
+  if (beyond.length > 0) report.beyondTarget = beyond
   return report
 }
 
@@ -181,16 +188,28 @@ export function renderSiteCriteria(report: SiteCriteriaReport | undefined, local
     } else lines.push(p.yellow(sm(locale, 'reviewHidden2', { count: report.review.length })))
   }
   if (!verbose && report.belowThreshold.length > 0) lines.push(p.yellow(sm(locale, 'belowThreshold', { count: report.belowThreshold.length })))
+  const beyond = report.beyondTarget ?? []
+  if (beyond.length > 0) {
+    // As a page's findings beyond the target: said in one line, listed with --verbose, never counted.
+    const counts = new Map<string, number>()
+    for (const finding of beyond) counts.set(finding.criterion, (counts.get(finding.criterion) ?? 0) + 1)
+    const list = [...counts].sort(([a], [b]) => compareCriteria(a, b)).map(([criterion, count]) => `${criterion} (${count})`)
+    lines.push(p.dim(t(locale, 'beyondTarget', { count: beyond.length, list: list.join(', ') })))
+    if (verbose) for (const finding of beyond) lines.push(...renderFinding(finding, locale, p, p.dim(`◌ ${finding.criterion}`)))
+  }
   if (lines[lines.length - 1] !== '') lines.push('')
   return lines
 }
 
-/** One line for the coverage block: what the comparison covered. */
-export function siteCriteriaCoverage(report: SiteCriteriaReport | undefined, locale: Locale): { label: string; value: string } | undefined {
+/** One line for the coverage block: what the comparison covered, with a criterion beyond the run's target marked so. */
+export function siteCriteriaCoverage(report: SiteCriteriaReport | undefined, locale: Locale, version: WcagVersion = DEFAULT_WCAG): { label: string; value: string } | undefined {
   if (!report) return undefined
   const ran = report.criteria.filter((criterion) => criterion.setsCompared > 0)
   const idle = report.criteria.filter((criterion) => criterion.setsCompared === 0).map((criterion) => criterion.criterion)
-  const parts = ran.map((criterion) => sm(locale, 'coverageRan', { id: criterion.criterion, sets: criterion.setsCompared, compared: criterion.compared }))
+  const parts = ran.map((criterion) => {
+    const text = sm(locale, 'coverageRan', { id: criterion.criterion, sets: criterion.setsCompared, compared: criterion.compared })
+    return beyondTarget(criterion.criterion, version) ? `${text} (${t(locale, 'statusBeyond')})` : text
+  })
   if (idle.length > 0) parts.push(sm(locale, 'coverageNothing', { ids: idle.join(', ') }))
   return { label: sm(locale, 'coverageLabel'), value: parts.join('; ') }
 }

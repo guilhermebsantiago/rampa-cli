@@ -1,6 +1,7 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import type { Browser } from 'playwright-core'
+import { resolveProfiles } from '../../advisory/profile.ts'
 import { loadWaivers } from '../../config.ts'
 import { fileCache } from '../../core/cache.ts'
 import { type CheckOptions, checkSnapshot } from '../../core/check.ts'
@@ -12,7 +13,8 @@ import { emptyEngine } from '../../engine/axe.ts'
 import { chooseModel } from '../../providers/detect.ts'
 import type { ModelProvider } from '../../providers/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
-import { type SitePageRecord, pageSetsOf, runSiteCriteria, siteCriteriaChecked, siteFactsOf } from '../../site/index.ts'
+import { type SitePageRecord, pageSetsOf, runSiteCriteria, siteFactsOf } from '../../site/index.ts'
+import { withSiteCriteria } from '../../core/coverage.ts'
 import { renderSiteReport } from '../../report/site.ts'
 import { type BrowserOptions, addSiteCookies, contextOptions, describeConditions, webUrl } from '../../surfaces/browser-options.ts'
 import {
@@ -33,7 +35,8 @@ import { recordingName } from '../../surfaces/targets.ts'
 import { type Collected, collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import { VERSION } from '../../version.ts'
 import type { GlobalContext } from '../context.ts'
-import { type CheckCommandOptions, resolveProvider } from './check.ts'
+import { type CheckCommandOptions, resolveProvider, wcagOption } from './check.ts'
+import { DEFAULT_WCAG, wcagTarget } from '../../wcag.ts'
 
 const SKIP_ORDER: readonly SkipReason[] = ['robots', 'off-site', 'http', 'not-html', 'error']
 
@@ -75,6 +78,9 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
     minConfidence: options.minConfidence,
     concurrency: Math.max(1, Number.parseInt(options.concurrency, 10) || 4),
     waivers: await loadWaivers(),
+    profiles: resolveProfiles(options.profile, context.config.profiles),
+    coga: context.config.coga,
+    wcag: wcagOption(options.wcag),
   }
   const progress = (message: string) => {
     if (process.stderr.isTTY && options.format === 'pretty') process.stderr.write(`\x1b[2K${message}\r`)
@@ -163,6 +169,7 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
         screenshotDir: options.screenshots ? '.rampa/screenshots' : undefined,
         captureImages: run.needsImages,
         browserOptions: run.browserOptions,
+        wcag: run.check.wcag,
         inspect: async (page, response) => {
           finalUrl = page.url()
           const verdict = frontier.arrived(task, finalUrl, response?.status(), response?.headers()['content-type'])
@@ -204,14 +211,21 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
       minConfidence: options.minConfidence,
       waivers: run.check.waivers,
       pageSets: run.pageSets,
+      wcag: run.check.wcag ?? DEFAULT_WCAG,
     })
   } catch (error) {
     // The pages are checked and judged by now: a comparison that fails must not lose their report.
     process.stderr.write(`rampa: the criteria across pages (3.2.3, 3.2.6) did not run: ${errorMessage(error)}\n`)
   }
   const summary = summarizeSite(pages, cache.reused)
-  const compared = new Set(siteCriteria ? siteCriteriaChecked(siteCriteria) : [])
-  summary.coverage.notChecked = summary.coverage.notChecked.filter((id) => !compared.has(id))
+  // 3.2.3 and 3.2.6 get a method of kind site, the status it gives, and leave "not checked" when they compared something.
+  if (siteCriteria) {
+    summary.coverage = withSiteCriteria(summary.coverage, siteCriteria, {
+      version: run.check.wcag ?? DEFAULT_WCAG,
+      locale: run.context.locale,
+      minConfidence: options.minConfidence,
+    })
+  }
   return {
     schemaVersion: 1,
     kind: 'site',
@@ -238,6 +252,7 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
       sitemapErrors: sitemaps.failed,
     },
     browser: describeConditions(run.browserOptions),
+    wcagTarget: wcagTarget(run.check.wcag ?? DEFAULT_WCAG),
     locale: run.context.locale,
     llm: first?.llm ?? (!options.llm ? 'off' : run.provider || options.offline ? 'on' : 'no-model'),
     model: run.provider?.id,

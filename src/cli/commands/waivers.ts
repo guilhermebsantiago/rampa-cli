@@ -56,9 +56,16 @@ export async function readReports(paths: readonly string[]): Promise<Report[]> {
   return reports
 }
 
-/** Every finding a report holds, including the waived ones and those a baseline hid. */
-function findingsOf(report: Report): Finding[] {
-  return [...report.findings, ...(report.belowThreshold ?? []), ...(report.waived ?? []), ...(report.baseline?.known ?? [])]
+/** Every finding a report holds, including the waived ones and those a baseline hid, and the advisories of a --profile, which waive the same way. */
+function findingsOf(report: Report): Array<Pick<Finding, 'fingerprint' | 'criterion' | 'ref' | 'target' | 'message'>> {
+  const advisories = report.advisory ? [...report.advisory.results, ...report.advisory.belowThreshold, ...report.advisory.waived] : []
+  return [
+    ...report.findings,
+    ...(report.belowThreshold ?? []),
+    ...(report.waived ?? []),
+    ...(report.baseline?.known ?? []),
+    ...advisories.map((advisory) => ({ fingerprint: advisory.fingerprint, criterion: advisory.check, ref: advisory.ref, target: undefined, message: advisory.message })),
+  ]
 }
 
 type Context = Pick<Waiver, 'criterion' | 'target' | 'ref' | 'message'>

@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest'
+import { withSiteCriteria } from '../src/core/coverage.ts'
 import { type SiteReport, siteExitCode } from '../src/core/site.ts'
+import type { Report } from '../src/core/types.ts'
 import { paint } from '../src/report/color.ts'
 import { renderSiteReport } from '../src/report/site.ts'
 import { consistentHelp, helpFacts } from '../src/site/consistent-help.ts'
@@ -445,10 +447,11 @@ describe('3.2.6 Consistent Help', () => {
 })
 
 describe('the site report', () => {
-  const pages = [page('/', { nav: [{ label: 'Main', links: MAIN }], footer: FOOTER }), page('/a', { nav: [{ label: 'Main', links: MAIN }], footer: FOOTER }), page('/b', { nav: [{ label: 'Main', links: swap(MAIN, 1, 2) }], footer: FOOTER })]
+  const defaultPages = [page('/', { nav: [{ label: 'Main', links: MAIN }], footer: FOOTER }), page('/a', { nav: [{ label: 'Main', links: MAIN }], footer: FOOTER }), page('/b', { nav: [{ label: 'Main', links: swap(MAIN, 1, 2) }], footer: FOOTER })]
 
-  function site(minConfidence: 'low' | 'medium'): SiteReport {
-    const siteCriteria = run(pages, { minConfidence })
+  function site(minConfidence: 'low' | 'medium', extra: { pages?: A11ySnapshot[]; wcag?: '2.1' | '2.2' } = {}): SiteReport {
+    const pages = extra.pages ?? defaultPages
+    const siteCriteria = run(pages, { minConfidence, ...(extra.wcag ? { wcag: extra.wcag } : {}) })
     return {
       schemaVersion: 1,
       kind: 'site',
@@ -513,5 +516,56 @@ describe('the site report', () => {
     const low = site('low')
     expect(siteExitCode([low], 'confirmed')).toBe(1)
     expect(renderSiteReport(low, { verbose: false, paint: paint(false) })).not.toContain('No confirmed failures')
+  })
+
+  // Contact details move from the footer to the header on /b: a 3.2.6 failure, and nothing for 3.2.3.
+  const helpMoved = [
+    page('/', { nav: [{ links: MAIN }], footer: FOOTER }),
+    page('/a', { nav: [{ links: MAIN }], footer: FOOTER }),
+    page('/b', { header: [['help@example.com', 'mailto:help@example.com']], nav: [{ links: MAIN }], footer: FOOTER.slice(0, 2) }),
+  ]
+
+  it('reports 3.2.6 beyond the target under --wcag 2.1, and keeps it out of the exit code', () => {
+    const current = site('low', { pages: helpMoved })
+    expect(current.siteCriteria?.findings.map((finding) => finding.criterion)).toEqual(['3.2.6'])
+    expect(current.siteCriteria?.beyondTarget).toBeUndefined()
+    expect(siteExitCode([current], 'confirmed')).toBe(1)
+
+    const older = site('low', { pages: helpMoved, wcag: '2.1' })
+    expect(older.siteCriteria?.findings).toEqual([])
+    expect(older.siteCriteria?.belowThreshold).toEqual([])
+    expect(older.siteCriteria?.beyondTarget?.map((finding) => finding.criterion)).toEqual(['3.2.6'])
+    expect(siteExitCode([older], 'confirmed')).toBe(0)
+    expect(siteExitCode([older], 'any')).toBe(0)
+    const text = renderSiteReport({ ...older, pages: older.pages.map((report) => ({ ...report, wcagTarget: 'wcag21-aa' as const })) }, { verbose: false, paint: paint(false) })
+    expect(text).toContain("1 finding(s) on WCAG 2.2 criteria beyond this run's WCAG 2.1 target, not counted: 3.2.6 (1).")
+    expect(text).toContain('3.2.6 (1 set(s), 2 compared) (beyond the target)')
+  })
+
+  it('gives 3.2.3 and 3.2.6 a site method in the coverage, with the status the comparison found', () => {
+    const manual = 'Check it by hand.'
+    const base: Report['coverage'] = {
+      engine: [],
+      judged: [],
+      notChecked: ['3.2.3', '3.2.6'],
+      criteria: [
+        { id: '3.2.3', level: 'AA', target: 'in', status: 'not-checked', methods: [], manual },
+        { id: '3.2.6', level: 'A', target: 'in', status: 'not-checked', methods: [], manual },
+      ],
+    }
+    const current = withSiteCriteria(base, run(helpMoved), { version: '2.2', locale: 'en', minConfidence: 'low' })
+    const help = current.criteria?.find((record) => record.id === '3.2.6')
+    expect(help?.status).toBe('failures')
+    expect(help?.methods).toEqual([expect.objectContaining({ kind: 'site', id: expect.stringMatching(/^site\/3\.2\.6@/), ran: true, failures: 1 })])
+    expect(current.criteria?.find((record) => record.id === '3.2.3')).toMatchObject({ status: 'no-failure-found', methods: [{ kind: 'site', ran: true, failures: 0 }] })
+    expect(current.site).toEqual(['3.2.3', '3.2.6'])
+    expect(current.notChecked).toEqual([])
+
+    // Under 2.1, 3.2.6 is beyond the target: listed as such, with its status, and never in "site" or "not checked".
+    const v21: Report['coverage'] = { ...base, notChecked: ['3.2.3'], criteria: base.criteria?.filter((record) => record.id === '3.2.3') }
+    const older = withSiteCriteria(v21, run(helpMoved, { wcag: '2.1' }), { version: '2.1', locale: 'en', minConfidence: 'low' })
+    expect(older.criteria?.find((record) => record.id === '3.2.6')).toMatchObject({ target: 'beyond', status: 'failures', methods: [{ kind: 'site', failures: 1 }] })
+    expect(older.site).toEqual(['3.2.3'])
+    expect(older.notChecked).toEqual([])
   })
 })

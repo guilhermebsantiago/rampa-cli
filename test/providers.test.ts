@@ -118,7 +118,9 @@ afterEach(() => {
 describe('providers', () => {
   it('has a test case for every provider that can run without cloud credentials', () => {
     const covered = new Set(CASES.map((c) => parseModelSpec(c.spec).provider))
-    expect(PROVIDERS.map((p) => p.id).filter((id) => !covered.has(id))).toEqual(['vertex-anthropic'])
+    // Subscription CLIs are tested against stub executables in subscriptions.test.ts.
+    const api = PROVIDERS.filter((p) => p.where !== 'subscription')
+    expect(api.map((p) => p.id).filter((id) => !covered.has(id))).toEqual(['vertex-anthropic'])
   })
 
   it.each(CASES)('$spec sends the prompt, the image and the schema, and reads the answer back', async ({ spec, env, host }) => {

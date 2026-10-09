@@ -45,7 +45,7 @@ describe('HTML report', () => {
   it('shows each finding with its place, message, evidence, diff and id', async () => {
     const html = renderHtml([(await recordedReport()).report])
     expect(html).toContain('<h3>WCAG 2.4.4 (A) — Link Purpose (In Context)</h3>')
-    expect(html).toContain('<a href="https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html">Understanding WCAG 2.4.4 Link Purpose (In Context)</a>')
+    expect(html).toContain('<a href="https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html">Understanding WCAG 2.4.4 Link Purpose (In Context)</a>')
     expect(html).toContain('<p class="where"><code>examples/store/before.html:31</code> <code class="selector">html &gt; body &gt; main &gt; p:nth-of-type(2) &gt; a</code></p>')
     expect(html).toContain('<p>Evidence: <q>Click here</q></p>')
     expect(html).toContain(
@@ -73,7 +73,7 @@ describe('HTML report', () => {
     const html = renderHtml([(await recordedReport('examples-store-before', { locale: 'pt-BR' })).report])
     expect(html).toContain('<html lang="pt-BR">')
     expect(html).toContain('<h1>Relatório de acessibilidade</h1>')
-    expect(html).toContain('9 achados confirmados em 1 página verificada contra a WCAG 2.1 A/AA: 6 de nível A, 3 de nível AA.')
+    expect(html).toContain('9 achados confirmados em 1 página verificada contra a WCAG 2.2 A/AA: 6 de nível A, 3 de nível AA.')
     expect(html).toContain('Este relatório não declara a página acessível.')
   })
 

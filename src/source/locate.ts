@@ -38,6 +38,16 @@ export const KEPT_ATTRIBUTES = [
   'placeholder',
   'autocomplete',
   'pattern',
+  'maxlength',
+  'minlength',
+  'min',
+  'max',
+  'step',
+  'inputmode',
+  'required',
+  'aria-required',
+  'novalidate',
+  'formnovalidate',
 ] as const
 
 /** The collector cuts attribute values at this length. */

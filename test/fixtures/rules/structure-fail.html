@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Orders · Acme</title>
+</head>
+<body>
+  <main>
+    <h1>Orders</h1>
+
+    <!-- d0f69e: "Value" heads no cell. -->
+    <table id="rates">
+      <thead><tr><th>Rate</th><th>Value</th></tr></thead>
+      <tbody><tr><td>15%</td></tr></tbody>
+    </table>
+
+    <!-- F46/F92: a layout table that keeps a caption and header cells. -->
+    <table id="layout" role="presentation">
+      <caption>Shipping times</caption>
+      <tr><th>Region</th><th>Days</th></tr>
+      <tr><td>North</td><td>3</td></tr>
+    </table>
+
+    <!-- F111, narrow: the label sits beside one field and labels nothing. -->
+    <div class="row">
+      <label>Order number</label>
+      <input id="order" type="text" placeholder="e.g. 10-2034">
+    </div>
+
+    <!-- 4.1.2: two cards reuse id="card-title"; the second button is named by the first card's title. -->
+    <section class="card"><h2 id="card-title">Blue mug</h2><button type="button" aria-labelledby="card-title">Add</button></section>
+    <section class="card"><h2 id="card-title">Red kettle</h2><button type="button" aria-labelledby="card-title">Add</button></section>
+  </main>
+</body>
+</html>
