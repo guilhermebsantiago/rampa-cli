@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Untitled document</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 24px; color: #1f2328; }
+      header { display: flex; align-items: center; gap: 12px; }
+      section, aside { margin: 16px 0; }
+    </style>
+  </head>
+  <body>
+    <!-- A shop page for the test-runner integration tests: a cart component with problems a model
+         should catch, a third-party ad to exclude, and a newsletter component with none. -->
+    <header><img src="/logo.svg" width="48" height="48" /><strong>Corner Store</strong></header>
+    <main>
+      <section id="cart" aria-labelledby="cart-title">
+        <h2 id="cart-title">Section 2</h2>
+        <ul>
+          <li><img src="/mug.svg" alt="IMG_2034.jpg" width="96" height="96" /> Blue ceramic mug, $14</li>
+        </ul>
+        <p>Orders over $50 ship for free. <a href="/shipping">Click here</a></p>
+      </section>
+      <aside class="ad">
+        <p>Sponsored: <a href="https://ads.example/offer">Read more</a></p>
+      </aside>
+      <section id="newsletter" aria-labelledby="newsletter-title">
+        <h2 id="newsletter-title">Weekly deals by email</h2>
+        <p>One email a week with the best prices in the store.</p>
+        <label for="email">Email address</label>
+        <input id="email" type="email" autocomplete="email" />
+      </section>
+    </main>
+  </body>
+</html>

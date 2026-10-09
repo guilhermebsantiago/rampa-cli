@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsdown'
 
 export default defineConfig({
-  entry: ['src/cli.ts', 'src/index.ts'],
+  entry: ['src/cli.ts', 'src/index.ts', 'src/playwright.ts', 'src/puppeteer.ts'],
   format: 'esm',
   platform: 'node',
   target: 'node22',
