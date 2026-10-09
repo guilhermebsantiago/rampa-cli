@@ -83,17 +83,21 @@ The evaluation numbers below are from one run of Gemma 4 12B on a local GPU (Oll
 ## 3.1.1 Language of Page
 
 - **axe-core checks** that the page declares a valid language. It passes `lang="en"` on a page in Portuguese.
-- **Rampa judges** the text that inherits the root language against the declared language.
-- **Verification:** the evidence must be an excerpt of that text; the detected language must be a valid BCP 47 tag, different from the declared one on a fail and the same on a pass.
+- **Rampa judges** the text that inherits the root language against the declared language. That text follows ACT ucwvc8: the page title, the text in reading order, and the names and descriptions set in attributes (`alt`, `aria-label`, `aria-labelledby`, `title`, `aria-describedby`); text under an element with its own non-empty `lang` is left out, and an empty `lang` declares nothing.
+- **Language identifier:** an n-gram identifier (ELD, small database, 60 languages) reads the same text first. It was chosen over franc by measuring both on 1,246 texts in pt, en, es, nl, fr and de: ELD read 87% of the texts under 16 characters and 97% of those up to 40 correctly, franc-min 23% and 69%. A long text it reads clearly (150 letters, 20 words, one language well ahead and no large part in another) is decided without a model: a mismatch fails, and the message says so. Short or mixed text goes to the model. Languages it has no n-grams for, and pairs it confuses (Danish, Norwegian and Swedish; Croatian, Serbian and Bosnian; Malay and Indonesian; Czech and Slovak), are never decided by it.
+- **Verification:** the evidence must be an excerpt of the title or the text; the detected language must be a valid BCP 47 tag, different from the declared one on a fail and the same on a pass. A model's fail is dropped when a confident reading (60 letters or more) says the text is in the declared language or in another language than the model named, and when the declared language fits the words as well as any other ("Paul put dire comment on tape" is English and French, so the page has no default language).
 - **Patch:** sets the root `lang` to the detected primary subtag.
+- **Evaluation:** ucwvc8 precision 0.56 and recall 1.00 (0.50 and 1.00 before the identifier); the four false positives left are axe-core failures on inapplicable cases, which the scoring fix in the coverage plan (A2) removes. Pairs (`html-lang-swap`): 4 of 4.
 
 ## 3.1.2 Language of Parts
 
 - **axe-core checks** that `lang` values are valid. It passes a Dutch review marked `lang="es"`.
-- **Rampa judges** each element with a valid `lang` whose text may be in another language, allowing the criterion's exceptions (proper names, technical terms, words of indeterminate language, vernacular).
-- **Verification:** the evidence must be an excerpt of the element's text; a fail needs a different, valid detected language and no exception.
-- **Patch:** sets the element's `lang`.
-- **Limits:** a sentence that is two languages at once ("Paul put dire comment on tape") is the known model error.
+- **Rampa judges** each element with a valid `lang` whose text may be in another language, allowing the criterion's exceptions (proper names, technical terms, words of indeterminate language, vernacular). A long element the language identifier reads clearly is decided without a model, as for 3.1.1.
+- **Unmarked passages:** text with no `lang` of its own that inherits the page's language is read by the identifier in windows of five words, so a quote inside a sentence is found as well as a whole paragraph. Runs it reads as another language (20 letters and 3 words at least) go to the model with the text around them, and the model names the exception that covers them, if any; with no exception and another language, the passage fails. A passage under 60 letters stays below the confidence threshold. At most eight per page, the longest first.
+- **Verification:** the evidence must be an excerpt of the element's text; a fail needs a different, valid detected language and no exception. The identifier drops a model's fail as for 3.1.1; a pass that names an exception is left to the model.
+- **Patch:** sets the element's `lang`; for a passage, the block's `lang`, or a `<span lang>` around a phrase.
+- **Evaluation:** off6ek precision 1.00 and recall 1.00 (0.80 and 1.00 before: "Paul put dire comment on tape" marked French is no longer failed). Pairs: `lang-swap` 5 of 5 (4 of 5 before); `lang-drop`, which takes the `lang` off every passage in another language than the page, 1 of 5: two of its passages are that two-language sentence, which rightly passes, one is "Bonne année !", too short to nominate, and a Dutch phrase between two English spans was not failed.
+- **Limits:** a phrase of one or two words in another language is not nominated; only the model, on a marked element, can judge it.
 
 ## 3.3.2 Labels or Instructions
 
