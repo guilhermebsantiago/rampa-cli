@@ -109,8 +109,23 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
   needs: { vision?: boolean; fetch?: boolean }
   /** Engine rules that cover the deterministic side of the criterion. */
   engineRules: readonly string[]
+  /** Loads what the synchronous methods below need, such as an n-gram database; awaited before `candidates`. */
+  prepare?(): Promise<void>
   /** Only the residue the engine could not decide. */
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<Ctx>[]
+  /**
+   * A judgment made without a model, for a candidate a deterministic reading settles: a long text a language
+   * identifier reads clearly. No model is asked about that candidate; the judgment still goes through `verify`.
+   */
+  decide?(candidate: Candidate<Ctx>, snapshot: A11ySnapshot): Out | undefined
+  /**
+   * The verdict that follows from the rest of the model's answer, where the criterion defines it that way: for a
+   * passage the identifier nominated, a detected language and no exception make a fail, whatever verdict was written.
+   * Applied to every answer before the vote; the answer still goes through `verify`.
+   */
+  settle?(output: Out, candidate: Candidate<Ctx>): Out
+  /** The highest confidence a finding about this candidate can have, whatever the model says: a short quote stays low. */
+  confidenceCap?(candidate: Candidate<Ctx>): Confidence | undefined
   prompt(candidate: Candidate<Ctx>, snapshot: A11ySnapshot): Prompt
   schema: z.ZodType<Out>
   verify(output: Out, candidate: Candidate<Ctx>, snapshot: A11ySnapshot): Verification

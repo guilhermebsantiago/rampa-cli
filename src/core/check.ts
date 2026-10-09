@@ -94,11 +94,14 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     summaries.push(summary)
     if (!summary.applicable) continue
 
+    await criterion.prepare?.()
     const candidates = criterion.candidates(snapshot, engine)
     summary.candidates = candidates.length
-    if (!llmActive || candidates.length === 0) continue
+    // With judgment on but no model to ask, what the criterion decides by itself is still judged; --no-llm judges nothing.
+    const judged = llmActive ? candidates : options.llm ? candidates.filter((candidate) => criterion.decide?.(candidate, snapshot) !== undefined) : []
+    if (judged.length === 0) continue
 
-    const judgments = await judgeCandidates(criterion, snapshot, candidates, {
+    const judgments = await judgeCandidates(criterion, snapshot, judged, {
       provider: options.provider,
       runs: options.runs,
       cache: options.cache,
@@ -108,6 +111,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
 
     for (const judgment of judgments) {
       for (const sample of judgment.samples) {
+        if (sample.decided) continue
         if (sample.cached) usage.cachedCalls++
         else if (sample.output) usage.calls++
         usage.inputTokens += sample.inputTokens
@@ -151,8 +155,10 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
           const output = judgment.representative
           if (!output) continue
           const agreement = judgment.votes / Math.max(1, judgment.total)
-          const confidence: Confidence =
+          const voted: Confidence =
             agreement === 1 ? output.confidence : agreement >= 2 / 3 ? minConfidence(output.confidence, 'medium') : 'low'
+          const confidence = minConfidence(voted, criterion.confidenceCap?.(judgment.candidate) ?? 'high')
+          const decided = judgment.samples.some((sample) => sample.decided)
           // Keyed on what was judged, never on the model's quote: models pick different words to quote
           // from run to run, and a fingerprint that moves breaks every waiver and baseline holding it.
           const subject = criterion.subject?.(judgment.candidate)
@@ -167,8 +173,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             subject,
             patch: criterion.patch?.(output, judgment.candidate, snapshot),
             confidence,
-            agreement: { votes: judgment.votes, total: judgment.total },
-            model: options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId,
+            // A judgment the criterion made without a model names no model; its message says what decided it.
+            agreement: decided ? undefined : { votes: judgment.votes, total: judgment.total },
+            model: decided ? undefined : (options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId),
           })
         }
       }

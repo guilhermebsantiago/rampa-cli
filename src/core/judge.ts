@@ -19,6 +19,8 @@ export interface Sample<Out> {
   output?: Out | undefined
   error?: string | undefined
   cached: boolean
+  /** Decided by the criterion without a model (`Criterion.decide`): no call, no tokens. */
+  decided?: boolean | undefined
   inputTokens: number
   outputTokens: number
   latencyMs: number
@@ -50,12 +52,15 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
   const schemaName = `wcag_${criterion.id.replaceAll('.', '_')}_judgment`
 
   return mapLimit(candidates, options.concurrency, async (candidate) => {
-    const prompt = criterion.prompt(candidate, snapshot)
-    const imageHashes = (prompt.images ?? []).map((image) => sha256(Buffer.from(image.data).toString('base64')))
-    const promptHash = sha256([prompt.system, prompt.user, schemaJson, ...imageHashes].join('\u0000'))
     const samples: Sample<Out>[] = []
+    // A candidate the criterion settles by itself is never sent to the model.
+    const decided = criterion.decide?.(candidate, snapshot)
+    if (decided) samples.push({ output: decided, cached: false, decided: true, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
+    const prompt = decided ? undefined : criterion.prompt(candidate, snapshot)
+    const imageHashes = (prompt?.images ?? []).map((image) => sha256(Buffer.from(image.data).toString('base64')))
+    const promptHash = prompt ? sha256([prompt.system, prompt.user, schemaJson, ...imageHashes].join('\u0000')) : ''
 
-    for (let sample = 0; sample < options.runs; sample++) {
+    for (let sample = 0; prompt && sample < options.runs; sample++) {
       const key = sha256(
         JSON.stringify({
           criterion: criterion.id,
@@ -115,7 +120,7 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
       }
     }
 
-    const outputs = samples.flatMap((s) => (s.output ? [s.output] : []))
+    const outputs = samples.flatMap((s) => (s.output ? [criterion.settle?.(s.output, candidate) ?? s.output] : []))
     if (outputs.length === 0) {
       const status: JudgmentStatus = samples.every((s) => s.error === OFFLINE_MISS) ? 'offline-miss' : 'error'
       return { candidate, samples, status, votes: 0, total: 0 }

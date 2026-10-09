@@ -153,9 +153,10 @@ export async function runAgentCheck(target: Target, args: AgentCheckArgs, defaul
  * fix the model or run without one. The deterministic findings still hold and go along with the message.
  */
 export function judgmentFailure(report: Report): string | undefined {
-  const judged = report.criteria.reduce((sum, c) => sum + c.judged, 0)
+  // Judgments a criterion made without a model (a language identifier's) say nothing about the model: only answers do.
+  const answered = report.usage.calls + report.usage.cachedCalls
   const failed = report.criteria.reduce((sum, c) => sum + c.errors, 0)
-  if (failed === 0 || judged > 0) return undefined
+  if (failed === 0 || answered > 0) return undefined
   return `The model ${report.model ?? ''} failed on all ${failed} candidate(s): ${report.errors[0] ?? 'unknown error'}. Check that it runs and is reachable from the server (rampa doctor), pass another model, ${NO_LLM_HINT} What axe-core found is below.`
 }
 

@@ -52,6 +52,30 @@ export const langSwap: Corruptor = {
   },
 }
 
+/**
+ * 3.1.2: take the lang off every element in another language than the page, as a copy and paste into a CMS does.
+ * The passage is then read in the page's language; only the language identifier can nominate it.
+ */
+export const langDrop: Corruptor = {
+  id: 'lang-drop',
+  criterion: '3.1.2',
+  async apply(page) {
+    return page.evaluate(() => {
+      const primary = (tag: string | null) => (tag ?? '').trim().split('-')[0]?.toLowerCase() ?? ''
+      const page = primary(document.documentElement.getAttribute('lang'))
+      let changed = 0
+      for (const element of Array.from(document.querySelectorAll('body [lang]'))) {
+        const declared = primary(element.getAttribute('lang'))
+        const letters = (element.textContent ?? '').match(/\p{L}/gu)?.length ?? 0
+        if (declared === '' || declared === page || letters < 4) continue
+        element.removeAttribute('lang')
+        changed++
+      }
+      return changed
+    })
+  },
+}
+
 /** 1.1.1: replace every non-empty alt with a placeholder, the "img-1" case. */
 export const altPlaceholder: Corruptor = {
   id: 'alt-placeholder',
@@ -348,6 +372,6 @@ export const CORRUPTORS: Readonly<Record<string, Corruptor[]>> = {
   '2.4.4': [linkGeneric, linkMismatch],
   '2.4.6': [headingGeneric],
   '3.1.1': [htmlLangSwap],
-  '3.1.2': [langSwap],
+  '3.1.2': [langSwap, langDrop],
   '3.3.2': [labelHidden],
 }

@@ -220,14 +220,37 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     return collapse(text) || undefined
   }
 
-  /** Text in reading order whose closest lang ancestor is `el`. */
+  /**
+   * Text that inherits its language from `el`, as ACT defines it (rules ucwvc8, off6ek): text nodes in reading order
+   * whose closest ancestor with a non-empty lang is `el`, and the names and descriptions of those elements that come
+   * from attributes. The page title, which inherits the root's language, is the snapshot's title.
+   */
   const langText = (el: Element): string => textInOrder(el, true)
+
+  /** What a screen reader reads for an element besides its text: names and descriptions set in attributes. */
+  const attributeTexts = (el: Element): string[] => {
+    if (el.closest('[aria-hidden="true"]')) return []
+    const byIds = (attribute: string): string =>
+      (el.getAttribute(attribute) ?? '')
+        .split(/\s+/)
+        .map((id) => (id ? collapse(document.getElementById(id)?.textContent) : ''))
+        .filter(Boolean)
+        .join(' ')
+    const texts: string[] = []
+    const tag = el.localName
+    const labelledBy = byIds('aria-labelledby')
+    const label = labelledBy || collapse(el.getAttribute('aria-label'))
+    if (label) texts.push(label)
+    else if (tag === 'img' || tag === 'area' || (tag === 'input' && el.getAttribute('type') === 'image')) texts.push(collapse(el.getAttribute('alt')))
+    texts.push(collapse(el.getAttribute('title')), byIds('aria-describedby'), collapse(el.getAttribute('aria-description')))
+    return texts.filter(Boolean)
+  }
 
   /** Text in reading order, without what is hidden from the accessibility tree. */
   const readingText = (el: Element): string => collapse(textInOrder(el, false)).slice(0, 1000)
 
   const textInOrder = (el: Element, stopAtLang: boolean): string => {
-    const parts: string[] = []
+    const parts: string[] = stopAtLang ? attributeTexts(el) : []
     const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT)
     let node: Node | null = walker.nextNode()
     while (node) {
@@ -237,7 +260,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
           node = walker.nextSibling() ?? nextOutside(walker, el)
           continue
         }
-        if (element !== el && stopAtLang && element.hasAttribute('lang')) {
+        // An empty lang declares nothing: its text still inherits, as ACT reads it.
+        if (element !== el && stopAtLang && (element.getAttribute('lang') ?? '').trim() !== '') {
           node = walker.nextSibling() ?? nextOutside(walker, el)
           continue
         }
@@ -250,8 +274,11 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
           node = walker.nextSibling() ?? nextOutside(walker, el)
           continue
         }
-        // An image is read by its accessible name: alt, aria-label, or the text aria-labelledby points to.
-        if (element.localName === 'img') {
+        if (stopAtLang) {
+          // Names and descriptions set in attributes are read in the element's language too.
+          parts.push(...attributeTexts(element))
+        } else if (element.localName === 'img') {
+          // An image is read by its accessible name: alt, aria-label, or the text aria-labelledby points to.
           const name = accessibleName(element, implicitRole(element))
           if (name) parts.push(name)
         }
