@@ -5,7 +5,7 @@ import { type ComparedCriterion, type ComparedRun, type Comparison, type Differi
 /** Terminal and Markdown views of a comparison. Both show the same numbers; only the layout differs. */
 
 export const COMPARE_NOTE =
-  'Intervals are 95% Wilson score intervals. McNemar’s exact test counts only the cases where one run is right and the other wrong; a large p means these cases cannot tell the runs apart, not that the runs are equally good.'
+  "Intervals are 95% Wilson score intervals. McNemar's exact test counts only the cases where one run is right and the other wrong; a large p means these cases cannot tell the runs apart, not that the runs are equally good."
 
 const fixed = (value: number | undefined) => (value === undefined ? '—' : value.toFixed(2))
 const kilo = (tokens: number) => `${(tokens / 1000).toFixed(1)}k`
@@ -281,7 +281,8 @@ export function comparisonMarkdown(comparison: Comparison): string {
     }
   }
 
-  if (comparison.warnings.length > 0) lines.push('', ...comparison.warnings.map((warning) => `> ${escape(warning)}`))
+  // A list, so that several warnings do not run together into one paragraph.
+  if (comparison.warnings.length > 0) lines.push('', ...comparison.warnings.map((warning) => `> - ${escape(warning)}`))
   lines.push('', COMPARE_NOTE, '')
   return lines.join('\n')
 }

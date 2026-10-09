@@ -70,7 +70,7 @@ export async function loadRun(dir: string): Promise<LoadedRun> {
     throw new RampaError('run-not-found', `${dir} is not a rampa eval run: it has no results.jsonl.`)
   }
   const records: RunRecord[] = []
-  for (const [index, line] of text.replace(/^﻿/, '').split('\n').entries()) {
+  for (const [index, line] of text.replace(/^\uFEFF/, '').split('\n').entries()) {
     if (line.trim() === '') continue
     let data: unknown
     try {
@@ -93,7 +93,7 @@ export async function loadRun(dir: string): Promise<LoadedRun> {
   if (summaryText !== undefined) {
     let data: unknown
     try {
-      data = JSON.parse(summaryText.replace(/^﻿/, ''))
+      data = JSON.parse(summaryText.replace(/^\uFEFF/, ''))
     } catch (error) {
       throw new RampaError('invalid-run', `${join(dir, 'summary.json')} is not JSON: ${errorMessage(error)}`)
     }
@@ -299,7 +299,12 @@ function labelRuns(runs: readonly LoadedRun[]): string[] {
     const extra: string[] = []
     if (differs((s) => s.verify)) extra.push(own.verify === false ? 'verification off' : 'verification on')
     if (differs((s) => s.runs) && own.runs !== undefined) extra.push(own.runs === 1 ? '1 run' : `${own.runs} runs`)
-    if (extra.length === 0) extra.push((differs((s) => s.createdAt) && runTime(own.createdAt)) || (runs[index]?.name ?? runId(index)))
+    if (extra.length === 0) {
+      // The time to the minute, unless another twin started in the same minute; then the directory name.
+      const time = runTime(own.createdAt)
+      const unique = time !== undefined && twins.filter((summary) => runTime(summary.createdAt) === time).length === 1
+      extra.push(unique ? time : (runs[index]?.name ?? runId(index)))
+    }
     return `${label} (${extra.join(', ')})`
   })
 }

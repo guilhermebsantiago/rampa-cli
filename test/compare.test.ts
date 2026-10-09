@@ -111,7 +111,7 @@ describe('loadRun', () => {
   })
 
   it('still compares a run without summary.json, and says its model is unknown', async () => {
-    await writeFile(join(dir, 'results.jsonl'), `﻿${JSON.stringify(record())}\r\n`)
+    await writeFile(join(dir, 'results.jsonl'), `\uFEFF${JSON.stringify(record())}\r\n`)
     const loaded = await loadRun(dir)
     expect(loaded.hasSummary).toBe(false)
     expect(compareRuns([loaded]).warnings.join('\n')).toMatch(/no readable summary\.json/)
@@ -210,6 +210,9 @@ describe('compareRuns on edge cases', () => {
       'A: 1 page(s) could not be loaded and are left out.',
     ])
     expect(comparison.paired).toBeUndefined()
+    // Each warning on its own line in Markdown, not one merged paragraph.
+    expect(comparisonMarkdown(comparison)).toContain('> - A: the model failed on 1 page(s)')
+    expect(comparisonMarkdown(comparison)).toContain('\n> - A: 1 page(s) could not be loaded')
   })
 
   it('shows a criterion only for the runs that evaluated it', () => {
@@ -246,6 +249,8 @@ describe('compareRuns on edge cases', () => {
     const again = run('again', records, { model: 'ollama:a', llm: true, verify: true, runs: 1, createdAt: '2026-10-09T10:00:00.000Z' })
     expect(compareRuns([on, off]).runs.map((r) => r.label)).toEqual(['ollama:a (verification on)', 'ollama:a (verification off)'])
     expect(compareRuns([on, again]).runs.map((r) => r.label)).toEqual(['ollama:a (2026-10-08 02:03 UTC)', 'ollama:a (2026-10-09 10:00 UTC)'])
+    const sameMinute = run('same-minute', records, { model: 'ollama:a', llm: true, verify: true, runs: 1, createdAt: '2026-10-08T02:03:59.000Z' })
+    expect(compareRuns([on, sameMinute]).runs.map((r) => r.label)).toEqual(['ollama:a (on)', 'ollama:a (same-minute)'])
     expect(compareRuns([on, off]).criteria[0]?.sets.map((set) => set.label)).toEqual(['ACT de46e4 (syntax)', 'ACT off6ek (semantic)'])
     const baseline = compareRuns([run('base', records, { llm: false, verify: true, runs: 1 })]).runs[0]
     expect(baseline).toMatchObject({ label: 'baseline (axe-core)', model: undefined, llm: false, costUsd: undefined })
