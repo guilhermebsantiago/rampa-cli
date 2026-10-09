@@ -150,4 +150,4 @@ A finding across pages counts like a page's finding: with the default `--fail-on
 - **A page cut short** by the collector's limit of elements loses what comes last, often its footer; what is missing is not compared.
 - **What a crawl did not load** is not compared: pages beyond `--max-pages`, pages behind a sign-in without `--storage-state`, and states a person reaches by clicking.
 - **Changes a person asked for** (3.2.3 and 3.2.6 both allow them, such as a reordered personal menu) look the same as any other change.
-- **3.2.6 is a WCAG 2.2 criterion.** A report that targets WCAG 2.1 shows it, but it is beyond that target.
+- **3.2.6 is new in WCAG 2.2.** A run that targets WCAG 2.1 still compares and reports it; treat its findings as beyond that target.
