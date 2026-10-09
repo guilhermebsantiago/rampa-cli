@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Frames and shadow roots</title></head>
+<body>
+<h1>Frames and shadow roots</h1>
+<!-- Focus that enters a frame or a shadow root is not a change of context, and the walk must not stop or crash there. -->
+<a href="#a">Before</a>
+<iframe title="Embedded" srcdoc="<a href='#x'>Inside one</a> <a href='#y'>Inside two</a>"></iframe>
+<my-widget></my-widget>
+<svg width="40" height="40" role="img" aria-label="Logo"><text x="0" y="20">Logo</text></svg>
+<a href="#b">After</a>
+<script>
+  customElements.define('my-widget', class extends HTMLElement {
+    constructor() { super(); this.attachShadow({ mode: 'open' }).innerHTML = '<button>Shadow button</button><p>Shadow text that is fairly long to wrap</p>' }
+  })
+</script>
+</body>
+</html>

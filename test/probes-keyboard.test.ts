@@ -74,6 +74,14 @@ describe.skipIf(!browser)('keyboard walk', { timeout: 120_000 }, () => {
     expect(review[0]?.evidence).toContain('all inside #consent')
   })
 
+  it('walks into a frame and a shadow root without reporting a change of context', async () => {
+    const report = await probed('keyboard-shadow.html')
+    expect(byRule(report, 'rampa/on-focus')).toEqual([])
+    expect(byRule(report, 'rampa/keyboard-reach')).toEqual([])
+    expect(byRule(report, 'rampa/keyboard-trap')).toEqual([])
+    expect(report.coverage.probes?.find((c) => c.criterion === '2.1.1')?.status).toBe('no-failure-found')
+  })
+
   it('finds nothing with roving tabindex, radio groups, duplicate links, clipped slides, skip links or background timers', async () => {
     const report = await probed('keyboard-pass.html')
     for (const rule of ['rampa/keyboard-reach', 'rampa/keyboard-trap', 'rampa/on-focus']) {

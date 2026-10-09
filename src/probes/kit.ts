@@ -194,7 +194,15 @@ export function installHooks(): void {
   // Every element that receives focus, in order: a script that moves focus on shows as a second one.
   // The focus event in the capture phase runs before the element's own handlers, which may move focus on
   // before focusin is ever dispatched. The type stays 'focusin' for the walk.
-  window.addEventListener('focus', (event) => { if (event.target instanceof Element) push('focusin', undefined, event.target) }, true)
+  // The first node of the composed path is the element itself: at the window, an element inside a shadow root shows as its host.
+  window.addEventListener(
+    'focus',
+    (event) => {
+      const target = event.composedPath()[0] ?? event.target
+      if (target instanceof Element) push('focusin', undefined, target)
+    },
+    true,
+  )
   const focus = HTMLElement.prototype.focus
   HTMLElement.prototype.focus = function (this: HTMLElement, options?: FocusOptions) {
     push('script-focus', undefined, this)
