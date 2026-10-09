@@ -6,7 +6,8 @@ import type { AnyCriterion } from '../../core/types.ts'
 import { errorMessage, mapLimit } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
 import { ACT_RULES, type ActOutcome, type ActTestcase, loadActTestcases, selectTestcases } from '../../eval/act.ts'
-import { type Scores, confusion, scores } from '../../eval/metrics.ts'
+import { type Scores, confusion, engineFailsAct, scores } from '../../eval/metrics.ts'
+import { axeActIds } from '../../engine/axe.ts'
 import { CORRUPTORS, type Corruptor } from '../../eval/pairs.ts'
 import { chooseModel } from '../../providers/detect.ts'
 import { estimateCostUsd } from '../../providers/models.ts'
@@ -213,7 +214,8 @@ async function runJob(
       verify: ctx.verify,
       wcag: ctx.wcag,
     })
-    const baselineFails = collected.engine.rules.some((r) => r.outcome === 'violation' && r.criteria.includes(criterion.id))
+    // An engine failure counts only for the ACT rule its axe-core rule implements.
+    const baselineFails = engineFailsAct(collected.engine, criterion.id, testcase.ruleId, axeActIds())
     const judgmentFails = report.findings.some((f) => f.source === 'judgment' && f.criterion === criterion.id)
     const summary = report.criteria.find((c) => c.criterion === criterion.id)
     return {

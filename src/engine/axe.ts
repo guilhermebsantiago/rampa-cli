@@ -40,6 +40,20 @@ export const REVIEW_ONLY_RULES: ReadonlySet<string> = new Set([
 ])
 
 let source: Promise<string> | undefined
+let actIds: Map<string, string[]> | undefined
+
+/** The ACT rules each axe-core rule implements, from axe-core's own metadata; read without a browser. */
+export function axeActIds(): ReadonlyMap<string, readonly string[]> {
+  if (actIds) return actIds
+  actIds = new Map()
+  try {
+    const axe = require('axe-core') as { getRules(): Array<{ ruleId: string; actIds?: string[] }> }
+    for (const rule of axe.getRules()) actIds.set(rule.ruleId, rule.actIds ?? [])
+  } catch {
+    // Without the metadata no engine result is tied to an ACT rule.
+  }
+  return actIds
+}
 
 export function axeSource(): Promise<string> {
   source ??= readFile(require.resolve('axe-core/axe.min.js'), 'utf8')
