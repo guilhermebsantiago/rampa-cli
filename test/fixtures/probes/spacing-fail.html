@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Text spacing failures</title>
+<style>
+  body { margin: 1rem; font: 16px Arial, sans-serif; line-height: 1.15; }
+  /* F104 / C36 fails: a fixed height with overflow hidden; three lines fit until the spacing grows. */
+  #card { width: 300px; height: 58px; overflow: hidden; }
+  /* C35 fails: a button with a fixed size and overflow hidden. */
+  #cart { width: 170px; height: 22px; overflow: hidden; white-space: nowrap; font: inherit; padding: 0 4px; }
+  /* An ellipsis with no way to read the full text. */
+  #badge { width: 175px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* A fixed height without overflow hidden: the text spills onto the next paragraph. */
+  #title { width: 175px; height: 19px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Product</h1>
+  <div id="card">Hand-made ceramic mug, glazed in deep blue, holds 350 ml, safe in the dishwasher and microwave.</div>
+  <button id="cart" type="button">Add to shopping cart</button>
+  <div id="badge">Limited edition item</div>
+  <div id="title">Limited edition item</div>
+  <div id="after-title">Ships in two business days from our studio.</div>
+</main>
+</body>
+</html>

@@ -2,7 +2,7 @@ import type { Browser } from 'playwright-core'
 import type { ProbeRecord } from '../snapshot/schema.ts'
 import type { InPageIdentity, InPageRect } from './kit.ts'
 import { settleInPage } from './kit.ts'
-import { type ProbeOptions, openProbePage } from './page.ts'
+import { type ProbeOptions, openProbePage, skippedRecord } from './page.ts'
 
 /**
  * The layout measurement core (1.4.10 reflow, 1.4.12 text spacing, later 1.4.4 at 200%):
@@ -169,6 +169,8 @@ export function measureLayout(limits: LayoutLimits): LayoutMeasure {
     }
     // Ancestors whose overflow clips this element's content: the element itself, then its containing blocks.
     const clip = { left: Number.NEGATIVE_INFINITY, top: Number.NEGATIVE_INFINITY, right: Number.POSITIVE_INFINITY, bottom: Number.POSITIVE_INFINITY }
+    // What is painted: also cut by containers that scroll, whose hidden part is reachable but not visible.
+    const paint = { left: Number.NEGATIVE_INFINITY, top: Number.NEGATIVE_INFINITY, right: Number.POSITIVE_INFINITY, bottom: Number.POSITIVE_INFINITY }
     let clipper: Element | null = null
     let scroller: Element | null = null
     let fixed = false
@@ -186,11 +188,19 @@ export function measureLayout(limits: LayoutLimits): LayoutMeasure {
         if ((ox === 'auto' || ox === 'scroll') && current.scrollWidth > current.clientWidth + 1 && !scroller) scroller = current
         const clipsX = ox === 'hidden' || ox === 'clip'
         const clipsY = oy === 'hidden' || oy === 'clip'
-        if ((clipsX || clipsY) && !(isField && current === el)) {
+        if ((ox !== 'visible' || oy !== 'visible') && !(isField && current === el)) {
           const r = current.getBoundingClientRect()
           const left = r.left + current.clientLeft
           const top = r.top + current.clientTop
           const padding = { left, top, right: left + current.clientWidth, bottom: top + current.clientHeight }
+          if (ox !== 'visible') {
+            paint.left = Math.max(paint.left, padding.left)
+            paint.right = Math.min(paint.right, padding.right)
+          }
+          if (oy !== 'visible') {
+            paint.top = Math.max(paint.top, padding.top)
+            paint.bottom = Math.min(paint.bottom, padding.bottom)
+          }
           const cutsX = clipsX && (union.left < padding.left - 0.5 || union.right > padding.right + 0.5)
           const cutsY = clipsY && (union.top < padding.top - 0.5 || union.bottom > padding.bottom + 0.5)
           if ((cutsX || cutsY) && !clipper) clipper = current
@@ -249,7 +259,13 @@ export function measureLayout(limits: LayoutLimits): LayoutMeasure {
     if (scroller) box.scroller = kit.cssPath(scroller)
     if (fixed) box.fixed = true
     if (whole && names.some((name) => name.length >= Math.min(whole.length, 200) * 0.8 && name.length > 0)) box.full = true
-    work.push({ el, box, fragments: fragments.map((f) => ({ left: Math.max(f.left, clip.left), top: Math.max(f.top, clip.top), right: Math.min(f.right, clip.right), bottom: Math.min(f.bottom, clip.bottom) })), clipper })
+    const painted = fragments.map((f) => ({
+      left: Math.max(f.left, clip.left, paint.left),
+      top: Math.max(f.top, clip.top, paint.top),
+      right: Math.min(f.right, clip.right, paint.right),
+      bottom: Math.min(f.bottom, clip.bottom, paint.bottom),
+    }))
+    work.push({ el, box, fragments: painted, clipper })
   }
 
   // Elements that hide other boxes completely, as carousels and marquees do.
@@ -365,6 +381,86 @@ export async function reflowProbe(browser: Browser, url: string, options: ProbeO
   }
 }
 
+/** Languages written without spaces between words: word spacing does not apply to them (Understanding 1.4.12). */
+const NO_WORD_SPACES = new Set(['ja', 'zh', 'th', 'lo', 'km', 'my', 'bo'])
+
+export interface SpacingApplied {
+  /** The metrics set on every element, as a user style sheet would. */
+  applied: string[]
+  /** Metrics left out because the page's language does not use them. */
+  skipped: string[]
+  /** Elements styled, open shadow roots included. */
+  elements: number
+}
+
+/**
+ * Runs in the page. Line height 1.5, letter spacing 0.12em and word spacing 0.16em on every
+ * element, and 2em after each paragraph (the W3C bookmarklet's choice), as inline !important
+ * declarations: they win over the author's !important, as a user style sheet does.
+ */
+export function applyTextSpacing(options: { wordSpacing: boolean }): number {
+  let count = 0
+  const style = (scope: Document | ShadowRoot) => {
+    for (const el of Array.from(scope.querySelectorAll('*'))) {
+      if (!(el instanceof HTMLElement) && !(el instanceof SVGElement)) continue
+      const target = el as HTMLElement
+      target.style.setProperty('line-height', '1.5', 'important')
+      target.style.setProperty('letter-spacing', '0.12em', 'important')
+      if (options.wordSpacing) target.style.setProperty('word-spacing', '0.16em', 'important')
+      if (el.localName === 'p') target.style.setProperty('margin-bottom', '2em', 'important')
+      count++
+      if (el.shadowRoot) style(el.shadowRoot)
+    }
+  }
+  style(document)
+  return count
+}
+
+/** 1.4.12: the page at 1280×1024, measured, then measured again with the four spacing values applied. */
+export async function textSpacingProbe(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord> {
+  const started = Date.now()
+  const probe = await openProbePage(browser, url, options, { viewport: LAYOUT_BASE, desktop: true, variant: 'text-spacing' })
+  try {
+    const lang = (await probe.page.evaluate(() => document.documentElement.lang || '')).toLowerCase().split('-')[0] ?? ''
+    const wordSpacing = !NO_WORD_SPACES.has(lang)
+    const before = await probe.page.evaluate(measureLayout, LIMITS)
+    const elements = await probe.page.evaluate(applyTextSpacing, { wordSpacing })
+    await probe.page.evaluate(settleInPage, SETTLE)
+    const after = await probe.page.evaluate(measureLayout, LIMITS)
+    const slim = slimPair(before, after)
+    const spacing: SpacingApplied = {
+      applied: ['line-height 1.5', 'letter-spacing 0.12em', ...(wordSpacing ? ['word-spacing 0.16em'] : []), 'p margin-bottom 2em'],
+      skipped: wordSpacing ? [] : [`word-spacing (lang ${lang})`],
+      elements,
+    }
+    return {
+      kind: 'layout',
+      version: LAYOUT_VERSION,
+      conditions: { ...probe.conditions, viewport: LAYOUT_BASE },
+      status: before.truncated || after.truncated ? 'partial' : 'complete',
+      ...(before.truncated || after.truncated ? { reason: `box budget reached (${LIMITS.maxBoxes})` } : {}),
+      guard: probe.guard.log,
+      durationMs: Date.now() - started,
+      data: { spacing, baseline: slim.before, variant: slim.after },
+    }
+  } finally {
+    await probe.context.close()
+  }
+}
+
+/** Reflow and text spacing, each on its own fresh page; one that fails leaves a skipped record and the other still runs. */
 export async function layoutProbes(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
-  return [await reflowProbe(browser, url, options)]
+  const records: ProbeRecord[] = []
+  for (const [variant, probe] of [
+    ['reflow-320x256', reflowProbe],
+    ['text-spacing', textSpacingProbe],
+  ] as const) {
+    const started = Date.now()
+    try {
+      records.push(await probe(browser, url, options))
+    } catch (error) {
+      records.push(skippedRecord('layout', LAYOUT_VERSION, variant, `probe failed: ${(error instanceof Error ? error.message : String(error)).split('\n')[0]}`, Date.now() - started))
+    }
+  }
+  return records
 }

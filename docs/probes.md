@@ -112,3 +112,22 @@ Content that needs two dimensions is exempt by element type: `img`, `video`, `ca
 At most 10 findings per kind are listed; the coverage line counts the rest. Evidence gives the scroll width, the element's horizontal extent and how far it passes the edge, or how many pixels are cut and by which element.
 
 **Limits.** One browser engine (Chromium). 320×256 is an emulation: a real 1280×1024 screen at 400% leaves about 318×236, hence the tolerances. Horizontal scrolling inside a container that is not exempt is not reported yet. Text in open shadow roots is measured, but it is unmatched in the snapshot, which does not collect shadow roots, so it is never reported.
+
+### 1.4.12 Text Spacing (`--probe layout`, rule `rampa/text-spacing`)
+
+**The probe.** A fresh page at 1280×1024 is measured with the same core as reflow. Then the four values the criterion names go on every element, open shadow roots included, as a user style sheet would set them: `line-height: 1.5`, `letter-spacing: 0.12em`, `word-spacing: 0.16em`, and `margin-bottom: 2em` on `p` (the W3C bookmarklet's choice). They are inline `!important` declarations, which win over the author's `!important` the way a user style sheet does. The page settles and is measured again; the comparison is the page against itself before the change.
+
+The criterion is about the user's override, not the author's values; axe-core's `avoid-inline-spacing` keeps covering the inline `!important` case (ACT 24afc2, 78fd32, 9e45ec).
+
+**Scripts.** Word spacing is not applied when the page's language is written without spaces between words (`ja`, `zh`, `th`, `lo`, `km`, `my`, `bo`), and the coverage line says "not applied: word-spacing (lang ja)". The other metrics are applied to every language; that is a simplification of the Understanding's note.
+
+| Observation | Result |
+|---|---|
+| Text partly cut with the spacing that was whole before (F104; C35 and C36 fail) | failure, high |
+| Cut to an ellipsis, and no `title` or `aria-label` holds the full text | failure, medium |
+| Cut to an ellipsis, with the full text in a `title` or `aria-label` | not reported |
+| Cut, when the full text is in a name or title, or the container hides other text completely (a carousel) | needs review |
+| Text of two elements that overlaps with the spacing and did not before | needs review |
+| Text in a container that scrolls, or text already cut before the spacing | not reported |
+
+**Limits.** A metric a script does not use is only left out for word spacing. Text drawn in canvas or in images is not measured. Content that a page re-renders with JavaScript after a style change may settle late; the probe waits up to 3 s.

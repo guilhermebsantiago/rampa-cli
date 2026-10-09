@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Text spacing passes</title>
+<style>
+  body { margin: 1rem; font: 16px Arial, sans-serif; line-height: 1.15; }
+  /* C36: the box grows with its text. */
+  #card { width: 300px; min-height: 58px; }
+  /* C35: the button grows too. */
+  #cart { min-width: 170px; min-height: 22px; font: inherit; padding: 0 4px; }
+  /* An ellipsis whose full text is in the title. */
+  #badge { width: 175px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* Text in a box that scrolls is reachable, not cut. */
+  #notes { height: 40px; overflow: auto; width: 300px; }
+  /* Already cut before the spacing: not a new cut. */
+  #teaser { width: 120px; height: 18px; overflow: hidden; white-space: nowrap; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Product</h1>
+  <div id="card">Hand-made ceramic mug, glazed in deep blue, holds 350 ml, safe in the dishwasher and microwave.</div>
+  <button id="cart" type="button">Add to shopping cart</button>
+  <div id="badge" title="Limited edition item">Limited edition item</div>
+  <div id="notes" tabindex="0" role="region" aria-label="Care notes">Care: wash by hand when you can. The glaze is food safe. Each mug is a little different in shape and color.</div>
+  <div id="teaser">A preview line that is cut on purpose at every size and spacing</div>
+  <span class="sr-only">Price includes taxes and shipping to any address in the country</span>
+  <p>Ships in two business days from our studio.</p>
+</main>
+</body>
+</html>

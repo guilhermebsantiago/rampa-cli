@@ -195,4 +195,93 @@ export const reflowRule: ProbeRule = {
   },
 }
 
-export { clippedHits, cutText, clipperName, newOverlaps, MAX_REPORTED }
+const SPACING_TEXT: Record<Locale, { clipped: string; ellipsis: string; review: string; overlap: string }> = {
+  en: {
+    clipped: 'With text spacing raised as a user would (line height 1.5, letter spacing 0.12em, word spacing 0.16em, 2em after paragraphs), this text is cut off.',
+    ellipsis: 'With text spacing raised as a user would, this text is cut to an ellipsis, and no name or title gives the full text.',
+    review: 'With text spacing raised as a user would, this text is cut; a name or title holds the full text, or its container hides other content too, as a carousel does. Check that the text can be read.',
+    overlap: 'With text spacing raised as a user would, this text overlaps other text that it did not overlap before.',
+  },
+  'pt-BR': {
+    clipped: 'Com o espaçamento de texto aumentado como um usuário faria (altura de linha 1,5, entre letras 0,12em, entre palavras 0,16em, 2em após parágrafos), este texto fica cortado.',
+    ellipsis: 'Com o espaçamento de texto aumentado como um usuário faria, este texto é cortado em reticências, e nenhum nome ou title traz o texto completo.',
+    review: 'Com o espaçamento de texto aumentado, este texto fica cortado; um nome ou title tem o texto completo, ou o contêiner também esconde outro conteúdo, como num carrossel. Confira se o texto pode ser lido.',
+    overlap: 'Com o espaçamento de texto aumentado como um usuário faria, este texto se sobrepõe a outro texto, o que não acontecia antes.',
+  },
+}
+
+/**
+ * 1.4.12 Text Spacing. The four values go on every element as user overrides, and the page is
+ * compared with itself before them. Failure (high): text cut that was whole (F104). Failure
+ * (medium): an ellipsis with no name or title holding the full text. Review: doubtful cuts and
+ * new text-on-text overlaps.
+ */
+export const textSpacingRule: ProbeRule = {
+  id: 'rampa/text-spacing',
+  kind: 'layout',
+  variant: 'text-spacing',
+  versions: ['1'],
+  criteria: ['1.4.12'],
+  run(record: ProbeRecord, ctx: ProbeRuleContext) {
+    const data = asRecord(record.data)
+    const before = measureOf(data.baseline)
+    const after = measureOf(data.variant)
+    const spacing = asRecord(data.spacing)
+    const skipped = asArray<string>(spacing.skipped).filter((value) => typeof value === 'string')
+    const text = SPACING_TEXT[ctx.locale]
+    const findings: Finding[] = []
+    const review: Finding[] = []
+    let failures = 0
+
+    const clipped = clippedHits(ctx, before, after, () => false)
+    for (const { box, node } of clipped.hits) {
+      const evidence = `before: whole; with the spacing: ${cutText(box)} by ${clipperName(ctx, box)}${box.ellipsis ? ', shown with an ellipsis' : ''}${box.full ? '; a name or title holds the full text' : ''}${(box.hiddenPeers ?? 0) > 0 ? `; that container also hides ${box.hiddenPeers} other text box(es) completely` : ''}`
+      if (box.ellipsis && box.full) continue
+      if (box.ellipsis) {
+        failures++
+        if (findings.length < MAX_REPORTED) findings.push(probeFinding({ criterion: '1.4.12', rule: this.id, node, message: text.ellipsis, evidence, confidence: 'medium', subject: 'ellipsis' }))
+      } else if (box.full || (box.hiddenPeers ?? 0) > 0) {
+        review.push(probeFinding({ criterion: '1.4.12', rule: this.id, node, message: text.review, evidence, confidence: 'medium', subject: 'clipped' }))
+      } else {
+        failures++
+        if (findings.length < MAX_REPORTED) findings.push(probeFinding({ criterion: '1.4.12', rule: this.id, node, message: text.clipped, evidence, confidence: 'high', subject: 'clipped' }))
+      }
+    }
+
+    const overlaps = newOverlaps(ctx, before, after, () => false)
+    for (const hit of overlaps.hits.slice(0, MAX_REPORTED)) {
+      review.push(
+        probeFinding({
+          criterion: '1.4.12',
+          rule: this.id,
+          node: hit.node,
+          message: text.overlap,
+          evidence: `${nameOf(hit.node)} and ${hit.other} overlap by ${r1(hit.width)}×${r1(hit.height)} px with the spacing applied`,
+          confidence: 'low',
+          subject: `overlap|${hit.other}`,
+        }),
+      )
+    }
+
+    const hidden = failures - findings.length
+    const notes = [
+      hidden > 0 ? `${hidden} more failure(s) not listed` : '',
+      skipped.length > 0 ? `not applied: ${skipped.join(', ')}` : '',
+      after.truncated ? 'box budget reached' : '',
+    ].filter(Boolean)
+    const coverage: ProbeCoverage = {
+      criterion: '1.4.12',
+      method: `probe/layout@${record.version}`,
+      rule: this.id,
+      conditions: conditionsText(record, 'spacing overrides at 1280×1024'),
+      status: coverageStatus(failures, review.length),
+      applicable: after.measured,
+      failures,
+      review: review.length,
+      unmatched: clipped.unmatched + overlaps.unmatched,
+      ...(notes.length > 0 ? { note: notes.join('; ') } : {}),
+      maturity: 'experimental',
+    }
+    return { findings, review, coverage: [coverage] }
+  },
+}
