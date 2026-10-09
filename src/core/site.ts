@@ -332,7 +332,7 @@ export interface SiteFinding {
   /** The component or mechanism compared, as a person would name it: `navigation "Main"`, `mailto:help@example.com`. */
   subject: string
   message: string
-  /** The order observed on each page, as text. */
+  /** The order observed on each page, as text: one line per distinct order. */
   evidence: string
   /** Pages whose order differs from the rest of the set; on a tie, every page involved. */
   pages: string[]

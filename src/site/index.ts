@@ -1,5 +1,6 @@
 import type { PageSet, SiteCriteriaReport, SiteCriterion, SiteCriterionSummary, SiteFinding, SitePageFacts } from '../core/site.ts'
 import { CONFIDENCE_RANK, type Confidence } from '../core/types.ts'
+import { RampaError } from '../core/util.ts'
 import type { Locale } from '../i18n.ts'
 import type { Painter } from '../report/color.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
@@ -91,9 +92,30 @@ export function runSiteCriteria(pages: readonly SitePageRecord[], options: SiteC
   return report
 }
 
+/**
+ * The config's `pageSets`, checked: a name for each set and a list of path patterns. A single
+ * pattern given as a string is read as a list of one.
+ */
+export function pageSetsOf(value: unknown): Record<string, string[]> | undefined {
+  if (value === undefined) return undefined
+  const fail = (why: string): never => {
+    throw new RampaError('invalid-config', `pageSets in the config ${why}. Write it as { "docs": ["/docs/"], "blog": ["/blog/"] }: a name for each set and path patterns, as --include takes.`)
+  }
+  if (typeof value !== 'object' || value === null || Array.isArray(value)) fail('must be an object')
+  const sets: Record<string, string[]> = {}
+  for (const [name, patterns] of Object.entries(value as Record<string, unknown>)) {
+    const list = typeof patterns === 'string' ? [patterns] : patterns
+    if (!Array.isArray(list) || list.length === 0 || !list.every((pattern) => typeof pattern === 'string' && pattern.trim() !== '')) {
+      fail(`has no list of path patterns for "${name}"`)
+    }
+    sets[name] = (list as string[]).map((pattern) => pattern.trim())
+  }
+  return sets
+}
+
 /** The criteria that compared something, to take them off the site's "not checked" list. */
 export function siteCriteriaChecked(report: SiteCriteriaReport): string[] {
-  return report.criteria.filter((criterion) => criterion.setsCompared > 0).map((criterion) => criterion.criterion)
+  return report.criteria.filter((criterion) => criterion.compared > 0).map((criterion) => criterion.criterion)
 }
 
 /** The note a single-page web report carries instead: these criteria need several pages. */
@@ -120,7 +142,7 @@ function setLabel(set: PageSet, locale: Locale): string {
 function renderFinding(finding: SiteFinding, locale: Locale, p: Painter, mark: string): string[] {
   const lines = [`  ${mark} ${finding.subject}${finding.experimental ? p.dim(` · ${sm(locale, 'experimental')}`) : ''}`]
   lines.push(`    ${finding.message}`)
-  for (const entry of finding.evidence.split(' · ')) lines.push(p.dim(`    ${entry}`))
+  for (const entry of finding.evidence.split('\n')) lines.push(p.dim(`    ${entry}`))
   const byPage = new Map<string, string[]>()
   for (const element of finding.elements) byPage.set(element.page, [...(byPage.get(element.page) ?? []), element.ref])
   for (const [page, refs] of [...byPage.entries()].slice(0, 3)) {

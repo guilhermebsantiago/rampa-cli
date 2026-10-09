@@ -34,6 +34,11 @@ export function proposeSets(
     const members = pages.filter((page) => !taken.has(page.url) && safeMatch(matches, page.url))
     for (const [viewport, list] of groupBy(members, (page) => page.template.viewport)) {
       for (const page of list) taken.add(page.url)
+      if (list.length < 2) {
+        // The person put it in a set of its own: nothing to compare it with, and no template set takes it.
+        for (const page of list) unassigned.push({ url: page.url, reason: 'alone' })
+        continue
+      }
       const id = viewportCount(members) > 1 ? `config:${name}@${viewport}` : `config:${name}`
       sets.push({ id, label: name, source: 'config', lang: commonLang(list), viewport, pages: list.map((page) => page.url) })
     }

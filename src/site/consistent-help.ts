@@ -5,7 +5,7 @@ import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { type HelpKind, type HelpType, chatWidgetOf, helpOfItem } from './help.ts'
 import { type SiteMessage, listItems, listPages, sm } from './messages.ts'
 import { type Observation, compareOrders, ordersObserved, repeatedKeys } from './order.ts'
-import { itemOf, nodeHtml, walkPage } from './page.ts'
+import { itemOf, nodeHtml, setIdentity, walkPage } from './page.ts'
 
 /**
  * Where a token sits relative to the main content. Pages without a main
@@ -24,6 +24,8 @@ export interface Token {
   ref: string
   html?: string | undefined
   help?: HelpKind | undefined
+  /** Not rendered, aria-hidden or off screen: a collapsed mobile menu, say. */
+  hidden: boolean
 }
 
 export interface HelpFacts {
@@ -61,7 +63,7 @@ export function helpFacts(snapshot: A11ySnapshot): HelpFacts {
       const key = `chat:${vendor}`
       const help: HelpKind = { type: 'chat', certain: true }
       if (visit.inMain) inMain.push({ key, name: vendor, ref: node.ref, help })
-      else tokens.push({ id: `${key}@${zone}`, key, zone, name: vendor, ref: node.ref, html: nodeHtml(node), help })
+      else tokens.push({ id: `${key}@${zone}`, key, zone, name: vendor, ref: node.ref, html: nodeHtml(node), help, hidden: visit.hidden })
       continue
     }
     const item = itemOf(node, snapshot.target)
@@ -71,9 +73,12 @@ export function helpFacts(snapshot: A11ySnapshot): HelpFacts {
       if (help) inMain.push({ key: item.key, name: item.name, ref: item.ref, help })
       continue
     }
-    tokens.push({ id: `${item.key}@${zone}`, key: item.key, zone, name: item.name, ref: item.ref, html: item.html, help })
+    tokens.push({ id: `${item.key}@${zone}`, key: item.key, zone, name: item.name, ref: item.ref, html: item.html, help, hidden: visit.hidden || node.states.includes('offscreen') })
   }
-  return { tokens, inMain }
+  // A hidden copy of a visible link, such as the collapsed mobile menu repeating the desktop one, would make
+  // every link it repeats ambiguous and leave nothing to compare: the visible one is the page's order.
+  const visible = new Set(tokens.filter((token) => !token.hidden).map((token) => token.id))
+  return { tokens: tokens.filter((token) => !token.hidden || !visible.has(token.id)), inMain }
 }
 
 const TYPE_LABEL: Record<HelpType, SiteMessage> = {
@@ -105,7 +110,7 @@ export const consistentHelp: SiteCriterion<HelpFacts> = {
     for (const [key, kind] of kinds) {
       const withChrome = pages.filter((page) => page.facts.tokens.some((token) => token.key === key))
       const onlyInMain = pages.filter((page) => !withChrome.includes(page) && page.facts.inMain.some((entry) => entry.key === key))
-      if (withChrome.length >= 1 && onlyInMain.length >= 1 && withChrome.length + onlyInMain.length >= 2) {
+      if (withChrome.length >= 1 && onlyInMain.length >= 1) {
         findings.push(inMainReview(key, kind, set, withChrome, onlyInMain, locale))
       }
       if (withChrome.length < 2) continue
@@ -129,14 +134,9 @@ function subjectOf(kind: { help: HelpKind; name: string }, key: string, locale: 
   return { subject: sm(locale, TYPE_LABEL[kind.help.type]), named: `“${kind.name}”${kind.name === key ? '' : address}` }
 }
 
-function base(
-  key: string,
-  detail: string,
-  kind: { help: HelpKind },
-  set: PageSet,
-): Pick<SiteFinding, 'fingerprint' | 'criterion' | 'level' | 'source' | 'set' | 'experimental'> {
+function base(key: string, detail: string, set: PageSet): Pick<SiteFinding, 'fingerprint' | 'criterion' | 'level' | 'source' | 'set' | 'experimental'> {
   return {
-    fingerprint: sha256(['3.2.6', key, detail].join('|')).slice(0, 12),
+    fingerprint: sha256(['3.2.6', setIdentity(set), key, detail].join('|')).slice(0, 12),
     criterion: '3.2.6',
     level: 'A',
     source: 'site',
@@ -182,11 +182,11 @@ function zoneMove(key: string, kind: { help: HelpKind; name: string }, set: Page
     for (const token of page.facts.tokens) if (token.key === key) elements.push({ page: page.url, ref: token.ref, name: token.name, html: token.html })
   }
   return {
-    ...base(key, 'zone', kind, set),
+    ...base(key, 'zone', set),
     status,
     subject: `${subject} ${named}`,
     message,
-    evidence: observed.map((entry) => sm(locale, 'zone', { zone: entry.order.join(' + '), pages: listPages(entry.pages, locale) })).join(' · '),
+    evidence: observed.map((entry) => sm(locale, 'zone', { zone: entry.order.join(' + '), pages: listPages(entry.pages, locale) })).join('\n'),
     pages: tie ? [...flagged, ...majorityPages] : flagged,
     comparedWith: tie ? [] : majorityPages,
     items: [kind.name],
@@ -252,11 +252,11 @@ function orderChange(
     for (const token of page.facts.tokens) if (shown.includes(token.id)) elements.push({ page: page.url, ref: token.ref, name: token.name, html: token.id === id ? token.html : undefined })
   }
   return {
-    ...base(key, `order@${zone}`, kind, set),
+    ...base(key, `order@${zone}`, set),
     status,
     subject: `${subject} ${named}`,
     message,
-    evidence: observed.map((entry) => sm(locale, 'order', { pages: listPages(entry.pages, locale), order: entry.order.join(' → ') })).join(' · '),
+    evidence: observed.map((entry) => sm(locale, 'order', { pages: listPages(entry.pages, locale), order: entry.order.join(' → ') })).join('\n'),
     pages: flagged,
     comparedWith: others,
     items,
@@ -288,11 +288,11 @@ function inMainReview(
     { pages, order: [sm(locale, 'mainContent')] },
   ]
   return {
-    ...base(key, 'in-main', kind, set),
+    ...base(key, 'in-main', set),
     status: 'review',
     subject: `${subject} ${named}`,
     message: sm(locale, 'helpInMain', { subject, named, pages: listPages(pages, locale), others: listPages(others, locale) }),
-    evidence: observed.map((entry) => sm(locale, 'zone', { zone: entry.order.join(''), pages: listPages(entry.pages, locale) })).join(' · '),
+    evidence: observed.map((entry) => sm(locale, 'zone', { zone: entry.order.join(''), pages: listPages(entry.pages, locale) })).join('\n'),
     pages,
     comparedWith: others,
     items: [kind.name],

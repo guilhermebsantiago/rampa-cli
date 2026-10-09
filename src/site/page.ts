@@ -27,9 +27,16 @@ export interface Visit {
   hidden: boolean
 }
 
+/** Walks are cached by the tree they walk: every site criterion reads the same page. */
+const walks = new WeakMap<A11yNode, Visit[]>()
+const componentCache = new WeakMap<A11yNode, Map<string, Component[]>>()
+
 /** Every node in document order, with its region. */
 export function walkPage(snapshot: A11ySnapshot): Visit[] {
+  const cached = walks.get(snapshot.root)
+  if (cached) return cached
   const visits: Visit[] = []
+  walks.set(snapshot.root, visits)
   let mainSeen = false
   let mainDone = false
   const walk = (node: A11yNode, region: Region, scoped: boolean, inMain: boolean, hidden: boolean): void => {
@@ -133,9 +140,15 @@ export interface Component {
  * links of the header and footer outside any navigation landmark when there are
  * two or more of them.
  */
-export function navigationComponents(snapshot: A11ySnapshot, visits: readonly Visit[] = walkPage(snapshot)): Component[] {
-  const components: Component[] = []
+export function navigationComponents(snapshot: A11ySnapshot): Component[] {
   const page = snapshot.target
+  const byPage = componentCache.get(snapshot.root) ?? new Map<string, Component[]>()
+  componentCache.set(snapshot.root, byPage)
+  const cached = byPage.get(page)
+  if (cached) return cached
+  const visits = walkPage(snapshot)
+  const components: Component[] = []
+  byPage.set(page, components)
   const collect = (root: A11yNode, skipNavigation: boolean): Item[] => {
     const items: Item[] = []
     const walk = (node: A11yNode) => {
@@ -178,6 +191,14 @@ function hasAncestor(node: A11yNode, role: string, visits: readonly Visit[]): bo
   const map = parentMap(visits)
   for (let current = map.get(node); current; current = map.get(current)) if (current.role === role) return true
   return false
+}
+
+/**
+ * What a finding's fingerprint keeps of its set: a named set's name, or a proposed
+ * set's language and viewport, which stay the same when the crawl finds other pages.
+ */
+export function setIdentity(set: { source: 'config' | 'template'; label: string; lang: string; viewport: string }): string {
+  return set.source === 'config' ? `config:${set.label}@${set.viewport}` : `${set.lang}@${set.viewport}`
 }
 
 /** What sets are proposed from: the page's language, its viewport, and the addresses its header, navigation and footer link to. */

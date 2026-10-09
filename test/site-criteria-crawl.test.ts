@@ -74,9 +74,9 @@ describe.skipIf(!available)('criteria across the pages of a crawl', { timeout: 9
       ['3.2.3', 'The navigation “Main”', ['/pricing']],
       ['3.2.6', 'The contact detail “help@acme.test” (mailto:help@acme.test)', ['/pricing']],
     ])
-    expect(findings[0]?.evidence).toMatch(/^Order on \/, \/docs\/, \/blog, \/contact and \d+ more: Docs → Pricing · Order on \/pricing: Pricing → Docs$/)
+    expect(findings[0]?.evidence).toMatch(/^Order on \/, \/docs\/, \/blog, \/contact and \d+ more: Docs → Pricing\nOrder on \/pricing: Pricing → Docs$/)
     expect(findings[0]?.elements.find((element) => path(element.page) === '/pricing' && element.name === 'Docs')?.ref).toMatch(/nav/)
-    expect(findings[1]?.evidence).toMatch(/^after the main content on .+ · before the main content on \/pricing$/)
+    expect(findings[1]?.evidence).toMatch(/^after the main content on .+\nbefore the main content on \/pricing$/)
     expect(report.siteCriteria?.review).toEqual([])
 
     // The same comparison from the saved snapshots, with no browser.

@@ -4,7 +4,7 @@ import { paint } from '../src/report/color.ts'
 import { renderSiteReport } from '../src/report/site.ts'
 import { consistentHelp, helpFacts } from '../src/site/consistent-help.ts'
 import { helpOfItem } from '../src/site/help.ts'
-import { type SitePageRecord, runSiteCriteria, siteFactsOf } from '../src/site/index.ts'
+import { type SitePageRecord, pageSetsOf, runSiteCriteria, siteCriteriaChecked, siteFactsOf } from '../src/site/index.ts'
 import { compareOrders } from '../src/site/order.ts'
 import { addressKey, navigationComponents } from '../src/site/page.ts'
 import type { A11yNode, A11ySnapshot } from '../src/snapshot/schema.ts'
@@ -182,7 +182,7 @@ describe('3.2.3 Consistent Navigation', () => {
     expect(finding?.message).toBe(
       'The navigation “Main” lists “Docs”, “Pricing” in a different relative order on /pricing than on /, /docs/, /blog. Keep repeated navigation in the same relative order on every page of the set (F66); links may be added or left out.',
     )
-    expect(finding?.evidence).toBe('Order on /, /docs/, /blog: Docs → Pricing · Order on /pricing: Pricing → Docs')
+    expect(finding?.evidence).toBe('Order on /, /docs/, /blog: Docs → Pricing\nOrder on /pricing: Pricing → Docs')
     expect(finding?.elements).toContainEqual({ page: u('/pricing'), ref: 'header > nav:nth-of-type(1)', name: 'Main' })
     expect(finding?.elements).toContainEqual({ page: u('/pricing'), ref: 'header > nav:nth-of-type(1) > a:nth-of-type(3)', name: 'Docs' })
   })
@@ -226,6 +226,31 @@ describe('3.2.3 Consistent Navigation', () => {
     ])
     expect([...report.findings, ...report.review].filter((finding) => finding.criterion === '3.2.3')).toEqual([])
     expect(report.criteria.find((c) => c.criterion === '3.2.3')?.compared).toBe(2)
+  })
+
+  it('lists a page alone in a named set, and counts a criterion as checked only when it compared something', () => {
+    const report = run([page('/', { nav: [{ links: MAIN }] }), page('/a', { nav: [{ links: MAIN }] }), page('/pricing', { nav: [{ links: MAIN }] })], {
+      pageSets: { pricing: ['/pricing'] },
+    })
+    expect(report.unassigned).toEqual([{ url: u('/pricing'), reason: 'alone' }])
+    expect(report.sets.map((set) => set.pages.length)).toEqual([2])
+    expect(siteCriteriaChecked(report)).toEqual(['3.2.3', '3.2.6'])
+
+    // Two named pages with nothing to compare: the set ran, but nothing was compared.
+    const empty = run([page('/b/1', { nav: [{ links: [['Home', '/']] }] }), page('/b/2', { nav: [{ links: [['Home', '/']] }] })], { pageSets: { blog: ['/b/'] } })
+    expect(empty.criteria.map((c) => [c.criterion, c.setsCompared, c.compared])).toEqual([
+      ['3.2.3', 1, 0],
+      ['3.2.6', 1, 0],
+    ])
+    expect(siteCriteriaChecked(empty)).toEqual([])
+  })
+
+  it('checks the sets named in the config before a crawl starts', () => {
+    expect(pageSetsOf(undefined)).toBeUndefined()
+    expect(pageSetsOf({ docs: '/docs/', blog: ['/blog/', ' /news/ '] })).toEqual({ docs: ['/docs/'], blog: ['/blog/', '/news/'] })
+    expect(() => pageSetsOf(['/docs/'])).toThrow('pageSets in the config must be an object.')
+    expect(() => pageSetsOf({ docs: [] })).toThrow('pageSets in the config has no list of path patterns for "docs".')
+    expect(() => pageSetsOf({ docs: [3] })).toThrow('has no list of path patterns for "docs"')
   })
 
   it('compares language versions as separate sets', () => {
@@ -331,7 +356,7 @@ describe('3.2.6 Consistent Help', () => {
     expect(help[0]?.message).toBe(
       'The contact detail “help@example.com” (mailto:help@example.com) is before the main content on /b, and after the main content on /, /a. Help repeated on several pages must keep the same order relative to the rest of the page (3.2.6).',
     )
-    expect(help[0]?.evidence).toBe('after the main content on /, /a · before the main content on /b')
+    expect(help[0]?.evidence).toBe('after the main content on /, /a\nbefore the main content on /b')
     expect(help[0]?.elements).toContainEqual({ page: u('/b'), ref: 'header > a:nth-of-type(1)', name: 'help@example.com', html: '<a href="mailto:help@example.com">help@example.com</a>' })
   })
 
@@ -343,7 +368,7 @@ describe('3.2.6 Consistent Help', () => {
     ])
     const help = moved.findings.filter((finding) => finding.criterion === '3.2.6')
     expect(help.map((finding) => [finding.subject, finding.pages])).toEqual([['The contact link “Contact” (/contact)', [u('/b')]]])
-    expect(help[0]?.evidence).toBe('Order on /, /a: Home → Docs → Pricing → Blog → Contact · Order on /b: Contact → Home → Docs → Pricing → Blog')
+    expect(help[0]?.evidence).toBe('Order on /, /a: Home → Docs → Pricing → Blog → Contact\nOrder on /b: Contact → Home → Docs → Pricing → Blog')
     expect(moved.findings.filter((finding) => finding.criterion === '3.2.3').map((finding) => finding.pages)).toEqual([[u('/b')]])
 
     // Blog moving past Contact is Blog's move: 3.2.3 reports it, 3.2.6 does not.
@@ -354,6 +379,34 @@ describe('3.2.6 Consistent Help', () => {
     ])
     expect(other.findings.filter((finding) => finding.criterion === '3.2.6')).toEqual([])
     expect(other.findings.filter((finding) => finding.criterion === '3.2.3')).toHaveLength(1)
+  })
+
+  it('reads the visible menu when a hidden mobile copy repeats it, so a moved contact link is still found', () => {
+    const moved: Links = [MAIN[4], ...MAIN.slice(0, 4)] as Links
+    const report = run([
+      page('/', { nav: [{ label: 'Main', links: MAIN }, { label: 'Menu', links: MAIN, hidden: true }] }),
+      page('/a', { nav: [{ label: 'Main', links: MAIN }, { label: 'Menu', links: MAIN, hidden: true }] }),
+      page('/b', { nav: [{ label: 'Main', links: moved }, { label: 'Menu', links: MAIN, hidden: true }] }),
+    ])
+    const help = report.findings.filter((finding) => finding.criterion === '3.2.6')
+    expect(help.map((finding) => [finding.subject, finding.pages])).toEqual([['The contact link “Contact” (/contact)', [u('/b')]]])
+    expect(help[0]?.elements.find((element) => element.page === u('/b') && element.name === 'Contact')?.ref).toBe('header > nav:nth-of-type(1) > a:nth-of-type(1)')
+  })
+
+  it('keeps a finding of one language apart from the same finding in another', () => {
+    const pt: Links = [['Início', '/pt/'], ['Contato', '/contact']]
+    const en: Links = [['Home', '/'], ['Contact', '/contact']]
+    const report = run([
+      page('/', { nav: [{ links: en }], footer: FOOTER }),
+      page('/a', { nav: [{ links: en }], footer: FOOTER }),
+      page('/b', { nav: [{ links: en }], header: [['help@example.com', 'mailto:help@example.com']], footer: FOOTER.slice(0, 2) }),
+      page('/pt/', { lang: 'pt-BR', nav: [{ links: pt }], footer: FOOTER }),
+      page('/pt/a', { lang: 'pt-BR', nav: [{ links: pt }], footer: FOOTER }),
+      page('/pt/b', { lang: 'pt-BR', nav: [{ links: pt }], header: [['help@example.com', 'mailto:help@example.com']], footer: FOOTER.slice(0, 2) }),
+    ])
+    const help = report.findings.filter((finding) => finding.criterion === '3.2.6')
+    expect(help.map((finding) => finding.pages.map((url) => new URL(url).pathname))).toEqual([['/b'], ['/pt/b']])
+    expect(help[0]?.fingerprint).not.toBe(help[1]?.fingerprint)
   })
 
   it('sends help recognized by its text only, and help only inside the main content, to needs review', () => {

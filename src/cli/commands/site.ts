@@ -4,15 +4,15 @@ import type { Browser } from 'playwright-core'
 import { loadWaivers } from '../../config.ts'
 import { fileCache } from '../../core/cache.ts'
 import { type CheckOptions, checkSnapshot } from '../../core/check.ts'
-import { type SitePage, type SiteReport, countReuse, findingSignatures, siteExitCode, summarizeSite } from '../../core/site.ts'
+import { type SiteCriteriaReport, type SitePage, type SiteReport, countReuse, findingSignatures, siteExitCode, summarizeSite } from '../../core/site.ts'
 import type { Report } from '../../core/types.ts'
-import { RampaError } from '../../core/util.ts'
+import { RampaError, errorMessage } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
 import { emptyEngine } from '../../engine/axe.ts'
 import { chooseModel } from '../../providers/detect.ts'
 import type { ModelProvider } from '../../providers/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
-import { type SitePageRecord, runSiteCriteria, siteCriteriaChecked, siteFactsOf } from '../../site/index.ts'
+import { type SitePageRecord, pageSetsOf, runSiteCriteria, siteCriteriaChecked, siteFactsOf } from '../../site/index.ts'
 import { renderSiteReport } from '../../report/site.ts'
 import { type BrowserOptions, addSiteCookies, contextOptions, describeConditions, webUrl } from '../../surfaces/browser-options.ts'
 import {
@@ -48,6 +48,8 @@ interface SiteRun {
   check: Omit<CheckOptions, 'cache'>
   needsImages: boolean
   progress: (message: string) => void
+  /** The config's named sets of pages, checked before the crawl starts. */
+  pageSets: Record<string, string[]> | undefined
 }
 
 /** `rampa check <url> --crawl`: the pages of a site, one summary for the site and a report per page. */
@@ -59,6 +61,8 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
     return url
   })
   const criteria = resolveCriteria(options.criteria.split(','))
+  // A mistake in the config's sets stops the run here, before any page is loaded or judged.
+  const pageSets = pageSetsOf(context.config.pageSets)
   const spec = options.llm ? await chooseModel(options.model, context.config.model) : undefined
   const provider = await resolveProvider(spec, Boolean(options.offline), options.reasoning ?? context.config.reasoning)
   const check: Omit<CheckOptions, 'cache'> = {
@@ -95,6 +99,7 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
       check,
       needsImages: options.llm && criteria.some((criterion) => criterion.needs.vision),
       progress,
+      pageSets,
     }
     for (const site of await resolveSites(targets, fetch)) sites.push(await checkSite(site, run))
   } finally {
@@ -172,8 +177,9 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
     }
     const snapshot = { ...collected.snapshot, target: finalUrl }
     if (options.save) await saveRecording(options.save, snapshot, collected)
+    let record: SitePageRecord | undefined
     try {
-      records.push({ ...siteFactsOf(snapshot), index: task.index })
+      record = siteFactsOf(snapshot)
     } catch {
       // A page the criteria across pages cannot read is left out of every set; its own report stands.
     }
@@ -184,20 +190,27 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
     judging = turn.catch(() => undefined)
     const report = await turn
     pages.push({ url: finalUrl, report, signatures: findingSignatures(report.findings, snapshot), index: task.index })
+    if (record) records.push({ ...record, index: task.index })
   })
 
   pages.sort((a, b) => a.index - b.index)
   records.sort((a, b) => a.index - b.index)
   const first: Report | undefined = pages[0]?.report
-  const siteCriteria = runSiteCriteria(records, {
-    origin: site.origin,
-    locale: run.context.locale,
-    minConfidence: options.minConfidence,
-    waivers: run.check.waivers,
-    pageSets: run.context.config.pageSets,
-  })
+  let siteCriteria: SiteCriteriaReport | undefined
+  try {
+    siteCriteria = runSiteCriteria(records, {
+      origin: site.origin,
+      locale: run.context.locale,
+      minConfidence: options.minConfidence,
+      waivers: run.check.waivers,
+      pageSets: run.pageSets,
+    })
+  } catch (error) {
+    // The pages are checked and judged by now: a comparison that fails must not lose their report.
+    process.stderr.write(`rampa: the criteria across pages (3.2.3, 3.2.6) did not run: ${errorMessage(error)}\n`)
+  }
   const summary = summarizeSite(pages, cache.reused)
-  const compared = new Set(siteCriteriaChecked(siteCriteria))
+  const compared = new Set(siteCriteria ? siteCriteriaChecked(siteCriteria) : [])
   summary.coverage.notChecked = summary.coverage.notChecked.filter((id) => !compared.has(id))
   return {
     schemaVersion: 1,

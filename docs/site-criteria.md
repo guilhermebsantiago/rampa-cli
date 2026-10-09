@@ -23,6 +23,8 @@ WCAG applies both criteria to a "set of web pages", and leaves it to the author 
 
 1. **Sets you name.** `pageSets` in the config maps a name to path patterns, in the same robots.txt syntax as `--include`: a prefix, `*` for anything, `$` for the end. A page goes to the first set whose patterns match it.
 
+   A value that is not a name with a list of patterns stops the run before any page is loaded; a single pattern may be a string.
+
    ```json
    {
      "pageSets": {
@@ -34,7 +36,7 @@ WCAG applies both criteria to a "set of web pages", and leaves it to the author 
 
 2. **Sets proposed from templates.** The other pages are grouped by language (the primary subtag of `<html lang>`) and by viewport. Within a group, two pages share a template when at least two links, and at least 60% of the links in the smaller page's header, navigation and footer, are also in the other page's. Shared templates are chained, so a docs page with an extra sidebar stays in the set of the home page whose header it shares. Language versions, such as `/` and `/pt/`, are always separate sets.
 
-Pages with no navigation landmark, header or footer links are listed as "No navigation found", and pages that share a template with no other page as "In a set of their own". Neither is compared.
+Pages with no navigation landmark, header or footer links are listed as "No navigation found", and pages that share a template with no other page, or that are alone in a set you named, as "In a set of their own". Neither is compared. A page is compared only once its own report exists: a page whose judgment failed is in no set.
 
 ## 3.2.3 Consistent Navigation
 
@@ -56,7 +58,7 @@ WCAG 3.2.3 (AA) — Consistent Navigation
     Order on /pricing: Pricing → Docs
     on /pricing: html > body > header > nav · html > body > header > nav > ul > li:nth-of-type(3) > a · html > body > header > nav > ul > li:nth-of-type(2) > a
     on /: html > body > header > nav · html > body > header > nav > ul > li:nth-of-type(2) > a · html > body > header > nav > ul > li:nth-of-type(3) > a
-    id a8b70d13b2c0
+    id 0cea0af775c5
 ```
 
 **Needs review instead of a failure** when:
@@ -77,6 +79,8 @@ WCAG 3.2.3 (AA) — Consistent Navigation
 | Fully automated contact mechanism | chat widgets from Intercom, Drift, Crisp, Tawk.to, Zendesk, HubSpot, LiveChat, Freshchat, Tidio, JivoChat, Olark, Chatwoot, Gorgias, Help Scout, Smartsupp, Userlike, Octadesk, Blip, Kommunicate and Landbot, by their ids, classes and frame addresses | yes |
 | Any of the above | only the link text: "Contact us", "Fale conosco", "Help", "Ajuda", "FAQ", "Chat"… | no: needs review |
 
+**A hidden copy.** When a link outside the main content is also in a hidden or off-screen copy, such as a collapsed mobile menu repeating the desktop one, the visible one gives the page's order and the copy is left out.
+
 **Where help sits.** Each link, button or widget outside the main content is placed before or after the `main` landmark. On a page with no `main`, the header counts as before it and the footer as after it, and anything else is not compared for a move.
 
 **What is a failure.**
@@ -92,7 +96,7 @@ WCAG 3.2.6 (A) — Consistent Help
     before the main content on /pricing
     on /: html > body > footer > ul > li:nth-of-type(2) > a
     on /pricing: html > body > header > a:nth-of-type(3)
-    id ba367229e421
+    id ab7b39c0615d
 ```
 
 **Needs review.** Help recognized only by its text; and help that is in the header or footer of some pages and only inside the main content of others, which may be a moved mechanism or just a mention in the text.
@@ -112,7 +116,7 @@ The site report gets a `siteCriteria` object:
 | `review` | Needs review: never a failure, never in the exit code |
 | `waived` | Findings whose fingerprint is in the waivers file |
 
-Each finding has `criterion`, `level`, `status` (`failure` or `review`), `set`, `subject`, `message`, `evidence` (the order observed, as text), `pages` (the pages named), `comparedWith`, `items`, `elements` (`page`, `ref`, `name`, `html`), `observed` (for each distinct order, its `pages` and the `order`), `confidence`, `experimental` and a `fingerprint`. The fingerprint is made of the criterion, the component and the items, never the pages, so it stays the same when the crawl finds the problem from other pages; put it in the waivers file to waive the finding.
+Each finding has `criterion`, `level`, `status` (`failure` or `review`), `set`, `subject`, `message`, `evidence` (the order observed, as text, one line per distinct order), `pages` (the pages named), `comparedWith`, `items`, `elements` (`page`, `ref`, `name`, `html`), `observed` (for each distinct order, its `pages` and the `order`), `confidence`, `experimental` and a `fingerprint`. The fingerprint is made of the criterion, the set (its name in the config, or the language and viewport of a proposed set), the component and the items, never the pages, so it stays the same when the crawl finds the problem from other pages, and the same problem in the English and the Portuguese pages are two findings; put it in the waivers file to waive the finding.
 
 `summary.coverage.notChecked` no longer lists 3.2.3 once a set was compared, and the coverage block prints a line such as `Compared across pages: 3.2.3 (2 set(s), 10 compared); 3.2.6 (2 set(s), 0 compared)`.
 

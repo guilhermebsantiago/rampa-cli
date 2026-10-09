@@ -4,7 +4,7 @@ import { normalizeForMatch, sha256 } from '../core/util.ts'
 import type { Locale } from '../i18n.ts'
 import { listItems, listPages, sm } from './messages.ts'
 import { type Observation, compareOrders, involvedKeys, ordersObserved, repeatedKeys } from './order.ts'
-import { type Component, navigationComponents } from './page.ts'
+import { type Component, navigationComponents, setIdentity } from './page.ts'
 
 export interface NavigationFacts {
   components: Component[]
@@ -119,7 +119,7 @@ function compareGroup(group: Group, set: PageSet, locale: Locale): SiteFinding |
 
   const reasons: string[] = []
   if (flaggedMembers.some((member) => member.ratio < CLEAR_MATCH)) reasons.push(sm(locale, 'reviewLowOverlap'))
-  if (new Set(group.members.filter((m) => flagged.includes(m.page) || others.includes(m.page)).map((m) => m.component.hidden)).size > 1) {
+  if (new Set(group.members.map((member) => member.component.hidden)).size > 1) {
     reasons.push(sm(locale, 'reviewHidden'))
   }
   if (group.kind !== 'navigation' && keys.length <= 2) reasons.push(sm(locale, 'reviewFewItems'))
@@ -143,7 +143,7 @@ function compareGroup(group: Group, set: PageSet, locale: Locale): SiteFinding |
   ].join(' ')
 
   const observed = ordersObserved(observations, keys).map((entry) => ({ pages: entry.pages, order: entry.order.map((key) => names.get(key) ?? key) }))
-  const evidence = observed.map((entry) => sm(locale, 'order', { pages: listPages(entry.pages, locale), order: entry.order.join(' → ') })).join(' · ')
+  const evidence = observed.map((entry) => sm(locale, 'order', { pages: listPages(entry.pages, locale), order: entry.order.join(' → ') })).join('\n')
 
   const elements: SiteElement[] = []
   const cite = (member: Member) => {
@@ -158,7 +158,7 @@ function compareGroup(group: Group, set: PageSet, locale: Locale): SiteFinding |
   if (reference) cite(reference)
 
   return {
-    fingerprint: sha256(['3.2.3', group.kind, normalizeForMatch(first.component.name), [...keys].sort().join('\u0001')].join('|')).slice(0, 12),
+    fingerprint: sha256(['3.2.3', setIdentity(set), group.kind, normalizeForMatch(first.component.name), [...keys].sort().join('\u0001')].join('|')).slice(0, 12),
     criterion: '3.2.3',
     level: 'AA',
     source: 'site',
