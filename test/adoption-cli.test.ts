@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process'
-import { copyFile, mkdtemp, readFile, writeFile } from 'node:fs/promises'
+import { copyFile, mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
@@ -120,6 +120,10 @@ describe('adopting Rampa on a page with known problems', { timeout: 120_000 }, (
     const run = rampa(dir, 'baseline', 'store.snapshot.json', '--offline', '--model', 'ollama:gemma4:12b', '--cache-dir', join(dir, 'empty-cache'))
     expect(run.code).toBe(2)
     expect(run.err).toMatch(/not writing \.rampa\/baseline\.json: \d+ candidate\(s\) were not judged/)
+
+    await mkdir(join(dir, 'empty'))
+    const nothing = rampa(dir, 'baseline', 'empty', '--no-llm')
+    expect(nothing).toMatchObject({ code: 2, err: expect.stringContaining('the targets hold no page to check') })
   })
 
   it('stops with a clear error on a missing baseline, a broken waivers file or no targets', async () => {

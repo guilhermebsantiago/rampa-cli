@@ -43,6 +43,10 @@ async function exists(path: string): Promise<boolean> {
  */
 export async function saveBaseline(reports: Report[], out: string, context: GlobalContext): Promise<number> {
   const p = paint(colorsEnabled())
+  if (reports.length === 0) {
+    process.stderr.write(`\nrampa: not writing ${out}: the targets hold no page to check.\n`)
+    return 2
+  }
   const missed = reports.reduce((total, report) => total + report.criteria.reduce((sum, c) => sum + c.errors + c.offlineMisses, 0), 0)
   if (missed > 0) {
     const reason = reports.flatMap((report) => report.errors)[0]
