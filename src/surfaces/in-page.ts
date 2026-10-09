@@ -62,7 +62,9 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   const READING_BLOCKS = new Set(['p', 'li', 'td', 'th', 'dt', 'dd', 'blockquote', 'figcaption', 'caption', 'label', 'legend', 'summary', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
   const MAX_PASS_NODES = 200
   const SKIP = new Set(['script', 'style', 'noscript', 'template', 'head', 'meta', 'link', 'title', 'base'])
-  const KEEP_ATTRS = ['id', 'class', 'lang', 'href', 'src', 'alt', 'title', 'type', 'role', 'name', 'for', 'aria-label', 'aria-labelledby', 'aria-hidden', 'aria-level', 'aria-describedby', 'placeholder', 'autocomplete', 'pattern']
+  const KEEP_ATTRS = ['id', 'class', 'lang', 'href', 'src', 'alt', 'title', 'type', 'role', 'name', 'for', 'aria-label', 'aria-labelledby', 'aria-hidden', 'aria-level', 'aria-describedby', 'placeholder', 'autocomplete', 'pattern',
+    // What a field accepts, and whether its form validates it: the cognitive profile reads them (coga/input-formats).
+    'maxlength', 'minlength', 'min', 'max', 'step', 'inputmode', 'required', 'aria-required', 'novalidate', 'formnovalidate']
   const NAME_FROM_CONTENT = new Set(['a', 'button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'summary', 'option', 'th', 'td', 'li', 'label', 'legend', 'caption', 'figcaption'])
   const refs = new Map<Element, string>()
   let count = 0
@@ -224,7 +226,7 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   const langText = (el: Element): string => textInOrder(el, true)
 
   /** Text in reading order, without what is hidden from the accessibility tree. */
-  const readingText = (el: Element): string => collapse(textInOrder(el, false)).slice(0, 1000)
+  const readingText = (el: Element): string => collapse(textInOrder(el, false))
 
   const textInOrder = (el: Element, stopAtLang: boolean): string => {
     const parts: string[] = []
@@ -329,7 +331,12 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     // Only blocks with inline children need it; for the rest, the node's own text is already in order.
     // A short div or span reads as one sentence, such as "Read more about the archive" around a link.
     const sentence = (tag === 'div' || tag === 'span') && (el.textContent ?? '').length <= 300
-    if ((READING_BLOCKS.has(tag) || sentence) && el.children.length > 0) native.readingText = readingText(el)
+    if ((READING_BLOCKS.has(tag) || sentence) && el.children.length > 0) {
+      const reading = readingText(el)
+      native.readingText = reading.slice(0, 1000)
+      // Text measurements and the search for an abbreviation's expansion need the whole block; criteria keep the short one.
+      if (reading.length > 1000) native.fullText = reading.slice(0, 20000)
+    }
     // A picture set in CSS has no alt to read, and banners with words baked in often arrive this way.
     if (tag !== 'html' && tag !== 'body') {
       const background = backgroundUrl(el)
