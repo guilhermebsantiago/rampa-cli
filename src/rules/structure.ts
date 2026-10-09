@@ -307,7 +307,14 @@ export const orphanLabelRule: RuleCheck = {
         outcome: 'fail',
         subject: text,
         evidence: `<label>${truncate(text, 60)}</label>`,
-        facts: { label: truncate(text, 60), name: field.name?.trim() ?? '', labelRef: label.ref, labelTag: startTagOf(label), fieldId: attributesOf(field).id ?? '' },
+        facts: {
+          label: truncate(text, 60),
+          name: field.name?.trim() ?? '',
+          placeholder: truncate(attributesOf(field).placeholder?.trim() ?? '', 60),
+          labelRef: label.ref,
+          labelTag: startTagOf(label),
+          fieldId: attributesOf(field).id ?? '',
+        },
         html: startTagOf(field),
       })
     }
@@ -315,10 +322,14 @@ export const orphanLabelRule: RuleCheck = {
   },
   message(hit, locale) {
     const name = String(hit.facts.name)
+    const placeholder = String(hit.facts.placeholder ?? '')
+    // With no name, browsers fall back to the placeholder, which disappears as soon as the person types.
     if (locale === 'pt-BR') {
-      return `O rótulo "${hit.facts.label}" está ao lado deste campo, mas não ligado a ele: o leitor de tela anuncia o campo ${name ? `como "${name}"` : 'sem nome'}, sem o rótulo.`
+      const how = name ? `como "${name}"` : placeholder ? `só pelo placeholder ("${placeholder}")` : 'sem nome'
+      return `O rótulo "${hit.facts.label}" está ao lado deste campo, mas não ligado a ele: o leitor de tela anuncia o campo ${how}, sem o rótulo.`
     }
-    return `The label "${hit.facts.label}" sits beside this field but is not tied to it: a screen reader announces the field ${name ? `as "${name}"` : 'with no name'}, without the label.`
+    const how = name ? `as "${name}"` : placeholder ? `only by its placeholder ("${placeholder}")` : 'with no name'
+    return `The label "${hit.facts.label}" sits beside this field but is not tied to it: a screen reader announces the field ${how}, without the label.`
   },
   patch(hit): Patch | undefined {
     const id = String(hit.facts.fieldId)

@@ -139,6 +139,7 @@ describe.skipIf(!browser)('structure rules on real pages', { timeout: 30_000 }, 
     expect(hijack?.message).toContain('comes from the first of them ("Blue mug"), not from the one beside it ("Red kettle")')
     const orphan = report.findings.find((f) => f.ruleId === 'rampa/orphan-label')
     expect(orphan?.patch?.after).toBe('<label for="order">')
+    expect(orphan?.message).toContain('announces the field only by its placeholder ("e.g. 10-2034"), without the label')
     expect(report.findings.find((f) => f.ruleId === 'rampa/presentational-table')?.evidence).toBe('role="presentation" · 2 <th>, <caption>Shipping times</caption>')
     expect(report.coverage.rules).toEqual(expect.arrayContaining(['1.3.1', '4.1.2']))
   })
