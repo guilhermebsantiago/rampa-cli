@@ -1,3 +1,5 @@
+export { check, type CheckTargetsOptions } from './api/check.ts'
+export type { RampaOptions } from './api/options.ts'
 export { defineConfig, loadConfig, type RampaConfig } from './config.ts'
 export { fileCache, memoryCache, type JudgmentCache } from './core/cache.ts'
 export { checkSnapshot, engineFindings, type CheckOptions } from './core/check.ts'

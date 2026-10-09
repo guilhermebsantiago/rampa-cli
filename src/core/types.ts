@@ -162,6 +162,8 @@ export interface Report {
   rampaVersion: string
   createdAt: string
   target: string
+  /** Set when only part of the page was checked: the selectors it was scoped to (checkPage with include or exclude). */
+  scope?: { include: string[]; exclude: string[] } | undefined
   surface: Surface
   locale: Locale
   llm: 'on' | 'off' | 'no-model'
