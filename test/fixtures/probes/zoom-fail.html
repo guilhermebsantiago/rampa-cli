@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resize text failures</title>
+<style>
+  body { margin: 0; font: 16px Arial, sans-serif; }
+  main { padding: 0 8px; }
+  /* ACT 59br37 Failed Example 1: one line at 1280 px; at 640 px it wraps into a box one and a half lines high. */
+  #banner { overflow: hidden; height: 1.5em; max-width: 1100px; }
+  /* Failed Example 2: a height in vh halves with the window. */
+  #vh-box { overflow: hidden; height: 16vh; max-width: 900px; line-height: 1.4; }
+  /* Failed Example 3: only the narrow layout fixes the height. */
+  @media (max-width: 640px) {
+    #narrow { height: 1.5em; width: 50%; overflow: hidden; }
+  }
+  /* Failed Example 4: a box shorter than its letters; the ellipsis does not excuse a vertical cut. */
+  #tiny { overflow-y: hidden; height: 10px; white-space: nowrap; text-overflow: ellipsis; font-size: 16px; max-width: 600px; }
+  /* Failed Example 5: no wrapping and text-overflow clip. */
+  #word-clip { overflow-x: hidden; white-space: nowrap; text-overflow: clip; width: 50px; }
+  /* Text the narrow layout hides: a note with no control to show it, and a menu behind a menu button. */
+  #menu-button { display: none; }
+  @media (max-width: 700px) {
+    #side-note { display: none; }
+    #menu { display: none; }
+    #menu-button { display: inline-block; }
+  }
+  /* A price tag that the narrow window slides over the description. */
+  #product { position: relative; }
+  #product p { width: 620px; margin: 0; }
+  #price { position: absolute; top: 0; right: 0; background: #fff; }
+</style>
+</head>
+<body>
+<header>
+  <button id="menu-button" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+  <ul id="menu"><li><a href="#a">Catalog</a></li><li><a href="#b">Stores</a></li></ul>
+</header>
+<main>
+  <h1>Store notices</h1>
+  <div id="banner">Free shipping on every order over fifty dollars this week, with free returns for thirty days on every item.</div>
+  <div id="vh-box">Our stores open at nine and close at six on weekdays, and on Saturdays they open at ten and close at four. Holiday hours are posted at each store's door and on the store's own page, a week before each holiday. Stores in shopping centers follow the center's hours, which may differ from ours on Sundays and holidays, so check the center's page before you go.</div>
+  <div id="narrow">Orders placed before noon leave the warehouse on the same day.</div>
+  <div id="tiny">Once upon a midnight dreary, while I pondered, weak and weary.</div>
+  <div id="word-clip">Unbelievably long words</div>
+  <p id="side-note">Members get early access to the winter sale, starting next Monday.</p>
+  <div id="product"><p>This hand-made ceramic mug holds a large coffee, keeps it warm for a while, and goes in the dishwasher.</p><span id="price">Now $24.00 each</span></div>
+  <p id="flash">This notice disappears when the window is resized.</p>
+</main>
+<script>
+  // A script that removes content on resize: gone at 640 px and not back at 1280 px, so not the width's doing.
+  window.addEventListener('resize', () => document.getElementById('flash')?.remove())
+</script>
+</body>
+</html>

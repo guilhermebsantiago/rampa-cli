@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content on hover or focus: passes</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; max-width: 700px; }
+  section { margin-bottom: 96px; }
+  p { margin: 8px 0 0; }
+  a:hover { text-decoration: none; color: #a00; }
+  .tip { background: #222; color: #fff; padding: 8px; z-index: 10; }
+  /* 1. SCR39: shown on hover and focus, right below the button, closed by Esc, kept while the pointer is over it. */
+  .good-wrap { position: relative; display: inline-block; }
+  .good-wrap .tip { display: none; position: absolute; top: 100%; left: 0; width: 300px; }
+  /* 2. A menu shown on :hover and :focus-within, with Esc closing it through a class. */
+  nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 16px; }
+  nav li { position: relative; }
+  nav li > ul { display: none; position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #333; padding: 8px; flex-direction: column; width: 200px; z-index: 10; }
+  nav li:hover > ul, nav li:focus-within > ul { display: flex; }
+  nav li.dismissed > ul { display: none; }
+  /* 3. A tooltip in empty space that ignores Esc: it covers nothing, which the criterion allows. */
+  .side-wrap { position: relative; display: inline-block; }
+  .side-wrap .tip { display: none; position: absolute; left: 100%; top: 0; width: 220px; }
+  .side-wrap:hover .tip, .side-wrap:focus-within .tip { display: block; }
+  /* 4. An answer that opens in the flow on hover: it pushes the text down and covers nothing. */
+  .faq .answer { display: none; }
+  .faq:hover .answer { display: block; }
+</style>
+</head>
+<body>
+<nav aria-label="Main">
+  <ul>
+    <li id="menu-shop"><a href="#shop">Shop</a>
+      <ul><li><a href="#new">New in</a></li><li><a href="#sale">Sale</a></li></ul>
+    </li>
+    <li><a href="#help">Help</a></li>
+  </ul>
+</nav>
+<main>
+  <h1>Account</h1>
+  <section>
+    <span class="good-wrap" id="good-wrap"><button type="button" id="good-btn" aria-describedby="good-tip">Billing</button><span class="tip" role="tooltip" id="good-tip">Invoices are issued on the first day of each month.</span></span>
+    <p>Payment methods can be changed at any time, and the change applies to the next invoice.</p>
+  </section>
+  <section>
+    <span class="side-wrap" id="side-wrap"><button type="button" id="side-btn">Plan</button><span class="tip" role="tooltip">Your plan renews monthly.</span></span>
+  </section>
+  <section>
+    <div class="faq" id="faq"><p>How do I cancel?</p><p class="answer">Cancel from the billing page; your plan stays active until the end of the month.</p></div>
+    <p>Other questions go to support by email.</p>
+  </section>
+  <p><abbr title="Value added tax">VAT</abbr> is included. <button type="button" title="Print this page">Print</button></p>
+</main>
+<script>
+  // 1. SCR39.
+  const wrap = document.getElementById('good-wrap')
+  const button = document.getElementById('good-btn')
+  const tip = document.getElementById('good-tip')
+  const show = () => (tip.style.display = 'block')
+  const hide = () => (tip.style.display = 'none')
+  button.addEventListener('mouseenter', show)
+  button.addEventListener('focus', show)
+  wrap.addEventListener('mouseleave', hide)
+  button.addEventListener('blur', hide)
+  // 2. Esc closes whatever menu is open, until the pointer or focus leaves it.
+  for (const li of document.querySelectorAll('nav li')) {
+    li.addEventListener('mouseleave', () => li.classList.remove('dismissed'))
+    li.addEventListener('focusout', () => li.classList.remove('dismissed'))
+  }
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return
+    hide()
+    for (const li of document.querySelectorAll('nav li')) if (li.matches(':hover, :focus-within')) li.classList.add('dismissed')
+  })
+</script>
+</body>
+</html>

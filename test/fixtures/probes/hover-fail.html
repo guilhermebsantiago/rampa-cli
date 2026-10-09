@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content on hover or focus: failures</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; max-width: 900px; }
+  section { margin-bottom: 96px; }
+  p { margin: 8px 0 0; }
+  .tip { background: #222; color: #fff; padding: 8px; z-index: 10; }
+  /* 1. A tooltip shown by CSS alone, on :hover and :focus-within: Esc cannot close it, and it covers the text below (SCR39 not followed). */
+  .tip-wrap { position: relative; display: inline-block; }
+  .tip-wrap .tip { display: none; position: absolute; top: 100%; left: 0; width: 320px; }
+  .tip-wrap:hover .tip, .tip-wrap:focus-within .tip { display: block; }
+  /* 2. A tooltip 16 px below its button that hides as soon as the pointer leaves the button (F95). */
+  /* 3. A tooltip that hides itself after 3 s. */
+  .js-tip { display: none; position: absolute; width: 280px; }
+  .timed-wrap { position: relative; display: inline-block; }
+  .timed-wrap .js-tip { top: 100%; left: 0; }
+  /* 4. A tooltip drawn by ::after on :hover: Esc cannot close it. */
+  [data-tip] { position: relative; }
+  [data-tip]:hover::after { content: attr(data-tip); position: absolute; left: 0; top: 100%; width: 300px; background: #222; color: #fff; padding: 8px; z-index: 10; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Checkout help</h1>
+  <section>
+    <span class="tip-wrap" id="ship-wrap"><button type="button" id="ship">Shipping</button><span class="tip" role="tooltip" id="ship-tip">Orders over fifty dollars ship free within the country.</span></span>
+    <p>Delivery takes two to five working days after the order leaves the warehouse, and a tracking link comes by email.</p>
+  </section>
+  <section>
+    <button type="button" id="gap-btn" aria-describedby="gap-tip">Returns</button>
+    <div class="tip js-tip" id="gap-tip" role="tooltip">Returns are free for thirty days.</div>
+    <p>Items must be unused and in their original packaging to be accepted for a refund of the full price.</p>
+  </section>
+  <section>
+    <span class="timed-wrap" id="timed-wrap"><button type="button" id="timed-btn" aria-describedby="timed-tip">Gift wrap</button><span class="tip js-tip" id="timed-tip" role="tooltip">Gift wrap costs three dollars per item.</span></span>
+    <p>Gift messages are printed on a card and placed inside the package, never on the invoice.</p>
+  </section>
+  <section>
+    <a href="#fees" id="pseudo-link" data-tip="A small fee applies to express delivery.">Express delivery</a>
+    <p>Express orders placed before noon arrive the next working day in most cities, and in two days elsewhere.</p>
+  </section>
+</main>
+<script>
+  const place = (tip, button, gap) => {
+    const r = button.getBoundingClientRect()
+    tip.style.left = `${r.left + window.scrollX}px`
+    tip.style.top = `${r.bottom + window.scrollY + gap}px`
+  }
+  // 2. Shown on hover and focus, hidden when the pointer leaves the button: the pointer cannot reach it across the gap.
+  const gapButton = document.getElementById('gap-btn')
+  const gapTip = document.getElementById('gap-tip')
+  const showGap = () => {
+    place(gapTip, gapButton, 16)
+    gapTip.style.display = 'block'
+  }
+  const hideGap = () => (gapTip.style.display = 'none')
+  gapButton.addEventListener('mouseenter', showGap)
+  gapButton.addEventListener('mouseleave', hideGap)
+  gapButton.addEventListener('focus', showGap)
+  gapButton.addEventListener('blur', hideGap)
+  // 3. Shown on hover and focus, and hidden after 3 s whatever the pointer and focus do.
+  const timedWrap = document.getElementById('timed-wrap')
+  const timedButton = document.getElementById('timed-btn')
+  const timedTip = document.getElementById('timed-tip')
+  let timer
+  const showTimed = () => {
+    timedTip.style.display = 'block'
+    clearTimeout(timer)
+    timer = setTimeout(() => (timedTip.style.display = 'none'), 3000)
+  }
+  const hideTimed = () => (timedTip.style.display = 'none')
+  timedButton.addEventListener('mouseenter', showTimed)
+  timedWrap.addEventListener('mouseleave', hideTimed)
+  timedButton.addEventListener('focus', showTimed)
+  timedButton.addEventListener('blur', hideTimed)
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return
+    hideGap()
+    hideTimed()
+  })
+</script>
+</body>
+</html>

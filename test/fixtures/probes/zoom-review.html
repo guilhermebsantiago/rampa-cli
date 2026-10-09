@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resize text to review</title>
+<style>
+  /* A window that never scrolls: what zoom pushes past its edges cannot be reached. */
+  html, body { overflow: hidden; }
+  body { margin: 0; font: 16px Arial, sans-serif; }
+  main { padding: 0 8px; }
+  /* A clamp to two lines with an ellipsis: maybe on purpose, so a person decides. */
+  #clamped { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; max-width: 900px; }
+  /* Cut, but the title holds the full text. */
+  #titled { overflow: hidden; height: 1.3em; max-width: 1100px; }
+  /* A fixed-width notice that fits at 1280 px and runs past the edge at 640 px. */
+  #wide { width: 760px; }
+  #spacer { height: 640px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Account</h1>
+  <p id="clamped">Your plan renews on the first day of each month. You can change or cancel it at any time from the billing page, and any change you make applies from the first day of the month after.</p>
+  <div id="titled" title="Downloads are kept for thirty days, then removed from the server to save space; ask support to restore one.">Downloads are kept for thirty days, then removed from the server to save space; ask support to restore one.</div>
+  <p id="wide">The billing office answers by phone on weekdays from nine to five, Brasília time, and by email at any hour of the day or night.</p>
+  <div id="spacer"></div>
+  <p id="footer-note">Prices include taxes where the law requires them.</p>
+</main>
+</body>
+</html>

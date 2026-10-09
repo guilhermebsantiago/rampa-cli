@@ -5,7 +5,7 @@ import { settleInPage } from './kit.ts'
 import { type ProbeOptions, openProbePage, skippedRecord } from './page.ts'
 
 /**
- * The layout measurement core (1.4.10 reflow, 1.4.12 text spacing, later 1.4.4 at 200%):
+ * The layout measurement core (1.4.10 reflow, 1.4.12 text spacing, 1.4.4 at 200% zoom):
  * for every element that owns text or is a control, its text box, the part of it that
  * ancestors with overflow hidden leave visible, and overlaps between text of different
  * elements. Measured before and after a change on the same page, so rules compare an
@@ -16,6 +16,9 @@ export const LAYOUT_VERSION = '1'
 /** The page is laid out at 1280×1024 first: 320×256 is that window at 400% zoom (Understanding 1.4.10). */
 export const LAYOUT_BASE = { width: 1280, height: 1024 }
 export const REFLOW_VIEWPORT = { width: 320, height: 256 }
+/** 1280×1024 at 200% zoom: 640×512 CSS px drawn at device scale 2, the viewport ACT 59br37 names. */
+export const ZOOM_VIEWPORT = { width: 640, height: 512 }
+export const ZOOM_SCALE = 2
 
 export interface LayoutBox {
   ref: string
@@ -51,6 +54,22 @@ export interface LayoutBox {
   full?: boolean | undefined
   /** Other boxes the same element hides completely, as a carousel or a marquee does. */
   hiddenPeers?: number | undefined
+  // The facts below are recorded only for the 200% zoom variant (ACT 59br37), whose `cut` also leaves
+  // out what a scrolling container between the text and the clipping ancestor lets a reader scroll to.
+  /** The box is the element's own text, not a control's outline. */
+  own?: boolean | undefined
+  /** Inside an element with aria-hidden="true": outside ACT 59br37. */
+  ah?: boolean | undefined
+  /** The text's parent is not an HTML element (SVG text, MathML): outside ACT 59br37. */
+  foreign?: boolean | undefined
+  /** The nearest ancestor whose overflow-x hidden or clip cuts the text: its white-space, text-wrap-mode and text-overflow. */
+  xClip?: { by: string; ws: string; wrap: string; to: string } | undefined
+  /**
+   * The nearest ancestor whose overflow-y hidden or clip cuts the text: its used line height (font size × 1.2 for
+   * `normal`), the height ACT compares it with (the border box, or the content box for overflow-y: clip), its
+   * font size, and whether it clamps lines (-webkit-line-clamp).
+   */
+  yClip?: { by: string; lh: number; h: number; fs: number; normal?: boolean | undefined; clamp?: boolean | undefined } | undefined
 }
 
 export interface LayoutOverlap {
@@ -70,6 +89,9 @@ export interface LayoutMeasure {
   scrollWidth: number
   /** A person can scroll the window sideways: it moves when scrolled, and neither html nor body hides overflow. */
   scrollsX: boolean
+  /** The zoom variant only: the window's height without scrolling, and whether a person can scroll it down. */
+  clientHeight?: number | undefined
+  scrollsY?: boolean | undefined
   /** Boxes measured; `boxes` keeps only those a rule may need. */
   measured: number
   boxes: LayoutBox[]
@@ -80,6 +102,8 @@ export interface LayoutMeasure {
 export interface LayoutLimits {
   maxBoxes: number
   maxOverlaps: number
+  /** Record the ACT 59br37 facts (LayoutBox.own, ah, foreign, xClip, yClip) and measure clipping past scrolling containers. */
+  zoom?: boolean | undefined
 }
 
 const LIMITS: LayoutLimits = { maxBoxes: 4000, maxOverlaps: 400 }
@@ -98,6 +122,13 @@ export function measureLayout(limits: LayoutLimits): LayoutMeasure {
   // (body's value goes to the window when html's is visible) means nobody reaches what is past the edge.
   const locked = (el: Element | null) => (el ? ['hidden', 'clip'].includes(getComputedStyle(el).overflowX) : false)
   const scrollsX = window.scrollX > 0 && !locked(root) && !locked(document.body)
+  const zoom = limits.zoom === true
+  let scrollsY: boolean | undefined
+  if (zoom) {
+    jump(0, 100000)
+    const lockedY = (el: Element | null) => (el ? ['hidden', 'clip'].includes(getComputedStyle(el).overflowY) : false)
+    scrollsY = window.scrollY > 0 && !lockedY(root) && !lockedY(document.body)
+  }
   jump(0, 0)
   const sx = window.scrollX
   const sy = window.scrollY
@@ -138,15 +169,19 @@ export function measureLayout(limits: LayoutLimits): LayoutMeasure {
   }
   const work: Work[] = []
   let truncated = false
-  const store = window as unknown as { __rampaKeys?: WeakMap<Element, number>; __rampaNextKey?: number }
+  const store = window as unknown as { __rampaKeys?: WeakMap<Element, number>; __rampaNextKey?: number; __rampaByKey?: Element[] }
   const keys = store.__rampaKeys ?? new WeakMap<Element, number>()
   store.__rampaKeys = keys
+  // And back, from a key to its element: the zoom probe looks again at text that went missing.
+  const byKey = store.__rampaByKey ?? []
+  store.__rampaByKey = byKey
   const keyOf = (el: Element): number => {
     let key = keys.get(el)
     if (key === undefined) {
       key = (store.__rampaNextKey ?? 0) + 1
       store.__rampaNextKey = key
       keys.set(el, key)
+      byKey[key] = el
     }
     return key
   }
@@ -179,6 +214,7 @@ export function measureLayout(limits: LayoutLimits): LayoutMeasure {
       }
     }
     let kind: LayoutBox['kind'] = isControl ? 'control' : 'text'
+    const fromText = fragments.length > 0
     if (fragments.length === 0) {
       if (!isControl) continue
       const r = el.getBoundingClientRect()
@@ -201,6 +237,12 @@ export function measureLayout(limits: LayoutLimits): LayoutMeasure {
     let fixed = false
     let current: Element | null = el
     let needPositioned = false
+    // Zoom variant (ACT 59br37): what a reader can reach. A container that scrolls in an axis keeps what is past
+    // its edge reachable, so an ancestor that hides overflow cuts only what reaches past the scrolling box.
+    const reach = { ...union }
+    const zcut = { left: 0, top: 0, right: 0, bottom: 0 }
+    let xClipper: Element | null = null
+    let yClipper: Element | null = null
     // A field scrolls its own value: text inside an input or select is never clipped content.
     const isField = el.localName === 'input' || el.localName === 'textarea' || el.localName === 'select'
     while (current && current !== root && current !== document.body) {
@@ -237,6 +279,30 @@ export function measureLayout(limits: LayoutLimits): LayoutMeasure {
             clip.top = Math.max(clip.top, padding.top)
             clip.bottom = Math.min(clip.bottom, padding.bottom)
           }
+          if (zoom) {
+            if (clipsX) {
+              const l = Math.max(0, padding.left - reach.left)
+              const rr = Math.max(0, reach.right - padding.right)
+              if ((l > 0.5 || rr > 0.5) && !xClipper) xClipper = current
+              zcut.left = Math.max(zcut.left, l)
+              zcut.right = Math.max(zcut.right, rr)
+            }
+            if (clipsY) {
+              const tt = Math.max(0, padding.top - reach.top)
+              const b = Math.max(0, reach.bottom - padding.bottom)
+              if ((tt > 0.5 || b > 0.5) && !yClipper) yClipper = current
+              zcut.top = Math.max(zcut.top, tt)
+              zcut.bottom = Math.max(zcut.bottom, b)
+            }
+            if (ox === 'auto' || ox === 'scroll') {
+              reach.left = Math.max(reach.left, padding.left)
+              reach.right = Math.max(reach.left, Math.min(reach.right, padding.right))
+            }
+            if (oy === 'auto' || oy === 'scroll') {
+              reach.top = Math.max(reach.top, padding.top)
+              reach.bottom = Math.max(reach.top, Math.min(reach.bottom, padding.bottom))
+            }
+          }
         }
         if (s.position === 'fixed' || s.position === 'sticky') fixed = true
         if (s.position === 'fixed') break
@@ -269,16 +335,48 @@ export function measureLayout(limits: LayoutLimits): LayoutMeasure {
       rect: toRect(union),
       line: round((fragments[0]?.bottom ?? 0) - (fragments[0]?.top ?? 0)),
       vis: shown ? toRect(visible) : null,
-      cut: {
-        left: round(Math.max(0, clip.left - union.left)),
-        right: round(Math.max(0, union.right - clip.right)),
-        top: round(Math.max(0, clip.top - union.top)),
-        bottom: round(Math.max(0, union.bottom - clip.bottom)),
-      },
+      cut: zoom
+        ? { left: round(zcut.left), right: round(zcut.right), top: round(zcut.top), bottom: round(zcut.bottom) }
+        : {
+            left: round(Math.max(0, clip.left - union.left)),
+            right: round(Math.max(0, union.right - clip.right)),
+            top: round(Math.max(0, clip.top - union.top)),
+            bottom: round(Math.max(0, union.bottom - clip.bottom)),
+          },
     }
-    if (clipper) {
-      box.clipBy = kit.cssPath(clipper)
-      if (style(clipper).textOverflow === 'ellipsis' || style(el).textOverflow === 'ellipsis') box.ellipsis = true
+    const cutBy = zoom ? (xClipper ?? yClipper) : clipper
+    if (cutBy) {
+      box.clipBy = kit.cssPath(cutBy)
+      if (style(cutBy).textOverflow === 'ellipsis' || style(el).textOverflow === 'ellipsis') box.ellipsis = true
+    }
+    if (zoom) {
+      if (fromText) box.own = true
+      if (el.closest('[aria-hidden="true"]')) box.ah = true
+      if (el.namespaceURI !== 'http://www.w3.org/1999/xhtml') box.foreign = true
+      if (xClipper) {
+        const s = style(xClipper)
+        box.xClip = { by: kit.cssPath(xClipper), ws: s.whiteSpace, wrap: s.getPropertyValue('text-wrap-mode'), to: s.textOverflow }
+      }
+      if (yClipper) {
+        const s = style(yClipper)
+        const fs = Number.parseFloat(s.fontSize) || 0
+        const normal = s.lineHeight === 'normal'
+        // CSS recommends 1.0 to 1.2 for `normal`, and browsers use about 1.2 (ACT 59br37, background).
+        const lh = normal ? fs * 1.2 : Number.parseFloat(s.lineHeight) || 0
+        const height =
+          s.overflowY === 'clip'
+            ? yClipper.clientHeight - (Number.parseFloat(s.paddingTop) || 0) - (Number.parseFloat(s.paddingBottom) || 0)
+            : yClipper.getBoundingClientRect().height
+        const clampValue = s.getPropertyValue('-webkit-line-clamp') || s.getPropertyValue('line-clamp')
+        box.yClip = {
+          by: kit.cssPath(yClipper),
+          lh: round(lh),
+          h: round(height),
+          fs: round(fs),
+          ...(normal ? { normal: true } : {}),
+          ...(clampValue && clampValue !== 'none' ? { clamp: true } : {}),
+        }
+      }
     }
     const exempt = twoD(el)
     if (exempt) box.twoD = exempt
@@ -337,6 +435,7 @@ export function measureLayout(limits: LayoutLimits): LayoutMeasure {
     clientWidth,
     scrollWidth,
     scrollsX,
+    ...(zoom ? { clientHeight: root.clientHeight, scrollsY } : {}),
     measured: work.length,
     boxes: work.map((item) => item.box),
     overlaps,
@@ -372,13 +471,23 @@ export function cutAtRightEdge(box: LayoutBox, measure: LayoutMeasure): boolean 
 }
 
 /**
+ * Below the bottom edge of a window a person cannot scroll down (overflow hidden on html or body, the zoom
+ * variant only), partly or wholly: that part of the page cannot be reached.
+ */
+export function cutAtBottomEdge(box: LayoutBox, measure: LayoutMeasure): boolean {
+  return Boolean(measure.scrollsY === false && measure.clientHeight && box.vis && !box.fixed && box.vis.y + box.vis.height > measure.clientHeight + 1)
+}
+
+/**
  * Keeps what a rule may read: the boxes that are cut, past the edge or overlapping after the
  * change, and the same elements before it. A page with thousands of text boxes stays small.
  */
 export function slimPair(before: LayoutMeasure, after: LayoutMeasure): { before: LayoutMeasure; after: LayoutMeasure } {
   const keep = new Set<string>()
   for (const box of after.boxes) {
-    if (partlyClipped(box) || box.ellipsis || pastRightEdge(box, after) || cutAtRightEdge(box, after) || (box.scroller && !box.twoD)) keep.add(pairOf(box))
+    if (partlyClipped(box) || box.ellipsis || pastRightEdge(box, after) || cutAtRightEdge(box, after) || cutAtBottomEdge(box, after) || (box.scroller && !box.twoD)) {
+      keep.add(pairOf(box))
+    }
   }
   for (const overlap of after.overlaps) for (const side of overlapSides(overlap)) keep.add(side)
   const afterOverlaps = new Set(after.overlaps.map(overlapPair))
@@ -503,12 +612,226 @@ export async function textSpacingProbe(browser: Browser, url: string, options: P
   }
 }
 
-/** Reflow and text spacing, each on its own fresh page; one that fails leaves a skipped record and the other still runs. */
+/** Text shown at 1280×1024 that is not shown at 640×512, grouped by the outermost element that hides it. */
+export interface MissingGroup {
+  /** The element that hides the text: not rendered, or the container that clips it away. */
+  root: { ref: string; id: InPageIdentity; tag: string; label: string }
+  /** display-none, visibility-hidden, opacity-0, no-size, clipped, off-page, removed. */
+  reason: string
+  /** Text boxes it hides. */
+  boxes: number
+  /** The first few of those texts, and their elements (to match the snapshot when the root does not). */
+  sample: string[]
+  members: Array<{ ref: string; id: InPageIdentity }>
+  /** A visible control that may show it: aria-controls names it, or an aria-expanded="false" control sits next to it. */
+  toggle?: string | undefined
+  /** How many of its boxes are shown again once the window is back at 1280×1024: zero means the width did not hide them. */
+  back?: number | undefined
+  /** The layout keys of its boxes, while the probe runs; not recorded. */
+  keys?: number[] | undefined
+}
+
+/** Runs in the page: why each element with one of `keys` (layout keys) is not shown, grouped by what hides it. Needs the kit. */
+export function missingGroups(args: { keys: number[]; texts: string[] }): MissingGroup[] {
+  const w = window as unknown as {
+    __rampaByKey?: Element[]
+    __rampaKit: { cssPath(el: Element): string; identity(el: Element): InPageIdentity; visible(el: Element): boolean; describe(el: Element): { label: string } }
+  }
+  const kit = w.__rampaKit
+  const byKey = w.__rampaByKey ?? []
+  const groups = new Map<Element, MissingGroup & { el: Element }>()
+  const rendered = (el: Element): boolean => {
+    if (!kit.visible(el)) return false
+    const r = el.getBoundingClientRect()
+    return r.width > 0 || r.height > 0
+  }
+  for (const [i, key] of args.keys.entries()) {
+    const el = byKey[key]
+    if (!el) continue
+    let root: Element = el
+    let reason = 'removed'
+    if (el.isConnected) {
+      // The outermost element that is not rendered, below one that is.
+      let hidden: Element | null = null
+      for (let a: Element | null = el; a && a !== document.body && a !== document.documentElement; a = a.parentElement) {
+        if (!rendered(a)) hidden = a
+        else if (hidden) break
+      }
+      if (hidden) {
+        root = hidden
+        const s = getComputedStyle(hidden)
+        reason = s.display === 'none' ? 'display-none' : s.visibility !== 'visible' ? 'visibility-hidden' : Number(s.opacity) === 0 ? 'opacity-0' : 'no-size'
+      } else {
+        // Rendered, but none of its text shows: a container that hides overflow cut it away, or it sits off the page.
+        const r = el.getBoundingClientRect()
+        reason = r.right + window.scrollX <= 0 || r.bottom + window.scrollY <= 0 ? 'off-page' : 'clipped'
+        if (reason === 'clipped') {
+          for (let a = el.parentElement; a && a !== document.body; a = a.parentElement) {
+            const s = getComputedStyle(a)
+            if (s.overflowX === 'visible' && s.overflowY === 'visible') continue
+            const c = a.getBoundingClientRect()
+            if (r.right <= c.left + 1 || r.left >= c.right - 1 || r.bottom <= c.top + 1 || r.top >= c.bottom - 1) {
+              root = a
+              break
+            }
+          }
+        }
+      }
+    }
+    let group = groups.get(root)
+    if (!group) {
+      const connected = root.isConnected
+      group = {
+        el: root,
+        root: { ref: connected ? kit.cssPath(root) : '', id: kit.identity(root), tag: root.localName, label: connected ? kit.describe(root).label : '' },
+        reason,
+        boxes: 0,
+        sample: [],
+        members: [],
+        keys: [],
+      }
+      groups.set(root, group)
+    }
+    group.boxes++
+    group.keys?.push(key)
+    const text = args.texts[i] ?? ''
+    if (group.sample.length < 3 && text) group.sample.push(text)
+    if (group.members.length < 5 && el.isConnected) group.members.push({ ref: kit.cssPath(el), id: kit.identity(el) })
+  }
+  // A control that may show the hidden content: a person can open it, the observe class does not.
+  const ids = (el: Element) => [el, ...Array.from(el.querySelectorAll('[id]'))].map((e) => e.id).filter(Boolean)
+  const toggles = Array.from(document.querySelectorAll('[aria-controls],[aria-expanded]')).filter((el) => rendered(el))
+  for (const group of groups.values()) {
+    if (!group.el.isConnected) continue
+    const near = new Set(ids(group.el))
+    for (let a = group.el.parentElement, n = 0; a && n < 2; a = a.parentElement, n++) if (a.id) near.add(a.id)
+    const toggle = toggles.find((t) => {
+      const controls = (t.getAttribute('aria-controls') ?? '').split(/\s+/).filter(Boolean)
+      if (controls.some((id) => near.has(id))) return true
+      // <button aria-expanded="false">Menu</button><ul>…</ul>: the control next to the hidden list.
+      return t.getAttribute('aria-expanded') === 'false' && (t.parentElement === group.el.parentElement || t.parentElement?.parentElement === group.el.parentElement)
+    })
+    if (toggle) group.toggle = kit.cssPath(toggle)
+  }
+  return [...groups.values()].map(({ el: _, ...group }) => group)
+}
+
+/** Runs in the page: which of `keys` are shown again (rendered, with a box on the page). */
+export function shownKeys(keys: number[]): number[] {
+  const w = window as unknown as { __rampaByKey?: Element[]; __rampaKit: { visible(el: Element): boolean } }
+  const byKey = w.__rampaByKey ?? []
+  return keys.filter((key) => {
+    const el = byKey[key]
+    if (!el?.isConnected || !w.__rampaKit.visible(el)) return false
+    const r = el.getBoundingClientRect()
+    return r.width > 0 && r.height > 0 && r.right + window.scrollX > 0 && r.bottom + window.scrollY > 0
+  })
+}
+
+/**
+ * Runs in the page: the text that ::before and ::after show on rendered elements. A responsive table that hides
+ * its header row at narrow widths often repeats each header in its cells with `content: attr(data-label)`.
+ */
+export function pseudoTexts(max: number): string[] {
+  const texts: string[] = []
+  const elements = Array.from(document.body?.querySelectorAll('*') ?? []).slice(0, max)
+  for (const el of elements) {
+    for (const pseudo of ['::before', '::after']) {
+      const s = getComputedStyle(el, pseudo)
+      const content = s.content
+      if (!content || content === 'none' || content === 'normal' || s.display === 'none' || s.visibility !== 'visible') continue
+      // A resolved string is quoted; counters, images and attr() that resolved to nothing are not text.
+      const match = /^"(.*)"$/s.exec(content)
+      const text = (match?.[1] ?? '').replace(/\\"/g, '"').replace(/\s+/g, ' ').trim()
+      if (text.length >= 2) texts.push(text)
+    }
+  }
+  return texts
+}
+
+const ZOOM_LIMITS: LayoutLimits = { ...LIMITS, zoom: true }
+/** At most this many missing text boxes are looked at again. */
+const MISSING_BUDGET = 600
+
+/** A text box a reader sees: its visible part is more than a 1 px window (visually hidden text is not). */
+export function readable(box: LayoutBox | undefined): boolean {
+  return Boolean(box?.vis && box.vis.width >= 2 && box.vis.height >= 2)
+}
+
+/** Words only, so "Store" and a cell's "Store: " compare equal. */
+const normText = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}…]+/gu, ' ')
+    .trim()
+
+/**
+ * 1.4.4: the page at 1280×1024 and device scale 1, measured; then 640×512 CSS px at device scale 2, which is
+ * that window at 200% zoom (ACT 59br37), measured again with the ACT facts; then back at 1280×1024, to tell
+ * text the width hid from text a timer hid (a carousel that turned).
+ */
+export async function zoomProbe(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord> {
+  const started = Date.now()
+  const probe = await openProbePage(browser, url, options, { viewport: LAYOUT_BASE, desktop: true, variant: 'zoom-200' })
+  try {
+    const before = await probe.page.evaluate(measureLayout, ZOOM_LIMITS)
+    // Browser zoom in Chromium: the CSS viewport halves and devicePixelRatio doubles. Resizing keeps the page's state.
+    const cdp = await probe.context.newCDPSession(probe.page)
+    await cdp.send('Emulation.setDeviceMetricsOverride', { ...ZOOM_VIEWPORT, deviceScaleFactor: ZOOM_SCALE, mobile: false })
+    await probe.page.evaluate(settleInPage, SETTLE)
+    const after = await probe.page.evaluate(measureLayout, ZOOM_LIMITS)
+
+    // Text a reader saw at 1280 px that shows nowhere at 640 px: not its own box, and not the same words elsewhere.
+    let missing: MissingGroup[] = []
+    const truncated = before.truncated || after.truncated
+    if (!truncated) {
+      const now = new Map(after.boxes.map((box) => [pairOf(box), box]))
+      const shownText = new Set(after.boxes.filter(readable).map((box) => normText(box.text)))
+      let gone = before.boxes
+        .filter((box) => box.own && !box.ah && !box.foreign && typeof box.key === 'number' && readable(box) && normText(box.text).length >= 2)
+        .filter((box) => !readable(now.get(pairOf(box))) && !shownText.has(normText(box.text)))
+      if (gone.length > 0) {
+        // The same words shown by ::before or ::after (a table's header repeated in each cell) are not missing.
+        const cut60 = (value: string) => (value.length > 60 ? `${value.slice(0, 59)}…` : value)
+        const pseudo = new Set((await probe.page.evaluate(pseudoTexts, LIMITS.maxBoxes * 2)).map((value) => normText(cut60(value))))
+        gone = gone.filter((box) => !pseudo.has(normText(box.text)))
+      }
+      gone = gone.slice(0, MISSING_BUDGET)
+      if (gone.length > 0) {
+        const keys = gone.map((box) => box.key as number)
+        missing = await probe.page.evaluate(missingGroups, { keys, texts: gone.map((box) => box.text) })
+        await cdp.send('Emulation.setDeviceMetricsOverride', { ...LAYOUT_BASE, deviceScaleFactor: 1, mobile: false })
+        await probe.page.evaluate(settleInPage, SETTLE)
+        const back = new Set(await probe.page.evaluate(shownKeys, keys))
+        for (const group of missing) {
+          group.back = (group.keys ?? []).filter((key) => back.has(key)).length
+          delete group.keys
+        }
+      }
+    }
+    const slim = slimPair(before, after)
+    return {
+      kind: 'layout',
+      version: LAYOUT_VERSION,
+      conditions: { ...probe.conditions, viewport: ZOOM_VIEWPORT, deviceScaleFactor: ZOOM_SCALE },
+      status: truncated ? 'partial' : 'complete',
+      ...(truncated ? { reason: `box budget reached (${LIMITS.maxBoxes})` } : {}),
+      guard: probe.guard.log,
+      durationMs: Date.now() - started,
+      data: { from: LAYOUT_BASE, scale: ZOOM_SCALE, baseline: slim.before, variant: slim.after, missing },
+    }
+  } finally {
+    await probe.context.close()
+  }
+}
+
+/** Reflow, text spacing and 200% zoom, each on its own fresh page; one that fails leaves a skipped record and the others still run. */
 export async function layoutProbes(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
   const records: ProbeRecord[] = []
   for (const [variant, probe] of [
     ['reflow-320x256', reflowProbe],
     ['text-spacing', textSpacingProbe],
+    ['zoom-200', zoomProbe],
   ] as const) {
     const started = Date.now()
     try {

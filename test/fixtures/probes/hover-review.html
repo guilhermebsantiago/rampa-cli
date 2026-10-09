@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content on hover or focus: to review</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; max-width: 700px; }
+  section { margin-bottom: 96px; }
+  p { margin: 8px 0 0; }
+  .tip { background: #222; color: #fff; padding: 8px; z-index: 10; }
+  /* 1. An error message shown on focus over the text below, which Esc does not close: maybe an input error, which need not be dismissible. */
+  .field { position: relative; }
+  .error { display: none; position: absolute; top: 100%; left: 0; width: 300px; }
+  #email:focus + .error { display: block; }
+  /* 2. A tooltip with a gap that the pointer loses on the first try only. */
+  /* 3. A tooltip that Esc hides by taking focus off its button. */
+  /* 4. A panel the pointer opens that never closes: it may not be hover content at all. */
+  .js-tip { display: none; position: absolute; width: 280px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Sign up</h1>
+  <section>
+    <div class="field"><label for="email">Email</label>
+    <input id="email" type="email" value="ana@" aria-invalid="true" aria-describedby="email-error"><span class="tip error" id="email-error">Enter an email address with a domain, such as ana@example.com.</span></div>
+    <p>We send a confirmation link to this address before the account is created.</p>
+  </section>
+  <section>
+    <button type="button" id="flaky-btn" aria-describedby="flaky-tip">Why we ask</button>
+    <div class="tip js-tip" id="flaky-tip" role="tooltip">We ask for the address to send receipts.</div>
+    <p>Receipts list every charge, with the date and the payment method used.</p>
+  </section>
+  <section>
+    <button type="button" id="blur-btn" aria-describedby="blur-tip">Privacy</button>
+    <div class="tip js-tip" id="blur-tip" role="tooltip">We never share the address with anyone.</div>
+    <p>You can delete the account and every record of it from the settings page.</p>
+  </section>
+  <section>
+    <button type="button" id="sticky-btn" aria-describedby="sticky-panel">Newsletter</button>
+    <div class="tip js-tip" id="sticky-panel">Get one email a month with our news.</div>
+    <p>The newsletter is free, and every issue has a link to unsubscribe.</p>
+  </section>
+</main>
+<script>
+  const place = (tip, button, gap) => {
+    const r = button.getBoundingClientRect()
+    tip.style.left = `${r.left + window.scrollX}px`
+    tip.style.top = `${r.bottom + window.scrollY + gap}px`
+  }
+  // 2. The first time the pointer leaves the button, the tooltip hides at once; later, it waits long enough to be reached.
+  const flaky = document.getElementById('flaky-btn')
+  const flakyTip = document.getElementById('flaky-tip')
+  let leaves = 0
+  let pending
+  flaky.addEventListener('mouseenter', () => {
+    clearTimeout(pending)
+    place(flakyTip, flaky, 16)
+    flakyTip.style.display = 'block'
+  })
+  flaky.addEventListener('mouseleave', () => {
+    leaves++
+    if (leaves === 1) flakyTip.style.display = 'none'
+    else pending = setTimeout(() => (flakyTip.style.display = 'none'), 600)
+  })
+  flakyTip.addEventListener('mouseenter', () => clearTimeout(pending))
+  flakyTip.addEventListener('mouseleave', () => (flakyTip.style.display = 'none'))
+  // 3. Shown on focus only; Esc hides it and takes focus away.
+  const blurButton = document.getElementById('blur-btn')
+  const blurTip = document.getElementById('blur-tip')
+  blurButton.addEventListener('focus', () => {
+    place(blurTip, blurButton, 0)
+    blurTip.style.display = 'block'
+  })
+  blurButton.addEventListener('blur', () => (blurTip.style.display = 'none'))
+  // 4. Opened by the pointer, never closed.
+  const sticky = document.getElementById('sticky-btn')
+  const panel = document.getElementById('sticky-panel')
+  sticky.addEventListener('mouseenter', () => {
+    place(panel, sticky, 0)
+    panel.style.display = 'block'
+  })
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return
+    flakyTip.style.display = 'none'
+    if (document.activeElement === blurButton) blurButton.blur()
+  })
+</script>
+</body>
+</html>
