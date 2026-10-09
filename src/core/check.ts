@@ -1,8 +1,9 @@
 import type { Locale } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
+import { EXPERIMENTAL_RULES } from '../engine/axe.ts'
 import { VERSION } from '../version.ts'
-import { WCAG21_A_AA, compareCriteria, successCriterion } from '../wcag.ts'
+import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria, criteriaFor, successCriterion, wcagTarget } from '../wcag.ts'
 import type { JudgmentCache } from './cache.ts'
 import { judgeCandidates } from './judge.ts'
 import {
@@ -32,6 +33,8 @@ export interface CheckOptions {
   concurrency: number
   /** Fingerprints of findings someone dismissed on purpose. */
   waivers?: ReadonlySet<string> | undefined
+  /** The WCAG version the report states coverage against; 2.2 by default. */
+  wcag?: WcagVersion | undefined
   /**
    * Ablation switch for the evaluation: when false, claims that fail
    * verification are kept as findings instead of discarded. Never use it in CI.
@@ -59,7 +62,7 @@ export function engineFindings(engine: EngineResults): Finding[] {
         target: node.target,
         message: node.detail ?? rule.help,
         evidence: node.evidence,
-        confidence: node.confidence ?? 'high',
+        confidence: node.confidence ?? (EXPERIMENTAL_RULES.has(rule.ruleId) ? 'low' : 'high'),
         ruleId: rule.ruleId,
         helpUrl: rule.helpUrl,
         html: node.html,
@@ -175,14 +178,19 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     }
   }
 
+  const version = options.wcag ?? DEFAULT_WCAG
   const waived = findings.filter((f) => options.waivers?.has(f.fingerprint))
-  const active = findings.filter((f) => !options.waivers?.has(f.fingerprint))
+  const unwaived = findings.filter((f) => !options.waivers?.has(f.fingerprint))
+  // A WCAG 2.2 criterion in a 2.1 run is reported apart, and never counted.
+  const beyond = unwaived.filter((f) => beyondTarget(f.criterion, version))
+  const active = unwaived.filter((f) => !beyondTarget(f.criterion, version))
   const threshold = CONFIDENCE_RANK[options.minConfidence]
   const reported = active.filter((f) => CONFIDENCE_RANK[f.confidence] >= threshold)
   const belowThreshold = active.filter((f) => CONFIDENCE_RANK[f.confidence] < threshold)
   reported.sort((a, b) => compareCriteria(a.criterion, b.criterion))
 
-  const all = new Set(WCAG21_A_AA.map((sc) => sc.id))
+  // 4.1.1 is never counted: WCAG 2.2 removed it, and under 2.1 it is satisfied by definition for HTML and XML.
+  const all = new Set(criteriaFor(version).flatMap((sc) => (sc.removedIn ? [] : [sc.id])))
   const engineCovered = new Set(
     engine.rules.filter((r) => r.outcome !== 'inapplicable').flatMap((r) => r.criteria.filter((c) => all.has(c))),
   )
@@ -195,12 +203,14 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     createdAt: new Date().toISOString(),
     target: snapshot.target,
     surface: snapshot.surface,
+    wcagTarget: wcagTarget(version),
     locale: options.locale,
     llm: !options.llm ? 'off' : llmActive ? 'on' : 'no-model',
     model: options.provider?.id,
     engine: engine.engine,
     findings: reported,
     belowThreshold,
+    ...(beyond.length > 0 ? { beyondTarget: beyond } : {}),
     waived,
     discarded,
     criteria: summaries,

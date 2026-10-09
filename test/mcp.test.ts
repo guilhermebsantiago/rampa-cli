@@ -71,6 +71,7 @@ describe('rampa mcp tools', () => {
       'locale',
       'runs',
       'min_confidence',
+      'wcag',
       'max_findings',
     ])
     for (const tool of tools) {
@@ -87,11 +88,13 @@ describe('rampa mcp tools', () => {
     expect(list.judged.map((c) => c.id)).toEqual([...CRITERIA.keys()])
     expect(list.default_criteria).toEqual(DEFAULT_CRITERIA)
     expect(list.judged.find((c) => c.id === '1.1.1')).toMatchObject({ level: 'A', needs_vision: true, default: true })
-    expect(list.wcag).toHaveLength(50)
+    expect(list.wcag).toHaveLength(55)
     const checkedBy = (id: string) => list.wcag.find((sc) => sc.id === id)?.checked_by
     expect(checkedBy('1.1.1')).toEqual(['axe-core', 'rampa judgment'])
     expect(checkedBy('1.4.3')).toEqual(['axe-core'])
     expect(checkedBy('2.4.7')).toEqual([])
+    expect(checkedBy('2.5.8')).toEqual(['axe-core'])
+    expect(list.wcag.some((sc) => sc.id === '4.1.1')).toBe(false)
     expect(textOf(result)).toContain('never declares a page accessible')
   })
 
@@ -211,7 +214,7 @@ describe('rampa mcp tools', () => {
     expect(explanation.criterion).toMatchObject({
       id: '1.1.1',
       judged_by_rampa: true,
-      understanding_url: 'https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html',
+      understanding_url: 'https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html',
     })
     expect(explanation.wcag_text).toMatch(/^All non-text content that is presented to the user has a text alternative/)
     expect(explanation.finding?.target).toBe('examples/store/before.html')
@@ -224,7 +227,7 @@ describe('rampa mcp tools', () => {
     const explanation = result.structuredContent as Explanation
     expect(explanation.criterion).toMatchObject({ name: 'Contrast (Minimum)', level: 'AA', judged_by_rampa: false })
     expect(explanation.criterion.axe_rules).toContain('color-contrast')
-    expect(explanation.how_to_fix.join(' ')).toContain('https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html')
+    expect(explanation.how_to_fix.join(' ')).toContain('https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html')
   })
 
   it('says what to pass when explain_finding cannot tell what to explain', async () => {

@@ -3,7 +3,7 @@ import type { CriterionSummary, Finding } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
 import type { CrawlSkip } from '../surfaces/crawl.ts'
-import { WCAG21_A_AA, compareCriteria, criterionLabel } from '../wcag.ts'
+import { compareCriteria, criteriaFor, criterionLabel, versionOf } from '../wcag.ts'
 import { type PrettyOptions, renderFinding } from './pretty.ts'
 
 const messages = {
@@ -236,12 +236,14 @@ export function renderSiteReport(site: SiteReport, options: PrettyOptions): stri
   const labels = [engineLabel, t(locale, 'coverageJudged'), t(locale, 'coverageNotChecked'), st(locale, 'coveragePages')]
   const width = Math.max(...labels.map((label) => label.length)) + 2
   const coverage = site.summary.coverage
+  const version = versionOf(site.pages[0]?.wcagTarget)
   lines.push(`  ${engineLabel.padEnd(width)}${list(coverage.engine)}`)
   lines.push(`  ${t(locale, 'coverageJudged').padEnd(width)}${list(coverage.judged)}`)
   const notChecked = verbose
     ? list(coverage.notChecked)
-    : t(locale, 'coverageNotCheckedCount', { count: coverage.notChecked.length, total: WCAG21_A_AA.length })
+    : t(locale, 'coverageNotCheckedCount', { count: coverage.notChecked.length, total: criteriaFor(version).length, version })
   lines.push(`  ${t(locale, 'coverageNotChecked').padEnd(width)}${notChecked}`)
+  lines.push(p.dim(`  ${t(locale, version === '2.1' ? 'coverageParsing21' : 'coverageParsing22')}`))
   const found = site.pages.length + site.notChecked.length + site.notLoaded
   lines.push(`  ${st(locale, 'coveragePages').padEnd(width)}${st(locale, 'coveragePagesCount', { checked: site.pages.length, found })}`)
   lines.push(p.bold(st(locale, 'disclaimer')))

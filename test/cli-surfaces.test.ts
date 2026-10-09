@@ -123,7 +123,7 @@ describe('report wording per surface', () => {
 
   it('speaks of a screen on apps and of an image for a screenshot', async () => {
     const android = await rendered('examples/android/login.xml')
-    expect(android).toContain('Surface: android · rampa-rules')
+    expect(android).toContain('Surface: android · WCAG 2.2 A/AA · rampa-rules')
     expect(android).toContain('This report does not declare the screen accessible.')
     const image = await rendered('examples/image/sign-in.png')
     expect(image).toContain('This report does not declare the image accessible.')

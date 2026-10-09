@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { CRITERIA, DEFAULT_CRITERIA } from '../criteria/index.ts'
 import { RampaError } from '../core/util.ts'
-import { WCAG21_A_AA, successCriterion } from '../wcag.ts'
+import { WCAG22_A_AA, successCriterion } from '../wcag.ts'
 import { type AgentFinding, FindingSchema } from './format.ts'
 import { GUIDES, actRuleUrl, axeRulesByCriterion, engineRulesOf, understandingUrl } from './guide.ts'
 
@@ -36,7 +36,7 @@ export const CriteriaListSchema = z.object({
         axe_rules: z.array(z.string()),
       }),
     )
-    .describe('Every WCAG 2.1 A/AA criterion; checked_by is empty when only a person can check it'),
+    .describe('Every WCAG 2.2 A/AA criterion; checked_by is empty when only a person can check it'),
   statement: z.string(),
 })
 export type CriteriaList = z.infer<typeof CriteriaListSchema>
@@ -62,7 +62,7 @@ export function criteriaList(): CriteriaList {
       }
     }),
     default_criteria: [...DEFAULT_CRITERIA],
-    wcag: WCAG21_A_AA.map((sc) => {
+    wcag: WCAG22_A_AA.map((sc) => {
       const axe = rules.get(sc.id) ?? []
       const checkedBy: Array<'axe-core' | 'rampa judgment'> = []
       if (axe.length > 0) checkedBy.push('axe-core')
@@ -75,7 +75,7 @@ export function criteriaList(): CriteriaList {
 
 export function criteriaListText(list: CriteriaList): string {
   const lines = [
-    `Rampa judges ${list.judged.length} WCAG 2.1 success criteria with a model, on what axe-core cannot decide. Default set: ${list.default_criteria.join(', ')}.`,
+    `Rampa judges ${list.judged.length} WCAG success criteria with a model, on what axe-core cannot decide. Default set: ${list.default_criteria.join(', ')}.`,
   ]
   for (const criterion of list.judged) {
     const tags = [criterion.default ? 'default' : 'not default', criterion.needs_vision ? 'needs a model with vision' : undefined].filter(Boolean)
@@ -88,7 +88,7 @@ export function criteriaListText(list: CriteriaList): string {
     const ids = list.wcag.filter((sc) => keep(sc.checked_by)).map((sc) => sc.id)
     if (ids.length > 0) lines.push(`  ${label} (${ids.length}): ${ids.join(', ')}`)
   }
-  lines.push('', `All ${list.wcag.length} WCAG 2.1 A/AA criteria (whether a rule applies depends on the page):`)
+  lines.push('', `All ${list.wcag.length} WCAG 2.2 A/AA criteria (whether a rule applies depends on the page; wcag "2.1" checks against 50, with 4.1.1):`)
   group('axe-core and Rampa judgment', (by) => by.length === 2)
   group('Rampa judgment only', (by) => by.length === 1 && by[0] === 'rampa judgment')
   group('axe-core only, in part', (by) => by.length === 1 && by[0] === 'axe-core')
@@ -134,7 +134,7 @@ export interface RememberedFinding {
 export function explain(criterionId: string, remembered?: RememberedFinding): Explanation {
   const sc = successCriterion(criterionId)
   if (!sc && !remembered) {
-    throw new RampaError('unknown-criterion', `Unknown criterion ${criterionId}. Pass a WCAG 2.1 A/AA success criterion such as "1.1.1"; list_criteria lists them.`)
+    throw new RampaError('unknown-criterion', `Unknown criterion ${criterionId}. Pass a WCAG 2.2 A/AA success criterion such as "1.1.1"; list_criteria lists them.`)
   }
   const module = CRITERIA.get(criterionId)
   const guide = GUIDES[criterionId]

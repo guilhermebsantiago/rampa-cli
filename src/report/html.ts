@@ -14,12 +14,15 @@ import {
   diffLines,
   levelBreakdown,
   pageLabel,
+  parsingNote,
   patchOf,
   plural,
   safeUrl,
   shownFindings,
   toolsLine,
   understandingUrl,
+  wcagUrl,
+  wcagVersion,
 } from './common.ts'
 import { notesOf, usageLine } from './pretty.ts'
 
@@ -39,11 +42,12 @@ export function renderHtml(reports: readonly Report[], options: HtmlOptions = {}
   const confirmed = reports.flatMap((report) => report.findings)
   const subject = reports.length === 1 && reports[0] ? pageLabel(reports[0]) : plural(locale, 'pagesCount', reports.length)
   const created = reports.map((report) => report.createdAt).sort().at(-1) ?? new Date().toISOString()
+  const version = wcagVersion(reports[0] ?? {})
   const lead =
     reports.length === 0
       ? t(locale, 'noPages')
       : confirmed.length > 0
-        ? `${plural(locale, 'confirmedCount', confirmed.length)} ${plural(locale, 'onPages', reports.length)}: ${levelBreakdown(countLevels(confirmed), locale)}.`
+        ? `${plural(locale, 'confirmedCount', confirmed.length)} ${plural(locale, 'onPages', reports.length, { version })}: ${levelBreakdown(countLevels(confirmed), locale, version)}.`
         : plural(locale, 'noFindingsPages', reports.length)
 
   const parts: string[] = []
@@ -79,7 +83,7 @@ export function renderHtml(reports: readonly Report[], options: HtmlOptions = {}
   parts.push(aboutSection(reports, locale))
   parts.push(`</main>
 <footer class="wrap">
-<p>${e(t(locale, 'generatedBy', { tool: `Rampa ${VERSION}` }))} · <a href="${PROJECT_URL}">${e(t(locale, 'projectLink'))}</a> · <a href="https://www.w3.org/TR/WCAG21/">${e(t(locale, 'wcagLink'))}</a></p>
+<p>${e(t(locale, 'generatedBy', { tool: `Rampa ${VERSION}` }))} · <a href="${PROJECT_URL}">${e(t(locale, 'projectLink'))}</a> · <a href="${wcagUrl(version)}">${e(t(locale, 'wcagLink', { version }))}</a></p>
 </footer>
 </body>
 </html>
@@ -115,7 +119,7 @@ function pageSection(report: Report, index: number, several: boolean, verbose: b
   // With one page, the header already counts the findings.
   const counts = countLevels(report.findings)
   if (several || counts.total === 0) {
-    const lead = counts.total > 0 ? `${plural(locale, 'confirmedCount', counts.total)}: ${levelBreakdown(counts, locale)}.` : t(locale, 'noFindings')
+    const lead = counts.total > 0 ? `${plural(locale, 'confirmedCount', counts.total)}: ${levelBreakdown(counts, locale, wcagVersion(report))}.` : t(locale, 'noFindings')
     out.push(`<p class="page-lead">${e(lead)}</p>`)
   }
 
@@ -204,7 +208,8 @@ function coverageTable(report: Report): string {
 <tbody>
 ${rows.join('\n')}
 </tbody>
-</table>`
+</table>
+<p class="parsing">${e(parsingNote(report))}</p>`
 }
 
 function aboutSection(reports: readonly Report[], locale: Locale): string {

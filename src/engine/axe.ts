@@ -3,12 +3,26 @@ import { createRequire } from 'node:module'
 import type { EngineOutcome, EngineResults, EngineRuleResult } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
 import type { InPageResult } from '../surfaces/in-page.ts'
-import { criterionFromAxeTag } from '../wcag.ts'
+import { DEFAULT_WCAG, type WcagVersion, criterionFromAxeTag } from '../wcag.ts'
 
 const require = createRequire(import.meta.url)
 
 /** WCAG 2.0 and 2.1, levels A and AA. */
 export const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']
+
+/**
+ * The axe-core tags for a WCAG version. 2.2 adds `wcag22aa`; in axe-core 4.14 the only rule it brings
+ * is target-size (2.5.8), and no rule carries `wcag22a`. `wcag2a-obsolete` (4.1.1) is never run.
+ */
+export function axeTags(version: WcagVersion = DEFAULT_WCAG): string[] {
+  return version === '2.1' ? [...AXE_TAGS] : [...AXE_TAGS, 'wcag22aa']
+}
+
+/**
+ * Rules new to Rampa that have not passed the evaluation gate (docs/plans/wcag-coverage.md, 4.9): their
+ * findings are reported at low confidence, below the default threshold, until they do.
+ */
+export const EXPERIMENTAL_RULES: ReadonlySet<string> = new Set(['target-size'])
 
 let source: Promise<string> | undefined
 

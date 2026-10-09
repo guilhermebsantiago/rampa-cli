@@ -1,6 +1,6 @@
 import type { Finding, Report } from '../core/types.ts'
 import { type Locale, type MessageKey, t } from '../i18n.ts'
-import { WCAG21_A_AA, compareCriteria, successCriterion } from '../wcag.ts'
+import { type WcagVersion, compareCriteria, criteriaFor, successCriterion, versionOf } from '../wcag.ts'
 import { displayTarget, usageLine } from './pretty.ts'
 
 /** Helpers shared by the Markdown, HTML and SARIF reports. */
@@ -16,7 +16,27 @@ export function plural(locale: Locale, key: MessageKey, count: number, vars: Rec
   return form.replace(/\{(\w+)\}/g, (_, name: string) => String(values[name] ?? `{${name}}`))
 }
 
-/** W3C's Understanding page of a WCAG 2.1 success criterion: its intent, with examples and techniques. */
+/** The WCAG version a report checked against. */
+export function wcagVersion(report: Pick<Report, 'wcagTarget'>): WcagVersion {
+  return versionOf(report.wcagTarget)
+}
+
+/** How many criteria a report states coverage against: 50 for WCAG 2.1, 55 for 2.2. */
+export function targetTotal(report: Pick<Report, 'wcagTarget'>): number {
+  return criteriaFor(wcagVersion(report)).length
+}
+
+/** What happened to 4.1.1 Parsing, which no run checks: satisfied by definition under 2.1, removed in 2.2. */
+export function parsingNote(report: Pick<Report, 'wcagTarget' | 'locale'>): string {
+  return t(report.locale, wcagVersion(report) === '2.1' ? 'coverageParsing21' : 'coverageParsing22')
+}
+
+/** The W3C Recommendation a report checked against. */
+export function wcagUrl(version: WcagVersion): string {
+  return version === '2.1' ? 'https://www.w3.org/TR/WCAG21/' : 'https://www.w3.org/TR/WCAG22/'
+}
+
+/** W3C's Understanding page of a WCAG success criterion: its intent, with examples and techniques. WCAG 2.2's pages cover the 2.1 criteria too. */
 export function understandingUrl(id: string): string | undefined {
   const sc = successCriterion(id)
   if (!sc) return undefined
@@ -24,7 +44,7 @@ export function understandingUrl(id: string): string | undefined {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
-  return `https://www.w3.org/WAI/WCAG21/Understanding/${slug}.html`
+  return `https://www.w3.org/WAI/WCAG22/Understanding/${slug}.html`
 }
 
 export function criterionName(id: string, locale: Locale): string | undefined {
@@ -32,7 +52,7 @@ export function criterionName(id: string, locale: Locale): string | undefined {
   return sc ? (sc.name[locale] ?? sc.name.en) : undefined
 }
 
-/** `WCAG 2.4.4 (A)`, or the bare id for a rule outside WCAG 2.1 A/AA. */
+/** `WCAG 2.4.4 (A)`, or the bare id for a rule outside WCAG A/AA. */
 export function criterionTag(finding: Finding): string {
   if (!successCriterion(finding.criterion)) return finding.criterion
   return finding.level ? `WCAG ${finding.criterion} (${finding.level})` : `WCAG ${finding.criterion}`
@@ -70,12 +90,12 @@ export function countLevels(findings: readonly Finding[]): LevelCounts {
 }
 
 /** "6 at Level A, 3 at Level AA", leaving out a level with none. */
-export function levelBreakdown(counts: LevelCounts, locale: Locale): string {
+export function levelBreakdown(counts: LevelCounts, locale: Locale, version: WcagVersion): string {
   const parts: string[] = []
   if (counts.A > 0) parts.push(t(locale, 'atLevel', { count: counts.A, level: 'A' }))
   if (counts.AA > 0) parts.push(t(locale, 'atLevel', { count: counts.AA, level: 'AA' }))
   const other = counts.total - counts.A - counts.AA
-  if (other > 0) parts.push(t(locale, 'outsideLevels', { count: other }))
+  if (other > 0) parts.push(t(locale, 'outsideLevels', { count: other, version }))
   return parts.join(', ')
 }
 
@@ -89,7 +109,7 @@ export function coverageRows(report: Report): Array<{ label: string; criteria: s
     {
       label: t(locale, 'coverageNotChecked'),
       criteria: report.coverage.notChecked,
-      text: t(locale, 'coverageNotCheckedOf', { count: report.coverage.notChecked.length, total: WCAG21_A_AA.length }),
+      text: t(locale, 'coverageNotCheckedOf', { count: report.coverage.notChecked.length, total: targetTotal(report), version: wcagVersion(report) }),
     },
   ]
 }
@@ -98,7 +118,7 @@ export function coverageRows(report: Report): Array<{ label: string; criteria: s
 export function coverageStatement(report: Report): string {
   const { locale } = report
   const parts = coverageRows(report).map((row) => `${row.label} ${row.text}`)
-  return `${parts.join('; ')}. ${t(locale, 'disclaimer')} ${t(locale, 'manualReview')}`
+  return `${parts.join('; ')}. ${parsingNote(report)} ${t(locale, 'disclaimer')} ${t(locale, 'manualReview')}`
 }
 
 /** The model and the engine behind a set of reports, for a one-line attribution. */

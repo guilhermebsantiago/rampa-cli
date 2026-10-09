@@ -3,7 +3,7 @@ import type { BaselineComparison } from '../adoption/baseline.ts'
 import type { Waiver } from '../adoption/waivers.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11ySnapshot, Surface } from '../snapshot/schema.ts'
-import type { Level } from '../wcag.ts'
+import type { Level, WcagTarget } from '../wcag.ts'
 
 export type Confidence = 'low' | 'medium' | 'high'
 
@@ -218,12 +218,19 @@ export interface Report {
   /** Set when only part of the page was checked: the selectors it was scoped to (checkPage with include or exclude). */
   scope?: { include: string[]; exclude: string[] } | undefined
   surface: Surface
+  /** What the run checked against: WCAG 2.2 A/AA by default, or 2.1 with --wcag 2.1. Reports written before it existed targeted 2.1. */
+  wcagTarget?: WcagTarget | undefined
   locale: Locale
   llm: 'on' | 'off' | 'no-model'
   model?: string | undefined
   engine: { name: string; version: string }
   findings: Finding[]
   belowThreshold: Finding[]
+  /**
+   * Findings on WCAG 2.2 criteria in a run that targets WCAG 2.1 (a recording made under 2.2, say):
+   * reported, never counted toward the target or the exit code.
+   */
+  beyondTarget?: Finding[] | undefined
   waived: Finding[]
   /** Waivers past their expiry date that matched findings of this run: those findings are reported again. */
   expiredWaivers?: Waiver[] | undefined

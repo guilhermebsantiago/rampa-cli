@@ -16,6 +16,8 @@ export interface RampaConfig {
   /** `provider:model`, e.g. `ollama:gemma4:12b`. */
   model?: string
   criteria?: string[]
+  /** The WCAG version reports state coverage against: '2.2' (default) or '2.1'. */
+  wcag?: '2.1' | '2.2'
   runs?: number
   locale?: 'en' | 'pt-BR'
   minConfidence?: Confidence

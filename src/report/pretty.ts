@@ -4,7 +4,7 @@ import { adoptionLines, noNewFindings } from '../adoption/render.ts'
 import type { Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
-import { WCAG21_A_AA, compareCriteria, criterionLabel } from '../wcag.ts'
+import { compareCriteria, criterionLabel, criteriaFor, versionOf } from '../wcag.ts'
 import type { Painter } from './color.ts'
 
 export interface PrettyOptions {
@@ -18,7 +18,8 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   const lines: string[] = []
 
   lines.push(p.bold(displayTarget(report.target)))
-  const meta = [`${t(locale, 'surface')}: ${report.surface}`, `${report.engine.name} ${report.engine.version}`]
+  const version = versionOf(report.wcagTarget)
+  const meta = [`${t(locale, 'surface')}: ${report.surface}`, t(locale, 'wcagTarget', { version }), `${report.engine.name} ${report.engine.version}`]
   if (report.model) meta.push(`${t(locale, 'model')}: ${report.model}`)
   lines.push(p.dim(meta.join(' · ')))
   lines.push('')
@@ -73,8 +74,9 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   lines.push(`  ${pad(t(locale, 'coverageJudged'))}${list(report.coverage.judged)}`)
   const notCheckedText = verbose
     ? list(report.coverage.notChecked)
-    : t(locale, 'coverageNotCheckedCount', { count: report.coverage.notChecked.length, total: WCAG21_A_AA.length })
+    : t(locale, 'coverageNotCheckedCount', { count: report.coverage.notChecked.length, total: criteriaFor(version).length, version })
   lines.push(`  ${pad(t(locale, 'coverageNotChecked'))}${notCheckedText}`)
+  lines.push(p.dim(`  ${t(locale, version === '2.1' ? 'coverageParsing21' : 'coverageParsing22')}`))
   lines.push(p.bold(t(locale, report.surface === 'web' ? 'disclaimer' : report.surface === 'image' ? 'disclaimerImage' : 'disclaimerScreen')))
   lines.push(p.dim(t(locale, 'manualReview')))
   return lines.join('\n')
@@ -143,7 +145,19 @@ export function notesOf(report: Report, verbose: boolean): string[] {
   if (sum('offlineMisses') > 0) notes.push(t(locale, 'offlineMisses', { count: sum('offlineMisses') }))
   if (sum('errors') > 0) notes.push(t(locale, 'judgmentErrors', { count: sum('errors'), error: report.errors[0] ?? '' }))
   if (!verbose && report.belowThreshold.length > 0) notes.push(t(locale, 'belowThreshold', { count: report.belowThreshold.length }))
+  const beyond = beyondTargetNote(report)
+  if (beyond) notes.push(beyond)
   return notes
+}
+
+/** Findings on WCAG 2.2 criteria in a 2.1 run, counted by criterion; undefined when there are none. */
+export function beyondTargetNote(report: Report): string | undefined {
+  const beyond = report.beyondTarget ?? []
+  if (beyond.length === 0) return undefined
+  const counts = new Map<string, number>()
+  for (const finding of beyond) counts.set(finding.criterion, (counts.get(finding.criterion) ?? 0) + 1)
+  const list = [...counts].sort(([a], [b]) => compareCriteria(a, b)).map(([criterion, count]) => `${criterion} (${count})`)
+  return t(report.locale, 'beyondTarget', { count: beyond.length, list: list.join(', ') })
 }
 
 /** Local files show relative to the working directory, never as an absolute path. */

@@ -15,10 +15,13 @@ import { type FollowLinks, type FollowOptions, destinationCache } from '../../su
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import { VERSION } from '../../version.ts'
 import type { GlobalContext } from '../context.ts'
-import { followOptions, resolveProvider } from './check.ts'
+import { followOptions, resolveProvider, wcagOption } from './check.ts'
+import type { WcagVersion } from '../../wcag.ts'
 
 export interface EvalCommandOptions {
   criteria: string
+  /** Which WCAG version's axe-core rules run: '2.2' (default) or '2.1'. */
+  wcag?: string
   model?: string
   llm: boolean
   pairs: boolean
@@ -80,6 +83,7 @@ export async function runEval(options: EvalCommandOptions, context: GlobalContex
   const p = paint(colorsEnabled())
   const criteria = resolveCriteria(options.criteria.split(','))
   const runs = Math.max(1, Number.parseInt(options.runs, 10) || 1)
+  const wcag = wcagOption(options.wcag)
   const limit = options.limit ? Number.parseInt(options.limit, 10) : undefined
   const spec = options.llm ? await chooseModel(options.model, context.config.model) : undefined
   const provider = await resolveProvider(spec, Boolean(options.offline), options.reasoning ?? context.config.reasoning)
@@ -122,7 +126,7 @@ export async function runEval(options: EvalCommandOptions, context: GlobalContex
   try {
     records = await mapLimit(jobs, Math.max(1, Number.parseInt(options.concurrency, 10) || 4), async (job) => {
       const follow = followOptions(options.followLinks, llm, [job.criterion], destinations)
-      const record = await runJob(job, { browser, provider, llm, runs, cache, offline: Boolean(options.offline), verify: options.verify, follow })
+      const record = await runJob(job, { browser, provider, llm, runs, cache, offline: Boolean(options.offline), verify: options.verify, follow, wcag })
       tick()
       return record
     })
@@ -141,6 +145,7 @@ export async function runEval(options: EvalCommandOptions, context: GlobalContex
     actSha256: dataset.sha256,
     criteria: criteria.map((c) => c.id),
     followLinks: followed,
+    wcag,
   })
   const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
   const dir = join(options.outDir, `${stamp}-${(provider?.id ?? 'baseline').replace(/[^\w.-]+/g, '-')}`)
@@ -163,6 +168,7 @@ async function runJob(
     offline: boolean
     verify: boolean
     follow?: FollowOptions | undefined
+    wcag: WcagVersion
   },
 ): Promise<EvalRecord | undefined> {
   const { criterion, testcase, corruptor } = job
@@ -185,6 +191,7 @@ async function runJob(
       locale: 'en',
       captureImages: ctx.llm && Boolean(criterion.needs.vision),
       followLinks: ctx.follow,
+      wcag: ctx.wcag,
       requireOk: true,
       mutate: corruptor
         ? async (page) => {
@@ -204,6 +211,7 @@ async function runJob(
       minConfidence: 'low',
       concurrency: 2,
       verify: ctx.verify,
+      wcag: ctx.wcag,
     })
     const baselineFails = collected.engine.rules.some((r) => r.outcome === 'violation' && r.criteria.includes(criterion.id))
     const judgmentFails = report.findings.some((f) => f.source === 'judgment' && f.criterion === criterion.id)
@@ -254,6 +262,8 @@ export interface EvalSummary {
   verify: boolean
   actSha256: string
   criteria: string[]
+  /** The WCAG version whose axe-core rules ran; absent in runs made before 2.2 was the default (2.1). */
+  wcag?: WcagVersion | undefined
   /** Which links were read before judging, when a criterion compares links with where they lead. */
   followLinks?: FollowLinks | undefined
   sets: SetScores[]
@@ -265,7 +275,16 @@ export interface EvalSummary {
 
 export function summarize(
   records: EvalRecord[],
-  meta: { model: string | undefined; runs: number; llm: boolean; verify: boolean; actSha256: string; criteria: string[]; followLinks?: FollowLinks | undefined },
+  meta: {
+    model: string | undefined
+    runs: number
+    llm: boolean
+    verify: boolean
+    actSha256: string
+    criteria: string[]
+    followLinks?: FollowLinks | undefined
+    wcag?: WcagVersion | undefined
+  },
 ): EvalSummary {
   const ok = records.filter((r) => !r.error)
   const sets: SetScores[] = []
@@ -325,6 +344,7 @@ export function summarize(
     verify: meta.verify,
     actSha256: meta.actSha256,
     criteria: meta.criteria,
+    wcag: meta.wcag,
     followLinks: meta.followLinks,
     sets,
     pairs,

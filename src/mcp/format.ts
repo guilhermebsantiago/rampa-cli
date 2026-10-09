@@ -2,8 +2,8 @@ import { z } from 'zod'
 import type { EngineResults, Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
-import { displayTarget, usageLine } from '../report/pretty.ts'
-import { WCAG21_A_AA, criterionLabel, successCriterion } from '../wcag.ts'
+import { beyondTargetNote, displayTarget, usageLine } from '../report/pretty.ts'
+import { criteriaFor, criterionLabel, successCriterion, versionOf } from '../wcag.ts'
 
 /**
  * What a check returns to an agent: `structuredContent` follows CheckResultSchema, and the
@@ -45,6 +45,7 @@ export type AgentFinding = z.infer<typeof FindingSchema>
 export const CheckResultSchema = z.object({
   target: z.string(),
   surface: z.string(),
+  wcag_target: z.enum(['wcag21-aa', 'wcag22-aa']).describe('What the check stated coverage against: WCAG 2.2 A/AA by default, or 2.1 with wcag "2.1"'),
   judgment: z.enum(['on', 'off']).describe('on: a model judged the residue; off: no_llm, axe-core only'),
   model: z.string().optional(),
   engine: z.object({ name: z.string(), version: z.string() }),
@@ -177,6 +178,7 @@ export function checkResult(report: Report, engine: EngineResults, maxFindings =
   return {
     target: report.target,
     surface: report.surface,
+    wcag_target: report.wcagTarget ?? 'wcag21-aa',
     // A check without a model is a tool error before it gets here, so the report never says no-model.
     judgment: report.llm === 'on' ? 'on' : 'off',
     model: report.model,
@@ -226,6 +228,8 @@ function notesOf(report: Report, findings: AgentFinding[]): string[] {
   if (sum('offlineMisses') > 0) notes.push(t(locale, 'offlineMisses', { count: sum('offlineMisses') }))
   if (sum('errors') > 0) notes.push(t(locale, 'judgmentErrors', { count: sum('errors'), error: report.errors[0] ?? '' }))
   if (report.belowThreshold.length > 0) notes.push(t(locale, 'agentBelowThreshold', { count: report.belowThreshold.length }))
+  const beyond = beyondTargetNote(report)
+  if (beyond) notes.push(beyond)
   return notes
 }
 
@@ -234,7 +238,8 @@ export function checkText(report: Report, result: CheckResult): string {
   const locale = report.locale
   const lines: string[] = []
   lines.push(`Rampa: ${displayTarget(report.target)}`)
-  const meta = [`${t(locale, 'surface')}: ${report.surface}`, `${report.engine.name} ${report.engine.version}`]
+  const version = versionOf(report.wcagTarget)
+  const meta = [`${t(locale, 'surface')}: ${report.surface}`, t(locale, 'wcagTarget', { version }), `${report.engine.name} ${report.engine.version}`]
   if (report.model) meta.push(`${t(locale, 'model')}: ${report.model}`)
   lines.push(meta.join(' · '), '')
 
@@ -287,8 +292,9 @@ export function checkText(report: Report, result: CheckResult): string {
   lines.push(`  ${t(locale, 'coverageEngine', { engine: report.engine.name })} ${list(report.coverage.engine)}`)
   lines.push(`  ${t(locale, 'coverageJudged')} ${list(report.coverage.judged)}`)
   lines.push(
-    `  ${t(locale, 'coverageNotChecked')} ${t(locale, 'agentNotCheckedList', { count: notChecked.length, total: WCAG21_A_AA.length, list: list(notChecked) })}`,
+    `  ${t(locale, 'coverageNotChecked')} ${t(locale, 'agentNotCheckedList', { count: notChecked.length, total: criteriaFor(version).length, version, list: list(notChecked) })}`,
   )
+  lines.push(`  ${t(locale, version === '2.1' ? 'coverageParsing21' : 'coverageParsing22')}`)
   lines.push(t(locale, 'disclaimer'), t(locale, 'manualReview'))
   return lines.join('\n')
 }

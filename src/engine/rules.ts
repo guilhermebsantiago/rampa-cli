@@ -25,7 +25,7 @@ interface RuleSpec {
   helpUrl: string
 }
 
-const UNDERSTANDING = 'https://www.w3.org/WAI/WCAG21/Understanding/'
+const UNDERSTANDING = 'https://www.w3.org/WAI/WCAG22/Understanding/'
 
 export const NATIVE_RULES: Record<string, RuleSpec> = {
   'control-name': {

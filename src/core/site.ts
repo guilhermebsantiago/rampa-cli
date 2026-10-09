@@ -5,7 +5,7 @@ import { indexTree } from '../snapshot/tree.ts'
 import type { BrowserConditions } from '../surfaces/browser-options.ts'
 import type { CrawlSkip } from '../surfaces/crawl.ts'
 import type { Robots } from '../surfaces/robots.ts'
-import { type Level, WCAG21_A_AA, compareCriteria } from '../wcag.ts'
+import { type Level, type WcagTarget, compareCriteria, criteriaFor, versionOf } from '../wcag.ts'
 import type { JudgmentCache } from './cache.ts'
 import type { Confidence, Finding, Patch, Report, Usage } from './types.ts'
 import { normalizeForMatch, sha256 } from './util.ts'
@@ -219,7 +219,8 @@ export function summarizeSite(pages: readonly SitePage[], reusedAcrossPages: num
 
   const engine = new Set(pages.flatMap((page) => page.report.coverage.engine))
   const judged = new Set(pages.flatMap((page) => page.report.coverage.judged))
-  const notChecked = WCAG21_A_AA.map((sc) => sc.id).filter((id) => !engine.has(id) && !judged.has(id))
+  const version = versionOf(pages[0]?.report.wcagTarget)
+  const notChecked = criteriaFor(version).flatMap((sc) => (sc.removedIn || engine.has(sc.id) || judged.has(sc.id) ? [] : [sc.id]))
   return {
     pagesChecked: pages.length,
     findings: { total, repeated: total - specificCount, pageSpecific: specificCount },
@@ -258,6 +259,8 @@ export interface SiteReport {
   }
   /** What the browser emulated and carried; header and cookie values are never recorded. */
   browser: BrowserConditions
+  /** What every page was checked against. */
+  wcagTarget?: WcagTarget | undefined
   locale: Locale
   llm: Report['llm']
   model?: string | undefined

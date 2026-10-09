@@ -12,6 +12,7 @@ import {
   diffLines,
   levelBreakdown,
   pageLabel,
+  parsingNote,
   patchOf,
   plural,
   runUsageLine,
@@ -19,6 +20,7 @@ import {
   shownFindings,
   toolsLine,
   understandingUrl,
+  wcagVersion,
 } from './common.ts'
 import { notesOf } from './pretty.ts'
 
@@ -55,8 +57,9 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
   if (reports.length === 0) head.push(`**${t(locale, 'noPages')}**`)
   else if (confirmed.length > 0) {
     const counts = countLevels(confirmed)
+    const version = wcagVersion(reports[0] ?? {})
     head.push(
-      `**${plural(locale, 'confirmedCount', confirmed.length)}** ${plural(locale, 'onPages', reports.length)}: ${levelBreakdown(counts, locale)}.`,
+      `**${plural(locale, 'confirmedCount', confirmed.length)}** ${plural(locale, 'onPages', reports.length, { version })}: ${levelBreakdown(counts, locale, version)}.`,
     )
   } else {
     head.push(`**${plural(locale, 'noFindingsPages', reports.length)}**`)
@@ -185,6 +188,7 @@ function coverageSection(reports: readonly Report[]): string[] {
     }
     if (reports.length > MAX_LIST) lines.push('', plural(locale, 'andMore', reports.length - MAX_LIST))
   }
+  if (first) lines.push('', parsingNote(first))
   lines.push('', `**${t(locale, 'disclaimer')}** ${t(locale, 'manualReview')}`, '')
   return lines
 }
