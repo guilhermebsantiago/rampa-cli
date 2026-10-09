@@ -62,7 +62,12 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
 
   let root = raw.root as A11yNode
   if (scope) root = await scopeRoot(driver, root, scope, { url, truncated: raw.truncated, maxNodes })
-  if (options.captureImages) await captureImages(driver, root)
+  if (options.captureImages) {
+    // Element screenshots scroll the page; the caller's test carries on from where it was.
+    const scroll = await driver.evaluate(() => [window.scrollX, window.scrollY], null)
+    await captureImages(driver, root)
+    await driver.evaluate(([x = 0, y = 0]) => window.scrollTo(x, y), scroll)
+  }
 
   let screenshot: string | undefined
   if (options.screenshotDir) {

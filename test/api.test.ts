@@ -3,7 +3,7 @@ import { mkdtemp, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { type RampaConfig, check } from '../src/index.ts'
+import { type RampaConfig, type Report, assertRampa, check, formatFindings } from '../src/index.ts'
 
 // Recorded with `rampa check --save`, with the judgments of ollama:gemma4:12b in the demo cache:
 // the whole pipeline runs offline, with no browser, no model and no network.
@@ -86,6 +86,13 @@ describe('check', () => {
     await writeFile(join(dir, 'waivers.json'), JSON.stringify([{ fingerprint, reason: 'title fixed upstream' }]))
     const [fromFile] = await check(recorded, { ...replay, waivers: join(dir, 'waivers.json') })
     expect(fromFile?.waived.map((f) => f.fingerprint)).toEqual([fingerprint])
+  })
+
+  it('prints and asserts on its reports as the test matchers do', async () => {
+    const reports = await check([recorded, fixed], replay)
+    expect(formatFindings(reports).split('\n')[0]).toBe('Rampa: 9 failures in examples/store/before.html')
+    expect(() => assertRampa(reports)).toThrow(/^Rampa: 9 failures in examples\/store\/before\.html\n/)
+    expect(() => assertRampa(reports[1] as Report)).not.toThrow()
   })
 
   it('refuses options that would hide findings or check nothing', async () => {

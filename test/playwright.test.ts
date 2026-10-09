@@ -155,6 +155,20 @@ describe.skipIf(!browser)('checkPage in a real browser', { timeout: 30_000 }, ()
     expect(report.findings.map((f) => f.ruleId)).toEqual(['image-alt'])
   })
 
+  it('leaves the page scrolled where the test left it after capturing images', async () => {
+    const page = await openShop()
+    await page.setViewportSize({ width: 1280, height: 200 })
+    const bottom = await page.evaluate(() => {
+      window.scrollTo(0, document.body.scrollHeight)
+      return window.scrollY
+    })
+    expect(bottom).toBeGreaterThan(100)
+    const model = stubModel()
+    await checkPage(page, { ...isolated(), model, criteria: ['1.1.1'] })
+    expect(model.asked).toContainEqual({ criterion: '1.1.1', subject: 'IMG_2034.jpg', images: 1 })
+    expect(await page.evaluate(() => window.scrollY)).toBe(bottom)
+  })
+
   it('reports in Portuguese with locale pt-BR', async () => {
     const page = await openShop()
     const report = await checkPage(page, { ...isolated(), model: stubModel(), criteria: ['2.4.4'], locale: 'pt-BR', include: '#cart' })

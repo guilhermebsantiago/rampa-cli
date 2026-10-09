@@ -3,11 +3,15 @@
  * @playwright/test's own types, whose Page comes from a different playwright-core version
  * than the one Rampa depends on, as it will in most projects.
  */
-import type { expect as baseExpect, test as baseTest } from '@playwright/test'
+import type { expect as baseExpect, test as baseTest, defineConfig as playwrightConfig } from '@playwright/test'
 import { type RampaFixtures, rampaFixtures, rampaMatchers } from '../src/playwright.ts'
 
 declare const base: typeof baseTest
 declare const expectBase: typeof baseExpect
+declare const defineConfig: typeof playwrightConfig
+
+// Project defaults, as docs/playwright.md shows them.
+defineConfig<RampaFixtures>({ use: { channel: 'msedge', rampaOptions: { model: 'ollama:gemma4:12b', offline: true } } })
 
 const test = base.extend<RampaFixtures>(rampaFixtures)
 const expect = expectBase.extend(rampaMatchers)
