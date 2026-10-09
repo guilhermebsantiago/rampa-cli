@@ -1,4 +1,14 @@
-export { defineConfig, loadConfig, type RampaConfig } from './config.ts'
+export { defineConfig, loadConfig, loadWaivers, type RampaConfig } from './config.ts'
+export {
+  compareWithBaseline,
+  readBaseline,
+  recordBaseline,
+  writeBaseline,
+  type BaselineComparison,
+  type BaselineEntry,
+  type BaselineFile,
+} from './adoption/baseline.ts'
+export { activeFingerprints, readWaivers, upsertWaiver, writeWaivers, type Waiver, type WaiverFile } from './adoption/waivers.ts'
 export { fileCache, memoryCache, type JudgmentCache } from './core/cache.ts'
 export { checkSnapshot, engineFindings, type CheckOptions } from './core/check.ts'
 export { judgeCandidates, majority } from './core/judge.ts'

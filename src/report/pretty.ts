@@ -1,5 +1,6 @@
 import { relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { adoptionLines, noNewFindings } from '../adoption/render.ts'
 import type { Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
@@ -24,7 +25,7 @@ export function renderReport(report: Report, options: PrettyOptions): string {
 
   const findings = verbose ? [...report.findings, ...report.belowThreshold] : report.findings
   if (findings.length === 0) {
-    lines.push(p.green(t(locale, 'noFindings')))
+    lines.push(p.green(noNewFindings(report) ?? t(locale, 'noFindings')))
     lines.push('')
   }
 
@@ -45,6 +46,8 @@ export function renderReport(report: Report, options: PrettyOptions): string {
     for (const note of notes) lines.push(p.yellow(note))
     lines.push('')
   }
+  const adoption = adoptionLines(report, verbose, p)
+  if (adoption.length > 0) lines.push(...adoption, '')
 
   if (verbose && report.discarded.length > 0) {
     lines.push(p.bold(t(locale, 'discardedTitle')))

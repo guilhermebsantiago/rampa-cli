@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import type { Browser } from 'playwright-core'
-import { loadWaivers } from '../../config.ts'
+import { prepareAdoption, targetsOrConfig } from '../../adoption/apply.ts'
 import { type JudgmentCache, fileCache } from '../../core/cache.ts'
 import { checkSnapshot } from '../../core/check.ts'
 import type { AnyCriterion, Confidence, EngineResults, Report, Usage } from '../../core/types.ts'
@@ -48,6 +48,10 @@ export interface CheckCommandOptions {
   /** Write each collected snapshot and its engine results here, to check later without a browser or a device. */
   save?: string
   verbose?: boolean
+  /** Leave out the findings this baseline file has; false (--no-baseline) ignores the config's. */
+  baseline?: string | false
+  /** Takes over once every target is checked, instead of printing the report: rampa baseline records the findings. */
+  onReports?: (reports: Report[]) => Promise<number>
   /** Which links to read before judging, for criteria that compare a link with where it leads. */
   followLinks?: FollowLinks
 }
@@ -160,7 +164,7 @@ async function saveRecording(dir: string, target: Target, collected: Collected):
 }
 
 export async function runCheck(targets: string[], options: CheckCommandOptions, context: GlobalContext): Promise<number> {
-  const resolved = await resolveTargets(targets)
+  const resolved = await resolveTargets(targetsOrConfig(targets, context.config))
   const criteria = resolveCriteria(options.criteria.split(','))
   const runs = Math.max(1, Number.parseInt(options.runs, 10) || 1)
   const spec = options.llm ? await chooseModel(options.model, context.config.model) : undefined
@@ -168,10 +172,13 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   const needsImages = options.llm && criteria.some((criterion) => criterion.needs.vision)
   const follow = followOptions(options.followLinks, options.llm, criteria, destinationCache({ dir: '.rampa/destinations' }))
   const cache = fileCache(options.cacheDir)
-  const waivers = await loadWaivers()
   const concurrency = Math.max(1, Number.parseInt(options.concurrency, 10) || 4)
   // Source paths are relative to the repository root, as GitHub resolves them.
   const root = (await repositoryRoot()) ?? process.cwd()
+  const adoption = await prepareAdoption(options.baseline, context.config)
+  if (adoption.invalidWaivers > 0) {
+    process.stderr.write(`rampa: ${adoption.invalidWaivers} waiver(s) in ${adoption.waiversFile} cannot apply; rampa waivers shows why.\n`)
+  }
   const progress = (message: string) => {
     if (process.stderr.isTTY && options.format === 'pretty') process.stderr.write(`\x1b[2K${message}\r`)
   }
@@ -207,7 +214,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
         locale: context.locale,
         minConfidence: options.minConfidence,
         concurrency,
-        waivers,
+        waivers: adoption.waivers,
       })
       const notes = [...collected.notes, ...rulesNotes(collected.engine, context.locale)]
       if (notes.length > 0) report.notes = notes
@@ -222,6 +229,9 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     progress('')
     await browser?.close()
   }
+  // Expired waivers and the baseline: from here on, findings are the new ones.
+  for (const [index, report] of reports.entries()) reports[index] = adoption.apply(report)
+  if (options.onReports) return options.onReports(reports)
 
   const formatOptions = { verbose: Boolean(options.verbose), paint: paint(colorsEnabled()) }
   const render = (format: Format) => formatReports(format, reports, formatOptions)

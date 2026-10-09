@@ -131,6 +131,7 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
   needs: { fetch: true },
   engineRules: ENGINE_RULES,
   schema: LinkPurposeJudgment,
+  subject: (candidate) => candidate.context.name,
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<LinkPurposeContext>[] {
     const index = indexTree(snapshot.root)

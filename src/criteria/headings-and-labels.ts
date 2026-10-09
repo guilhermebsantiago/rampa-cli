@@ -96,6 +96,7 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
   needs: {},
   engineRules: ENGINE_RULES,
   schema: HeadingsAndLabelsJudgment,
+  subject: (candidate) => candidate.context.text,
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<HeadingsAndLabelsContext>[] {
     const index = indexTree(snapshot.root)

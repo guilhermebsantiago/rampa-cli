@@ -116,6 +116,7 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentJudg
   needs: { vision: true },
   engineRules: ENGINE_RULES,
   schema: NonTextContentJudgment,
+  subject: (candidate) => candidate.context.alt,
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<NonTextContentContext>[] {
     const index = indexTree(snapshot.root)

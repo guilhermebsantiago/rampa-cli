@@ -72,6 +72,7 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
   needs: {},
   engineRules: ENGINE_RULES,
   schema: PageTitledJudgment,
+  subject: (candidate) => candidate.context.title,
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<PageTitledContext>[] {
     const title = snapshot.title?.trim() ?? ''

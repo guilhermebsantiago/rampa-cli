@@ -63,12 +63,15 @@ export async function chooseModel(flag: string | undefined, configured: string |
   return flag ?? (process.env.RAMPA_MODEL || undefined) ?? configured ?? (await defaultModel())
 }
 
-/** Picks a model when none was configured: local first (private, no cost), then the first API provider with credentials, in the order of the recommendations. */
-export async function defaultModel(): Promise<string | undefined> {
-  const ollama = await probeOllama()
-  if (ollama.reachable) {
+/**
+ * Picks a model when none was configured: local first (private, no cost), then the first API provider with
+ * credentials, in the order of the recommendations. `ollama` is a probe the caller made already.
+ */
+export async function defaultModel(ollama?: { reachable: boolean; models: string[] }): Promise<string | undefined> {
+  const server = ollama ?? (await probeOllama())
+  if (server.reachable) {
     const preferred = ['gemma4:12b', 'qwen3.5:9b', 'gemma4:e4b', 'ministral-3:8b']
-    const found = preferred.find((name) => ollama.models.includes(name))
+    const found = preferred.find((name) => server.models.includes(name))
     if (found) return `ollama:${found}`
   }
   const candidate = RECOMMENDED.find((model) => {
