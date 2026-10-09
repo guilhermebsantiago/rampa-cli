@@ -127,10 +127,38 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
       return { candidate, samples, status: 'cannot_tell', verdict: 'cannot_tell', votes, total: outputs.length, representative }
     }
 
-    const verification = criterion.verify(representative, candidate, snapshot)
+    let claim = representative
+    let verification = criterion.verify(claim, candidate, snapshot)
+    // Some models copy a quote together with what the prompt shows it in: quotation marks, or a tag such as
+    // <title>. Only a claim that failed as written is tried once without them, and the quote must still match.
+    const unwrapped = verification.ok ? undefined : withoutDelimiters(claim)
+    if (unwrapped) {
+      const retried = criterion.verify(unwrapped, candidate, snapshot)
+      if (retried.ok) {
+        claim = unwrapped
+        verification = retried
+      }
+    }
     const status: JudgmentStatus = !verification.ok ? 'discarded' : verdict === 'fail' ? 'failed' : 'passed'
-    return { candidate, samples, status, verdict, votes, total: outputs.length, representative, verification }
+    return { candidate, samples, status, verdict, votes, total: outputs.length, representative: claim, verification }
   })
+}
+
+const QUOTED = /^\s*["'“”‘’«»„]([\s\S]*?)["'“”‘’«»]\s*$/
+const TAGGED = /^\s*<([a-z][\w-]*)(?:\s[^>]*)?>([\s\S]*?)<\/\1>\s*$/i
+
+/**
+ * The claim with the delimiters around its evidence removed: up to two layers, each a pair of quotation
+ * marks or a matching tag, as in `"<title>Shop</title>"`. Undefined when the evidence has none.
+ */
+export function withoutDelimiters<Out extends JudgmentBase>(output: Out): Out | undefined {
+  let evidence = output.evidence
+  for (let layer = 0; layer < 2; layer++) {
+    const inner = QUOTED.exec(evidence)?.[1] ?? TAGGED.exec(evidence)?.[2]
+    if (inner === undefined || inner.trim() === '') break
+    evidence = inner
+  }
+  return evidence === output.evidence ? undefined : { ...output, evidence }
 }
 
 /** Strict majority; a tie means the model did not decide, so it abstains. */
