@@ -16,6 +16,7 @@ import {
   pageLabel,
   patchOf,
   plural,
+  safeUrl,
   shownFindings,
   toolsLine,
   understandingUrl,
@@ -111,9 +112,9 @@ function pageSection(report: Report, index: number, several: boolean, verbose: b
   const out: string[] = []
   out.push(`<section class="page" aria-labelledby="${id}">`)
   out.push(several ? `<h2 id="${id}">${e(pageLabel(report))}</h2>` : `<h2 id="${id}">${e(t(locale, 'findingsOn', { page: pageLabel(report) }))}</h2>`)
-  // With one page, the header already says this.
-  if (several) {
-    const counts = countLevels(report.findings)
+  // With one page, the header already counts the findings.
+  const counts = countLevels(report.findings)
+  if (several || counts.total === 0) {
     const lead = counts.total > 0 ? `${plural(locale, 'confirmedCount', counts.total)}: ${levelBreakdown(counts, locale)}.` : t(locale, 'noFindings')
     out.push(`<p class="page-lead">${e(lead)}</p>`)
   }
@@ -177,7 +178,8 @@ function findingItem(finding: Finding, report: Report): string {
   if (finding.source === 'judgment') meta.push(e(t(locale, 'verified')))
   if (finding.source === 'engine' && finding.ruleId) {
     const rule = `${e(t(locale, 'engineRule'))} ${e(finding.ruleId)} (${e(report.engine.name)})`
-    meta.push(finding.helpUrl ? `<a href="${e(finding.helpUrl)}">${rule}</a>` : rule)
+    const help = safeUrl(finding.helpUrl)
+    meta.push(help ? `<a href="${e(help)}">${rule}</a>` : rule)
   }
   if (!report.findings.includes(finding)) meta.push(e(t(locale, 'belowThresholdShort')))
   meta.push(`id <code>${e(finding.fingerprint)}</code>`)

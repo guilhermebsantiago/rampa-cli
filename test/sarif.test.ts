@@ -58,6 +58,11 @@ describe('SARIF', () => {
     expectValid(toSarif([local]))
     expectValid(toSarif([local, remote], { verbose: true }))
     expectValid(toSarif([]))
+    // The same page twice: one artifact, which the schema requires to be unique.
+    const twice = toSarif([local, local])
+    expectValid(twice)
+    expect(twice.runs[0]?.artifacts).toHaveLength(1)
+    expect(new Set(twice.runs[0]?.results.map((result) => result.locations[0]?.physicalLocation.artifactLocation.index))).toEqual(new Set([0]))
   })
 
   it('fails the schema when the log is broken, so the check above means something', async () => {
@@ -114,6 +119,15 @@ describe('SARIF', () => {
     // An engine finding has no patch, so no fix.
     expect(run?.results[0]?.fixes).toBeUndefined()
     expect(run?.results[0]?.properties).toMatchObject({ source: 'engine', engineRule: 'image-alt' })
+  })
+
+  it('keeps only http(s) help addresses from the engine, which runs inside the page', async () => {
+    const { report } = await recordedReport()
+    const engine = report.findings[0]
+    if (!engine) throw new Error('no engine finding')
+    const planted = toSarif([{ ...report, findings: [{ ...engine, criterion: 'best-practice', level: undefined, helpUrl: 'javascript:alert(1)' }] }])
+    expect(JSON.stringify(planted)).not.toContain('javascript:')
+    expectValid(planted)
   })
 
   it('keeps fingerprints across runs and apart between findings', async () => {

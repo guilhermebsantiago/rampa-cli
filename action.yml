@@ -103,8 +103,15 @@ runs:
       working-directory: ${{ github.action_path }}
       env:
         COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
+      # pnpm through corepack, at the version package.json pins, without the shims of
+      # `corepack enable`, which would change pnpm for the rest of the job.
       run: |
-        corepack enable
+        if command -v corepack >/dev/null 2>&1; then
+          pnpm() { corepack pnpm "$@"; }
+        elif ! command -v pnpm >/dev/null 2>&1; then
+          echo "::error::Building Rampa needs corepack (Node.js 24 or earlier) or pnpm on the path."
+          exit 1
+        fi
         pnpm install --frozen-lockfile
         pnpm build
 

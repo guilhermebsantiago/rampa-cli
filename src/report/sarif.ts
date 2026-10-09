@@ -5,7 +5,7 @@ import { sha256 } from '../core/util.ts'
 import { type Locale, t } from '../i18n.ts'
 import { successCriterion } from '../wcag.ts'
 import { VERSION } from '../version.ts'
-import { PROJECT_URL, WAIVERS_FILE, coverageStatement, criterionName, pageLabel, understandingUrl } from './common.ts'
+import { PROJECT_URL, WAIVERS_FILE, coverageStatement, criterionName, pageLabel, safeUrl, understandingUrl } from './common.ts'
 
 /**
  * SARIF 2.1.0, the format GitHub code scanning and most IDEs read. One rule per WCAG
@@ -103,6 +103,8 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
   const rules: Rule[] = []
   const ruleIndex = new Map<string, number>()
   const artifacts: SarifLog['runs'][number]['artifacts'] = []
+  // SARIF wants each artifact once, even when a page was checked twice.
+  const artifactIndex = new Map<string, number>()
   const results: SarifResult[] = []
   const notifications: Notification[] = []
 
@@ -117,12 +119,14 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
   }
 
   for (const report of reports) {
-    const artifact: ArtifactLocation = { ...artifactLocationOf(report), index: artifacts.length }
-    artifacts.push({
-      location: artifactLocationOf(report),
-      roles: ['analysisTarget'],
-      ...(report.surface === 'web' ? { sourceLanguage: 'html' } : {}),
-    })
+    const location = artifactLocationOf(report)
+    const key = `${location.uriBaseId ?? ''}|${location.uri}`
+    let index = artifactIndex.get(key)
+    if (index === undefined) {
+      index = artifacts.push({ location, roles: ['analysisTarget'], ...(report.surface === 'web' ? { sourceLanguage: 'html' } : {}) }) - 1
+      artifactIndex.set(key, index)
+    }
+    const artifact: ArtifactLocation = { ...location, index }
     const entries: Array<[Finding, Kind]> = [
       ...report.findings.map((finding): [Finding, Kind] => [finding, 'confirmed']),
       ...(options.verbose ? report.belowThreshold.map((finding): [Finding, Kind] => [finding, 'below-threshold']) : []),
@@ -193,13 +197,14 @@ export function ruleIdOf(criterion: string): string {
 function ruleOf(finding: Finding, locale: Locale): Rule {
   const sc = successCriterion(finding.criterion)
   if (!sc) {
+    const help = safeUrl(finding.helpUrl)
     return {
       id: finding.criterion,
       name: pascalCase(finding.criterion),
       shortDescription: { text: finding.criterion },
       fullDescription: { text: finding.message },
-      help: { text: finding.helpUrl ?? finding.message },
-      ...(finding.helpUrl ? { helpUri: finding.helpUrl } : {}),
+      help: { text: help ?? finding.message },
+      ...(help ? { helpUri: help } : {}),
       defaultConfiguration: { level: 'warning' },
       properties: { tags: ['accessibility'] },
     }
@@ -248,7 +253,7 @@ function resultOf(finding: Finding, kind: Kind, report: Report, artifact: Artifa
       source: finding.source,
       confidence: finding.confidence,
       ...(finding.ruleId ? { engineRule: finding.ruleId } : {}),
-      ...(finding.helpUrl ? { engineHelpUri: finding.helpUrl } : {}),
+      ...(safeUrl(finding.helpUrl) ? { engineHelpUri: safeUrl(finding.helpUrl) } : {}),
       ...(finding.agreement ? { agreement: finding.agreement } : {}),
       ...(finding.model ? { model: finding.model } : {}),
       ...(finding.patch?.before && finding.patch.after ? { patch: { before: finding.patch.before, after: finding.patch.after } } : {}),

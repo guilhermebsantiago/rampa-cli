@@ -158,6 +158,20 @@ export function runUsageLine(reports: readonly Report[]): string | undefined {
   return usageLine({ ...first, usage })
 }
 
+/**
+ * A link target, only for http and https. Engine results are produced inside the page
+ * being checked, so a hostile page could plant a javascript: URL in them.
+ */
+export function safeUrl(url: string | undefined): string | undefined {
+  if (!url) return undefined
+  try {
+    const parsed = new URL(url)
+    return parsed.protocol === 'https:' || parsed.protocol === 'http:' ? parsed.href : undefined
+  } catch {
+    return undefined
+  }
+}
+
 /** Escapes text for HTML element content and attribute values. */
 export function escapeHtml(value: string): string {
   return value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;')

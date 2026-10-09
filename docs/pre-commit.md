@@ -18,7 +18,7 @@ repos:
 
 Then `pre-commit install` once. The hook runs on the staged `.html` and `.htm` files, all of them in one run.
 
-The first run builds Rampa inside pre-commit's copy of this repository, with pnpm and the lockfile, so the dependencies are the reviewed ones. It uses `pnpm` when it is on the path, otherwise pnpm through corepack (`corepack enable` once, on Node.js versions that include it). Later runs start at once. A new `rev` builds again.
+The first run builds Rampa inside pre-commit's copy of this repository, with pnpm and the lockfile, so the dependencies are the reviewed ones. It uses `pnpm` when it is on the path, otherwise pnpm through corepack, which Node.js includes up to version 24. Later runs start at once. A new `rev` builds again.
 
 `args` replaces the defaults, so keep `--no-llm` unless you want the judgment layer:
 

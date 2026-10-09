@@ -26,8 +26,19 @@ describe('Markdown report', () => {
     )
     // An engine finding shows the element and the rule instead of a diff.
     expect(markdown).toContain(
-      '```html\n<img src="logo.svg" width="48" height="48" />\n```\nConfidence high · rule [image-alt](https://dequeuniversity.com/rules/axe/4.14/image-alt?application=axeAPI) (axe-core)',
+      '```html\n<img src="logo.svg" width="48" height="48" />\n```\nConfidence high · rule [image-alt](<https://dequeuniversity.com/rules/axe/4.14/image-alt?application=axeAPI>) (axe-core)',
     )
+  })
+
+  it('separates blocks by one blank line and keeps the blank lines inside code', async () => {
+    const before = (await recordedReport()).report
+    const after = (await recordedReport('examples-store-after')).report
+    for (const markdown of [renderMarkdown([before]), renderMarkdown([before, after], { verbose: true }), renderMarkdown([after])]) {
+      expect(markdown).not.toContain('\n\n\n')
+    }
+    const link = findingOf(before, '2.4.4')
+    const spaced = { ...link, location: undefined, patch: link.patch && { ...link.patch, before: '<a>\n\nClick here</a>', after: '<a>\n\nShipping</a>' } }
+    expect(renderMarkdown([{ ...before, findings: [spaced] }])).toContain('```diff\n  <a>\n  \n- Click here</a>\n+ Shipping</a>\n```')
   })
 
   it('folds what follows the fifth finding of a page into <details>', async () => {
@@ -98,6 +109,14 @@ describe('Markdown report', () => {
     expect(markdown).not.toMatch(/(?<!\\)<img src=x/)
     expect(markdown).toContain('\\<img src=x onerror=alert(1)\\>')
     expect(markdown).toContain('Evidence: "@&#8203;admin \\`\\`\\`"')
+  })
+
+  it('links an engine rule only to an http(s) address, since the page could plant another', async () => {
+    const { report } = await recordedReport()
+    const engine = report.findings[0] as Finding
+    const planted = renderMarkdown([{ ...report, findings: [{ ...engine, helpUrl: 'javascript:alert(1)' }] }])
+    expect(planted).not.toContain('javascript:')
+    expect(planted).toContain('rule `image-alt` (axe-core)')
   })
 
   it('stays under the size limit of a GitHub comment and says what it left out', async () => {

@@ -62,6 +62,11 @@ describe('HTML report', () => {
     expect(html).not.toContain('<img src=x')
     expect(html).toContain('&lt;img src=x onerror=alert(1)&gt;')
     expect(html).toContain('<q>&quot;&lt;/q&gt;&lt;script&gt;</q>')
+    // Engine results come from inside the page; only http(s) addresses become links.
+    const engine = report.findings[0] as Finding
+    const planted = renderHtml([{ ...report, findings: [{ ...engine, helpUrl: 'javascript:alert(1)' }] }])
+    expect(planted).not.toContain('javascript:')
+    expect(planted).toContain('confidence high · rule image-alt (axe-core) · id <code>')
   })
 
   it('speaks Portuguese with --locale pt-BR', async () => {

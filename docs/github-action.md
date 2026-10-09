@@ -2,7 +2,7 @@
 
 The action runs `rampa check` in a workflow, uploads the SARIF report to code scanning, and keeps one comment on the pull request with the Markdown report, edited on every push. The job fails according to `fail-on`.
 
-Rampa is not on npm yet, so the action builds the CLI from its own checkout: it sets up Node.js, enables pnpm through corepack, installs from the lockfile and builds. That takes about a minute.
+Rampa is not on npm yet, so the action builds the CLI from its own checkout: it sets up Node.js, then installs from the lockfile and builds with pnpm through corepack. That adds an install and a build to the job.
 
 ## A complete workflow
 
@@ -91,7 +91,7 @@ Targets are paths in your repository (files or folders of `.html` files) or URLs
 ## What the steps do
 
 1. **Set up Node.js** with `actions/setup-node`, unless `node-version` is empty. Like any action that sets up Node.js, this changes the Node.js on the path for the steps after it in the job.
-2. **Build Rampa** in the action's own directory: `corepack enable`, `pnpm install --frozen-lockfile`, `pnpm build`.
+2. **Build Rampa** in the action's own directory: `pnpm install --frozen-lockfile` and `pnpm build`, running the pnpm version that `package.json` pins through `corepack pnpm`. It does not run `corepack enable`, so `pnpm` stays as it was for the rest of your job. On a Node.js without corepack (25 and later), it uses the `pnpm` on the path.
 3. **Check accessibility**: `rampa check` with the inputs, writing JSON, Markdown, SARIF and HTML. This step never fails the job by itself, so the next steps still run.
 4. **Upload SARIF** with `github/codeql-action/upload-sarif@v4`. It is skipped on pull requests from forks, whose token cannot upload.
 5. **Comment on the pull request**: finds the comment an earlier run posted by its hidden marker and edits it, or posts one. Outside a pull request it does nothing. When GitHub refuses (a fork's read-only token), it warns and the job goes on; the report is still in the job summary.

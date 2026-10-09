@@ -15,6 +15,7 @@ import {
   patchOf,
   plural,
   runUsageLine,
+  safeUrl,
   shownFindings,
   toolsLine,
   understandingUrl,
@@ -99,7 +100,7 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
     else body.push('<details>', `<summary>${line}</summary>`, '', ...clean.map((label) => `- ${code(label)}`), '</details>', '')
   }
 
-  return `${[...head, ...body, ...tail].join('\n').replace(/\n{3,}/g, '\n\n').trimEnd()}\n`
+  return `${[...head, ...body, ...tail].join('\n').trimEnd()}\n`
 }
 
 function findingBlock(finding: Finding, report: Report): string {
@@ -129,13 +130,15 @@ function findingBlock(finding: Finding, report: Report): string {
   meta.push(meta.length === 0 ? capitalize(confidence) : confidence)
   if (finding.agreement) meta.push(`${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`)
   if (finding.source === 'engine' && finding.ruleId) {
-    const rule = finding.helpUrl ? `[${prose(finding.ruleId)}](${finding.helpUrl})` : code(finding.ruleId)
+    const help = safeUrl(finding.helpUrl)
+    // In angle brackets, a ) in the address cannot end the link early.
+    const rule = help ? `[${prose(finding.ruleId)}](<${help}>)` : code(finding.ruleId)
     meta.push(`${t(locale, 'engineRule')} ${rule} (${prose(report.engine.name)})`)
   }
   if (report.findings.includes(finding)) meta.push(`id ${code(finding.fingerprint)}`)
   else meta.push(`${t(locale, 'belowThresholdShort')} · id ${code(finding.fingerprint)}`)
   lines.push(meta.join(' · '), '')
-  return `${lines.join('\n')}\n`
+  return lines.join('\n')
 }
 
 function notesSection(reports: readonly Report[], verbose: boolean): string[] {
