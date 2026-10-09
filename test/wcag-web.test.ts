@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { afterAll, describe, expect, it } from 'vitest'
@@ -92,5 +93,20 @@ describe.skipIf(!browser)('2.5.8 Target Size (Minimum) on the web', { timeout: 6
     const report = await checkSnapshot(snapshot, engine, options({ wcag: '2.1', minConfidence: 'low' }))
     expect(report.coverage.criteria?.some((r) => r.id === '2.5.8')).toBe(false)
     expect(report.coverage.notChecked).not.toContain('2.5.8')
+  })
+
+  it('runs no deprecated or experimental axe-core rule, and finds nothing on 4.1.1, under either version', async () => {
+    const axe = createRequire(import.meta.url)('axe-core') as { getRules(): Array<{ ruleId: string; tags: string[] }> }
+    const tags = new Map(axe.getRules().map((rule) => [rule.ruleId, rule.tags]))
+    for (const version of ['2.1', '2.2'] as const) {
+      const { snapshot, engine } = await collect('fail', version)
+      for (const rule of engine.rules) {
+        expect(tags.get(rule.ruleId), rule.ruleId).not.toContain('deprecated')
+        expect(tags.get(rule.ruleId), rule.ruleId).not.toContain('experimental')
+        expect(rule.criteria, rule.ruleId).not.toContain('4.1.1')
+      }
+      const report = await checkSnapshot(snapshot, engine, options({ wcag: version, minConfidence: 'low' }))
+      expect([...report.findings, ...report.belowThreshold].some((f) => f.criterion === '4.1.1')).toBe(false)
+    }
   })
 })
