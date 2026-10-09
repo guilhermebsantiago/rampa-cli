@@ -154,6 +154,24 @@ describe('rampa init', () => {
     expect(String(output.read())).toContain('Pages to check: URLs, .html files or folders, comma-separated [dist]: ')
   })
 
+  it('asks on a terminal, where readline echoes what is typed', async () => {
+    const input = Object.assign(new PassThrough(), { isTTY: true })
+    const output = Object.assign(new PassThrough(), { isTTY: true, columns: 120 })
+    let screen = ''
+    output.on('data', (chunk) => {
+      screen += String(chunk)
+    })
+    const answers = interview(settings('ts'), undefined, { input, output })
+    for (const key of ['\r', '\r', 'pt-BR\r', 'y\r']) {
+      await new Promise((resolve) => setTimeout(resolve, 20))
+      input.write(key)
+    }
+    expect(await answers).toMatchObject({ targets: ['dist'], model: undefined, locale: 'pt-BR', github: true })
+    // Without the cursor moves readline draws with, the screen reads as a person saw it.
+    const cursorMoves = new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*[A-Za-z]`, 'g')
+    expect(screen.replace(cursorMoves, '')).toContain('Report language, en or pt-BR [en]: pt-BR')
+  })
+
   it('keeps the defaults for whatever the input ends before', async () => {
     const answers = await interview(settings('ts'), undefined, { input: Readable.from(['dist, http://localhost:3000/\n']), output: new PassThrough() })
     expect(answers).toMatchObject({ targets: ['dist', 'http://localhost:3000/'], model: undefined, locale: 'en', github: false })
