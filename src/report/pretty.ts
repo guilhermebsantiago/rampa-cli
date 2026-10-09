@@ -183,7 +183,7 @@ function criteriaLines(report: Report, p: Painter): string[] {
   const lines = ['', p.bold(`  ${t(locale, 'coverageCriteria')}`)]
   for (const record of records) {
     const status = `${statusText(record.status, locale)}${record.target === 'beyond' ? ` (${t(locale, 'statusBeyond')})` : ''}`
-    lines.push(`  ${record.id.padEnd(7)}${status.padEnd(26)}${methodsText(record, report)}`)
+    lines.push(`  ${record.id.padEnd(7)}${status.padEnd(26)} ${methodsText(record, report)}`)
     lines.push(p.dim(`         ${t(locale, 'manualLabel')}: ${record.manual}`))
   }
   return lines
