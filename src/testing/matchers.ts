@@ -39,8 +39,11 @@ export function createMatchers<Page>(checkPage: (page: Page, options?: CheckPage
     async toPassRampa(this: MatcherState, received: Page | Report | readonly Report[], options: ToPassRampaOptions = {}): Promise<MatcherResult> {
       const reports = asReports(received)
       if (reports) return result('toPassRampa', reports.length === 1 ? 'report' : 'reports', reports, options, this?.isNot)
-      if (typeof (received as { evaluate?: unknown } | null)?.evaluate !== 'function') {
-        throw new TypeError('toPassRampa expects a page or a Rampa report.')
+      const candidate = received as { evaluate?: unknown; url?: unknown } | null
+      if (typeof candidate?.evaluate !== 'function') throw new TypeError('toPassRampa expects a page or a Rampa report.')
+      // A locator or an element handle can evaluate too, but is not a page; the include option scopes a check.
+      if (typeof candidate.url !== 'function') {
+        throw new TypeError('toPassRampa expects a page, not a locator or element: to check part of a page, pass include selectors.')
       }
       return result('toPassRampa', 'page', [await checkPage(received as Page, options)], options, this?.isNot)
     },

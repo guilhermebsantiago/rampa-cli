@@ -135,7 +135,7 @@ describe('assess', () => {
 
 describe('matchers', () => {
   const checked: Array<{ page: unknown; options: CheckPageOptions | undefined }> = []
-  const matchers = createMatchers(async (page: { evaluate(): void; result: Report }, options?: CheckPageOptions) => {
+  const matchers = createMatchers(async (page: { evaluate(): void; url(): string; result: Report }, options?: CheckPageOptions) => {
     checked.push({ page, options })
     return page.result
   })
@@ -157,12 +157,14 @@ describe('matchers', () => {
   })
 
   it('toPassRampa checks a page with its options, or assesses reports as they are', async () => {
-    const page = { evaluate() {}, result: await passing() }
+    const page = { evaluate() {}, url: () => 'https://shop.test/cart', result: await passing() }
     await expect(page).toPassRampa({ include: '#cart', noLlm: true })
     expect(checked.at(-1)).toEqual({ page, options: { include: '#cart', noLlm: true } })
     await expect([await passing(), await failing()]).not.toPassRampa()
-    await expect(expect({ evaluate() {}, result: await failing() }).toPassRampa()).rejects.toThrow('expect(page).toPassRampa()')
+    await expect(expect({ ...page, result: await failing() }).toPassRampa()).rejects.toThrow('expect(page).toPassRampa()')
     await expect(expect('https://example.com').toPassRampa()).rejects.toThrow('toPassRampa expects a page or a Rampa report.')
+    // A Playwright locator can evaluate too; the message says how to check part of a page instead.
+    await expect(expect({ evaluate() {} }).toPassRampa()).rejects.toThrow('toPassRampa expects a page, not a locator or element: to check part of a page, pass include selectors.')
   })
 })
 
