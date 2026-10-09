@@ -2,6 +2,7 @@ import { z } from 'zod'
 import type { EngineResults, Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
+import { reviewGroups, reviewOnly } from '../report/common.ts'
 import { beyondTargetNote, displayTarget, usageLine } from '../report/pretty.ts'
 import { criteriaFor, criterionLabel, successCriterion, versionOf } from '../wcag.ts'
 
@@ -59,13 +60,36 @@ export const CheckResultSchema = z.object({
     discarded_claims: z.number().int().describe('Model claims dropped because their evidence was not on the page'),
     cannot_tell: z.number().int(),
     not_judged: z.number().int().describe('Candidates no model judged: no_llm, a cache miss offline, or a model error'),
+    needs_review: z.number().int().describe('Elements axe-core could not decide: a person looks at them; never failures'),
   }),
   coverage: z.object({
     statement: z.string(),
-    checked_by_engine: z.array(z.string()),
+    checked_by_engine: z.array(z.string()).describe('Criteria where an axe-core rule able to report a failure decided at least one element'),
     judged: z.array(z.string()),
+    needs_review_only: z.array(z.string()).describe('Criteria whose only automated result is something to review: not checked'),
     not_checked: z.array(z.string()),
+    criteria: z
+      .array(
+        z.object({
+          id: z.string(),
+          status: z.enum(['failures', 'needs-review', 'no-failure-found', 'no-applicable-content', 'not-checked', 'satisfied-by-definition']),
+          beyond_target: z.boolean().optional(),
+          checked_by: z.array(z.string()).describe('Methods that applied: axe-core rule ids, or judgment/<criterion>@<version>'),
+        }),
+      )
+      .describe('Each criterion of the target. Never "passed": no-failure-found covers only what was checked'),
   }),
+  needs_review: z
+    .array(
+      z.object({
+        criterion: z.string(),
+        rule_id: z.string(),
+        count: z.number().int(),
+        reason: z.string(),
+        selectors: z.array(z.string()).describe('The first few elements'),
+      }),
+    )
+    .describe('What axe-core could not decide, by criterion and rule. Not failures: tell the user, do not "fix" them blindly'),
   notes: z.array(z.string()),
   usage: z.object({
     model_calls: z.number().int(),
@@ -193,13 +217,28 @@ export function checkResult(report: Report, engine: EngineResults, maxFindings =
       discarded_claims: sum('discarded'),
       cannot_tell: sum('cannotTell'),
       not_judged: sum('candidates') - sum('judged'),
+      needs_review: report.needsReview?.length ?? 0,
     },
     coverage: {
       statement: coverageStatement(report.locale),
       checked_by_engine: report.coverage.engine,
       judged: report.coverage.judged,
+      needs_review_only: reviewOnly(report),
       not_checked: report.coverage.notChecked,
+      criteria: (report.coverage.criteria ?? []).map((record) => ({
+        id: record.id,
+        status: record.status,
+        ...(record.target === 'beyond' ? { beyond_target: true } : {}),
+        checked_by: record.methods.filter((m) => m.ran && (m.applicable > 0 || m.kind === 'judgment')).map((m) => m.id),
+      })),
     },
+    needs_review: reviewGroups(report).map((group) => ({
+      criterion: group.criterion,
+      rule_id: group.ruleId,
+      count: group.items.length,
+      reason: group.reason,
+      selectors: group.items.slice(0, 5).flatMap((item) => (item.ref ?? item.target ? [item.ref ?? item.target ?? ''] : [])),
+    })),
     notes,
     usage: {
       model_calls: report.usage.calls,
@@ -279,6 +318,12 @@ export function checkText(report: Report, result: CheckResult): string {
     lines.push(`   ${[`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`, ...details, `id ${finding.id}`].filter(Boolean).join(' · ')}`)
   }
 
+  if (result.needs_review.length > 0) {
+    lines.push('', `${t(locale, 'reviewTitle')}: ${t(locale, 'reviewIntro', { engine: report.engine.name })}`)
+    for (const group of result.needs_review) {
+      lines.push(`- ${criterionLabel(group.criterion, locale)}: ${group.count} · ${group.rule_id} · ${group.reason}${group.selectors.length > 0 ? ` (${group.selectors.join(', ')})` : ''}`)
+    }
+  }
   if (result.notes.length > 0) {
     lines.push('', `${t(locale, 'agentNotes')}:`)
     for (const note of result.notes) lines.push(`- ${note}`)
@@ -291,6 +336,7 @@ export function checkText(report: Report, result: CheckResult): string {
   lines.push('', t(locale, 'coverageTitle'))
   lines.push(`  ${t(locale, 'coverageEngine', { engine: report.engine.name })} ${list(report.coverage.engine)}`)
   lines.push(`  ${t(locale, 'coverageJudged')} ${list(report.coverage.judged)}`)
+  if (result.coverage.needs_review_only.length > 0) lines.push(`  ${t(locale, 'coverageReview')} ${list(result.coverage.needs_review_only)}`)
   lines.push(
     `  ${t(locale, 'coverageNotChecked')} ${t(locale, 'agentNotCheckedList', { count: notChecked.length, total: criteriaFor(version).length, version, list: list(notChecked) })}`,
   )

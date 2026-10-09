@@ -2,6 +2,7 @@ import type { Locale } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { EXPERIMENTAL_RULES } from '../engine/axe.ts'
+import { criteriaCoverage, engineCoverage, reviewItems, reviewOnlyCriteria } from './coverage.ts'
 import { VERSION } from '../version.ts'
 import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria, criteriaFor, successCriterion, wcagTarget } from '../wcag.ts'
 import type { JudgmentCache } from './cache.ts'
@@ -191,11 +192,25 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
 
   // 4.1.1 is never counted: WCAG 2.2 removed it, and under 2.1 it is satisfied by definition for HTML and XML.
   const all = new Set(criteriaFor(version).flatMap((sc) => (sc.removedIn ? [] : [sc.id])))
-  const engineCovered = new Set(
-    engine.rules.filter((r) => r.outcome !== 'inapplicable').flatMap((r) => r.criteria.filter((c) => all.has(c))),
-  )
-  const judged = summaries.filter((s) => s.judged > 0).map((s) => s.criterion)
-  const notChecked = [...all].filter((id) => !engineCovered.has(id) && !judged.includes(id))
+  const engineCovered = engineCoverage(engine, version)
+  const judged = summaries.filter((s) => s.judged > 0 && all.has(s.criterion)).map((s) => s.criterion)
+  const review = reviewItems(engine)
+  // Findings beyond the target still give their criterion its status, by the same threshold.
+  const beyondShown = beyond.filter((f) => CONFIDENCE_RANK[f.confidence] >= threshold)
+  const beyondBelow = beyond.filter((f) => CONFIDENCE_RANK[f.confidence] < threshold)
+  const records = criteriaCoverage({
+    engine,
+    summaries,
+    criteria: options.criteria,
+    llmActive,
+    reported: [...reported, ...beyondShown],
+    belowThreshold: [...belowThreshold, ...beyondBelow],
+    review,
+    version,
+    locale: options.locale,
+  })
+  const reviewOnly = reviewOnlyCriteria(records, engineCovered, judged)
+  const notChecked = [...all].filter((id) => !engineCovered.includes(id) && !judged.includes(id) && !reviewOnly.includes(id))
 
   return {
     schemaVersion: 1,
@@ -215,10 +230,12 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     discarded,
     criteria: summaries,
     coverage: {
-      engine: [...engineCovered].sort(compareCriteria),
+      engine: engineCovered,
       judged: judged.sort(compareCriteria),
       notChecked: notChecked.sort(compareCriteria),
+      criteria: records,
     },
+    ...(review.length > 0 ? { needsReview: review } : {}),
     usage,
     errors,
   }

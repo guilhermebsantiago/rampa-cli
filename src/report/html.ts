@@ -13,10 +13,13 @@ import {
   findingPlace,
   diffLines,
   levelBreakdown,
+  methodsText,
   pageLabel,
   parsingNote,
   patchOf,
   plural,
+  reviewGroups,
+  statusText,
   safeUrl,
   shownFindings,
   toolsLine,
@@ -144,6 +147,8 @@ function pageSection(report: Report, index: number, several: boolean, verbose: b
     out.push('</div>')
   }
 
+  const review = reviewBlock(report)
+  if (review) out.push(review)
   out.push(`<h3>${e(t(locale, 'coverageTitle'))}</h3>`)
   out.push(coverageTable(report))
   if (verbose && report.discarded.length > 0) {
@@ -192,11 +197,50 @@ function findingItem(finding: Finding, report: Report): string {
   return out.join('')
 }
 
+/** What the engine could not decide, by criterion and rule, with the elements folded. */
+function reviewBlock(report: Report): string {
+  const groups = reviewGroups(report)
+  if (groups.length === 0) return ''
+  const locale = report.locale
+  const items = groups.map((group) => {
+    const name = criterionName(group.criterion, locale)
+    const help = safeUrl(group.helpUrl)
+    const rule = help ? `<a href="${e(help)}">${e(group.ruleId)}</a>` : e(group.ruleId)
+    const elements = group.items
+      .slice(0, 50)
+      .map((item) => `<li><code>${e(item.ref ?? item.target ?? '')}</code>${item.message !== group.reason ? ` ${e(item.message)}` : ''}</li>`)
+      .join('')
+    return `<li><strong>WCAG ${e(group.criterion)}${name ? ` ${e(name)}` : ''}</strong>: ${e(plural(locale, 'reviewElements', group.items.length))} · ${rule}<br>${e(group.reason)}<details><summary>${e(plural(locale, 'reviewElements', group.items.length))}</summary><ul>${elements}</ul></details></li>`
+  })
+  return `<h3>${e(t(locale, 'reviewTitle'))}</h3>
+<p>${e(t(locale, 'reviewIntro', { engine: report.engine.name }))}</p>
+<ul class="review">${items.join('\n')}</ul>`
+}
+
+/** Each criterion with its status, the methods behind it and what stays manual. */
+function criteriaTable(report: Report): string {
+  const records = report.coverage.criteria ?? []
+  if (records.length === 0) return ''
+  const locale = report.locale
+  const rows = records.map((record) => {
+    const status = `${statusText(record.status, locale)}${record.target === 'beyond' ? ` (${t(locale, 'statusBeyond')})` : ''}`
+    return `<tr><th scope="row">${e(record.id)} ${e(criterionName(record.id, locale) ?? '')}</th><td>${e(status)}</td><td>${e(methodsText(record, report))}</td><td>${e(record.manual)}</td></tr>`
+  })
+  return `<details><summary>${e(t(locale, 'coverageCriteria').replace(/:$/, ''))}</summary>
+<table class="criteria-status">
+<thead><tr><th scope="col">${e(t(locale, 'criterionColumn'))}</th><th scope="col">${e(t(locale, 'statusColumn'))}</th><th scope="col">${e(t(locale, 'methodsColumn'))}</th><th scope="col">${e(t(locale, 'manualLabel'))}</th></tr></thead>
+<tbody>
+${rows.join('\n')}
+</tbody>
+</table>
+</details>`
+}
+
 function coverageTable(report: Report): string {
   const locale = report.locale
-  const rows = coverageRows(report).map((row, index) => {
+  const rows = coverageRows(report).map((row) => {
     const cell =
-      index === 2 && row.criteria.length > 0
+      row.key === 'notChecked' && row.criteria.length > 0
         ? `<details><summary>${e(row.text)}</summary><ul class="criteria">${row.criteria
             .map((id) => `<li>${e(id)} ${e(criterionName(id, locale) ?? '')} (${e(successCriterion(id)?.level ?? '')})</li>`)
             .join('')}</ul></details>`
@@ -209,7 +253,8 @@ function coverageTable(report: Report): string {
 ${rows.join('\n')}
 </tbody>
 </table>
-<p class="parsing">${e(parsingNote(report))}</p>`
+<p class="parsing">${e(parsingNote(report))} ${e(t(locale, 'coverageNoPass'))}</p>
+${criteriaTable(report)}`
 }
 
 function aboutSection(reports: readonly Report[], locale: Locale): string {

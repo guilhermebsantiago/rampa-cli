@@ -4,6 +4,7 @@ import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
 import type { CrawlSkip } from '../surfaces/crawl.ts'
 import { compareCriteria, criteriaFor, criterionLabel, versionOf } from '../wcag.ts'
+import { reviewOnlyCriteria } from '../core/coverage.ts'
 import { type PrettyOptions, renderFinding } from './pretty.ts'
 
 const messages = {
@@ -239,6 +240,8 @@ export function renderSiteReport(site: SiteReport, options: PrettyOptions): stri
   const version = versionOf(site.pages[0]?.wcagTarget)
   lines.push(`  ${engineLabel.padEnd(width)}${list(coverage.engine)}`)
   lines.push(`  ${t(locale, 'coverageJudged').padEnd(width)}${list(coverage.judged)}`)
+  const review = reviewOnlyCriteria(coverage.criteria ?? [], coverage.engine, coverage.judged)
+  if (review.length > 0) lines.push(`  ${t(locale, 'coverageReview').padEnd(width)}${list(review)}`)
   const notChecked = verbose
     ? list(coverage.notChecked)
     : t(locale, 'coverageNotCheckedCount', { count: coverage.notChecked.length, total: criteriaFor(version).length, version })
@@ -374,6 +377,13 @@ function siteNotes(site: SiteReport, verbose: boolean): string[] {
     if (candidates > 0) notes.push(t(locale, 'judgmentSkipped', { count: candidates, criteria }))
   }
   if (site.llm === 'no-model') notes.push(t(locale, 'noModel'))
+  const review = site.pages.flatMap((report) => report.needsReview ?? [])
+  if (review.length > 0) {
+    const counts = new Map<string, number>()
+    for (const item of review) counts.set(item.criterion, (counts.get(item.criterion) ?? 0) + 1)
+    const list = [...counts].sort(([a], [b]) => compareCriteria(a, b)).map(([criterion, count]) => `${criterion}: ${count}`)
+    notes.push(t(locale, 'reviewNote', { count: review.length, engine: site.engine.name, list: list.join(', ') }))
+  }
   if (sum('discarded') > 0) notes.push(t(locale, 'discarded', { count: sum('discarded') }))
   if (sum('cannotTell') > 0) notes.push(t(locale, 'cannotTell', { count: sum('cannotTell') }))
   if (sum('offlineMisses') > 0) notes.push(t(locale, 'offlineMisses', { count: sum('offlineMisses') }))

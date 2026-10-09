@@ -6,6 +6,7 @@ import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
 import { compareCriteria, criterionLabel, criteriaFor, versionOf } from '../wcag.ts'
 import type { Painter } from './color.ts'
+import { coverageRows, methodsText, plural, reviewGroups, statusText } from './common.ts'
 
 export interface PrettyOptions {
   verbose: boolean
@@ -42,6 +43,17 @@ export function renderReport(report: Report, options: PrettyOptions): string {
     lines.push('')
   }
 
+  const review = reviewGroups(report)
+  if (review.length > 0) {
+    lines.push(p.bold(t(locale, 'reviewTitle')), p.dim(t(locale, 'reviewIntro', { engine: report.engine.name })))
+    for (const group of review) {
+      lines.push(`  ${p.yellow('?')} ${criterionLabel(group.criterion, locale)}: ${plural(locale, 'reviewElements', group.items.length)} · ${group.ruleId}`)
+      lines.push(p.dim(`    ${group.reason}`))
+      if (verbose) for (const item of group.items.slice(0, 20)) lines.push(p.dim(`    ${item.ref ?? item.target ?? ''}${item.message !== group.reason ? `: ${item.message}` : ''}`))
+    }
+    lines.push('')
+  }
+
   const notes = notesOf(report, verbose)
   if (notes.length > 0) {
     for (const note of notes) lines.push(p.yellow(note))
@@ -67,16 +79,19 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   if (usage) lines.push(p.dim(usage), '')
 
   lines.push(p.bold(t(locale, 'coverageTitle')))
-  const labels = [t(locale, 'coverageEngine', { engine: report.engine.name }), t(locale, 'coverageJudged'), t(locale, 'coverageNotChecked')]
-  const width = Math.max(...labels.map((label) => label.length)) + 2
-  const pad = (label: string) => label.padEnd(width)
-  lines.push(`  ${pad(t(locale, 'coverageEngine', { engine: report.engine.name }))}${list(report.coverage.engine)}`)
-  lines.push(`  ${pad(t(locale, 'coverageJudged'))}${list(report.coverage.judged)}`)
-  const notCheckedText = verbose
-    ? list(report.coverage.notChecked)
-    : t(locale, 'coverageNotCheckedCount', { count: report.coverage.notChecked.length, total: criteriaFor(version).length, version })
-  lines.push(`  ${pad(t(locale, 'coverageNotChecked'))}${notCheckedText}`)
+  const rows = coverageRows(report)
+  const width = Math.max(...rows.map((row) => row.label.length)) + 2
+  for (const row of rows) {
+    const text =
+      row.key !== 'notChecked'
+        ? row.text
+        : verbose
+          ? list(row.criteria)
+          : t(locale, 'coverageNotCheckedCount', { count: row.criteria.length, total: criteriaFor(version).length, version })
+    lines.push(`  ${row.label.padEnd(width)}${text}`)
+  }
   lines.push(p.dim(`  ${t(locale, version === '2.1' ? 'coverageParsing21' : 'coverageParsing22')}`))
+  if (verbose) lines.push(...criteriaLines(report, p))
   lines.push(p.bold(t(locale, report.surface === 'web' ? 'disclaimer' : report.surface === 'image' ? 'disclaimerImage' : 'disclaimerScreen')))
   lines.push(p.dim(t(locale, 'manualReview')))
   return lines.join('\n')
@@ -158,6 +173,20 @@ export function beyondTargetNote(report: Report): string | undefined {
   for (const finding of beyond) counts.set(finding.criterion, (counts.get(finding.criterion) ?? 0) + 1)
   const list = [...counts].sort(([a], [b]) => compareCriteria(a, b)).map(([criterion, count]) => `${criterion} (${count})`)
   return t(report.locale, 'beyondTarget', { count: beyond.length, list: list.join(', ') })
+}
+
+/** --verbose: each criterion with its status and the methods behind it, then what stays manual. */
+function criteriaLines(report: Report, p: Painter): string[] {
+  const records = report.coverage.criteria ?? []
+  if (records.length === 0) return []
+  const { locale } = report
+  const lines = ['', p.bold(`  ${t(locale, 'coverageCriteria')}`)]
+  for (const record of records) {
+    const status = `${statusText(record.status, locale)}${record.target === 'beyond' ? ` (${t(locale, 'statusBeyond')})` : ''}`
+    lines.push(`  ${record.id.padEnd(7)}${status.padEnd(26)}${methodsText(record, report)}`)
+    lines.push(p.dim(`         ${t(locale, 'manualLabel')}: ${record.manual}`))
+  }
+  return lines
 }
 
 /** Local files show relative to the working directory, never as an absolute path. */

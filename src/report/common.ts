@@ -1,4 +1,5 @@
-import type { Finding, Report } from '../core/types.ts'
+import { reviewOnlyCriteria } from '../core/coverage.ts'
+import type { CoverageMethod, CoverageStatus, CriterionCoverage, Finding, Report, ReviewItem } from '../core/types.ts'
 import { type Locale, type MessageKey, t } from '../i18n.ts'
 import { type WcagVersion, compareCriteria, criteriaFor, successCriterion, versionOf } from '../wcag.ts'
 import { displayTarget, usageLine } from './pretty.ts'
@@ -99,14 +100,29 @@ export function levelBreakdown(counts: LevelCounts, locale: Locale, version: Wca
   return parts.join(', ')
 }
 
-/** The three lines of coverage, as the terminal report words them. */
-export function coverageRows(report: Report): Array<{ label: string; criteria: string[]; text: string }> {
+/** Criteria whose only automated result is "needs review"; empty for reports written before Rampa recorded it. */
+export function reviewOnly(report: Report): string[] {
+  return reviewOnlyCriteria(report.coverage.criteria ?? [], report.coverage.engine, report.coverage.judged)
+}
+
+export interface CoverageRow {
+  key: 'engine' | 'judged' | 'review' | 'notChecked'
+  label: string
+  criteria: string[]
+  text: string
+}
+
+/** The lines of coverage, as the terminal report words them; "needs review only" only when there is any, or always for a table. */
+export function coverageRows(report: Report, always = false): CoverageRow[] {
   const { locale } = report
   const list = (items: readonly string[]) => (items.length === 0 ? '—' : items.join(', '))
+  const review = reviewOnly(report)
   return [
-    { label: t(locale, 'coverageEngine', { engine: report.engine.name }), criteria: report.coverage.engine, text: list(report.coverage.engine) },
-    { label: t(locale, 'coverageJudged'), criteria: report.coverage.judged, text: list(report.coverage.judged) },
+    { key: 'engine', label: t(locale, 'coverageEngine', { engine: report.engine.name }), criteria: report.coverage.engine, text: list(report.coverage.engine) },
+    { key: 'judged', label: t(locale, 'coverageJudged'), criteria: report.coverage.judged, text: list(report.coverage.judged) },
+    ...(review.length > 0 || always ? [{ key: 'review' as const, label: t(locale, 'coverageReview'), criteria: review, text: list(review) }] : []),
     {
+      key: 'notChecked',
       label: t(locale, 'coverageNotChecked'),
       criteria: report.coverage.notChecked,
       text: t(locale, 'coverageNotCheckedOf', { count: report.coverage.notChecked.length, total: targetTotal(report), version: wcagVersion(report) }),
@@ -119,6 +135,70 @@ export function coverageStatement(report: Report): string {
   const { locale } = report
   const parts = coverageRows(report).map((row) => `${row.label} ${row.text}`)
   return `${parts.join('; ')}. ${parsingNote(report)} ${t(locale, 'disclaimer')} ${t(locale, 'manualReview')}`
+}
+
+const STATUS_KEYS: Record<CoverageStatus, MessageKey> = {
+  failures: 'statusFailures',
+  'needs-review': 'statusNeedsReview',
+  'no-failure-found': 'statusNoFailure',
+  'no-applicable-content': 'statusNoContent',
+  'not-checked': 'statusNotChecked',
+  'satisfied-by-definition': 'statusByDefinition',
+}
+
+/** A criterion's status in words; never "passed". */
+export function statusText(status: CoverageStatus, locale: Locale): string {
+  return t(locale, STATUS_KEYS[status])
+}
+
+/** `axe-core color-contrast (40 applicable, 0 failed, 12 to review)`, or `judgment/2.4.4@3 did not run`. */
+export function methodText(method: CoverageMethod, report: Pick<Report, 'locale' | 'engine'>): string {
+  const { locale } = report
+  const name = method.kind === 'judgment' ? `${t(locale, 'methodJudgment')} ${method.id.replace(/^judgment\//, '')}` : `${report.engine.name} ${method.id}`
+  if (!method.ran) return `${name} ${t(locale, 'methodNotRun')}`
+  const tags = [method.reviewOnly ? t(locale, 'methodReviewOnly') : undefined, method.maturity === 'experimental' ? t(locale, 'methodExperimental') : undefined].filter(Boolean)
+  const counts = t(locale, 'methodCounts', { applicable: method.applicable, failures: method.failures, review: method.review })
+  return `${name} (${counts}${tags.length > 0 ? `; ${tags.join(', ')}` : ''})`
+}
+
+/** The methods behind a criterion: those that applied in full, then a count of the rules with nothing to check. */
+export function methodsText(record: CriterionCoverage, report: Pick<Report, 'locale' | 'engine'>): string {
+  const idle = record.methods.filter((m) => m.ran && m.kind !== 'judgment' && m.applicable === 0 && m.failures === 0 && m.review === 0)
+  const shown = record.methods.filter((m) => !idle.includes(m)).map((m) => methodText(m, report))
+  if (idle.length === 1 && idle[0]) shown.push(methodText(idle[0], report))
+  else if (idle.length > 1) shown.push(t(report.locale, 'methodsIdle', { count: idle.length, engine: report.engine.name }))
+  return shown.join('; ') || '—'
+}
+
+export interface ReviewGroup {
+  criterion: string
+  ruleId: string
+  items: ReviewItem[]
+  /** The engine's reason for the first element; elements of one rule usually share it. */
+  reason: string
+  helpUrl?: string | undefined
+}
+
+/** Review items by criterion and rule, in criterion order. */
+export function reviewGroups(report: Report): ReviewGroup[] {
+  const groups = new Map<string, ReviewGroup>()
+  for (const item of report.needsReview ?? []) {
+    const key = `${item.criterion}|${item.ruleId}`
+    const group = groups.get(key)
+    if (group) group.items.push(item)
+    else groups.set(key, { criterion: item.criterion, ruleId: item.ruleId, items: [item], reason: item.message, helpUrl: item.helpUrl })
+  }
+  return [...groups.values()].sort((a, b) => compareCriteria(a.criterion, b.criterion) || a.ruleId.localeCompare(b.ruleId))
+}
+
+/** One line: how many elements need review, by criterion. Undefined when none do. */
+export function reviewNote(report: Report): string | undefined {
+  const items = report.needsReview ?? []
+  if (items.length === 0) return undefined
+  const counts = new Map<string, number>()
+  for (const item of items) counts.set(item.criterion, (counts.get(item.criterion) ?? 0) + 1)
+  const list = [...counts].sort(([a], [b]) => compareCriteria(a, b)).map(([criterion, count]) => `${criterion}: ${count}`)
+  return t(report.locale, 'reviewNote', { count: items.length, engine: report.engine.name, list: list.join(', ') })
 }
 
 /** The model and the engine behind a set of reports, for a one-line attribution. */

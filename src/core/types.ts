@@ -180,6 +180,55 @@ export interface Finding {
   location?: SourceLocation | undefined
 }
 
+/**
+ * Something the engine could not decide (an axe-core "incomplete"), for a person to look at.
+ * It is never a failure, never in the findings and never changes the exit code.
+ */
+export interface ReviewItem {
+  criterion: string
+  level: Level | undefined
+  ruleId: string
+  ref?: string | undefined
+  target?: string | undefined
+  html?: string | undefined
+  /** Why the engine could not decide, in its own words. */
+  message: string
+  helpUrl?: string | undefined
+}
+
+/** A criterion's result in one run. Never "passed": a clean result is "no failure found" in what was checked. */
+export type CoverageStatus = 'failures' | 'needs-review' | 'no-failure-found' | 'no-applicable-content' | 'not-checked' | 'satisfied-by-definition'
+
+/** One way a criterion was checked: an engine rule, or the judgment of a model. */
+export interface CoverageMethod {
+  /** axe: an axe-core rule; rule: a Rampa rule over the tree or the pixels; judgment: a model, with verified evidence. */
+  kind: 'axe' | 'rule' | 'judgment'
+  /** The rule id, or `judgment/<criterion>@<version>`. */
+  id: string
+  /** False when the method applied but did not run, such as judgment with --no-llm. */
+  ran: boolean
+  /** Elements the method applied to (candidates, for judgment); passing elements are capped at 200 per rule. */
+  applicable: number
+  failures: number
+  /** Elements left to a person: undecided by the engine, or where the model abstained. */
+  review: number
+  /** The rule can only pass or ask for review: it never reports a failure. */
+  reviewOnly?: boolean | undefined
+  /** Experimental methods report below the default confidence threshold until they pass the evaluation gate. */
+  maturity: 'stable' | 'experimental'
+}
+
+export interface CriterionCoverage {
+  id: string
+  level: Level
+  /** beyond: a WCAG 2.2 criterion in a run that targets 2.1; reported, never counted. */
+  target: 'in' | 'beyond'
+  status: CoverageStatus
+  methods: CoverageMethod[]
+  /** What a person still has to review or test, in the report's language. */
+  manual: string
+}
+
 export interface Discarded {
   criterion: string
   ref: string
@@ -238,7 +287,14 @@ export interface Report {
   baseline?: BaselineComparison | undefined
   discarded: Discarded[]
   criteria: CriterionSummary[]
-  coverage: { engine: string[]; judged: string[]; notChecked: string[] }
+  /**
+   * engine: criteria where an engine rule able to report a failure decided at least one element;
+   * judged: criteria a model judged; notChecked: criteria of the target with neither, and no result to
+   * review (4.1.1 is never listed). criteria: one record per criterion, with its status and methods.
+   */
+  coverage: { engine: string[]; judged: string[]; notChecked: string[]; criteria?: CriterionCoverage[] | undefined }
+  /** What the engine could not decide, for a person to look at; never a failure. */
+  needsReview?: ReviewItem[] | undefined
   usage: Usage
   errors: string[]
   /** What the collector or the rules could not see or decide, in the report's language. */

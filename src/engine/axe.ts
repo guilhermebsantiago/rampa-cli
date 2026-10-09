@@ -24,6 +24,21 @@ export function axeTags(version: WcagVersion = DEFAULT_WCAG): string[] {
  */
 export const EXPERIMENTAL_RULES: ReadonlySet<string> = new Set(['target-size'])
 
+/**
+ * axe-core 4.14 rules that never return a violation: their checks return incomplete instead of a
+ * failure (th-has-data-cells, video-caption, form-field-multiple-labels), or the rule turns its
+ * failures into incompletes (reviewOnFail: bypass, no-autoplay-audio, duplicate-id-aria). A criterion
+ * they alone touched needs review; it was not checked.
+ */
+export const REVIEW_ONLY_RULES: ReadonlySet<string> = new Set([
+  'th-has-data-cells',
+  'video-caption',
+  'form-field-multiple-labels',
+  'bypass',
+  'no-autoplay-audio',
+  'duplicate-id-aria',
+])
+
 let source: Promise<string> | undefined
 
 export function axeSource(): Promise<string> {

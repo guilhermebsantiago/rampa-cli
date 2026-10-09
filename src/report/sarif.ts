@@ -5,7 +5,18 @@ import { sha256 } from '../core/util.ts'
 import { type Locale, t } from '../i18n.ts'
 import { type WcagVersion, successCriterion } from '../wcag.ts'
 import { VERSION } from '../version.ts'
-import { PROJECT_URL, WAIVERS_FILE, coverageStatement, criterionName, pageLabel, safeUrl, understandingUrl, wcagVersion } from './common.ts'
+import {
+  PROJECT_URL,
+  WAIVERS_FILE,
+  coverageStatement,
+  criterionName,
+  pageLabel,
+  reviewGroups,
+  reviewOnly,
+  safeUrl,
+  understandingUrl,
+  wcagVersion,
+} from './common.ts'
 
 /**
  * SARIF 2.1.0, the format GitHub code scanning and most IDEs read. One rule per WCAG
@@ -184,7 +195,16 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
             model: report.model,
             checkedByEngine: report.coverage.engine,
             judged: report.coverage.judged,
+            needsReviewOnly: reviewOnly(report),
             notChecked: report.coverage.notChecked,
+            // Undecided results are not SARIF results: code scanning would show them as alerts. They are counted here.
+            needsReview: reviewGroups(report).map((group) => ({ criterion: group.criterion, ruleId: group.ruleId, count: group.items.length, reason: group.reason })),
+            criteria: (report.coverage.criteria ?? []).map((record) => ({
+              id: record.id,
+              target: record.target,
+              status: record.status,
+              methods: record.methods.map((m) => ({ kind: m.kind, id: m.id, ran: m.ran, applicable: m.applicable, failures: m.failures, review: m.review })),
+            })),
           })),
         },
       },

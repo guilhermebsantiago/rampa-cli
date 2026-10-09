@@ -11,10 +11,13 @@ import {
   findingPlace,
   diffLines,
   levelBreakdown,
+  methodsText,
   pageLabel,
   parsingNote,
   patchOf,
   plural,
+  reviewGroups,
+  statusText,
   runUsageLine,
   safeUrl,
   shownFindings,
@@ -75,7 +78,16 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
     else cleanPages.push('<details>', `<summary>${line}</summary>`, '', ...capped(clean.map((label) => `- ${code(label)}`), MAX_LIST, locale), '</details>', '')
   }
 
-  const tail = [...notesSection(reports, verbose), ...coverageSection(reports), ...waiverSection(all, locale), footer(reports)]
+  const tailWith = (criteria: boolean) => [
+    ...reviewSection(reports),
+    ...notesSection(reports, verbose),
+    ...coverageSection(reports, verbose, criteria),
+    ...waiverSection(all, locale),
+    footer(reports),
+  ]
+  // The per-criterion table goes when a short limit leaves no room for it; the rows and the statement stay.
+  let tail = tailWith(true)
+  if ([...head, ...cleanPages, ...tail].join('\n').length + 300 > maxLength) tail = tailWith(false)
   // What is left for findings once the fixed parts and the omission note are counted.
   const budget = maxLength - [...head, ...cleanPages, ...tail].join('\n').length - 300
 
@@ -168,8 +180,25 @@ function notesSection(reports: readonly Report[], verbose: boolean): string[] {
   return [`#### ${t(locale, 'notesTitle')}`, '', ...capped(notes.map((note) => `- ${note}`), MAX_LIST, locale), '']
 }
 
+/** What the engine could not decide, by criterion and rule: for a person to look at, never a failure. */
+function reviewSection(reports: readonly Report[]): string[] {
+  const locale = reports[0]?.locale ?? 'en'
+  const lines: string[] = []
+  for (const report of reports) {
+    for (const group of reviewGroups(report)) {
+      const name = criterionName(group.criterion, locale)
+      const where = reports.length > 1 ? `${code(pageLabel(report))}: ` : ''
+      const rule = safeUrl(group.helpUrl) ? `[${prose(group.ruleId)}](<${safeUrl(group.helpUrl)}>)` : code(group.ruleId)
+      lines.push(`- ${where}**WCAG ${group.criterion}**${name ? ` ${prose(name)}` : ''}: ${plural(locale, 'reviewElements', group.items.length)} · ${rule} — ${prose(group.reason)}`)
+    }
+  }
+  if (lines.length === 0) return []
+  const engine = reports[0]?.engine.name ?? 'axe-core'
+  return [`#### ${t(locale, 'reviewTitle')}`, '', t(locale, 'reviewIntro', { engine }), '', ...capped(lines, MAX_LIST, locale), '']
+}
+
 /** The coverage statement, always in the open: an empty report must not read as a clean page. */
-function coverageSection(reports: readonly Report[]): string[] {
+function coverageSection(reports: readonly Report[], verbose: boolean, withCriteria: boolean): string[] {
   const locale = reports[0]?.locale ?? 'en'
   const lines = [`#### ${t(locale, 'coverageTitle')}`, '']
   const first = reports[0]
@@ -179,16 +208,28 @@ function coverageSection(reports: readonly Report[]): string[] {
       const summary = t(locale, 'coverageNotChecked').replace(/:$/, '')
       lines.push('', '<details>', `<summary>${summary}</summary>`, '', first.coverage.notChecked.join(', '), '</details>')
     }
+    const records = withCriteria ? (first.coverage.criteria ?? []) : []
+    if (records.length > 0) {
+      const head = [t(locale, 'criterionColumn'), t(locale, 'statusColumn'), t(locale, 'methodsColumn'), ...(verbose ? [t(locale, 'manualLabel')] : [])]
+      lines.push('', '<details>', `<summary>${prose(t(locale, 'coverageCriteria').replace(/:$/, ''))}</summary>`, '')
+      lines.push(`| ${head.join(' | ')} |`, `| ${head.map(() => '---').join(' | ')} |`)
+      for (const record of records) {
+        const status = `${statusText(record.status, locale)}${record.target === 'beyond' ? ` (${t(locale, 'statusBeyond')})` : ''}`
+        const cells = [`${record.id} ${prose(criterionName(record.id, locale) ?? '')}`, status, prose(methodsText(record, first)), ...(verbose ? [prose(record.manual)] : [])]
+        lines.push(`| ${cells.join(' | ')} |`)
+      }
+      lines.push('', '</details>')
+    }
   } else if (first) {
-    const labels = coverageRows(first).map((row) => row.label.replace(/:$/, ''))
+    const labels = coverageRows(first, true).map((row) => row.label.replace(/:$/, ''))
     lines.push(`| ${t(locale, 'page')} | ${labels.join(' | ')} |`, `| --- | ${labels.map(() => '---').join(' | ')} |`)
     for (const report of reports.slice(0, MAX_LIST)) {
-      const cells = coverageRows(report).map((row) => row.text)
+      const cells = coverageRows(report, true).map((row) => row.text)
       lines.push(`| ${code(pageLabel(report))} | ${cells.map((cell) => prose(cell)).join(' | ')} |`)
     }
     if (reports.length > MAX_LIST) lines.push('', plural(locale, 'andMore', reports.length - MAX_LIST))
   }
-  if (first) lines.push('', parsingNote(first))
+  if (first) lines.push('', `${parsingNote(first)} ${t(locale, 'coverageNoPass')}`)
   lines.push('', `**${t(locale, 'disclaimer')}** ${t(locale, 'manualReview')}`, '')
   return lines
 }
