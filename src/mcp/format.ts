@@ -2,8 +2,9 @@ import { z } from 'zod'
 import type { EngineResults, Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
-import { displayTarget, usageLine } from '../report/pretty.ts'
-import { WCAG21_A_AA, criterionLabel, successCriterion } from '../wcag.ts'
+import { reviewGroups, reviewOnly } from '../report/common.ts'
+import { beyondTargetNote, displayTarget, usageLine } from '../report/pretty.ts'
+import { criteriaFor, criterionLabel, successCriterion, versionOf } from '../wcag.ts'
 
 /**
  * What a check returns to an agent: `structuredContent` follows CheckResultSchema, and the
@@ -27,7 +28,9 @@ export const FindingSchema = z.object({
   criterion: z.string(),
   criterion_name: z.string().optional(),
   level: z.enum(['A', 'AA', 'AAA']).optional(),
-  source: z.enum(['engine', 'judgment']).describe('engine: an axe-core rule failed; judgment: a model claim that passed verification'),
+  source: z
+    .enum(['engine', 'judgment', 'rule'])
+    .describe('engine: an axe-core rule failed; rule: a Rampa rule over the page failed, with no model; judgment: a model claim that passed verification'),
   selector: z.string().optional().describe('The element: a CSS selector on the web, the native locator elsewhere'),
   message: z.string(),
   evidence: z.string().optional().describe('Text quoted from the element, checked to be on the page'),
@@ -45,6 +48,7 @@ export type AgentFinding = z.infer<typeof FindingSchema>
 export const CheckResultSchema = z.object({
   target: z.string(),
   surface: z.string(),
+  wcag_target: z.enum(['wcag21-aa', 'wcag22-aa']).describe('What the check stated coverage against: WCAG 2.2 A/AA by default, or 2.1 with wcag "2.1"'),
   judgment: z.enum(['on', 'off']).describe('on: a model judged the residue; off: no_llm, axe-core only'),
   model: z.string().optional(),
   engine: z.object({ name: z.string(), version: z.string() }),
@@ -58,13 +62,40 @@ export const CheckResultSchema = z.object({
     discarded_claims: z.number().int().describe('Model claims dropped because their evidence was not on the page'),
     cannot_tell: z.number().int(),
     not_judged: z.number().int().describe('Candidates no model judged: no_llm, a cache miss offline, or a model error'),
+    needs_review: z.number().int().describe('Elements axe-core could not decide: a person looks at them; never failures'),
   }),
   coverage: z.object({
     statement: z.string(),
-    checked_by_engine: z.array(z.string()),
+    checked_by_engine: z.array(z.string()).describe('Criteria where an axe-core rule able to report a failure decided at least one element'),
+    checked_by_rules: z
+      .array(z.string())
+      .optional()
+      .describe("Criteria where one of Rampa's own rules, with no model, decided at least one element (rather than sending it to review)"),
     judged: z.array(z.string()),
+    needs_review_only: z.array(z.string()).describe('Criteria whose only automated result is something to review: not checked'),
     not_checked: z.array(z.string()),
+    criteria: z
+      .array(
+        z.object({
+          id: z.string(),
+          status: z.enum(['failures', 'needs-review', 'no-failure-found', 'no-applicable-content', 'not-checked', 'satisfied-by-definition']),
+          beyond_target: z.boolean().optional(),
+          checked_by: z.array(z.string()).describe('Methods that applied: axe-core rule ids, Rampa rule ids (rampa/...), or judgment/<criterion>@<version>'),
+        }),
+      )
+      .describe('Each criterion of the target. Never "passed": no-failure-found covers only what was checked'),
   }),
+  needs_review: z
+    .array(
+      z.object({
+        criterion: z.string(),
+        rule_id: z.string(),
+        count: z.number().int(),
+        reason: z.string(),
+        selectors: z.array(z.string()).describe('The first few elements'),
+      }),
+    )
+    .describe('What axe-core or Rampa rules could not decide, by criterion and rule. Not failures: tell the user, do not "fix" them blindly'),
   notes: z.array(z.string()),
   usage: z.object({
     model_calls: z.number().int(),
@@ -144,7 +175,7 @@ export function pickFindings(findings: readonly Finding[], max: number): Finding
   if (findings.length <= max) return [...findings]
   const groups = new Map<string, number[]>()
   for (const [index, finding] of findings.entries()) {
-    const key = `${finding.criterion}|${finding.source === 'engine' ? finding.ruleId : 'judgment'}`
+    const key = `${finding.criterion}|${finding.source !== 'judgment' ? finding.ruleId : 'judgment'}`
     groups.set(key, [...(groups.get(key) ?? []), index])
   }
   const chosen = new Set<number>()
@@ -177,6 +208,7 @@ export function checkResult(report: Report, engine: EngineResults, maxFindings =
   return {
     target: report.target,
     surface: report.surface,
+    wcag_target: report.wcagTarget ?? 'wcag21-aa',
     // A check without a model is a tool error before it gets here, so the report never says no-model.
     judgment: report.llm === 'on' ? 'on' : 'off',
     model: report.model,
@@ -191,13 +223,29 @@ export function checkResult(report: Report, engine: EngineResults, maxFindings =
       discarded_claims: sum('discarded'),
       cannot_tell: sum('cannotTell'),
       not_judged: sum('candidates') - sum('judged'),
+      needs_review: report.needsReview?.length ?? 0,
     },
     coverage: {
       statement: coverageStatement(report.locale),
       checked_by_engine: report.coverage.engine,
+      ...(report.coverage.rules?.length ? { checked_by_rules: report.coverage.rules } : {}),
       judged: report.coverage.judged,
+      needs_review_only: reviewOnly(report),
       not_checked: report.coverage.notChecked,
+      criteria: (report.coverage.criteria ?? []).map((record) => ({
+        id: record.id,
+        status: record.status,
+        ...(record.target === 'beyond' ? { beyond_target: true } : {}),
+        checked_by: record.methods.filter((m) => m.ran && (m.applicable > 0 || m.kind === 'judgment')).map((m) => m.id),
+      })),
     },
+    needs_review: reviewGroups(report).map((group) => ({
+      criterion: group.criterion,
+      rule_id: group.ruleId,
+      count: group.items.length,
+      reason: group.reason,
+      selectors: group.items.slice(0, 5).flatMap((item) => (item.ref ?? item.target ? [item.ref ?? item.target ?? ''] : [])),
+    })),
     notes,
     usage: {
       model_calls: report.usage.calls,
@@ -226,6 +274,8 @@ function notesOf(report: Report, findings: AgentFinding[]): string[] {
   if (sum('offlineMisses') > 0) notes.push(t(locale, 'offlineMisses', { count: sum('offlineMisses') }))
   if (sum('errors') > 0) notes.push(t(locale, 'judgmentErrors', { count: sum('errors'), error: report.errors[0] ?? '' }))
   if (report.belowThreshold.length > 0) notes.push(t(locale, 'agentBelowThreshold', { count: report.belowThreshold.length }))
+  const beyond = beyondTargetNote(report)
+  if (beyond) notes.push(beyond)
   return notes
 }
 
@@ -234,7 +284,8 @@ export function checkText(report: Report, result: CheckResult): string {
   const locale = report.locale
   const lines: string[] = []
   lines.push(`Rampa: ${displayTarget(report.target)}`)
-  const meta = [`${t(locale, 'surface')}: ${report.surface}`, `${report.engine.name} ${report.engine.version}`]
+  const version = versionOf(report.wcagTarget)
+  const meta = [`${t(locale, 'surface')}: ${report.surface}`, t(locale, 'wcagTarget', { version }), `${report.engine.name} ${report.engine.version}`]
   if (report.model) meta.push(`${t(locale, 'model')}: ${report.model}`)
   lines.push(meta.join(' · '), '')
 
@@ -270,10 +321,18 @@ export function checkText(report: Report, result: CheckResult): string {
     const details =
       finding.source === 'engine'
         ? [`${t(locale, 'engineRule')} ${finding.rule_id ?? ''} (${report.engine.name})`, finding.help_url]
+        : finding.source === 'rule'
+          ? [`${t(locale, 'rampaRule')} ${finding.rule_id ?? ''}`, finding.help_url]
         : [finding.agreement && `${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`, t(locale, 'verified')]
     lines.push(`   ${[`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`, ...details, `id ${finding.id}`].filter(Boolean).join(' · ')}`)
   }
 
+  if (result.needs_review.length > 0) {
+    lines.push('', `${t(locale, 'reviewTitle')}: ${t(locale, 'reviewIntro', { engine: report.engine.name })}`)
+    for (const group of result.needs_review) {
+      lines.push(`- ${criterionLabel(group.criterion, locale)}: ${group.count} · ${group.rule_id} · ${group.reason}${group.selectors.length > 0 ? ` (${group.selectors.join(', ')})` : ''}`)
+    }
+  }
   if (result.notes.length > 0) {
     lines.push('', `${t(locale, 'agentNotes')}:`)
     for (const note of result.notes) lines.push(`- ${note}`)
@@ -285,10 +344,13 @@ export function checkText(report: Report, result: CheckResult): string {
   const notChecked = report.coverage.notChecked
   lines.push('', t(locale, 'coverageTitle'))
   lines.push(`  ${t(locale, 'coverageEngine', { engine: report.engine.name })} ${list(report.coverage.engine)}`)
+  if (report.coverage.rules?.length) lines.push(`  ${t(locale, 'coverageRules')} ${list(report.coverage.rules)}`)
   lines.push(`  ${t(locale, 'coverageJudged')} ${list(report.coverage.judged)}`)
+  if (result.coverage.needs_review_only.length > 0) lines.push(`  ${t(locale, 'coverageReview')} ${list(result.coverage.needs_review_only)}`)
   lines.push(
-    `  ${t(locale, 'coverageNotChecked')} ${t(locale, 'agentNotCheckedList', { count: notChecked.length, total: WCAG21_A_AA.length, list: list(notChecked) })}`,
+    `  ${t(locale, 'coverageNotChecked')} ${t(locale, 'agentNotCheckedList', { count: notChecked.length, total: criteriaFor(version).length, version, list: list(notChecked) })}`,
   )
+  lines.push(`  ${t(locale, version === '2.1' ? 'coverageParsing21' : 'coverageParsing22')}`)
   lines.push(t(locale, 'disclaimer'), t(locale, 'manualReview'))
   return lines.join('\n')
 }

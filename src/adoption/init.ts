@@ -155,7 +155,7 @@ export function workflowSource(settings: InitSettings): string {
   // there would fail on a runner, so the workflow says none (axe-core alone) until it has a hosted one.
   const model = pinned && isLocalModel(pinned)
     ? [
-        '          # The config pins a local model, which a CI runner does not have: none runs axe-core alone.',
+        '          # The config pins a local model or a subscription CLI, which a CI runner does not have: none runs axe-core alone.',
         '          # For the judgment layer, name a hosted model here and set its key below.',
         '          model: none',
       ]
@@ -214,9 +214,10 @@ function yamlText(value: string): string {
   return plain ? value : `'${value.replaceAll("'", "''")}'`
 }
 
-/** Models served on the machine itself, which a CI runner does not have. */
+/** Models served on the machine itself, or by an agent CLI signed in to the user's plan, which a CI runner does not have. */
 export function isLocalModel(spec: string): boolean {
-  return findProvider(spec.slice(0, spec.indexOf(':')))?.where === 'local'
+  const where = findProvider(spec.slice(0, spec.indexOf(':')))?.where
+  return where === 'local' || where === 'subscription'
 }
 
 /** Normalizes an ignore pattern for comparison: no leading or trailing slash. */

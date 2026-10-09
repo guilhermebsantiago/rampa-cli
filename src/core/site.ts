@@ -5,7 +5,8 @@ import { indexTree } from '../snapshot/tree.ts'
 import type { BrowserConditions } from '../surfaces/browser-options.ts'
 import type { CrawlSkip } from '../surfaces/crawl.ts'
 import type { Robots } from '../surfaces/robots.ts'
-import { type Level, WCAG21_A_AA, compareCriteria } from '../wcag.ts'
+import { type Level, type WcagTarget, compareCriteria, versionOf } from '../wcag.ts'
+import { mergeCoverage } from './coverage.ts'
 import type { JudgmentCache } from './cache.ts'
 import type { Confidence, Finding, Patch, Report, Usage } from './types.ts'
 import { normalizeForMatch, sha256 } from './util.ts'
@@ -129,7 +130,7 @@ export interface RepeatedFinding {
   signature: string
   criterion: string
   level: Level | undefined
-  source: 'engine' | 'judgment'
+  source: 'engine' | 'judgment' | 'rule'
   ruleId?: string | undefined
   helpUrl?: string | undefined
   message: string
@@ -217,20 +218,17 @@ export function summarizeSite(pages: readonly SitePage[], reusedAcrossPages: num
     usage.latencyMs += page.report.usage.latencyMs
   }
 
-  const engine = new Set(pages.flatMap((page) => page.report.coverage.engine))
-  const judged = new Set(pages.flatMap((page) => page.report.coverage.judged))
-  const notChecked = WCAG21_A_AA.map((sc) => sc.id).filter((id) => !engine.has(id) && !judged.has(id))
+  const coverage = mergeCoverage(
+    pages.map((page) => page.report),
+    versionOf(pages[0]?.report.wcagTarget),
+  )
   return {
     pagesChecked: pages.length,
     findings: { total, repeated: total - specificCount, pageSpecific: specificCount },
     repeated,
     pageSpecific,
     usage,
-    coverage: {
-      engine: [...engine].sort(compareCriteria),
-      judged: [...judged].sort(compareCriteria),
-      notChecked: notChecked.sort(compareCriteria),
-    },
+    coverage,
   }
 }
 
@@ -258,6 +256,8 @@ export interface SiteReport {
   }
   /** What the browser emulated and carried; header and cookie values are never recorded. */
   browser: BrowserConditions
+  /** What every page was checked against. */
+  wcagTarget?: WcagTarget | undefined
   locale: Locale
   llm: Report['llm']
   model?: string | undefined
@@ -270,6 +270,8 @@ export interface SiteReport {
   beyondDepth: number
   summary: SiteSummary
   pages: Report[]
+  /** Criteria that compare pages of a set with each other (3.2.3, 3.2.6); see SiteCriterion. */
+  siteCriteria?: SiteCriteriaReport | undefined
 }
 
 /** The exit code of a crawl, by the same rules as a check, and 2 when a site had no page to check. */
@@ -278,6 +280,122 @@ export function siteExitCode(sites: readonly SiteReport[], failOn: string): numb
   const reports = sites.flatMap((site) => site.pages)
   if (reports.some((report) => report.criteria.some((c) => c.errors > 0 && c.judged === 0))) return 2
   if (failOn === 'never') return 0
-  const failing = reports.some((report) => report.findings.length > 0 || (failOn === 'any' && report.belowThreshold.length > 0))
-  return failing ? 1 : 0
+  const failing = reports.some(
+    (report) =>
+      report.findings.length > 0 ||
+      (failOn === 'any' && report.belowThreshold.length > 0) ||
+      (failOn === 'advisory' && (report.advisory?.results.length ?? 0) > 0),
+  )
+  // Findings across pages count like a page's; needs review and findings beyond the target never do.
+  const across = sites.some((site) => (site.siteCriteria?.findings.length ?? 0) > 0 || (failOn === 'any' && (site.siteCriteria?.belowThreshold.length ?? 0) > 0))
+  return failing || across ? 1 : 0
+}
+
+// Criteria over a set of pages (src/site/)
+
+/**
+ * Pages a site criterion compares with each other. WCAG leaves "set of web pages" to the
+ * author, so Rampa proposes sets from the pages' shared header, navigation and footer links,
+ * one per language, and a person can name sets in the config (`pageSets`).
+ */
+export interface PageSet {
+  id: string
+  /** The config's name for the set, or a description of the template it was proposed from. */
+  label: string
+  source: 'config' | 'template'
+  /** Primary language subtag of the pages, '' when they declare none. */
+  lang: string
+  /** Width × height in CSS px: pages are only compared at one viewport. */
+  viewport: string
+  pages: string[]
+}
+
+/** What a site criterion reads from one page: taken from the snapshot right after it is collected, so a crawl keeps no snapshot in memory. */
+export interface SitePageFacts<Facts = unknown> {
+  url: string
+  facts: Facts
+}
+
+/** One element a site finding cites, on one page. */
+export interface SiteElement {
+  page: string
+  ref: string
+  name?: string | undefined
+  html?: string | undefined
+}
+
+/** A failure or a needs-review item from comparing the pages of a set. */
+export interface SiteFinding {
+  /** Stable across runs: the criterion, the component and the items involved, never the page list. */
+  fingerprint: string
+  criterion: string
+  level: Level
+  source: 'site'
+  /** A failure, or something a person must look at: never a failure and never in the exit code. */
+  status: 'failure' | 'review'
+  set: string
+  /** The component or mechanism compared, as a person would name it: `navigation "Main"`, `mailto:help@example.com`. */
+  subject: string
+  message: string
+  /** The order observed on each page, as text: one line per distinct order. */
+  evidence: string
+  /** Pages whose order differs from the rest of the set; on a tie, every page involved. */
+  pages: string[]
+  /** Pages compared with them. */
+  comparedWith: string[]
+  /** The items whose relative order changed, as named on the pages. */
+  items: string[]
+  elements: SiteElement[]
+  /** The order observed, page by page: items common to the pages compared, in document order. */
+  observed: Array<{ pages: string[]; order: string[] }>
+  confidence: Confidence
+  /** Experimental checks report below the default threshold until they pass the evaluation gate (docs/plans/wcag-coverage.md, 4.9). */
+  experimental: boolean
+}
+
+/** One site criterion's run over the sets of a crawl. */
+export interface SiteCriterionSummary {
+  criterion: string
+  level: Level
+  version: string
+  maturity: 'stable' | 'experimental'
+  /** Sets with two or more pages, where something could be compared. */
+  setsCompared: number
+  /** Components or mechanisms found on two or more pages of a set and compared. */
+  compared: number
+  findings: number
+  review: number
+}
+
+export interface SiteCriteriaReport {
+  sets: PageSet[]
+  /** Pages that went into no set, and why: no navigation found, or a set of their own. */
+  unassigned: Array<{ url: string; reason: 'no-navigation' | 'alone' }>
+  criteria: SiteCriterionSummary[]
+  findings: SiteFinding[]
+  belowThreshold: SiteFinding[]
+  /** Never failures and never in the exit code: a person decides. */
+  review: SiteFinding[]
+  waived: SiteFinding[]
+  /**
+   * Failures on a criterion beyond the run's target, such as 3.2.6 (new in WCAG 2.2) under --wcag 2.1:
+   * reported, never counted toward the target or the exit code.
+   */
+  beyondTarget?: SiteFinding[] | undefined
+}
+
+/**
+ * A WCAG criterion decided by comparing pages of a set, such as 3.2.3 Consistent
+ * Navigation. Like a page criterion it never sees the DOM: `facts` reads one snapshot,
+ * and `compare` reads the facts of the pages of one set. No model is involved.
+ */
+export interface SiteCriterion<Facts = unknown> {
+  id: string
+  level: Level
+  name: { en: string; 'pt-BR': string }
+  /** Bump when the logic changes. */
+  version: string
+  maturity: 'stable' | 'experimental'
+  facts(snapshot: A11ySnapshot): Facts
+  compare(set: PageSet, pages: ReadonlyArray<SitePageFacts<Facts>>, locale: Locale): { compared: number; findings: SiteFinding[] }
 }

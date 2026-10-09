@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import type { Browser } from 'playwright-core'
 import { prepareAdoption, targetsOrConfig } from '../../adoption/apply.ts'
+import { resolveProfiles } from '../../advisory/profile.ts'
 import { type JudgmentCache, fileCache } from '../../core/cache.ts'
 import { checkSnapshot } from '../../core/check.ts'
 import type { AnyCriterion, Confidence, EngineResults, Report, Usage } from '../../core/types.ts'
@@ -26,10 +27,14 @@ import { type CrawlFlags, crawlRequested } from '../../surfaces/crawl.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import type { GlobalContext } from '../context.ts'
 import { type FailOn, exitCode } from '../exit-code.ts'
+import { singlePageNote } from '../../site/index.ts'
 import { runSiteCheck } from './site.ts'
+import { DEFAULT_WCAG, type WcagVersion, parseWcagVersion } from '../../wcag.ts'
 
 export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   criteria: string
+  /** The WCAG version to state coverage against: '2.2' (default) or '2.1'. */
+  wcag?: string
   model?: string
   llm: boolean
   runs: string
@@ -57,6 +62,8 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   onReports?: (reports: Report[]) => Promise<number>
   /** Which links to read before judging, for criteria that compare a link with where it leads. */
   followLinks?: FollowLinks
+  /** An advisory profile to run on top of the WCAG check (--profile cognitive); the config's profiles otherwise. */
+  profile?: string
 }
 
 /** Read links when a criterion needs their destinations and the judgment layer will run. */
@@ -105,6 +112,7 @@ interface CollectContext {
   /** Viewport, device, session, headers and what to wait for, for web pages. */
   browserOptions: BrowserOptions | undefined
   browser: () => Promise<Browser>
+  wcag: WcagVersion
 }
 
 async function collect(target: Target, ctx: CollectContext): Promise<Collected> {
@@ -117,6 +125,7 @@ async function collect(target: Target, ctx: CollectContext): Promise<Collected> 
         captureImages: ctx.captureImages,
         followLinks: ctx.followLinks,
         browserOptions: ctx.browserOptions,
+        wcag: ctx.wcag,
       })
       return { ...web, notes: [], record: true }
     }
@@ -171,9 +180,11 @@ async function saveRecording(dir: string, target: Target, collected: Collected):
 
 export async function runCheck(targets: string[], options: CheckCommandOptions, context: GlobalContext): Promise<number> {
   const browserOptions = parseBrowserFlags(options)
+  const wcag = wcagOption(options.wcag)
   if (crawlRequested(options)) return runSiteCheck(targetsOrConfig(targets, context.config), options, context, browserOptions)
   const resolved = await resolveTargets(targetsOrConfig(targets, context.config))
   const criteria = resolveCriteria(options.criteria.split(','))
+  const profiles = resolveProfiles(options.profile, context.config.profiles)
   const runs = Math.max(1, Number.parseInt(options.runs, 10) || 1)
   const spec = options.llm ? await chooseModel(options.model, context.config.model) : undefined
   const provider = await resolveProvider(spec, Boolean(options.offline), options.reasoning ?? context.config.reasoning)
@@ -203,6 +214,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     screenshots: Boolean(options.screenshots),
     followLinks: follow,
     browserOptions,
+    wcag,
     browser: async () => {
       browser ??= await launchBrowser()
       return browser
@@ -224,8 +236,12 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
         minConfidence: options.minConfidence,
         concurrency,
         waivers: adoption.waivers,
+        profiles,
+        coga: context.config.coga,
+        wcag,
       })
       const notes = [...collected.notes, ...rulesNotes(collected.engine, context.locale)]
+      if (collected.snapshot.surface === 'web') notes.push(singlePageNote(context.locale))
       if (notes.length > 0) report.notes = notes
       if (collected.usage) {
         for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) report.usage[key] += collected.usage[key]
@@ -256,6 +272,14 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   }
 
   return exitCode(reports, options.failOn)
+}
+
+/** `--wcag`, or the config's `wcag`: 2.2 when neither is set. */
+export function wcagOption(value: string | undefined): WcagVersion {
+  if (value === undefined) return DEFAULT_WCAG
+  const version = parseWcagVersion(value)
+  if (!version) throw new RampaError('invalid-option', `--wcag takes 2.1 or 2.2; got "${value}".`)
+  return version
 }
 
 async function writeOutput(file: string, text: string): Promise<void> {

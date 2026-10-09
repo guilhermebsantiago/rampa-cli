@@ -148,7 +148,7 @@ describe('summarizeSite', () => {
     expect(summary.usage).toEqual({ calls: 3, cachedCalls: 3, inputTokens: 600, outputTokens: 120, latencyMs: 10, reusedAcrossPages: 3 })
     expect(summary.coverage.engine).toEqual(['1.1.1', '4.1.2'])
     expect(summary.coverage.judged).toEqual(['2.4.4'])
-    expect(summary.coverage.notChecked).toHaveLength(47)
+    expect(summary.coverage.notChecked).toHaveLength(46)
   })
 })
 

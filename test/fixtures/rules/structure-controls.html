@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Schedules · Acme</title>
+</head>
+<body>
+  <main>
+    <h1>Schedules</h1>
+    <!-- Near misses: each looks like a failure the structure rules report, and none of them is. -->
+
+    <!-- Header cells head other header cells (ACT d0f69e, Passed Example 6). -->
+    <table id="hours">
+      <caption>Opening hours</caption>
+      <tr><th>Day</th><th>Morning</th><th>Afternoon</th></tr>
+      <tr><th>Mon-Fri</th><td>8-12</td><td>14-17</td></tr>
+      <tr><th>Sat-Sun</th><td>10-14</td><td>Closed</td></tr>
+    </table>
+
+    <!-- A cell spanning two columns sits under both headers (Passed Example 3), and an empty cell still counts. -->
+    <table id="grades">
+      <thead><tr><th>Projects</th><th>Exams</th><th>Notes</th></tr></thead>
+      <tbody><tr><td colspan="2">15%</td><td></td></tr></tbody>
+    </table>
+
+    <!-- The headers attribute assigns the second header (Passed Example 5). -->
+    <table id="cities">
+      <tr><th id="col1">Cities</th><th id="col2">Count</th></tr>
+      <tr><td>Paris</td></tr>
+      <tr><td headers="col2">1</td></tr>
+    </table>
+
+    <!-- An ARIA table whose headers each head a column (Passed Example 2). -->
+    <div role="table" aria-label="Temperatures">
+      <div role="rowgroup"><div role="row"><span role="columnheader">Month</span><span role="columnheader">Top</span></div></div>
+      <div role="rowgroup"><div role="row"><span role="cell">July</span><span role="cell">40 C</span></div></div>
+    </div>
+
+    <!-- role="presentation" loses to a global ARIA attribute: the browser keeps the table. -->
+    <table role="presentation" aria-label="Plans"><tr><th>Plan</th><th>Price</th></tr><tr><td>Basic</td><td>5</td></tr></table>
+
+    <!-- A label that wraps its field, a label tied with aria-labelledby, and a label above a group of three fields. -->
+    <label>Coupon <input type="text"></label>
+    <div><label id="zip-label">Postcode</label><input type="text" aria-labelledby="zip-label"></div>
+    <div><label>Date of birth</label><select aria-label="Day"><option>1</option></select><select aria-label="Month"><option>1</option></select><input type="text" aria-label="Year"></div>
+
+    <!-- The same id twice, with the same text in both: nothing a person hears changes. -->
+    <section><h2 id="more">More</h2><button type="button" aria-labelledby="more">More</button></section>
+    <section><h2 id="more">More</h2><button type="button" aria-labelledby="more">More</button></section>
+  </main>
+</body>
+</html>

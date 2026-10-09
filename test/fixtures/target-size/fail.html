@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Photo editor</title>
+<style>
+  body { font: 16px/1.5 system-ui, sans-serif; margin: 2rem; }
+  .tools { display: flex; gap: 0; }
+  .tools button { width: 20px; height: 20px; padding: 0; margin: 0; border: 0; background: #1f2328; color: #fff; font-size: 12px; }
+  .dots { display: flex; gap: 2px; margin-top: 2rem; }
+  .dots button { width: 12px; height: 12px; padding: 0; margin: 0; border: 0; border-radius: 50%; background: #57606a; }
+  .pages { display: flex; gap: 0; margin-top: 2rem; }
+  .pages a { display: block; padding: 2px 4px; font-size: 12px; line-height: 14px; color: #0969da; }
+  .cards { display: flex; gap: 0; margin-top: 2rem; }
+  .cards .card { display: block; width: 200px; height: 120px; }
+  .cards .more { display: block; width: 14px; height: 14px; font-size: 10px; line-height: 14px; }
+  .switches { display: flex; gap: 0; margin-top: 2rem; }
+  .switches input { appearance: none; width: 14px; height: 14px; margin: 0; border: 1px solid #57606a; border-radius: 3px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Photo editor</h1>
+  <!-- Touching 20 px icon buttons. -->
+  <div class="tools">
+    <button type="button" id="crop" aria-label="Crop">C</button>
+    <button type="button" id="rotate" aria-label="Rotate">R</button>
+    <button type="button" id="flip" aria-label="Flip">F</button>
+  </div>
+  <!-- Carousel dots of 12 px, 2 px apart. -->
+  <div class="dots">
+    <button type="button" id="dot-1" aria-label="Slide 1"></button>
+    <button type="button" id="dot-2" aria-label="Slide 2"></button>
+    <button type="button" id="dot-3" aria-label="Slide 3"></button>
+  </div>
+  <!-- Small pagination links. -->
+  <nav class="pages" aria-label="Pages">
+    <a href="?page=1" id="page-1">1</a>
+    <a href="?page=2" id="page-2">2</a>
+    <a href="?page=3" id="page-3">3</a>
+  </nav>
+  <!-- A small link next to a card that leads elsewhere: no equivalent target. -->
+  <div class="cards">
+    <a class="card" href="/rooms/12" id="card">Room 12, sea view</a>
+    <a class="more" href="/rooms/12/photos" id="photos" aria-label="Photos of room 12">+</a>
+  </div>
+  <!-- Checkboxes the author redrew at 14 px: no longer user agent controls. -->
+  <div class="switches">
+    <input type="checkbox" id="grid" aria-label="Show grid"><input type="checkbox" id="snap" aria-label="Snap to grid">
+  </div>
+</main>
+</body>
+</html>

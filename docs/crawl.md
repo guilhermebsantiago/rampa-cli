@@ -149,6 +149,10 @@ The same crawl with `--model ollama:gemma4:12b` made the same 14 calls and reuse
 
 Only identical inputs are reused. A page title (2.4.2) is judged with the page's address, so it is asked once per page; a heading is judged with the content under it; and pages in different languages rarely share an input, because the prompt names the language to answer in. Cached judgments from earlier runs count as "from cache" but not as reused, unless the same input also came up on an earlier page of this run.
 
+## Criteria across pages
+
+A crawl also compares its pages with each other for 3.2.3 Consistent Navigation and 3.2.6 Consistent Help: whether repeated navigation and help keep their relative order from page to page. The site report shows the sets of pages it compared and what changed order; [site-criteria.md](site-criteria.md) has the details, and `siteCriteria` holds them in the JSON.
+
 ## JSON
 
 `--format json` (or `-o file.json`) writes one object per site; with URLs on several origins, an array of them.

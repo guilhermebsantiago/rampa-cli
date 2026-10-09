@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <!-- A negative maximum-scale is dropped by browsers (ACT b4f0c3, Passed Example 3). -->
+  <meta name="viewport" content="width=device-width, maximum-scale=-1, user-scalable=yes">
+  <title>Document management · Acme</title>
+</head>
+<body>
+  <!-- Near misses: each looks like something a rule reports, and none of them is. -->
+  <nav aria-label="Idiomas">
+    <ul>
+      <li><a href="/pt/">Português</a></li>
+      <li><a href="/it/">Italiano</a></li>
+      <li><a href="/en/">Read in English</a></li>
+      <li><a href="/en/" lang="en">English</a></li>
+      <li><a href="/es/" aria-hidden="true" tabindex="-1">Español</a></li>
+    </ul>
+  </nav>
+  <main>
+    <h1>Guia de estilo</h1>
+    <h2>Heading 1</h2>
+    <p>Exemplo do estilo de título usado no site.</p>
+    <img src="logo.svg" alt="logo" width="40" height="40">
+    <img src="cameras/canon.jpg" alt="Canon EOS R5" width="40" height="40">
+    <img src="cameras/rx100.jpg" alt="RX100" width="40" height="40">
+    <img src="team.jpg" alt="team" width="40" height="40">
+    <form>
+      <label for="label-name">Label</label>
+      <input id="label-name" type="text">
+    </form>
+    <section><div><div><input id="coupon" type="text" aria-label="Cupom"> <button type="button">Aplicar</button></div></div></section>
+    <section><div><div><input type="search" aria-label="Buscar"></div></div></section>
+    <section><div><div><svg width="16" height="16" aria-hidden="false" role="img"><title>E-mail</title><rect width="16" height="16"/></svg><input type="email" aria-label="E-mail"></div></div></section>
+  </main>
+</body>
+</html>

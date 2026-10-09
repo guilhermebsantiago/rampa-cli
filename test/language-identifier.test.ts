@@ -130,6 +130,29 @@ describe('3.1.1 with the identifier', () => {
     expect((await checkSnapshot(snapshot, NO_ENGINE, options(undefined, false))).findings).toEqual([])
   })
 
+  it('counts what the identifier decided as its own method in the coverage, not as a judgment', async () => {
+    const snapshot = page('en', [paragraph('p', PORTUGUESE)], PORTUGUESE)
+    const report = await checkSnapshot(snapshot, NO_ENGINE, options(undefined))
+    const record = report.coverage.criteria?.find((c) => c.id === '3.1.1')
+    expect(record?.status).toBe('failures')
+    expect(record?.methods).toContainEqual({ kind: 'rule', id: 'rampa/language-id', ran: true, applicable: 1, failures: 1, review: 0, maturity: 'stable' })
+    expect(record?.methods.find((m) => m.kind === 'judgment')).toMatchObject({ ran: false, applicable: 0, failures: 0 })
+    expect(report.coverage.rules).toContain('3.1.1')
+    expect(report.coverage.judged).not.toContain('3.1.1')
+    expect(report.coverage.notChecked).not.toContain('3.1.1')
+    expect(report.criteria.find((c) => c.criterion === '3.1.1')).toMatchObject({ decided: 1, decidedFailed: 1 })
+
+    const passing = page('en', [paragraph('p', ENGLISH_LONG)], ENGLISH_LONG)
+    const passed = await checkSnapshot(passing, NO_ENGINE, options(silent))
+    const method = passed.coverage.criteria?.find((c) => c.id === '3.1.1')?.methods
+    expect(method?.find((m) => m.id === 'rampa/language-id')).toMatchObject({ applicable: 1, failures: 0 })
+    expect(passed.coverage.criteria?.find((c) => c.id === '3.1.1')?.status).toBe('no-failure-found')
+
+    // With --no-llm the identifier judges nothing, so 3.1.1 stays not checked.
+    const off = await checkSnapshot(snapshot, NO_ENGINE, options(undefined, false))
+    expect(off.coverage.criteria?.find((c) => c.id === '3.1.1')?.methods.some((m) => m.id === 'rampa/language-id')).toBe(false)
+  })
+
   it('passes a long, clear match without asking a model', async () => {
     const snapshot = page('en', [paragraph('p', ENGLISH_LONG)], ENGLISH_LONG)
     const report = await checkSnapshot(snapshot, NO_ENGINE, options(silent))

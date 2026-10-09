@@ -1,3 +1,4 @@
+import { subscriptionOf } from '../providers/models.ts'
 import type { Painter } from '../report/color.ts'
 import { criterionLabel } from '../wcag.ts'
 import { type ComparedCriterion, type ComparedRun, type Comparison, type DifferingCase, type PairDiscrimination, type PairedCounts, type RunUsage, runTime } from './compare.ts'
@@ -28,6 +29,9 @@ function seconds(usage: RunUsage): string {
 }
 
 function cost(run: ComparedRun): string {
+  // A subscription has no per-token price: the calls counted against the plan.
+  const subscription = subscriptionOf(run.model)
+  if (subscription) return `on your ${subscription.plan} plan`
   if (run.costUsd === undefined) return run.model ? 'price unknown' : '—'
   if (run.costUsd === 0) return 'local model, no API cost'
   return run.costUsd < 0.0001 ? '< US$ 0.0001' : `≈ US$ ${run.costUsd.toFixed(4)}`

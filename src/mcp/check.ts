@@ -15,11 +15,14 @@ import { lmStudioUrl, ollamaUrl } from '../providers/registry.ts'
 import type { JudgeRequest, ModelProvider } from '../providers/types.ts'
 import { type Collected, collectWeb, launchBrowser } from '../surfaces/web.ts'
 import { type Target, loadEngineFor, loadSnapshot, resolveTargets } from '../surfaces/targets.ts'
+import { DEFAULT_WCAG, type WcagVersion } from '../wcag.ts'
 
 /** What `rampa mcp` was started with. Every tool call can override the model, the judgment switch and the locale. */
 export interface AgentDefaults {
   model?: string | undefined
   llm: boolean
+  /** The WCAG version to state coverage against; 2.2 when absent. */
+  wcag?: WcagVersion | undefined
   locale: Locale
   /** Cached judgments only; the model is never called. */
   offline: boolean
@@ -40,6 +43,7 @@ export interface AgentCheckArgs {
   locale?: Locale | undefined
   runs?: number | undefined
   min_confidence?: Confidence | undefined
+  wcag?: WcagVersion | undefined
 }
 
 export interface CallControl {
@@ -91,6 +95,7 @@ export async function resolveAgentTarget(input: string): Promise<Target> {
 
 export async function runAgentCheck(target: Target, args: AgentCheckArgs, defaults: AgentDefaults, control: CallControl): Promise<AgentCheck> {
   const locale = args.locale ?? defaults.locale
+  const wcag = args.wcag ?? defaults.wcag ?? DEFAULT_WCAG
   const llm = args.no_llm === undefined ? defaults.llm : !args.no_llm
   const criteria = resolveCriteria(args.criteria ?? DEFAULT_CRITERIA)
   const runs = args.runs ?? 1
@@ -106,7 +111,7 @@ export async function runAgentCheck(target: Target, args: AgentCheckArgs, defaul
   control.progress?.(0, undefined, target.kind === 'web' ? `Loading ${target.label} and running axe-core` : `Reading ${target.label}`)
   const { snapshot, engine } =
     target.kind === 'web'
-      ? await collectPage(target.url, target.label, { locale, captureImages: llm && criteria.some((criterion) => criterion.needs.vision) })
+      ? await collectPage(target.url, target.label, { locale, wcag, captureImages: llm && criteria.some((criterion) => criterion.needs.vision) })
       : await collectRecording(target.path, target.label)
   if (control.signal.aborted) throw new RampaError('cancelled', 'The check was cancelled.')
 
@@ -142,6 +147,7 @@ export async function runAgentCheck(target: Target, args: AgentCheckArgs, defaul
     minConfidence: args.min_confidence ?? 'medium',
     concurrency: defaults.concurrency,
     waivers: await loadWaivers(),
+    wcag,
   })
   if (control.signal.aborted) throw new RampaError('cancelled', 'The check was cancelled.')
   progress?.(total, total, `Done: ${report.findings.length} finding(s)`)
@@ -161,7 +167,7 @@ export function judgmentFailure(report: Report): string | undefined {
 }
 
 /** A browser per call, closed when the call ends, so a server left running holds no browser between checks. */
-async function collectPage(url: string, label: string, options: { locale: Locale; captureImages: boolean }): Promise<Collected> {
+async function collectPage(url: string, label: string, options: { locale: Locale; captureImages: boolean; wcag: WcagVersion }): Promise<Collected> {
   let browser
   try {
     browser = await launchBrowser()

@@ -1,6 +1,8 @@
-import type { Finding, Report } from '../core/types.ts'
+import { reviewOnlyCriteria } from '../core/coverage.ts'
+import type { CoverageMethod, CoverageStatus, CriterionCoverage, Finding, Report, ReviewItem } from '../core/types.ts'
 import { type Locale, type MessageKey, t } from '../i18n.ts'
-import { WCAG21_A_AA, compareCriteria, successCriterion } from '../wcag.ts'
+import { type WcagVersion, compareCriteria, criteriaFor, successCriterion, versionOf } from '../wcag.ts'
+import { cogaClause } from './advisory.ts'
 import { displayTarget, usageLine } from './pretty.ts'
 
 /** Helpers shared by the Markdown, HTML and SARIF reports. */
@@ -16,7 +18,27 @@ export function plural(locale: Locale, key: MessageKey, count: number, vars: Rec
   return form.replace(/\{(\w+)\}/g, (_, name: string) => String(values[name] ?? `{${name}}`))
 }
 
-/** W3C's Understanding page of a WCAG 2.1 success criterion: its intent, with examples and techniques. */
+/** The WCAG version a report checked against. */
+export function wcagVersion(report: Pick<Report, 'wcagTarget'>): WcagVersion {
+  return versionOf(report.wcagTarget)
+}
+
+/** How many criteria a report states coverage against: 50 for WCAG 2.1, 55 for 2.2. */
+export function targetTotal(report: Pick<Report, 'wcagTarget'>): number {
+  return criteriaFor(wcagVersion(report)).length
+}
+
+/** What happened to 4.1.1 Parsing, which no run checks: satisfied by definition under 2.1, removed in 2.2. */
+export function parsingNote(report: Pick<Report, 'wcagTarget' | 'locale'>): string {
+  return t(report.locale, wcagVersion(report) === '2.1' ? 'coverageParsing21' : 'coverageParsing22')
+}
+
+/** The W3C Recommendation a report checked against. */
+export function wcagUrl(version: WcagVersion): string {
+  return version === '2.1' ? 'https://www.w3.org/TR/WCAG21/' : 'https://www.w3.org/TR/WCAG22/'
+}
+
+/** W3C's Understanding page of a WCAG success criterion: its intent, with examples and techniques. WCAG 2.2's pages cover the 2.1 criteria too. */
 export function understandingUrl(id: string): string | undefined {
   const sc = successCriterion(id)
   if (!sc) return undefined
@@ -24,7 +46,7 @@ export function understandingUrl(id: string): string | undefined {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
-  return `https://www.w3.org/WAI/WCAG21/Understanding/${slug}.html`
+  return `https://www.w3.org/WAI/WCAG22/Understanding/${slug}.html`
 }
 
 export function criterionName(id: string, locale: Locale): string | undefined {
@@ -32,7 +54,7 @@ export function criterionName(id: string, locale: Locale): string | undefined {
   return sc ? (sc.name[locale] ?? sc.name.en) : undefined
 }
 
-/** `WCAG 2.4.4 (A)`, or the bare id for a rule outside WCAG 2.1 A/AA. */
+/** `WCAG 2.4.4 (A)`, or the bare id for a rule outside WCAG A/AA. */
 export function criterionTag(finding: Finding): string {
   if (!successCriterion(finding.criterion)) return finding.criterion
   return finding.level ? `WCAG ${finding.criterion} (${finding.level})` : `WCAG ${finding.criterion}`
@@ -70,26 +92,47 @@ export function countLevels(findings: readonly Finding[]): LevelCounts {
 }
 
 /** "6 at Level A, 3 at Level AA", leaving out a level with none. */
-export function levelBreakdown(counts: LevelCounts, locale: Locale): string {
+export function levelBreakdown(counts: LevelCounts, locale: Locale, version: WcagVersion): string {
   const parts: string[] = []
   if (counts.A > 0) parts.push(t(locale, 'atLevel', { count: counts.A, level: 'A' }))
   if (counts.AA > 0) parts.push(t(locale, 'atLevel', { count: counts.AA, level: 'AA' }))
   const other = counts.total - counts.A - counts.AA
-  if (other > 0) parts.push(t(locale, 'outsideLevels', { count: other }))
+  if (other > 0) parts.push(t(locale, 'outsideLevels', { count: other, version }))
   return parts.join(', ')
 }
 
-/** The three lines of coverage, as the terminal report words them. */
-export function coverageRows(report: Report): Array<{ label: string; criteria: string[]; text: string }> {
+/** Criteria whose only automated result is "needs review"; empty for reports written before Rampa recorded it. */
+export function reviewOnly(report: Report): string[] {
+  return reviewOnlyCriteria(report.coverage.criteria ?? [], [...report.coverage.engine, ...(report.coverage.rules ?? [])], report.coverage.judged)
+}
+
+export interface CoverageRow {
+  key: 'engine' | 'rules' | 'judged' | 'review' | 'notChecked'
+  label: string
+  criteria: string[]
+  text: string
+}
+
+/**
+ * The lines of coverage, as the terminal report words them. "Needs review only" is there when there is any,
+ * or always for a table; the line for Rampa's rules when a rule decided something on the page, or when
+ * `withRules` asks for it (a table of several pages keeps its columns).
+ */
+export function coverageRows(report: Report, always = false, withRules = (report.coverage.rules?.length ?? 0) > 0): CoverageRow[] {
   const { locale } = report
   const list = (items: readonly string[]) => (items.length === 0 ? '—' : items.join(', '))
+  const review = reviewOnly(report)
+  const rules = report.coverage.rules ?? []
   return [
-    { label: t(locale, 'coverageEngine', { engine: report.engine.name }), criteria: report.coverage.engine, text: list(report.coverage.engine) },
-    { label: t(locale, 'coverageJudged'), criteria: report.coverage.judged, text: list(report.coverage.judged) },
+    { key: 'engine', label: t(locale, 'coverageEngine', { engine: report.engine.name }), criteria: report.coverage.engine, text: list(report.coverage.engine) },
+    ...(withRules ? [{ key: 'rules' as const, label: t(locale, 'coverageRules'), criteria: rules, text: list(rules) }] : []),
+    { key: 'judged', label: t(locale, 'coverageJudged'), criteria: report.coverage.judged, text: list(report.coverage.judged) },
+    ...(review.length > 0 || always ? [{ key: 'review' as const, label: t(locale, 'coverageReview'), criteria: review, text: list(review) }] : []),
     {
+      key: 'notChecked',
       label: t(locale, 'coverageNotChecked'),
       criteria: report.coverage.notChecked,
-      text: t(locale, 'coverageNotCheckedOf', { count: report.coverage.notChecked.length, total: WCAG21_A_AA.length }),
+      text: t(locale, 'coverageNotCheckedOf', { count: report.coverage.notChecked.length, total: targetTotal(report), version: wcagVersion(report) }),
     },
   ]
 }
@@ -98,7 +141,83 @@ export function coverageRows(report: Report): Array<{ label: string; criteria: s
 export function coverageStatement(report: Report): string {
   const { locale } = report
   const parts = coverageRows(report).map((row) => `${row.label} ${row.text}`)
-  return `${parts.join('; ')}. ${t(locale, 'disclaimer')} ${t(locale, 'manualReview')}`
+  // The cognitive profile's clause, after the WCAG coverage: what it screened, never a verdict.
+  const coga = cogaClause(report)
+  if (coga) parts.push(coga)
+  return `${parts.join('; ')}. ${parsingNote(report)} ${t(locale, 'disclaimer')} ${t(locale, 'manualReview')}`
+}
+
+const STATUS_KEYS: Record<CoverageStatus, MessageKey> = {
+  failures: 'statusFailures',
+  'needs-review': 'statusNeedsReview',
+  'no-failure-found': 'statusNoFailure',
+  'no-applicable-content': 'statusNoContent',
+  'not-checked': 'statusNotChecked',
+  'satisfied-by-definition': 'statusByDefinition',
+}
+
+/** A criterion's status in words; never "passed". */
+export function statusText(status: CoverageStatus, locale: Locale): string {
+  return t(locale, STATUS_KEYS[status])
+}
+
+/** `axe-core color-contrast (40 applicable, 0 failed, 12 to review)`, or `judgment/2.4.4@3 did not run`. */
+export function methodText(method: CoverageMethod, report: Pick<Report, 'locale' | 'engine'>): string {
+  const { locale } = report
+  // Rampa's own rules (src/rules) and the comparison of pages carry their prefix, rampa/ or site/; the engine's rules are named after the engine.
+  const name =
+    method.kind === 'judgment'
+      ? `${t(locale, 'methodJudgment')} ${method.id.replace(/^judgment\//, '')}`
+      : method.kind === 'site' || method.id.startsWith('rampa/')
+        ? method.id
+        : `${report.engine.name} ${method.id}`
+  if (!method.ran) return `${name} ${t(locale, 'methodNotRun')}`
+  const tags = [method.reviewOnly ? t(locale, 'methodReviewOnly') : undefined, method.maturity === 'experimental' ? t(locale, 'methodExperimental') : undefined].filter(Boolean)
+  const counts = t(locale, 'methodCounts', { applicable: method.applicable, failures: method.failures, review: method.review })
+  return `${name} (${counts}${tags.length > 0 ? `; ${tags.join(', ')}` : ''})`
+}
+
+/** The methods behind a criterion: those that applied in full, then a count of the rules with nothing to check. */
+export function methodsText(record: CriterionCoverage, report: Pick<Report, 'locale' | 'engine'>): string {
+  // The engine's idle rules are counted; Rampa's own (rampa/...) and the comparison of pages (site/...) keep their names.
+  const idle = record.methods.filter(
+    (m) => m.ran && m.kind !== 'judgment' && m.kind !== 'site' && !m.id.startsWith('rampa/') && m.applicable === 0 && m.failures === 0 && m.review === 0,
+  )
+  const shown = record.methods.filter((m) => !idle.includes(m)).map((m) => methodText(m, report))
+  if (idle.length === 1 && idle[0]) shown.push(methodText(idle[0], report))
+  else if (idle.length > 1) shown.push(t(report.locale, 'methodsIdle', { count: idle.length, engine: report.engine.name }))
+  return shown.join('; ') || '—'
+}
+
+export interface ReviewGroup {
+  criterion: string
+  ruleId: string
+  items: ReviewItem[]
+  /** The engine's reason for the first element; elements of one rule usually share it. */
+  reason: string
+  helpUrl?: string | undefined
+}
+
+/** Review items by criterion and rule, in criterion order. */
+export function reviewGroups(report: Report): ReviewGroup[] {
+  const groups = new Map<string, ReviewGroup>()
+  for (const item of report.needsReview ?? []) {
+    const key = `${item.criterion}|${item.ruleId}`
+    const group = groups.get(key)
+    if (group) group.items.push(item)
+    else groups.set(key, { criterion: item.criterion, ruleId: item.ruleId, items: [item], reason: item.message, helpUrl: item.helpUrl })
+  }
+  return [...groups.values()].sort((a, b) => compareCriteria(a.criterion, b.criterion) || a.ruleId.localeCompare(b.ruleId))
+}
+
+/** One line: how many elements need review, by criterion. Undefined when none do. */
+export function reviewNote(report: Report): string | undefined {
+  const items = report.needsReview ?? []
+  if (items.length === 0) return undefined
+  const counts = new Map<string, number>()
+  for (const item of items) counts.set(item.criterion, (counts.get(item.criterion) ?? 0) + 1)
+  const list = [...counts].sort(([a], [b]) => compareCriteria(a, b)).map(([criterion, count]) => `${criterion}: ${count}`)
+  return t(report.locale, 'reviewNote', { count: items.length, engine: report.engine.name, list: list.join(', ') })
 }
 
 /** The model and the engine behind a set of reports, for a one-line attribution. */

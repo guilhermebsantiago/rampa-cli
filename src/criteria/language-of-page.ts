@@ -78,6 +78,7 @@ export const languageOfPage: Criterion<LanguageOfPageContext, LanguageOfPageJudg
   subject: (candidate) => candidate.context.declared,
 
   prepare: loadLanguageIdentifier,
+  decidedBy: 'rampa/language-id',
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<LanguageOfPageContext>[] {
     const root = snapshot.root

@@ -255,13 +255,13 @@ function fieldOf(node: A11yNode): string | undefined {
 }
 
 /** On screen: rendered, inside the page and larger than the pixel a visually-hidden class leaves. */
-function shown(node: A11yNode): boolean {
+export function shown(node: A11yNode): boolean {
   if (node.states.includes('hidden') || node.states.includes('offscreen')) return false
   return !node.bounds || (node.bounds.width > 1 && node.bounds.height > 1)
 }
 
 /** The text a person sees in a subtree, leaving out one node (the field itself, inside its label). */
-function shownText(node: A11yNode, skip?: A11yNode): string {
+export function shownText(node: A11yNode, skip?: A11yNode): string {
   const parts: string[] = []
   const visit = (current: A11yNode): void => {
     if (current === skip || !shown(current)) return
@@ -273,7 +273,7 @@ function shownText(node: A11yNode, skip?: A11yNode): string {
 }
 
 /** The text of the label people see: aria-labelledby to visible text, or a label element on screen. */
-function visibleLabelOf(field: A11yNode, ordered: A11yNode[], byId: Map<string, A11yNode>): string | undefined {
+export function visibleLabelOf(field: A11yNode, ordered: A11yNode[], byId: Map<string, A11yNode>): string | undefined {
   const attributes = attributesOf(field)
   const labelledBy = (attributes['aria-labelledby'] ?? '')
     .split(/\s+/)
@@ -290,7 +290,7 @@ function visibleLabelOf(field: A11yNode, ordered: A11yNode[], byId: Map<string, 
   return undefined
 }
 
-function labelsOf(field: A11yNode, ordered: A11yNode[]): A11yNode[] {
+export function labelsOf(field: A11yNode, ordered: A11yNode[]): A11yNode[] {
   const id = attributesOf(field).id
   return ordered.filter((node) => node.native.tag === 'label' && ((id && attributesOf(node).for === id) || contains(node, field)))
 }
@@ -313,7 +313,7 @@ function sourceOf(field: A11yNode, ordered: A11yNode[]): HiddenSource {
  * field sits alone in a wrapper, the wrapper's neighbors count, a couple of levels up.
  * Labels of other fields are left out: they name those fields, not this one.
  */
-function surroundings(index: TreeIndex, field: A11yNode): { before: string; after: string; buttons: string[]; buttonTexts: string[] } {
+export function surroundings(index: TreeIndex, field: A11yNode): { before: string; after: string; buttons: string[]; buttonTexts: string[] } {
   let current = field
   for (let level = 0; level < 3; level++) {
     const parentRef = index.get(current.ref)?.parentRef
@@ -356,7 +356,7 @@ function chosenOption(select: A11yNode): string | undefined {
 }
 
 /** The legend of the fieldset around the field, or the name of an ARIA group. */
-function legendOf(index: TreeIndex, node: A11yNode): string | undefined {
+export function legendOf(index: TreeIndex, node: A11yNode): string | undefined {
   let parentRef = index.get(node.ref)?.parentRef
   while (parentRef) {
     const parent = index.get(parentRef)?.node

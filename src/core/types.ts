@@ -1,9 +1,10 @@
 import type { z } from 'zod'
+import type { AdvisorySection } from '../advisory/types.ts'
 import type { BaselineComparison } from '../adoption/baseline.ts'
 import type { Waiver } from '../adoption/waivers.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11ySnapshot, Surface } from '../snapshot/schema.ts'
-import type { Level } from '../wcag.ts'
+import type { Level, WcagTarget } from '../wcag.ts'
 
 export type Confidence = 'low' | 'medium' | 'high'
 
@@ -32,6 +33,8 @@ export interface EngineNode {
   confidence?: Confidence | undefined
   /** The model that located the node in an image, when there was no accessibility tree to read it from. */
   locatedBy?: string | undefined
+  /** WCAG 2.5.8: an exception the page shows for this target; an exempt target is never a failure. */
+  exempt?: 'user-agent-control' | 'equivalent-target' | undefined
 }
 
 export interface EngineRuleResult {
@@ -118,6 +121,8 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
    * identifier reads clearly. No model is asked about that candidate; the judgment still goes through `verify`.
    */
   decide?(candidate: Candidate<Ctx>, snapshot: A11ySnapshot): Out | undefined
+  /** The deterministic method behind `decide`, as the coverage names it: a method of kind `rule`, such as `rampa/language-id`. */
+  decidedBy?: string
   /**
    * The verdict that follows from the rest of the model's answer, where the criterion defines it that way: for a
    * passage the identifier nominated, a detected language and no exception make a fail, whatever verdict was written.
@@ -175,7 +180,8 @@ export interface Finding {
   fingerprint: string
   criterion: string
   level: Level | undefined
-  source: 'engine' | 'judgment'
+  /** engine: axe-core or the tree rules; rule: a Rampa rule over the snapshot (src/rules); judgment: a model, verified. */
+  source: 'engine' | 'judgment' | 'rule'
   ref?: string | undefined
   target?: string | undefined
   message: string
@@ -193,6 +199,63 @@ export interface Finding {
   locatedBy?: string | undefined
   /** Set for local pages, by `locateReport`. */
   location?: SourceLocation | undefined
+}
+
+/**
+ * Something the engine could not decide (an axe-core "incomplete", or a violation of an axe-core rule Rampa
+ * runs for review only), or a hit a Rampa rule (src/rules) sends to review, for a person to look at.
+ * It is never a failure, never in the findings and never changes the exit code.
+ */
+export interface ReviewItem {
+  criterion: string
+  level: Level | undefined
+  ruleId: string
+  ref?: string | undefined
+  target?: string | undefined
+  html?: string | undefined
+  /** Why the engine could not decide, in its own words. */
+  message: string
+  /** What a Rampa rule read on the element, when the review is one of its hits. */
+  evidence?: string | undefined
+  helpUrl?: string | undefined
+}
+
+/** A criterion's result in one run. Never "passed": a clean result is "no failure found" in what was checked. */
+export type CoverageStatus = 'failures' | 'needs-review' | 'no-failure-found' | 'no-applicable-content' | 'not-checked' | 'satisfied-by-definition'
+
+/** One way a criterion was checked: an engine rule, or the judgment of a model. */
+export interface CoverageMethod {
+  /**
+   * axe: an axe-core rule; rule: a Rampa rule over the tree or the pixels, or what a judged criterion decided without a
+   * model (`Criterion.decidedBy`, such as the language identifier's `rampa/language-id` on 3.1.1 and 3.1.2);
+   * judgment: a model, with verified evidence; site: a criterion that compares the pages of a crawl (3.2.3, 3.2.6),
+   * in a site summary only.
+   */
+  kind: 'axe' | 'rule' | 'judgment' | 'site'
+  /** The rule id, `judgment/<criterion>@<version>`, or `site/<criterion>@<version>`. */
+  id: string
+  /** False when the method applied but did not run, such as judgment with --no-llm. */
+  ran: boolean
+  /** Elements the method applied to (candidates, for judgment); passing elements are capped at 200 per rule. */
+  applicable: number
+  failures: number
+  /** Elements left to a person: undecided by the engine, or where the model abstained. */
+  review: number
+  /** The rule can only pass or ask for review: it never reports a failure. */
+  reviewOnly?: boolean | undefined
+  /** Experimental methods report below the default confidence threshold until they pass the evaluation gate. */
+  maturity: 'stable' | 'experimental'
+}
+
+export interface CriterionCoverage {
+  id: string
+  level: Level
+  /** beyond: a WCAG 2.2 criterion in a run that targets 2.1; reported, never counted. */
+  target: 'in' | 'beyond'
+  status: CoverageStatus
+  methods: CoverageMethod[]
+  /** What a person still has to review or test, in the report's language. */
+  manual: string
 }
 
 export interface Discarded {
@@ -213,6 +276,13 @@ export interface CriterionSummary {
   discarded: number
   errors: number
   offlineMisses: number
+  /**
+   * Of the judged candidates, those the criterion passed or failed by itself, without a model (`Criterion.decide`):
+   * in the coverage they are a method of kind `rule` (`Criterion.decidedBy`), not a judgment. Absent when none.
+   */
+  decided?: number | undefined
+  /** Of those, the ones it failed. */
+  decidedFailed?: number | undefined
 }
 
 export interface Usage {
@@ -233,12 +303,19 @@ export interface Report {
   /** Set when only part of the page was checked: the selectors it was scoped to (checkPage with include or exclude). */
   scope?: { include: string[]; exclude: string[] } | undefined
   surface: Surface
+  /** What the run checked against: WCAG 2.2 A/AA by default, or 2.1 with --wcag 2.1. Reports written before it existed targeted 2.1. */
+  wcagTarget?: WcagTarget | undefined
   locale: Locale
   llm: 'on' | 'off' | 'no-model'
   model?: string | undefined
   engine: { name: string; version: string }
   findings: Finding[]
   belowThreshold: Finding[]
+  /**
+   * Findings on WCAG 2.2 criteria in a run that targets WCAG 2.1 (a recording made under 2.2, say):
+   * reported, never counted toward the target or the exit code.
+   */
+  beyondTarget?: Finding[] | undefined
   waived: Finding[]
   /** Waivers past their expiry date that matched findings of this run: those findings are reported again. */
   expiredWaivers?: Waiver[] | undefined
@@ -246,9 +323,30 @@ export interface Report {
   baseline?: BaselineComparison | undefined
   discarded: Discarded[]
   criteria: CriterionSummary[]
-  coverage: { engine: string[]; judged: string[]; notChecked: string[] }
+  /**
+   * engine: criteria where an engine rule able to report a failure decided at least one element;
+   * rules: criteria where one of Rampa's own rules (src/rules) decided at least one element, absent when none did;
+   * judged: criteria a model judged; notChecked: criteria of the target with none of these, and no result to
+   * review (4.1.1 is never listed). criteria: one record per criterion, with its status and methods.
+   */
+  coverage: {
+    engine: string[]
+    judged: string[]
+    notChecked: string[]
+    rules?: string[] | undefined
+    /** In a site summary only: criteria the comparison of a crawl's pages compared something for (3.2.3, 3.2.6). */
+    site?: string[] | undefined
+    criteria?: CriterionCoverage[] | undefined
+  }
+  /** What the engine or Rampa's rules could not decide, for a person to look at; never a failure. */
+  needsReview?: ReviewItem[] | undefined
   usage: Usage
   errors: string[]
   /** What the collector or the rules could not see or decide, in the report's language. */
   notes?: string[] | undefined
+  /**
+   * Set with --profile: advisories beyond WCAG conformance, such as the cognitive profile's (src/advisory/types.ts).
+   * They live outside findings, so nothing that reads findings (exit code, baseline, toPassRampa, MCP) sees them.
+   */
+  advisory?: AdvisorySection | undefined
 }

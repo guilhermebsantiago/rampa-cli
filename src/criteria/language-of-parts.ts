@@ -108,6 +108,7 @@ export const languageOfParts: Criterion<LanguageOfPartsContext, LanguageOfPartsJ
     candidate.context.kind === 'unmarked' ? `unmarked|${candidate.context.declared}|${candidate.context.text}` : candidate.context.declared,
 
   prepare: loadLanguageIdentifier,
+  decidedBy: 'rampa/language-id',
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<LanguageOfPartsContext>[] {
     const index = indexTree(snapshot.root)

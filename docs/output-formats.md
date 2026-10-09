@@ -39,7 +39,7 @@ Folders for output files are created when missing. `--locale pt-BR` writes Markd
 | `AA` | a confirmed finding on a Level A or AA criterion: anything that blocks AA conformance |
 | `none` (or `never`) | never; only errors exit `2` |
 
-The levels are read in any case, so `--fail-on aa` works. Waived findings never count. With `A` or `AA`, a finding on a rule outside WCAG 2.1 A/AA does not fail the run; with `confirmed` it does.
+The levels are read in any case, so `--fail-on aa` works. Waived findings never count. With `A` or `AA`, a finding on a rule outside WCAG A/AA does not fail the run; with `confirmed` it does. What needs review never fails a run, and neither does a finding beyond the target (a WCAG 2.2 criterion in a `--wcag 2.1` run).
 
 A usage error, such as an unknown `--format`, exits `2`. Earlier versions exited `1` there, which CI could not tell apart from a failure on the page.
 
@@ -68,12 +68,12 @@ The report as before: one object for one page, an array for several. Two optiona
 
 [SARIF 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html), the format of GitHub code scanning and of IDE viewers such as the SARIF extension for VS Code. A test validates the output against the official OASIS schema.
 
-- **Rules.** One per WCAG success criterion, such as `WCAG-2.4.4` (`LinkPurposeInContext`), with its level in the description and the tags (`wcag-a`, `wcag-aa`), and `helpUri` pointing to W3C's Understanding page. A finding from an axe-core rule outside WCAG 2.1 A/AA keeps the rule's own id.
+- **Rules.** One per WCAG success criterion, such as `WCAG-2.4.4` (`LinkPurposeInContext`), with its level in the description and the tags (`wcag-a`, `wcag-aa`), and `helpUri` pointing to W3C's Understanding page. A finding from an axe-core rule outside WCAG A/AA keeps the rule's own id.
 - **Results.** The message, the evidence and the finding id (the one waivers use), with brackets escaped as SARIF requires of plain text. The level follows the confidence: `error` for high, `warning` for medium, `note` for low and for findings below the threshold. GitHub fails a pull request check on `error` by default, so only high-confidence findings block there unless you change that setting; Rampa's own exit code follows `--fail-on`. Properties carry the source (engine or judgment), the confidence, the votes, the model, the axe-core rule and its help page, and the patch as text.
 - **Locations.** For a local page, the file relative to `%SRCROOT%` (the repository root) with the line and columns of the element and its source as the snippet. For a remote page, the URL. Both carry a logical location: the CSS selector of the element.
 - **Fixes.** The patch as a replacement in the file, when it applies (see above).
 - **Fingerprints.** `partialFingerprints["rampa/v1"]` hashes the page, the criterion, the rule and the element's selector. It survives a model quoting different words and the element moving to another line, so code scanning keeps tracking one alert. A change in the structure around the element, such as a new sibling of the same tag before it, changes the selector, and code scanning then sees a new alert.
-- **Coverage.** Each page gets a `note` notification with its coverage statement, and `runs[0].properties.coverage` lists what the engine checked, what was judged and what was not checked. A log without results still says what nobody checked.
+- **Coverage.** Each page gets a `note` notification with its coverage statement, and `runs[0].properties.coverage` lists what the engine checked, what was judged, what needs review and what was not checked, with each criterion's status and the run's `wcagTarget`. What axe-core could not decide is counted there (`needsReview`), never as a result, since code scanning would show it as an alert. A log without results still says what nobody checked.
 - **Suppressions.** With `--verbose`, waived findings are included with an external, accepted suppression.
 
 GitHub code scanning shows results located in files of the repository. Results for remote pages are valid SARIF, but GitHub has no file to show them on; for a deployed site, read the Markdown or HTML report instead.
