@@ -343,8 +343,11 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentJudg
     if (output.verdict === 'fail') {
       if (output.problem === 'none') return { ok: false, reason: 'fail verdict without a problem' }
       // A functional image is named for what its control does: naming that is right, whatever the picture shows.
+      // Told so, the model says the same claim as "missing_information" (it does not say where the link leads),
+      // which an alternative that names the link's title, destination or caption refutes just as well.
       const f = candidate.context.functional
-      if (output.problem === 'wrong_content' && f && namesPurpose(candidate.context.alt, [f.title, f.destination, f.nextTo])) {
+      const aboutPurpose = output.problem === 'wrong_content' || output.problem === 'missing_information'
+      if (aboutPurpose && f && namesPurpose(candidate.context.alt, [f.title, f.destination, f.nextTo])) {
         return { ok: false, reason: `the alternative names the purpose of the ${f.control} it is the only content of` }
       }
       const suggested = output.suggestedAlt.trim()

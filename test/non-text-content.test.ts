@@ -270,10 +270,13 @@ describe('1.1.1 functional images', () => {
     expect(nonTextContent.verify(claim('ÍCONE - Solicitação de Serviços de TI'), byRef('#ti'), tiles())).toEqual({ ok: false, reason })
     expect(nonTextContent.verify(claim('ÍCONE SISU'), byRef('#sisu'), tiles())).toEqual({ ok: false, reason })
     expect(nonTextContent.verify(claim('Meu INSS - Central de Serviços'), byRef('#inss'), tiles())).toEqual({ ok: false, reason })
+    // Framed by the link purpose, the model says the same claim as "it does not say where the link leads".
+    expect(nonTextContent.verify({ ...claim('ÍCONE SISU'), problem: 'missing_information', suggestedAlt: 'Sisu na UFC' }, byRef('#sisu'), tiles())).toEqual({ ok: false, reason })
   })
 
   it('keeps the claim when the alternative names something else, and keeps other problems', () => {
     expect(nonTextContent.verify(claim('ícone representativo de telefone e e-mail'), byRef('#contact'), tiles())).toEqual({ ok: true })
+    expect(nonTextContent.verify({ ...claim('ícone representativo de telefone e e-mail'), problem: 'missing_information', suggestedAlt: 'Atendimento ao Servidor' }, byRef('#contact'), tiles())).toEqual({ ok: true })
     expect(nonTextContent.verify({ ...claim('ÍCONE SISU'), problem: 'filename_or_placeholder' }, byRef('#sisu'), tiles())).toEqual({ ok: true })
     expect(nonTextContent.verify(claim('A dog on a beach'), byRef('#story'), tiles())).toEqual({ ok: true })
   })
