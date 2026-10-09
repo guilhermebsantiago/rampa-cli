@@ -199,13 +199,57 @@ describe('1.4.4 over recorded zoom measurements', () => {
   })
 })
 
+describe('1.4.13 over recorded hover attempts', () => {
+  const trigger = { ref: '#t', id: { tag: 'button', sig: 'button|t||button||' }, tag: 'button', role: 'button', label: 'Help', t: 0, rect: { x: 0, y: 0, width: 80, height: 30 }, sources: ['describedby'], focusable: true }
+  const content = { ref: '#tip', id: { tag: 'div', sig: 'div|tip|tooltip|||' }, tag: 'div', role: 'tooltip', label: 'Some help', rect: { x: 0, y: 30, width: 200, height: 40 }, relation: 'describedby', position: 'absolute' }
+  const attempt = (extra: Record<string, unknown>) => ({ trigger: 0, mode: 'hover', shown: true, content: [content], covers: { count: 1, sample: [{ ref: 'p', id: { tag: 'p', sig: 'p|||||' }, tag: 'p', label: 'Text' }] }, ms: 1, ...extra })
+  const hovered = (attempts: unknown[], data: Record<string, unknown> = {}) => {
+    const snapshot = snapshotWith([
+      {
+        ...record('hover-focus', { data: { viewport: { width: 1280, height: 800 }, found: 1, alike: 0, budget: 30, triggers: [trigger], attempts, unreadableSheets: 0, listeners: 1, clock: true, end: 'complete', ...data } }),
+        kind: 'hover',
+        version: '1',
+      },
+    ])
+    snapshot.root.children = [{ ref: '#t', role: 'button', name: 'Help', states: [], native: { tag: 'button', attributes: { id: 't', type: 'button' } }, children: [] }]
+    return probeChecks(snapshot, 'en', PROBE_RULES)
+  }
+
+  it('fails dismissible only when the content covers something, Esc left it, and it went when the pointer left', () => {
+    expect(hovered([attempt({ dismissible: { ok: false, afterMs: 600, staysAfterLeave: false } })]).findings.map((f) => f.message)).toEqual([expect.stringContaining('does not close with Esc')])
+    const nothingCovered = hovered([attempt({ covers: { count: 0, sample: [] }, dismissible: { ok: false, afterMs: 600 } })])
+    expect(nothingCovered.findings).toEqual([])
+    expect(nothingCovered.coverage[0]?.note).toContain('1 did not close with Esc but cover no other content')
+    expect(hovered([attempt({ dismissible: { ok: false, afterMs: 600, staysAfterLeave: true } })]).review.map((f) => f.message)).toEqual([expect.stringContaining('stays when the pointer and focus leave')])
+    expect(hovered([attempt({ inputError: true, dismissible: { ok: false, afterMs: 600 } })]).review.map((f) => f.message)).toEqual([expect.stringContaining('input error')])
+  })
+
+  it('fails hoverable and persistent only when both tries lost the content, and reports one finding for hover and focus together', () => {
+    const twice = hovered([attempt({ persistent: { ok: false, rounds: 2, failed: 2, afterMs: 10000 } }), attempt({ mode: 'focus', persistent: { ok: false, rounds: 2, failed: 2, afterMs: 10000 } })])
+    expect(twice.findings.map((f) => f.message)).toEqual([expect.stringMatching(/^Content that appears on hover and on focus disappears on its own/)])
+    const once = hovered([attempt({ hoverable: { ok: true, rounds: 2, failed: 1, gap: 12 } })])
+    expect(once.findings).toEqual([])
+    expect(once.review.map((f) => f.evidence)).toEqual([expect.stringMatching(/12 px from the trigger; .*in 1 of 2 tries$/)])
+    // A pointer that could not reach the content says nothing about it.
+    expect(hovered([attempt({ hoverable: { ok: null, rounds: 1, failed: 0, gap: 900, why: 'outside the window' } })]).coverage[0]?.note).toContain('1 could not be reached by the pointer')
+  })
+
+  it('says what limited the probe in the coverage note', () => {
+    const result = hovered([], { found: 40, alike: 4, listeners: null, clock: false, unreadableSheets: 2 })
+    expect(result.coverage[0]).toMatchObject({ criterion: '1.4.13', status: 'no-failure-found', applicable: 0 })
+    const note = result.coverage[0]?.note ?? ''
+    for (const part of ['0 trigger(s) tried of 40 found', '4 more of a kind already tried five times', '2 style sheet(s) from other origins not read', 'event listeners not read', 'persistence not measured']) expect(note).toContain(part)
+  })
+})
+
 describe('probe stage', () => {
   it('parses --probe', () => {
     expect(parseProbeKinds(undefined)).toEqual([])
     expect(parseProbeKinds('none')).toEqual([])
     expect(parseProbeKinds('keyboard,layout')).toEqual(['layout', 'keyboard'])
-    expect(parseProbeKinds('all')).toEqual(['layout', 'keyboard'])
-    expect(() => parseProbeKinds('hover')).toThrow(/--probe takes/)
+    expect(parseProbeKinds('hover,layout')).toEqual(['layout', 'hover'])
+    expect(parseProbeKinds('all')).toEqual(['layout', 'keyboard', 'hover'])
+    expect(() => parseProbeKinds('orientation')).toThrow(/--probe takes layout, keyboard, hover, all or none/)
   })
 
   it('ties a fact to a snapshot node only when the ref and the identity match', () => {

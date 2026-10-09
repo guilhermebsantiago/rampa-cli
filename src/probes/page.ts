@@ -4,7 +4,7 @@ import { type BrowserOptions, contextOptions, openPage, prepareContext } from '.
 import { type Guard, installGuard } from './guard.ts'
 import { installHooks, installKit, settleInPage } from './kit.ts'
 
-export const PROBE_KINDS = ['layout', 'keyboard'] as const
+export const PROBE_KINDS = ['layout', 'keyboard', 'hover'] as const
 export type ProbeKind = (typeof PROBE_KINDS)[number]
 
 export interface ProbeOptions {
@@ -27,6 +27,11 @@ export interface ProbePageOptions {
   /** Desktop mode: the viewport meta is ignored, as with browser zoom. */
   desktop?: boolean | undefined
   variant?: string | undefined
+  /**
+   * Installs Playwright's fake clock before the page loads. Time still flows as usual; the probe can jump it
+   * forward (`page.clock.runFor`) to see what a page's timers do after a while, without waiting.
+   */
+  clock?: boolean | undefined
 }
 
 export async function openProbePage(browser: Browser, url: string, options: ProbeOptions, page: ProbePageOptions = {}): Promise<ProbePage> {
@@ -44,6 +49,7 @@ export async function openProbePage(browser: Browser, url: string, options: Prob
     // Registered after the header route, so the guard sees every request first.
     const guard = await installGuard(context)
     await context.addInitScript(installHooks)
+    if (page.clock) await context.clock.install()
     const opened = await context.newPage()
     guard.watch(opened)
     await openPage(opened, url, options.browserOptions, options.timeoutMs)
