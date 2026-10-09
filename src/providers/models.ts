@@ -17,11 +17,14 @@ export interface ModelInfo {
 
 /**
  * Each provider's cheap default comes first, in the order Rampa picks one when several have credentials.
- * Every id, price and image flag was checked on the provider's own documentation on 2026-10-07.
+ * Every id, price and image flag was checked on the provider's own documentation on 2026-10-07; the
+ * local alternatives were also pulled and judged a test image on 2026-10-08 (docs/models.md).
  */
 export const RECOMMENDED: readonly ModelInfo[] = [
   { spec: 'ollama:gemma4:12b', where: 'local', vision: true, input: 0, output: 0, role: 'default local model; vision for 1.1.1' },
-  { spec: 'ollama:qwen3.5:9b', where: 'local', vision: false, input: 0, output: 0, role: 'text-only local alternative' },
+  { spec: 'ollama:qwen3.5:9b', where: 'local', vision: true, input: 0, output: 0, role: 'smaller local alternative, 5 GiB of VRAM' },
+  { spec: 'ollama:qwen3-vl:8b-instruct', where: 'local', vision: true, input: 0, output: 0, role: 'local vision model without a thinking mode' },
+  { spec: 'ollama:ministral-3:14b', where: 'local', vision: true, input: 0, output: 0, role: 'larger local alternative, 8 GiB of VRAM' },
   { spec: 'anthropic:claude-haiku-5-5', where: 'api', vision: true, input: 0.1, output: 0.5, role: 'cheap API default, native structured output', default: true },
   { spec: 'openai:gpt-6-luna', where: 'api', vision: true, input: 0.1, output: 0.5, role: 'cheap OpenAI default; reasoning medium unless --reasoning', default: true },
   { spec: 'google:gemini-3.5-flash-lite', where: 'api', vision: true, input: 0.3, output: 2.5, role: 'has a free tier', default: true },
