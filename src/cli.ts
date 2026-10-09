@@ -13,6 +13,7 @@ import { withConfigOptions } from './cli/config-options.ts'
 import type { GlobalContext } from './cli/context.ts'
 import { FAIL_ON, parseFailOn } from './cli/exit-code.ts'
 import { intro, menu } from './cli/intro.ts'
+import { browserOptions, crawlOptions } from './cli/web-options.ts'
 import { loadConfig } from './config.ts'
 import { RampaError, errorMessage } from './core/util.ts'
 import { DEFAULT_CRITERIA } from './criteria/index.ts'
@@ -82,7 +83,7 @@ const program = new Command()
     }),
   )
 
-program
+const check = program
   .command('check')
   .description('check web pages, HTML files, folders, snapshots, Android screens, XCUITest exports or PNG screenshots')
   .argument(
@@ -121,6 +122,8 @@ program
   .option('--baseline <file>', 'report only the findings this baseline file does not have (rampa baseline writes it)')
   .option('--no-baseline', 'ignore the baseline set in the config')
   .action(action(async (targets: string[], options, command: Command) => runCheck(targets, ...(await configured(command, options)))))
+// Crawl and browser options live with their modules; --help lists them under their own headings.
+for (const option of [...crawlOptions(), ...browserOptions()]) check.addOption(option)
 
 const collect = (value: string, previous: string[] = []) => [...previous, value]
 

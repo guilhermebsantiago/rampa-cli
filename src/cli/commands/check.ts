@@ -21,11 +21,14 @@ import { type Target, loadRecorded, recordingName, resolveTargets, siblingPng } 
 import { type DestinationCache, type FollowLinks, type FollowOptions, destinationCache } from '../../surfaces/destinations.ts'
 import { FILE_FORMATS, type Format, formatReports } from '../../report/formats.ts'
 import { locateReport, readPageSource, repositoryRoot } from '../../source/locate.ts'
+import { type BrowserFlags, type BrowserOptions, parseBrowserFlags } from '../../surfaces/browser-options.ts'
+import { type CrawlFlags, crawlRequested } from '../../surfaces/crawl.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import type { GlobalContext } from '../context.ts'
 import { type FailOn, exitCode } from '../exit-code.ts'
+import { runSiteCheck } from './site.ts'
 
-export interface CheckCommandOptions {
+export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   criteria: string
   model?: string
   llm: boolean
@@ -99,6 +102,8 @@ interface CollectContext {
   screenshots: boolean
   /** Links to read before judging, when a criterion compares a link with where it leads. */
   followLinks: FollowOptions | undefined
+  /** Viewport, device, session, headers and what to wait for, for web pages. */
+  browserOptions: BrowserOptions | undefined
   browser: () => Promise<Browser>
 }
 
@@ -111,6 +116,7 @@ async function collect(target: Target, ctx: CollectContext): Promise<Collected> 
         screenshotDir: ctx.screenshots ? '.rampa/screenshots' : undefined,
         captureImages: ctx.captureImages,
         followLinks: ctx.followLinks,
+        browserOptions: ctx.browserOptions,
       })
       return { ...web, notes: [], record: true }
     }
@@ -164,6 +170,8 @@ async function saveRecording(dir: string, target: Target, collected: Collected):
 }
 
 export async function runCheck(targets: string[], options: CheckCommandOptions, context: GlobalContext): Promise<number> {
+  const browserOptions = parseBrowserFlags(options)
+  if (crawlRequested(options)) return runSiteCheck(targetsOrConfig(targets, context.config), options, context, browserOptions)
   const resolved = await resolveTargets(targetsOrConfig(targets, context.config))
   const criteria = resolveCriteria(options.criteria.split(','))
   const runs = Math.max(1, Number.parseInt(options.runs, 10) || 1)
@@ -194,6 +202,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     captureImages: needsImages,
     screenshots: Boolean(options.screenshots),
     followLinks: follow,
+    browserOptions,
     browser: async () => {
       browser ??= await launchBrowser()
       return browser
