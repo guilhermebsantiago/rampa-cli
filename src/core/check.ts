@@ -1,11 +1,12 @@
-import { AXE_REVIEW_RULES } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import { RULE_CHECKS, type RuleCheck, type RuleStageResult, emptyRuleStage, runRuleChecks } from '../rules/index.ts'
 import { reviewLabelInName } from '../rules/label-in-name.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
+import { AXE_REVIEW_RULES, EXPERIMENTAL_RULES } from '../engine/axe.ts'
+import { criteriaCoverage, engineCoverage, reviewItems, reviewOnlyCriteria, ruleCoverage } from './coverage.ts'
 import { VERSION } from '../version.ts'
-import { WCAG21_A_AA, compareCriteria, successCriterion } from '../wcag.ts'
+import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria, criteriaFor, successCriterion, wcagTarget } from '../wcag.ts'
 import type { JudgmentCache } from './cache.ts'
 import { judgeCandidates } from './judge.ts'
 import {
@@ -35,6 +36,8 @@ export interface CheckOptions {
   concurrency: number
   /** Fingerprints of findings someone dismissed on purpose. */
   waivers?: ReadonlySet<string> | undefined
+  /** The WCAG version the report states coverage against; 2.2 by default. */
+  wcag?: WcagVersion | undefined
   /**
    * Ablation switch for the evaluation: when false, claims that fail
    * verification are kept as findings instead of discarded. Never use it in CI.
@@ -54,8 +57,8 @@ export function engineFindings(engine: EngineResults): Finding[] {
     if (rule.outcome !== 'violation') continue
     const criteria = [...rule.criteria].sort(compareCriteria)
     const criterion = criteria[0] ?? 'best-practice'
-    // An experimental axe-core rule Rampa runs on purpose reports needs review: below the threshold.
-    const review = AXE_REVIEW_RULES.includes(rule.ruleId)
+    // An experimental axe-core rule Rampa runs on purpose reports needs review only (core/coverage.ts, reviewItems).
+    if (AXE_REVIEW_RULES.includes(rule.ruleId)) continue
     for (const node of rule.nodes) {
       findings.push({
         fingerprint: fingerprint(criterion, node.ref ?? node.target, rule.ruleId),
@@ -66,7 +69,7 @@ export function engineFindings(engine: EngineResults): Finding[] {
         target: node.target,
         message: node.detail ?? rule.help,
         evidence: node.evidence,
-        confidence: review ? 'low' : (node.confidence ?? 'high'),
+        confidence: node.confidence ?? (EXPERIMENTAL_RULES.has(rule.ruleId) ? 'low' : 'high'),
         ruleId: rule.ruleId,
         helpUrl: rule.helpUrl,
         html: node.html,
@@ -192,20 +195,41 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const judgedFailures = new Set(findings.filter((f) => f.source === 'judgment').map((f) => `${f.criterion}|${f.ref}`))
   findings = findings.filter((f) => f.source !== 'rule' || !judgedFailures.has(`${f.criterion}|${f.ref}`))
 
+  const version = options.wcag ?? DEFAULT_WCAG
   const waived = findings.filter((f) => options.waivers?.has(f.fingerprint))
-  const active = findings.filter((f) => !options.waivers?.has(f.fingerprint))
+  const unwaived = findings.filter((f) => !options.waivers?.has(f.fingerprint))
+  // A WCAG 2.2 criterion in a 2.1 run is reported apart, and never counted.
+  const beyond = unwaived.filter((f) => beyondTarget(f.criterion, version))
+  const active = unwaived.filter((f) => !beyondTarget(f.criterion, version))
   const threshold = CONFIDENCE_RANK[options.minConfidence]
   const reported = active.filter((f) => CONFIDENCE_RANK[f.confidence] >= threshold)
   const belowThreshold = active.filter((f) => CONFIDENCE_RANK[f.confidence] < threshold)
   reported.sort((a, b) => compareCriteria(a.criterion, b.criterion))
 
-  const all = new Set(WCAG21_A_AA.map((sc) => sc.id))
-  const engineCovered = new Set(
-    engine.rules.filter((r) => r.outcome !== 'inapplicable').flatMap((r) => r.criteria.filter((c) => all.has(c))),
-  )
-  const judged = summaries.filter((s) => s.judged > 0).map((s) => s.criterion)
-  const ruleCovered = new Set(stage.ran.filter((rule) => rule.applicable > 0).flatMap((rule) => rule.criteria.filter((c) => all.has(c))))
-  const notChecked = [...all].filter((id) => !engineCovered.has(id) && !judged.includes(id) && !ruleCovered.has(id))
+  // 4.1.1 is never counted: WCAG 2.2 removed it, and under 2.1 it is satisfied by definition for HTML and XML.
+  const all = new Set(criteriaFor(version).flatMap((sc) => (sc.removedIn ? [] : [sc.id])))
+  const engineCovered = engineCoverage(engine, version)
+  const ruleCovered = ruleCoverage(stage.ran, version)
+  const judged = summaries.filter((s) => s.judged > 0 && all.has(s.criterion)).map((s) => s.criterion)
+  // What axe-core could not decide, and what Rampa's rules sent to review: never a failure.
+  const review = [...reviewItems(engine), ...stage.review].sort((a, b) => compareCriteria(a.criterion, b.criterion))
+  // Findings beyond the target still give their criterion its status, by the same threshold.
+  const beyondShown = beyond.filter((f) => CONFIDENCE_RANK[f.confidence] >= threshold)
+  const beyondBelow = beyond.filter((f) => CONFIDENCE_RANK[f.confidence] < threshold)
+  const records = criteriaCoverage({
+    engine,
+    summaries,
+    criteria: options.criteria,
+    llmActive,
+    reported: [...reported, ...beyondShown],
+    belowThreshold: [...belowThreshold, ...beyondBelow],
+    review,
+    rules: stage.ran,
+    version,
+    locale: options.locale,
+  })
+  const reviewOnly = reviewOnlyCriteria(records, [...engineCovered, ...ruleCovered], judged)
+  const notChecked = [...all].filter((id) => !engineCovered.includes(id) && !ruleCovered.includes(id) && !judged.includes(id) && !reviewOnly.includes(id))
 
   return {
     schemaVersion: 1,
@@ -213,21 +237,25 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     createdAt: new Date().toISOString(),
     target: snapshot.target,
     surface: snapshot.surface,
+    wcagTarget: wcagTarget(version),
     locale: options.locale,
     llm: !options.llm ? 'off' : llmActive ? 'on' : 'no-model',
     model: options.provider?.id,
     engine: engine.engine,
     findings: reported,
     belowThreshold,
+    ...(beyond.length > 0 ? { beyondTarget: beyond } : {}),
     waived,
     discarded,
     criteria: summaries,
     coverage: {
-      engine: [...engineCovered].sort(compareCriteria),
+      engine: engineCovered,
       judged: judged.sort(compareCriteria),
       notChecked: notChecked.sort(compareCriteria),
-      ...(ruleCovered.size > 0 ? { rules: [...ruleCovered].sort(compareCriteria) } : {}),
+      ...(ruleCovered.length > 0 ? { rules: ruleCovered } : {}),
+      criteria: records,
     },
+    ...(review.length > 0 ? { needsReview: review } : {}),
     usage,
     errors,
   }

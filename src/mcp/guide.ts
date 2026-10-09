@@ -1,6 +1,6 @@
 import { createRequire } from 'node:module'
 import type { AnyCriterion } from '../core/types.ts'
-import { AXE_TAGS } from '../engine/axe.ts'
+import { axeTags } from '../engine/axe.ts'
 import { criterionFromAxeTag, successCriterion } from '../wcag.ts'
 
 /**
@@ -133,7 +133,7 @@ function slugOf(name: string): string {
 
 export function understandingUrl(id: string): string | undefined {
   const sc = successCriterion(id)
-  return sc ? `https://www.w3.org/WAI/WCAG21/Understanding/${slugOf(sc.name.en)}.html` : undefined
+  return sc ? `https://www.w3.org/WAI/WCAG22/Understanding/${slugOf(sc.name.en)}.html` : undefined
 }
 
 export function actRuleUrl(id: string): string {
@@ -143,9 +143,9 @@ export function actRuleUrl(id: string): string {
 let axeRules: Map<string, string[]> | undefined
 
 /**
- * axe-core rules that test each WCAG 2.1 A/AA criterion, from axe-core's own metadata.
+ * axe-core rules that test each WCAG 2.2 A/AA criterion, from axe-core's own metadata.
  * Reading it needs no browser; it is loaded on first use, since only the criteria tools ask.
- * Disabled rules (deprecated or experimental) are left out: a check never runs them.
+ * Deprecated and experimental rules are left out: a check never runs them.
  */
 export function axeRulesByCriterion(): Map<string, string[]> {
   if (axeRules) return axeRules
@@ -154,8 +154,9 @@ export function axeRulesByCriterion(): Map<string, string[]> {
     const axe = createRequire(import.meta.url)('axe-core') as {
       getRules(tags?: string[]): Array<{ ruleId: string; tags: string[]; enabled?: boolean }>
     }
-    for (const rule of axe.getRules(AXE_TAGS)) {
-      if (rule.enabled === false) continue
+    for (const rule of axe.getRules(axeTags('2.2'))) {
+      // A tag run leaves out deprecated and experimental rules; target-size, disabled by default, runs when wcag22aa is asked for.
+      if (rule.tags.includes('deprecated') || rule.tags.includes('experimental')) continue
       for (const id of new Set(rule.tags.flatMap((tag) => criterionFromAxeTag(tag) ?? []))) {
         if (!successCriterion(id)) continue
         map.set(id, [...(map.get(id) ?? []), rule.ruleId])

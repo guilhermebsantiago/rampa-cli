@@ -159,8 +159,13 @@ describe.skipIf(!browser)('structure rules on real pages', { timeout: 30_000 }, 
       '<table><tr><td colspan="3"><b>Prices</b></td></tr><tr><td>A</td><td>B</td><td>C</td></tr><tr><td>1</td><td>2</td><td>3</td></tr><tr><td>4</td><td>5</td><td>6</td></tr></table>'
     const { report, engine } = await check(`data:text/html,${encodeURIComponent(`<html lang="en"><head><title>Prices</title></head><body><main>${tables}</main></body></html>`)}`)
     expect(engine.rules.filter((r) => r.outcome === 'violation').map((r) => r.ruleId)).toEqual(expect.arrayContaining(['table-fake-caption', 'td-has-header']))
-    const review = report.findings.filter((f) => f.ruleId === 'table-fake-caption' || f.ruleId === 'td-has-header')
-    expect(review.map((f) => f.confidence)).toEqual(['low', 'low'])
+    // Not findings, at any threshold: they go to needs review, and they decide nothing for 1.3.1.
+    expect([...report.findings, ...report.belowThreshold].filter((f) => f.ruleId === 'table-fake-caption' || f.ruleId === 'td-has-header')).toEqual([])
+    const review = (report.needsReview ?? []).filter((item) => item.ruleId === 'table-fake-caption' || item.ruleId === 'td-has-header')
+    expect(review.map((item) => `${item.criterion} ${item.ruleId}`).sort()).toEqual(['1.3.1 table-fake-caption', '1.3.1 td-has-header'])
+    const methods = report.coverage.criteria?.find((r) => r.id === '1.3.1')?.methods ?? []
+    const axeReview = methods.filter((m) => m.id === 'table-fake-caption' || m.id === 'td-has-header')
+    expect(axeReview.every((m) => m.reviewOnly === true && m.failures === 0 && m.review > 0)).toBe(true)
   })
 
   it('sends a table still loading, or holding only headers, to review instead of failing it', async () => {
@@ -168,17 +173,21 @@ describe.skipIf(!browser)('structure rules on real pages', { timeout: 30_000 }, 
     const headersOnly = '<table><tr><th>Name</th><th>Email</th></tr></table>'
     for (const markup of [busy, headersOnly]) {
       const { report } = await check(`data:text/html,${encodeURIComponent(`<html lang="en"><body>${markup}</body></html>`)}`)
-      const hits = [...report.findings, ...report.belowThreshold].filter((f) => f.ruleId === 'rampa/table-header-cells')
+      // Review, never a finding: in needsReview, whatever the confidence threshold.
+      expect([...report.findings, ...report.belowThreshold].filter((f) => f.ruleId === 'rampa/table-header-cells'), markup).toEqual([])
+      const hits = (report.needsReview ?? []).filter((item) => item.ruleId === 'rampa/table-header-cells')
       expect(hits.length, markup).toBe(2)
-      expect(hits.every((f) => f.confidence === 'low' && /check whether its data is still to come/.test(f.message)), markup).toBe(true)
+      expect(hits.every((item) => item.criterion === '1.3.1' && /check whether its data is still to come/.test(item.message)), markup).toBe(true)
+      const method = report.coverage.criteria?.find((r) => r.id === '1.3.1')?.methods.find((m) => m.id === 'rampa/table-header-cells')
+      expect([method?.kind, method?.review, method?.failures], markup).toEqual(['rule', 2, 0])
     }
   })
 
   it('asks for a scope, as review, when a header with none heads neither its row nor its column', async () => {
     const navbox = '<table><tr><td rowspan="3">Map</td><th>Rank</th><th>City</th></tr><tr><td>1</td><td>São Paulo</td></tr><tr><td>2</td><td>Rio</td></tr></table>'
     const { report } = await check(`data:text/html,${encodeURIComponent(`<html lang="en"><body>${navbox}</body></html>`)}`)
-    const hits = report.findings.filter((f) => f.ruleId === 'rampa/table-header-cells')
-    expect(hits.map((f) => f.subject)).toEqual(['Rank', 'City'])
-    expect(hits.every((f) => /Set scope="col" or scope="row"/.test(f.message))).toBe(true)
+    const hits = (report.needsReview ?? []).filter((item) => item.ruleId === 'rampa/table-header-cells')
+    expect(hits.map((item) => item.evidence)).toEqual(['<th>Rank</th>', '<th>City</th>'])
+    expect(hits.every((item) => /Set scope="col" or scope="row"/.test(item.message))).toBe(true)
   })
 })

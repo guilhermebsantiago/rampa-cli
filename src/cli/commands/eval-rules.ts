@@ -116,9 +116,11 @@ async function runRuleJob(rule: RuleCheck, testcase: ActTestcase, browser: Await
     })
     // axe-core as it reports failures: the experimental rules Rampa runs for review only are left out.
     const axe = engine.rules.some((r) => r.outcome === 'violation' && r.criteria.includes(criterion) && !AXE_REVIEW_RULES.includes(r.ruleId))
-    // The rule alone, without leaving to axe-core what it already failed.
-    const alone = runRuleChecks(snapshot, emptyEngine(), 'en', [rule]).findings.length > 0
-    const ruled = report.findings.some((f) => f.ruleId === rule.id)
+    // The rule alone, without leaving to axe-core what it already failed. A hit the rule sends to review
+    // (report.needsReview) counts as flagging the page, as it did when review hits were low-confidence findings.
+    const stage = runRuleChecks(snapshot, emptyEngine(), 'en', [rule])
+    const alone = stage.findings.length > 0 || stage.review.length > 0
+    const ruled = report.findings.some((f) => f.ruleId === rule.id) || (report.needsReview ?? []).some((item) => item.ruleId === rule.id)
     const redirectedTo = typeof snapshot.root.native.redirectedTo === 'string' ? snapshot.root.native.redirectedTo : undefined
     return {
       ...base,

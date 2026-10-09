@@ -32,6 +32,7 @@ export async function checkDriver(driver: PageDriver, options: CheckPageOptions 
     screenshotDir: options.screenshotDir,
     captureImages: settings.captureImages,
     scope,
+    wcag: settings.wcag,
   })
   if (!scope) return judge(collected, settings)
 

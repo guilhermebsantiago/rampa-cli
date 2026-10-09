@@ -1,7 +1,7 @@
 import { createRequire } from 'node:module'
 import { errorMessage } from '../../core/util.ts'
 import { chooseModel, detectEnvironment } from '../../providers/detect.ts'
-import { hasGoogleAdc, lmStudioUrl, ollamaUrl } from '../../providers/registry.ts'
+import { findProvider, hasGoogleAdc, lmStudioUrl, ollamaUrl } from '../../providers/registry.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
 import { adbVersion } from '../../surfaces/android/adb.ts'
 import { launchBrowser } from '../../surfaces/web.ts'
@@ -68,6 +68,23 @@ export async function runDoctor(context: GlobalContext): Promise<number> {
   }
   if (!api.some((provider) => provider.ready)) {
     info('API providers', 'none configured (optional with a local model); rampa models lists them')
+  }
+
+  // Subscription CLIs: only the ones installed here; doctor never calls a model to find out more.
+  const subscriptions = env.providers.filter((provider) => provider.where === 'subscription' && provider.cli?.installed)
+  for (const provider of subscriptions) {
+    const definition = findProvider(provider.id)
+    const version = provider.cli?.version ? `${provider.cli.version} · ` : ''
+    const signIn = provider.cli?.signIn
+    if (signIn?.signedIn === false) info(provider.name, `${version}not signed in: ${definition?.cli?.signInHint ?? 'sign in to it'}`)
+    else if (signIn?.subscription === false) info(provider.name, `${version}signed in with an API key or a cloud account (${signIn.detail}), not a subscription`)
+    else {
+      const state = signIn?.signedIn ? `signed in${signIn.detail ? ` (${signIn.detail})` : ''}` : 'installed; sign-in not checked'
+      ok(provider.name, `${version}${state} · --model ${provider.id}:${definition?.example ?? 'default'}`)
+    }
+  }
+  if (subscriptions.length === 0) {
+    info('Subscriptions', 'no agent CLI found (optional: Codex CLI or Gemini CLI, signed in to your plan)')
   }
 
   const model = await chooseModel(undefined, context.config.model)

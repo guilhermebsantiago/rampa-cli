@@ -19,7 +19,7 @@ export type Text = Record<Locale, string>
 export interface Hit {
   /** The element, as a snapshot ref (or a selector, for an element the snapshot leaves out, such as a meta tag). */
   ref: string
-  /** fail: a WCAG failure. review: a person must decide; never a failure, always below the threshold. */
+  /** fail: a WCAG failure. review: a person must decide; it goes to the report's needsReview, never a failure. */
   outcome: 'fail' | 'review'
   /** What the hit is about, read from the page: the alt text, the title. It keys the fingerprint, with the rule and the ref. */
   subject: string

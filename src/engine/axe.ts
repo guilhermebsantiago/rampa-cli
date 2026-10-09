@@ -3,7 +3,8 @@ import { createRequire } from 'node:module'
 import type { EngineOutcome, EngineResults, EngineRuleResult } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
 import type { InPageResult } from '../surfaces/in-page.ts'
-import { criterionFromAxeTag } from '../wcag.ts'
+import { applyTargetSizeExceptions } from '../rules/target-size.ts'
+import { DEFAULT_WCAG, type WcagVersion, criterionFromAxeTag } from '../wcag.ts'
 
 const require = createRequire(import.meta.url)
 
@@ -11,14 +12,58 @@ const require = createRequire(import.meta.url)
 export const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']
 
 /**
+ * The axe-core tags for a WCAG version. 2.2 adds `wcag22aa`; in axe-core 4.14 the only rule it brings
+ * is target-size (2.5.8), and no rule carries `wcag22a`. `wcag2a-obsolete` (4.1.1) is never run.
+ */
+export function axeTags(version: WcagVersion = DEFAULT_WCAG): string[] {
+  return version === '2.1' ? [...AXE_TAGS] : [...AXE_TAGS, 'wcag22aa']
+}
+
+/**
  * Experimental axe-core rules for 1.3.1 that a tag run leaves out. They run in the same axe-core run,
- * and what they report is needs review only: below the threshold, never a failure on its own.
+ * and what they report is needs review only: a violation of theirs goes to the report's needsReview
+ * (core/coverage.ts, reviewItems), never to the findings, and they never decide a criterion.
  * p-as-heading, which the plan also named, is left out: on real pages it flagged verdict words and
  * statistics, never a heading (docs/rules.md).
  */
 export const AXE_REVIEW_RULES = ['td-has-header', 'table-fake-caption']
 
+/**
+ * Rules new to Rampa that have not passed the evaluation gate (docs/plans/wcag-coverage.md, 4.9): their
+ * findings are reported at low confidence, below the default threshold, until they do.
+ */
+export const EXPERIMENTAL_RULES: ReadonlySet<string> = new Set(['target-size'])
+
+/**
+ * axe-core 4.14 rules that never return a violation: their checks return incomplete instead of a
+ * failure (th-has-data-cells, video-caption, form-field-multiple-labels), or the rule turns its
+ * failures into incompletes (reviewOnFail: bypass, no-autoplay-audio, duplicate-id-aria). A criterion
+ * they alone touched needs review; it was not checked.
+ */
+export const REVIEW_ONLY_RULES: ReadonlySet<string> = new Set([
+  'th-has-data-cells',
+  'video-caption',
+  'form-field-multiple-labels',
+  'bypass',
+  'no-autoplay-audio',
+  'duplicate-id-aria',
+])
+
 let source: Promise<string> | undefined
+let actIds: Map<string, string[]> | undefined
+
+/** The ACT rules each axe-core rule implements, from axe-core's own metadata; read without a browser. */
+export function axeActIds(): ReadonlyMap<string, readonly string[]> {
+  if (actIds) return actIds
+  actIds = new Map()
+  try {
+    const axe = require('axe-core') as { getRules(): Array<{ ruleId: string; actIds?: string[] }> }
+    for (const rule of axe.getRules()) actIds.set(rule.ruleId, rule.actIds ?? [])
+  } catch {
+    // Without the metadata no engine result is tied to an ACT rule.
+  }
+  return actIds
+}
 
 export function axeSource(): Promise<string> {
   source ??= readFile(require.resolve('axe-core/axe.min.js'), 'utf8')
@@ -55,7 +100,7 @@ export function engineFromAxe(axe: NonNullable<InPageResult['axe']>): EngineResu
       })
     }
   }
-  return { engine: { name: 'axe-core', version: axe.version }, rules }
+  return { engine: { name: 'axe-core', version: axe.version }, rules: applyTargetSizeExceptions(rules) }
 }
 
 export function emptyEngine(name = 'none'): EngineResults {

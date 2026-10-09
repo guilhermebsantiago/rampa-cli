@@ -36,6 +36,7 @@ export async function check(targets: string | readonly string[], options: CheckT
           locale: settings.locale,
           screenshotDir: options.screenshotDir,
           captureImages: settings.captureImages,
+          wcag: settings.wcag,
         })
       } else if (target.kind === 'snapshot') {
         // A recorded snapshot or an XCUITest export, read the way the CLI reads it.

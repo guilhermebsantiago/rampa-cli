@@ -191,6 +191,11 @@ describe('rules next to judgment', () => {
     expect(finding?.evidence).toBe('alt="IMG_2034.jpg"')
     expect(finding?.message).toContain('is a file name')
     expect(report.coverage.rules).toEqual(['1.1.1', '2.4.2'])
+    // In the per-criterion coverage, the rule is a method of 1.1.1: its failure is below the threshold, so the criterion needs review.
+    const record = report.coverage.criteria?.find((r) => r.id === '1.1.1')
+    expect(record?.status).toBe('needs-review')
+    expect(record?.methods).toContainEqual({ kind: 'rule', id: 'rampa/placeholder-alt', ran: true, applicable: 1, failures: 1, review: 0, maturity: 'experimental' })
+    expect(report.coverage.notChecked).not.toContain('2.4.2')
   })
 
   it('keeps one finding when the model fails the element an experimental rule failed: the judgment', async () => {

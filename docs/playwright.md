@@ -101,7 +101,7 @@ Rampa: 4 failures in examples/store/before.html (scope: main)
    Judged:    ollama:gemma4:12b · confidence high · 1/1 runs · evidence verified
    Waiver id: 1af8a73e209d
 
-Coverage: axe-core checked 1.1.1, 1.3.5, 1.4.3, 2.4.4, 3.1.2, 3.3.2, 4.1.2; judged with verified evidence: 1.1.1, 2.4.4; not checked automatically: 43 of 50 WCAG 2.1 A/AA criteria.
+Coverage: axe-core checked 1.1.1, 1.3.5, 1.4.3, 2.4.4, 3.1.2, 3.3.2, 4.1.2; judged with verified evidence: 1.1.1, 2.4.4; not checked automatically: 48 of 55 WCAG 2.2 A/AA criteria.
 This report does not declare the page accessible.
 
 To dismiss a finding on purpose, add its waiver id to .rampa/waivers.json or to the waivers option.
@@ -117,7 +117,7 @@ A patch is a proposal for a person to review. What a model says an image shows c
 
 - `rampa.check(options)` checks the test's page, or `options.page` (a popup, a second tab), and returns the report.
 - It attaches each report to the test as `rampa-report.json` (`rampa-report-2.json` for the second check), so the HTML reporter keeps it next to the trace.
-- It adds a `rampa` annotation with what the check covered, such as `3 findings · judged: 1.1.1, 2.4.4, 2.4.6 · not checked automatically: 43 of 50 WCAG 2.1 A/AA criteria · model ollama:gemma4:12b`.
+- It adds a `rampa` annotation with what the check covered, such as `3 findings · judged: 1.1.1, 2.4.4, 2.4.6 · not checked automatically: 48 of 55 WCAG 2.2 A/AA criteria · model ollama:gemma4:12b`.
 
 Defaults for every check come from the `rampaOptions` option, for the project or for one file; options passed to `rampa.check` win over them:
 
@@ -179,7 +179,7 @@ In CI there are three ways to go, from cheapest to fullest:
 
 | Option | Like | Default |
 | --- | --- | --- |
-| `criteria` | `--criteria` | all six: `['1.1.1', '2.4.2', '2.4.4', '2.4.6', '3.1.1', '3.1.2']`. axe-core runs every WCAG 2.1 A/AA rule either way |
+| `criteria` | `--criteria` | all six: `['1.1.1', '2.4.2', '2.4.4', '2.4.6', '3.1.1', '3.1.2']`. axe-core runs every WCAG 2.2 A/AA rule either way (2.1 with `wcag: '2.1'`) |
 | `model` | `--model` | as above; also takes a `ModelProvider` of your own |
 | `noLlm` | `--no-llm` | `false` |
 | `runs` | `--runs` | `1` |

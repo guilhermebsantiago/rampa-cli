@@ -83,7 +83,7 @@ export async function runInit(options: InitCommandOptions, context: GlobalContex
     const ci = !settings.model
       ? 'In CI, without a model and its API key, the action runs axe-core alone; the workflow says where to add them.'
       : isLocalModel(settings.model)
-        ? 'A CI runner has no local model, so the workflow sets model: none (axe-core alone) until you give it a hosted one.'
+        ? 'A CI runner has no local model or signed-in CLI, so the workflow sets model: none (axe-core alone) until you give it a hosted one.'
         : `The workflow runs ${settings.model} with a key from the repository's secrets: add it there.`
     out(`  ${p.dim(ci)}`)
   }

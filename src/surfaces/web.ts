@@ -4,10 +4,11 @@ import { join } from 'node:path'
 import { type Browser, type Page, type Response, chromium } from 'playwright-core'
 import type { EngineResults } from '../core/types.ts'
 import { RampaError, errorMessage, sha256 } from '../core/util.ts'
-import { AXE_REVIEW_RULES, AXE_TAGS, axeLocale, axeSource, emptyEngine, engineFromAxe } from '../engine/axe.ts'
+import { AXE_REVIEW_RULES, axeLocale, axeSource, axeTags, emptyEngine, engineFromAxe } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
+import type { WcagVersion } from '../wcag.ts'
 import { walkTree } from '../snapshot/tree.ts'
 import { type FollowOptions, followLinks } from './destinations.ts'
 import { type BrowserOptions, contextOptions, openPage, prepareContext } from './browser-options.ts'
@@ -31,6 +32,8 @@ export interface WebCollectOptions {
   browserOptions?: BrowserOptions | undefined
   /** Reads the loaded page before collection; the crawler takes its links here, and may stop the collection by throwing. */
   inspect?: ((page: Page, response: Response | null) => Promise<void>) | undefined
+  /** Which WCAG version's axe-core rules run; 2.2 by default. */
+  wcag?: WcagVersion | undefined
 }
 
 export interface Collected {
@@ -95,7 +98,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       if (options.runAxe) await page.addScriptTag({ content: await axeSource() })
       return page.evaluate(collectInPage, {
         runAxe: options.runAxe,
-        axeTags: AXE_TAGS,
+        axeTags: axeTags(options.wcag),
         axeRules: AXE_REVIEW_RULES,
         axeLocale: options.runAxe ? await axeLocale(options.locale) : undefined,
         maxNodes: options.maxNodes ?? 5000,

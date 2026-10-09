@@ -31,7 +31,7 @@ interface RuleSpec {
   helpUrl: string
 }
 
-const UNDERSTANDING = 'https://www.w3.org/WAI/WCAG21/Understanding/'
+const UNDERSTANDING = 'https://www.w3.org/WAI/WCAG22/Understanding/'
 
 export const NATIVE_RULES: Record<string, RuleSpec> = {
   'control-name': {
@@ -56,6 +56,14 @@ export const NATIVE_RULES: Record<string, RuleSpec> = {
     criteria: ['4.1.2'],
     help: { en: 'Text fields must have a name', 'pt-BR': 'Campos de texto precisam de um nome' },
     helpUrl: `${UNDERSTANDING}name-role-value.html`,
+  },
+  'target-size': {
+    criteria: ['2.5.8'],
+    help: {
+      en: 'Targets must be at least 24 by 24, or far enough from other targets (WCAG 2.5.8 applied to non-web software)',
+      'pt-BR': 'Alvos precisam ter pelo menos 24 por 24, ou ficar longe o bastante de outros alvos (WCAG 2.5.8 aplicada a software fora da web)',
+    },
+    helpUrl: `${UNDERSTANDING}target-size-minimum.html`,
   },
   'text-contrast': {
     criteria: ['1.4.3'],
@@ -113,6 +121,8 @@ export function runRules(snapshot: A11ySnapshot, options: RuleOptions): EngineRe
     add('image-control-name', ...controlNames(ctx, true))
     add('image-name', ...imageNames(ctx))
     add('field-name', ...fieldNames(ctx))
+    // Bounds in points only on iOS; an Android dump is in screen pixels, with no density to convert them.
+    if (snapshot.surface === 'ios') add('target-size', ...targetSizes(ctx))
   }
   if (options.screenshot) add('text-contrast', ...textContrast(ctx, options.screenshot))
   return { engine: { name: RULES_ENGINE, version: VERSION }, rules: results }
@@ -200,6 +210,62 @@ function controlNames(ctx: Context, images: boolean): Outcomes {
     violations.push(engineNode(node, { detail: detail[ctx.locale] }))
   }
   return [violations, [], passes]
+}
+
+const TARGET = 24
+
+/**
+ * WCAG 2.5.8 from bounds, as WCAG2ICT applies it to native apps: a control under 24 by 24 points fails when a
+ * circle of 24 centered on it overlaps another control, or the circle of another small control. iOS points
+ * are CSS pixels' equivalent. Disabled controls are not targets. Experimental: reported at low confidence.
+ */
+function targetSizes(ctx: Context): Outcomes {
+  const targets = [...walkTree(ctx.snapshot.root)].filter(
+    (node) => node !== ctx.snapshot.root && isControl(node) && !hidden(node) && !inactive(ctx, node) && node.bounds && node.bounds.width > 0 && node.bounds.height > 0,
+  )
+  // A control inside another control is one target: the outer one is what a finger hits.
+  const outer = targets.filter((node) => !targets.some((other) => other !== node && [...walkTree(other)].includes(node)))
+  const center = (node: A11yNode) => {
+    const b = node.bounds as NonNullable<A11yNode['bounds']>
+    return { x: b.x + b.width / 2, y: b.y + b.height / 2 }
+  }
+  const small = (node: A11yNode) => (node.bounds?.width ?? 0) < TARGET || (node.bounds?.height ?? 0) < TARGET
+  const violations: EngineNode[] = []
+  const passes: EngineNode[] = []
+  for (const node of outer) {
+    const b = node.bounds as NonNullable<A11yNode['bounds']>
+    if (!small(node)) {
+      passes.push(engineNode(node))
+      continue
+    }
+    const c = center(node)
+    const crowded = outer.find((other) => {
+      if (other === node || !other.bounds) return false
+      const o = other.bounds
+      // Distance from the center to the other control's box, then to its circle when it is small too.
+      const dx = Math.max(o.x - c.x, 0, c.x - (o.x + o.width))
+      const dy = Math.max(o.y - c.y, 0, c.y - (o.y + o.height))
+      if (Math.hypot(dx, dy) < TARGET / 2) return true
+      if (!small(other)) return false
+      const oc = center(other)
+      return Math.hypot(oc.x - c.x, oc.y - c.y) < TARGET
+    })
+    if (!crowded) {
+      passes.push(engineNode(node))
+      continue
+    }
+    const size = `${round(b.width)}×${round(b.height)}`
+    const detail: Text = {
+      en: `This control is ${size} pt, under 24 × 24, and too close to ${crowded.name ? `"${truncate(crowded.name, 40)}"` : 'another control'} for a finger to hit it alone.`,
+      'pt-BR': `Este controle tem ${size} pt, menos de 24 × 24, e fica perto demais de ${crowded.name ? `"${truncate(crowded.name, 40)}"` : 'outro controle'} para um dedo acertar só ele.`,
+    }
+    violations.push(engineNode(node, { detail: detail[ctx.locale], evidence: `${size} pt`, confidence: 'low' }))
+  }
+  return [violations, [], passes]
+}
+
+function round(value: number): string {
+  return String(Math.round(value * 10) / 10)
 }
 
 /** Images outside controls: a missing name may be a missing description or a decorative image; only a person can say which. */

@@ -1,9 +1,9 @@
-import type { EngineResults, Finding } from '../core/types.ts'
+import type { EngineResults, Finding, ReviewItem } from '../core/types.ts'
 import { normalizeForMatch, sha256 } from '../core/util.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree } from '../snapshot/tree.ts'
-import { successCriterion } from '../wcag.ts'
+import { compareCriteria, successCriterion } from '../wcag.ts'
 import { CONTENT_RULES } from './content.ts'
 import { noVisibleLabelRule } from './forms.ts'
 import { STRUCTURE_RULES } from './structure.ts'
@@ -14,10 +14,32 @@ export type { Hit, RuleCheck, RuleContext, RuleRun } from './types.ts'
 /** Every Rampa rule, for every surface; each says where it applies. */
 export const RULE_CHECKS: readonly RuleCheck[] = [...CONTENT_RULES, noVisibleLabelRule, ...STRUCTURE_RULES]
 
+/** One rule that applies to the surface, as it ran on a page. */
+export interface RuleRan {
+  id: string
+  version: string
+  maturity: RuleCheck['maturity']
+  criteria: string[]
+  /** Elements the rule looked at. */
+  applicable: number
+  /** Hits left after axe-core's own failures: failures plus review. */
+  hits: number
+  /** Hits that fail the criterion (findings; below the threshold while the rule is experimental). */
+  failures: number
+  /** Hits sent to review (report.needsReview): undecided, never a failure. */
+  review: number
+}
+
 export interface RuleStageResult {
+  /** The rules' failures. */
   findings: Finding[]
-  /** One entry per rule that applies to the surface: how many elements it looked at, and how many hits it had. */
-  ran: Array<{ id: string; version: string; maturity: RuleCheck['maturity']; criteria: string[]; applicable: number; hits: number }>
+  /**
+   * The hits a person must decide (outcome review): they go to the report's needsReview, next to what
+   * axe-core could not decide, so they are never a failure, whatever the confidence threshold.
+   */
+  review: ReviewItem[]
+  /** One entry per rule that applies to the surface: how many elements it looked at, and what it found. */
+  ran: RuleRan[]
   /**
    * Elements a stable rule failed, by criterion. A judged criterion does not send them to the model:
    * the rule already decided, and a second finding on the same element would only repeat it.
@@ -31,7 +53,7 @@ function fingerprint(criterion: string, ref: string | undefined, detail: string)
 }
 
 export function emptyRuleStage(): RuleStageResult {
-  return { findings: [], ran: [], decided: new Map() }
+  return { findings: [], review: [], ran: [], decided: new Map() }
 }
 
 /**
@@ -57,9 +79,33 @@ export function runRuleChecks(snapshot: A11ySnapshot, engine: EngineResults, loc
     if (!rule.surfaces.includes(snapshot.surface)) continue
     const run = rule.run(snapshot, engine, ctx)
     const hits = run.hits.filter((hit) => !failedByAxe(rule, hit.ref))
-    stage.ran.push({ id: rule.id, version: rule.version, maturity: rule.maturity, criteria: [...rule.criteria], applicable: run.applicable, hits: hits.length })
+    const review = hits.filter((hit) => hit.outcome === 'review').length
+    stage.ran.push({
+      id: rule.id,
+      version: rule.version,
+      maturity: rule.maturity,
+      criteria: [...rule.criteria],
+      applicable: run.applicable,
+      hits: hits.length,
+      failures: hits.length - review,
+      review,
+    })
     const criterion = rule.criteria[0] ?? 'best-practice'
     for (const hit of hits) {
+      if (hit.outcome === 'review') {
+        stage.review.push({
+          criterion,
+          level: successCriterion(criterion)?.level,
+          ruleId: rule.id,
+          ref: hit.ref,
+          target: hit.ref,
+          html: hit.html,
+          message: rule.message(hit, locale),
+          evidence: hit.evidence,
+          helpUrl: rule.helpUrl,
+        })
+        continue
+      }
       const sure = rule.maturity === 'stable' && hit.outcome === 'fail'
       stage.findings.push({
         fingerprint: fingerprint(criterion, hit.ref, `${rule.id}|${hit.subject}`),
@@ -82,6 +128,7 @@ export function runRuleChecks(snapshot: A11ySnapshot, engine: EngineResults, loc
       }
     }
   }
+  stage.review.sort((a, b) => compareCriteria(a.criterion, b.criterion))
   return stage
 }
 

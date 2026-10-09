@@ -12,13 +12,14 @@ import { defaultModel } from '../providers/detect.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import type { RuleCheck } from '../rules/types.ts'
 import type { Collected } from '../surfaces/web.ts'
+import { DEFAULT_WCAG, type WcagVersion, parseWcagVersion } from '../wcag.ts'
 
 /**
  * Options shared by `check` and `checkPage`. Each one mirrors a `rampa check` flag;
  * what is not set falls back to rampa.config.*, then to the CLI's default.
  */
 export interface RampaOptions {
-  /** WCAG criteria to judge, such as ['1.1.1', '2.4.4'] or '1.1.1,2.4.4'. Default: all six. axe-core runs every WCAG 2.1 A/AA rule either way. */
+  /** WCAG criteria to judge, such as ['1.1.1', '2.4.4'] or '1.1.1,2.4.4'. Default: all six. axe-core runs every WCAG A/AA rule of the target version either way. */
   criteria?: readonly string[] | string | undefined
   /** `provider:model`, such as 'ollama:gemma4:12b', or a ModelProvider of your own. Default: RAMPA_MODEL, the config, then what this machine can run. */
   model?: string | ModelProvider | undefined
@@ -42,6 +43,8 @@ export interface RampaOptions {
   cache?: JudgmentCache | undefined
   /** Parallel model calls, like --concurrency. Default 4. */
   concurrency?: number | undefined
+  /** The WCAG version reports state coverage against, like --wcag: '2.2' (default) or '2.1'. */
+  wcag?: WcagVersion | undefined
   /** Settings to fall back on: rampa.config.* in the working directory by default, an object of your own, or false for none. */
   config?: RampaConfig | false | undefined
 }
@@ -76,6 +79,7 @@ export async function resolveSettings(options: RampaOptions = {}): Promise<Setti
     locale: resolveLocale(options.locale ?? process.env.RAMPA_LOCALE ?? config.locale),
     minConfidence,
     concurrency: whole(options.concurrency ?? config.concurrency, 4),
+    wcag: wcagSetting(options.wcag ?? config.wcag),
     waivers: await waiversFrom(options.waivers),
     // As `rampa check` decides, so a report counts the same candidates as the CLI's.
     captureImages: llm && criteria.some((criterion) => criterion.needs.vision),
@@ -106,6 +110,13 @@ async function waiversFrom(waivers: RampaOptions['waivers']): Promise<ReadonlySe
     throw new RampaError('waivers-not-found', `Waivers file not found: ${waivers}`)
   }
   return loadWaivers(waivers)
+}
+
+function wcagSetting(value: string | undefined): WcagVersion {
+  if (value === undefined) return DEFAULT_WCAG
+  const version = parseWcagVersion(String(value))
+  if (!version) throw new RampaError('invalid-option', `wcag must be '2.1' or '2.2'. Got "${String(value)}".`)
+  return version
 }
 
 function whole(value: number | undefined, fallback: number): number {
