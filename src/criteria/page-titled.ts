@@ -5,6 +5,7 @@ import { languageName } from '../i18n.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { walkTree } from '../snapshot/tree.ts'
 import { escapeHtml, failedByEngine, isHidden, subtreeText, verifyQuote } from './shared.ts'
+import { genericTitle } from './generic-text.ts'
 
 /**
  * WCAG 2.1 SC 2.4.2 Page Titled (A).
@@ -74,6 +75,8 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
   needs: {},
   engineRules: ENGINE_RULES,
   schema: PageTitledJudgment,
+  // Only default or generic titles keep the model's confidence; see generic-text.ts.
+  confidenceCap: (candidate) => (genericTitle(candidate.context.title) ? undefined : 'low'),
   subject: (candidate) => candidate.context.title,
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<PageTitledContext>[] {

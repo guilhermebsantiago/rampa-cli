@@ -16,6 +16,7 @@ import {
   subtreeText,
   verifyQuote,
 } from './shared.ts'
+import { genericLinkText } from './generic-text.ts'
 
 /**
  * WCAG 2.1 SC 2.4.4 Link Purpose (In Context) (A).
@@ -131,6 +132,8 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
   needs: { fetch: true },
   engineRules: ENGINE_RULES,
   schema: LinkPurposeJudgment,
+  // Only links whose text is generic keep the model's confidence; see generic-text.ts.
+  confidenceCap: (candidate) => (genericLinkText(candidate.context.name) ? undefined : 'low'),
   subject: (candidate) => candidate.context.name,
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<LinkPurposeContext>[] {

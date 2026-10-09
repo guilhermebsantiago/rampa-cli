@@ -147,7 +147,8 @@ describe.skipIf(!available)('rampa check --crawl', { timeout: 60_000 }, () => {
     const previous = process.env.RAMPA_OPENAI_COMPATIBLE_URL
     process.env.RAMPA_OPENAI_COMPATIBLE_URL = judge.url
     try {
-      const { report } = await crawl({ llm: true, model: 'openai-compatible:fake-judge', criteria: '2.4.4' })
+      // "Members" is a specific text, so its finding is reported at low confidence (see src/criteria/generic-text.ts).
+      const { report } = await crawl({ llm: true, model: 'openai-compatible:fake-judge', criteria: '2.4.4', minConfidence: 'low' })
       expect(report.pages).toHaveLength(6)
       expect(judge.prompts.filter((prompt) => prompt.includes('<link>Members</link>'))).toHaveLength(1)
       expect(report.summary.usage.calls).toBe(judge.prompts.length)

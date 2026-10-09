@@ -17,6 +17,7 @@ import {
   startTagOf,
   verifyQuote,
 } from './shared.ts'
+import { genericHeadingOrLabel } from './generic-text.ts'
 
 /**
  * WCAG 2.1 SC 2.4.6 Headings and Labels (AA).
@@ -98,6 +99,8 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
   needs: {},
   engineRules: ENGINE_RULES,
   schema: HeadingsAndLabelsJudgment,
+  // Only placeholder or numbered headings and labels keep the model's confidence; see generic-text.ts.
+  confidenceCap: (candidate) => (genericHeadingOrLabel(candidate.context.text, candidate.context.kind) ? undefined : 'low'),
   subject: (candidate) => candidate.context.text,
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<HeadingsAndLabelsContext>[] {
