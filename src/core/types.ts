@@ -131,8 +131,8 @@ export interface SourceFix {
 export interface SourceLocation extends SourceRegion {
   /** Relative to the repository root (or the working directory outside a repository), with forward slashes. */
   file: string
-  /** The source text of the region. */
-  snippet: string
+  /** The source text of the region, when it is short. */
+  snippet?: string | undefined
   fix?: SourceFix | undefined
 }
 

@@ -24,7 +24,7 @@ describe('pre-commit hook', () => {
 
   it('is declared for HTML files, in one run for all of them', () => {
     const hooks = readFileSync('.pre-commit-hooks.yaml', 'utf8')
-    for (const line of ['- id: rampa', 'entry: scripts/pre-commit.mjs', 'language: script', 'types: [html]', 'args: [--no-llm]', 'require_serial: true']) {
+    for (const line of ['- id: rampa', 'entry: scripts/pre-commit.mjs', 'language: script', "files: '\\.html?$'",'args: [--no-llm]', 'require_serial: true']) {
       expect(hooks).toContain(line)
     }
     expect(readFileSync('scripts/pre-commit.mjs', 'utf8').startsWith('#!/usr/bin/env node\n')).toBe(true)

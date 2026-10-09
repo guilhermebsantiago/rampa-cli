@@ -1,16 +1,18 @@
 import { spawnSync } from 'node:child_process'
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { countFindings, missingCredentials, modelArgs, outputLines, planCheck, splitArgs } from '../action/check.ts'
 import { DEFAULT_MARKER, type IssueComment, MAX_BODY, markerFor, pullRequestNumber, runComment, upsertComment, withMarker } from '../action/comment.ts'
 import { MARKDOWN_MARKER } from '../src/report/markdown.ts'
 
 const target = { api: 'https://api.github.test', repo: 'owner/site', issue: 7, token: 't0ken' }
+const bot = { login: 'github-actions[bot]', type: 'Bot' }
+const human = { login: 'someone', type: 'User' }
 
 /** Just enough of GitHub's issue comments API, in memory. */
-function fakeGitHub(initial: IssueComment[] = [], fail?: number) {
+function fakeGitHub(initial: IssueComment[] = [], fail?: number, self?: string) {
   const comments = initial.map((comment) => ({ ...comment }))
   const calls: Array<{ method: string; url: string; body?: string }> = []
   let next = 1000
@@ -19,6 +21,8 @@ function fakeGitHub(initial: IssueComment[] = [], fail?: number) {
     const method = init.method ?? 'GET'
     calls.push({ method, url, body: typeof init.body === 'string' ? (JSON.parse(init.body) as { body: string }).body : undefined })
     if (fail && method !== 'GET') return new Response('{"message":"Resource not accessible by integration"}', { status: fail })
+    // The Actions token has no user; a personal token does.
+    if (url.endsWith('/user')) return self ? Response.json({ login: self }) : new Response('{"message":"Resource not accessible by integration"}', { status: 403 })
     const page = /\/issues\/7\/comments\?per_page=100&page=(\d+)$/.exec(url)
     if (method === 'GET' && page) {
       const index = Number(page[1]) - 1
@@ -26,7 +30,7 @@ function fakeGitHub(initial: IssueComment[] = [], fail?: number) {
     }
     const body = (JSON.parse(String(init.body ?? '{}')) as { body: string }).body
     if (method === 'POST' && url.endsWith('/issues/7/comments')) {
-      const created = { id: next++, body, html_url: `https://github.test/owner/site/pull/7#issuecomment-${next - 1}` }
+      const created = { id: next++, body, html_url: `https://github.test/owner/site/pull/7#issuecomment-${next - 1}`, user: self ? { login: self, type: 'User' } : bot }
       comments.push(created)
       return Response.json(created, { status: 201 })
     }
@@ -38,7 +42,13 @@ function fakeGitHub(initial: IssueComment[] = [], fail?: number) {
     }
     return new Response('not found', { status: 404 })
   }
-  return { fetch: handler as typeof fetch, comments, calls, writes: () => calls.filter((call) => call.method !== 'GET') }
+  return {
+    fetch: handler as typeof fetch,
+    comments,
+    calls,
+    writes: () => calls.filter((call) => call.method !== 'GET'),
+    reads: () => calls.filter((call) => call.method === 'GET' && call.url.includes('/comments')),
+  }
 }
 
 describe('sticky pull request comment', () => {
@@ -50,7 +60,7 @@ describe('sticky pull request comment', () => {
   })
 
   it('creates the comment when there is none', async () => {
-    const github = fakeGitHub([{ id: 1, body: 'LGTM' }])
+    const github = fakeGitHub([{ id: 1, body: 'LGTM', user: human }])
     const result = await upsertComment(target, { body: `${MARKDOWN_MARKER}\n## Report`, fetch: github.fetch })
     expect(result).toMatchObject({ action: 'created', id: 1000 })
     expect(github.writes()).toEqual([{ method: 'POST', url: 'https://api.github.test/repos/owner/site/issues/7/comments', body: `${MARKDOWN_MARKER}\n## Report` }])
@@ -58,9 +68,9 @@ describe('sticky pull request comment', () => {
 
   it('edits its own comment and leaves alone a reply that quotes it', async () => {
     const github = fakeGitHub([
-      { id: 1, body: `> ${MARKDOWN_MARKER}\n> ## Report\n\nIs this right?` },
-      { id: 2, body: `${MARKDOWN_MARKER}\n## Old report` },
-      { id: 3, body: `I copied the marker ${MARKDOWN_MARKER} here` },
+      { id: 1, body: `> ${MARKDOWN_MARKER}\n> ## Report\n\nIs this right?`, user: human },
+      { id: 2, body: `${MARKDOWN_MARKER}\n## Old report`, user: bot },
+      { id: 3, body: `I copied the marker ${MARKDOWN_MARKER} here`, user: human },
     ])
     const result = await upsertComment(target, { body: `${MARKDOWN_MARKER}\n## New report`, fetch: github.fetch })
     expect(result).toMatchObject({ action: 'updated', id: 2 })
@@ -69,22 +79,22 @@ describe('sticky pull request comment', () => {
   })
 
   it('writes nothing when the report did not change', async () => {
-    const github = fakeGitHub([{ id: 2, body: `${MARKDOWN_MARKER}\r\n## Same` }])
+    const github = fakeGitHub([{ id: 2, body: `${MARKDOWN_MARKER}\r\n## Same`, user: bot }])
     const result = await upsertComment(target, { body: `${MARKDOWN_MARKER}\n## Same`, fetch: github.fetch })
     expect(result).toMatchObject({ action: 'unchanged', id: 2 })
     expect(github.writes()).toEqual([])
   })
 
   it('finds its comment past the first page', async () => {
-    const chatter = Array.from({ length: 150 }, (_, index) => ({ id: index + 1, body: `comment ${index}` }))
-    const github = fakeGitHub([...chatter, { id: 500, body: `${MARKDOWN_MARKER}\nold` }])
+    const chatter = Array.from({ length: 150 }, (_, index) => ({ id: index + 1, body: `comment ${index}`, user: human }))
+    const github = fakeGitHub([...chatter, { id: 500, body: `${MARKDOWN_MARKER}\nold`, user: bot }])
     const result = await upsertComment(target, { body: `${MARKDOWN_MARKER}\nnew`, fetch: github.fetch })
     expect(result).toMatchObject({ action: 'updated', id: 500 })
-    expect(github.calls.filter((call) => call.method === 'GET')).toHaveLength(2)
+    expect(github.reads()).toHaveLength(2)
   })
 
   it('gives each key its own comment', async () => {
-    const github = fakeGitHub([{ id: 2, body: `${MARKDOWN_MARKER}\nsite report` }])
+    const github = fakeGitHub([{ id: 2, body: `${MARKDOWN_MARKER}\nsite report`, user: bot }])
     const docs = markerFor('docs')
     const result = await upsertComment(target, { body: `${MARKDOWN_MARKER}\ndocs report`, marker: docs, fetch: github.fetch })
     expect(result).toMatchObject({ action: 'created' })
@@ -92,8 +102,26 @@ describe('sticky pull request comment', () => {
     expect(github.comments[0]?.body).toBe(`${MARKDOWN_MARKER}\nsite report`)
   })
 
+  it('never edits a comment a person wrote, even one that starts with the marker', async () => {
+    const github = fakeGitHub([{ id: 2, body: `${MARKDOWN_MARKER}\nfake report`, user: human }])
+    expect(await upsertComment(target, { body: `${MARKDOWN_MARKER}\nreal report`, fetch: github.fetch })).toMatchObject({ action: 'created' })
+    expect(github.comments[0]?.body).toBe(`${MARKDOWN_MARKER}\nfake report`)
+  })
+
+  it('with a personal token, edits only what that user wrote', async () => {
+    const github = fakeGitHub(
+      [
+        { id: 2, body: `${MARKDOWN_MARKER}\nother bot`, user: bot },
+        { id: 3, body: `${MARKDOWN_MARKER}\nmine`, user: { login: 'release-user', type: 'User' } },
+      ],
+      undefined,
+      'release-user',
+    )
+    expect(await upsertComment(target, { body: `${MARKDOWN_MARKER}\nnew`, fetch: github.fetch })).toMatchObject({ action: 'updated', id: 3 })
+  })
+
   it('reads but never writes in a dry run', async () => {
-    const github = fakeGitHub([{ id: 2, body: `${MARKDOWN_MARKER}\nold` }])
+    const github = fakeGitHub([{ id: 2, body: `${MARKDOWN_MARKER}\nold`, user: bot }])
     expect(await upsertComment(target, { body: `${MARKDOWN_MARKER}\nnew`, dryRun: true, fetch: github.fetch })).toEqual({ action: 'would-update', id: 2 })
     expect(github.writes()).toEqual([])
   })
@@ -171,13 +199,8 @@ describe('comment script', () => {
 
 describe('check step', () => {
   it('splits inputs like a shell, keeping Windows paths', () => {
-    expect(splitArgs(`site/index.html "docs/my page.html" 'a b'\n  site\\about.html my\\ file.html`)).toEqual([
-      'site/index.html',
-      'docs/my page.html',
-      'a b',
-      'site\\about.html',
-      'my file.html',
-    ])
+    expect(splitArgs(`site/index.html "docs/my page.html" 'a b'\n  site\\about.html`)).toEqual(['site/index.html', 'docs/my page.html', 'a b', 'site\\about.html'])
+    expect(splitArgs('site\\\ndocs\\ \\\\server\\share "C:\\My Site\\"')).toEqual(['site\\', 'docs\\', '\\\\server\\share', 'C:\\My Site\\'])
     expect(splitArgs('--min-confidence high --runs 3')).toEqual(['--min-confidence', 'high', '--runs', '3'])
     expect(splitArgs('  ')).toEqual([])
     expect(() => splitArgs('"open')).toThrow('Unclosed " in: "open')
@@ -212,6 +235,7 @@ describe('check step', () => {
       expect(missingCredentials('anthropic:claude-haiku-5-5')).toEqual([])
       expect(missingCredentials('ollama:gemma4:12b')).toEqual([])
       expect(missingCredentials('nobody:model')).toEqual([])
+      expect(missingCredentials('anthropic')).toEqual([])
     } finally {
       if (saved === undefined) delete process.env.ANTHROPIC_API_KEY
       else process.env.ANTHROPIC_API_KEY = saved
@@ -289,13 +313,16 @@ describe('check step', () => {
         .split('\n')
         .map((line) => [line.slice(0, line.indexOf('=')), line.slice(line.indexOf('=') + 1)]),
     )
+    // Each run writes to a new folder, so nothing from an earlier run can be published.
+    const folder = dirname(outputs.json ?? '')
+    expect(dirname(folder)).toBe(join(dir, 'rampa'))
     expect(outputs).toEqual({
       'exit-code': '1',
       findings: '9',
-      json: join(dir, 'rampa', 'rampa.json'),
-      markdown: join(dir, 'rampa', 'rampa.md'),
-      sarif: join(dir, 'rampa', 'rampa.sarif'),
-      html: join(dir, 'rampa', 'rampa.html'),
+      json: join(folder, 'rampa.json'),
+      markdown: join(folder, 'rampa.md'),
+      sarif: join(folder, 'rampa.sarif'),
+      html: join(folder, 'rampa.html'),
     })
     expect(readFileSync(summary, 'utf8').startsWith(`${MARKDOWN_MARKER}\n## Rampa accessibility report`)).toBe(true)
     const sarif = JSON.parse(readFileSync(outputs.sarif as string, 'utf8')) as { runs: Array<{ results: unknown[] }> }

@@ -35,6 +35,8 @@ export const MAX_COMMENT_LENGTH = 60_000
 /** Findings per page shown before the rest fold into a <details>. */
 const OPEN_FINDINGS = 5
 const MAX_MARKUP = 300
+/** Notes, coverage rows and clean pages listed before the rest are counted; the JSON and HTML reports have them all. */
+const MAX_LIST = 20
 
 export interface MarkdownOptions {
   verbose?: boolean | undefined
@@ -61,9 +63,18 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
   }
   head.push('')
 
+  // The pages without findings, listed up to a limit so a site of hundreds of pages still fits.
+  const cleanPages: string[] = []
+  const clean = pages.filter((page) => page.findings.length === 0).map((page) => pageLabel(page.report))
+  if (clean.length > 0 && clean.length < reports.length) {
+    const line = plural(locale, 'cleanPages', clean.length)
+    if (clean.length <= 5) cleanPages.push(`${line} ${clean.map(code).join(', ')}`, '')
+    else cleanPages.push('<details>', `<summary>${line}</summary>`, '', ...capped(clean.map((label) => `- ${code(label)}`), MAX_LIST, locale), '</details>', '')
+  }
+
   const tail = [...notesSection(reports, verbose), ...coverageSection(reports), ...waiverSection(all, locale), footer(reports)]
   // What is left for findings once the fixed parts and the omission note are counted.
-  const budget = maxLength - [...head, ...tail].join('\n').length - 300
+  const budget = maxLength - [...head, ...cleanPages, ...tail].join('\n').length - 300
 
   const body: string[] = []
   let used = 0
@@ -93,14 +104,13 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
   }
   if (omitted > 0) body.push(`> ${plural(locale, 'omittedFindings', omitted)}`, '')
 
-  const clean = pages.filter((page) => page.findings.length === 0).map((page) => pageLabel(page.report))
-  if (clean.length > 0 && clean.length < reports.length) {
-    const line = plural(locale, 'cleanPages', clean.length)
-    if (clean.length <= 5) body.push(`${line} ${clean.map(code).join(', ')}`, '')
-    else body.push('<details>', `<summary>${line}</summary>`, '', ...clean.map((label) => `- ${code(label)}`), '</details>', '')
-  }
+  return `${[...head, ...body, ...cleanPages, ...tail].join('\n').trimEnd()}\n`
+}
 
-  return `${[...head, ...body, ...tail].join('\n').trimEnd()}\n`
+/** At most `max` lines, then one that counts the rest. */
+function capped(lines: string[], max: number, locale: Locale): string[] {
+  if (lines.length <= max) return lines
+  return [...lines.slice(0, max), `- ${plural(locale, 'andMore', lines.length - max)}`]
 }
 
 function findingBlock(finding: Finding, report: Report): string {
@@ -152,7 +162,7 @@ function notesSection(reports: readonly Report[], verbose: boolean): string[] {
   const usage = runUsageLine(reports)
   if (usage) notes.push(prose(usage))
   if (notes.length === 0) return []
-  return [`#### ${t(locale, 'notesTitle')}`, '', ...notes.map((note) => `- ${note}`), '']
+  return [`#### ${t(locale, 'notesTitle')}`, '', ...capped(notes.map((note) => `- ${note}`), MAX_LIST, locale), '']
 }
 
 /** The coverage statement, always in the open: an empty report must not read as a clean page. */
@@ -169,10 +179,11 @@ function coverageSection(reports: readonly Report[]): string[] {
   } else if (first) {
     const labels = coverageRows(first).map((row) => row.label.replace(/:$/, ''))
     lines.push(`| ${t(locale, 'page')} | ${labels.join(' | ')} |`, `| --- | ${labels.map(() => '---').join(' | ')} |`)
-    for (const report of reports) {
+    for (const report of reports.slice(0, MAX_LIST)) {
       const cells = coverageRows(report).map((row) => row.text)
       lines.push(`| ${code(pageLabel(report))} | ${cells.map((cell) => prose(cell)).join(' | ')} |`)
     }
+    if (reports.length > MAX_LIST) lines.push('', plural(locale, 'andMore', reports.length - MAX_LIST))
   }
   lines.push('', `**${t(locale, 'disclaimer')}** ${t(locale, 'manualReview')}`, '')
   return lines
@@ -207,10 +218,11 @@ function footer(reports: readonly Report[]): string {
  */
 export function prose(value: string): string {
   return value
-    .replace(/\s*\r?\n\s*/g, ' ')
+    .replace(/\s*[\r\n]+\s*/g, ' ')
     .replaceAll('&', '&amp;')
     .replace(/[\\`*_[\]<>|~]/g, '\\$&')
     .replace(/([@#])(?=[\p{L}\p{N}_-])/gu, '$1&#8203;')
+    .replace(/\b(GH-)(?=\d)/gi, '$1&#8203;')
 }
 
 function capitalize(text: string): string {
@@ -219,7 +231,7 @@ function capitalize(text: string): string {
 
 /** Inline code: a fence longer than any run of backticks inside. */
 export function code(value: string): string {
-  const flat = value.replace(/\s*\r?\n\s*/g, ' ')
+  const flat = value.replace(/\s*[\r\n]+\s*/g, ' ')
   const longest = Math.max(0, ...(flat.match(/`+/g) ?? []).map((run) => run.length))
   const fence = '`'.repeat(longest + 1)
   const pad = flat.startsWith('`') || flat.endsWith('`') ? ' ' : ''

@@ -128,4 +128,22 @@ describe('Markdown report', () => {
     expect(markdown).toContain('#### Coverage of this run')
     expect(renderMarkdown([{ ...report, findings: many }], { maxLength: 5000 }).length).toBeLessThanOrEqual(5000)
   })
+
+  it('fits a site of hundreds of pages, findings and closing statement included', async () => {
+    const before = (await recordedReport()).report
+    const after = (await recordedReport('examples-store-after')).report
+    const clean = Array.from({ length: 300 }, (_, index) => ({ ...after, target: `site/page-${index}.html`, sourceFile: `site/page-${index}.html` }))
+    const markdown = renderMarkdown([before, ...clean])
+    expect(markdown.length).toBeLessThanOrEqual(60_000)
+    expect(markdown).toContain('`examples/store/before.html:31`')
+    expect(markdown).not.toContain('left out to fit')
+    expect(markdown).toContain('- …and 280 more')
+    expect(markdown).toContain('**This report does not declare the page accessible.**')
+    expect(markdown.trimEnd().endsWith('</sub>')).toBe(true)
+  })
+
+  it('keeps any line break and issue shorthand in page text inert', () => {
+    expect(prose('x\r# Heading')).toBe('x # Heading')
+    expect(prose('see GH-12')).toBe('see GH-&#8203;12')
+  })
 })

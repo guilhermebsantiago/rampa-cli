@@ -109,7 +109,7 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
   const notifications: Notification[] = []
 
   const ruleFor = (finding: Finding): { id: string; index: number } => {
-    const id = ruleIdOf(finding.criterion)
+    const id = ruleIdOf(finding)
     let index = ruleIndex.get(id)
     if (index === undefined) {
       index = rules.push(ruleOf(finding, locale)) - 1
@@ -135,9 +135,10 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
     for (const [finding, kind] of entries) results.push(resultOf(finding, kind, report, artifact, ruleFor(finding)))
 
     const where = [{ physicalLocation: { artifactLocation: artifact } }]
-    notifications.push({ level: 'note', message: { text: `${pageLabel(report)}: ${coverageStatement(report)}` }, descriptor: { id: 'coverage' }, locations: where })
+    const note = { text: plainText(`${pageLabel(report)}: ${coverageStatement(report)}`) }
+    notifications.push({ level: 'note', message: note, descriptor: { id: 'coverage' }, locations: where })
     for (const error of report.errors) {
-      notifications.push({ level: 'warning', message: { text: `${pageLabel(report)}: ${error}` }, descriptor: { id: 'judgment-error' }, locations: where })
+      notifications.push({ level: 'warning', message: { text: plainText(`${pageLabel(report)}: ${error}`) }, descriptor: { id: 'judgment-error' }, locations: where })
     }
   }
 
@@ -189,19 +190,28 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
   }
 }
 
-/** `WCAG-1.1.1`; an engine rule outside WCAG 2.1 A/AA keeps the id the engine gave it. */
-export function ruleIdOf(criterion: string): string {
-  return successCriterion(criterion) ? `WCAG-${criterion}` : criterion
+/** `WCAG-1.1.1`; a finding outside WCAG 2.1 A/AA keeps the id of the engine rule behind it. */
+export function ruleIdOf(finding: Pick<Finding, 'criterion' | 'ruleId'>): string {
+  return successCriterion(finding.criterion) ? `WCAG-${finding.criterion}` : (finding.ruleId ?? finding.criterion)
+}
+
+/**
+ * Plain text for a SARIF message: brackets are escaped, since `[text](n)` is SARIF's syntax for a
+ * link to a related location and page text could otherwise make one.
+ */
+function plainText(text: string): string {
+  return text.replace(/\\(?=[[\]])/g, '\\\\').replace(/[[\]]/g, '\\$&')
 }
 
 function ruleOf(finding: Finding, locale: Locale): Rule {
   const sc = successCriterion(finding.criterion)
   if (!sc) {
     const help = safeUrl(finding.helpUrl)
+    const id = ruleIdOf(finding)
     return {
-      id: finding.criterion,
-      name: pascalCase(finding.criterion),
-      shortDescription: { text: finding.criterion },
+      id,
+      name: pascalCase(id),
+      shortDescription: { text: id },
       fullDescription: { text: finding.message },
       help: { text: help ?? finding.message },
       ...(help ? { helpUri: help } : {}),
@@ -213,7 +223,7 @@ function ruleOf(finding: Finding, locale: Locale): Rule {
   const url = understandingUrl(sc.id) ?? PROJECT_URL
   const title = `WCAG ${sc.id} ${name} (${t(locale, 'levelName', { level: sc.level })})`
   return {
-    id: ruleIdOf(sc.id),
+    id: ruleIdOf(finding),
     name: pascalCase(sc.name.en),
     shortDescription: { text: title },
     fullDescription: { text: t(locale, 'sarifRuleDescription', { id: sc.id, name, level: sc.level }) },
@@ -236,7 +246,7 @@ function resultOf(finding: Finding, kind: Kind, report: Report, artifact: Artifa
   const location: Location = { physicalLocation: { artifactLocation: artifact } }
   if (finding.location) {
     const { startLine, startColumn, endLine, endColumn, snippet } = finding.location
-    location.physicalLocation.region = { startLine, startColumn, endLine, endColumn, snippet: { text: snippet } }
+    location.physicalLocation.region = { startLine, startColumn, endLine, endColumn, ...(snippet !== undefined ? { snippet: { text: snippet } } : {}) }
   }
   const selector = finding.ref ?? finding.target
   if (selector) location.logicalLocations = [{ fullyQualifiedName: selector, kind: 'element' }]
@@ -245,7 +255,7 @@ function resultOf(finding: Finding, kind: Kind, report: Report, artifact: Artifa
     ruleId: rule.id,
     ruleIndex: rule.index,
     level: kind === 'below-threshold' ? 'note' : levelOf(finding.confidence),
-    message: { text: parts.join(' ') },
+    message: { text: plainText(parts.join(' ')) },
     locations: [location],
     partialFingerprints: { [FINGERPRINT_KEY]: stableFingerprint(finding, artifact.uri) },
     properties: {

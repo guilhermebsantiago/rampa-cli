@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { z } from 'zod'
 import { FINGERPRINT_KEY, SOURCE_ROOT, type SarifLog, toSarif } from '../src/report/sarif.ts'
-import { asRemote, recordedReport } from './report-fixtures.ts'
+import { asRemote, findingOf, recordedReport } from './report-fixtures.ts'
 
 // The official OASIS schema, vendored so the test needs no network: SARIF 2.1.0 errata 01 from
 // https://docs.oasis-open.org/sarif/sarif/v2.1.0/errata01/os/schemas/sarif-schema-2.1.0.json
@@ -179,6 +179,23 @@ describe('SARIF', () => {
     expect(verbose.find((result) => result.properties.findingId === waived.fingerprint)?.suppressions).toEqual([
       { kind: 'external', status: 'accepted', justification: 'Waived in .rampa/waivers.json' },
     ])
+  })
+
+  it('gives each engine rule outside WCAG 2.1 A/AA its own rule, and escapes brackets in messages', async () => {
+    const { report } = await recordedReport()
+    const engine = report.findings[0]
+    if (!engine) throw new Error('no engine finding')
+    const outside = (ruleId: string) => ({ ...engine, fingerprint: ruleId, criterion: 'best-practice', level: undefined, ruleId, helpUrl: `https://dequeuniversity.com/rules/axe/4.14/${ruleId}` })
+    const judged = { ...findingOf(report, '2.4.4'), message: 'The link text "[Download](https://evil.example/x)" says nothing.' }
+    const log = toSarif([{ ...report, findings: [outside('region'), outside('heading-order'), judged] }])
+    const rules = log.runs[0]?.tool.driver.rules ?? []
+    expect(rules.map((rule) => [rule.id, rule.helpUri])).toEqual([
+      ['region', 'https://dequeuniversity.com/rules/axe/4.14/region'],
+      ['heading-order', 'https://dequeuniversity.com/rules/axe/4.14/heading-order'],
+      ['WCAG-2.4.4', 'https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html'],
+    ])
+    expect(log.runs[0]?.results[2]?.message.text).toContain('"\\[Download\\](https://evil.example/x)"')
+    expectValid(log)
   })
 
   it('speaks the report language', async () => {

@@ -9,7 +9,7 @@
  * from src, which needs no dependency to load.
  */
 import { spawnSync } from 'node:child_process'
-import { appendFileSync, existsSync, mkdirSync, readFileSync } from 'node:fs'
+import { appendFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, realpathSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -37,8 +37,9 @@ export interface CheckPlan {
 }
 
 /**
- * Splits like a shell: spaces and new lines separate, quotes group. A backslash escapes only
- * a space, a quote or another backslash, so Windows paths stay as written. Nothing is expanded.
+ * Splits like a shell, minus the escapes: spaces and new lines separate, quotes group, and a
+ * backslash is kept as written, so Windows paths such as `site\` or `\\server\share` stay whole.
+ * Nothing is expanded.
  */
 export function splitArgs(input: string): string[] {
   const args: string[] = []
@@ -47,18 +48,13 @@ export function splitArgs(input: string): string[] {
   let quote: '"' | "'" | undefined
   for (let i = 0; i < input.length; i++) {
     const char = input[i] as string
-    const next = input[i + 1]
     if (quote) {
       if (char === quote) quote = undefined
-      else if (char === '\\' && quote === '"' && (next === '"' || next === '\\')) current += input[++i]
       else current += char
       continue
     }
     if (char === '"' || char === "'") {
       quote = char
-      started = true
-    } else if (char === '\\' && next !== undefined && /[\s"'\\]/.test(next)) {
-      current += input[++i]
       started = true
     } else if (/\s/.test(char)) {
       if (started) args.push(current)
@@ -82,7 +78,9 @@ export interface ModelChoice {
 
 /** Credentials a `provider:model` still needs in this environment, in words; empty when it can be called. */
 export function missingCredentials(spec: string): string[] {
-  return findProvider(spec.slice(0, spec.indexOf(':')))?.missing() ?? []
+  const colon = spec.indexOf(':')
+  // Without a provider prefix, rampa itself rejects the spec.
+  return colon === -1 ? [] : (findProvider(spec.slice(0, colon))?.missing() ?? [])
 }
 
 /**
@@ -167,8 +165,11 @@ function main(): number {
     console.error(`::error::Rampa is not built: ${cli} is missing.`)
     return 2
   }
-  const outDir = join(env.RUNNER_TEMP ?? tmpdir(), 'rampa')
-  mkdirSync(outDir, { recursive: true })
+  // A new folder for each run: a run that fails early must not leave an earlier report to
+  // publish, and a second use of the action in a job must not overwrite the first one's outputs.
+  const base = join(env.RUNNER_TEMP ?? tmpdir(), 'rampa')
+  mkdirSync(base, { recursive: true })
+  const outDir = mkdtempSync(join(base, 'run-'))
   const detect = () => {
     const result = spawnSync(process.execPath, [cli, 'models', '--default'], { encoding: 'utf8' })
     return result.status === 0 ? result.stdout.trim() || undefined : undefined
@@ -214,8 +215,13 @@ function main(): number {
 // Run only as a script, not when a test imports it.
 if (isEntry(process.argv[1], import.meta.filename)) process.exitCode = main()
 
+/** Compares real paths: Node reports this module's own path with symlinks and junctions resolved. */
 function isEntry(invoked: string | undefined, self: string | undefined): boolean {
   if (!invoked || !self) return false
-  const a = resolve(invoked)
-  return process.platform === 'win32' ? a.toLowerCase() === self.toLowerCase() : a === self
+  try {
+    const [a, b] = [realpathSync(resolve(invoked)), realpathSync(self)]
+    return process.platform === 'win32' ? a.toLowerCase() === b.toLowerCase() : a === b
+  } catch {
+    return false
+  }
 }

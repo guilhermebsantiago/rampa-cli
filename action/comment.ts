@@ -12,7 +12,7 @@
  *
  * Node 22.18+ runs it as is: TypeScript without a build step, Node built-ins only.
  */
-import { readFileSync } from 'node:fs'
+import { readFileSync, realpathSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { parseArgs } from 'node:util'
 
@@ -32,6 +32,7 @@ export interface IssueComment {
   id: number
   body?: string | null
   html_url?: string
+  user?: { login?: string; type?: string } | null
 }
 
 export type UpsertResult =
@@ -67,9 +68,14 @@ export function withMarker(body: string, marker: string): string {
   return marked.slice(0, MAX_BODY - note.length) + note
 }
 
-/** A comment is ours when it starts with the marker; a reply that quotes it starts with `>` and is left alone. */
-export function isOurs(comment: IssueComment, marker: string): boolean {
-  return (comment.body ?? '').trimStart().startsWith(marker)
+/**
+ * A comment is ours when it starts with the marker (a reply that quotes it starts with `>`) and
+ * we wrote it: the token's own user when GitHub tells who that is, else a bot, as the Actions
+ * token posts as github-actions[bot]. Anyone can type the marker; nobody can post as a bot.
+ */
+export function isOurs(comment: IssueComment, marker: string, login?: string): boolean {
+  if (!(comment.body ?? '').trimStart().startsWith(marker)) return false
+  return login ? comment.user?.login === login : comment.user?.type === 'Bot'
 }
 
 /** The pull request a workflow event is about, if any. */
@@ -104,10 +110,18 @@ export async function upsertComment(
     return (await response.json()) as T
   }
 
+  // A personal token has a user; the Actions token gets 403 here and posts as a bot.
+  let login: string | undefined
+  try {
+    login = (await request<{ login?: string }>(`${target.api.replace(/\/+$/, '')}/user`)).login
+  } catch {
+    login = undefined
+  }
+
   let existing: IssueComment | undefined
   for (let page = 1; page <= 30 && !existing; page++) {
     const comments = await request<IssueComment[]>(`${base}/issues/${target.issue}/comments?per_page=100&page=${page}`)
-    existing = comments.find((comment) => isOurs(comment, marker))
+    existing = comments.find((comment) => isOurs(comment, marker, login))
     if (comments.length < 100) break
   }
 
@@ -208,8 +222,13 @@ if (isEntry(process.argv[1], import.meta.filename)) {
   process.exitCode = await runComment({ argv: process.argv.slice(2), env: process.env })
 }
 
+/** Compares real paths: Node reports this module's own path with symlinks and junctions resolved. */
 function isEntry(invoked: string | undefined, self: string | undefined): boolean {
   if (!invoked || !self) return false
-  const a = resolve(invoked)
-  return process.platform === 'win32' ? a.toLowerCase() === self.toLowerCase() : a === self
+  try {
+    const [a, b] = [realpathSync(resolve(invoked)), realpathSync(self)]
+    return process.platform === 'win32' ? a.toLowerCase() === b.toLowerCase() : a === b
+  } catch {
+    return false
+  }
 }

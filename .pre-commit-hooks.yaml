@@ -4,7 +4,8 @@
   description: Checks the HTML files in a commit with Rampa. By default only the deterministic layer runs (--no-llm); add --model to the args for the judgment layer.
   entry: scripts/pre-commit.mjs
   language: script
-  types: [html]
+  # .html and .htm only: pre-commit's html type also covers .xhtml, which rampa check does not take.
+  files: '\.html?$'
   args: [--no-llm]
   # One run for all the files: one browser, and the first run's build is never raced.
   require_serial: true

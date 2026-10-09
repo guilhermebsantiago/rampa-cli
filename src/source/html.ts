@@ -119,8 +119,11 @@ function skipMarkupDeclaration(html: string, lt: number, foreign: boolean): numb
     // `<!-->` and `<!--->` are complete, empty comments.
     if (html.startsWith('<!-->', lt)) return lt + 5
     if (html.startsWith('<!--->', lt)) return lt + 6
-    const close = html.indexOf('-->', lt + 4)
-    return close === -1 ? html.length : close + 3
+    // `--!>` also closes a comment, as a parse error.
+    const ends = [html.indexOf('-->', lt + 4), html.indexOf('--!>', lt + 4)].filter((at) => at !== -1)
+    if (ends.length === 0) return html.length
+    const close = Math.min(...ends)
+    return close + (html.startsWith('-->', close) ? 3 : 4)
   }
   if (foreign && html.startsWith('<![CDATA[', lt)) {
     const close = html.indexOf(']]>', lt + 9)
@@ -190,7 +193,7 @@ function readStartTag(html: string, lt: number): StartTag | undefined {
     }
     // The parser keeps the first of two attributes with the same name, and reads every line break as \n.
     if (!attributes.some((attribute) => attribute.name === attributeName)) {
-      attributes.push({ name: attributeName, value: decodeEntities(raw.replace(/\r\n?/g, '\n')), start, end })
+      attributes.push({ name: attributeName, value: decodeEntities(raw.replace(/\r\n?/g, '\n'), true), start, end })
     }
   }
   return undefined
@@ -248,18 +251,28 @@ const LATIN1 =
   'nbsp iexcl cent pound curren yen brvbar sect uml copy ordf laquo not shy reg macr deg plusmn sup2 sup3 acute micro para middot cedil sup1 ordm raquo frac14 frac12 frac34 iquest ' +
   'Agrave Aacute Acirc Atilde Auml Aring AElig Ccedil Egrave Eacute Ecirc Euml Igrave Iacute Icirc Iuml ETH Ntilde Ograve Oacute Ocirc Otilde Ouml times Oslash Ugrave Uacute Ucirc Uuml Yacute THORN szlig ' +
   'agrave aacute acirc atilde auml aring aelig ccedil egrave eacute ecirc euml igrave iacute icirc iuml eth ntilde ograve oacute ocirc otilde ouml divide oslash ugrave uacute ucirc uuml yacute thorn yuml'
+/** Names the parser also reads without a semicolon: the Latin-1 ones and four more. */
+const LEGACY = new Set(['amp', 'lt', 'gt', 'quot', ...LATIN1.split(' ')])
 LATIN1.split(' ').forEach((name, index) => {
   NAMED[name] = String.fromCodePoint(0xa0 + index)
 })
+/** Numeric references from 0x80 to 0x9F name Windows-1252 characters, as browsers read them. */
+const WINDOWS_1252 = [
+  0x20ac, 0x81, 0x201a, 0x192, 0x201e, 0x2026, 0x2020, 0x2021, 0x2c6, 0x2030, 0x160, 0x2039, 0x152, 0x8d, 0x17d, 0x8f, 0x90, 0x2018, 0x2019, 0x201c, 0x201d,
+  0x2022, 0x2013, 0x2014, 0x2dc, 0x2122, 0x161, 0x203a, 0x153, 0x9d, 0x17e, 0x178,
+]
 
-export function decodeEntities(text: string): string {
+/** Character references decoded as the parser does; in an attribute, `&copy=` stays as written. */
+export function decodeEntities(text: string, attribute = false): string {
   if (!text.includes('&')) return text
-  return text.replace(/&(#[0-9]+|#[xX][0-9a-fA-F]+|[A-Za-z][A-Za-z0-9]*);?/g, (match, reference: string) => {
+  return text.replace(/&(#[0-9]+|#[xX][0-9a-fA-F]+|[A-Za-z][A-Za-z0-9]*)(;?)/g, (match, reference: string, semicolon: string, offset: number) => {
     if (reference.startsWith('#')) {
       const code = reference[1] === 'x' || reference[1] === 'X' ? Number.parseInt(reference.slice(2), 16) : Number.parseInt(reference.slice(1), 10)
+      if (code >= 0x80 && code <= 0x9f) return String.fromCodePoint(WINDOWS_1252[code - 0x80] ?? code)
       const valid = code > 0 && code <= 0x10ffff && (code < 0xd800 || code > 0xdfff)
       return valid ? String.fromCodePoint(code) : '�'
     }
+    if (!semicolon && (!LEGACY.has(reference) || (attribute && text[offset + match.length] === '='))) return match
     return NAMED[reference] ?? match
   })
 }

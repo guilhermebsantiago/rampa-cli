@@ -65,7 +65,7 @@ Targets are paths in your repository (files or folders of `.html` files) or URLs
 
 | Input | Default | What it does |
 | --- | --- | --- |
-| `targets` | required | URLs, `.html` files or folders, separated by spaces or new lines. Quote a path that has spaces. |
+| `targets` | required | URLs, `.html` files or folders, separated by spaces or new lines. Quote a path that has spaces; a backslash is kept as written. |
 | `criteria` | all six | Criteria to judge, comma-separated, such as `1.1.1,2.4.4` |
 | `model` | detected | `provider:model` for the judgment layer, or `none` for `--no-llm`. See [the model](#the-model) |
 | `fail-on` | `confirmed` | `confirmed`, `any`, `A`, `AA` or `none`; see [exit codes](output-formats.md#exit-codes-and---fail-on) |
@@ -86,14 +86,14 @@ Targets are paths in your repository (files or folders of `.html` files) or URLs
 | --- | --- |
 | `findings` | Number of confirmed findings |
 | `exit-code` | `0` passed, `1` failed the `fail-on` policy, `2` could not finish |
-| `sarif`, `markdown`, `html`, `json` | Paths of the reports, in the runner's temporary directory |
+| `sarif`, `markdown`, `html`, `json` | Paths of the reports, in a new folder under `$RUNNER_TEMP/rampa` for each run |
 
 ## What the steps do
 
-1. **Set up Node.js** with `actions/setup-node`, unless `node-version` is empty. Like any action that sets up Node.js, this changes the Node.js on the path for the steps after it in the job.
+1. **Set up Node.js** with `actions/setup-node`, without its package cache, unless `node-version` is empty. Like any action that sets up Node.js, this changes the Node.js on the path for the steps after it in the job.
 2. **Build Rampa** in the action's own directory: `pnpm install --frozen-lockfile` and `pnpm build`, running the pnpm version that `package.json` pins through `corepack pnpm`. It does not run `corepack enable`, so `pnpm` stays as it was for the rest of your job. On a Node.js without corepack (25 and later), it uses the `pnpm` on the path.
 3. **Check accessibility**: `rampa check` with the inputs, writing JSON, Markdown, SARIF and HTML. This step never fails the job by itself, so the next steps still run.
-4. **Upload SARIF** with `github/codeql-action/upload-sarif@v4`. It is skipped on pull requests from forks, whose token cannot upload.
+4. **Upload SARIF** with `github/codeql-action/upload-sarif@v4`. It is skipped on pull requests from forks: on `pull_request` the token cannot upload, and on `pull_request_target` the results would be filed under the base branch.
 5. **Comment on the pull request**: finds the comment an earlier run posted by its hidden marker and edits it, or posts one. Outside a pull request it does nothing. When GitHub refuses (a fork's read-only token), it warns and the job goes on; the report is still in the job summary.
 6. **Result**: fails the job with Rampa's exit code.
 
@@ -113,7 +113,7 @@ A model on your own hardware works too: on a self-hosted runner with [Ollama](ht
 
 ## The comment
 
-The Markdown report starts with a hidden marker, `<!-- rampa-report -->`. On each run the action looks for a comment on the pull request that starts with it and edits that comment; a reply that quotes the report starts with `>` and is left alone. When the report did not change, the comment is left as it is. With `comment-key: docs`, the marker becomes `<!-- rampa-report:docs -->` and the job keeps its own comment.
+The Markdown report starts with a hidden marker, `<!-- rampa-report -->`. On each run the action looks for a comment on the pull request that starts with it and that it wrote, and edits that comment. "It wrote" means a bot (the Actions token posts as `github-actions[bot]`), or the token's own user when `github-token` is a personal token: anyone can type the marker, so a person's comment is never edited, and a reply that quotes the report starts with `>` anyway. When the report did not change, the comment is left as it is. With `comment-key: docs`, the marker becomes `<!-- rampa-report:docs -->` and the job keeps its own comment.
 
 The comment ends with the coverage of the run, the statement that the report does not declare the pages accessible, and how to waive a false positive.
 
@@ -140,7 +140,7 @@ The logic of the action lives in two scripts, which Node.js 22.18+ runs without 
 ```sh
 pnpm build
 RUNNER_TEMP=.rampa/tmp INPUT_TARGETS=examples/store/before.html INPUT_MODEL=none node action/check.ts
-GITHUB_REPOSITORY=owner/repo node action/comment.ts --body-file .rampa/tmp/rampa/rampa.md --issue 12 --dry-run
+GITHUB_REPOSITORY=owner/repo node action/comment.ts --body-file <the markdown path it printed> --issue 12 --dry-run
 ```
 
-`check.ts` writes the reports to `$RUNNER_TEMP/rampa` (the system's temporary directory when it is not set), and prints the outputs when `GITHUB_OUTPUT` is not set. `comment.ts --dry-run` reads the pull request's comments when `GITHUB_TOKEN` is set and never writes; without a token it prints the comment it would post.
+`check.ts` writes the reports to a new folder under `$RUNNER_TEMP/rampa` (the system's temporary directory when it is not set), so an earlier run's report is never published by mistake, and prints the outputs when `GITHUB_OUTPUT` is not set. `comment.ts --dry-run` reads the pull request's comments when `GITHUB_TOKEN` is set and never writes; without a token it prints the comment it would post.

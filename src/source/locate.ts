@@ -78,33 +78,69 @@ export function createLocator(snapshot: A11ySnapshot, source: PageSource): (find
   const nodeGroups = groupBy(nodes, (node) => signatureOfNode(node))
   const tagGroups = groupBy(placed, signatureOfTag)
 
-  const tagOfNode = (node: A11yNode): SourceTag | undefined => {
-    const name = tagNameOf(node)
-    if (!name) return undefined
-    if (SINGLETONS.has(name)) return only(placed.filter((tag) => tag.name === name))
-    const signature = signatureOfNode(node)
-    const twins = nodeGroups.get(signature) ?? []
-    const candidates = tagGroups.get(signature) ?? []
-    const index = twins.indexOf(node)
-    // A truncated snapshot lacks the elements after its cut, which keeps the count of those before it.
-    if (index !== -1 && (candidates.length === twins.length || (snapshot.truncated && index < candidates.length))) return candidates[index]
-    // The recorded start tag, with every attribute, can still single the element out, unless
-    // another element may share it: then nothing tells which of the two the file holds.
-    const mine = recordedStartTag(node)
-    if (!mine || twins.some((twin) => twin !== node && (recordedStartTag(twin) ?? mine) === mine)) return undefined
-    return tagOfMarkup(mine)
-  }
-
   /** The one tag in the file with exactly this start tag's name and attributes. */
   const tagOfMarkup = (markup: string): SourceTag | undefined => {
     const wanted = scanTags(markup)[0]
     if (!wanted) return undefined
-    const same = (tag: SourceTag) =>
-      tag.name === wanted.name &&
-      tag.attributes.length === wanted.attributes.length &&
-      wanted.attributes.every((attribute) => tag.attributes.some((other) => other.name === attribute.name && other.value === attribute.value))
-    return only(placed.filter(same))
+    return only(placed.filter((tag) => canonicalStartTag(tag) === canonicalStartTag(wanted)))
   }
+
+  // Pair every element with its tag: the k-th of a signature with the k-th in the file.
+  const paired = new Map<A11yNode, SourceTag>()
+  for (const [signature, twins] of nodeGroups) {
+    const name = twins[0] ? tagNameOf(twins[0]) : undefined
+    if (!name) continue
+    if (SINGLETONS.has(name)) {
+      const tag = only(placed.filter((candidate) => candidate.name === name))
+      if (tag && twins.length === 1 && twins[0]) paired.set(twins[0], tag)
+      continue
+    }
+    const candidates = tagGroups.get(signature) ?? []
+    // A truncated snapshot lacks the elements after its cut, so the file may hold more.
+    if (candidates.length === twins.length || (snapshot.truncated && candidates.length > twins.length)) {
+      twins.forEach((twin, index) => {
+        const tag = candidates[index]
+        if (tag) paired.set(twin, tag)
+      })
+      continue
+    }
+    // The counts differ: a script added or removed some. The recorded start tag, with every
+    // attribute, still singles an element out when no other element may share it.
+    for (const twin of twins) {
+      const mine = recordedStartTag(twin)
+      if (!mine || twins.some((other) => other !== twin && (recordedStartTag(other) ?? mine) === mine)) continue
+      const tag = tagOfMarkup(mine)
+      if (tag) paired.set(twin, tag)
+    }
+  }
+
+  // A signature whose pairs disagree with the file is dropped whole: one wrong pair shifts the rest.
+  const distrusted = new Set<string>()
+  // Elements in document order must sit at growing offsets; one that does not was moved by the
+  // parser (as content misplaced in a table) or by a script.
+  const ordered = nodes.flatMap((node) => {
+    const tag = paired.get(node)
+    return tag ? [{ node, offset: tag.start }] : []
+  })
+  const suffixMin: number[] = []
+  for (let i = ordered.length - 1, min = Number.POSITIVE_INFINITY; i >= 0; i--) {
+    suffixMin[i] = min
+    min = Math.min(min, ordered[i]?.offset ?? min)
+  }
+  let prefixMax = Number.NEGATIVE_INFINITY
+  ordered.forEach(({ node, offset }, i) => {
+    if (prefixMax >= offset || (suffixMin[i] ?? Number.POSITIVE_INFINITY) <= offset) distrusted.add(signatureOfNode(node))
+    prefixMax = Math.max(prefixMax, offset)
+  })
+  // Where an element has twins, or the snapshot was cut, the pair must also agree on what both record.
+  for (const [signature, twins] of nodeGroups) {
+    if (twins.length < 2 && !snapshot.truncated) continue
+    for (const twin of twins) {
+      const tag = paired.get(twin)
+      if (tag && !agrees(twin, tag, text)) distrusted.add(signature)
+    }
+  }
+  const tagOfNode = (node: A11yNode): SourceTag | undefined => (distrusted.has(signatureOfNode(node)) ? undefined : paired.get(node))
 
   /** The tag a patch edits: usually its own element, but 2.4.2 anchors to the page and edits <title>. */
   const tagOfPatch = (patch: Patch): SourceTag | undefined => {
@@ -114,6 +150,17 @@ export function createLocator(snapshot: A11ySnapshot, source: PageSource): (find
     return node ? tagOfNode(node) : undefined
   }
 
+  /**
+   * An engine result without an element of the snapshot: in a shadow root or a frame, or past
+   * the cut of a truncated snapshot. Only the last can be a tag of the file, and only when no
+   * element of the snapshot shares its signature.
+   */
+  const tagOfEngineMarkup = (markup: string): SourceTag | undefined => {
+    const wanted = scanTags(markup)[0]
+    if (!snapshot.truncated || !wanted || nodeGroups.has(signatureOfTag(wanted))) return undefined
+    return tagOfMarkup(markup)
+  }
+
   return (finding) => {
     let tag: SourceTag | undefined
     let fix: SourceFix | undefined
@@ -121,22 +168,28 @@ export function createLocator(snapshot: A11ySnapshot, source: PageSource): (find
       tag = tagOfPatch(finding.patch)
       if (tag) fix = fixFor(finding.patch, tag, text, starts)
     }
-    if (!tag && finding.ref) {
-      const node = byRef.get(finding.ref)
-      if (node) tag = tagOfNode(node)
-    }
-    if (!tag && finding.html) tag = tagOfMarkup(finding.html)
+    const node = finding.ref ? byRef.get(finding.ref) : undefined
+    if (!tag && node) tag = tagOfNode(node)
+    if (!tag && !node && finding.html) tag = tagOfEngineMarkup(finding.html)
     if (!tag) return undefined
     const element = elementRange(tag, text)
     const region = regionOf(starts, element.start, element.end)
     const snippet = text.slice(element.start, element.end)
-    return {
-      file: source.file,
-      ...region,
-      snippet: snippet.length > MAX_SNIPPET_LENGTH ? `${snippet.slice(0, MAX_SNIPPET_LENGTH - 1)}…` : snippet,
-      fix,
-    }
+    // A snippet must be the exact text of its region, so a long one is left out rather than cut.
+    return { file: source.file, ...region, snippet: snippet.length <= MAX_SNIPPET_LENGTH ? snippet : undefined, fix }
   }
+}
+
+/** Whether an element and a tag record the same thing: every attribute, and the text when both have it. */
+function agrees(node: A11yNode, tag: SourceTag, text: string): boolean {
+  const recorded = recordedStartTag(node)
+  if (recorded && recorded !== canonicalStartTag(tag)) return false
+  const content = textContent(tag, text)
+  if (node.text && content) {
+    const written = text.slice(content.start, content.end)
+    if (normalizeForMatch(decodeEntities(written)) !== normalizeForMatch(node.text)) return false
+  }
+  return true
 }
 
 /** The patch as an edit to the file, only when the file still says what the patch replaces. */
@@ -221,13 +274,17 @@ function tagNameOf(node: A11yNode): string | undefined {
   return typeof node.native.tag === 'string' ? node.native.tag.toLowerCase() : undefined
 }
 
-/** The start tag the collector recorded, with every attribute, in a form two equal tags share. */
+/** A start tag with every attribute, in a form two equal tags share whatever their quoting and order. */
+function canonicalStartTag(tag: Pick<SourceTag, 'name' | 'attributes'>): string {
+  const attributes = tag.attributes.map((attribute) => `${attribute.name}="${escapeAttribute(attribute.value)}"`).sort()
+  return `<${[tag.name, ...attributes].join(' ')}>`
+}
+
+/** The start tag the collector recorded, in canonical form. */
 function recordedStartTag(node: A11yNode): string | undefined {
   if (typeof node.native.html !== 'string') return undefined
   const tag = scanTags(node.native.html)[0]
-  if (!tag) return undefined
-  const attributes = tag.attributes.map((attribute) => `${attribute.name}="${escapeAttribute(attribute.value)}"`).sort()
-  return `<${[tag.name, ...attributes].join(' ')}>`
+  return tag ? canonicalStartTag(tag) : undefined
 }
 
 function signatureOf(name: string, attributes: Record<string, string>): string {

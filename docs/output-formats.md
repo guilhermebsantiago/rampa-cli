@@ -47,7 +47,13 @@ A usage error, such as an unknown `--format`, exits `2`. Earlier versions exited
 
 For a local page (an `.html` file, a folder of them, or a snapshot recorded from one), each finding gets the file and the line and columns of its element, and its patch becomes an edit of the file. Paths are relative to the repository root (the closest folder with `.git`), or to the working directory outside a repository, so they match what GitHub shows.
 
-The snapshot holds the page as the browser built it, which is not always what the file says. Rampa finds the element by what it shares with its tag in the file: the tag name and the attributes the collector keeps (`id`, `class`, `href`, `src`, `alt`, `lang`, the ARIA names and a few more). The k-th element with that signature in the snapshot is the k-th tag with it in the file. When the counts differ, because a script added or removed elements, the element is left without a line rather than given a wrong one; its full start tag can still single it out when no other element shares it. The page title, which 2.4.2 anchors to the page, is found at its `<title>`.
+The snapshot holds the page as the browser built it, which is not always what the file says. Rampa finds the element by what it shares with its tag in the file: the tag name and the attributes the collector keeps (`id`, `class`, `href`, `src`, `alt`, `lang`, the ARIA names and a few more). The k-th element with that signature in the snapshot is the k-th tag with it in the file. Rampa would rather leave an element without a line than give it a wrong one, so it drops every pair of a signature when:
+
+- the counts differ, because a script added or removed elements (an element's full start tag can still single it out when no other element shares it);
+- the order disagrees with the file, because the parser moved content (a link misplaced inside a table) or a script moved elements;
+- an element with twins, or any element of a truncated snapshot, records other attributes or another text than its tag in the file.
+
+An engine result on an element outside the snapshot (in a shadow root or a frame) gets no line. The page title, which 2.4.2 anchors to the page, is found at its `<title>`.
 
 A fix is made only when the file still says what the patch replaces: the attribute value, or the plain text of the element. A link whose text is split by markup keeps its location but gets no fix. Remote pages have no file: their findings are located by address and CSS selector.
 
@@ -56,14 +62,14 @@ A fix is made only when the file still says what the patch replaces: the attribu
 The report as before: one object for one page, an array for several. Two optional fields are new.
 
 - `sourceFile` on a report: the local file behind the target, relative as above.
-- `location` on a finding: `file`, `startLine`, `startColumn`, `endLine`, `endColumn` (1-based, end column exclusive, in UTF-16 code units as in SARIF), the source `snippet`, and `fix` when the patch applies to the file: the `region` to replace, the `text` to put there, and the element `before` and `after`.
+- `location` on a finding: `file`, `startLine`, `startColumn`, `endLine`, `endColumn` (1-based, end column exclusive, in UTF-16 code units as in SARIF), the source `snippet` when the region is 500 characters or less, and `fix` when the patch applies to the file: the `region` to replace, the `text` to put there, and the element `before` and `after`.
 
 ## SARIF
 
 [SARIF 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html), the format of GitHub code scanning and of IDE viewers such as the SARIF extension for VS Code. A test validates the output against the official OASIS schema.
 
 - **Rules.** One per WCAG success criterion, such as `WCAG-2.4.4` (`LinkPurposeInContext`), with its level in the description and the tags (`wcag-a`, `wcag-aa`), and `helpUri` pointing to W3C's Understanding page. A finding from an axe-core rule outside WCAG 2.1 A/AA keeps the rule's own id.
-- **Results.** The message, the evidence and the finding id (the one waivers use). The level follows the confidence: `error` for high, `warning` for medium, `note` for low and for findings below the threshold. GitHub fails a pull request check on `error` by default, so only high-confidence findings block there unless you change that setting; Rampa's own exit code follows `--fail-on`. Properties carry the source (engine or judgment), the confidence, the votes, the model, the axe-core rule and its help page, and the patch as text.
+- **Results.** The message, the evidence and the finding id (the one waivers use), with brackets escaped as SARIF requires of plain text. The level follows the confidence: `error` for high, `warning` for medium, `note` for low and for findings below the threshold. GitHub fails a pull request check on `error` by default, so only high-confidence findings block there unless you change that setting; Rampa's own exit code follows `--fail-on`. Properties carry the source (engine or judgment), the confidence, the votes, the model, the axe-core rule and its help page, and the patch as text.
 - **Locations.** For a local page, the file relative to `%SRCROOT%` (the repository root) with the line and columns of the element and its source as the snippet. For a remote page, the URL. Both carry a logical location: the CSS selector of the element.
 - **Fixes.** The patch as a replacement in the file, when it applies (see above).
 - **Fingerprints.** `partialFingerprints["rampa/v1"]` hashes the page, the criterion, the rule and the element's selector. It survives a model quoting different words and the element moving to another line, so code scanning keeps tracking one alert. A change in the structure around the element, such as a new sibling of the same tag before it, changes the selector, and code scanning then sees a new alert.
@@ -86,9 +92,9 @@ Evidence: "Click here" · confidence high · 1/1 runs · id 1af8a73e209d
 
 - It starts with a hidden marker, `<!-- rampa-report -->`, so a bot can find its earlier comment and edit it instead of posting a new one.
 - A summary line counts the confirmed findings by level, then each page with findings gets one block per finding: the criterion and level (linked to W3C's Understanding page), `file:line` or the selector, the message, the patch as a `diff` against the source as written, the evidence, the confidence and the id.
-- A page's findings past the fifth fold into a `<details>`. The report stays under 60,000 characters, below GitHub's limit for a comment; findings that do not fit are counted and left to the SARIF, JSON and HTML reports.
+- A page's findings past the fifth fold into a `<details>`. The report stays under 60,000 characters, below GitHub's limit for a comment: notes, coverage rows and pages without findings are listed up to 20 each, and findings that do not fit are counted and left to the SARIF, JSON and HTML reports.
 - Notes, the coverage of the run and the statement that the report does not declare the page accessible come at the end, then how to waive a false positive.
-- Text from the page is escaped: it cannot add Markdown or HTML, mention a person (`@name`) or reference an issue (`#12`).
+- Text from the page is escaped: it cannot add Markdown or HTML, mention a person (`@name`) or reference an issue (`#12`, `GH-12`). An address in it still becomes a link, as GitHub does with any text.
 
 ## HTML
 

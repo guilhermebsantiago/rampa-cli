@@ -76,6 +76,13 @@ describe('scanTags', () => {
     expect(tag?.attributes).toHaveLength(1)
     expect(tag?.attributes[0]?.value).toBe('café & pão éA &unknown;')
     expect(decodeEntities('&nbsp;&copy;&yuml;&mdash;&#0;')).toBe(' ©ÿ—�')
+    // As browsers read them: Windows-1252 for 0x80-0x9F, legacy names without a semicolon, `&name=` kept in attributes.
+    expect(decodeEntities('&#150;&#x80; &copy 2026 &hellip')).toBe('–€ © 2026 &hellip')
+    expect(scanTags('<a href="/s?a=1&copy=2">x</a>')[0]?.attributes[0]?.value).toBe('/s?a=1&copy=2')
+  })
+
+  it('ends a comment at --!> too', () => {
+    expect(scanTags('<!-- a --!><p>x</p>').map((tag) => tag.name)).toEqual(['p'])
   })
 
   it('reads unquoted values, self-closing slashes and values across lines', () => {
@@ -181,12 +188,62 @@ describe('locateReport', () => {
     expect(locate(finding('html'))?.startLine).toBe(2)
   })
 
-  it('places an engine finding by its markup when it has no snapshot ref', () => {
-    const snapshot = page([])
+  it('places an engine finding by its markup only when the snapshot was cut before its element', () => {
     const text = '<html><body>\n<iframe src="/map"></iframe>\n</body></html>'
-    const locate = createLocator(snapshot, { file: 'page.html', text })
     const engine = { ...finding('none'), ref: undefined, source: 'engine' as const, html: '<iframe src="/map"></iframe>' }
-    expect(locate(engine)?.startLine).toBe(2)
+    expect(createLocator({ ...page([]), truncated: true }, { file: 'page.html', text })(engine)?.startLine).toBe(2)
+    // Not cut: an element the snapshot lacks is in a shadow root or a frame, not in this file.
+    expect(createLocator(page([]), { file: 'page.html', text })(engine)).toBeUndefined()
+  })
+
+  it('leaves unplaced an engine finding on an element a script added next to a static twin', () => {
+    // As axe-core reports it: an icon-only link a script added, and the static link with text.
+    const snapshot = page([
+      node({ ref: '#top > a', role: 'link', native: { tag: 'a', attributes: { href: '/cart' }, html: '<a href="/cart"><svg></svg></a>' } }),
+      node({ ref: 'main a', role: 'link', text: 'Cart (2 items)', native: { tag: 'a', attributes: { href: '/cart' }, html: '<a href="/cart">Cart (2 items)</a>' } }),
+    ])
+    const text = '<html><body>\n<header id="top"></header>\n<main><a href="/cart">Cart (2 items)</a></main>\n</body></html>'
+    const locate = createLocator(snapshot, { file: 'page.html', text })
+    const engine = { ...finding('#top > a'), source: 'engine' as const, html: '<a href="/cart"><svg></svg></a>' }
+    expect(locate(engine)).toBeUndefined()
+    // In a shadow root axe-core gives no ref; the static twin in the snapshot still rules the file out.
+    expect(locate({ ...engine, ref: undefined })).toBeUndefined()
+  })
+
+  it('drops pairs that the order of the file contradicts, as content the parser moved out of a table', () => {
+    // The browser moves the stray link before the table; the file has it after the cell's link.
+    const snapshot = page([
+      node({ ref: 'body > a', role: 'link', text: 'More', native: { tag: 'a', attributes: { href: '/x' } } }),
+      node({
+        ref: 'table',
+        role: 'table',
+        native: { tag: 'table', attributes: {} },
+        children: [node({ ref: 'td > a', role: 'link', text: 'Shipping details', native: { tag: 'a', attributes: { href: '/x' } } })],
+      }),
+    ])
+    const text = '<html><body>\n<table><tr><td>\n<a href="/x">Shipping details</a>\n</td></tr>\n<a href="/x">More</a>\n</table>\n</body></html>'
+    const locate = createLocator(snapshot, { file: 'page.html', text })
+    expect(locate(finding('body > a'))).toBeUndefined()
+    expect(locate(finding('td > a'))).toBeUndefined()
+  })
+
+  it('checks the text of twins, so a script that reordered them cannot swap their lines', () => {
+    const snapshot = page([
+      node({ ref: 'li:nth-of-type(1) > a', role: 'link', text: 'Beta', native: { tag: 'a', attributes: { href: '/p' } } }),
+      node({ ref: 'li:nth-of-type(2) > a', role: 'link', text: 'Alpha', native: { tag: 'a', attributes: { href: '/p' } } }),
+    ])
+    const text = '<html><body>\n<a href="/p">Alpha</a>\n<a href="/p">Beta</a>\n</body></html>'
+    expect(createLocator(snapshot, { file: 'page.html', text })(finding('li:nth-of-type(1) > a'))).toBeUndefined()
+  })
+
+  it('checks every pair of a truncated snapshot, where the counts prove nothing', () => {
+    // A cookie banner's link sits before the cut; the footer link that shares its signature is past it.
+    const snapshot = {
+      ...page([node({ ref: '#cookie > a', role: 'link', text: 'Learn more', native: { tag: 'a', attributes: { href: '/privacy' } } })]),
+      truncated: true,
+    }
+    const text = '<html><body>\n<main>...</main>\n<footer><a href="/privacy">Privacy policy</a></footer>\n</body></html>'
+    expect(createLocator(snapshot, { file: 'page.html', text })(finding('#cookie > a'))).toBeUndefined()
   })
 
   it('leaves the fix out when the file no longer says what the patch replaces', () => {

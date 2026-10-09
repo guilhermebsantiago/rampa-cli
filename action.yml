@@ -97,12 +97,16 @@ runs:
       uses: actions/setup-node@v5
       with:
         node-version: ${{ inputs.node-version }}
+        # The automatic cache would read the calling repository's package.json, not Rampa's.
+        package-manager-cache: false
 
     - name: Build Rampa
       shell: bash
       working-directory: ${{ github.action_path }}
       env:
         COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
+        # With NODE_ENV=production in the job, pnpm would skip the build tools.
+        NODE_ENV: development
       # pnpm through corepack, at the version package.json pins, without the shims of
       # `corepack enable`, which would change pnpm for the rest of the job.
       run: |
@@ -130,11 +134,12 @@ runs:
         RAMPA_CLI: ${{ github.action_path }}/dist/cli.mjs
       run: node "$GITHUB_ACTION_PATH/action/check.ts"
 
-    # A pull request from a fork gets a token that cannot upload; the comment step warns instead of failing.
+    # Skipped for pull requests from forks: on pull_request the token cannot upload, and on
+    # pull_request_target the results would be filed under the base branch.
     - name: Upload SARIF to code scanning
       if: >-
         inputs.sarif == 'true' && steps.check.outputs.sarif != '' &&
-        (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+        (github.event.pull_request == null || github.event.pull_request.head.repo.full_name == github.repository)
       uses: github/codeql-action/upload-sarif@v4
       continue-on-error: true
       with:
@@ -159,7 +164,7 @@ runs:
       run: |
         code="${RAMPA_EXIT_CODE:-2}"
         if [ "$code" = "1" ]; then
-          echo "::error::Rampa found ${RAMPA_FINDINGS:-some} confirmed finding(s); the fail-on policy is ${RAMPA_FAIL_ON:-confirmed}."
+          echo "::error::Findings fail the fail-on policy (${RAMPA_FAIL_ON:-confirmed}); ${RAMPA_FINDINGS:-0} confirmed in all. The report lists them."
         elif [ "$code" != "0" ]; then
           echo "::error::rampa check could not finish (exit code $code); the Check accessibility step says why."
         fi
