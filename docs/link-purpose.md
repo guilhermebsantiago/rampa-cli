@@ -14,7 +14,7 @@ With these, the model can report three problems besides a generic text such as "
 | `ambiguous` | two "Download" links to two price lists, nothing around them says which is which | The link text "Download" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart. |
 | `url_or_filename` | `report_final_v2.pdf` | The link text … is an address, not a purpose. |
 
-Verification keeps a `mismatch` only when the destination is known (a `#part`, an address, or what Rampa read there), and an `ambiguous` only when the facts say other links with the same text lead elsewhere from the same context. The destination never makes an unclear text pass: people do not see it before they follow the link.
+Verification keeps a `mismatch` only when the destination was read (the `#part` it points to, or a title or main heading read at its address that is not the site's name, not shared by pages at other addresses and not a not-found page; see [criteria.md](criteria.md#244-link-purpose-in-context)), and an `ambiguous` only when the facts say other links with the same text lead elsewhere from the same context. The destination never makes an unclear text pass: people do not see it before they follow the link.
 
 `examples/link-purpose/news.html` shows all three, and `news-fixed.html` the same page fixed:
 

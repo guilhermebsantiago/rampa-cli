@@ -243,7 +243,7 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
     return { system: SYSTEM, user }
   },
 
-  verify(output, candidate): Verification {
+  verify(output, candidate, snapshot): Verification {
     const c = candidate.context
     // The <link> tags are the prompt's own delimiters, not page text; the words inside must still be the link text.
     const quote = verifyQuote(output.evidence.replace(/^\s*<link>([\s\S]*)<\/link>\s*$/i, '$1'), c.name, 'link text')
@@ -259,9 +259,12 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
       if (normalizeForMatch(suggested) === normalizeForMatch(c.name)) {
         return { ok: false, reason: 'suggested text equals the current one' }
       }
-      // A mismatch needs a destination to differ from; an ambiguous text needs other links that lead elsewhere.
-      if (output.problem === 'mismatch' && c.target === undefined && c.destination === undefined && !isAddress(c.href)) {
-        return { ok: false, reason: 'mismatch without a known destination' }
+      // A mismatch needs a destination to differ from, read on this page or at its address, never the address text alone;
+      // an ambiguous text needs other links that lead elsewhere.
+      if (output.problem === 'mismatch' && c.target === undefined) {
+        if (c.destination === undefined) return { ok: false, reason: 'mismatch without a known destination' }
+        const evidence = destinationEvidence(c.destination, snapshot)
+        if (evidence !== 'read') return { ok: false, reason: MISMATCH_REASONS[evidence] }
       }
       if (output.problem === 'ambiguous' && !(c.sameText && c.sameText.places > 1 && !c.sameText.apart)) {
         return { ok: false, reason: 'no other link with this text leads elsewhere from the same context' }
@@ -331,6 +334,80 @@ export function describeDestination(destination: Destination): string | undefine
   if (facts.length === 0 && !section) return undefined
   const page = facts.length > 0 ? `a page ${facts.join(', ')}` : 'a page'
   return `${page}${section ? `; the part the address points to begins "${section}"` : ''}${redirect}`
+}
+
+const MISMATCH_REASONS = {
+  unread: 'mismatch without a title or heading read at the destination',
+  'not-found': 'mismatch on a destination that is a not-found page (a broken link, never a finding)',
+  generic: "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+} as const
+
+const NOT_FOUND_PATH = /(^|\/)(404|not[-_]?found|page[-_]not[-_]found|nao[-_]encontrad[ao]|no[-_]encontrad[ao]|erro[-_]?404|error[-_]?404)(\/|\.|$)/i
+const NOT_FOUND_TEXT = /\b404\b|\bnot found\b|\bpage (does not|doesn't) exist\b|não (foi )?encontrad[ao]|nao (foi )?encontrad[ao]|no (se ha )?encontrad[ao]|no se encontr|página inexistente|pagina inexistente|no existe/i
+
+/** The address a destination ended at, without its fragment, or undefined when it does not parse. */
+function addressOf(href: string, destination: Destination, base: string): string | undefined {
+  try {
+    const url = new URL(destination.finalUrl ?? href, base)
+    url.hash = ''
+    return url.href
+  } catch {
+    return undefined
+  }
+}
+
+/** A path that is a site's root or a language root, such as "/", "/pt" or "/en-us/". */
+function isRootPath(address: string): boolean {
+  try {
+    return /^\/([a-z]{2}([-_][a-z]{2})?\/?)?$/i.test(new URL(address).pathname)
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Whether what was read at a link's destination can show that the link text names something else:
+ * 'read' when the page has a title or main heading that tells it apart; 'unread' when neither was read;
+ * 'not-found' when it is a not-found page; 'generic' when its title and heading are the site's name
+ * (the title of this page or of a site root) or are shared by pages at other addresses.
+ */
+export function destinationEvidence(destination: Destination, snapshot: A11ySnapshot): 'read' | 'unread' | 'not-found' | 'generic' {
+  if (destination.kind !== 'page') return 'unread'
+  const title = destination.title?.trim() || undefined
+  const heading = destination.heading?.trim() || undefined
+  if (!title && !heading) return 'unread'
+  const base = baseOf(snapshot)
+  const status = destination.status ?? 200
+  const path = (() => {
+    try {
+      return new URL(destination.finalUrl ?? 'about:blank', base).pathname
+    } catch {
+      return ''
+    }
+  })()
+  if (status === 404 || status === 410 || NOT_FOUND_PATH.test(path) || [title, heading].some((text) => text && NOT_FOUND_TEXT.test(text))) {
+    return 'not-found'
+  }
+  // The site's name: this page's own title, and the title of any site root that was read.
+  const siteNames = new Set<string>()
+  if (snapshot.title?.trim()) siteNames.add(normalizeForMatch(snapshot.title))
+  // How many different addresses each title or heading was read at.
+  const addresses = new Map<string, Set<string>>()
+  for (const [href, other] of Object.entries(snapshot.destinations ?? {})) {
+    if (other.kind !== 'page') continue
+    const address = addressOf(href, other, base)
+    if (address === undefined) continue
+    if (other.title?.trim() && isRootPath(address)) siteNames.add(normalizeForMatch(other.title))
+    for (const text of new Set([other.title, other.heading].map((value) => normalizeForMatch(value ?? '')).filter(Boolean))) {
+      addresses.set(text, (addresses.get(text) ?? new Set()).add(address))
+    }
+  }
+  const tells = (text: string | undefined) => {
+    if (!text) return false
+    const key = normalizeForMatch(text)
+    return !siteNames.has(key) && (addresses.get(key)?.size ?? 0) < 2
+  }
+  return tells(title) || tells(heading) ? 'read' : 'generic'
 }
 
 /** A short name for a destination, for the finding's message. */
