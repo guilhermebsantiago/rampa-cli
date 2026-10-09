@@ -217,6 +217,17 @@ describe('3.2.3 Consistent Navigation', () => {
     expect(report.findings.filter((entry) => entry.criterion === '3.2.3')).toEqual([])
   })
 
+  it('matches a desktop menu with the desktop menu and its hidden mobile twin with the mobile twin, wherever they sit', () => {
+    const mobile: Links = [MAIN[4], ...MAIN.slice(0, 4)] as Links
+    const report = run([
+      page('/', { nav: [{ label: 'Main', links: MAIN }, { label: 'Menu', links: mobile, hidden: true }] }),
+      page('/a', { nav: [{ label: 'Menu', links: mobile, hidden: true }, { label: 'Main', links: MAIN }] }),
+      page('/b', { nav: [{ label: 'Main', links: MAIN }, { label: 'Menu', links: mobile, hidden: true }] }),
+    ])
+    expect([...report.findings, ...report.review].filter((finding) => finding.criterion === '3.2.3')).toEqual([])
+    expect(report.criteria.find((c) => c.criterion === '3.2.3')?.compared).toBe(2)
+  })
+
   it('compares language versions as separate sets', () => {
     const pt: Links = [['Início', '/pt/'], ['Preços', '/pt/precos'], ['Documentação', '/pt/docs/'], ['Blog', '/blog']]
     const report = run([

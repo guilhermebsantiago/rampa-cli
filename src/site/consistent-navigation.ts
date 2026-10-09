@@ -36,17 +36,20 @@ export function matchComponents(pages: ReadonlyArray<SitePageFacts<NavigationFac
   const groups: Group[] = []
   for (const page of pages) {
     const components = page.facts.components.filter((component) => new Set(component.items.map((item) => item.key)).size >= 2)
-    const options: Array<{ component: number; group: number; shared: number; ratio: number }> = []
+    const options: Array<{ component: number; group: number; shared: number; ratio: number; alike: number }> = []
     components.forEach((component, componentIndex) => {
       const keys = new Set(component.items.map((item) => item.key))
       groups.forEach((group, groupIndex) => {
         if (group.kind !== component.kind) return
         const shared = [...keys].filter((key) => group.links.has(key)).length
         const ratio = shared / Math.max(1, Math.min(keys.size, group.links.size))
-        if (shared >= 2 && ratio >= MATCH) options.push({ component: componentIndex, group: groupIndex, shared, ratio })
+        // A desktop menu and its hidden mobile twin share every link: the label and the visibility tell them apart.
+        const first = (group.members[0] as Member).component
+        const alike = Number(first.name === component.name) + Number(first.hidden === component.hidden)
+        if (shared >= 2 && ratio >= MATCH) options.push({ component: componentIndex, group: groupIndex, shared, ratio, alike })
       })
     })
-    options.sort((a, b) => b.shared - a.shared || b.ratio - a.ratio || a.component - b.component)
+    options.sort((a, b) => b.shared - a.shared || b.alike - a.alike || b.ratio - a.ratio || a.component - b.component || a.group - b.group)
     const usedComponents = new Set<number>()
     const usedGroups = new Set<number>()
     for (const option of options) {
