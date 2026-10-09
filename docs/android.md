@@ -69,7 +69,7 @@ Without axe-core, the deterministic layer is a set of rules over the tree and th
 
 | What | How | WCAG |
 | --- | --- | --- |
-| Controls without a name | Rule `control-name`: a clickable, long-clickable or checkable view, or a button-like class, with no text, no `content-desc` and no text inside it. This is UI Automator's own "not accessibility friendly" check; lists and grids that are clickable to pick an item are left out, as UI Automator leaves them. | 4.1.2 |
+| Controls without a name | Rule `control-name`: a clickable, long-clickable or checkable view, or a button-like class, with no text, no `content-desc` and no text inside it. This is UI Automator's own "not accessibility friendly" check; lists and grids that are clickable to pick an item are left out, as UI Automator leaves them. A control named only by another view's `labelFor`, which the dump does not show, would be reported too; that is rare outside text fields, which have their own rule. | 4.1.2 |
 | Image buttons without a name | Rule `image-control-name`: the same, for a control whose only content is an image, such as an `ImageButton` | 1.1.1, 4.1.2 |
 | Images without a description | Rule `image-name`: listed for a person to decide, never failed. UI Automator cannot tell a missing `contentDescription` from `contentDescription="@null"`, which marks an image as decorative. Appium's `a11y-important="false"` does mark it, and such images are skipped. | 1.1.1 |
 | Fields without a name | Rule `field-name`: a field with no `content-desc` and no hint is listed for a person, because a label can still point at it with `labelFor`, which the dump does not show | 4.1.2 |

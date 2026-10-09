@@ -330,7 +330,7 @@ export function rulesNotes(engine: EngineResults, locale: Locale): string[] {
   if (between > 0) {
     notes.push(
       locale === 'pt-BR'
-        ? `${between} texto(s) com contraste entre 3:1 e 4,5:1: só basta para texto grande, e o tamanho não é conhecido; confira manualmente.`
+        ? `${between} texto(s) com contraste entre 3:1 e 4,5:1: suficiente só para texto grande, e o tamanho não é conhecido; confira manualmente.`
         : `${between} text(s) have a contrast between 3:1 and 4.5:1: enough only for large text, and their size is not known; check them by hand.`,
     )
   }
