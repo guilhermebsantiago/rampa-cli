@@ -1,14 +1,14 @@
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { type Browser, type BrowserContext, chromium } from 'playwright-core'
+import type { Browser, BrowserContext } from 'playwright-core'
 import { afterAll, afterEach, describe, expect, it } from 'vitest'
 import { memoryCache } from '../src/core/cache.ts'
-import { errorMessage } from '../src/core/util.ts'
 import { check } from '../src/index.ts'
 import { type AssertOptions, type ToPassRampaOptions, checkPage, collectPage, playwrightDriver, rampaFixtures, rampaMatchers } from '../src/playwright.ts'
 import { checkPage as checkPuppeteerPage, type PuppeteerPage } from '../src/puppeteer.ts'
 import { collectWeb } from '../src/surfaces/web.ts'
+import { launchTestBrowser } from './browser.ts'
 import { stubModel } from './stub-model.ts'
 
 declare module 'vitest' {
@@ -20,24 +20,11 @@ declare module 'vitest' {
 
 expect.extend(rampaMatchers)
 
-/**
- * Integration: a real Playwright page in Microsoft Edge (channel msedge), or the browser
- * RAMPA_BROWSER_CHANNEL / RAMPA_BROWSER_PATH name; CI sets chrome, which GitHub's Ubuntu
- * runners ship. Without a browser the tests are skipped, and the reason is printed.
- */
-async function launch(): Promise<{ browser?: Browser; skip?: string }> {
-  const executablePath = process.env.RAMPA_BROWSER_PATH
-  const channel = process.env.RAMPA_BROWSER_CHANNEL ?? 'msedge'
-  try {
-    const browser = await chromium.launch(executablePath ? { executablePath, headless: true } : { channel: channel === 'chromium' ? undefined : channel, headless: true })
-    return { browser }
-  } catch (error) {
-    return { skip: `Skipping the Playwright integration tests: could not start ${executablePath ?? channel} (${errorMessage(error)}). Install Microsoft Edge, or set RAMPA_BROWSER_CHANNEL (chrome, msedge, chromium) or RAMPA_BROWSER_PATH.` }
-  }
-}
-
-const { browser, skip } = await launch()
-if (skip) console.warn(skip)
+// Integration: a real Playwright page in Microsoft Edge here, Google Chrome on CI (RAMPA_BROWSER_CHANNEL=chrome).
+// Without a browser the tests are skipped, and the reason is printed.
+const launched = await launchTestBrowser('the Playwright integration tests')
+const browser: Browser | undefined = 'browser' in launched ? launched.browser : undefined
+if ('skip' in launched) console.warn(launched.skip)
 afterAll(async () => browser?.close())
 
 const SHOP = 'https://shop.test'

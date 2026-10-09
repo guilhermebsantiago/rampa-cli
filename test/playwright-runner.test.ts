@@ -1,26 +1,17 @@
 import { execFile } from 'node:child_process'
-import { chromium } from 'playwright-core'
 import { describe, expect, it } from 'vitest'
-import { errorMessage } from '../src/core/util.ts'
+import { launchTestBrowser } from './browser.ts'
 
 /**
  * Integration: runs test/playwright-runner/shop.pw.ts with @playwright/test itself, so the
  * fixture and the matchers are exercised by the real runner (fixture parsing, test.use,
- * expect.extend, attachments). Skipped, with the reason printed, when no browser starts.
+ * expect.extend, attachments), in the browser the other integration tests found.
+ * Skipped, with the reason printed, when no browser starts.
  */
-async function browserMissing(): Promise<string | undefined> {
-  const executablePath = process.env.RAMPA_BROWSER_PATH
-  const channel = process.env.RAMPA_BROWSER_CHANNEL ?? 'msedge'
-  try {
-    const browser = await chromium.launch(executablePath ? { executablePath, headless: true } : { channel: channel === 'chromium' ? undefined : channel, headless: true })
-    await browser.close()
-    return undefined
-  } catch (error) {
-    return `Skipping the @playwright/test run: could not start ${executablePath ?? channel} (${errorMessage(error)}). Install Microsoft Edge, or set RAMPA_BROWSER_CHANNEL or RAMPA_BROWSER_PATH.`
-  }
-}
-
-const skip = await browserMissing()
+const launched = await launchTestBrowser('the @playwright/test run')
+const skip = 'skip' in launched ? launched.skip : undefined
+const browserEnv = 'browser' in launched ? { RAMPA_BROWSER_PATH: launched.executablePath, RAMPA_BROWSER_CHANNEL: launched.channel } : {}
+if ('browser' in launched) await launched.browser.close()
 if (skip) console.warn(skip)
 
 interface JsonResult {
@@ -43,7 +34,7 @@ function runPlaywright(): Promise<{ stats: { expected: number; unexpected: numbe
     execFile(
       process.execPath,
       ['node_modules/@playwright/test/cli.js', 'test', '-c', 'test/playwright-runner/playwright.config.ts', '--reporter=json'],
-      { maxBuffer: 50_000_000 },
+      { maxBuffer: 50_000_000, env: { ...process.env, ...withoutUndefined(browserEnv) } },
       (error, stdout) => {
         if (error && error.code !== 1) return reject(error)
         try {
@@ -54,6 +45,10 @@ function runPlaywright(): Promise<{ stats: { expected: number; unexpected: numbe
       },
     )
   })
+}
+
+function withoutUndefined(env: Record<string, string | undefined>): Record<string, string> {
+  return Object.fromEntries(Object.entries(env).filter((entry): entry is [string, string] => entry[1] !== undefined))
 }
 
 function specs(suites: JsonSuite[]): Map<string, JsonSpec['tests'][number]> {
