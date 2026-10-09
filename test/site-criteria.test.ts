@@ -133,6 +133,14 @@ describe('relative order', () => {
     expect(tie.ties).toHaveLength(1)
   })
 
+  it('reads a menu item that wraps a link as the link alone', () => {
+    const snapshot = page('/', { nav: [{ label: 'Main', links: MAIN.slice(0, 2) }] })
+    const nav = snapshot.root.children[0]?.children[0]?.children[0] as A11yNode
+    const wrapped = nav.children.map((link) => node({ ref: `${link.ref} li`, role: 'menuitem', name: link.name, children: [link] }))
+    nav.children = [...wrapped, node({ ref: 'header > nav > button', role: 'menuitem', name: 'More', native: { tag: 'button' } })]
+    expect(navigationComponents(snapshot)[0]?.items.map((item) => item.key)).toEqual(['/', '/docs', 'menuitem:more'])
+  })
+
   it('resolves addresses so the same place matches from any page', () => {
     expect(addressKey('#how', u('/'))).toBe('/#how')
     expect(addressKey('/#how', u('/criteria/'))).toBe('/#how')

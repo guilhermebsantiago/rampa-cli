@@ -118,12 +118,18 @@ export interface Item {
 
 export function itemOf(node: A11yNode, page: string): Item | undefined {
   if (!ITEM_ROLES.has(node.role)) return undefined
-  const name = nameOf(node)
   const href = attribute(node, 'href')
+  // A menu item that wraps a link is the link's container, not a second item: the link is read on its own.
+  if (href === undefined && containsLink(node)) return undefined
+  const name = nameOf(node)
   const linkKey = href !== undefined ? addressKey(href, page) : undefined
   const key = linkKey ?? (name ? `${node.role}:${normalizeForMatch(name)}` : undefined)
   if (!key) return undefined
   return { key, name: name || (href ?? key), ref: node.ref, html: nodeHtml(node), href }
+}
+
+function containsLink(node: A11yNode): boolean {
+  return node.children.some((child) => child.role === 'link' || containsLink(child))
 }
 
 export interface Component {
