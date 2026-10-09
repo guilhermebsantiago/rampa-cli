@@ -49,6 +49,23 @@ const CELL_ROLES = new Set(['', 'cell', 'gridcell', 'columnheader', 'rowheader']
 const HEADER_ROLES = new Set(['', 'columnheader', 'rowheader'])
 
 /**
+ * Whether a header cell heads its column or its row, by the HTML table model. In the auto state (no scope),
+ * a header heads its column when its rows hold no data cell, and its row when its columns hold none. When
+ * both hold data cells, it heads neither, and the algorithm assigns it to no cell.
+ */
+export function headerKind(cells: readonly TableCell[], cell: TableCell): 'column' | 'row' | 'neither' {
+  if (!cell.header) return 'neither'
+  const overlaps = (from: number, size: number, start: number, length: number) => from < start + length && start < from + size
+  const anyData = (keep: (other: TableCell) => boolean) => cells.some((other) => !other.header && keep(other))
+  if (cell.scope === 'col' || cell.scope === 'colgroup') return 'column'
+  if (cell.scope === 'row' || cell.scope === 'rowgroup') return 'row'
+  // Any other value of scope is the auto state.
+  if (!anyData((other) => overlaps(other.y, other.h, cell.y, cell.h))) return 'column'
+  if (!anyData((other) => overlaps(other.x, other.w, cell.x, cell.w))) return 'row'
+  return 'neither'
+}
+
+/**
  * For each header cell, the cells it is assigned to, by the HTML algorithm "forming relationships between
  * data cells and header cells": a cell's headers attribute when it has one, and otherwise a scan left along
  * its rows and up along its columns, where a header block hides the headers beyond it.
@@ -64,13 +81,9 @@ export function assignedCells(cells: readonly TableCell[]): Map<TableCell, Table
     }
   }
   const covering = (x: number, y: number) => slots.get(`${x},${y}`) ?? []
-  const anyData = (keep: (cell: TableCell) => boolean) => cells.some((cell) => !cell.header && keep(cell))
-  const overlaps = (from: number, size: number, start: number, length: number) => from < start + length && start < from + size
-  const columnHeader = (cell: TableCell) =>
-    cell.header && (cell.scope === 'col' || cell.scope === 'colgroup' || (cell.scope === '' && !anyData((other) => overlaps(other.y, other.h, cell.y, cell.h))))
-  const rowHeader = (cell: TableCell) =>
-    cell.header &&
-    (cell.scope === 'row' || cell.scope === 'rowgroup' || (cell.scope === '' && !columnHeader(cell) && !anyData((other) => overlaps(other.x, other.w, cell.x, cell.w))))
+  const kinds = new Map(cells.filter((cell) => cell.header).map((cell) => [cell, headerKind(cells, cell)]))
+  const columnHeader = (cell: TableCell) => kinds.get(cell) === 'column'
+  const rowHeader = (cell: TableCell) => kinds.get(cell) === 'row'
 
   const scan = (principal: TableCell, list: Set<TableCell>, startX: number, startY: number, dx: number, dy: number) => {
     const opaque: TableCell[] = []
@@ -170,10 +183,13 @@ export const tableHeadersRule: RuleCheck = {
         const cells = (assigned.get(target) ?? []).filter((cell) => CELL_ROLES.has(cell.role))
         if (cells.length > 0) continue
         const text = textOf(nodeAt(ctx.index, target.ref))
-        const why = table.busy ? 'busy' : !hasData ? 'header-only' : 'unassigned'
+        // With no scope, and data cells in both its row and its column, the HTML model makes it head neither;
+        // browsers often guess, so a person checks, and scope settles it.
+        const neither = headerKind(table.cells, target) === 'neither'
+        const why = table.busy ? 'busy' : !hasData ? 'header-only' : neither ? 'no-scope' : 'unassigned'
         hits.push({
           ref: target.ref,
-          outcome: unsure ? 'review' : 'fail',
+          outcome: unsure || neither ? 'review' : 'fail',
           subject: text || target.ref,
           evidence: text ? `<th>${text}</th>` : undefined,
           facts: { text, why },
@@ -188,6 +204,11 @@ export const tableHeadersRule: RuleCheck = {
       return locale === 'pt-BR'
         ? `O cabeçalho ${text} não encabeça nenhuma célula, mas a tabela ${hit.facts.why === 'busy' ? 'está marcada como carregando (aria-busy)' : 'só tem cabeçalhos'}: confira se os dados ainda vão aparecer.`
         : `The header cell ${text} heads no cell, but the table ${hit.facts.why === 'busy' ? 'is marked as loading (aria-busy)' : 'holds only headers'}: check whether its data is still to come.`
+    }
+    if (hit.facts.why === 'no-scope') {
+      return locale === 'pt-BR'
+        ? `O cabeçalho ${text} não tem scope, e tanto a linha quanto a coluna dele têm células de dados: pelo modelo de tabelas do HTML ele não encabeça nenhuma célula, e cada navegador decide sozinho. Declare scope="col" ou scope="row".`
+        : `The header cell ${text} has no scope, and both its row and its column hold data cells: by the HTML table model it heads no cell, and each browser guesses. Set scope="col" or scope="row".`
     }
     return locale === 'pt-BR'
       ? `O cabeçalho ${text} não encabeça nenhuma célula: nenhuma célula da linha ou da coluna dele está associada a ele, então o leitor de tela o anuncia sem nada (ACT d0f69e).`

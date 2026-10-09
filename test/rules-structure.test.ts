@@ -4,7 +4,7 @@ import { afterAll, describe, expect, it } from 'vitest'
 import { memoryCache } from '../src/core/cache.ts'
 import { checkSnapshot } from '../src/core/check.ts'
 import type { Finding } from '../src/core/types.ts'
-import { type TableCell, assignedCells, tableFactsOf, tablesOf } from '../src/rules/structure.ts'
+import { type TableCell, assignedCells, headerKind, tableFactsOf, tablesOf } from '../src/rules/structure.ts'
 import { walkTree } from '../src/snapshot/tree.ts'
 import { collectWeb, launchBrowser } from '../src/surfaces/web.ts'
 
@@ -66,6 +66,15 @@ describe('header cell assignment (HTML table model, ACT d0f69e)', () => {
     expect(
       unassigned([cell('room', true, 0, 0, { scope: 'col' }), cell('occupant', true, 1, 0, { scope: 'col' }), cell('1a', false, 0, 1), cell('2a', false, 0, 2)]),
     ).toEqual(['occupant'])
+  })
+
+  it('knows a header with no scope that heads neither its row nor its column', () => {
+    // As in a Wikipedia navbox: a picture cell spans the header row, so the row holds a data cell, and so does each column.
+    const cells = [cell('picture', false, 0, 0, { h: 3 }), cell('rank', true, 1, 0), cell('city', true, 2, 0), cell('one', false, 1, 1), cell('sp', false, 2, 1)]
+    const rank = cells[1] as TableCell
+    expect(headerKind(cells, rank)).toBe('neither')
+    expect(unassigned(cells)).toEqual(['rank', 'city'])
+    expect(headerKind([...cells.slice(0, 1), { ...rank, scope: 'col' }], { ...rank, scope: 'col' })).toBe('column')
   })
 
   it('leaves headers a header block hides from the cells beyond it', () => {
@@ -162,5 +171,13 @@ describe.skipIf(!browser)('structure rules on real pages', { timeout: 30_000 }, 
       expect(hits.length, markup).toBe(2)
       expect(hits.every((f) => f.confidence === 'low' && /check whether its data is still to come/.test(f.message)), markup).toBe(true)
     }
+  })
+
+  it('asks for a scope, as review, when a header with none heads neither its row nor its column', async () => {
+    const navbox = '<table><tr><td rowspan="3">Map</td><th>Rank</th><th>City</th></tr><tr><td>1</td><td>São Paulo</td></tr><tr><td>2</td><td>Rio</td></tr></table>'
+    const { report } = await check(`data:text/html,${encodeURIComponent(`<html lang="en"><body>${navbox}</body></html>`)}`)
+    const hits = report.findings.filter((f) => f.ruleId === 'rampa/table-header-cells')
+    expect(hits.map((f) => f.subject)).toEqual(['Rank', 'City'])
+    expect(hits.every((f) => /Set scope="col" or scope="row"/.test(f.message))).toBe(true)
   })
 })
