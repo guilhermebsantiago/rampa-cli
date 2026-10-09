@@ -71,9 +71,18 @@ describe.skipIf(!browser)('focus visible and focus not obscured', { timeout: 120
 
   it('2.4.11: fails an element entirely under an opaque banner, names the banner, and never counts toward the exit code', async () => {
     const report = await probed('focus-obscured.html')
-    const [finding, ...rest] = byRule(report, 'rampa/focus-obscured')
+    // Once at the run's window size and once in the narrow walk at 390×844, as two findings.
+    const [finding, narrow, ...rest] = byRule(report, 'rampa/focus-obscured')
     expect(rest).toEqual([])
     expect(finding?.ref).toBe('#second')
+    expect(finding?.evidence).toMatch(/^Tab ×2 in a 1280×800 window: /)
+    expect(narrow?.ref).toBe('#second')
+    expect(narrow?.evidence).toMatch(/^Tab ×2 in a 390×844 window: .*#cookies \(position: fixed, 390×\d+ px/)
+    expect(narrow?.fingerprint).not.toBe(finding?.fingerprint)
+    expect(report.coverage.probes?.filter((c) => c.criterion === '2.4.11').map((c) => c.conditions.split(' · ')[0])).toEqual([
+      '5×5 hit grid at 1280×800, both directions',
+      '5×5 hit grid at 390×844, both directions',
+    ])
     expect(finding?.beyondTarget).toBe(true)
     expect(finding?.evidence).toMatch(/25 of 25 grid points hit <div> "Cookies" #cookies \(position: fixed, .*painting it changed 0 px and hiding it 0 px; scroll-padding-bottom: \d+px on html/)
     // The same element shows no focus change either: reported under 2.4.7 at medium, pointing at 2.4.11.

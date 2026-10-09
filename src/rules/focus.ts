@@ -164,90 +164,97 @@ const OBSCURED_TEXT: Record<Locale, string> = {
  * pixel: failure, high, naming the cover. A cover that lets pixels through (translucent) or
  * covers only part of the element is not reported. Beyond the target of a WCAG 2.1 report.
  */
-export const focusObscuredRule: ProbeRule = {
-  id: 'rampa/focus-obscured',
-  kind: 'keyboard',
-  variant: 'keyboard-walk',
-  versions: FOCUS_VERSIONS,
-  criteria: ['2.4.11'],
-  run(record: ProbeRecord, ctx) {
-    const walk = walkOf(record)
-    const findings: Finding[] = []
-    let failures = 0
-    let unmatched = 0
-    const measured = new Set<string>()
-    let translucent = 0
-    const reported = new Set<string>()
-    for (const stop of [...walk.forward, ...walk.backward] as FocusStop[]) {
-      const grid = stop.obscured
-      if (!stop.el || !grid || grid.points === 0) continue
-      measured.add(stop.el.ref)
-      if (grid.covered < grid.points || reported.has(stop.el.ref)) continue
-      if (grid.painted !== 0 || grid.hidden !== 0) {
-        translucent++
-        continue
-      }
-      const node = matchNode(ctx.index, stop.el.ref, stop.el.id)
-      if (!node) {
-        unmatched++
-        continue
-      }
-      reported.add(stop.el.ref)
-      failures++
-      if (findings.length >= MAX_REPORTED) continue
-      const by = grid.by
-      const at = say(ctx.locale, 'at', 'em')
-      const cover = by
-        ? `${by.label ? `<${by.tag}> "${by.label.slice(0, 40)}"` : `<${by.tag}>`} ${by.ref} (position: ${by.position}, ${Math.round(by.rect.width)}×${Math.round(by.rect.height)} px ${at} y ${Math.round(by.rect.y)})`
-        : say(ctx.locale, 'other content', 'outro conteúdo')
-      const padding = (side: 'top' | 'bottom') =>
-        say(
-          ctx.locale,
-          `; scroll-padding-${side}: ${Math.round(by?.rect.height ?? 0)}px on html would keep focused elements clear of it`,
-          `; scroll-padding-${side}: ${Math.round(by?.rect.height ?? 0)}px no html manteria os elementos focados livres dele`,
-        )
-      const hint = by && by.position !== 'static' && by.rect.y <= 1 ? padding('top') : by && by.position !== 'static' && by.rect.y + by.rect.height >= walk.viewport.height - 1 ? padding('bottom') : ''
-      findings.push(
-        probeFinding({
-          criterion: '2.4.11',
-          rule: this.id,
-          node,
-          message: OBSCURED_TEXT[ctx.locale],
-          evidence: say(
+export const focusObscuredRule: ProbeRule = obscuredRuleFor('keyboard-walk')
+
+/** The same rule over the narrow walk at 390×844: a separate coverage line, findings keyed by the window size. */
+export const focusObscuredNarrowRule: ProbeRule = obscuredRuleFor('keyboard-walk-390x844')
+
+function obscuredRuleFor(variant: string): ProbeRule {
+  return {
+    id: 'rampa/focus-obscured',
+    kind: 'keyboard',
+    variant,
+    versions: FOCUS_VERSIONS,
+    criteria: ['2.4.11'],
+    run(record: ProbeRecord, ctx) {
+      const walk = walkOf(record)
+      const findings: Finding[] = []
+      let failures = 0
+      let unmatched = 0
+      const measured = new Set<string>()
+      let translucent = 0
+      const reported = new Set<string>()
+      for (const stop of [...walk.forward, ...walk.backward] as FocusStop[]) {
+        const grid = stop.obscured
+        if (!stop.el || !grid || grid.points === 0) continue
+        measured.add(stop.el.ref)
+        if (grid.covered < grid.points || reported.has(stop.el.ref)) continue
+        if (grid.painted !== 0 || grid.hidden !== 0) {
+          translucent++
+          continue
+        }
+        const node = matchNode(ctx.index, stop.el.ref, stop.el.id)
+        if (!node) {
+          unmatched++
+          continue
+        }
+        reported.add(stop.el.ref)
+        failures++
+        if (findings.length >= MAX_REPORTED) continue
+        const by = grid.by
+        const at = say(ctx.locale, 'at', 'em')
+        const cover = by
+          ? `${by.label ? `<${by.tag}> "${by.label.slice(0, 40)}"` : `<${by.tag}>`} ${by.ref} (position: ${by.position}, ${Math.round(by.rect.width)}×${Math.round(by.rect.height)} px ${at} y ${Math.round(by.rect.y)})`
+          : say(ctx.locale, 'other content', 'outro conteúdo')
+        const padding = (side: 'top' | 'bottom') =>
+          say(
             ctx.locale,
-            `${stop.key} ×${stop.n}: ${nameOf(node, stop.el)} at y ${Math.round(stop.rect?.y ?? 0)}; ${grid.covered} of ${grid.points} grid points hit ${cover}; painting it changed ${grid.painted} px and hiding it ${grid.hidden} px${hint}`,
-            `${stop.key} ×${stop.n}: ${nameOf(node, stop.el)} em y ${Math.round(stop.rect?.y ?? 0)}; ${grid.covered} de ${grid.points} pontos da grade atingem ${cover}; pintá-lo mudou ${grid.painted} px e escondê-lo, ${grid.hidden} px${hint}`,
-          ),
-          confidence: 'high',
-          subject: 'obscured',
-        }),
-      )
-    }
-    const notes = [
-      translucent > 0
-        ? say(ctx.locale, `${translucent} stop(s) fully under content that lets pixels through: not reported`, `${translucent} parada(s) sob conteúdo translúcido: não relatada(s)`)
-        : '',
-      moreNotListed(ctx.locale, failures - findings.length),
-    ].filter(Boolean)
-    return {
-      findings,
-      review: [],
-      coverage: [
-        {
-          criterion: '2.4.11',
-          method: `probe/keyboard@${record.version}`,
-          rule: this.id,
-          conditions: conditionsText(record, say(ctx.locale, `5×5 hit grid at ${walk.viewport.width}×${walk.viewport.height}, both directions`, `grade de 5×5 pontos em ${walk.viewport.width}×${walk.viewport.height}, nos dois sentidos`)),
-          status: coverageStatus(failures, 0),
-          applicable: measured.size,
-          failures,
-          review: 0,
-          unmatched,
-          ...(notes.length > 0 ? { note: notes.join('; ') } : {}),
-          maturity: 'experimental',
-          beyondTarget: true,
-        },
-      ],
-    }
-  },
+            `; scroll-padding-${side}: ${Math.round(by?.rect.height ?? 0)}px on html would keep focused elements clear of it`,
+            `; scroll-padding-${side}: ${Math.round(by?.rect.height ?? 0)}px no html manteria os elementos focados livres dele`,
+          )
+        const hint = by && by.position !== 'static' && by.rect.y <= 1 ? padding('top') : by && by.position !== 'static' && by.rect.y + by.rect.height >= walk.viewport.height - 1 ? padding('bottom') : ''
+        findings.push(
+          probeFinding({
+            criterion: '2.4.11',
+            rule: this.id,
+            node,
+            message: OBSCURED_TEXT[ctx.locale],
+            evidence: say(
+              ctx.locale,
+              `${stop.key} ×${stop.n} in a ${walk.viewport.width}×${walk.viewport.height} window: ${nameOf(node, stop.el)} at y ${Math.round(stop.rect?.y ?? 0)}; ${grid.covered} of ${grid.points} grid points hit ${cover}; painting it changed ${grid.painted} px and hiding it ${grid.hidden} px${hint}`,
+              `${stop.key} ×${stop.n} numa janela de ${walk.viewport.width}×${walk.viewport.height}: ${nameOf(node, stop.el)} em y ${Math.round(stop.rect?.y ?? 0)}; ${grid.covered} de ${grid.points} pontos da grade atingem ${cover}; pintá-lo mudou ${grid.painted} px e escondê-lo, ${grid.hidden} px${hint}`,
+            ),
+            confidence: 'high',
+            subject: variant === 'keyboard-walk' ? 'obscured' : `obscured@${walk.viewport.width}x${walk.viewport.height}`,
+          }),
+        )
+      }
+      const notes = [
+        translucent > 0
+          ? say(ctx.locale, `${translucent} stop(s) fully under content that lets pixels through: not reported`, `${translucent} parada(s) sob conteúdo translúcido: não relatada(s)`)
+          : '',
+        moreNotListed(ctx.locale, failures - findings.length),
+      ].filter(Boolean)
+      return {
+        findings,
+        review: [],
+        coverage: [
+          {
+            criterion: '2.4.11',
+            method: `probe/keyboard@${record.version}`,
+            rule: this.id,
+            conditions: conditionsText(record, say(ctx.locale, `5×5 hit grid at ${walk.viewport.width}×${walk.viewport.height}, both directions`, `grade de 5×5 pontos em ${walk.viewport.width}×${walk.viewport.height}, nos dois sentidos`)),
+            status: coverageStatus(failures, 0),
+            applicable: measured.size,
+            failures,
+            review: 0,
+            unmatched,
+            ...(notes.length > 0 ? { note: notes.join('; ') } : {}),
+            maturity: 'experimental',
+            beyondTarget: true,
+          },
+        ],
+      }
+    },
+  }
 }

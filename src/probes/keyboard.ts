@@ -1,7 +1,7 @@
 import type { Browser, Page } from 'playwright-core'
 import type { ProbeRecord } from '../snapshot/schema.ts'
 import type { InPageElement, InPageIdentity, InPageRect } from './kit.ts'
-import { type ProbeOptions, type ProbePage, openProbePage, waitUntil } from './page.ts'
+import { type ProbeOptions, type ProbePage, openProbePage, skippedRecord, waitUntil } from './page.ts'
 
 /**
  * The keyboard walk (2.1.1, 2.1.2, 3.2.1; 2.4.7 and 2.4.11 add pixels in focus.ts). Tab
@@ -396,11 +396,14 @@ export interface KeyboardProbeOptions {
   version?: string | undefined
   /** Extra data the hooks gathered, stored with the record. */
   extra?: (() => Record<string, unknown>) | undefined
+  /** Another window size than the run's, such as the narrow walk for 2.4.11. */
+  viewport?: { width: number; height: number } | undefined
+  variant?: string | undefined
 }
 
 export async function runKeyboardWalk(browser: Browser, url: string, options: ProbeOptions, hooks: KeyboardProbeOptions = {}): Promise<ProbeRecord> {
   const started = Date.now()
-  const probe = await openProbePage(browser, url, options, { variant: 'keyboard-walk' })
+  const probe = await openProbePage(browser, url, options, { variant: hooks.variant ?? 'keyboard-walk', viewport: hooks.viewport })
   try {
     const page = probe.page
     const deadline = started + TIME_BUDGET_MS
@@ -467,7 +470,24 @@ export async function runKeyboardWalk(browser: Browser, url: string, options: Pr
 /** Version 2 adds the focus pixels (2.4.7) and the obscured checks (2.4.11) to every stop. */
 export const FOCUS_VERSION = '2'
 
+/** The second window size for 2.4.11: a phone held upright, where sticky bars cover the most. */
+export const NARROW_VIEWPORT = { width: 390, height: 844 }
+
+/**
+ * The walk at the run's window size, with every check, then a lighter walk at 390×844 that
+ * only runs the 2.4.11 grid: a sticky header or a bottom bar covers far more of a narrow window.
+ */
 export async function keyboardProbe(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
   const { backwardFocusHook, forwardFocusHook } = await import('./focus.ts')
-  return [await runKeyboardWalk(browser, url, options, { forwardHook: forwardFocusHook, backwardHook: backwardFocusHook, version: FOCUS_VERSION })]
+  const records = [await runKeyboardWalk(browser, url, options, { forwardHook: forwardFocusHook, backwardHook: backwardFocusHook, version: FOCUS_VERSION })]
+  const variant = `keyboard-walk-${NARROW_VIEWPORT.width}x${NARROW_VIEWPORT.height}`
+  const started = Date.now()
+  try {
+    records.push(
+      await runKeyboardWalk(browser, url, options, { forwardHook: backwardFocusHook, backwardHook: backwardFocusHook, version: FOCUS_VERSION, viewport: NARROW_VIEWPORT, variant }),
+    )
+  } catch (error) {
+    records.push(skippedRecord('keyboard', FOCUS_VERSION, variant, `probe failed: ${(error instanceof Error ? error.message : String(error)).split('\n')[0]}`, Date.now() - started))
+  }
+  return records
 }
