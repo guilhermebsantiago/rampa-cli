@@ -65,6 +65,18 @@ describe('text contrast from pixels', () => {
     expect(measureTextContrast(blank(240, 80), { x: 0, y: 0, width: 3, height: 3 })).toEqual({ ok: false, reason: 'too-small' })
   })
 
+  it('leaves out a field underline and border darker than the placeholder inside them', () => {
+    const image = blank(240, 80)
+    const field = { x: 10, y: 10, width: 220, height: 60 }
+    fill(image, field, [0xf1, 0xf3, 0xf4])
+    drawText(image, { x: 20, y: 22, width: 120, height: 36 }, [0x8a, 0x8a, 0x8a], [0xf1, 0xf3, 0xf4])
+    fill(image, { x: 10, y: 66, width: 220, height: 4 }, [0x5f, 0x63, 0x68])
+    fill(image, { x: 10, y: 10, width: 2, height: 60 }, [0x5f, 0x63, 0x68])
+    const result = measureTextContrast(image, field)
+    expect(result).toMatchObject({ ok: true, measure: { foreground: '#8a8a8a', background: '#f1f3f4' } })
+    expect(result.ok && result.measure.ratio).toBeCloseTo(3.09, 1)
+  })
+
   it('cannot be fooled into a lower ratio by a darker element in the box', () => {
     // An icon next to the text only adds a more contrasting color: the ratio can go up, never down.
     const image = blank(240, 80)

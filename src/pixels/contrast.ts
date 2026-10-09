@@ -8,7 +8,8 @@ import { type PixelRect, type RgbaImage, clipRect } from './png.ts'
  * the ratio but not understate it, as long as some pixels are fully covered by a stroke.
  * They are when strokes are at least three pixels wide; when they are thinner (small text
  * at a low resolution), or the background is an image or a gradient, the box is reported
- * as not measurable instead of guessed.
+ * as not measurable instead of guessed. Lines that cross the box (a field's underline, a
+ * border) are not text and are left out before the text color is chosen.
  */
 
 export interface ContrastMeasure {
@@ -83,27 +84,33 @@ export function measureTextContrast(image: RgbaImage, box: PixelRect): ContrastR
   }
   const backgroundLuminance = luminanceOf(background)
   let backgroundPixels = 0
-  const ink = new Map<number, number>()
-  let inkPixels = 0
+  const inkColors = new Set<number>()
   for (const [rgb, count] of counts) {
     if (distance(rgb, background) <= SAME_COLOR) backgroundPixels += count
     // Text differs from the background in lightness, or in hue at about the same lightness.
-    else if (contrastRatio(luminanceOf(rgb), backgroundLuminance) >= 1.1 || distance(rgb, background) >= 32) {
-      ink.set(rgb, count)
-      inkPixels += count
-    }
+    else if (contrastRatio(luminanceOf(rgb), backgroundLuminance) >= 1.1 || distance(rgb, background) >= 32) inkColors.add(rgb)
   }
   const backgroundShare = backgroundPixels / total
   if (backgroundShare < MIN_BACKGROUND_SHARE) return { ok: false, reason: 'busy-background' }
-  if (inkPixels < Math.max(6, total * 0.005)) return { ok: false, reason: 'no-text-pixels' }
-  const stroke = medianStroke(image, rect, ink)
+
+  const { colors, text } = textPixels(image, rect, inkColors)
+  const found = new Map<number, number>()
+  let textCount = 0
+  for (let i = 0; i < text.length; i++) {
+    if (!text[i]) continue
+    const rgb = colors[i] ?? 0
+    found.set(rgb, (found.get(rgb) ?? 0) + 1)
+    textCount++
+  }
+  if (textCount < Math.max(6, total * 0.005)) return { ok: false, reason: 'no-text-pixels' }
+  const stroke = medianRun(text, rect.width, rect.height)
   if (stroke < MIN_STROKE) return { ok: false, reason: 'thin-text' }
 
   // The most contrasting color among those enough pixels share; a stray pixel is not the text.
-  const enough = Math.max(2, inkPixels * 0.01)
+  const enough = Math.max(2, textCount * 0.01)
   let foreground = background
   let ratio = 1
-  for (const [rgb, count] of ink) {
+  for (const [rgb, count] of found) {
     if (count < enough) continue
     const candidate = contrastRatio(luminanceOf(rgb), backgroundLuminance)
     if (candidate > ratio) {
@@ -116,16 +123,50 @@ export function measureTextContrast(image: RgbaImage, box: PixelRect): ContrastR
 }
 
 /**
+ * Which pixels of the box are text: those that differ from the background, minus lines.
+ * A run across most of the box is an underline, a border or a divider, never a stroke of a
+ * letter, and it is often darker than the text (a field's underline under its placeholder).
+ */
+function textPixels(image: RgbaImage, rect: PixelRect, inkColors: Set<number>): { colors: Int32Array; text: Uint8Array } {
+  const { width, height } = rect
+  const colors = new Int32Array(width * height)
+  const text = new Uint8Array(width * height)
+  for (let y = 0; y < height; y++) {
+    let at = ((rect.y + y) * image.width + rect.x) * 4
+    for (let x = 0; x < width; x++, at += 4) {
+      const rgb = rgbAt(image, at)
+      colors[y * width + x] = rgb
+      if (inkColors.has(rgb)) text[y * width + x] = 1
+    }
+  }
+  const line = new Uint8Array(width * height)
+  const markRuns = (count: number, length: number, index: (outer: number, inner: number) => number, longest: number) => {
+    for (let outer = 0; outer < count; outer++) {
+      let start = 0
+      for (let inner = 0; inner <= length; inner++) {
+        if (inner < length && text[index(outer, inner)]) continue
+        if (inner - start >= longest) for (let k = start; k < inner; k++) line[index(outer, k)] = 1
+        start = inner + 1
+      }
+    }
+  }
+  markRuns(height, width, (y, x) => y * width + x, Math.max(8, width * 0.4))
+  // Stems of tall letters can fill much of a tight line box; borders fill all of it.
+  markRuns(width, height, (x, y) => y * width + x, Math.max(8, height * 0.8))
+  for (let i = 0; i < text.length; i++) if (line[i]) text[i] = 0
+  return { colors, text }
+}
+
+/**
  * The typical width of a stroke, from runs of text pixels along each row: vertical stems
  * outnumber horizontal bars, so the median run is about one stem wide.
  */
-function medianStroke(image: RgbaImage, rect: PixelRect, ink: Map<number, number>): number {
+function medianRun(text: Uint8Array, width: number, height: number): number {
   const runs: number[] = []
-  for (let y = rect.y; y < rect.y + rect.height; y++) {
+  for (let y = 0; y < height; y++) {
     let run = 0
-    let at = (y * image.width + rect.x) * 4
-    for (let x = 0; x <= rect.width; x++, at += 4) {
-      if (x < rect.width && ink.has(rgbAt(image, at))) run++
+    for (let x = 0; x <= width; x++) {
+      if (x < width && text[y * width + x]) run++
       else if (run > 0) {
         runs.push(run)
         run = 0

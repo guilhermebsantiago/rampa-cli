@@ -72,7 +72,7 @@ export function renderReport(report: Report, options: PrettyOptions): string {
     ? list(report.coverage.notChecked)
     : t(locale, 'coverageNotCheckedCount', { count: report.coverage.notChecked.length, total: WCAG21_A_AA.length })
   lines.push(`  ${pad(t(locale, 'coverageNotChecked'))}${notCheckedText}`)
-  lines.push(p.bold(t(locale, 'disclaimer')))
+  lines.push(p.bold(t(locale, report.surface === 'web' ? 'disclaimer' : report.surface === 'image' ? 'disclaimerImage' : 'disclaimerScreen')))
   lines.push(p.dim(t(locale, 'manualReview')))
   return lines.join('\n')
 }
@@ -107,6 +107,8 @@ function renderFinding(finding: Finding, locale: Locale, p: Painter): string[] {
     lines.push(`      ${p.red(`- ${finding.patch.before}`)}`)
     lines.push(`      ${p.green(`+ ${finding.patch.after}`)}`)
   }
+  // A screenshot has no tree: the element was placed by a model, and the reader should know.
+  if (finding.locatedBy) lines.push(p.dim(`    ${t(locale, 'locatedBy', { model: finding.locatedBy })}${finding.html ? ` · ${finding.html}` : ''}`))
   if (finding.source === 'engine') {
     lines.push(p.dim(`    ${finding.confidence === 'high' ? t(locale, 'high') : finding.confidence} · ${t(locale, 'engineRule')} ${finding.ruleId}`))
   } else {
@@ -121,7 +123,8 @@ function renderFinding(finding: Finding, locale: Locale, p: Painter): string[] {
 
 function notesOf(report: Report, verbose: boolean): string[] {
   const locale = report.locale
-  const notes: string[] = []
+  // What the collector could not see comes first: it frames everything below it.
+  const notes: string[] = [...(report.notes ?? [])]
   const sum = (key: 'discarded' | 'cannotTell' | 'offlineMisses' | 'errors' | 'candidates') =>
     report.criteria.reduce((total, c) => total + c[key], 0)
   if (report.llm === 'off') {

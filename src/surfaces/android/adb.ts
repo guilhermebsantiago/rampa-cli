@@ -62,6 +62,18 @@ export function systemAdb(path = adbPath()): AdbRunner {
     })
 }
 
+/** The platform-tools version, from `adb version`, which does not start the adb server; undefined when adb is missing. */
+export async function adbVersion(adb: AdbRunner = systemAdb()): Promise<string | undefined> {
+  try {
+    const result = await adb(['version'], 10_000)
+    if (result.code !== 0) return undefined
+    const text = result.stdout.toString('utf8')
+    return /^Version (\S+)/m.exec(text)?.[1] ?? /version (\S+)/i.exec(text)?.[1] ?? 'installed'
+  } catch {
+    return undefined
+  }
+}
+
 export interface Device {
   serial: string
   state: string

@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { encodePng } from '../src/pixels/png.ts'
-import { type AdbRunner, adbPath, captureAndroid, chooseDevice, collectAndroid, parseAppLocales, parseDevices, systemAdb } from '../src/surfaces/android/adb.ts'
+import { type AdbRunner, adbPath, adbVersion, captureAndroid, chooseDevice, collectAndroid, parseAppLocales, parseDevices, systemAdb } from '../src/surfaces/android/adb.ts'
 import { WHITE, blank, drawText } from './screens.ts'
 
 const fixture = (name: string) => readFileSync(new URL(`./fixtures/android/${name}`, import.meta.url), 'utf8')
@@ -48,6 +48,13 @@ describe('adb devices', () => {
   it('fails with a clear message when adb is not installed', async () => {
     const missing = systemAdb(join('no', 'such', 'dir', 'adb-rampa-test'))
     await expect(missing(['devices'])).rejects.toThrow(/adb not found .* Install Android platform-tools/)
+  })
+
+  it('reports the platform-tools version for rampa doctor, without starting the adb server', async () => {
+    const adb = fakeAdb({ version: 'Android Debug Bridge version 1.0.41\nVersion 35.0.2-12147458\nInstalled as /opt/platform-tools/adb\n' })
+    expect(await adbVersion(adb)).toBe('35.0.2-12147458')
+    expect(adb.calls).toEqual(['version'])
+    expect(await adbVersion(systemAdb(join('no', 'such', 'dir', 'adb-rampa-test')))).toBeUndefined()
   })
 
   it('looks for adb in RAMPA_ADB_PATH, then the SDK, then the PATH', () => {
