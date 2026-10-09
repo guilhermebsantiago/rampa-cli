@@ -6,6 +6,7 @@ import { emptyEngine } from '../src/engine/axe.ts'
 import { matchNode, snapshotSignature } from '../src/probes/identity.ts'
 import { openProbePage } from '../src/probes/page.ts'
 import { parseProbeKinds } from '../src/probes/run.ts'
+import { nowrapEllipsis, oneLineBox } from '../src/rules/layout.ts'
 import { probeChecks } from '../src/rules/probes.ts'
 import { PROBE_RULES } from '../src/rules/registry.ts'
 import { A11ySnapshotSchema, type A11ySnapshot, type ProbeRecord } from '../src/snapshot/schema.ts'
@@ -125,6 +126,76 @@ describe('3.2.1 over recorded walks', () => {
     const after = { ref: '#first', id: { tag: 'a', sig: 'a|first||||#x' }, tag: 'a', role: 'link', label: 'First' }
     const result = walkWith({ rect: { x: 0, y: 0, width: 0, height: 0 }, after, afterWithin: false, confirmed: ['focus'] })
     expect([...result.findings, ...result.review].filter((f) => f.ruleId === 'rampa/on-focus')).toEqual([])
+  })
+})
+
+describe('1.4.4 over recorded zoom measurements', () => {
+  it('applies ACT 59br37 exceptions: a no-wrap ellipsis, and a box one line high but no shorter than its letters', () => {
+    expect(nowrapEllipsis({ by: '#a', ws: 'nowrap', wrap: 'nowrap', to: 'ellipsis' })).toBe(true)
+    expect(nowrapEllipsis({ by: '#a', ws: 'nowrap', wrap: 'nowrap', to: 'clip' })).toBe(false)
+    expect(nowrapEllipsis({ by: '#a', ws: 'normal', wrap: 'wrap', to: 'ellipsis' })).toBe(false)
+    expect(nowrapEllipsis(undefined)).toBe(false)
+    // Passed Example 3: 16 px high, 16 px line height, 16 px text.
+    expect(oneLineBox({ by: '#a', lh: 16, h: 16, fs: 16 })).toBe(true)
+    // Failed Example 1: 1.5em high with a normal line height holds a line and a half.
+    expect(oneLineBox({ by: '#a', lh: 19.2, h: 24, fs: 16, normal: true })).toBe(false)
+    // Failed Example 4: ACT's wording alone would excuse a 10 px box, but it cuts the letters themselves.
+    expect(oneLineBox({ by: '#a', lh: 19.2, h: 10, fs: 16, normal: true })).toBe(false)
+  })
+
+  const box = (ref: string, extra: Record<string, unknown> = {}) => ({
+    ref,
+    key: Number(ref.replace(/\D/g, '')) || 1,
+    id: { tag: 'p', sig: `p|${ref.slice(1)}||||` },
+    tag: 'p',
+    kind: 'text',
+    text: 'Some words',
+    rect: { x: 0, y: 0, width: 300, height: 40 },
+    line: 18,
+    vis: { x: 0, y: 0, width: 300, height: 20 },
+    cut: { left: 0, right: 0, top: 0, bottom: 20 },
+    own: true,
+    yClip: { by: ref, lh: 18, h: 20, fs: 16 },
+    ...extra,
+  })
+  const zoomed = (data: Record<string, unknown>) => {
+    const snapshot = snapshotWith([record('zoom-200', { data })])
+    snapshot.root.children = ['#p1', '#p2', '#p3'].map((ref) => ({ ref, role: 'paragraph', states: [], native: { tag: 'p', attributes: { id: ref.slice(1) } }, children: [] }))
+    return probeChecks(snapshot, 'en', PROBE_RULES)
+  }
+  const measure = (boxes: unknown[]) => ({ viewport: { width: 640, height: 512 }, clientWidth: 640, scrollWidth: 640, scrollsX: false, measured: boxes.length, boxes, overlaps: [], truncated: false })
+
+  it('leaves out text under aria-hidden, foreign text and a visually hidden 1 px window', () => {
+    const result = zoomed({
+      baseline: measure([]),
+      variant: measure([
+        box('#p1', { ah: true }),
+        box('#p2', { foreign: true }),
+        box('#p3', { vis: { x: 0, y: 0, width: 1, height: 1 } }),
+      ]),
+      missing: [],
+    })
+    expect(result.findings).toEqual([])
+    expect(result.coverage.find((row) => row.criterion === '1.4.4')).toMatchObject({ status: 'no-failure-found', failures: 0 })
+  })
+
+  it('reports hidden text only when the width hid it and no control may show it', () => {
+    const group = (ref: string, extra: Record<string, unknown>) => ({
+      root: { ref, id: { tag: 'p', sig: `p|${ref.slice(1)}||||` }, tag: 'p', label: '' },
+      reason: 'display-none',
+      boxes: 1,
+      sample: ['Some words'],
+      members: [],
+      ...extra,
+    })
+    const result = zoomed({
+      baseline: measure([]),
+      variant: measure([]),
+      missing: [group('#p1', { back: 1 }), group('#p2', { back: 0 }), group('#p3', { back: 1, toggle: '#menu-button' })],
+    })
+    expect(result.review.map((f) => f.ref)).toEqual(['#p1'])
+    expect(result.coverage[0]?.note).toContain('1 hidden text box(es) sit behind a menu button, not opened')
+    expect(result.coverage[0]?.note).toContain('1 text box(es) gone at 640 px and not back at 1280 px')
   })
 })
 

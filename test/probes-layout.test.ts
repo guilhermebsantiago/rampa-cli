@@ -32,7 +32,7 @@ async function probed(name: string): Promise<Collected> {
   return result
 }
 
-describe.skipIf(!browser)('reflow probe (1.4.10)', { timeout: 60_000 }, () => {
+describe.skipIf(!browser)('layout probes (1.4.10, 1.4.12, 1.4.4)', { timeout: 60_000 }, () => {
   it('records the layout at 1280×1024 and at 320×256 in the snapshot', async () => {
     const { snapshot } = await probed('reflow-fail.html')
     expect(A11ySnapshotSchema.safeParse(snapshot).success).toBe(true)
@@ -142,6 +142,69 @@ describe.skipIf(!browser)('reflow probe (1.4.10)', { timeout: 60_000 }, () => {
     expect(record?.data).toMatchObject({ spacing: { skipped: ['word-spacing (lang ja)'] } })
     const report = await checkSnapshot(snapshot, engine, probeCheckOptions())
     expect(report.coverage.probes?.find((c) => c.criterion === '1.4.12')?.note).toContain('not applied: word-spacing (lang ja)')
+  })
+
+  it('records the page at 640×512 CSS px and device scale 2 for 1.4.4 (200% zoom)', async () => {
+    const { snapshot } = await probed('zoom-fail.html')
+    expect(A11ySnapshotSchema.safeParse(snapshot).success).toBe(true)
+    const record = snapshot.observations?.probes.find((p) => p.conditions.variant === 'zoom-200')
+    expect(record).toMatchObject({ kind: 'layout', version: '1', status: 'complete', conditions: { viewport: { width: 640, height: 512 }, deviceScaleFactor: 2 } })
+    expect(record?.data).toMatchObject({ from: { width: 1280, height: 1024 }, scale: 2 })
+  })
+
+  it('fails text cut at 200% zoom as ACT 59br37 does: high when zoom cut it, medium when it was already cut', async () => {
+    const { snapshot, engine } = await probed('zoom-fail.html')
+    const report = await checkSnapshot(snapshot, engine, probeCheckOptions())
+    const findings = byRule(report, 'rampa/resize-text')
+    expect(findings.map((f) => `${f.ref} ${f.confidence}`).sort()).toEqual(['#banner high', '#narrow high', '#tiny medium', '#vh-box high', '#word-clip medium'])
+    expect(findings.every((f) => f.source === 'probe' && f.experimental && f.criterion === '1.4.4')).toBe(true)
+    expect(findings.find((f) => f.ref === '#banner')?.evidence).toMatch(/^at 640×512 CSS px, device scale 2: \d+ px cut down by #banner \(box \d+ px high, line height \d+ px \(normal\)\); at 1280×1024 whole$/)
+    // The ellipsis excuses a horizontal cut only; a box shorter than its letters is cut down (Failed Example 4).
+    expect(findings.find((f) => f.ref === '#tiny')?.evidence).toMatch(/cut down by #tiny \(box 10 px high.*at 1280×1024 already cut/)
+    expect(findings.find((f) => f.ref === '#word-clip')?.evidence).toMatch(/cut across by #word-clip \(white-space nowrap, text-overflow clip\)/)
+    expect(report.coverage.probes?.find((c) => c.criterion === '1.4.4')).toMatchObject({ method: 'probe/layout@1', rule: 'rampa/resize-text', status: 'failures', failures: 5 })
+    expect(report.coverage.criteria?.find((c) => c.id === '1.4.4')?.methods).toContainEqual(expect.objectContaining({ kind: 'probe', id: 'rampa/resize-text', ran: true, maturity: 'experimental' }))
+  })
+
+  it('sends text the narrow window hid, and new overlaps, to review; a menu behind a button and content a script removed are only counted', async () => {
+    const { snapshot, engine } = await probed('zoom-fail.html')
+    const report = await checkSnapshot(snapshot, engine, probeCheckOptions())
+    const review = reviewByRule(report, 'rampa/resize-text')
+    expect(review.map((f) => f.ref).sort()).toEqual(['#product > p', '#side-note'])
+    expect(review.find((f) => f.ref === '#side-note')?.evidence).toMatch(/^at 1280×1024 shown; at 640×512 CSS px display: none \(<p> #side-note\): 1 text box\(es\), such as "Members get early access/)
+    expect(review.find((f) => f.ref === '#product > p')?.evidence).toMatch(/and <span> "Now \$24\.00 each" overlap by \d+×\d+ px at 640×512 CSS px/)
+    const note = report.coverage.probes?.find((c) => c.criterion === '1.4.4')?.note
+    expect(note).toContain('2 hidden text box(es) sit behind a menu button, not opened')
+    expect(note).toContain('1 text box(es) gone at 640 px and not back at 1280 px')
+  })
+
+  it('finds nothing in ACT 59br37 passed and inapplicable shapes and in near misses, and counts the exceptions', async () => {
+    const { snapshot, engine } = await probed('zoom-pass.html')
+    const report = await checkSnapshot(snapshot, engine, probeCheckOptions())
+    expect(byRule(report, 'rampa/resize-text')).toEqual([])
+    expect(reviewByRule(report, 'rampa/resize-text')).toEqual([])
+    const coverage = report.coverage.probes?.find((c) => c.criterion === '1.4.4')
+    expect(coverage).toMatchObject({ status: 'no-failure-found', failures: 0, review: 0 })
+    expect(coverage?.note).toContain('ACT 59br37 exceptions: 1 no-wrap ellipsis, 1 line clamp')
+  })
+
+  it('sends cuts that may be on purpose and text past the edges of a window that never scrolls to review', async () => {
+    const { snapshot, engine } = await probed('zoom-review.html')
+    const report = await checkSnapshot(snapshot, engine, probeCheckOptions())
+    expect(byRule(report, 'rampa/resize-text')).toEqual([])
+    const review = reviewByRule(report, 'rampa/resize-text')
+    expect(review.map((f) => f.ref).sort()).toEqual(['#clamped', '#footer-note', '#titled', '#wide'])
+    expect(review.find((f) => f.ref === '#clamped')?.evidence).toContain(', line clamp)')
+    expect(review.find((f) => f.ref === '#titled')?.evidence).toContain('a name or title holds the full text')
+    expect(review.find((f) => f.ref === '#wide')?.evidence).toMatch(/the window does not scroll sideways; .*px past the right edge \(640 px\)$/)
+    expect(review.find((f) => f.ref === '#footer-note')?.evidence).toMatch(/the window does not scroll down; 1 text box\(es\) inside the window at 1280×1024 reach past its bottom edge \(512 px\)/)
+  })
+
+  it('writes the 1.4.4 evidence in the report language', async () => {
+    const { snapshot, engine } = await probed('zoom-fail.html')
+    const report = await checkSnapshot(snapshot, engine, probeCheckOptions({ locale: 'pt-BR' }))
+    expect(byRule(report, 'rampa/resize-text').find((f) => f.ref === '#banner')?.evidence).toMatch(/^com 640×512 px CSS, escala 2: \d+ px cortados na vertical por #banner .*; com 1280×1024 inteiro$/)
+    expect(report.coverage.probes?.find((c) => c.criterion === '1.4.4')?.conditions).toMatch(/^640×512 px CSS com escala 2 \(1280×1024 a 200%\) · /)
   })
 
   it('reports nothing about an element whose identity changed between loads', async () => {

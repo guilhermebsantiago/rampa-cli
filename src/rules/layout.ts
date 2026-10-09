@@ -1,7 +1,20 @@
 import type { Finding, ProbeCoverage } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
 import { matchNode, nameOf } from '../probes/identity.ts'
-import { type LayoutBox, type LayoutMeasure, cutAtRightEdge, overlapPair, overlapSide, pairOf, partlyClipped, pastRightEdge, wholeBox } from '../probes/layout.ts'
+import {
+  type LayoutBox,
+  type LayoutMeasure,
+  type MissingGroup,
+  cutAtBottomEdge,
+  cutAtRightEdge,
+  overlapPair,
+  overlapSide,
+  pairOf,
+  partlyClipped,
+  pastRightEdge,
+  readable,
+  wholeBox,
+} from '../probes/layout.ts'
 import type { A11yNode, ProbeRecord } from '../snapshot/schema.ts'
 import { type ProbeRule, type ProbeRuleContext, asArray, asRecord, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
 
@@ -17,6 +30,7 @@ export function measureOf(value: unknown): LayoutMeasure {
     clientWidth: Number(data.clientWidth) || 0,
     scrollWidth: Number(data.scrollWidth) || 0,
     scrollsX: data.scrollsX === true,
+    ...(typeof data.scrollsY === 'boolean' ? { scrollsY: data.scrollsY, clientHeight: Number(data.clientHeight) || 0 } : {}),
     measured: Number(data.measured) || 0,
     boxes: asArray<LayoutBox>(data.boxes).filter((box) => typeof box?.ref === 'string' && box.rect && box.cut),
     overlaps: asArray<LayoutMeasure['overlaps'][number]>(data.overlaps).filter((o) => typeof o?.a === 'string' && typeof o?.b === 'string'),
@@ -349,6 +363,316 @@ export const textSpacingRule: ProbeRule = {
       failures,
       review: review.length,
       unmatched: clipped.unmatched + overlaps.unmatched,
+      ...(notes.length > 0 ? { note: notes.join('; ') } : {}),
+      maturity: 'experimental',
+    }
+    return { findings, review, coverage: [coverage] }
+  },
+}
+
+const ZOOM_TEXT: Record<
+  Locale,
+  { clipped: string; clippedAlways: string; review: string; edgeX: string; edgeY: string; overlap: string; missing: string; reasons: Record<string, string> }
+> = {
+  en: {
+    clipped: 'At 200% zoom (640×512 CSS px, which is 1280×1024 at 200%) a container that hides its overflow cuts this text off; it is whole at 1280×1024.',
+    clippedAlways:
+      'At 200% zoom (640×512 CSS px, which is 1280×1024 at 200%) a container that hides its overflow cuts this text off (ACT 59br37). It is cut at 1280×1024 too, so zoom did not cause it, but the text cannot be read at 200% either.',
+    review:
+      'At 200% zoom a container that hides its overflow cuts this text, in a way that may be on purpose: it clamps lines with an ellipsis, a name or title holds the full text, or the container hides other text too, as a carousel does. Check that the text can be read at 200%.',
+    edgeX: 'At 200% zoom this text runs past the right edge of a window that does not scroll sideways (overflow hidden on html or body), so its end cannot be reached. Check whether it is hidden on purpose.',
+    edgeY: 'At 200% zoom text that fit in the window at 1280×1024 falls below the bottom of a window that does not scroll down (overflow hidden on html or body), so it cannot be reached.',
+    overlap: 'At 200% zoom this text overlaps other text that it did not overlap at 1280×1024.',
+    missing: 'Text shown at 1280×1024 is hidden at 200% zoom (640×512 CSS px), and no other text on the page at that size has the same words. Check that it can still be reached at 200%, for example through a menu.',
+    reasons: {
+      'display-none': 'display: none',
+      'visibility-hidden': 'visibility: hidden',
+      'opacity-0': 'opacity 0',
+      'no-size': 'no size',
+      clipped: 'cut away by a container that hides its overflow',
+      'off-page': 'moved off the page',
+      removed: 'removed from the page',
+    },
+  },
+  'pt-BR': {
+    clipped: 'Com zoom de 200% (640×512 px CSS, que é 1280×1024 a 200%) um contêiner que esconde o que transborda corta este texto; com 1280×1024 ele aparece inteiro.',
+    clippedAlways:
+      'Com zoom de 200% (640×512 px CSS, que é 1280×1024 a 200%) um contêiner que esconde o que transborda corta este texto (ACT 59br37). Ele já fica cortado com 1280×1024, então o zoom não é a causa, mas o texto também não pode ser lido a 200%.',
+    review:
+      'Com zoom de 200% um contêiner que esconde o que transborda corta este texto, talvez de propósito: ele limita as linhas com reticências, um nome ou title tem o texto completo, ou o contêiner também esconde outro texto, como num carrossel. Confira se o texto pode ser lido a 200%.',
+    edgeX: 'Com zoom de 200% este texto passa da borda direita de uma janela que não rola para o lado (overflow hidden em html ou body), e o fim dele fica inalcançável. Confira se está escondido de propósito.',
+    edgeY: 'Com zoom de 200% texto que cabia na janela com 1280×1024 fica abaixo da borda inferior de uma janela que não rola para baixo (overflow hidden em html ou body), e não pode ser alcançado.',
+    overlap: 'Com zoom de 200% este texto se sobrepõe a outro texto, o que não acontecia com 1280×1024.',
+    missing:
+      'Texto que aparece com 1280×1024 fica escondido com zoom de 200% (640×512 px CSS), e nenhum outro texto da página nesse tamanho tem as mesmas palavras. Confira se ele ainda pode ser alcançado a 200%, por exemplo por um menu.',
+    reasons: {
+      'display-none': 'display: none',
+      'visibility-hidden': 'visibility: hidden',
+      'opacity-0': 'opacidade 0',
+      'no-size': 'sem tamanho',
+      clipped: 'cortado por um contêiner que esconde o que transborda',
+      'off-page': 'movido para fora da página',
+      removed: 'removido da página',
+    },
+  },
+}
+
+/** ACT 59br37, expectation 1's exception: the clipping ancestor does not wrap and shows an ellipsis (text-overflow other than clip). */
+export function nowrapEllipsis(x: LayoutBox['xClip']): boolean {
+  return Boolean(x && (x.ws === 'nowrap' || x.wrap === 'nowrap') && x.to !== '' && x.to !== 'clip')
+}
+
+/**
+ * ACT 59br37, expectation 2's exception, the line clamp: the clipping ancestor's line height is at least its height,
+ * so it shows one line. ACT's wording alone would also excuse a box shorter than its letters, which its Failed
+ * Example 4 (a 10 px box with 16 px text) rules out; so the box must also be at least as tall as its font size.
+ */
+export function oneLineBox(y: LayoutBox['yClip']): boolean {
+  return Boolean(y && y.h > 0 && y.lh >= y.h - 0.5 && y.h >= y.fs - 0.5)
+}
+
+/**
+ * 1.4.4 Resize Text at 200% zoom: 640×512 CSS px at device scale 2 (ACT 59br37's viewport), compared with the same
+ * page at 1280×1024. Failure: text cut by an ancestor's overflow hidden or clip, outside ACT's no-wrap ellipsis and
+ * line-clamp exceptions (high when it was whole at 1280×1024, medium when it was already cut). Review: cuts that
+ * may be on purpose (line clamp, a full text in a name, a carousel), text past the edge of a window that does not
+ * scroll, new overlaps, and text the width hid (display none and the like) with no control seen to show it.
+ */
+export const zoomRule: ProbeRule = {
+  id: 'rampa/resize-text',
+  kind: 'layout',
+  variant: 'zoom-200',
+  versions: ['1'],
+  criteria: ['1.4.4'],
+  run(record: ProbeRecord, ctx: ProbeRuleContext) {
+    const data = asRecord(record.data)
+    const before = measureOf(data.baseline)
+    const after = measureOf(data.variant)
+    const missing = asArray<MissingGroup>(data.missing).filter((g) => g && typeof g === 'object' && g.root && typeof g.root.ref === 'string' && typeof g.boxes === 'number')
+    const text = ZOOM_TEXT[ctx.locale]
+    const baseline = new Map(before.boxes.map((box) => [pairOf(box), box]))
+    const findings: Finding[] = []
+    const review: Finding[] = []
+    let failures = 0
+    let unmatched = 0
+    let nowrap = 0
+    let oneLine = 0
+    // ACT 59br37 applies to visible text whose parent is an HTML element and that is not under aria-hidden="true".
+    const inScope = (box: LayoutBox) => box.own === true && !box.ah && !box.foreign && box.twoD !== 'svg' && box.twoD !== 'math'
+
+    for (const box of after.boxes) {
+      if (!inScope(box) || !partlyClipped(box) || !readable(box)) continue
+      const across = box.cut.left + box.cut.right >= 2
+      const down = box.cut.top + box.cut.bottom >= Math.max(3, 0.25 * (box.line || box.rect.height))
+      const xExempt = across && nowrapEllipsis(box.xClip)
+      const yExempt = down && oneLineBox(box.yClip)
+      const cutX = across && !xExempt
+      const cutY = down && !yExempt
+      if (!cutX && !cutY) {
+        if (xExempt) nowrap++
+        if (yExempt) oneLine++
+        continue
+      }
+      const node = matchNode(ctx.index, box.ref, box.id)
+      if (!node) {
+        unmatched++
+        continue
+      }
+      const was = baseline.get(pairOf(box))
+      const zoomCaused = wholeBox(was)
+      const parts: string[] = []
+      if (cutX && box.xClip) {
+        parts.push(
+          say(
+            ctx.locale,
+            `${r1(box.cut.left + box.cut.right)} px cut across by ${box.xClip.by} (white-space ${box.xClip.ws}, text-overflow ${box.xClip.to})`,
+            `${r1(box.cut.left + box.cut.right)} px cortados na horizontal por ${box.xClip.by} (white-space ${box.xClip.ws}, text-overflow ${box.xClip.to})`,
+          ),
+        )
+      }
+      if (cutY && box.yClip) {
+        const lh = `${r1(box.yClip.lh)} px${box.yClip.normal ? ' (normal)' : ''}`
+        parts.push(
+          say(
+            ctx.locale,
+            `${r1(box.cut.top + box.cut.bottom)} px cut down by ${box.yClip.by} (box ${r1(box.yClip.h)} px high, line height ${lh}${box.yClip.clamp ? ', line clamp' : ''})`,
+            `${r1(box.cut.top + box.cut.bottom)} px cortados na vertical por ${box.yClip.by} (caixa de ${r1(box.yClip.h)} px de altura, altura de linha ${lh}${box.yClip.clamp ? ', line clamp' : ''})`,
+          ),
+        )
+      }
+      const evidence = say(
+        ctx.locale,
+        `at 640×512 CSS px, device scale 2: ${parts.join('; ')}; at 1280×1024 ${zoomCaused ? 'whole' : 'already cut'}${cutContext(box, ctx.locale)}`,
+        `com 640×512 px CSS, escala 2: ${parts.join('; ')}; com 1280×1024 ${zoomCaused ? 'inteiro' : 'já cortado'}${cutContext(box, ctx.locale)}`,
+      )
+      const doubtful = (cutY && box.yClip?.clamp) || box.full || (box.hiddenPeers ?? 0) > 0
+      if (doubtful) {
+        if (review.length < MAX_REPORTED * 2) review.push(probeFinding({ criterion: '1.4.4', rule: this.id, node, message: text.review, evidence, confidence: 'medium', subject: 'clipped' }))
+        continue
+      }
+      failures++
+      if (findings.length < MAX_REPORTED) {
+        findings.push(
+          probeFinding({
+            criterion: '1.4.4',
+            rule: this.id,
+            node,
+            message: zoomCaused ? text.clipped : text.clippedAlways,
+            evidence,
+            confidence: zoomCaused ? 'high' : 'medium',
+            subject: 'clipped',
+          }),
+        )
+      }
+    }
+
+    // The window itself: overflow hidden on html or body keeps a reader from scrolling to what zoom pushed out.
+    let edges = 0
+    const below: Hit[] = []
+    for (const box of after.boxes) {
+      if (!inScope(box)) continue
+      const was = baseline.get(pairOf(box))
+      if (!was?.vis) continue
+      if (cutAtRightEdge(box, after) && was.vis.x + was.vis.width <= before.clientWidth + 1) {
+        const node = matchNode(ctx.index, box.ref, box.id)
+        if (!node) {
+          unmatched++
+          continue
+        }
+        if (edges++ >= MAX_REPORTED) continue
+        const vis = box.vis ?? box.rect
+        review.push(
+          probeFinding({
+            criterion: '1.4.4',
+            rule: this.id,
+            node,
+            message: text.edgeX,
+            evidence: say(
+              ctx.locale,
+              `at 640×512 CSS px the window does not scroll sideways; ${nameOf(node, box)} spans x ${r1(vis.x)}–${r1(vis.x + vis.width)} px, ${r1(vis.x + vis.width - after.clientWidth)} px past the right edge (${after.clientWidth} px)`,
+              `com 640×512 px CSS a janela não rola para o lado; ${nameOf(node, box)} ocupa x ${r1(vis.x)}–${r1(vis.x + vis.width)} px, ${r1(vis.x + vis.width - after.clientWidth)} px além da borda direita (${after.clientWidth} px)`,
+            ),
+            confidence: 'medium',
+            subject: 'edge',
+          }),
+        )
+      } else if (cutAtBottomEdge(box, after) && before.clientHeight && was.vis.y + was.vis.height <= before.clientHeight + 1) {
+        const node = matchNode(ctx.index, box.ref, box.id)
+        if (!node) unmatched++
+        else below.push({ box, node })
+      }
+    }
+    const first = below[0]
+    if (first) {
+      const vis = first.box.vis ?? first.box.rect
+      review.push(
+        probeFinding({
+          criterion: '1.4.4',
+          rule: this.id,
+          node: first.node,
+          message: text.edgeY,
+          evidence: say(
+            ctx.locale,
+            `at 640×512 CSS px the window does not scroll down; ${below.length} text box(es) inside the window at 1280×1024 reach past its bottom edge (${after.clientHeight} px), such as ${nameOf(first.node, first.box)} at y ${r1(vis.y)}–${r1(vis.y + vis.height)} px`,
+            `com 640×512 px CSS a janela não rola para baixo; ${below.length} caixa(s) de texto dentro da janela com 1280×1024 passam da borda inferior (${after.clientHeight} px), como ${nameOf(first.node, first.box)} em y ${r1(vis.y)}–${r1(vis.y + vis.height)} px`,
+          ),
+          confidence: 'medium',
+          subject: 'edge-bottom',
+        }),
+      )
+    }
+
+    const outOfScope = new Set(after.boxes.filter((box) => !inScope(box)).map((box) => box.ref))
+    const overlaps = newOverlaps(ctx, before, after, (ref) => outOfScope.has(ref))
+    unmatched += overlaps.unmatched
+    for (const hit of overlaps.hits.slice(0, MAX_REPORTED)) {
+      review.push(
+        probeFinding({
+          criterion: '1.4.4',
+          rule: this.id,
+          node: hit.node,
+          message: text.overlap,
+          evidence: say(
+            ctx.locale,
+            `${nameOf(hit.node)} and ${hit.other} overlap by ${r1(hit.width)}×${r1(hit.height)} px at 640×512 CSS px`,
+            `${nameOf(hit.node)} e ${hit.other} se sobrepõem em ${r1(hit.width)}×${r1(hit.height)} px com 640×512 px CSS`,
+          ),
+          confidence: 'low',
+          subject: `overlap|${hit.other}`,
+        }),
+      )
+    }
+
+    // Text the narrower window hid. Shown again at 1280 px means the width hid it, not a timer; a control seen
+    // next to it (aria-controls, aria-expanded) may show it, which the observe class does not try.
+    let notBack = 0
+    let behindToggle = 0
+    let missingReported = 0
+    for (const group of missing) {
+      if (group.back === 0) {
+        notBack += group.boxes
+        continue
+      }
+      if (group.toggle) {
+        behindToggle += group.boxes
+        continue
+      }
+      const members = asArray<MissingGroup['members'][number]>(group.members)
+      const node = matchNode(ctx.index, group.root.ref, group.root.id) ?? members.map((m) => matchNode(ctx.index, m?.ref, m?.id)).find(Boolean)
+      if (!node) {
+        unmatched++
+        continue
+      }
+      if (missingReported++ >= MAX_REPORTED) continue
+      const sample = asArray<string>(group.sample)
+        .filter((value) => typeof value === 'string')
+        .map((value) => `"${value}"`)
+        .join(', ')
+      const reason = text.reasons[group.reason] ?? group.reason
+      review.push(
+        probeFinding({
+          criterion: '1.4.4',
+          rule: this.id,
+          node,
+          message: text.missing,
+          evidence: say(
+            ctx.locale,
+            `at 1280×1024 shown; at 640×512 CSS px ${reason} (<${group.root.tag}> ${group.root.ref}): ${group.boxes} text box(es)${sample ? `, such as ${sample}` : ''}; shown again back at 1280×1024`,
+            `com 1280×1024 aparece; com 640×512 px CSS ${reason} (<${group.root.tag}> ${group.root.ref}): ${group.boxes} caixa(s) de texto${sample ? `, como ${sample}` : ''}; aparece de novo com 1280×1024`,
+          ),
+          confidence: 'low',
+          subject: `missing|${group.root.ref}`,
+        }),
+      )
+    }
+
+    const notes = [
+      moreNotListed(ctx.locale, failures - findings.length),
+      nowrap + oneLine > 0
+        ? say(ctx.locale, `ACT 59br37 exceptions: ${nowrap} no-wrap ellipsis, ${oneLine} line clamp`, `exceções da ACT 59br37: ${nowrap} reticências sem quebra, ${oneLine} limite de uma linha`)
+        : '',
+      behindToggle > 0
+        ? say(ctx.locale, `${behindToggle} hidden text box(es) sit behind a menu button, not opened`, `${behindToggle} caixa(s) de texto escondida(s) atrás de um botão de menu, não aberto`)
+        : '',
+      notBack > 0
+        ? say(
+            ctx.locale,
+            `${notBack} text box(es) gone at 640 px and not back at 1280 px: not counted (a timer or a carousel)`,
+            `${notBack} caixa(s) de texto sumida(s) com 640 px e não de volta com 1280 px: não contadas (um timer ou carrossel)`,
+          )
+        : '',
+      after.truncated ? say(ctx.locale, 'box budget reached; hidden text not checked', 'limite de caixas atingido; texto escondido não verificado') : '',
+    ].filter(Boolean)
+    const coverage: ProbeCoverage = {
+      criterion: '1.4.4',
+      method: `probe/layout@${record.version}`,
+      rule: this.id,
+      conditions: conditionsText(record, say(ctx.locale, '640×512 CSS px at device scale 2 (1280×1024 at 200%)', '640×512 px CSS com escala 2 (1280×1024 a 200%)')),
+      status: coverageStatus(failures, review.length),
+      applicable: after.measured,
+      failures,
+      review: review.length,
+      unmatched,
       ...(notes.length > 0 ? { note: notes.join('; ') } : {}),
       maturity: 'experimental',
     }

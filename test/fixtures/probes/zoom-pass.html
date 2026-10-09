@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resize text passes</title>
+<style>
+  body { margin: 0; font: 16px Arial, sans-serif; }
+  main { padding: 0 8px; }
+  /* ACT 59br37 Passed Example 1: no wrapping, and the text still fits at 640 px. */
+  #short { white-space: nowrap; overflow: hidden; font-size: 16px; }
+  /* Passed Example 2: the no-wrap ellipsis exception. */
+  #ellipsis { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 500px; }
+  /* Passed Example 3: the line-clamp exception, a box one line high. */
+  .wordClip { overflow: hidden; word-wrap: break-word; height: 16px; line-height: 16px; font-size: 16px; }
+  /* Passed Example 4: an inner box scrolls, so the outer one hides nothing a reader cannot reach. */
+  #outer { overflow: hidden; height: 2em; }
+  #inner { overflow: auto; height: 2em; }
+  /* Inapplicable Example 3: overflow auto alone. */
+  #scrolls { overflow: auto; height: 1.5em; }
+  /* Near miss: a fixed height with room for the text at 640 px too. */
+  #roomy { overflow: hidden; height: 6em; max-width: 900px; }
+  /* Near miss: a minimum height grows with the text. */
+  #grows { overflow: hidden; min-height: 1.5em; }
+  /* Visually hidden text (Inapplicable Example 5): not visible at any size. */
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  /* A carousel: each slide is either whole or hidden, never cut. */
+  .carousel { overflow: hidden; white-space: nowrap; }
+  .slide { display: inline-block; width: 100%; white-space: normal; vertical-align: top; }
+  /* Inapplicable Example 4: text under aria-hidden. */
+  #hidden-clip { overflow: hidden; height: 1.2em; width: 120px; }
+  #svg-wrap { overflow: hidden; width: 120px; height: 20px; }
+  /* Inapplicable Example 1: not displayed. */
+  #gone { display: none; }
+  /* Responsive layout that keeps every word: a side column moves below. */
+  .cols { display: flex; flex-wrap: wrap; gap: 8px; }
+  .cols > * { flex: 1 1 280px; }
+  /* A responsive table: at narrow widths the header row hides and each cell repeats its header. */
+  @media (max-width: 700px) {
+    #stores thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    #stores td { display: block; }
+    #stores td::before { content: attr(data-label) ": "; font-weight: bold; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Notices</h1>
+  <div id="short">Open today.</div>
+  <div id="ellipsis">Once upon a midnight dreary, while I pondered, weak and weary, over many a quaint and curious volume of forgotten lore.</div>
+  <div class="wordClip">Once upon a midnight dreary, while I pondered, weak and weary, over many a quaint and curious volume of forgotten lore.</div>
+  <a href="#poem">Full text of the poem</a>
+  <div id="outer"><div id="inner">Once upon a midnight dreary, while I pondered, weak and weary, over many a quaint and curious volume of forgotten lore. While I nodded, nearly napping, suddenly there came a tapping, as of some one gently rapping, rapping at my chamber door.</div></div>
+  <div id="scrolls">Once upon a midnight dreary, while I pondered, weak and weary, over many a quaint and curious volume of forgotten lore, while I nodded, nearly napping.</div>
+  <div id="roomy">Orders placed before noon leave the warehouse on the same day, and arrive in two to five working days.</div>
+  <div id="grows">Orders placed before noon leave the warehouse on the same day, and arrive in two to five working days.</div>
+  <span class="sr-only">Skip to the list of stores and their opening hours</span>
+  <div class="carousel"><div class="slide">First slide: the spring collection is here.</div><div class="slide">Second slide: free returns all season.</div></div>
+  <div id="hidden-clip" aria-hidden="true"><span>Decorative words that the box cuts on purpose, hidden from everyone.</span></div>
+  <div id="svg-wrap"><svg width="400" height="40"><text x="0" y="16">Chart label that runs past the box</text></svg></div>
+  <p id="gone">Not displayed at any size.</p>
+  <div class="cols"><p>Our stores open at nine and close at six on weekdays.</p><p>On Saturdays they open at ten and close at four.</p></div>
+  <table id="stores">
+    <thead><tr><th>Store</th><th>Opening hours</th></tr></thead>
+    <tbody><tr><td data-label="Store">Downtown</td><td data-label="Opening hours">9 to 18</td></tr></tbody>
+  </table>
+</main>
+</body>
+</html>
