@@ -117,6 +117,10 @@ describe('rampa init', () => {
     const result = await runInitSteps(dir, settings('ts'), { force: false })
     expect(await read(dir, '.gitignore')).toBe(`node_modules\n.rampa/\n\n# Rampa: local files. Commit .rampa/waivers.json and .rampa/baseline.json.\n${IGNORED.join('\n')}\n`)
     expect(result.warnings.join(' ')).toMatch(/ignores all of \.rampa/)
+
+    const windows = await project({ '.gitignore': 'node_modules\r\n', 'package.json': '{"type":"module"}' })
+    await runInitSteps(windows, settings('ts'), { force: false })
+    expect(await read(windows, '.gitignore')).toBe(`node_modules\r\n\r\n# Rampa: local files. Commit .rampa/waivers.json and .rampa/baseline.json.\r\n${IGNORED.join('\r\n')}\r\n`)
   })
 
   it('finds a build folder with HTML to suggest as the target', async () => {

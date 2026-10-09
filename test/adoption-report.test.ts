@@ -35,6 +35,9 @@ describe('the report with a baseline', () => {
 
     const engineOnly = text(compareWithBaseline(report({ llm: 'off' }), baseline, 'b.json', { cwd: CWD }))
     expect(engineOnly).toContain('2 baseline finding(s) could not be checked again in this run: they need the judgment layer, which did not run.')
+
+    const noEngine = text(compareWithBaseline(report({ engine: { name: 'none', version: '0' } }), baseline, 'b.json', { cwd: CWD }))
+    expect(noEngine).toContain('1 baseline finding(s) could not be checked again in this run: the engine did not run on this target.')
   })
 
   it('says when this run is not comparable with how the baseline was recorded', () => {

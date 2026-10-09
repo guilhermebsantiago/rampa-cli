@@ -257,9 +257,11 @@ export async function runInitSteps(
   const current = (await exists(gitignore)) ? await readFile(gitignore, 'utf8') : undefined
   const { missing, ignoresAll } = gitignoreChanges(current ?? '')
   if (missing.length > 0) {
-    const separator = current === undefined || current === '' ? '' : current.endsWith('\n') ? '\n' : '\n\n'
-    const block = ['# Rampa: local files. Commit .rampa/waivers.json and .rampa/baseline.json.', ...missing].join('\n')
-    await writeFile(gitignore, `${current ?? ''}${separator}${block}\n`, 'utf8')
+    // The file's own line ending, so a CRLF file does not end up mixed.
+    const eol = current?.includes('\r\n') ? '\r\n' : '\n'
+    const separator = current === undefined || current === '' ? '' : current.endsWith('\n') ? eol : eol + eol
+    const block = ['# Rampa: local files. Commit .rampa/waivers.json and .rampa/baseline.json.', ...missing].join(eol)
+    await writeFile(gitignore, `${current ?? ''}${separator}${block}${eol}`, 'utf8')
     steps.push({ path: '.gitignore', action: current === undefined ? 'created' : 'updated', detail: `+ ${missing.join(', ')}` })
   } else steps.push({ path: '.gitignore', action: 'kept', detail: 'already ignores the local Rampa files' })
   if (ignoresAll) {

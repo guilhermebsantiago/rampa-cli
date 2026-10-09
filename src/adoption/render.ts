@@ -16,6 +16,7 @@ const messages = {
     unchecked: '{count} baseline finding(s) could not be checked again in this run: {why}.',
     uncheckedNoJudgment: 'they need the judgment layer, which did not run',
     uncheckedPartial: 'their criterion was not judged, or the model abstained or failed on part of it',
+    uncheckedNoEngine: 'the engine did not run on this target',
     otherModel: 'The baseline was recorded with {recorded}; this run used {current}, which can judge differently.',
     noJudgmentRecorded: 'The baseline for this target was recorded without the judgment layer, so judgment findings count as new.',
     newCriteria: 'The baseline did not judge {criteria} on this target, so their findings count as new.',
@@ -35,6 +36,7 @@ const messages = {
     unchecked: '{count} achado(s) da baseline não pôde(puderam) ser verificado(s) de novo nesta execução: {why}.',
     uncheckedNoJudgment: 'depende(m) da camada de julgamento, que não rodou',
     uncheckedPartial: 'o critério não foi julgado, ou o modelo se absteve ou falhou em parte dele',
+    uncheckedNoEngine: 'o motor não rodou neste alvo',
     otherModel: 'A baseline foi gravada com {recorded}; esta execução usou {current}, que pode julgar diferente.',
     noJudgmentRecorded: 'A baseline deste alvo foi gravada sem a camada de julgamento, então os achados do julgamento contam como novos.',
     newCriteria: 'A baseline não julgou {criteria} neste alvo, então os achados desses critérios contam como novos.',
@@ -99,9 +101,12 @@ export function adoptionLines(report: Report, verbose: boolean, p: Painter): str
     for (const entry of shown) lines.push(entryLine(entry, p))
     if (shown.length < baseline.fixed.length) lines.push(p.dim(`  ${say(locale, 'more', { count: baseline.fixed.length - shown.length })}`))
   }
-  if (baseline.unchecked.length > 0) {
+  const uncheckedEngine = baseline.unchecked.filter((entry) => entry.source === 'engine').length
+  const uncheckedJudgment = baseline.unchecked.length - uncheckedEngine
+  if (uncheckedEngine > 0) lines.push(p.yellow(say(locale, 'unchecked', { count: uncheckedEngine, why: say(locale, 'uncheckedNoEngine') })))
+  if (uncheckedJudgment > 0) {
     const why = say(locale, report.llm === 'on' ? 'uncheckedPartial' : 'uncheckedNoJudgment')
-    lines.push(p.yellow(say(locale, 'unchecked', { count: baseline.unchecked.length, why })))
+    lines.push(p.yellow(say(locale, 'unchecked', { count: uncheckedJudgment, why })))
   }
   return lines
 }

@@ -110,18 +110,19 @@ function withoutFindings({ findings: _findings, ...recorded }: BaselineTarget): 
  * not check are kept.
  */
 export function recordBaseline(reports: readonly Report[], previous?: BaselineFile, cwd: string = process.cwd()): BaselineFile {
-  const targets: Record<string, BaselineTarget> = { ...previous?.targets }
+  // A Map, so no target name can reach an object's prototype.
+  const targets = new Map<string, BaselineTarget>(Object.entries(previous?.targets ?? {}))
   for (const report of reports) {
-    targets[targetKey(report.target, cwd)] = {
+    targets.set(targetKey(report.target, cwd), {
       recordedAt: report.createdAt,
       llm: report.llm,
       model: report.model,
       engine: `${report.engine.name} ${report.engine.version}`,
       criteria: report.criteria.map((summary) => summary.criterion),
       findings: [...report.findings, ...report.belowThreshold].map(entryOf).sort(byPlace),
-    }
+    })
   }
-  const sorted = Object.fromEntries(Object.entries(targets).sort(([a], [b]) => compareText(a, b)))
+  const sorted = Object.fromEntries([...targets].sort(([a], [b]) => compareText(a, b)))
   return { schemaVersion: 1, rampaVersion: VERSION, targets: sorted }
 }
 
@@ -173,7 +174,7 @@ function pathOfUrl(target: string): string | undefined {
 
 /** The baseline record of a target: the same key, or else the only URL with the same path on another host. */
 export function findTarget(baseline: BaselineFile, key: string): [string, BaselineTarget] | undefined {
-  const exact = baseline.targets[key]
+  const exact = Object.hasOwn(baseline.targets, key) ? baseline.targets[key] : undefined
   if (exact) return [key, exact]
   const path = pathOfUrl(key)
   if (path === undefined) return undefined
@@ -230,11 +231,12 @@ export function compareWithBaseline(report: Report, baseline: BaselineFile, file
     used.add(index)
     matched.add(finding)
   }
+  const entryKeys = entries.map(contentKey)
   for (const finding of current) {
     if (matched.has(finding)) continue
     const key = contentKey(entryOf(finding))
     if (key === undefined) continue
-    const index = entries.findIndex((entry, candidate) => !used.has(candidate) && contentKey(entry) === key)
+    const index = entryKeys.findIndex((candidateKey, candidate) => !used.has(candidate) && candidateKey === key)
     if (index === -1) continue
     used.add(index)
     matched.add(finding)

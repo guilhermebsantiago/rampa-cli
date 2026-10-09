@@ -111,6 +111,10 @@ export async function runWaive(fingerprintInput: string, options: WaiveOptions, 
 
   const file = await readWaivers(options.file ?? context.config.waivers ?? WAIVERS_FILE)
   const previous = file.entries.find((entry) => entry.waiver?.fingerprint === fingerprint)?.waiver
+  // A renewal keeps what the waiver already said it was about.
+  if (!found && previous && (previous.criterion || previous.message)) {
+    found = { criterion: previous.criterion, target: previous.target, ref: previous.ref, message: previous.message }
+  }
   const waiver: Waiver = { fingerprint, reason, author: await gitUserName(), date: on, expires: options.expires, ...found }
   const action = upsertWaiver(file, waiver)
   await writeWaivers(file)
@@ -118,8 +122,8 @@ export async function runWaive(fingerprintInput: string, options: WaiveOptions, 
   const p = paint(colorsEnabled())
   console.log(`\n  ${p.green(action === 'added' ? 'Waived' : 'Updated the waiver of')} ${p.bold(fingerprint)} in ${file.path}`)
   if (found) {
-    console.log(`  ${found.criterion} ${found.target ?? ''} ${p.dim(found.ref ?? '')}`)
-    console.log(`  ${found.message}`)
+    console.log(`  ${[found.criterion, found.target].filter(Boolean).join(' ')} ${p.dim(found.ref ?? '')}`)
+    if (found.message) console.log(`  ${found.message}`)
   }
   console.log(`  Reason: ${reason}`)
   const until = options.expires ? `until ${options.expires}` : 'with no expiry date'

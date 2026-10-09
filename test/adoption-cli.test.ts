@@ -85,6 +85,27 @@ describe('adopting Rampa on a page with known problems', { timeout: 120_000 }, (
     expect(await json(join(dir, '.rampa/waivers.json'))).toEqual([])
   })
 
+  it('renews a waiver without losing what it was about', async () => {
+    const dir = await storeProject()
+    expect(rampa(dir, 'check', 'store.snapshot.json', '--no-llm', '-f', 'json', '-o', 'report.json').code).toBe(1)
+    expect(rampa(dir, 'waive', '5f085d8a3b9c', '--reason', 'Logo is decorative', '--expires', '2099-01-31', '--report', 'report.json').code).toBe(0)
+    const renewed = rampa(dir, 'waive', '5F085D8A3B9C', '--reason', 'Still decorative after the redesign')
+    expect(renewed.code).toBe(0)
+    expect(renewed.out).toContain('Updated the waiver of 5f085d8a3b9c')
+    expect(renewed.out).toContain('It was due to expire on 2099-01-31; it now applies with no expiry date.')
+    expect(await json(join(dir, '.rampa/waivers.json'))).toEqual([
+      expect.objectContaining({
+        fingerprint: '5f085d8a3b9c',
+        reason: 'Still decorative after the redesign',
+        criterion: '1.1.1',
+        target: 'examples/store/before.html',
+        ref: 'html > body > header > img',
+      }),
+    ])
+    const [entry] = await json<Array<Record<string, unknown>>>(join(dir, '.rampa/waivers.json'))
+    expect(entry?.expires).toBeUndefined()
+  })
+
   it('refuses to record a baseline that would miss findings the model did not judge', async () => {
     const dir = await storeProject()
     const run = rampa(dir, 'baseline', 'store.snapshot.json', '--offline', '--model', 'ollama:gemma4:12b', '--cache-dir', join(dir, 'empty-cache'))
