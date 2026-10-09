@@ -41,7 +41,7 @@ Folders for output files are created when missing. `--locale pt-BR` writes Markd
 
 The levels are read in any case, so `--fail-on aa` works. Waived findings never count. With `A` or `AA`, a finding on a rule outside WCAG 2.1 A/AA does not fail the run; with `confirmed` it does.
 
-A usage error, such as an unknown `--format`, exits `2`. Until this version it exited `1`, which CI could not tell apart from a failure on the page.
+A usage error, such as an unknown `--format`, exits `2`. Earlier versions exited `1` there, which CI could not tell apart from a failure on the page.
 
 ## Where a finding is in the source
 
@@ -66,7 +66,7 @@ The report as before: one object for one page, an array for several. Two optiona
 - **Results.** The message, the evidence and the finding id (the one waivers use). The level follows the confidence: `error` for high, `warning` for medium, `note` for low and for findings below the threshold. GitHub fails a pull request check on `error` by default, so only high-confidence findings block there unless you change that setting; Rampa's own exit code follows `--fail-on`. Properties carry the source (engine or judgment), the confidence, the votes, the model, the axe-core rule and its help page, and the patch as text.
 - **Locations.** For a local page, the file relative to `%SRCROOT%` (the repository root) with the line and columns of the element and its source as the snippet. For a remote page, the URL. Both carry a logical location: the CSS selector of the element.
 - **Fixes.** The patch as a replacement in the file, when it applies (see above).
-- **Fingerprints.** `partialFingerprints["rampa/v1"]` hashes the page, the criterion, the rule and the element's selector. It survives a model quoting different words and the element moving to another line, so code scanning keeps tracking one alert.
+- **Fingerprints.** `partialFingerprints["rampa/v1"]` hashes the page, the criterion, the rule and the element's selector. It survives a model quoting different words and the element moving to another line, so code scanning keeps tracking one alert. A change in the structure around the element, such as a new sibling of the same tag before it, changes the selector, and code scanning then sees a new alert.
 - **Coverage.** Each page gets a `note` notification with its coverage statement, and `runs[0].properties.coverage` lists what the engine checked, what was judged and what was not checked. A log without results still says what nobody checked.
 - **Suppressions.** With `--verbose`, waived findings are included with an external, accepted suppression.
 
@@ -94,7 +94,7 @@ Evidence: "Click here" · confidence high · 1/1 runs · id 1af8a73e209d
 
 One file with everything inline: no script, no font or stylesheet to fetch, so it opens offline and can be attached to a ticket. It follows the reader's light or dark preference, prints cleanly, and works without JavaScript; folded parts use `<details>`.
 
-It holds itself to what it reports: landmarks, one `h1` and a heading per criterion, tables with captions and header cells, a skip link, and text colors at 4.5:1 or more in both themes. A test runs axe-core on it in light and dark mode at 1280 and 320 pixels, and checks that the page never scrolls sideways. Rampa's own check of a generated report finds nothing.
+It holds itself to what it reports: landmarks, one `h1` and a heading per criterion, tables with captions and header cells, a skip link, and text colors at 4.5:1 or more in both themes. A test runs axe-core on it in light and dark mode at 1280 and 320 pixels, and checks that the page never scrolls sideways. `rampa check --no-llm` on a generated report finds nothing.
 
 ## False positives
 
