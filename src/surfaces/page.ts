@@ -6,6 +6,7 @@ import type { Locale } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { walkTree } from '../snapshot/tree.ts'
 import { VERSION } from '../version.ts'
+import { type CdpSessionLike, attachFormIssues } from './form-issues.ts'
 import { collectInPage } from './in-page.ts'
 import { type Scope, resolveScopeInPage, scopeTree } from './scope.ts'
 import type { Collected } from './web.ts'
@@ -25,6 +26,8 @@ export interface PageDriver {
   screenshotElement(ref: string): Promise<Uint8Array | undefined>
   /** A full-page PNG written to `path`. */
   screenshotPage(path: string): Promise<void>
+  /** A CDP session on the page, in Chromium; Rampa reads the browser's own form issues through it. */
+  cdp?(): Promise<CdpSessionLike | undefined>
 }
 
 export interface PageCollectOptions {
@@ -61,6 +64,7 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
   })
 
   let root = raw.root as A11yNode
+  if (driver.cdp) await attachFormIssues(driver.cdp, root)
   if (scope) root = await scopeRoot(driver, root, scope, { url, truncated: raw.truncated, maxNodes })
   if (options.captureImages) {
     // Element screenshots scroll the page; the caller's test carries on from where it was.

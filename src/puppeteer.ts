@@ -5,6 +5,7 @@
  */
 import { type CheckPageOptions, checkDriver } from './api/page.ts'
 import type { Report } from './core/types.ts'
+import type { CdpSessionLike } from './surfaces/form-issues.ts'
 import type { PageDriver } from './surfaces/page.ts'
 import { createMatchers } from './testing/matchers.ts'
 
@@ -51,6 +52,11 @@ export function puppeteerDriver(page: PuppeteerPage): PageDriver {
     },
     async screenshotPage(path) {
       await page.screenshot({ path, fullPage: true })
+    },
+    async cdp() {
+      // Puppeteer 19 and later open a CDP session on the page itself; Firefox pages have none.
+      const create = (page as { createCDPSession?: () => Promise<CdpSessionLike> }).createCDPSession
+      return create ? create.call(page) : undefined
     },
   }
 }

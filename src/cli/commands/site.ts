@@ -5,6 +5,7 @@ import { loadWaivers } from '../../config.ts'
 import { fileCache } from '../../core/cache.ts'
 import { type CheckOptions, checkSnapshot } from '../../core/check.ts'
 import { type SitePage, type SiteReport, countReuse, findingSignatures, siteExitCode, summarizeSite } from '../../core/site.ts'
+import { type Sibling, siblingsOf } from '../../core/siblings.ts'
 import type { Report } from '../../core/types.ts'
 import { RampaError } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
@@ -139,6 +140,7 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
 
   const cache = countReuse(fileCache(options.cacheDir))
   const pages: Array<SitePage & { index: number }> = []
+  const titles: Sibling[] = []
   // Pages load in parallel but are judged one at a time, in turn: a judgment made for one
   // page is in the cache before the next page asks for it, so a shared header costs one call.
   let judging: Promise<unknown> = Promise.resolve()
@@ -167,14 +169,18 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
       if (error.skip) frontier.skipped.push(error.skip)
       return
     }
-    const snapshot = { ...collected.snapshot, target: finalUrl }
-    if (options.save) await saveRecording(options.save, snapshot, collected)
-    const turn = judging.then(() => {
+    const title = collected.snapshot.title?.trim()
+    if (title) titles.push({ url: finalUrl, title })
+    const turn = judging.then(async () => {
       cache.page = turns++
-      return checkSnapshot(snapshot, collected.engine, { ...run.check, cache })
+      // The titles of the pages read so far, so 2.4.2 can tell whether this page's title sets it apart from them.
+      const siblings = siblingsOf(finalUrl, titles)
+      const snapshot = { ...collected.snapshot, target: finalUrl, ...(siblings.length > 0 ? { siblings } : {}) }
+      if (options.save) await saveRecording(options.save, snapshot, collected)
+      return { snapshot, report: await checkSnapshot(snapshot, collected.engine, { ...run.check, cache }) }
     })
     judging = turn.catch(() => undefined)
-    const report = await turn
+    const { snapshot, report } = await turn
     pages.push({ url: finalUrl, report, signatures: findingSignatures(report.findings, snapshot), index: task.index })
   })
 

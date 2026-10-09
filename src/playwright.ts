@@ -9,6 +9,7 @@
  */
 import { type CheckPageOptions, checkDriver } from './api/page.ts'
 import type { Report } from './core/types.ts'
+import type { CdpSessionLike } from './surfaces/form-issues.ts'
 import type { PageDriver } from './surfaces/page.ts'
 import { type RampaFixtures as Fixtures, type RampaHelper as Helper, createFixtures } from './testing/fixtures.ts'
 import { createMatchers } from './testing/matchers.ts'
@@ -49,6 +50,11 @@ export function playwrightDriver(page: PlaywrightPage): PageDriver {
     },
     async screenshotPage(path) {
       await page.screenshot({ path, fullPage: true })
+    },
+    async cdp() {
+      // Only Chromium has CDP; Firefox and WebKit pages, and older Pages without context(), go without it.
+      const context = (page as { context?: () => { newCDPSession?: (page: unknown) => Promise<CdpSessionLike> } }).context?.()
+      return context?.newCDPSession?.(page)
     },
   }
 }

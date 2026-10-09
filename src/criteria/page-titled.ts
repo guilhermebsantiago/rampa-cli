@@ -47,6 +47,8 @@ export interface PageTitledContext {
   headings: string[]
   opening: string
   language: string
+  /** Titles of other pages of the same site, when a crawl read them. */
+  siblings?: string[] | undefined
 }
 
 const SYSTEM = `You check exactly one WCAG 2.1 success criterion: 2.4.2 Page Titled (Level A).
@@ -66,7 +68,7 @@ Reply only with JSON that matches the schema.`
 export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
   id: '2.4.2',
   level: 'A',
-  version: '1',
+  version: '2',
   act: ['2779a5', 'c4a8a4'],
   surfaces: ['web'],
   needs: {},
@@ -91,6 +93,7 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
           headings,
           opening: truncate(subtreeText(body), 700),
           language: snapshot.locale ?? snapshot.root.lang ?? 'en',
+          siblings: siblingTitles(snapshot),
         },
       },
     ]
@@ -103,11 +106,18 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
       `Write suggestedTitle in: ${languageName(c.language, 'en')} (${c.language})`,
       'The page title:',
       `<title>${c.title}</title>`,
+      ...(c.siblings?.length
+        ? [
+            '',
+            'Titles of other pages on the same site, as a crawl read them, are in <content>. A title that is the same as one of them, or differs from it only by the site name, does not tell this page apart (problem "generic").',
+          ]
+        : []),
       '',
       '<content>',
       `Address: ${c.address}`,
       `Headings: ${c.headings.length > 0 ? c.headings.map((h) => `"${h}"`).join(', ') : 'none'}`,
       `Opening text: ${c.opening || '(none)'}`,
+      ...(c.siblings?.length ? [`Titles of other pages: ${c.siblings.map((title) => `"${title}"`).join(', ')}`] : []),
       '</content>',
     ].join('\n')
     return { system: SYSTEM, user }
@@ -166,4 +176,10 @@ function addressOf(target: string): string {
   } catch {
     return target.split(/[\\/]/).pop() ?? target
   }
+}
+
+/** Titles of the other pages a crawl read, deduplicated; undefined outside a crawl. */
+function siblingTitles(snapshot: A11ySnapshot): string[] | undefined {
+  const titles = [...new Set((snapshot.siblings ?? []).map((sibling) => truncate(sibling.title.replace(/\s+/g, ' ').trim(), 120)).filter(Boolean))]
+  return titles.length > 0 ? titles : undefined
 }

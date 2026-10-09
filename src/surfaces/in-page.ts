@@ -353,6 +353,11 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       native.html = el === document.documentElement ? startTag(el) : el.outerHTML.slice(0, MAX_HTML)
     }
     if (el.hasAttribute('lang')) native.langText = langText(el)
+    // A heading or label cut off on screen (ellipsis, line clamp, a fixed box): the share of it that shows.
+    if (/^h[1-6]$/.test(tag) || tag === 'label' || tag === 'legend' || el.getAttribute('role') === 'heading') {
+      const shown = shownShare(el)
+      if (shown !== undefined) native.shown = shown
+    }
     // Only blocks with inline children need it; for the rest, the node's own text is already in order.
     // A short div or span reads as one sentence, such as "Read more about the archive" around a link.
     const sentence = (tag === 'div' || tag === 'span') && (el.textContent ?? '').length <= 300
@@ -363,6 +368,21 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       if (background) native.backgroundImage = background
     }
     return native
+  }
+
+  /**
+   * How much of an element's text shows when its box cuts it off: the visible width (or height, for text clamped to
+   * some lines) over the width or height its content needs, rounded to hundredths. Undefined when nothing is cut.
+   */
+  const shownShare = (el: Element): number | undefined => {
+    if (!(el instanceof HTMLElement) || el.clientWidth === 0 || el.clientHeight === 0) return undefined
+    const style = getComputedStyle(el)
+    const clamped = style.getPropertyValue('-webkit-line-clamp')
+    const cutX = el.scrollWidth > el.clientWidth + 1 && style.overflowX !== 'visible'
+    const cutY = el.scrollHeight > el.clientHeight + 1 && (style.overflowY !== 'visible' || (clamped !== '' && clamped !== 'none'))
+    if (!cutX && !cutY) return undefined
+    const share = (cutX ? el.clientWidth / el.scrollWidth : 1) * (cutY ? el.clientHeight / el.scrollHeight : 1)
+    return Math.round(share * 100) / 100
   }
 
   /** The first url() of the element's computed background-image; gradients are not pictures. */
@@ -404,6 +424,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
 
   const root = build(document.documentElement)
   if (!root) throw new Error('The page has no document element')
+  // Left on the page so the collector can map nodes it learns about over CDP (Chromium's form issues) to refs.
+  ;(window as unknown as { __rampaRefs?: Map<Element, string> }).__rampaRefs = refs
 
   const result: InPageResult = {
     title: document.title,

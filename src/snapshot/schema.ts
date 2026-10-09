@@ -102,6 +102,8 @@ export const A11ySnapshotSchema = z.object({
   truncated: z.boolean().optional(),
   /** Where the page's links lead, keyed by the href as written, for the links Rampa followed. */
   destinations: z.record(z.string(), DestinationSchema).optional(),
+  /** Other pages of the same site that a crawl had read when this one was judged, with their titles (2.4.2). */
+  siblings: z.array(z.object({ url: z.string(), title: z.string() })).optional(),
   collectedAt: z.string(),
   collector: z.object({ name: z.string(), version: z.string() }),
 })

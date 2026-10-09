@@ -11,6 +11,7 @@ import { VERSION } from '../version.ts'
 import { walkTree } from '../snapshot/tree.ts'
 import { type FollowOptions, followLinks } from './destinations.ts'
 import { type BrowserOptions, contextOptions, openPage, prepareContext } from './browser-options.ts'
+import { attachFormIssues } from './form-issues.ts'
 import { collectInPage } from './in-page.ts'
 
 export interface WebCollectOptions {
@@ -100,6 +101,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     })
 
     const root = raw.root as A11yNode
+    await attachFormIssues(() => context.newCDPSession(page), root)
     if (options.captureImages) await captureImages(page, root)
     // Relative links resolve against the document's base: the address after redirects, or its <base href>.
     const destinations =

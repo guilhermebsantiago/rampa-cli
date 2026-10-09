@@ -63,6 +63,8 @@ export interface HeadingsAndLabelsContext {
   outline?: string[] | undefined
   /** Heading: the other headings of the same level in the same section, in order. */
   siblings?: string[] | undefined
+  /** The part of the text that shows on screen, when its box cuts it off. */
+  shown?: string | undefined
   language: string
 }
 
@@ -90,7 +92,7 @@ Reply only with JSON that matches the schema.`
 export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndLabelsJudgment> = {
   id: '2.4.6',
   level: 'AA',
-  version: '1',
+  version: '2',
   act: ['b49b2e', 'cc0f0a'],
   surfaces: ['web', 'android', 'ios', 'windows', 'macos'],
   needs: {},
@@ -140,6 +142,7 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
             outline,
             siblings,
             content: truncate(content, 700),
+            shown: shownPart(node.name.trim(), node),
             language,
           },
         })
@@ -178,7 +181,7 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
           .join('\n')
         candidates.push({
           ref: node.ref,
-          context: { kind: 'label', text: node.name.trim(), target, content: field, language },
+          context: { kind: 'label', text: node.name.trim(), target, content: field, shown: label ? shownPart(node.name.trim(), label) : undefined, language },
         })
       }
     })
@@ -192,6 +195,7 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
         ? [
             `A level ${c.level ?? '?'} heading:`,
             `<heading>${c.text}</heading>`,
+            ...cutOff(c),
             '',
             'Content under the heading:',
             '<content>',
@@ -200,7 +204,7 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
             c.content,
             '</content>',
           ]
-        : ['A form field label:', `<label>${c.text}</label>`, '', 'The field:', '<content>', c.content, '</content>']
+        : ['A form field label:', `<label>${c.text}</label>`, ...cutOff(c), '', 'The field:', '<content>', c.content, '</content>']
     const user = [`Surface: ${snapshot.surface}`, `Write suggestedText in: ${languageName(c.language, 'en')} (${c.language})`, ...lines].join('\n')
     return { system: SYSTEM, user }
   },
@@ -399,3 +403,19 @@ function labelElement(ordered: A11yNode[], field: A11yNode): A11yNode | undefine
   )
 }
 
+
+/**
+ * What shows of a text whose box cuts it off, from the share the collector measured: people who see the screen read
+ * only that part, so it is what labels the section or the field for them.
+ */
+function shownPart(text: string, node: A11yNode): string | undefined {
+  const share = node.native.shown
+  if (typeof share !== 'number' || share >= 0.95) return undefined
+  const visible = text.slice(0, Math.max(1, Math.floor(text.length * share))).trimEnd()
+  return visible === text ? undefined : `${visible}…`
+}
+
+/** The line the prompt adds for a cut-off heading or label; nothing for the rest, so their prompts stay the same. */
+function cutOff(context: HeadingsAndLabelsContext): string[] {
+  return context.shown ? [`On screen it is cut off, and people see only: "${context.shown}". Judge what they see too.`] : []
+}
