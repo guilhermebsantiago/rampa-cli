@@ -4,6 +4,7 @@ import type { ProbeRecord } from '../snapshot/schema.ts'
 import { hoverProbe } from './hover.ts'
 import { keyboardProbe } from './keyboard.ts'
 import { layoutProbes } from './layout.ts'
+import { orientationProbe } from './orientation.ts'
 import { PROBE_KINDS, type ProbeKind, type ProbeOptions, skippedRecord } from './page.ts'
 
 export { PROBE_KINDS, type ProbeKind, type ProbeOptions } from './page.ts'
@@ -18,7 +19,7 @@ export { PROBE_KINDS, type ProbeKind, type ProbeOptions } from './page.ts'
 /** Chromium switches that keep pixels the same from run to run; the browser is launched with them when probes run. */
 export const DETERMINISM_ARGS = ['--force-color-profile=srgb', '--disable-lcd-text', '--font-render-hinting=none']
 
-/** `--probe layout,keyboard,hover`, `all` or `none`. */
+/** `--probe layout,keyboard,hover,orientation`, `all` or `none`. */
 export function parseProbeKinds(raw: string | undefined): ProbeKind[] {
   if (!raw) return []
   const kinds = new Set<ProbeKind>()
@@ -35,7 +36,7 @@ export type ProbeStep = (browser: Browser, url: string, options: ProbeOptions) =
 
 /** Runs each requested kind in turn; a probe that fails is recorded as skipped and never fails the check. */
 export async function runProbes(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
-  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe }
+  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe }
   const records: ProbeRecord[] = []
   for (const kind of options.kinds) {
     const started = Date.now()

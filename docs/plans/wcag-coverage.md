@@ -1,6 +1,6 @@
 # Rampa WCAG 2.2 coverage roadmap
 
-Date: 2026-10-09. Status: wave A (A1–A10) is built, and from wave B so far B4 (zoom 200%), B5 (content on hover or focus), B10 (site criteria) and B12 (language identifier). The rest is a plan.
+Date: 2026-10-09. Status: wave A (A1–A10) is built, and from wave B so far B4 (zoom 200%), B5 (content on hover or focus), B6 (orientation), B10 (site criteria) and B12 (language identifier). The rest is a plan.
 
 This plan builds on:
 

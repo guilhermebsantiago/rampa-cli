@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orientation: responsive in both orientations</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  header { position: sticky; top: 0; background: #fff; border-bottom: 1px solid #ccc; padding: 8px 24px; }
+  main { padding: 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (orientation: portrait) { main { grid-template-columns: 1fr; } .wide-only { display: none; } }
+  /* The menu chevron points down upright and right sideways: decoration, no text. */
+  .chevron { display: inline-block; width: 8px; height: 8px; border-right: 2px solid #333; border-bottom: 2px solid #333; transform: rotate(45deg); }
+  @media (orientation: landscape) { .chevron { transform: rotate(-45deg); } }
+  /* A tilted sticker, the same tilt in both orientations. */
+  .sticker { display: inline-block; transform: rotate(-8deg); background: #fd0; padding: 2px 6px; }
+</style>
+</head>
+<body>
+<header>Garden club <span class="chevron"></span></header>
+<main>
+  <section>
+    <h1>Spring planting</h1>
+    <p>Plant the bulbs six weeks before the last frost. Tulips like full sun; daffodils will grow in light shade.</p>
+    <p class="sticker">New this year</p>
+  </section>
+  <section>
+    <h2>Workshops</h2>
+    <p>Saturday mornings at the greenhouse: soil, seeds and pruning. Bring gloves; tools are provided.</p>
+    <p>You can turn your phone at any time: the timetable works upright and sideways.</p>
+    <p class="wide-only">Tip: the side panel lists every workshop of the season.</p>
+  </section>
+</main>
+</body>
+</html>
