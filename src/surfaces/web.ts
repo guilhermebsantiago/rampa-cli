@@ -15,6 +15,7 @@ import { type BrowserOptions, contextOptions, openPage, prepareContext } from '.
 import { attachFormIssues } from './form-issues.ts'
 import { captureImageNodes, hiddenImageTargets, imageTargets, isCapturableImage } from './image-capture.ts'
 import { collectInPage } from './in-page.ts'
+import { labelTargets, measureLabels } from './label-visibility.ts'
 import { type ProbeKind, runProbes } from '../probes/run.ts'
 
 export interface WebCollectOptions {
@@ -131,6 +132,8 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     // What was collected is the page the redirect led to; the snapshot keeps the address asked for, and says where it ended.
     if (response && page.url() !== loaded) root.native.redirectedTo = page.url()
     if (options.captureImages) await captureImages(page, root)
+    // Whether each label 3.3.2 relies on shows its text, from two captures (label-visibility.ts); no model involved.
+    await measureLabelPixels(page, root)
     // Relative links resolve against the document's base: the address after redirects, or its <base href>.
     const destinations =
       options.followLinks && options.followLinks.policy !== 'none'
@@ -217,6 +220,30 @@ async function captureImages(page: Page, root: A11yNode): Promise<void> {
         // Not visible or detached: criteria that need the image skip this node.
       }
     }
+  } finally {
+    if (layers > 0) await restoreLayers(page)
+  }
+}
+
+/** Each label 3.3.2 relies on, captured as rendered and with its text transparent, with the fixed layers that do not hold it hidden. */
+async function measureLabelPixels(page: Page, root: A11yNode): Promise<void> {
+  if (labelTargets(root).length === 0) return
+  const layers = await markLayers(page)
+  try {
+    await measureLabels(
+      {
+        // biome-ignore lint/suspicious/noExplicitAny: Playwright's evaluate infers its argument type from a generic it cannot see here
+        evaluate: <Arg, Result>(fn: (arg: Arg) => Result | Promise<Result>, arg: Arg) => page.evaluate(fn as (arg: any) => Result | Promise<Result>, arg),
+        screenshot: (ref) =>
+          page
+            .locator(`css=${ref}`)
+            .first()
+            .screenshot({ type: 'png', timeout: 5000, animations: 'disabled', scale: 'css' })
+            .catch(() => undefined),
+      },
+      root,
+      { beforeEach: layers > 0 ? (node) => showLayersAround(page, node.ref) : undefined },
+    )
   } finally {
     if (layers > 0) await restoreLayers(page)
   }
