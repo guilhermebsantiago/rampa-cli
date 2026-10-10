@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in: cognitive function tests</title>
+<style>
+  body { margin: 0; font: 16px/1.5 Arial, sans-serif; }
+  main { padding: 24px; max-width: 640px; }
+  form { margin-bottom: 32px; padding: 16px; border: 1px solid #767676; }
+  label { display: block; margin-top: 8px; }
+  .chars { display: flex; gap: 12px; }
+  .chars input { width: 40px; }
+  .captcha { display: block; width: 160px; height: 50px; background: #ddd; }
+</style>
+</head>
+<body>
+<main>
+  <!-- 1. F109: some characters of the password, one field each. -->
+  <form id="partial" method="post" action="/session">
+    <h2>Sign in, step 2</h2>
+    <p>Enter the 2nd, 6th and last characters of your password.</p>
+    <div class="chars">
+      <label>2nd character <input id="c2" type="password" maxlength="1"></label>
+      <label>6th character <input id="c6" type="password" maxlength="1"></label>
+      <label>Last character <input id="cl" type="password" maxlength="1"></label>
+    </div>
+    <button type="submit">Continue</button>
+  </form>
+
+  <!-- 2. A calculation to sign in. -->
+  <form id="math" method="post" action="/login" lang="pt-BR">
+    <h2>Entrar</h2>
+    <label for="cpf">CPF</label>
+    <input id="cpf" name="cpf" autocomplete="username">
+    <label for="senha">Senha</label>
+    <input id="senha" name="senha" type="password" autocomplete="current-password">
+    <label for="conta">Quanto é 3 + 4?</label>
+    <input id="conta" name="resposta" inputmode="numeric">
+    <button type="submit">Entrar</button>
+  </form>
+
+  <!-- 3. An image CAPTCHA to transcribe. -->
+  <form id="image" method="post" action="/login2">
+    <h2>Log in</h2>
+    <label for="u3">Username</label>
+    <input id="u3" name="username" autocomplete="username">
+    <label for="p3">Password</label>
+    <input id="p3" name="password" type="password" autocomplete="current-password">
+    <img class="captcha" id="captcha-image" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="CAPTCHA image">
+    <label for="captcha">Type the characters you see in the image</label>
+    <input id="captcha" name="captcha">
+    <button type="submit">Log in</button>
+  </form>
+</main>
+</body>
+</html>

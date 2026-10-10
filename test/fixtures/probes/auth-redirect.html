@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Loading…</title>
+</head>
+<body>
+<!-- A challenge page that sends itself on to the sign-in page right after it loads, as SSO sign-ins and bot checks do. -->
+<p>Loading…</p>
+<form id="hop" action="auth-fail.html" method="get"><input type="hidden" name="from" value="challenge"></form>
+<script>
+  window.addEventListener('load', () => setTimeout(() => document.getElementById('hop').submit(), 200))
+</script>
+</body>
+</html>

@@ -1,4 +1,6 @@
+import { authRule } from './auth.ts'
 import { bypassBlocksRule } from './bypass.ts'
+import { COLOR_RULES } from './color.ts'
 import { focusObscuredNarrowRule, focusObscuredRule, focusVisibleRule } from './focus.ts'
 import { keyboardReachRule, keyboardTrapRule, onFocusRule } from './keyboard.ts'
 import { hoverRule } from './hover.ts'
@@ -21,6 +23,8 @@ export const PROBE_RULES: readonly ProbeRule[] = [
   bypassBlocksRule,
   shortcutsRule,
   ...MEDIA_RULES,
+  ...COLOR_RULES,
+  authRule,
   focusVisibleRule,
   focusObscuredRule,
   focusObscuredNarrowRule,

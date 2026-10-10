@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in: failures</title>
+<style>
+  body { margin: 0; font: 16px/1.5 Arial, sans-serif; }
+  main { padding: 24px; max-width: 640px; }
+  form { margin-bottom: 32px; padding: 16px; border: 1px solid #767676; }
+  label { display: block; margin-top: 8px; }
+  .boxes { display: flex; gap: 6px; }
+  .boxes input { width: 32px; text-align: center; }
+  .keypad { display: grid; grid-template-columns: repeat(5, 64px); gap: 4px; margin-top: 8px; }
+</style>
+</head>
+<body>
+<main>
+  <!-- 1. A beforeinput handler cancels pastes into the password field; typed keys go through. -->
+  <form id="blocker" method="post" action="/session">
+    <h2>Sign in</h2>
+    <label for="user1">Username</label>
+    <input id="user1" name="username" autocomplete="username">
+    <label for="pass1">Password</label>
+    <input id="pass1" name="password" type="password" autocomplete="current-password">
+    <button type="submit">Sign in</button>
+  </form>
+
+  <!-- 2. onpaste="return false" on the code field. -->
+  <form id="nopaste" method="post" action="/verify">
+    <h2>Enter the code we sent</h2>
+    <label for="code2">Verification code</label>
+    <input id="code2" name="otp" inputmode="numeric" autocomplete="one-time-code" onpaste="return false">
+    <button type="submit">Verify</button>
+  </form>
+
+  <!-- 3. A code split one digit per box, with no paste handler: a paste fills the first box only. -->
+  <form id="split" method="post" action="/verify2">
+    <h2>Two-step verification</h2>
+    <p>Enter the 6-digit security code from your app.</p>
+    <div class="boxes" role="group" aria-label="Security code">
+      <input id="s1" inputmode="numeric" maxlength="1" aria-label="Digit 1 of the security code" autocomplete="one-time-code">
+      <input id="s2" inputmode="numeric" maxlength="1" aria-label="Digit 2 of the security code">
+      <input id="s3" inputmode="numeric" maxlength="1" aria-label="Digit 3 of the security code">
+      <input id="s4" inputmode="numeric" maxlength="1" aria-label="Digit 4 of the security code">
+      <input id="s5" inputmode="numeric" maxlength="1" aria-label="Digit 5 of the security code">
+      <input id="s6" inputmode="numeric" maxlength="1" aria-label="Digit 6 of the security code">
+    </div>
+    <button type="submit">Continue</button>
+  </form>
+
+  <!-- 4. A read-only password field filled by an on-screen keypad whose keys each stand for two digits. -->
+  <form id="keypad" method="post" action="/bank" lang="pt-BR">
+    <h2>Acesse sua conta</h2>
+    <label for="agency">Agência e conta</label>
+    <input id="agency" name="conta" autocomplete="username">
+    <label for="bankpass">Senha eletrônica</label>
+    <input id="bankpass" name="senha" type="password" readonly>
+    <div class="keypad" aria-label="Teclado virtual">
+      <button type="button">1 ou 7</button>
+      <button type="button">3 ou 0</button>
+      <button type="button">5 ou 2</button>
+      <button type="button">9 ou 4</button>
+      <button type="button">8 ou 6</button>
+    </div>
+    <button type="submit">Entrar</button>
+  </form>
+</main>
+<script>
+  document.getElementById('pass1').addEventListener('beforeinput', (event) => {
+    if (event.inputType === 'insertFromPaste') event.preventDefault()
+  })
+  const keypad = document.getElementById('bankpass')
+  for (const key of document.querySelectorAll('.keypad button')) key.addEventListener('click', () => { keypad.value += '•' })
+</script>
+</body>
+</html>

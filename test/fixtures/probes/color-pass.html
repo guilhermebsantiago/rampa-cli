@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Use of color: passes</title>
+<style>
+  body { margin: 0; font: 16px/1.5 Arial, sans-serif; color: #222; background: #fff; }
+  main { padding: 24px; max-width: 700px; }
+  /* The failures page, fixed. 1. The current page is red, bold and underlined. */
+  nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; }
+  nav a { color: #333; text-decoration: none; }
+  nav a[aria-current="page"] { color: #c00; font-weight: 700; text-decoration: underline; }
+  /* 2. The selected tab has a bar under it, part of its own border. */
+  [role="tablist"] { display: flex; gap: 4px; margin-top: 24px; }
+  [role="tab"] { font: inherit; border: 0; border-bottom: 3px solid transparent; padding: 6px 12px; background: transparent; color: #222; }
+  [role="tab"][aria-selected="true"] { background: #dbe8ff; border-bottom: 3px solid #1d4ed8; }
+  /* 3. Required labels are red and carry an asterisk the hint explains. */
+  form { margin-top: 24px; }
+  label { display: block; margin-top: 8px; color: #444; }
+  label.req { color: #c00; }
+  input { font: inherit; border: 1px solid #767676; padding: 4px; }
+  /* 4. Links in text are underlined. */
+  p a { color: #2255aa; text-decoration: underline; }
+</style>
+</head>
+<body>
+<main>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#products" aria-current="page">Products</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div role="tablist" aria-label="Plans">
+    <button role="tab" aria-selected="false" id="t-month">Monthly</button>
+    <button role="tab" aria-selected="true" id="t-year">Yearly</button>
+    <button role="tab" aria-selected="false" id="t-life">Lifetime</button>
+  </div>
+
+  <form action="#" id="signup">
+    <p id="hint">Fields marked with an asterisk (*) are required.</p>
+    <label class="req" for="name">Full name *</label>
+    <input id="name" required>
+    <label class="req" for="email">Email *</label>
+    <input id="email" type="email" required>
+    <label for="phone">Phone</label>
+    <input id="phone" type="tel">
+    <label for="company">Company</label>
+    <input id="company">
+  </form>
+
+  <p id="terms-text">Read our <a href="#terms">terms of service</a> before you sign up, and the privacy policy that comes with them, which explains what we keep.</p>
+</main>
+</body>
+</html>

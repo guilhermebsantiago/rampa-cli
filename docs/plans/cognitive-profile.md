@@ -1,6 +1,6 @@
 # Rampa cognitive accessibility profile (`--profile cognitive`): design plan
 
-Date: 2026-10-09. Status: design, nothing built yet.
+Date: 2026-10-09. Status: design. The WCAG half of WI-12 (3.3.8, `--probe auth`) is built as B7 of the [coverage plan](wcag-coverage.md); `coga/paste-blocked` for sign-up fields is not.
 
 This plan builds on the COGA research and critique for Objectives 1–8, WCAG 2.2 and plain language. It also draws on the Rampa source as of 2026-10-09 (`main` at 611cb63, before the crawl branch was merged).
 

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in: passes</title>
+<style>
+  body { margin: 0; font: 16px/1.5 Arial, sans-serif; }
+  main { padding: 24px; max-width: 640px; }
+  form { margin-bottom: 32px; padding: 16px; border: 1px solid #767676; }
+  label { display: block; margin-top: 8px; }
+  .boxes { display: flex; gap: 6px; }
+  .boxes input { width: 32px; text-align: center; }
+</style>
+</head>
+<body>
+<main>
+  <!-- 1. A sign-in form marked up as H100 asks: a paste lands in the password field. -->
+  <form id="signin" method="post" action="/session">
+    <h2>Sign in</h2>
+    <label for="user">Email</label>
+    <input id="user" name="email" type="email" autocomplete="username">
+    <label for="pass">Password</label>
+    <input id="pass" name="password" type="password" autocomplete="current-password">
+    <button type="submit">Sign in</button>
+  </form>
+
+  <!-- 2. A code field that trims what is pasted, in its own paste handler: a trusted paste carries the clipboard's
+       text, so the code lands; a synthetic paste event would carry none and look blocked. -->
+  <form id="otp" method="post" action="/verify">
+    <h2>Enter the code we sent</h2>
+    <label for="code">Verification code</label>
+    <input id="code" name="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="12">
+    <button type="submit">Verify</button>
+  </form>
+
+  <!-- 3. A code split one digit per box, whose paste handler spreads the code across the boxes. -->
+  <form id="split" method="post" action="/verify2">
+    <h2>Two-step verification</h2>
+    <p>Enter the 6-digit security code from your app.</p>
+    <div class="boxes" role="group" aria-label="Security code">
+      <input id="d1" inputmode="numeric" maxlength="1" aria-label="Digit 1 of the security code" autocomplete="one-time-code">
+      <input id="d2" inputmode="numeric" maxlength="1" aria-label="Digit 2 of the security code">
+      <input id="d3" inputmode="numeric" maxlength="1" aria-label="Digit 3 of the security code">
+      <input id="d4" inputmode="numeric" maxlength="1" aria-label="Digit 4 of the security code">
+      <input id="d5" inputmode="numeric" maxlength="1" aria-label="Digit 5 of the security code">
+      <input id="d6" inputmode="numeric" maxlength="1" aria-label="Digit 6 of the security code">
+    </div>
+    <button type="submit">Continue</button>
+  </form>
+
+  <!-- 4. A password field read-only until it takes focus (a trick against autofill): it takes a paste once focused.
+       5. A reCAPTCHA checkbox: at most an object-recognition challenge, which 3.3.8 excepts at AA. -->
+  <form id="bank" method="post" action="/bank">
+    <h2>Log in to online banking</h2>
+    <label for="account">Account number</label>
+    <input id="account" name="account" autocomplete="username">
+    <label for="bankpass">Password</label>
+    <input id="bankpass" name="bankpass" type="password" readonly onfocus="this.removeAttribute('readonly')">
+    <div class="g-recaptcha" data-sitekey="6Lc-example-site-key" style="width:304px;height:78px;border:1px solid #ccc"></div>
+    <button type="submit">Log in</button>
+  </form>
+</main>
+<script>
+  document.getElementById('code').addEventListener('paste', (event) => {
+    const text = (event.clipboardData && event.clipboardData.getData('text')) || ''
+    event.preventDefault()
+    event.target.value = text.replace(/\D/g, '').slice(0, 12)
+  })
+  const boxes = Array.from(document.querySelectorAll('#split input'))
+  boxes.forEach((box, i) => {
+    box.addEventListener('paste', (event) => {
+      const digits = ((event.clipboardData && event.clipboardData.getData('text')) || '').replace(/\D/g, '')
+      if (!digits) return
+      event.preventDefault()
+      for (let j = 0; j < digits.length && i + j < boxes.length; j++) boxes[i + j].value = digits[j]
+      boxes[Math.min(boxes.length - 1, i + digits.length - 1)].focus()
+    })
+    box.addEventListener('input', () => {
+      if (box.value && boxes[i + 1]) boxes[i + 1].focus()
+    })
+  })
+</script>
+</body>
+</html>
