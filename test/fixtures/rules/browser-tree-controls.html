@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Help center · Acme</title>
+  <style>
+    #log { height: 60px; overflow: auto; border: 1px solid #999; }
+    [role="tab"] { display: inline-block; padding: 4px 8px; }
+    .card { padding: 8px; border: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Help center</h1>
+
+    <!-- A scrollable region made focusable so the keyboard can scroll it, with a key listener: not a control. -->
+    <div id="log" tabindex="0" aria-label="Event log">
+      <p>Line one</p><p>Line two</p><p>Line three</p><p>Line four</p><p>Line five</p><p>Line six</p>
+    </div>
+
+    <!-- Focusable with no listener of its own: nothing shows it works as a control. -->
+    <div tabindex="0" id="note">A note people can focus.</div>
+
+    <!-- A card that listens to clicks and holds its own link: the link is the control. -->
+    <div class="card" tabindex="0" onclick="void 0" id="card"><a href="#details">Read the details</a></div>
+
+    <!-- A tab list with a single tab. -->
+    <div role="tablist" aria-label="Only"><div role="tab" tabindex="0">Only tab</div></div>
+
+    <!-- A tab list whose second tab is hidden: one visible tab is left. -->
+    <div role="tablist" aria-label="Partly hidden"><div role="tab" tabindex="0">Shown</div><div role="tab" style="display:none"></div></div>
+
+    <!-- A menu button, a dialog opener and a carousel control: none needs to say it is expanded. -->
+    <button type="button" aria-haspopup="menu" aria-controls="menu" id="more">More</button>
+    <ul role="menu" id="menu" hidden><li role="menuitem">Rename</li></ul>
+    <button type="button" aria-controls="dialog" id="open">Open terms</button>
+    <dialog id="dialog"><p>Terms.</p></dialog>
+    <button type="button" aria-controls="slides" id="next">Next slide</button>
+    <div id="slides"><p>Slide 1</p></div>
+
+    <!-- Named controls: an image, a title, aria-labelledby, an svg title. -->
+    <button type="button" id="close"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="Close" width="16" height="16"></button>
+    <button type="button" title="Print this page" id="print"><svg aria-hidden="true" width="16" height="16"><rect width="16" height="16"/></svg></button>
+    <span id="search-label">Search the help center</span>
+    <div role="searchbox" contenteditable="true" aria-labelledby="search-label" tabindex="0"></div>
+    <a href="#top" id="top-link"><svg width="16" height="16" role="img"><title>Back to top</title><rect width="16" height="16"/></svg></a>
+
+    <!-- A select whose first, empty option is a placeholder. -->
+    <label for="topic">Topic</label>
+    <select id="topic"><option value=""></option><option>Billing</option></select>
+
+    <!-- An input button whose aria-label holds the words on it, in order. -->
+    <input type="button" value="Search" aria-label="Search the help center" id="go">
+
+    <!-- aria-live="off" is not a live region. -->
+    <div aria-live="off" id="quiet">Quiet</div>
+  </main>
+  <script>
+    document.getElementById('log').addEventListener('keydown', () => {})
+  </script>
+</body>
+</html>

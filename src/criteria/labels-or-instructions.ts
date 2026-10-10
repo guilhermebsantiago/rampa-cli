@@ -100,6 +100,8 @@ export const labelsOrInstructions: Criterion<LabelsOrInstructionsContext, Labels
   surfaces: ['web'],
   needs: {},
   engineRules: ENGINE_RULES,
+  // A field's name as the browser computes it, which is what a screen reader announces.
+  names: 'browser',
   schema: LabelsOrInstructionsJudgment,
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<LabelsOrInstructionsContext>[] {

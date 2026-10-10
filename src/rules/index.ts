@@ -8,6 +8,7 @@ import { CONTENT_RULES } from './content.ts'
 import { CONTRAST_RULES } from './contrast.ts'
 import { ERROR_RULES } from './errors.ts'
 import { noVisibleLabelRule } from './forms.ts'
+import { BROWSER_TREE_RULES } from './browser-tree.ts'
 import { fieldLabelInNameRule } from './label-in-name.ts'
 import { STRUCTURE_RULES } from './structure.ts'
 import type { RuleCheck } from './types.ts'
@@ -15,7 +16,7 @@ import type { RuleCheck } from './types.ts'
 export type { Hit, RuleCheck, RuleContext, RuleRun } from './types.ts'
 
 /** Every Rampa rule, for every surface; each says where it applies. */
-export const RULE_CHECKS: readonly RuleCheck[] = [...CONTENT_RULES, noVisibleLabelRule, fieldLabelInNameRule, ...ERROR_RULES, ...STRUCTURE_RULES, ...CONTRAST_RULES]
+export const RULE_CHECKS: readonly RuleCheck[] = [...CONTENT_RULES, noVisibleLabelRule, fieldLabelInNameRule, ...ERROR_RULES, ...STRUCTURE_RULES, ...CONTRAST_RULES, ...BROWSER_TREE_RULES]
 
 /** One rule that applies to the surface, as it ran on a page. */
 export interface RuleRan {
@@ -31,8 +32,10 @@ export interface RuleRan {
   failures: number
   /** Hits sent to review (report.needsReview): undecided, never a failure. */
   review: number
-  /** What limits the result, such as elements left out past a budget. */
+  /** What limits the result, such as elements left out past a budget; for an inventory, what it found. */
   note?: string | undefined
+  /** The rule records facts and decides nothing (`RuleCheck.inventory`). */
+  inventory?: boolean | undefined
 }
 
 export interface RuleStageResult {
@@ -102,6 +105,7 @@ export function runRuleChecks(snapshot: A11ySnapshot, engine: EngineResults, loc
       failures: hits.length - review,
       review,
       ...(run.note ? { note: run.note } : {}),
+      ...(rule.inventory ? { inventory: true } : {}),
     })
     for (const engineRule of rule.resolves ?? []) {
       for (const ref of run.resolved ?? []) stage.resolved.set(engineRule, (stage.resolved.get(engineRule) ?? new Set()).add(ref))

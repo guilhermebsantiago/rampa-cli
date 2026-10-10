@@ -8,6 +8,7 @@ import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { walkTree } from '../snapshot/tree.ts'
 import { VERSION } from '../version.ts'
 import type { WcagVersion } from '../wcag.ts'
+import { type AxLimits, attachAxTree, axLimits } from './ax-tree.ts'
 import { type CdpSessionLike, attachFormIssues } from './form-issues.ts'
 import { captureContrast } from './contrast-capture.ts'
 import { type FrameDriver, runAxeInFrames } from './frames.ts'
@@ -45,6 +46,8 @@ export interface PageCollectOptions {
   wcag?: WcagVersion | undefined
   /** Measure from pixels the contrast axe-core cannot decide, placeholders and icon-only controls; on by default. */
   pixelContrast?: boolean | undefined
+  /** Read the browser's own accessibility tree onto the nodes (`ax`), in Chromium; on by default (surfaces/ax-tree.ts). */
+  axTree?: boolean | Partial<AxLimits> | undefined
 }
 
 const MAX_NODES = 5000
@@ -64,6 +67,9 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
   await driver.run(await axeSource())
   const raw = await driver.evaluate(collectInPage, { maxNodes })
   await driver.run(resolverSource())
+  const cdp = driver.cdp?.bind(driver)
+  // The browser's own tree, read right after Rampa's, as collectWeb reads it.
+  const axTree = cdp && options.axTree !== false ? await attachAxTree(cdp, raw.root as A11yNode, axLimits(options.axTree)) : undefined
   const checked = await runAxeInFrames(
     driver,
     {
@@ -76,7 +82,6 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
   )
 
   let root = raw.root as A11yNode
-  const cdp = driver.cdp?.bind(driver)
   if (cdp) await attachFormIssues(cdp, root)
   const reach = buildReach({
     frames: raw.frames,
@@ -117,6 +122,7 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
     screenshot,
     truncated: raw.truncated || undefined,
     ...(reach ? { reach } : {}),
+    ...(axTree ? { axTree } : {}),
     collectedAt: new Date().toISOString(),
     collector: { name: 'rampa-web', version: VERSION },
   }

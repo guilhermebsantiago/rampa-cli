@@ -1,6 +1,7 @@
 import type { Patch } from '../core/types.ts'
 import { normalizeForMatch, truncate } from '../core/util.ts'
 import { attributesOf, isHidden, startTagOf, subtreeText, withAttribute } from '../criteria/shared.ts'
+import { exposedName, exposedRole, nameSource } from '../snapshot/ax.ts'
 import { idKey } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { type TreeIndex, walkTree } from '../snapshot/tree.ts'
@@ -147,16 +148,32 @@ function nodeAt(index: TreeIndex, ref: string): A11yNode | undefined {
 
 const textOf = (node: A11yNode | undefined) => truncate((node ? subtreeText(node) || node.name || '' : '').trim(), 80)
 
+const TABLE_ROLES = new Set(['table', 'grid', 'treegrid'])
+
+/**
+ * Whether role="presentation" (or none) holds on a table: the browser's own answer where the collector read its
+ * tree (it exposes a table role, or ignores the element as presentational), else the collector's (`presentational`).
+ */
+function keptPresentational(node: A11yNode): boolean | undefined {
+  const role = exposedRole(node)
+  if (role && TABLE_ROLES.has(role)) return false
+  if (node.ax?.ignoredReasons?.includes('presentationalRole') || role === 'presentation' || (role === 'none' && !node.ax?.ignored)) return true
+  return typeof node.native.presentational === 'boolean' ? node.native.presentational : undefined
+}
+
 /** A table the browser exposes as one: not hidden, and not turned into layout by role="presentation". */
 function exposedTable(node: A11yNode): boolean {
-  return !isHidden(node) && node.native.presentational !== true && node.role !== 'presentation' && node.role !== 'none'
+  if (isHidden(node)) return false
+  const role = exposedRole(node)
+  if (role && TABLE_ROLES.has(role)) return true
+  return keptPresentational(node) !== true && node.role !== 'presentation' && node.role !== 'none'
 }
 
 // 1.3.1, ACT d0f69e: every header cell heads at least one cell.
 
 export const tableHeadersRule: RuleCheck = {
   id: 'rampa/table-header-cells',
-  version: '1',
+  version: '2',
   criteria: ['1.3.1'],
   maturity: 'experimental',
   surfaces: ['web'],
@@ -221,7 +238,7 @@ export const tableHeadersRule: RuleCheck = {
 
 export const presentationalTableRule: RuleCheck = {
   id: 'rampa/presentational-table',
-  version: '1',
+  version: '2',
   criteria: ['1.3.1'],
   maturity: 'experimental',
   surfaces: ['web'],
@@ -238,7 +255,7 @@ export const presentationalTableRule: RuleCheck = {
     for (const node of walkTree(snapshot.root)) {
       const table = tableFactsOf(node)
       // Only a role the browser keeps: with focus or a global ARIA attribute, it is a table again.
-      if (!table || table.kind !== 'html' || node.native.presentational !== true || isHidden(node)) continue
+      if (!table || table.kind !== 'html' || keptPresentational(node) !== true || isHidden(node)) continue
       applicable++
       const headers = table.cells.filter((cell) => cell.header && !cell.hidden && !cell.empty)
       const kept = [
@@ -270,7 +287,7 @@ function isField(node: A11yNode): boolean {
 
 export const orphanLabelRule: RuleCheck = {
   id: 'rampa/orphan-label',
-  version: '1',
+  version: '2',
   criteria: ['1.3.1'],
   maturity: 'experimental',
   surfaces: ['web'],
@@ -302,7 +319,9 @@ export const orphanLabelRule: RuleCheck = {
       if (fields.length !== 1 || labels.length !== 1) continue
       applicable++
       const field = fields[0] as A11yNode
-      if (normalizeForMatch(field.name ?? '').includes(normalizeForMatch(text))) continue
+      // The name the browser exposes, where the collector read its tree; a placeholder it fell back on is no name.
+      const name = nameSource(field) === 'placeholder' ? '' : (exposedName(field)?.trim() ?? '')
+      if (normalizeForMatch(name).includes(normalizeForMatch(text))) continue
       hits.push({
         ref: field.ref,
         outcome: 'fail',
@@ -310,7 +329,7 @@ export const orphanLabelRule: RuleCheck = {
         evidence: `<label>${truncate(text, 60)}</label>`,
         facts: {
           label: truncate(text, 60),
-          name: field.name?.trim() ?? '',
+          name,
           placeholder: truncate(attributesOf(field).placeholder?.trim() ?? '', 60),
           labelRef: label.ref,
           labelTag: startTagOf(label),

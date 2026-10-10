@@ -9,6 +9,7 @@ import { resolveCriteria } from '../../criteria/index.ts'
 import { ACT_RULES, type ActOutcome, type ActTestcase, loadActTestcases, selectTestcases } from '../../eval/act.ts'
 import { type Scores, confusion, engineFailsAct, scores } from '../../eval/metrics.ts'
 import { axeActIds } from '../../engine/axe.ts'
+import { browserNamed } from '../../snapshot/ax.ts'
 import { CORRUPTORS, type Corruptor } from '../../eval/pairs.ts'
 import { chooseModel } from '../../providers/detect.ts'
 import { estimateCostUsd, subscriptionOf } from '../../providers/models.ts'
@@ -261,7 +262,8 @@ async function runJob(
 export function judgmentFailsAct(criterion: AnyCriterion, actRuleId: string, collected: { snapshot: A11ySnapshot; engine: EngineResults }, findings: readonly Finding[]): boolean {
   const judged = findings.filter((f) => f.source === 'judgment' && f.criterion === criterion.id)
   if (!criterion.actFor || !criterion.act.includes(actRuleId)) return judged.length > 0
-  const candidates = new Map<string, Candidate<unknown>>(criterion.candidates(collected.snapshot, collected.engine).map((candidate: Candidate<unknown>) => [candidate.ref, candidate]))
+  const snapshot = criterion.names === 'browser' ? browserNamed(collected.snapshot) : collected.snapshot
+  const candidates = new Map<string, Candidate<unknown>>(criterion.candidates(snapshot, collected.engine).map((candidate: Candidate<unknown>) => [candidate.ref, candidate]))
   return judged.some((finding) => {
     const candidate = finding.ref ? candidates.get(finding.ref) : undefined
     return !candidate || (criterion.actFor?.(candidate) ?? criterion.act).includes(actRuleId)

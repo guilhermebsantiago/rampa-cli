@@ -130,7 +130,9 @@ export function criteriaCoverage(input: CoverageInput): CriterionCoverage[] {
         review: rule.review,
         maturity: rule.maturity,
         ...(rule.note ? { note: rule.note } : {}),
-        decided: Math.max(0, rule.applicable - rule.review),
+        // An inventory lists what it found for a person and decides nothing.
+        ...(rule.inventory ? { inventory: true } : {}),
+        decided: rule.inventory ? 0 : Math.max(0, rule.applicable - rule.review),
       })
     }
     // Probe rules (--probe): a rule that read the probe's record decided the elements it did not send to review;
@@ -202,11 +204,11 @@ export function criteriaCoverage(input: CoverageInput): CriterionCoverage[] {
     else if (ruleDecided || judgedDecided > 0) status = 'no-failure-found'
     // A method that had something to check and did not run (judgment with --no-llm) leaves the criterion not
     // checked, even when a rule that ran found nothing to apply to: that rule looked for something else.
-    else if (methods.some((m) => m.ran) && !methods.some((m) => !m.ran && m.applicable > 0)) status = 'no-applicable-content'
+    else if (methods.some((m) => m.ran && !m.inventory) && !methods.some((m) => !m.ran && m.applicable > 0)) status = 'no-applicable-content'
     else status = 'not-checked'
 
     // A 2.2-only criterion in a 2.1 run is listed only when something ran for it.
-    if (beyond && !methods.some((m) => m.ran)) continue
+    if (beyond && !methods.some((m) => m.ran && !m.inventory)) continue
     records.push({ id: sc.id, level: sc.level, target: beyond ? 'beyond' : 'in', status, methods, manual: sc.manual[locale] ?? sc.manual.en })
   }
   return records
@@ -238,7 +240,8 @@ export function ruleCoverage(rules: readonly RuleRan[], version: WcagVersion): s
   const inTarget = new Set(criteriaFor(version).flatMap((sc) => (sc.removedIn ? [] : [sc.id])))
   const covered = new Set<string>()
   for (const rule of rules) {
-    if (rule.applicable - rule.review <= 0) continue
+    // An inventory decides nothing, so it never makes its criterion count as checked.
+    if (rule.inventory || rule.applicable - rule.review <= 0) continue
     for (const id of rule.criteria) if (inTarget.has(id)) covered.add(id)
   }
   return [...covered].sort(compareCriteria)

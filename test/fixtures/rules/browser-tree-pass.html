@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Account settings · Acme</title>
+  <style>
+    .btn { display: inline-block; padding: 6px 12px; background: #1d4ed8; color: #fff; border: 0; }
+    [role="tab"] { display: inline-block; padding: 4px 8px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Account settings</h1>
+
+    <ul role="tree" aria-label="Folders" id="folders">
+      <li role="treeitem" aria-selected="true" tabindex="0">Inbox</li>
+      <li role="treeitem" aria-selected="false" tabindex="-1" id="icon-item" aria-label="Archive"><svg aria-hidden="true" width="16" height="16"><circle cx="8" cy="8" r="6"/></svg></li>
+    </ul>
+
+    <button type="button" class="btn" id="save">Save draft</button>
+
+    <div role="tablist" aria-label="Plans" id="plans">
+      <div role="tab" tabindex="0" aria-selected="true">Monthly</div>
+      <div role="tab" tabindex="-1" aria-selected="false">Yearly</div>
+    </div>
+
+    <button type="button" aria-controls="answer" aria-expanded="false" id="question">Shipping times</button>
+    <div id="answer" hidden>Two working days.</div>
+
+    <form action="#" onsubmit="return false">
+      <input type="submit" value="Send" aria-label="Send the form" id="send">
+    </form>
+
+    <div role="status" id="saved"></div>
+  </main>
+  <script>
+    document.getElementById('save').addEventListener('click', () => { document.getElementById('saved').textContent = 'Draft saved' })
+  </script>
+</body>
+</html>

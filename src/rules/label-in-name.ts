@@ -2,6 +2,7 @@ import type { Finding, Patch } from '../core/types.ts'
 import { labelsOf, shownText as labelText } from '../criteria/labels-or-instructions.ts'
 import { attributesOf, isHidden } from '../criteria/shared.ts'
 import type { Locale } from '../i18n.ts'
+import { exposedName, nameSource } from '../snapshot/ax.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree, walkTree } from '../snapshot/tree.ts'
 import type { Hit, RuleCheck } from './types.ts'
@@ -75,7 +76,8 @@ export function reviewLabelInName(findings: Finding[], snapshot: A11ySnapshot, l
   return findings.map((finding) => {
     if (finding.source !== 'engine' || finding.ruleId !== LABEL_IN_NAME_RULE || !finding.ref) return finding
     const node = index.get(finding.ref)?.node
-    const name = node?.name?.trim()
+    // The name the browser exposes, where the collector read its tree; axe-core compared against its own computation.
+    const name = node ? exposedName(node)?.trim() : undefined
     if (!node || !name) return finding
     const visible = shownText(node)
     const kind = nearMatch(visible, name)
@@ -97,7 +99,7 @@ const MARKS = /\((?:required|optional|obrigat[óo]rio|opcional|obligatorio)\)/gi
  */
 export const fieldLabelInNameRule: RuleCheck = {
   id: 'rampa/field-label-in-name',
-  version: '1',
+  version: '2',
   criteria: ['2.5.3'],
   maturity: 'experimental',
   surfaces: ['web'],
@@ -119,7 +121,11 @@ export const fieldLabelInNameRule: RuleCheck = {
       if (tag === 'input' && NAMED_BY_VALUE.has((attributes.type ?? '').toLowerCase())) continue
       // Only a name set over the label can differ from it: without aria-label or aria-labelledby, the label is the name.
       if (!attributes['aria-label']?.trim() && !attributes['aria-labelledby']?.trim()) continue
-      const name = field.name?.trim()
+      // Where the browser's tree was read, its own answer: the name it exposes, and which source gave it. An
+      // aria-labelledby that points at nothing, or at empty text, leaves the label to name the field.
+      const from = nameSource(field)
+      if (from !== undefined && from !== 'aria-label' && from !== 'aria-labelledby') continue
+      const name = exposedName(field)?.trim()
       const labelled = labelsOf(field, ordered)
         .map((label) => labelText(label, field))
         .filter(Boolean)
@@ -146,7 +152,7 @@ export const fieldLabelInNameRule: RuleCheck = {
           near: near ?? '',
           shown: placeholder ? 'placeholder' : 'label',
           startTag: tag === 'input' ? html : '',
-          source: attributes['aria-labelledby']?.trim() ? 'aria-labelledby' : 'aria-label',
+          source: from ?? (attributes['aria-labelledby']?.trim() ? 'aria-labelledby' : 'aria-label'),
         },
         html,
       })

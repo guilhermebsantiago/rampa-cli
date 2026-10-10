@@ -85,6 +85,11 @@ export interface RuleCheck {
    * does not count them as flagging a page, as it does not count axe-core's.
    */
   undecidedReview?: boolean | undefined
+  /**
+   * The rule records facts for a person, an inventory, and decides nothing: it has no hits, and its criterion keeps
+   * the status its other methods give it. What it found is its `note`, on the coverage line (4.1.3's live regions).
+   */
+  inventory?: boolean | undefined
   help: Text
   helpUrl: string
   run(snapshot: A11ySnapshot, engine: EngineResults, ctx: RuleContext): RuleRun

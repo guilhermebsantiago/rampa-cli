@@ -13,6 +13,7 @@ import type { WcagVersion } from '../wcag.ts'
 import { walkTree } from '../snapshot/tree.ts'
 import { type FollowOptions, followLinks } from './destinations.ts'
 import { type BrowserOptions, contextOptions, openPage, prepareContext } from './browser-options.ts'
+import { type AxLimits, attachAxTree, axLimits } from './ax-tree.ts'
 import { attachFormIssues } from './form-issues.ts'
 import { type ContrastCaptureOptions, captureContrast } from './contrast-capture.ts'
 import { blankContentInPage, captureImageNodes, hiddenImageTargets, imageTargets, isCapturableImage, restoreImageInPage } from './image-capture.ts'
@@ -50,6 +51,11 @@ export interface WebCollectOptions {
    * axe-core runs. Limits per page and the time budget can be changed (surfaces/contrast-capture.ts).
    */
   pixelContrast?: boolean | Pick<ContrastCaptureOptions, 'limits' | 'budgetMs'> | undefined
+  /**
+   * Read the browser's own accessibility tree onto the nodes (`ax`): the roles, names and states Chromium computes,
+   * which some rules read (surfaces/ax-tree.ts). On by default; false turns it off, or other limits can be given.
+   */
+  axTree?: boolean | Partial<AxLimits> | undefined
 }
 
 export interface Collected {
@@ -119,11 +125,13 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       if (options.runAxe) await page.addScriptTag({ content: await axeSource() })
       const tree = await page.evaluate(collectInPage, { maxNodes: options.maxNodes ?? 5000 })
       await page.evaluate(resolverSource())
+      // The browser's own tree, read right after Rampa's, so both describe the same document.
+      const axTree = options.axTree === false ? undefined : await attachAxTree(() => context.newCDPSession(page), tree.root as A11yNode, axLimits(options.axTree))
       // After the tree: the engine's results are mapped to the refs the collector gave their elements.
       const checked = options.runAxe
         ? await runAxeInFrames(libraryFrameDriver(page), { tags: axeTags(options.wcag), rules: AXE_REVIEW_RULES, locale: await axeLocale(options.locale) }, axeSource)
         : undefined
-      return { ...tree, axe: checked?.axe, engineFrames: checked?.frames }
+      return { ...tree, axe: checked?.axe, engineFrames: checked?.frames, axTree }
     }
     // A page that redirects at once (a 0 s refresh, in a meta element or a Refresh header) navigates while it is
     // being read. The redirect is recorded and the page it lands on is collected, instead of failing the target.
@@ -185,6 +193,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       truncated: raw.truncated || undefined,
       destinations: Object.keys(destinations).length > 0 ? destinations : undefined,
       ...(reach ? { reach } : {}),
+      ...(raw.axTree ? { axTree: raw.axTree } : {}),
       collectedAt: new Date().toISOString(),
       collector: { name: 'rampa-web', version: VERSION },
     }

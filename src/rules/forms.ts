@@ -1,6 +1,7 @@
 import type { Patch } from '../core/types.ts'
 import { escapeHtml, isHidden } from '../criteria/shared.ts'
 import { UNSEEN_MESSAGE, labelsOrInstructions } from '../criteria/labels-or-instructions.ts'
+import { browserNamed } from '../snapshot/ax.ts'
 import type { A11yNode } from '../snapshot/schema.ts'
 import { indexTree, walkTree } from '../snapshot/tree.ts'
 import type { Hit, RuleCheck } from './types.ts'
@@ -36,7 +37,8 @@ export const noVisibleLabelRule: RuleCheck = {
   },
   helpUrl: 'https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html',
   run(snapshot, engine) {
-    const candidates = labelsOrInstructions.candidates(snapshot, engine)
+    // The 3.3.2 module's candidates, read the way the module reads the snapshot.
+    const candidates = labelsOrInstructions.candidates(labelsOrInstructions.names === 'browser' ? browserNamed(snapshot) : snapshot, engine)
     const index = indexTree(snapshot.root)
     const hits: Hit[] = []
     for (const candidate of candidates) {

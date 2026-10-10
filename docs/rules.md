@@ -2,7 +2,7 @@
 
 Rampa's rules are deterministic checks over the snapshot, with no model. They sit next to axe-core: axe-core checks syntax across the whole page, and each Rampa rule reports one narrow failure that axe-core does not, where the page's own text or markup gives the failure away. Findings from a rule have `source: "rule"` and a rule id in the `rampa/` namespace.
 
-The content rules are wave A3 of the [WCAG coverage plan](plans/wcag-coverage.md), the structure rules are wave A4, and the error state rules are B8. A rule ships only when its false-positive risk is very low. Anything a rule cannot decide is left to judgment or to a person.
+The content rules are wave A3 of the [WCAG coverage plan](plans/wcag-coverage.md), the structure rules are wave A4, the pixel rules B3, the rules over the browser's own accessibility tree B2, and the error state rules B8. A rule ships only when its false-positive risk is very low. Anything a rule cannot decide is left to judgment or to a person.
 
 ## Where rules run
 
@@ -52,6 +52,7 @@ When a rule is promoted to `stable`, its findings keep the rule's own confidence
 - **A stable rule decides.** When a stable rule fails an element, the judged criterion with the same id does not send that element to the model. The rule already decided, and a model call would only repeat it at a cost.
 - **An experimental rule does not decide.** The model is still asked about the element. If the model also fails it, the report keeps one finding, the judgment's, because it says more and carries a suggested fix. If the model passes the element, or no model runs, the rule's finding stays, at low confidence.
 - **A rule can settle what axe-core left undecided.** A rule that lists an axe-core rule in `resolves` (the pixel rules list `color-contrast`) takes over that rule's undecided results for the elements it measured: each becomes the rule's failure, its "no failure found" or its own item to review, with what it measured. Those elements leave axe-core's review list and axe-core's coverage counts, so each is reported once. What the rule did not measure stays axe-core's to review. Probe rules settle the same way (`resolved` in their result): the media probe's rules take over `video-caption` and `no-autoplay-audio` on the video and audio elements the probe read ([probes](probes.md)).
+- **An inventory is not a check.** A rule marked `inventory` (`rampa/live-regions`) lists what it found for a person and decides nothing: no hits, no "checked by Rampa rules", and its criterion keeps the status its other methods give it. Its coverage line says what it found.
 - **Review is not a failure.** A hit a rule cannot decide (a table still loading, a header with no scope that heads neither its row nor its column) goes to the report's **Needs review**, next to what axe-core could not decide, and never to the findings. It never changes the exit code, whatever `--min-confidence` says. In JSON it is in `needsReview`, with the rule's id and what it read as `evidence`.
 - **Coverage.** A criterion where a rule decided at least one element (it failed it or let it be, rather than sending it to review) is listed on a separate coverage line: "Checked by Rampa rules (partial)". It is also removed from "Not checked automatically". The JSON report has this line as `coverage.rules`, and the MCP summary as `checked_by_rules`. Like axe-core's line, it means that some failures could be found, not that the criterion was tested. In the per-criterion coverage (`coverage.criteria`, see [WCAG 2.2](wcag-2-2.md)), each rule is a method of kind `rule` for each of its criteria, with its maturity: an experimental rule's failure, below the threshold, gives its criterion the status "needs review", and a rule with only review hits does not make the criterion count as checked.
 
@@ -68,7 +69,7 @@ When a rule is promoted to `stable`, its findings keep the rule's own confidence
 | `rampa/refresh-header` | 2.2.1 | A `Refresh` HTTP header that reloads or redirects the page after more than 0 seconds and at most 20 hours, parsed by the HTML declarative refresh steps. axe-core's `meta-refresh` cannot see headers | `Refresh: 0`, an immediate redirect, which is not a time limit; delays over 20 hours, which the 20-hour exception allows; values browsers ignore (`+5`, `; 30`, `0: url`) | none: the fix is on the server (a 301 or 302 redirect, or no refresh) |
 | `rampa/language-switcher-lang` | 3.1.2 | A link, button, tab, option or menu item whose whole text is a language's own name in that language (`Português`, `Deutsch`, `日本語`, `English (United States)`, from CLDR through `Intl.DisplayNames`), when that language is not the page's and nothing in the control declares `lang` | the page's own language; names spelled the same in the page's language (`Italiano` on a Portuguese page); text that only contains a language's name (`Read in English`); a page with no declared language, which axe-core's `html-has-lang` reports; controls hidden from assistive technology | `lang="<code>"` on the control |
 | `rampa/no-visible-label` | 3.3.2 | A field whose name comes only from `aria-label`, `title` or a hidden label (including one on screen whose text the collector's pixel test found does not show, docs/criteria.md), with no visible label, no placeholder, no option shown, no legend, and no visible text, button or picture near it. The candidates are the 3.3.2 module's own, so the rule sees what the model would see | search fields, whose magnifier icon is often drawn in CSS and is not in the snapshot; fields with any visible text or button within the three levels that 3.3.2 looks at; fields next to an image, an `svg` or a CSS background | a visible `<label>` holding the field's current name (inputs only) |
-| `rampa/field-label-in-name` | 2.5.3 | A field with a `<label>` on screen whose `aria-label` or `aria-labelledby` names it with other words (`CPF*` on screen, `document` read out). axe-core's `label-content-name-mismatch` looks only at controls named by their content, so a text field is never checked | names that contain the label's words in order, ignoring case, punctuation, hyphens, the asterisk and "(required)"; a label that is only a shortened form of words in the name (`Info`, `Information about shipping`), sent to review; a field with no label on screen but a placeholder the name leaves out (`Nome*` named `name`), sent to review, since whether a placeholder is the visible label is for a person to say; hidden labels; buttons and other inputs named by their value | without `aria-label`, so the `<label>` names the field (inputs only) |
+| `rampa/field-label-in-name` | 2.5.3 | A field with a `<label>` on screen whose `aria-label` or `aria-labelledby` names it with other words (`CPF*` on screen, `document` read out). axe-core's `label-content-name-mismatch` looks only at controls named by their content, so a text field is never checked. Where the browser's tree was read, the name and its source are the browser's: an `aria-labelledby` that points at nothing, so the label names the field after all, is not reported | names that contain the label's words in order, ignoring case, punctuation, hyphens, the asterisk and "(required)"; a label that is only a shortened form of words in the name (`Info`, `Information about shipping`), sent to review; a field with no label on screen but a placeholder the name leaves out (`Nome*` named `name`), sent to review, since whether a placeholder is the visible label is for a person to say; hidden labels; buttons and other inputs named by their value | without `aria-label`, so the `<label>` names the field (inputs only) |
 
 ### Error states: 3.3.1 and 3.3.3
 
@@ -98,7 +99,7 @@ Neither page exercises 3.3.3, which needs a field the browser finds invalid: sta
 
 ### Structure rules: 1.3.1 and 4.1.2
 
-These rules are wave A4 of the plan. They read structure that the markup states and the browser computes, from facts the collector records on each node's `native`:
+These rules are wave A4 of the plan. They read structure that the markup states and the browser computes, from facts the collector records on each node's `native`. Where the collector also read the browser's accessibility tree (see the browser tree rules below), they read the browser's own answer first: whether a table is exposed as one, and the name a field gets.
 
 | Field | What it holds |
 |---|---|
@@ -177,6 +178,83 @@ The collector also keeps axe-core's reason key on each `color-contrast` result (
 
 **A narrow rule.** Icon-only controls are one kind of content among many that 1.4.11 covers. On a page with none, `rampa/icon-contrast` says nothing, and 1.4.11 stays "not checked", never "no applicable content" (`narrow` in `RuleCheck`). The same holds for the two 1.4.3 rules on a page with nothing to measure.
 
+### Browser tree rules: 4.1.2, 2.5.3, 1.3.1 and 4.1.3
+
+These rules are wave B2 of the plan. The collector computes each element's role and name itself (`src/surfaces/in-page.ts`), which is an approximation of the ARIA and HTML-AAM rules. Chromium's own accessibility tree is what assistive technology gets. On the web, the collector now reads that tree too and records it beside its own reading. The rules below read it to find what axe-core leaves out.
+
+**How the collector reads it** (`src/surfaces/ax-tree.ts`). Right after the collector reads the page, it opens a CDP session and makes these calls:
+
+1. `DOM.getDocument`, pierced. This gives every element's backend node id. From it the collector rebuilds each element's ref exactly as it built the snapshot's (`snapshot/refs.ts`), through open shadow roots and frames of the same origin.
+2. `Accessibility.getFullAXTree`, once for the page and once for each frame whose document is in the snapshot. Each node of that tree names its element by the same backend id, so the browser's facts land on the snapshot node with that ref.
+
+User-agent and closed shadow roots are not in the snapshot, so they are left out here too. Frames of another origin are not in the snapshot either.
+
+`rampa check`, `rampa site`, the eval and `checkPage` for Playwright and Puppeteer (19 and later) all read the tree. Firefox, WebKit and pages without a CDP session go without it. `collectWeb` and `collectPage` take `axTree: false` to turn it off, or other limits.
+
+**Facts in the snapshot.** These are additive, optional fields, so `schemaVersion` stays 1, and `schema/snapshot.schema.json` lists them:
+
+| Field | Where | What it holds |
+|---|---|---|
+| `ax.role` | each element the browser keeps a node for | The role Chromium computed. It is an ARIA role (`button`, `image`, `generic`) or one of Chromium's own (`LabelText`, `RootWebArea`); `exposedRole` in `src/snapshot/ax.ts` maps those to ARIA's words. |
+| `ax.name` | the same | The name Chromium computed, **only when it differs from the node's `name`**. When the two disagree both are recorded; when they agree the field is absent. |
+| `ax.nameFrom` | the same | Where the name came from: `aria-labelledby`, `aria-label`, `label`, `alt`, `title`, `value`, `placeholder`, `contents`, `caption`, `legend`, `figcaption`, `title-element` (an svg's `<title>`). |
+| `ax.description`, `ax.value` | the same | The accessible description and the value a field, slider or combobox exposes. |
+| `ax.props` | the same | States and properties that differ from their defaults: `focusable`, `disabled`, `checked`, `pressed`, `expanded`, `selected`, `required`, `invalid`, `level`, `hasPopup`, `live`, `atomic`, `relevant`, `busy`… |
+| `ax.relations` | the same | `labelledby`, `describedby`, `controls`, `owns`, `activedescendant`, `errormessage`, `details` and `flowto`, as refs. `controls` also holds what `aria-controls` names while it is hidden, which the browser leaves out of its tree. |
+| `ax.ignored`, `ax.ignoredReasons` | the same | The browser keeps a node but exposes nothing for it, and says why: `ariaHiddenElement`, `presentationalRole`, `uninteresting`… |
+| `ax.listeners`, `ax.scrollable` | a candidate for `rampa/custom-control` | The control events (click, key, mouse and pointer down and up) the element listens to itself, read with `DOMDebugger.getEventListeners`, plus its inline handlers. `scrollable` is set when it scrolls. |
+| `axTree` | the snapshot | How much was read: nodes with facts, nodes the browser keeps no node for, names that differ, frames left out and why, why the read was skipped, and how many listener candidates were read or left out. |
+
+Chromium keeps no node of its own for plain text-level elements (`span`, `b`, an `a` without `href`) or for content that is not rendered. Those nodes have no `ax`, and a rule treats a missing `ax` as "unknown", never as a failure. On Rampa's site, 625 of 1,301 elements carry `ax`; every visible link, button and field does.
+
+**Cost and limits.** The read takes one `DOM.getDocument` and one `getFullAXTree` call per document. It took 0.15 s on Rampa's site (1,339 elements), 0.27 to 0.35 s on pages of 4,000 to 6,500 elements, and 1.2 s on en.wikipedia.org/wiki/Brazil (17,374 elements, 40,000 nodes in the browser's tree). These limits keep it bounded:
+
+- a page with more than 40,000 elements is not read at all, and the report says so;
+- after the page's own document, at most 10 frames are read;
+- the whole read has 10 s;
+- at most 50 elements are asked about their listeners.
+
+What a limit leaves out is in `axTree`, and the report has a note for it, for example "The browser's accessibility tree was not read (the page has 52,000 elements, over the limit of 40,000): names and roles are Rampa's own approximation…". Elements past the collector's own limit of elements (`truncated`) are not in the snapshot, so they get no facts either. The `ax` records added 28 KB to the 438 KB snapshot of Rampa's site.
+
+**Names: the collector's or the browser's.** The node's `name` and `role` stay the collector's, so nothing that reads them changes by itself. A criterion or a rule moves to the browser's names one at a time, as the plan asks:
+
+- **Rules.** `rampa/field-label-in-name` (version 2) takes the field's name and its source from the browser. An `aria-labelledby` that points at nothing leaves the `<label>` to name the field, and is not reported. The review of axe-core's `label-content-name-mismatch` compares the visible text with the browser's name. The 1.3.1 rules use the browser's names and roles where they are recorded. `rampa/orphan-label` reads the field's name, and treats a placeholder the browser fell back on as no name. `rampa/presentational-table` and `rampa/table-header-cells` read whether the browser kept `role="presentation"` or exposes a table, before the collector's `presentational` fact.
+- **Judged criteria.** 2.4.4, 2.4.6 and 3.3.2 (`names: 'browser'` on the criterion, `browserNamed` in `src/snapshot/ax.ts`) read each name as the browser computes it. Text hidden from assistive technology is left out of a link's name, an image's alt is in, and a heading that is only an image is named by its alt. An element the browser names nothing of its kind (a list item, a label, a caption) keeps the collector's name, which stands for its text there. The other judged criteria read the collector's names, as before.
+
+On the ACT pages of the eight default judged criteria (352 pages and corrupted pairs, each counted once per criterion), reading every name as the browser computes it changes one prompt: 2.4.6 gains a candidate, b49b2e Passed Example 3, a heading that is only an image with the alt "Opening hours". Every other prompt is the same byte for byte, so the eval numbers of 2.4.4 and 3.3.2 cannot move; those of 2.4.6 are below. On real pages the names change a lot:
+
+| Page | Links whose 2.4.4 prompt changed | What changed |
+|---|---|---|
+| en.wikipedia.org/wiki/Brazil | 30 of 1,083 | The table of contents number, hidden from assistive technology, left the name ("1 Etymology" is now "Etymology"); coordinates lost their hidden duplicates. |
+| americanas.com.br | 57, and 18 more links became candidates | Icons' alt text is now in the name ("Icone de login olá, faça seu login ou cadastre-se"), and links named only by text inside images are now judged. |
+| gov.br/pt-br | 45 of 101 | CSS `text-transform` is in the name ("IR PARA O CONTEÚDO"), and hidden duplicates are in or out as the browser has them. |
+| getbootstrap.com navs page | 92 of 213; 17 of 18 headings for 2.4.6 | A heading's name holds the name of the anchor link inside it ("Base nav Link to this section: Base nav"). That is what a screen reader announces, and it is longer than the text people see. |
+
+Each of these is what assistive technology gets, which is what these criteria are about. The fingerprints of findings on names that changed change too, so a waiver or a baseline written for the old name must be written again.
+
+| Rule | WCAG | Reports | Leaves out on purpose | Patch |
+|---|---|---|---|---|
+| `rampa/widget-name` | 4.1.2 (ACT e086e5, 97a4e1, m6b1q3; measured on c487ae, 59796f, 2t702h) | A control the browser exposes with a role that needs a name (button, link and the publishing roles' links, checkbox, combobox, listbox, menu item, radio, slider, spin button, switch, tab, textbox, tree item, date, time and color fields) and computes no name for. Also a control whose name is only icon-font glyphs (Unicode private use characters that CSS put in the name, such as U+F002), which screen readers do not read. What the browser exposes decides: an image map's `area` has no box, so the collector sees it as hidden, but the browser exposes it as a link. What this adds to axe-core: tree items, which axe-core checks only as best practice; controls its selectors miss, such as `role="doc-biblioref"`; and controls its own name computation passed where the browser computes none | anything axe-core already failed on a naming rule or on 4.1.2; controls the browser does not expose; native `option` elements, where an empty first option is a placeholder; the listbox a combobox controls, which takes its context from the combobox (axe-core leaves it out too); scroll bars, whose name ACT does not ask for. A glyph-only name with a description (a `title`) goes to **review**, since the description may be read out | none |
+| `rampa/custom-control` | 4.1.2 (F59) | An element that works as a control and is exposed with no control role. It is focusable by `tabindex` (or has an inline `onclick`, `onkeydown`… handler), listens to click, key, mouse or pointer events itself, and the browser exposes it as `generic`, `paragraph`, `image` or the like | elements that scroll (a focusable scroll region); elements that hold a link, a button or another focusable element (a card around its link); elements inside a widget (a grid, a menu, a tree); listeners on an ancestor (delegated handlers, as React attaches them) are not seen, so those controls are missed rather than guessed | none: the fix is the native element or the right role and keyboard support |
+| `rampa/tab-state` | 4.1.2 | A tab list with two or more visible tabs where no tab is exposed as selected | a tab list with one tab; hidden tabs; a nested tab list, which holds its own tabs | none |
+| `rampa/disclosure-state` | 4.1.2, **review only** | A button whose `aria-controls` names content that is hidden, with no `aria-expanded` or `aria-pressed`: if it shows and hides that content, its state is not exposed | popup buttons (`aria-haspopup`: a menu or a dialog need not say they are expanded while closed); buttons that control a `dialog`; buttons that control visible content (a carousel) | none |
+| `rampa/button-label-in-name` | 2.5.3 | An `<input type="submit">`, `button` or `reset` whose `aria-label` or `aria-labelledby` (as the browser's name source says) replaces the words on it, its `value`. axe-core's `label-content-name-mismatch` reads only text content, which these inputs have none of | names that contain the value's words in order; hyphenation and shortened words go to review, as for axe-core's own | none |
+| `rampa/live-regions` | 4.1.3, **inventory** | Nothing: it lists the live regions the browser exposes (`aria-live` polite or assertive, and the roles `status`, `alert`, `log`, `timer`, `marquee`), each with its role, politeness, `aria-atomic` and text, on the 4.1.3 coverage line | `aria-live="off"`; regions inside another live region; regions not rendered, which announce nothing | none |
+
+**An inventory decides nothing.** `rampa/live-regions` has `inventory: true`. It never has hits, it does not count as "checked by Rampa rules", and 4.1.3 keeps the status its other methods give it, which is "not checked" today. Its coverage line says what it found, for example `rampa/live-regions (inventory, decides nothing: 2 found; experimental; 2 live region(s): #start > div > div:nth-of-type(2) > p (status, polite, atomic, empty); …)`. Whether a status message reaches those regions only shows with the page in use. That is C5 of the plan.
+
+**Fixtures.** `browser-tree-fail.html` has one planted case per rule: a tree item named only by an `aria-hidden` icon; a focusable `div` with a click listener; a tab list with no selected tab; a disclosure button with no `aria-expanded`, which goes to review; an input button whose `aria-label` drops its value; and a status region for the inventory. `browser-tree-pass.html` is the same page fixed. `browser-tree-controls.html` holds the near misses, and none is reported:
+
+- a focusable scroll region with a key listener;
+- a focusable note with no listener;
+- a card that listens to clicks and holds its link;
+- a single tab, and a tab list whose other tab is hidden;
+- a menu button, a dialog opener and a carousel control;
+- controls named by an image, a `title`, `aria-labelledby` and an svg `<title>`;
+- a select with an empty first option;
+- an input button whose `aria-label` contains its value;
+- `aria-live="off"`.
+
 ## Evaluating the rules
 
 `rampa eval --rules <ids>` measures rules against the ACT test cases they list, with no model:
@@ -202,6 +280,13 @@ Results on 2026-10-09, with the ACT file whose SHA-256 starts with `a9a1483e`:
 | `table-header-cells` · d0f69e | 16 | — / 0.00 | 1.00 / 1.00 | 1.00 / 1.00 |
 | `pixel-contrast` · afw4f7 | 34 | 1.00 / 0.73 | 1.00 / 0.27 | 1.00 / 1.00 |
 | `pixel-contrast` · 09o5cg, passed and inapplicable pages | 22 | none flagged | none flagged | none flagged |
+| `widget-name` · e086e5 | 22 | 0.82 / 1.00 | 1.00 / 1.00 | 0.82 / 1.00 |
+| `widget-name` · 97a4e1 | 17 | 1.00 / 1.00 | 1.00 / 1.00 | 1.00 / 1.00 |
+| `widget-name` · m6b1q3 | 8 | 1.00 / 1.00 | 1.00 / 1.00 | 1.00 / 1.00 |
+| `widget-name` · c487ae | 28 | 0.92 / 1.00 | 1.00 / 1.00 | 0.92 / 1.00 |
+| `widget-name` · 2t702h | 12 | 1.00 / 1.00 | 1.00 / 1.00 | 1.00 / 1.00 |
+| `widget-name` · 59796f | 12 | 1.00 / 1.00 | — / 0.00 | 1.00 / 1.00 |
+| `button-label-in-name` · 2ee8b8 | 38 | 0.89 / 1.00 | — / 0.00 | 0.89 / 1.00 |
 
 - **b4f0c3.** axe-core misses Failed Examples 3 and 7 of the second version of the rule in the ACT file: `user-scalable=invalid` and `maximum-scale=invalid`. The rule finds both, and flags no passed or inapplicable page.
 - **bc659a.** The test cases are all meta elements, so the header rule never fires on them. What this set measures is that collection survives the two immediate redirects (Passed Examples 1 and 2), which now land on github.com and w3.org and are recorded. A local server in `test/rules-web.test.ts` checks the header itself: a timed header fails, and an immediate one is recorded.
@@ -210,6 +295,11 @@ Results on 2026-10-09, with the ACT file whose SHA-256 starts with `a9a1483e`:
 - **afw4f7.** axe-core fails 8 of the 11 failed examples and leaves the other three undecided: Failed Example 2 (`#AAA` on a white-to-blue gradient), 3 (`#555` on a dark photograph) and 7 (translucent gray across a white and black split). The pixel rule fails all three, at 2.31:1, 2.72:1 and 4.23:1, and flags none of the 11 passed and 11 inapplicable examples. The passed examples axe-core leaves undecided, `#333` on a gradient and `#ccc` with a dark text shadow on the photograph, measure 5.08:1 and 5.50:1 at their lowest. SVG text (Inapplicable Example 4) is measured from its fill, at 21:1. The two sets share several pages under different addresses, and each set measures its own copy.
 - **09o5cg.** It asks for 7:1, the enhanced level, so its failed examples may still meet 4.5:1. Only its passed and inapplicable examples measure the rule (`actPassedOnly`): none is flagged.
 - **Review is not a flag here.** `rampa eval --rules` counts a rule's review hit as flagging the page, except for rules whose review only means that the measurement could not decide (`undecidedReview`), as for axe-core's own incompletes. The pixel rules are such rules. The command lists the pages they sent to review, apart. In the run above there were none.
+- **widget-name.** axe-core already fails every failed example of these six sets, so "both" is axe-core's own score, and its false alarms are axe-core's: e086e5 Passed Examples 6 and 7 and c487ae Inapplicable Example 4. The rule alone flags no page ACT does not fail. From the browser's names alone it finds every failed example of e086e5, 97a4e1, m6b1q3, c487ae and 2t702h, including e086e5 Failed Example 9, a date field whose label is tied to nothing (Chromium exposes it as a `Date` field), c487ae Failed Example 9, an image map's `area` with no `alt`, and Failed Example 11, a `role="doc-biblioref"` link around an image with an empty `alt`. On 59796f it finds none: Chromium names an `<input type="image">` that has no `alt` "Submit", its default, so the browser exposes a name that ACT does not count. axe-core fails all three.
+- **button-label-in-name.** 2ee8b8 holds no input button, so the rule has nothing to apply to there and flags nothing. The two pages flagged are axe-core's "University Ave." and "nonstandard", which go to review in `rampa check` (see 2.5.3 above). The rule's own cases are in its fixtures.
+- **table-header-cells**, which now reads whether the browser exposes a table, scores as before.
+- **The browser tree rules on other rules' pages.** All six ran on the 182 test pages of ACT 4e8ab6, bc4a75, ff89c9, 674b10, 5c01ea, 6cfa84, 307n5z, 2ee8b8, 4b1c6c and cae760, pages full of ARIA widgets. They flag nothing there. Three hits that this run first found were wrong, and are left out now: a `span` with `role="doc-biblioref link"` and an `onclick`, which is a link role; a `scrollbar` with no name, which ACT does not ask a name of; and a combobox's popup `listbox`, which takes its context from the combobox.
+- **The judged criteria that moved to the browser's names.** `rampa eval --no-llm` on the eight default criteria gives the same scores before and after, with 260 candidates instead of 259: the new 2.4.6 candidate. Run with Gemma 4 12B (Ollama, one run, a shared cache), 2.4.6 scores the same before and after. On cc0f0a the precision is 1.00 and the recall 0.83; on b49b2e, 0.80 and 1.00; on the pairs, 0.90 and 1.00, with 8 of 9 told apart. The new candidate, the "Opening hours" image heading, was judged a pass. Every other judgment had the same prompt and came from the cache: 1 model call after, against 37 before. 2.4.4 and 3.3.2 have the same prompts on their sets, so their numbers cannot move, and no model was run for them.
 - **Other rules' pages.** Every rule also ran on the 73 test pages of ACT a25f45, bc4a75, ff89c9 and 6cfa84, which test other failures. Nothing failed on a passed or inapplicable page. a25f45 Passed Example 6, a table that holds only headers, goes to review, not to failure. The hits on a25f45 Failed Examples 1 and 3 are true d0f69e failures: their `headers` attributes point at ids that do not exist, or at the cell itself.
 
 The fixtures in `test/fixtures/rules/` come in pairs of three pages:
@@ -248,6 +338,28 @@ On 2026-10-09 the rules ran with `rampa check <url> --no-llm --min-confidence lo
 
 Rampa's rules found one failure on these pages, and it was true. They found no false positive. This is far from the plan's gate: 35 reviewed findings per rule are needed before a rule becomes stable. Every rule stays experimental.
 
+### Real pages: the browser tree rules
+
+On 2026-10-09 the browser tree rules ran with `rampa check <url> --no-llm --min-confidence low` on Rampa's own site and on four pages built from custom widgets. Two are pages of component libraries (MUI's tabs and Bootstrap's navs and tabs), and two are large Brazilian sites (americanas.com.br and gov.br).
+
+| Page | Hits | Read by hand |
+|---|---|---|
+| rampa.guilhermebs.com.br | none. `widget-name` looked at 49 controls, `custom-control` at 3; live regions: 2 status paragraphs, empty at load | Right. The 3 focusable elements are two scrollable table regions and a command block, made focusable for the keyboard, with no listener of their own. The status paragraphs sit beside the two command blocks |
+| mui.com/material-ui/react-tabs | none: 495 controls, 22 tab lists, 19 focusable elements with no control role; 16 live regions | Right. Every MUI tab list marks its selected tab. The focusable elements are tab panels, focusable as the ARIA tabs pattern says, and the code editors' hints, none with a listener of its own. The live regions are those hints ("Press Enter to start editing") and Next.js's route announcer |
+| getbootstrap.com navs and tabs | none: 274 controls, 3 tab lists, 3 focusable elements | Right. Bootstrap's tabs set `aria-selected`, and the 3 focusable elements are its tab panels |
+| americanas.com.br | `custom-control`: `<i class="_access-icon material-icons" title="Atalho: ctrl+alt+a" tabindex="0">accessibility</i>`, listening to click and keyup; 4 live regions: two carousels' lists, Next.js's route announcer and the cookie banner | True. It is the button that opens the site's accessibility menu. The browser exposes it as `generic` and names it by its shortcut, so a screen reader announces neither a button nor what it does |
+| gov.br/pt-br | `widget-name`: the search combobox (`div role="combobox" aria-labelledby="searchtext-label"`), with no name. Review: the search button, whose name is only U+F002 with "Submit" as its description; 1 live region | The combobox is true: no element has the id `searchtext-label`, so the ARIA 1.1 combobox has no name. The field inside it is still named by its placeholder, "O que você procura?", so the harm is small. The review is right to be a review. The browser names the button by the Font Awesome glyph that CSS draws, not by its `title`. Rampa's own approximation had called it "Submit", which is what a screen reader puts after the glyph, as the description |
+
+The two failures are true, and the review is a real question. These checks find little on libraries that follow the ARIA patterns, which is what they should do. As for every rule, they stay experimental until the gate in the plan is met.
+
+**Limits.**
+
+- `custom-control` sees only listeners on the element itself and inline handlers. A React or Vue app that attaches its listeners at the root shows none, so its custom controls are missed.
+- The rules read one browser. Chromium's tree is what Chrome and Edge give assistive technology. Firefox and Safari compute names and roles on their own, so a name that differs there is not seen. The snapshot's `axTree.source` says where the facts came from.
+- A name the browser computes includes CSS: generated content, and `text-transform`. That is what a screen reader gets, and it can look odd in a report ("IR PARA O CONTEÚDO").
+- The disclosure check is review only. The rule cannot see whether the button really shows and hides that content.
+- The live region inventory says where announcements can go, not whether any status message reaches them.
+
 ### Real pages: the pixel rules
 
 On 2026-10-09 the pixel rules ran with `rampa check <url> --no-llm --min-confidence low` on three public pages: Rampa's own site, and two pages with text over images and gradients.
@@ -278,6 +390,7 @@ interface RuleCheck {
   narrow?: boolean                 // one kind of content among many: silent where there is none
   actPassedOnly?: readonly string[] // ACT rules for a stricter requirement: only their passed pages count
   undecidedReview?: boolean        // its review means "could not decide": the eval does not count it as a flag
+  inventory?: boolean              // records facts for a person and decides nothing (4.1.3's live regions)
   help: Text
   helpUrl: string
   run(snapshot, engine, ctx): { hits: Hit[]; applicable: number; resolved?: string[]; note?: string }
