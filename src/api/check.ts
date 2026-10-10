@@ -13,7 +13,7 @@ export interface CheckTargetsOptions extends RampaOptions {
   browser?: Browser | undefined
   /** Save a full-page screenshot of each web target in this directory, like --screenshots. */
   screenshotDir?: string | undefined
-  /** Probes to run on web targets after collection, like --probe: 'layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media' (docs/probes.md). */
+  /** Probes to run on web targets after collection, like --probe: 'layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color' (docs/probes.md). */
   probes?: readonly ProbeKind[] | undefined
 }
 

@@ -1,5 +1,5 @@
 import { fingerprint } from '../core/check.ts'
-import type { Confidence, Finding, ProbeCoverage } from '../core/types.ts'
+import type { Confidence, EngineResults, Finding, ProbeCoverage } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot, ProbeRecord } from '../snapshot/schema.ts'
 import { type TreeIndex, indexTree } from '../snapshot/tree.ts'
@@ -15,6 +15,8 @@ export interface ProbeRuleContext {
   snapshot: A11ySnapshot
   index: TreeIndex
   locale: Locale
+  /** The engine's results on the same page, when the check has them: a probe rule leaves an element axe-core already failed to it. */
+  engine?: EngineResults | undefined
 }
 
 export interface ProbeRuleResult {
@@ -92,8 +94,8 @@ export function conditionsText(record: ProbeRecord, what: string): string {
  * Runs every probe rule over the snapshot's observations. A result for a WCAG 2.2-only criterion (2.4.11) in a run
  * that targets 2.1 is marked beyond the target: shown, never counted.
  */
-export function probeChecks(snapshot: A11ySnapshot, locale: Locale, rules: readonly ProbeRule[], version: WcagVersion = DEFAULT_WCAG): ProbeRuleResult {
-  const result = probeResults(snapshot, locale, rules, version)
+export function probeChecks(snapshot: A11ySnapshot, locale: Locale, rules: readonly ProbeRule[], version: WcagVersion = DEFAULT_WCAG, engine?: EngineResults): ProbeRuleResult {
+  const result = probeResults(snapshot, locale, rules, version, engine)
   for (const finding of [...result.findings, ...result.review]) if (isBeyondTarget(finding.criterion, version)) finding.beyondTarget = true
   for (const row of result.coverage) {
     if (isBeyondTarget(row.criterion, version)) row.beyondTarget = true
@@ -102,11 +104,11 @@ export function probeChecks(snapshot: A11ySnapshot, locale: Locale, rules: reado
   return result
 }
 
-function probeResults(snapshot: A11ySnapshot, locale: Locale, rules: readonly ProbeRule[], version: WcagVersion): ProbeRuleResult {
+function probeResults(snapshot: A11ySnapshot, locale: Locale, rules: readonly ProbeRule[], version: WcagVersion, engine?: EngineResults): ProbeRuleResult {
   const result: ProbeRuleResult = { findings: [], review: [], coverage: [] }
   const records = snapshot.observations?.probes ?? []
   if (records.length === 0) return result
-  const ctx: ProbeRuleContext = { snapshot, index: indexTree(snapshot.root), locale }
+  const ctx: ProbeRuleContext = { snapshot, index: indexTree(snapshot.root), locale, ...(engine ? { engine } : {}) }
   for (const rule of rules) {
     const record = records.find((r) => r.kind === rule.kind && (rule.variant === undefined || r.conditions.variant === rule.variant))
     if (!record) continue

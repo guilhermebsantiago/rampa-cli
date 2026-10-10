@@ -11,13 +11,14 @@ target ─► collect (snapshot + axe) ─► probes (--probe) ─► rules and 
 Probes are **off by default**. Turn them on per run:
 
 ```sh
-rampa check https://example.com --probe all          # layout, keyboard, hover, orientation, shortcuts and media
+rampa check https://example.com --probe all          # layout, keyboard, hover, orientation, shortcuts, media and color
 rampa check page.html --probe layout                 # reflow (1.4.10), text spacing (1.4.12), 200% zoom (1.4.4)
 rampa check page.html --probe keyboard               # 2.1.1, 2.1.2, 3.2.1, 2.4.7, 2.4.11
 rampa check page.html --probe hover                  # content on hover or focus (1.4.13)
 rampa check page.html --probe orientation            # portrait and landscape (1.3.4)
 rampa check page.html --probe shortcuts              # single character key shortcuts (2.1.4)
 rampa check page.html --probe media                  # audio and video: captions, alternatives, sound on load (1.2.1–1.2.5, 1.4.2)
+rampa check page.html --probe color                  # use of color: current items, required fields, links in text, color words (1.4.1)
 rampa check page.html --probe all --save .rampa/rec  # keep the observations to replay offline
 ```
 
@@ -35,6 +36,7 @@ Every probe but one is in the **observe** class:
 - it turns the window between portrait and landscape and sets the screen orientation over the DevTools protocol, with a `window.orientation` shim where the browser has none (the orientation probe); it reads the web app manifest with a GET and runs axe-core's experimental css-orientation-lock in the probe page;
 - it focuses the page's `body` for a moment before the walk, so the first Tab starts at the top of the page;
 - it plays audio and video muted for a few seconds, makes their text tracks load, and reads their sound from a copy of their stream; it pauses them and puts their time, muted state and track modes back afterwards (the media probe). It never unmutes anything. For that probe the browser starts with `--autoplay-policy=no-user-gesture-required`, as a browser that lets pages play sound on load does; Playwright starts headless browsers with `--mute-audio`, so no sound reaches the speakers;
+- it changes the colors of one element for a single capture, the peer's colors put on it, and puts them back (the color probe);
 - it never clicks, never presses Enter or Space on a control, never types, and never submits a form.
 
 The shortcuts probe (`--probe shortcuts`, 2.1.4) is the first of the plan's **activate** class, and the only one so far. With focus on the page's `body`, it presses each printable key on its own (letters, digits, punctuation and symbols, then capitals; never Space, which scrolls), and a key may do whatever the page bound it to. Then it presses Space on the checkboxes, switches and radios it found named for shortcuts or keys, to toggle them, presses the keys again, and toggles them back. It never clicks, never presses Enter, never types into a field (focus goes back to the body before every key, and if a script keeps a field focused the probe stops pressing), never changes a select, and the network guard is on the whole time, so a key that posts something (archive, delete, send) is blocked and a key that navigates is answered locally. A GET a key sets off still reaches the server; run it on pages where that is harmless, as with every probe.
@@ -114,6 +116,7 @@ What `--probe all` adds, and what each criterion still needs from a person. Ever
 | 1.2.4 Captions (Live) | `probe/media@1`, `rampa/live-captions`: media whose duration is infinite | — | each live video with sound: applies here, not checked | everything about live captions |
 | 1.2.5 Audio Description (Prerecorded) | `probe/media@1`, `rampa/audio-description` | — (never, by design) | each video with sound, listing descriptions tracks and audio description controls (a transcript does not count) | quality of the description; whether the soundtrack already says it |
 | 1.3.4 Orientation | `probe/orientation@1`, `rampa/orientation`: portrait and landscape at 1280×800 and at 390×844 (phone), each loaded and then turned | content turned a quarter between orientations: `html`, `body` or most of the text (ACT b33eff); content gone in one orientation behind a "turn your device" message | a smaller element with text or images turned a quarter; content gone with no message (two comparisons); a turn message while the content still shows | essential orientation; real devices and their rotation lock; native apps |
+| 1.4.1 Use of Color | `probe/color@1`: `rampa/color-only-state`, `rampa/color-only-required`, `rampa/link-color-only`, `rampa/color-words`; styles compared with peers, an achromatopsia capture with an 8 px halo, links hovered and focused | a current, selected or pressed item, or required fields, that only color sets apart, under 3:1 in lightness and gone in gray (G182, F81); a link in text that only color sets apart, under 3:1 against the text (F73); a sentence that names a color for required fields marked by that color alone | an item that could not be captured; links at 3:1 or more with no cue on hover or focus (once per page); a sentence that names a color for anything else, or a color nothing has | charts, maps, images and color-coded tables; whether a difference carries meaning; forced colors and themes |
 | 1.4.2 Audio Control | `probe/media@1`, `rampa/audio-control`: what plays on load, with sound, watched for at least 4.5 s; its level read from its stream | sound that plays on its own for more than 3 s (a media element, an `Audio` object or Web Audio) with no native controls and no named pause, stop, mute or volume control near it or for the sound on the page (ACT 80f0bf): high when the level was read, medium when not | the only control is a pause or stop button away from it; autoplay the browser did not start; sound that could not be measured; sound under 3 s that was still playing | whether a control works (it is never pressed); sound started by an interaction; players in frames of another origin |
 | 1.4.4 Resize Text | `probe/layout@1`, `rampa/resize-text`: 640×512 CSS px at device scale 2 (1280×1024 at 200%) | text cut by an ancestor's overflow `hidden` or `clip` (ACT 59br37, with its no-wrap ellipsis and line-clamp exceptions): high when zoom cut it, medium when it was already cut | line clamps; cut text whose full text is in a name; carousels; text past the edges of a window that does not scroll; new overlaps; text the narrow layout hides with no control seen to show it | text behind menus; lost functionality; other browsers and text-only zoom |
 | 1.4.10 Reflow | `probe/layout@1`, `rampa/reflow`: 320×256 CSS px from 1280×1024 | content past the right edge of a page that scrolls sideways; text cut at 320 px that was whole at 1280 px | doubtful cuts; new overlaps; text cut by a window that cannot scroll sideways | lost functionality; content gone behind collapsed menus (F102); the two-dimensional exception beyond element types |
@@ -177,14 +180,24 @@ The media probe, measured the same day (one run each; the watch lasts at least 4
 | agenciabrasil.ebc.com.br, a Radioagência story | one hidden `audio` with no source (its "Tocar" buttons load it) | 1.2.1 not checked; nothing played on its own | 5.0 s |
 | `test/fixtures/probes/media-*.html` | 1 to 6 elements each | as in the tests | 4.9 to 8 s |
 
+The color probe, measured on 2026-10-10 (one run each; most of the time goes to the page's load and settling, and to one hover and one focus per style of link):
+
+| Page | Read | Time |
+|---|---|---|
+| rampa.guilhermebs.com.br | 11 links in text | 1.4 to 2.1 s |
+| developer.mozilla.org, the `<kbd>` page | 3 current or selected items (2 captured in gray), 13 links | 1.6 to 5.4 s |
+| pt.wikipedia.org/wiki/Brasil | 3 current items, 2,960 links in text (the first 150 read, 3 styles hovered and focused) | 5.8 to 8.3 s |
+| getbootstrap.com/docs/5.3, navs and tabs | 23 current or selected items (8 captured in gray), 11 links | 3.7 to 5.3 s |
+| `test/fixtures/probes/color-*.html` | 3 to 5 items each | 0.7 to 2 s |
+
 ## Not yet
 
-- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
+- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
 - The `rampa.config` file has no `probe` key yet.
 - Items to review appear with the engine's and the rules' in every format: grouped by criterion and rule in the terminal (each element with `--verbose`), the Markdown and the HTML reports, counted in SARIF's coverage, and listed in the JSON (`needsReview`).
 - Captures are not written next to a saved snapshot; only their hashes are recorded.
 - The rest of the activate class (clicks, Enter and Space on controls, select changes, `--probe interact`) and `--allow-submit` do not exist yet; nothing here clicks or submits, and the shortcuts probe presses only printable keys on the body and Space on the settings it found.
-- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. They have not run yet on the Linux CI runner's Chrome.
+- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. The color tests ran three times in a row on Edge and once in the full suite, with no verdict changing; their lightness verdicts also read the style sheet's colors, so a platform whose fonts antialias differently cannot turn a 5:1 difference into a failure. They have not run yet on the Linux CI runner's Chrome.
 - Saved recordings of three real pages replay offline to the same findings, by id; the plan's measurement on 20 pages of the real-page sample (EVAL-1) is not done.
 
 ## The checks
@@ -293,6 +306,66 @@ A finding names the element that turns, or the layer or element that holds the m
 - A message drawn in an image or a canvas with no text alternative is not read; the capture's ink only stands in for content when the page has under 20 characters of text.
 - Rotation is about Z only, summed from `rotate` and `transform` of each element; skew and negative scales are read as part of the matrix angle, and elements in closed shadow roots or cross-origin frames are not seen.
 - Content that takes more than 3 s to settle after a turn may be compared too early; content gone in a single comparison is only counted for that reason.
+
+### 1.4.1 Use of Color (`--probe color`)
+
+**The probe.** A fresh page at the run's window size. It reads styles, moves the pointer onto links and gives them focus, scrolls, takes screenshots, and puts another item's colors on one element for a single capture, then puts them back. It reads four kinds of things that color alone often tells apart.
+
+- **Current state.** An element marked current (`aria-current`, unless `false`), a tab or option marked selected (`aria-selected="true"`), a pressed toggle (`aria-pressed="true"`), or an element with a state class (`active`, `is-current`, `nav-link--selected`, `current-menu-item`…) inside navigation, tabs, menus, toolbars, pagination or breadcrumbs. A state class on a list item stands for the link or button inside it.
+  - **Peers.** Going up at most four levels from the element, the probe takes the first repeating unit whose siblings hold an element of the same tag and role that is not current itself: the `li` of a menu, the tabs of a tab list. Up to two peers are compared. When they differ from each other, the group says nothing about the current one and is skipped, as in a menu with one color per category.
+  - **What is compared.** Every node from the unit down to the element, with `::before` and `::after`. Cues: font weight, style, size, family and variant; text transform and letter spacing; text decoration; each border's width and style; outline; the geometry of box and text shadows; background image; transform; filter; list style; the unit's height (3 px or more); a pseudo-element that paints on one side only, or with other content or size; and a wrapper only one side has that paints a border, an outline, a shadow or an image (MDN wraps the current page's link in an `em` with a bar). Marks: visible icons (`svg`, `img`, an icon `i`) and painted empty boxes one side has more of, and symbols (`✓`, `•`, `→`, `*`) or words ("(current)", "você está aqui") in the visible text of one side only. Text hidden the sr-only way is no mark. Colors: text, background, border, outline and decoration colors where both sides have them, shadow colors, opacity, fill and stroke, each with the luminance contrast of the two sides' colors as the style sheet gives them, composited on what is behind them.
+  - **The gray capture.** When only colors differ, the unit is captured with a halo of 8 px around it, twice (a change between the two is movement: the item goes to review), then once more with the peer's colors put on its nodes, and put back. The peer's colors go on as inline `!important` declarations, and for pseudo-elements as a rule in an adopted style sheet, through a marker attribute. Both captures are reduced to the relative luminance of each pixel: the achromatopsia render. The record keeps how many pixels changed color, and the luminance contrast of the change at its strongest, with the top 0.5% of changed pixels left out as noise. Each peer is captured with the same halo. In four bands around each box, from 2 px inside its edge to 8 px outside, the probe measures ink in the gray render: an indicator another element draws, such as a bar under the selected tab that slides with the selection, shows as ink around the current item that its peers lack.
+- **Required fields.** In a form, or the page, with visible required fields (`required`, `aria-required="true"`) and optional ones, each with a visible label, the first required label is compared with the first optional one, and the fields with each other, as above. Text marks come first: an asterisk or "required", "obrigatório", "obligatorio" on every required label (or the field's placeholder or hint), or "optional", "opcional", "facultativo" on every optional one. With no mark and only colors different, the label, or the field when only the fields differ, gets the gray capture.
+- **Links in text.** Every link shown inline in a block that holds at least 20 characters of text outside its links, at most 150 per page. The probe records what sets the link apart from the block at rest, other than color: an underline or other decoration the block does not have, a border, an outline, a shadow, a weight on the other side of 600, a style, family or size, a text transform, a background image, a pseudo-element that paints, or an icon. It also records the link's own background, and the luminance contrast of its text color with the block's. Links that only color sets apart, at 3:1 or more, are hovered (the pointer moved onto them) and focused (`focus()`, which matches `:focus-visible` in Chromium), once per style: links that look alike at rest and match the same `:hover` and `:focus` rules of the page's style sheets share a measurement, for at most 8 styles. What changes other than color is recorded, the browser's focus ring included.
+- **Color words.** Sentences of at most 300 characters, in English, Portuguese or Spanish, that refer to a color ("in red", "shown in green", "red fields", "campos em vermelho", "marcados en rojo") and carry a word for information ("required", "error", "available", "obrigatório", "indica", "selecione"…). "Our red team" is not one. Each is quoted with the color's hue and what it seems to name: required fields, errors, links, or anything. The elements of that kind whose text (or, for a field, whose border) has the hue are listed, with whether they carry a text mark, and so is any cue other than color the sentence itself names ("asterisk", "*", "bold", "icon", "marked with").
+
+**The rules.** WCAG's Understanding for 1.4.1 (updated 16 September 2025) counts a difference in lightness of 3:1 or more between two colors as a visual distinction of its own. When content relies on perceiving a particular color, it asks for another indicator whatever the contrast.
+
+| Rule | Observation | Result |
+|---|---|---|
+| `rampa/color-only-state` | A current, selected or pressed item that differs from its peers only by color: under 3:1 in lightness by the style sheet's colors, a change under 3:1 in the gray capture, and no mark in its halo that its peers lack | failure, high (G182) |
+| | The same, when the item could not be captured (moving, not shown, past the budget) | needs review |
+| | A cue, a mark, a lightness difference of 3:1 or more, a mark in the halo, peers that differ among themselves, an item that looks just like its peers | not reported; counted in the coverage note |
+| `rampa/color-only-required` | Required fields that differ from optional ones only by color, under 3:1 and gone in gray, with no text mark on either kind | failure, high (F81; G14, G205) |
+| `rampa/link-color-only` | A link in text that only color sets apart, under 3:1 against the text around it | failure, high (F73). An element axe-core's `link-in-text-block` already failed is left to it; what that rule left undecided on a link the probe read (a background image, a pseudo-element) is settled here |
+| | Links at 3:1 or more that gain no cue on hover, or none on focus | needs review, low, one item per page. G183's current text asks only for 3:1. Its earlier version, and many audit checklists, also asked for a cue on hover and on focus, so the probe measures that and says so, never as a failure |
+| | A link styled exactly like the text around it | not reported: nothing tells it apart, color included, and the Understanding says such a link does not fail 1.4.1 |
+| `rampa/color-words` | A sentence that names a color for required fields, whose fields or labels in that hue carry no text mark | failure, medium (F81; G14) |
+| | A sentence that names a color for errors, links or anything else, with elements in that hue | needs review, low, quoting the sentence and listing them |
+| | A sentence that names a color that nothing it may refer to has | needs review, low |
+| | A sentence that also names another cue | not reported; counted |
+
+Each rule speaks only for its own kind of content. On a page with none of it, the rule's coverage line says "not checked", never "no applicable content": 1.4.1 also covers charts, maps and images, which nothing here reads.
+
+**Fixtures.** No ACT rule exists for 1.4.1. The fixtures in `test/fixtures/probes/` come in three pages:
+
+- `color-fail.html`: a current navigation link in red where the others are dark gray (2.15:1; its "(current)" is for screen readers only); a selected tab marked only by a pale blue background (1.24:1 on white); red required labels against gray optional ones, with "Fields in red are required."; and a link at 2.23:1 against its paragraph. Each is found once.
+- `color-pass.html`: the same page fixed, with a bold, underlined current link, a bar of the tab's own, asterisks the hint explains, and underlined links. Nothing is reported.
+- `color-near.html`, near misses, with no failure: a current item darker than its peers by 5.5:1; a selected tab whose bar is drawn by another element of the tab list; toggles whose colors swap (6.3:1); a menu with one color per category; a state class on a bold item; optional fields marked "(optional)"; "Our red team answers within a day."; "Seats in green are available", which goes to review because nothing on the page is green; and two links at 4.6:1, one underlined on hover with the browser's focus ring, the other with neither, which goes to review.
+
+**Real pages.** On 2026-10-10, with `--probe color --no-llm --min-confidence low` (Edge 154):
+
+| Page | Findings | Read by hand |
+|---|---|---|
+| rampa.guilhermebs.com.br | none | Right: its 11 links in text are underlined, in the color of the text around them |
+| developer.mozilla.org, the `<kbd>` page | none of the probe's; axe-core fails 3 links in a list | Right: the sidebar's current page has a 2 px bar (a border on the `em` that wraps it); the "Try it" tab's bar and the example's selected "HTML" tab (in a shadow root) change by 3.73:1 and 5.46:1 in gray |
+| pt.wikipedia.org/wiki/Brasil | none | Right: the selected "Artigo" and "Ler" tabs have an underline drawn by `::after`; links in text are `#3366cc` on `#202122`, 3.01:1, and gain an underline on hover and an outline on focus |
+| getbootstrap.com/docs/5.3, navs and tabs | none | Right: pills swap their colors (4.5:1 in gray) and tabs gain borders; the base `.nav` example styles its "Active" link like the others, which says nothing by color |
+| www.ibge.gov.br | 2 (`rampa/color-only-state`) | Right: the carousels' pagination bullets mark the current slide (`aria-current="true"`) only by an orange `#d4721e` against gray `#b5b5b5`, 1.65:1, same size and shape |
+| www.camara.leg.br | none | Right: two telephone links in the footer are styled exactly like the text around them, which 1.4.1 does not fail; "PL 1893/2026" and its kind are bold |
+
+These pages produced 2 failures, both true, and no false positive; far from the plan's gate of 35 reviewed findings, so the rules stay experimental.
+
+**Limits.**
+
+- Peers are found by structure. An item with no sibling of its kind (a single "current" link, a lone tab) is not compared, and a group whose items differ among themselves is skipped.
+- Only the first required and the first optional field of a form are compared. A form where some required labels are marked and others are not is read as unmarked.
+- Only the style sheet's colors are swapped: an indicator drawn in a background image or a canvas shows as a cue (its presence differs) or not at all.
+- The halo is 8 px. An indicator farther away is missed, and a neighbour within 8 px shows in both halos.
+- Hover and focus are measured once per style of link, for at most 8 styles; links past the 150th are not read.
+- Color words are read in English, Portuguese and Spanish, and what a sentence names is read from a few words ("fields", "error", "link"), not understood. A sentence about a chart or an image ends in review.
+- Charts, maps, color-coded tables and images that convey information by color are not checked.
+- One engine (Chromium). Forced colors, dark mode and high-contrast themes are not tried.
 
 ### 1.4.10 Reflow (`--probe layout`, rule `rampa/reflow`)
 

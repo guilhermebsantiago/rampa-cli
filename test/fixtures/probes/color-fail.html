@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Use of color: failures</title>
+<style>
+  body { margin: 0; font: 16px/1.5 Arial, sans-serif; color: #222; background: #fff; }
+  main { padding: 24px; max-width: 700px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  /* 1. The current page in the navigation is red where the others are dark gray: 2.15:1 between the two. Its
+     "(current)" is for screen readers only, which is no visual mark. */
+  nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; }
+  nav a { color: #333; text-decoration: none; }
+  nav a[aria-current="page"] { color: #c00; }
+  /* 2. The selected tab only gets a pale blue background: 1.24:1 against the white page. */
+  [role="tablist"] { display: flex; gap: 4px; margin-top: 24px; }
+  [role="tab"] { font: inherit; border: 0; padding: 6px 12px; background: transparent; color: #222; }
+  [role="tab"][aria-selected="true"] { background: #dbe8ff; }
+  /* 3. Required fields have red labels, optional ones gray: 1.76:1, and no asterisk or word marks them (F81).
+     4. The hint names the color: "Fields in red are required." */
+  form { margin-top: 24px; }
+  label { display: block; margin-top: 8px; color: #444; }
+  label.req { color: #c00; }
+  input { font: inherit; border: 1px solid #767676; padding: 4px; }
+  /* 5. A link in a paragraph, not underlined, 2.23:1 against the text around it (F73). */
+  p a { color: #2255aa; text-decoration: none; }
+</style>
+</head>
+<body>
+<main>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#products" aria-current="page">Products<span class="sr-only"> (current)</span></a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div role="tablist" aria-label="Plans">
+    <button role="tab" aria-selected="false" id="t-month">Monthly</button>
+    <button role="tab" aria-selected="true" id="t-year">Yearly</button>
+    <button role="tab" aria-selected="false" id="t-life">Lifetime</button>
+  </div>
+
+  <form action="#" id="signup">
+    <p id="hint">Fields in red are required.</p>
+    <label class="req" for="name">Full name</label>
+    <input id="name" required>
+    <label class="req" for="email">Email</label>
+    <input id="email" type="email" required>
+    <label for="phone">Phone</label>
+    <input id="phone" type="tel">
+    <label for="company">Company</label>
+    <input id="company">
+  </form>
+
+  <p id="terms-text">Read our <a href="#terms">terms of service</a> before you sign up, and the privacy policy that comes with them, which explains what we keep.</p>
+</main>
+</body>
+</html>

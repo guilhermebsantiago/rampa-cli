@@ -115,7 +115,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   // Label-in-name failures that differ only by a hyphen or a shortened word go to review (src/rules/label-in-name.ts).
   const fromEngine = options.rules === false ? engineFindings(engine) : reviewLabelInName(engineFindings(engine), snapshot, options.locale)
   // Facts a probe recorded in the snapshot, turned into findings by rules: no browser, no model.
-  const probe = probeChecks(snapshot, options.locale, PROBE_RULES, options.wcag ?? DEFAULT_WCAG)
+  const probe = probeChecks(snapshot, options.locale, PROBE_RULES, options.wcag ?? DEFAULT_WCAG, engine)
   let findings: Finding[] = [...fromEngine, ...stage.findings, ...probe.findings]
   const discarded: Discarded[] = []
   const summaries: CriterionSummary[] = []

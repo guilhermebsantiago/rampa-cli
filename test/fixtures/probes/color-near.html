@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Use of color: near misses</title>
+<style>
+  body { margin: 0; font: 16px/1.5 Arial, sans-serif; color: #111; background: #fff; }
+  main { padding: 24px; max-width: 760px; }
+  section { margin-top: 28px; }
+  ul.menu { list-style: none; margin: 0; padding: 0; display: flex; gap: 24px; }
+  /* 1. The current page differs only by color, but with a lightness difference of 5.5:1: #111 against #8a8a8a. */
+  #light a { color: #8a8a8a; text-decoration: none; }
+  #light a[aria-current="page"] { color: #111; }
+  /* 2. The selected tab is a different blue, nearly the same lightness, but a bar that is not part of the tab
+     (positioned in the tab list) sits under it. */
+  #slider { position: relative; display: flex; gap: 0; }
+  #slider [role="tab"] { font: inherit; border: 0; padding: 6px 0; width: 120px; background: transparent; color: #4b5563; }
+  #slider [role="tab"][aria-selected="true"] { color: #1d4ed8; }
+  #slider .indicator { position: absolute; left: 0; bottom: 0; width: 120px; height: 3px; background: #222; }
+  /* 3. Pressed and unpressed toggles swap their colors: the change is 6.3:1 in lightness. */
+  .toggles button { font: inherit; padding: 4px 12px; border: 1px solid #1a5fb4; background: #fff; color: #1a5fb4; }
+  .toggles button[aria-pressed="true"] { background: #1a5fb4; color: #fff; }
+  /* 4. Each category has its own color: the items differ among themselves, so color says nothing of the current one. */
+  #cats a { text-decoration: none; }
+  #cats li:nth-child(1) a { color: #b91c1c; }
+  #cats li:nth-child(2) a { color: #b45309; }
+  #cats li:nth-child(3) a { color: #1d4ed8; }
+  #cats li:nth-child(4) a { color: #7e22ce; }
+  /* 5. A state class on a bold item. */
+  #classy a { color: #333; text-decoration: none; }
+  #classy li.active a { color: #c00; font-weight: 700; }
+  /* 6. Required labels are red, and the optional ones say so in words. */
+  label { display: block; margin-top: 8px; color: #444; }
+  label.req { color: #c00; }
+  input { font: inherit; border: 1px solid #767676; padding: 4px; }
+  /* 7. A link at 4.6:1 against the text, underlined on hover, with the browser's focus ring: G183. */
+  #good a { color: #3b7dd8; text-decoration: none; }
+  #good a:hover { text-decoration: underline; }
+  /* 8. A link at 4.6:1 that gains nothing on hover and drops the focus ring: G183 accepts it, the older version did not. */
+  #quiet a { color: #3b7dd8; text-decoration: none; }
+  #quiet a:focus { outline: none; }
+</style>
+</head>
+<body>
+<main>
+  <section>
+    <nav id="light" aria-label="Sections">
+      <ul class="menu">
+        <li><a href="#a">Overview</a></li>
+        <li><a href="#b" aria-current="page">Pricing</a></li>
+        <li><a href="#c">Support</a></li>
+      </ul>
+    </nav>
+  </section>
+
+  <section>
+    <div id="slider" role="tablist" aria-label="Details">
+      <button role="tab" aria-selected="true" id="s-1">Overview</button>
+      <button role="tab" aria-selected="false" id="s-2">Specs</button>
+      <button role="tab" aria-selected="false" id="s-3">Reviews</button>
+      <span class="indicator"></span>
+    </div>
+  </section>
+
+  <section>
+    <div class="toggles" role="toolbar" aria-label="View">
+      <button type="button" aria-pressed="true" id="v-grid">Grid</button>
+      <button type="button" aria-pressed="false" id="v-list">List</button>
+      <button type="button" aria-pressed="false" id="v-map">Map</button>
+    </div>
+  </section>
+
+  <section>
+    <nav id="cats" aria-label="Categories">
+      <ul class="menu">
+        <li><a href="#news">News</a></li>
+        <li><a href="#sport" aria-current="page">Sport</a></li>
+        <li><a href="#tech">Tech</a></li>
+        <li><a href="#arts">Arts</a></li>
+      </ul>
+    </nav>
+  </section>
+
+  <section>
+    <nav id="classy" aria-label="Account">
+      <ul class="menu">
+        <li><a href="#profile">Profile</a></li>
+        <li class="active"><a href="#orders">Orders</a></li>
+        <li><a href="#settings">Settings</a></li>
+      </ul>
+    </nav>
+  </section>
+
+  <section>
+    <form action="#" id="contact">
+      <p>Our red team answers within a day.</p>
+      <label class="req" for="cname">Name</label>
+      <input id="cname" required>
+      <label for="cphone">Phone (optional)</label>
+      <input id="cphone" type="tel">
+      <label for="cnote">Note (optional)</label>
+      <input id="cnote">
+    </form>
+  </section>
+
+  <section>
+    <p id="good">Find out more in <a href="#guide">the setup guide</a>, which walks through every option of the installer and what each one changes.</p>
+    <p id="quiet">You can also read <a href="#faq">the questions people ask most</a>, collected from a year of support requests and answered by the team.</p>
+    <p id="seats">Seats in green are available; the others are taken.</p>
+  </section>
+</main>
+</body>
+</html>
