@@ -1,7 +1,10 @@
-import type { Finding } from '../core/types.ts'
+import type { Finding, Patch } from '../core/types.ts'
+import { labelsOf, shownText as labelText } from '../criteria/labels-or-instructions.ts'
+import { attributesOf, isHidden } from '../criteria/shared.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
-import { indexTree } from '../snapshot/tree.ts'
+import { indexTree, walkTree } from '../snapshot/tree.ts'
+import type { Hit, RuleCheck } from './types.ts'
 
 /**
  * 2.5.3 Label in Name. axe-core's label-content-name-mismatch fails a control when its visible text is
@@ -79,4 +82,97 @@ export function reviewLabelInName(findings: Finding[], snapshot: A11ySnapshot, l
     if (!kind) return finding
     return { ...finding, confidence: 'low', message: `${finding.message} ${NOTES[kind][locale]}`, evidence: `"${visible}" / "${name}"` }
   })
+}
+
+/** Inputs whose name is their own value or caption, not a label: buttons and the like. */
+const NAMED_BY_VALUE = new Set(['hidden', 'submit', 'button', 'reset', 'image'])
+/** "(required)" and "(optional)" marks a label carries and a name may leave out, like the asterisk. */
+const MARKS = /\((?:required|optional|obrigat[óo]rio|opcional|obligatorio)\)/giu
+
+/**
+ * 2.5.3 for form fields: a field with a label on screen whose aria-label or aria-labelledby names it
+ * otherwise ("CPF*" on screen, "document" read out). axe-core's label-content-name-mismatch looks only
+ * at controls named by their content, so a text field with a <label> is never checked; the real-page
+ * study (docs/studies) found one on sosma.org.br that no criterion reported.
+ */
+export const fieldLabelInNameRule: RuleCheck = {
+  id: 'rampa/field-label-in-name',
+  version: '1',
+  criteria: ['2.5.3'],
+  maturity: 'experimental',
+  surfaces: ['web'],
+  act: [],
+  engineRules: [LABEL_IN_NAME_RULE],
+  help: {
+    en: "A field's accessible name must contain the label people see",
+    'pt-BR': 'O nome acessível de um campo precisa conter o rótulo que as pessoas veem',
+  },
+  helpUrl: 'https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html',
+  run(snapshot) {
+    const ordered = [...walkTree(snapshot.root)]
+    const hits: Hit[] = []
+    let applicable = 0
+    for (const field of ordered) {
+      const tag = typeof field.native.tag === 'string' ? field.native.tag : ''
+      const attributes = attributesOf(field)
+      if ((tag !== 'input' && tag !== 'select' && tag !== 'textarea') || isHidden(field)) continue
+      if (tag === 'input' && NAMED_BY_VALUE.has((attributes.type ?? '').toLowerCase())) continue
+      // Only a name set over the label can differ from it: without aria-label or aria-labelledby, the label is the name.
+      if (!attributes['aria-label']?.trim() && !attributes['aria-labelledby']?.trim()) continue
+      const name = field.name?.trim()
+      const labelled = labelsOf(field, ordered)
+        .map((label) => labelText(label, field))
+        .filter(Boolean)
+        .join(' ')
+        .replace(MARKS, ' ')
+        .trim()
+      // Without a label on screen, the placeholder may be the label people see ("CPF*"): whether it is, a person decides.
+      const placeholder = labelled ? '' : (attributes.placeholder ?? '').replace(MARKS, ' ').trim()
+      const visible = labelled || placeholder
+      if (!name || wordsOf(visible).length === 0) continue
+      applicable++
+      const label = wordsOf(visible)
+      if (` ${wordsOf(name).join(' ')} `.includes(` ${label.join(' ')} `)) continue
+      const near = nearMatch(visible, name)
+      const html = typeof field.native.html === 'string' ? field.native.html : ''
+      hits.push({
+        ref: field.ref,
+        outcome: near || placeholder ? 'review' : 'fail',
+        subject: `${visible} / ${name}`,
+        evidence: `"${visible}" / "${name}"`,
+        facts: {
+          visible,
+          name,
+          near: near ?? '',
+          shown: placeholder ? 'placeholder' : 'label',
+          startTag: tag === 'input' ? html : '',
+          source: attributes['aria-labelledby']?.trim() ? 'aria-labelledby' : 'aria-label',
+        },
+        html,
+      })
+    }
+    return { hits, applicable }
+  },
+  message(hit, locale) {
+    const { visible, name, near, source } = hit.facts
+    if (hit.facts.shown === 'placeholder') {
+      return locale === 'pt-BR'
+        ? `O campo mostra só o placeholder "${visible}" e se chama "${name}" (${source}): precisa de revisão. Se o placeholder é o rótulo que as pessoas veem, quem usa comando de voz diz esse texto, e o campo não responde.`
+        : `The field shows only its placeholder, "${visible}", and is named "${name}" (${source}): needs review. If the placeholder is the label people see, people using speech input say it, and the field does not answer to it.`
+    }
+    if (near === 'hyphenation' || near === 'abbreviation') {
+      const note = NOTES[near][locale]
+      return locale === 'pt-BR' ? `O campo mostra "${visible}" e se chama "${name}". ${note}` : `The field shows "${visible}" and is named "${name}". ${note}`
+    }
+    return locale === 'pt-BR'
+      ? `O rótulo visível "${visible}" não está no nome acessível do campo, "${name}", que vem do ${source}: quem usa comando de voz diz o que vê, e o campo não responde.`
+      : `The visible label "${visible}" is not in the field's accessible name, "${name}", which comes from ${source}: people using speech input say what they see, and the field does not answer to it.`
+  },
+  patch(hit): Patch | undefined {
+    // An input's start tag is the whole element: without aria-label, its <label> names it.
+    const startTag = String(hit.facts.startTag)
+    if (hit.outcome !== 'fail' || hit.facts.source !== 'aria-label' || !startTag) return undefined
+    const after = startTag.replace(/\s+aria-label\s*=\s*("[^"]*"|'[^']*'|[^\s>]+)/i, '')
+    return after === startTag ? undefined : { ref: hit.ref, kind: 'replace-element', to: String(hit.facts.visible), before: startTag, after }
+  },
 }
