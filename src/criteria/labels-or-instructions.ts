@@ -59,6 +59,8 @@ export interface LabelsOrInstructionsContext {
   name: string
   /** Where the name of a field with nothing visible to name it comes from; undefined when something visible does. */
   hiddenSource: HiddenSource | undefined
+  /** The hidden label is on screen, but its text shows nothing: its pixels did not change when made transparent. */
+  unseen?: boolean | undefined
   visibleLabel: string | undefined
   placeholder: string | undefined
   pattern: string | undefined
@@ -124,6 +126,7 @@ export const labelsOrInstructions: Criterion<LabelsOrInstructionsContext, Labels
       const chosen = control === 'select' ? chosenOption(node) : undefined
       const hiddenSource = visibleLabel || placeholder || chosen || !node.name?.trim() ? undefined : sourceOf(node, ordered)
       if ((!hiddenSource && !pattern) || name === '') continue
+      const unseen = hiddenSource === 'hidden-label' && labelSourcesOf(node, ordered, byId).some((label) => label.native.textVisible === false)
       const { before, after, buttons, buttonTexts } = surroundings(index, node)
       const facts = [
         `Field: ${control === 'select' || control === 'textarea' ? control : `input type="${control}"`}`,
@@ -147,6 +150,7 @@ export const labelsOrInstructions: Criterion<LabelsOrInstructionsContext, Labels
         context: {
           name,
           hiddenSource,
+          ...(unseen ? { unseen } : {}),
           visibleLabel,
           placeholder,
           pattern,
@@ -210,7 +214,7 @@ export const labelsOrInstructions: Criterion<LabelsOrInstructionsContext, Labels
         ? `O campo "${c.name}" só aceita um formato definido (pattern="${c.pattern ?? ''}"), e nada na tela o explica.`
         : `The field "${c.name}" only accepts a set format (pattern="${c.pattern ?? ''}"), and nothing on screen explains it.`
     }
-    const source = SOURCE_MESSAGES[c.hiddenSource ?? 'aria-label'][locale]
+    const source = (c.unseen ? UNSEEN_MESSAGE : SOURCE_MESSAGES[c.hiddenSource ?? 'aria-label'])[locale]
     return locale === 'pt-BR'
       ? `Nada na tela diz o que preencher no campo "${c.name}": ${source}.`
       : `Nothing on screen tells what to enter in the field "${c.name}": ${source}.`
@@ -246,6 +250,21 @@ const SOURCE_MESSAGES: Record<HiddenSource, { en: string; 'pt-BR': string }> = {
   'hidden-label': { en: 'its label is hidden from view', 'pt-BR': 'o rótulo está escondido da tela' },
 }
 
+/** A label on screen whose text shows nothing, as the collector measured it. */
+export const UNSEEN_MESSAGE = {
+  en: 'its label is on the page, but its text does not show: the label looks the same with its text made transparent',
+  'pt-BR': 'o rótulo está na página, mas o texto dele não aparece: o rótulo fica igual com o texto transparente',
+}
+
+/** The elements that label a field: those its aria-labelledby names, and its label elements. */
+export function labelSourcesOf(field: A11yNode, ordered: A11yNode[], byId: Map<string, A11yNode>): A11yNode[] {
+  const named = (attributesOf(field)['aria-labelledby'] ?? '')
+    .split(/\s+/)
+    .map((id) => byId.get(id))
+    .filter((node): node is A11yNode => node !== undefined)
+  return [...named, ...labelsOf(field, ordered)]
+}
+
 /** The control type of a field that takes typed or chosen input, or undefined. */
 function fieldOf(node: A11yNode): string | undefined {
   const tag = typeof node.native.tag === 'string' ? node.native.tag : ''
@@ -257,9 +276,13 @@ function fieldOf(node: A11yNode): string | undefined {
   return SKIPPED_TYPES.has(control) ? undefined : control
 }
 
-/** On screen: rendered, inside the page and larger than the pixel a visually-hidden class leaves. */
+/**
+ * On screen: rendered, inside the page and larger than the pixel a visually-hidden class leaves. A label whose
+ * pixels did not change when the collector made its text transparent shows nothing either (white on white,
+ * clipped, covered; surfaces/label-visibility.ts).
+ */
 export function shown(node: A11yNode): boolean {
-  if (node.states.includes('hidden') || node.states.includes('offscreen')) return false
+  if (node.states.includes('hidden') || node.states.includes('offscreen') || node.native.textVisible === false) return false
   return !node.bounds || (node.bounds.width > 1 && node.bounds.height > 1)
 }
 

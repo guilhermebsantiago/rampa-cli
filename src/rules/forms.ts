@@ -1,6 +1,6 @@
 import type { Patch } from '../core/types.ts'
 import { escapeHtml, isHidden } from '../criteria/shared.ts'
-import { labelsOrInstructions } from '../criteria/labels-or-instructions.ts'
+import { UNSEEN_MESSAGE, labelsOrInstructions } from '../criteria/labels-or-instructions.ts'
 import type { A11yNode } from '../snapshot/schema.ts'
 import { indexTree, walkTree } from '../snapshot/tree.ts'
 import type { Hit, RuleCheck } from './types.ts'
@@ -53,14 +53,14 @@ export const noVisibleLabelRule: RuleCheck = {
         outcome: 'fail',
         subject: c.name,
         evidence: c.startTag,
-        facts: { name: c.name, source: c.hiddenSource, startTag: c.startTag, isInput: c.isInput, id: c.id ?? '' },
+        facts: { name: c.name, source: c.hiddenSource, unseen: c.unseen === true, startTag: c.startTag, isInput: c.isInput, id: c.id ?? '' },
         html: c.startTag,
       })
     }
     return { hits, applicable: candidates.length }
   },
   message(hit, locale) {
-    const source = SOURCES[String(hit.facts.source)]?.[locale] ?? ''
+    const source = (hit.facts.unseen === true ? UNSEEN_MESSAGE : SOURCES[String(hit.facts.source)])?.[locale] ?? ''
     return locale === 'pt-BR'
       ? `Nada na tela diz o que preencher neste campo: ${source} ("${hit.facts.name}"), e não há texto, botão nem legenda perto dele.`
       : `Nothing on screen says what to enter in this field: ${source} ("${hit.facts.name}"), and no text, button or legend sits near it.`

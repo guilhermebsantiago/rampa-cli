@@ -247,7 +247,7 @@ Each result has a short text report and the same content as structured data. Cli
     "judged": ["1.1.1", "1.3.5", "2.4.2", "2.4.4", "2.4.6", "3.1.1", "3.1.2"],
     "needs_review_only": ["2.4.1", "3.3.2"],
     "not_checked": ["1.2.1", "1.2.2", "…"],
-    "criteria": [{ "id": "1.1.1", "status": "failures", "checked_by": ["image-alt", "judgment/1.1.1@3"] }, "…"]
+    "criteria": [{ "id": "1.1.1", "status": "failures", "checked_by": ["image-alt", "judgment/1.1.1@4"] }, "…"]
   },
   "needs_review": [],
   "notes": ["Suggested text alternatives describe what the model saw in the image, which cannot be verified against the page: show them to a person before they ship."],
@@ -266,7 +266,7 @@ Each result has a short text report and the same content as structured data. Cli
         "kind": "set-attribute",
         "attribute": "alt",
         "before": "<img src=\"mug.svg\" alt=\"IMG_2034.jpg\">",
-        "after": "<img src=\"mug.svg\" alt=\"Blue mug with steam\">"
+        "after": "<img src=\"mug.svg\" alt=\"A blue mug with steam rising from it\">"
       },
       "confidence": "high",
       "agreement": { "votes": 1, "total": 1 }

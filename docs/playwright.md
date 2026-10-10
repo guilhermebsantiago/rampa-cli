@@ -86,7 +86,7 @@ Rampa: 4 failures in examples/store/before.html (scope: main)
    Message:   The text alternative "IMG_2034.jpg" is a file name or a placeholder.
    Evidence:  "IMG_2034.jpg"
    Patch:     - <img src="mug.svg" alt="IMG_2034.jpg">
-              + <img src="mug.svg" alt="Blue mug with steam">
+              + <img src="mug.svg" alt="A blue mug with steam rising from it">
    Judged:    ollama:gemma4:12b · confidence high · 1/1 runs · evidence verified
    Waiver id: 2c1d064d9cc7
 
@@ -219,7 +219,7 @@ Where there is no `expect.extend`, `assertRampa(report, options)` throws the sam
 ## What to know
 
 - **The main frame and its light DOM.** The collector does not enter iframes or shadow roots. axe-core does reach shadow DOM, so its findings can point inside a shadow root while the judgment layer never sees it.
-- **The page is touched, a little.** Rampa evaluates axe-core in the page (replacing a `window.axe` your app may have loaded) instead of adding a script tag, so a strict Content-Security-Policy does not stop it. For 1.1.1 it screenshots each image as rendered, with Playwright's `animations: 'disabled'`, as `toHaveScreenshot` does, and then scrolls the page back to where it was.
+- **The page is touched, a little.** Rampa evaluates axe-core in the page (replacing a `window.axe` your app may have loaded) instead of adding a script tag, so a strict Content-Security-Policy does not stop it. For 1.1.1 it screenshots each image as rendered, with Playwright's `animations: 'disabled'`, as `toHaveScreenshot` does, and then scrolls the page back to where it was. For 3.3.2 it screenshots each field's label twice, the second time with its text made transparent by a style element it adds and then removes.
 - **One check at a time per page.** axe-core cannot run twice at once in the same page.
 - **Language of Page and the title on components.** A scoped check never judges them; check the page itself, unscoped, for those.
 - **Tested** on Windows with Microsoft Edge, through `@playwright/test` 1.62 and 1.63 and `puppeteer-core` 25.10; the CI workflow is set to run the same tests with Google Chrome on Ubuntu. Firefox and WebKit pages should work, since the in-page code uses standard DOM APIs, but they have not been tested.

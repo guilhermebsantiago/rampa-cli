@@ -56,10 +56,16 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
   candidates: Candidate<Ctx>[],
   options: JudgeOptions,
 ): Promise<CandidateJudgment<Ctx, Out>[]> {
-  const schemaJson = JSON.stringify(z.toJSONSchema(criterion.schema))
+  const schemaJsons = new Map<z.ZodType<Out>, string>()
   const schemaName = `wcag_${criterion.id.replaceAll('.', '_')}_judgment`
 
   return mapLimit(candidates, options.concurrency, async (candidate) => {
+    const schema = criterion.schemaFor?.(candidate) ?? criterion.schema
+    let schemaJson = schemaJsons.get(schema)
+    if (schemaJson === undefined) {
+      schemaJson = JSON.stringify(z.toJSONSchema(schema))
+      schemaJsons.set(schema, schemaJson)
+    }
     const samples: Sample<Out>[] = []
     // A candidate the criterion settles by itself is never sent to the model.
     const decided = criterion.decide?.(candidate, snapshot)
@@ -81,7 +87,7 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
       )
       const cached = await options.cache.get(key)
       if (cached) {
-        const parsed = criterion.schema.safeParse(cached.output)
+        const parsed = schema.safeParse(cached.output)
         if (parsed.success) {
           // Cached samples keep the tokens they cost, so totals show what the results took to produce.
           samples.push({
@@ -109,7 +115,7 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
             system: prompt.system,
             user: prompt.user,
             images: prompt.images,
-            schema: criterion.schema,
+            schema,
             schemaName,
             signal: options.signal,
           }),

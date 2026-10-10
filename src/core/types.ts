@@ -133,6 +133,17 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
   confidenceCap?(candidate: Candidate<Ctx>): Confidence | undefined
   prompt(candidate: Candidate<Ctx>, snapshot: A11ySnapshot): Prompt
   schema: z.ZodType<Out>
+  /**
+   * The answer schema for one candidate, where a criterion asks two kinds of question: 1.1.1 asks whether an
+   * image's alternative serves its purpose, and whether an image hidden from assistive technology carries
+   * information. `schema` when absent.
+   */
+  schemaFor?(candidate: Candidate<Ctx>): z.ZodType<Out>
+  /**
+   * The ACT rules a candidate's question answers, where a criterion asks more than one: `rampa eval` scores an
+   * ACT rule's test cases by the judgments of the question that implements it. All of `act` when absent.
+   */
+  actFor?(candidate: Candidate<Ctx>): readonly string[]
   verify(output: Out, candidate: Candidate<Ctx>, snapshot: A11ySnapshot): Verification
   message(output: Out, candidate: Candidate<Ctx>, locale: Locale): string
   /**

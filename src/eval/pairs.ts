@@ -80,6 +80,8 @@ export const langDrop: Corruptor = {
 export const altPlaceholder: Corruptor = {
   id: 'alt-placeholder',
   criterion: '1.1.1',
+  // An alternative's quality: e88epe's passing images are hidden, and a placeholder alt on them is read by nobody.
+  rules: ['qt1vmo'],
   async apply(page) {
     return page.evaluate(() => {
       let changed = 0
@@ -97,6 +99,7 @@ export const altPlaceholder: Corruptor = {
 export const altSwap: Corruptor = {
   id: 'alt-swap',
   criterion: '1.1.1',
+  rules: ['qt1vmo'],
   async apply(page) {
     return page.evaluate(() => {
       let changed = 0
@@ -364,6 +367,43 @@ export const labelHidden: Corruptor = {
   },
 }
 
+/**
+ * 3.3.2: paint every label's text in the color behind it, white on white. The label stays a label element in
+ * place, on screen and the same size, so the accessible name and the tree are unchanged; only its pixels say
+ * that people see no label (the collector's label pixel test, surfaces/label-visibility.ts).
+ */
+export const labelUnseen: Corruptor = {
+  id: 'label-unseen',
+  criterion: '3.3.2',
+  async apply(page) {
+    return page.evaluate((skipped: string[]) => {
+      const behind = (el: Element): string => {
+        for (let node: Element | null = el; node; node = node.parentElement) {
+          const color = getComputedStyle(node).backgroundColor
+          if (color && color !== 'transparent' && !/rgba\(.*,\s*0\)$/.test(color)) return color
+        }
+        return 'rgb(255, 255, 255)'
+      }
+      const sources = new Set<Element>()
+      for (const field of Array.from(document.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input, select, textarea'))) {
+        if (field instanceof HTMLInputElement && skipped.includes(field.type)) continue
+        const byId = (field.getAttribute('aria-labelledby') ?? '').split(/\s+/).flatMap((id) => document.getElementById(id) ?? [])
+        for (const source of [...Array.from(field.labels ?? []), ...byId]) if ((source.textContent ?? '').trim() !== '') sources.add(source)
+      }
+      for (const source of sources) {
+        const color = behind(source)
+        for (const el of [source, ...Array.from(source.querySelectorAll('*'))]) {
+          if (el instanceof HTMLElement && !['INPUT', 'SELECT', 'TEXTAREA', 'OPTION'].includes(el.tagName)) {
+            el.style.setProperty('color', color, 'important')
+            el.style.setProperty('text-shadow', 'none', 'important')
+          }
+        }
+      }
+      return sources.size
+    }, NOT_DATA_FIELDS)
+  },
+}
+
 export const CORRUPTORS: Readonly<Record<string, Corruptor[]>> = {
   '1.1.1': [altPlaceholder, altSwap],
   '1.3.5': [autocompleteDrop, autocompleteSwap],
@@ -373,5 +413,5 @@ export const CORRUPTORS: Readonly<Record<string, Corruptor[]>> = {
   '2.4.6': [headingGeneric],
   '3.1.1': [htmlLangSwap],
   '3.1.2': [langSwap, langDrop],
-  '3.3.2': [labelHidden],
+  '3.3.2': [labelHidden, labelUnseen],
 }

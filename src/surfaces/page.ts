@@ -10,6 +10,7 @@ import type { WcagVersion } from '../wcag.ts'
 import { type CdpSessionLike, attachFormIssues } from './form-issues.ts'
 import { captureImageNodes } from './image-capture.ts'
 import { collectInPage } from './in-page.ts'
+import { labelTargets, measureLabels } from './label-visibility.ts'
 import { type Scope, resolveScopeInPage, scopeTree } from './scope.ts'
 import type { Collected } from './web.ts'
 
@@ -71,10 +72,13 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
   let root = raw.root as A11yNode
   if (driver.cdp) await attachFormIssues(driver.cdp, root)
   if (scope) root = await scopeRoot(driver, root, scope, { url, truncated: raw.truncated, maxNodes })
-  if (options.captureImages) {
+  const labels = labelTargets(root).length > 0
+  if (options.captureImages || labels) {
     // Element screenshots scroll the page; the caller's test carries on from where it was.
     const scroll = await driver.evaluate(() => [window.scrollX, window.scrollY], null)
-    await captureImages(driver, root)
+    if (options.captureImages) await captureImages(driver, root)
+    // Whether each label 3.3.2 relies on shows its text, as collectWeb measures it (label-visibility.ts).
+    if (labels) await measureLabels({ evaluate: (fn, arg) => driver.evaluate(fn, arg), screenshot: (ref) => driver.screenshotElement(ref) }, root)
     await driver.evaluate(([x = 0, y = 0]) => window.scrollTo(x, y), scroll)
   }
 
