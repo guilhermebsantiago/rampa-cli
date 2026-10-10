@@ -1,14 +1,17 @@
 import { mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
 import { RampaError, sha256 } from '../core/util.ts'
-import { AXE_REVIEW_RULES, axeLocale, axeSource, axeTags, emptyEngine, engineFromAxe } from '../engine/axe.ts'
+import { AXE_REVIEW_RULES, axeLocale, axeSource, axeTags, engineFromAxe } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
+import { resolverSource } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { walkTree } from '../snapshot/tree.ts'
 import { VERSION } from '../version.ts'
 import type { WcagVersion } from '../wcag.ts'
 import { type CdpSessionLike, attachFormIssues } from './form-issues.ts'
 import { captureContrast } from './contrast-capture.ts'
+import { type FrameDriver, runAxeInFrames } from './frames.ts'
+import { buildReach, closedShadowRoots } from './reach.ts'
 import { captureImageNodes } from './image-capture.ts'
 import { collectInPage } from './in-page.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
@@ -20,13 +23,9 @@ import type { Collected } from './web.ts'
  * Playwright and Puppeteer pages both provide it, so each adapter is a few lines and
  * the code that runs in the page is the same for both.
  */
-export interface PageDriver {
+export interface PageDriver extends FrameDriver {
   url(): string
-  /** Runs a self-contained function in the page with one JSON argument, and returns its JSON result. */
-  evaluate<Arg, Result>(fn: (arg: Arg) => Result | Promise<Result>, arg: Arg): Promise<Result>
-  /** Runs script source in the page as a <script> would, without adding one, so the page's CSP cannot block it. */
-  run(source: string): Promise<void>
-  /** A PNG of the element a ref resolves to, as rendered; undefined when it cannot be captured. */
+  /** A PNG of the element a ref resolves to, as rendered, in a frame or a shadow root too (snapshot/refs.ts); undefined when it cannot be captured. */
   screenshotElement(ref: string): Promise<Uint8Array | undefined>
   /** A full-page PNG written to `path`. */
   screenshotPage(path: string): Promise<void>
@@ -63,20 +62,32 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
   if (scope) assertSelectors(await driver.evaluate(resolveScopeInPage, { ...scope, refs: [] }), url)
 
   await driver.run(await axeSource())
-  const raw = await driver.evaluate(collectInPage, {
-    runAxe: true,
-    axeTags: axeTags(options.wcag),
-    axeRules: AXE_REVIEW_RULES,
-    axeLocale: await axeLocale(options.locale),
-    maxNodes,
-    axeContext: scope ? { ...(scope.include.length > 0 ? { include: scope.include } : {}), exclude: scope.exclude } : undefined,
-  })
+  const raw = await driver.evaluate(collectInPage, { maxNodes })
+  await driver.run(resolverSource())
+  const checked = await runAxeInFrames(
+    driver,
+    {
+      tags: axeTags(options.wcag),
+      rules: AXE_REVIEW_RULES,
+      locale: await axeLocale(options.locale),
+      context: scope ? { ...(scope.include.length > 0 ? { include: scope.include } : {}), exclude: scope.exclude } : undefined,
+    },
+    axeSource,
+  )
 
   let root = raw.root as A11yNode
-  if (driver.cdp) await attachFormIssues(driver.cdp, root)
+  const cdp = driver.cdp?.bind(driver)
+  if (cdp) await attachFormIssues(cdp, root)
+  const reach = buildReach({
+    frames: raw.frames,
+    engineFrames: checked.frames,
+    shadowRoots: raw.shadowRoots,
+    closed: cdp ? await closedShadowRoots(cdp) : undefined,
+    truncated: raw.beyondTruncated,
+  })
   if (scope) root = await scopeRoot(driver, root, scope, { url, truncated: raw.truncated, maxNodes })
-  const engine = raw.axe ? engineFromAxe(raw.axe) : emptyEngine()
-  const contrast = raw.axe !== undefined && options.pixelContrast !== false
+  const engine = engineFromAxe(checked.axe)
+  const contrast = options.pixelContrast !== false
   const labels = labelTargets(root).length > 0
   if (options.captureImages || labels || contrast) {
     // Element screenshots scroll the page; the caller's test carries on from where it was.
@@ -105,6 +116,7 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
     root,
     screenshot,
     truncated: raw.truncated || undefined,
+    ...(reach ? { reach } : {}),
     collectedAt: new Date().toISOString(),
     collector: { name: 'rampa-web', version: VERSION },
   }

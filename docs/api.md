@@ -164,6 +164,27 @@ const [report] = await check('demo/recorded/examples-store-before.snapshot.json'
 })
 ```
 
+### Frames and shadow roots
+
+A web snapshot holds what is rendered past the page's own document: the content of open shadow roots, under their host (a slot holds the elements assigned to it), and the document of each frame of the same origin, under its `<iframe>` or `<frame>`, nested frames included. A node's `ref` says how to reach it:
+
+| Ref | Names |
+|---|---|
+| `html > body > main > img` | an element of the page, as a CSS selector |
+| `html > body > x-card >>> div:nth-of-type(2) > button` | inside the open shadow root of the element before ` >>> ` |
+| `#checkout \|> html > body > img` | inside the document of the frame before ` \|> ` |
+
+They nest (`#outer |> html > body > iframe |> html > body > button`), and every part is a chain of parent `>` child within its own document or shadow root. Criteria verify evidence against these refs, image captures and probes find elements by them, and reports print them as the element's location. A local page's file holds none of them, so findings inside frames and shadow roots get no line.
+
+axe-core runs in every frame, frames of other origins included, and a result in a frame names the frame first. A frame of another origin is out of the page's reach, so its content is not in the snapshot: its results name the frame, then axe-core's own selector (`#map |> .marker`). The snapshot's `reach` records each frame (collected or not, checked by axe-core or not, and why), the open shadow roots, and the closed ones, which no script can read. The report's notes, and `coverage.reach` in JSON, list what was not read, so a frame or a closed shadow root is never left out without a word:
+
+```
+1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #map (https://maps.example/embed).
+1 closed shadow root(s) cannot be read by any script, so nothing inside them was checked (hosts: html > body > closed-card).
+```
+
+Chromium gives every local file an origin of its own, so in a local `.html` page a frame that shows another file is checked by axe-core only; a `srcdoc` frame is collected. Links inside frames are not followed for 2.4.4, since an `href` there resolves against the frame's address. Hidden frames are not content and are not listed as gaps. At most 30 frames per page are checked by axe-core, each within 5 s and all within 30 s. Shadow roots and frames have a budget of elements of their own (`maxNodes`, 5000 by default), so they never crowd the page's own content out of the snapshot; when it runs out, `reach.truncated` and a note say so. Snapshots recorded before Rampa entered frames and shadow roots have no `reach` and replay as they always did.
+
 ## A model of your own
 
 `model` also takes a `ModelProvider`: an `id`, which keys the cache, and a `judge` call that answers one structured request. It is how to put Rampa behind a gateway the built-in providers do not cover, or to test without a model:

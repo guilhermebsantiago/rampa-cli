@@ -358,9 +358,11 @@ export async function prepareContrastInPage(arg: { ref: string; capture: string;
   const undo: Undo[] = []
   page.__rampaContrastUndo = undo
   const empty = (status: PreparedContrast['status']): PreparedContrast => ({ status, x: 0, y: 0, width: 0, height: 0, inViewport: false, regions: [] })
+  // The collector's own map first: a ref into a frame or a shadow root is no CSS selector (snapshot/refs.ts).
   const find = (selector: string): Element | null => {
+    const lookup = (window as unknown as { __rampaNodes?: Map<string, Element>; __rampaResolve?: (ref: string) => Element | null })
     try {
-      return document.querySelector(selector)
+      return lookup.__rampaNodes?.get(selector) ?? (lookup.__rampaResolve ? lookup.__rampaResolve(selector) : document.querySelector(selector))
     } catch {
       return null
     }
@@ -617,8 +619,16 @@ export async function hideForContrastInPage(arg: { ref: string; capture: string;
     undo.push({ el: el as HTMLElement, prop, value: style.getPropertyValue(prop), priority: style.getPropertyPriority(prop) })
     style.setProperty(prop, value, 'important')
   }
-  const el = document.querySelector(arg.ref)
-  const shot = document.querySelector(arg.capture)
+  const lookup = (window as unknown as { __rampaNodes?: Map<string, Element>; __rampaResolve?: (ref: string) => Element | null })
+  const find = (selector: string): Element | null => {
+    try {
+      return lookup.__rampaNodes?.get(selector) ?? (lookup.__rampaResolve ? lookup.__rampaResolve(selector) : document.querySelector(selector))
+    } catch {
+      return null
+    }
+  }
+  const el = find(arg.ref)
+  const shot = find(arg.capture)
   if (!el || !shot) return { x: Number.NaN, y: Number.NaN }
   if (arg.kind === 'text' && el instanceof SVGElement) {
     for (const child of Array.from(el.children)) force(child, 'fill', getComputedStyle(child).fill)

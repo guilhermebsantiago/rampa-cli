@@ -1,5 +1,6 @@
 import { shown } from '../criteria/labels-or-instructions.ts'
 import { attributesOf, readingTextOf } from '../criteria/shared.ts'
+import { idKey } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { type TreeIndex, indexTree, inheritedLang, walkTree } from '../snapshot/tree.ts'
 
@@ -17,7 +18,7 @@ export function readPage(snapshot: A11ySnapshot): Page {
   const byId = new Map<string, A11yNode>()
   for (const node of ordered) {
     const id = attributesOf(node).id
-    if (id && !byId.has(id)) byId.set(id, node)
+    if (id && !byId.has(idKey(node.ref, id))) byId.set(idKey(node.ref, id), node)
   }
   return { snapshot, index: indexTree(snapshot.root), ordered, position: new Map(ordered.map((node, i) => [node, i])), byId }
 }

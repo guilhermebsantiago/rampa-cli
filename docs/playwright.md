@@ -192,7 +192,7 @@ In CI there are three ways to go, from cheapest to fullest:
 | `concurrency` | `--concurrency` | `4` |
 | `screenshotDir` | `--screenshots` | none; saves a full-page screenshot there |
 | `include`, `exclude` | | the whole page |
-| `maxNodes` | | `5000` elements; the snapshot says when it stopped |
+| `maxNodes` | | `5000` elements of the page, and as many in its shadow roots and frames; the snapshot says when it stopped |
 | `config` | | `rampa.config.*` in the working directory; an object of your own, or `false` for none |
 
 The assertion options, `failOn` and `requireJudgment`, are described under [Matchers](#matchers).
@@ -218,7 +218,7 @@ Where there is no `expect.extend`, `assertRampa(report, options)` throws the sam
 
 ## What to know
 
-- **The main frame and its light DOM.** The collector does not enter iframes or shadow roots. axe-core does reach shadow DOM, so its findings can point inside a shadow root while the judgment layer never sees it.
+- **Frames and shadow roots.** The collector reads open shadow roots and the frames of the page's own origin, and axe-core runs in every frame, frames of other origins included, through the page's frame API (`evaluateHandle`, which every Playwright and Puppeteer page has). A finding in a frame names the frame first (`#checkout |> html > body > img`), one in a shadow root its host (`x-card >>> button`); [docs/api.md](api.md#frames-and-shadow-roots) has the details. The content of a frame of another origin is checked by axe-core only, and the report's notes say so, as they do for closed shadow roots, which no script can read.
 - **The page is touched, a little.** Rampa evaluates axe-core in the page (replacing a `window.axe` your app may have loaded) instead of adding a script tag, so a strict Content-Security-Policy does not stop it. For 1.1.1 it screenshots each image as rendered, with Playwright's `animations: 'disabled'`, as `toHaveScreenshot` does, and then scrolls the page back to where it was. For 1.4.3 and 1.4.11 it screenshots the text axe-core could not decide, placeholders and icon-only controls, each once more with its text, placeholder or icon made transparent for a moment, then puts back the styles, the placeholder and the scroll position ([pixel rules](rules.md#pixel-rules-143-and-1411)). For 3.3.2 it screenshots each field's label twice, the second time with its text made transparent by a style element it adds and then removes.
 - **One check at a time per page.** axe-core cannot run twice at once in the same page.
 - **Language of Page and the title on components.** A scoped check never judges them; check the page itself, unscoped, for those.

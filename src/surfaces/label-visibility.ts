@@ -155,8 +155,10 @@ export function textTransparentInPage(arg: { ref: string; on: boolean }): boolea
   type Undo = { el: HTMLElement; prop: string; value: string; priority: string }
   const page = window as unknown as { __rampaLabelUndo?: Undo[] }
   let el: Element | null = null
+  // The collector's own map first: a ref into a frame or a shadow root is no CSS selector (snapshot/refs.ts).
+  const lookup = window as unknown as { __rampaNodes?: Map<string, Element>; __rampaResolve?: (ref: string) => Element | null }
   try {
-    el = document.querySelector(arg.ref)
+    el = lookup.__rampaNodes?.get(arg.ref) ?? (lookup.__rampaResolve ? lookup.__rampaResolve(arg.ref) : document.querySelector(arg.ref))
   } catch {
     el = null
   }

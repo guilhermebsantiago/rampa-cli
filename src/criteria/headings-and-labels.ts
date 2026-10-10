@@ -2,6 +2,7 @@ import { z } from 'zod'
 import type { Candidate, Criterion, EngineResults, Patch, Verification } from '../core/types.ts'
 import { normalizeForMatch, truncate } from '../core/util.ts'
 import { languageName } from '../i18n.ts'
+import { sameScope } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree, inheritedLang, walkTree } from '../snapshot/tree.ts'
 import {
@@ -518,7 +519,7 @@ function visibleInsteadOfAriaLabel(field: A11yNode, ordered: A11yNode[]): ShownL
 function labelElement(ordered: A11yNode[], field: A11yNode): A11yNode | undefined {
   const id = attributesOf(field).id
   return ordered.find(
-    (node) => node.native.tag === 'label' && ((id && attributesOf(node).for === id) || [...walkInside(node)].includes(field)),
+    (node) => node.native.tag === 'label' && ((id && attributesOf(node).for === id && sameScope(node.ref, field.ref)) || [...walkInside(node)].includes(field)),
   )
 }
 

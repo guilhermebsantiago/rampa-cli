@@ -193,7 +193,12 @@ export interface PreparedImage {
  */
 export async function prepareImageInPage(arg: { ref: string; waitMs: number }): Promise<PreparedImage> {
   type Undo = { el: HTMLElement; prop: string; value: string; priority: string } | { el: Element; scrollLeft: number; scrollTop: number }
-  const page = window as unknown as { __rampaImageUndo?: Undo[]; __rampaRefs?: Map<Element, string> }
+  const page = window as unknown as {
+    __rampaImageUndo?: Undo[]
+    __rampaRefs?: Map<Element, string>
+    __rampaNodes?: Map<string, Element>
+    __rampaResolve?: (ref: string) => Element | null
+  }
   const undo: Undo[] = page.__rampaImageUndo ?? []
   page.__rampaImageUndo = undo
   const result = (status: PreparedImage['status'], source = '', stackedWith: string[] = []): PreparedImage => ({ status, source, stackedWith, changed: undo.length > 0 })
@@ -204,16 +209,20 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
     style.setProperty(prop, value, 'important')
   }
 
-  let el: Element | null = null
+  // The collector's own map first: a ref into a frame or a shadow root is no CSS selector (snapshot/refs.ts).
+  let el: Element | null = page.__rampaNodes?.get(arg.ref) ?? null
   try {
-    el = document.querySelector(arg.ref)
+    el ??= page.__rampaResolve ? page.__rampaResolve(arg.ref) : document.querySelector(arg.ref)
   } catch {
     el = null
   }
   if (!el) return result('capture-failed')
   const target = el
-  const img = target instanceof HTMLImageElement ? target : undefined
-  const sourceOf = (node: Element): string => (node instanceof HTMLImageElement ? node.currentSrc || node.src || '' : '')
+  // An image in a frame is measured in the frame: its window, its document, its constructors.
+  const view = (target.ownerDocument.defaultView ?? window) as Window & typeof globalThis
+  const doc = target.ownerDocument
+  const img = target instanceof view.HTMLImageElement ? target : undefined
+  const sourceOf = (node: Element): string => (node instanceof view.HTMLImageElement ? node.currentSrc || node.src || '' : '')
   const deadline = Date.now() + arg.waitMs
   const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
   // A frame, or a short pause where frames do not run (a page in the background).
@@ -227,9 +236,9 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
 
   // Into view, in every box that scrolls, so lazy loading starts and a carousel track shows this slide.
   // Boxes the visitor cannot scroll (overflow: hidden) get their position back after the capture.
-  const scrolling = document.scrollingElement ?? document.documentElement
+  const scrolling = doc.scrollingElement ?? doc.documentElement
   for (let box = target.parentElement; box; box = box.parentElement) {
-    if (box === scrolling || box === document.body) continue
+    if (box === scrolling || box === doc.body) continue
     if (box.scrollWidth > box.clientWidth || box.scrollHeight > box.clientHeight) undo.push({ el: box, scrollLeft: box.scrollLeft, scrollTop: box.scrollTop })
   }
   target.scrollIntoView({ block: 'center', inline: 'center', behavior: 'instant' as ScrollBehavior })
@@ -240,7 +249,7 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
   const LAZY = ['data-src', 'data-lazy-src', 'data-original', 'data-lazy', 'data-srcset', 'data-lazy-srcset']
   const absolute = (address: string): string => {
     try {
-      return new URL(address, document.baseURI).href
+      return new URL(address, doc.baseURI).href
     } catch {
       return address
     }
@@ -299,9 +308,9 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
   let top = rect.top
   let right = rect.right
   let bottom = rect.bottom
-  let position = getComputedStyle(target).position
-  for (let box = target.parentElement; box && box !== document.body && box !== document.documentElement; box = box.parentElement) {
-    const style = getComputedStyle(box)
+  let position = view.getComputedStyle(target).position
+  for (let box = target.parentElement; box && box !== doc.body && box !== doc.documentElement; box = box.parentElement) {
+    const style = view.getComputedStyle(box)
     if (style.display === 'contents') continue
     const transformed = style.transform !== 'none' || style.filter !== 'none' || style.perspective !== 'none' || /paint|layout|strict|content/.test(style.contain)
     const contains = position === 'fixed' ? transformed : position === 'absolute' ? style.position !== 'static' || transformed : true
@@ -324,12 +333,12 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
   // viewport when the page hides what overflows sideways (off-canvas menus wait there).
   let pageLeft = 0
   let pageTop = 0
-  let pageRight = window.innerWidth
-  let pageBottom = window.innerHeight
+  let pageRight = view.innerWidth
+  let pageBottom = view.innerHeight
   if (position !== 'fixed') {
-    const hidesX = [document.documentElement, document.body].some((node) => node && /hidden|clip/.test(getComputedStyle(node).overflowX))
-    pageLeft = -window.scrollX
-    pageTop = -window.scrollY
+    const hidesX = [doc.documentElement, doc.body].some((node) => node && /hidden|clip/.test(view.getComputedStyle(node).overflowX))
+    pageLeft = -view.scrollX
+    pageTop = -view.scrollY
     pageRight = pageLeft + (hidesX ? scrolling.clientWidth : Math.max(scrolling.scrollWidth, scrolling.clientWidth))
     pageBottom = pageTop + Math.max(scrolling.scrollHeight, scrolling.clientHeight)
   }
@@ -341,7 +350,9 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
   const source = sourceOf(target)
   const refs = page.__rampaRefs
   const others: Element[] = []
-  for (const other of Array.from(document.querySelectorAll('img, svg, canvas, video, input[type="image"], [role="img"]'))) {
+  // In the image's own document or shadow root.
+  const scope = target.getRootNode() as Document | ShadowRoot
+  for (const other of Array.from(scope.querySelectorAll('img, svg, canvas, video, input[type="image"], [role="img"]'))) {
     if (other === target || other.contains(target) || target.contains(other) || other.parentElement?.closest('svg')) continue
     if (typeof other.checkVisibility === 'function' && !other.checkVisibility({ visibilityProperty: true } as CheckVisibilityOptions)) continue
     const box = other.getBoundingClientRect()
@@ -349,13 +360,13 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
     const union = area + box.width * box.height - shared
     if (union <= 0 || shared / union < 0.8) continue
     // The same picture twice, such as a carousel's copy of its first slide, is not another picture.
-    if (img && other instanceof HTMLImageElement && sourceOf(other) === source) continue
+    if (img && other instanceof view.HTMLImageElement && sourceOf(other) === source) continue
     others.push(other)
   }
 
   // Finished transitions first: a fade that is under way is not what the image looks like.
   const chain: Element[] = []
-  for (let node: Element | null = target; node && node !== document.documentElement; node = node.parentElement) chain.push(node)
+  for (let node: Element | null = target; node && node !== doc.documentElement; node = node.parentElement) chain.push(node)
   for (const node of chain) {
     for (const animation of node.getAnimations?.() ?? []) {
       try {
@@ -380,7 +391,7 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
       if (common && common.contains(highest)) highest = common
     }
     for (let node: Element | null = target; node && node !== highest; node = node.parentElement) {
-      const style = getComputedStyle(node)
+      const style = view.getComputedStyle(node)
       if (Number.parseFloat(style.opacity) < 1) {
         force(node, 'transition', 'none')
         force(node, 'opacity', '1')
@@ -391,7 +402,7 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
 
   let opacity = 1
   for (const node of chain) {
-    const value = Number.parseFloat(getComputedStyle(node).opacity)
+    const value = Number.parseFloat(view.getComputedStyle(node).opacity)
     if (!Number.isNaN(value)) opacity *= value
   }
   if (opacity < 0.05) return result('not-shown', source)
@@ -405,10 +416,16 @@ export async function prepareImageInPage(arg: { ref: string; waitMs: number }): 
 /** Runs in the page: makes the image transparent, to capture what lies behind it. */
 export function hideImageInPage(ref: string): void {
   type Undo = { el: HTMLElement; prop: string; value: string; priority: string }
-  const page = window as unknown as { __rampaImageUndo?: Undo[] }
+  const page = window as unknown as { __rampaImageUndo?: Undo[]; __rampaNodes?: Map<string, Element>; __rampaResolve?: (ref: string) => Element | null }
   const undo = page.__rampaImageUndo ?? []
   page.__rampaImageUndo = undo
-  const el = document.querySelector(ref) as HTMLElement | null
+  let found: Element | null = page.__rampaNodes?.get(ref) ?? null
+  try {
+    found ??= page.__rampaResolve ? page.__rampaResolve(ref) : document.querySelector(ref)
+  } catch {
+    found = null
+  }
+  const el = found as HTMLElement | null
   if (!el?.style) return
   for (const [prop, value] of [
     ['transition', 'none'],
@@ -417,6 +434,35 @@ export function hideImageInPage(ref: string): void {
     undo.push({ el, prop, value: el.style.getPropertyValue(prop), priority: el.style.getPropertyPriority(prop) })
     el.style.setProperty(prop, value, 'important')
   }
+}
+
+/**
+ * Runs in the page: hides an element's text and children, so a capture shows its CSS background alone. It does
+ * inline what the screenshot's style sheet does for refs that are CSS selectors, for an element in a frame or a
+ * shadow root, where no page-wide selector reaches; restoreImageInPage puts it back.
+ */
+export function blankContentInPage(ref: string): boolean {
+  type Undo = { el: HTMLElement; prop: string; value: string; priority: string }
+  const page = window as unknown as { __rampaImageUndo?: Undo[]; __rampaNodes?: Map<string, Element>; __rampaResolve?: (ref: string) => Element | null }
+  const undo = page.__rampaImageUndo ?? []
+  page.__rampaImageUndo = undo
+  let el: Element | null = page.__rampaNodes?.get(ref) ?? null
+  try {
+    el ??= page.__rampaResolve ? page.__rampaResolve(ref) : null
+  } catch {
+    el = null
+  }
+  if (!el) return false
+  const force = (node: Element, prop: string, value: string) => {
+    const style = (node as HTMLElement).style as CSSStyleDeclaration | undefined
+    if (!style) return
+    undo.push({ el: node as HTMLElement, prop, value: style.getPropertyValue(prop), priority: style.getPropertyPriority(prop) })
+    style.setProperty(prop, value, 'important')
+  }
+  force(el, 'color', 'transparent')
+  force(el, 'text-shadow', 'none')
+  for (const child of Array.from(el.children)) force(child, 'visibility', 'hidden')
+  return true
 }
 
 /** Runs in the page: puts back every style and scroll position changed for the last capture, newest first. */

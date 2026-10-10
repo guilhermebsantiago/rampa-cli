@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
 import type { EngineOutcome, EngineResults, EngineRuleResult } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
-import type { InPageResult } from '../surfaces/in-page.ts'
+import type { InPageAxe } from '../surfaces/in-page.ts'
 import { applyTargetSizeExceptions } from '../rules/target-size.ts'
 import { DEFAULT_WCAG, type WcagVersion, criterionFromAxeTag } from '../wcag.ts'
 
@@ -79,7 +79,7 @@ export async function axeLocale(locale: Locale): Promise<unknown> {
   }
 }
 
-export function engineFromAxe(axe: NonNullable<InPageResult['axe']>): EngineResults {
+export function engineFromAxe(axe: InPageAxe): EngineResults {
   const rules: EngineRuleResult[] = []
   const groups: Array<[EngineOutcome, typeof axe.violations]> = [
     ['violation', axe.violations],

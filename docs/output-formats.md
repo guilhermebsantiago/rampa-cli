@@ -53,7 +53,7 @@ The snapshot holds the page as the browser built it, which is not always what th
 - the order disagrees with the file, because the parser moved content (a link misplaced inside a table) or a script moved elements;
 - an element with twins, or any element of a truncated snapshot, records other attributes or another text than its tag in the file.
 
-An engine result on an element outside the snapshot (in a shadow root or a frame) gets no line. The page title, which 2.4.2 anchors to the page, is found at its `<title>`.
+An element in a frame or a shadow root (a ref with ` |> ` or ` >>> `, see [docs/api.md](api.md#frames-and-shadow-roots)) gets no line: a frame's document is another file or a `srcdoc`, and a shadow root is built by script. The page title, which 2.4.2 anchors to the page, is found at its `<title>`.
 
 A fix is made only when the file still says what the patch replaces: the attribute value, or the plain text of the element. A link whose text is split by markup keeps its location but gets no fix. Remote pages have no file: their findings are located by address and CSS selector.
 

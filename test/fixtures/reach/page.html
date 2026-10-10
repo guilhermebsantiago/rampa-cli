@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Frames and shadow roots</title></head>
+<body>
+<main>
+<h1>Frames and shadow roots</h1>
+<p>Each frame and shadow root below holds a control that fails, so a check that does not reach it misses it.</p>
+<!-- A frame of the same origin: an image without a text alternative, and a vague link. -->
+<iframe id="local" title="Local frame" width="400" height="160"></iframe>
+<!-- ACT akn7bn, Failed Example 1: a frame taken out of the tab order holds a link. -->
+<iframe tabindex="-1" srcdoc="<a href='/'>Home</a>"></iframe>
+<!-- A frame in a frame, with a button that has no name. -->
+<iframe id="outer" title="Outer frame" width="400" height="120"></iframe>
+<!-- An open shadow root, with a button that has no name next to some text. -->
+<shadow-card><span>Slotted note</span></shadow-card>
+<!-- Text a shadow root shows through its slot. -->
+<x-note>Plain slotted text</x-note>
+<!-- A closed shadow root: its button cannot be read. -->
+<closed-card></closed-card>
+<!-- A frame of another origin, with an image without a text alternative (the test server fills in its address). -->
+<iframe id="remote" title="Remote frame" width="400" height="120" src="{{REMOTE}}"></iframe>
+</main>
+<script>
+  const pixel = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><rect width="40" height="40" fill="teal"/></svg>')
+  document.querySelector('#local').srcdoc = `<!doctype html><html lang="en"><body><p>Inside the frame</p><img src="${pixel}" width="40" height="40"><a href="#more">More</a></body></html>`
+  document.querySelector('#outer').srcdoc = `<!doctype html><html lang="en"><body><p>Outer</p><iframe title="Inner frame" srcdoc="<button></button>"></iframe></body></html>`
+  customElements.define('shadow-card', class extends HTMLElement {
+    constructor() {
+      super()
+      this.attachShadow({ mode: 'open' }).innerHTML = `<div><p>Card text</p><img alt="Teal square" src="${pixel}" width="48" height="48"></div><div><button></button><slot></slot></div>`
+    }
+  })
+  customElements.define('x-note', class extends HTMLElement {
+    constructor() {
+      super()
+      this.attachShadow({ mode: 'open' }).innerHTML = '<b><slot></slot></b>'
+    }
+  })
+  customElements.define('closed-card', class extends HTMLElement {
+    constructor() {
+      super()
+      this.attachShadow({ mode: 'closed' }).innerHTML = '<button></button>'
+    }
+  })
+</script>
+</body>
+</html>

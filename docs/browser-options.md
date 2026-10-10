@@ -87,7 +87,9 @@ node -e "console.log(Object.keys(require('playwright-core').devices).join('\n'))
 
 ## Waiting for the page
 
-By default Rampa collects the page once the `load` event fires. Pages that render later need more:
+By default Rampa collects the page once the `load` event fires and the page has settled: after load, and after any `--wait-for` step, it waits until no request for content (a frame's document, a script, a style sheet, a fetch or an XHR) has been in flight and the DOM has not changed (no mutation, no layout shift) for 300 ms, at most 3 s. Data a framework fetches right after load is drawn by then, and a page that never stops changing (a clock, a poll) costs 3 s, and its snapshot records it as `reach.unsettledAfterMs`. `checkPage` in your own tests collects the page as it is, without this wait: your test decides when the page is ready.
+
+Pages that render later still need more:
 
 | `--wait-for` | Waits for |
 | --- | --- |

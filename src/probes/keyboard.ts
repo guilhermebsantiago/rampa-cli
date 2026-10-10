@@ -211,20 +211,10 @@ export function readFocus(): FocusRead {
   return read
 }
 
-/** Runs in the page: whether `inner` is `outer` or inside it. */
+/** Runs in the page: whether `inner` is `outer` or inside it. Needs the kit. */
 export function contains(args: { outer: string; inner: string }): boolean {
-  // `host path >>> path inside its shadow root`, as the kit writes refs into shadow roots.
-  const resolve = (ref: string): Element | null => {
-    const parts = ref.split(' >>> ')
-    let scope: Document | ShadowRoot | null = document
-    let el: Element | null = null
-    for (const part of parts) {
-      if (!scope) return null
-      el = scope.querySelector(part)
-      scope = el?.shadowRoot ?? null
-    }
-    return el
-  }
+  // Refs cross shadow roots (`host >>> path`) and frames (`frame |> path`), as the kit writes them.
+  const resolve = (ref: string): Element | null => (window as unknown as { __rampaKit: { resolve(ref: string): Element | null } }).__rampaKit.resolve(ref)
   // Whether `a` holds `b`, crossing shadow roots on the way up from `b`.
   const holds = (a: Element, b: Element): boolean => {
     for (let node: Element | null = b; node; ) {
@@ -249,14 +239,8 @@ export function contains(args: { outer: string; inner: string }): boolean {
 
 /** Runs in the page: the dialog that holds every ref, and text near them that names a way out. */
 export function trapContext(refs: string[]): { dialog?: string; exitHint?: string } {
-  const kit = (window as unknown as { __rampaKit: { cssPath(el: Element): string } }).__rampaKit
-  const elements = refs.map((ref) => {
-    try {
-      return document.querySelector(ref)
-    } catch {
-      return null
-    }
-  })
+  const kit = (window as unknown as { __rampaKit: { cssPath(el: Element): string; resolve(ref: string): Element | null } }).__rampaKit
+  const elements = refs.map((ref) => kit.resolve(ref))
   const first = elements.find((el): el is Element => el !== null)
   if (!first) return {}
   const dialog = first.closest('dialog[open],[role=dialog],[role=alertdialog],[aria-modal=true]')
@@ -563,21 +547,11 @@ function markHolders(inventory: Control[], reached: Set<string>): (page: Page) =
   return async (page) => {
     const holders = await page.evaluate(
       ({ refs, candidates }) => {
+        const kit = (window as unknown as { __rampaKit: { resolve(ref: string): Element | null } }).__rampaKit
         const found: string[] = []
-        const targets = refs.map((ref) => {
-          try {
-            return document.querySelector(ref)
-          } catch {
-            return null
-          }
-        })
+        const targets = refs.map((ref) => kit.resolve(ref))
         for (const ref of candidates) {
-          let el: Element | null = null
-          try {
-            el = document.querySelector(ref)
-          } catch {
-            el = null
-          }
+          const el = kit.resolve(ref)
           if (el && targets.some((target) => target && target !== el && el?.contains(target))) found.push(ref)
         }
         return found
