@@ -9,7 +9,7 @@ Rampa runs axe-core first and reports its violations as they are. A judgment mod
 5. **Message**, in English and Portuguese.
 6. **Patch**, when a fix can be written: a changed attribute, a changed text, or a replaced element. A patch is a proposal for a person to review.
 
-Nine criteria have a module. Eight run by default; 1.4.5 runs when asked for (`--criteria 1.4.5`).
+Ten criteria have a module. Eight run by default; 1.4.5 and 3.3.1 run when asked for (`--criteria 1.4.5,3.3.1`).
 
 | Criterion | Level | Default | Vision | axe-core rules it builds on | ACT rules in `rampa eval` |
 | --- | --- | :---: | :---: | --- | --- |
@@ -21,6 +21,7 @@ Nine criteria have a module. Eight run by default; 1.4.5 runs when asked for (`-
 | [2.4.6 Headings and Labels](#246-headings-and-labels) | AA | yes | | empty-heading, label | b49b2e, cc0f0a |
 | [3.1.1 Language of Page](#311-language-of-page) | A | yes | | html-has-lang, html-lang-valid, html-xml-lang-mismatch | b5c3f8, bf051a (syntax), ucwvc8 |
 | [3.1.2 Language of Parts](#312-language-of-parts) | AA | yes | | valid-lang | de46e4 (syntax), off6ek |
+| [3.3.1 Error Identification](#331-error-identification) | A | no | | none; the rules `rampa/error-without-text` and `rampa/error-suggestion` | 36b590 |
 | [3.3.2 Labels or Instructions](#332-labels-or-instructions) | A | yes | | label, select-name, form-field-multiple-labels | none; pairs from cc0f0a |
 
 **Long pages.** On each page, a criterion sends the model at most 50 candidates (`--max-candidates`, or `maxCandidates` in the config; 0 for no cap): those whose text is on the generic lists, such as "Read more", first, then the rest in page order. What a criterion decides without a model never counts. `--time-limit <seconds>` stops asking the model that long after a page starts loading (in a crawl, after its turn to be judged starts); a call under way is given up, cached judgments are still read, and the report has what was collected and judged until then. Candidates left out either way are counted in the criterion's summary (`capped`, `timedOut`) and in its coverage (`notJudged` on the judgment method, which leaves a criterion with no failure as "needs review", even when an engine rule found nothing to fail), and a note says which. The real-page study lost four of its twelve dev pages, all long listings and references, to a 900 s timeout that left no report.
@@ -116,6 +117,17 @@ The evaluation numbers below are from one run of Gemma 4 12B on a local GPU (Oll
 - **Patch:** sets the element's `lang`; for a passage, the block's `lang`, or a `<span lang>` around a phrase.
 - **Evaluation:** off6ek precision 1.00 and recall 1.00 (0.80 and 1.00 before: "Paul put dire comment on tape" marked French is no longer failed). Pairs: `lang-swap` 5 of 5 (4 of 5 before); `lang-drop`, which takes the `lang` off every passage in another language than the page, 1 of 5: two of its passages are that two-language sentence, which rightly passes, one is "Bonne année !", too short to nominate, and a Dutch phrase between two English spans was not failed.
 - **Limits:** a phrase of one or two words in another language is not nominated; only the model, on a marked element, can judge it.
+
+## 3.3.1 Error Identification
+
+- **What it reads:** error messages a page already shows: what a field in an error state names with `aria-errormessage` or `aria-describedby`, text with an error class or `role="alert"` near fields, and text in a form worded as an error ("Invalid value for age.", "Please fill the field correctly.", "CPF inválido"), at most 10 a page. Hidden text is not a message: on a page as it loads, a hidden message is a template waiting for an error. Nothing is submitted ([rules](rules.md#error-states-331-and-333) has what counts as an error state).
+- **Rampa asks** whether the text is an error message at all (an instruction written before anything is entered is not), and, per ACT 36b590, whether a person can tell which field is in error and whether the message says what is wrong or how to fix it. "Invalid value", "Error" and "Please fill the field correctly" say there is an error, not what it is.
+- **Context:** the message; whether it is hidden from assistive technology; the fields of its form with their labels, types, groups, `required` and `aria-invalid`; which fields it is tied to (by their own attributes or by their fieldset's), and the fields just before and after it.
+- **Settled without the model:** a message the model takes for an error that is hidden from assistive technology (`aria-hidden`) fails ACT 36b590's third expectation, whatever else the model says.
+- **Verification:** the evidence must be the message; a quoted cause must be words of it, and a named field one of the form's labels or group names. A claim that the message names no field is dropped when the message is tied to one field (or one group), or when one of its words names exactly one field ("Name and color cannot be empty" with one Name field and a color group). A claim that it says nothing about the cause is dropped when it has words that do ("cannot be empty", "must", "at least", "format", a number).
+- **Experimental:** findings are capped at low confidence, below the default threshold, until the module is measured on real pages, and the module is not a default.
+- **Evaluation:** ACT 36b590 (proposed), 9 test cases, Gemma 4 12B: precision 1.00, recall 0.80, in one run and again with three runs a candidate and an empty cache (18 calls). Failed Examples 1, 2, 4 and 5 are found; Failed Example 3's message is hidden with `display: none`, which on a page as it loads Rampa reads as a template, not an error, and leaves alone by design. Passed Example 2 ("Name and color cannot be empty. Please complete all required fields.") was failed by the model as naming no field, and that claim was dropped by verification. On two public pages that show errors on load (rules.md has them), the GOV.UK date message, which the model called unidentified, was dropped as tied to its fieldset; on Bootstrap's validation page the six server-side messages ("Please choose a username.", "Please provide a valid city."…) passed, and four messages of its "Supported elements" demo ("Example invalid feedback text", "Example invalid select feedback"…) failed as saying nothing about the error: true of their text, though they are placeholders in documentation.
+- **Limits:** messages a page shows only after submission, or only in the browser's own validation bubble, are not seen; the COGA wording advisory the cognitive profile plan pairs with this work is not built.
 
 ## 3.3.2 Labels or Instructions
 

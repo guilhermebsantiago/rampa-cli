@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sign up: errors the server rendered, well</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; }
+  .field { margin: 12px 0; }
+  .error-message { color: #c00; }
+  .error-message:not([hidden]) { display: block; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Create your account</h1>
+  <!-- An error summary, as GOV.UK draws it: each link names the error and leads to its field. -->
+  <div role="alert" class="error-summary">
+    <h2>There is a problem</h2>
+    <ul><li><a href="#name">Enter your full name</a></li></ul>
+  </div>
+  <form action="/signup" method="post" novalidate>
+    <div class="field">
+      <label for="name">Full name</label>
+      <input id="name" name="name" aria-invalid="true">
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" value="ana" aria-invalid="true" aria-describedby="email-error">
+      <span id="email-error" class="error-message">Enter an email address like name@example.com</span>
+    </div>
+    <div class="field">
+      <label for="age">Age</label>
+      <input id="age" name="age" type="number" min="18" value="12" aria-invalid="true" aria-describedby="age-error">
+      <span id="age-error" class="error-message">You must be 18 or older to sign up.</span>
+    </div>
+    <div class="field">
+      <label for="cep">CEP</label>
+      <input id="cep" name="cep" pattern="\d{5}-\d{3}" value="123" aria-invalid="true" aria-describedby="cep-hint cep-error">
+      <span id="cep-hint">Five digits, a hyphen and three digits.</span>
+      <span id="cep-error" class="error-message">Enter the CEP in the format 12345-678.</span>
+    </div>
+    <!-- Not in error: a hidden message template, and aria-invalid="false". -->
+    <div class="field">
+      <label for="phone">Phone</label>
+      <input id="phone" name="phone" type="tel" aria-invalid="false" aria-describedby="phone-error">
+      <span id="phone-error" class="error-message" hidden>Enter a phone number</span>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" minlength="8" aria-describedby="password-hint">
+      <span id="password-hint">Password must be at least 8 characters.</span>
+    </div>
+    <button type="submit">Create account</button>
+  </form>
+</main>
+</body>
+</html>

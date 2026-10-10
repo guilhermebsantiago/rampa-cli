@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sign up: errors shown as the person types</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; }
+  input:user-invalid { border: 2px solid #c00; }
+  .error { color: #c00; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Choose a password</h1>
+  <form action="/password" method="post">
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" minlength="8" required aria-describedby="password-error">
+    <span id="password-error" class="error"></span>
+    <label for="nick">Nickname</label>
+    <input id="nick" name="nick" minlength="3" aria-describedby="nick-error">
+    <span id="nick-error" class="error"></span>
+    <!-- Left to the browser: it names the error itself when the form is sent. -->
+    <label for="city">City</label>
+    <input id="city" name="city" minlength="2">
+    <button type="submit">Save</button>
+  </form>
+</main>
+<script>
+  // The page's own validation, on leaving a field: a short message, with the rule only for the nickname.
+  for (const [id, text] of [['password', 'Invalid password.'], ['nick', 'Use at least 3 characters.']]) {
+    const field = document.getElementById(id)
+    field.addEventListener('blur', () => {
+      document.getElementById(`${id}-error`).textContent = field.checkValidity() ? '' : text
+    })
+  }
+</script>
+</body>
+</html>
