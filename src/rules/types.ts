@@ -42,6 +42,10 @@ export interface RuleRun {
   hits: Hit[]
   /** Elements the rule looked at; zero means the rule did not apply to this page. */
   applicable: number
+  /** Elements whose undecided engine result (`RuleCheck.resolves`) the rule took over: it passed, failed or sent them to review itself. */
+  resolved?: string[] | undefined
+  /** What limits the result, in the report's language, for the coverage line: elements left out past a budget. */
+  note?: string | undefined
 }
 
 export interface RuleCheck {
@@ -64,6 +68,23 @@ export interface RuleCheck {
   act: readonly string[]
   /** axe-core rules that report the same failure: an element axe already failed on them is left to axe. */
   engineRules: readonly string[]
+  /**
+   * axe-core rules whose undecided results ("incomplete") the rule settles: an element the rule measured is
+   * no longer axe-core's to review; it is the rule's failure, its pass, or its own item to review.
+   */
+  resolves?: readonly string[] | undefined
+  /**
+   * The rule checks one kind of content among many its criterion covers (icon-only controls for 1.4.11): on a
+   * page with none of it, the rule says nothing about the criterion, not even that nothing applies.
+   */
+  narrow?: boolean | undefined
+  /** ACT rules for a stricter requirement (09o5cg asks 7:1): only their passed and inapplicable examples measure the rule. */
+  actPassedOnly?: readonly string[] | undefined
+  /**
+   * Its review hits are measurements that could not decide, like axe-core's incompletes: `rampa eval --rules`
+   * does not count them as flagging a page, as it does not count axe-core's.
+   */
+  undecidedReview?: boolean | undefined
   help: Text
   helpUrl: string
   run(snapshot: A11ySnapshot, engine: EngineResults, ctx: RuleContext): RuleRun

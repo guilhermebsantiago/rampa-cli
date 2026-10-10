@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Text a script fades with the scroll position</title>
+    <style>
+      body { margin: 24px; font: 16px/1.5 Arial, Helvetica, sans-serif; background: #ffffff; color: #111111; min-height: 3000px; }
+      .box { width: 380px; padding: 8px 12px; background: linear-gradient(to right, #ffffff, #dddddd); color: #222222; }
+      #below { position: absolute; top: 2200px; left: 24px; }
+      /* The hero sits low in the first screen: centering it would scroll the page, and fade it. */
+      h1 { margin-bottom: 560px; }
+    </style>
+  </head>
+  <body>
+    <h1>Scroll-linked fade</h1>
+    <!-- Earlier in the document, far below the fold: measuring it scrolls the page down. -->
+    <p id="below" class="box">Far below the fold</p>
+    <!-- In view at load, and faded out by a script as the page scrolls: at rest it is #222 on light gray, 11.7 at worst. -->
+    <p id="hero" class="box">Welcome to the spring sale</p>
+    <script>
+      const hero = document.getElementById('hero')
+      addEventListener('scroll', () => {
+        hero.style.opacity = String(Math.max(0.15, 1 - scrollY / 300))
+      })
+    </script>
+  </body>
+</html>

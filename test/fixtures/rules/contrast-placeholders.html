@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Placeholders</title>
+    <style>
+      body { margin: 24px; font: 16px/1.5 Arial, Helvetica, sans-serif; background: #ffffff; color: #111111; }
+      label { display: block; margin: 12px 0 4px; }
+      input, textarea { width: 320px; padding: 6px 8px; border: 1px solid #555555; background: #ffffff; color: #111111; font: inherit; }
+      #ph-fail::placeholder { color: #bbbbbb; }
+      #ph-pass::placeholder { color: #555555; }
+      #ph-near-fail::placeholder { color: #7a7a7a; }
+      #ph-near-pass::placeholder { color: #707070; }
+      #ph-textarea::placeholder { color: #cccccc; }
+      #ph-disabled::placeholder { color: #dddddd; }
+      #ph-filled::placeholder { color: #dddddd; }
+      #ph-large { font-size: 24px; }
+      #ph-large::placeholder { color: #8a8a8a; }
+    </style>
+  </head>
+  <body>
+    <h1>Placeholders</h1>
+    <form>
+      <!-- Fails: #bbb on white is 1.92. -->
+      <label for="ph-fail">Search</label>
+      <input id="ph-fail" type="search" placeholder="Search products" />
+      <!-- Passes: #555 on white is 7.46. -->
+      <label for="ph-pass">Email</label>
+      <input id="ph-pass" type="email" placeholder="name@example.com" />
+      <!-- Near misses: 4.29 fails, 4.95 passes. -->
+      <label for="ph-near-fail">City</label>
+      <input id="ph-near-fail" placeholder="Your city" />
+      <label for="ph-near-pass">Country</label>
+      <input id="ph-near-pass" placeholder="Your country" />
+      <!-- Fails: #ccc on white is 1.61. -->
+      <label for="ph-textarea">Message</label>
+      <textarea id="ph-textarea" rows="2" placeholder="Write your message"></textarea>
+      <!-- 3.45 is enough for 24px text. -->
+      <label for="ph-large">Code</label>
+      <input id="ph-large" placeholder="Promo code" />
+      <!-- Not measured: a disabled field is an inactive component, and a filled field shows no placeholder. -->
+      <label for="ph-disabled">Old address</label>
+      <input id="ph-disabled" disabled placeholder="Not editable" />
+      <label for="ph-filled">Name</label>
+      <input id="ph-filled" value="Ada Lovelace" placeholder="Your name" />
+    </form>
+  </body>
+</html>

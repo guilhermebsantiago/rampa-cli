@@ -129,6 +129,7 @@ export function criteriaCoverage(input: CoverageInput): CriterionCoverage[] {
         failures: rule.failures,
         review: rule.review,
         maturity: rule.maturity,
+        ...(rule.note ? { note: rule.note } : {}),
         decided: Math.max(0, rule.applicable - rule.review),
       })
     }

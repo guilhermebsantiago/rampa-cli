@@ -24,6 +24,8 @@ export interface InPageAxeNode {
   impact?: string | null | undefined
   /** target-size only: an exception of WCAG 2.5.8 the page shows for this target (rules/target-size.ts applies it). */
   exempt?: 'user-agent-control' | 'equivalent-target' | undefined
+  /** color-contrast only: axe-core's reason key, such as bgImage for an undecided result (surfaces/contrast-capture.ts reads it). */
+  reasonKey?: string | undefined
 }
 
 export interface InPageAxeRule {
@@ -570,6 +572,9 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       html: string
       failureSummary?: string
       impact?: string | null
+      any?: Array<{ data?: unknown }>
+      all?: Array<{ data?: unknown }>
+      none?: Array<{ data?: unknown }>
     }
     interface AxeRuleResult {
       id: string
@@ -681,6 +686,14 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       return undefined
     }
 
+    const messageKeyOf = (node: AxeNodeResult): string | undefined => {
+      for (const check of [...(node.any ?? []), ...(node.all ?? []), ...(node.none ?? [])]) {
+        const key = (check.data as { messageKey?: unknown } | null | undefined)?.messageKey
+        if (typeof key === 'string') return key
+      }
+      return undefined
+    }
+
     const mapRules = (rules: AxeRuleResult[], limit: number, exceptions = false): InPageAxeRule[] =>
       rules.map((rule) => ({
         id: rule.id,
@@ -690,6 +703,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
         impact: rule.impact ?? null,
         nodes: rule.nodes.slice(0, limit).map((node) => {
           const exempt = exceptions && rule.id === 'target-size' ? exemptOf(node.target) : undefined
+          // Why axe-core left a contrast undecided (bgImage, bgGradient...): the pixel measurement reads it.
+          const reasonKey = exceptions && rule.id === 'color-contrast' ? messageKeyOf(node) : undefined
           return {
             ref: refOfTarget(node.target),
             target: JSON.stringify(node.target),
@@ -697,6 +712,7 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
             message: node.failureSummary,
             impact: node.impact ?? null,
             ...(exempt ? { exempt } : {}),
+            ...(reasonKey ? { reasonKey } : {}),
           }
         }),
       }))

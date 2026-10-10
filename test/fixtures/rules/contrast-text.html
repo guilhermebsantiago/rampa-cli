@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Text over images and gradients</title>
+    <style>
+      body { margin: 24px; font: 16px/1.5 Arial, Helvetica, sans-serif; background: #ffffff; color: #111111; }
+      .box { width: 380px; padding: 8px 12px; margin: 10px 0; }
+      .big { font-size: 24px; }
+      /* Stripes of #f0f0f0 over white: a background image axe-core cannot read. */
+      .light-stripes { background: #ffffff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect width='8' height='4' fill='%23f0f0f0'/%3E%3C/svg%3E"); }
+      /* Stripes of two dark blues. */
+      .dark-stripes { background: #1a4d8f url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Crect width='8' height='4' fill='%233a6dbf'/%3E%3C/svg%3E"); }
+      .panel { position: relative; }
+      .panel::before { content: ''; position: absolute; inset: 0; background: #1a4d8f; z-index: -1; }
+      .hero { position: relative; width: 404px; height: 60px; margin: 10px 0; }
+      .hero img { position: absolute; inset: 0; width: 100%; height: 100%; }
+      .hero p { position: relative; margin: 0; padding: 16px 12px; }
+    </style>
+  </head>
+  <body>
+    <h1>Text over images and gradients</h1>
+    <!-- Fails: #aaa against every color of the gradient is below 4.5:1 (2.32 at best). -->
+    <p id="fail-gradient" class="box" style="color: #aaaaaa; background: linear-gradient(to right, #ffffff, #cccccc)">Sale ends on Friday at noon</p>
+    <!-- Fails: #888 against white and #f0f0f0 stripes is 3.11 to 3.55. -->
+    <p id="fail-image" class="box light-stripes" style="color: #888888">Free shipping on every order</p>
+    <!-- Near miss that fails: 4.29 at best, on the white end. -->
+    <p id="near-fail" class="box" style="color: #7a7a7a; background: linear-gradient(to right, #ffffff, #f5f5f5)">Members save ten percent today</p>
+    <!-- Near miss that passes: 4.66 at worst, on the #f8f8f8 end. -->
+    <p id="near-pass" class="box" style="color: #707070; background: linear-gradient(to right, #ffffff, #f8f8f8)">Members save ten percent today</p>
+    <!-- Passes: 11.7 at worst. -->
+    <p id="pass-gradient" class="box" style="color: #222222; background: linear-gradient(to right, #ffffff, #dddddd)">Read the full story here</p>
+    <!-- Passes: white on dark blue stripes, 5.1 at worst. -->
+    <p id="pass-image" class="box dark-stripes" style="color: #ffffff">Join the newsletter</p>
+    <!-- 3.25 to 3.45: enough for large text (24px), not for 16px. -->
+    <p id="large-pass" class="box big" style="color: #8a8a8a; background: linear-gradient(to right, #ffffff, #f8f8f8)">Large heading text</p>
+    <p id="small-fail" class="box" style="color: #8a8a8a; background: linear-gradient(to right, #ffffff, #f8f8f8)">Small body text</p>
+    <!-- Mixed: the first words sit on white (7.46), the rest on black (2.82). -->
+    <p id="mixed" class="box" style="color: #555555; background: linear-gradient(to right, #ffffff 40px, #000000 40px)">Half of this sentence sits on a black band</p>
+    <!-- A pseudo-element paints the background: white on dark blue, 8.4. -->
+    <p id="pseudo-pass" class="box panel" style="color: #ffffff">Behind me is a pseudo-element</p>
+    <!-- A picture under the text: light stripes behind #999 (2.1 to 2.8). -->
+    <div class="hero">
+      <img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8' preserveAspectRatio='none'%3E%3Crect width='8' height='8' fill='%23ffffff'/%3E%3Crect width='8' height='4' fill='%23dddddd'/%3E%3C/svg%3E" />
+      <p id="hero-fail" style="color: #999999">Spring collection is here</p>
+    </div>
+  </body>
+</html>

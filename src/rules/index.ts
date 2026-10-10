@@ -5,6 +5,7 @@ import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree } from '../snapshot/tree.ts'
 import { compareCriteria, successCriterion } from '../wcag.ts'
 import { CONTENT_RULES } from './content.ts'
+import { CONTRAST_RULES } from './contrast.ts'
 import { noVisibleLabelRule } from './forms.ts'
 import { STRUCTURE_RULES } from './structure.ts'
 import type { RuleCheck } from './types.ts'
@@ -12,7 +13,7 @@ import type { RuleCheck } from './types.ts'
 export type { Hit, RuleCheck, RuleContext, RuleRun } from './types.ts'
 
 /** Every Rampa rule, for every surface; each says where it applies. */
-export const RULE_CHECKS: readonly RuleCheck[] = [...CONTENT_RULES, noVisibleLabelRule, ...STRUCTURE_RULES]
+export const RULE_CHECKS: readonly RuleCheck[] = [...CONTENT_RULES, noVisibleLabelRule, ...STRUCTURE_RULES, ...CONTRAST_RULES]
 
 /** One rule that applies to the surface, as it ran on a page. */
 export interface RuleRan {
@@ -28,6 +29,8 @@ export interface RuleRan {
   failures: number
   /** Hits sent to review (report.needsReview): undecided, never a failure. */
   review: number
+  /** What limits the result, such as elements left out past a budget. */
+  note?: string | undefined
 }
 
 export interface RuleStageResult {
@@ -45,6 +48,11 @@ export interface RuleStageResult {
    * the rule already decided, and a second finding on the same element would only repeat it.
    */
   decided: Map<string, Set<string>>
+  /**
+   * Elements whose undecided engine result a rule settled, by engine rule (`RuleCheck.resolves`): they leave
+   * axe-core's results to review and its coverage counts, because the rule reports them.
+   */
+  resolved: Map<string, Set<string>>
 }
 
 /** The same key `fingerprint` in core/check.ts builds; kept here so the rules do not import the check loop. */
@@ -53,7 +61,7 @@ function fingerprint(criterion: string, ref: string | undefined, detail: string)
 }
 
 export function emptyRuleStage(): RuleStageResult {
-  return { findings: [], review: [], ran: [], decided: new Map() }
+  return { findings: [], review: [], ran: [], decided: new Map(), resolved: new Map() }
 }
 
 /**
@@ -78,6 +86,8 @@ export function runRuleChecks(snapshot: A11ySnapshot, engine: EngineResults, loc
   for (const rule of rules) {
     if (!rule.surfaces.includes(snapshot.surface)) continue
     const run = rule.run(snapshot, engine, ctx)
+    // A rule for one kind of content among many says nothing about its criterion on a page that has none.
+    if (rule.narrow && run.applicable === 0) continue
     const hits = run.hits.filter((hit) => !failedByAxe(rule, hit.ref))
     const review = hits.filter((hit) => hit.outcome === 'review').length
     stage.ran.push({
@@ -89,7 +99,11 @@ export function runRuleChecks(snapshot: A11ySnapshot, engine: EngineResults, loc
       hits: hits.length,
       failures: hits.length - review,
       review,
+      ...(run.note ? { note: run.note } : {}),
     })
+    for (const engineRule of rule.resolves ?? []) {
+      for (const ref of run.resolved ?? []) stage.resolved.set(engineRule, (stage.resolved.get(engineRule) ?? new Set()).add(ref))
+    }
     const criterion = rule.criteria[0] ?? 'best-practice'
     for (const hit of hits) {
       if (hit.outcome === 'review') {
@@ -130,6 +144,22 @@ export function runRuleChecks(snapshot: A11ySnapshot, engine: EngineResults, loc
   }
   stage.review.sort((a, b) => compareCriteria(a.criterion, b.criterion))
   return stage
+}
+
+/**
+ * The engine's results without the undecided ones a rule settled (`RuleStageResult.resolved`): what is left
+ * for axe-core's review items and coverage counts. A result with no node left is dropped.
+ */
+export function withoutResolved(engine: EngineResults, resolved: ReadonlyMap<string, ReadonlySet<string>>): EngineResults {
+  if (resolved.size === 0) return engine
+  const rules = engine.rules.flatMap((rule) => {
+    const refs = rule.outcome === 'incomplete' ? resolved.get(rule.ruleId) : undefined
+    if (!refs) return [rule]
+    const nodes = rule.nodes.filter((node) => !refs.has(node.ref ?? node.target))
+    if (nodes.length === rule.nodes.length) return [rule]
+    return nodes.length > 0 ? [{ ...rule, nodes }] : []
+  })
+  return { ...engine, rules }
 }
 
 /** The rules a `--rules` list names, by id with or without the `rampa/` prefix. */
