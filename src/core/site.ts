@@ -396,6 +396,14 @@ export interface SiteCriterion<Facts = unknown> {
   /** Bump when the logic changes. */
   version: string
   maturity: 'stable' | 'experimental'
+  /** ACT rules it is measured against (`rampa eval --rules site/<id>`, which follows one link per test page). */
+  act?: readonly string[] | undefined
+  /**
+   * Which pages it compares: `set` (the default), the sets proposed from shared templates or named in the config;
+   * `language`, every page of the same language and viewport outside the named sets, templates or not, since a
+   * page with no landmarks (and so no template) is the one most likely to fail 2.4.1.
+   */
+  scope?: 'set' | 'language' | undefined
   facts(snapshot: A11ySnapshot): Facts
   compare(set: PageSet, pages: ReadonlyArray<SitePageFacts<Facts>>, locale: Locale): { compared: number; findings: SiteFinding[] }
 }

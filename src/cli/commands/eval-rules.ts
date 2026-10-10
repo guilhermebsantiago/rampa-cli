@@ -9,6 +9,11 @@ import { type Scores, confusion, scores } from '../../eval/metrics.ts'
 import type { Painter } from '../../report/color.ts'
 import { resolveRules, runRuleChecks } from '../../rules/index.ts'
 import type { RuleCheck } from '../../rules/types.ts'
+import type { PageSet, SiteCriterion } from '../../core/site.ts'
+import { SITE_CRITERIA } from '../../site/index.ts'
+import type { A11ySnapshot } from '../../snapshot/schema.ts'
+import { walkTree } from '../../snapshot/tree.ts'
+import { pageKey, pageUrl } from '../../surfaces/crawl.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import { VERSION } from '../../version.ts'
 
@@ -16,6 +21,10 @@ import { VERSION } from '../../version.ts'
  * `rampa eval --rules`: Rampa's rules (src/rules) against the ACT test cases they list, with no model.
  * Each page is scored three ways: axe-core alone, the rule alone, and both together as `rampa check`
  * reports them (a rule never repeats an element axe-core failed).
+ *
+ * A criterion across pages that lists ACT rules (`site/2.4.1`) is measured the same way, from two pages: each
+ * test page and the first page of the same site it links to, compared as a crawl would compare them. The test
+ * page's outcome is the criterion's on it; an item to review is listed apart, not counted as a flag.
  */
 
 export interface RuleEvalOptions {
@@ -43,6 +52,8 @@ export interface RuleEvalRecord {
   review?: boolean | undefined
   /** Where an immediate redirect led, when the page had one. */
   redirectedTo?: string | undefined
+  /** For a criterion across pages: the page of the same site the test page links to, compared with it. */
+  followed?: string | undefined
   error?: string | undefined
 }
 
@@ -56,12 +67,32 @@ export interface RuleEvalSummary {
   errors: Array<{ testcaseId: string; error: string }>
 }
 
+/** The criteria across pages a `--rules` list names as `site/<id>`. */
+export function resolveSiteChecks(ids: readonly string[]): Array<SiteCriterion<unknown>> {
+  return ids.map((id) => {
+    const criterion = SITE_CRITERIA.find((candidate) => `site/${candidate.id}` === id)
+    if (!criterion) throw new Error(`No criterion across pages ${id}. Available: ${SITE_CRITERIA.map((c) => `site/${c.id}`).join(', ')}`)
+    return criterion
+  })
+}
+
 export async function runRuleEval(options: RuleEvalOptions, p: Painter): Promise<number> {
-  const rules = resolveRules(options.rules.split(',').map((id) => id.trim()).filter(Boolean))
+  const ids = options.rules.split(',').map((id) => id.trim()).filter(Boolean)
+  const rules = resolveRules(ids.filter((id) => !id.startsWith('site/')))
+  const siteChecks = resolveSiteChecks(ids.filter((id) => id.startsWith('site/')))
   const limit = options.limit ? Number.parseInt(options.limit, 10) : undefined
   const dataset = await loadActTestcases('.rampa/act', Boolean(options.refresh))
   const skipped: RuleEvalSummary['skipped'] = []
-  const jobs: Array<{ rule: RuleCheck; testcase: ActTestcase }> = []
+  const jobs: Array<{ rule: RuleCheck; testcase: ActTestcase } | { site: SiteCriterion<unknown>; testcase: ActTestcase }> = []
+  for (const site of siteChecks) {
+    if (!site.act?.length) {
+      skipped.push({ rule: `site/${site.id}`, reason: 'no ACT rule: measured by its fixtures' })
+      continue
+    }
+    let cases = selectRuleTestcases(dataset, site.act)
+    if (limit !== undefined) cases = cases.slice(0, limit)
+    for (const testcase of cases) jobs.push({ site, testcase })
+  }
   for (const rule of rules) {
     if (rule.act.length === 0) {
       skipped.push({ rule: rule.id, reason: 'no ACT rule: measured by its fixtures in test/fixtures/rules' })
@@ -75,7 +106,9 @@ export async function runRuleEval(options: RuleEvalOptions, p: Painter): Promise
   const browser = await launchBrowser()
   let records: RuleEvalRecord[]
   try {
-    records = await mapLimit(jobs, Math.max(1, Number.parseInt(options.concurrency, 10) || 4), (job) => runRuleJob(job.rule, job.testcase, browser))
+    records = await mapLimit(jobs, Math.max(1, Number.parseInt(options.concurrency, 10) || 4), (job) =>
+      'site' in job ? runSiteJob(job.site, job.testcase, browser) : runRuleJob(job.rule, job.testcase, browser),
+    )
   } finally {
     await browser.close()
   }
@@ -137,6 +170,59 @@ async function runRuleJob(rule: RuleCheck, testcase: ActTestcase, browser: Await
         .filter((f) => f.criterion === criterion)
         .map((f) => ({ source: f.source, ruleId: f.ruleId, ref: f.ref, evidence: f.evidence })),
       redirectedTo,
+    }
+  } catch (error) {
+    return { ...base, axe: 'passed', rule_alone: 'passed', rampa: 'passed', findings: [], error: errorMessage(error) }
+  }
+}
+
+/** The first link of a page to another page of its own site: what a crawl would read next. */
+export function firstPageLink(snapshot: A11ySnapshot, page: string): string | undefined {
+  const here = pageUrl(page)
+  if (!here) return undefined
+  for (const node of walkTree(snapshot.root)) {
+    if (node.role !== 'link') continue
+    const href = (node.native.attributes as Record<string, unknown> | undefined)?.href
+    if (typeof href !== 'string') continue
+    const url = pageUrl(href, page)
+    if (url && url.origin === here.origin && pageKey(url) !== pageKey(here)) return url.href
+  }
+  return undefined
+}
+
+async function runSiteJob(criterion: SiteCriterion<unknown>, testcase: ActTestcase, browser: Awaited<ReturnType<typeof launchBrowser>>): Promise<RuleEvalRecord> {
+  const base = {
+    schemaVersion: 1 as const,
+    rule: `site/${criterion.id}`,
+    criterion: criterion.id,
+    actRule: testcase.ruleId,
+    testcaseId: testcase.testcaseId,
+    title: testcase.testcaseTitle,
+    url: testcase.url,
+    expected: testcase.expected,
+  }
+  try {
+    const first = await collectWeb(browser, testcase.url, { runAxe: true, locale: 'en', requireOk: true })
+    const axe = first.engine.rules.some((r) => r.outcome === 'violation' && r.criteria.includes(criterion.id) && !AXE_REVIEW_RULES.includes(r.ruleId))
+    const pages = [{ url: testcase.url, facts: criterion.facts(first.snapshot) }]
+    const followed = firstPageLink(first.snapshot, testcase.url)
+    if (followed) {
+      const second = await collectWeb(browser, followed, { runAxe: false, locale: 'en' })
+      pages.push({ url: followed, facts: criterion.facts({ ...second.snapshot, target: followed }) })
+    }
+    const set: PageSet = { id: 'eval', label: 'eval', source: 'config', lang: '', viewport: '', pages: pages.map((page) => page.url) }
+    const { findings } = criterion.compare(set, pages, 'en')
+    const mine = findings.filter((finding) => finding.pages.includes(testcase.url))
+    const failed = mine.some((finding) => finding.status === 'failure')
+    const review = mine.some((finding) => finding.status === 'review')
+    return {
+      ...base,
+      axe: axe ? 'failed' : 'passed',
+      rule_alone: failed ? 'failed' : 'passed',
+      rampa: axe || failed ? 'failed' : 'passed',
+      ...(review && !failed ? { review: true } : {}),
+      findings: mine.map((finding) => ({ source: 'site', ruleId: `site/${criterion.id}`, evidence: finding.evidence })),
+      ...(followed ? { followed } : {}),
     }
   } catch (error) {
     return { ...base, axe: 'passed', rule_alone: 'passed', rampa: 'passed', findings: [], error: errorMessage(error) }

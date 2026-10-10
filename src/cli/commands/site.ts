@@ -228,10 +228,10 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
     })
   } catch (error) {
     // The pages are checked and judged by now: a comparison that fails must not lose their report.
-    process.stderr.write(`rampa: the criteria across pages (3.2.3, 3.2.6) did not run: ${errorMessage(error)}\n`)
+    process.stderr.write(`rampa: the criteria across pages (2.4.1, 3.2.3, 3.2.6) did not run: ${errorMessage(error)}\n`)
   }
   const summary = summarizeSite(pages, cache.reused)
-  // 3.2.3 and 3.2.6 get a method of kind site, the status it gives, and leave "not checked" when they compared something.
+  // 2.4.1, 3.2.3 and 3.2.6 get a method of kind site, the status it gives, and leave "not checked" when they compared something.
   if (siteCriteria) {
     summary.coverage = withSiteCriteria(summary.coverage, siteCriteria, {
       version: run.check.wcag ?? DEFAULT_WCAG,

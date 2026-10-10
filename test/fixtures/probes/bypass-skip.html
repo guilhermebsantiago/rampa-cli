@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bypass: a skip link that works</title>
+<style>
+  body { font: 16px Arial, sans-serif; margin: 0; }
+  /* Hidden until focused, then slides in: G1 with a link visible on focus. */
+  .skip { position: absolute; top: -4rem; left: 1rem; padding: 8px; background: #fff; transition: top 0.2s; }
+  .skip:focus { top: 1rem; }
+  header { padding: 1rem; background: #eee; }
+  nav a { margin-right: 1rem; }
+  main { padding: 1rem; min-height: 2000px; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<!-- A link to another site comes before nothing: it is never pressed. -->
+<header>
+  <a href="https://example.invalid/">Acme</a>
+  <nav aria-label="Main">
+    <a href="/products">Products</a>
+    <a href="/pricing">Pricing</a>
+    <a href="/docs">Docs</a>
+    <a href="/blog">Blog</a>
+    <a href="/about">About</a>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+  <h1>Spring collection</h1>
+  <p>New coats and jackets, made to last and easy to repair.</p>
+  <a href="/coats">See the coats</a>
+</main>
+</body>
+</html>

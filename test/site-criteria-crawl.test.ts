@@ -58,7 +58,9 @@ describe.skipIf(!available)('criteria across the pages of a crawl', { timeout: 9
     ])
     expect(across?.unassigned.map((entry) => [path(entry.url), entry.reason])).toEqual([['/plain', 'no-navigation']])
     expect([...(across?.findings ?? []), ...(across?.belowThreshold ?? []), ...(across?.review ?? [])]).toEqual([])
+    // 2.4.1 compares every page of a language (/plain included); every page here has a main landmark to pass the header.
     expect(across?.criteria.map((c) => [c.criterion, c.setsCompared])).toEqual([
+      ['2.4.1', 2],
       ['3.2.3', 2],
       ['3.2.6', 2],
     ])
@@ -110,14 +112,16 @@ describe.skipIf(!available)('rampa check --crawl, across pages', { timeout: 90_0
     expect(stdout).toContain('Order on /pricing: Pricing → Docs')
     expect(stdout).toContain('WCAG 3.2.6 (A) — Consistent Help')
     expect(stdout).toContain('No navigation found on: /plain')
-    expect(stdout).toMatch(/Compared across pages: +3\.2\.3 \(2 set\(s\), \d+ compared\); 3\.2\.6 \(2 set\(s\), \d+ compared\)/)
+    expect(stdout).toMatch(/Compared across pages: +2\.4\.1 \(2 set\(s\), \d+ compared\); 3\.2\.3 \(2 set\(s\), \d+ compared\); 3\.2\.6 \(2 set\(s\), \d+ compared\)/)
   })
 
-  it('says on a single page that 3.2.3 and 3.2.6 need a crawl', async () => {
+  it('says on a single page that 3.2.3, 3.2.6 and the failures of 2.4.1 need a crawl', async () => {
     const site = await startConsistencySite('consistent')
     sites.push(site)
     const { stdout } = await cli(['check', `${site.origin}/`, '--no-llm', '--criteria', '2.4.2'])
-    expect(stdout).toContain('Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site; crawl its address with --crawl or --sitemap.')
+    expect(stdout).toContain(
+      'Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.',
+    )
   })
 })
 

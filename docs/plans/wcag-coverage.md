@@ -1,6 +1,6 @@
 # Rampa WCAG 2.2 coverage roadmap
 
-Date: 2026-10-09. Status: wave A (A1–A10) is built, and from wave B so far B1 (frames and shadow roots), B2 (the browser's accessibility tree), B3 (pixel contrast), B4 (zoom 200%), B5 (content on hover or focus), B6 (orientation), B8 (error states on the page), B9 (character key shortcuts), B10 (site criteria), B11 (media probe), B12 (language identifier), B13 (hidden informative images) and B15 (label visibility). The rest is a plan.
+Date: 2026-10-09. Status: wave A (A1–A10) is built, and from wave B so far B1 (frames and shadow roots), B2 (the browser's accessibility tree), B3 (pixel contrast), B4 (zoom 200%), B5 (content on hover or focus), B6 (orientation), B8 (error states on the page), B9 (character key shortcuts), B10 (site criteria), B11 (media probe), B12 (language identifier), B13 (hidden informative images) and B15 (label visibility); from wave C, C13 (bypass blocks: the skip-link probe and blocks repeated across a crawl) and C16 (letter-spaced words). The rest is a plan.
 
 This plan builds on:
 

@@ -2,7 +2,7 @@
 
 Rampa's rules are deterministic checks over the snapshot, with no model. They sit next to axe-core: axe-core checks syntax across the whole page, and each Rampa rule reports one narrow failure that axe-core does not, where the page's own text or markup gives the failure away. Findings from a rule have `source: "rule"` and a rule id in the `rampa/` namespace.
 
-The content rules are wave A3 of the [WCAG coverage plan](plans/wcag-coverage.md), the structure rules are wave A4, the pixel rules B3, the rules over the browser's own accessibility tree B2, and the error state rules B8. A rule ships only when its false-positive risk is very low. Anything a rule cannot decide is left to judgment or to a person.
+The content rules are wave A3 of the [WCAG coverage plan](plans/wcag-coverage.md), the structure rules are wave A4, the pixel rules B3, the rules over the browser's own accessibility tree B2, the error state rules B8, and the letter-spaced words rule C16. A rule ships only when its false-positive risk is very low. Anything a rule cannot decide is left to judgment or to a person.
 
 ## Where rules run
 
@@ -96,6 +96,24 @@ Both are experimental, so their failures are reported at low confidence, below t
 | getbootstrap.com/docs/5.3/forms/validation | 5 (by class, the server-side example) | none | Right: each has its `invalid-feedback` text, tied with `aria-describedby`. 3.3.3 has nothing to read: the browser's validity is recorded only for a field marked with `aria-invalid` or `:user-invalid`, and these are marked by class |
 
 Neither page exercises 3.3.3, which needs a field the browser finds invalid: static pages rarely have one, which is why the plan expects B8 to earn its value in tests that drive a page into an error state.
+
+### Letter-spaced words: 1.3.2
+
+This rule is C16 of the plan: failure technique [F32](https://www.w3.org/WAI/WCAG22/Techniques/failures/F32), white space put between the letters of a word to space them out ("W E L C O M E", `H&nbsp;E&nbsp;L&nbsp;L&nbsp;O`). A screen reader may read each letter on its own, and the word is lost; CSS `letter-spacing` gives the same look and keeps the word.
+
+| Rule | WCAG | Reports | Leaves out on purpose | Patch |
+|---|---|---|---|---|
+| `rampa/letter-spaced-words` | 1.3.2 (F32) | Four or more single letters with white space between them in one element's own text, when the letters joined make a word of the element's language ("WELCOME", "OFERTAS", "BIENVENIDOS"), or a phrase of such words with short words between ("T a b l e o f C o n t e n t s", "W E L C O M E T O O U R S I T E", "S O B R E N Ó S"): the collector keeps one space between letters and between words alike, so a phrase arrives as one run. Confidence high; medium when the page declares no language and the run is read against all three lists | letters that make no word: indexes (A B C D … Z), grade scales, chess files, guitar tunings; initialisms spelled out (N A S A, U N E S C O, A S A P, R S V P), which F32 says are not a failure and which the word lists leave out; three letters or fewer (U S A); text in `pre`, `code`, `kbd`, `samp`, `var`, `math` and `textarea`; text inside a heading, link, button, image or other control that has `aria-label` or `aria-labelledby`, whose name is read instead; text hidden from assistive technology; letters in separate elements (an index of links); text in a language with no list (French, Japanese), counted in the coverage note | `set-text`: the letters joined, word by word, in their own case ("W E L C O M E" → "WELCOME"); the message asks for CSS `letter-spacing` |
+
+**The element's language** is its own `lang`, or the closest ancestor's, or the page's; `pt-BR` and `pt-PT` read the Portuguese list, `es-419` the Spanish one. A one-letter word at either end of a run stays out of what is reported ("B I E N V E N I D O S a la tienda" reports "B I E N V E N I D O S").
+
+**The word lists** (`src/rules/words/`) ship with Rampa, so the rule runs offline and a saved snapshot gives the same findings. Each holds 20,000 words of 4 to 15 letters: the most frequent forms in the sentences of [Tatoeba](https://tatoeba.org) (the `eng`, `por` and `spa` exports of 3 October 2026: 2,038,137, 445,058 and 442,407 sentences), keeping a form only when it occurs at least five times and is written in lower case in most of its uses after the start of a sentence, which leaves out names and acronyms (Tom, Brasil, NASA). Inflected forms are in, which Hunspell dictionaries list only as stems with rules (ofertas, notícias, bienvenidos). A few words pages often letter-space (menu, sale, contato, bienvenidos) are added by hand; all of them were already in the lists. The words of one to three letters that may sit between longer words of a phrase are a short list in `src/rules/words/index.ts`. Tatoeba's sentences are licensed [CC BY 2.0 FR](https://creativecommons.org/licenses/by/2.0/fr/) (some CC0); the lists hold words and their selection, no sentence. `python -I scripts/word-lists.py <download dir> src/rules/words` builds them again from the current exports (about 37 MB to download, under a minute to count); the header of each file gives the export's SHA-256. Each list is about 175 KB of source.
+
+**Experimental**, as every new rule: its failures are reported at low confidence, below the default threshold. The rule is narrow: on a page with no run of spaced letters it says nothing, and 1.3.2 stays "not checked" (meaningful sequence has far more to it than F32); a page whose runs are all left alone has "no failure found" for what was checked. No ACT rule covers F32, so `rampa eval --rules letter-spaced-words` says it is measured by its fixtures.
+
+**Fixtures.** `test/fixtures/rules/sequence-fail.html` (WELCOME in a heading, "Table of Contents" spelled with `&nbsp;` between words, SALE in a link, OFERTAS in a `pt-BR` section, BIENVENIDOS next to a Spanish "a"), `sequence-pass.html` (the same page with whole words and `letter-spacing`), and `sequence-controls.html` (an A–Z index as one text and as links, acronyms, a grade scale, chess files, a guitar tuning, `code`, `kbd` and `pre`, a heading named with `aria-label`, an `aria-hidden` copy with an sr-only word, and French).
+
+**Real pages.** On 2026-10-09, `rampa check <url> --no-llm --min-confidence low` on rampa.guilhermebs.com.br, www.gov.uk, agenciabrasil.ebc.com.br and W3C's F32 technique page found no run of four or more spaced letters outside code, so the rule said nothing and 1.3.2 stayed "not checked": right for all four (the F32 page's examples are in `pre` and `code`). The gate's 35 reviewed findings will need a targeted corpus of pages that letter-space their headings; search engines ignore the spaces, so such pages have not been gathered.
 
 ### Structure rules: 1.3.1 and 4.1.2
 
@@ -269,7 +287,7 @@ The ACT test cases are downloaded at run time and never redistributed. Each test
 - the rule alone;
 - both together, as `rampa check` reports them.
 
-The command prints the test cases each way gets wrong, and writes `results.jsonl` and `summary.json` under `.rampa/runs/`. A rule that lists no ACT rule is measured by its fixtures in `test/fixtures/rules/`, and the command says so.
+The command prints the test cases each way gets wrong, and writes `results.jsonl` and `summary.json` under `.rampa/runs/`. A rule that lists no ACT rule is measured by its fixtures in `test/fixtures/rules/`, and the command says so. `--rules site/2.4.1` measures the 2.4.1 criterion across pages the same way, comparing each test page with the first page of its site it links to ([criteria across pages](site-criteria.md#241-bypass-blocks)).
 
 Results on 2026-10-09, with the ACT file whose SHA-256 starts with `a9a1483e`:
 

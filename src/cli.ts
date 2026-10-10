@@ -191,7 +191,7 @@ program
   .command('eval')
   .description('measure the baseline and the judgment layer against W3C ACT test cases and corrupted pairs')
   .option('-c, --criteria <ids>', 'criteria to evaluate, comma-separated', DEFAULT_CRITERIA.join(','))
-  .option('--rules <ids>', 'instead of criteria, Rampa rules to measure against their ACT test cases, with no model (meta-viewport,refresh-header)')
+  .option('--rules <ids>', 'instead of criteria, Rampa rules to measure against their ACT test cases, with no model (meta-viewport,refresh-header; site/2.4.1 compares each test page with a page it links to)')
   .option('-m, --model <provider:model>', 'model for the judgment layer')
   .option('--no-llm', 'measure the deterministic baseline only')
   .option('--no-pairs', 'skip the corrupted pairs')

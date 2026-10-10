@@ -338,8 +338,12 @@ export function withSiteCriteria(
 
     const record = records.find((entry) => entry.id === sc.id)
     if (record) {
+      // On the pages, only a rule that can only pass or ask for review applied (axe-core's bypass, for 2.4.1), so they
+      // said "needs review" with nothing listed to review: what the comparison decided settles it.
+      const nothingToReview = record.methods.every((m) => m.review === 0 && m.failures === 0 && !m.notJudged)
       record.methods.push(method)
-      if (status && STATUS_ORDER.indexOf(status) < STATUS_ORDER.indexOf(record.status)) record.status = status
+      if (status === 'no-failure-found' && record.status === 'needs-review' && nothingToReview) record.status = status
+      else if (status && STATUS_ORDER.indexOf(status) < STATUS_ORDER.indexOf(record.status)) record.status = status
     } else if (!beyond || ran) {
       // A 2.2-only criterion in a 2.1 run is listed only when something ran for it, as on a page.
       records.push({

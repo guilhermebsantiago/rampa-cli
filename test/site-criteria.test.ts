@@ -249,6 +249,7 @@ describe('3.2.3 Consistent Navigation', () => {
     // Two named pages with nothing to compare: the set ran, but nothing was compared.
     const empty = run([page('/b/1', { nav: [{ links: [['Home', '/']] }] }), page('/b/2', { nav: [{ links: [['Home', '/']] }] })], { pageSets: { blog: ['/b/'] } })
     expect(empty.criteria.map((c) => [c.criterion, c.setsCompared, c.compared])).toEqual([
+      ['2.4.1', 1, 0],
       ['3.2.3', 1, 0],
       ['3.2.6', 1, 0],
     ])
@@ -304,7 +305,8 @@ describe('3.2.3 Consistent Navigation', () => {
       { url: u('/'), reason: 'no-navigation' },
       { url: u('/a'), reason: 'no-navigation' },
     ])
-    expect(none.criteria.map((c) => c.setsCompared)).toEqual([0, 0])
+    // 2.4.1 compares every page of a language, landmarks or not; 3.2.3 and 3.2.6 only pages that share a template.
+    expect(none.criteria.map((c) => c.setsCompared)).toEqual([1, 0, 0])
 
     const snapshots = [page('/', { nav: [{ links: MAIN }] }), page('/a', { nav: [{ links: MAIN }] }), page('/b', { nav: [{ links: swap(MAIN, 1, 2) }] })]
     const medium = run(snapshots, { minConfidence: 'medium' })
@@ -503,7 +505,7 @@ describe('the site report', () => {
     expect(text).toContain('Across pages')
     expect(text).toContain('Set template 1 (shared header, navigation and footer): 3 pages, en, 1280×800: /, /a, /b')
     expect(text).toContain('1 finding(s) across pages from experimental checks are below the threshold')
-    expect(text).toContain('Compared across pages:          3.2.3 (1 set(s), 2 compared); 3.2.6 (1 set(s), 2 compared)')
+    expect(text).toContain('Compared across pages:          2.4.1 (1 set(s), 0 compared); 3.2.3 (1 set(s), 2 compared); 3.2.6 (1 set(s), 2 compared)')
     expect(siteExitCode([below], 'confirmed')).toBe(0)
     expect(siteExitCode([below], 'any')).toBe(1)
 

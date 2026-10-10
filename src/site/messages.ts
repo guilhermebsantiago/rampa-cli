@@ -32,7 +32,7 @@ const messages = {
     otherPages: 'the other pages of the set',
     mainContent: '(main content)',
     sectionTitle: 'Across pages',
-    sectionLine: 'Navigation (3.2.3) and help (3.2.6) compared between the pages of each set',
+    sectionLine: 'Blocks to bypass (2.4.1), navigation (3.2.3) and help (3.2.6) compared between pages',
     setLine: 'Set {label}: {count} pages{lang}, {viewport}: {pages}',
     setConfig: '"{label}" (config)',
     setTemplate: 'template {n} (shared header, navigation and footer)',
@@ -47,7 +47,7 @@ const messages = {
     coverageLabel: 'Compared across pages:',
     coverageRan: '{id} ({sets} set(s), {compared} compared)',
     coverageNothing: '{ids}: no set of two or more pages to compare',
-    singlePage: 'Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site; crawl its address with --crawl or --sitemap.',
+    singlePage: 'Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.',
   },
   'pt-BR': {
     navigation: 'A navegação',
@@ -79,7 +79,7 @@ const messages = {
     otherPages: 'as outras páginas do conjunto',
     mainContent: '(conteúdo principal)',
     sectionTitle: 'Entre páginas',
-    sectionLine: 'Navegação (3.2.3) e ajuda (3.2.6) comparadas entre as páginas de cada conjunto',
+    sectionLine: 'Blocos a pular (2.4.1), navegação (3.2.3) e ajuda (3.2.6) comparados entre páginas',
     setLine: 'Conjunto {label}: {count} páginas{lang}, {viewport}: {pages}',
     setConfig: '"{label}" (config)',
     setTemplate: 'modelo {n} (mesmo cabeçalho, navegação e rodapé)',
@@ -94,7 +94,7 @@ const messages = {
     coverageLabel: 'Comparado entre páginas:',
     coverageRan: '{id} ({sets} conjunto(s), {compared} comparado(s))',
     coverageNothing: '{ids}: nenhum conjunto de duas ou mais páginas para comparar',
-    singlePage: 'Não verificados numa página isolada: 3.2.3 Navegação consistente e 3.2.6 Ajuda consistente comparam as páginas de um site; rastreie o endereço do site com --crawl ou --sitemap.',
+    singlePage: 'Não verificados numa página isolada: 3.2.3 Navegação consistente e 3.2.6 Ajuda consistente comparam as páginas de um site, e 2.4.1 Ignorar blocos precisa delas para distinguir os blocos que se repetem do conteúdo; rastreie o endereço do site com --crawl ou --sitemap.',
   },
 } as const
 
