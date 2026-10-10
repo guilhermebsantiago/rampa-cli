@@ -194,7 +194,9 @@ export function methodText(method: CoverageMethod, report: Pick<Report, 'locale'
     t(locale, 'methodCounts', { applicable: method.applicable, failures: method.failures, review: method.review }),
     ...(method.notJudged ? [t(locale, 'methodNotJudged', { count: method.notJudged })] : []),
   ].join(', ')
-  return `${name} (${counts}${tags.length > 0 ? `; ${tags.join(', ')}` : ''})`
+  // What limits a rule's result, such as elements left out past a budget, follows its counts.
+  const extra = [...tags, ...(method.note ? [method.note] : [])]
+  return `${name} (${counts}${extra.length > 0 ? `; ${extra.join(', ')}` : ''})`
 }
 
 /** The methods behind a criterion: those that applied in full, then a count of the rules with nothing to check. */

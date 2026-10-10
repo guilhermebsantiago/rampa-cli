@@ -68,11 +68,14 @@ export async function loadActTestcases(dir: string, refresh: boolean): Promise<A
 /**
  * The test cases of ACT rules a Rampa rule (src/rules) lists, for the eval path with no model.
  * ACT publishes some pages twice, under WCAG 2.1 and 2.2 copies of a rule: each URL is kept once.
+ * A rule for a stricter requirement (`passedOnly`, such as 09o5cg's 7:1 for a 4.5:1 rule) lends only the
+ * pages it does not fail: its failed examples may meet the weaker requirement.
  */
-export function selectRuleTestcases(dataset: ActDataset, actRules: readonly string[]): ActTestcase[] {
+export function selectRuleTestcases(dataset: ActDataset, actRules: readonly string[], passedOnly: readonly string[] = []): ActTestcase[] {
   const seen = new Set<string>()
   return dataset.testcases.filter((tc) => {
     if (!actRules.includes(tc.ruleId) || !/\.html?$/i.test(tc.url) || seen.has(tc.url)) return false
+    if (passedOnly.includes(tc.ruleId) && tc.expected === 'failed') return false
     seen.add(tc.url)
     return true
   })

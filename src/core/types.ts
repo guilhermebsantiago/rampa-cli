@@ -35,6 +35,8 @@ export interface EngineNode {
   locatedBy?: string | undefined
   /** WCAG 2.5.8: an exception the page shows for this target; an exempt target is never a failure. */
   exempt?: 'user-agent-control' | 'equivalent-target' | undefined
+  /** axe-core's reason key for a color-contrast result, such as bgImage when it could not decide (surfaces/contrast-capture.ts). */
+  reasonKey?: string | undefined
 }
 
 export interface EngineRuleResult {
@@ -292,6 +294,8 @@ export interface CoverageMethod {
   maturity: 'stable' | 'experimental'
   /** For a probe: the probe and its version (`probe/layout@1`), what it emulated, and why it did not check, if it did not. */
   probe?: { method: string; conditions: string; note?: string | undefined } | undefined
+  /** For a Rampa rule: what limits its result, such as elements left out past a budget, in the report's language. */
+  note?: string | undefined
 }
 
 export interface CriterionCoverage {

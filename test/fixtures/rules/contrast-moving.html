@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Text over an animation</title>
+    <style>
+      body { margin: 24px; font: 16px/1.5 Arial, Helvetica, sans-serif; background: #ffffff; color: #111111; }
+      .stage { position: relative; width: 404px; height: 60px; }
+      .stage canvas { position: absolute; inset: 0; }
+      .stage p { position: relative; margin: 0; padding: 16px 12px; color: #777777; }
+    </style>
+  </head>
+  <body>
+    <h1>Text over an animation</h1>
+    <!-- A canvas redrawn every frame behind the text: two captures never match, so the pixels cannot tell. -->
+    <div class="stage">
+      <canvas id="waves" width="404" height="60"></canvas>
+      <p id="over-animation">Payments for every business</p>
+    </div>
+    <script>
+      const canvas = document.getElementById('waves')
+      const context = canvas.getContext('2d')
+      const draw = (time) => {
+        for (let x = 0; x < canvas.width; x += 4) {
+          const v = Math.round(200 + 55 * Math.sin(x / 30 + time / 120))
+          context.fillStyle = `rgb(${v}, ${v}, ${v})`
+          context.fillRect(x, 0, 4, canvas.height)
+        }
+        requestAnimationFrame(draw)
+      }
+      requestAnimationFrame(draw)
+    </script>
+  </body>
+</html>

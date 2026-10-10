@@ -39,6 +39,8 @@ export interface RuleEvalRecord {
   rule_alone: 'failed' | 'passed'
   rampa: 'failed' | 'passed'
   findings: Array<{ source: string; ruleId?: string | undefined; ref?: string | undefined; evidence?: string | undefined }>
+  /** The rule sent an element of the page to review, and that does not count as flagging it (`RuleCheck.undecidedReview`). */
+  review?: boolean | undefined
   /** Where an immediate redirect led, when the page had one. */
   redirectedTo?: string | undefined
   error?: string | undefined
@@ -49,7 +51,7 @@ export interface RuleEvalSummary {
   rampaVersion: string
   createdAt: string
   actSha256: string
-  sets: Array<{ rule: string; actRule: string; n: number; axe: Scores; ruleAlone: Scores; rampa: Scores; misses: string[]; falseAlarms: string[] }>
+  sets: Array<{ rule: string; actRule: string; n: number; axe: Scores; ruleAlone: Scores; rampa: Scores; misses: string[]; falseAlarms: string[]; review?: string[] | undefined }>
   skipped: Array<{ rule: string; reason: string }>
   errors: Array<{ testcaseId: string; error: string }>
 }
@@ -65,7 +67,7 @@ export async function runRuleEval(options: RuleEvalOptions, p: Painter): Promise
       skipped.push({ rule: rule.id, reason: 'no ACT rule: measured by its fixtures in test/fixtures/rules' })
       continue
     }
-    let cases = selectRuleTestcases(dataset, rule.act)
+    let cases = selectRuleTestcases(dataset, rule.act, rule.actPassedOnly)
     if (limit !== undefined) cases = cases.slice(0, limit)
     for (const testcase of cases) jobs.push({ rule, testcase })
   }
@@ -117,16 +119,20 @@ async function runRuleJob(rule: RuleCheck, testcase: ActTestcase, browser: Await
     // axe-core as it reports failures: the experimental rules Rampa runs for review only are left out.
     const axe = engine.rules.some((r) => r.outcome === 'violation' && r.criteria.includes(criterion) && !AXE_REVIEW_RULES.includes(r.ruleId))
     // The rule alone, without leaving to axe-core what it already failed. A hit the rule sends to review
-    // (report.needsReview) counts as flagging the page, as it did when review hits were low-confidence findings.
+    // (report.needsReview) counts as flagging the page, as it did when review hits were low-confidence findings,
+    // unless the rule's review only means its measurement could not decide, like axe-core's incompletes.
     const stage = runRuleChecks(snapshot, emptyEngine(), 'en', [rule])
-    const alone = stage.findings.length > 0 || stage.review.length > 0
-    const ruled = report.findings.some((f) => f.ruleId === rule.id) || (report.needsReview ?? []).some((item) => item.ruleId === rule.id)
+    const flags = !rule.undecidedReview
+    const alone = stage.findings.length > 0 || (flags && stage.review.length > 0)
+    const reviewed = (report.needsReview ?? []).some((item) => item.ruleId === rule.id)
+    const ruled = report.findings.some((f) => f.ruleId === rule.id) || (flags && reviewed)
     const redirectedTo = typeof snapshot.root.native.redirectedTo === 'string' ? snapshot.root.native.redirectedTo : undefined
     return {
       ...base,
       axe: axe ? 'failed' : 'passed',
       rule_alone: alone ? 'failed' : 'passed',
       rampa: axe || ruled ? 'failed' : 'passed',
+      ...(reviewed && !flags ? { review: true } : {}),
       findings: report.findings
         .filter((f) => f.criterion === criterion)
         .map((f) => ({ source: f.source, ruleId: f.ruleId, ref: f.ref, evidence: f.evidence })),
@@ -153,6 +159,7 @@ export function summarizeRules(records: RuleEvalRecord[], actSha256: string, ski
       rampa: score('rampa'),
       misses: subset.filter((r) => r.expected === 'failed' && r.rampa !== 'failed').map((r) => r.testcaseId),
       falseAlarms: subset.filter((r) => r.expected !== 'failed' && r.rampa === 'failed').map((r) => r.testcaseId),
+      ...(subset.some((r) => r.review) ? { review: subset.filter((r) => r.review).map((r) => `${r.testcaseId} (${r.expected})`) } : {}),
     })
   }
   return {
@@ -176,6 +183,7 @@ export function renderRuleSummary(summary: RuleEvalSummary, p: Painter): string 
     lines.push(`${`${set.rule} · ${set.actRule}`.padEnd(36)}${String(set.n).padStart(4)}  ${triple(set.axe).padEnd(20)}${triple(set.ruleAlone).padEnd(20)}${triple(set.rampa)}`)
     if (set.misses.length > 0) lines.push(p.yellow(`  missed: ${set.misses.join(', ')}`))
     if (set.falseAlarms.length > 0) lines.push(p.yellow(`  flagged a page ACT does not fail: ${set.falseAlarms.join(', ')}`))
+    if (set.review && set.review.length > 0) lines.push(p.dim(`  sent to review, not counted as flagged: ${set.review.join(', ')}`))
   }
   for (const skip of summary.skipped) lines.push(p.dim(`${skip.rule}: ${skip.reason}`))
   if (summary.errors.length > 0) lines.push(p.yellow(`${summary.errors.length} page(s) with errors; first: ${summary.errors[0]?.error}`))

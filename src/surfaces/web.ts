@@ -13,6 +13,7 @@ import { walkTree } from '../snapshot/tree.ts'
 import { type FollowOptions, followLinks } from './destinations.ts'
 import { type BrowserOptions, contextOptions, openPage, prepareContext } from './browser-options.ts'
 import { attachFormIssues } from './form-issues.ts'
+import { type ContrastCaptureOptions, captureContrast } from './contrast-capture.ts'
 import { captureImageNodes, hiddenImageTargets, imageTargets, isCapturableImage } from './image-capture.ts'
 import { collectInPage } from './in-page.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
@@ -40,6 +41,11 @@ export interface WebCollectOptions {
   probes?: readonly ProbeKind[] | undefined
   /** Which WCAG version's axe-core rules run; 2.2 by default. */
   wcag?: WcagVersion | undefined
+  /**
+   * Measure from pixels the contrast axe-core cannot decide, placeholders and icon-only controls; on whenever
+   * axe-core runs. Limits per page and the time budget can be changed (surfaces/contrast-capture.ts).
+   */
+  pixelContrast?: boolean | Pick<ContrastCaptureOptions, 'limits' | 'budgetMs'> | undefined
 }
 
 export interface Collected {
@@ -134,6 +140,8 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     if (options.captureImages) await captureImages(page, root)
     // Whether each label 3.3.2 relies on shows its text, from two captures (label-visibility.ts); no model involved.
     await measureLabelPixels(page, root)
+    const engine = raw.axe ? engineFromAxe(raw.axe) : emptyEngine()
+    if (raw.axe && options.pixelContrast !== false) await measureContrast(page, root, engine, options.pixelContrast === true ? {} : options.pixelContrast)
     // Relative links resolve against the document's base: the address after redirects, or its <base href>.
     const destinations =
       options.followLinks && options.followLinks.policy !== 'none'
@@ -165,7 +173,6 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       const probes = await runProbes(browser, url, { kinds: options.probes, browserOptions: options.browserOptions, timeoutMs: options.timeoutMs })
       snapshot.observations = { probes }
     }
-    const engine = raw.axe ? engineFromAxe(raw.axe) : emptyEngine()
     return { snapshot, engine }
   } finally {
     await context.close()
@@ -247,6 +254,26 @@ async function measureLabelPixels(page: Page, root: A11yNode): Promise<void> {
   } finally {
     if (layers > 0) await restoreLayers(page)
   }
+}
+
+/**
+ * Contrast measured from pixels (contrast-capture.ts): each element captured as rendered and with its own
+ * text, placeholder or icon made transparent. Fixed and sticky layers that do not hold it are hidden, as for images.
+ */
+async function measureContrast(page: Page, root: A11yNode, engine: EngineResults, settings: Pick<ContrastCaptureOptions, 'limits' | 'budgetMs'> = {}): Promise<void> {
+  await captureContrast(
+    {
+      // biome-ignore lint/suspicious/noExplicitAny: Playwright's evaluate infers its argument type from a generic it cannot see here
+      evaluate: <Arg, Result>(fn: (arg: Arg) => Result | Promise<Result>, arg: Arg) => page.evaluate(fn as (arg: any) => Result | Promise<Result>, arg),
+      // Device pixels: the more pixels a stroke covers, the more of them show its own color.
+      screenshot: (ref) => page.locator(`css=${ref}`).first().screenshot({ type: 'png', timeout: 3000, animations: 'disabled' }).catch(() => undefined),
+      // A box of the viewport costs a third of an element screenshot, which first waits for the element to be stable.
+      screenshotBox: (clip) => page.screenshot({ type: 'png', clip, timeout: 3000, animations: 'disabled' }).catch(() => undefined),
+    },
+    root,
+    engine,
+    { ...settings, layers: { mark: () => markLayers(page), show: (ref) => showLayersAround(page, ref), restore: () => restoreLayers(page) } },
+  )
 }
 
 /**

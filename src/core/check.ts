@@ -5,7 +5,7 @@ import { type Locale, t } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import { probeChecks } from '../rules/probes.ts'
 import { PROBE_RULES } from '../rules/registry.ts'
-import { RULE_CHECKS, type RuleCheck, type RuleStageResult, emptyRuleStage, runRuleChecks } from '../rules/index.ts'
+import { RULE_CHECKS, type RuleCheck, type RuleStageResult, emptyRuleStage, runRuleChecks, withoutResolved } from '../rules/index.ts'
 import { reviewLabelInName } from '../rules/label-in-name.ts'
 import { uncapturedImagesNote } from '../snapshot/image-skips.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
@@ -264,7 +264,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
 
   // 4.1.1 is never counted: WCAG 2.2 removed it, and under 2.1 it is satisfied by definition for HTML and XML.
   const all = new Set(criteriaFor(version).flatMap((sc) => (sc.removedIn ? [] : [sc.id])))
-  const engineCovered = engineCoverage(engine, version)
+  // What axe-core left undecided and a rule then settled (contrast measured from pixels) is the rule's to report, once.
+  const unsettled = withoutResolved(engine, stage.resolved)
+  const engineCovered = engineCoverage(unsettled, version)
   // What a judged criterion decided without a model (the language identifier on 3.1.1 and 3.1.2) is checked by a rule, not judged.
   const selfDecided = summaries.filter((s) => (s.decided ?? 0) > 0 && all.has(s.criterion)).map((s) => s.criterion)
   const ruleCovered = [...new Set([...ruleCoverage(stage.ran, version), ...selfDecided])].sort(compareCriteria)
@@ -273,12 +275,12 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const probed = [...new Set(probe.coverage.filter((row) => (row.status === 'failures' || row.status === 'no-failure-found') && all.has(row.criterion)).map((row) => row.criterion))]
   // What axe-core could not decide, and what Rampa's rules and probe rules sent to review: never a failure.
   const probeReview = probe.review.filter((f) => !options.waivers?.has(f.fingerprint)).map(reviewItemOf)
-  const review = [...reviewItems(engine), ...stage.review, ...probeReview].sort((a, b) => compareCriteria(a.criterion, b.criterion))
+  const review = [...reviewItems(unsettled), ...stage.review, ...probeReview].sort((a, b) => compareCriteria(a.criterion, b.criterion))
   // Findings beyond the target still give their criterion its status, by the same threshold.
   const beyondShown = beyond.filter(shown)
   const beyondBelow = beyond.filter((f) => !shown(f))
   const records = criteriaCoverage({
-    engine,
+    engine: unsettled,
     summaries,
     criteria: options.criteria,
     llmActive,

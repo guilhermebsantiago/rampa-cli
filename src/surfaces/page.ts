@@ -8,6 +8,7 @@ import { walkTree } from '../snapshot/tree.ts'
 import { VERSION } from '../version.ts'
 import type { WcagVersion } from '../wcag.ts'
 import { type CdpSessionLike, attachFormIssues } from './form-issues.ts'
+import { captureContrast } from './contrast-capture.ts'
 import { captureImageNodes } from './image-capture.ts'
 import { collectInPage } from './in-page.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
@@ -43,6 +44,8 @@ export interface PageCollectOptions {
   scope?: Scope | undefined
   /** Which WCAG version's axe-core rules run; 2.2 by default. */
   wcag?: WcagVersion | undefined
+  /** Measure from pixels the contrast axe-core cannot decide, placeholders and icon-only controls; on by default. */
+  pixelContrast?: boolean | undefined
 }
 
 const MAX_NODES = 5000
@@ -72,13 +75,16 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
   let root = raw.root as A11yNode
   if (driver.cdp) await attachFormIssues(driver.cdp, root)
   if (scope) root = await scopeRoot(driver, root, scope, { url, truncated: raw.truncated, maxNodes })
+  const engine = raw.axe ? engineFromAxe(raw.axe) : emptyEngine()
+  const contrast = raw.axe !== undefined && options.pixelContrast !== false
   const labels = labelTargets(root).length > 0
-  if (options.captureImages || labels) {
+  if (options.captureImages || labels || contrast) {
     // Element screenshots scroll the page; the caller's test carries on from where it was.
     const scroll = await driver.evaluate(() => [window.scrollX, window.scrollY], null)
     if (options.captureImages) await captureImages(driver, root)
     // Whether each label 3.3.2 relies on shows its text, as collectWeb measures it (label-visibility.ts).
     if (labels) await measureLabels({ evaluate: (fn, arg) => driver.evaluate(fn, arg), screenshot: (ref) => driver.screenshotElement(ref) }, root)
+    if (contrast) await captureContrast({ evaluate: (fn, arg) => driver.evaluate(fn, arg), screenshot: (ref) => driver.screenshotElement(ref) }, root, engine)
     await driver.evaluate(([x = 0, y = 0]) => window.scrollTo(x, y), scroll)
   }
 
@@ -102,7 +108,6 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
     collectedAt: new Date().toISOString(),
     collector: { name: 'rampa-web', version: VERSION },
   }
-  const engine = raw.axe ? engineFromAxe(raw.axe) : emptyEngine()
   return { snapshot, engine }
 }
 
