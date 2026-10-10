@@ -192,7 +192,7 @@ In CI there are three ways to go, from cheapest to fullest:
 | `concurrency` | `--concurrency` | `4` |
 | `screenshotDir` | `--screenshots` | none; saves a full-page screenshot there |
 | `include`, `exclude` | | the whole page |
-| `maxNodes` | | `5000` elements; the snapshot says when it stopped |
+| `maxNodes` | | `5000` elements of the page, and as many in its shadow roots and frames; the snapshot says when it stopped |
 | `config` | | `rampa.config.*` in the working directory; an object of your own, or `false` for none |
 
 The assertion options, `failOn` and `requireJudgment`, are described under [Matchers](#matchers).

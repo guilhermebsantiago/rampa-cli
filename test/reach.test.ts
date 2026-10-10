@@ -149,6 +149,9 @@ describe.skipIf(!browser)('the snapshot past the top document', { timeout: 60_00
     const index = new Map([...walkTree(snapshot.root)].map((n) => [n.ref, n]))
     const slot = index.get('html > body > main > shadow-card >>> div:nth-of-type(2) > slot')
     expect(slot?.children.map((child) => child.ref)).toEqual(['html > body > main > shadow-card > span'])
+    // Text assigned to a slot is the slot's, once: the host's own text shows only through it.
+    expect(index.get('html > body > main > x-note')?.text).toBeUndefined()
+    expect(index.get('html > body > main > x-note >>> b > slot')?.text).toBe('Plain slotted text')
     // Nothing of another origin's frame or of a closed shadow root.
     expect(index.get('#remote')?.children).toEqual([])
     expect(index.get('html > body > main > closed-card')?.children).toEqual([])
@@ -188,7 +191,7 @@ describe.skipIf(!browser)('the snapshot past the top document', { timeout: 60_00
       { ref: '#outer |> html > body > iframe', url: 'about:srcdoc', collected: true, engine: true },
       { ref: '#remote', url: expect.stringMatching(/^http:\/\/localhost:\d+\/widget\.html$/), collected: false, reason: 'cross-origin', engine: true },
     ])
-    expect(snapshot.reach?.shadowRoots).toEqual({ open: 1, closed: 1, closedHosts: ['html > body > main > closed-card'] })
+    expect(snapshot.reach?.shadowRoots).toEqual({ open: 2, closed: 1, closedHosts: ['html > body > main > closed-card'] })
   })
 
   it('says in the report what it could not read: a frame of another origin and a closed shadow root', async () => {

@@ -626,7 +626,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       ref,
       role,
       name: accessibleName(el, role),
-      text: ownText(el),
+      // A shadow host's own text shows only through the slots of its shadow root, where the tree holds it.
+      text: el.shadowRoot ? undefined : ownText(el),
       lang: el.getAttribute('lang') ?? undefined,
       states: statesOf(el),
       bounds: boundsOf(el),

@@ -15,7 +15,10 @@ export interface CheckPageOptions extends RampaOptions {
   exclude?: string | readonly string[] | undefined
   /** Save a full-page screenshot in this directory, like --screenshots. */
   screenshotDir?: string | undefined
-  /** Elements the collector reads before it stops; the snapshot records when it stopped. Default 5000. */
+  /**
+   * Elements the collector reads before it stops, in the page's own document, and as many again in its shadow roots and
+   * frames; the snapshot records when it stopped (`truncated`, `reach.truncated`). Default 5000.
+   */
   maxNodes?: number | undefined
 }
 
