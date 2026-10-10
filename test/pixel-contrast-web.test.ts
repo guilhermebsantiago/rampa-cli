@@ -91,6 +91,42 @@ describe.skipIf(!browser)('contrast measured from pixels', { timeout: 60_000 }, 
     )
   })
 
+  it('measures icon-only controls against the pixels next to their icon (1.4.11), and exempts disabled ones', async () => {
+    const { report, snapshot } = await check('icons.html')
+    const ids = ['icon-fail', 'icon-near-fail', 'icon-img-fail', 'icon-sr-fail', 'icon-pass', 'icon-near-pass', 'icon-link-pass', 'icon-disabled']
+    expect(outcomes(report, 'rampa/icon-contrast', ids)).toEqual({
+      'icon-fail': 'fail',
+      'icon-near-fail': 'fail',
+      'icon-img-fail': 'fail',
+      'icon-sr-fail': 'fail',
+      'icon-pass': 'none',
+      'icon-near-pass': 'none',
+      'icon-link-pass': 'none',
+      'icon-disabled': 'none',
+    })
+    const index = indexTree(snapshot.root)
+    expect(pixelFactOf(index.get('#icon-disabled')?.node ?? snapshot.root, 'icon')).toEqual({ kind: 'icon', status: 'exempt', reason: 'disabled' })
+    // Not icon-only controls: visible text next to the icon, a logo, a photo, and a checkbox the browser draws.
+    for (const id of ['icon-and-text', 'logo-link', 'photo-link', 'native-checkbox']) expect(index.get(`#${id}`)?.node.native.pixelContrast).toBeUndefined()
+    expect(report.findings.find((f) => f.ref === '#icon-fail')?.message).toMatch(
+      /^The icon of this button \("Close"\) has at most 1\.6\d:1 contrast with the pixels next to it \(#cccccc on #ffffff\)\./,
+    )
+    const record = report.coverage.criteria?.find((c) => c.id === '1.4.11')
+    expect(record?.status).toBe('failures')
+    expect(record?.methods).toEqual([
+      expect.objectContaining({ kind: 'rule', id: 'rampa/icon-contrast', applicable: 7, failures: 4, review: 0, note: '1 disabled control(s) exempt' }),
+    ])
+  })
+
+  it('measures text in view where it rests, though another measurement scrolled the page', async () => {
+    const { report, snapshot } = await check('scroll.html')
+    expect(outcomes(report, 'rampa/pixel-contrast', ['below', 'hero'])).toEqual({ below: 'none', hero: 'none' })
+    // Captured as the page loaded: the script fades it only once the page scrolls.
+    const hero = pixelFactOf(indexTree(snapshot.root).get('#hero')?.node ?? snapshot.root, 'text')
+    expect(hero).toMatchObject({ status: 'measured', foregroundFrom: 'css' })
+    expect(hero?.opacity).toBeUndefined()
+  })
+
   it('stops at the limit, says how many it left out, and leaves those to axe-core', async () => {
     const { report, snapshot } = await check('text.html', { pixelContrast: { limits: { text: 3 } } })
     expect(pixelRunOf(snapshot.root)).toMatchObject({ found: { text: 11 }, measured: { text: 3 }, leftOut: { text: 8 }, stopped: 'limit' })

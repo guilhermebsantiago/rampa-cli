@@ -11,16 +11,17 @@ import type { CaptureDriver } from './image-capture.ts'
  *
  * - text axe-core's color-contrast left undecided, because of a background image, a gradient, an element
  *   over or under it, or a pseudo-element (WCAG 1.4.3);
- * - the placeholder of an empty field, which axe-core does not check (1.4.3).
+ * - the placeholder of an empty field, which axe-core does not check (1.4.3);
+ * - the icon of a control whose only content is an svg, an img or an icon font (1.4.11, G207).
  *
  * Each element is scrolled into view and captured twice: as rendered, and with its own text (the
- * placeholder) made transparent, everything else as it was. pixels/pair-contrast.ts compares
+ * placeholder, the icon) made transparent, everything else as it was. pixels/pair-contrast.ts compares
  * the two. The results are facts on the node (snapshot/pixel-contrast.ts); the rules decide. `rampa check`
  * (`collectWeb`) and a test's own page (`collectPage`) share this module, as they share image-capture.ts.
  */
 
 /** Elements measured at most per page, by kind. */
-export const CONTRAST_LIMITS: Record<PixelKind, number> = { text: 20, placeholder: 10 }
+export const CONTRAST_LIMITS: Record<PixelKind, number> = { text: 20, placeholder: 10, icon: 20 }
 /** The whole measurement stops after this long on one page; what is left is counted as left out. */
 export const CONTRAST_BUDGET_MS = 6000
 const WAIT_MS = 1500
@@ -69,7 +70,7 @@ export interface ContrastCaptureOptions {
 interface Target {
   kind: PixelKind
   node: A11yNode
-  /** The element captured: the text's element, or the field. */
+  /** The element captured: the text's element, the field, or the icon itself. */
   capture: string
   axeReason?: string | undefined
   exempt?: string | undefined
@@ -78,7 +79,7 @@ interface Target {
 export async function captureContrast(driver: ContrastDriver, root: A11yNode, engine: EngineResults, options: ContrastCaptureOptions = {}): Promise<void> {
   const index = indexTree(root)
   const limits = { ...CONTRAST_LIMITS, ...options.limits }
-  const targets: Record<PixelKind, Target[]> = { text: [], placeholder: [] }
+  const targets: Record<PixelKind, Target[]> = { text: [], placeholder: [], icon: [] }
 
   const seen = new Set<string>()
   for (const rule of engine.rules) {
@@ -93,19 +94,23 @@ export async function captureContrast(driver: ContrastDriver, root: A11yNode, en
       targets.text.push({ kind: 'text', node, capture: node.ref, axeReason: reason })
     }
   }
-  const found = await driver.evaluate(findContrastTargetsInPage, null).catch(() => ({ placeholders: [] }) as FoundTargets)
+  const found = await driver.evaluate(findContrastTargetsInPage, null).catch(() => ({ placeholders: [], icons: [] }) as FoundTargets)
   for (const ref of found.placeholders) {
     const node = index.get(ref)?.node
     if (node && !node.states.includes('hidden')) targets.placeholder.push({ kind: 'placeholder', node, capture: ref })
+  }
+  for (const icon of found.icons) {
+    const node = index.get(icon.ref)?.node
+    if (node && index.has(icon.part) && !node.states.includes('hidden')) targets.icon.push({ kind: 'icon', node, capture: icon.part, exempt: icon.exempt })
   }
   if (PIXEL_KINDS.every((kind) => targets[kind].length === 0)) return
 
   const run: PixelContrastRun = {
     version: VERSION,
     limits,
-    found: { text: targets.text.length, placeholder: targets.placeholder.length },
-    measured: { text: 0, placeholder: 0 },
-    leftOut: { text: 0, placeholder: 0 },
+    found: { text: targets.text.length, placeholder: targets.placeholder.length, icon: targets.icon.length },
+    measured: { text: 0, placeholder: 0, icon: 0 },
+    leftOut: { text: 0, placeholder: 0, icon: 0 },
   }
   const deadline = Date.now() + (options.budgetMs ?? CONTRAST_BUDGET_MS)
   const layers = options.layers && (await options.layers.mark().catch(() => 0)) > 0 ? options.layers : undefined
@@ -164,7 +169,7 @@ async function measureTarget(driver: ContrastDriver, target: Target, waitMs: num
     const sy = rendered.height / prepared.height
     // One pixel of slack: an element screenshot rounds its box to whole device pixels.
     const regions = prepared.regions.map((r) => ({ x: r.x * sx - 1, y: r.y * sy - 1, width: r.width * sx + 2, height: r.height * sy + 2 }))
-    const result = measurePair({ rendered, bare: behind, regions, foreground: prepared.foreground })
+    const result = measurePair({ rendered, bare: behind, regions, foreground: prepared.foreground, internal: kind === 'icon' })
     if (!result.ok) return { ...base, reason: result.reason }
     const m = result.measure
     return {
@@ -190,28 +195,111 @@ async function measureTarget(driver: ContrastDriver, target: Target, waitMs: num
 export interface FoundTargets {
   /** Refs of empty fields that show a placeholder. */
   placeholders: string[]
+  /** Controls whose only content is an icon: the control's ref, the icon's ref, and why it needs no contrast, if it does not. */
+  icons: Array<{ ref: string; part: string; exempt?: string | undefined }>
 }
 
 /**
  * Runs in the page (serialized by the browser library, so it references nothing outside its body). Finds
- * the fields that show a placeholder, by the refs the collector left on the page (`window.__rampaRefs`).
+ * the fields that show a placeholder and the controls whose only content is an icon, by the refs the
+ * collector left on the page (`window.__rampaRefs`).
  */
 export function findContrastTargetsInPage(): FoundTargets {
   const refs = (window as unknown as { __rampaRefs?: Map<Element, string> }).__rampaRefs
-  const found: FoundTargets = { placeholders: [] }
+  const found: FoundTargets = { placeholders: [], icons: [] }
   if (!refs) return found
+  // Private Use Area characters: what icon fonts draw their glyphs with.
+  const PUA = /^[\s\uE000-\uF8FF\u{F0000}-\u{FFFFD}\u{100000}-\u{10FFFD}]+$/u
+  const ICON_FONT = /icon|awesome|glyph|material symbols|feather|fontello|icomoon/i
   const shown = (el: Element): boolean => {
     if (typeof el.checkVisibility === 'function' && !el.checkVisibility({ opacityProperty: true, visibilityProperty: true } as CheckVisibilityOptions)) return false
     const rect = el.getBoundingClientRect()
     // Visually hidden text (the sr-only pattern) keeps a 1 by 1 box.
     return rect.width > 1 && rect.height > 1
   }
+  const contentOf = (el: Element, pseudo: string): string => {
+    const content = getComputedStyle(el, pseudo).content
+    if (!content || content === 'none' || content === 'normal') return ''
+    return content.replace(/^["']|["']$/g, '')
+  }
+  const iconFont = (el: Element): boolean => {
+    if (ICON_FONT.test(getComputedStyle(el).fontFamily)) return true
+    return ['::before', '::after'].some((pseudo) => {
+      const content = contentOf(el, pseudo)
+      return content !== '' && (PUA.test(content) || ICON_FONT.test(getComputedStyle(el, pseudo).fontFamily))
+    })
+  }
+  // A pseudo-element that writes words, such as a "Menu" label drawn with ::after.
+  const pseudoWords = (el: Element): boolean =>
+    ['::before', '::after'].some((pseudo) => {
+      const content = contentOf(el, pseudo)
+      return /[\p{L}\p{N}]/u.test(content) && !PUA.test(content) && !ICON_FONT.test(getComputedStyle(el, pseudo).fontFamily)
+    })
+
   for (const el of Array.from(document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input[placeholder], textarea[placeholder]'))) {
     // A disabled field is an inactive component: its text has no contrast requirement.
     if (!el.placeholder.trim() || el.disabled || (el instanceof HTMLInputElement && el.type === 'hidden')) continue
     if (!el.matches(':placeholder-shown') || !shown(el)) continue
     const ref = refs.get(el)
     if (ref) found.placeholders.push(ref)
+  }
+
+  const LOGO = /logo|brand/i
+  for (const control of Array.from(document.querySelectorAll('a[href], button, [role="button"], [role="link"]'))) {
+    if (control.parentElement?.closest('a[href], button, [role="button"], [role="link"]')) continue
+    if (!refs.get(control) || pseudoWords(control)) continue
+    const parts: Element[] = []
+    let words = false
+    const visit = (el: Element): void => {
+      for (const child of Array.from(el.childNodes)) {
+        if (child.nodeType === Node.TEXT_NODE) {
+          const value = (child.textContent ?? '').trim()
+          if (!value) continue
+          // Ligature icon fonts write a word ("close") that the font draws as a picture.
+          if (PUA.test(value) || iconFont(el)) {
+            if (!parts.includes(el)) parts.push(el)
+          } else words = true
+          continue
+        }
+        if (!(child instanceof Element)) continue
+        if (getComputedStyle(child).display === 'contents') {
+          visit(child)
+          continue
+        }
+        if (!shown(child)) continue
+        const tag = child.localName
+        if (tag === 'svg' || tag === 'img') parts.push(child)
+        else if (tag === 'picture') {
+          const img = child.querySelector('img')
+          if (img && shown(img)) parts.push(img)
+        } else if (iconFont(child)) parts.push(child)
+        else {
+          if (pseudoWords(child)) words = true
+          visit(child)
+        }
+      }
+    }
+    visit(control)
+    if (words || parts.length === 0) continue
+    // The largest part is the icon; an icon is small, and a logo is not an icon.
+    let part = parts[0] as Element
+    let area = 0
+    for (const candidate of parts) {
+      const rect = candidate.getBoundingClientRect()
+      if (rect.width * rect.height > area) {
+        area = rect.width * rect.height
+        part = candidate
+      }
+    }
+    const rect = part.getBoundingClientRect()
+    if (rect.width < 8 || rect.height < 8 || rect.width > 64 || rect.height > 64) continue
+    const marks = [part.getAttribute('alt'), part.getAttribute('src'), part.getAttribute('class'), part.id, control.getAttribute('class'), control.id, control.getAttribute('aria-label')]
+    if (marks.some((mark) => mark && LOGO.test(mark))) continue
+    const partRef = refs.get(part)
+    if (!partRef) continue
+    // An inactive control needs no contrast (WCAG 1.4.11); neither does one the browser draws, which is never a candidate here.
+    const disabled = control.matches(':disabled') || control.closest('[aria-disabled="true"]') !== null
+    found.icons.push({ ref: refs.get(control) as string, part: partRef, ...(disabled ? { exempt: 'disabled' } : {}) })
   }
   return found
 }
@@ -225,11 +313,11 @@ export interface PreparedContrast {
   height: number
   /** The whole box is inside the viewport, so a screenshot of the viewport's box shows all of it. */
   inViewport: boolean
-  /** Where to look, relative to that box, in CSS px: the element's own lines of text, or a field's content box. */
+  /** Where to look, relative to that box, in CSS px: the element's own lines of text, a field's content box, or the icon. */
   regions: Array<{ x: number; y: number; width: number; height: number }>
   fontSize?: number | undefined
   fontWeight?: number | undefined
-  /** The color the style sheet paints the text with, when nothing blends it. */
+  /** The color the style sheet paints the text or the icon with, when nothing blends it. */
   foreground?: Rgba | undefined
   /** The placeholder's words. */
   text?: string | undefined
@@ -243,7 +331,7 @@ export interface PreparedContrast {
  * style sheet paints it with when nothing blends it. Scroll positions it changes are restored by
  * restoreContrastInPage.
  */
-export async function prepareContrastInPage(arg: { ref: string; capture: string; kind: 'text' | 'placeholder'; waitMs: number }): Promise<PreparedContrast> {
+export async function prepareContrastInPage(arg: { ref: string; capture: string; kind: 'text' | 'placeholder' | 'icon'; waitMs: number }): Promise<PreparedContrast> {
   type Undo =
     | { el: HTMLElement; prop: string; value: string; priority: string }
     | { el: Element; attr: string; value: string | null }
@@ -338,9 +426,11 @@ export async function prepareContrastInPage(arg: { ref: string; capture: string;
   const style = getComputedStyle(el)
   const pseudo = arg.kind === 'placeholder' ? getComputedStyle(el, '::placeholder') : style
   const result: PreparedContrast = { status: 'ready', x: 0, y: 0, width: 0, height: 0, inViewport: false, regions: [] }
-  result.fontSize = Number.parseFloat(pseudo.fontSize) || undefined
-  const weight = Number.parseInt(pseudo.fontWeight, 10)
-  result.fontWeight = Number.isNaN(weight) ? (pseudo.fontWeight === 'bold' ? 700 : 400) : weight
+  if (arg.kind !== 'icon') {
+    result.fontSize = Number.parseFloat(pseudo.fontSize) || undefined
+    const weight = Number.parseInt(pseudo.fontWeight, 10)
+    result.fontWeight = Number.isNaN(weight) ? (pseudo.fontWeight === 'bold' ? 700 : 400) : weight
+  }
   if (arg.kind === 'placeholder') result.text = (el as HTMLInputElement).placeholder
 
   // A color as [r, g, b, alpha] in sRGB, whatever syntax the style sheet used (oklch, color-mix...).
@@ -372,10 +462,34 @@ export async function prepareContrastInPage(arg: { ref: string; capture: string;
   } else if (arg.kind === 'text') {
     const clip = style.backgroundClip === 'text' || style.getPropertyValue('-webkit-background-clip') === 'text'
     if (!clip && !blended(el)) result.foreground = rgba(style.webkitTextFillColor || style.color)
-  } else {
+  } else if (arg.kind === 'placeholder') {
     const color = rgba(pseudo.webkitTextFillColor || pseudo.color)
     const opacity = Number.parseFloat(pseudo.opacity)
     if (color && !blended(el)) result.foreground = [color[0], color[1], color[2], color[3] * (Number.isNaN(opacity) ? 1 : opacity)]
+  } else if (!blended(shot)) {
+    if (shot.localName === 'svg') {
+      // One solid paint for every shape the icon draws, or the pixels decide.
+      const paints = new Set<string>()
+      let unknown = false
+      for (const shape of Array.from(shot.querySelectorAll('path, circle, rect, ellipse, line, polyline, polygon, text, use'))) {
+        const s = getComputedStyle(shape)
+        if (s.display === 'none' || s.visibility === 'hidden') continue
+        if (Number.parseFloat(s.opacity) < 1) unknown = true
+        for (const [paint, opacity, width] of [
+          [s.fill, s.fillOpacity, '1'],
+          [s.stroke, s.strokeOpacity, s.strokeWidth],
+        ] as const) {
+          if (!paint || paint === 'none' || Number.parseFloat(width) === 0) continue
+          if (paint.includes('url(') || Number.parseFloat(opacity) < 1) unknown = true
+          else paints.add(paint)
+        }
+      }
+      if (!unknown && paints.size === 1) result.foreground = rgba([...paints][0] ?? '')
+    } else if (shot.localName !== 'img') {
+      const before = getComputedStyle(shot, '::before')
+      const own = before.content && before.content !== 'none' && before.content !== 'normal' ? before : getComputedStyle(shot)
+      result.foreground = rgba(own.webkitTextFillColor || own.color)
+    }
   }
 
   box = shot.getBoundingClientRect()
@@ -468,8 +582,8 @@ export async function prepareContrastInPage(arg: { ref: string; capture: string;
   return result
 }
 
-/** Runs in the page: makes the element's own text, or the placeholder, transparent, everything else as it was. */
-export async function hideForContrastInPage(arg: { ref: string; capture: string; kind: 'text' | 'placeholder' }): Promise<number> {
+/** Runs in the page: makes the element's own text, the placeholder or the icon transparent, everything else as it was. */
+export async function hideForContrastInPage(arg: { ref: string; capture: string; kind: 'text' | 'placeholder' | 'icon' }): Promise<number> {
   type Undo =
     | { el: HTMLElement; prop: string; value: string; priority: string }
     | { el: Element; attr: string; value: string | null }
@@ -506,9 +620,18 @@ export async function hideForContrastInPage(arg: { ref: string; capture: string;
     force(el, 'transition', 'none')
     force(el, 'color', 'transparent')
     force(el, '-webkit-text-fill-color', 'transparent')
-  } else {
+  } else if (arg.kind === 'placeholder') {
     undo.push({ el, attr: 'placeholder', value: el.getAttribute('placeholder') })
     el.removeAttribute('placeholder')
+  } else if (shot.localName === 'svg' || shot.localName === 'img') {
+    // Transparent, not hidden: the element stays visible to the screenshot, which waits for that.
+    force(shot, 'transition', 'none')
+    force(shot, 'opacity', '0')
+  } else {
+    // An icon font: the glyph goes with the color, and the box with its background stays.
+    force(shot, 'transition', 'none')
+    force(shot, 'color', 'transparent')
+    force(shot, '-webkit-text-fill-color', 'transparent')
   }
   await new Promise<void>((resolve) => {
     const timer = setTimeout(resolve, 50)

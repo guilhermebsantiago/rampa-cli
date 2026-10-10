@@ -10,9 +10,10 @@ import type { A11yNode } from './schema.ts'
  * - text: an element whose text contrast axe-core could not decide (a background image, a gradient,
  *   an element over it, a pseudo-element), measured against what is behind its glyphs.
  * - placeholder: the placeholder of an empty field, which axe-core does not check.
+ * - icon: the icon of a control whose only content is an svg, an img or an icon font (1.4.11).
  */
 
-export const PIXEL_KINDS = ['text', 'placeholder'] as const
+export const PIXEL_KINDS = ['text', 'placeholder', 'icon'] as const
 export type PixelKind = (typeof PIXEL_KINDS)[number]
 
 export interface PixelContrastFact {
@@ -38,7 +39,7 @@ export interface PixelContrastFact {
   /** The highest and lowest contrast between the glyphs and what is behind them (ACT's highest possible contrast). */
   highest?: number | undefined
   lowest?: number | undefined
-  /** Glyph pixels compared, and their typical stroke width, in image pixels. */
+  /** Glyph or icon pixels compared, and their typical stroke width, in image pixels. */
   pixels?: number | undefined
   stroke?: number | undefined
   /** Pixel colors only: whether one color holds the strokes. */
@@ -51,7 +52,7 @@ export interface PixelContrastRun {
   version: string
   /** Elements measured at most per page, by kind. */
   limits: Record<PixelKind, number>
-  /** Candidates the page had, by kind. */
+  /** Candidates the page had, by kind; disabled icon controls are counted, not measured. */
   found: Record<PixelKind, number>
   /** Candidates measured (or found not measurable, with the reason on the node). */
   measured: Record<PixelKind, number>

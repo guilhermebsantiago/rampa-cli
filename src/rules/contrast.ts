@@ -8,13 +8,13 @@ import { walkTree } from '../snapshot/tree.ts'
 import type { Hit, RuleCheck, RuleRun } from './types.ts'
 
 /**
- * Pixel rules (wave B3 of docs/plans/wcag-coverage.md): text contrast the collector measured from pixels
+ * Pixel rules (wave B3 of docs/plans/wcag-coverage.md): contrast the collector measured from pixels
  * (surfaces/contrast-capture.ts), judged here with WCAG's thresholds, so a saved snapshot is judged
  * again offline. The reading is ACT's highest possible contrast (afw4f7, 09o5cg):
  *
  * - fail: even the highest contrast between the glyphs and what is behind them is below the threshold;
  * - no failure found: even the lowest contrast reaches it;
- * - review: part of the text reaches it and part does not, or the pixels could not tell.
+ * - review: part of the text (or icon) reaches it and part does not, or the pixels could not tell.
  */
 
 const UNDERSTANDING = 'https://www.w3.org/WAI/WCAG22/Understanding/'
@@ -277,8 +277,79 @@ export const placeholderContrastRule: RuleCheck = {
   },
 }
 
+/** The icon of a control whose only content is an svg, an img or an icon font: 3:1 against the pixels next to it (G207). */
+export const iconContrastRule: RuleCheck = {
+  id: 'rampa/icon-contrast',
+  version: '1',
+  criteria: ['1.4.11'],
+  maturity: 'experimental',
+  surfaces: ['web'],
+  act: [],
+  engineRules: [],
+  narrow: true,
+  undecidedReview: true,
+  help: {
+    en: 'An icon that is all a control shows needs a contrast of 3:1 with the colors next to it',
+    'pt-BR': 'Um ícone que é tudo o que um controle mostra precisa de contraste de 3:1 com as cores ao lado',
+  },
+  helpUrl: 'https://www.w3.org/WAI/WCAG22/Techniques/general/G207',
+  run(snapshot, _engine, ctx) {
+    const hits: Hit[] = []
+    let applicable = 0
+    let exempt = 0
+    for (const node of walkTree(snapshot.root)) {
+      const fact = pixelFactOf(node, 'icon')
+      if (!fact) continue
+      if (fact.status === 'exempt') {
+        exempt++
+        continue
+      }
+      applicable++
+      const call = contrastCall(fact, 3)
+      if (call.outcome === 'pass') continue
+      const name = node.name?.trim() || ''
+      hits.push({
+        ref: node.ref,
+        outcome: call.outcome,
+        subject: name || node.ref,
+        evidence: evidenceOf(fact),
+        facts: factsOf(fact, call, { name: truncate(name, 60), role: node.role }),
+        html: startTagOf(node),
+      })
+    }
+    const notes = [
+      leftOutNote(snapshot, 'icon', ctx.locale),
+      exempt > 0 ? say(ctx.locale, { en: `${exempt} disabled control(s) exempt`, 'pt-BR': `${exempt} controle(s) desabilitado(s) isento(s)` }) : undefined,
+    ].filter(Boolean)
+    return withNote({ hits, applicable }, notes.length > 0 ? notes.join('; ') : undefined)
+  },
+  message(hit, locale) {
+    const f = hit.facts
+    const what =
+      f.role === 'link' ? say(locale, { en: 'link', 'pt-BR': 'deste link' }) : say(locale, { en: 'button', 'pt-BR': 'deste botão' })
+    const named = f.name ? ` ("${f.name}")` : ''
+    const colors = `${f.foreground} ${say(locale, { en: 'on', 'pt-BR': 'sobre' })} ${f.background}`
+    if (f.why === 'below') {
+      return say(locale, {
+        en: `The icon of this ${what}${named} has at most ${ratio(f.highest, locale)} contrast with the pixels next to it (${colors}). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).`,
+        'pt-BR': `O ícone ${what}${named} tem no máximo ${ratio(f.highest, locale)} de contraste com os pixels ao lado (${colors}). É tudo o que o controle mostra, então o WCAG 1.4.11 pede 3:1 (G207).`,
+      })
+    }
+    if (f.status !== 'measured') {
+      return say(locale, {
+        en: `The contrast of the icon of this ${what}${named} could not be measured: ${unmeasuredReason(String(f.reason), locale)}.`,
+        'pt-BR': `O contraste do ícone ${what}${named} não pôde ser medido: ${unmeasuredReason(String(f.reason), locale)}.`,
+      })
+    }
+    return say(locale, {
+      en: `The icon of this ${what}${named} has a contrast from ${ratio(f.lowest, locale)} to ${ratio(f.highest, locale)} with the pixels next to it (${colors}); WCAG 1.4.11 asks for 3:1 where the icon must be seen: check it by eye.`,
+      'pt-BR': `O ícone ${what}${named} tem contraste de ${ratio(f.lowest, locale)} a ${ratio(f.highest, locale)} com os pixels ao lado (${colors}); o WCAG 1.4.11 pede 3:1 onde o ícone precisa ser visto: confira a olho.`,
+    })
+  },
+}
+
 function withNote(run: RuleRun, note: string | undefined): RuleRun {
   return note ? { ...run, note } : run
 }
 
-export const CONTRAST_RULES: readonly RuleCheck[] = [pixelContrastRule, placeholderContrastRule]
+export const CONTRAST_RULES: readonly RuleCheck[] = [pixelContrastRule, placeholderContrastRule, iconContrastRule]

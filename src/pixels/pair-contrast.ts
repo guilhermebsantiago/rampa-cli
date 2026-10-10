@@ -2,8 +2,8 @@ import { contrastRatio, hexColor, relativeLuminance } from './contrast.ts'
 import type { PixelRect, RgbaImage } from './png.ts'
 
 /**
- * Contrast from a pair of captures of the same box: as rendered, and bare, with the text made
- * transparent and everything else left as it was. The pixels that differ are the glyphs, and the
+ * Contrast from a pair of captures of the same box: as rendered, and bare, with the text (or the icon)
+ * made transparent and everything else left as it was. The pixels that differ are the glyphs, and the
  * bare capture holds, for each of them, the color right behind it: a background image, a gradient, a
  * text shadow or whatever else the page paints there. This is how Rampa measures what axe-core cannot
  * decide (docs/rules.md, "Pixel rules").
@@ -25,14 +25,16 @@ export type Rgba = readonly [number, number, number, number]
 export interface PairInput {
   rendered: RgbaImage
   bare: RgbaImage
-  /** Where to look, in image pixels: the element's own lines of text. The whole image when empty. */
+  /** Where to look, in image pixels: the element's own lines of text, or an icon's box. The whole image when empty. */
   regions?: readonly PixelRect[] | undefined
   /** The color the style sheet paints with, alpha from 0 to 1, when nothing else blends it. */
   foreground?: Rgba | undefined
+  /** Icons: parts of the icon count as next to each other too, such as a white glyph on a colored disc. */
+  internal?: boolean | undefined
 }
 
 export interface PairMeasure {
-  /** Glyph pixels compared. */
+  /** Glyph (or icon) pixels compared. */
   pixels: number
   /** #rrggbb, or #rrggbbaa for a color with alpha from the style sheet. */
   foreground: string
@@ -126,7 +128,7 @@ export function measurePair(input: PairInput): PairResult {
   }
   const stroke = medianRun(glyph, width, height)
 
-  const pixels = pixelContrasts(fg, bg)
+  const pixels = pixelContrasts(fg, bg, Boolean(input.internal))
   let css = input.foreground && input.foreground[3] > 0 ? cssContrasts(input.foreground, fg, bg) : undefined
   // Pixels never show more contrast than the color that paints them: when they do, the style sheet's color was read
   // mid-transition (a fade the screenshot then finished) or something else paints the text, and the pixels decide.
@@ -138,6 +140,7 @@ export function measurePair(input: PairInput): PairResult {
   const lowest = percentile(sorted, 0.01)
   const worstAt = order[Math.floor(0.01 * (order.length - 1))] ?? 0
   const bestAt = order[Math.floor(0.995 * (order.length - 1))] ?? 0
+  if (chosen.internal !== undefined) highest = Math.max(highest, chosen.internal)
   // Read from the pixels, the color may be a blend: the contrast each pixel shows, as rendered, is the floor of what the text reaches.
   if (chosen.rendered !== undefined) highest = Math.max(highest, chosen.rendered)
 
@@ -172,6 +175,7 @@ interface Contrasts {
   contrast: Float64Array
   foreground: string
   uniform: boolean
+  internal?: number | undefined
   /** Pixel colors only: the highest contrast the glyph pixels show against what is behind them, as rendered. */
   rendered?: number | undefined
 }
@@ -208,7 +212,7 @@ function cssContrasts(color: Rgba, fg: Int32Array, bg: Int32Array): Contrasts | 
  * most from what is behind it. Anti-aliasing only blends a stroke toward its background, so that color is
  * the stroke's own when some pixels are fully covered (strokes of three pixels or more).
  */
-function pixelContrasts(fg: Int32Array, bg: Int32Array): Contrasts {
+function pixelContrasts(fg: Int32Array, bg: Int32Array, internal: boolean): Contrasts {
   const counts = new Map<number, { count: number; sum: number }>()
   const shownContrast = new Float64Array(fg.length)
   for (let k = 0; k < fg.length; k++) {
@@ -225,8 +229,10 @@ function pixelContrasts(fg: Int32Array, bg: Int32Array): Contrasts {
   const enough = Math.max(2, fg.length * 0.02)
   let chosen = fg[0] ?? 0
   let best = -1
+  const frequent: number[] = []
   for (const [color, entry] of counts) {
     if (entry.count < enough) continue
+    frequent.push(color)
     const mean = entry.sum / entry.count
     if (mean > best) {
       best = mean
@@ -255,8 +261,19 @@ function pixelContrasts(fg: Int32Array, bg: Int32Array): Contrasts {
     const shown = fg[k] ?? 0
     if (Math.max(Math.abs(((shown >> 16) & 0xff) - cr), Math.abs(((shown >> 8) & 0xff) - cg), Math.abs((shown & 0xff) - cb)) <= SAME) near++
   }
+  // The parts of an icon against each other: a glyph drawn in white on a disc of another color.
+  let between: number | undefined
+  if (internal) {
+    const major = frequent.filter((color) => (counts.get(color)?.count ?? 0) >= fg.length * 0.05)
+    for (const p of major) {
+      for (const q of major) {
+        const ratio = contrastRatio(luminance((p >> 16) & 0xff, (p >> 8) & 0xff, p & 0xff), luminance((q >> 16) & 0xff, (q >> 8) & 0xff, q & 0xff))
+        if (between === undefined || ratio > between) between = ratio
+      }
+    }
+  }
   shownContrast.sort()
-  return { contrast, foreground: hexColor(chosen), uniform: best >= 0 && near >= fg.length * 0.12, rendered: percentile(shownContrast, 0.995) }
+  return { contrast, foreground: hexColor(chosen), uniform: best >= 0 && near >= fg.length * 0.12, internal: between, rendered: percentile(shownContrast, 0.995) }
 }
 
 /** The typical width of a stroke: the median run of glyph pixels along each row. */

@@ -43,7 +43,7 @@ export interface PageCollectOptions {
   scope?: Scope | undefined
   /** Which WCAG version's axe-core rules run; 2.2 by default. */
   wcag?: WcagVersion | undefined
-  /** Measure from pixels the contrast axe-core cannot decide, and placeholders; on by default. */
+  /** Measure from pixels the contrast axe-core cannot decide, placeholders and icon-only controls; on by default. */
   pixelContrast?: boolean | undefined
 }
 

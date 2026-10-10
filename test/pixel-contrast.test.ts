@@ -83,6 +83,16 @@ describe('contrast from a pair of captures', () => {
     expect(result.ok && result.measure.stroke).toBeGreaterThanOrEqual(4)
   })
 
+  it('counts an icon drawn on a disc of its own: the glyph against the disc', () => {
+    const bare = blank(40, 40)
+    const rendered = copy(bare)
+    fill(rendered, { x: 6, y: 6, width: 28, height: 28 }, [0x1a, 0x4d, 0x8f])
+    fill(rendered, { x: 16, y: 10, width: 8, height: 20 }, WHITE)
+    const result = measurePair({ rendered, bare, internal: true })
+    // The disc is 8.39:1 against the white page, and the white glyph 8.39:1 against the disc.
+    expect(result.ok && result.measure.highest).toBeGreaterThan(8)
+  })
+
   it('looks only at the regions it is given, and refuses what it cannot read', () => {
     const bare = blank(200, 40)
     const rendered = copy(bare)
@@ -208,7 +218,7 @@ describe('the pixel rules in a check', () => {
         '#mixed': text(7.46, 2.82, { foreground: '#555555' }),
         '#moving': { kind: 'text', status: 'unmeasured', axeReason: 'bgImage', reason: 'moving' },
       },
-      { version: '1', limits: { text: 4, placeholder: 10 }, found: { text: 5, placeholder: 0 }, measured: { text: 4, placeholder: 0 }, leftOut: { text: 1, placeholder: 0 }, stopped: 'limit' },
+      { version: '1', limits: { text: 4, placeholder: 10, icon: 20 }, found: { text: 5, placeholder: 0, icon: 0 }, measured: { text: 4, placeholder: 0, icon: 0 }, leftOut: { text: 1, placeholder: 0, icon: 0 }, stopped: 'limit' },
     )
     const report = await checkSnapshot(snapshot, engine, options())
     const fail = report.findings.find((f) => f.ruleId === 'rampa/pixel-contrast')
@@ -272,6 +282,28 @@ describe('the pixel rules in a check', () => {
     const report = await checkSnapshot(snapshot, engine, options())
     expect(report.coverage.criteria?.find((c) => c.id === '1.4.3')?.methods.map((m) => m.id)).toEqual(['color-contrast'])
     expect(report.needsReview?.map((item) => item.ruleId)).toEqual(['color-contrast'])
+    // Icon-only controls are one kind of content among many 1.4.11 covers: with none, the criterion stays not checked.
+    expect(report.coverage.criteria?.find((c) => c.id === '1.4.11')).toMatchObject({ status: 'not-checked', methods: [] })
+    expect(report.coverage.notChecked).toContain('1.4.11')
   })
 
+  it('checks 1.4.11 for icon-only controls, at 3:1, and names the control', async () => {
+    const icon = (highest: number, lowest: number): PixelContrastFact => ({ ...text(highest, lowest, { foreground: '#cccccc' }), kind: 'icon', axeReason: undefined, fontSize: undefined, fontWeight: undefined })
+    const { snapshot, engine } = measuredPage({ '#close': icon(1.61, 1.61), '#search': icon(3.23, 3.23), '#off': { kind: 'icon', status: 'exempt', reason: 'disabled' } })
+    for (const child of snapshot.root.children) {
+      child.role = 'button'
+      child.name = child.ref === '#close' ? 'Close' : 'Search'
+    }
+    const report = await checkSnapshot(snapshot, engine, options({ locale: 'pt-BR' }))
+    expect(report.findings.filter((f) => f.criterion === '1.4.11').map((f) => [f.ref, f.message])).toEqual([
+      [
+        '#close',
+        'O ícone deste botão ("Close") tem no máximo 1,61:1 de contraste com os pixels ao lado (#cccccc sobre #cccccc…#ffffff). É tudo o que o controle mostra, então o WCAG 1.4.11 pede 3:1 (G207).',
+      ],
+    ])
+    expect(report.coverage.criteria?.find((c) => c.id === '1.4.11')?.methods).toEqual([
+      expect.objectContaining({ id: 'rampa/icon-contrast', applicable: 2, failures: 1, note: '1 controle(s) desabilitado(s) isento(s)' }),
+    ])
+    expect(report.coverage.rules).toContain('1.4.11')
+  })
 })

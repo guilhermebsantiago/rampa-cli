@@ -41,7 +41,7 @@ export interface WebCollectOptions {
   /** Which WCAG version's axe-core rules run; 2.2 by default. */
   wcag?: WcagVersion | undefined
   /**
-   * Measure from pixels the contrast axe-core cannot decide, and placeholders; on whenever
+   * Measure from pixels the contrast axe-core cannot decide, placeholders and icon-only controls; on whenever
    * axe-core runs. Limits per page and the time budget can be changed (surfaces/contrast-capture.ts).
    */
   pixelContrast?: boolean | Pick<ContrastCaptureOptions, 'limits' | 'budgetMs'> | undefined
@@ -230,7 +230,7 @@ async function captureImages(page: Page, root: A11yNode): Promise<void> {
 
 /**
  * Contrast measured from pixels (contrast-capture.ts): each element captured as rendered and with its own
- * text or placeholder made transparent. Fixed and sticky layers that do not hold it are hidden, as for images.
+ * text, placeholder or icon made transparent. Fixed and sticky layers that do not hold it are hidden, as for images.
  */
 async function measureContrast(page: Page, root: A11yNode, engine: EngineResults, settings: Pick<ContrastCaptureOptions, 'limits' | 'budgetMs'> = {}): Promise<void> {
   await captureContrast(
