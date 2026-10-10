@@ -300,11 +300,10 @@ describe.skipIf(!browser)('the skip-link probe (2.4.1)', { timeout: 120_000 }, (
   it('runs with --probe keyboard, as a third record next to the two walks', async () => {
     if (!browser) throw new Error('no browser')
     const { snapshot } = await collectWeb(browser, fixture('bypass-skip.html'), { runAxe: false, locale: 'en', probes: ['keyboard'] })
-    expect(snapshot.observations?.probes.map((probe) => `${probe.kind} ${probe.conditions.variant} ${probe.status}`)).toEqual([
-      'keyboard keyboard-walk complete',
-      'keyboard keyboard-walk-390x844 complete',
-      'keyboard skip-link complete',
-    ])
+    const probes = snapshot.observations?.probes ?? []
+    expect(probes.map((probe) => `${probe.kind} ${probe.conditions.variant}`)).toEqual(['keyboard keyboard-walk', 'keyboard keyboard-walk-390x844', 'keyboard skip-link'])
+    // On Chrome on Linux the two walks of this page end partial (docs/probes.md); the skip-link record does not depend on them.
+    expect(probes.find((probe) => probe.conditions.variant === 'skip-link')?.status).toBe('complete')
   })
 })
 
