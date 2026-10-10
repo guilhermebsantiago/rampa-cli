@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Character key shortcuts: no way to turn them off</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; }
+  #clock { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Notes</h1>
+  <p>Updated at <span id="clock">0</span>.</p>
+  <p><label for="q">Search notes</label> <input id="q" type="search"></p>
+  <!-- A setting named for the keyboard that does not stop the shortcuts: toggling it changes nothing that matters here. -->
+  <p><label><input type="checkbox" id="sounds"> Play keyboard sounds</label></p>
+  <ul id="notes"><li>Buy bread</li></ul>
+  <dialog id="help"><p>s: search · n: new note · ?: this help · h: home</p></dialog>
+</main>
+<script>
+  // Shortcuts on the whole document, single keys with no modifier (F99); Ctrl+K is not one.
+  const q = document.getElementById('q')
+  const notes = document.getElementById('notes')
+  const help = document.getElementById('help')
+  document.addEventListener('keydown', (event) => {
+    if (event.ctrlKey || event.altKey || event.metaKey) {
+      if (event.key === 'k') q.focus()
+      return
+    }
+    const t = event.target
+    if (t instanceof HTMLInputElement && t.type !== 'checkbox') return
+    if (t instanceof HTMLTextAreaElement || (t instanceof HTMLElement && t.isContentEditable)) return
+    if (event.key === 's') {
+      event.preventDefault()
+      q.focus()
+    } else if (event.key === 'n') {
+      const item = document.createElement('li')
+      item.textContent = 'New note'
+      notes.append(item)
+    } else if (event.key === '?') {
+      if (!help.open) help.showModal()
+    } else if (event.key === 'h') {
+      location.href = 'https://example.invalid/home'
+    }
+  })
+  // The page changes on its own: the probe must not credit a key with it.
+  let tick = 0
+  setInterval(() => {
+    document.getElementById('clock').textContent = String(++tick)
+  }, 200)
+</script>
+</body>
+</html>

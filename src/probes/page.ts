@@ -4,7 +4,7 @@ import { type BrowserOptions, contextOptions, openPage, prepareContext } from '.
 import { type Guard, installGuard } from './guard.ts'
 import { installHooks, installKit, settleInPage } from './kit.ts'
 
-export const PROBE_KINDS = ['layout', 'keyboard', 'hover', 'orientation'] as const
+export const PROBE_KINDS = ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts'] as const
 export type ProbeKind = (typeof PROBE_KINDS)[number]
 
 export interface ProbeOptions {

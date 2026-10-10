@@ -1,6 +1,7 @@
 import type { CogaSettings } from '../advisory/check.ts'
 import { runProfiles } from '../advisory/profile.ts'
 import type { Profile } from '../advisory/types.ts'
+import { probeJudgments } from '../criteria/character-key-shortcuts.ts'
 import type { Locale } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import { probeChecks } from '../rules/probes.ts'
@@ -103,8 +104,12 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const errors: string[] = []
   const usage: Usage = { calls: 0, cachedCalls: 0, inputTokens: 0, outputTokens: 0, latencyMs: 0 }
   const llmActive = options.llm && (options.provider !== undefined || options.offline)
+  // A probe that left a question for a model (2.1.4: is the way to a shortcut setting clearly labeled?) adds its judgment.
+  const criteria = [...options.criteria, ...probeJudgments(snapshot).filter((extra) => !options.criteria.some((given) => given.id === extra.id))]
+  // Judgments that may only clear a probe rule's finding: what each decided, applied once every criterion has run.
+  const clearing: Array<{ rule: string; criterion: string; ref: string; passed: boolean; evidence?: string | undefined; control?: string | undefined; votes: number; total: number; model?: string | undefined }> = []
 
-  for (const criterion of options.criteria) {
+  for (const criterion of criteria) {
     const summary: CriterionSummary = {
       criterion: criterion.id,
       applicable: criterion.surfaces.includes(snapshot.surface),
@@ -168,6 +173,20 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
         case 'passed':
           summary.judged++
           summary.passed++
+          if (criterion.clears) {
+            const output = judgment.representative as { evidence?: string; control?: string } | undefined
+            clearing.push({
+              rule: criterion.clears,
+              criterion: criterion.id,
+              ref: judgment.candidate.ref,
+              passed: true,
+              evidence: output?.evidence ?? '',
+              control: output?.control,
+              votes: judgment.votes,
+              total: judgment.total,
+              model: options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId,
+            })
+          }
           continue
         case 'discarded':
         case 'failed': {
@@ -187,6 +206,21 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
           }
           const output = judgment.representative
           if (!output) continue
+          // A judgment that may only clear never makes a finding: its fail keeps the probe's, with the answer as evidence.
+          if (criterion.clears) {
+            if (judgment.status === 'failed') {
+              clearing.push({
+                rule: criterion.clears,
+                criterion: criterion.id,
+                ref: judgment.candidate.ref,
+                passed: false,
+                votes: judgment.votes,
+                total: judgment.total,
+                model: options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId,
+              })
+            }
+            continue
+          }
           const agreement = judgment.votes / Math.max(1, judgment.total)
           const voted: Confidence =
             agreement === 1 ? output.confidence : agreement >= 2 / 3 ? minConfidence(output.confidence, 'medium') : 'low'
@@ -211,6 +245,33 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             model: decided ? undefined : (options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId),
           })
         }
+      }
+    }
+  }
+
+  for (const decision of clearing) {
+    const target = (f: Finding) => f.source === 'probe' && f.ruleId === decision.rule && f.criterion === decision.criterion && f.ref === decision.ref
+    const row = probe.coverage.find((r) => r.rule === decision.rule && r.criterion === decision.criterion)
+    if (decision.passed) {
+      const cleared = findings.filter(target).length
+      findings = findings.filter((f) => !target(f))
+      if (row && cleared > 0) {
+        row.failures = Math.max(0, row.failures - cleared)
+        if (row.failures === 0 && row.status === 'failures') row.status = row.review > 0 ? 'needs-review' : 'no-failure-found'
+        const said = decision.control ? `"${decision.control}"` : `"${decision.evidence}"`
+        const note = options.locale === 'pt-BR' ? `achado retirado pelo modelo: ${said} leva claramente às configurações` : `finding cleared by the model: ${said} clearly leads to the settings`
+        row.note = row.note ? `${row.note}; ${note}` : note
+      }
+    } else {
+      for (const finding of findings.filter(target)) {
+        // A fail's evidence is not verified, so it is not quoted: the finding keeps the probe's own.
+        const said =
+          options.locale === 'pt-BR'
+            ? 'o modelo não achou um controle visível que leve claramente a uma forma de desligá-los ou remapeá-los'
+            : 'the model found no showing control that clearly leads to a way to turn them off or remap them'
+        finding.evidence = finding.evidence ? `${finding.evidence}; ${said}` : said
+        finding.model = decision.model
+        finding.agreement = { votes: decision.votes, total: decision.total }
       }
     }
   }
@@ -251,7 +312,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const records = criteriaCoverage({
     engine,
     summaries,
-    criteria: options.criteria,
+    criteria,
     llmActive,
     reported: [...reported, ...beyondShown],
     belowThreshold: [...belowThreshold, ...beyondBelow],
@@ -285,7 +346,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       : undefined
   if (advisory) for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) usage[key] += advisory.usage[key]
   // Images the collector left without a capture were never in front of a criterion that judges pixels: say so, and why.
-  const vision = options.criteria.some((criterion) => criterion.needs.vision && criterion.surfaces.includes(snapshot.surface))
+  const vision = criteria.some((criterion) => criterion.needs.vision && criterion.surfaces.includes(snapshot.surface))
   const uncaptured = vision && llmActive ? uncapturedImagesNote(snapshot.root, options.locale) : undefined
 
   return {

@@ -1,6 +1,6 @@
 # Probes
 
-A probe drives a web page after Rampa has collected it, read-only, and records what it saw. Rules then turn those facts into findings. This is how Rampa checks criteria that no static scan can: what happens when the page is narrowed to 320 CSS px, when text spacing is raised, when someone moves through it with the keyboard.
+A probe drives a web page after Rampa has collected it, behind a network guard, and records what it saw. Rules then turn those facts into findings. This is how Rampa checks criteria that no static scan can: what happens when the page is narrowed to 320 CSS px, when text spacing is raised, when someone moves through it with the keyboard.
 
 ```
 target ─► collect (snapshot + axe) ─► probes (--probe) ─► rules and criteria ─► report
@@ -11,11 +11,12 @@ target ─► collect (snapshot + axe) ─► probes (--probe) ─► rules and 
 Probes are **off by default**. Turn them on per run:
 
 ```sh
-rampa check https://example.com --probe all          # layout, keyboard, hover and orientation
+rampa check https://example.com --probe all          # layout, keyboard, hover, orientation and shortcuts
 rampa check page.html --probe layout                 # reflow (1.4.10), text spacing (1.4.12), 200% zoom (1.4.4)
 rampa check page.html --probe keyboard               # 2.1.1, 2.1.2, 3.2.1, 2.4.7, 2.4.11
 rampa check page.html --probe hover                  # content on hover or focus (1.4.13)
 rampa check page.html --probe orientation            # portrait and landscape (1.3.4)
+rampa check page.html --probe shortcuts              # single character key shortcuts (2.1.4)
 rampa check page.html --probe all --save .rampa/rec  # keep the observations to replay offline
 ```
 
@@ -23,7 +24,7 @@ Why off: each probe loads the page again, and the keyboard walk takes screenshot
 
 ## What a probe may do
 
-Every probe in this release is in the **observe** class:
+Every probe but one is in the **observe** class:
 
 - it presses Tab, Shift+Tab and Esc, and the arrow keys only to try to leave a suspected keyboard trap;
 - it resizes the viewport, changes the device scale factor (200% zoom) and injects CSS;
@@ -33,6 +34,8 @@ Every probe in this release is in the **observe** class:
 - it turns the window between portrait and landscape and sets the screen orientation over the DevTools protocol, with a `window.orientation` shim where the browser has none (the orientation probe); it reads the web app manifest with a GET and runs axe-core's experimental css-orientation-lock in the probe page;
 - it focuses the page's `body` for a moment before the walk, so the first Tab starts at the top of the page;
 - it never clicks, never presses Enter or Space on a control, never types, and never submits a form.
+
+The shortcuts probe (`--probe shortcuts`, 2.1.4) is the first of the plan's **activate** class, and the only one so far. With focus on the page's `body`, it presses each printable key on its own (letters, digits, punctuation and symbols, then capitals; never Space, which scrolls), and a key may do whatever the page bound it to. Then it presses Space on the checkboxes, switches and radios it found named for shortcuts or keys, to toggle them, presses the keys again, and toggles them back. It never clicks, never presses Enter, never types into a field (focus goes back to the body before every key, and if a script keeps a field focused the probe stops pressing), never changes a select, and the network guard is on the whole time, so a key that posts something (archive, delete, send) is blocked and a key that navigates is answered locally. A GET a key sets off still reaches the server; run it on pages where that is harmless, as with every probe.
 
 Each probe kind opens its own browser context with the same storage state, headers, cookies, color scheme and device settings as the collection (the layout probes force a 1280×1024 desktop window, as browser zoom would; the hover probe keeps the run's window size in desktop mode, so a pointer can hover even with `--device`), and loads the page fresh, so one probe's state never leaks into another's. The orientation probe opens four: a 1280×800 window and a 390×844 phone, each loaded upright and sideways; the phone has touch, device scale 3 and an Android Chrome user agent with the browser's own version (unless `--user-agent` sets one), since some pages show their "rotate your device" overlay only to phones.
 
@@ -110,6 +113,7 @@ What `--probe all` adds, and what each criterion still needs from a person. Ever
 | 1.4.13 Content on Hover or Focus | `probe/hover@1`, `rampa/hover-content`: up to 30 triggers, hovered and then focused | content over other content that Esc does not close (SCR39); content the pointer cannot move onto (F95); content that goes within 10 s on its own; each loss measured twice | a loss seen once of two tries; content that may be an input error; Esc that only moved focus; content that stays after the pointer and focus leave | triggers the probe does not find; input-error wording; touch; content that moves |
 | 2.1.1 Keyboard | `probe/keyboard@2`, `rampa/keyboard-reach`: Tab and Shift+Tab walk | a control neither walk reached (medium for a negative tabindex) | — | operating what was reached; drag and drop; states after interaction; handler-only controls |
 | 2.1.2 No Keyboard Trap | `probe/keyboard@2`, `rampa/keyboard-trap` | a cycle Tab, Shift+Tab, Esc and the arrows never leave, twice | traps inside dialogs; traps with exit text | traps after interaction; plug-ins |
+| 2.1.4 Character Key Shortcuts | `probe/shortcuts@1`, `rampa/character-key-shortcuts`: every printable key with focus on the body, twice, against a wait with no key; settings named for shortcuts toggled with Space; `judgment/2.1.4@1` only clears | printable keys that change the page while no control has focus and that no setting on the page stopped (F99), one finding per page, medium | — | settings on other pages or behind login (the message says to waive); shortcuts active only on focus; keyboard layouts and IMEs; speech input |
 | 2.4.7 Focus Visible | `probe/keyboard@2`, `rampa/focus-visible`: focused and blurred captures | no pixel changes in the region or the viewport; focus removed on arrival (F55) | a change only elsewhere; a faint change | whether a change is perceivable; forced colors; other browsers |
 | 2.4.11 Focus Not Obscured (Minimum) | `probe/keyboard@2`, `rampa/focus-obscured`: 5×5 hit grid at the run's window and at 390×844, confirmed by pixels | the element entirely under author content (beyond the target under `--wcag 2.1`) | — | content the user opened or moved; other window sizes and zoom levels |
 | 3.2.1 On Focus | `probe/keyboard@2`, `rampa/on-focus` | navigation, new window, submission or modal on focus, repeated when focus comes back (high); a browser dialog or a script focus move, repeated (medium) | a change that did not repeat; an address change with no load | focus by mouse; changes after interaction; content changes that change meaning |
@@ -146,15 +150,24 @@ The orientation probe, measured the same day (one run each; most of the time is 
 | rampa.guilhermebs.com.br | 4 | none | 11.0 s |
 | www.gov.uk | 4 | none | 10.5 s |
 | github.com/guilhermebsantiago/rampa-cli | 4 | none | 45.9 s |
+| developer.mozilla.org, the `<kbd>` page | 4 | none | 19.1 s |
+
+The shortcuts probe, measured the same day (most of the time is 94 keys at about 0.25 s each, then the confirmations):
+
+| Page | Keys pressed | Shortcuts found | Model calls | Time |
+|---|---|---|---|---|
+| rampa.guilhermebs.com.br | 0 (no key listener) | none | 0 | 4.3 s |
+| github.com/guilhermebsantiago/rampa-cli | 94 | `/`, `s`, `w`, `t`, `k`, `,` | 1 | 44.3 s |
+| developer.mozilla.org, the `<kbd>` page | 94 | `/` | 1 | 28.0 s |
 
 ## Not yet
 
-- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation']`. Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
+- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts']`. Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
 - The `rampa.config` file has no `probe` key yet.
 - Items to review appear with the engine's and the rules' in every format: grouped by criterion and rule in the terminal (each element with `--verbose`), the Markdown and the HTML reports, counted in SARIF's coverage, and listed in the JSON (`needsReview`).
 - Captures are not written next to a saved snapshot; only their hashes are recorded.
-- The activate class (clicks, Enter and Space, `--probe interact`) and `--allow-submit` do not exist yet; nothing here clicks or submits.
-- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, and the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either. They have not run yet on the Linux CI runner's Chrome.
+- The rest of the activate class (clicks, Enter and Space on controls, select changes, `--probe interact`) and `--allow-submit` do not exist yet; nothing here clicks or submits, and the shortcuts probe presses only printable keys on the body and Space on the settings it found.
+- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. They have not run yet on the Linux CI runner's Chrome.
 - Saved recordings of three real pages replay offline to the same findings, by id; the plan's measurement on 20 pages of the real-page sample (EVAL-1) is not done.
 
 ## The checks
@@ -190,7 +203,7 @@ A finding names the element that turns, or the layer or element that holds the m
 
 **ACT b33eff.** On its 13 test cases (deduplicated by address; 2026-10-09, Edge 154, online), the 4 failed examples fail (high: `html` or `body` turned a quarter, including Failed Example 3's 2.5° to 92.5°), and none of the 3 passed and 6 inapplicable examples has a failure or a review item. Passed Example 2's matrix with a rotation of about 10⁻¹³° reads as 0°. axe-core's `css-orientation-lock` flags the same element in all four failed examples. The test cases are not part of `pnpm test`, which runs offline; the fixtures in `test/fixtures/probes/orientation-*.html` reproduce their shapes and the overlay cases ACT does not cover.
 
-**Real pages.** On the three pages of the cost table nothing turned and no content was lost in either orientation. The plan's gate asks for a targeted corpus of pages that do restrict their orientation (searched for "rotate your device", "gire o celular"), which has not been gathered yet.
+**Real pages.** On the four pages of the cost table nothing turned and no content was lost in either orientation, which looks right: all four are responsive pages with no orientation lock. The plan's gate asks for a targeted corpus of pages that do restrict their orientation (searched for "rotate your device", "gire o celular"), which has not been gathered yet.
 
 **Limits.**
 
@@ -351,6 +364,45 @@ One finding per trigger and condition, on the trigger, saying "on hover and on f
 Evidence names the key sequence (`Tab ×4`), the element, what followed and how many milliseconds later.
 
 **Limits.** Chromium's Tab order only, at one viewport. States reached by activating something (menus, dialogs opened by a button) are not walked. Inside a cross-origin frame the walk sees only the frame element, and stops after 60 stops inside one frame. Elements in open shadow roots are walked but are unmatched in the snapshot, so they are never reported. An event that a page fires more than 150 ms after focus may be attributed to the next stop; the confirmation step catches most of those. The confirmation gives focus back with a script `focus()`, which runs the same handlers as a key but is not a key press. When the guard blocked requests (often analytics, sometimes data a page needs), the coverage note names their hosts: content that needed them may be missing. 2.1.1 does not test that a reached control can be operated with the keyboard; that needs the activate class (C2).
+
+### 2.1.4 Character Key Shortcuts (`--probe shortcuts`, rule `rampa/character-key-shortcuts`)
+
+**The probe.** A fresh page at the run's window size settles. The probe reads, over the DevTools protocol, how many `keydown`, `keyup` and `keypress` listeners the page has; with none, no key can do anything and none is pressed. It then takes focus back to the `body` and learns what the page changes on its own: three waits of 400 ms with no key, recording DOM mutations (the elements that change become noise) and the window's pixels (those that change become a mask, with a margin). Then, one at a time, with focus on the body and no modifier held, it presses each printable key: `a`–`z`, `?`, `/`, `0`–`9`, the ASCII punctuation and symbols, then `A`–`Z` (Space is left out: the browser scrolls on it). For 150 ms after each key it records:
+
+- DOM mutations a reader would notice: nodes added or removed, text, and ARIA, `role` and state attributes (`hidden`, `open`, `checked`, `value`…); `class` and `style` changes are counted apart, since only pixels tell them from bookkeeping;
+- where focus went, how far the window scrolled, whether the address changed;
+- `window.open`, form submission, modal dialogs and history entries (the kit's hooks), and the navigations and browser dialogs the guard answered;
+- the window's pixels, captured at half size, against the rest state, outside the noise mask.
+
+After a key that changed something, Esc, focus back to the body and the scroll put back; a change that stays (an item added to a list) becomes the new rest state. Every twelve keys, a wait with no key keeps teaching the probe what changes on its own. Keys that changed something other than a few stray pixels are pressed a second time, the clearest first (at most 24), each right after a wait of the same length with no key.
+
+**Settings.** The probe looks for checkboxes, switches, radios and selects whose label, legend or surrounding text speaks of shortcuts or keys (`shortcut`, `keyboard`, `hotkey`, `key`, `Ctrl`, `atalho`, `tecla`, `atajo`…), outside forms with password, card or file fields. With the shortcuts found, it gives each showing checkbox, switch or radio group focus, presses Space to toggle it, presses those keys again, and toggles it back (at most five settings and ten keys). Settings that are not showing (in a closed dialog or menu) are listed with the outermost element that hides them, and with the showing controls that may open it: those that name it in `aria-controls`, `href`, `popovertarget`, `commandfor` or `data-target`, a closed `details`' summary, and controls named for settings, shortcuts or accessibility. Selects are listed, not changed. It also records text about shortcuts ("press + to add"), `aria-keyshortcuts` values, and, on a page with at most 25 showing controls, their names.
+
+**The rule.**
+
+| Observation | Result |
+|---|---|
+| A printable key changed the page on both presses (DOM, focus, a scroll of 4 px or more, the address, a window, a submission, a dialog, a navigation, or 12 pixels or more of the half-size capture), and nothing changed in the wait with no key just before the second press | the key is a shortcut that works while no control has focus |
+| Toggling a setting on the page made a shortcut stop | that key is cleared, and the coverage note names the setting |
+| Shortcuts that no setting stopped | failure, medium: one finding per page, on `body`, listing the keys and what each did. The message says that a setting elsewhere (another page, the account settings) satisfies the criterion, and that the finding can then be waived |
+| A key that changed the page once of two presses, or while the page also changed with no key | not counted; the coverage note says how many |
+| A shortcut that works only while its control has focus (a list box's type-ahead) | not seen: focus is on the body, which is what the criterion allows |
+| Ctrl, Alt or Meta with a key | not pressed: not a character key shortcut |
+
+**"Clearly labeled" goes to a model, which may only clear.** When the probe found a setting it could not reach without a click, or a showing control that may lead to settings, the finding says so, and with judgment on, the `2.1.4` judgment (`src/criteria/character-key-shortcuts.ts`) asks the model one question: does a showing control clearly lead to a way to turn these shortcuts off or remap them, ACT ffbc54's "set of clearly labeled instruments"? The prompt lists the keys and their effects, the hidden settings, the candidate controls and the text about shortcuts. A pass must name one of the listed controls and quote page text, or it is discarded; a verified pass removes the probe's finding (the coverage note says which control cleared it), and a fail keeps it, with the model's answer in the evidence and the model named. The model never makes a finding of its own, and it is asked only when the probe left a question: on most pages it is never called. With `--no-llm`, the finding stays and the judgment is listed as not run.
+
+**ACT ffbc54.** On its 10 test cases (2026-10-09, Edge 154, online), with `ollama:gemma4:12b` answering the one question, both failed examples fail and none of the 6 passed and 2 inapplicable examples is flagged. Passed Examples 1 to 4 pass because Space on their checkbox stopped the key (a remap to Ctrl, or a switch that turns it off); Passed Example 5's shortcut works only while its field has focus, so the probe never sees it; the inapplicable examples use Escape or Ctrl. Passed Example 6 and Failed Example 2 differ only in the button that opens the dialog holding the settings: the model cleared the first ("Control shortcuts", with the text "To control the shortcuts activate the Control shortcuts button") and kept the second ("Open modal"). Without a model (`--no-llm`), Passed Example 6 keeps its finding: 2 of 2 failed examples found, 1 of 8 others flagged. Each page took 25 to 33 s on a loaded machine. The test cases are not part of `pnpm test`, which runs offline; the fixtures in `test/fixtures/probes/shortcuts-*.html` reproduce their shapes, with a clock that ticks on its own, a switch, a list box that types ahead only on focus, a key that navigates and a setting that does nothing.
+
+**Real pages.** rampa.guilhermebs.com.br registers no key listener, so no key was pressed: right, the site has no shortcuts. On github.com/guilhermebsantiago/rampa-cli, signed out, `/` and `s` (search), `w` (the branch filter), `t` (the file finder), `k` (the file list) and `,` (a new window) work with focus on the page; `y` changed the address on one press of two (the second finds it already changed) and is not counted. The model, asked about "Appearance settings" and the notification settings link, found no control that clearly leads to turning the shortcuts off. That is right for the page: GitHub's switch for character keys is in the account's accessibility settings, behind a sign-in, which is the case the message tells you to waive. On MDN's `<kbd>` page, `/` opens the search dialog and nothing on the page turns it off: the finding looks right. Of 8 runs on GitHub, 6 found the shortcuts and 2 found none (three keys changed the page on one press of two); both were before the probe waited for the network to go quiet, and the cause is not established.
+
+**Limits.**
+
+- One engine and one window size; keys go to the top document, so shortcuts inside a cross-origin frame (an embedded player) are not seen.
+- Settings behind a click, on another page or behind a login are not exercised: only the model's "clearly labeled" reading can clear such a finding, and a person waives one the page satisfies elsewhere.
+- A key's effect must show within 150 ms; slower effects (a fetch before anything renders) may be missed, or counted once of two presses.
+- A page that changes on its own all the time (a ticker, a video) masks what keys do in those regions; keys that changed it while it also changed with no key are not counted.
+- Sequences (`g` then `i`), keyboard layouts other than US English, dead keys and IMEs are not tried. A shortcut that focuses a field without calling `preventDefault` lets the browser put its character in the field; the probe takes focus back before the next key.
+- Settings are found by their wording, in English, Portuguese and Spanish with a few French and German words; a setting named otherwise is not tried.
 
 ### 2.4.7 Focus Visible and 2.4.11 Focus Not Obscured (`--probe keyboard`)
 
