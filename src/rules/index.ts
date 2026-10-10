@@ -9,13 +9,14 @@ import { CONTRAST_RULES } from './contrast.ts'
 import { ERROR_RULES } from './errors.ts'
 import { noVisibleLabelRule } from './forms.ts'
 import { fieldLabelInNameRule } from './label-in-name.ts'
+import { SEQUENCE_RULES } from './sequence.ts'
 import { STRUCTURE_RULES } from './structure.ts'
 import type { RuleCheck } from './types.ts'
 
 export type { Hit, RuleCheck, RuleContext, RuleRun } from './types.ts'
 
 /** Every Rampa rule, for every surface; each says where it applies. */
-export const RULE_CHECKS: readonly RuleCheck[] = [...CONTENT_RULES, noVisibleLabelRule, fieldLabelInNameRule, ...ERROR_RULES, ...STRUCTURE_RULES, ...CONTRAST_RULES]
+export const RULE_CHECKS: readonly RuleCheck[] = [...CONTENT_RULES, noVisibleLabelRule, fieldLabelInNameRule, ...ERROR_RULES, ...STRUCTURE_RULES, ...SEQUENCE_RULES, ...CONTRAST_RULES]
 
 /** One rule that applies to the surface, as it ran on a page. */
 export interface RuleRan {
