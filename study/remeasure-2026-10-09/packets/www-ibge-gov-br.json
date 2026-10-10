@@ -1,0 +1,472 @@
+{
+  "page": "https://www.ibge.gov.br/",
+  "slug": "www-ibge-gov-br",
+  "title": "IBGE | Portal do IBGE | IBGE",
+  "language": "pt-BR",
+  "snapshot": "remeasure-2026-10-09/pages/www-ibge-gov-br/recording/www-ibge-gov-br.snapshot.json",
+  "screenshot": "remeasure-2026-10-09/pages/www-ibge-gov-br/screenshot.png",
+  "collectedAt": "2026-10-10T01:22:27.652Z",
+  "findings": [
+    {
+      "key": "763391f06ba4",
+      "fingerprint": "763391f06ba4",
+      "criterion": "1.1.1",
+      "source": "judgment",
+      "ruleId": null,
+      "message": "The text alternative \"Logo do IBGE\" is all its link holds, and does not say where the link leads.",
+      "evidence": "Logo do IBGE",
+      "subject": "Logo do IBGE",
+      "patch": {
+        "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(1) > a > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "Logo do IBGE",
+        "to": "Página inicial do IBGE",
+        "before": "<img src=\"/templates/novo_portal_base/imagens/logo_mobile.png\" class=\"logo\" alt=\"Logo do IBGE\">",
+        "after": "<img src=\"/templates/novo_portal_base/imagens/logo_mobile.png\" class=\"logo\" alt=\"Página inicial do IBGE\">"
+      },
+      "confidence": "high",
+      "html": null,
+      "element": {
+        "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(1) > a > img",
+        "role": "img",
+        "name": "Logo do IBGE",
+        "text": null,
+        "states": [],
+        "bounds": {
+          "x": 40,
+          "y": 44,
+          "width": 135,
+          "height": 64.8
+        },
+        "tag": "img",
+        "attributes": {
+          "class": "logo",
+          "src": "/templates/novo_portal_base/imagens/logo_mobile.png",
+          "alt": "Logo do IBGE"
+        },
+        "html": "<img src=\"/templates/novo_portal_base/imagens/logo_mobile.png\" class=\"logo\" alt=\"Logo do IBGE\">",
+        "readingText": null,
+        "contentText": "[img: Logo do IBGE]"
+      },
+      "ancestors": [
+        {
+          "role": "link",
+          "tag": "a",
+          "name": null,
+          "text": "[img: Logo do IBGE]"
+        },
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "[img: Logo do IBGE] Mudar para o modo de alto contraste [img: Português] [img: English] Outros idiomas [img: globe] Español [img: es] Français [img: fr] Deutsch [img: de] العربية [img: ar] Български [img: bg] 简体中文 [img: zh-CN] Hrvatski [img: hr] Čeština‎ [img: cs] Dansk [img: da] Nederlands [img: n…"
+        },
+        {
+          "role": "generic",
+          "tag": "body",
+          "name": null,
+          "text": "Ir para o conteúdo GovBR Acesso à informação Participe Legislação Órgãos do Governo [img: Logo do IBGE] Mudar para o modo de alto contraste [img: Português] [img: English] Outros idiomas [img: globe] Español [img: es] Français [img: fr] Deutsch [img: de] العربية [img: ar] Български [img: bg] 简体中文 […"
+        }
+      ],
+      "headingsNear": {
+        "before": [],
+        "after": [
+          {
+            "tag": "h1",
+            "text": "Instituto Brasileiro de Geografia e Estatística",
+            "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(2) > div > h1"
+          }
+        ]
+      },
+      "link": {
+        "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(1) > a",
+        "name": null,
+        "href": "/pt/inicio.html",
+        "title": null
+      },
+      "destination": "not read by Rampa",
+      "imageCrop": "remeasure-2026-10-09/packets/www-ibge-gov-br/763391f06ba4.png"
+    },
+    {
+      "key": "bc3cedc5c276",
+      "fingerprint": "bc3cedc5c276",
+      "criterion": "2.4.4",
+      "source": "judgment",
+      "ruleId": null,
+      "message": "The link text \"Saiba mais\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "Saiba mais",
+      "subject": "Saiba mais",
+      "patch": {
+        "ref": "#cidades-estados-link-bottom",
+        "kind": "set-text",
+        "from": "Saiba mais",
+        "to": "Saiba mais sobre Florianópolis (SC)",
+        "before": "<a id=\"cidades-estados-link-bottom\" href=\"/cidades-e-estados.html?c=4205407\" class=\"botao-home\">Saiba mais</a>",
+        "after": "<a id=\"cidades-estados-link-bottom\" href=\"/cidades-e-estados.html?c=4205407\" class=\"botao-home\">Saiba mais sobre Florianópolis (SC)</a>"
+      },
+      "confidence": "high",
+      "html": null,
+      "element": {
+        "ref": "#cidades-estados-link-bottom",
+        "role": "link",
+        "name": "Saiba mais",
+        "text": "Saiba mais",
+        "states": [
+          "focusable"
+        ],
+        "bounds": {
+          "x": 895.9,
+          "y": 2493.5,
+          "width": 128.2,
+          "height": 50
+        },
+        "tag": "a",
+        "attributes": {
+          "id": "cidades-estados-link-bottom",
+          "class": "botao-home",
+          "href": "/cidades-e-estados.html?c=4205407"
+        },
+        "html": "<a id=\"cidades-estados-link-bottom\" href=\"/cidades-e-estados.html?c=4205407\" class=\"botao-home\">Saiba mais</a>",
+        "readingText": null,
+        "contentText": "Saiba mais"
+      },
+      "ancestors": [
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "Saiba mais"
+        },
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "Cidades e Estados Selecione... Acre - 12 Rio Branco ( AC ) - 1200401 Alagoas - 27 Maceió ( AL ) - 2704302 Amapá - 16 Macapá ( AP ) - 1600303 Amazonas - 13 Manaus ( AM ) - 1302603 Bahia - 29 Salvador ( BA ) - 2927408 Ceará - 23 Fortaleza ( CE ) - 2304400 Distrito Federal - 53 Brasília ( DF ) - 53001…"
+        },
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "Florianópolis Santa Catarina Cidades e Estados Selecione... Acre - 12 Rio Branco ( AC ) - 1200401 Alagoas - 27 Maceió ( AL ) - 2704302 Amapá - 16 Macapá ( AP ) - 1600303 Amazonas - 13 Manaus ( AM ) - 1302603 Bahia - 29 Salvador ( BA ) - 2927408 Ceará - 23 Fortaleza ( CE ) - 2304400 Distrito Federal…"
+        },
+        {
+          "role": "region",
+          "tag": "section",
+          "name": null,
+          "text": "População Estimativas da População 2026 214.211.951 Data de Referência: 01.07.2026 Inflação IPCA Mensal 0,82% set 2026 PIB SCNT Acumulado 4 trimestres 1,9% 2º tri 2026 Desemprego PNAD Contínua 5,4% 2º tri 2026 Inflação INPC 0,82% set 2026 Inflação IPCA-15 0,70% set 2026 Preços - Produtor IPP 0,36% …"
+        },
+        {
+          "role": "main",
+          "tag": "main",
+          "name": null,
+          "text": "Nossos serviços estão apresentando instabilidade no momento. Algumas informações podem não estar disponíveis. População Estimativas da População 2026 214.211.951 Data de Referência: 01.07.2026 Inflação IPCA Mensal 0,82% set 2026 PIB SCNT Acumulado 4 trimestres 1,9% 2º tri 2026 Desemprego PNAD Contí…"
+        }
+      ],
+      "headingsNear": {
+        "before": [
+          {
+            "tag": "h3",
+            "text": "Assista Ao Vivo nesta sexta-feira (9) Coletiva Pública sobre a programação do Espaço Censos na CONFEST/CONFEGE 2026",
+            "ref": "#section_por_dentro > ul > li:nth-of-type(1) > a > div > h3"
+          },
+          {
+            "tag": "h3",
+            "text": "Assista Ao Vivo nesta quinta-feira (8) Coletiva Pública sobre a programação internacional CONFEST/CONFEGE 2026",
+            "ref": "#section_por_dentro > ul > li:nth-of-type(2) > a > div > h3"
+          },
+          {
+            "tag": "h2",
+            "text": "Comunicados",
+            "ref": "#section_comunicados > div > h2"
+          },
+          {
+            "tag": "h2",
+            "text": "Cidades e Estados",
+            "ref": "#cidades-estados-link > h2"
+          }
+        ],
+        "after": [
+          {
+            "tag": "h2",
+            "text": "Nossos sites",
+            "ref": "#section_banners > div > a > h2"
+          }
+        ]
+      },
+      "link": {
+        "ref": "#cidades-estados-link-bottom",
+        "name": "Saiba mais",
+        "href": "/cidades-e-estados.html?c=4205407",
+        "title": null
+      },
+      "destination": {
+        "kind": "unreadable",
+        "reason": "forbidden",
+        "status": 403
+      }
+    },
+    {
+      "key": "e70263cbfc03",
+      "fingerprint": "e70263cbfc03",
+      "criterion": "3.1.2",
+      "source": "rule",
+      "ruleId": "rampa/language-switcher-lang",
+      "message": "\"English\" is in English, but it inherits the page's language (pt-BR): a screen reader mispronounces the language's name. Add lang=\"en\" to the link.",
+      "evidence": "English",
+      "subject": "English",
+      "patch": {
+        "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+        "kind": "set-attribute",
+        "attribute": "lang",
+        "to": "en",
+        "before": "<a href=\"/en/home-eng.html?lang=en-GB\">",
+        "after": "<a href=\"/en/home-eng.html?lang=en-GB\" lang=\"en\">"
+      },
+      "confidence": "low",
+      "html": "<a href=\"/en/home-eng.html?lang=en-GB\">",
+      "element": {
+        "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+        "role": "link",
+        "name": null,
+        "text": null,
+        "states": [
+          "focusable"
+        ],
+        "bounds": {
+          "x": 1023,
+          "y": 66.7,
+          "width": 22,
+          "height": 19.4
+        },
+        "tag": "a",
+        "attributes": {
+          "href": "/en/home-eng.html?lang=en-GB"
+        },
+        "html": "<a href=\"/en/home-eng.html?lang=en-GB\"> <img src=\"/templates/novo_portal_base/imagens/en.png\" alt=\"English\" title=\"English\"> </a>",
+        "readingText": null,
+        "contentText": "[img: English]"
+      },
+      "ancestors": [
+        {
+          "role": "listitem",
+          "tag": "li",
+          "name": null,
+          "text": "[img: English]"
+        },
+        {
+          "role": "list",
+          "tag": "ul",
+          "name": null,
+          "text": "[img: Português] [img: English]"
+        },
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "Mudar para o modo de alto contraste [img: Português] [img: English] Outros idiomas [img: globe] Español [img: es] Français [img: fr] Deutsch [img: de] العربية [img: ar] Български [img: bg] 简体中文 [img: zh-CN] Hrvatski [img: hr] Čeština‎ [img: cs] Dansk [img: da] Nederlands [img: nl] Suomi [img: fi] Ε…"
+        },
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "[img: Logo do IBGE] Mudar para o modo de alto contraste [img: Português] [img: English] Outros idiomas [img: globe] Español [img: es] Français [img: fr] Deutsch [img: de] العربية [img: ar] Български [img: bg] 简体中文 [img: zh-CN] Hrvatski [img: hr] Čeština‎ [img: cs] Dansk [img: da] Nederlands [img: n…"
+        },
+        {
+          "role": "generic",
+          "tag": "body",
+          "name": null,
+          "text": "Ir para o conteúdo GovBR Acesso à informação Participe Legislação Órgãos do Governo [img: Logo do IBGE] Mudar para o modo de alto contraste [img: Português] [img: English] Outros idiomas [img: globe] Español [img: es] Français [img: fr] Deutsch [img: de] العربية [img: ar] Български [img: bg] 简体中文 […"
+        }
+      ],
+      "headingsNear": {
+        "before": [],
+        "after": [
+          {
+            "tag": "h1",
+            "text": "Instituto Brasileiro de Geografia e Estatística",
+            "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(2) > div > h1"
+          }
+        ]
+      },
+      "link": {
+        "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+        "name": null,
+        "href": "/en/home-eng.html?lang=en-GB",
+        "title": null
+      },
+      "destination": "not read by Rampa"
+    },
+    {
+      "key": "1b2306574f67",
+      "fingerprint": "1b2306574f67",
+      "criterion": "1.4.3",
+      "source": "rule",
+      "ruleId": "rampa/placeholder-contrast",
+      "message": "The placeholder \"Buscar\" has a contrast of 4.08:1 with the field (#757575 on #f1f1f1). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#757575 on #f1f1f1 · 4.08:1 at best, 4.08:1 at worst · 16px, 500",
+      "subject": "Buscar",
+      "patch": null,
+      "confidence": "low",
+      "html": "<input name=\"searchword\" id=\"mod-search-searchword\" maxlength=\"200\" type=\"search\" class=\"header__busca--campo inputbox search-query\" placeholder=\"Buscar\" value=\"\">",
+      "element": {
+        "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > form > input",
+        "role": "searchbox",
+        "name": "Buscar Buscar",
+        "text": null,
+        "states": [
+          "focusable"
+        ],
+        "bounds": {
+          "x": 860,
+          "y": 123.8,
+          "width": 326.8,
+          "height": 35
+        },
+        "tag": "input",
+        "attributes": {
+          "id": "mod-search-searchword",
+          "class": "header__busca--campo inputbox search-query",
+          "type": "search",
+          "name": "searchword",
+          "placeholder": "Buscar",
+          "maxlength": "200"
+        },
+        "html": "<input name=\"searchword\" id=\"mod-search-searchword\" maxlength=\"200\" type=\"search\" class=\"header__busca--campo inputbox search-query\" placeholder=\"Buscar\" value=\"\">",
+        "readingText": null,
+        "contentText": ""
+      },
+      "ancestors": [
+        {
+          "role": "form",
+          "tag": "form",
+          "name": null,
+          "text": "Buscar"
+        },
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "☰ Instituto Brasileiro de Geografia e Estatística Buscar"
+        },
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "[img: Logo do IBGE] Mudar para o modo de alto contraste [img: Português] [img: English] Outros idiomas [img: globe] Español [img: es] Français [img: fr] Deutsch [img: de] العربية [img: ar] Български [img: bg] 简体中文 [img: zh-CN] Hrvatski [img: hr] Čeština‎ [img: cs] Dansk [img: da] Nederlands [img: n…"
+        },
+        {
+          "role": "generic",
+          "tag": "body",
+          "name": null,
+          "text": "Ir para o conteúdo GovBR Acesso à informação Participe Legislação Órgãos do Governo [img: Logo do IBGE] Mudar para o modo de alto contraste [img: Português] [img: English] Outros idiomas [img: globe] Español [img: es] Français [img: fr] Deutsch [img: de] العربية [img: ar] Български [img: bg] 简体中文 […"
+        }
+      ],
+      "headingsNear": {
+        "before": [
+          {
+            "tag": "h1",
+            "text": "Instituto Brasileiro de Geografia e Estatística",
+            "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(2) > div > h1"
+          }
+        ],
+        "after": [
+          {
+            "tag": "h2",
+            "text": "Instituto Brasileiro de Geografia e Estatística",
+            "ref": "html > body > header > div:nth-of-type(2) > div > div:nth-of-type(2) > div > h2"
+          }
+        ]
+      }
+    },
+    {
+      "key": "6dcaf9cbc731",
+      "fingerprint": "6dcaf9cbc731",
+      "criterion": "2.4.6",
+      "source": "judgment",
+      "ruleId": null,
+      "message": "The label \"Buscar Buscar\" does not say what to enter.",
+      "evidence": "Buscar Buscar",
+      "subject": "Buscar Buscar",
+      "patch": {
+        "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > form > label",
+        "kind": "set-text",
+        "from": "Buscar Buscar",
+        "to": "Pesquisar no site",
+        "before": "<label style=\"font-size: 0;\" for=\"mod-search-searchword\">Buscar Buscar</label>",
+        "after": "<label style=\"font-size: 0;\" for=\"mod-search-searchword\">Pesquisar no site</label>"
+      },
+      "confidence": "low",
+      "html": null,
+      "element": {
+        "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > form > input",
+        "role": "searchbox",
+        "name": "Buscar Buscar",
+        "text": null,
+        "states": [
+          "focusable"
+        ],
+        "bounds": {
+          "x": 860,
+          "y": 123.8,
+          "width": 326.8,
+          "height": 35
+        },
+        "tag": "input",
+        "attributes": {
+          "id": "mod-search-searchword",
+          "class": "header__busca--campo inputbox search-query",
+          "type": "search",
+          "name": "searchword",
+          "placeholder": "Buscar",
+          "maxlength": "200"
+        },
+        "html": "<input name=\"searchword\" id=\"mod-search-searchword\" maxlength=\"200\" type=\"search\" class=\"header__busca--campo inputbox search-query\" placeholder=\"Buscar\" value=\"\">",
+        "readingText": null,
+        "contentText": ""
+      },
+      "ancestors": [
+        {
+          "role": "form",
+          "tag": "form",
+          "name": null,
+          "text": "Buscar"
+        },
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "☰ Instituto Brasileiro de Geografia e Estatística Buscar"
+        },
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "[img: Logo do IBGE] Mudar para o modo de alto contraste [img: Português] [img: English] Outros idiomas [img: globe] Español [img: es] Français [img: fr] Deutsch [img: de] العربية [img: ar] Български [img: bg] 简体中文 [img: zh-CN] Hrvatski [img: hr] Čeština‎ [img: cs] Dansk [img: da] Nederlands [img: n…"
+        },
+        {
+          "role": "generic",
+          "tag": "body",
+          "name": null,
+          "text": "Ir para o conteúdo GovBR Acesso à informação Participe Legislação Órgãos do Governo [img: Logo do IBGE] Mudar para o modo de alto contraste [img: Português] [img: English] Outros idiomas [img: globe] Español [img: es] Français [img: fr] Deutsch [img: de] العربية [img: ar] Български [img: bg] 简体中文 […"
+        }
+      ],
+      "headingsNear": {
+        "before": [
+          {
+            "tag": "h1",
+            "text": "Instituto Brasileiro de Geografia e Estatística",
+            "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(2) > div > h1"
+          }
+        ],
+        "after": [
+          {
+            "tag": "h2",
+            "text": "Instituto Brasileiro de Geografia e Estatística",
+            "ref": "html > body > header > div:nth-of-type(2) > div > div:nth-of-type(2) > div > h2"
+          }
+        ]
+      }
+    }
+  ]
+}

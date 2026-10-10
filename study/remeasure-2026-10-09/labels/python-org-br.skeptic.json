@@ -1,0 +1,24 @@
+{
+  "page": "https://python.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "0b2dcd1c8600",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The image is the site's template placeholder (images/comunidades-locais/default.png, a plain Python logo). It sits in the logo slot of the PythOnRio card, right under the h4 'PythOnRio'. The live page still has the same markup, and at least a dozen other cards (GruPy-MT, Py013, PyTche, Pug-CE...) use the same default.png with their own group name as alt. On this page the image works as a stand-in logo for the group, so naming the group serves the same purpose as the image. A screen reader user loses nothing that matters: the only visual content is a generic Python logo on a Python community site. SC 1.1.1 asks for an alternative that serves the equivalent purpose, not a literal description of the pixels, so 'describes something the image does not show' is a stricter rule than WCAG's. The suggested patch ('Logotipo da linguagem de programação Python') would add noise and fix nothing. A stronger argument would be that the placeholder is pure decoration and should have alt=\"\" (F38). That is a different claim from this finding, and many auditors would treat it only as a redundancy advisory."
+    },
+    {
+      "fingerprint": "9e1662ccd247",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the GruPy-DF group logo (grupy-df.png). The crop shows a green Python-themed shape with the visible wordmark 'grupy-df'. alt=\"GruPy-DF\" gives the organisation name and the text in the logo, which is exactly the right alternative for a logo under the 1.1.1 Understanding document and G94. It is not a file name: there is no extension and the casing differs. The file is named after the group, not the other way round. F30 covers alternatives that are not alternatives, such as 'grupy-df.png' or 'image'. An alternative that happens to match the file stem while describing the image correctly is not an F30 case. The rule treats 'matches the file name' as a failure, which WCAG does not require. Repeating the card heading is redundant at most, not a 1.1.1 failure. The live page is unchanged."
+    },
+    {
+      "fingerprint": "1e26e7588bd6",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the GruPy-ABC group logo (grupy-abc.png). The crop shows the Python snake mark with the wordmark 'GruPy' and a small 'abc' under it. alt=\"GruPy-ABC\" reproduces the logo text and names the organisation, which is the right alternative for a logo under SC 1.1.1. It is not a file name or placeholder text in F30's sense. It matches the file stem only because the file is named after the group. The rule's 'alt equals file name' heuristic is stricter than the criterion and misfires on correct logo alternatives. The alt repeats the card's h4 'GruPy-ABC', which is redundancy, not a failure. The live page is unchanged."
+    }
+  ]
+}

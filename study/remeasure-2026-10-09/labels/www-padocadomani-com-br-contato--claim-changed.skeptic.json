@@ -1,0 +1,12 @@
+{
+  "page": "https://www.padocadomani.com.br/contato/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "0b9261bc02c1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h3 'delivery' in the 'padoca joaquim antunes' block of the contact/hours page. Its sibling h3 headings are 'nosso endereço', 'nossos horários', 'formas de pagamento' and 'contato'. The snapshot shows the text right after it: 'segunda a sexta: 8h às 18h30 / sábado: 8h às 17h30 / domingo: 8h às 15h30'. These are the delivery service's hours, and they differ from the shop hours under 'nossos horários' (7h30 to 19h and so on). So the heading names exactly the topic of the content under it. 'Delivery' is the everyday Brazilian Portuguese word for food delivery, so the English spelling does not make it unclear. The patch ('Entrega') suggests the model objected to the language, which is not a 2.4.6 matter anyway. The model had the following content in its context and still judged the topic wrong. 2.4.6 is met."
+    }
+  ]
+}

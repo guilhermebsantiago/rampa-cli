@@ -1,0 +1,12 @@
+{
+  "page": "https://www.bbc.com/news/articles/c3j4790elkx7o",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "4e0851e8422d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the \"Earth\" link (href /future-planet) in the BBC footer's \"Footer navigation\" list: Home, News, Sport, Business, Technology, Health, Culture, Arts, Travel, Earth, Audio, Video, Live, Weather. The same \"Earth\" link to /future-planet is also in the page's main navigation bar at the top. In a site section menu, a link named after a section identifies its purpose: it goes to the BBC's Earth section. The destination Rampa fetched confirms this. Its h1 is \"Earth\" and its title is \"BBC Earth | Environment, Climate Change...\", so the link text matches the destination heading exactly. The nav list is programmatically determined context for the link (G53/G91 territory), and the link text alone already describes the destination, so 2.4.4 is met. The packet gave the model the nav ancestors and the destination heading, so this is a judgment error, not missing context. The suggested 'BBC Earth' rename is cosmetic, and the finding's claim that 'nothing around it' says where the link goes is wrong."
+    }
+  ]
+}

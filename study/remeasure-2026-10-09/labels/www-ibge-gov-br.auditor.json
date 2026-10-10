@@ -1,0 +1,36 @@
+{
+  "page": "https://www.ibge.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "763391f06ba4",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the IBGE logo image (alt=\"Logo do IBGE\"). It is the only content of the header link to /pt/inicio.html, the portal home, and it sits in the usual top-left logo position (confirmed in the snapshot, the screenshot and the live HTML). The alt names the organisation the logo stands for. A sighted user sees the IBGE logo and knows by convention that it leads home; a screen reader user hears \"link, Logo do IBGE\" and has the same information, so the text alternative serves the equivalent purpose that 1.1.1 asks for. Wording such as \"IBGE - página inicial\", as the WAI images tutorial suggests, would be better, but that is advisory. The link has a name, so failure F89 does not apply. Requiring the alt to name the destination is stricter than 1.1.1."
+    },
+    {
+      "fingerprint": "bc3cedc5c276",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Saiba mais\" is the button-styled link that closes the home page's \"Cidades e Estados\" module. It goes to /cidades-e-estados.html?c=4205407, the Cidades e Estados page for the municipality shown. The link sits in the same container as the h2 \"Cidades e Estados\", which precedes it. In between are the selected city, \"Florianópolis ( SC ) - 4205407\", and that city's population, area and code (snapshot and screenshot). Under H80, the link text combined with the preceding heading (\"Saiba mais\" + \"Cidades e Estados\") describes the purpose: more on this city in Cidades e Estados. That is programmatically determined link context, which is enough for 2.4.4 (Level A). The finding's claim that \"nothing around it does\" is wrong, and the packet gave the model that heading. Link text on its own would only be required by 2.4.9 (AAA). The live page now shows another capital (Brasília), but the structure is the same."
+    },
+    {
+      "fingerprint": "e70263cbfc03",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the language-switcher link to /en/home-eng.html in the header. It contains only a flag image with alt=\"English\" and title=\"English\". The page is lang=\"pt-BR\", and neither the link nor the image has lang=\"en\" (confirmed in the snapshot and the live HTML). The 3.1.2 Understanding document's own example (\"Alternative language links\") shows links that each name their language in that language and are marked with a lang attribute. The word is clearly meant to be in English, would be pronounced differently by a Portuguese voice, and is not part of Portuguese vernacular, so the single-word and vernacular exceptions do not apply. Adding lang=\"en\" on the link, as the patch does, fixes it. Rampa's low confidence is understandable, but the failure is real."
+    },
+    {
+      "fingerprint": "1b2306574f67",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the visible desktop header search field, with placeholder \"Buscar\". The site CSS sets the field background to #f1f1f1 (input.header__busca--campo), sets no placeholder colour, and uses 16px italic weight 500. That leaves Chrome's default placeholder colour, #757575. Sampling the screenshot inside the field gives a #f1f1f1 background with #757575 glyph cores. The contrast is 4.08:1, which I recomputed. That is below 4.5:1, and the text is not large. The 1.4.3 Understanding document says the criterion covers placeholder text. The field is enabled, so the inactive-component exception does not apply. The placeholder is also the only visible label, because the real label has font-size 0."
+    },
+    {
+      "fingerprint": "6dcaf9cbc731",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header site-search field, next to a magnifier button named \"Buscar\". The live HTML has <label for=\"mod-search-searchword\">Buscar</label>. The computed name \"Buscar Buscar\" comes from a duplicate id: the hidden mobile header repeats the same form, and both labels point at the first input. So the patch's \"before\" HTML, which shows label text \"Buscar Buscar\", is not the real markup. Either way, \"Buscar\" (Search) on a search field in the site header is a standard label that describes the field's purpose: site search. 2.4.6 requires no more than that. The doubled word is redundancy from the duplicate ids, a markup/name-computation issue arguably under 4.1.2, not a label that fails to describe the purpose."
+    }
+  ]
+}

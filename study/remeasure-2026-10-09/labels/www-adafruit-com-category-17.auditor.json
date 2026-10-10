@@ -1,0 +1,54 @@
+{
+  "page": "https://www.adafruit.com/category/17",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "2e954a6181fc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the product thumbnail for the Motor/Stepper/Servo Shield kit (1438-00.jpg), inside a link whose sr-only text gives the product name. I looked at the crop and at the 970px image: a blue motor shield on an Arduino, wired to two servos, one stepper motor and two DC motors. The alt matches what is shown. Two details are loose: it says 'v2' while the product is the 'v3 Kit', and it says 'several steppers' when there is one stepper. Neither describes something the image does not show, and the alt still gives an equivalent for the photo, so 1.1.1 is met. The live page still uses the same alt."
+    },
+    {
+      "fingerprint": "4c0cfd4b290d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the thumbnail for the half-size breadboard (64-06.jpg). In the full-size image, a white half-size solderless breadboard is seen at an angle, and its power rails are marked with red and black lines and +/- signs. The alt 'Angled shot of half-size solderless breadboard with red and black power lines' is accurate. The model's claim, and its patch that says 'red and blue', are wrong. 1.1.1 is met."
+    },
+    {
+      "fingerprint": "637e05c3b1da",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the thumbnail for the 9 VDC 1000mA power adapter (63-07.jpg). The crop shows a black wall-plug adapter, seen at an angle, with a coiled cable and a barrel plug. That is exactly what the alt names. 'UL listed' is part of the product name, not a claim about what the picture shows. The alt is an equivalent text alternative, so 1.1.1 is met."
+    },
+    {
+      "fingerprint": "a778751946e2",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the thumbnail for the 9V battery holder (67-03.jpg). The crop shows a black 9V battery box, seen at an angle, with a small slide switch on top and a cable ending in a DC barrel plug. That matches the alt word for word: black, 9V holder, on-off switch, 5.5mm/2.1mm plug. The model's own patch says the same thing in fewer words. 1.1.1 is met."
+    },
+    {
+      "fingerprint": "50681837f6cb",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the thumbnail for the FTDI Friend (284-03.jpg). The crop shows a small blue rectangular breakout board, seen at an angle, with a black header and a micro USB port. The alt 'Angled shot of blue rectangular FTDI breakout board' is accurate. Leaving out the USB port is not a 1.1.1 failure, since the alt still serves the image's purpose next to the product name. 1.1.1 is met."
+    },
+    {
+      "fingerprint": "b7a6e2088ab9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the thumbnail for the in-line power switch (1125-07.jpg). The crop shows a black cable, seen at an angle, with an in-line rocker switch and 2.1mm barrel connectors at both ends. That is what the alt says. The model's patch is a near paraphrase of the existing alt. 1.1.1 is met."
+    },
+    {
+      "fingerprint": "1063100c930a",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the desktop header search field (#search). Its aria-labelledby points to #searchBtn, a submit button that sits inside the right end of the field and shows a magnifying-glass icon (fa-search), with 'Search' as sr-only text. The screenshot confirms the icon is visible. WCAG defines a label as text or another component with a text alternative, and G167 (an adjacent button that labels the field's purpose) is a sufficient technique for 3.3.2. A search box with a magnifying-glass submit button in the site header is the standard case that technique covers. The finding's claim that 'no text, button or legend sits near it' is wrong. The rule required visible text and ignored the icon button, which is stricter than 3.3.2. The live markup is unchanged."
+    },
+    {
+      "fingerprint": "28bea865ce32",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the link 'turn UP the TERROR!' in the site-wide promo banner. The live markup is unchanged: '<div class=\"message\">The Halloween countdown has begun ... Are you ready to <a href=\".../explore/halloween-2026\">turn UP the TERROR!</a>?</div>'. The link goes to the Halloween 2026 shopping guides page. Under 2.4.4 (in context), the enclosing sentence and message block are programmatically determined context (G53). That context tells the user the link leads to Adafruit's Halloween content. Screen-reader users get the same context sighted users get, and any ambiguity left over is ambiguous to all users, which the criterion exempts. The finding's claim that 'nothing around it' tells where the link goes is wrong. Vaguer marketing link text like this is at most a 2.4.9 (AAA) concern."
+    }
+  ]
+}

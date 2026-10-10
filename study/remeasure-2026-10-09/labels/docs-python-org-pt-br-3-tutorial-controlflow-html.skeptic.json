@@ -1,0 +1,24 @@
+{
+  "page": "https://docs.python.org/pt-br/3/tutorial/controlflow.html",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "fc02fbacf28d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the code-styled keyword link \"if\" pointing to the language reference section \"8.1. A instrução if\". It sits in the sentence \"Provavelmente a mais conhecida instrução de controle de fluxo é o if. Por exemplo:\", directly under the h2 \"4.1. Instruções if\". The snapshot's readingText for the paragraph has this sentence intact, and the live HTML matches. The enclosing sentence (G53) and the preceding heading (H80) make the purpose clear: the link is about the if statement, which is where it leads. The claim that \"nothing around it does\" is wrong. Wanting the link text alone to name the destination is the AAA rule in 2.4.9, not 2.4.4. A sighted reader also gets only the keyword, so the exception for links that are ambiguous to users in general would apply as well."
+    },
+    {
+      "fingerprint": "585798b5b831",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the code-styled keyword link \"for\" pointing to the language reference section \"8.3. A instrução for\". It opens the sentence \"A instrução for em Python é um pouco diferente do que costuma ser em C ou Pascal...\" (paragraph #index-0) under the h2 \"4.2. Instruções for\". The live HTML matches the snapshot. The sentence calls it the for statement, and the heading names it too, so with G53/H80 context the purpose (learn about the for statement) is clear and matches the destination. The finding's claim that nothing around the link explains it does not hold. At most the text-alone objection is a 2.4.9 (AAA) issue, not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "88689a942710",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The passage is inline <code> in a pt-BR page (html lang=\"pt-BR\", no lang on the code, confirmed in the live HTML): ask_ok('OK to overwrite the file?', 2, 'Come on, only yes or no!'). The English words are real human-language string literals that a Portuguese voice would mispronounce, which supports the finding. But the whole thing is a Python call expression, and the quoted span runs across code syntax (\"', 2, '\"). WCAG defines human language as language used to communicate with humans. Neither 3.1.2's Understanding document nor its techniques say whether code samples, or string literals inside them, need marking. Auditors differ in practice: many treat code as exempt, others would want lang=\"en\" on the code. With no clear normative answer, this could be a real failure or out of scope, so it is uncertain."
+    }
+  ]
+}

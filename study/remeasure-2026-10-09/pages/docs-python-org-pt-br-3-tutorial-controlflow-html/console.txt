@@ -1,0 +1,63 @@
+
+https://docs.python.org/pt-br/3/tutorial/controlflow.html
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.3.5 (AA) — Identify Input Purpose
+  ✗ html > body > div:nth-of-type(2) > ul > li:nth-of-type(7) > div:nth-of-type(1) > select
+    The field "Language" asks for the user's preferred language but does not identify that purpose: autocomplete="language" is missing.
+    Evidence: "Language"
+    Patch:
+      - <select class="language-select" aria-label="Language">
+      + <select class="language-select" aria-label="Language" autocomplete="language">
+    confidence high · 1/1 runs · evidence verified · id ab5ba5eda479
+  ✗ html > body > div:nth-of-type(4) > ul > li:nth-of-type(7) > div:nth-of-type(1) > select
+    The field "Language" asks for the user's preferred language but does not identify that purpose: autocomplete="language" is missing.
+    Evidence: "Language"
+    Patch:
+      - <select class="language-select" aria-label="Language">
+      + <select class="language-select" aria-label="Language" autocomplete="language">
+    confidence high · 1/1 runs · evidence verified · id 51e591d57c48
+
+WCAG 2.1.1 (A) — Keyboard
+  ✗ #function-examples > div:nth-of-type(3) > div > pre
+    Scrollable region must have keyboard access
+    high · rule scrollable-region-focusable · id cb99b48f51c2
+  ✗ #function-examples > div:nth-of-type(5) > div > pre
+    Scrollable region must have keyboard access
+    high · rule scrollable-region-focusable · id 56d078ea9c0e
+  ✗ #unpacking-argument-lists > div:nth-of-type(2) > div > pre
+    Scrollable region must have keyboard access
+    high · rule scrollable-region-focusable · id 05ecbda13b12
+
+WCAG 2.4.4 (A) — Link Purpose (In Context)
+  ✗ #break-and-continue-statements > p:nth-of-type(2) > a
+    The link text "continue" does not tell where the link goes, and nothing around it does.
+    Evidence: "continue"
+    Patch:
+      - <a class="reference internal" href="../reference/simple_stmts.html#continue">continue</a>
+      + <a class="reference internal" href="../reference/simple_stmts.html#continue">instrução continue</a>
+    confidence high · 1/1 runs · evidence verified · id 8a2bda8370f8
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 1 element · color-contrast
+    Element content is too short to determine if it is actual text content
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 3 elements · rampa/pixel-contrast
+    axe-core could not decide the contrast of "Melhorar esta página" (an element partly over it), and the pixels could not either: most of it is cut off by the box that holds it.
+
+The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 62 of 112 for 2.4.4. The coverage lists them as not judged.
+Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site; crawl its address with --crawl or --sitemap.
+40 finding(s) below the confidence threshold (--verbose shows them).
+
+Model calls: 97 new, 0 from cache · 96.0k in / 8.3k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.4.1, 1.4.3, 1.4.4, 1.4.12, 2.1.1, 2.4.2, 2.4.4, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  1.1.1, 1.4.3, 2.4.2, 2.4.6, 2.5.3, 3.1.1
+  Judged with verified evidence:     1.1.1, 1.3.5, 2.4.2, 2.4.4, 2.4.6, 3.1.2
+  Needs review only:                 2.4.1, 3.3.2
+  Not checked automatically:         37 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

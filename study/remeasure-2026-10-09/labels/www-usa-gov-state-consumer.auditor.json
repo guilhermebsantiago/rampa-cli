@@ -1,0 +1,12 @@
+{
+  "page": "https://www.usa.gov/state-consumer",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "7df3420582a1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header language switcher, <a href=\"/es/estatal-consumidor\" hreflang=\"es\" role=\"button\">Español</a>, on a page whose only language declaration is <html lang=\"en\">. The snapshot and the live HTML (fetched 2026-10-09, unchanged from the run) show no lang attribute on the link or on any ancestor. hreflang only describes the linked resource and does not set the language of the link text, so 'Español' is programmatically English. The word is the Spanish name of the language, used on purpose to point to the Spanish version, so the change of language is clearly intended. It is not a proper name, technical term or English loanword, so the single-word and vernacular exceptions do not apply. The Understanding document for 3.1.2 uses this exact pattern as its 'Alternative language links' example, with lang on each link. The finding's claim and its fix (lang=\"es\" on the link) are correct."
+    }
+  ]
+}

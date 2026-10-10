@@ -1,0 +1,12 @@
+{
+  "page": "https://mwpt.com.br/acessibilidade-digital/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "7be513e56ddc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the \"2\" link in the archive's pagination: a <nav id=\"e-pagination\" aria-labelledby=\"lbl-e-pagination\"> named \"Páginas de Acessibilidade digital\" (an sr-only label placed right before the list), holding the list \"1\" (current page, a span), \"2\", \"Próxima página\". The live page still has the same markup. The finding says nothing around the link tells where it goes, and that is wrong: the link sits in a labelled pagination landmark, next to the current page \"1\" and a \"Próxima página\" link to the same URL. That context is programmatically determinable (the ancestor nav's accessible name, read out when a screen reader enters the landmark) and also visible, so a user can tell that \"2\" means page 2 of this listing. The destination, \"Acessibilidade digital - Página 2 de 2\", is what they would expect. Numbered links in a labelled pagination nav are the standard pattern that auditors accept under 2.4.4 (Level A, in context). Requiring \"Página 2\" in the link text itself is closer to the stricter 2.4.9 (link only). The checker had the nav name in its ancestors and still judged it wrongly, at low confidence."
+    }
+  ]
+}

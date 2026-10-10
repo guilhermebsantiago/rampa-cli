@@ -1,0 +1,24 @@
+{
+  "page": "https://python.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "0b2dcd1c8600",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the logo slot in the PythOnRio card of the user-group grid. The src is the site's placeholder images/comunidades-locais/default.png, a plain Python logo. The template puts the group name in every card's alt: the snapshot and the live page (unchanged) show the same default.png with alt set to the group name on 11 cards (GruPy-MT, Py013, PyTche, PythOnRio, and others). In the card the image stands in for the group's logo, right under the h4 \"PythOnRio\". The alt names the group, which is the job the image does there. A sighted user gets no information from the generic logo that a screen reader user misses, apart from the fact that the group has no logo of its own. Strictly, the image is redundant or decorative and alt=\"\" would be better practice. But a redundant name is not a 1.1.1 failure, and the alt is not a placeholder or file name (F30). The finding requires the alt to describe the picture literally, which is a stricter rule than the criterion's equivalent-purpose test. The suggested patch, \"Logotipo da linguagem de programação Python\", would only add noise."
+    },
+    {
+      "fingerprint": "9e1662ccd247",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the GruPy-DF group's logo in its card (src grupy-df.png). The crop and the full screenshot show a green stylised mark with the wordmark \"grupy-df\". The alt \"GruPy-DF\" is the group's name and the text in the logo, which is exactly the text alternative a logo needs. It matches the file name only because the file is named after the group. It is not an F30 file-name or placeholder alternative, and a screen reader user gets the same information a sighted user does. Repeating the h4 heading is redundant but does not fail 1.1.1. The rule had the right data (alt, src, image) and drew the wrong conclusion from a coincidence."
+    },
+    {
+      "fingerprint": "1e26e7588bd6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the GruPy-ABC group's logo in its card (src grupy-abc.png). The crop and the screenshot show the Python snake with the wordmark \"GruPy\" and a small \"abc\". The alt \"GruPy-ABC\" is the group's name and the text in the logo, the right text alternative for a logo. It matches the file name only because the file is named after the group. It is not an F30 file-name or placeholder alternative, and nothing the image conveys is lost. Repeating the h4 heading is redundant but does not fail 1.1.1. The live page is unchanged. The rule had the right data and decided wrongly."
+    }
+  ]
+}

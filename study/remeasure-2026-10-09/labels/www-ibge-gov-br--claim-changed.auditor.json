@@ -1,0 +1,12 @@
+{
+  "page": "https://www.ibge.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "45bab32f2922",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a 55x55 icon (a phone on an orange circle) inside the 'Respondendo' card link in 'Nossos sites'. The link's visible text already gives its purpose ('Respondendo Espaço para o informante do IBGE...'), so the icon is decorative. Its alt is 'imagem banner', a placeholder that says nothing about the image and that a screen reader still announces (the container's reading text starts 'imagem banner Respondendo...'). The same alt is used on every banner on the page. This is documented failure F39 (a non-null alt like 'image' on an image AT should ignore), and F30 (placeholder text used as the alternative). The finding's claim that the alt is too generic to work as a text alternative holds. The patch ('Ícone de celular') is weaker than alt=\"\", but that does not change the label. The live page on 2026-10-09 still has alt=\"imagem banner\"."
+    }
+  ]
+}

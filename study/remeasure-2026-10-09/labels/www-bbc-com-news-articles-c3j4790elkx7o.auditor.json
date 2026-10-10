@@ -1,0 +1,12 @@
+{
+  "page": "https://www.bbc.com/news/articles/c3j4790elkx7o",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "4e0851e8422d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the \"Earth\" link (href /future-planet) in the BBC site footer, a list item inside <nav aria-label=\"Footer navigation\"> next to Home, News, Sport, Business, Technology, Health, Culture, Arts, Travel, Audio, Video, Live and Weather. The same \"Earth\" item also appears in the main header navigation, and the live page's raw HTML still has both. Under 2.4.4 (In Context), the link's list item and the labelled navigation landmark are its programmatically determined context. In a list of site sections, \"Earth\" clearly names the BBC Earth section, and that is where it goes: the destination's title is \"BBC Earth\" and its heading is \"Earth\". Section names in a site navigation menu are a standard passing pattern, and a professional auditor would not fail this link. The checker had the ancestors and the destination and still judged it wrongly."
+    }
+  ]
+}

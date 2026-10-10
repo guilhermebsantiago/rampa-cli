@@ -1,0 +1,12 @@
+{
+  "page": "https://www.usa.gov/state-consumer",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "7df3420582a1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header language switcher, <a href=\"/es/estatal-consumidor\" class=\"usa-button language-link\" hreflang=\"es\" role=\"button\">Español</a>, on a page with <html lang=\"en\">. The snapshot shows no lang on the link or on any ancestor other than html, and the live HTML I fetched on 2026-10-09 is the same, so the page has not changed. I looked for reasons it could pass. hreflang only gives the language of the linked resource, not of the link text, so it does not meet H58. The proper-name exception does not apply: Understanding 3.1.2 has an 'Alternative language links' example of exactly this pattern (Deutsch, Français...) and says each link's language is indicated with a lang attribute. The single-word guidance ('single words should be considered part of the language of the surrounding text unless it is clear that a change in language was intended') does not save it either. The change is clearly intended: the label is the language's own name, addressed to Spanish readers, and the author's hreflang shows awareness of it. The word, with its ñ, is not pronounced the same under English rules, and it is not an adopted English word like 'rendezvous'. Role=button is irrelevant to this criterion. No reason holds up, so this fails 3.1.2 as the finding says, and the patch (lang=\"es\" on the link) is the right fix."
+    }
+  ]
+}
