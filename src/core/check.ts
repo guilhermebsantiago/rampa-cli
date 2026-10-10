@@ -9,6 +9,7 @@ import { PROBE_RULES } from '../rules/registry.ts'
 import { RULE_CHECKS, type RuleCheck, type RuleStageResult, emptyRuleStage, runRuleChecks, withoutResolved } from '../rules/index.ts'
 import { reviewLabelInName } from '../rules/label-in-name.ts'
 import { uncapturedImagesNote } from '../snapshot/image-skips.ts'
+import { axNotes, browserNamed } from '../snapshot/ax.ts'
 import { reachNotes, unreached } from '../snapshot/reach.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { AXE_REVIEW_RULES, EXPERIMENTAL_RULES } from '../engine/axe.ts'
@@ -131,6 +132,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const clearing: Array<{ rule: string; criterion: string; ref: string; passed: boolean; evidence?: string | undefined; control?: string | undefined; votes: number; total: number; model?: string | undefined }> = []
 
   for (const criterion of criteria) {
+    // A criterion that moved to the browser's names reads the snapshot with them; the others, as the collector named it.
+    const view = criterion.names === 'browser' ? browserNamed(snapshot) : snapshot
     const summary: CriterionSummary = {
       criterion: criterion.id,
       applicable: criterion.surfaces.includes(snapshot.surface),
@@ -149,15 +152,15 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     await criterion.prepare?.()
     // An element a stable rule already failed for this criterion is decided: the model is not asked again.
     const failedByRule = stage.decided.get(criterion.id)
-    const candidates = criterion.candidates(snapshot, engine).filter((candidate) => !failedByRule?.has(candidate.ref))
+    const candidates = criterion.candidates(view, engine).filter((candidate) => !failedByRule?.has(candidate.ref))
     summary.candidates = candidates.length
     // With judgment on but no model to ask, what the criterion decides by itself is still judged; --no-llm judges nothing.
-    const judgeable = llmActive ? candidates : options.llm ? candidates.filter((candidate) => criterion.decide?.(candidate, snapshot) !== undefined) : []
-    const judged = capCandidates(criterion, snapshot, judgeable, cap)
+    const judgeable = llmActive ? candidates : options.llm ? candidates.filter((candidate) => criterion.decide?.(candidate, view) !== undefined) : []
+    const judged = capCandidates(criterion, view, judgeable, cap)
     if (judged.length < judgeable.length) summary.capped = judgeable.length - judged.length
     if (judged.length === 0) continue
 
-    const judgments = await judgeCandidates(criterion, snapshot, judged, {
+    const judgments = await judgeCandidates(criterion, view, judged, {
       provider: options.provider,
       runs: options.runs,
       cache: options.cache,
@@ -266,7 +269,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             message: criterion.message(output, judgment.candidate, options.locale),
             evidence: output.evidence,
             subject,
-            patch: criterion.patch?.(output, judgment.candidate, snapshot),
+            patch: criterion.patch?.(output, judgment.candidate, view),
             confidence,
             // A judgment the criterion made without a model names no model; its message says what decided it.
             agreement: decided ? undefined : { votes: judgment.votes, total: judgment.total },
@@ -381,7 +384,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const uncaptured = vision && llmActive ? uncapturedImagesNote(snapshot.root, options.locale) : undefined
   // Frames and closed shadow roots the collector could not read: said first, since they frame everything else.
   // Then images left without a capture, then candidates the model did not judge.
-  notes.unshift(...reachNotes(snapshot.reach, options.locale), ...(uncaptured ? [uncaptured] : []))
+  // What the browser's own accessibility tree left out comes with them: the rules that read it saw less.
+  notes.unshift(...reachNotes(snapshot.reach, options.locale), ...axNotes(snapshot.axTree, options.locale), ...(uncaptured ? [uncaptured] : []))
   const reach = unreached(snapshot.reach)
 
   return {

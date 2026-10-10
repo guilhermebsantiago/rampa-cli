@@ -114,6 +114,12 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
   needs: { vision?: boolean; fetch?: boolean }
   /** Engine rules that cover the deterministic side of the criterion. */
   engineRules: readonly string[]
+  /**
+   * browser: the criterion reads names as the browser exposes them, from its accessibility tree (`node.ax`), where the
+   * collector read it (snapshot/ax.ts, `browserNamed`); the collector's own names otherwise. Criteria move to the
+   * browser's names one at a time, each measured on its evaluation sets (docs/rules.md).
+   */
+  names?: 'browser' | undefined
   /** Loads what the synchronous methods below need, such as an n-gram database; awaited before `candidates`. */
   prepare?(): Promise<void>
   /** Only the residue the engine could not decide. */
@@ -301,6 +307,11 @@ export interface CoverageMethod {
   probe?: { method: string; conditions: string; note?: string | undefined } | undefined
   /** For a Rampa rule: what limits its result, such as elements left out past a budget, in the report's language. */
   note?: string | undefined
+  /**
+   * The method records facts for a person and decides nothing (an inventory, such as 4.1.3's live regions): it never
+   * changes the criterion's status, and `applicable` counts what it found.
+   */
+  inventory?: boolean | undefined
 }
 
 export interface CriterionCoverage {

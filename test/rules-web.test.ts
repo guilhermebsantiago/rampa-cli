@@ -288,7 +288,8 @@ describe.skipIf(!browser)('rules on real pages', { timeout: 30_000 }, () => {
     expect(viewport?.patch?.after).toBe('<meta name="viewport" content="width=device-width, initial-scale=1">')
     const switcher = report.findings.find((f) => f.ruleId === 'rampa/language-switcher-lang' && f.subject === 'Português')
     expect(switcher?.patch?.after).toBe('<a href="/pt/" hreflang="pt" lang="pt">')
-    expect(report.coverage.rules).toEqual(['1.1.1', '1.4.4', '2.4.2', '2.4.6', '3.1.2', '3.3.2'])
+    // rampa/widget-name looked at the page's named controls, as the browser exposes them, and found none without a name.
+    expect(report.coverage.rules).toEqual(['1.1.1', '1.4.4', '2.4.2', '2.4.6', '3.1.2', '3.3.2', '4.1.2'])
     const coupon = report.findings.find((f) => f.ruleId === 'rampa/no-visible-label')
     expect(coupon?.patch?.after).toBe('<label for="coupon">Coupon code</label> <input id="coupon" type="text" aria-label="Coupon code">')
   })

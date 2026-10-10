@@ -18,6 +18,43 @@ export const BoundsSchema = z.object({
 })
 export type Bounds = z.infer<typeof BoundsSchema>
 
+/**
+ * What the browser itself exposes for a node: Chromium's accessibility tree, read over CDP after collection
+ * (surfaces/ax-tree.ts). The collector's own `role` and `name` are an approximation; these are what assistive
+ * technology gets from the browser. Absent on other surfaces, without CDP, and for elements the browser keeps
+ * no node for (plain containers, text-level elements, content that is not rendered). See docs/rules.md.
+ */
+export const AxFactsSchema = z.object({
+  /** The role the browser computed, in Chromium's words: an ARIA role (button, image, generic...) or an internal one (LabelText, RootWebArea...). */
+  role: z.string(),
+  /** The accessible name the browser computed, recorded only when it differs from the node's `name`: absent, the two agree. */
+  name: z.string().optional(),
+  /** Where the name came from, when there is one: aria-labelledby, aria-label, label, alt, title, value, placeholder, contents, caption, legend... */
+  nameFrom: z.string().optional(),
+  /** The accessible description (aria-describedby, title...). */
+  description: z.string().optional(),
+  /** The value the browser exposes for a field, a slider or a combobox. */
+  value: z.string().optional(),
+  /** States and properties the browser exposes, besides their defaults: focusable, checked, expanded, pressed, selected, level, live... */
+  props: z.record(z.string(), z.union([z.string(), z.number(), z.boolean()])).optional(),
+  /**
+   * Relations the browser resolved (labelledby, describedby, controls, owns...), as the refs of the elements they point
+   * to. `controls` also holds what aria-controls names while it is hidden, which the browser leaves out of its tree.
+   */
+  relations: z.record(z.string(), z.array(z.string())).optional(),
+  /** The browser leaves the element out of what it exposes (aria-hidden, a presentational role...). */
+  ignored: z.boolean().optional(),
+  /** Why, in Chromium's words: ariaHiddenElement, ariaHiddenSubtree, presentationalRole, inertElement... */
+  ignoredReasons: z.array(z.string()).optional(),
+  /**
+   * For an element focusable by tabindex or with an inline handler and a role that is not a control's: the events it
+   * listens to itself (click, keydown...), read over CDP, and whether it scrolls. Delegated listeners are not seen.
+   */
+  listeners: z.array(z.string()).optional(),
+  scrollable: z.boolean().optional(),
+})
+export type AxFacts = z.infer<typeof AxFactsSchema>
+
 export interface A11yNode {
   /** Native locator that resolves to exactly one node: CSS selector, resource-id, accessibilityIdentifier or XPath. */
   ref: string
@@ -36,6 +73,8 @@ export interface A11yNode {
   image?: string | undefined
   /** Raw platform attributes, kept for prompts and patches. */
   native: Record<string, unknown>
+  /** What the browser exposes for the node, when the collector read its accessibility tree (web, Chromium). */
+  ax?: AxFacts | undefined
   children: A11yNode[]
 }
 
@@ -50,6 +89,7 @@ export const A11yNodeSchema: z.ZodType<A11yNode> = z.lazy(() =>
     bounds: BoundsSchema.optional(),
     image: z.string().optional(),
     native: z.record(z.string(), z.unknown()),
+    ax: AxFactsSchema.optional(),
     children: z.array(A11yNodeSchema),
   }),
 )
@@ -167,6 +207,28 @@ export const ReachSchema = z.object({
 })
 export type Reach = z.infer<typeof ReachSchema>
 
+/**
+ * How the collector read the browser's accessibility tree (surfaces/ax-tree.ts), so a report can say what was left
+ * out. Absent when it was not read: another surface, a browser without CDP, a snapshot recorded before Rampa read it.
+ */
+export const AxTreeSchema = z.object({
+  /** cdp: Chromium's Accessibility.getFullAXTree, one call per document. */
+  source: z.string(),
+  /** Elements of the snapshot that carry the browser's facts (`ax`). */
+  nodes: z.number(),
+  /** Elements of the snapshot the browser keeps no node of its own for: plain containers, text-level elements, content not rendered. */
+  withoutNode: z.number(),
+  /** Elements whose name the browser computes otherwise than the collector: both are recorded (`name` and `ax.name`). */
+  namesDiffer: z.number(),
+  /** Why the tree was not read at all, such as a page over the limit of elements; nothing carries `ax` then. */
+  skipped: z.string().optional(),
+  /** Frames whose documents are in the snapshot but whose tree was not read, and why (the frame limit, the time budget, an error). */
+  framesLeftOut: z.array(z.object({ ref: z.string(), reason: z.string() })).optional(),
+  /** Elements whose own event listeners were read for the custom-control rule, and those left out past the limit. */
+  listeners: z.object({ read: z.number(), leftOut: z.number() }).optional(),
+})
+export type AxTree = z.infer<typeof AxTreeSchema>
+
 export const A11ySnapshotSchema = z.object({
   schemaVersion: z.literal(1),
   surface: SurfaceSchema,
@@ -191,6 +253,8 @@ export const A11ySnapshotSchema = z.object({
   observations: ObservationsSchema.optional(),
   /** Frames and shadow roots: what the collector and the engine reached, and what they could not. */
   reach: ReachSchema.optional(),
+  /** The browser's accessibility tree: how much of it the collector read onto the nodes (`ax`), and what it left out. */
+  axTree: AxTreeSchema.optional(),
   /** Other pages of the same site that a crawl had read when this one was judged, with their titles (2.4.2). */
   siblings: z.array(z.object({ url: z.string(), title: z.string() })).optional(),
   collectedAt: z.string(),

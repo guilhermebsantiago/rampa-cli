@@ -233,7 +233,7 @@ describe.skipIf(!browser)('check on web targets', { timeout: 60_000 }, () => {
 describe.skipIf(!browser)('rampa/puppeteer adapter', { timeout: 30_000 }, () => {
   it('runs the same checks through the Puppeteer page API', async () => {
     const page = await openShop()
-    // Puppeteer's page API, served by a Playwright page: evaluate(fn, ...args), $(selector), screenshot(options).
+    // Puppeteer's page API, served by a Playwright page: evaluate(fn, ...args), $(selector), screenshot(options), and a CDP session.
     const puppeteerLike: PuppeteerPage = {
       url: () => page.url(),
       evaluate: (fn, ...args) => page.evaluate(fn as never, args[0]),
@@ -243,6 +243,7 @@ describe.skipIf(!browser)('rampa/puppeteer adapter', { timeout: 30_000 }, () => 
       },
       screenshot: (options) => page.screenshot(options),
     }
+    Object.assign(puppeteerLike, { createCDPSession: () => page.context().newCDPSession(page) })
     const viaPuppeteer = await checkPuppeteerPage(puppeteerLike, { ...isolated(), model: stubModel(), include: '#cart' })
     const viaPlaywright = await checkPage(page, { ...isolated(), model: stubModel(), include: '#cart' })
     const strip = (report: typeof viaPlaywright) => ({ ...report, createdAt: '', usage: { ...report.usage, latencyMs: 0 } })

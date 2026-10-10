@@ -192,6 +192,11 @@ export function methodText(method: CoverageMethod, report: Pick<Report, 'locale'
           : `${report.engine.name} ${method.id}`
   // A probe that did not check says why (skipped, or a record its rule cannot read).
   if (!method.ran) return `${name} ${t(locale, 'methodNotRun')}${method.probe?.note ? ` (${method.probe.note})` : ''}`
+  // An inventory lists what it found and decides nothing: no counts of failures or review.
+  if (method.inventory) {
+    const facts = [t(locale, 'methodInventory', { count: method.applicable }), ...(method.maturity === 'experimental' ? [t(locale, 'methodExperimental')] : []), ...(method.note ? [method.note] : [])]
+    return `${name} (${facts.join('; ')})`
+  }
   const tags = [method.reviewOnly ? t(locale, 'methodReviewOnly') : undefined, method.maturity === 'experimental' ? t(locale, 'methodExperimental') : undefined].filter(Boolean)
   const counts = [
     t(locale, 'methodCounts', { applicable: method.applicable, failures: method.failures, review: method.review }),
