@@ -230,7 +230,7 @@ describe('the pixel rules in a check', () => {
     const review = (report.needsReview ?? []).map((item) => `${item.ruleId} ${item.ref}`)
     expect(review).toEqual(['color-contrast #left-out', 'rampa/pixel-contrast #mixed', 'rampa/pixel-contrast #moving'])
     expect(report.needsReview?.find((item) => item.ref === '#moving')?.message).toBe(
-      'axe-core could not decide the contrast of "Text of #moving" (a background image), and the pixels could not either: a video plays behind it.',
+      'axe-core could not decide the contrast of "Text of #moving" (a background image), and the pixels could not either: what is behind it moves on its own (a video, an animation).',
     )
     const record = report.coverage.criteria?.find((c) => c.id === '1.4.3')
     expect(record?.status).toBe('failures')

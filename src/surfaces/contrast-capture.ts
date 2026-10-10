@@ -1,6 +1,6 @@
 import type { EngineResults } from '../core/types.ts'
 import { type Rgba, measurePair } from '../pixels/pair-contrast.ts'
-import { tryDecodePng } from '../pixels/png.ts'
+import { type RgbaImage, tryDecodePng } from '../pixels/png.ts'
 import { PIXEL_KINDS, type PixelContrastFact, type PixelContrastRun, type PixelKind, setPixelFact } from '../snapshot/pixel-contrast.ts'
 import type { A11yNode } from '../snapshot/schema.ts'
 import { indexTree } from '../snapshot/tree.ts'
@@ -158,13 +158,19 @@ async function measureTarget(driver: ContrastDriver, target: Target, waitMs: num
     const box = { x: prepared.x, y: prepared.y, width: prepared.width, height: prepared.height }
     const shoot = () => (prepared.inViewport && driver.screenshotBox ? driver.screenshotBox(box) : driver.screenshot(target.capture))
     const shown = await shoot()
-    if (!shown) return { ...base, reason: 'capture-failed' }
-    await driver.evaluate(hideForContrastInPage, { ref: target.node.ref, capture: target.capture, kind })
+    // Twice as rendered: what changes on its own (a canvas animation, a carousel, a GIF) would pass for glyphs.
+    const again = await shoot()
+    if (!shown || !again) return { ...base, reason: 'capture-failed' }
+    const moved = await driver.evaluate(hideForContrastInPage, { ref: target.node.ref, capture: target.capture, kind })
+    // A box larger than the viewport is captured by the element, which may scroll the page itself.
+    if (prepared.inViewport && !(Math.abs(moved.x - prepared.x) <= 1 && Math.abs(moved.y - prepared.y) <= 1)) return { ...base, reason: 'shifted' }
     const bare = await shoot()
     if (!bare) return { ...base, reason: 'capture-failed' }
     const rendered = tryDecodePng(shown)
+    const repeat = tryDecodePng(again)
     const behind = tryDecodePng(bare)
-    if (!rendered || !behind || prepared.width <= 0 || prepared.height <= 0) return { ...base, reason: 'capture-failed' }
+    if (!rendered || !repeat || !behind || prepared.width <= 0 || prepared.height <= 0) return { ...base, reason: 'capture-failed' }
+    if (changedShare(rendered, repeat) > 0.002) return { ...base, reason: 'moving' }
     const sx = rendered.width / prepared.width
     const sy = rendered.height / prepared.height
     // One pixel of slack: an element screenshot rounds its box to whole device pixels.
@@ -190,6 +196,17 @@ async function measureTarget(driver: ContrastDriver, target: Target, waitMs: num
   } finally {
     await driver.evaluate(restoreContrastInPage, null).catch(() => undefined)
   }
+}
+
+/** The share of pixels that differ between two captures of the same box, beyond rendering noise. */
+function changedShare(a: RgbaImage, b: RgbaImage): number {
+  if (a.width !== b.width || a.height !== b.height) return 1
+  let changed = 0
+  for (let i = 0; i < a.data.length; i += 4) {
+    const diff = Math.max(Math.abs((a.data[i] ?? 0) - (b.data[i] ?? 0)), Math.abs((a.data[i + 1] ?? 0) - (b.data[i + 1] ?? 0)), Math.abs((a.data[i + 2] ?? 0) - (b.data[i + 2] ?? 0)))
+    if (diff > 2) changed++
+  }
+  return changed / Math.max(1, a.width * a.height)
 }
 
 export interface FoundTargets {
@@ -583,7 +600,7 @@ export async function prepareContrastInPage(arg: { ref: string; capture: string;
 }
 
 /** Runs in the page: makes the element's own text, the placeholder or the icon transparent, everything else as it was. */
-export async function hideForContrastInPage(arg: { ref: string; capture: string; kind: 'text' | 'placeholder' | 'icon' }): Promise<number> {
+export async function hideForContrastInPage(arg: { ref: string; capture: string; kind: 'text' | 'placeholder' | 'icon' }): Promise<{ x: number; y: number }> {
   type Undo =
     | { el: HTMLElement; prop: string; value: string; priority: string }
     | { el: Element; attr: string; value: string | null }
@@ -602,7 +619,7 @@ export async function hideForContrastInPage(arg: { ref: string; capture: string;
   }
   const el = document.querySelector(arg.ref)
   const shot = document.querySelector(arg.capture)
-  if (!el || !shot) return 0
+  if (!el || !shot) return { x: Number.NaN, y: Number.NaN }
   if (arg.kind === 'text' && el instanceof SVGElement) {
     for (const child of Array.from(el.children)) force(child, 'fill', getComputedStyle(child).fill)
     force(el, 'fill', 'transparent')
@@ -640,7 +657,9 @@ export async function hideForContrastInPage(arg: { ref: string; capture: string;
       resolve()
     })
   })
-  return undo.length
+  // Where the box is now: if it moved since the first capture, the two captures do not line up.
+  const box = shot.getBoundingClientRect()
+  return { x: box.left, y: box.top }
 }
 
 /** Runs in the page: puts back every style, attribute and scroll position changed for the last measurement, newest first. */
@@ -662,8 +681,8 @@ export function restoreContrastInPage(): void {
     } else if ('unstyled' in entry) {
       if (entry.el.getAttribute('style') === '') entry.el.removeAttribute('style')
     } else {
-      entry.el.scrollLeft = entry.scrollLeft
-      entry.el.scrollTop = entry.scrollTop
+      // Instantly: a page with scroll-behavior: smooth would otherwise still be scrolling during the next capture.
+      entry.el.scrollTo({ left: entry.scrollLeft, top: entry.scrollTop, behavior: 'instant' as ScrollBehavior })
     }
   }
 }

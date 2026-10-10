@@ -12,7 +12,7 @@ import { collectPage } from '../src/surfaces/page.ts'
 import { type WebCollectOptions, collectWeb, launchBrowser } from '../src/surfaces/web.ts'
 
 // Integration: needs Chrome or Edge (or Playwright's Chromium). Skipped when none is installed. The fixtures
-// keep a margin of at least 0.2 from each threshold, and every color behind the text is flat or a gradient of
+// keep a margin of at least 0.15 from each threshold, and every color behind the text is flat or a gradient of
 // known ends, so the outcomes hold whatever font a platform renders the text in.
 const browser = await launchBrowser().catch(() => undefined)
 afterAll(async () => browser?.close(), 60_000)
@@ -125,6 +125,14 @@ describe.skipIf(!browser)('contrast measured from pixels', { timeout: 60_000 }, 
     const hero = pixelFactOf(indexTree(snapshot.root).get('#hero')?.node ?? snapshot.root, 'text')
     expect(hero).toMatchObject({ status: 'measured', foregroundFrom: 'css' })
     expect(hero?.opacity).toBeUndefined()
+  })
+
+  it('leaves text over an animation to review: two captures as rendered never match', async () => {
+    const { report, snapshot } = await check('moving.html')
+    expect(pixelFactOf(indexTree(snapshot.root).get('#over-animation')?.node ?? snapshot.root, 'text')).toMatchObject({ status: 'unmeasured', reason: 'moving' })
+    expect(report.needsReview?.find((item) => item.ref === '#over-animation')?.message).toBe(
+      'axe-core could not decide the contrast of "Payments for every business" (an image in the element), and the pixels could not either: what is behind it moves on its own (a video, an animation).',
+    )
   })
 
   it('stops at the limit, says how many it left out, and leaves those to axe-core', async () => {

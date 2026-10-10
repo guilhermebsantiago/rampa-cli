@@ -78,7 +78,8 @@ const UNMEASURED: Record<string, Text> = {
   'outside-page': { en: 'most of it lies outside the page', 'pt-BR': 'a maior parte fica fora da página' },
   clipped: { en: 'most of it is cut off by the box that holds it', 'pt-BR': 'a maior parte é cortada pela caixa que o contém' },
   'too-large': { en: 'it is too large to capture', 'pt-BR': 'é grande demais para capturar' },
-  moving: { en: 'a video plays behind it', 'pt-BR': 'um vídeo toca atrás dele' },
+  moving: { en: 'what is behind it moves on its own (a video, an animation)', 'pt-BR': 'o que está atrás se move sozinho (um vídeo, uma animação)' },
+  shifted: { en: 'it moved between the two captures', 'pt-BR': 'ele se moveu entre as duas capturas' },
   'capture-failed': { en: 'the screenshot could not be taken', 'pt-BR': 'a captura de tela falhou' },
   'size-mismatch': { en: 'its two captures came out different sizes', 'pt-BR': 'as duas capturas saíram de tamanhos diferentes' },
   'no-text-pixels': {
