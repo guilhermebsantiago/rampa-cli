@@ -13,7 +13,10 @@ import { type PuppeteerPage, puppeteerDriver } from '../src/puppeteer.ts'
 import { coverageStatement } from '../src/report/common.ts'
 import { createLocator } from '../src/source/locate.ts'
 import { reachNotes, unreached } from '../src/snapshot/reach.ts'
-import { resolveRefInPage } from '../src/snapshot/refs.ts'
+import { resolveRefInPage, scopeOfRef } from '../src/snapshot/refs.ts'
+import { emptyEngine } from '../src/engine/axe.ts'
+import { runRuleChecks } from '../src/rules/index.ts'
+import { duplicateIdReferenceRule } from '../src/rules/structure.ts'
 import { A11ySnapshotSchema, type A11ySnapshot } from '../src/snapshot/schema.ts'
 import { walkTree } from '../src/snapshot/tree.ts'
 import { buildReach } from '../src/surfaces/reach.ts'
@@ -319,6 +322,44 @@ describe('reach in the report, offline', () => {
   it('keeps a snapshot with no frame and no shadow root as it always was', () => {
     expect(buildReach({ frames: [], engineFrames: [], shadowRoots: 0, closed: { count: 0, hosts: [] } })).toBeUndefined()
     expect(reachNotes(undefined, 'en')).toEqual([])
+  })
+
+  it('compares ids within one document or shadow root, as the browser resolves them', () => {
+    expect(scopeOfRef('html > body > a')).toBe('')
+    expect(scopeOfRef('#f |> html > body > a')).toBe('#f |> ')
+    expect(scopeOfRef('#f |> html > body > x-card >>> div > button')).toBe('#f |> html > body > x-card >>> ')
+    // The frame's field is described by the frame's hint; the page's hint with the same id is no duplicate of it.
+    const field = node({ ref: '#f |> html > body > input', role: 'textbox', native: { tag: 'input', attributes: { 'aria-describedby': 'hint' } } })
+    const snapshot: A11ySnapshot = {
+      schemaVersion: 1,
+      surface: 'web',
+      target: 'page.html',
+      viewport: { width: 1280, height: 800, scale: 1 },
+      root: node({
+        ref: 'html',
+        role: 'document',
+        native: { tag: 'html', attributes: {} },
+        children: [
+          node({ ref: '#hint', role: 'generic', text: 'Shown on the page', native: { tag: 'span', attributes: { id: 'hint' } } }),
+          node({
+            ref: '#f',
+            role: 'generic',
+            native: { tag: 'iframe', attributes: { id: 'f' } },
+            children: [
+              node({
+                ref: '#f |> html',
+                role: 'document',
+                native: { tag: 'html', attributes: {} },
+                children: [node({ ref: '#f |> #hint', role: 'generic', text: 'Format: DD/MM/YYYY', native: { tag: 'span', attributes: { id: 'hint' } } }), field],
+              }),
+            ],
+          }),
+        ],
+      }),
+      collectedAt: '',
+      collector: { name: 'test', version: '0' },
+    }
+    expect(runRuleChecks(snapshot, emptyEngine(), 'en', [duplicateIdReferenceRule]).findings).toEqual([])
   })
 
   it('never places an element of a frame or a shadow root on a line of the page file', () => {

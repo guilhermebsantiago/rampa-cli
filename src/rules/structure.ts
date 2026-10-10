@@ -1,6 +1,7 @@
 import type { Patch } from '../core/types.ts'
 import { normalizeForMatch, truncate } from '../core/util.ts'
 import { attributesOf, isHidden, startTagOf, subtreeText, withAttribute } from '../criteria/shared.ts'
+import { idKey } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { type TreeIndex, walkTree } from '../snapshot/tree.ts'
 import type { Hit, RuleCheck } from './types.ts'
@@ -284,14 +285,14 @@ export const orphanLabelRule: RuleCheck = {
     const hits: Hit[] = []
     let applicable = 0
     const nodes = [...walkTree(snapshot.root)]
-    const referenced = new Set(nodes.flatMap((node) => (attributesOf(node)['aria-labelledby'] ?? '').split(/\s+/).filter(Boolean)))
+    const referenced = new Set(nodes.flatMap((node) => (attributesOf(node)['aria-labelledby'] ?? '').split(/\s+/).filter(Boolean).map((id) => idKey(node.ref, id))))
     for (const label of nodes) {
       // Only labels the collector read: labelControl is null when the label labels nothing.
       if (label.native.tag !== 'label' || label.native.labelControl !== null || isHidden(label) || label.states.includes('offscreen')) continue
       const text = subtreeText(label)
       if (text === '' || [...walkTree(label)].some((inner) => inner !== label && FIELD_TAGS.has(String(inner.native.tag)))) continue
       const id = attributesOf(label).id
-      if (id && referenced.has(id)) continue
+      if (id && referenced.has(idKey(label.ref, id))) continue
       const parentRef = ctx.index.get(label.ref)?.parentRef
       const parent = parentRef ? nodeAt(ctx.index, parentRef) : undefined
       if (!parent) continue
@@ -379,10 +380,11 @@ export const duplicateIdReferenceRule: RuleCheck = {
     const hits: Hit[] = []
     let applicable = 0
     const nodes = [...walkTree(snapshot.root)]
+    // Ids are unique within a document or a shadow root: one in a frame or a shadow root is no duplicate of the page's.
     const byId = new Map<string, A11yNode[]>()
     for (const node of nodes) {
       const id = attributesOf(node).id
-      if (id) byId.set(id, [...(byId.get(id) ?? []), node])
+      if (id) byId.set(idKey(node.ref, id), [...(byId.get(idKey(node.ref, id)) ?? []), node])
     }
     for (const node of nodes) {
       if (isHidden(node)) continue
@@ -390,7 +392,7 @@ export const duplicateIdReferenceRule: RuleCheck = {
       for (const attribute of REFERENCES) {
         if (attribute === 'for' && node.native.tag !== 'label') continue
         for (const id of (attributes[attribute] ?? '').split(/\s+/).filter(Boolean)) {
-          const owners = byId.get(id) ?? []
+          const owners = byId.get(idKey(node.ref, id)) ?? []
           if (owners.length < 2) continue
           applicable++
           // The browser takes the first element with the id; the one beside the reference is the one meant.

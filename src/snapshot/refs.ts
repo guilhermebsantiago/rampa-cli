@@ -28,6 +28,28 @@ export function refInFrame(ref: string): boolean {
   return ref.includes(FRAME_SEPARATOR)
 }
 
+/**
+ * The tree scope a ref sits in: the refs of the frames and shadow hosts on the way to it, '' in the page's own
+ * document. An id is unique only within one document or shadow root, and for, aria-labelledby and
+ * aria-describedby reach only into their own, so ids are compared within a scope.
+ */
+export function scopeOfRef(ref: string): string {
+  const shadow = ref.lastIndexOf(SHADOW_SEPARATOR)
+  const frame = ref.lastIndexOf(FRAME_SEPARATOR)
+  if (shadow === -1 && frame === -1) return ''
+  return shadow > frame ? ref.slice(0, shadow + SHADOW_SEPARATOR.length) : ref.slice(0, frame + FRAME_SEPARATOR.length)
+}
+
+/** Whether two refs sit in the same document or shadow root, where an id of one can name the other. */
+export function sameScope(a: string, b: string): boolean {
+  return scopeOfRef(a) === scopeOfRef(b)
+}
+
+/** A key for an id within the scope of the element that holds or cites it; the id itself in the page's own document. */
+export function idKey(ref: string, id: string): string {
+  return `${scopeOfRef(ref)}${id}`
+}
+
 /** The ref of the frame element that holds the element, or undefined when it is in the page's own document. */
 export function frameOfRef(ref: string): string | undefined {
   const at = ref.lastIndexOf(FRAME_SEPARATOR)

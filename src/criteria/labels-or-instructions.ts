@@ -2,6 +2,7 @@ import { z } from 'zod'
 import type { Candidate, Criterion, EngineResults, Patch, Verification } from '../core/types.ts'
 import { truncate } from '../core/util.ts'
 import { languageName } from '../i18n.ts'
+import { idKey, sameScope } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { type TreeIndex, indexTree, inheritedLang, walkTree } from '../snapshot/tree.ts'
 import { inputType } from './autofill.ts'
@@ -103,10 +104,11 @@ export const labelsOrInstructions: Criterion<LabelsOrInstructionsContext, Labels
     const index = indexTree(snapshot.root)
     const failed = failedByEngine(engine, ENGINE_RULES)
     const ordered = [...walkTree(snapshot.root)]
+    // Keyed within each document or shadow root: an id there names nothing elsewhere.
     const byId = new Map<string, A11yNode>()
     for (const node of ordered) {
       const id = attributesOf(node).id
-      if (id && !byId.has(id)) byId.set(id, node)
+      if (id && !byId.has(idKey(node.ref, id))) byId.set(idKey(node.ref, id), node)
     }
     const candidates: Candidate<LabelsOrInstructionsContext>[] = []
     let heading: string | undefined
@@ -280,7 +282,7 @@ export function visibleLabelOf(field: A11yNode, ordered: A11yNode[], byId: Map<s
   const attributes = attributesOf(field)
   const labelledBy = (attributes['aria-labelledby'] ?? '')
     .split(/\s+/)
-    .map((id) => byId.get(id))
+    .map((id) => byId.get(idKey(field.ref, id)))
     .filter((node): node is A11yNode => node !== undefined)
     .map((node) => shownText(node))
     .join(' ')
@@ -295,7 +297,7 @@ export function visibleLabelOf(field: A11yNode, ordered: A11yNode[], byId: Map<s
 
 export function labelsOf(field: A11yNode, ordered: A11yNode[]): A11yNode[] {
   const id = attributesOf(field).id
-  return ordered.filter((node) => node.native.tag === 'label' && ((id && attributesOf(node).for === id) || contains(node, field)))
+  return ordered.filter((node) => node.native.tag === 'label' && ((id && attributesOf(node).for === id && sameScope(node.ref, field.ref)) || contains(node, field)))
 }
 
 function contains(node: A11yNode, target: A11yNode): boolean {
