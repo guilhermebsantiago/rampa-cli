@@ -1,0 +1,12 @@
+{
+  "page": "https://mwpt.com.br/acessibilidade-digital/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "7be513e56ddc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the numbered pagination link \"2\" (href .../acessibilidade-digital/page/2/) in a standard pager shown as \"1 2 Próxima página\" below the article grid, where \"1\" is the current page and has aria-current=\"page\". The snapshot and the live page agree (the live HTML is unchanged): the link sits in a list inside <nav aria-labelledby> whose accessible name is \"Páginas de Acessibilidade digital\". 2.4.4 accepts link text combined with programmatically determined link context, which includes the enclosing list and the labelled navigation landmark. In that context \"2\" clearly means page 2 of the Acessibilidade digital listing, and the destination's title, \"Acessibilidade digital - Página 2 de 2\", confirms it. The finding's claim that \"nothing around it\" gives the purpose is wrong: the nav name was in the context Rampa had (it appears in the packet's ancestors). Requiring the link text alone to state its purpose would be 2.4.9 (AAA), not 2.4.4. \"Página 2\" would be a nicer label, but its absence is not a 2.4.4 failure."
+    }
+  ]
+}

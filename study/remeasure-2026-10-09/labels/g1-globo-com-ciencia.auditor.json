@@ -1,0 +1,54 @@
+{
+  "page": "https://g1.globo.com/ciencia/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "815cb4cca4c8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the advertiser display-URL link 'TikTok for Business' in the Google Ad Manager banner iframe (Home_0, iframe aria-label 'Publicidade'). The three 'TikTok for Business' / 'TIKTOK FOR BUSINESS' links are the same TikTok ad served in three slots (Home_0, Home_4, Home_5). Their doubleclick click-tracking hrefs differ only in tracking parameters, and all carry the same adurl, ads.tiktok.com/business/pt-BR/industries/cpg. So they do not lead to 3 different places. The link text names its destination (TikTok for Business), so its purpose can be determined from the link text alone. Identical text across links is at most a best-practice concern in Understanding 2.4.4, not a failure. The checker had the hrefs and read different tracking URLs as different destinations."
+    },
+    {
+      "fingerprint": "f541e9cd56d7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Abrir' (Open) call-to-action link in the TikTok banner ad iframe (Home_0). Its accessible name is only 'Abrir', with no aria-label, aria-labelledby, aria-describedby or title. In the snapshot it sits in a bare div next to the 'TikTok for Business' link: no enclosing paragraph, sentence, list item or table cell gives programmatically determined context (H77/H78/H79/G53/ARIA7/ARIA8 are not met). The iframe name 'Publicidade' says only that it is an ad. Sighted users see it as the ad's CTA, so the 'ambiguous to users in general' exception does not apply. 'Abrir' alone does not convey the link's purpose, so it fails 2.4.4 (the ACT 'link in context is descriptive' reading). This is third-party ad content, but it is part of the page and no partial-conformance statement exists. Some auditors would accept the ad unit as context, but the strict and usual reading fails it. The suggested patch invents a destination description, but that does not change the label."
+    },
+    {
+      "fingerprint": "7a2b5f85b5bb",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'TIKTOK FOR BUSINESS' display-URL link in the tower ad iframe (Home_4), the same TikTok creative as in slots Home_0 and Home_5. All three same-text links have the same final destination (adurl ads.tiktok.com/business/pt-BR/industries/cpg); only the doubleclick click-tracking parameters differ. So the claim of '3 different places' is wrong. The link text identifies the destination (TikTok for Business), so its purpose is clear from the link text alone, and repeated identical text is not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "cc4651aced6e",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the ad headline link 'Cadastre-se no TikTok' in the tower ad (Home_4). Its markup is 'Cadastre-se<br>no TikTok'. The snapshot name 'Cadastre-seno TikTok' is a collector artefact that drops the line break, and it does not matter here. The two same-text links (Home_4 and Home_5) are the same ad and resolve to the same adurl, ads.tiktok.com/business/pt-BR/industries/cpg, so they do not lead to 2 different places. 'Sign up for TikTok' describes the purpose of an ad headline link to TikTok's business sign-up landing page. There is no 2.4.4 failure."
+    },
+    {
+      "fingerprint": "9d7db1cb0b48",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the full-width 'Abrir' button link at the bottom of the TikTok tower ad iframe (Home_4). Its name comes only from the inner span 'Abrir'; an SVG arrow adds no text. It sits alone in div.button-wrapper, separate from the asset container that holds the brand, headline and body links. No paragraph, sentence, list item, table cell, aria-label/labelledby/describedby or title gives programmatic context, and the frame name 'Publicidade' does not identify the purpose. 'Abrir' (Open) does not tell the user what opens. The link fails 2.4.4 as the finding says, even though it sits in third-party ad content. Some auditors might accept the ad unit as context."
+    },
+    {
+      "fingerprint": "95dec85d70b5",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'TIKTOK FOR BUSINESS' display-URL link in the second tower ad iframe (Home_5), the same creative as Home_0 and Home_4. Every same-text link's click-tracking href carries the same adurl (ads.tiktok.com/business/pt-BR/industries/cpg), so they do not go to different places. The text names the destination, so its purpose can be determined from the link text alone. The checker treated distinct tracking URLs as distinct destinations."
+    },
+    {
+      "fingerprint": "52e720da2497",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the ad headline link 'Cadastre-se no TikTok' in the Home_5 tower ad. 'Cadastre-seno' is a collector artefact from the <br> in the text. Its twin in Home_4 is the same ad and resolves to the same landing page (adurl ads.tiktok.com/business/pt-BR/industries/cpg), so the claim of '2 different places' is false. The text describes the purpose of signing up for TikTok (for Business). There is no 2.4.4 failure."
+    },
+    {
+      "fingerprint": "c924cd5477e1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Abrir' CTA button link in the Home_5 tower ad, with the same structure as the Home_4 one. The finding's premise is wrong: all three 'Abrir' links resolve to the same adurl (ads.tiktok.com/business/pt-BR/industries/cpg), so they do not lead to 3 different places. The rest of the claim does hold: nothing in the link text or its programmatically determined context (no paragraph, sentence, list item, cell or ARIA naming or description) identifies the purpose of 'Abrir'. That is a real 2.4.4 failure of generic link text in third-party ad content. Read fairly, the claim that this 'Abrir' cannot be told apart still names that failure."
+    }
+  ]
+}

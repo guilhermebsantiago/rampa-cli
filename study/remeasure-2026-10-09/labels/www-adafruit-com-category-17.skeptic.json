@@ -1,0 +1,54 @@
+{
+  "page": "https://www.adafruit.com/category/17",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "2e954a6181fc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Product thumbnail for item 1438, inside a link whose text already names the product. The crop, and the 970px version of the same photo, show a blue motor shield on an Arduino wired to a stepper motor, two servos and two DC motors. That is what the alt text describes. The 'v2' in the alt and 'v3' in the product name is a naming mismatch, and 'steppers' is plural when one stepper is shown. Neither means the alt describes something absent, and the text still serves the image's purpose. The model's suggested fix only swaps v2 for v3."
+    },
+    {
+      "fingerprint": "4c0cfd4b290d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Product thumbnail for the half-size breadboard, inside a link that names the product. The crop and the 970px original show an angled shot of a white half-size solderless breadboard. Its power rails are marked with red and black lines, exactly as the alt says. The model's patch ('red and blue power rails') is the inaccurate one. The alt matches the image, so there is no 1.1.1 failure."
+    },
+    {
+      "fingerprint": "637e05c3b1da",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Product thumbnail for the 9 VDC power adapter, inside a link that names the product. The crop shows an angled shot of a black wall adapter with US prongs, a cord and a barrel plug, which matches the alt. 'UL listed' is product information that duplicates the name and does not contradict the image. The alt is an adequate equivalent."
+    },
+    {
+      "fingerprint": "a778751946e2",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Product thumbnail for the 9V battery holder, inside a link that names the product. The crop shows an angled shot of a black 9V battery box with a small slide switch on top and a cable ending in a barrel plug. Every element of the alt is visible. The model's patch says almost the same thing, which confirms there is no mismatch."
+    },
+    {
+      "fingerprint": "50681837f6cb",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Product thumbnail for the FTDI Friend, inside a link that names the product. The crop shows an angled shot of a blue rectangular breakout board with an FTDI chip, a micro USB port and a black header. That is exactly what the alt 'Angled shot of blue rectangular FTDI breakout board' describes. The alt is accurate, so this is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "b7a6e2088ab9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Product thumbnail for the in-line power switch, inside a link that names the product. The crop shows an angled shot of a black cable with an in-line rocker switch and 2.1mm barrel connectors at both ends, which matches the alt. The model's patch says the same thing in other words. There is no mismatch."
+    },
+    {
+      "fingerprint": "1063100c930a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the header search field (#search). The screenshot and snapshot show a visible magnifying-glass submit button (#searchBtn, accessible name 'Search') at the right end of the field, inside the same search form. The input takes its name from that button through aria-labelledby. This is sufficient technique G167, whose Example 1 is exactly a search field labelled by an adjacent magnifying-glass button, so 3.3.2 is met. The rule's claim that no button sits near the field is wrong given the data it had."
+    },
+    {
+      "fingerprint": "28bea865ce32",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link 'turn UP the TERROR!' sits in the orange Halloween alert banner. Its parent div.message reads 'The Halloween countdown has begun ... Are you ready to turn UP the TERROR!?', and the banner has role=alert, so the whole message is read with the link. That parent text is programmatically determined link context. Together with the link text, it tells the user the link leads to the Halloween promotion, and it does: the destination is 'Halloween 2026 : Shopping Guides'. The finding's claim that 'nothing around it' says where the link goes is contradicted by the ancestor text Rampa itself captured. The link text is vague on its own, but 2.4.4 accepts context, so this passes. Judged on the 2026-10-10 snapshot; the seasonal banner may change on the live site."
+    }
+  ]
+}

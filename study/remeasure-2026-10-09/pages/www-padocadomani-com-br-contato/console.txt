@@ -1,0 +1,47 @@
+
+https://www.padocadomani.com.br/contato/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.3.5 (AA) — Identify Input Purpose
+  ✗ #form-field-name
+    The field "nome completo" asks for the user's full name but does not identify that purpose: autocomplete="name" is missing.
+    Evidence: "nome completo"
+    Patch:
+      - <input size="1" type="text" name="form_fields[name]" id="form-field-name" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="nome completo">
+      + <input size="1" type="text" name="form_fields[name]" id="form-field-name" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="nome completo" autocomplete="name">
+    confidence high · 1/1 runs · evidence verified · id c331c8eae740
+  ✗ #form-field-email
+    The field "e-mail" asks for the user's email address but does not identify that purpose: autocomplete="email" is missing.
+    Evidence: "e-mail"
+    Patch:
+      - <input size="1" type="email" name="form_fields[email]" id="form-field-email" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e-mail" required="required">
+      + <input size="1" type="email" name="form_fields[email]" id="form-field-email" class="elementor-field elementor-size-sm  elementor-field-textual" placeholder="e-mail" required="required" autocomplete="email">
+    confidence high · 1/1 runs · evidence verified · id 9e1ca29695b0
+
+WCAG 2.4.4 (A) — Link Purpose (In Context)
+  ✗ html > body > header > div > div > div:nth-of-type(1) > div > div > a
+    Links must have discernible text
+    high · rule link-name · id 2b53e38d946d
+  ✗ html > body > header > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div > a
+    Links must have discernible text
+    high · rule link-name · id f5fcf5e494fa
+  ✗ html > body > footer > div > div > div:nth-of-type(1) > div > a
+    Links must have discernible text
+    high · rule link-name · id 2f884a3eff06
+
+Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site; crawl its address with --crawl or --sitemap.
+3 claim(s) from the model did not hold against the snapshot and were dropped.
+5 finding(s) below the confidence threshold (--verbose shows them).
+
+Model calls: 56 new, 0 from cache · 51.3k in / 4.8k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.4.3, 1.4.4, 1.4.12, 2.4.2, 2.4.4, 2.5.3, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  1.4.3, 1.4.11, 2.4.2, 2.4.6, 3.1.1
+  Judged with verified evidence:     1.1.1, 1.3.5, 2.4.2, 2.4.4, 2.4.6, 3.1.2
+  Needs review only:                 2.4.1, 3.3.2
+  Not checked automatically:         38 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

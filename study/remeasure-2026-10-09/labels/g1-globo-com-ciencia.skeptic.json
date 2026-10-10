@@ -1,0 +1,54 @@
+{
+  "page": "https://g1.globo.com/ciencia/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "815cb4cca4c8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'TikTok for Business' link in the Google ad banner iframe Home_0. The other two links with this name are the 'TIKTOK FOR BUSINESS' links in the tower ads Home_4 and Home_5, which show the same TikTok creative. I decoded the adurl parameter of each href in the snapshot. All three lead to the same landing page, https://ads.tiktok.com/business/pt-BR/industries/cpg, with the same campaign parameters. The hrefs differ only in Google click-tracking tokens (ai, sig, cid, gclid), so 'lead to 3 different places' is wrong. The link text names the advertiser and describes the purpose on its own. Identical text with an equivalent purpose does not fail 2.4.4, and even the AAA identical-name rules would pass it. Rampa had the hrefs, adurl included, and treated tracking redirects as different destinations."
+    },
+    {
+      "fingerprint": "f541e9cd56d7",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the 'Abrir' CTA in the Home_0 ad banner, in an iframe labelled 'Publicidade'. The claim that nothing around it tells where it goes is doubtful. In the snapshot it shares a row container (readingText 'TikTok for Business Abrir') with the adjacent 'TikTok for Business' link, which goes to the same landing page. The rest of the ad ('Cadastre-se no TikTok', the description) is in the same small ad document, and the screenshot shows 'TikTok for Business ... Abrir >' on one line. But the context sits in generic divs, not in a paragraph, list item, table cell, aria-describedby or aria-labelledby. That is not one of the relationships the 2.4.4 Understanding document and techniques H77/H78/H79/G53/ARIA7/ARIA8 name. Strict auditors would fail the generic 'Abrir'; others would accept the self-contained ad card as its context. Competent auditors would disagree, so it is not a clear true positive."
+    },
+    {
+      "fingerprint": "7a2b5f85b5bb",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'TIKTOK FOR BUSINESS' advertiser link in the tower ad iframe Home_4. The three same-named links, in Home_0, Home_4 and Home_5, all resolve through their adurl parameter to https://ads.tiktok.com/business/pt-BR/industries/cpg with the same campaign parameters. Only the doubleclick tracking tokens and gclid differ, so they do not lead to different places. The text names the destination (TikTok for Business) without needing context, and links with identical text and an equivalent purpose do not fail 2.4.4. The checker had the hrefs and misread click-tracking variation as different destinations."
+    },
+    {
+      "fingerprint": "cc4651aced6e",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the ad headline link 'Cadastre-se<br>no TikTok' in tower ad Home_4. The name 'Cadastre-seno TikTok' is itself a collector artefact: the <br> was dropped, and a browser would expose 'Cadastre-se no TikTok'. The other link with this name is the same headline in Home_5. Both hrefs' adurl resolve to the same landing page (ads.tiktok.com/business/pt-BR/industries/cpg, same campaign parameters) and differ only in click-tracking tokens. The claim that they lead to 2 different places is false. The text ('sign up on TikTok') describes the purpose on its own. Equivalent purpose plus self-describing text means no 2.4.4 failure."
+    },
+    {
+      "fingerprint": "9d7db1cb0b48",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the 'Abrir' CTA button at the bottom of tower ad Home_4, in an iframe labelled 'Publicidade'. The finding says nothing around it tells where it goes, but the same ad container (#tower > div) holds the 'TIKTOK FOR BUSINESS' advertiser link, the 'Cadastre-se no TikTok' headline and the description, all just before it in reading order. All those links go to the same landing page as 'Abrir'. That context is only in sibling generic divs, though, not in a sentence, paragraph, list item, table cell or ARIA relationship, the forms that 2.4.4's Understanding text and techniques name as programmatically determined link context. Whether a self-contained ad card counts as context is something competent auditors would disagree on. 'Abrir' alone is generic, but the claim is not clearly a failure."
+    },
+    {
+      "fingerprint": "95dec85d70b5",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'TIKTOK FOR BUSINESS' advertiser link in the tower ad iframe Home_5, a repeat of the Home_4 creative. Decoding the adurl of the three same-named links (Home_0, Home_4, Home_5) gives the same landing page, https://ads.tiktok.com/business/pt-BR/industries/cpg, with identical campaign parameters. The hrefs differ only in Google tracking tokens and gclid. The links therefore do not lead to 3 different places, and the text identifies the purpose without context. This is not a 2.4.4 failure. The checker read distinct tracking URLs as distinct destinations."
+    },
+    {
+      "fingerprint": "52e720da2497",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the headline link 'Cadastre-se<br>no TikTok' in tower ad Home_5. The name 'Cadastre-seno TikTok' is a name-computation artefact (the <br> was dropped). Its twin in Home_4 has the same adurl landing page (ads.tiktok.com/business/pt-BR/industries/cpg, same campaign parameters), and only click IDs differ. So the premise that the 2 links go to 2 different places is false. The visible text 'Cadastre-se no TikTok' describes the purpose on its own. No 2.4.4 failure."
+    },
+    {
+      "fingerprint": "c924cd5477e1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'Abrir' CTA in tower ad Home_5. The finding claims the 3 'Abrir' links on the page (Home_0, Home_4, Home_5) lead to 3 different places and nothing tells this one apart. In the snapshot all three hrefs resolve through adurl to the same landing page, https://ads.tiktok.com/business/pt-BR/industries/cpg, with the same campaign parameters. Only Google click-tracking tokens differ, so the three links have an equivalent purpose and no ambiguity between them needs resolving. Whether a lone generic 'Abrir' in an ad card fails 2.4.4 is a separate and debatable question (see the other two 'Abrir' findings). The claim made here, duplicates that diverge in destination, does not hold."
+    }
+  ]
+}

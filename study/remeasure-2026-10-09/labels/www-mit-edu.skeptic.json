@@ -1,0 +1,42 @@
+{
+  "page": "https://www.mit.edu/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "6a339192af2f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The spotlight hero image is the only content of a link (target=_blank) to the news story about a shape-sensing sheet. The live HTML on 2026-10-09 matches the snapshot. The link has no aria-label or title, and it is not hidden with aria-hidden or tabindex=-1, so its name is the alt, which describes the picture (an arm in a wired sleeve) and not the story it opens. I looked for reasons it could pass. The only other link to the same URL is a vague \"Full story\" link, placed after the h2 and the paragraph, so it is not an adjacent H2-style duplicate that would carry the purpose. The name is computed correctly, so this is not a collector artefact. 1.1.1 Situation C (G82/H30) requires an image that is a link's only content to describe the link's purpose, and this alt fails H30's test step 2. That is WCAG's own rule, not a stricter one."
+    },
+    {
+      "fingerprint": "d0e58350b1c5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This card image is the only content of a link to the news story \"MIT for America initiative strengthens STEM education\". The live page matches the snapshot. The alt \"Students engaged in math and in a maker space\" describes the photo. It is on the same broad theme (students, STEM) but does not tell a user that the link opens the MIT for America story. The strongest reason against the finding is that the h3 link \"MIT for America\" right below goes to the same URL (the redundant pattern in H2). H2 treats separate adjacent links as a redundancy problem and does not excuse the image link's own name. The image link is still a separate tab stop and links-list entry, and its name does not state its purpose. No aria-label, title or hiding technique applies, so H30/G82 (1.1.1 Situation C) is not met. The patch's wording may not be ideal, but that does not change the label."
+    },
+    {
+      "fingerprint": "8d66bfd5df44",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This card image is the only content of a link to the story about the FDA clearing the Encora tremor device. The live page matches the snapshot. The alt \"a man wearing an Encora device while eating soup\" describes the photo, but it names the product the linked story is about. A fair reading can say a user can tell the link leads to content about the Encora device, which is the least 1.1.1 asks: that the user knows what the control is and why it is there. The h3 link \"Treating tremors\" right below goes to the same URL (the H2 pattern), so the purpose is stated in the next link. A strict H30 reading would still say the alt describes the image, not the link's function, and it does not say the link opens a news story. With the destination's subject named and an adjacent duplicate link, I think competent auditors would disagree."
+    },
+    {
+      "fingerprint": "102fb6a74de5",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This card image is the only content of a link to the Spectrum profile of Braedon Rudolph (\"After MIT, the Marines\"). The live page matches the snapshot. The alt \"Braedon Rudolph\" does not describe the photo, which shows a group of graduates. It works as a label naming the person the linked article is about. Like H30's example alt \"Current routes at Boulders Climbing Gym\", which names the destination's content, a link named after a person who is the subject of the destination arguably does describe its purpose. The h3 link \"From MIT to the Marines\" right below goes to the same URL. A strict auditor would still say \"Braedon Rudolph\" does not say the link opens a story. The finding's claim that the alt \"does not say where the link leads\" is contestable here, so I label it uncertain rather than true_positive."
+    },
+    {
+      "fingerprint": "957cc5541af3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This card image is the only content of a link to the news fact sheet on supporting MIT's Jewish community. The live page matches the snapshot. The alt \"77 Massachusetts Avenue in fall\" describes a building photo and has no relation to the destination. A user who meets this link on its own would expect something about the building, not a fact sheet. I checked the reasons it could pass. The h3 link \"Supporting our Jewish community\" right below goes to the same URL, which lowers the harm but does not give the image link a name that states its purpose (H2 recommends combining the links and does not excuse the separate link). No aria-label, title, aria-hidden or tabindex=-1 is used. The name is computed correctly. 1.1.1 Situation C (G82/H30) requires this alt to describe the link's purpose, and it does not."
+    },
+    {
+      "fingerprint": "55fc1d1e8b6f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This card image is the only content of a link to https://understanding.mit.edu/, whose card heading is \"Benefits for all Americans\". The live page matches the snapshot. The alt \"Kilian Court at MIT\" names the place in the photo and has nothing to do with the destination, so a user who meets the link out of context would expect a page about Kilian Court. The adjacent h3 link to the same URL reduces the impact but does not satisfy the requirement for this separate control. No technique (aria-label, title, hiding the redundant link) makes it pass, and the snapshot data is correct. This fails 1.1.1 for controls (G82/H30) as the finding says. The patch's alt text (\"Visit the MIT Understanding page\") is awkward, but that does not change the label."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "page": "https://www.padocadomani.com.br/contato/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "0b9261bc02c1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h3 'delivery' in the 'padoca joaquim antunes' block of the contact page. It sits between 'nossos horários' (store hours) and 'formas de pagamento'. The content under it is the delivery hours: 'segunda a sexta: 8h às 18h30 / sábado: 8h às 17h30 / domingo: 8h às 15h30'. The other two stores use the same pattern ('salão' then 'delivery'), and the site menu also has a 'delivery' link. So the heading names exactly the topic of its content. 'delivery' is a common loanword in Brazilian Portuguese, so it is not even a language mismatch, and the patch's 'Entrega' would be a style change, not a fix. The packet's ancestor text included the content under the heading, so the model had the context and judged wrongly. The snapshot and the live page (2026-10-09) agree."
+    }
+  ]
+}

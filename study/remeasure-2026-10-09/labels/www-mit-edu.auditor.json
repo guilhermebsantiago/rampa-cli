@@ -1,0 +1,42 @@
+{
+  "page": "https://www.mit.edu/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "6a339192af2f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The large spotlight image (img.spotlight__img) is the only content of an <a> that goes to the news.mit.edu story on the shape-sensing sheet. Its alt, \"An arm wears a unique device like a sleeve connected to wires\", describes the picture, so the link's accessible name does not say that it opens the full story. The live HTML (re-fetched 2026-10-09) is unchanged. The Understanding document for 1.1.1 treats linked images under Controls (Situation C, H30), and its own examples (a newspaper thumbnail with alt \"Smallville Times\", a globe with alt \"International Travel\") give alt text that names the destination. H30's test fails here. A \"Full story\" link with the same href comes later, after the h2 and the paragraph. It is a separate link, not combined with the image link as H2 would do, so the image link is still announced with no purpose. The patch is acceptable. Combining the two links, or removing the redundant image link from the tab order and the accessibility tree, would also fix it."
+    },
+    {
+      "fingerprint": "d0e58350b1c5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is a card image whose only content is an img inside an <a> to the news.mit.edu article on the MIT for America initiative. The alt \"Students engaged in math and in a maker space\" describes the photo (confirmed in the crop) and does not say that the link opens the MIT for America story. The h3 link \"MIT for America\" next to it has the same href, but it is a separate anchor in a sibling div, so it is not the image link's name. The two are not combined per H2, and the image link is not hidden from AT or the tab order. That fails H30 / Situation C of 1.1.1: a functional image's text alternative should convey its purpose, as in the Understanding document's linked-thumbnail example. The live page is unchanged. Some auditors would log this under 2.4.4 instead, but the 1.1.1 claim as stated holds."
+    },
+    {
+      "fingerprint": "8d66bfd5df44",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is a card image whose only content is an img inside an <a> to the news.mit.edu story on Encora Therapeutics' FDA-cleared tremor treatment. The alt \"a man wearing an Encora device while eating soup\" describes the scene. It names the device but reads as a photo description and does not say that the link opens the \"Treating tremors\" story. The adjacent h3 link with the same href is a separate anchor, so the image link is announced on its own with a name that does not describe its purpose. That fails H30 / Situation C of 1.1.1 (linked images need alt text that conveys the destination). H2, combining the links, would be the cleaner fix. The live markup is unchanged."
+    },
+    {
+      "fingerprint": "102fb6a74de5",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is a card image whose only content is an img inside an <a> to an MIT Spectrum (betterworld.mit.edu) profile, \"From MIT to the Marines\", about Braedon Rudolph '26. Its alt is \"Braedon Rudolph\". The pattern is the same as the other cards: a separate adjacent h3 link with the same href, not combined per H2. Unlike the others, though, the alt names the subject of the destination: a link called \"Braedon Rudolph\" that opens a profile of Braedon Rudolph arguably does tell the user where it leads, much like the Understanding document's \"Smallville Times\" example. It does not say the link is an article or story, and it was written as a photo caption (the crop shows several graduates). Competent auditors could reasonably differ on whether this name describes the link's purpose well enough for 1.1.1 / H30, so I leave it uncertain. The live page is unchanged."
+    },
+    {
+      "fingerprint": "957cc5541af3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is a card image whose only content is an img inside an <a> to the news.mit.edu fact sheet \"Supporting our Jewish community\". The alt \"77 Massachusetts Avenue in fall\" describes the campus photo (confirmed in the crop) and has no relation to the destination. A screen reader user gets a link whose name gives no hint of its purpose. The h3 link with the same href is a separate anchor in a sibling div. This clearly fails H30 / Situation C of 1.1.1 (the text alternative of a linked image should convey the link's purpose). The live markup is unchanged. The patch is reasonable. Combining the two links per H2 would be better."
+    },
+    {
+      "fingerprint": "55fc1d1e8b6f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is a card image whose only content is an img inside an <a> to https://understanding.mit.edu/ (card heading \"Benefits for all Americans\"). The alt \"Kilian Court at MIT\" names the place in the photo (the Great Dome over Killian Court, as the crop shows) and says nothing about the destination, so the link's accessible name does not describe its purpose. The adjacent h3 link with the same href is a separate anchor. This fails H30 / Situation C of 1.1.1, consistent with the Understanding document's linked-image examples. The live page is unchanged. As a minor note, the patch's wording (\"Visit the MIT Understanding page\") is a weak but valid destination name, and combining the links per H2 would be better."
+    }
+  ]
+}

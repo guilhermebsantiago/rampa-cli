@@ -1,0 +1,123 @@
+[
+ {
+  "fingerprint": "48f04deee7da",
+  "criterion": "1.1.1",
+  "ref": "#usa-alert--1__a11y-label > svg",
+  "candidate": false
+ },
+ {
+  "fingerprint": "168921fa5d34",
+  "criterion": "1.1.1",
+  "ref": "#extended-logo > em > a > img",
+  "candidate": true,
+  "status": "failed",
+  "verdict": "fail",
+  "output": {
+   "verdict": "fail",
+   "evidence": "USAGov Logo",
+   "problem": "wrong_content",
+   "imageShows": "A circular blue logo with the text 'usa gov' and a small white star.",
+   "suggestedAlt": "USA.gov home",
+   "confidence": "high"
+  }
+ },
+ {
+  "fingerprint": "0033d785f020",
+  "criterion": "1.1.1",
+  "ref": "#twr",
+  "candidate": true,
+  "status": "failed",
+  "verdict": "fail",
+  "output": {
+   "verdict": "fail",
+   "evidence": "X Twitter USAGov",
+   "problem": "wrong_content",
+   "imageShows": "The logo of the social media platform X (formerly Twitter).",
+   "suggestedAlt": "X",
+   "confidence": "high"
+  }
+ },
+ {
+  "fingerprint": "7261db0f89c5",
+  "criterion": "1.3.5",
+  "ref": "#state-info",
+  "candidate": true,
+  "status": "failed",
+  "verdict": "fail",
+  "output": {
+   "asks": "state or territory",
+   "about": "user",
+   "purpose": "address-level1",
+   "verdict": "fail",
+   "evidence": "Select or type your state or territory:",
+   "confidence": "high"
+  }
+ },
+ {
+  "fingerprint": "51e63b4fb0de",
+  "criterion": "2.4.4",
+  "ref": "#sm-share > div > a:nth-of-type(1)",
+  "candidate": true,
+  "status": "failed",
+  "verdict": "fail",
+  "output": {
+   "promises": "The link text 'SHARE THIS PAGE:' combined with the surrounding links (Facebook, X, Twitter, etc.) suggests it is a header or a label for a group of sharing actions, but the link itself is mapped to a specific Facebook sharing action.",
+   "leadsTo": "https://www.facebook.com/sharer/sharer.php?u=https://www.usa.gov/state-consumer&v=3",
+   "verdict": "fail",
+   "evidence": "<link>SHARE THIS PAGE:</link>",
+   "problem": "ambiguous",
+   "suggestedText": "Share on Facebook",
+   "confidence": "high"
+  }
+ },
+ {
+  "fingerprint": "b86473a18d03",
+  "criterion": "2.4.4",
+  "ref": "#sm-share > div > a:nth-of-type(2)",
+  "candidate": true,
+  "status": "failed",
+  "verdict": "fail",
+  "output": {
+   "promises": "The link text 'SHARE THIS PAGE:' suggests an action to share the current page, but the context shows it is part of a list of social media platforms (Facebook, X, Twitter, USAGov, Email).",
+   "leadsTo": "A Twitter (X) intent page to post the URL of the current page.",
+   "verdict": "fail",
+   "evidence": "SHARE THIS PAGE:",
+   "problem": "ambiguous",
+   "suggestedText": "Share on X",
+   "confidence": "high"
+  }
+ },
+ {
+  "fingerprint": "1d57d81725c1",
+  "criterion": "2.4.4",
+  "ref": "#sm-share > div > a:nth-of-type(3)",
+  "candidate": true,
+  "status": "failed",
+  "verdict": "fail",
+  "output": {
+   "promises": "The link text 'SHARE THIS PAGE:' combined with the surrounding links (Facebook, X, Twitter, USAGov, Email) suggests it is a header or a label for the sharing options, but the specific link with this text leads to an email client.",
+   "leadsTo": "mailto:?subject=https://www.usa.gov/state-consumer",
+   "verdict": "fail",
+   "evidence": "SHARE THIS PAGE:",
+   "problem": "ambiguous",
+   "suggestedText": "Share via Email",
+   "confidence": "high"
+  }
+ },
+ {
+  "fingerprint": "9a4d81124cca",
+  "criterion": "3.3.2",
+  "ref": "#search-field-small",
+  "candidate": true,
+  "status": "failed",
+  "verdict": "fail",
+  "output": {
+   "shown": "",
+   "rule": "",
+   "verdict": "fail",
+   "problem": "no_visible_label",
+   "evidence": "Search",
+   "confidence": "high"
+  }
+ }
+]

@@ -1,0 +1,2159 @@
+{
+  "schemaVersion": 1,
+  "rampaVersion": "0.0.0",
+  "createdAt": "2026-10-10T01:25:23.828Z",
+  "target": "https://www.ibge.gov.br/",
+  "surface": "web",
+  "wcagTarget": "wcag22-aa",
+  "locale": "en",
+  "llm": "on",
+  "model": "ollama:gemma4:12b",
+  "engine": {
+    "name": "axe-core",
+    "version": "4.14.0"
+  },
+  "findings": [
+    {
+      "fingerprint": "763391f06ba4",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(1) > a > img",
+      "message": "The text alternative \"Logo do IBGE\" is all its link holds, and does not say where the link leads.",
+      "evidence": "Logo do IBGE",
+      "subject": "Logo do IBGE",
+      "patch": {
+        "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(1) > a > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "Logo do IBGE",
+        "to": "Página inicial do IBGE",
+        "before": "<img src=\"/templates/novo_portal_base/imagens/logo_mobile.png\" class=\"logo\" alt=\"Logo do IBGE\">",
+        "after": "<img src=\"/templates/novo_portal_base/imagens/logo_mobile.png\" class=\"logo\" alt=\"Página inicial do IBGE\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "1c893433de7e",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > a > img",
+      "message": "The text alternative \"globe\" is a file name or a placeholder.",
+      "evidence": "globe",
+      "subject": "globe",
+      "patch": {
+        "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > a > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "globe",
+        "to": "Mudar idioma",
+        "before": "<img src=\"https://www.ibge.gov.br/media/mod_gtranslate/flags/svg/globe.svg\" height=\"24\" width=\"24\" alt=\"globe\">",
+        "after": "<img src=\"https://www.ibge.gov.br/media/mod_gtranslate/flags/svg/globe.svg\" height=\"24\" width=\"24\" alt=\"Mudar idioma\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "2c52891e3bda",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#section_banners > div > div > div > div:nth-of-type(1) > a > div:nth-of-type(1) > img",
+      "message": "The text alternative \"imagem banner\" describes something the image does not show.",
+      "evidence": "imagem banner",
+      "subject": "imagem banner",
+      "patch": {
+        "ref": "#section_banners > div > div > div > div:nth-of-type(1) > a > div:nth-of-type(1) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "imagem banner",
+        "to": "Ícone de prancheta com checklist e avaliação por estrelas",
+        "before": "<img src=\"/images/novoportal/static/icones/banner-avaliacao.jpg\" alt=\"imagem banner\">",
+        "after": "<img src=\"/images/novoportal/static/icones/banner-avaliacao.jpg\" alt=\"Ícone de prancheta com checklist e avaliação por estrelas\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "b3bbf885356b",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#section_banners > div > div > div > div:nth-of-type(2) > a > div:nth-of-type(1) > img",
+      "message": "The text alternative \"imagem banner\" describes something the image does not show.",
+      "evidence": "imagem banner",
+      "subject": "imagem banner",
+      "patch": {
+        "ref": "#section_banners > div > div > div > div:nth-of-type(2) > a > div:nth-of-type(1) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "imagem banner",
+        "to": "Ícone de gráfico de barras",
+        "before": "<img src=\"/images/novoportal/static/icones/lateral-sidra.png\" alt=\"imagem banner\">",
+        "after": "<img src=\"/images/novoportal/static/icones/lateral-sidra.png\" alt=\"Ícone de gráfico de barras\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "0e38411fe359",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#section_banners > div > div > div > div:nth-of-type(3) > a > div:nth-of-type(1) > img",
+      "message": "The text alternative \"imagem banner\" describes something the image does not show.",
+      "evidence": "imagem banner",
+      "subject": "imagem banner",
+      "patch": {
+        "ref": "#section_banners > div > div > div > div:nth-of-type(3) > a > div:nth-of-type(1) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "imagem banner",
+        "to": "Logotipo do programa",
+        "before": "<img src=\"/images/novoportal/banners/banner-programa.jpg\" alt=\"imagem banner\">",
+        "after": "<img src=\"/images/novoportal/banners/banner-programa.jpg\" alt=\"Logotipo do programa\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "45bab32f2922",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#section_banners > div > div > div > div:nth-of-type(4) > a > div:nth-of-type(1) > img",
+      "message": "The text alternative \"imagem banner\" is too generic to describe the image.",
+      "evidence": "imagem banner",
+      "subject": "imagem banner",
+      "patch": {
+        "ref": "#section_banners > div > div > div > div:nth-of-type(4) > a > div:nth-of-type(1) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "imagem banner",
+        "to": "Ícone de celular",
+        "before": "<img src=\"/images/novoportal/static/destaques/respondendo.png\" alt=\"imagem banner\">",
+        "after": "<img src=\"/images/novoportal/static/destaques/respondendo.png\" alt=\"Ícone de celular\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "0ede23b04920",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#section_banners > div > div > div > div:nth-of-type(6) > a > div:nth-of-type(1) > img",
+      "message": "The text alternative \"imagem banner\" describes something the image does not show.",
+      "evidence": "imagem banner",
+      "subject": "imagem banner",
+      "patch": {
+        "ref": "#section_banners > div > div > div > div:nth-of-type(6) > a > div:nth-of-type(1) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "imagem banner",
+        "to": "Ícone de sacola de compras",
+        "before": "<img src=\"/images/novoportal/static/icones/lateral-loja.png\" alt=\"imagem banner\">",
+        "after": "<img src=\"/images/novoportal/static/icones/lateral-loja.png\" alt=\"Ícone de sacola de compras\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "24efd47a93b0",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#section_banners > div > div > div > div:nth-of-type(7) > a > div:nth-of-type(1) > img",
+      "message": "The text alternative \"imagem banner\" describes something the image does not show.",
+      "evidence": "imagem banner",
+      "subject": "imagem banner",
+      "patch": {
+        "ref": "#section_banners > div > div > div > div:nth-of-type(7) > a > div:nth-of-type(1) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "imagem banner",
+        "to": "Logotipo dos Objetivos de Desenvolvimento Sustentável (ODS)",
+        "before": "<img src=\"/images/novoportal/static/icones/icon-ods.png\" alt=\"imagem banner\">",
+        "after": "<img src=\"/images/novoportal/static/icones/icon-ods.png\" alt=\"Logotipo dos Objetivos de Desenvolvimento Sustentável (ODS)\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "faf372b7a65a",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#section_banners > div > div > div > div:nth-of-type(8) > a > div:nth-of-type(1) > img",
+      "message": "The text alternative \"imagem banner\" describes something the image does not show.",
+      "evidence": "imagem banner",
+      "subject": "imagem banner",
+      "patch": {
+        "ref": "#section_banners > div > div > div > div:nth-of-type(8) > a > div:nth-of-type(1) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "imagem banner",
+        "to": "Logotipo da ENCE",
+        "before": "<img src=\"/images/novoportal/static/icones/ence.png\" alt=\"imagem banner\">",
+        "after": "<img src=\"/images/novoportal/static/icones/ence.png\" alt=\"Logotipo da ENCE\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "f14f48747d70",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#section_banners > div > div > div > div:nth-of-type(9) > a > div:nth-of-type(1) > img",
+      "message": "The text alternative \"imagem banner\" describes something the image does not show.",
+      "evidence": "imagem banner",
+      "subject": "imagem banner",
+      "patch": {
+        "ref": "#section_banners > div > div > div > div:nth-of-type(9) > a > div:nth-of-type(1) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "imagem banner",
+        "to": "Logotipo do Censo 2022",
+        "before": "<img src=\"/images/novoportal/banners/nossos-sites/microdados.jpg\" alt=\"imagem banner\">",
+        "after": "<img src=\"/images/novoportal/banners/nossos-sites/microdados.jpg\" alt=\"Logotipo do Censo 2022\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "2bfc79014148",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#section_banners > div > div > div > div:nth-of-type(10) > a > div:nth-of-type(1) > img",
+      "message": "The text alternative \"imagem banner\" describes something the image does not show.",
+      "evidence": "imagem banner",
+      "subject": "imagem banner",
+      "patch": {
+        "ref": "#section_banners > div > div > div > div:nth-of-type(10) > a > div:nth-of-type(1) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "imagem banner",
+        "to": "Meu Estado Nosso IBGE",
+        "before": "<img src=\"/images/novoportal/banners/nossos-sites/meu-estado.jpg\" alt=\"imagem banner\">",
+        "after": "<img src=\"/images/novoportal/banners/nossos-sites/meu-estado.jpg\" alt=\"Meu Estado Nosso IBGE\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "ac9812fb9339",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#section_banners > div > div > div > div:nth-of-type(11) > a > div:nth-of-type(1) > img",
+      "message": "The text alternative \"imagem banner\" describes something the image does not show.",
+      "evidence": "imagem banner",
+      "subject": "imagem banner",
+      "patch": {
+        "ref": "#section_banners > div > div > div > div:nth-of-type(11) > a > div:nth-of-type(1) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "imagem banner",
+        "to": "Logotipo do Censo 2022",
+        "before": "<img src=\"/images/novoportal/banners/nossos-sites/panorama.jpg\" alt=\"imagem banner\">",
+        "after": "<img src=\"/images/novoportal/banners/nossos-sites/panorama.jpg\" alt=\"Logotipo do Censo 2022\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "296c7586ccc0",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#section_banners > div > div > div > div:nth-of-type(12) > a > div:nth-of-type(1) > img",
+      "message": "The text alternative \"imagem banner\" describes something the image does not show.",
+      "evidence": "imagem banner",
+      "subject": "imagem banner",
+      "patch": {
+        "ref": "#section_banners > div > div > div > div:nth-of-type(12) > a > div:nth-of-type(1) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "imagem banner",
+        "to": "Logotipo da Casa Brasil IBGE",
+        "before": "<img src=\"/images/novoportal/banners/nossos-sites/casabrasil.jpg\" alt=\"imagem banner\">",
+        "after": "<img src=\"/images/novoportal/banners/nossos-sites/casabrasil.jpg\" alt=\"Logotipo da Casa Brasil IBGE\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "cc27c30f7ee7",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#swiper-wrapper-9abd918ed46db883 > div:nth-of-type(1) > a > div:nth-of-type(2) > p:nth-of-type(1)",
+      "target": "[\".popclock-home > .indicador-info > .indicador-value\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<p class=\"indicador-value\">214.211.951</p>"
+    },
+    {
+      "fingerprint": "79595ade9ec2",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#ultimo_valor_dado-7060",
+      "target": "[\"#ultimo_valor_dado-7060\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<p class=\"indicador-value\" id=\"ultimo_valor_dado-7060\">0,82%</p>"
+    },
+    {
+      "fingerprint": "5931f0238776",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#ultimo_valor_dado-5932",
+      "target": "[\"#ultimo_valor_dado-5932\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<p class=\"indicador-value\" id=\"ultimo_valor_dado-5932\">1,9%</p>"
+    },
+    {
+      "fingerprint": "ef232193e25e",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#ultimo_valor_dado-4094",
+      "target": "[\"#ultimo_valor_dado-4094\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<p class=\"indicador-value\" id=\"ultimo_valor_dado-4094\">5,4%</p>"
+    },
+    {
+      "fingerprint": "c1c59996c5c9",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#section_bannerstopo > div > a",
+      "target": "[\".banners-topo > a[rel=\\\"noopener noreferrer\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://eventos.ibge.gov.br/conferencia\" target=\"_blank\" rel=\"noopener noreferrer\">"
+    },
+    {
+      "fingerprint": "48a81b452a0c",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#section_esclarece > div > div > div > a",
+      "target": "[\".quadro-esclarece > a\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://www.ibge.gov.br/esclarece/videos\">\t\n\t\t\t\t\t<div class=\"image-video\">\n\t\t\t\t\t\t<div class=\"\"><img src=\"https://www.ibge.gov.br/templates/novo_portal_base/imagens/esclarece/thumb-esclarece.jpg\" alt=\"\"></div>\n\t\t\t\t\t</div>\n\t\t\t\t</a>"
+    },
+    {
+      "fingerprint": "bc3cedc5c276",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#cidades-estados-link-bottom",
+      "message": "The link text \"Saiba mais\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "Saiba mais",
+      "subject": "Saiba mais",
+      "patch": {
+        "ref": "#cidades-estados-link-bottom",
+        "kind": "set-text",
+        "from": "Saiba mais",
+        "to": "Saiba mais sobre Florianópolis (SC)",
+        "before": "<a id=\"cidades-estados-link-bottom\" href=\"/cidades-e-estados.html?c=4205407\" class=\"botao-home\">Saiba mais</a>",
+        "after": "<a id=\"cidades-estados-link-bottom\" href=\"/cidades-e-estados.html?c=4205407\" class=\"botao-home\">Saiba mais sobre Florianópolis (SC)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "be10abc71baf",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#section_quickfacts > div > div:nth-of-type(1)",
+      "target": "[\".imagem\"]",
+      "message": "Elements must only use permitted ARIA attributes",
+      "confidence": "high",
+      "ruleId": "aria-prohibited-attr",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI",
+      "html": "<div class=\"imagem SC pure-u-1 pure-u-md-1-2\" aria-label=\"Florianópolis\" style=\"background-image:url('/images/novoportal/static/capitais/420540.jpg')\">"
+    },
+    {
+      "fingerprint": "8f895d859f97",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#nomeAreaTerritorialHome_chzn > div > div > input",
+      "target": "[\"input[type=\\\"text\\\"]\"]",
+      "message": "Form elements must have labels",
+      "confidence": "high",
+      "ruleId": "label",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label?application=axeAPI",
+      "html": "<input type=\"text\" autocomplete=\"off\">"
+    }
+  ],
+  "belowThreshold": [
+    {
+      "fingerprint": "e70263cbfc03",
+      "criterion": "3.1.2",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+      "target": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+      "message": "\"English\" is in English, but it inherits the page's language (pt-BR): a screen reader mispronounces the language's name. Add lang=\"en\" to the link.",
+      "evidence": "English",
+      "subject": "English",
+      "patch": {
+        "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+        "kind": "set-attribute",
+        "attribute": "lang",
+        "to": "en",
+        "before": "<a href=\"/en/home-eng.html?lang=en-GB\">",
+        "after": "<a href=\"/en/home-eng.html?lang=en-GB\" lang=\"en\">"
+      },
+      "confidence": "low",
+      "ruleId": "rampa/language-switcher-lang",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+      "html": "<a href=\"/en/home-eng.html?lang=en-GB\">"
+    },
+    {
+      "fingerprint": "1b2306574f67",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > form > input",
+      "target": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > form > input",
+      "message": "The placeholder \"Buscar\" has a contrast of 4.08:1 with the field (#757575 on #f1f1f1). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#757575 on #f1f1f1 · 4.08:1 at best, 4.08:1 at worst · 16px, 500",
+      "subject": "Buscar",
+      "confidence": "low",
+      "ruleId": "rampa/placeholder-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<input name=\"searchword\" id=\"mod-search-searchword\" maxlength=\"200\" type=\"search\" class=\"header__busca--campo inputbox search-query\" placeholder=\"Buscar\" value=\"\">"
+    },
+    {
+      "fingerprint": "6dcaf9cbc731",
+      "criterion": "2.4.6",
+      "level": "AA",
+      "source": "judgment",
+      "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > form > input",
+      "message": "The label \"Buscar Buscar\" does not say what to enter.",
+      "evidence": "Buscar Buscar",
+      "subject": "Buscar Buscar",
+      "patch": {
+        "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > form > label",
+        "kind": "set-text",
+        "from": "Buscar Buscar",
+        "to": "Pesquisar no site",
+        "before": "<label style=\"font-size: 0;\" for=\"mod-search-searchword\">Buscar Buscar</label>",
+        "after": "<label style=\"font-size: 0;\" for=\"mod-search-searchword\">Pesquisar no site</label>"
+      },
+      "confidence": "low",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    }
+  ],
+  "waived": [],
+  "discarded": [
+    {
+      "criterion": "1.1.1",
+      "ref": "#section_banners > div > div > div > div:nth-of-type(5) > a > div:nth-of-type(1) > img",
+      "reason": "suggested alternative is a label, not a description",
+      "output": {
+        "verdict": "fail",
+        "evidence": "imagem banner",
+        "problem": "wrong_content",
+        "imageShows": "Two overlapping hexagons, one teal and one blue.",
+        "suggestedAlt": "decorative",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "2.4.4",
+      "ref": "#menu-barra-brasil > ul > li:nth-of-type(2) > a",
+      "reason": "no other link with this text leads elsewhere from the same context",
+      "output": {
+        "promises": "Acesso à informação",
+        "leadsTo": "http://www.gov.br/acessoainformacao/",
+        "verdict": "fail",
+        "evidence": "Acesso à informação",
+        "problem": "ambiguous",
+        "suggestedText": "Portal de Acesso à Informação",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "2.4.4",
+      "ref": "#section_noticias > div > a",
+      "reason": "no other link with this text leads elsewhere from the same context",
+      "output": {
+        "promises": "The link text 'Ver todos' (See all) under the heading 'Índice Nacional da Construção Civil apresenta variação de 0,30% em setembro' suggests it leads to a list of all news or data related to the National Civil Construction Index.",
+        "leadsTo": "https://agenciadenoticias.ibge.gov.br/",
+        "verdict": "fail",
+        "evidence": "Ver todos",
+        "problem": "ambiguous",
+        "suggestedText": "Ver todas as notícias do Índice Nacional da Construção Civil",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "2.4.4",
+      "ref": "#section_por_dentro > div > a",
+      "reason": "no other link with this text leads elsewhere from the same context",
+      "output": {
+        "promises": "The link text 'Ver todos' (See all) under the heading 'Assista Ao Vivo nesta quinta-feira (8) Coletiva Pública sobre a programação internacional CONFEST/CONFEGE 2026' suggests it leads to a list of all live broadcasts or recordings related to this specific event.",
+        "leadsTo": "/ibge-digital.html?filter_tag=0",
+        "verdict": "fail",
+        "evidence": "Ver todos",
+        "problem": "ambiguous",
+        "suggestedText": "Ver todas as transmissões da Coletiva Pública CONFEST/CONFEGE 2026",
+        "confidence": "high"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "criterion": "1.1.1",
+      "applicable": true,
+      "candidates": 19,
+      "judged": 19,
+      "failed": 13,
+      "passed": 5,
+      "cannotTell": 0,
+      "discarded": 1,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "1.3.5",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.2",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "decided": 1
+    },
+    {
+      "criterion": "2.4.4",
+      "applicable": true,
+      "candidates": 94,
+      "judged": 50,
+      "failed": 1,
+      "passed": 46,
+      "cannotTell": 0,
+      "discarded": 3,
+      "errors": 0,
+      "offlineMisses": 0,
+      "capped": 44
+    },
+    {
+      "criterion": "2.4.6",
+      "applicable": true,
+      "candidates": 26,
+      "judged": 26,
+      "failed": 1,
+      "passed": 25,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "3.1.1",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "decided": 1
+    },
+    {
+      "criterion": "3.1.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "3.3.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    }
+  ],
+  "coverage": {
+    "engine": [
+      "1.1.1",
+      "1.3.1",
+      "1.3.5",
+      "1.4.1",
+      "1.4.3",
+      "1.4.4",
+      "1.4.12",
+      "2.4.2",
+      "2.4.4",
+      "2.5.8",
+      "3.1.1",
+      "4.1.2"
+    ],
+    "judged": [
+      "1.1.1",
+      "2.4.4",
+      "2.4.6"
+    ],
+    "notChecked": [
+      "1.2.1",
+      "1.2.2",
+      "1.2.3",
+      "1.2.4",
+      "1.2.5",
+      "1.3.2",
+      "1.3.3",
+      "1.3.4",
+      "1.4.2",
+      "1.4.5",
+      "1.4.10",
+      "1.4.13",
+      "2.1.1",
+      "2.1.2",
+      "2.1.4",
+      "2.2.1",
+      "2.2.2",
+      "2.3.1",
+      "2.4.3",
+      "2.4.5",
+      "2.4.7",
+      "2.4.11",
+      "2.5.1",
+      "2.5.2",
+      "2.5.3",
+      "2.5.4",
+      "2.5.7",
+      "3.2.1",
+      "3.2.2",
+      "3.2.3",
+      "3.2.4",
+      "3.2.6",
+      "3.3.1",
+      "3.3.3",
+      "3.3.4",
+      "3.3.7",
+      "3.3.8",
+      "4.1.3"
+    ],
+    "rules": [
+      "1.1.1",
+      "1.4.3",
+      "1.4.11",
+      "2.4.2",
+      "2.4.6",
+      "3.1.1",
+      "3.1.2",
+      "4.1.2"
+    ],
+    "criteria": [
+      {
+        "id": "1.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "image-alt",
+            "ran": true,
+            "applicable": 26,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-meter-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-progressbar-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "object-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "role-img-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "svg-img-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-alt",
+            "ran": true,
+            "applicable": 20,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.1.1@4",
+            "ran": true,
+            "applicable": 19,
+            "failures": 13,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Equivalence for complex and contextual images; decorative or not; long descriptions; CAPTCHA usability"
+      },
+      {
+        "id": "1.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a transcript is equivalent; decorative video-only; labeled media alternatives"
+      },
+      {
+        "id": "1.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "video-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Accuracy, completeness, synchronization, speakers; players Rampa cannot read"
+      },
+      {
+        "id": "1.2.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether visual information matters, and whether the description or alternative is adequate"
+      },
+      {
+        "id": "1.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Everything about live captions"
+      },
+      {
+        "id": "1.2.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Quality of the description; pauses; importance of the visuals"
+      },
+      {
+        "id": "1.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "list",
+            "ran": true,
+            "applicable": 12,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "listitem",
+            "ran": true,
+            "applicable": 37,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-children",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-parent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "definition-list",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "dlitem",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "table-fake-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-has-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-headers-attr",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "th-has-data-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/table-header-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/presentational-table",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/orphan-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Whether formatting carries meaning; complex tables; charts and maps; structure \"available in text\""
+      },
+      {
+        "id": "1.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether an order matters; magazine and dashboard layouts; bidirectional text"
+      },
+      {
+        "id": "1.3.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Instructions in images and media; references that depend on context"
+      },
+      {
+        "id": "1.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential orientation; real devices with the rotation lock; native apps"
+      },
+      {
+        "id": "1.3.5",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "autocomplete-valid",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.3.5@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whose data a field collects in ambiguous contexts; whether autofill works"
+      },
+      {
+        "id": "1.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-in-text-block",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Charts, maps, color-coded tables; whether a difference carries meaning"
+      },
+      {
+        "id": "1.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "no-autoplay-audio",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Audio started by other interactions; games; cross-origin media; keyboard access to the control"
+      },
+      {
+        "id": "1.4.3",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "color-contrast",
+            "ran": true,
+            "applicable": 136,
+            "failures": 4,
+            "review": 1,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/pixel-contrast",
+            "ran": true,
+            "applicable": 16,
+            "failures": 0,
+            "review": 1,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-contrast",
+            "ran": true,
+            "applicable": 1,
+            "failures": 1,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Text over photos and video; text in images; logotypes"
+      },
+      {
+        "id": "1.4.4",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-viewport",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/meta-viewport",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Lost functionality in complex widgets; acceptable truncation; real mobile browsers"
+      },
+      {
+        "id": "1.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential presentation; customizable images; infographics"
+      },
+      {
+        "id": "1.4.10",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Lost functionality at 320 CSS px; content that scrolls horizontally; whether the two-dimensional exception applies"
+      },
+      {
+        "id": "1.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/icon-contrast",
+            "ran": true,
+            "applicable": 10,
+            "failures": 0,
+            "review": 2,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Graphs and charts; whether a graphic is required; hover and active states; gradients"
+      },
+      {
+        "id": "1.4.12",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "avoid-inline-spacing",
+            "ran": true,
+            "applicable": 22,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Text clipped or overlapping with the spacing applied; scripts where a metric does not apply; text in canvas and images"
+      },
+      {
+        "id": "1.4.13",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Content shown on hover or focus: dismissible, hoverable, persistent; touch; content that moves"
+      },
+      {
+        "id": "2.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "frame-focusable-content",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "scrollable-region-focusable",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "server-side-image-map",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Operating everything with the keyboard; states behind login; drag and drop; canvas; speech and switch input"
+      },
+      {
+        "id": "2.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Moving through the whole page with the keyboard; traps after interactions; plug-ins; screen-reader modes"
+      },
+      {
+        "id": "2.1.4",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Settings on other pages or behind login, and whether they work; shortcuts in frames; keyboard layouts and IMEs; speech input"
+      },
+      {
+        "id": "2.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-refresh",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/refresh-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Server-side time-outs; flows behind login; the exceptions"
+      },
+      {
+        "id": "2.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "blink",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "marquee",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Moving, blinking and updating content and its controls; essential motion; reliance on reduced motion"
+      },
+      {
+        "id": "2.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Flashing content, live and user-generated content; certification-grade sign-off"
+      },
+      {
+        "id": "2.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "bypass",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a block is substantial; whether skip links work; single-page-app views"
+      },
+      {
+        "id": "2.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "document-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/default-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/home-page-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.2@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a title fits the domain and audience"
+      },
+      {
+        "id": "2.4.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether the focus order preserves meaning; dialogs and menus"
+      },
+      {
+        "id": "2.4.4",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 101,
+            "failures": 2,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.4@2",
+            "ran": true,
+            "applicable": 94,
+            "failures": 1,
+            "review": 0,
+            "notJudged": 44,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "The \"ambiguous to users in general\" exception; destinations behind login"
+      },
+      {
+        "id": "2.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Defining the set of pages; the process exception"
+      },
+      {
+        "id": "2.4.6",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-text",
+            "ran": true,
+            "applicable": 29,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.6@3",
+            "ran": true,
+            "applicable": 26,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a heading or label fits the domain and audience"
+      },
+      {
+        "id": "2.4.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether every focused element shows it; faint indicators; forced colors"
+      },
+      {
+        "id": "2.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Focused elements hidden by sticky headers, banners or dialogs; content the user opened or can move"
+      },
+      {
+        "id": "2.5.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Multipoint and path-based gestures and their alternatives; real touch hardware"
+      },
+      {
+        "id": "2.5.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Actions on the down-event; undo in drag and drop; touch"
+      },
+      {
+        "id": "2.5.3",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "label-content-name-mismatch",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/field-label-in-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Label versus nearby instruction; symbols and numbers; testing with speech input"
+      },
+      {
+        "id": "2.5.4",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Motion and sensor input and its alternatives; real sensors"
+      },
+      {
+        "id": "2.5.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Dragging and its single-pointer alternatives; essential dragging; canvas editors"
+      },
+      {
+        "id": "2.5.8",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "target-size",
+            "ran": true,
+            "applicable": 109,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Essential or legally required presentation; equivalent targets; canvas and SVG maps"
+      },
+      {
+        "id": "3.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "html-has-lang",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-lang-valid",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-xml-lang-mismatch",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-id",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.1@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Balanced bilingual pages; dialects"
+      },
+      {
+        "id": "3.1.2",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "valid-lang",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-switcher-lang",
+            "ran": true,
+            "applicable": 2,
+            "failures": 1,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.2@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Unmarked passages; single words; proper names; loanwords"
+      },
+      {
+        "id": "3.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when an element receives focus; states after interaction"
+      },
+      {
+        "id": "3.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when a setting changes, and whether notice is adequate; custom widgets"
+      },
+      {
+        "id": "3.2.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Navigation order across the set of pages; personalization; pages behind login"
+      },
+      {
+        "id": "3.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "What counts as the same function; icons in context"
+      },
+      {
+        "id": "3.2.6",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Help mechanisms and their order across the set of pages; help that is not a link"
+      },
+      {
+        "id": "3.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Error messages after input; errors the server finds; wording"
+      },
+      {
+        "id": "3.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "form-field-multiple-labels",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/no-visible-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.3.2@1",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether instructions are enough; icons as labels"
+      },
+      {
+        "id": "3.3.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a suggestion is correct; server-side errors; the security exception"
+      },
+      {
+        "id": "3.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Reversal, checking or confirmation of submissions: almost all of it"
+      },
+      {
+        "id": "3.3.7",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Information asked again in a process; third-party steps; the exceptions"
+      },
+      {
+        "id": "3.3.8",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Cognitive function tests in sign-in and recovery; CAPTCHA escalations; later steps that need an account"
+      },
+      {
+        "id": "4.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-prohibited-attr",
+            "ran": true,
+            "applicable": 40,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "label",
+            "ran": true,
+            "applicable": 2,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 101,
+            "failures": 2,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "duplicate-id-aria",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 1,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-allowed-attr",
+            "ran": true,
+            "applicable": 40,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-command-name",
+            "ran": true,
+            "applicable": 4,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-conditional-attr",
+            "ran": true,
+            "applicable": 40,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-deprecated-role",
+            "ran": true,
+            "applicable": 24,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-focus",
+            "ran": true,
+            "applicable": 6,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-attr",
+            "ran": true,
+            "applicable": 24,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-roles",
+            "ran": true,
+            "applicable": 24,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr-value",
+            "ran": true,
+            "applicable": 40,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr",
+            "ran": true,
+            "applicable": 40,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "button-name",
+            "ran": true,
+            "applicable": 3,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "nested-interactive",
+            "ran": true,
+            "applicable": 27,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-braille-equivalent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-input-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tab-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-toggle-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tooltip-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title-unique",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-button-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "select-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "summary-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/duplicate-id-reference",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Roles for custom widgets; values set by assistive technology; what is actually announced"
+      },
+      {
+        "id": "4.1.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether status messages are announced in screen readers"
+      }
+    ]
+  },
+  "needsReview": [
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(2) > div > a",
+      "target": "[\".envolve_logo.desktop-only > .largura-maxima > .nav-container.pure-g > .pure-u-1 > a\"]",
+      "html": "<a id=\"nav-toggle\" onclick=\"$(&quot;.envolve_menu--principal&quot;).toggle(); $(this).toggleClass(&quot;active&quot;);jQuery(&quot;html&quot;).toggleClass(&quot;noscroll&quot;);\">☰</a>",
+      "message": "Element content contains only non-text characters",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#section_noticias > ul > li:nth-of-type(2) > a > div > p > span:nth-of-type(2)",
+      "target": "#section_noticias > ul > li:nth-of-type(2) > a > div > p > span:nth-of-type(2)",
+      "html": "<span class=\"home-noticia-tipo\">",
+      "message": "Part of the text \"Notícia\" has enough contrast and part does not: from 4.36:1 to 10.87:1 against what is behind it (#ffffff on #77797d…#3c3d3f), where WCAG 1.4.3 asks for 4.5:1. Check the part over a pseudo-element.",
+      "evidence": "#ffffff on #545658; #77797d…#3c3d3f · 10.87:1 at best, 4.36:1 at worst · 11px, 600",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(1) > a",
+      "target": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(1) > a",
+      "html": "<a href=\"/?lang=pt-BR\">",
+      "message": "The contrast of the icon of this link could not be measured: what is behind it changed between the two captures.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+      "target": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+      "html": "<a href=\"/en/home-eng.html?lang=en-GB\">",
+      "message": "The contrast of the icon of this link could not be measured: what is behind it changed between the two captures.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "duplicate-id-aria",
+      "ref": "html > body > header > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div > div > form > input",
+      "target": "[\".envolve_logo.desktop-only > .largura-maxima > .nav-container.pure-g > .pure-u-1 > .envolve_busca > .search.header__busca > .form-inline.mod-busca-ibge[action=\\\"/busca.html\\\"] > .header__busca--campo.inputbox.search-query\"]",
+      "html": "<input name=\"searchword\" id=\"mod-search-searchword\" maxlength=\"200\" type=\"search\" class=\"header__busca--campo inputbox search-query\" placeholder=\"Buscar\" value=\"\">",
+      "message": "Document has multiple elements referenced with ARIA with the same id attribute: mod-search-searchword",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/duplicate-id-aria?application=axeAPI"
+    }
+  ],
+  "usage": {
+    "calls": 95,
+    "cachedCalls": 0,
+    "inputTokens": 83214,
+    "outputTokens": 10313,
+    "latencyMs": 675117
+  },
+  "errors": [],
+  "notes": [
+    "4 image(s) were left without a capture, so no judgment looked at them: 4 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+    "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 44 of 94 for 2.4.4. The coverage lists them as not judged.",
+    "Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site; crawl its address with --crawl or --sitemap."
+  ]
+}

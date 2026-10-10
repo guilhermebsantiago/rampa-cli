@@ -1,0 +1,36 @@
+{
+  "page": "https://www.ibge.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "763391f06ba4",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the IBGE logo in the header, an img with alt=\"Logo do IBGE\" that is the only content of a link to /pt/inicio.html, the IBGE home page. The live page has the same markup. The text alternative names the organisation whose home page the link opens, and a header logo that links to the site's own home page is a well-established convention. 1.1.1 asks that the name describe the purpose, and \"IBGE\" does that. The extra words \"Logo do\" are redundant but do not mislead, and no WCAG failure technique covers a logo alt that leaves out \"home\" or \"página inicial\". \"Página inicial do IBGE\" is better practice, but requiring it is stricter than the criterion."
+    },
+    {
+      "fingerprint": "bc3cedc5c276",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Saiba mais\" is the button-styled link at the bottom of the \"Cidades e Estados\" block and points to /cidades-e-estados.html?c=4205407. The finding says nothing around it gives its purpose, and that is wrong. The closest heading before it is the h2 \"Cidades e Estados\". Between that heading and the link are the place selector showing \"Florianópolis ( SC ) - 4205407\" and Florianópolis's population, area and municipal code (4205407, the same code as in the href). Under technique H80 (link text plus the preceding heading), \"Saiba mais\" in the \"Cidades e Estados\" section identifies the destination: the Cidades e Estados page for the place shown. 2.4.4 accepts programmatically determined context, so this passes even though \"Saiba mais sobre Florianópolis\" would be clearer. The heading and the block text were in the checker's context (headingsNear, ancestors), so the misjudgement is the model's."
+    },
+    {
+      "fingerprint": "e70263cbfc03",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link to /en/home-eng.html holds only a UK flag img whose alt and title are \"English\". Neither the img nor the link has a lang attribute, so the text inherits html lang=\"pt-BR\" (checked in the snapshot root and on the live page). I tried the exceptions. The 3.1.2 Understanding note about single words being part of the surrounding language does not apply, because the change of language is clearly intended here. \"English\" is not Portuguese vernacular (Portuguese says \"Inglês\"). The Understanding document's own \"Alternative language links\" example treats language names in a switcher as needing lang. The text alternative is content, so H58's test fails for the img. No technique or context makes this pass."
+    },
+    {
+      "fingerprint": "1b2306574f67",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the header search field's placeholder \"Buscar\" (16px, weight 500, normal-size text). The darkest glyph pixel in the screenshot is #757575 on a #f1f1f1 field, and live computed styles today give the same rgb(117,117,117) on rgb(241,241,241). That is 4.08:1, below 4.5:1. The placeholder is not incidental: the <label> has font-size:0, so the placeholder and the icon are the only visible cues for the field. The strongest counter-argument is G174: the page has a high-contrast toggle (#setConstrast), and in that mode the placeholder is #757575 on #000, 4.56:1. But the toggle is an <a> with no href. A live Tab test in Edge skips it, going from the logo link straight to the language links, and it is exposed as a generic element rather than a control. A mechanism that only pointer users can reach cannot count as conforming, so the default view's failure stands."
+    },
+    {
+      "fingerprint": "6dcaf9cbc731",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The accessible name \"Buscar Buscar\" comes from two <label for=\"mod-search-searchword\">Buscar</label> elements. The second sits in the hidden mobile header and reuses the same id, so both labels attach to the desktop input. Each label just says \"Buscar\" (Search), and the patch's claimed label text \"Buscar Buscar\" does not exist. For a site search field in the page header, \"Buscar\" describes its purpose and what to type, which is all 2.4.6 asks. The doubled name is a duplicate-id quirk, not a non-descriptive label. Wanting the label to spell out more (\"Pesquisar no site\") is stricter than 2.4.6. The duplicate ids and the font-size:0 label could matter for other criteria, but not for this one."
+    }
+  ]
+}

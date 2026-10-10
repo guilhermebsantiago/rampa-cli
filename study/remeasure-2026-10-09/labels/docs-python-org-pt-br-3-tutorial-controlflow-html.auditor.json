@@ -1,0 +1,24 @@
+{
+  "page": "https://docs.python.org/pt-br/3/tutorial/controlflow.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "fc02fbacf28d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is an inline cross-reference link whose text is the keyword \"if\" (in a code element). It sits in the sentence \"Provavelmente a mais conhecida instrução de controle de fluxo é o if. Por exemplo:\" under the heading \"4.1. Instruções if\", and it leads to the Language Reference section \"8.1. A instrução if\". I checked this in the live HTML, which matches the snapshot. The sentence and the heading are programmatically determined link context, and together with the link text they make the purpose clear: more information about the if statement. That meets 2.4.4 (Link Purpose, In Context), so the claim that nothing around the link explains it is wrong. Rampa's ancestor text moved the keyword out of place (\"é o . Por exemplo: if\"), but the heading and the destination it read still gave enough context."
+    },
+    {
+      "fingerprint": "585798b5b831",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is an inline link whose text is the keyword \"for\". It opens the sentence \"A instrução for em Python é um pouco diferente do que costuma ser em C ou Pascal...\" under the heading \"4.2. Instruções for\", and it leads to the Language Reference section \"8.3. A instrução for\". The live HTML matches the snapshot. The surrounding sentence calls it \"a instrução for\", and the section heading names it too. Together with the link text, that context tells the user the link goes to information about the for statement, so 2.4.4 is met. Rampa's context text dropped the keyword (\"A instrução em Python...\"), but the heading and destination were still available, so the finding's claim does not hold."
+    },
+    {
+      "fingerprint": "88689a942710",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a list-item paragraph in a page marked html lang=\"pt-BR\": \"ou fornecendo todos os argumentos:\" followed by the inline code sample ask_ok('OK to overwrite the file?', 2, 'Come on, only yes or no!'). The live HTML confirms there is no lang attribute anywhere except on the html element. The translator left the code's string literals in English, even though the function defined just above uses Portuguese strings (pergunta_ok, 'Por favor, tente novamente!'). Those literals are real English phrases, not proper names, technical terms or vernacular words, and a pt-BR speech synthesizer would mispronounce them. A strict reading of 3.1.2 makes this a failure. But they are part of a Python code sample in a code element: WCAG defines human language as language used to communicate with humans, and the 3.1.2 Understanding document says nothing about code samples. Many auditors treat code as outside the criterion, so competent auditors would reasonably disagree. Rampa's evidence and patch wrap only a fragment of the string, which is a weak fix but does not settle the label."
+    }
+  ]
+}

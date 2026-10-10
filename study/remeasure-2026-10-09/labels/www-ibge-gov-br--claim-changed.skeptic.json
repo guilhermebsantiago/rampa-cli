@@ -1,0 +1,12 @@
+{
+  "page": "https://www.ibge.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "45bab32f2922",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a 55x55 orange phone icon (respondendo.png) with alt=\"imagem banner\". It sits inside the 'Nossos sites' card link to respondendo.ibge.gov.br, which also holds the visible text 'Respondendo' and a description. The snapshot shows no aria-label, aria-hidden or role=presentation, so the alt stays exposed and is part of the link's content. A curl of the live page on 2026-10-09 shows the same markup, and every card in the section uses the same alt. I looked for a reason it could pass and found none. If the icon is decorative next to the link text, the non-empty placeholder alt is WCAG failure F39 (e.g. alt=\"image\" on an image that should be ignored). If it is informative, \"imagem banner\" is placeholder text and not an alternative (F30). Either way 1.1.1 fails, so the claim that the alt is too generic holds. The suggested fix ('Ícone de celular') is weak: alt=\"\" is the better fix, because the link text already says where the link goes. The weak fix does not change the label."
+    }
+  ]
+}

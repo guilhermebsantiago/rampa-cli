@@ -1,0 +1,12 @@
+{
+  "page": "https://www.mit.edu/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "f6f18e3a8b04",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Healthier aging' card image (a 3D cell illustration) with alt=\"colorful cell\". It is the only content of a focusable <a target=_blank> that leads to the news.mit.edu story on senescent 'zombie' cells. The snapshot and the live HTML (curl on 2026-10-09, unchanged) show nothing on the link that names it: no aria-label, no title, no aria-hidden, no tabindex=-1. Keyboard and screen-reader users therefore reach it as a link named \"colorful cell\". One reason it might pass is that the h3 'Healthier aging' just below is a second link to the same URL. That does not fix this link's own name: WCAG's H2 (merging adjacent image and text links) was not used, and the heading comes after the image. Another reason is that 1.1.1 has no documented failure for this case. But the 1.1.1 Understanding document lists H30 under Situation C (controls), and its own examples of linked images use alternatives that name the destination, not what the picture shows. So the alt describes the picture but not what the link does, which is the finding's claim. This is also a 2.4.4 issue, but the 1.1.1 claim holds by itself."
+    }
+  ]
+}

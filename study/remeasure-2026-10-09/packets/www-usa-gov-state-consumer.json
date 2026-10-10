@@ -1,0 +1,91 @@
+{
+  "page": "https://www.usa.gov/state-consumer",
+  "slug": "www-usa-gov-state-consumer",
+  "title": "State consumer protection offices | USAGov",
+  "language": "en",
+  "snapshot": "remeasure-2026-10-09/pages/www-usa-gov-state-consumer/recording/www-usa-gov-state-consumer.snapshot.json",
+  "screenshot": "remeasure-2026-10-09/pages/www-usa-gov-state-consumer/screenshot.png",
+  "collectedAt": "2026-10-10T01:25:41.690Z",
+  "findings": [
+    {
+      "key": "7df3420582a1",
+      "fingerprint": "7df3420582a1",
+      "criterion": "3.1.2",
+      "source": "rule",
+      "ruleId": "rampa/language-switcher-lang",
+      "message": "\"Español\" is in Spanish, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"es\" to the link.",
+      "evidence": "Español",
+      "subject": "Español",
+      "patch": {
+        "ref": "#header > div:nth-of-type(2) > div:nth-of-type(2) > a",
+        "kind": "set-attribute",
+        "attribute": "lang",
+        "to": "es",
+        "before": "<a href=\"/es/estatal-consumidor\" class=\"usa-button language-link\" hreflang=\"es\" role=\"button\">",
+        "after": "<a href=\"/es/estatal-consumidor\" class=\"usa-button language-link\" hreflang=\"es\" role=\"button\" lang=\"es\">"
+      },
+      "confidence": "low",
+      "html": "<a href=\"/es/estatal-consumidor\" class=\"usa-button language-link\" hreflang=\"es\" role=\"button\">",
+      "element": {
+        "ref": "#header > div:nth-of-type(2) > div:nth-of-type(2) > a",
+        "role": "button",
+        "name": "Español",
+        "text": "Español",
+        "states": [
+          "focusable"
+        ],
+        "bounds": {
+          "x": 1106,
+          "y": 103.1,
+          "width": 96,
+          "height": 44
+        },
+        "tag": "a",
+        "attributes": {
+          "class": "usa-button language-link",
+          "href": "/es/estatal-consumidor",
+          "role": "button"
+        },
+        "html": "<a href=\"/es/estatal-consumidor\" class=\"usa-button language-link\" hreflang=\"es\" role=\"button\">Español</a>",
+        "readingText": null,
+        "contentText": "Español"
+      },
+      "ancestors": [
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "Español Menu Search [img: Search]"
+        },
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "[img: USAGov Logo] Español Menu Search [img: Search]"
+        },
+        {
+          "role": "banner",
+          "tag": "header",
+          "name": null,
+          "text": "An official website of the United States government Here's how you know Here's how you know A website belongs to an official government organization in the United States. Official websites use .gov .gov A ( ) or means you’ve safely connected to the .gov website. Share sensitive information only on …"
+        },
+        {
+          "role": "generic",
+          "tag": "body",
+          "name": null,
+          "text": "Skip to main content An official website of the United States government Here's how you know Here's how you know A website belongs to an official government organization in the United States. Official websites use .gov .gov A ( ) or means you’ve safely connected to the .gov website. Share sensitive…"
+        }
+      ],
+      "headingsNear": {
+        "before": [],
+        "after": [
+          {
+            "tag": "h1",
+            "text": "State consumer protection offices",
+            "ref": "#skip-to-h1"
+          }
+        ]
+      }
+    }
+  ]
+}

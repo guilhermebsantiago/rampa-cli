@@ -4,6 +4,8 @@ Rampa runs axe-core first. A model then judges, one WCAG criterion at a time, wh
 
 **In short.** With Gemma 4 12B on a local GPU, the judgment layer's findings on 19 real pages were mostly false positives. On the held-out test pages, no finding for 2.4.4 (0 of 34) or 2.4.6 (0 of 32) was a real failure, and 12 of 37 decided findings for 1.1.1 were. 1.3.5 was the only criterion whose findings were mostly right on the dev pages (8 of 9). That is far below the precision the same model reaches on the ACT test cases for 2.4.4, 2.4.6 and 1.1.1. The labels come from two Claude agents, not from people. Read them as a pre-annotation that still needs human review.
 
+The held-out re-measure of the test split, after the changes the dev split suggested, is in [real-pages-2026-10-remeasure.md](real-pages-2026-10-remeasure.md).
+
 ## Question
 
 When Rampa's judgment layer reports a failure on a real page, how often is the failure real? The question is asked per criterion, and it is about precision only. Pages that pass were not labeled, so recall is out of scope.
