@@ -110,6 +110,8 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
   surfaces: ['web', 'android', 'ios', 'windows', 'macos'],
   needs: {},
   engineRules: ENGINE_RULES,
+  // Headings and field labels as the browser names them: a heading that is only an image is named by its alt.
+  names: 'browser',
   schema: HeadingsAndLabelsJudgment,
   // Only placeholder or numbered headings and labels keep the model's confidence; see generic-text.ts.
   confidenceCap: (candidate) => (genericHeadingOrLabel(candidate.context.text, candidate.context.kind) ? undefined : 'low'),

@@ -131,6 +131,9 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
   // Reads snapshot.destinations, which the collection stage fills when links are followed.
   needs: { fetch: true },
   engineRules: ENGINE_RULES,
+  // A link's name as the browser computes it: text hidden from assistive technology (a TOC number, a coordinate
+  // duplicate) is left out, CSS content is in. Its eval sets read the same prompts either way (docs/rules.md).
+  names: 'browser',
   schema: LinkPurposeJudgment,
   // Only links whose text is generic keep the model's confidence; see generic-text.ts.
   confidenceCap: (candidate) => (genericLinkText(candidate.context.name) ? undefined : 'low'),

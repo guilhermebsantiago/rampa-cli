@@ -7,6 +7,7 @@ import type { Browser } from 'playwright-core'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { memoryCache } from '../src/core/cache.ts'
 import { type CheckOptions, checkSnapshot } from '../src/core/check.ts'
+import { linkPurpose } from '../src/criteria/link-purpose.ts'
 import { coverageRows, methodsText } from '../src/report/common.ts'
 import { emptyEngine } from '../src/engine/axe.ts'
 import { BROWSER_TREE_RULES, customControlRule, liveRegionsRule, tabStateRule, widgetNameRule } from '../src/rules/browser-tree.ts'
@@ -19,6 +20,7 @@ import { type CdpAxNode, type CdpDomNode, axFactsOf, cssEscape, domElements, nam
 import { collectWeb } from '../src/surfaces/web.ts'
 import { launchTestBrowser } from './browser.ts'
 import { node } from './helpers.ts'
+import { stubModel } from './stub-model.ts'
 
 const options = (extra: Partial<CheckOptions> = {}): CheckOptions => ({
   criteria: [],
@@ -333,6 +335,22 @@ describe.skipIf(!browser)("the browser's tree in a real browser", { timeout: 60_
     // The scrollable log and the plain focusable note were asked about, and let be.
     expect(stage.ran.find((r) => r.id === 'rampa/custom-control')?.applicable).toBeGreaterThanOrEqual(2)
     expect(stage.ran.find((r) => r.id === 'rampa/live-regions')).toBeUndefined()
+  })
+
+  it("judges link purpose on the names the browser exposes: hidden text left out, an image's alt in", async () => {
+    if (!browser) return
+    const page = `data:text/html,${encodeURIComponent(
+      '<html lang="en"><head><title>Shop</title></head><body><main><h1>Shop</h1><p>Our mugs are handmade. <a href="/a"><span aria-hidden="true">1</span> Click here</a></p><p>Kettles too. <a href="/b"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" alt="Kettles" width="40" height="20"> catalog</a></p></main></body></html>',
+    )}`
+    const asked = async (axTree: boolean) => {
+      const { snapshot, engine } = await collectWeb(browser, page, { runAxe: true, locale: 'en', pixelContrast: false, axTree })
+      const model = stubModel()
+      await checkSnapshot(snapshot, engine, options({ criteria: [linkPurpose], llm: true, provider: model }))
+      return model.asked.filter((a) => a.criterion === '2.4.4').map((a) => a.subject)
+    }
+    expect(await asked(true)).toEqual(['Click here', 'Kettles catalog'])
+    // Without the browser's tree, the collector's own names: the hidden number stays in, and the image's alt is left out.
+    expect(await asked(false)).toEqual(['1 Click here', 'catalog'])
   })
 
   it('leaves the tree alone when asked to, and says why it skipped a page over the limit', async () => {
