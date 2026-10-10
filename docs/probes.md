@@ -13,7 +13,7 @@ Probes are **off by default**. Turn them on per run:
 ```sh
 rampa check https://example.com --probe all          # layout, keyboard, hover, orientation, shortcuts and media
 rampa check page.html --probe layout                 # reflow (1.4.10), text spacing (1.4.12), 200% zoom (1.4.4)
-rampa check page.html --probe keyboard               # 2.1.1, 2.1.2, 3.2.1, 2.4.7, 2.4.11
+rampa check page.html --probe keyboard               # 2.1.1, 2.1.2, 3.2.1, 2.4.7, 2.4.11, and skip links (2.4.1)
 rampa check page.html --probe hover                  # content on hover or focus (1.4.13)
 rampa check page.html --probe orientation            # portrait and landscape (1.3.4)
 rampa check page.html --probe shortcuts              # single character key shortcuts (2.1.4)
@@ -34,8 +34,9 @@ Every probe but one is in the **observe** class:
 - it jumps Playwright's fake clock forward (the hover probe installs it before the page loads; time otherwise flows as usual);
 - it turns the window between portrait and landscape and sets the screen orientation over the DevTools protocol, with a `window.orientation` shim where the browser has none (the orientation probe); it reads the web app manifest with a GET and runs axe-core's experimental css-orientation-lock in the probe page;
 - it focuses the page's `body` for a moment before the walk, so the first Tab starts at the top of the page;
+- it presses Enter on a link whose address is the page itself plus a fragment that names an element of the page (a skip link, `#main`), at most three such links among the first eight Tab stops, each from a fresh start at the top (the skip-link probe, 2.4.1); never on a link to another page, a route of a single-page app (`#/about`), a button, or anything in a form;
 - it plays audio and video muted for a few seconds, makes their text tracks load, and reads their sound from a copy of their stream; it pauses them and puts their time, muted state and track modes back afterwards (the media probe). It never unmutes anything. For that probe the browser starts with `--autoplay-policy=no-user-gesture-required`, as a browser that lets pages play sound on load does; Playwright starts headless browsers with `--mute-audio`, so no sound reaches the speakers;
-- it never clicks, never presses Enter or Space on a control, never types, and never submits a form.
+- it never clicks, never presses Enter or Space on a control (Enter on an in-page link, above, is the one exception the plan's observe class allows), never types, and never submits a form.
 
 The shortcuts probe (`--probe shortcuts`, 2.1.4) is the first of the plan's **activate** class, and the only one so far. With focus on the page's `body`, it presses each printable key on its own (letters, digits, punctuation and symbols, then capitals; never Space, which scrolls), and a key may do whatever the page bound it to. Then it presses Space on the checkboxes, switches and radios it found named for shortcuts or keys, to toggle them, presses the keys again, and toggles them back. It never clicks, never presses Enter, never types into a field (focus goes back to the body before every key, and if a script keeps a field focused the probe stops pressing), never changes a select, and the network guard is on the whole time, so a key that posts something (archive, delete, send) is blocked and a key that navigates is answered locally. A GET a key sets off still reaches the server; run it on pages where that is harmless, as with every probe.
 
@@ -122,6 +123,7 @@ What `--probe all` adds, and what each criterion still needs from a person. Ever
 | 2.1.1 Keyboard | `probe/keyboard@2`, `rampa/keyboard-reach`: Tab and Shift+Tab walk | a control neither walk reached (medium for a negative tabindex) | — | operating what was reached; drag and drop; states after interaction; handler-only controls |
 | 2.1.2 No Keyboard Trap | `probe/keyboard@2`, `rampa/keyboard-trap` | a cycle Tab, Shift+Tab, Esc and the arrows never leave, twice | traps inside dialogs; traps with exit text | traps after interaction; plug-ins |
 | 2.1.4 Character Key Shortcuts | `probe/shortcuts@1`, `rampa/character-key-shortcuts`: every printable key with focus on the body, twice, against a wait with no key; settings named for shortcuts toggled with Space; `judgment/2.1.4@1` only clears | printable keys that change the page while no control has focus and that no setting on the page stopped (F99), one finding per page, medium | — | settings on other pages or behind login (the message says to waive); shortcuts active only on focus; keyboard layouts and IMEs; speech input |
+| 2.4.1 Bypass Blocks | `probe/keyboard@1` (variant `skip-link`), `rampa/bypass-blocks`: the first 8 Tab stops, and Enter on up to 3 skip links among them | — (never on one page, by design; failures come from `--crawl`, [site criteria](site-criteria.md)) | a skip link that points nowhere, does not move focus, or never shows; links and controls before the content with no skip link, main landmark or heading after them; a skip button or menu toggle, which is never pressed | which blocks repeat on other pages (a crawl compares them); interleaved blocks; single-page-app views; whether a block is substantial |
 | 2.4.7 Focus Visible | `probe/keyboard@2`, `rampa/focus-visible`: focused and blurred captures | no pixel changes in the region or the viewport; focus removed on arrival (F55) | a change only elsewhere; a faint change | whether a change is perceivable; forced colors; other browsers |
 | 2.4.11 Focus Not Obscured (Minimum) | `probe/keyboard@2`, `rampa/focus-obscured`: 5×5 hit grid at the run's window and at 390×844, confirmed by pixels | the element entirely under author content (beyond the target under `--wcag 2.1`) | — | content the user opened or moved; other window sizes and zoom levels |
 | 3.2.1 On Focus | `probe/keyboard@2`, `rampa/on-focus` | navigation, new window, submission or modal on focus, repeated when focus comes back (high); a browser dialog or a script focus move, repeated (medium) | a change that did not repeat; an address change with no load | focus by mouse; changes after interaction; content changes that change meaning |
@@ -179,6 +181,7 @@ The media probe, measured the same day (one run each; the watch lasts at least 4
 
 ## Not yet
 
+- With `--crawl`, 2.4.1 is compared across the pages from their markup alone: a link into the page counts without being pressed, since the skip-link probe does not run there yet.
 - `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
 - The `rampa.config` file has no `probe` key yet.
 - Items to review appear with the engine's and the rules' in every format: grouped by criterion and rule in the terminal (each element with `--verbose`), the Markdown and the HTML reports, counted in SARIF's coverage, and listed in the JSON (`needsReview`).
@@ -508,6 +511,43 @@ These ride on the keyboard walk (probe version 2). The walk turns off animated s
 **2.4.11, the rule.** Every point covered and neither check changed a pixel: failure, high. A control that paints nothing of its own (opacity 0, clipped, 1 px: a toggle drawn by its label) is not judged, and a control's own label never counts as covering it. The finding names the cover, raised to its fixed or sticky layer, with its size and position, and suggests `scroll-padding-top` or `scroll-padding-bottom` of its height when it sits at the top or bottom of the window. A cookie or consent banner shown on arrival counts as author content: the Understanding says such a banner fails if it entirely obscures a component receiving focus, and passes when it is modal or the page reserves `scroll-padding` for it. A cover that lets pixels through (translucent) is not reported, and is counted in the coverage note; a partial cover is not reported (that is 2.4.12, AAA). 2.4.11 is new in WCAG 2.2, Rampa's default target; under `--wcag 2.1` the result is marked "beyond the 2.1 target" and never counts toward the exit code, even with `--fail-on any`.
 
 **Limits.** Chromium scrolls an out-of-view focused element to the middle of the window, so a fixed banner mostly covers elements that were already in view; other browsers scroll differently. 2.1.1, 2.1.2, 3.2.1 and 2.4.7 use only the run's window size; the 390×844 walk serves 2.4.11 alone, in desktop mode (the viewport meta is not applied, unless `--device` emulates a phone). A faint change is a pixel count, not a judgment of perceptibility, and forced colors are not tested. With `--device` emulating a phone, a page with no viewport meta is laid out 980 px wide and shown zoomed out, so a 3 px ring paints about 1 px and tends to land in review. Focus indicators drawn with `:focus-visible` survive the probe's refocus (Chromium keeps the keyboard modality), but a page that changes its indicator on `focus` events may show the second focus differently.
+
+### 2.4.1 Bypass Blocks: skip links (`--probe keyboard`, rule `rampa/bypass-blocks`)
+
+The keyboard probe's third record (variant `skip-link`, version 1), on a fresh page of its own.
+
+**The probe.** From the top of the page (the `body` focused for a moment, the window scrolled up, as for the walk), Tab up to 8 times. For each stop it records the element (ref and identity) and, for a link whose address is the page itself plus a fragment, the fragment, what it names (the element with that id, or an `<a name>`; `null` when nothing has it), whether that comes after the link, how many elements Tab would reach between the link and it (what the link skips), and how many inside it or after it. A stop that is such a link, or is named like a skip link ("Skip to content", "Pular para o conteúdo", "Saltar al contenido"), is read again 400 ms later, since skip links often slide in on focus: whether it shows on screen, meaning inside the window, at least 2×2 px after clipping by its ancestors, and on top at its middle (`elementFromPoint`, which `clip`, `clip-path` and a header over it all defeat). Then, for up to 3 such links whose fragment names an element after them, one at a time: back to the top, Tab to the link again (the same element, or nothing is pressed), Enter, 300 ms, and the probe records the address's fragment, how far the window scrolled, where focus is (on the target, inside it, still on the link, on the document), whether the target's top is in the window, and where the next Tab lands relative to the target. A link to another page, a route (`#/about`), a button and anything in a form are never pressed; the guard answers any navigation locally.
+
+**The verdict** on each pressed link (thresholds in `src/site/bypass-blocks.ts`, not in the probe): it works when focus landed on or in the target, or the next Tab went inside or after it; or when Tab left the page or wrapped to its top and nothing focusable lies inside or after the target (from there, that is where Tab goes). It does not work when the next Tab went where it went before Enter. With nothing between the link and its target, a changed fragment, a scroll or the target in view are enough.
+
+**The rule.** One page cannot show which blocks repeat on other pages, so the rule never fails 2.4.1; failures come from comparing the pages of a crawl ([criteria across pages](site-criteria.md#241-bypass-blocks)). It reads the page with the same code, guessing what repeats: the header and navigation landmarks, and, before the first heading or sentence of the page's own, asides and the links and controls outside `main`.
+
+| Observation | Result |
+|---|---|
+| A skip link among the first stops that shows on focus and moves focus past what it skips | no failure found; the coverage note names it and how many elements it skips |
+| A main landmark, or a heading, after the links and controls before the content (ARIA11, H69) | no failure found; the note names them |
+| Nothing before the content to pass, or less than two links or 40 characters of it | no failure found, with the reason in the note |
+| A link named like a skip link whose fragment names nothing on the page | needs review, on the link |
+| A skip link that, pressed, leaves focus where it was | needs review, on the link |
+| A skip link that works but never shows on screen, even focused (off screen, clipped, under a header) | needs review, low, on the link: it works for screen reader users only (G1 asks for a link visible at least on focus) |
+| Links and controls before the content and no skip link, landmark or heading after them | needs review, on the page: if they repeat on other pages, 2.4.1 fails, which `--crawl` checks |
+| The only way past them is a control the probe never presses (a skip button, a menu toggle) | needs review, on the control |
+
+axe-core's `bypass` can only pass or leave the page undecided; when this rule ran, it settles that result (it is no longer listed for review apart).
+
+**ACT cf77f2, one page at a time.** On the rule's 13 HTML test cases (2026-10-10, Edge 154, online), with `--probe keyboard`: the failed example goes to review (links and an aside before the content, no way past them), never to a failure, by design; 9 of the 12 passed examples have no failure found (their skip links work when pressed, or their main landmark or heading is found, or nothing precedes the content); Passed Examples 1, 8 and 11 go to review, since their way past the block is a link or a button that hides the menu or moves focus by script, which the observe class never presses. Across two pages, the same test cases fail exactly the failed example ([criteria across pages](site-criteria.md#241-bypass-blocks)).
+
+**Real pages** (2026-10-10, one run each):
+
+| Page | Skip links pressed | Result | Read by hand |
+|---|---|---|---|
+| rampa.guilhermebs.com.br | 3: "Skip to content" → `#main` (skips 8 elements), and two in-page menu links (`#how`, `#evaluation`) | no failure found; also a main landmark and an h1 | Right: the skip link shows on focus and moves focus to `main` |
+| www.gov.uk | 1: "Skip to main content" → `#content` (skips 3: the cookie banner's buttons) | no failure found | Right |
+| agenciabrasil.ebc.com.br | 1: "Pular para o conteúdo principal" → `#main-content` (skips 59) | needs review: the link works but never shows | Right: focused, the link moves into the page flow at the top left, under the site's fixed top bar, so nothing of it shows (a capture confirms it); it is a 2.4.11 problem too |
+
+The probe took 3.7 s on gov.uk, 4.7 s on Rampa's site and 15.3 s on Agência Brasil, most of it loading the page; each Enter costs about 0.5 s with its return to the top.
+
+**Limits.** Only the first 8 Tab stops are read, so a skip link after a long cookie banner is missed, and only links are pressed: a skip button, a menu that collapses (SCR28) and focus moved by a script on click stay with a person. Whether the target is the main content is the rule's guess on one page; across pages it is measured. Visibility is read once, 400 ms after focus, at the run's window size. Chromium only.
 
 ## Known gap
 

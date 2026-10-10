@@ -5,6 +5,7 @@ import { type Locale, t } from '../i18n.ts'
 import type { Painter } from '../report/color.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria } from '../wcag.ts'
+import { bypassBlocks } from './bypass-blocks.ts'
 import { consistentHelp } from './consistent-help.ts'
 import { consistentNavigation } from './consistent-navigation.ts'
 import { listPages, pathOf, sm } from './messages.ts'
@@ -12,7 +13,7 @@ import { type TemplateFacts, templateFacts } from './page.ts'
 import { proposeSets } from './sets.ts'
 
 // biome-ignore lint/suspicious/noExplicitAny: registry of criteria with different facts
-export const SITE_CRITERIA: ReadonlyArray<SiteCriterion<any>> = [consistentNavigation, consistentHelp]
+export const SITE_CRITERIA: ReadonlyArray<SiteCriterion<any>> = [bypassBlocks, consistentNavigation, consistentHelp]
 
 /** What the site criteria keep of one page: small, so a crawl of many pages holds no snapshot. */
 export interface SitePageRecord {
@@ -50,6 +51,7 @@ export interface SiteCriteriaOptions {
  */
 export function runSiteCriteria(pages: readonly SitePageRecord[], options: SiteCriteriaOptions): SiteCriteriaReport {
   const { sets, unassigned } = proposeSets(pages, options.pageSets, options.origin)
+  const pools = languagePools(pages, sets)
   const byUrl = new Map(pages.map((page) => [page.url, page]))
   const all: SiteFinding[] = []
   const criteria: SiteCriterionSummary[] = []
@@ -64,7 +66,7 @@ export function runSiteCriteria(pages: readonly SitePageRecord[], options: SiteC
       findings: 0,
       review: 0,
     }
-    for (const set of sets) {
+    for (const set of criterion.scope === 'language' ? pools : sets) {
       const members: Array<SitePageFacts<unknown>> = set.pages.flatMap((url) => {
         const page = byUrl.get(url)
         return page ? [{ url, facts: page.facts[criterion.id] }] : []
@@ -97,6 +99,28 @@ export function runSiteCriteria(pages: readonly SitePageRecord[], options: SiteC
   }
   if (beyond.length > 0) report.beyondTarget = beyond
   return report
+}
+
+/**
+ * The pages a criterion of scope `language` compares (2.4.1): the sets named in the config, as they are, and
+ * every other page grouped by language and viewport, whether it shares a template with another page or not.
+ * They are not listed in the report's sets: the findings name their pages.
+ */
+export function languagePools(pages: readonly SitePageRecord[], sets: readonly PageSet[]): PageSet[] {
+  const named = sets.filter((set) => set.source === 'config')
+  const taken = new Set(named.flatMap((set) => set.pages))
+  const groups = new Map<string, SitePageRecord[]>()
+  for (const page of pages) {
+    if (taken.has(page.url)) continue
+    const key = `${page.template.lang}@${page.template.viewport}`
+    groups.set(key, [...(groups.get(key) ?? []), page])
+  }
+  const pools: PageSet[] = [...named]
+  for (const [key, list] of groups) {
+    const first = list[0] as SitePageRecord
+    pools.push({ id: `pages:${key}`, label: key, source: 'template', lang: first.template.lang, viewport: first.template.viewport, pages: list.map((page) => page.url) })
+  }
+  return pools
 }
 
 /**

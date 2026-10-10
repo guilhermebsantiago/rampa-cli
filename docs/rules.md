@@ -209,7 +209,7 @@ The ACT test cases are downloaded at run time and never redistributed. Each test
 - the rule alone;
 - both together, as `rampa check` reports them.
 
-The command prints the test cases each way gets wrong, and writes `results.jsonl` and `summary.json` under `.rampa/runs/`. A rule that lists no ACT rule is measured by its fixtures in `test/fixtures/rules/`, and the command says so.
+The command prints the test cases each way gets wrong, and writes `results.jsonl` and `summary.json` under `.rampa/runs/`. A rule that lists no ACT rule is measured by its fixtures in `test/fixtures/rules/`, and the command says so. `--rules site/2.4.1` measures the 2.4.1 criterion across pages the same way, comparing each test page with the first page of its site it links to ([criteria across pages](site-criteria.md#241-bypass-blocks)).
 
 Results on 2026-10-09, with the ACT file whose SHA-256 starts with `a9a1483e`:
 

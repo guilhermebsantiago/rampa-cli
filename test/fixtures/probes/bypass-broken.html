@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bypass: skip links that do not work</title>
+<style>
+  body { font: 16px Arial, sans-serif; margin: 0; }
+  .skip { position: absolute; top: -4rem; left: 1rem; }
+  .skip:focus { top: 1rem; }
+  /* Visually hidden for good: it never shows, not even with focus. */
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  header { padding: 1rem; background: #eee; }
+  nav a { margin-right: 1rem; }
+  main { padding: 1rem; }
+</style>
+</head>
+<body>
+<!-- Points to an id nothing on the page has. -->
+<a class="skip" href="#content">Skip to content</a>
+<!-- A script swallows the activation: focus stays on the link. -->
+<a class="skip" id="dead" href="#main">Skip to navigation</a>
+<!-- Works, but never shows. -->
+<a class="sr-only" href="#main">Jump to the main content</a>
+<header>
+  <nav aria-label="Main">
+    <a href="/products">Products</a>
+    <a href="/pricing">Pricing</a>
+    <a href="/docs">Docs</a>
+    <a href="/blog">Blog</a>
+  </nav>
+</header>
+<main id="main">
+  <h1>Pricing</h1>
+  <p>One plan for teams of every size, billed monthly.</p>
+  <a href="/signup">Start a trial</a>
+</main>
+<script>
+  document.getElementById('dead').addEventListener('click', (event) => event.preventDefault())
+</script>
+</body>
+</html>

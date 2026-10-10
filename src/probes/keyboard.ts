@@ -690,6 +690,7 @@ export const NARROW_VIEWPORT = { width: 390, height: 844 }
 /**
  * The walk at the run's window size, with every check, then a lighter walk at 390×844 that
  * only runs the 2.4.11 grid: a sticky header or a bottom bar covers far more of a narrow window.
+ * Last, the skip-link probe (2.4.1, probes/bypass.ts) on a fresh page of its own.
  */
 export async function keyboardProbe(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
   const { backwardFocusHook, forwardFocusHook } = await import('./focus.ts')
@@ -709,6 +710,14 @@ export async function keyboardProbe(browser: Browser, url: string, options: Prob
     )
   } catch (error) {
     records.push(skippedRecord('keyboard', FOCUS_VERSION, variant, `probe failed: ${(error instanceof Error ? error.message : String(error)).split('\n')[0]}`, Date.now() - started))
+  }
+  // 2.4.1: the first Tab stops from the top, and what pressing the skip links among them does.
+  const { SKIP_LINK_VARIANT, SKIP_LINK_VERSION, skipLinkProbe } = await import('./bypass.ts')
+  const skipStarted = Date.now()
+  try {
+    records.push(await skipLinkProbe(browser, url, options))
+  } catch (error) {
+    records.push(skippedRecord('keyboard', SKIP_LINK_VERSION, SKIP_LINK_VARIANT, `probe failed: ${(error instanceof Error ? error.message : String(error)).split('\n')[0]}`, Date.now() - skipStarted))
   }
   return records
 }

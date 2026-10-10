@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bypass: a skip button</title>
+<style>
+  body { font: 16px Arial, sans-serif; margin: 0; }
+  .top a { margin-right: 1rem; }
+</style>
+</head>
+<body>
+<!-- A button that would move focus (ACT cf77f2 Passed Example 8): the observe class never presses a button. -->
+<button onclick="location.assign('#content')">Skip to main content</button>
+<div class="top">
+  <a href="/">Home</a>
+  <a href="/products">Products</a>
+  <a href="/pricing">Pricing</a>
+  <a href="/docs">Docs</a>
+</div>
+<div id="content">
+  <p>New coats and jackets, made to last and easy to repair.</p>
+  <a href="/coats">See the coats</a>
+</div>
+</body>
+</html>

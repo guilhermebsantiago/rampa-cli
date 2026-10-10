@@ -1,11 +1,12 @@
-# Criteria across pages: 3.2.3 and 3.2.6
+# Criteria across pages: 2.4.1, 3.2.3 and 3.2.6
 
-Two WCAG criteria cannot be checked on one page, because they are about what stays the same from page to page:
+Three WCAG criteria cannot be decided on one page, because they are about what stays the same from page to page:
 
+- **2.4.1 Bypass Blocks (A).** Blocks repeated on several pages (a header, a menu) can be passed to reach each page's own content.
 - **3.2.3 Consistent Navigation (AA).** Navigation repeated on several pages of a set keeps the same relative order.
 - **3.2.6 Consistent Help (A, new in WCAG 2.2).** Help repeated on several pages of a set (contact details, a way to reach a person, self-help, a chat) keeps the same order relative to the rest of the page.
 
-With `--crawl` or `--sitemap`, Rampa compares the pages it checked, and the site report gets an "Across pages" section. No model is involved: these are rules over the snapshots, and a saved snapshot gives the same result. A single-page check cannot compare anything, so its report says so in a note: "Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site; crawl its address with --crawl or --sitemap."
+With `--crawl` or `--sitemap`, Rampa compares the pages it checked, and the site report gets an "Across pages" section. No model is involved: these are rules over the snapshots, and a saved snapshot gives the same result. A single-page check cannot compare anything, so its report says so in a note: "Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
 
 ```sh
 rampa check https://example.com --crawl --no-llm --max-pages 30
@@ -13,9 +14,9 @@ rampa check https://example.com --crawl --no-llm --verbose     # also the experi
 rampa check https://example.com --sitemap --min-confidence low  # experimental findings as failures, in the exit code
 ```
 
-They run on every crawl, whatever `--criteria` says: that option picks the judgment modules, and these two need no model. A folder of `.html` files is checked page by page, not as a site; serve it and crawl its address to compare its pages.
+They run on every crawl, whatever `--criteria` says: that option picks the judgment modules, and these three need no model. A folder of `.html` files is checked page by page, not as a site; serve it and crawl its address to compare its pages.
 
-Both checks are **experimental**. Their findings sit below the default confidence threshold, as every new check does until it passes the evaluation gate (section 4.9 of the [coverage plan](plans/wcag-coverage.md)). The report counts them and `--verbose` shows them. `--min-confidence low` reports them as failures, and then they count in the exit code.
+All three checks are **experimental**. Their findings sit below the default confidence threshold, as every new check does until it passes the evaluation gate (section 4.9 of the [coverage plan](plans/wcag-coverage.md)). The report counts them and `--verbose` shows them. `--min-confidence low` reports them as failures, and then they count in the exit code.
 
 ## Sets of pages
 
@@ -37,6 +38,38 @@ WCAG applies both criteria to a "set of web pages", and leaves it to the author 
 2. **Sets proposed from templates.** The other pages are grouped by language (the primary subtag of `<html lang>`) and by viewport. Within a group, two pages share a template when at least two links, and at least 60% of the links in the smaller page's header, navigation and footer, are also in the other page's. Shared templates are chained, so a docs page with an extra sidebar stays in the set of the home page whose header it shares. Language versions, such as `/` and `/pt/`, are always separate sets.
 
 Pages with no navigation landmark, header or footer links are listed as "No navigation found", and pages that share a template with no other page, or that are alone in a set you named, as "In a set of their own". Neither is compared. A page is compared only once its own report exists: a page whose judgment failed is in no set.
+
+## 2.4.1 Bypass Blocks
+
+2.4.1 asks for a way to bypass blocks of content that are repeated on multiple pages, such as a header and a menu. Which blocks repeat is a question about several pages, so this check fails a page only in a crawl; on a single page, the skip-link probe (`--probe keyboard`, see [probes](probes.md)) sends what it finds to review at most.
+
+**What repeats.** Each page is read as a sequence of content in document order: links and controls (with their text), headings, images with a name, and texts. A piece of content repeats when the same text (normalized, case ignored) is on another page of the same language and viewport, as ACT cf77f2 defines a block of repeated content: a block for which another page the page links to has an equivalent one. In a landmark other than `main` (a menu, a header) whose content mostly repeats, a piece of the page's own, such as the current section or a cart count, counts with the block. Unlike 3.2.3 and 3.2.6, 2.4.1 compares every page of a language and viewport, whether it shares a template with another page or not (sets named in the config are kept as they are): a page with no landmarks, which no template set takes, is the one most likely to fail. These pools are not listed in the report's sets; each finding names its pages.
+
+**The first repeated block.** From the start of the page, the first piece of content that repeats begins the block; the block runs until the first piece that does not, which is where the page's own content starts. Repeated content at the end of the page (a footer) needs no bypass, as ACT's assumptions say. A block of fewer than two links or controls and under 40 characters is too small to report.
+
+**Ways past the block**, each read leniently, so that a failure means none is there at all:
+
+| Mechanism | Counts when |
+| --- | --- |
+| A landmark (ARIA11) | It holds where the page's own content starts, or it is the `main` landmark, starts after the block begins and holds content of the page's own (a breadcrumb may come first) |
+| A heading (H69) | A heading of the page's own comes after the block |
+| A link into the page (G1, G123, G124) | Its fragment names an element after the start of the block, and focus would land on content of the page's own, or in an element that holds where it starts. When the skip-link probe ran (not in a crawl yet), a link it found not working does not count |
+| A control Rampa cannot try | A button or link named like a skip link with no target in the page (a script may handle it), or a control named like a menu toggle ("Menu", "Toggle navigation", "Hide table of contents"), before the content: the page goes to review instead of failing |
+
+**What is a failure.** A page with a repeated block before its own content and no mechanism at all. One finding per set lists the pages, the repeated items and where the content starts:
+
+```
+WCAG 2.4.1 (A) — Bypass Blocks
+  ✗ Blocks repeated before the content · experimental
+    On /, /about, 4 link(s) and control(s) repeat on other pages of the site and come before the page’s own content, and nothing lets someone pass them: no skip link to the content, no landmark around it, no heading at its start (WCAG 2.4.1, ACT cf77f2). Add a “Skip to main content” link first in the page, pointing to a main landmark (G1, ARIA11).
+    on /: 4 repeated item(s) before the content (“Home”, “About”, “Stores”, “Blog”); the content starts at “Spring coats, made to last and easy to repair.”; no landmark, heading or skip link after them
+```
+
+**Needs review** when the only way past is a control Rampa cannot try. The finding's fingerprint is made of the criterion, the language and viewport (or the set's name) and the repeated items, never the pages. In the coverage, a crawl that compared pages and failed none gives 2.4.1 "no failure found", in place of the "needs review" that axe-core's `bypass` (which can only pass or ask for review) leaves on each page when nothing else is listed to review.
+
+**Real sites.** On 2026-10-10, `rampa check <url> --crawl --no-llm --min-confidence low`: on rampa.guilhermebs.com.br (10 pages; 9 in English compared, the Portuguese home page alone in its language), every page has its header and menu before a main landmark, and nothing failed, which is right. On agenciabrasil.ebc.com.br with `--max-pages 5`, the 3 Portuguese pages compared have a main landmark and a skip link after the repeated header; the English and Spanish pages are one page each in their language, so not compared. Nothing failed, which is right; the skip link that does not show on focus is what `--probe keyboard` reports, on one page.
+
+**ACT cf77f2.** `rampa eval --rules site/2.4.1` loads each test page and the first page of the same site it links to (the plan's "following one link per page"; every test page links to the rule's chapter 2), and compares the two as a crawl would. On 2026-10-10, with Edge 154 headless and the ACT file whose SHA-256 starts with `a9a1483e`, on the rule's 13 HTML test cases (the SVG one is left out): the failed example fails, none of the 12 passed examples fails (precision and recall 1.00), and Passed Example 8, whose way past is a button that moves focus by script, goes to review. Passed Examples 1 and 11 (a link and a button that hide the menu) have a menu of two items, under the size Rampa reports, so they say nothing rather than going to review. axe-core alone fails none of them: its `bypass` can only pass or ask for review.
 
 ## 3.2.3 Consistent Navigation
 
@@ -119,7 +152,7 @@ The site report gets a `siteCriteria` object:
 
 Each finding has `criterion`, `level`, `status` (`failure` or `review`), `set`, `subject`, `message`, `evidence` (the order observed, as text, one line per distinct order), `pages` (the pages named), `comparedWith`, `items`, `elements` (`page`, `ref`, `name`, `html`), `observed` (for each distinct order, its `pages` and the `order`), `confidence`, `experimental` and a `fingerprint`. The fingerprint is made of the criterion, the set (its name in the config, or the language and viewport of a proposed set), the component and the items, never the pages, so it stays the same when the crawl finds the problem from other pages, and the same problem in the English and the Portuguese pages are two findings; put it in the waivers file to waive the finding.
 
-`summary.coverage.notChecked` no longer lists 3.2.3 once a set was compared, `summary.coverage.site` lists the criteria that compared something, and the coverage block prints a line such as `Compared across pages: 3.2.3 (2 set(s), 10 compared); 3.2.6 (2 set(s), 0 compared)`. In the per-criterion coverage (`summary.coverage.criteria`, see [WCAG 2.2](wcag-2-2.md)), each criterion that ran has a method of kind `site` (`site/3.2.3@<version>`) with what it compared, its failures and what needs review, and the status it found: failures, needs review (a failure below the threshold, or an item to review), no failure found (something compared), or no applicable content (sets compared, nothing found on two pages of one). Across the pages, the most telling status wins.
+`summary.coverage.notChecked` no longer lists 3.2.3 once a set was compared, `summary.coverage.site` lists the criteria that compared something, and the coverage block prints a line such as `Compared across pages: 2.4.1 (1 set(s), 9 compared); 3.2.3 (2 set(s), 10 compared); 3.2.6 (2 set(s), 0 compared)`. For 2.4.1, "compared" counts the pages with a repeated block before their own content, and its sets are the pools of pages of one language and viewport. In the per-criterion coverage (`summary.coverage.criteria`, see [WCAG 2.2](wcag-2-2.md)), each criterion that ran has a method of kind `site` (`site/3.2.3@<version>`) with what it compared, its failures and what needs review, and the status it found: failures, needs review (a failure below the threshold, or an item to review), no failure found (something compared), or no applicable content (sets compared, nothing found on two pages of one). Across the pages, the most telling status wins.
 
 ## From saved snapshots, without a browser
 
@@ -152,3 +185,6 @@ A finding across pages counts like a page's finding: with the default `--fail-on
 - **What a crawl did not load** is not compared: pages beyond `--max-pages`, pages behind a sign-in without `--storage-state`, and states a person reaches by clicking.
 - **Changes a person asked for** (3.2.3 and 3.2.6 both allow them, such as a reordered personal menu) look the same as any other change.
 - **3.2.6 is new in WCAG 2.2.** A run that targets WCAG 2.1 (`--wcag 2.1`) still compares it, and puts its failures in `siteCriteria.beyondTarget`: one line in the report says how many there are (`--verbose` lists them), they never change the exit code, and the coverage lists 3.2.6 as beyond the target, with its status.
+- **2.4.1 reads repeated content by its text.** A menu worded differently on each page is not seen as repeated, and a short text that two pages share by chance ("Read more") can join a block. Equivalence in ACT's sense (the same purpose, other words) is not judged.
+- **2.4.1 does not try skip links in a crawl.** Probes do not run with `--crawl` yet, so a link into the page counts as a way past the block from its markup alone, even if it does not work; `--probe keyboard` on a single page tries it. Controls that would need a click (a skip button, a menu toggle) are never pressed, so they send the page to review.
+- **2.4.1 looks at the first repeated block only**, as ACT cf77f2 does: blocks interleaved with content further down are not checked. Each way past it is read leniently (any heading of the page's own after it, not one at the very start of the content), so pages that pass may still need a person to check that the mechanism lands where the content starts.
