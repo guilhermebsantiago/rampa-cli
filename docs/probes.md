@@ -19,6 +19,7 @@ rampa check page.html --probe orientation            # portrait and landscape (1
 rampa check page.html --probe shortcuts              # single character key shortcuts (2.1.4)
 rampa check page.html --probe media                  # audio and video: captions, alternatives, sound on load (1.2.1–1.2.5, 1.4.2)
 rampa check page.html --probe color                  # use of color: current items, required fields, links in text, color words (1.4.1)
+rampa check https://example.com/login --probe auth   # sign-in and recovery: trusted paste, keypads, F109, CAPTCHAs (3.3.8); never part of all
 rampa check page.html --probe all --save .rampa/rec  # keep the observations to replay offline
 ```
 
@@ -37,6 +38,7 @@ Every probe but one is in the **observe** class:
 - it focuses the page's `body` for a moment before the walk, so the first Tab starts at the top of the page;
 - it plays audio and video muted for a few seconds, makes their text tracks load, and reads their sound from a copy of their stream; it pauses them and puts their time, muted state and track modes back afterwards (the media probe). It never unmutes anything. For that probe the browser starts with `--autoplay-policy=no-user-gesture-required`, as a browser that lets pages play sound on load does; Playwright starts headless browsers with `--mute-audio`, so no sound reaches the speakers;
 - it changes the colors of one element for a single capture, the peer's colors put on it, and puts them back (the color probe);
+- it pastes a dummy value into the password and code fields of sign-in and recovery forms with the real Ctrl+V, types one key when the paste did not arrive, and puts the field's value back (the authentication probe, which runs only with `--probe auth`, never with `all`);
 - it never clicks, never presses Enter or Space on a control, never types, and never submits a form.
 
 The shortcuts probe (`--probe shortcuts`, 2.1.4) is the first of the plan's **activate** class, and the only one so far. With focus on the page's `body`, it presses each printable key on its own (letters, digits, punctuation and symbols, then capitals; never Space, which scrolls), and a key may do whatever the page bound it to. Then it presses Space on the checkboxes, switches and radios it found named for shortcuts or keys, to toggle them, presses the keys again, and toggles them back. It never clicks, never presses Enter, never types into a field (focus goes back to the body before every key, and if a script keeps a field focused the probe stops pressing), never changes a select, and the network guard is on the whole time, so a key that posts something (archive, delete, send) is blocked and a key that navigates is answered locally. A GET a key sets off still reaches the server; run it on pages where that is harmless, as with every probe.
@@ -45,7 +47,7 @@ Each probe kind opens its own browser context with the same storage state, heade
 
 ### The network guard
 
-The guard is on for the whole life of a probe page, including its load:
+The guard is on for the whole life of a probe page, including its load. The authentication probe lets the page finish its own redirects first (see 3.3.8 below): until it lands, navigations and the forms the page submits by itself with GET go through, and POST is blocked as always.
 
 - only GET, HEAD and OPTIONS reach the network; every other request, `sendBeacon` included, is aborted and logged;
 - once the page has loaded, a top-level navigation is answered locally with 204 and logged: the page stays, and the attempt is evidence (3.2.1);
@@ -128,6 +130,7 @@ What `--probe all` adds, and what each criterion still needs from a person. Ever
 | 2.4.7 Focus Visible | `probe/keyboard@2`, `rampa/focus-visible`: focused and blurred captures | no pixel changes in the region or the viewport; focus removed on arrival (F55) | a change only elsewhere; a faint change | whether a change is perceivable; forced colors; other browsers |
 | 2.4.11 Focus Not Obscured (Minimum) | `probe/keyboard@2`, `rampa/focus-obscured`: 5×5 hit grid at the run's window and at 390×844, confirmed by pixels | the element entirely under author content (beyond the target under `--wcag 2.1`) | — | content the user opened or moved; other window sizes and zoom levels |
 | 3.2.1 On Focus | `probe/keyboard@2`, `rampa/on-focus` | navigation, new window, submission or modal on focus, repeated when focus comes back (high); a browser dialog or a script focus move, repeated (medium) | a change that did not repeat; an address change with no load | focus by mouse; changes after interaction; content changes that change meaning |
+| 3.3.8 Accessible Authentication (Minimum) | `probe/auth@1`, `rampa/accessible-authentication`: sign-in and recovery steps; a trusted paste into each password and code field; keypads, quoted cognitive tests, CAPTCHAs classified; `judgment/3.3.8@1` only clears | a field a paste does not reach while a key does; a split code a paste fills in part; a read-only password filled by a keypad; text asking for some characters of a secret, a calculation or an image transcription (medium) | any of those next to another way to sign in; a field that takes no input; attributes that keep password managers away; a puzzle CAPTCHA | steps behind a submit; security questions; whether an alternative is accessible; real password managers |
 
 "No failure found" in a coverage line applies to the conditions it names: one browser engine, one viewport, the states the observe class reached. It is never a pass.
 
@@ -190,14 +193,23 @@ The color probe, measured on 2026-10-10 (one run each; most of the time goes to 
 | getbootstrap.com/docs/5.3, navs and tabs | 23 current or selected items (8 captured in gray), 11 links | 3.7 to 5.3 s |
 | `test/fixtures/probes/color-*.html` | 3 to 5 items each | 0.7 to 2 s |
 
+The authentication probe, measured the same day (it waits 1.5 s after load for the page's own redirects; then about 0.3 s per paste):
+
+| Page | Read | Time |
+|---|---|---|
+| github.com/login | 1 sign-in step, 1 paste | 2.4 to 3.8 s |
+| sso.acesso.gov.br/login | redirects followed to the CPF form, 1 identifier-first step | 15.6 to 21.7 s |
+| `test/fixtures/probes/auth-*.html` | 3 to 4 steps, up to 5 pastes | 1.7 to 3.3 s |
+
 ## Not yet
 
-- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
+- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'auth']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
 - The `rampa.config` file has no `probe` key yet.
 - Items to review appear with the engine's and the rules' in every format: grouped by criterion and rule in the terminal (each element with `--verbose`), the Markdown and the HTML reports, counted in SARIF's coverage, and listed in the JSON (`needsReview`).
 - Captures are not written next to a saved snapshot; only their hashes are recorded.
-- The rest of the activate class (clicks, Enter and Space on controls, select changes, `--probe interact`) and `--allow-submit` do not exist yet; nothing here clicks or submits, and the shortcuts probe presses only printable keys on the body and Space on the settings it found.
-- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. The color tests ran three times in a row on Edge and once in the full suite, with no verdict changing; their lightness verdicts also read the style sheet's colors, so a platform whose fonts antialias differently cannot turn a 5:1 difference into a failure. They have not run yet on the Linux CI runner's Chrome.
+- The rest of the activate class (clicks, Enter and Space on controls, select changes, `--probe interact`) and `--allow-submit` do not exist yet; nothing here clicks or submits, the shortcuts probe presses only printable keys on the body and Space on the settings it found, and the authentication probe (only with `--probe auth`) pastes a dummy value into password and code fields, types one key when the paste did not land, and puts the value back.
+- `--crawl` does not run probes, so it does not find sign-in pages and probe them yet (the plan's B7 asks for that); the authentication probe lists the sign-in and recovery links it saw.
+- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. The color tests ran three times in a row on Edge and once in the full suite, with no verdict changing; their lightness verdicts also read the style sheet's colors, so a platform whose fonts antialias differently cannot turn a 5:1 difference into a failure. The authentication tests ran three times in a row on Edge and once in the full suite, with no verdict changing. They have not run yet on the Linux CI runner's Chrome.
 - Saved recordings of three real pages replay offline to the same findings, by id; the plan's measurement on 20 pages of the real-page sample (EVAL-1) is not done.
 
 ## The checks
@@ -557,6 +569,70 @@ After a key that changed something, Esc, focus back to the body and the scroll p
 - A page that changes on its own all the time (a ticker, a video) masks what keys do in those regions; keys that changed it while it also changed with no key are not counted.
 - Sequences (`g` then `i`), keyboard layouts other than US English, dead keys and IMEs are not tried. A shortcut that focuses a field without calling `preventDefault` lets the browser put its character in the field; the probe takes focus back before the next key.
 - Settings are found by their wording, in English, Portuguese and Spanish with a few French and German words; a setting named otherwise is not tried.
+
+### 3.3.8 Accessible Authentication (Minimum) (`--probe auth`, rule `rampa/accessible-authentication`)
+
+**Only when named.** `--probe auth` types into the password fields of real sign-in forms (a dummy value, cleared right after), so `--probe all` leaves it out: run it on pages you are allowed to test, as with every probe. It is the coverage plan's B7 and the cognitive profile plan's WI-12.
+
+**The probe.** A fresh page at the run's window size. Sign-in pages often bounce through other addresses on load (an SSO, a bot check that sends itself on): the probe follows the page's own navigations, and the forms it submits by itself with GET, until it has gone 1.5 s without navigating and shows something (a page with next to no text and no control is still loading), at most 15 s. A page that keeps navigating or computing is not probed, and the record says so. Only then does the guard arm, as for every probe. POST requests are blocked all along. The address it landed on is recorded. The probe then reads:
+
+- **Steps.** Each form (or the element that holds fields and a button) with a password field (`type=password`, `autocomplete="current-password"`, or a text field drawn as dots), a one-time code (`autocomplete="one-time-code"`, words such as "verification code", "código de verificação", "2FA", or four to twelve short boxes side by side), fields for some characters of a secret, or only an identifier under words of sign-in ("Sign in", "Entrar", "Acessar", "Identifique-se"). Its kind: a sign-in, a recovery ("Forgot your password?", "Esqueci minha senha", "Redefinir"), a sign-up (`autocomplete="new-password"` on every password, two password fields, "Create account", "Cadastre-se") or a change of password. Sign-up and change of password are recorded and left out: the Understanding leaves account creation out of 3.3.8. A newsletter's e-mail field is not a step. A step that is not showing (a closed menu or dialog) is listed and never opened.
+- **A trusted paste into each password and code field** (`src/probes/clipboard.ts`). The probe writes a dummy value to the clipboard (`Rampa-probe-7319`, or digits for a code or a numeric field, cut to its `maxlength` or its number of boxes), gives the field focus, and presses the real Ctrl+V (Cmd+V on macOS). The browser runs its own paste: the page gets a trusted `paste` event and a `beforeinput` of type `insertFromPaste`. No synthetic `ClipboardEvent` is ever dispatched: it carries no data the browser inserts, so a field that trims what is pasted, or spreads a code across boxes, would look blocked. The value counts as arrived when the field (or its boxes, joined) holds it, spaces, dashes, dots and case aside. A paste that did not arrive is tried a second time, then one key is typed (`a`, or `7` for a code), to tell a field that refuses pastes from one that refuses all input. The field gets its value back afterwards. The record keeps the events the page received, whether a handler cancelled them, and the field's `paste`, `beforeinput`, `input` and key listeners, read over the DevTools protocol. A browser has one clipboard for all its pages (headless Chromium keeps its own, apart from the system's), so pastes take turns per browser, and the clipboard's earlier text is put back.
+- **Read-only fields.** A field read-only when the page loads that stays read-only once it takes focus (pages that lift `readonly` on focus to keep autofill away are pasted into as usual), with the on-screen keypad next to it: at least five buttons of one digit, or of two ("1 ou 7"), within two levels of the step.
+- **Text that asks a cognitive function test**, quoted: some characters of a secret ("Enter the 2nd, 6th and last characters of your password", "Digite o 3º e o 5º dígitos", or fields labeled for positions such as 2, 6 and last, F109); a calculation ("Quanto é 3 + 4?", "What is 5 plus 2?"); and an image CAPTCHA (a picture named for it next to a field to type it into, or "Type the characters you see in the image"). A code split in boxes labeled 1 to N asks for the whole code, not some of it.
+- **CAPTCHA widgets**, classified and never clicked or solved: reCAPTCHA's checkbox and hCaptcha (a challenge of recognizing objects, which 3.3.8 excepts at AA), invisible reCAPTCHA, reCAPTCHA v3, invisible hCaptcha, Turnstile and Friendly Captcha (they ask nothing), Arkose and GeeTest (puzzles: unknown), and a bot check that covers the page instead of its content (DataDome, HUMAN, a "Just a moment" challenge).
+- **Other ways to sign in** near a step (a passkey or security key, "Sign in with…", "Continue with…", "Entrar com gov.br", "Email me a link", "Login com QR code", "Certificado digital"), and links to sign-in and recovery pages, which the probe does not follow.
+- **Attributes that may keep password managers away**: `autocomplete="off"` on a password field, `autocomplete="new-password"` on a sign-in password or identifier, `data-lpignore`, `data-1p-ignore`, `data-bwignore`, `data-form-type="other"`, and a text field drawn as dots.
+
+It never presses Enter, never clicks, and never submits: a field that sends itself when it is full meets the guard, which blocks the POST and cancels the form's submission.
+
+**The rule.**
+
+| Observation | Result |
+|---|---|
+| A password or code field of a sign-in or recovery step that a trusted paste did not reach, twice, while a typed key did | failure, high (F109; H100) |
+| A code asked one character per box, where pasting the whole code fills only some of the boxes | failure, high (the Understanding's own example; F109) |
+| A read-only password field next to an on-screen keypad | failure, high |
+| Text that asks for some characters of a secret, a calculation, or the transcription of an image CAPTCHA | failure, medium; the 3.3.8 judgment may clear it |
+| Any of those when the page offers another way to sign in near the step | needs review: the Alternative exception may apply, and Rampa does not follow it |
+| A field that took neither a paste nor a key, or that is read-only with no keypad found | needs review |
+| Attributes that may keep password managers away | needs review, low |
+| A CAPTCHA that may ask a puzzle (Arkose, GeeTest) | needs review, low |
+| An object-recognition CAPTCHA, a CAPTCHA that asks nothing, a field that took the paste, a step that asks only for an identifier, sign-up and change-password forms | not reported; counted in the coverage note |
+| No sign-in or recovery step on the page | "no applicable content", with the links to sign-in pages it found; "not checked" when a bot check covered the page, a step was not showing, the page went elsewhere right after it loaded, or what the probe read is not in the snapshot (the note says to use `--wait-for` with a selector of the form) |
+
+3.3.8 is new in WCAG 2.2, Rampa's default target. Under `--wcag 2.1` its results are beyond the target and never count toward the exit code.
+
+**The judgment** (`src/criteria/accessible-authentication.ts`), with a model, only when the probe quoted a cognitive test in a step with no other way to sign in. The model reads the step's visible texts and decides whether the step asks the person a cognitive function test (the definition and the exceptions are in the prompt): a fail keeps the finding, with the kind of test and the model's quote in its evidence; a pass (the text is help, an example, or a test of recognizing objects or the person's own pictures) clears it, and the coverage note says so. Either answer must quote text the step shows, or it is discarded. The model never makes a finding of its own. On `auth-cognitive.html`, `ollama:gemma4:12b` kept all three, quoting each.
+
+**Fixtures** (the cognitive plan's critique asked for the first four):
+
+- `auth-pass.html`: a plain sign-in marked up as H100 asks; a code field whose `paste` handler trims the pasted value (a synthetic paste event would carry nothing and look blocked); a six-box code whose `paste` handler spreads the code across the boxes; a password field read-only until it takes focus; and a reCAPTCHA checkbox. Nothing is reported.
+- `auth-fail.html`: a `beforeinput` handler that cancels `insertFromPaste`; `onpaste="return false"` on a code field; a six-box code with no paste handler, whose paste fills one box; and a read-only password filled by a keypad of paired digits. Each fails once.
+- `auth-cognitive.html`: "Enter the 2nd, 6th and last characters of your password" with three one-character fields, "Quanto é 3 + 4?", and an image CAPTCHA with "Type the characters you see in the image". Each fails once, quoted.
+- `auth-near.html`: a sign-up form that blocks pastes (left out), a sign-in that blocks pastes next to "Sign in with a passkey" (review), `autocomplete="off"` on a password that takes pastes (review), a newsletter, a recovery form that asks only for an e-mail, help text that names a length ("needs 8 characters"), and a sign-in form in a closed dialog (listed, not opened). No failure.
+- `auth-redirect.html`: a page that submits a form to the sign-in page right after it loads; the probe follows it and pastes there.
+
+No ACT rule exists for 3.3.8.
+
+**Real pages.** On 2026-10-10, with `--probe auth --no-llm --min-confidence low` (Edge 154), nothing submitted:
+
+| Page | Read | Findings | Read by hand |
+|---|---|---|---|
+| github.com/login | one sign-in step; the password field took the paste; "Continue with Google", "Continue with Apple", "Sign in with a passkey"; a link to "Forgot password?" | none | Right: the password field is `type=password` with `autocomplete="current-password"`, takes a trusted paste, and has no handler that blocks it. The guard blocked two analytics beacons on load, not the probe's doing |
+| sso.acesso.gov.br/login, with `--wait-for "#accountId"` | the page bounced through servicos.acesso.gov.br and landed on the sign-in form, which asks for the CPF first; invisible hCaptcha; "Login com seu banco", "Login com QR code", "Seu certificado digital" | 1 to review: `autocomplete="new-password"` on the CPF field | Right: the CPF field is `type=tel` with `autocomplete="new-password"`, a common way to keep autofill off, which also asks password managers not to fill the saved identifier. The password step comes after "Continuar", which Rampa never presses. Without `--wait-for`, the collector reads the page before the redirects end and the probe's facts match nothing in the snapshot: 3.3.8 is "not checked", and the note says to run again with `--wait-for`. Seven runs with `--wait-for` gave the same result, and one printed nothing for 3.3.8 |
+| github.com/password_reset | a DataDome bot check in place of the page, in headless Edge | none; not checked | Right: the page was not shown; the note names the bot check |
+
+**Limits.**
+
+- Steps behind a submit are not reached: the password step of an identifier-first sign-in (gov.br, Google, Microsoft), a code sent after a password, security questions. Rampa never submits a form (the plan's D5 would, with `--allow-submit` on test origins).
+- What a field does with a paste is read from its value: a field that takes the paste and then clears it on submit, or one whose paste works only with a real system clipboard, is not seen as blocking.
+- The keypad is found by digit buttons near the field; a keypad drawn in a canvas or with images of digits is not, and the field goes to review.
+- Cognitive tests are found by wording in English, Portuguese and Spanish; a test worded otherwise, or drawn in an image, is missed. CAPTCHAs are classified by vendor and markup, not by the challenge they may show.
+- The Alternative exception is only noticed (a button or link worded as one), never followed: a failure next to an alternative goes to review.
+- Password managers themselves are not run; the attributes that may keep them away go to review.
+- With `--crawl`, probes do not run, so the crawl does not find and probe sign-in pages yet; the links the probe lists say where to run it.
+- One engine (Chromium), headless; pages that refuse headless browsers show a bot check, reported as not checked.
 
 ### 2.4.7 Focus Visible and 2.4.11 Focus Not Obscured (`--probe keyboard`)
 

@@ -251,7 +251,7 @@ describe('probe stage', () => {
     expect(parseProbeKinds('all')).toEqual(['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color'])
     expect(parseProbeKinds('media')).toEqual(['media'])
     expect(parseProbeKinds('orientation')).toEqual(['orientation'])
-    expect(() => parseProbeKinds('touch')).toThrow(/--probe takes layout, keyboard, hover, orientation, shortcuts, media, color, all or none/)
+    expect(() => parseProbeKinds('touch')).toThrow(/--probe takes layout, keyboard, hover, orientation, shortcuts, media, color, auth, all \(every kind but auth\) or none/)
   })
 
   it('ties a fact to a snapshot node only when the ref and the identity match', () => {

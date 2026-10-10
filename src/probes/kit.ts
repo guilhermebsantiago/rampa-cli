@@ -200,7 +200,10 @@ export function installKit(): void {
 /**
  * Hooks installed before any page script runs (context.addInitScript). They record what a
  * page does on its own, never stopping it except where the probe must stay read-only:
- * window.open returns null and form submission is cancelled.
+ * window.open returns null and form submission is cancelled. A probe that follows the page's own redirects on load
+ * (openProbePage's `follow`, for a sign-in that bounces through other addresses) sets `__rampaFollow` in each new
+ * document until the page has landed: until then a form the page submits by itself goes, and the network guard
+ * still lets only GET, HEAD and OPTIONS through.
  */
 export function installHooks(): void {
   const w = window as unknown as { __rampaEvents?: Array<{ type: string; at: number; detail?: string; target?: Element | null }>; __rampaSelf?: boolean }
@@ -215,17 +218,22 @@ export function installHooks(): void {
     push('open', String(url ?? ''))
     return null
   }) as typeof window.open
+  const follow = () => (window as unknown as { __rampaFollow?: boolean }).__rampaFollow === true
+  const submit = HTMLFormElement.prototype.submit
+  const requestSubmit = HTMLFormElement.prototype.requestSubmit
   HTMLFormElement.prototype.submit = function (this: HTMLFormElement) {
     push('submit', this.action, this)
+    if (follow()) submit.call(this)
   }
-  HTMLFormElement.prototype.requestSubmit = function (this: HTMLFormElement) {
+  HTMLFormElement.prototype.requestSubmit = function (this: HTMLFormElement, submitter?: HTMLElement | null) {
     push('submit', this.action, this)
+    if (follow()) requestSubmit.call(this, submitter)
   }
   document.addEventListener(
     'submit',
     (event) => {
       push('submit', (event.target as HTMLFormElement | null)?.action, event.target as Element | null)
-      event.preventDefault()
+      if (!follow()) event.preventDefault()
     },
     true,
   )

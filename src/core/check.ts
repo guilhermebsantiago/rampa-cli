@@ -1,7 +1,7 @@
 import type { CogaSettings } from '../advisory/check.ts'
 import { runProfiles } from '../advisory/profile.ts'
 import type { Profile } from '../advisory/types.ts'
-import { probeJudgments } from '../criteria/character-key-shortcuts.ts'
+import { probeJudgments } from '../criteria/probe-judgments.ts'
 import { type Locale, t } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import { probeChecks } from '../rules/probes.ts'
@@ -125,10 +125,11 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const cap = options.maxCandidates ?? DEFAULT_MAX_CANDIDATES
   // A timer that does not keep the process alive; the report is written when it fires, with what was judged by then.
   const signal = options.deadline === undefined ? undefined : AbortSignal.timeout(Math.max(0, options.deadline - Date.now()))
-  // A probe that left a question for a model (2.1.4: is the way to a shortcut setting clearly labeled?) adds its judgment.
+  // A probe that left a question for a model (2.1.4: is the way to a shortcut setting clearly labeled? 3.3.8: is this a
+  // cognitive function test?) adds its judgment.
   const criteria = [...options.criteria, ...probeJudgments(snapshot).filter((extra) => !options.criteria.some((given) => given.id === extra.id))]
   // Judgments that may only clear a probe rule's finding: what each decided, applied once every criterion has run.
-  const clearing: Array<{ rule: string; criterion: string; ref: string; passed: boolean; evidence?: string | undefined; control?: string | undefined; votes: number; total: number; model?: string | undefined }> = []
+  const clearing: Array<{ rule: string; criterion: string; ref: string; passed: boolean; evidence?: string | undefined; control?: string | undefined; votes: number; total: number; model?: string | undefined; note?: string | undefined }> = []
 
   for (const criterion of criteria) {
     const summary: CriterionSummary = {
@@ -210,6 +211,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
               passed: true,
               evidence: output?.evidence ?? '',
               control: output?.control,
+              note: judgment.representative && criterion.clearedNote ? criterion.clearedNote(judgment.representative, options.locale) : undefined,
               votes: judgment.votes,
               total: judgment.total,
               model: options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId,
@@ -242,6 +244,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
                 criterion: criterion.id,
                 ref: judgment.candidate.ref,
                 passed: false,
+                note: criterion.keptNote ? criterion.keptNote(output, options.locale) : undefined,
                 votes: judgment.votes,
                 total: judgment.total,
                 model: options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId,
@@ -287,16 +290,19 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
         row.failures = Math.max(0, row.failures - cleared)
         if (row.failures === 0 && row.status === 'failures') row.status = row.review > 0 ? 'needs-review' : 'no-failure-found'
         const said = decision.control ? `"${decision.control}"` : `"${decision.evidence}"`
-        const note = options.locale === 'pt-BR' ? `achado retirado pelo modelo: ${said} leva claramente às configurações` : `finding cleared by the model: ${said} clearly leads to the settings`
+        const note =
+          decision.note ??
+          (options.locale === 'pt-BR' ? `achado retirado pelo modelo: ${said} leva claramente às configurações` : `finding cleared by the model: ${said} clearly leads to the settings`)
         row.note = row.note ? `${row.note}; ${note}` : note
       }
     } else {
       for (const finding of findings.filter(target)) {
         // A fail's evidence is not verified, so it is not quoted: the finding keeps the probe's own.
         const said =
-          options.locale === 'pt-BR'
+          decision.note ??
+          (options.locale === 'pt-BR'
             ? 'o modelo não achou um controle visível que leve claramente a uma forma de desligá-los ou remapeá-los'
-            : 'the model found no showing control that clearly leads to a way to turn them off or remap them'
+            : 'the model found no showing control that clearly leads to a way to turn them off or remap them')
         finding.evidence = finding.evidence ? `${finding.evidence}; ${said}` : said
         finding.model = decision.model
         finding.agreement = { votes: decision.votes, total: decision.total }

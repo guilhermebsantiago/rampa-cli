@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in: near misses</title>
+<style>
+  body { margin: 0; font: 16px/1.5 Arial, sans-serif; }
+  main { padding: 24px; max-width: 640px; }
+  form, section { margin-bottom: 32px; padding: 16px; border: 1px solid #767676; }
+  label { display: block; margin-top: 8px; }
+</style>
+</head>
+<body>
+<main>
+  <!-- 1. Sign-up blocks pastes into its passwords: account creation is out of scope. -->
+  <form id="signup" method="post" action="/accounts">
+    <h2>Create your account</h2>
+    <label for="new-email">Email</label>
+    <input id="new-email" type="email" autocomplete="email">
+    <label for="new-pass">Password</label>
+    <input id="new-pass" type="password" autocomplete="new-password" onpaste="return false">
+    <p>Enter at least 8 characters, with one number.</p>
+    <label for="new-pass2">Confirm password</label>
+    <input id="new-pass2" type="password" autocomplete="new-password" onpaste="return false">
+    <button type="submit">Create account</button>
+  </form>
+
+  <!-- 2. Sign-in that blocks pastes, next to a passkey: the Alternative may apply, so it goes to review. -->
+  <section id="passkey-area">
+    <form id="alt" method="post" action="/session">
+      <h2>Sign in</h2>
+      <label for="u2">Username</label>
+      <input id="u2" name="username" autocomplete="username">
+      <label for="p2">Password</label>
+      <input id="p2" name="password" type="password" autocomplete="current-password" onpaste="return false">
+      <button type="submit">Sign in</button>
+    </form>
+    <button type="button" id="passkey">Sign in with a passkey</button>
+  </section>
+
+  <!-- 3. Pastes land, but autocomplete="off" may keep some password managers away: review. -->
+  <form id="off" method="post" action="/session2">
+    <h2>Log in</h2>
+    <label for="u3">Username</label>
+    <input id="u3" name="username" autocomplete="username">
+    <label for="p3">Password</label>
+    <input id="p3" name="password" type="password" autocomplete="off">
+    <button type="submit">Log in</button>
+  </form>
+
+  <!-- 4. A newsletter: an e-mail field and a button, no sign-in. -->
+  <form id="news" method="post" action="/newsletter">
+    <h2>Newsletter</h2>
+    <label for="news-email">Email</label>
+    <input id="news-email" type="email">
+    <button type="submit">Subscribe</button>
+  </form>
+
+  <!-- 5. Recovery asks only for the e-mail: an identifier, and no test. Help text names a length, not characters to pick. -->
+  <form id="recover" method="post" action="/recover">
+    <h2>Forgot your password?</h2>
+    <p>Your new password needs 8 characters. Enter the email you signed up with.</p>
+    <label for="r-email">Email</label>
+    <input id="r-email" type="email" autocomplete="email">
+    <button type="submit">Send reset link</button>
+  </form>
+
+  <!-- 6. A sign-in form in a closed dialog: never opened. -->
+  <dialog id="login-dialog">
+    <form method="post" action="/session3">
+      <label for="u6">Username</label>
+      <input id="u6" autocomplete="username">
+      <label for="p6">Password</label>
+      <input id="p6" type="password" autocomplete="current-password">
+      <button type="submit">Sign in</button>
+    </form>
+  </dialog>
+</main>
+</body>
+</html>

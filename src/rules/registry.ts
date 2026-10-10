@@ -1,3 +1,4 @@
+import { authRule } from './auth.ts'
 import { COLOR_RULES } from './color.ts'
 import { focusObscuredNarrowRule, focusObscuredRule, focusVisibleRule } from './focus.ts'
 import { keyboardReachRule, keyboardTrapRule, onFocusRule } from './keyboard.ts'
@@ -21,6 +22,7 @@ export const PROBE_RULES: readonly ProbeRule[] = [
   shortcutsRule,
   ...MEDIA_RULES,
   ...COLOR_RULES,
+  authRule,
   focusVisibleRule,
   focusObscuredRule,
   focusObscuredNarrowRule,

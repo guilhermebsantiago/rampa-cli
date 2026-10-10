@@ -160,6 +160,10 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
    * removes that finding, a fail keeps it with the model's answer in its evidence, and no finding of its own is made.
    */
   clears?: string | undefined
+  /** With `clears`: the coverage note when a verified pass clears the finding. The 2.1.4 wording when absent. */
+  clearedNote?(output: Out, locale: Locale): string
+  /** With `clears`: what a verified fail adds to the evidence of the finding it keeps. The 2.1.4 wording when absent. */
+  keptNote?(output: Out, locale: Locale): string
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: registry of heterogeneous criteria
