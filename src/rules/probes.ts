@@ -21,6 +21,12 @@ export interface ProbeRuleResult {
   findings: Finding[]
   review: Finding[]
   coverage: ProbeCoverage[]
+  /**
+   * axe-core results left undecided ("incomplete") on elements the probe measured itself: they are the probe rule's
+   * to report (a failure, an item to review, or nothing), as with `RuleCheck.resolves`. The media probe settles
+   * video-caption and no-autoplay-audio this way.
+   */
+  resolved?: Array<{ engineRule: string; ref: string }> | undefined
 }
 
 export interface ProbeRule {
@@ -129,6 +135,7 @@ function probeResults(snapshot: A11ySnapshot, locale: Locale, rules: readonly Pr
       const out = rule.run(record, ctx)
       result.findings.push(...out.findings)
       result.review.push(...out.review)
+      if (out.resolved?.length) (result.resolved ??= []).push(...out.resolved)
       // A page that needed a blocked request (a POST for its data) may have rendered less on the probe's load.
       const blocked = guardNote(record, locale)
       result.coverage.push(...out.coverage.map((row) => (blocked ? { ...row, note: row.note ? `${row.note}; ${blocked}` : blocked } : row)))

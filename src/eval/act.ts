@@ -37,6 +37,8 @@ export const ACT_RULES: Record<string, { syntax: string[]; semantic: string[]; p
   // No ACT rule covers 3.3.2. cc0f0a's passing pages have visible labels; with each label moved
   // into aria-label, screen readers still get the name but nothing on screen says what to enter.
   '3.3.2': { syntax: [], semantic: [], pairs: ['cc0f0a'] },
+  // 36b590 (proposed) judges error messages a form already shows: does each let a person tell which field is in error and what is wrong?
+  '3.3.1': { syntax: [], semantic: ['36b590'] },
 }
 
 export interface ActDataset {

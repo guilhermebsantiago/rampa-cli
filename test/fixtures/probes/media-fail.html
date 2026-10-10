@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Media: captions tracks that give no captions, and audio that plays on its own</title>
+<style>body { margin: 0; font: 16px/1.4 Arial, sans-serif; } main { padding: 24px; } video { width: 320px; height: 240px; }</style>
+</head>
+<body>
+<main>
+  <h1>Lessons</h1>
+  <section>
+    <h2>Lesson one</h2>
+    <!-- 1.2.2: the only captions track answers 404. -->
+    <video id="broken" controls src="media/talk.webm"><track kind="captions" srclang="en" label="English" src="media/missing.vtt"></video>
+  </section>
+  <section>
+    <h2>Lesson two</h2>
+    <!-- 1.2.2: the captions track loads, but holds no cues. -->
+    <video id="empty" controls src="media/talk.webm"><track kind="captions" srclang="en" label="English" src="media/empty.vtt"></video>
+  </section>
+  <!-- 1.4.2: six seconds of sound on load, no controls, nothing on the page to stop it (ACT 80f0bf Failed Example 1). -->
+  <audio id="music" autoplay src="media/voice.webm"></audio>
+</main>
+</body>
+</html>

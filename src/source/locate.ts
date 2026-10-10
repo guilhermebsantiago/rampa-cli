@@ -49,6 +49,9 @@ export const KEPT_ATTRIBUTES = [
   'aria-required',
   'novalidate',
   'formnovalidate',
+  'aria-invalid',
+  'aria-errormessage',
+  'aria-live',
 ] as const
 
 /** The collector cuts attribute values at this length. */

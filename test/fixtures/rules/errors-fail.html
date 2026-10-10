@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sign up: errors the server rendered, badly</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; }
+  .field { margin: 12px 0; }
+  [aria-invalid="true"], .has-error input { border: 2px solid #c00; }
+  .error { color: #c00; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Create your account</h1>
+  <form action="/signup" method="post" novalidate>
+    <p class="form-error">Please fill the field correctly.</p>
+    <!-- 3.3.1: marked invalid, shown only by a red border: no text says what is wrong. -->
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" value="ana" aria-invalid="true">
+    </div>
+    <!-- 3.3.3: the message says there is an error, not that the minimum is 18. -->
+    <div class="field">
+      <label for="age">Age</label>
+      <input id="age" name="age" type="number" min="18" value="12" aria-invalid="true" aria-describedby="age-error">
+      <span id="age-error" class="error">Invalid age.</span>
+    </div>
+    <!-- 3.3.1: the message is shown, but hidden from assistive technology. -->
+    <div class="field">
+      <label for="code">Invite code</label>
+      <input id="code" name="code" aria-invalid="true" aria-errormessage="code-error">
+      <span id="code-error" class="error" aria-hidden="true">The invite code has 6 letters.</span>
+    </div>
+    <!-- 3.3.3 to review: the message gives no example of the pattern. -->
+    <div class="field">
+      <label for="cep">CEP</label>
+      <input id="cep" name="cep" pattern="\d{5}-\d{3}" value="123" aria-invalid="true" aria-describedby="cep-error">
+      <span id="cep-error" class="error">This CEP is invalid.</span>
+    </div>
+    <!-- 3.3.1 to review: only a class says the field is in error. -->
+    <div class="field has-error">
+      <label for="city">City</label>
+      <input id="city" name="city">
+    </div>
+    <button type="submit">Create account</button>
+  </form>
+</main>
+</body>
+</html>

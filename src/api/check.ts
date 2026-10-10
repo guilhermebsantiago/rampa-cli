@@ -4,7 +4,7 @@ import { RampaError } from '../core/util.ts'
 import { singlePageNote } from '../site/index.ts'
 import { locateReport, readPageSource, repositoryRoot } from '../source/locate.ts'
 import { loadRecorded, resolveTargets } from '../surfaces/targets.ts'
-import { DETERMINISM_ARGS, type ProbeKind } from '../probes/run.ts'
+import { type ProbeKind, probeLaunchArgs } from '../probes/run.ts'
 import { type Collected, collectWeb, launchBrowser } from '../surfaces/web.ts'
 import { type RampaOptions, deadlineOf, judge, resolveSettings } from './options.ts'
 
@@ -13,7 +13,7 @@ export interface CheckTargetsOptions extends RampaOptions {
   browser?: Browser | undefined
   /** Save a full-page screenshot of each web target in this directory, like --screenshots. */
   screenshotDir?: string | undefined
-  /** Probes to run on web targets after collection, like --probe: 'layout', 'keyboard', 'hover', 'orientation', 'shortcuts' (docs/probes.md). */
+  /** Probes to run on web targets after collection, like --probe: 'layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media' (docs/probes.md). */
   probes?: readonly ProbeKind[] | undefined
 }
 
@@ -35,8 +35,8 @@ export async function check(targets: string | readonly string[], options: CheckT
       const deadline = deadlineOf(settings)
       let collected: Collected
       if (target.kind === 'web') {
-        // Probes compare pixels: a browser Rampa starts gets the fixed rendering flags; one passed in is used as it is.
-        if (!browser) browser = launched = await launchBrowser(options.probes?.length ? { args: DETERMINISM_ARGS } : {})
+        // Probes compare pixels: a browser Rampa starts gets the fixed rendering flags (and, for the media probe, autoplay); one passed in is used as it is.
+        if (!browser) browser = launched = await launchBrowser(options.probes?.length ? { args: probeLaunchArgs(options.probes) } : {})
         collected = await collectWeb(browser, target.url, {
           runAxe: true,
           locale: settings.locale,

@@ -4,6 +4,7 @@ import type { ProbeRecord } from '../snapshot/schema.ts'
 import { hoverProbe } from './hover.ts'
 import { keyboardProbe } from './keyboard.ts'
 import { layoutProbes } from './layout.ts'
+import { mediaProbe } from './media.ts'
 import { orientationProbe } from './orientation.ts'
 import { shortcutsProbe } from './shortcuts.ts'
 import { PROBE_KINDS, type ProbeKind, type ProbeOptions, skippedRecord } from './page.ts'
@@ -12,7 +13,7 @@ export { PROBE_KINDS, type ProbeKind, type ProbeOptions } from './page.ts'
 
 /**
  * The probe stage (docs/probes.md). After collection, each probe opens its own freshly loaded
- * page, drives it (keys, focus, viewport, injected CSS; the shortcuts probe presses printable
+ * page, drives it (keys, focus, viewport, injected CSS, muted media; the shortcuts probe presses printable
  * keys, the one probe of the activate class) behind the network guard,
  * and records facts in `snapshot.observations`. Rules read only those facts, so a saved
  * snapshot is judged again offline.
@@ -21,7 +22,19 @@ export { PROBE_KINDS, type ProbeKind, type ProbeOptions } from './page.ts'
 /** Chromium switches that keep pixels the same from run to run; the browser is launched with them when probes run. */
 export const DETERMINISM_ARGS = ['--force-color-profile=srgb', '--disable-lcd-text', '--font-render-hinting=none']
 
-/** `--probe layout,keyboard,hover,orientation,shortcuts`, `all` or `none`. */
+/**
+ * The media probe lets media start with sound on load, as a browser that allows autoplay would, so it can see audio
+ * that plays on its own (1.4.2). Nothing reaches the speakers: Playwright starts headless browsers with --mute-audio.
+ */
+export const AUTOPLAY_ARGS = ['--autoplay-policy=no-user-gesture-required']
+
+/** The switches a browser for these probes starts with: none without probes. */
+export function probeLaunchArgs(kinds: readonly ProbeKind[] | undefined): string[] {
+  if (!kinds || kinds.length === 0) return []
+  return kinds.includes('media') ? [...DETERMINISM_ARGS, ...AUTOPLAY_ARGS] : [...DETERMINISM_ARGS]
+}
+
+/** `--probe layout,keyboard,hover,orientation,shortcuts,media`, `all` or `none`. */
 export function parseProbeKinds(raw: string | undefined): ProbeKind[] {
   if (!raw) return []
   const kinds = new Set<ProbeKind>()
@@ -38,7 +51,7 @@ export type ProbeStep = (browser: Browser, url: string, options: ProbeOptions) =
 
 /** Runs each requested kind in turn; a probe that fails is recorded as skipped and never fails the check. */
 export async function runProbes(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
-  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe, shortcuts: shortcutsProbe }
+  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe, shortcuts: shortcutsProbe, media: mediaProbe }
   const records: ProbeRecord[] = []
   for (const kind of options.kinds) {
     const started = Date.now()

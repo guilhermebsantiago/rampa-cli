@@ -81,7 +81,9 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   const SKIP = new Set(['script', 'style', 'noscript', 'template', 'head', 'meta', 'link', 'title', 'base'])
   const KEEP_ATTRS = ['id', 'class', 'lang', 'href', 'src', 'alt', 'title', 'type', 'role', 'name', 'for', 'aria-label', 'aria-labelledby', 'aria-hidden', 'aria-level', 'aria-describedby', 'placeholder', 'autocomplete', 'pattern',
     // What a field accepts, and whether its form validates it: the cognitive profile reads them (coga/input-formats).
-    'maxlength', 'minlength', 'min', 'max', 'step', 'inputmode', 'required', 'aria-required', 'novalidate', 'formnovalidate']
+    'maxlength', 'minlength', 'min', 'max', 'step', 'inputmode', 'required', 'aria-required', 'novalidate', 'formnovalidate',
+    // Error states the page already shows (3.3.1, 3.3.3): fields marked invalid, their messages, and live regions.
+    'aria-invalid', 'aria-errormessage', 'aria-live']
   const NAME_FROM_CONTENT = new Set(['a', 'button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'summary', 'option', 'th', 'td', 'li', 'label', 'legend', 'caption', 'figcaption'])
   const refs = new Map<Element, string>()
   let count = 0
@@ -492,7 +494,28 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     // role="presentation" loses to focus and to global ARIA attributes, and the element keeps its own role.
     if (explicit === 'presentation' || explicit === 'none') native.presentational = !roleConflict(el)
     if (tag === 'table' || explicit === 'table' || explicit === 'grid' || explicit === 'treegrid') native.table = tableFacts(el)
+    if (tag === 'input' || tag === 'select' || tag === 'textarea') Object.assign(native, invalidFacts(el))
     return native
+  }
+
+  /**
+   * A field in an error state the page shows: `:user-invalid` (the browser's own validation, after someone typed, as a
+   * test that fills a field does), or `aria-invalid` set. For those, the constraints the value breaks, as the browser
+   * reads them (tooShort, typeMismatch…), so 3.3.3 knows which rule a message should state.
+   */
+  const VALIDITY_FLAGS = ['valueMissing', 'typeMismatch', 'patternMismatch', 'tooLong', 'tooShort', 'rangeUnderflow', 'rangeOverflow', 'stepMismatch', 'badInput', 'customError'] as const
+  const invalidFacts = (el: Element): Record<string, unknown> => {
+    let userInvalid = false
+    try {
+      userInvalid = el.matches(':user-invalid')
+    } catch {
+      userInvalid = false
+    }
+    const aria = (el.getAttribute('aria-invalid') ?? '').trim().toLowerCase()
+    if (!userInvalid && (aria === '' || aria === 'false')) return {}
+    const validity = (el as HTMLInputElement).validity
+    const flags = validity && !validity.valid ? VALIDITY_FLAGS.filter((flag) => validity[flag]) : []
+    return { ...(userInvalid ? { userInvalid: true } : {}), ...(flags.length > 0 ? { validity: flags } : {}) }
   }
 
   /**
