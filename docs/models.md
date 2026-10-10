@@ -2,6 +2,183 @@
 
 Rampa asks a model only what axe-core cannot decide, one WCAG criterion at a time, and keeps a claim only when its evidence checks out against the page. A model that judges alt text well can still misjudge link purpose, and a cheap model can be the right choice for one criterion and the wrong one for another. Generic benchmarks do not tell you which. Measuring does: `rampa eval` scores a model on the W3C ACT test cases and on corrupted pairs, and `rampa compare` puts several runs side by side, criterion by criterion.
 
+## Four local models, measured
+
+On 2026-10-10, four local models ran the full default evaluation on the same machine and the same commit, one after another, each from an empty cache. The two best ran a second time.
+
+**In short.** `gemma4:12b` stays the default. On the meaning sets it failed 42 of the 44 failing pages with 6 false positives (F1 0.91), it told apart 71 of 79 corrupted pairs, verification dropped 6 of its claims, it had no model error, and it was the fastest. `ministral-3:14b` comes second (F1 0.84, 64 of 79 pairs) and takes more GPU memory than Gemma, so it does not help on a smaller GPU. Neither model that fits in about 7 GB replaces Gemma. `qwen3.5:9b` made no false positive on a meaning set or a pair, but it leaves the suggested text empty in most 2.4.2, 2.4.4 and 2.4.6 fails, verification drops those claims, and 2.4.4 goes unchecked (0 of 21 pairs). `qwen3-vl:8b-instruct` passes too much (recall 0.68 on the meaning sets, 37 of 79 pairs) and had the only invalid JSON. With about 7 GB, use `qwen3.5:9b` for 1.1.1, 1.3.5, 3.1.1, 3.1.2 and 3.3.2 only, where it scored close to Gemma. The prompts were tuned on Gemma's errors on these same pages, so Gemma plays at home; read the caveats below.
+
+### Method
+
+- **Code and data.** Commit `9293eb4`, axe-core 4.14.0, WCAG 2.2 rules, W3C ACT test cases `a9a1483e` (the file of 2026-10-07 the README's numbers use).
+- **Command**, per model: `node dist/cli.mjs eval --model ollama:<model> --locale en --cache-dir .rampa/cache-models/<run>-<model>`. That is the eight default criteria (1.1.1, 1.3.5, 2.4.2, 2.4.4, 2.4.6, 3.1.1, 3.1.2, 3.3.2) with their corrupted pairs, verification on, one judgment per candidate, the default concurrency (4 pages at a time, up to 2 calls each) and links followed on the W3C host. 1.4.5 and 3.3.1 are not in the default set and were not run.
+- **Settings as the provider sets them.** Rampa's Ollama provider sent temperature 0, `reasoning_effort: "none"` and the criterion's JSON schema as `response_format` on every call. The two models with a thinking mode, Gemma 4 and Qwen 3.5, returned no reasoning text. Ollama kept its default context of 4,096 tokens. No model needed a flag.
+- **Vision.** All four take images (`ollama show` lists vision), and each answered all 29 calls that carried one, so every model judged 1.1.1. A text-only model would be run without 1.1.1 (`--criteria 1.3.5,2.4.2,…`), and `rampa compare` would show 1.1.1 as not evaluated by that run, not as missed.
+- **Independent runs.** Each run had its own empty `--cache-dir`. Within a run, a prompt asked twice (the same test page under two sets) is answered once and counted as cached.
+- **Machine.** RTX 5060 Ti 16 GB that also drives the desktop, Ryzen 5 7600X, Windows 11, Ollama 0.40.2, the Q4_K_M weights Ollama ships. The GPU is shared with other jobs that sometimes call `gemma4:12b`. Read every 15 s, Ollama's `/api/ps` showed no other model loaded during the runs, except `gemma4:12b` in the first reading of the two runs that came right after a Gemma run.
+- **Measured around the CLI, which was not changed** ([scripts](models/scripts)). A preload logs every HTTP call to Ollama: status, time, finish reason, and whether the answer parses as JSON. `/api/ps` and `nvidia-smi` are read every 15 s, and the run is timed from start to exit. Wall time includes loading every test page in Chromium and following links.
+- **Raw data.** Each run's `summary.json` and `results.jsonl` are in [models/runs](models/runs), so `rampa compare` can read them again. [models/runs.json](models/runs.json) has the timings, call errors and memory read during each run, and [models/memory.json](models/memory.json) the memory of each model loaded alone.
+
+Models in the tables: Gemma is `gemma4:12b`, Qwen3-VL `qwen3-vl:8b-instruct`, Qwen 3.5 `qwen3.5:9b`, Ministral `ministral-3:14b`.
+
+### Scores per criterion
+
+Each cell is precision / recall / F1 over the pages of the set; n counts pages. A *syntax* set measures what axe-core decides, a *meaning* set what only judgment can, and *pairs* are passing pages next to copies broken on purpose. The axe-core column is the baseline on the same pages, the same in every run. "—" means the run failed no page of the set, so precision and F1 have nothing to divide.
+
+#### 1.1.1 Non-text Content
+
+| Set | n | axe-core | Gemma | Qwen3-VL | Qwen 3.5 | Ministral |
+| --- | ---: | :---: | :---: | :---: | :---: | :---: |
+| 23a2a8, syntax | 18 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+| qt1vmo, meaning | 16 | — / 0.00 / — | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+| e88epe, meaning | 20 | — / 0.00 / — | 1.00 / 1.00 / 1.00 | 1.00 / 0.80 / 0.89 | 1.00 / 0.80 / 0.89 | 1.00 / 0.80 / 0.89 |
+| pairs | 3 | — / 0.00 / — | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+
+#### 1.3.5 Identify Input Purpose
+
+| Set | n | axe-core | Gemma | Qwen3-VL | Qwen 3.5 | Ministral |
+| --- | ---: | :---: | :---: | :---: | :---: | :---: |
+| 73f2c2, syntax | 30 | 1.00 / 1.00 / 1.00 | 0.83 / 1.00 / 0.91 | 1.00 / 1.00 / 1.00 | 0.83 / 1.00 / 0.91 | 1.00 / 1.00 / 1.00 |
+| pairs | 25 | — / 0.00 / — | 1.00 / 0.88 / 0.93 | 1.00 / 0.63 / 0.77 | 1.00 / 0.88 / 0.93 | 1.00 / 0.50 / 0.67 |
+
+#### 2.4.2 Page Titled
+
+| Set | n | axe-core | Gemma | Qwen3-VL | Qwen 3.5 | Ministral |
+| --- | ---: | :---: | :---: | :---: | :---: | :---: |
+| 2779a5, syntax | 12 | 1.00 / 1.00 / 1.00 | 0.50 / 1.00 / 0.67 | 0.60 / 1.00 / 0.75 | 1.00 / 1.00 / 1.00 | 0.50 / 1.00 / 0.67 |
+| c4a8a4, meaning | 6 | — / 0.00 / — | 1.00 / 1.00 / 1.00 | 1.00 / 0.33 / 0.50 | 1.00 / 0.33 / 0.50 | 1.00 / 1.00 / 1.00 |
+| pairs | 6 | — / 0.00 / — | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+
+#### 2.4.4 Link Purpose (In Context)
+
+| Set | n | axe-core | Gemma | Qwen3-VL | Qwen 3.5 | Ministral |
+| --- | ---: | :---: | :---: | :---: | :---: | :---: |
+| c487ae, syntax | 28 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 0.92 / 1.00 / 0.96 | 1.00 / 1.00 / 1.00 | 0.92 / 1.00 / 0.96 |
+| 5effbb, meaning | 18 | — / 0.00 / — | 1.00 / 1.00 / 1.00 | 0.40 / 0.33 / 0.36 | — / 0.00 / — | 0.67 / 0.33 / 0.44 |
+| fd3a94, meaning | 24 | — / 0.00 / — | 0.58 / 0.88 / 0.70 | 0.78 / 0.88 / 0.82 | — / 0.00 / — | 0.55 / 0.75 / 0.63 |
+| pairs | 34 | — / 0.00 / — | 1.00 / 0.95 / 0.98 | 0.78 / 0.67 / 0.72 | — / 0.00 / — | 0.91 / 0.95 / 0.93 |
+
+#### 2.4.6 Headings and Labels
+
+| Set | n | axe-core | Gemma | Qwen3-VL | Qwen 3.5 | Ministral |
+| --- | ---: | :---: | :---: | :---: | :---: | :---: |
+| cc0f0a, meaning | 16 | — / 0.00 / — | 1.00 / 0.83 / 0.91 | 1.00 / 1.00 / 1.00 | — / 0.00 / — | 1.00 / 1.00 / 1.00 |
+| b49b2e, meaning | 12 | — / 0.00 / — | 0.80 / 1.00 / 0.89 | — / 0.00 / — | 1.00 / 0.75 / 0.86 | 0.80 / 1.00 / 0.89 |
+| pairs | 18 | — / 0.00 / — | 0.90 / 1.00 / 0.95 | 1.00 / 0.33 / 0.50 | 1.00 / 0.22 / 0.36 | 0.90 / 1.00 / 0.95 |
+
+#### 3.1.1 Language of Page
+
+| Set | n | axe-core | Gemma | Qwen3-VL | Qwen 3.5 | Ministral |
+| --- | ---: | :---: | :---: | :---: | :---: | :---: |
+| bf051a, syntax | 6 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+| b5c3f8, syntax | 5 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+| ucwvc8, meaning | 14 | — / 0.00 / — | 1.00 / 1.00 / 1.00 | 1.00 / 0.60 / 0.75 | 1.00 / 0.80 / 0.89 | 1.00 / 1.00 / 1.00 |
+| pairs | 8 | — / 0.00 / — | 1.00 / 1.00 / 1.00 | 1.00 / 0.50 / 0.67 | 1.00 / 0.75 / 0.86 | 1.00 / 1.00 / 1.00 |
+
+#### 3.1.2 Language of Parts
+
+| Set | n | axe-core | Gemma | Qwen3-VL | Qwen 3.5 | Ministral |
+| --- | ---: | :---: | :---: | :---: | :---: | :---: |
+| de46e4, syntax | 19 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+| off6ek, meaning | 13 | — / 0.00 / — | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+| pairs | 15 | — / 0.00 / — | 1.00 / 0.60 / 0.75 | 1.00 / 0.50 / 0.67 | 1.00 / 0.60 / 0.75 | 1.00 / 0.70 / 0.82 |
+
+#### 3.3.2 Labels or Instructions
+
+| Set | n | axe-core | Gemma | Qwen3-VL | Qwen 3.5 | Ministral |
+| --- | ---: | :---: | :---: | :---: | :---: | :---: |
+| pairs | 21 | — / 0.00 / — | 1.00 / 1.00 / 1.00 | 1.00 / 0.29 / 0.44 | 1.00 / 1.00 / 1.00 | 1.00 / 1.00 / 1.00 |
+
+#### All criteria, pooled
+
+Pages of every set of a kind added up, with 95% Wilson intervals:
+
+| | axe-core | Gemma | Qwen3-VL | Qwen 3.5 | Ministral |
+| --- | :---: | :---: | :---: | :---: | :---: |
+| meaning sets (139 pages, 44 failing): precision | — | 0.88 (0.75–0.94) | 0.86 (0.71–0.94) | 1.00 (0.83–1.00) | 0.84 (0.71–0.92) |
+| meaning sets: recall | 0.00 | 0.95 (0.85–0.99) | 0.68 (0.53–0.80) | 0.43 (0.30–0.58) | 0.84 (0.71–0.92) |
+| meaning sets: F1 | — | **0.91** | 0.76 | 0.60 | 0.84 |
+| pairs (130 pages): precision / recall / F1 | — / 0.00 / — | 0.99 / 0.91 / **0.95** | 0.91 / 0.54 / 0.68 | 1.00 / 0.56 / 0.72 | 0.96 / 0.85 / 0.90 |
+| syntax sets (118 pages): precision / recall / F1 | 1.00 / 1.00 / 1.00 | 0.86 / 1.00 / 0.92 | 0.91 / 1.00 / 0.95 | 0.96 / 1.00 / 0.98 | 0.88 / 1.00 / 0.93 |
+| cases right, of all 343 | 220 | **320** | 283 | 281 | 310 |
+
+- **Syntax sets.** Judgment can only add failures there, and the false positives are the scoring artifacts [criteria.md](criteria.md) describes: 2779a5's passing pages are titled "Title of the page.", and two inapplicable pages of 73f2c2 have `autocomplete=""` on a username field, a real 1.3.5 failure the rule leaves out. A higher score there is not better judgment. Qwen 3.5's 1.00 on 2779a5 comes from claims that failed those titles without a suggested title, which verification dropped.
+- **Where another model beat Gemma.** Qwen3-VL on fd3a94 (F1 0.82 against 0.70), and Qwen3-VL and Ministral on cc0f0a, where both found the failing label Gemma passed. Ministral also caught one more `lang-drop` copy.
+- **All four wrong.** 7 cases, all misses. Four are cases criteria.md argues Rampa is right to pass: "Partner's email address" with its token removed or swapped (someone else's data, twice), and "Paul put dire comment on tape" with its `lang` removed (English and French at once, twice). One, "Bonne année !", is too short for the language identifier to nominate, so no model was asked. The other two are 2.4.4 pages.
+
+#### Corrupted pairs told apart
+
+A pair counts when the intact page passes and the corrupted copy fails.
+
+| Criterion | Corruption | Pairs | axe-core | Gemma | Qwen3-VL | Qwen 3.5 | Ministral |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1.1.1 | `alt-placeholder` | 1 | 0 | 1 | 1 | 1 | 1 |
+| 1.1.1 | `alt-swap` | 1 | 0 | 1 | 1 | 1 | 1 |
+| 1.3.5 | `autocomplete-drop` | 9 | 0 | 8 | 6 | 8 | 4 |
+| 1.3.5 | `autocomplete-swap` | 7 | 0 | 6 | 4 | 6 | 4 |
+| 2.4.2 | `title-generic` | 3 | 0 | 3 | 3 | 3 | 3 |
+| 2.4.4 | `link-generic` | 11 | 0 | 11 | 5 | 0 | 9 |
+| 2.4.4 | `link-mismatch` | 10 | 0 | 9 | 3 | 0 | 9 |
+| 2.4.6 | `heading-generic` | 9 | 0 | 8 | 3 | 2 | 8 |
+| 3.1.1 | `html-lang-swap` | 4 | 0 | 4 | 2 | 3 | 4 |
+| 3.1.2 | `lang-swap` | 5 | 0 | 5 | 5 | 5 | 5 |
+| 3.1.2 | `lang-drop` | 5 | 0 | 1 | 0 | 1 | 2 |
+| 3.3.2 | `label-hidden` | 7 | 0 | 7 | 2 | 7 | 7 |
+| 3.3.2 | `label-unseen` | 7 | 0 | 7 | 2 | 7 | 7 |
+| all | | 79 | 0 | **71** | 37 | 44 | 64 |
+
+### Judgment, errors, time and memory
+
+| | Gemma | Qwen3-VL | Qwen 3.5 | Ministral |
+| --- | ---: | ---: | ---: | ---: |
+| candidates | 292 | 292 | 292 | 292 |
+| model calls, new + cached | 271 + 18 | 268 + 19 | 270 + 19 | 273 + 16 |
+| discarded by verification | **6** | 13 | 103 | 26 |
+| cannot tell | 0 | 0 | 0 | 3 |
+| invalid JSON | 0 | 2 of 270 | 0 | 0 |
+| HTTP errors, timeouts | 0 | 1 (retried) | 0 | 0 |
+| wall time | **7 min 05 s** | 7 min 43 s | 9 min 23 s | 9 min 22 s |
+| median / p90 s per call | 3.6 / 9.2 | 3.6 / 9.4 | 5.5 / 17.0 | 5.7 / 15.8 |
+| tokens in / out | 217k / 22.5k | 236k / 20.6k | 216k / 27.2k | 227k / 22.2k |
+| GPU memory, loaded alone | 8.6 GiB | 6.8 GiB | 6.1 GiB | 8.9 GiB |
+| VRAM in Ollama's `/api/ps` | 1.0 GiB (wrong) | 5.4 GiB | 5.2 GiB | 8.1 GiB |
+| API cost | none | none | none | none |
+
+- **Discarded by verification.** A model that does not fill in what Rampa checks loses its claims, and a dropped fail lowers recall.
+  - *Qwen 3.5* left the suggested text empty in every 2.4.4 fail (61 of 61 distinct answers), in 12 of its 15 on 2.4.6 and in 6 of its 10 on 2.4.2. Verification requires a suggestion that differs from the current text, so those claims are dropped: 64 of the 102 candidates on 2.4.4, and no 2.4.4 page failed by judgment at all. A report would show 2.4.4 as judged with nothing found. The smoke test below saw the same on the store example.
+  - *Ministral* lost 14 of the 28 candidates on 1.3.5. In 9 of its 22 distinct fail answers there, the same answer calls the field someone else's data or not personal; a 1.3.5 fail must be about the user's own data, so verification drops it, and on a corrupted copy that is a miss.
+  - *Qwen3-VL* lost few claims; it made fewer. It failed 10 headings and labels on 2.4.6 and 8 fields on 3.3.2, where Gemma failed 19 and 14 (distinct answers).
+- **Model errors.** Only Qwen3-VL had any. Twice it repeated itself until the 4,096-token context was full: a suggested alternative text that ran to 10,000 characters, and an excerpt followed by `\n` over and over. Neither answer was JSON, so a 1.1.1 candidate and a 3.1.1 candidate went unjudged, 2 of its 270 answers. Once Ollama stopped it with HTTP 500 "token repeat limit reached", and the AI SDK's retry got an answer. No model had a timeout or an answer outside the schema.
+- **Time.** With up to eight requests in flight, the seconds per call include waiting in Ollama's queue; compare them across models, not with the single-call speeds further down. Qwen 3.5 and Ministral took about a third longer than Gemma over the same pages.
+- **Memory.** `nvidia-smi` with each model loaded alone after one short call, the desktop's own use subtracted; during the runs the peak was up to 0.8 GiB above that. `/api/ps` reports 0.8 to 1.4 GiB less than `nvidia-smi`, and for Gemma 4 it still reports 1.0 GiB on Ollama 0.40.2.
+
+### Run to run
+
+Gemma and Ministral ran a second time, again from empty caches. Every page got the same verdict as in the first run, so every score above holds for both runs. Below the page level, temperature 0 is not exactly repeatable with requests running side by side: of the 255 prompts both runs share, Gemma worded 71 answers differently without changing a verdict, and Ministral worded 24 differently and changed one, a link "About us" that passed and then failed, on a page whose verdict did not change. Discards moved by one (Gemma 6 then 5, Ministral 26 then 27). The second runs took 7 min 40 s and 9 min 33 s.
+
+The paired comparison of the two (`rampa compare`) on 343 cases: Gemma alone right on 15, Ministral alone on 5, both wrong on 18, McNemar p = 0.041, the same split in both runs. Most of the gap is 2.4.4 (8 against 1) and 1.3.5, where Gemma's 6 are corrupted copies and Ministral's 2 the inapplicable `autocomplete=""` pages. Against either Qwen model, Gemma's split is 46 to 9 and 51 to 12 (p < 0.001). Run noise is not what limits these numbers; the number of pages is.
+
+### Recommendation
+
+- **Default: `gemma4:12b`.** The highest recall on the meaning sets, with precision inside the others' intervals; the most pairs told apart, the fewest discards, no model error, the shortest run; about 9 GB of GPU memory.
+- **Second opinion: `ministral-3:14b`.** Close on most criteria, better on cc0f0a, weaker on 2.4.4 and on the 1.3.5 pairs, a third slower, and slightly larger than Gemma. When it agrees with Gemma, that is not proof (see *Agreeing is not being right*).
+- **About 7 GB free: `qwen3.5:9b`, on part of the criteria.** On 1.1.1, 1.3.5, 3.1.1, 3.1.2 and 3.3.2 it made no false positive on a meaning set or a pair, and it missed three pages Gemma found (one each on e88epe, ucwvc8 and the 3.1.1 pairs). Leave 2.4.2, 2.4.4 and 2.4.6 out of its runs, so the report says they were not checked instead of judging them through dropped claims:
+
+  ```sh
+  rampa check site/ --model ollama:qwen3.5:9b --criteria 1.1.1,1.3.5,3.1.1,3.1.2,3.3.2
+  ```
+
+  `--reasoning provider-default` lets it think. On the store example that left no claim to discard, at about 20 times the output tokens and the time (below); it was not run on the evaluation.
+- **Not recommended: `qwen3-vl:8b-instruct`.** Lower recall on most criteria and the only invalid JSON, although it scored best of the four on fd3a94.
+
+### Caveats
+
+- **Gemma plays at home.** Every prompt and verification rule was revised after reading Gemma 4 12B's errors on these same ACT pages ([criteria.md](criteria.md)). The other models' habits, such as Qwen 3.5's empty suggestions and Ministral's contradictory 1.3.5 answers, were never seen while tuning, and they are the kind a prompt change could fix. This ranks the models with Rampa's current prompts, not the models themselves.
+- **ACT pages are small.** A test page has a handful of candidates and short context, written to test one rule. Real pages have more candidates, longer context and harder calls. Time per call and memory carry over roughly; scores do not.
+- **Real pages are noisier.** With Gemma, the [real-page study](studies/real-pages-2026-10.md) found a precision of 0.12 for the judgment layer, and the [re-measurement](studies/real-pages-2026-10-remeasure.md) 0.38 at the default threshold. No other model has been measured on real pages, and this ranking may not hold there.
+- **Small sets.** Precision intervals on the pooled meaning sets overlap for all four models; Gemma's lead is in recall and in 2.4.4. The repeated runs show that the verdicts are stable, not that the gap would hold on other pages.
+- **One machine.** A shared GPU, Ollama's default parallelism and Q4_K_M weights. Other quantizations and runtimes (LM Studio, llama.cpp) can differ, structured output above all.
+
 ## Measure, then compare
 
 Run the evaluation once per model, plus once without a model for the baseline:
@@ -98,7 +275,7 @@ rampa check site/ --criteria 2.4.2,2.4.4,2.4.6,3.1.1,3.1.2 --model ollama:gemma4
 
 ## Local models on a 16 GB GPU
 
-These Ollama models take images, follow Rampa's JSON schemas and fit a 16 GB GPU at Q4. They were pulled and smoke-tested on 2026-10-08 with Ollama 0.40.1 on an RTX 5060 Ti 16 GB; none of the new ones has been through a full `rampa eval` yet, so this is a list of models that work with Rampa, not a ranking.
+These Ollama models take images, follow Rampa's JSON schemas and fit a 16 GB GPU at Q4. They were pulled and smoke-tested on 2026-10-08 with Ollama 0.40.1 on an RTX 5060 Ti 16 GB. This section is what those first tests showed; the full evaluation of all four, which ranks them, is in [Four local models, measured](#four-local-models-measured).
 
 | Model | On disk | VRAM, 4k context | Thinking mode | Generation, fastest seen | One 1.1.1 judgment | Store example: planted problems found |
 | --- | ---: | ---: | --- | ---: | ---: | --- |

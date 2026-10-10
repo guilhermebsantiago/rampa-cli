@@ -30,7 +30,7 @@ Ten criteria have a module. Eight run by default; 1.4.5 and 3.3.1 run when asked
 
 **Why 1.4.5 is not on by default.** It adds a vision call for every picture larger than an icon, which doubles the image work 1.1.1 already does, and whether a banner that pairs a product photo with a headline is an image of text is a call people still disagree on.
 
-The evaluation numbers below are from one run of Gemma 4 12B on a local GPU (Ollama, reasoning off) on 2026-10-09, ACT test cases `a9a1483e`. The prompts of 1.3.5, 1.4.5 and 3.3.2 were revised after reading the errors of earlier runs on these same cases, without copying test pages into the prompts, so read the numbers as a working pipeline, not a result.
+The evaluation numbers below are from one run of Gemma 4 12B on a local GPU (Ollama, reasoning off) on 2026-10-09, ACT test cases `a9a1483e`. The prompts of 1.3.5, 1.4.5 and 3.3.2 were revised after reading the errors of earlier runs on these same cases, without copying test pages into the prompts, so read the numbers as a working pipeline, not a result. [models.md](models.md#four-local-models-measured) runs the same evaluation with three other local models (Qwen3-VL 8B, Qwen 3.5 9B, Ministral 3 14B), criterion by criterion.
 
 ## 1.1.1 Non-text Content
 
