@@ -243,6 +243,22 @@ function functionalImage(control: A11yNode, image: A11yNode, index: TreeIndex, s
   }
 }
 
+/** Problems about the alternative's own text, which hold whatever the image shows. */
+function aboutOwnText(problem: (typeof PROBLEMS)[number]): boolean {
+  return problem === 'filename_or_placeholder' || problem === 'generic'
+}
+
+/** Why a suggested alternative cannot be offered as a patch, or undefined when it can. */
+export function weakSuggestion(suggestedAlt: string, current: string): string | undefined {
+  const suggested = suggestedAlt.trim()
+  if (suggested === '') return 'fail verdict without a suggested alternative'
+  if (suggested.length > 250) return 'suggested alternative too long'
+  if (normalizeForMatch(suggested) === normalizeForMatch(current)) return 'suggested alternative equals the current one'
+  if (isLabelAlt(suggested)) return 'suggested alternative is a label, not a description'
+  if (onlyRewords(suggested, current)) return 'suggested alternative only rewords the current one'
+  return undefined
+}
+
 /** Cheap deterministic signal that agrees with the model on the obvious cases (img-1, IMG_2034.jpg). */
 export function looksLikePlaceholder(alt: string, src?: string): boolean {
   const value = alt.trim()
@@ -395,18 +411,11 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
       if (aboutPurpose && f && namesPurpose(candidate.context.alt, [f.title, f.destination, caption])) {
         return { ok: false, reason: `the alternative names the purpose of the ${f.control} it is the only content of` }
       }
-      const suggested = output.suggestedAlt.trim()
-      if (output.problem !== 'decorative') {
-        if (suggested === '') return { ok: false, reason: 'fail verdict without a suggested alternative' }
-        if (suggested.length > 250) return { ok: false, reason: 'suggested alternative too long' }
-        if (normalizeForMatch(suggested) === normalizeForMatch(candidate.context.alt)) {
-          return { ok: false, reason: 'suggested alternative equals the current one' }
-        }
-        if (isLabelAlt(suggested)) return { ok: false, reason: 'suggested alternative is a label, not a description' }
-        if (onlyRewords(suggested, candidate.context.alt)) {
-          return { ok: false, reason: 'suggested alternative only rewords the current one' }
-        }
-      }
+      // A claim about the alternative's own text (a placeholder, a generic word) stands whatever the model suggests
+      // in its place: a weak suggestion costs only the patch. Any other claim rests on what the model says the image
+      // conveys, and a suggestion that is only a label or the same words again shows it did not see that.
+      const weak = output.problem === 'decorative' ? undefined : weakSuggestion(output.suggestedAlt, candidate.context.alt)
+      if (weak && !aboutOwnText(output.problem)) return { ok: false, reason: weak }
     }
     return { ok: true }
   },
@@ -463,6 +472,8 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
         after: propertyLine(snapshot.surface, hide, value),
       }
     }
+    // A placeholder kept as a failure with a weak suggestion gets no patch: a person writes the alternative.
+    if (output.problem !== 'decorative' && weakSuggestion(output.suggestedAlt, candidate.context.alt)) return undefined
     const startTag = /^<[^>]*>/.exec(candidate.context.html)?.[0]
     const value = output.problem === 'decorative' ? '' : output.suggestedAlt.trim()
     // Only img and input take alt; anything else, such as a canvas, is named with aria-label.

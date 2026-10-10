@@ -167,6 +167,8 @@ One of the 14 is not reported. This is a recall proxy only: real failures that n
 
 The fix behaved as designed: a "decorative" suggestion would have become `alt="decorative"`. But here the image does fail 1.1.1. Its alternative is the placeholder "imagem banner", the same as on the 11 cards that are still reported. Dropping the patch but keeping the failure, which the study's suggestion 7 named as an option ("drop a failure, or at least its patch"), would have kept it.
 
+After this measurement, 1.1.1 was changed that way: a placeholder or generic claim stands whatever the model suggests, and a weak suggestion costs only the patch; claims about what the image shows still need a usable suggestion. No dev-split false positive came back, since all of them were "describes something the image does not show" claims. This change was made after reading the test split, so it does not count toward a held-out result.
+
 The other 13 true positives are still reported at the default threshold: 11 "imagem banner" icons on ibge.gov.br and the two padocadomani.com.br fields without `autocomplete`.
 
 ### New findings in the study's criteria

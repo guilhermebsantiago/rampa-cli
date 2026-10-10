@@ -81,9 +81,14 @@ describe('1.1.1 verification', () => {
     expect(nonTextContent.verify({ ...claim, evidence: 'img-2' }, placeholder, gallery()).ok).toBe(false)
   })
 
-  it('kills a fail without a usable suggestion', () => {
-    expect(nonTextContent.verify({ ...claim, suggestedAlt: '' }, placeholder, gallery()).ok).toBe(false)
-    expect(nonTextContent.verify({ ...claim, suggestedAlt: 'IMG-1' }, placeholder, gallery()).ok).toBe(false)
+  it('kills a fail about what the image shows without a usable suggestion', () => {
+    expect(nonTextContent.verify({ ...claim, problem: 'missing_information', suggestedAlt: '' }, placeholder, gallery()).ok).toBe(false)
+    expect(nonTextContent.verify({ ...claim, problem: 'wrong_content', suggestedAlt: 'IMG-1' }, placeholder, gallery()).ok).toBe(false)
+  })
+
+  it('keeps a placeholder fail without a usable suggestion, and writes no patch', () => {
+    expect(nonTextContent.verify({ ...claim, suggestedAlt: '' }, placeholder, gallery()).ok).toBe(true)
+    expect(nonTextContent.patch?.({ ...claim, suggestedAlt: 'IMG-1' }, placeholder, gallery())).toBeUndefined()
   })
 
   it('kills a pass that names a problem', () => {
@@ -172,6 +177,14 @@ describe('1.1.1 suggestions that are labels or rewordings', () => {
 
   it('keeps a decorative claim, which suggests no text', () => {
     expect(nonTextContent.verify({ ...claim, problem: 'decorative', suggestedAlt: '' }, icon, quickAccess())).toEqual({ ok: true })
+  })
+
+  // The held-out re-measurement (docs/studies/real-pages-2026-10-remeasure.md) lost a true "imagem banner" this way.
+  it.each(['filename_or_placeholder', 'generic'] as const)('keeps a %s claim with a weak suggestion, without a patch', (problem) => {
+    const placeholder = { ...claim, problem, suggestedAlt: 'decorative' }
+    expect(nonTextContent.verify(placeholder, icon, quickAccess())).toEqual({ ok: true })
+    expect(nonTextContent.patch?.(placeholder, icon, quickAccess())).toBeUndefined()
+    expect(nonTextContent.patch?.({ ...placeholder, suggestedAlt: 'Ônibus da UFC: horários e rotas' }, icon, quickAccess())?.to).toBe('Ônibus da UFC: horários e rotas')
   })
 
   it('recognizes labels and rewordings', () => {
