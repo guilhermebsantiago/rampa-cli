@@ -24,13 +24,18 @@ const visible = (node: A11yNode) => !isHidden(node)
 /**
  * Roles of controls that need a name (WAI-ARIA 1.2, "Accessible Name Required"). axe-core's rules select most of
  * them by element or by an explicit role attribute, and an element axe-core failed is left to it. What is left: tree
- * items and scroll bars, which no WCAG-tagged axe-core rule names (aria-treeitem-name is best practice), and controls
- * axe-core's own name computation passed where the browser computes no name.
+ * items, which no WCAG-tagged axe-core rule names (aria-treeitem-name is best practice), and controls axe-core's own
+ * name computation passed or its selectors miss where the browser computes no name.
  */
 const NAMED_CONTROLS = new Set([
-  'button', 'checkbox', 'combobox', 'link', 'listbox', 'menuitem', 'menuitemcheckbox', 'menuitemradio', 'radio', 'scrollbar',
+  'button', 'checkbox', 'combobox', 'link', 'listbox', 'menuitem', 'menuitemcheckbox', 'menuitemradio', 'radio',
   'searchbox', 'slider', 'spinbutton', 'switch', 'tab', 'textbox', 'treeitem',
+  // Links of the digital publishing roles, and the date, time and color fields Chromium names in its own words.
+  'doc-backlink', 'doc-biblioref', 'doc-glossref', 'doc-noteref', 'Date', 'DateTime', 'InputTime', 'ColorWell',
 ])
+
+/** Chromium's own words for some fields, as a message says them. */
+const ROLE_WORDS: Record<string, string> = { Date: 'date field', DateTime: 'date and time field', InputTime: 'time field', ColorWell: 'color field' }
 
 /** A name made only of icon-font glyphs (Unicode private use characters), which screen readers do not read: CSS content the browser put in the name. */
 const GLYPHS_ONLY = /^[\s\p{Co}]+$/u
@@ -61,19 +66,28 @@ export const widgetNameRule: RuleCheck = {
   run(snapshot) {
     const hits: Hit[] = []
     let applicable = 0
+    // A combobox's popup takes its context from the combobox, and needs no name of its own (axe-core leaves it out too).
+    const popups = new Set<string>()
+    for (const node of walkTree(snapshot.root)) {
+      if (exposedRole(node) === 'combobox') for (const ref of [...(node.ax?.relations?.controls ?? []), ...(node.ax?.relations?.owns ?? [])]) popups.add(ref)
+    }
     for (const node of walkTree(snapshot.root)) {
       const role = exposedRole(node)
-      if (!role || !NAMED_CONTROLS.has(role) || !exposed(node) || !visible(node)) continue
+      if (role === 'listbox' && popups.has(node.ref)) continue
+      // What the browser exposes decides, not what the collector saw as hidden: an image map's area has no box of its
+      // own, and the browser still exposes it as a link. Content not rendered has no node in the browser's tree.
+      if (!role || !NAMED_CONTROLS.has(role) || !exposed(node) || node.states.includes('aria-hidden')) continue
       applicable++
       const name = (exposedName(node) ?? '').trim()
       const glyphs = name !== '' && GLYPHS_ONLY.test(name)
       if (name !== '' && !glyphs) continue
       const text = truncate(subtreeText(node), 60)
       const description = node.ax?.description ?? ''
+      const said = ROLE_WORDS[role] ?? role
       // A name of glyphs only says nothing, but a description (a title) may still be read out: a person decides.
       const outcome = glyphs && description ? 'review' : 'fail'
       const evidence = glyphs ? `role ${role} · name ${codePoints(name)}${description ? ` · description "${truncate(description, 60)}"` : ''}` : `role ${role} · name ""`
-      hits.push({ ref: node.ref, outcome, subject: role, evidence, facts: { role, text, glyphs: glyphs ? codePoints(name) : '', description: truncate(description, 60) }, html: startTagOf(node) })
+      hits.push({ ref: node.ref, outcome, subject: role, evidence, facts: { role: said, text, glyphs: glyphs ? codePoints(name) : '', description: truncate(description, 60) }, html: startTagOf(node) })
     }
     return { hits, applicable }
   },
@@ -122,7 +136,7 @@ export const customControlRule: RuleCheck = {
     for (const node of walkTree(snapshot.root)) {
       const events = node.ax?.listeners
       // Only elements the collector asked the browser about: focusable by tabindex, or with an inline handler.
-      if (!node.ax || node.ax.ignored || events === undefined) continue
+      if (!node.ax || node.ax.ignored || events === undefined || CONTROL_ROLES.has(exposedRole(node) ?? '')) continue
       if (!visible(node) || !node.bounds || node.bounds.width < 1 || node.bounds.height < 1) continue
       applicable++
       if (events.length === 0 || node.ax.scrollable || holdsControl(node)) continue

@@ -195,10 +195,13 @@ describe('the browser tree rules on a snapshot', () => {
     node({ ref, role: 'tab', native: { tag: 'div' }, ax: { role: 'tab', ...(name === '' ? { name: '' } : {}), props: selected === undefined ? {} : { selected } }, ...(name ? { name } : {}) })
 
   it('fails a control with no name, and leaves an element without the browser tree alone', () => {
-    const root = node({ ref: 'html', children: [tab('#a', 'One', true), tab('#b', '', false), node({ ref: '#c', role: 'tab', native: { tag: 'div' } })] })
+    const date = node({ ref: '#dob', role: 'textbox', native: { tag: 'input' }, ax: { role: 'Date' } })
+    const root = node({ ref: 'html', children: [tab('#a', 'One', true), tab('#b', '', false), node({ ref: '#c', role: 'tab', native: { tag: 'div' } }), date] })
     const run = widgetNameRule.run(snapshotOf(root), emptyEngine(), { locale: 'en', index: new Map() })
-    expect(run.hits.map((hit) => hit.ref)).toEqual(['#b'])
-    expect(run.applicable).toBe(2)
+    expect(run.hits.map((hit) => hit.ref)).toEqual(['#b', '#dob'])
+    expect(run.applicable).toBe(3)
+    // Chromium's own word for a date input, said in plain words.
+    expect(widgetNameRule.message(run.hits[1] as never, 'en')).toContain('exposes this element as a date field')
   })
 
   it('sees through a name made only of icon-font glyphs: a failure, or review when a description may be read', () => {

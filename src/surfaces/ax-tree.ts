@@ -281,6 +281,7 @@ const CONTROL_ROLES = new Set([
   'button', 'checkbox', 'combobox', 'link', 'listbox', 'menuitem', 'menuitemcheckbox', 'menuitemradio', 'option', 'radio', 'scrollbar',
   'searchbox', 'slider', 'spinbutton', 'switch', 'tab', 'textbox', 'treeitem', 'gridcell', 'columnheader', 'rowheader', 'menu', 'menubar',
   'tablist', 'tree', 'treegrid', 'grid', 'radiogroup', 'DisclosureTriangle', 'PopUpButton', 'MenuListOption', 'MenuListPopup', 'ToggleButton',
+  'doc-backlink', 'doc-biblioref', 'doc-glossref', 'doc-noteref', 'Date', 'DateTime', 'InputTime', 'ColorWell',
 ])
 
 /** The events that make an element a control when it listens to them itself. */
