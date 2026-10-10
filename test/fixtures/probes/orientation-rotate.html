@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orientation: content turned a quarter in portrait</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  /* ACT b33eff Failed Example 1, with more content: upright, the page is drawn sideways, so it reads only in landscape. */
+  @media (orientation: portrait) {
+    html { transform: rotate(90deg); width: 100vh; height: 100vw; transform-origin: top left; position: absolute; left: 100vw; }
+  }
+  main { padding: 24px; }
+  /* A small arrow turned in landscape: no text, no image, not reported. */
+  .arrow { display: inline-block; width: 10px; height: 10px; border-right: 2px solid #333; border-bottom: 2px solid #333; transform: rotate(45deg); }
+  @media (orientation: landscape) { .arrow { transform: rotate(135deg); } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Station timetable <span class="arrow"></span></h1>
+  <p>Trains leave every twenty minutes from platform two. The last train of the day leaves at eleven forty at night.</p>
+  <p>On Sundays the timetable changes, and the first train leaves at seven in the morning.</p>
+</main>
+</body>
+</html>

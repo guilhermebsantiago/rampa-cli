@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Character key shortcuts: the setting is in a closed dialog</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; }
+  [aria-selected=true] { background: #036; color: #fff; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Inbox</h1>
+  <p>Press j and k to move between messages.</p>
+  <button type="button" id="open-settings" aria-controls="kbd-settings" aria-haspopup="dialog">Keyboard shortcut settings</button>
+  <ul id="inbox">
+    <li id="m1" aria-selected="true">Lunch on Friday?</li>
+    <li id="m2" aria-selected="false">Your invoice</li>
+    <li id="m3" aria-selected="false">Team photos</li>
+  </ul>
+  <dialog id="kbd-settings" aria-labelledby="kbd-title">
+    <h2 id="kbd-title">Keyboard shortcuts</h2>
+    <label><input type="checkbox" id="kbd-off"> Turn off single-key shortcuts</label>
+    <button type="button" id="close-settings">Done</button>
+  </dialog>
+</main>
+<script>
+  let off = false
+  let at = 0
+  const items = [...document.querySelectorAll('#inbox li')]
+  document.getElementById('kbd-off').addEventListener('change', (event) => {
+    off = event.target.checked
+  })
+  document.getElementById('open-settings').addEventListener('click', () => document.getElementById('kbd-settings').showModal())
+  document.getElementById('close-settings').addEventListener('click', () => document.getElementById('kbd-settings').close())
+  document.addEventListener('keydown', (event) => {
+    if (off || event.ctrlKey || event.altKey || event.metaKey) return
+    if (event.key !== 'j' && event.key !== 'k') return
+    at = (at + (event.key === 'j' ? 1 : items.length - 1)) % items.length
+    items.forEach((item, i) => item.setAttribute('aria-selected', String(i === at)))
+  })
+</script>
+</body>
+</html>

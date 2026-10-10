@@ -155,6 +155,11 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
    */
   subject?(candidate: Candidate<Ctx>): string
   patch?(output: Out, candidate: Candidate<Ctx>, snapshot: A11ySnapshot): Patch | undefined
+  /**
+   * The probe rule whose finding on the same element this judgment may only clear (2.1.4: "clearly labeled"): a pass
+   * removes that finding, a fail keeps it with the model's answer in its evidence, and no finding of its own is made.
+   */
+  clears?: string | undefined
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: registry of heterogeneous criteria

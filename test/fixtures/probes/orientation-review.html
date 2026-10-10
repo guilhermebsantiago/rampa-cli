@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orientation: near misses a person should look at</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; }
+  /* 1. Upright, the article goes away with nothing to say why. */
+  @media (orientation: portrait) { article { display: none; } }
+  /* 2. A small badge with text turns a quarter in landscape: ACT counts it, but it may be decoration. */
+  .badge { display: inline-block; background: #c00; color: #fff; padding: 2px 6px; }
+  @media (orientation: landscape) { .badge { transform: rotate(90deg); } }
+</style>
+</head>
+<body>
+<main>
+  <p>Read the full story below. <span class="badge" id="badge">Live</span></p>
+  <article>
+    <h1>Bridge reopens after repairs</h1>
+    <p>The old bridge reopened on Monday after eight months of repairs. Cyclists and pedestrians can cross again, and buses return to the route next week.</p>
+    <p>The council says the work came in under budget, and the next phase, new lighting along the river, starts in the spring.</p>
+    <p>Residents on both banks welcomed the news; shop owners near the bridge expect more visitors in the summer.</p>
+  </article>
+</main>
+</body>
+</html>

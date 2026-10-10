@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Character key shortcuts: settings that turn them off or remap them</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; }
+  html.dark body { background: #111; color: #eee; }
+  [role=switch] { border: 1px solid #333; padding: 4px 8px; }
+  [role=option][aria-selected=true] { background: #036; color: #fff; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Shopping list</h1>
+  <p id="time">0</p>
+  <fieldset>
+    <legend>Keyboard shortcuts</legend>
+    <!-- G217: remap "+" to Ctrl and "+", like ACT ffbc54 Passed Example 1. -->
+    <label><input type="checkbox" id="remap"> Use Ctrl together with the "+" key</label>
+    <!-- A switch that turns the "d" shortcut off. -->
+    <button type="button" role="switch" id="dark-keys" aria-checked="true">Single-key shortcut for dark mode</button>
+  </fieldset>
+  <ul id="list"><li>Apples</li></ul>
+  <!-- Type-ahead that works only while the list box has focus: "active only on focus". -->
+  <div role="listbox" id="fruit" tabindex="0" aria-label="Fruit">
+    <div role="option" id="o-a" aria-selected="true">Apple</div>
+    <div role="option" id="o-b" aria-selected="false">Banana</div>
+  </div>
+</main>
+<script>
+  const state = { ctrl: false, dark: true }
+  document.getElementById('remap').addEventListener('change', (event) => {
+    state.ctrl = event.target.checked
+  })
+  const toggle = document.getElementById('dark-keys')
+  toggle.addEventListener('click', () => {
+    state.dark = !state.dark
+    toggle.setAttribute('aria-checked', String(state.dark))
+  })
+  document.addEventListener('keydown', (event) => {
+    const t = event.target
+    if (t instanceof HTMLInputElement && t.type === 'text') return
+    if (event.key === '+' && (!state.ctrl || event.ctrlKey)) {
+      const item = document.createElement('li')
+      item.textContent = 'Pears'
+      document.getElementById('list').append(item)
+    }
+    if (event.key === 'd' && state.dark && !event.ctrlKey) document.documentElement.classList.toggle('dark')
+    // Logged and nothing else: not a change of content.
+    if (event.key === 'x') console.debug('x pressed')
+  })
+  document.getElementById('fruit').addEventListener('keydown', (event) => {
+    if (event.key !== 'b' && event.key !== 'a') return
+    for (const option of document.querySelectorAll('[role=option]')) option.setAttribute('aria-selected', String(option.textContent.toLowerCase().startsWith(event.key)))
+  })
+  let tick = 0
+  setInterval(() => {
+    document.getElementById('time').textContent = String(++tick)
+  }, 200)
+</script>
+</body>
+</html>

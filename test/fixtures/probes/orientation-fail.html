@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orientation: a page that works in landscape only</title>
+<link rel="manifest" href='data:application/manifest+json,{"name":"Racing","display":"fullscreen","orientation":"landscape"}'>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; }
+  /* Upright, the game hides behind an overlay that asks to turn the device (F97-like, no essential reason). */
+  #turn { display: none; position: fixed; inset: 0; background: #111; color: #fff; align-items: center; justify-content: center; text-align: center; font-size: 24px; z-index: 100; }
+  @media (orientation: portrait) {
+    #turn { display: flex; }
+    main { display: none; }
+  }
+</style>
+</head>
+<body>
+<div id="turn" role="alert"><p>Please rotate your device to landscape to continue.</p></div>
+<main>
+  <h1>Weekly race results</h1>
+  <p>The race on Saturday had forty-two runners. The fastest time was set by the club's youngest member, who finished the ten kilometres in thirty-four minutes.</p>
+  <p>Next week the route changes: the course follows the river path, and the start moves to the north gate of the park.</p>
+  <table><tr><th>Runner</th><th>Time</th></tr><tr><td>Ana</td><td>34:02</td></tr><tr><td>Bruno</td><td>35:40</td></tr></table>
+</main>
+<script>
+  // Recorded as a note: browsers honor it only in full screen or installed apps.
+  if (screen.orientation && screen.orientation.lock) screen.orientation.lock('landscape').catch(() => {})
+</script>
+</body>
+</html>

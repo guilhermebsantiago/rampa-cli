@@ -118,8 +118,8 @@ export const WCAG_CRITERIA: readonly SuccessCriterion[] = [
     'Percorrer a página inteira pelo teclado; bloqueios depois de interações; plug-ins; modos de leitor de tela',
   ]),
   sc('2.1.4', 'A', '2.1', ['Character Key Shortcuts', 'Atalhos de teclado por caractere'], [
-    'Single-key shortcuts and their settings; keyboard layouts and IMEs; speech input',
-    'Atalhos de uma tecla e suas configurações; layouts de teclado e IMEs; entrada por voz',
+    'Settings on other pages or behind login, and whether they work; shortcuts in frames; keyboard layouts and IMEs; speech input',
+    'Configurações em outras páginas ou atrás de login, e se funcionam; atalhos em frames; layouts de teclado e IMEs; entrada por voz',
   ]),
   sc('2.2.1', 'A', '2.0', ['Timing Adjustable', 'Ajustável por temporização'], [
     'Server-side time-outs; flows behind login; the exceptions',

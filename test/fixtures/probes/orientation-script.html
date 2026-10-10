@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orientation: a script that locks portrait on load</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; }
+  .gate { position: fixed; inset: 0; background: #fff; display: flex; align-items: center; justify-content: center; text-align: center; padding: 32px; z-index: 50; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Pay with your phone</h1>
+  <p>Scan the code at the till and confirm the amount. Your receipt arrives by e-mail within a minute.</p>
+  <p>Payments over two hundred need your card's PIN as well.</p>
+</main>
+<script>
+  // Checked once, when the page loads, with window.orientation as old phone code does: no listener.
+  if (Math.abs(window.orientation || 0) === 90) {
+    const gate = document.createElement('div')
+    gate.className = 'gate'
+    gate.id = 'gate'
+    gate.innerHTML = '<p>Turn your phone upright to use the app.</p>'
+    document.body.append(gate)
+  }
+</script>
+</body>
+</html>
