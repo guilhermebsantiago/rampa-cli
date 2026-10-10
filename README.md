@@ -92,7 +92,7 @@ Rampa reports against WCAG 2.2 by default (`--wcag 2.1` for the older target), a
 
 | What | Checks | Guide |
 | --- | --- | --- |
-| Rampa rules (experimental) | Deterministic checks axe-core does not make: placeholder alt text, framework default titles, viewport zoom, the HTTP Refresh header, language switchers, table headers, layout tables, labels that name nothing, ids that hijack a name, a field's label left out of its name (2.5.3), labels that show nothing on screen, error messages on the page that are not in text or give no suggestion (3.3.1, 3.3.3), and contrast measured from pixels where axe-core cannot decide (1.4.3, 1.4.11) | [docs/rules.md](docs/rules.md) |
+| Rampa rules (experimental) | Deterministic checks axe-core does not make: placeholder alt text, framework default titles, viewport zoom, the HTTP Refresh header, language switchers, table headers, layout tables, labels that name nothing, ids that hijack a name, a field's label left out of its name (2.5.3), labels that show nothing on screen, error messages on the page that are not in text or give no suggestion (3.3.1, 3.3.3), contrast measured from pixels where axe-core cannot decide (1.4.3, 1.4.11), and checks over the browser's own accessibility tree: controls with no name or no role, tab and disclosure states (4.1.2), live regions listed for 4.1.3 | [docs/rules.md](docs/rules.md) |
 | WCAG 2.2 | 2.5.8 Target Size (experimental), the 2.2 list and honest coverage: axe-core's "incomplete" results become items to review, never "checked" | [docs/wcag-2-2.md](docs/wcag-2-2.md) |
 | Probes (experimental, `--probe layout|keyboard|hover|orientation|shortcuts|media|all`) | Drive the page read-only: captions, audio description and sound that plays by itself (1.2.1–1.2.5, 1.4.2), orientation locked (1.3.4), text cut at 200% zoom (1.4.4), reflow at 320 CSS px (1.4.10), text spacing (1.4.12), content on hover or focus (1.4.13), keyboard reachability and traps (2.1.1, 2.1.2), single-key shortcuts (2.1.4), change on focus (3.2.1), focus visible and not obscured (2.4.7, 2.4.11) | [docs/probes.md](docs/probes.md) |
 | Site criteria (experimental) | With `--crawl` or `--sitemap`: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help, across the pages of a template | [docs/site-criteria.md](docs/site-criteria.md) |
@@ -419,7 +419,8 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - [x] Contrast measured from pixels where axe-core cannot decide (text over images, gradients and video; placeholders; icon-only controls), and axe-core in every frame, open shadow roots and same-origin frames in the snapshot ([docs/rules.md](docs/rules.md))
 - [x] A language identifier that decides long, clear 3.1.1 and 3.1.2 cases without a model and drops model claims that contradict it
 - [ ] The rest of the probe waves ([plan](docs/plans/wcag-coverage.md))
-- [ ] The rest of the WCAG 2.2 waves: the browser's accessibility tree, accessible authentication, focus management, errors after submitting
+- [x] The browser's accessibility tree in the snapshot (Chromium, over CDP): names and roles as assistive technology gets them, used by the rules and by 2.4.4, 2.4.6 and 3.3.2
+- [ ] The rest of the WCAG 2.2 waves: accessible authentication, focus management, errors after submitting, motion and time limits
 - [x] ChatGPT and Gemini subscriptions through their official CLIs
 
 ## Development
