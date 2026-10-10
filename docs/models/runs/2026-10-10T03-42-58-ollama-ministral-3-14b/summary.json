@@ -1,0 +1,988 @@
+{
+  "schemaVersion": 1,
+  "rampaVersion": "0.0.0",
+  "createdAt": "2026-10-10T03:42:58.880Z",
+  "model": "ollama:ministral-3:14b",
+  "runs": 1,
+  "llm": true,
+  "verify": true,
+  "actSha256": "a9a1483e24335d9ec49429468963823673d7e27ca3085999ecc2770d5307d053",
+  "criteria": [
+    "1.1.1",
+    "1.3.5",
+    "2.4.2",
+    "2.4.4",
+    "2.4.6",
+    "3.1.1",
+    "3.1.2",
+    "3.3.2"
+  ],
+  "wcag": "2.2",
+  "followLinks": "same-origin",
+  "sets": [
+    {
+      "label": "ACT 23a2a8 (syntax)",
+      "criterion": "1.1.1",
+      "baseline": {
+        "tp": 5,
+        "fp": 0,
+        "tn": 13,
+        "fn": 0,
+        "n": 18,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.5655085052479191,
+          1
+        ],
+        "precisionCi": [
+          0.5655085052479191,
+          1
+        ]
+      },
+      "rampa": {
+        "tp": 5,
+        "fp": 0,
+        "tn": 13,
+        "fn": 0,
+        "n": 18,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.5655085052479191,
+          1
+        ],
+        "precisionCi": [
+          0.5655085052479191,
+          1
+        ]
+      }
+    },
+    {
+      "label": "ACT qt1vmo (semantic)",
+      "criterion": "1.1.1",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 13,
+        "fn": 3,
+        "n": 16,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.5615060804490177
+        ]
+      },
+      "rampa": {
+        "tp": 3,
+        "fp": 0,
+        "tn": 13,
+        "fn": 0,
+        "n": 16,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.43849391955098227,
+          1
+        ],
+        "precisionCi": [
+          0.43849391955098227,
+          1
+        ]
+      }
+    },
+    {
+      "label": "ACT e88epe (semantic)",
+      "criterion": "1.1.1",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 15,
+        "fn": 5,
+        "n": 20,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.43449149475208104
+        ]
+      },
+      "rampa": {
+        "tp": 4,
+        "fp": 0,
+        "tn": 15,
+        "fn": 1,
+        "n": 20,
+        "precision": 1,
+        "recall": 0.8,
+        "f1": 0.888888888888889,
+        "recallCi": [
+          0.3755282641185388,
+          0.9637768390302125
+        ],
+        "precisionCi": [
+          0.5100999795960008,
+          1
+        ]
+      }
+    },
+    {
+      "label": "pairs (intact + corrupted)",
+      "criterion": "1.1.1",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 1,
+        "fn": 2,
+        "n": 3,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.6576280471103807
+        ]
+      },
+      "rampa": {
+        "tp": 2,
+        "fp": 0,
+        "tn": 1,
+        "fn": 0,
+        "n": 3,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.34237195288961925,
+          1
+        ],
+        "precisionCi": [
+          0.34237195288961925,
+          1
+        ]
+      }
+    },
+    {
+      "label": "ACT 73f2c2 (syntax)",
+      "criterion": "1.3.5",
+      "baseline": {
+        "tp": 10,
+        "fp": 0,
+        "tn": 20,
+        "fn": 0,
+        "n": 30,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.7224598312333834,
+          1
+        ],
+        "precisionCi": [
+          0.7224598312333834,
+          1
+        ]
+      },
+      "rampa": {
+        "tp": 10,
+        "fp": 0,
+        "tn": 20,
+        "fn": 0,
+        "n": 30,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.7224598312333834,
+          1
+        ],
+        "precisionCi": [
+          0.7224598312333834,
+          1
+        ]
+      }
+    },
+    {
+      "label": "pairs (intact + corrupted)",
+      "criterion": "1.3.5",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 9,
+        "fn": 16,
+        "n": 25,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.19361341827271994
+        ]
+      },
+      "rampa": {
+        "tp": 8,
+        "fp": 0,
+        "tn": 9,
+        "fn": 8,
+        "n": 25,
+        "precision": 1,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "recallCi": [
+          0.2799923761135083,
+          0.7200076238864916
+        ],
+        "precisionCi": [
+          0.6755843804891231,
+          1
+        ]
+      }
+    },
+    {
+      "label": "ACT 2779a5 (syntax)",
+      "criterion": "2.4.2",
+      "baseline": {
+        "tp": 6,
+        "fp": 0,
+        "tn": 6,
+        "fn": 0,
+        "n": 12,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.6096569663469354,
+          0.9999999999999999
+        ],
+        "precisionCi": [
+          0.6096569663469354,
+          0.9999999999999999
+        ]
+      },
+      "rampa": {
+        "tp": 6,
+        "fp": 6,
+        "tn": 0,
+        "fn": 0,
+        "n": 12,
+        "precision": 0.5,
+        "recall": 1,
+        "f1": 0.6666666666666666,
+        "recallCi": [
+          0.6096569663469354,
+          0.9999999999999999
+        ],
+        "precisionCi": [
+          0.2537781703934222,
+          0.7462218296065778
+        ]
+      }
+    },
+    {
+      "label": "ACT c4a8a4 (semantic)",
+      "criterion": "2.4.2",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 3,
+        "fn": 3,
+        "n": 6,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.5615060804490177
+        ]
+      },
+      "rampa": {
+        "tp": 3,
+        "fp": 0,
+        "tn": 3,
+        "fn": 0,
+        "n": 6,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.43849391955098227,
+          1
+        ],
+        "precisionCi": [
+          0.43849391955098227,
+          1
+        ]
+      }
+    },
+    {
+      "label": "pairs (intact + corrupted)",
+      "criterion": "2.4.2",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 3,
+        "fn": 3,
+        "n": 6,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.5615060804490177
+        ]
+      },
+      "rampa": {
+        "tp": 3,
+        "fp": 0,
+        "tn": 3,
+        "fn": 0,
+        "n": 6,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.43849391955098227,
+          1
+        ],
+        "precisionCi": [
+          0.43849391955098227,
+          1
+        ]
+      }
+    },
+    {
+      "label": "ACT c487ae (syntax)",
+      "criterion": "2.4.4",
+      "baseline": {
+        "tp": 11,
+        "fp": 0,
+        "tn": 17,
+        "fn": 0,
+        "n": 28,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.7411599827511859,
+          1
+        ],
+        "precisionCi": [
+          0.7411599827511859,
+          1
+        ]
+      },
+      "rampa": {
+        "tp": 11,
+        "fp": 1,
+        "tn": 16,
+        "fn": 0,
+        "n": 28,
+        "precision": 0.9166666666666666,
+        "recall": 1,
+        "f1": 0.9565217391304348,
+        "recallCi": [
+          0.7411599827511859,
+          1
+        ],
+        "precisionCi": [
+          0.6461140782014047,
+          0.9851352905492264
+        ]
+      }
+    },
+    {
+      "label": "ACT 5effbb (semantic)",
+      "criterion": "2.4.4",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 12,
+        "fn": 6,
+        "n": 18,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.3903430336530645
+        ]
+      },
+      "rampa": {
+        "tp": 2,
+        "fp": 1,
+        "tn": 11,
+        "fn": 4,
+        "n": 18,
+        "precision": 0.6666666666666666,
+        "recall": 0.3333333333333333,
+        "f1": 0.4444444444444444,
+        "recallCi": [
+          0.09676933255921683,
+          0.7000116786584712
+        ],
+        "precisionCi": [
+          0.2076549551264879,
+          0.9385096847238394
+        ]
+      }
+    },
+    {
+      "label": "ACT fd3a94 (semantic)",
+      "criterion": "2.4.4",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 16,
+        "fn": 8,
+        "n": 24,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.3244156195108769
+        ]
+      },
+      "rampa": {
+        "tp": 6,
+        "fp": 5,
+        "tn": 11,
+        "fn": 2,
+        "n": 24,
+        "precision": 0.5454545454545454,
+        "recall": 0.75,
+        "f1": 0.631578947368421,
+        "recallCi": [
+          0.40926987910258916,
+          0.9285223111419724
+        ],
+        "precisionCi": [
+          0.28008775568998817,
+          0.7872904245601196
+        ]
+      }
+    },
+    {
+      "label": "pairs (intact + corrupted)",
+      "criterion": "2.4.4",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 13,
+        "fn": 21,
+        "n": 34,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.15464382326420195
+        ]
+      },
+      "rampa": {
+        "tp": 20,
+        "fp": 2,
+        "tn": 11,
+        "fn": 1,
+        "n": 34,
+        "precision": 0.9090909090909091,
+        "recall": 0.9523809523809523,
+        "f1": 0.9302325581395349,
+        "recallCi": [
+          0.7733018341376452,
+          0.9915442305280766
+        ],
+        "precisionCi": [
+          0.7218461934161421,
+          0.9747051037171622
+        ]
+      }
+    },
+    {
+      "label": "ACT cc0f0a (semantic)",
+      "criterion": "2.4.6",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 10,
+        "fn": 6,
+        "n": 16,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.3903430336530645
+        ]
+      },
+      "rampa": {
+        "tp": 6,
+        "fp": 0,
+        "tn": 10,
+        "fn": 0,
+        "n": 16,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.6096569663469354,
+          0.9999999999999999
+        ],
+        "precisionCi": [
+          0.6096569663469354,
+          0.9999999999999999
+        ]
+      }
+    },
+    {
+      "label": "ACT b49b2e (semantic)",
+      "criterion": "2.4.6",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 8,
+        "fn": 4,
+        "n": 12,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.48990002040399916
+        ]
+      },
+      "rampa": {
+        "tp": 4,
+        "fp": 1,
+        "tn": 7,
+        "fn": 0,
+        "n": 12,
+        "precision": 0.8,
+        "recall": 1,
+        "f1": 0.888888888888889,
+        "recallCi": [
+          0.5100999795960008,
+          1
+        ],
+        "precisionCi": [
+          0.3755282641185388,
+          0.9637768390302125
+        ]
+      }
+    },
+    {
+      "label": "pairs (intact + corrupted)",
+      "criterion": "2.4.6",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 9,
+        "fn": 9,
+        "n": 18,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.2991527535509594
+        ]
+      },
+      "rampa": {
+        "tp": 9,
+        "fp": 1,
+        "tn": 8,
+        "fn": 0,
+        "n": 18,
+        "precision": 0.9,
+        "recall": 1,
+        "f1": 0.9473684210526316,
+        "recallCi": [
+          0.7008472464490407,
+          1
+        ],
+        "precisionCi": [
+          0.5958436145024278,
+          0.9821242504842788
+        ]
+      }
+    },
+    {
+      "label": "ACT bf051a (syntax)",
+      "criterion": "3.1.1",
+      "baseline": {
+        "tp": 4,
+        "fp": 0,
+        "tn": 2,
+        "fn": 0,
+        "n": 6,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.5100999795960008,
+          1
+        ],
+        "precisionCi": [
+          0.5100999795960008,
+          1
+        ]
+      },
+      "rampa": {
+        "tp": 4,
+        "fp": 0,
+        "tn": 2,
+        "fn": 0,
+        "n": 6,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.5100999795960008,
+          1
+        ],
+        "precisionCi": [
+          0.5100999795960008,
+          1
+        ]
+      }
+    },
+    {
+      "label": "ACT b5c3f8 (syntax)",
+      "criterion": "3.1.1",
+      "baseline": {
+        "tp": 4,
+        "fp": 0,
+        "tn": 1,
+        "fn": 0,
+        "n": 5,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.5100999795960008,
+          1
+        ],
+        "precisionCi": [
+          0.5100999795960008,
+          1
+        ]
+      },
+      "rampa": {
+        "tp": 4,
+        "fp": 0,
+        "tn": 1,
+        "fn": 0,
+        "n": 5,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.5100999795960008,
+          1
+        ],
+        "precisionCi": [
+          0.5100999795960008,
+          1
+        ]
+      }
+    },
+    {
+      "label": "ACT ucwvc8 (semantic)",
+      "criterion": "3.1.1",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 9,
+        "fn": 5,
+        "n": 14,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.43449149475208104
+        ]
+      },
+      "rampa": {
+        "tp": 5,
+        "fp": 0,
+        "tn": 9,
+        "fn": 0,
+        "n": 14,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.5655085052479191,
+          1
+        ],
+        "precisionCi": [
+          0.5655085052479191,
+          1
+        ]
+      }
+    },
+    {
+      "label": "pairs (intact + corrupted)",
+      "criterion": "3.1.1",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 4,
+        "fn": 4,
+        "n": 8,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.48990002040399916
+        ]
+      },
+      "rampa": {
+        "tp": 4,
+        "fp": 0,
+        "tn": 4,
+        "fn": 0,
+        "n": 8,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.5100999795960008,
+          1
+        ],
+        "precisionCi": [
+          0.5100999795960008,
+          1
+        ]
+      }
+    },
+    {
+      "label": "ACT de46e4 (syntax)",
+      "criterion": "3.1.2",
+      "baseline": {
+        "tp": 9,
+        "fp": 0,
+        "tn": 10,
+        "fn": 0,
+        "n": 19,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.7008472464490407,
+          1
+        ],
+        "precisionCi": [
+          0.7008472464490407,
+          1
+        ]
+      },
+      "rampa": {
+        "tp": 9,
+        "fp": 0,
+        "tn": 10,
+        "fn": 0,
+        "n": 19,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.7008472464490407,
+          1
+        ],
+        "precisionCi": [
+          0.7008472464490407,
+          1
+        ]
+      }
+    },
+    {
+      "label": "ACT off6ek (semantic)",
+      "criterion": "3.1.2",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 9,
+        "fn": 4,
+        "n": 13,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.48990002040399916
+        ]
+      },
+      "rampa": {
+        "tp": 4,
+        "fp": 0,
+        "tn": 9,
+        "fn": 0,
+        "n": 13,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.5100999795960008,
+          1
+        ],
+        "precisionCi": [
+          0.5100999795960008,
+          1
+        ]
+      }
+    },
+    {
+      "label": "pairs (intact + corrupted)",
+      "criterion": "3.1.2",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 5,
+        "fn": 10,
+        "n": 15,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.2775401687666166
+        ]
+      },
+      "rampa": {
+        "tp": 7,
+        "fp": 0,
+        "tn": 5,
+        "fn": 3,
+        "n": 15,
+        "precision": 1,
+        "recall": 0.7,
+        "f1": 0.8235294117647058,
+        "recallCi": [
+          0.39677321997956516,
+          0.892210712513788
+        ],
+        "precisionCi": [
+          0.6456611570247934,
+          1
+        ]
+      }
+    },
+    {
+      "label": "pairs (intact + corrupted)",
+      "criterion": "3.3.2",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 7,
+        "fn": 14,
+        "n": 21,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.21531701192718142
+        ]
+      },
+      "rampa": {
+        "tp": 14,
+        "fp": 0,
+        "tn": 7,
+        "fn": 0,
+        "n": 21,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.7846829880728186,
+          1
+        ],
+        "precisionCi": [
+          0.7846829880728186,
+          1
+        ]
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "criterion": "1.1.1",
+      "corruptor": "alt-placeholder",
+      "total": 1,
+      "baseline": 0,
+      "rampa": 1
+    },
+    {
+      "criterion": "1.1.1",
+      "corruptor": "alt-swap",
+      "total": 1,
+      "baseline": 0,
+      "rampa": 1
+    },
+    {
+      "criterion": "1.3.5",
+      "corruptor": "autocomplete-drop",
+      "total": 9,
+      "baseline": 0,
+      "rampa": 4
+    },
+    {
+      "criterion": "1.3.5",
+      "corruptor": "autocomplete-swap",
+      "total": 7,
+      "baseline": 0,
+      "rampa": 4
+    },
+    {
+      "criterion": "2.4.2",
+      "corruptor": "title-generic",
+      "total": 3,
+      "baseline": 0,
+      "rampa": 3
+    },
+    {
+      "criterion": "2.4.4",
+      "corruptor": "link-generic",
+      "total": 11,
+      "baseline": 0,
+      "rampa": 9
+    },
+    {
+      "criterion": "2.4.4",
+      "corruptor": "link-mismatch",
+      "total": 10,
+      "baseline": 0,
+      "rampa": 9
+    },
+    {
+      "criterion": "2.4.6",
+      "corruptor": "heading-generic",
+      "total": 9,
+      "baseline": 0,
+      "rampa": 8
+    },
+    {
+      "criterion": "3.1.1",
+      "corruptor": "html-lang-swap",
+      "total": 4,
+      "baseline": 0,
+      "rampa": 4
+    },
+    {
+      "criterion": "3.1.2",
+      "corruptor": "lang-swap",
+      "total": 5,
+      "baseline": 0,
+      "rampa": 5
+    },
+    {
+      "criterion": "3.1.2",
+      "corruptor": "lang-drop",
+      "total": 5,
+      "baseline": 0,
+      "rampa": 2
+    },
+    {
+      "criterion": "3.3.2",
+      "corruptor": "label-hidden",
+      "total": 7,
+      "baseline": 0,
+      "rampa": 7
+    },
+    {
+      "criterion": "3.3.2",
+      "corruptor": "label-unseen",
+      "total": 7,
+      "baseline": 0,
+      "rampa": 7
+    }
+  ],
+  "judgment": {
+    "candidates": 292,
+    "discarded": 27,
+    "cannotTell": 3
+  },
+  "usage": {
+    "calls": 273,
+    "cachedCalls": 16,
+    "inputTokens": 227342,
+    "outputTokens": 22081,
+    "costUsd": 0
+  },
+  "errors": []
+}

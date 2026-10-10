@@ -1,0 +1,11 @@
+{
+  "measured": "2026-10-10T03:45Z",
+  "machine": "RTX 5060 Ti 16 GB driving the desktop, Windows 11, Ollama 0.40.2",
+  "method": "docs/models/scripts/memory.sh: with no model loaded, nvidia-smi memory.used before and after one short chat completion (reasoning_effort none, temperature 0, Ollama's default 4,096-token context), then Ollama's /api/ps, then ollama stop.",
+  "models": [
+    { "model": "ollama:qwen3-vl:8b-instruct", "beforeMiB": 1515, "afterMiB": 8520, "deltaMiB": 7005, "apiPsSizeVramGiB": 5.4, "contextLength": 4096 },
+    { "model": "ollama:qwen3.5:9b", "beforeMiB": 1621, "afterMiB": 7843, "deltaMiB": 6222, "apiPsSizeVramGiB": 5.21, "contextLength": 4096 },
+    { "model": "ollama:ministral-3:14b", "beforeMiB": 1469, "afterMiB": 10620, "deltaMiB": 9151, "apiPsSizeVramGiB": 8.12, "contextLength": 4096 },
+    { "model": "ollama:gemma4:12b", "beforeMiB": 1393, "afterMiB": 10163, "deltaMiB": 8770, "apiPsSizeVramGiB": 1.01, "contextLength": 4096, "note": "/api/ps under-reports Gemma 4 on Ollama 0.40.x" }
+  ]
+}
