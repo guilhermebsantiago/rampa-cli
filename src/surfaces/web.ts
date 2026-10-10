@@ -18,6 +18,7 @@ import { blankContentInPage, captureImageNodes, imageTargets, isCapturableImage,
 import { libraryFrameDriver, runAxeInFrames } from './frames.ts'
 import { collectInPage } from './in-page.ts'
 import { buildReach, closedShadowRoots } from './reach.ts'
+import { SETTLE, settlePage, watchNetwork } from './settle.ts'
 import { type ProbeKind, runProbes } from '../probes/run.ts'
 
 export interface WebCollectOptions {
@@ -96,11 +97,15 @@ export async function launchBrowser(options: { args?: string[] | undefined } = {
 export async function collectWeb(browser: Browser, url: string, options: WebCollectOptions): Promise<Collected> {
   const context = await browser.newContext(contextOptions(options.browserOptions))
   const page = await context.newPage()
+  // Watched from before navigation, so a request still in flight at load holds the wait after it.
+  const network = watchNetwork(page)
   try {
     await prepareContext(context, url, options.browserOptions)
     const response = await openPage(page, url, options.browserOptions, options.timeoutMs)
     const status = response?.status() ?? 0
     if (options.requireOk && status >= 400) throw new RampaError('http-error', `HTTP ${status} at ${url}`)
+    // Content drawn after load (data a framework fetches, a widget that mounts) is collected too.
+    let settled = await settlePage(page, network)
     if (options.inspect) await options.inspect(page, response)
     if (options.mutate) await options.mutate(page)
     const collect = async () => {
@@ -123,13 +128,20 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       if (!navigatedAway(error)) throw error
       const timeout = Math.min(options.timeoutMs ?? 30_000, 10_000)
       await page.waitForURL((address) => address.href !== loaded, { waitUntil: 'load', timeout }).catch(() => undefined)
+      settled = await settlePage(page, network)
       raw = await collect()
     }
 
     const root = raw.root as A11yNode
     const cdp = () => context.newCDPSession(page)
     await attachFormIssues(cdp, root)
-    const reach = buildReach({ frames: raw.frames, engineFrames: raw.engineFrames, shadowRoots: raw.shadowRoots, closed: await closedShadowRoots(cdp) })
+    const reach = buildReach({
+      frames: raw.frames,
+      engineFrames: raw.engineFrames,
+      shadowRoots: raw.shadowRoots,
+      closed: await closedShadowRoots(cdp),
+      unsettledAfterMs: settled.settled ? undefined : SETTLE.capMs,
+    })
     // Response headers are facts the rules read: a Refresh header works like <meta http-equiv="refresh">, out of axe-core's sight.
     const refresh = response?.headers().refresh
     if (refresh !== undefined) root.native.httpRefresh = refresh.slice(0, 500)
@@ -171,6 +183,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     const engine = raw.axe ? engineFromAxe(raw.axe) : emptyEngine()
     return { snapshot, engine }
   } finally {
+    network.stop()
     await context.close()
   }
 }

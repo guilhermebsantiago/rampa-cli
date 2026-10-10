@@ -45,6 +45,15 @@ beforeAll(async () => {
     const path = request.url ?? '/'
     if (path in ACT_AKN7BN) return void response.end(ACT_AKN7BN[path])
     if (path.startsWith('/widget')) return void response.end(readFileSync('test/fixtures/reach/widget.html', 'utf8'))
+    // Data that arrives 600 ms after load, then drawn: an image with no text alternative.
+    if (path === '/data') return void setTimeout(() => response.end('{"src":"data:image/gif;base64,R0lGODlhAQABAAAAACw="}'), 600)
+    if (path === '/late') {
+      return void response.end(
+        '<!doctype html><html lang="en"><head><title>Late</title></head><body><main><h1>Late</h1><p id="status">Loading</p></main><script>window.addEventListener("load", () => fetch("/data").then((r) => r.json()).then((data) => { const img = document.createElement("img"); img.src = data.src; img.width = 40; img.height = 40; document.querySelector("main").append(img); document.querySelector("#status").textContent = "Loaded" }))</script></body></html>',
+      )
+    }
+    // A page that never stops changing: a clock that ticks every 100 ms.
+    if (path === '/busy') return void response.end('<!doctype html><html lang="en"><head><title>Busy</title></head><body><main><h1>Busy</h1><p id="tick">0</p></main><script>let n = 0; setInterval(() => { document.querySelector("#tick").textContent = String(++n) }, 100)</script></body></html>')
     // A lazy frame far below the fold: the browser has not loaded it when the page is read.
     if (path === '/lazy') return void response.end('<!doctype html><html lang="en"><head><title>Lazy</title></head><body><h1>Lazy</h1><div style="height:8000px"></div><iframe id="later" title="Later" loading="lazy" src="/widget.html"></iframe></body></html>')
     response.end(readFileSync('test/fixtures/reach/page.html', 'utf8').replace('{{REMOTE}}', `http://localhost:${port}/widget.html`))
@@ -309,5 +318,24 @@ describe('reach in the report, offline', () => {
     expect(locate(finding('html > body > img'))?.startLine).toBe(2)
     expect(locate(finding('#f |> html > body > img'))).toBeUndefined()
     expect(locate(finding('x-card >>> img'))).toBeUndefined()
+  })
+})
+
+describe.skipIf(!browser)('the wait after load', { timeout: 60_000 }, () => {
+  it('collects what a page draws from data that arrives after load', async () => {
+    if (!browser) return
+    const { snapshot, engine } = await collectWeb(browser, `${origin}/late`, { runAxe: true, locale: 'en' })
+    const index = new Map([...walkTree(snapshot.root)].map((n) => [n.ref, n]))
+    expect(index.get('#status')?.text).toBe('Loaded')
+    expect(violations(engine)).toContain('image-alt html > body > main > img')
+    expect(snapshot.reach).toBeUndefined()
+  })
+
+  it('stops waiting at the cap on a page that never settles, and records it', async () => {
+    if (!browser) return
+    const started = Date.now()
+    const { snapshot } = await collectWeb(browser, `${origin}/busy`, { runAxe: true, locale: 'en' })
+    expect(Date.now() - started).toBeLessThan(15_000)
+    expect(snapshot.reach).toEqual({ unsettledAfterMs: 3000 })
   })
 })
