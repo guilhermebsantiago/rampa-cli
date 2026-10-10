@@ -181,7 +181,7 @@ axe-core runs in every frame, frames of other origins included, and a result in 
 1 closed shadow root(s) cannot be read by any script, so nothing inside them was checked (hosts: html > body > closed-card).
 ```
 
-Hidden frames are not content and are not listed as gaps. At most 30 frames per page are checked by axe-core, each within 5 s and all within 30 s. Shadow roots and frames have a budget of elements of their own (`maxNodes`, 5000 by default), so they never crowd the page's own content out of the snapshot; when it runs out, `reach.truncated` and a note say so. Snapshots recorded before Rampa entered frames and shadow roots have no `reach` and replay as they always did.
+Chromium gives every local file an origin of its own, so in a local `.html` page a frame that shows another file is checked by axe-core only; a `srcdoc` frame is collected. Links inside frames are not followed for 2.4.4, since an `href` there resolves against the frame's address. Hidden frames are not content and are not listed as gaps. At most 30 frames per page are checked by axe-core, each within 5 s and all within 30 s. Shadow roots and frames have a budget of elements of their own (`maxNodes`, 5000 by default), so they never crowd the page's own content out of the snapshot; when it runs out, `reach.truncated` and a note say so. Snapshots recorded before Rampa entered frames and shadow roots have no `reach` and replay as they always did.
 
 ## A model of your own
 
