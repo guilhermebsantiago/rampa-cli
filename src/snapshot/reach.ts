@@ -20,10 +20,11 @@ export function unreached(reach: Reach | undefined): Reach | undefined {
     (frame) => !BY_DESIGN.has(frame.reason ?? '') && (!frame.collected || (frame.engine === false && !BY_DESIGN.has(frame.engineReason ?? ''))),
   )
   const closed = reach.shadowRoots?.closed ?? 0
-  if (frames.length === 0 && closed === 0) return undefined
+  if (frames.length === 0 && closed === 0 && !reach.truncated) return undefined
   return {
     ...(frames.length > 0 ? { frames } : {}),
     ...(closed > 0 && reach.shadowRoots ? { shadowRoots: reach.shadowRoots } : {}),
+    ...(reach.truncated ? { truncated: true } : {}),
   }
 }
 
@@ -48,12 +49,13 @@ export function reachNotes(reach: Reach | undefined, locale: Locale): string[] {
   const engineOnly = frames.filter((frame) => !frame.collected && frame.engine === true && frame.reason !== 'not-loaded')
   const unchecked = frames.filter((frame) => !frame.collected && (frame.engine !== true || frame.reason === 'not-loaded'))
   const noEngine = frames.filter((frame) => frame.collected && frame.engine === false)
-  const address = (frame: ReachFrame) => frame.url
+  const address = (frame: ReachFrame) => [frame.reason === 'loaded-late' ? frame.reason : undefined, frame.url].filter(Boolean).join(', ')
   if (engineOnly.length > 0) notes.push(t(locale, 'reachEngineOnly', { count: engineOnly.length, frames: listed(engineOnly, address) }))
   if (unchecked.length > 0) {
     notes.push(t(locale, 'reachUnchecked', { count: unchecked.length, frames: listed(unchecked, (frame) => [frame.reason, frame.engineReason].filter(Boolean).join('; ')) }))
   }
   if (noEngine.length > 0) notes.push(t(locale, 'reachNoEngine', { count: noEngine.length, frames: listed(noEngine, (frame) => frame.engineReason) }))
+  if (gaps.truncated) notes.push(t(locale, 'reachTruncated'))
   const closed = gaps.shadowRoots?.closed ?? 0
   if (closed > 0) {
     const hosts = gaps.shadowRoots?.closedHosts ?? []

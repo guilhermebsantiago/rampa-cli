@@ -159,6 +159,11 @@ export const ReachSchema = z.object({
     .optional(),
   /** The page was still changing (network or DOM) when the wait after load reached its cap, in milliseconds. */
   unsettledAfterMs: z.number().optional(),
+  /**
+   * Shadow roots and frames have a budget of elements of their own, next to the page's (`truncated`): the
+   * collector stopped at it, so what follows in them is not in the snapshot.
+   */
+  truncated: z.boolean().optional(),
 })
 export type Reach = z.infer<typeof ReachSchema>
 

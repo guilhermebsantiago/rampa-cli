@@ -65,6 +65,8 @@ export interface InPageResult {
   frames: InPageFrame[]
   /** Open shadow roots whose content is in the tree. */
   shadowRoots: number
+  /** Elements of shadow roots and frames, which have a budget of their own (maxNodes), were left out past it. */
+  beyondTruncated: boolean
 }
 
 export interface InPageOptions {
@@ -83,6 +85,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   let count = 0
   let truncated = false
   let shadowRoots = 0
+  let beyond = 0
+  let beyondTruncated = false
   const frames: InPageFrame[] = []
 
   const escapeId = (value: string): string => CSS.escape(value)
@@ -600,11 +604,21 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
 
   const build = (el: Element): InPageNode | undefined => {
     if (SKIP.has(el.localName)) return undefined
-    if (count >= options.maxNodes) {
-      truncated = true
-      return undefined
+    // The page's own document has the budget it always had; shadow roots and frames have one of their own, so a
+    // page of web components (an icon set, a code editor) cannot crowd the page's own content out.
+    if (el.getRootNode() === document) {
+      if (count >= options.maxNodes) {
+        truncated = true
+        return undefined
+      }
+      count++
+    } else {
+      if (beyond >= options.maxNodes) {
+        beyondTruncated = true
+        return undefined
+      }
+      beyond++
     }
-    count++
     const ref = cssPath(el)
     refs.set(el, ref)
     const role = collapse(el.getAttribute('role')).split(' ')[0] || implicitRole(el)
@@ -678,6 +692,7 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     truncated,
     frames,
     shadowRoots,
+    beyondTruncated,
   }
 }
 

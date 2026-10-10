@@ -19,6 +19,8 @@ export interface ReachInput {
   shadowRoots: number
   closed?: { count: number; hosts: string[] } | undefined
   unsettledAfterMs?: number | undefined
+  /** The budget of elements for shadow roots and frames ran out. */
+  truncated?: boolean | undefined
 }
 
 /** Undefined when the page has no frame and no shadow root, and settled in time: the snapshot stays as it always was. */
@@ -34,7 +36,10 @@ export function buildReach(input: ReachInput): Reach | undefined {
   const frames: NonNullable<Reach['frames']> = input.frames.map((frame) => {
     const found = engine.get(frame.ref)
     engine.delete(frame.ref)
-    return { ref: frame.ref, ...(frame.url ? { url: frame.url } : {}), collected: frame.collected, ...(frame.reason ? { reason: frame.reason } : {}), ...engineFields(frame.ref, found) }
+    // Blank when the tree was read, loaded by the time axe-core ran in it: axe-core checked it, the tree does not hold it.
+    const late = frame.reason === 'not-loaded' && found?.engine === true && found.url !== undefined && !/^about:/.test(found.url)
+    const reason = late ? 'loaded-late' : frame.reason
+    return { ref: frame.ref, ...(frame.url ? { url: frame.url } : {}), collected: frame.collected, ...(reason ? { reason } : {}), ...engineFields(frame.ref, found) }
   })
   // Frames axe-core reached that the collector never met: they sit inside frames the page may not read.
   for (const found of engine.values()) frames.push({ ref: found.ref, collected: false, reason: 'cross-origin', ...engineFields(found.ref, found) })
@@ -45,6 +50,7 @@ export function buildReach(input: ReachInput): Reach | undefined {
       ? { shadowRoots: { open: input.shadowRoots, ...(input.closed ? { closed, ...(input.closed.hosts.length > 0 ? { closedHosts: input.closed.hosts } : {}) } : {}) } }
       : {}),
     ...(input.unsettledAfterMs !== undefined ? { unsettledAfterMs: input.unsettledAfterMs } : {}),
+    ...(input.truncated ? { truncated: true } : {}),
   }
   return Object.keys(reach).length > 0 ? reach : undefined
 }

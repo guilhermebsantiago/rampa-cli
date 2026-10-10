@@ -52,6 +52,12 @@ beforeAll(async () => {
         '<!doctype html><html lang="en"><head><title>Late</title></head><body><main><h1>Late</h1><p id="status">Loading</p></main><script>window.addEventListener("load", () => fetch("/data").then((r) => r.json()).then((data) => { const img = document.createElement("img"); img.src = data.src; img.width = 40; img.height = 40; document.querySelector("main").append(img); document.querySelector("#status").textContent = "Loaded" }))</script></body></html>',
       )
     }
+    // A component with a hundred elements in its shadow root, before the page's own text.
+    if (path === '/many') {
+      return void response.end(
+        '<!doctype html><html lang="en"><head><title>Many</title></head><body><main><h1>Many</h1><many-items></many-items><p id="after">After the component</p></main><script>customElements.define("many-items", class extends HTMLElement { constructor() { super(); this.attachShadow({ mode: "open" }).innerHTML = "<span>item</span>".repeat(100) } })</script></body></html>',
+      )
+    }
     // A page that never stops changing: a clock that ticks every 100 ms.
     if (path === '/busy') return void response.end('<!doctype html><html lang="en"><head><title>Busy</title></head><body><main><h1>Busy</h1><p id="tick">0</p></main><script>let n = 0; setInterval(() => { document.querySelector("#tick").textContent = String(++n) }, 100)</script></body></html>')
     // A lazy frame far below the fold: the browser has not loaded it when the page is read.
@@ -156,6 +162,19 @@ describe.skipIf(!browser)('the snapshot past the top document', { timeout: 60_00
     expect(reachNotes(snapshot.reach, 'en')).toEqual(['1 frame(s) were not checked at all, so whatever they hold was missed: #later (not-loaded).'])
   })
 
+  it('gives shadow roots and frames a budget of their own, so they never crowd the page out', async () => {
+    if (!browser) return
+    const { snapshot } = await collectWeb(browser, `${origin}/many`, { runAxe: false, locale: 'en', maxNodes: 40 })
+    const refs = refsOf(snapshot)
+    expect(refs).toContain('#after')
+    expect(refs.filter((ref) => ref.includes(' >>> '))).toHaveLength(40)
+    expect(snapshot.truncated).toBeUndefined()
+    expect(snapshot.reach).toEqual({ shadowRoots: { open: 1, closed: 0 }, truncated: true })
+    expect(reachNotes(snapshot.reach, 'en')).toEqual([
+      'The collector stopped reading shadow roots and frames at its limit of elements: what follows in them is not in the snapshot, so only axe-core checked it.',
+    ])
+  })
+
   it('records what it reached and what it could not', async () => {
     if (!browser) return
     const { snapshot } = await collectWeb(browser, `${origin}/page.html`, { runAxe: true, locale: 'en' })
@@ -173,7 +192,7 @@ describe.skipIf(!browser)('the snapshot past the top document', { timeout: 60_00
     if (!browser) return
     const { snapshot, engine } = await collectWeb(browser, `${origin}/page.html`, { runAxe: true, locale: 'en' })
     const report = await checkSnapshot(snapshot, engine, { criteria: [], llm: false, provider: undefined, runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 1 })
-    expect(report.notes?.[0]).toMatch(/^1 frame\(s\) from another origin were checked by axe-core only: .*#remote \(http:\/\/localhost:\d+\/widget\.html\)\.$/)
+    expect(report.notes?.[0]).toMatch(/^1 frame\(s\) were checked by axe-core only: .*#remote \(http:\/\/localhost:\d+\/widget\.html\)\.$/)
     expect(report.notes?.[1]).toBe('1 closed shadow root(s) cannot be read by any script, so nothing inside them was checked (hosts: html > body > main > closed-card).')
     expect(report.coverage.reach?.frames?.map((frame) => frame.ref)).toEqual(['#remote'])
     // The coverage statement (SARIF's coverage notification) says it too.
@@ -285,6 +304,16 @@ describe('reach in the report, offline', () => {
     expect(reach?.frames?.find((frame) => frame.ref === '#muted')).toEqual({ ref: '#muted', url: 'about:srcdoc', collected: true, engine: false, engineReason: 'skipped' })
     expect(unreached(reach)?.frames?.map((frame) => frame.ref)).toEqual(['#map'])
     expect(reachNotes(reach, 'pt-BR')).toEqual(['1 frame(s) não foi(ram) verificado(s), e o que ele(s) contém ficou de fora: #map (cross-origin; over the limit of 30 frames per page).'])
+  })
+
+  it('says that a frame that loaded after the page was read was checked by axe-core only', () => {
+    const reach = buildReach({
+      frames: [{ ref: '#video', url: 'https://video.example/embed/1', collected: false, reason: 'not-loaded' }],
+      engineFrames: [{ ref: '#video', engine: true, url: 'https://video.example/embed/1' }],
+      shadowRoots: 0,
+    })
+    expect(reach?.frames?.[0]).toMatchObject({ reason: 'loaded-late', engine: true })
+    expect(reachNotes(reach, 'en')[0]).toMatch(/^1 frame\(s\) were checked by axe-core only: .*#video \(loaded-late, https:\/\/video\.example\/embed\/1\)\.$/)
   })
 
   it('keeps a snapshot with no frame and no shadow root as it always was', () => {

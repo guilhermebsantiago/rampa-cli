@@ -177,11 +177,11 @@ They nest (`#outer |> html > body > iframe |> html > body > button`), and every 
 axe-core runs in every frame, frames of other origins included, and a result in a frame names the frame first. A frame of another origin is out of the page's reach, so its content is not in the snapshot: its results name the frame, then axe-core's own selector (`#map |> .marker`). The snapshot's `reach` records each frame (collected or not, checked by axe-core or not, and why), the open shadow roots, and the closed ones, which no script can read. The report's notes, and `coverage.reach` in JSON, list what was not read, so a frame or a closed shadow root is never left out without a word:
 
 ```
-1 frame(s) from another origin were checked by axe-core only: their content is not in the snapshot, so Rampa's rules and the judged criteria did not read it: #map (https://maps.example/embed).
+1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #map (https://maps.example/embed).
 1 closed shadow root(s) cannot be read by any script, so nothing inside them was checked (hosts: html > body > closed-card).
 ```
 
-Hidden frames are not content and are not listed as gaps. At most 30 frames per page are checked by axe-core, each within 15 s. Snapshots recorded before Rampa entered frames and shadow roots have no `reach` and replay as they always did.
+Hidden frames are not content and are not listed as gaps. At most 30 frames per page are checked by axe-core, each within 5 s and all within 30 s. Shadow roots and frames have a budget of elements of their own (`maxNodes`, 5000 by default), so they never crowd the page's own content out of the snapshot; when it runs out, `reach.truncated` and a note say so. Snapshots recorded before Rampa entered frames and shadow roots have no `reach` and replay as they always did.
 
 ## A model of your own
 

@@ -141,6 +141,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       shadowRoots: raw.shadowRoots,
       closed: await closedShadowRoots(cdp),
       unsettledAfterMs: settled.settled ? undefined : SETTLE.capMs,
+      truncated: raw.beyondTruncated,
     })
     // Response headers are facts the rules read: a Refresh header works like <meta http-equiv="refresh">, out of axe-core's sight.
     const refresh = response?.headers().refresh
