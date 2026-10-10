@@ -317,6 +317,67 @@
       ],
       "additionalProperties": false
     },
+    "reach": {
+      "type": "object",
+      "properties": {
+        "frames": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "collected": {
+                "type": "boolean"
+              },
+              "reason": {
+                "type": "string"
+              },
+              "engine": {
+                "type": "boolean"
+              },
+              "engineReason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "ref",
+              "collected"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "shadowRoots": {
+          "type": "object",
+          "properties": {
+            "open": {
+              "type": "number"
+            },
+            "closed": {
+              "type": "number"
+            },
+            "closedHosts": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "open"
+          ],
+          "additionalProperties": false
+        },
+        "unsettledAfterMs": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
+    },
     "siblings": {
       "type": "array",
       "items": {

@@ -10,6 +10,7 @@
 import { type CheckPageOptions, checkDriver } from './api/page.ts'
 import type { Report } from './core/types.ts'
 import type { CdpSessionLike } from './surfaces/form-issues.ts'
+import { type FrameElementLike, type HandleFrame, elementForRef, isQualifiedRef } from './snapshot/refs.ts'
 import { type LibraryFrame, libraryFrameDriver } from './surfaces/frames.ts'
 import type { PageDriver } from './surfaces/page.ts'
 import { type RampaFixtures as Fixtures, type RampaHelper as Helper, createFixtures } from './testing/fixtures.ts'
@@ -37,6 +38,11 @@ export interface PlaywrightPage {
   screenshot(options?: { path?: string; fullPage?: boolean }): Promise<Uint8Array>
 }
 
+/** A Playwright element handle, as far as a screenshot of it goes. */
+interface ScreenshotHandle extends FrameElementLike<ScreenshotHandle> {
+  screenshot(options?: { type?: 'png'; timeout?: number; animations?: 'disabled' }): Promise<Uint8Array>
+}
+
 export function playwrightDriver(page: PlaywrightPage): PageDriver {
   const frames = page.evaluateHandle ? libraryFrameDriver(page as LibraryFrame) : undefined
   return {
@@ -48,7 +54,16 @@ export function playwrightDriver(page: PlaywrightPage): PageDriver {
     },
     async screenshotElement(ref) {
       try {
-        return await page.locator(`css=${ref}`).first().screenshot({ type: 'png', timeout: 5000, animations: 'disabled' })
+        if (!isQualifiedRef(ref)) return await page.locator(`css=${ref}`).first().screenshot({ type: 'png', timeout: 5000, animations: 'disabled' })
+        // In a frame or a shadow root: found in its own frame, so the capture is placed right.
+        if (!page.evaluateHandle) return undefined
+        const element = await elementForRef(page as unknown as HandleFrame<ScreenshotHandle>, ref)
+        if (!element) return undefined
+        try {
+          return await element.screenshot({ type: 'png', timeout: 5000, animations: 'disabled' })
+        } finally {
+          await element.dispose()
+        }
       } catch {
         return undefined
       }

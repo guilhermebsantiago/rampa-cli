@@ -1,6 +1,7 @@
 import { reviewOnlyCriteria } from '../core/coverage.ts'
 import type { CoverageMethod, CoverageStatus, CriterionCoverage, Finding, Report, ReviewItem } from '../core/types.ts'
 import { type Locale, type MessageKey, t } from '../i18n.ts'
+import { reachNotes } from '../snapshot/reach.ts'
 import { type WcagVersion, compareCriteria, criteriaFor, successCriterion, versionOf } from '../wcag.ts'
 import { cogaClause } from './advisory.ts'
 import { displayTarget, usageLine } from './pretty.ts'
@@ -158,7 +159,9 @@ export function coverageStatement(report: Report): string {
   // The cognitive profile's clause, after the WCAG coverage: what it screened, never a verdict.
   const coga = cogaClause(report)
   if (coga) parts.push(coga)
-  return `${parts.join('; ')}. ${parsingNote(report)} ${t(locale, 'disclaimer')} ${t(locale, 'manualReview')}`
+  // What the collector could not read, such as frames of another origin and closed shadow roots.
+  const reach = reachNotes(report.coverage.reach, locale)
+  return `${parts.join('; ')}. ${[...reach, parsingNote(report)].join(' ')} ${t(locale, 'disclaimer')} ${t(locale, 'manualReview')}`
 }
 
 const STATUS_KEYS: Record<CoverageStatus, MessageKey> = {

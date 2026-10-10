@@ -3,6 +3,7 @@ import { isIP } from 'node:net'
 import { dirname, extname, isAbsolute, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { errorMessage, mapLimit, sha256, truncate } from '../core/util.ts'
+import { refInFrame } from '../snapshot/refs.ts'
 import { type A11yNode, type Destination, DestinationSchema } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
 
@@ -158,7 +159,8 @@ function linkHrefs(root: A11yNode): string[] {
     if (node.states.includes('hidden') || node.states.includes('aria-hidden')) return
     const here = inChrome || CHROME_ROLES.has(node.role)
     const href = (node.native.attributes as Record<string, string> | undefined)?.href
-    if (node.role === 'link' && node.name?.trim() && href?.trim()) (here ? chrome : content).push(href)
+    // A link in a frame resolves against the frame's own address, which the href alone does not say: it is not followed.
+    if (node.role === 'link' && node.name?.trim() && href?.trim() && !refInFrame(node.ref)) (here ? chrome : content).push(href)
     for (const child of node.children) visit(child, here)
   }
   visit(root, false)

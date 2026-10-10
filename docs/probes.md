@@ -167,7 +167,7 @@ Each element gets a key in the page that holds across the two measurements, so a
 
 At most 10 findings per kind are listed; the coverage line counts the rest. Evidence gives the scroll width, the element's horizontal extent and how far it passes the edge, or how many pixels are cut and by which element.
 
-**Limits.** One browser engine (Chromium). 320×256 is an emulation: a real 1280×1024 screen at 400% leaves about 318×236, hence the tolerances. Horizontal scrolling inside a container that is not exempt is not reported yet. Text in open shadow roots is measured, but it is unmatched in the snapshot, which does not collect shadow roots, so it is never reported.
+**Limits.** One browser engine (Chromium). 320×256 is an emulation: a real 1280×1024 screen at 400% leaves about 318×236, hence the tolerances. Horizontal scrolling inside a container that is not exempt is not reported yet. Text in open shadow roots is measured and matched to the snapshot, which holds open shadow roots; text in frames is not measured.
 
 ### 1.4.12 Text Spacing (`--probe layout`, rule `rampa/text-spacing`)
 
@@ -298,7 +298,7 @@ One finding per trigger and condition, on the trigger, saying "on hover and on f
 
 Evidence names the key sequence (`Tab ×4`), the element, what followed and how many milliseconds later.
 
-**Limits.** Chromium's Tab order only, at one viewport. States reached by activating something (menus, dialogs opened by a button) are not walked. Inside a cross-origin frame the walk sees only the frame element, and stops after 60 stops inside one frame. Elements in open shadow roots are walked but are unmatched in the snapshot, so they are never reported. An event that a page fires more than 150 ms after focus may be attributed to the next stop; the confirmation step catches most of those. The confirmation gives focus back with a script `focus()`, which runs the same handlers as a key but is not a key press. When the guard blocked requests (often analytics, sometimes data a page needs), the coverage note names their hosts: content that needed them may be missing. 2.1.1 does not test that a reached control can be operated with the keyboard; that needs the activate class (C2).
+**Limits.** Chromium's Tab order only, at one viewport. States reached by activating something (menus, dialogs opened by a button) are not walked. Inside a cross-origin frame the walk sees only the frame element, and stops after 60 stops inside one frame. Elements in open shadow roots are walked and matched to the snapshot, but the 2.1.1 inventory lists only the page's own document, so a control in a shadow root or a frame that Tab never reaches is not reported. An event that a page fires more than 150 ms after focus may be attributed to the next stop; the confirmation step catches most of those. The confirmation gives focus back with a script `focus()`, which runs the same handlers as a key but is not a key press. When the guard blocked requests (often analytics, sometimes data a page needs), the coverage note names their hosts: content that needed them may be missing. 2.1.1 does not test that a reached control can be operated with the keyboard; that needs the activate class (C2).
 
 ### 2.4.7 Focus Visible and 2.4.11 Focus Not Obscured (`--probe keyboard`)
 

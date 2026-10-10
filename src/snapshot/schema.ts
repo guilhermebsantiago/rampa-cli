@@ -120,6 +120,48 @@ export type ProbeRecord = z.infer<typeof ProbeRecordSchema>
 export const ObservationsSchema = z.object({ probes: z.array(ProbeRecordSchema) })
 export type Observations = z.infer<typeof ObservationsSchema>
 
+/**
+ * How far the collector got into the page beyond its own document (snapshot/reach.ts). Refs into frames and open
+ * shadow roots follow snapshot/refs.ts. Absent when the page has no frame and no shadow root, and in snapshots
+ * recorded before the collector entered them.
+ */
+export const ReachSchema = z.object({
+  /** Every frame met: whether its document is in the tree, under the frame's node, and whether the engine checked it. */
+  frames: z
+    .array(
+      z.object({
+        /** The frame element's ref. */
+        ref: z.string(),
+        /** The frame's address: its document's URL when the page may read it, else its src. */
+        url: z.string().optional(),
+        /** The frame's document is in the tree. */
+        collected: z.boolean(),
+        /** Why it is not: hidden (not rendered), cross-origin (the page may not read it), not-loaded (still blank, as a lazy frame below the fold), empty (no document). */
+        reason: z.string().optional(),
+        /** axe-core ran in the frame; absent when the engine did not run on the page. */
+        engine: z.boolean().optional(),
+        /**
+         * Why it did not: skipped (axe-core leaves out frames hidden from assistive technology and frames outside the
+         * checked part of the page), or what stopped it: the frame budget, a frame the browser library could not reach.
+         */
+        engineReason: z.string().optional(),
+      }),
+    )
+    .optional(),
+  /** Open shadow roots in the tree, and closed ones the browser reported, which no script can read. */
+  shadowRoots: z
+    .object({
+      open: z.number(),
+      closed: z.number().optional(),
+      /** Refs of the hosts of closed shadow roots, at most 10. */
+      closedHosts: z.array(z.string()).optional(),
+    })
+    .optional(),
+  /** The page was still changing (network or DOM) when the wait after load reached its cap, in milliseconds. */
+  unsettledAfterMs: z.number().optional(),
+})
+export type Reach = z.infer<typeof ReachSchema>
+
 export const A11ySnapshotSchema = z.object({
   schemaVersion: z.literal(1),
   surface: SurfaceSchema,
@@ -142,6 +184,8 @@ export const A11ySnapshotSchema = z.object({
   destinations: z.record(z.string(), DestinationSchema).optional(),
   /** Facts recorded by probes (`--probe`), read by the probe rules; absent when no probe ran. */
   observations: ObservationsSchema.optional(),
+  /** Frames and shadow roots: what the collector and the engine reached, and what they could not. */
+  reach: ReachSchema.optional(),
   /** Other pages of the same site that a crawl had read when this one was judged, with their titles (2.4.2). */
   siblings: z.array(z.object({ url: z.string(), title: z.string() })).optional(),
   collectedAt: z.string(),

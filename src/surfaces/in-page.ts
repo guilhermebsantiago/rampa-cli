@@ -46,12 +46,25 @@ export interface InPageAxe {
   inapplicable: InPageAxeRule[]
 }
 
+/** A frame element the collector met, and whether its document is in the tree under it. */
+export interface InPageFrame {
+  ref: string
+  /** The frame's address: its document's URL when the page may read it (about:srcdoc for srcdoc), else its src. */
+  url?: string | undefined
+  collected: boolean
+  /** hidden: the frame is not rendered; cross-origin: the page may not read it; not-loaded: it still shows its first blank document; empty: it has no document. */
+  reason?: 'hidden' | 'cross-origin' | 'not-loaded' | 'empty' | undefined
+}
+
 export interface InPageResult {
   title: string
   lang: string | undefined
   viewport: { width: number; height: number; scale: number }
   root: InPageNode
   truncated: boolean
+  frames: InPageFrame[]
+  /** Open shadow roots whose content is in the tree. */
+  shadowRoots: number
 }
 
 export interface InPageOptions {
@@ -69,6 +82,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   const refs = new Map<Element, string>()
   let count = 0
   let truncated = false
+  let shadowRoots = 0
+  const frames: InPageFrame[] = []
 
   const escapeId = (value: string): string => CSS.escape(value)
   const isDocument = (node: Node): node is Document => node.nodeType === 9
@@ -105,6 +120,57 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   }
 
   const collapse = (value: string | null | undefined): string => (value ?? '').replace(/\s+/g, ' ').trim()
+
+  // Elements of a frame belong to the frame's window: its constructors, its styles, its ids. These helpers read
+  // an element through its own document and window, so the same code serves the page, its frames and shadow roots.
+  /** `el instanceof HTMLImageElement`, with the constructor of the element's own window. */
+  const kind = (el: Element, name: string): boolean => {
+    const ctor = (el.ownerDocument.defaultView as unknown as Record<string, unknown> | null)?.[name]
+    return typeof ctor === 'function' && el instanceof (ctor as new () => Element)
+  }
+  const styleOf = (el: Element): CSSStyleDeclaration => (el.ownerDocument.defaultView ?? window).getComputedStyle(el)
+  /** The element an id names where `el` looks ids up: its shadow root, or its document. */
+  const byId = (el: Element, id: string): Element | null => {
+    const root = el.getRootNode() as Document | ShadowRoot
+    return typeof root.getElementById === 'function' ? root.getElementById(id) : null
+  }
+  /** The frame element that shows a document of this page's origin, or null for the page itself. */
+  const frameOf = (doc: Document): Element | null => (doc === document ? null : (doc.defaultView?.frameElement ?? null))
+  /** `el.closest(selector)`, continued past the host of a shadow root and the frame element of a frame's document. */
+  const composedClosest = (el: Element, selector: string): Element | null => {
+    for (let current: Element | null = el; current; ) {
+      const found = current.closest(selector)
+      if (found) return found
+      const root = current.getRootNode()
+      current = isShadowRoot(root) ? root.host : isDocument(root) ? frameOf(root) : null
+    }
+    return null
+  }
+  /** Where a frame's viewport sits in the page's viewport: the frame element's content box, frame by frame. */
+  const offsets = new Map<Document, { x: number; y: number }>()
+  const offsetOf = (doc: Document): { x: number; y: number } => {
+    const known = offsets.get(doc)
+    if (known) return known
+    const frame = frameOf(doc)
+    let offset = { x: 0, y: 0 }
+    if (frame) {
+      const outer = offsetOf(frame.ownerDocument)
+      const box = frame.getBoundingClientRect()
+      const style = styleOf(frame)
+      offset = {
+        x: outer.x + box.left + frame.clientLeft + (Number.parseFloat(style.paddingLeft) || 0),
+        y: outer.y + box.top + frame.clientTop + (Number.parseFloat(style.paddingTop) || 0),
+      }
+    }
+    offsets.set(doc, offset)
+    return offset
+  }
+  /** The element's box in the page's viewport, wherever its frame is. */
+  const pageRect = (el: Element): { x: number; y: number; width: number; height: number; right: number; bottom: number } => {
+    const rect = el.getBoundingClientRect()
+    const { x, y } = offsetOf(el.ownerDocument)
+    return { x: rect.x + x, y: rect.y + y, width: rect.width, height: rect.height, right: rect.right + x, bottom: rect.bottom + y }
+  }
 
   const implicitRole = (el: Element): string => {
     const tag = el.localName
@@ -189,7 +255,7 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   const labelText = (label: Element, control: Element): string => {
     if (!label.contains(control)) return label.textContent ?? ''
     let text = ''
-    const walker = document.createTreeWalker(label, NodeFilter.SHOW_TEXT)
+    const walker = label.ownerDocument.createTreeWalker(label, NodeFilter.SHOW_TEXT)
     for (let node = walker.nextNode(); node; node = walker.nextNode()) {
       if (!control.contains(node)) text += ` ${node.textContent ?? ''}`
     }
@@ -201,7 +267,7 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     if (labelledBy) {
       const text = labelledBy
         .split(/\s+/)
-        .map((id) => collapse(document.getElementById(id)?.textContent))
+        .map((id) => collapse(byId(el, id)?.textContent))
         .filter(Boolean)
         .join(' ')
       if (text) return text
@@ -232,9 +298,16 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     return title || undefined
   }
 
+  /** A slot in a shadow root shows the nodes assigned to it, if any, instead of its own children. */
+  const assignedTo = (el: Element): Node[] | undefined => {
+    if (el.localName !== 'slot' || !isShadowRoot(el.getRootNode())) return undefined
+    const assigned = (el as HTMLSlotElement).assignedNodes()
+    return assigned.length > 0 ? assigned : undefined
+  }
+
   const ownText = (el: Element): string | undefined => {
     let text = ''
-    for (const child of Array.from(el.childNodes)) {
+    for (const child of assignedTo(el) ?? Array.from(el.childNodes)) {
       if (child.nodeType === Node.TEXT_NODE) text += ` ${child.textContent ?? ''}`
     }
     return collapse(text) || undefined
@@ -249,11 +322,11 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
 
   /** What a screen reader reads for an element besides its text: names and descriptions set in attributes. */
   const attributeTexts = (el: Element): string[] => {
-    if (el.closest('[aria-hidden="true"]')) return []
+    if (composedClosest(el, '[aria-hidden="true"]')) return []
     const byIds = (attribute: string): string =>
       (el.getAttribute(attribute) ?? '')
         .split(/\s+/)
-        .map((id) => (id ? collapse(document.getElementById(id)?.textContent) : ''))
+        .map((id) => (id ? collapse(byId(el, id)?.textContent) : ''))
         .filter(Boolean)
         .join(' ')
     const texts: string[] = []
@@ -271,7 +344,7 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
 
   const textInOrder = (el: Element, stopAtLang: boolean): string => {
     const parts: string[] = stopAtLang ? attributeTexts(el) : []
-    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT)
+    const walker = el.ownerDocument.createTreeWalker(el, NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT)
     let node: Node | null = walker.nextNode()
     while (node) {
       if (node.nodeType === Node.ELEMENT_NODE) {
@@ -328,27 +401,28 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     const visible = typeof el.checkVisibility === 'function' ? el.checkVisibility({ visibilityProperty: true, checkVisibilityCSS: true } as CheckVisibilityOptions) : true
     if (!visible) states.push('hidden')
     else {
-      const rect = el.getBoundingClientRect()
+      const rect = pageRect(el)
       const left = rect.right + window.scrollX
       const top = rect.bottom + window.scrollY
       if (rect.width > 0 && (left <= 0 || top <= 0)) states.push('offscreen')
     }
-    if (el.closest('[aria-hidden="true"]')) states.push('aria-hidden')
+    if (composedClosest(el, '[aria-hidden="true"]')) states.push('aria-hidden')
     if ((el as HTMLInputElement).disabled === true || el.getAttribute('aria-disabled') === 'true') states.push('disabled')
     if ((el as HTMLInputElement).readOnly === true || el.getAttribute('aria-readonly') === 'true') states.push('readonly')
     if ((el as HTMLInputElement).checked === true || el.getAttribute('aria-checked') === 'true') states.push('checked')
     const expanded = el.getAttribute('aria-expanded')
     if (expanded === 'true') states.push('expanded')
     if (expanded === 'false') states.push('collapsed')
-    if (el.getAttribute('aria-selected') === 'true' || (el instanceof HTMLOptionElement && el.selected)) states.push('selected')
-    if (el instanceof HTMLElement && el.tabIndex >= 0) states.push('focusable')
+    if (el.getAttribute('aria-selected') === 'true' || (kind(el, 'HTMLOptionElement') && (el as HTMLOptionElement).selected)) states.push('selected')
+    if (kind(el, 'HTMLElement') && (el as HTMLElement).tabIndex >= 0) states.push('focusable')
     // An image that failed to load shows the browser's broken-image icon, not the picture its alternative describes.
-    if (el instanceof HTMLImageElement && el.complete && el.naturalWidth === 0) states.push('broken')
+    if (kind(el, 'HTMLImageElement') && (el as HTMLImageElement).complete && (el as HTMLImageElement).naturalWidth === 0) states.push('broken')
     return states
   }
 
+  /** In page coordinates: the page's viewport plus its scroll, for elements of frames too. */
   const boundsOf = (el: Element): InPageNode['bounds'] => {
-    const rect = el.getBoundingClientRect()
+    const rect = pageRect(el)
     if (rect.width === 0 && rect.height === 0) return undefined
     const round = (value: number) => Math.round(value * 10) / 10
     return { x: round(rect.x + window.scrollX), y: round(rect.y + window.scrollY), width: round(rect.width), height: round(rect.height) }
@@ -370,7 +444,7 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     const tag = el.localName
     if (el.hasAttribute('lang') || ['img', 'a', 'button', 'input', 'select', 'textarea', 'canvas', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'label'].includes(tag)) {
       // The root keeps only its start tag: its outerHTML is the whole document, injected engine script included.
-      native.html = el === document.documentElement ? startTag(el) : el.outerHTML.slice(0, MAX_HTML)
+      native.html = el === el.ownerDocument.documentElement ? startTag(el) : el.outerHTML.slice(0, MAX_HTML)
     }
     if (el.hasAttribute('lang')) native.langText = langText(el)
     // A heading or label cut off on screen (ellipsis, line clamp, a fixed box): the share of it that shows.
@@ -409,8 +483,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
    * some lines) over the width or height its content needs, rounded to hundredths. Undefined when nothing is cut.
    */
   const shownShare = (el: Element): number | undefined => {
-    if (!(el instanceof HTMLElement) || el.clientWidth === 0 || el.clientHeight === 0) return undefined
-    const style = getComputedStyle(el)
+    if (!kind(el, 'HTMLElement') || el.clientWidth === 0 || el.clientHeight === 0) return undefined
+    const style = styleOf(el)
     const clamped = style.getPropertyValue('-webkit-line-clamp')
     const cutX = el.scrollWidth > el.clientWidth + 1 && style.overflowX !== 'visible'
     const cutY = el.scrollHeight > el.clientHeight + 1 && (style.overflowY !== 'visible' || (clamped !== '' && clamped !== 'none'))
@@ -421,7 +495,7 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
 
   const GLOBAL_ARIA = ['aria-atomic', 'aria-busy', 'aria-controls', 'aria-current', 'aria-describedby', 'aria-details', 'aria-disabled', 'aria-dropeffect', 'aria-errormessage', 'aria-flowto', 'aria-grabbed', 'aria-haspopup', 'aria-invalid', 'aria-keyshortcuts', 'aria-label', 'aria-labelledby', 'aria-live', 'aria-owns', 'aria-relevant', 'aria-roledescription']
   const roleConflict = (el: Element): boolean =>
-    el.hasAttribute('tabindex') || (el instanceof HTMLElement && el.tabIndex >= 0 && ['a', 'button', 'input', 'select', 'textarea'].includes(el.localName)) || GLOBAL_ARIA.some((name) => el.hasAttribute(name))
+    el.hasAttribute('tabindex') || (kind(el, 'HTMLElement') && (el as HTMLElement).tabIndex >= 0 && ['a', 'button', 'input', 'select', 'textarea'].includes(el.localName)) || GLOBAL_ARIA.some((name) => el.hasAttribute(name))
 
   const MAX_CELLS = 1000
   /** All tables of a page together: a page of layout tables must not make the snapshot huge. */
@@ -461,12 +535,12 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       empty: collapse(cell.textContent) === '' && !cell.querySelector('img[alt]:not([alt=""]), [aria-label], svg[role="img"], input, select, textarea, button'),
       hidden:
         (typeof cell.checkVisibility === 'function' && !cell.checkVisibility({ visibilityProperty: true, checkVisibilityCSS: true } as CheckVisibilityOptions)) ||
-        cell.closest('[aria-hidden="true"]') !== null,
+        composedClosest(cell, '[aria-hidden="true"]') !== null,
     })
     let truncatedCells = false
-    if (table instanceof HTMLTableElement) {
+    if (kind(table, 'HTMLTableElement')) {
       const taken = new Set<string>()
-      const rows = Array.from(table.rows)
+      const rows = Array.from((table as HTMLTableElement).rows)
       rows.forEach((row, y) => {
         let x = 0
         for (const cell of Array.from(row.cells)) {
@@ -506,9 +580,9 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       })
     }
     return {
-      kind: table instanceof HTMLTableElement ? 'html' : 'aria',
+      kind: kind(table, 'HTMLTableElement') ? 'html' : 'aria',
       busy: table.getAttribute('aria-busy') === 'true',
-      caption: table instanceof HTMLTableElement && table.caption ? collapse(table.caption.textContent).slice(0, 200) : '',
+      caption: kind(table, 'HTMLTableElement') && (table as HTMLTableElement).caption ? collapse((table as HTMLTableElement).caption?.textContent).slice(0, 200) : '',
       summary: collapse(table.getAttribute('summary')).slice(0, 200),
       cells,
       truncated: truncatedCells,
@@ -517,7 +591,7 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
 
   /** The first url() of the element's computed background-image; gradients are not pictures. */
   const backgroundUrl = (el: Element): string | undefined => {
-    const value = getComputedStyle(el).backgroundImage
+    const value = styleOf(el).backgroundImage
     if (!value || !value.includes('url(')) return undefined
     const url = /url\(\s*(["']?)(.*?)\1\s*\)/.exec(value)?.[2]
     if (!url) return undefined
@@ -545,11 +619,41 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       native: nativeOf(el),
       children: [],
     }
-    for (const child of Array.from(el.children)) {
+    for (const child of childrenOf(el, node)) {
       const built = build(child)
       if (built) node.children.push(built)
     }
     return node
+  }
+
+  /**
+   * What is rendered inside an element, as people get it: the open shadow root instead of the element's own children,
+   * the nodes assigned to a slot instead of its fallback, and the document of a frame this page may read. Frames are
+   * recorded either way, with why their content is missing when it is.
+   */
+  const childrenOf = (el: Element, node: InPageNode): Element[] => {
+    if (el.shadowRoot) {
+      shadowRoots++
+      return Array.from(el.shadowRoot.children)
+    }
+    const assigned = assignedTo(el)
+    if (assigned) return assigned.filter((child): child is Element => child.nodeType === 1)
+    if (el.localName === 'iframe' || el.localName === 'frame') {
+      let doc: Document | null = null
+      try {
+        doc = (el as HTMLIFrameElement).contentDocument
+      } catch {
+        doc = null
+      }
+      // A frame that has an address but still shows the blank document it starts with has not loaded (loading=lazy below the fold).
+      const src = (el.getAttribute('src') ?? '').trim()
+      const loading = doc?.URL === 'about:blank' && src !== '' && src !== 'about:blank' && !/^javascript:/i.test(src)
+      const address = ((doc && !loading ? doc.URL : (el as HTMLIFrameElement).src) ?? '').slice(0, 300)
+      const reason = node.states.includes('hidden') ? 'hidden' : !doc ? 'cross-origin' : loading ? 'not-loaded' : !doc.documentElement ? 'empty' : undefined
+      frames.push({ ref: node.ref, url: address || undefined, collected: reason === undefined, reason })
+      return reason === undefined && doc?.documentElement ? [doc.documentElement] : []
+    }
+    return Array.from(el.children)
   }
 
   const root = build(document.documentElement)
@@ -572,6 +676,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     viewport: { width: window.innerWidth, height: window.innerHeight, scale: window.devicePixelRatio },
     root,
     truncated,
+    frames,
+    shadowRoots,
   }
 }
 

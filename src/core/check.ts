@@ -8,6 +8,7 @@ import { PROBE_RULES } from '../rules/registry.ts'
 import { RULE_CHECKS, type RuleCheck, type RuleStageResult, emptyRuleStage, runRuleChecks } from '../rules/index.ts'
 import { reviewLabelInName } from '../rules/label-in-name.ts'
 import { uncapturedImagesNote } from '../snapshot/image-skips.ts'
+import { reachNotes, unreached } from '../snapshot/reach.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { AXE_REVIEW_RULES, EXPERIMENTAL_RULES } from '../engine/axe.ts'
 import { criteriaCoverage, engineCoverage, reviewItems, reviewOnlyCriteria, ruleCoverage } from './coverage.ts'
@@ -287,6 +288,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   // Images the collector left without a capture were never in front of a criterion that judges pixels: say so, and why.
   const vision = options.criteria.some((criterion) => criterion.needs.vision && criterion.surfaces.includes(snapshot.surface))
   const uncaptured = vision && llmActive ? uncapturedImagesNote(snapshot.root, options.locale) : undefined
+  // Frames and closed shadow roots the collector could not read: said first, since they frame everything else.
+  const notes = [...reachNotes(snapshot.reach, options.locale), ...(uncaptured ? [uncaptured] : [])]
+  const reach = unreached(snapshot.reach)
 
   return {
     schemaVersion: 1,
@@ -311,12 +315,13 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       notChecked: notChecked.sort(compareCriteria),
       ...(ruleCovered.length > 0 ? { rules: ruleCovered } : {}),
       ...(probe.coverage.length > 0 ? { probes: probe.coverage } : {}),
+      ...(reach ? { reach } : {}),
       criteria: records,
     },
     ...(review.length > 0 ? { needsReview: review } : {}),
     usage,
     errors,
-    ...(uncaptured ? { notes: [uncaptured] } : {}),
+    ...(notes.length > 0 ? { notes } : {}),
     ...(advisory ? { advisory: advisory.section } : {}),
   }
 }

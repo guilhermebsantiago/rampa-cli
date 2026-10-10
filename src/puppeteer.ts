@@ -6,6 +6,7 @@
 import { type CheckPageOptions, checkDriver } from './api/page.ts'
 import type { Report } from './core/types.ts'
 import type { CdpSessionLike } from './surfaces/form-issues.ts'
+import { type FrameElementLike, type HandleFrame, elementForRef, isQualifiedRef } from './snapshot/refs.ts'
 import { type LibraryFrame, libraryFrameDriver } from './surfaces/frames.ts'
 import type { PageDriver } from './surfaces/page.ts'
 import { createMatchers } from './testing/matchers.ts'
@@ -33,6 +34,9 @@ export interface PuppeteerElement {
   dispose(): Promise<void>
 }
 
+/** A Puppeteer element handle that may show a frame. */
+interface PuppeteerFrameElement extends PuppeteerElement, FrameElementLike<PuppeteerFrameElement> {}
+
 export function puppeteerDriver(page: PuppeteerPage): PageDriver {
   const frames = page.evaluateHandle ? libraryFrameDriver(page as LibraryFrame) : undefined
   return {
@@ -43,7 +47,12 @@ export function puppeteerDriver(page: PuppeteerPage): PageDriver {
       await page.evaluate(source)
     },
     async screenshotElement(ref) {
-      const element = await page.$(ref).catch(() => null)
+      // A ref into a frame or a shadow root is found in its own frame, so the capture is placed right.
+      const element = isQualifiedRef(ref)
+        ? page.evaluateHandle
+          ? await elementForRef(page as unknown as HandleFrame<PuppeteerFrameElement>, ref).catch(() => undefined)
+          : undefined
+        : await page.$(ref).catch(() => null)
       if (!element) return undefined
       try {
         const png = await element.screenshot({ type: 'png' })

@@ -51,11 +51,13 @@ export function resolveScopeInPage(query: ScopeQuery): ScopeAnswer {
   const excludes = query.exclude.map((selector) => ({ selector, elements: select(selector) }))
   const wanted = new Set<Element>([...includes, ...excludes].flatMap((match) => match.elements))
   const refOf = new Map<Element, string>()
+  // The collector's own map when it ran on this page: a ref into a frame or a shadow root is no CSS selector.
+  const nodes = (window as unknown as { __rampaNodes?: Map<string, Element> }).__rampaNodes
   for (const ref of query.refs) {
     if (refOf.size === wanted.size) break
-    let element: Element | null = null
+    let element: Element | null = nodes?.get(ref) ?? null
     try {
-      element = document.querySelector(ref)
+      element ??= document.querySelector(ref)
     } catch {
       element = null
     }

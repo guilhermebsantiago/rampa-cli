@@ -3,6 +3,7 @@ import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { Finding, Patch, Report, SourceFix, SourceLocation, SourceRegion } from '../core/types.ts'
 import { normalizeForMatch } from '../core/util.ts'
+import { isQualifiedRef } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { walkTree } from '../snapshot/tree.ts'
 import { type SourceTag, decodeEntities, findEndTag, lineStarts, positionAt, scanTags } from './html.ts'
@@ -84,7 +85,9 @@ export function createLocator(snapshot: A11ySnapshot, source: PageSource): (find
   const starts = lineStarts(text)
   const tags = scanTags(text)
   const placed = tags.filter((tag) => !tag.leftOut)
-  const nodes = [...walkTree(snapshot.root)]
+  // Elements of a frame's document or of a shadow root are not tags of this file (snapshot/refs.ts): a frame's
+  // document is another file or a srcdoc, and a shadow root is built by script.
+  const nodes = [...walkTree(snapshot.root)].filter((node) => !isQualifiedRef(node.ref))
   const byRef = new Map(nodes.map((node) => [node.ref, node]))
   const nodeGroups = groupBy(nodes, (node) => signatureOfNode(node))
   const tagGroups = groupBy(placed, signatureOfTag)
@@ -162,7 +165,7 @@ export function createLocator(snapshot: A11ySnapshot, source: PageSource): (find
   }
 
   /**
-   * An engine result without an element of the snapshot: in a shadow root or a frame, or past
+   * An engine result without an element of the snapshot: in a frame of another origin, or past
    * the cut of a truncated snapshot. Only the last can be a tag of the file, and only when no
    * element of the snapshot shares its signature.
    */
@@ -181,7 +184,7 @@ export function createLocator(snapshot: A11ySnapshot, source: PageSource): (find
     }
     const node = finding.ref ? byRef.get(finding.ref) : undefined
     if (!tag && node) tag = tagOfNode(node)
-    if (!tag && !node && finding.html) tag = tagOfEngineMarkup(finding.html)
+    if (!tag && !node && finding.html && !(finding.ref && isQualifiedRef(finding.ref))) tag = tagOfEngineMarkup(finding.html)
     if (!tag) return undefined
     const element = elementRange(tag, text)
     const region = regionOf(starts, element.start, element.end)

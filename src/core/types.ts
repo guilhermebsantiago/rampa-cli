@@ -3,7 +3,7 @@ import type { AdvisorySection } from '../advisory/types.ts'
 import type { BaselineComparison } from '../adoption/baseline.ts'
 import type { Waiver } from '../adoption/waivers.ts'
 import type { Locale } from '../i18n.ts'
-import type { A11ySnapshot, Surface } from '../snapshot/schema.ts'
+import type { A11ySnapshot, Reach, Surface } from '../snapshot/schema.ts'
 import type { Level, WcagTarget } from '../wcag.ts'
 
 export type Confidence = 'low' | 'medium' | 'high'
@@ -370,6 +370,11 @@ export interface Report {
     site?: string[] | undefined
     /** Criteria a probe rule checked, with its method and conditions; absent when no probe ran. */
     probes?: ProbeCoverage[] | undefined
+    /**
+     * What the collector could not read (snapshot/reach.ts): frames whose content is not in the snapshot or that axe-core
+     * could not check, and closed shadow roots. Absent when it read everything; the notes say the same in words.
+     */
+    reach?: Reach | undefined
     criteria?: CriterionCoverage[] | undefined
   }
   /** What the engine, Rampa's rules or a probe rule could not decide, for a person to look at; never a failure. */

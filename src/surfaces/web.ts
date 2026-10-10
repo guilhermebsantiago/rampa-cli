@@ -1,11 +1,12 @@
 import { existsSync } from 'node:fs'
 import { mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
-import { type Browser, type Page, type Response, chromium } from 'playwright-core'
+import { type Browser, type ElementHandle, type Page, type Response, chromium } from 'playwright-core'
 import type { EngineResults } from '../core/types.ts'
 import { RampaError, errorMessage, sha256 } from '../core/util.ts'
 import { AXE_REVIEW_RULES, axeLocale, axeSource, axeTags, emptyEngine, engineFromAxe } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
+import { type HandleFrame, elementForRef, isQualifiedRef, resolverSource } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
 import type { WcagVersion } from '../wcag.ts'
@@ -13,9 +14,10 @@ import { walkTree } from '../snapshot/tree.ts'
 import { type FollowOptions, followLinks } from './destinations.ts'
 import { type BrowserOptions, contextOptions, openPage, prepareContext } from './browser-options.ts'
 import { attachFormIssues } from './form-issues.ts'
-import { captureImageNodes, imageTargets, isCapturableImage } from './image-capture.ts'
+import { blankContentInPage, captureImageNodes, imageTargets, isCapturableImage, restoreImageInPage } from './image-capture.ts'
 import { libraryFrameDriver, runAxeInFrames } from './frames.ts'
 import { collectInPage } from './in-page.ts'
+import { buildReach, closedShadowRoots } from './reach.ts'
 import { type ProbeKind, runProbes } from '../probes/run.ts'
 
 export interface WebCollectOptions {
@@ -104,11 +106,12 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     const collect = async () => {
       if (options.runAxe) await page.addScriptTag({ content: await axeSource() })
       const tree = await page.evaluate(collectInPage, { maxNodes: options.maxNodes ?? 5000 })
+      await page.evaluate(resolverSource())
       // After the tree: the engine's results are mapped to the refs the collector gave their elements.
       const checked = options.runAxe
         ? await runAxeInFrames(libraryFrameDriver(page), { tags: axeTags(options.wcag), rules: AXE_REVIEW_RULES, locale: await axeLocale(options.locale) }, axeSource)
         : undefined
-      return { ...tree, axe: checked?.axe, engineFrames: checked?.frames ?? [] }
+      return { ...tree, axe: checked?.axe, engineFrames: checked?.frames }
     }
     // A page that redirects at once (a 0 s refresh, in a meta element or a Refresh header) navigates while it is
     // being read. The redirect is recorded and the page it lands on is collected, instead of failing the target.
@@ -124,7 +127,9 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     }
 
     const root = raw.root as A11yNode
-    await attachFormIssues(() => context.newCDPSession(page), root)
+    const cdp = () => context.newCDPSession(page)
+    await attachFormIssues(cdp, root)
+    const reach = buildReach({ frames: raw.frames, engineFrames: raw.engineFrames, shadowRoots: raw.shadowRoots, closed: await closedShadowRoots(cdp) })
     // Response headers are facts the rules read: a Refresh header works like <meta http-equiv="refresh">, out of axe-core's sight.
     const refresh = response?.headers().refresh
     if (refresh !== undefined) root.native.httpRefresh = refresh.slice(0, 500)
@@ -155,6 +160,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       screenshot,
       truncated: raw.truncated || undefined,
       destinations: Object.keys(destinations).length > 0 ? destinations : undefined,
+      ...(reach ? { reach } : {}),
       collectedAt: new Date().toISOString(),
       collector: { name: 'rampa-web', version: VERSION },
     }
@@ -195,7 +201,18 @@ async function captureImages(page: Page, root: A11yNode): Promise<void> {
   }
   const layers = imageTargets(root).length + backgrounds.length > 0 ? await markLayers(page) : 0
   // CSS scale: a phone's pixel ratio would send the model images up to nine times larger, for the same picture.
-  const shoot = (ref: string, style?: string) => page.locator(`css=${ref}`).first().screenshot({ type: 'png', timeout: 5000, animations: 'disabled', style, scale: 'css' })
+  const options = { type: 'png', timeout: 5000, animations: 'disabled', scale: 'css' } as const
+  const shoot = async (ref: string, style?: string): Promise<Buffer> => {
+    if (!isQualifiedRef(ref)) return page.locator(`css=${ref}`).first().screenshot({ ...options, style })
+    // In a frame or a shadow root: the element is found in its own frame, so the capture is placed right.
+    const element = await elementForRef(page as unknown as HandleFrame<ElementHandle>, ref)
+    if (!element) throw new Error(`No element for ${ref}`)
+    try {
+      return await element.screenshot({ ...options, style })
+    } finally {
+      await element.dispose()
+    }
+  }
   try {
     await captureImageNodes(
       {
@@ -209,8 +226,13 @@ async function captureImages(page: Page, root: A11yNode): Promise<void> {
     for (const node of backgrounds) {
       try {
         if (layers > 0) await showLayersAround(page, node.ref)
-        // A background is captured alone: the element's own text and children are hidden while the screenshot is taken.
-        const png = await shoot(node.ref, `${node.ref} { color: transparent !important; text-shadow: none !important; } ${node.ref} > * { visibility: hidden !important; }`)
+        // A background is captured alone: the element's own text and children are hidden while the screenshot is taken,
+        // by a style sheet for a CSS selector, inline for an element in a frame or a shadow root.
+        const qualified = isQualifiedRef(node.ref)
+        if (qualified && !(await page.evaluate(blankContentInPage, node.ref))) continue
+        const png = qualified
+          ? await shoot(node.ref).finally(() => page.evaluate(restoreImageInPage, null))
+          : await shoot(node.ref, `${node.ref} { color: transparent !important; text-shadow: none !important; } ${node.ref} > * { visibility: hidden !important; }`)
         node.image = `data:image/png;base64,${png.toString('base64')}`
       } catch {
         // Not visible or detached: criteria that need the image skip this node.
@@ -241,7 +263,18 @@ async function markLayers(page: Page): Promise<number> {
 /** Hides every marked layer except those that hold the target or sit inside it. */
 async function showLayersAround(page: Page, ref: string): Promise<void> {
   await page.evaluate((selector) => {
-    const target = document.querySelector(selector)
+    const nodes = (window as unknown as { __rampaNodes?: Map<string, Element> }).__rampaNodes
+    let target: Element | null = nodes?.get(selector) ?? null
+    try {
+      target ??= document.querySelector(selector)
+    } catch {
+      target = null
+    }
+    // The layers are in the page's own document: a target in a frame or a shadow root counts as its frame element or host.
+    while (target && target.getRootNode() !== document) {
+      const root = target.getRootNode() as Document | ShadowRoot
+      target = 'host' in root ? root.host : (root.defaultView?.frameElement ?? null)
+    }
     for (const el of Array.from(document.querySelectorAll<HTMLElement>('[data-rampa-layer]'))) {
       if (target && (el.contains(target) || target.contains(el))) {
         const saved = el.getAttribute('data-rampa-layer')

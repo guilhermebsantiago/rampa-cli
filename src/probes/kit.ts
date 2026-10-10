@@ -26,12 +26,14 @@ export interface InPageElement {
   role: string
   /** A short label for messages: aria-label, alt, title, or the text, cut to 80 characters. */
   label: string
-  /** The element sits in an open shadow root: its ref cannot match the snapshot. */
+  /** The element sits in an open shadow root (its ref crosses it with ` >>> `). */
   shadow?: boolean | undefined
 }
 
 export interface Kit {
   cssPath(el: Element): string
+  /** The element a ref names, through open shadow roots and frames of this origin (snapshot/refs.ts). */
+  resolve(ref: string): Element | null
   identity(el: Element): InPageIdentity
   describe(el: Element): InPageElement
   visible(el: Element): boolean
@@ -46,37 +48,80 @@ export interface Kit {
 export function installKit(): void {
   const w = window as unknown as { __rampaKit?: Kit; __rampaEvents?: Array<{ type: string; at: number; detail?: string; target?: Element | null }> }
   if (w.__rampaKit) return
+  // Refs as the collector builds them (src/surfaces/in-page.ts, snapshot/refs.ts); a test holds the two to the same strings.
   const escapeId = (value: string): string => CSS.escape(value)
+  const isDocument = (node: Node): node is Document => node.nodeType === 9
+  const isShadowRoot = (node: Node): node is ShadowRoot => node.nodeType === 11 && 'host' in node
   const hasUniqueId = (el: Element): boolean => {
     if (el.id === '') return false
-    const root = el.getRootNode() as Document | ShadowRoot
-    return root.querySelectorAll(`#${escapeId(el.id)}`).length === 1
+    const root = el.getRootNode()
+    return isDocument(root) && root.querySelectorAll(`#${escapeId(el.id)}`).length === 1
   }
   const cssPath = (el: Element): string => {
-    if (hasUniqueId(el) && el.getRootNode() === document) return `#${escapeId(el.id)}`
     const parts: string[] = []
     let current: Element | null = el
     while (current) {
-      if (current !== el && hasUniqueId(current) && current.getRootNode() === document) {
+      if (hasUniqueId(current)) {
         parts.unshift(`#${escapeId(current.id)}`)
         break
       }
       const parent: Element | null = current.parentElement
       const tag = current.localName
-      if (!parent) {
-        const root = current.getRootNode()
-        if (root instanceof ShadowRoot) {
-          // Not a CSS selector any more: the host's path, then the path inside its shadow root.
-          return `${cssPath(root.host)} >>> ${[tag, ...parts].join(' > ')}`
-        }
-        parts.unshift(tag)
-        break
-      }
-      const sameTag = Array.from(parent.children).filter((child) => child.localName === tag)
+      const siblings = parent ? parent.children : (current.parentNode as ParentNode | null)?.children
+      const sameTag = siblings ? Array.from(siblings).filter((child) => child.localName === tag) : [current]
       parts.unshift(sameTag.length > 1 ? `${tag}:nth-of-type(${sameTag.indexOf(current) + 1})` : tag)
+      if (!parent) break
       current = parent
     }
-    return parts.join(' > ')
+    const path = parts.join(' > ')
+    const root = el.getRootNode()
+    // Not a CSS selector any more: the host's ref, then the path inside its shadow root; the frame's, then the path in its document.
+    if (isShadowRoot(root)) return `${cssPath(root.host)} >>> ${path}`
+    const frame = el.ownerDocument === document ? null : el.ownerDocument.defaultView?.frameElement
+    return frame ? `${cssPath(frame)} |> ${path}` : path
+  }
+  const resolve = (ref: string): Element | null => {
+    const select = (scope: Document | ShadowRoot, path: string): Element | null => {
+      if (isDocument(scope)) {
+        try {
+          return scope.querySelector(path)
+        } catch {
+          return null
+        }
+      }
+      let pool: Element[] = Array.from(scope.children)
+      let found: Element | null = null
+      for (const step of path.split(' > ')) {
+        try {
+          found = pool.find((child) => child.matches(step)) ?? null
+        } catch {
+          return null
+        }
+        if (!found) return null
+        pool = Array.from(found.children)
+      }
+      return found
+    }
+    let scope: Document | ShadowRoot | null = document
+    let el: Element | null = null
+    const frames = ref.split(' |> ')
+    for (let f = 0; f < frames.length; f++) {
+      if (f > 0) {
+        try {
+          scope = (el as HTMLIFrameElement | null)?.contentDocument ?? null
+        } catch {
+          scope = null
+        }
+      }
+      const parts = (frames[f] ?? '').split(' >>> ')
+      for (let s = 0; s < parts.length; s++) {
+        if (s > 0) scope = el?.shadowRoot ?? null
+        if (!scope) return null
+        el = select(scope, parts[s] ?? '')
+        if (!el) return null
+      }
+    }
+    return el
   }
   const cut = (value: string | null): string => (value ?? '').slice(0, 100)
   const identity = (el: Element): InPageIdentity => ({
@@ -149,7 +194,7 @@ export function installKit(): void {
       ...(event.type === 'focusin' && event.target ? { el: describe(event.target), rect: rect(event.target), inv: inventoryIndex(event.target) } : {}),
     }))
   }
-  w.__rampaKit = { cssPath, identity, describe, visible, deepActive, rect, drain }
+  w.__rampaKit = { cssPath, resolve, identity, describe, visible, deepActive, rect, drain }
 }
 
 /**

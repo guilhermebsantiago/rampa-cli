@@ -25,7 +25,7 @@
   customElements.define('shadow-card', class extends HTMLElement {
     constructor() {
       super()
-      this.attachShadow({ mode: 'open' }).innerHTML = '<div><p>Card text</p></div><div><button></button><slot></slot></div>'
+      this.attachShadow({ mode: 'open' }).innerHTML = `<div><p>Card text</p><img alt="Teal square" src="${pixel}" width="48" height="48"></div><div><button></button><slot></slot></div>`
     }
   })
   customElements.define('closed-card', class extends HTMLElement {
