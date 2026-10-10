@@ -64,7 +64,7 @@ beforeAll(async () => {
     // A page that never stops changing: a clock that ticks every 100 ms.
     if (path === '/busy') return void response.end('<!doctype html><html lang="en"><head><title>Busy</title></head><body><main><h1>Busy</h1><p id="tick">0</p></main><script>let n = 0; setInterval(() => { document.querySelector("#tick").textContent = String(++n) }, 100)</script></body></html>')
     // A lazy frame far below the fold: the browser has not loaded it when the page is read.
-    if (path === '/lazy') return void response.end('<!doctype html><html lang="en"><head><title>Lazy</title></head><body><h1>Lazy</h1><div style="height:8000px"></div><iframe id="later" title="Later" loading="lazy" src="/widget.html"></iframe></body></html>')
+    if (path === '/lazy') return void response.end('<!doctype html><html lang="en"><head><title>Lazy</title></head><body><h1>Lazy</h1><div style="height:20000px"></div><iframe id="later" title="Later" loading="lazy" src="/widget.html"></iframe></body></html>')
     response.end(readFileSync('test/fixtures/reach/page.html', 'utf8').replace('{{REMOTE}}', `http://localhost:${port}/widget.html`))
   })
   await new Promise<void>((done) => server?.listen(0, '127.0.0.1', done))
@@ -218,8 +218,10 @@ describe.skipIf(!browser)('the snapshot past the top document', { timeout: 60_00
       expect(image, ref).toMatch(/^data:image\/png;base64,/)
       const png = tryDecodePng(Buffer.from(image?.split(',')[1] ?? '', 'base64'))
       const middle = png ? ((png.height >> 1) * png.width + (png.width >> 1)) * 4 : -1
-      // The fixture's teal square, not the page around it.
-      expect(png ? [png.data[middle], png.data[middle + 1], png.data[middle + 2]] : [], ref).toEqual([0, 128, 128])
+      // The fixture's teal square, not the page around it (within a few levels: color management differs between platforms).
+      const pixel = png ? [png.data[middle] ?? -1, png.data[middle + 1] ?? -1, png.data[middle + 2] ?? -1] : []
+      expect(pixel.length, ref).toBe(3)
+      pixel.forEach((value, channel) => expect(Math.abs(value - ([0, 128, 128][channel] ?? 0)), ref).toBeLessThanOrEqual(4))
     }
   })
 
