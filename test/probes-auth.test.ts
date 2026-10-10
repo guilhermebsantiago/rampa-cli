@@ -236,10 +236,17 @@ function probed(name: string): Promise<Collected> {
 }
 const dataOf = (snapshot: A11ySnapshot) => snapshot.observations?.probes.find((p) => p.kind === 'auth')?.data as AuthData
 const fieldsOf = (data: AuthData) => data.steps.flatMap((s) => s.fields)
+/** A browser whose pages cannot use the clipboard pastes nothing: those tests are skipped, with the reason on stderr. */
+function needsClipboard(snapshot: A11ySnapshot, skip: (note?: string) => void): void {
+  if (dataOf(snapshot)?.clipboard === 'ok') return
+  process.stderr.write('\nSkipping a paste test of the authentication probe: the browser gave the page no clipboard.\n')
+  skip('no clipboard in this browser')
+}
 
 describe.skipIf(!browser)('authentication probe (3.3.8)', { timeout: 120_000 }, () => {
-  it('pastes into a plain password, a code field that trims the paste, a code split in boxes and a password read-only until focus, and finds nothing', async () => {
+  it('pastes into a plain password, a code field that trims the paste, a code split in boxes and a password read-only until focus, and finds nothing', async ({ skip }) => {
     const { snapshot, engine } = await probed('auth-pass.html')
+    needsClipboard(snapshot, skip)
     expect(A11ySnapshotSchema.safeParse(snapshot).success).toBe(true)
     const record = snapshot.observations?.probes.find((p) => p.kind === 'auth')
     expect(record).toMatchObject({ kind: 'auth', version: '1', status: 'complete', conditions: { variant: 'paste' } })
@@ -258,8 +265,9 @@ describe.skipIf(!browser)('authentication probe (3.3.8)', { timeout: 120_000 }, 
     expect(report.coverage.probes?.find((c) => c.rule === RULE)).toMatchObject({ status: 'no-failure-found', applicable: 4 })
   })
 
-  it('fails a beforeinput blocker, onpaste="return false", a split code with no paste handler and a read-only keypad', async () => {
+  it('fails a beforeinput blocker, onpaste="return false", a split code with no paste handler and a read-only keypad', async ({ skip }) => {
     const { snapshot, engine } = await probed('auth-fail.html')
+    needsClipboard(snapshot, skip)
     const report = await checkSnapshot(snapshot, engine, probeCheckOptions())
     expect(byRule(report, RULE).map((f) => `${f.ref} ${f.message.split(':')[0]}`)).toEqual([
       '#pass1 Pasting into this password field does not work',
@@ -286,8 +294,9 @@ describe.skipIf(!browser)('authentication probe (3.3.8)', { timeout: 120_000 }, 
     expect(probeJudgments(snapshot)).toEqual([accessibleAuthentication])
   })
 
-  it('leaves out sign-up, a newsletter and a closed dialog, reviews a blocked paste next to a passkey and autocomplete="off"', async () => {
+  it('leaves out sign-up, a newsletter and a closed dialog, reviews a blocked paste next to a passkey and autocomplete="off"', async ({ skip }) => {
     const { snapshot, engine } = await probed('auth-near.html')
+    needsClipboard(snapshot, skip)
     const data = dataOf(snapshot)
     expect(data.steps.map((s) => `${s.el.ref} ${s.kind}`)).toEqual(['#signup sign-up', '#alt login', '#off login', '#recover recovery'])
     expect(data.hidden.map((h) => h.kind)).toEqual(['login'])
@@ -301,16 +310,18 @@ describe.skipIf(!browser)('authentication probe (3.3.8)', { timeout: 120_000 }, 
     expect(note).toContain('1 sign-in form(s) not showing (a closed menu or dialog), not opened')
   })
 
-  it('follows a page that sends itself on to the sign-in form right after it loads, and pastes there', async () => {
+  it('follows a page that sends itself on to the sign-in form right after it loads, and pastes there', async ({ skip }) => {
     const { snapshot } = await probed('auth-redirect.html')
+    needsClipboard(snapshot, skip)
     const data = dataOf(snapshot)
     expect(data.landed).toMatch(/auth-fail\.html\?from=challenge$/)
     expect(data.steps.map((s) => s.el.ref)).toEqual(['#blocker', '#nopaste', '#split', '#keypad'])
     expect(fieldsOf(data).find((f) => f.el.ref === '#pass1')?.paste?.arrived).toBe(false)
   })
 
-  it('stays below the default threshold, prints its coverage line and replays offline to the same findings', async () => {
+  it('stays below the default threshold, prints its coverage line and replays offline to the same findings', async ({ skip }) => {
     const { snapshot, engine } = await probed('auth-fail.html')
+    needsClipboard(snapshot, skip)
     const report = await checkSnapshot(snapshot, engine, probeCheckOptions({ minConfidence: 'medium' }))
     expect(byRule(report, RULE)).toEqual([])
     expect(report.belowThreshold.filter((f) => f.ruleId === RULE)).toHaveLength(4)
