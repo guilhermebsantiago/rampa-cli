@@ -125,7 +125,7 @@ const check = program
       .choices([...FOLLOW_LINKS])
       .default('same-origin'),
   )
-  .option('--probe <kinds>', 'drive web pages after collection: layout, keyboard, hover, orientation, shortcuts, all or none (default: none; docs/probes.md)')
+  .option('--probe <kinds>', 'drive web pages after collection: layout, keyboard, hover, orientation, shortcuts, media, all or none (default: none; docs/probes.md)')
   .option('--baseline <file>', 'report only the findings this baseline file does not have (rampa baseline writes it)')
   .option('--no-baseline', 'ignore the baseline set in the config')
   .addOption(

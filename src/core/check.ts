@@ -325,8 +325,11 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
 
   // 4.1.1 is never counted: WCAG 2.2 removed it, and under 2.1 it is satisfied by definition for HTML and XML.
   const all = new Set(criteriaFor(version).flatMap((sc) => (sc.removedIn ? [] : [sc.id])))
-  // What axe-core left undecided and a rule then settled (contrast measured from pixels) is the rule's to report, once.
-  const unsettled = withoutResolved(engine, stage.resolved)
+  // What axe-core left undecided and a rule then settled (contrast measured from pixels, a video the media probe played)
+  // is the rule's to report, once.
+  const settled = new Map(stage.resolved)
+  for (const { engineRule, ref } of probe.resolved ?? []) settled.set(engineRule, new Set([...(settled.get(engineRule) ?? []), ref]))
+  const unsettled = withoutResolved(engine, settled)
   const engineCovered = engineCoverage(unsettled, version)
   // What a judged criterion decided without a model (the language identifier on 3.1.1 and 3.1.2) is checked by a rule, not judged.
   const selfDecided = summaries.filter((s) => (s.decided ?? 0) > 0 && all.has(s.criterion)).map((s) => s.criterion)

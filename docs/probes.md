@@ -11,12 +11,13 @@ target ─► collect (snapshot + axe) ─► probes (--probe) ─► rules and 
 Probes are **off by default**. Turn them on per run:
 
 ```sh
-rampa check https://example.com --probe all          # layout, keyboard, hover, orientation and shortcuts
+rampa check https://example.com --probe all          # layout, keyboard, hover, orientation, shortcuts and media
 rampa check page.html --probe layout                 # reflow (1.4.10), text spacing (1.4.12), 200% zoom (1.4.4)
 rampa check page.html --probe keyboard               # 2.1.1, 2.1.2, 3.2.1, 2.4.7, 2.4.11
 rampa check page.html --probe hover                  # content on hover or focus (1.4.13)
 rampa check page.html --probe orientation            # portrait and landscape (1.3.4)
 rampa check page.html --probe shortcuts              # single character key shortcuts (2.1.4)
+rampa check page.html --probe media                  # audio and video: captions, alternatives, sound on load (1.2.1–1.2.5, 1.4.2)
 rampa check page.html --probe all --save .rampa/rec  # keep the observations to replay offline
 ```
 
@@ -33,6 +34,7 @@ Every probe but one is in the **observe** class:
 - it jumps Playwright's fake clock forward (the hover probe installs it before the page loads; time otherwise flows as usual);
 - it turns the window between portrait and landscape and sets the screen orientation over the DevTools protocol, with a `window.orientation` shim where the browser has none (the orientation probe); it reads the web app manifest with a GET and runs axe-core's experimental css-orientation-lock in the probe page;
 - it focuses the page's `body` for a moment before the walk, so the first Tab starts at the top of the page;
+- it plays audio and video muted for a few seconds, makes their text tracks load, and reads their sound from a copy of their stream; it pauses them and puts their time, muted state and track modes back afterwards (the media probe). It never unmutes anything. For that probe the browser starts with `--autoplay-policy=no-user-gesture-required`, as a browser that lets pages play sound on load does; Playwright starts headless browsers with `--mute-audio`, so no sound reaches the speakers;
 - it never clicks, never presses Enter or Space on a control, never types, and never submits a form.
 
 The shortcuts probe (`--probe shortcuts`, 2.1.4) is the first of the plan's **activate** class, and the only one so far. With focus on the page's `body`, it presses each printable key on its own (letters, digits, punctuation and symbols, then capitals; never Space, which scrolls), and a key may do whatever the page bound it to. Then it presses Space on the checkboxes, switches and radios it found named for shortcuts or keys, to toggle them, presses the keys again, and toggles them back. It never clicks, never presses Enter, never types into a field (focus goes back to the body before every key, and if a script keeps a field focused the probe stops pressing), never changes a select, and the network guard is on the whole time, so a key that posts something (archive, delete, send) is blocked and a key that navigates is answered locally. A GET a key sets off still reaches the server; run it on pages where that is harmless, as with every probe.
@@ -106,7 +108,13 @@ What `--probe all` adds, and what each criterion still needs from a person. Ever
 
 | SC | Method (probe, rule) | Failure | Needs review | Stays manual |
 |---|---|---|---|---|
+| 1.2.1 Audio-only and Video-only (Prerecorded) | `probe/media@1`, `rampa/audio-video-only`: media listed, played muted | — | each audio player that shows or played, and each video with no audio track, with the transcript signals found near it and on the page | whether a transcript or alternative is equivalent; decorative video; media labeled as an alternative for text |
+| 1.2.2 Captions (Prerecorded) | `probe/media@1`, `rampa/captions`: text tracks made to load | every captions or subtitles track of a video with sound fails to load or holds no cues | a video with sound and no captions track; a track still loading; a known player (YouTube, Vimeo…) in a frame of another origin | accuracy, completeness and timing; open captions; captions a player draws itself |
+| 1.2.3 Audio Description or Media Alternative (Prerecorded) | `probe/media@1`, `rampa/media-alternative` | — (never, by design) | each video with sound, listing descriptions tracks, audio description controls and transcripts found | whether the visual information matters, and whether the description or alternative is adequate |
+| 1.2.4 Captions (Live) | `probe/media@1`, `rampa/live-captions`: media whose duration is infinite | — | each live video with sound: applies here, not checked | everything about live captions |
+| 1.2.5 Audio Description (Prerecorded) | `probe/media@1`, `rampa/audio-description` | — (never, by design) | each video with sound, listing descriptions tracks and audio description controls (a transcript does not count) | quality of the description; whether the soundtrack already says it |
 | 1.3.4 Orientation | `probe/orientation@1`, `rampa/orientation`: portrait and landscape at 1280×800 and at 390×844 (phone), each loaded and then turned | content turned a quarter between orientations: `html`, `body` or most of the text (ACT b33eff); content gone in one orientation behind a "turn your device" message | a smaller element with text or images turned a quarter; content gone with no message (two comparisons); a turn message while the content still shows | essential orientation; real devices and their rotation lock; native apps |
+| 1.4.2 Audio Control | `probe/media@1`, `rampa/audio-control`: what plays on load, with sound, watched for at least 4.5 s; its level read from its stream | sound that plays on its own for more than 3 s (a media element, an `Audio` object or Web Audio) with no native controls and no named pause, stop, mute or volume control near it or for the sound on the page (ACT 80f0bf): high when the level was read, medium when not | the only control is a pause or stop button away from it; autoplay the browser did not start; sound that could not be measured; sound under 3 s that was still playing | whether a control works (it is never pressed); sound started by an interaction; players in frames of another origin |
 | 1.4.4 Resize Text | `probe/layout@1`, `rampa/resize-text`: 640×512 CSS px at device scale 2 (1280×1024 at 200%) | text cut by an ancestor's overflow `hidden` or `clip` (ACT 59br37, with its no-wrap ellipsis and line-clamp exceptions): high when zoom cut it, medium when it was already cut | line clamps; cut text whose full text is in a name; carousels; text past the edges of a window that does not scroll; new overlaps; text the narrow layout hides with no control seen to show it | text behind menus; lost functionality; other browsers and text-only zoom |
 | 1.4.10 Reflow | `probe/layout@1`, `rampa/reflow`: 320×256 CSS px from 1280×1024 | content past the right edge of a page that scrolls sideways; text cut at 320 px that was whole at 1280 px | doubtful cuts; new overlaps; text cut by a window that cannot scroll sideways | lost functionality; content gone behind collapsed menus (F102); the two-dimensional exception beyond element types |
 | 1.4.12 Text Spacing | `probe/layout@1`, `rampa/text-spacing`: the four values as user overrides | text cut that was whole (F104); an ellipsis with no full text (medium) | doubtful cuts; new overlaps | scripts where a metric does not apply; text in canvas and images |
@@ -160,17 +168,90 @@ The shortcuts probe, measured the same day (most of the time is 94 keys at about
 | github.com/guilhermebsantiago/rampa-cli | 94 | `/`, `s`, `w`, `t`, `k`, `,` | 1 | 44.3 s |
 | developer.mozilla.org, the `<kbd>` page | 94 | `/` | 1 | 28.0 s |
 
+The media probe, measured the same day (one run each; the watch lasts at least 4.5 s after the page starts loading, which a slow page has spent loading, then 2.5 s of muted playback when something shows):
+
+| Page | Media found | Findings | Time |
+|---|---|---|---|
+| www.w3.org/WAI/perspective-videos/captions | two YouTube players in frames of another origin (Able Player) | 1.2.2: one player to review (the other does not show); 1.2.1, 1.2.3, 1.2.4, 1.2.5 not checked | 12.3 s |
+| ableplayer.github.io, demo video1 | one `video`, 52 s, with an audio track and a captions track of cues | 1.2.3 and 1.2.5 to review (a "Show transcript" button found); 1.2.2 no failure found | 7.4 s |
+| agenciabrasil.ebc.com.br, a Radioagência story | one hidden `audio` with no source (its "Tocar" buttons load it) | 1.2.1 not checked; nothing played on its own | 5.0 s |
+| `test/fixtures/probes/media-*.html` | 1 to 6 elements each | as in the tests | 4.9 to 8 s |
+
 ## Not yet
 
-- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts']`. Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
+- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
 - The `rampa.config` file has no `probe` key yet.
 - Items to review appear with the engine's and the rules' in every format: grouped by criterion and rule in the terminal (each element with `--verbose`), the Markdown and the HTML reports, counted in SARIF's coverage, and listed in the JSON (`needsReview`).
 - Captures are not written next to a saved snapshot; only their hashes are recorded.
 - The rest of the activate class (clicks, Enter and Space on controls, select changes, `--probe interact`) and `--allow-submit` do not exist yet; nothing here clicks or submits, and the shortcuts probe presses only printable keys on the body and Space on the settings it found.
-- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. They have not run yet on the Linux CI runner's Chrome.
+- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. They have not run yet on the Linux CI runner's Chrome.
 - Saved recordings of three real pages replay offline to the same findings, by id; the plan's measurement on 20 pages of the real-page sample (EVAL-1) is not done.
 
 ## The checks
+
+### Audio and video: 1.2.1–1.2.5 and 1.4.2 (`--probe media`)
+
+**The probe.** A fresh page at the run's window size, in a browser started with `--autoplay-policy=no-user-gesture-required` (a browser that lets pages play sound on load; headless Playwright browsers run with `--mute-audio`, so nothing reaches the speakers). Init scripts, installed before the page's own scripts in every frame, watch what plays:
+
+- every `video` and `audio` element that starts playing, and every `play()` a script calls, which also catches `new Audio()` objects that never join the page;
+- Web Audio: a node connected to the speakers (`AudioDestinationNode`) is also connected to an analyser on the same context, and sources started are counted. Nothing the page plays is changed.
+
+While something plays with its sound on (not muted, volume above 0), its level is read every 100 ms from a copy of its stream (`captureStream()` into an analyser of the probe's own), never from the speakers. Its sound is timed as a span, from the first to the last moment above −50 dBFS in the media time it played, so the pauses between words count as sound; a single loud reading is a glitch and does not count. The watch lasts at least 4.5 s after the page starts loading, longer while something sounds and has not played 3.6 s, and at most 12 s.
+
+Then every `video` and `audio` element of the page, its open shadow roots and its same-origin frames is listed (at most 60). Those that show (or have `controls`, or were set to autoplay and did not start) and are not playing are played **muted** for 2.5 s, at most 12 at once; those already playing are read where they are. For each the probe records its duration (infinite: live), whether its stream has an audio track and a video track, its level, and its text tracks: each `track` is made to load (mode `hidden`), and its state (loaded, error) and number of cues are read. Then each element played is paused, put back at its time and given back its muted state, and each track its mode. Around each element (its own container, up to five levels up, short of an ancestor that holds other media, and what its `aria-describedby` names) the probe records links, buttons and short texts that name a transcript (`transcript`, `transcrição`, `text version`…) or an audio description (`audio description`, `audiodescrição`, `described version`…), and showing, named controls that may pause, stop or mute it (`Pause`, `Mute`, `Som`, a volume slider). It also lists such controls and signals anywhere on the page, and frames of other origins, naming the player when the host is a known one (YouTube, Vimeo, Dailymotion, Wistia, Brightcove, JW Player, SoundCloud, Spotify and others).
+
+**The rules.** Only two things fail without a person; the rest of 1.2.x is needs review by design (the plan's section 6: whether captions, a description or a transcript is equivalent needs the whole meaning of the media).
+
+| Criterion, rule | Observation | Result |
+|---|---|---|
+| 1.2.2, `rampa/captions` | A prerecorded video that shows, with an audio track (or one that could not be read), whose every captions or subtitles track fails to load | failure, high (medium when the audio track was not read) |
+| | … whose every captions or subtitles track loads with no cues (or some fail and the rest are empty) | failure, high |
+| | … with no captions or subtitles track: captions may be burned into the picture, drawn by the player, or the video may be an alternative for text | needs review |
+| | … whose captions track was still loading after the sample | needs review |
+| | … with a captions track that loaded cues | no failure found (accuracy is not checked) |
+| | A video with no audio track | not applicable; counted |
+| | A known player in a frame of another origin that shows | needs review, one item per frame: Rampa reads none of its media |
+| 1.2.1, `rampa/audio-video-only` | An audio player that shows or that played, or a video with no audio track | needs review, with the transcript signals found near it and elsewhere on the page; a muted, looping, autoplaying video with no controls is said to need nothing if it only decorates |
+| 1.2.3, `rampa/media-alternative` | A prerecorded video with sound | needs review, listing descriptions tracks, audio description controls and transcripts found |
+| 1.2.5, `rampa/audio-description` | The same | needs review, listing descriptions tracks and audio description controls; a transcript does not count at AA |
+| 1.2.4, `rampa/live-captions` | A live video with sound (infinite duration) | needs review: applies here, not checked |
+| 1.4.2, `rampa/audio-control` | Sound that plays on its own for more than 3 s (a media element, an `Audio` object, or Web Audio), with no native controls showing, no showing control named for pausing, stopping, muting or the volume next to it (or naming it in `aria-controls`), and no mute or volume control anywhere on the page | failure (ACT 80f0bf): high when the level was read, medium when only the audio decoder showed that it sounds (media from another origin) and for Web Audio |
+| | The same, when the only control is a pause or stop button away from it | needs review |
+| | The same, with native controls or a named control next to it, or a sound control on the page | no failure found; the coverage note names the control, which the probe never presses |
+| | Sound that stopped, ended, was muted or turned down within 3 s; an element that played with silence or with no audio track | no failure found; counted |
+| | Sound under 3 s that was still playing when the watch ended | needs review, low |
+| | An element set to autoplay with its sound on that the browser did not start; Web Audio held suspended | needs review |
+| | A known player in a frame of another origin whose address asks it to autoplay (`autoplay=1`), not muted | needs review, low |
+| | Sound whose level could not be read and whose audio decoder did not run | needs review |
+
+Each finding names the element (sound from a script or from Web Audio, and an element the snapshot does not hold, sit on the page's `body`); the evidence gives the tracks and their state, the duration, whether there is an audio track, the level read and how, when the sound started and how long it sounded, and the controls found. At most 10 findings per rule are listed.
+
+**Settling axe-core.** axe-core's `video-caption` and `no-autoplay-audio` can only pass or leave a video undecided. On a video or audio element the probe read, their undecided result is the probe rule's to report: a failure, an item to review, or nothing (a video with no audio track needs no captions). axe-core's results on elements the probe did not read stay in the review list.
+
+**No media.** When nothing is found, each criterion is "no applicable content", and the coverage note says what may have been missed: players in frames of another origin (YouTube, Vimeo and other embeds), media in closed shadow roots, and media added after the watch. When the only media is a player in a frame of another origin, or an element the probe could not read (no source yet, as with players that load their media when their own play button is pressed, or a load error), the criteria it would apply to are "not checked" instead, with the reason in the note.
+
+**ACT rules.** On 2026-10-09, with Edge 154 headless, online, on the test cases of the three rules the plan names (22 pages, deduplicated by address):
+
+| ACT rule | Failed examples | Passed examples | Inapplicable examples |
+|---|---|---|---|
+| 80f0bf, audio or video avoids automatically playing audio (1.4.2) | 2 of 2 failed, high | 0 of 3 flagged | 0 of 3 flagged |
+| f51b46, video auditory content has captions | 0 of 4 failed; 3 sent to review under 1.2.2 (no captions track); Failed Example 2's track holds wrong captions, which is not checked | 0 of 2 failed; Passed Example 1 (captions burned into the picture) sent to review | 0 of 2 flagged |
+| eac66b, video auditory content has accessible alternative (1.2.2) | 0 of 2 failed; both sent to review | 0 of 2 failed; Passed Example 2 (a video that is an alternative for the text above it) sent to review | 0 of 2 flagged under 1.2.2 |
+
+80f0bf is measured as the rule is written: its Passed Example 2 plays two seconds (`#t=8,10`), its Passed Example 3 has named Play and Mute buttons next to the video, and its Inapplicable Example 2 plays a silent soundtrack; none is flagged. ACT's 1.2.2 rules have no example of a captions track that fails to load or holds no cues, which is the only 1.2.2 failure Rampa reports, so they measure what goes to review and that nothing is failed wrongly; the fixtures `test/fixtures/probes/media-*.html` cover the failures. The test cases are not part of `pnpm test`, which runs offline.
+
+**Real pages.** On the three pages of the cost table the results look right. The WAI page plays its videos through YouTube players in frames of another origin, which Rampa cannot read: the player that shows goes to review under 1.2.2, and the other 1.2.x criteria are not checked, rather than "no applicable content"; the page's own captions files belong to those players. Able Player's demo video has a captions track that loads cues (no failure found), a "Show transcript" button that 1.2.3 lists, and nothing that names an audio description (1.2.5 to review). The Radioagência story's player has no source until its "Tocar" (play) button is pressed, which the probe never does, so 1.2.1 is not checked. Nothing on the three pages plays sound on its own. The plan's gate asks for a targeted corpus of pages that autoplay sound or have broken captions tracks, which has not been gathered.
+
+**The fixtures.** The tests serve `test/fixtures/probes/` over HTTP on 127.0.0.1 (a `file:` page may not load its own text tracks or read its media's stream) with a second origin for a frame. The media are small WebM files (VP8 video, Opus audio, which Chrome on Linux and Edge both play), written by `scripts/media-fixtures.ts` with the browser's WebCodecs: a video with a voice-like tone, the same without an audio track, one with a silent audio track, six seconds of audio, and two seconds of audio.
+
+**Limits.**
+
+- Players in frames of another origin (YouTube, Vimeo, most news sites' players) are listed, never read: their captions, their sound on load and their duration are not seen. A known player gets one 1.2.2 item to review; other criteria stay not checked when nothing else applies.
+- Captions are counted, not read: wrong, partial or unsynchronized captions pass as captions. Captions burned into the picture or drawn by a player's own script are not seen, so such a video goes to review.
+- The level is read from the media's stream, which media from another origin without CORS does not allow: then only the audio decoder says that it sounds (medium confidence). 2.5 s of a long video say little about the rest: a video whose first seconds are silent still counts as having sound when its stream has an audio track.
+- Sound on load is watched for a few seconds: sound that starts later, or after an interaction, is not seen. Whether a control works is never tried (it would take a click); a "Pause" button next to the media is trusted.
+- Players that load their media only when their own button is pressed are not read (no source on load); the criteria say "not checked".
+- One engine (Chromium). Media in closed shadow roots is not seen.
 
 ### 1.3.4 Orientation (`--probe orientation`, rule `rampa/orientation`)
 

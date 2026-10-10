@@ -25,7 +25,7 @@ import { locateReport, readPageSource, repositoryRoot } from '../../source/locat
 import { type BrowserFlags, type BrowserOptions, parseBrowserFlags, wholeNumber } from '../../surfaces/browser-options.ts'
 import { type CrawlFlags, crawlRequested } from '../../surfaces/crawl.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
-import { DETERMINISM_ARGS, type ProbeKind, parseProbeKinds } from '../../probes/run.ts'
+import { type ProbeKind, parseProbeKinds, probeLaunchArgs } from '../../probes/run.ts'
 import type { GlobalContext } from '../context.ts'
 import { type FailOn, exitCode } from '../exit-code.ts'
 import { singlePageNote } from '../../site/index.ts'
@@ -67,7 +67,7 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   onReports?: (reports: Report[]) => Promise<number>
   /** Which links to read before judging, for criteria that compare a link with where it leads. */
   followLinks?: FollowLinks
-  /** Probes to run on web pages after collection: layout, keyboard, hover, orientation, shortcuts, all or none (docs/probes.md). */
+  /** Probes to run on web pages after collection: layout, keyboard, hover, orientation, shortcuts, media, all or none (docs/probes.md). */
   probe?: string
   /** An advisory profile to run on top of the WCAG check (--profile cognitive); the config's profiles otherwise. */
   profile?: string
@@ -232,8 +232,8 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     probes,
     wcag,
     browser: async () => {
-      // Probes compare pixels: the browser renders with a fixed color profile and no LCD text.
-      browser ??= await launchBrowser(probes.length > 0 ? { args: DETERMINISM_ARGS } : {})
+      // Probes compare pixels: the browser renders with a fixed color profile and no LCD text (and lets media autoplay for the media probe).
+      browser ??= await launchBrowser(probes.length > 0 ? { args: probeLaunchArgs(probes) } : {})
       return browser
     },
   }

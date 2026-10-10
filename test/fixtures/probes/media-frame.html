@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Media: players in frames</title>
+<style>body { margin: 0; font: 16px/1.4 Arial, sans-serif; } main { padding: 24px; } iframe { width: 400px; height: 300px; border: 0; }</style>
+</head>
+<body>
+<main>
+  <h1>Embedded</h1>
+  <!-- A frame of this origin: its media is read like the page's own. -->
+  <iframe id="local" title="Local player" src="media-frame-inner.html"></iframe>
+  <!-- A frame of another origin (the test server's second port, through ?other=): listed, never read. -->
+  <iframe id="remote" title="Remote player"></iframe>
+</main>
+<script>
+  const other = new URLSearchParams(location.search).get('other')
+  if (other) document.getElementById('remote').src = `${other}/media-none.html`
+</script>
+</body>
+</html>

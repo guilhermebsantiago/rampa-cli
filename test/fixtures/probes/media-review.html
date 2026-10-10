@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Media: what a person must look at</title>
+<style>body { margin: 0; font: 16px/1.4 Arial, sans-serif; } main { padding: 24px; } video { width: 320px; height: 240px; }</style>
+</head>
+<body>
+<header><button type="button" id="slides">Pause slideshow</button></header>
+<main>
+  <h1>Talks</h1>
+  <section>
+    <!-- 1.2.2: sound and no captions track: captions may be burned in, so a person looks. -->
+    <video id="nocaptions" controls src="media/talk.webm"></video>
+  </section>
+  <section>
+    <!-- 1.4.2: plays on its own with sound on, but its audio track is silent. -->
+    <video id="quiet" autoplay src="media/quiet.webm"></video>
+  </section>
+  <!-- 1.4.2: sound on load; the only control is a pause button for something else, far from it. -->
+  <audio id="radio" autoplay loop src="media/voice.webm"></audio>
+</main>
+</body>
+</html>

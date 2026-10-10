@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Media: sound a script makes on load</title>
+</head>
+<body>
+<main>
+  <h1>Arcade</h1>
+  <p>Welcome to the game.</p>
+</main>
+<script>
+  // 1.4.2: an Audio object that never joins the page, played on load.
+  new Audio('media/voice.webm').play().catch(() => {})
+  // 1.4.2: a Web Audio tone on load, for six seconds.
+  const ctx = new AudioContext()
+  const tone = ctx.createOscillator()
+  const gain = ctx.createGain()
+  gain.gain.value = 0.2
+  tone.connect(gain)
+  gain.connect(ctx.destination)
+  tone.start()
+  tone.stop(ctx.currentTime + 6)
+</script>
+</body>
+</html>

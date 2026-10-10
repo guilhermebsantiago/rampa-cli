@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Media: captions, a transcript, and sound with a way to stop it</title>
+<style>body { margin: 0; font: 16px/1.4 Arial, sans-serif; } main { padding: 24px; } video { width: 320px; height: 240px; } .hero { width: 640px; height: 120px; }</style>
+</head>
+<body>
+<main>
+  <!-- A muted background loop with no audio track: never 1.4.2; 1.2.1 asks whether it only decorates. -->
+  <video id="hero" class="hero" autoplay muted loop playsinline src="media/silent.webm"></video>
+  <h1>Courses</h1>
+  <figure>
+    <video id="captioned" controls src="media/talk.webm">
+      <track kind="captions" srclang="en" label="English" src="media/captions.vtt">
+      <track kind="descriptions" srclang="en" label="Descriptions" src="media/descriptions.vtt">
+    </video>
+    <figcaption>Humming, with captions. <a href="#transcript">Read the transcript</a> or watch the <a href="#described">audio described version</a>.</figcaption>
+  </figure>
+  <section>
+    <h2>Podcast</h2>
+    <audio id="podcast" controls src="media/voice.webm"></audio>
+    <p><a href="#episode-text">Transcript of this episode</a></p>
+  </section>
+  <!-- 1.4.2: two seconds of sound on load (ACT aaa1bf Passed Example 1). -->
+  <audio id="jingle" autoplay src="media/beep.webm"></audio>
+  <section>
+    <h2>Welcome</h2>
+    <!-- 1.4.2: sound on load, with the element's own controls (ACT 4c31df Passed Example 2). -->
+    <video id="welcome" autoplay controls src="media/talk.webm"><track kind="captions" srclang="en" src="media/captions.vtt"></video>
+  </section>
+  <section>
+    <h2>Trailer</h2>
+    <!-- 1.4.2: sound on load, with named buttons next to it (ACT 80f0bf Passed Example 3). -->
+    <div>
+      <video id="trailer" autoplay src="media/talk.webm"><track kind="captions" srclang="en" src="media/captions.vtt"></video>
+      <div><button type="button" id="play-pause">Pause</button> <button type="button" id="mute">Mute</button></div>
+    </div>
+  </section>
+  <p id="transcript">Transcript: a voice hums a low note, which rises and falls.</p>
+</main>
+<script>
+  const trailer = document.getElementById('trailer')
+  document.getElementById('play-pause').addEventListener('click', () => (trailer.paused ? trailer.play() : trailer.pause()))
+  document.getElementById('mute').addEventListener('click', () => (trailer.muted = !trailer.muted))
+</script>
+</body>
+</html>
