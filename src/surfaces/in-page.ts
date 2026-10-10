@@ -391,6 +391,17 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       const control = (el as HTMLLabelElement).control
       native.labelControl = control ? cssPath(control) : null
     }
+    // An inline svg (not one nested in another): the <title> child that names it (SVG-AAM), and a hash of its
+    // drawing, so 1.1.1 can tell an unnamed svg hidden from assistive technology and a repeated icon (ACT e88epe).
+    if (tag === 'svg' && !el.parentElement?.closest('svg')) {
+      const title = Array.from(el.children).find((child) => child.localName === 'title')
+      const titleText = collapse(title?.textContent)
+      if (titleText) native.svgTitle = titleText.slice(0, 200)
+      let hash = 0x811c9dc5
+      const drawing = el.innerHTML.replace(/\s+/g, ' ')
+      for (let i = 0; i < drawing.length; i++) hash = Math.imul(hash ^ drawing.charCodeAt(i), 0x01000193)
+      native.svgHash = (hash >>> 0).toString(16).padStart(8, '0')
+    }
     const explicit = collapse(el.getAttribute('role')).toLowerCase().split(' ')[0] ?? ''
     // role="presentation" loses to focus and to global ARIA attributes, and the element keeps its own role.
     if (explicit === 'presentation' || explicit === 'none') native.presentational = !roleConflict(el)

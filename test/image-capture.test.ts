@@ -98,7 +98,35 @@ const OUT_OF_SIGHT = `<!doctype html><html lang="en"><head>${STYLE}<style>sectio
 <section><img id="shown" alt="A blue sky" src="blue.svg"></section>
 </body></html>`
 
+// Pictures hidden from assistive technology: an unnamed svg and a canvas that may carry information, and the
+// decorative ones the cheap signals leave alone (a repeated icon, an icon-sized svg, an svg inside a named link).
+const HIDDEN = `<!doctype html><html lang="en"><head>${STYLE}<style>section { height: 140px; }</style></head><body>
+<section><svg id="badge" width="200" height="100" viewBox="0 0 200 100"><rect width="100" height="100" fill="rgb(0,0,255)"/><rect x="100" width="100" height="100" fill="rgb(255,0,0)"/></svg></section>
+<section><canvas id="drawn" width="200" height="100"></canvas></section>
+<section>${['one', 'two', 'three'].map((id) => `<svg id="${id}" width="48" height="48"><rect width="48" height="48" fill="rgb(0,128,0)"/></svg>`).join('')}</section>
+<section><svg id="tiny" width="20" height="20"><rect width="20" height="20" fill="rgb(0,0,255)"/></svg></section>
+<section><a href="#next"><svg id="arrow" width="100" height="100"><rect width="100" height="100" fill="rgb(255,0,0)"/></svg> Next page</a></section>
+<section><svg id="named" role="img" aria-label="A green square" width="100" height="100"><rect width="100" height="100" fill="rgb(0,128,0)"/></svg></section>
+<script>
+const context = document.getElementById('drawn').getContext('2d')
+context.fillStyle = 'rgb(0,128,128)'
+context.fillRect(0, 0, 200, 100)
+</script></body></html>`
+
 describe.skipIf(!browser)('image capture', { timeout: 60_000 }, () => {
+  it('crops svg and canvas images hidden from assistive technology as rendered, and leaves the decorative ones alone', async () => {
+    const nodes = await collect(HIDDEN)
+    expect(colorsOf(nodes.get('badge')?.image).sort()).toEqual(['0,0,255', '255,0,0'])
+    expect(colorsOf(nodes.get('drawn')?.image)).toEqual(['0,128,128'])
+    expect(nodes.get('badge')?.native.svgHash).toMatch(/^[0-9a-f]{8}$/)
+    for (const id of ['one', 'two', 'three', 'tiny', 'arrow']) {
+      expect(nodes.get(id)?.image, id).toBeUndefined()
+      expect(imageSkipOf(nodes.get(id) as A11yNode), id).toBeUndefined()
+    }
+    // An svg with role="img" and a name is an image like any other.
+    expect(colorsOf(nodes.get('named')?.image)).toEqual(['0,128,0'])
+  })
+
   it('waits for a lazy image to swap in its picture, and leaves out one that never does', async () => {
     const nodes = await collect(LAZY)
     expect(colorsOf(nodes.get('swapped')?.image)).toEqual(['0,128,0'])

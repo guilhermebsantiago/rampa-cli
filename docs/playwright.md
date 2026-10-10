@@ -86,7 +86,7 @@ Rampa: 4 failures in examples/store/before.html (scope: main)
    Message:   The text alternative "IMG_2034.jpg" is a file name or a placeholder.
    Evidence:  "IMG_2034.jpg"
    Patch:     - <img src="mug.svg" alt="IMG_2034.jpg">
-              + <img src="mug.svg" alt="Blue mug with steam">
+              + <img src="mug.svg" alt="A blue mug with steam rising from it">
    Judged:    ollama:gemma4:12b · confidence high · 1/1 runs · evidence verified
    Waiver id: 2c1d064d9cc7
 

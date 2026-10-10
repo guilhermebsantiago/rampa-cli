@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
 import { tryDecodePng } from '../pixels/png.ts'
+import { hiddenImageSignals } from '../snapshot/hidden-images.ts'
 import { type ImageSkip, setImageSkip } from '../snapshot/image-skips.ts'
 import type { A11yNode } from '../snapshot/schema.ts'
 import { walkTree } from '../snapshot/tree.ts'
@@ -15,6 +16,10 @@ import { walkTree } from '../snapshot/tree.ts'
  * would not be its own pixels: outside the page, cut off by its container, transparent, still a
  * placeholder, blank, or stacked with other images in one box (carousel slides) and not told apart
  * from them once the others are hidden.
+ *
+ * Images the page hides from assistive technology are captured too when 1.1.1 may judge them (ACT
+ * e88epe): an img with alt="" is among the images already, and an svg or a canvas with no name is
+ * cropped as rendered, after the others, when the cheap signals of snapshot/hidden-images.ts leave it.
  */
 
 export interface CaptureDriver {
@@ -65,6 +70,18 @@ export function imageTargets(root: A11yNode): A11yNode[] {
   return targets
 }
 
+/**
+ * Images hidden from assistive technology that 1.1.1 judges (ACT e88epe) and `imageTargets` leaves out: an svg
+ * or a canvas with no name, cropped as rendered. Only those the cheap signals leave (snapshot/hidden-images.ts),
+ * so the decorative icons of a page are never captured; an img with alt="" is among the images already.
+ */
+export function hiddenImageTargets(root: A11yNode, named: readonly A11yNode[] = imageTargets(root)): A11yNode[] {
+  const taken = new Set(named)
+  return hiddenImageSignals(root)
+    .judged.map((hidden) => hidden.node)
+    .filter((node) => !taken.has(node))
+}
+
 interface Shot {
   node: A11yNode
   png: Uint8Array
@@ -76,8 +93,11 @@ export async function captureImageNodes(driver: CaptureDriver, root: A11yNode, o
   const limit = options.limit ?? IMAGE_LIMIT
   const deadline = Date.now() + (options.budgetMs ?? BUDGET_MS)
   const shots: Shot[] = []
-  for (const [index, node] of imageTargets(root).entries()) {
-    if (index >= limit) {
+  const named = imageTargets(root)
+  // The hidden images come after the others and have their own limit (HIDDEN_LIMIT), so they never crowd them out.
+  const targets = [...named.map((node, index) => ({ node, over: index >= limit })), ...hiddenImageTargets(root, named).map((node) => ({ node, over: false }))]
+  for (const { node, over } of targets) {
+    if (over) {
       setImageSkip(node, 'limit')
       continue
     }

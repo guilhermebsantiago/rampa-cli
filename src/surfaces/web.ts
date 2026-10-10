@@ -13,7 +13,7 @@ import { walkTree } from '../snapshot/tree.ts'
 import { type FollowOptions, followLinks } from './destinations.ts'
 import { type BrowserOptions, contextOptions, openPage, prepareContext } from './browser-options.ts'
 import { attachFormIssues } from './form-issues.ts'
-import { captureImageNodes, imageTargets, isCapturableImage } from './image-capture.ts'
+import { captureImageNodes, hiddenImageTargets, imageTargets, isCapturableImage } from './image-capture.ts'
 import { collectInPage } from './in-page.ts'
 import { type ProbeKind, runProbes } from '../probes/run.ts'
 
@@ -193,7 +193,8 @@ async function captureImages(page: Page, root: A11yNode): Promise<void> {
       if (width >= 24 && height >= 12 && (width > 40 || height > 40) && height <= 1000) backgrounds.push(node)
     }
   }
-  const layers = imageTargets(root).length + backgrounds.length > 0 ? await markLayers(page) : 0
+  const named = imageTargets(root)
+  const layers = named.length + hiddenImageTargets(root, named).length + backgrounds.length > 0 ? await markLayers(page) : 0
   // CSS scale: a phone's pixel ratio would send the model images up to nine times larger, for the same picture.
   const shoot = (ref: string, style?: string) => page.locator(`css=${ref}`).first().screenshot({ type: 'png', timeout: 5000, animations: 'disabled', style, scale: 'css' })
   try {

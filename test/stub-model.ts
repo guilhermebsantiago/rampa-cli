@@ -33,6 +33,14 @@ function answer(criterion: string, prompt: string): { subject: string; output: u
   const tagged = (tag: string) => new RegExp(`<${tag}>([\\s\\S]*?)</${tag}>`).exec(prompt)?.[1] ?? ''
   switch (criterion) {
     case '1.1.1': {
+      // An image hidden from assistive technology: the stub takes it as decoration.
+      if (prompt.includes('How the page hides it from assistive technology:')) {
+        const file = /Image file name: (.*)/.exec(prompt)?.[1] ?? ''
+        return {
+          subject: `hidden ${file}`,
+          output: { imageShows: 'A soft pattern of shapes', textInImage: '', verdict: 'pass', evidence: '', suggestedAlt: '', confidence: 'high' },
+        }
+      }
       const alt = /Current text alternative: "(.*)"/.exec(prompt)?.[1] ?? ''
       const fail = GENERIC.test(alt)
       return {

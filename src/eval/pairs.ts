@@ -80,6 +80,8 @@ export const langDrop: Corruptor = {
 export const altPlaceholder: Corruptor = {
   id: 'alt-placeholder',
   criterion: '1.1.1',
+  // An alternative's quality: e88epe's passing images are hidden, and a placeholder alt on them is read by nobody.
+  rules: ['qt1vmo'],
   async apply(page) {
     return page.evaluate(() => {
       let changed = 0
@@ -97,6 +99,7 @@ export const altPlaceholder: Corruptor = {
 export const altSwap: Corruptor = {
   id: 'alt-swap',
   criterion: '1.1.1',
+  rules: ['qt1vmo'],
   async apply(page) {
     return page.evaluate(() => {
       let changed = 0

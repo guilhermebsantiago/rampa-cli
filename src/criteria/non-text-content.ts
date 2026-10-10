@@ -3,8 +3,10 @@ import type { Candidate, Criterion, EngineResults, PromptImage, Verification } f
 import { normalizeForMatch, truncate } from '../core/util.ts'
 import { languageName } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
+import { hiddenImageSignals, textAround } from '../snapshot/hidden-images.ts'
 import { type TreeIndex, indexTree, inheritedLang, walkTree } from '../snapshot/tree.ts'
-import { attributesOf, isHidden, isNativeSurface, nameProperty, propertyLine, propertyPatch } from './shared.ts'
+import { type HiddenImageFacts, HiddenImageJudgment, hiddenFacts, hiddenMessage, hiddenPatch, hiddenPrompt, verifyHidden } from './hidden-images.ts'
+import { attributesOf, isHidden, isNativeSurface, nameProperty, propertyLine, propertyPatch, startTagOf } from './shared.ts'
 
 /**
  * WCAG 2.1 SC 1.1.1 Non-text Content (A), the quality of a text alternative.
@@ -12,8 +14,10 @@ import { attributesOf, isHidden, isNativeSurface, nameProperty, propertyLine, pr
  * axe-core checks that an image has an alternative (rule `image-alt`) and
  * passes `alt="img-1"` on a photo of a dog. The residue judged here: images
  * that have a non-empty alternative, seen as rendered, so the model can say
- * whether the text serves the same purpose and suggest a better one.
- * ACT reference rules: 23a2a8 (non-empty name) and qt1vmo (name is descriptive).
+ * whether the text serves the same purpose and suggest a better one. And images the page hides from
+ * assistive technology that may carry information (criteria/hidden-images.ts), asked another question.
+ * ACT reference rules: 23a2a8 (non-empty name), qt1vmo (name is descriptive) and e88epe (an image not
+ * in the accessibility tree is decorative).
  *
  * The normative text in the prompt is quoted from WCAG 2.1
  * (https://www.w3.org/TR/WCAG21/), Copyright © W3C, under the W3C Document License.
@@ -34,6 +38,8 @@ export const NonTextContentJudgment = z.strictObject({
   confidence: z.enum(['low', 'medium', 'high']),
 })
 export type NonTextContentJudgment = z.infer<typeof NonTextContentJudgment>
+/** The answer to either question: whether an alternative serves its image, or what a hidden image conveys. */
+export type NonTextContentOutput = NonTextContentJudgment | HiddenImageJudgment
 
 export interface NonTextContentContext {
   alt: string
@@ -47,6 +53,8 @@ export interface NonTextContentContext {
   image: string
   /** Set when the image is the only content of a link or button: a functional image, named for what the control does. */
   functional?: FunctionalImage | undefined
+  /** Set when the page hides the image from assistive technology: the question is then whether it carries information. */
+  hidden?: HiddenImageFacts | undefined
 }
 
 /** What says what a link or button does, for an image that is all it holds. */
@@ -245,16 +253,21 @@ export function looksLikePlaceholder(alt: string, src?: string): boolean {
   return file !== undefined && normalizeForMatch(file.replace(/\.[a-z0-9]+$/i, '')) === normalizeForMatch(value)
 }
 
-export const nonTextContent: Criterion<NonTextContentContext, NonTextContentJudgment> = {
+export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutput> = {
   id: '1.1.1',
   level: 'A',
-  version: '3',
-  act: ['23a2a8', 'qt1vmo'],
+  version: '4',
+  act: ['23a2a8', 'qt1vmo', 'e88epe'],
   surfaces: ['web', 'android', 'ios', 'windows', 'macos', 'image'],
   needs: { vision: true },
   engineRules: ENGINE_RULES,
   schema: NonTextContentJudgment,
-  subject: (candidate) => candidate.context.alt,
+  schemaFor: (candidate) => (candidate.context.hidden ? HiddenImageJudgment : NonTextContentJudgment),
+  actFor: (candidate) => (candidate.context.hidden ? ['e88epe'] : ['23a2a8', 'qt1vmo']),
+  // A hidden image has no alternative: its file name, or what draws it, keys a claim about it.
+  subject: (candidate) => (candidate.context.hidden ? `hidden ${candidate.context.src ?? candidate.context.hidden.drawnAs}` : candidate.context.alt),
+  // New: a fail about a hidden image stays below the default threshold until it passes the evaluation gate.
+  confidenceCap: (candidate) => (candidate.context.hidden ? 'low' : undefined),
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<NonTextContentContext>[] {
     const index = indexTree(snapshot.root)
@@ -267,6 +280,8 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentJudg
     for (const node of walkTree(snapshot.root)) {
       if (!isImageNode(node) || failedByEngine.has(node.ref)) continue
       if (node.states.includes('hidden') || node.states.includes('aria-hidden')) continue
+      // role="presentation" or "none" takes the image out of the accessibility tree: nobody reads its alt.
+      if (node.native.presentational === true) continue
       const alt = node.name?.trim() ?? ''
       // A missing alternative is the engine's job; an empty one marks the image as decorative.
       if (alt === '' || !node.image) continue
@@ -306,12 +321,35 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentJudg
         },
       })
     }
+    // Images hidden from assistive technology that the cheap signals leave, as the collector captured them (ACT e88epe).
+    if (snapshot.surface === 'web') {
+      for (const hidden of hiddenImageSignals(snapshot.root).judged) {
+        const node = hidden.node
+        if (!node.image || failedByEngine.has(node.ref)) continue
+        const markup = typeof node.native.html === 'string' ? node.native.html.replace(/src="data:[^"]{40,}"/, 'src="data:…"') : startTagOf(node)
+        candidates.push({
+          ref: node.ref,
+          context: {
+            alt: '',
+            role: node.role,
+            html: truncate(markup, 500),
+            src: fileName(attributesOf(node).src),
+            language: inheritedLang(index, node.ref, snapshot.locale) ?? node.lang ?? 'en',
+            actionText: undefined,
+            nearbyText: undefined,
+            image: node.image,
+            hidden: hiddenFacts(hidden, textAround(snapshot.root, node, index)),
+          },
+        })
+      }
+    }
     return candidates
   },
 
   prompt(candidate, snapshot) {
     const c = candidate.context
     const image = dataUriToImage(c.image)
+    if (c.hidden) return hiddenPrompt(c.hidden, { html: c.html, src: c.src, language: c.language, image }, snapshot)
     const f = c.functional
     const user = [
       `Surface: ${snapshot.surface}`,
@@ -335,7 +373,9 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentJudg
     return { system: SYSTEM, user, images: image ? [image] : [] }
   },
 
-  verify(output, candidate): Verification {
+  verify(answer, candidate): Verification {
+    if (candidate.context.hidden) return verifyHidden(answer as HiddenImageJudgment, candidate.context.hidden)
+    const output = answer as NonTextContentJudgment
     if (normalizeForMatch(output.evidence) !== normalizeForMatch(candidate.context.alt)) {
       return { ok: false, reason: 'evidence is not the current text alternative' }
     }
@@ -371,7 +411,9 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentJudg
     return { ok: true }
   },
 
-  message(output, candidate, locale) {
+  message(answer, candidate, locale) {
+    if (candidate.context.hidden) return hiddenMessage(answer as HiddenImageJudgment, candidate.context.hidden, locale)
+    const output = answer as NonTextContentJudgment
     const alt = candidate.context.alt
     const reasons: Record<(typeof PROBLEMS)[number], { en: string; 'pt-BR': string }> = {
       none: { en: 'does not serve the same purpose as the image', 'pt-BR': 'não cumpre o mesmo propósito da imagem' },
@@ -399,7 +441,11 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentJudg
     return locale === 'pt-BR' ? `O texto alternativo "${alt}" ${reason}.` : `The text alternative "${alt}" ${reason}.`
   },
 
-  patch(output, candidate, snapshot) {
+  patch(answer, candidate, snapshot) {
+    if (candidate.context.hidden) {
+      return hiddenPatch(answer as HiddenImageJudgment, candidate.context.hidden, candidate.ref, /^<[^>]*>/.exec(candidate.context.html)?.[0])
+    }
+    const output = answer as NonTextContentJudgment
     if (isNativeSurface(snapshot.surface)) {
       const node = indexTree(snapshot.root).get(candidate.ref)?.node
       const property = node ? nameProperty(snapshot.surface, node) : 'name'

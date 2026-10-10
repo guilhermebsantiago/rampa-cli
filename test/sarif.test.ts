@@ -147,7 +147,7 @@ describe('SARIF', () => {
     expect(result?.locations[0]?.physicalLocation).toEqual({ artifactLocation: { uri: 'https://shop.example/new?x=1', index: 0 } })
     expect(result?.locations[0]?.logicalLocations?.[0]?.fullyQualifiedName).toBe('html > body > main > div > figure:nth-of-type(1) > img')
     expect(result?.fixes).toBeUndefined()
-    expect(result?.properties.patch).toEqual({ before: '<img src="mug.svg" alt="IMG_2034.jpg">', after: '<img src="mug.svg" alt="Blue mug with steam">' })
+    expect(result?.properties.patch).toEqual({ before: '<img src="mug.svg" alt="IMG_2034.jpg">', after: '<img src="mug.svg" alt="A blue mug with steam rising from it">' })
     expect(log.runs[0]?.originalUriBaseIds).toBeUndefined()
   })
 

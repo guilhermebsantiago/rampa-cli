@@ -2,7 +2,8 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileCache } from '../../core/cache.ts'
 import { checkSnapshot } from '../../core/check.ts'
-import type { AnyCriterion } from '../../core/types.ts'
+import type { AnyCriterion, Candidate, EngineResults, Finding } from '../../core/types.ts'
+import type { A11ySnapshot } from '../../snapshot/schema.ts'
 import { errorMessage, mapLimit } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
 import { ACT_RULES, type ActOutcome, type ActTestcase, loadActTestcases, selectTestcases } from '../../eval/act.ts'
@@ -220,7 +221,7 @@ async function runJob(
     })
     // An engine failure counts only for the ACT rule its axe-core rule implements.
     const baselineFails = engineFailsAct(collected.engine, criterion.id, testcase.ruleId, axeActIds())
-    const judgmentFails = report.findings.some((f) => f.source === 'judgment' && f.criterion === criterion.id)
+    const judgmentFails = judgmentFailsAct(criterion, testcase.ruleId, collected, report.findings)
     const summary = report.criteria.find((c) => c.criterion === criterion.id)
     return {
       ...base,
@@ -249,6 +250,22 @@ async function runJob(
       error: errorMessage(error),
     }
   }
+}
+
+/**
+ * Whether the judgment fails an ACT test case. Where a criterion asks more than one question (`actFor`), only the
+ * judgments of the question that implements the case's rule count, as an engine failure counts only for the rule
+ * its axe-core rule implements: on 23a2a8's pages, what 1.1.1 says about images hidden from assistive technology
+ * (e88epe's question) is left out. A case lent by a rule the criterion does not implement, for pairs, counts all.
+ */
+export function judgmentFailsAct(criterion: AnyCriterion, actRuleId: string, collected: { snapshot: A11ySnapshot; engine: EngineResults }, findings: readonly Finding[]): boolean {
+  const judged = findings.filter((f) => f.source === 'judgment' && f.criterion === criterion.id)
+  if (!criterion.actFor || !criterion.act.includes(actRuleId)) return judged.length > 0
+  const candidates = new Map<string, Candidate<unknown>>(criterion.candidates(collected.snapshot, collected.engine).map((candidate: Candidate<unknown>) => [candidate.ref, candidate]))
+  return judged.some((finding) => {
+    const candidate = finding.ref ? candidates.get(finding.ref) : undefined
+    return !candidate || (criterion.actFor?.(candidate) ?? criterion.act).includes(actRuleId)
+  })
 }
 
 interface SetScores {
