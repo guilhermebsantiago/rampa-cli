@@ -251,8 +251,10 @@ describe('probe stage', () => {
     expect(parseProbeKinds('all')).toEqual(['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states'])
     expect(parseProbeKinds('media')).toEqual(['media'])
     expect(parseProbeKinds('orientation')).toEqual(['orientation'])
+    // The state-variants probe loads other pages over the network: only when named.
+    expect(parseProbeKinds('variants,all')).toEqual(['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'variants'])
     expect(() => parseProbeKinds('touch')).toThrow(
-      /--probe takes layout, keyboard, hover, orientation, shortcuts, media, color, states, auth, flash, links, input, all \(every kind but auth, flash, links, input\), interact \(shortcuts, links, input\) or none/,
+      /--probe takes layout, keyboard, hover, orientation, shortcuts, media, color, states, variants, auth, flash, links, input, all \(every kind but variants, auth, flash, links, input\), interact \(shortcuts, links, input\) or none/,
     )
   })
 

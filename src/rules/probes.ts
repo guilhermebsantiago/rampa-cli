@@ -40,7 +40,15 @@ export interface ProbeRule {
   /** Probe versions the rule understands; other records are not read. */
   versions: readonly string[]
   criteria: readonly string[]
+  /** Loads what `run` needs, such as the language identifier's n-grams; awaited before the rules run, when a record of its kind is there. */
+  prepare?(): Promise<void>
   run(record: ProbeRecord, ctx: ProbeRuleContext): ProbeRuleResult
+}
+
+/** Loads what the probe rules with a record to read need, before `probeChecks` runs them. */
+export async function prepareProbeRules(snapshot: A11ySnapshot, rules: readonly ProbeRule[]): Promise<void> {
+  const kinds = new Set((snapshot.observations?.probes ?? []).map((record) => record.kind))
+  await Promise.all(rules.filter((rule) => rule.prepare && kinds.has(rule.kind)).map((rule) => rule.prepare?.()))
 }
 
 /** A WCAG 2.2-only criterion (2.4.11) in a run that targets WCAG 2.1: its result is beyond the target, never counted. */
