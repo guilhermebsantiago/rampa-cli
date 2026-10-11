@@ -21,7 +21,7 @@ You need what `rampa check` needs:
 
 `rampa doctor` checks all three, and `rampa models` shows which model Rampa would pick.
 
-**Rampa is not on npm yet.** The snippets below use `npx -y rampa mcp`, which works once it is published. Until then, build a clone and point your client at it:
+**Rampa is not on npm yet.** The snippets below use `npx -y @rampa/cli mcp`, which works once it is published. Until then, build a clone and point your client at it:
 
 ```sh
 git clone https://github.com/guilhermebsantiago/rampa-cli.git
@@ -49,13 +49,13 @@ On Windows, write the path as `C:/Users/you/rampa-cli/dist/cli.mjs`, or double t
 ### Claude Code
 
 ```sh
-claude mcp add rampa -- npx -y rampa mcp
+claude mcp add rampa -- npx -y @rampa/cli mcp
 ```
 
 The server is now available in the current project. Add `--scope user` for every project, or `--scope project` to write a `.mcp.json` the team can commit. Server options go after `mcp`, and environment variables go in `--env`, after the server's name:
 
 ```sh
-claude mcp add --scope user rampa --env ANTHROPIC_API_KEY=sk-ant-... -- npx -y rampa mcp --model anthropic:claude-haiku-5-5
+claude mcp add --scope user rampa --env ANTHROPIC_API_KEY=sk-ant-... -- npx -y @rampa/cli mcp --model anthropic:claude-haiku-5-5
 ```
 
 The same server in a project's `.mcp.json`, with the key taken from your environment:
@@ -66,7 +66,7 @@ The same server in a project's `.mcp.json`, with the key taken from your environ
     "rampa": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "rampa", "mcp"],
+      "args": ["-y", "@rampa/cli", "mcp"],
       "env": { "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}" }
     }
   }
@@ -86,7 +86,7 @@ Open Settings, Developer, Edit Config. The file is `~/Library/Application Suppor
   "mcpServers": {
     "rampa": {
       "command": "npx",
-      "args": ["-y", "rampa", "mcp", "--cache-dir", "/Users/you/.rampa-cache"],
+      "args": ["-y", "@rampa/cli", "mcp", "--cache-dir", "/Users/you/.rampa-cache"],
       "env": { "ANTHROPIC_API_KEY": "sk-ant-...", "RAMPA_MODEL": "anthropic:claude-haiku-5-5" }
     }
   }
@@ -105,7 +105,7 @@ Create `.cursor/mcp.json` in the project, or `~/.cursor/mcp.json` for every proj
     "rampa": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "rampa", "mcp"],
+      "args": ["-y", "@rampa/cli", "mcp"],
       "env": { "ANTHROPIC_API_KEY": "${env:ANTHROPIC_API_KEY}" }
     }
   }
@@ -125,7 +125,7 @@ Create `.vscode/mcp.json` in the workspace. The `inputs` entry asks for the key 
     "rampa": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "rampa", "mcp"],
+      "args": ["-y", "@rampa/cli", "mcp"],
       "env": { "ANTHROPIC_API_KEY": "${input:anthropic-key}" }
     }
   }
@@ -149,7 +149,7 @@ Windsurf became Devin Desktop in June 2026. For the Cascade agent, open the MCP 
   "mcpServers": {
     "rampa": {
       "command": "npx",
-      "args": ["-y", "rampa", "mcp"],
+      "args": ["-y", "@rampa/cli", "mcp"],
       "env": { "ANTHROPIC_API_KEY": "${env:ANTHROPIC_API_KEY}" }
     }
   }
@@ -159,13 +159,13 @@ Windsurf became Devin Desktop in June 2026. For the Cascade agent, open the MCP 
 The file has moved between releases (`~/.codeium/windsurf/mcp_config.json` in Windsurf, `~/.config/devin/mcp_config.json` or `%APPDATA%\devin\mcp_config.json` in Devin Desktop), so open it from the app. For Devin Local, the default agent in new tabs:
 
 ```sh
-devin mcp add -s user rampa -- npx -y rampa mcp
+devin mcp add -s user rampa -- npx -y @rampa/cli mcp
 ```
 
 ### Codex CLI
 
 ```sh
-codex mcp add rampa --env ANTHROPIC_API_KEY=sk-ant-... -- npx -y rampa mcp
+codex mcp add rampa --env ANTHROPIC_API_KEY=sk-ant-... -- npx -y @rampa/cli mcp
 ```
 
 Codex gives a tool 60 seconds by default, which a check with a model can exceed. Raise it in `~/.codex/config.toml`:
@@ -173,7 +173,7 @@ Codex gives a tool 60 seconds by default, which a check with a model can exceed.
 ```toml
 [mcp_servers.rampa]
 command = "npx"
-args = ["-y", "rampa", "mcp"]
+args = ["-y", "@rampa/cli", "mcp"]
 env_vars = ["ANTHROPIC_API_KEY"]   # passed through from your shell
 startup_timeout_sec = 60           # default 10; the first npx download is slow
 tool_timeout_sec = 900             # default 60

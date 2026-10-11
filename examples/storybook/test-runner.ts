@@ -3,7 +3,7 @@
 // After each story renders, Rampa checks the story root: axe-core, then the judgment layer
 // when RAMPA_MODEL names a model. The story's test fails with each finding listed.
 import { type TestRunnerConfig, getStoryContext, waitForPageReady } from '@storybook/test-runner'
-import { type CheckPageOptions, assertRampa, checkPage } from 'rampa/playwright'
+import { type CheckPageOptions, assertRampa, checkPage } from '@rampa/cli/playwright'
 
 const config: TestRunnerConfig = {
   async postVisit(page, context) {

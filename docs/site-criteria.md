@@ -160,7 +160,7 @@ The criteria read only the snapshots, so a crawl saved with `--save <dir>` can b
 
 ```ts
 import { readdir } from 'node:fs/promises'
-import { loadSnapshot, runSiteCriteria, siteFactsOf } from 'rampa'
+import { loadSnapshot, runSiteCriteria, siteFactsOf } from '@rampa/cli'
 
 const files = (await readdir('.rampa/crawl')).filter((file) => file.endsWith('.snapshot.json'))
 const pages = await Promise.all(files.map(async (file) => siteFactsOf(await loadSnapshot(`.rampa/crawl/${file}`))))

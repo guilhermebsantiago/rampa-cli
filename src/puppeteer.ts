@@ -1,6 +1,6 @@
 /**
- * `rampa/puppeteer`: checkPage for a Puppeteer page. It runs the same in-page collector,
- * axe-core injection, scoping and judgment as `rampa/playwright`; only the four driver
+ * `@rampa/cli/puppeteer`: checkPage for a Puppeteer page. It runs the same in-page collector,
+ * axe-core injection, scoping and judgment as `@rampa/cli/playwright`; only the four driver
  * calls differ. Puppeteer is never imported, so any version with these methods fits.
  */
 import { type CheckPageOptions, checkDriver } from './api/page.ts'
@@ -75,7 +75,7 @@ export function puppeteerDriver(page: PuppeteerPage): PageDriver {
   }
 }
 
-/** Checks a Puppeteer page as it is now, like `checkPage` in rampa/playwright, and returns the report `rampa check` builds. */
+/** Checks a Puppeteer page as it is now, like `checkPage` in @rampa/cli/playwright, and returns the report `rampa check` builds. */
 export function checkPage(page: PuppeteerPage, options?: CheckPageOptions): Promise<Report> {
   return checkDriver(puppeteerDriver(page), options)
 }

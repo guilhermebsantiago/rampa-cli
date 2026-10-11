@@ -1,5 +1,5 @@
 /**
- * `rampa/playwright`: Rampa inside the Playwright tests a team already has.
+ * `@rampa/cli/playwright`: Rampa inside the Playwright tests a team already has.
  *
  * checkPage runs the collector and axe-core in the test's own page, so its login,
  * storage state, route mocks and app state apply, then the judgment layer, and returns

@@ -162,7 +162,7 @@ node dist/cli.mjs doctor                     # checks Node, browser, axe-core, m
 node dist/cli.mjs check examples/store/before.html
 ```
 
-`pnpm link --global` puts `rampa` on your path. Rampa is not on npm yet; once it is, `pnpm dlx rampa check <url>` will be enough.
+`pnpm link --global` puts `rampa` on your path. Rampa is not on npm yet; once it is, `pnpm dlx @rampa/cli check <url>` will be enough.
 
 ## Usage
 
@@ -256,9 +256,9 @@ API keys never go in this file: use environment variables or a local `.env`. `ra
 | GitHub Actions | `uses: guilhermebsantiago/rampa-cli@main`: SARIF to code scanning and one sticky pull request comment, with each finding's patch | [docs/github-action.md](docs/github-action.md) |
 | Reports | SARIF, Markdown for pull requests, a single-file HTML report, JSON; `file:line` for local pages | [docs/output-formats.md](docs/output-formats.md) |
 | Pre-commit | the pre-commit framework, Husky, lint-staged or Lefthook, on staged `.html` files | [docs/pre-commit.md](docs/pre-commit.md) |
-| Playwright tests | `import { checkPage } from 'rampa/playwright'` and `await expect(page).toPassRampa()`, scoped to a component if you like | [docs/playwright.md](docs/playwright.md) |
+| Playwright tests | `import { checkPage } from '@rampa/cli/playwright'` and `await expect(page).toPassRampa()`, scoped to a component if you like | [docs/playwright.md](docs/playwright.md) |
 | Storybook | the test runner's `postVisit` hook, one story at a time | [docs/storybook.md](docs/storybook.md) |
-| Your own code | `import { check } from 'rampa'` | [docs/api.md](docs/api.md) |
+| Your own code | `import { check } from '@rampa/cli'` | [docs/api.md](docs/api.md) |
 | Coding agents | `rampa mcp` for Claude Code, Cursor, VS Code and others: check, fix, check again | [docs/mcp.md](docs/mcp.md) |
 | Whole sites | `--crawl` or `--sitemap`, robots.txt respected, a shared header reported once | [docs/crawl.md](docs/crawl.md) |
 | Existing codebases | `rampa init`, a baseline so CI fails only on new findings, waivers with reasons and expiry | [docs/adoption.md](docs/adoption.md) |
@@ -398,7 +398,7 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - [x] `rampa eval` with ACT test cases, corrupted pairs and the verification ablation
 - [x] Local models and the major providers: OpenAI, Anthropic, Google, Azure, Bedrock, Vertex, Mistral, xAI, Groq, DeepSeek, Together, Fireworks, Cerebras, OpenRouter, Vercel AI Gateway
 - [ ] The evaluation table for each provider's recommended model
-- [ ] Publish on npm: `pnpm dlx rampa`
+- [ ] Publish on npm: `pnpm dlx @rampa/cli`
 - [x] MCP server, so coding agents can call `rampa check`
 - [x] WCAG 2.4.4 with the destination page fetched, so a link can be compared with where it really goes
 - [x] WCAG 1.3.5 identify input purpose, 3.3.2 labels or instructions, and 1.4.5 images of text on request

@@ -55,7 +55,7 @@ describe('rampa init', () => {
     expect(source).toContain("  // baseline: '.rampa/baseline.json',")
     expect(source).not.toContain('import')
     const typed = configSource(settings('ts'), { typed: true })
-    expect(typed).toContain("import { defineConfig } from 'rampa'")
+    expect(typed).toContain("import { defineConfig } from '@rampa/cli'")
     expect(typed).toContain('export default defineConfig({')
     expect(configSource(settings('ts', { targets: [] }), { typed: false })).toContain("  // targets: ['dist', 'http://localhost:3000/'],")
   })

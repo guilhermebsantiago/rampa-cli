@@ -230,7 +230,7 @@ describe.skipIf(!browser)('check on web targets', { timeout: 60_000 }, () => {
   })
 })
 
-describe.skipIf(!browser)('rampa/puppeteer adapter', { timeout: 30_000 }, () => {
+describe.skipIf(!browser)('@rampa/cli/puppeteer adapter', { timeout: 30_000 }, () => {
   it('runs the same checks through the Puppeteer page API', async () => {
     const page = await openShop()
     // Puppeteer's page API, served by a Playwright page: evaluate(fn, ...args), $(selector), screenshot(options), and a CDP session.
