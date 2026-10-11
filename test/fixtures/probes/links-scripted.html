@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scripted links: where they lead</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; }
+  [role=link] { color: #0645ad; text-decoration: underline; cursor: pointer; }
+  #signin { position: fixed; inset: 0; background: rgba(0, 0, 0, .5); display: none; }
+  #signin.open { display: block; }
+  #signin > div { background: #fff; margin: 80px auto; padding: 16px; width: 320px; }
+  #ticker { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Acme</h1>
+  <!-- Content that changes on its own: learned as noise, never credited to a click. -->
+  <p>Updated <span id="ticker">0</span> seconds ago.</p>
+  <ul>
+    <!-- href="#" and a click handler that navigates: the address is where it leads. -->
+    <li><a id="pricing" href="#" onclick="location.href = 'links/blog-launch.html'; return false">Pricing</a></li>
+    <!-- javascript: address; the analytics call in front of it is no reason to skip. -->
+    <li><a id="docs" href="javascript:void(0)" onclick="window.ga && ga('send', 'event'); location.assign('links/docs.html')">Documentation</a></li>
+    <!-- role=link with no address, opening a window. -->
+    <li><span id="help" role="link" tabindex="0" onclick="window.open('links/help.html')">Help center</span></li>
+    <!-- An address set in place, as a single-page app's router does. -->
+    <li><a id="settings" href="#" onclick="return route('/links/app/settings', 'Settings · Acme', 'Your settings')">Settings</a></li>
+    <!-- A fragment set by script: the part of the page it leads to. -->
+    <li><span id="desc-link" role="link" tabindex="0" onclick="document.location += '#desc'">See the description of the product</span></li>
+    <!-- Opens a dialog: its controls are not exercised. -->
+    <li><a id="open-signin" href="#" onclick="document.getElementById('signin').classList.add('open'); return false">Sign in</a></li>
+    <!-- A placeholder that does nothing but scroll to the top. -->
+    <li><a id="soon" href="#">Coming soon</a></li>
+  </ul>
+  <h2>Contact</h2>
+  <p>
+    <span id="contact-sales" role="link" tabindex="0" onclick="location = 'links/contact-sales.html'">Contact</span>
+    <span id="contact-support" role="link" tabindex="0" onclick="location = 'links/contact-support.html'">Contact</span>
+  </p>
+  <p id="desc">This product is a set of web pages about rockets.</p>
+</main>
+<div id="signin" role="dialog" aria-modal="true" aria-labelledby="signin-title">
+  <div>
+    <h2 id="signin-title">Sign in to Acme</h2>
+    <a href="#" onclick="return false">Forgot your password?</a>
+  </div>
+</div>
+<script>
+  let seconds = 0
+  setInterval(() => { document.getElementById('ticker').textContent = String(++seconds) }, 200)
+  function route(path, title, heading) {
+    history.pushState({}, '', path)
+    document.title = title
+    document.querySelector('main').innerHTML = `<h1>${heading}</h1><p>Change your name and e-mail.</p>`
+    return false
+  }
+</script>
+</body>
+</html>

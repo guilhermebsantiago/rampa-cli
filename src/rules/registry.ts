@@ -4,6 +4,7 @@ import { COLOR_RULES } from './color.ts'
 import { focusObscuredNarrowRule, focusObscuredRule, focusVisibleRule } from './focus.ts'
 import { keyboardReachRule, keyboardTrapRule, onFocusRule } from './keyboard.ts'
 import { hoverRule } from './hover.ts'
+import { scriptedLinksRule } from './links.ts'
 import { MEDIA_RULES } from './media.ts'
 import { reflowRule, textSpacingRule, zoomRule } from './layout.ts'
 import { orientationRule } from './orientation.ts'
@@ -25,6 +26,7 @@ export const PROBE_RULES: readonly ProbeRule[] = [
   ...MEDIA_RULES,
   ...COLOR_RULES,
   authRule,
+  scriptedLinksRule,
   focusVisibleRule,
   focusObscuredRule,
   focusObscuredNarrowRule,

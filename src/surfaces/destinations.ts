@@ -50,6 +50,14 @@ export interface FollowOptions {
  * Only visible links with a name are followed, the ones outside the page's menus, header and footer first.
  */
 export async function followLinks(root: A11yNode, base: string, options: FollowOptions): Promise<Record<string, Destination>> {
+  return readDestinations(linkHrefs(root), base, options)
+}
+
+/**
+ * What each address leads to, keyed by the address as given, under the same policy, limits and cache as a page's
+ * links. The links probe gives it the addresses scripted links tried to go to (src/probes/links.ts).
+ */
+export async function readDestinations(hrefs: readonly string[], base: string, options: FollowOptions): Promise<Record<string, Destination>> {
   const page = parseUrl(base)
   if (options.policy === 'none' || !page) return {}
   const limits = { ...FOLLOW_LIMITS, ...options.limits }
@@ -60,7 +68,7 @@ export async function followLinks(root: A11yNode, base: string, options: FollowO
   const found: Record<string, Destination> = {}
   const queue: Array<{ href: string; url: URL }> = []
   const addresses = new Set<string>()
-  for (const href of linkHrefs(root)) {
+  for (const href of hrefs) {
     const url = parseUrl(href, page.href)
     if (!url) continue
     if (withoutHash(url) === withoutHash(page)) {

@@ -6,17 +6,18 @@ import { colorProbe } from './color.ts'
 import { hoverProbe } from './hover.ts'
 import { keyboardProbe } from './keyboard.ts'
 import { layoutProbes } from './layout.ts'
+import { linksProbe } from './links.ts'
 import { mediaProbe } from './media.ts'
 import { orientationProbe } from './orientation.ts'
 import { shortcutsProbe } from './shortcuts.ts'
-import { OPT_IN_KINDS, PROBE_KINDS, type ProbeKind, type ProbeOptions, skippedRecord } from './page.ts'
+import { INTERACT_KINDS, OPT_IN_KINDS, PROBE_KINDS, type ProbeKind, type ProbeOptions, skippedRecord } from './page.ts'
 
-export { OPT_IN_KINDS, PROBE_KINDS, type ProbeKind, type ProbeOptions } from './page.ts'
+export { INTERACT_KINDS, OPT_IN_KINDS, PROBE_KINDS, type ProbeKind, type ProbeOptions } from './page.ts'
 
 /**
  * The probe stage (docs/probes.md). After collection, each probe opens its own freshly loaded
- * page, drives it (keys, focus, viewport, injected CSS, muted media; the shortcuts probe presses printable
- * keys, the one probe of the activate class) behind the network guard,
+ * page, drives it (keys, focus, viewport, injected CSS, muted media; the probes of the activate class press printable
+ * keys, or click scripted links through the harness in activate.ts) behind the network guard,
  * and records facts in `snapshot.observations`. Rules read only those facts, so a saved
  * snapshot is judged again offline.
  */
@@ -36,15 +37,23 @@ export function probeLaunchArgs(kinds: readonly ProbeKind[] | undefined): string
   return kinds.includes('media') ? [...DETERMINISM_ARGS, ...AUTOPLAY_ARGS] : [...DETERMINISM_ARGS]
 }
 
-/** `--probe layout,keyboard,hover,orientation,shortcuts,media,color,auth`, `all` (every kind but auth) or `none`. */
+/**
+ * `--probe layout,keyboard,hover,orientation,shortcuts,media,color,auth,links`, `all` (every kind but the opt-in ones:
+ * auth, links), `interact` (the activate class: shortcuts, links) or `none`.
+ */
 export function parseProbeKinds(raw: string | undefined): ProbeKind[] {
   if (!raw) return []
   const kinds = new Set<ProbeKind>()
   for (const part of raw.split(',').map((value) => value.trim().toLowerCase()).filter(Boolean)) {
     if (part === 'none') return []
     if (part === 'all') for (const kind of PROBE_KINDS.filter((k) => !OPT_IN_KINDS.includes(k))) kinds.add(kind)
+    else if (part === 'interact') for (const kind of INTERACT_KINDS) kinds.add(kind)
     else if ((PROBE_KINDS as readonly string[]).includes(part)) kinds.add(part as ProbeKind)
-    else throw new RampaError('invalid-probe', `--probe takes ${PROBE_KINDS.join(', ')}, all (every kind but ${OPT_IN_KINDS.join(', ')}) or none. Got "${part}".`)
+    else
+      throw new RampaError(
+        'invalid-probe',
+        `--probe takes ${PROBE_KINDS.join(', ')}, all (every kind but ${OPT_IN_KINDS.join(', ')}), interact (${INTERACT_KINDS.join(', ')}) or none. Got "${part}".`,
+      )
   }
   return PROBE_KINDS.filter((kind) => kinds.has(kind))
 }
@@ -53,7 +62,7 @@ export type ProbeStep = (browser: Browser, url: string, options: ProbeOptions) =
 
 /** Runs each requested kind in turn; a probe that fails is recorded as skipped and never fails the check. */
 export async function runProbes(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
-  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe, shortcuts: shortcutsProbe, media: mediaProbe, color: colorProbe, auth: authProbe }
+  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe, shortcuts: shortcutsProbe, media: mediaProbe, color: colorProbe, auth: authProbe, links: linksProbe }
   const records: ProbeRecord[] = []
   for (const kind of options.kinds) {
     const started = Date.now()

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scripted links the probe must never touch</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; }
+  [role=link] { color: #0645ad; text-decoration: underline; cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Your account</h1>
+  <!-- Each of these reports to /touched with a GET if it is ever clicked: the test server must never see one. -->
+  <ul>
+    <li><a id="delete" href="#" onclick="touch('delete'); return false">Delete account</a></li>
+    <li><a id="remove" href="javascript:removeItem(3)">Item 3 ✕</a></li>
+    <li><span id="sair" role="link" tabindex="0" onclick="touch('sair')">Sair</span></li>
+    <li><a id="news" href="#" class="btn-unsubscribe" onclick="touch('unsubscribe'); return false">Newsletter</a></li>
+    <li><a id="comprar" href="#" onclick="touch('comprar'); return false">Comprar agora</a></li>
+    <li><a id="eliminar" href="#" onclick="touch('eliminar'); return false">Eliminar</a></li>
+    <li><a id="seen" href="#" data-method="post" onclick="touch('seen'); return false">Mark as seen</a></li>
+    <li><a id="report" href="#" download onclick="touch('download'); return false">Monthly report</a></li>
+    <li><a id="gallery" href="#" target="_blank" onclick="touch('window'); return false">Gallery</a></li>
+  </ul>
+  <form action="/touched?login" method="post">
+    <label>Password <input type="password" name="pw"></label>
+    <a id="tips" href="#" onclick="touch('sensitive'); return false">Show tips</a>
+  </form>
+  <!-- Not on the skip list: clicked. One tries a POST, which the guard blocks; one navigates, which is intercepted. -->
+  <p><a id="refresh" href="#" onclick="fetch('/touched?post', { method: 'POST', body: 'x' }).catch(() => {}); return false">Refresh the list</a></p>
+  <p><a id="next" href="#" onclick="location.href = 'links/next.html'; return false">Next page</a></p>
+</main>
+<script>
+  function touch(what) { new Image().src = '/touched?' + what }
+  function removeItem(n) { touch('remove-' + n) }
+</script>
+</body>
+</html>

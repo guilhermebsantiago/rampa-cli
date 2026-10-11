@@ -20,6 +20,8 @@ rampa check page.html --probe shortcuts              # single character key shor
 rampa check page.html --probe media                  # audio and video: captions, alternatives, sound on load (1.2.1–1.2.5, 1.4.2)
 rampa check page.html --probe color                  # use of color: current items, required fields, links in text, color words (1.4.1)
 rampa check https://example.com/login --probe auth   # sign-in and recovery: trusted paste, keypads, F109, CAPTCHAs (3.3.8); never part of all
+rampa check page.html --probe links                  # clicks scripted links and records where they lead, for 2.4.4; never part of all
+rampa check page.html --probe interact               # the activate class: shortcuts and links
 rampa check page.html --probe all --save .rampa/rec  # keep the observations to replay offline
 ```
 
@@ -27,7 +29,7 @@ Why off: each probe loads the page again, and the keyboard walk takes screenshot
 
 ## What a probe may do
 
-Every probe but one is in the **observe** class:
+Every probe but those of the activate class (shortcuts and links, below) is in the **observe** class:
 
 - it presses Tab, Shift+Tab and Esc, and the arrow keys only to try to leave a suspected keyboard trap;
 - it resizes the viewport, changes the device scale factor (200% zoom) and injects CSS;
@@ -42,7 +44,18 @@ Every probe but one is in the **observe** class:
 - it pastes a dummy value into the password and code fields of sign-in and recovery forms with the real Ctrl+V, types one key when the paste did not arrive, and puts the field's value back (the authentication probe, which runs only with `--probe auth`, never with `all`);
 - it never clicks, never presses Enter or Space on a control (Enter on an in-page link, above, is the one exception the plan's observe class allows), never types (but for the one key of the authentication probe, above), and never submits a form.
 
-The shortcuts probe (`--probe shortcuts`, 2.1.4) is the first of the plan's **activate** class, and the only one so far. With focus on the page's `body`, it presses each printable key on its own (letters, digits, punctuation and symbols, then capitals; never Space, which scrolls), and a key may do whatever the page bound it to. Then it presses Space on the checkboxes, switches and radios it found named for shortcuts or keys, to toggle them, presses the keys again, and toggles them back. It never clicks, never presses Enter, never types into a field (focus goes back to the body before every key, and if a script keeps a field focused the probe stops pressing), never changes a select, and the network guard is on the whole time, so a key that posts something (archive, delete, send) is blocked and a key that navigates is answered locally. A GET a key sets off still reaches the server; run it on pages where that is harmless, as with every probe.
+The shortcuts probe (`--probe shortcuts`, 2.1.4) is the first of the plan's **activate** class; the links probe (`--probe links`, below) is the second, and the first built on the activate-class harness. With focus on the page's `body`, it presses each printable key on its own (letters, digits, punctuation and symbols, then capitals; never Space, which scrolls), and a key may do whatever the page bound it to. Then it presses Space on the checkboxes, switches and radios it found named for shortcuts or keys, to toggle them, presses the keys again, and toggles them back. It never clicks, never presses Enter, never types into a field (focus goes back to the body before every key, and if a script keeps a field focused the probe stops pressing), never changes a select, and the network guard is on the whole time, so a key that posts something (archive, delete, send) is blocked and a key that navigates is answered locally. A GET a key sets off still reaches the server; run it on pages where that is harmless, as with every probe.
+
+### The activate-class harness
+
+`src/probes/activate.ts` is what every probe that clicks, changes a setting or types goes through (the plan's C1, section 4.4). It generalizes what the shortcuts probe does (a change watch whose noise is learned in a wait with no input, the guard on all along) and adds:
+
+- **A skip list.** A control is never touched when its name, label, title or value holds a destructive, transactional, account-changing or consent word, in English, Portuguese or Spanish (`delete`, `remove`, `buy`, `pay`, `checkout`, `sign out`, `logout`, `unsubscribe`, `submit`, `send`, `confirm`, `accept`, `save`…; `excluir`, `remover`, `comprar`, `pagar`, `sair`, `cancelar assinatura`, `enviar`, `aceitar`…; `eliminar`, `borrar`, `comprar`, `pagar`, `cerrar sesión`, `darse de baja`, `enviar`, `aceptar`…), or when its code does (`deleteItem(3)`, `btn-logout`, `javascript:removeItem(3)`; only unambiguous verbs, so an analytics call such as `ga('send', …)` is no reason to skip). Also left alone: submit buttons (and a button with no type inside a form), anything inside a form that holds a password, file or payment (`autocomplete="cc-…"`) field, a `data-method` other than GET, downloads (`download`, or an address that ends in a file extension), new windows (`target`), addresses on another origin, disabled controls, password and file fields. Each skip is logged with its reason and the word.
+- **A budget** of controls and of time per page: 30 controls and 90 s for the links probe.
+- **A fresh page after each change.** Once an activation changed anything (the DOM outside the noise, the address beyond its fragment, storage or cookies, focus lost, a dialog or layer shown), the next control gets a fresh page in a new browser context, so neither the page nor its storage carries the effect over. An activation whose navigation was intercepted leaves the page as it was, and the next control uses it.
+- **Overlays.** Before a click, the control is scrolled to the middle of the window and hit-tested at its middle: under another layer (a cookie wall, a sticky header), it is not exercised, and the layer is named. A dialog or a fixed layer over a quarter of the window that an activation shows is recorded, and its own controls are not exercised.
+- **Interception.** Once the page has loaded, every navigation the page starts is recorded from the Navigation API's `navigate` event, and one to another document (or a download) is cancelled there, before any request leaves; the network guard stays the backstop, answering any top-level navigation that slips through with 204. `window.open` is hooked as always (it returns `null`), form submission is cancelled, `window.close()` and `print()` are ignored, and writes to storage and cookies are counted.
+- **A log**, written to the record: every load, wait, click, skip, intercepted navigation, window, submission, download, dialog and blocked request, on one clock, and the guard's own log (`guard`), merged across the fresh pages, with intercepted navigations in it (`cause: "intercepted"`).
 
 Each probe kind opens its own browser context with the same storage state, headers, cookies, color scheme and device settings as the collection (the layout probes force a 1280×1024 desktop window, as browser zoom would; the hover probe keeps the run's window size in desktop mode, so a pointer can hover even with `--device`), and loads the page fresh, so one probe's state never leaks into another's. The orientation probe opens four: a 1280×800 window and a 390×844 phone, each loaded upright and sideways; the phone has touch, device scale 3 and an Android Chrome user agent with the browser's own version (unless `--user-agent` sets one), since some pages show their "rotate your device" overlay only to phones.
 
@@ -59,7 +72,7 @@ The guard is on for the whole life of a probe page, including its load. The auth
 - downloads are refused and service workers are blocked, so nothing answers a request behind the guard's back;
 - permission prompts are denied (Playwright grants none).
 
-A GET can still have side effects on a badly built server. That cannot be ruled out, which is why probes never click. Every probe record lists what the guard blocked and which navigations it answered.
+A GET can still have side effects on a badly built server. That cannot be ruled out, which is why the observe class never clicks, and why the activate class runs only when named and never touches what its skip list names (below). Every probe record lists what the guard blocked and which navigations it answered.
 
 ### Determinism
 
@@ -109,7 +122,7 @@ Coverage of this run
 
 ## Coverage by criterion and method
 
-What `--probe all` adds, and what each criterion still needs from a person. Every rule is experimental.
+What the probes add (`--probe all`, plus `auth` and `links`, which run only when named), and what each criterion still needs from a person. Every rule is experimental.
 
 | SC | Method (probe, rule) | Failure | Needs review | Stays manual |
 |---|---|---|---|---|
@@ -129,6 +142,7 @@ What `--probe all` adds, and what each criterion still needs from a person. Ever
 | 2.1.2 No Keyboard Trap | `probe/keyboard@2`, `rampa/keyboard-trap` | a cycle Tab, Shift+Tab, Esc and the arrows never leave, twice | traps inside dialogs; traps with exit text | traps after interaction; plug-ins |
 | 2.1.4 Character Key Shortcuts | `probe/shortcuts@1`, `rampa/character-key-shortcuts`: every printable key with focus on the body, twice, against a wait with no key; settings named for shortcuts toggled with Space; `judgment/2.1.4@1` only clears | printable keys that change the page while no control has focus and that no setting on the page stopped (F99), one finding per page, medium | — | settings on other pages or behind login (the message says to waive); shortcuts active only on focus; keyboard layouts and IMEs; speech input |
 | 2.4.1 Bypass Blocks | `probe/keyboard@1` (variant `skip-link`), `rampa/bypass-blocks`: the first 8 Tab stops, and Enter on up to 3 skip links among them | — (never on one page, by design; failures come from `--crawl`, [site criteria](site-criteria.md)) | a skip link that points nowhere, does not move focus, or never shows; links and controls before the content with no skip link, main landmark or heading after them; a skip button or menu toggle, which is never pressed | which blocks repeat on other pages (a crawl compares them); interleaved blocks; single-page-app views; whether a block is substantial |
+| 2.4.4 Link Purpose (In Context) | `probe/links@1`, `rampa/scripted-links`: scripted links clicked once, navigations intercepted; an inventory that decides nothing | — (the 2.4.4 judgment decides, with where each link went) | — | links behind a click that is never made (a menu that must open first); destinations behind login; the judgment's own limits |
 | 2.4.7 Focus Visible | `probe/keyboard@2`, `rampa/focus-visible`: focused and blurred captures | no pixel changes in the region or the viewport; focus removed on arrival (F55) | a change only elsewhere; a faint change | whether a change is perceivable; forced colors; other browsers |
 | 2.4.11 Focus Not Obscured (Minimum) | `probe/keyboard@2`, `rampa/focus-obscured`: 5×5 hit grid at the run's window and at 390×844, confirmed by pixels | the element entirely under author content (beyond the target under `--wcag 2.1`) | — | content the user opened or moved; other window sizes and zoom levels |
 | 3.2.1 On Focus | `probe/keyboard@2`, `rampa/on-focus` | navigation, new window, submission or modal on focus, repeated when focus comes back (high); a browser dialog or a script focus move, repeated (medium) | a change that did not repeat; an address change with no load | focus by mouse; changes after interaction; content changes that change meaning |
@@ -203,16 +217,27 @@ The authentication probe, measured the same day (it waits 1.5 s after load for t
 | sso.acesso.gov.br/login | redirects followed to the CPF form, 1 identifier-first step | 15.6 to 21.7 s |
 | `test/fixtures/probes/auth-*.html` | 3 to 4 steps, up to 5 pastes | 1.7 to 3.3 s |
 
+The links probe, measured on 2026-10-11 with Edge 155 headless, other jobs loading the machine (one run each; a click takes about 0.8 s, a fresh page 2 to 4 s, so a page of menu toggles costs a load per link):
+
+| Page | Scripted links found, clicked | Fresh pages | Time |
+|---|---|---|---|
+| www.w3.org, the APG link example | 3, 3 (all navigate, intercepted) | 1 | 13.2 s |
+| www.ufc.br | 2, 1 (one under the cookie banner) | 1 | 19.2 s |
+| www.camara.leg.br | 6, 6 (menu toggles written as `href="#"`) | 6 | 28.6 s |
+| www.ibge.gov.br | 2, 1 (a skip link under the government bar) | 1 | 9.0 s |
+| agenciabrasil.ebc.com.br, www.uol.com.br, portal.stf.jus.br | 0 | 1 | 7.2 to 11.3 s |
+| `test/fixtures/probes/links-*.html` | 3 to 12 | 1 to 5 | 2.5 to 30 s |
+
 ## Not yet
 
 - With `--crawl`, 2.4.1 is compared across the pages from their markup alone: a link into the page counts without being pressed, since the skip-link probe does not run there yet.
-- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'auth']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
+- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'auth', 'links']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
 - The `rampa.config` file has no `probe` key yet.
 - Items to review appear with the engine's and the rules' in every format: grouped by criterion and rule in the terminal (each element with `--verbose`), the Markdown and the HTML reports, counted in SARIF's coverage, and listed in the JSON (`needsReview`).
 - Captures are not written next to a saved snapshot; only their hashes are recorded.
-- The rest of the activate class (clicks, Enter and Space on controls, select changes, `--probe interact`) and `--allow-submit` do not exist yet; nothing here clicks or submits, the shortcuts probe presses only printable keys on the body and Space on the settings it found, and the authentication probe (only with `--probe auth`) pastes a dummy value into password and code fields, types one key when the paste did not land, and puts the value back.
+- Of the activate class, the shortcuts probe (printable keys on the body, Space on the settings it found) and the links probe (one click on each scripted link, only with `--probe links` or `--probe interact`) exist; the rest of it (Enter and Space on other controls, drags) and `--allow-submit` do not. Nothing here submits a form. The authentication probe (only with `--probe auth`) pastes a dummy value into password and code fields, types one key when the paste did not land, and puts the value back.
 - `--crawl` does not run probes, so it does not find sign-in pages and probe them yet (the plan's B7 asks for that); the authentication probe lists the sign-in and recovery links it saw.
-- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. The color tests ran three times in a row on Edge and once in the full suite, with no verdict changing; their lightness verdicts also read the style sheet's colors, so a platform whose fonts antialias differently cannot turn a 5:1 difference into a failure. The authentication tests ran three times in a row on Edge and once in the full suite, with no verdict changing. They have not run yet on the Linux CI runner's Chrome.
+- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. The color tests ran three times in a row on Edge and once in the full suite, with no verdict changing; their lightness verdicts also read the style sheet's colors, so a platform whose fonts antialias differently cannot turn a 5:1 difference into a failure. The authentication tests ran three times in a row on Edge and once in the full suite, with no verdict changing. The links tests (2.4.4) ran three times in a row on Edge and once in the full suite, with no outcome changing. They have not run yet on the Linux CI runner's Chrome.
 - Saved recordings of three real pages replay offline to the same findings, by id; the plan's measurement on 20 pages of the real-page sample (EVAL-1) is not done.
 
 ## The checks
@@ -572,6 +597,69 @@ After a key that changed something, Esc, focus back to the body and the scroll p
 - A page that changes on its own all the time (a ticker, a video) masks what keys do in those regions; keys that changed it while it also changed with no key are not counted.
 - Sequences (`g` then `i`), keyboard layouts other than US English, dead keys and IMEs are not tried. A shortcut that focuses a field without calling `preventDefault` lets the browser put its character in the field; the probe takes focus back before the next key.
 - Settings are found by their wording, in English, Portuguese and Spanish with a few French and German words; a setting named otherwise is not tried.
+
+### 2.4.4 Link Purpose: where scripted links lead (`--probe links`, rule `rampa/scripted-links`)
+
+**Only when named.** `--probe links` clicks things, so `--probe all` leaves it out; `--probe interact` runs it with the shortcuts probe. It is the coverage plan's C1, the first probe on the activate-class harness (above).
+
+**The probe.** A scripted link is a link whose address says nothing of where it goes: `href="#"`, an empty `href`, a `javascript:` address, a `#fragment` that names nothing on the page (`#top` is the top, and a fragment that names an element is an in-page link, both left out; a single-page app's route such as `#/about` is tried), or an element with `role="link"` and no address. Each one that shows and has a name is listed (at most 100), those of the content first, then those in menus, header and footer. Each one the skip list allows, within the budget (30 clicks, 90 s), is scrolled to the middle of the window, hit-tested, and clicked once at its middle with a trusted mouse click. For at least 0.5 s, and until the page has been quiet for 300 ms outside what it changes on its own (at most 2.5 s more, and 1 s more when nothing happened yet, for a script that navigates late), the probe records what the click did, the strongest effect first:
+
+| Outcome | What happened | What 2.4.4 gets |
+|---|---|---|
+| `submit` | a form was submitted (cancelled) | "it submits a form" |
+| `new-window` | `window.open` or a popup, with its address | the address, read like a link's |
+| `navigation` | a navigation to another document, intercepted before any request | the address, read like a link's |
+| `download` | a download, intercepted | the address, read like a link's (its type and size) |
+| `route` | the address changed in place (`pushState`, or a `#/route`) | the address, and the title and first heading the page showed then |
+| `dialog` | a browser dialog (`alert`, `confirm`), dismissed | its text |
+| `opened` | a dialog or a fixed layer over a quarter of the window showed; its controls are not exercised | its name |
+| `fragment` | the address's fragment changed to one that names an element | the text where it points, as for a `#part` link |
+| `content` | the page changed in place (a menu opened) | nothing |
+| `nothing` | nothing seen (a placeholder `href="#"` scrolls to the top) | nothing |
+
+A link under another layer is not exercised, and the layer is named; a link the page no longer has on a fresh load (its ref or identity changed) is unmatched. Then, at collection, with `--follow-links` (same origin by default) and the judgment on, the addresses of `navigation`, `new-window` and `download` outcomes are read like any link's into `snapshot.destinations`, keyed by the address.
+
+**What 2.4.4 does with it.** The judgment (`src/criteria/link-purpose.ts`) reads the links probe's facts for each link whose ref and identity match: the prompt says what activating the link does ("it goes to https://…", "it opens a new window at …", "it changes the address to … and shows other content in place", "it opens a dialog or layer that reads …"), then what was read there, as for a real `href`. The address also counts as the link's place when links that share a text are compared (ACT fd3a94). Verification is unchanged: a `mismatch` needs a destination that was read (a title or main heading that is not the site's name and not a not-found page), and an `ambiguous` needs other links with the same text that lead elsewhere from the same context. Without the probe, a scripted link has no known destination, so such claims are discarded.
+
+**The rule** decides nothing: `rampa/scripted-links` is an inventory. Its coverage line under 2.4.4 says how many scripted links were found and clicked, what they did, which the skip list kept out and why, and which were not exercised; it never makes 2.4.4 "probed" or "no failure found", and with `--no-llm` 2.4.4 stays not checked.
+
+**ACT rules.** On 2026-10-11 (Edge 155, online, `--criteria 2.4.4 --model ollama:gemma4:12b`), on the seven test cases of the 2.4.4 rules that use scripted links, with and without the probe:
+
+| Test case | Expected | Without the probe | With `--probe links` |
+|---|---|---|---|
+| fd3a94 Failed Example 6: two `role="link"` "Contact Us" spans to two pages | failed | no finding (no destination known) | both found: shared by 2 links that lead to 2 different places |
+| fd3a94 Passed Example 7: two "My university" spans to the same page | passed | 2 findings (generic text) | none: both lead to the same place, read as the university's page |
+| fd3a94 Inapplicable Example 4: spans with `onclick` and no role | inapplicable | none | none (not links, never clicked) |
+| 5effbb Failed Example 2: `div role="link"` "More" to `#main` | failed | found (generic) | found (generic), with the part it moves to |
+| 5effbb Passed Example 4: `span role="link"` to `#desc` | passed | none | none |
+| c487ae Passed Example 2: `div role="link"` to the WAI home | passed | none | none |
+| c487ae Passed Example 3: `button role="link"` "Click me for WAI!" | passed | none | one, low confidence (below the default threshold): the model read "Click me for WAI!" as generic once it saw the WAI home page |
+
+c487ae only asks for a name, so its passed examples say nothing about purpose; the one new finding is the model's reading of the text, with the right destination in the prompt. The test cases are not part of `pnpm test`, which runs offline.
+
+**Fixtures** (`test/fixtures/probes/links-*.html`, served over HTTP by the tests):
+
+- `links-scripted.html`: a "Pricing" link whose handler goes to a blog post ("Launch week recap"), a `javascript:` link behind an analytics call, a `role="link"` span that opens a window, a link that sets an address in place, a span that moves to `#desc`, a "Sign in" link that opens a modal dialog (not exercised; the next link gets a fresh page), a placeholder `href="#"`, two "Contact" spans that go to two pages, and a clock that ticks on its own (learned as noise). With `ollama:gemma4:12b`, "Pricing" fails as a mismatch with the blog post read at its address, and both "Contact" spans as ambiguous; without the probe, the mismatch is discarded and the spans pass.
+- `links-destructive.html`: ten scripted links that must never be touched, each of which reports to `/touched` if clicked: "Delete account", `javascript:removeItem(3)`, "Sair", a `btn-unsubscribe` class, "Comprar agora", "Eliminar", `data-method="post"`, a `download`, a `target="_blank"`, and a link inside a form with a password field. The test checks that none is clicked, that each skip is logged with its reason, that the server never received a request for `/touched`, and that the guard's log holds exactly the one POST a harmless link tried (blocked) and the one navigation another started (intercepted).
+- `links-overlay.html`: a cookie wall over the page: the story link under it is not exercised (the wall is named), "Accept all" is never pressed, "Cookie settings" is clicked.
+
+**Real pages** (2026-10-11, one run each, `--criteria 2.4.4 --model ollama:gemma4:12b`, with and without the probe):
+
+| Page | What the probe did | 2.4.4 | Read by hand |
+|---|---|---|---|
+| www.w3.org, the APG link example | its three `role="link"` examples clicked: two go to www.w3.org, the third (named "W3C website" by `aria-label`) to the APG itself | no finding either way; with the probe, one `ambiguous` claim on the third discarded, as its table cell tells it apart | Right: the third example's address in the page's own script is the APG (`goToLink(event, 'https://www.w3.org/TR/wai-aria-practices/')`) |
+| www.ufc.br | "Canal UFCInforma no Whatsapp" has `href=""`: its click goes back to the home page; its copy in the footer is under the cookie banner, not exercised | no finding either way; with the probe, the model's `mismatch` on the WhatsApp link discarded, as its destination is the page itself | Right: an empty `href` is a broken link, which is never a 2.4.4 finding |
+
+On www.camara.leg.br the six scripted links are menu toggles written as `href="#"`: each opened its menu in place (`content`), and each next one got a fresh page; nothing went to 2.4.4. That is right for 2.4.4, and a sign that they are buttons in a link's role (4.1.2), which this probe does not report.
+
+**Limits.**
+
+- Only links that show on load: a link inside a menu that must be opened first is never reached, since the harness never clicks one control to get to another.
+- One click, with the mouse; a link that reacts only to Enter does nothing here.
+- A navigation started more than about 4 s after the click is missed.
+- Destinations are read without cookies, as for any link: a destination behind a sign-in reads as unknown.
+- Links in frames and in shadow roots are not listed.
+- One engine (Chromium).
 
 ### 3.3.8 Accessible Authentication (Minimum) (`--probe auth`, rule `rampa/accessible-authentication`)
 

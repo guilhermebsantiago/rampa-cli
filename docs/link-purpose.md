@@ -55,7 +55,7 @@ Two corrupted pairs break the passed examples of c487ae and 5effbb: `link-generi
 
 ## Known limits
 
-- A scripted link without an `href` (`<span role="link" onclick=…>`) has no known destination, so it never joins the comparison of links that share a text.
+- A scripted link (`href="#"`, a `javascript:` address, `<span role="link" onclick=…>`) has no known destination, so it never joins the comparison of links that share a text, unless the links probe ran (`--probe links`, see [probes](probes.md)): it clicks each scripted link once, intercepts where it goes without following it, and that address is read like an `href` and compared with the link's text and with the links that share it.
 - Pages are read without running their scripts. A page that builds its content in the browser shows only what its HTML says before scripts run.
 - Two pages count as one place when their title, `h1` and description are identical and only their path differs. The same path with another query string stays another place, since the query may change what the page shows.
 - The ACT exception for links "ambiguous to users in general" is not detected: two links with the same text that lead to different places, with nothing around them for anyone, are reported as ambiguous.
