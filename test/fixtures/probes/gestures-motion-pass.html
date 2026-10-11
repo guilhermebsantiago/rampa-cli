@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Packing list: shake to undo, with an Undo button and a switch</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; max-width: 640px; }
+  li { padding: 4px 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Packing list</h1>
+  <p>Shake your phone to undo the last item you added, or use the Undo button.</p>
+  <ul id="items">
+    <li>Sunscreen</li>
+    <li>Water bottle</li>
+    <li>Rain jacket</li>
+  </ul>
+  <p>
+    <button type="button" id="undo">Undo</button>
+    <label><input type="checkbox" id="shake" checked> Shake to undo</label>
+  </p>
+  <p role="status" id="status"></p>
+</main>
+<script>
+  const undo = () => {
+    const item = document.querySelector('#items li:last-child')
+    if (item) {
+      document.getElementById('status').textContent = `Removed ${item.textContent}`
+      item.remove()
+    }
+  }
+  document.getElementById('undo').addEventListener('click', undo)
+  let last = null
+  let lastShake = 0
+  window.addEventListener('devicemotion', (event) => {
+    const a = event.accelerationIncludingGravity
+    if (!a || a.x === null) return
+    if (last && document.getElementById('shake').checked) {
+      const now = Date.now()
+      if (Math.abs(a.x - last.x) > 15 && Math.abs(a.y - last.y) > 15 && now - lastShake > 1000) {
+        lastShake = now
+        undo()
+      }
+    }
+    last = { x: a.x, y: a.y }
+  })
+</script>
+</body>
+</html>

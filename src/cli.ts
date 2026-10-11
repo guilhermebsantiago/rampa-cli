@@ -127,7 +127,7 @@ const check = program
   )
   .option(
     '--probe <kinds>',
-    'drive web pages after collection: layout, keyboard, hover, orientation, shortcuts, media, color, states, variants, auth, flash, links, input, toggles, status, motion, form, pointer, parity, focus-order, all (every kind but variants, auth, flash, links, input, toggles, status, motion, form, pointer, parity and focus-order), interact (the kinds that click, press, type, change a setting or drag: shortcuts, links, input, toggles, status, form, pointer, parity, focus-order) or none (default: none; docs/probes.md). On android: keyboard, layout and orientation drive the device over adb; an XCUITest export gives layout and orientation from the steps its helper exported',
+    'drive web pages after collection: layout, keyboard, hover, orientation, shortcuts, media, color, states, variants, auth, flash, links, input, toggles, status, motion, form, pointer, parity, focus-order, gestures, all (every kind but variants, auth, flash, links, input, toggles, status, motion, form, pointer, parity, focus-order and gestures), interact (the kinds that click, press, type, change a setting, drag, swipe, pinch or move the device: shortcuts, links, input, toggles, status, form, pointer, parity, focus-order, gestures) or none (default: none; docs/probes.md). On android: keyboard, layout and orientation drive the device over adb; an XCUITest export gives layout and orientation from the steps its helper exported',
   )
   .option('--baseline <file>', 'report only the findings this baseline file does not have (rampa baseline writes it)')
   .option('--no-baseline', 'ignore the baseline set in the config')

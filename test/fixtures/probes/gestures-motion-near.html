@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Harbour at night: a parallax that operates nothing</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; max-width: 640px; }
+  .scene { position: relative; width: 480px; height: 200px; overflow: hidden; background: #013; }
+  .layer { position: absolute; inset: 20px; border-radius: 50%; }
+  .stars { background: radial-gradient(#fff 1px, transparent 1px) 0 0 / 24px 24px; }
+  .moon { inset: 40px 60px auto auto; width: 48px; height: 48px; background: #ffd; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Harbour at night</h1>
+  <div class="scene" aria-hidden="true">
+    <div class="layer stars" id="stars"></div>
+    <div class="layer moon" id="moon"></div>
+  </div>
+  <p>The harbour lights stay on until midnight.</p>
+</main>
+<script>
+  // Decorative parallax: the layers follow the tilt; nothing else changes.
+  window.addEventListener('deviceorientation', (event) => {
+    const x = Math.max(-20, Math.min(20, event.gamma ?? 0))
+    const y = Math.max(-20, Math.min(20, (event.beta ?? 0) / 2))
+    document.getElementById('stars').style.transform = `translate(${x / 2}px, ${y / 2}px)`
+    document.getElementById('moon').style.transform = `translate(${x}px, ${y}px)`
+  })
+  // Motion readings kept for analytics; nothing shows them.
+  const samples = []
+  window.addEventListener('devicemotion', (event) => {
+    if (samples.length < 100) samples.push(event.interval)
+  })
+</script>
+</body>
+</html>

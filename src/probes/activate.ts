@@ -663,9 +663,10 @@ export interface HarnessConfig {
   limits: { controls: number; timeMs: number }
   /**
    * How each fresh page opens, beyond the harness's own hooks: Playwright's fake clock installed before the page loads
-   * (the motion probe moves the page's time itself), and init scripts of the probe's own.
+   * (the motion probe moves the page's time itself), init scripts of the probe's own, and context settings that win
+   * over the run's (the gestures probe turns touch on).
    */
-  page?: Pick<ProbePageOptions, 'clock' | 'viewport' | 'desktop' | 'beforeLoad'> | undefined
+  page?: Pick<ProbePageOptions, 'clock' | 'viewport' | 'desktop' | 'beforeLoad' | 'context'> | undefined
   /**
    * In-page kits a probe adds to every page the harness opens, installed after the activate kit and before the wait
    * with no input, so they see that wait too (the pointer probe learns the page's own changes in it).
@@ -729,6 +730,7 @@ export class Harness {
       ...(own?.clock ? { clock: true } : {}),
       ...(own?.viewport ? { viewport: own.viewport } : {}),
       ...(own?.desktop ? { desktop: true } : {}),
+      ...(own?.context ? { context: own.context } : {}),
       variant: this.config.variant,
       beforeLoad: async (page, context) => {
         await page.addInitScript(installActivateHooks)

@@ -15,7 +15,8 @@ import type { Hit, RuleCheck } from './types.ts'
  *   test answers. Rampa never submits them (section 4.4 of the plan), so it cannot see whether the step is reversible,
  *   checked or confirmed; it lists what it saw on the page that may be one of those mechanisms.
  * - 2.5.4 Motion Actuation: the page listens to device motion or orientation, or its scripts do so after an
- *   interaction (src/surfaces/motion.ts). Synthetic motion, the disable switch and the alternative are wave D.
+ *   interaction (src/surfaces/motion.ts). When the gestures probe (D2, `--probe gestures`) moved the device on a page
+ *   with such listeners, its rule (rampa/motion-actuation) reports on 2.5.4, and this note steps aside.
  */
 
 const UNDERSTANDING = 'https://www.w3.org/WAI/WCAG22/Understanding/'
@@ -317,6 +318,10 @@ export const motionActuationScopeRule: RuleCheck = {
   run(snapshot) {
     const motion = motionFactsOf(snapshot.root)
     if (!motion || (motion.listeners.length === 0 && motion.mentions.length === 0)) return { hits: [], applicable: 0 }
+    // The device-motion probe found the page's listeners and moved the device: its rule says what this note would.
+    const probed = (snapshot.observations?.probes ?? []).find((record) => record.kind === 'gestures' && record.conditions.variant === 'device-motion' && record.status !== 'skipped')
+    const listeners = (probed?.data as { listeners?: unknown } | null | undefined)?.listeners
+    if (Array.isArray(listeners) && listeners.length > 0) return { hits: [], applicable: 0 }
     const listens = motion.listeners.length > 0
     return {
       hits: [
