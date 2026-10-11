@@ -454,6 +454,13 @@ export interface Report {
   /** What the collector or the rules could not see or decide, in the report's language. */
   notes?: string[] | undefined
   /**
+   * Set when the form probe was allowed to submit forms (`--allow-submit`) or listed what it would submit
+   * (`--submit-dry-run`), from its record, so a saved run replays it too: the origins named, the requests the guard
+   * let through to them, those it blocked, and why nothing was submitted when nothing was. Every report format
+   * prints it at the top (docs/probes.md, "Submitting forms").
+   */
+  submissions?: { allowed: string[]; dryRun: boolean; sent: number; blocked: number; skipped?: string | undefined } | undefined
+  /**
    * Set with --profile: advisories beyond WCAG conformance, such as the cognitive profile's (src/advisory/types.ts).
    * They live outside findings, so nothing that reads findings (exit code, baseline, toPassRampa, MCP) sees them.
    */

@@ -203,7 +203,8 @@ export function installKit(): void {
  * window.open returns null and form submission is cancelled. A probe that follows the page's own redirects on load
  * (openProbePage's `follow`, for a sign-in that bounces through other addresses) sets `__rampaFollow` in each new
  * document until the page has landed: until then a form the page submits by itself goes, and the network guard
- * still lets only GET, HEAD and OPTIONS through.
+ * still lets only GET, HEAD and OPTIONS through. The form probe's submissions (`--allow-submit`) set `__rampaSubmit`
+ * for the moment of the one press that submits a form; the guard's own window decides what reaches the network.
  */
 export function installHooks(): void {
   const w = window as unknown as { __rampaEvents?: Array<{ type: string; at: number; detail?: string; target?: Element | null }>; __rampaSelf?: boolean }
@@ -218,7 +219,10 @@ export function installHooks(): void {
     push('open', String(url ?? ''))
     return null
   }) as typeof window.open
-  const follow = () => (window as unknown as { __rampaFollow?: boolean }).__rampaFollow === true
+  const follow = () => {
+    const flags = window as unknown as { __rampaFollow?: boolean; __rampaSubmit?: boolean }
+    return flags.__rampaFollow === true || flags.__rampaSubmit === true
+  }
   const submit = HTMLFormElement.prototype.submit
   const requestSubmit = HTMLFormElement.prototype.requestSubmit
   HTMLFormElement.prototype.submit = function (this: HTMLFormElement) {

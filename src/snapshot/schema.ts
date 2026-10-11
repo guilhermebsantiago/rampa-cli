@@ -150,6 +150,12 @@ export const ProbeRecordSchema = z.object({
     blocked: z.array(z.object({ method: z.string(), url: z.string(), at: z.number(), type: z.string().optional() })),
     navigations: z.array(z.object({ url: z.string(), at: z.number(), cause: z.string().optional() })),
     dialogs: z.array(z.object({ type: z.string(), message: z.string(), at: z.number() })),
+    /**
+     * Requests the guard let through because `--allow-submit` named their origin and the form probe was submitting a
+     * form it chose (docs/probes.md): its writes and the navigations of the steps that followed. Absent on every
+     * other probe, which never submits.
+     */
+    submitted: z.array(z.object({ method: z.string(), url: z.string(), at: z.number(), type: z.string().optional() })).optional(),
   }),
   durationMs: z.number(),
   /** Per kind: refs, identities, bounds and measured numbers. */

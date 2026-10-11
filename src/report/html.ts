@@ -28,7 +28,7 @@ import {
   wcagVersion,
 } from './common.ts'
 import { advisoryHtml, cogaCoverage } from './advisory.ts'
-import { notesOf, usageLine } from './pretty.ts'
+import { notesOf, submissionLine, usageLine } from './pretty.ts'
 
 /**
  * One self-contained HTML file to attach to a ticket: no script, no external request,
@@ -120,6 +120,9 @@ function pageSection(report: Report, index: number, several: boolean, verbose: b
   const out: string[] = []
   out.push(`<section class="page" aria-labelledby="${id}">`)
   out.push(several ? `<h2 id="${id}">${e(pageLabel(report))}</h2>` : `<h2 id="${id}">${e(t(locale, 'findingsOn', { page: pageLabel(report) }))}</h2>`)
+  // Forms the probe submitted (--allow-submit): the run wrote to a server, which comes first.
+  const submitted = submissionLine(report)
+  if (submitted) out.push(`<p class="page-lead"><strong>${e(submitted)}</strong></p>`)
   // With one page, the header already counts the findings.
   const counts = countLevels(report.findings)
   if (several || counts.total === 0) {

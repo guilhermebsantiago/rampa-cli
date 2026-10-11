@@ -18,6 +18,20 @@ export function crawlOptions(): Option[] {
   ].map((option) => option.helpGroup('Crawl options (docs/crawl.md):'))
 }
 
+/**
+ * The form probe's submissions (docs/probes.md, "Submitting forms"): they write to a server, so they take exact origins
+ * on the command line, one flag each; the config file cannot set them.
+ */
+export function submitOptions(): Option[] {
+  return [
+    new Option(
+      '--allow-submit <origin>',
+      'let the form probe (--probe form) SUBMIT forms on this exact origin, such as http://localhost:5173: it writes to that server, to see the errors the server finds and to walk multi-step forms (3.3.1, 3.3.3, 3.3.4, 3.3.7). Test environments only. Scheme, host and port must match; no wildcards; repeat the flag for each origin. Every other origin stays blocked, and payment, password and file forms and controls that buy, pay, delete or sign are never submitted',
+    ).argParser(repeat),
+    new Option('--submit-dry-run', 'with --probe form: list the forms and the values the probe would submit, and submit nothing'),
+  ].map((option) => option.helpGroup('Submitting forms (docs/probes.md, "Submitting forms"):'))
+}
+
 /** How pages open in any web check: session, emulation and waits; docs/browser-options.md has the details. */
 export function browserOptions(): Option[] {
   return [

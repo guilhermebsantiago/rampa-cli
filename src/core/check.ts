@@ -6,6 +6,7 @@ import { type Locale, t } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import { prepareProbeRules, probeChecks } from '../rules/probes.ts'
 import { PROBE_RULES } from '../rules/registry.ts'
+import { submissionSummary } from '../rules/submit.ts'
 import { RULE_CHECKS, type RuleCheck, type RuleStageResult, emptyRuleStage, runRuleChecks, withoutResolved } from '../rules/index.ts'
 import { reviewLabelInName } from '../rules/label-in-name.ts'
 import { uncapturedImagesNote } from '../snapshot/image-skips.ts'
@@ -425,6 +426,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   // What the browser's own accessibility tree left out comes with them: the rules that read it saw less.
   notes.unshift(...reachNotes(snapshot.reach, options.locale), ...axNotes(snapshot.axTree, options.locale), ...(uncaptured ? [uncaptured] : []))
   const reach = unreached(snapshot.reach)
+  // The form probe submitted forms, or listed what it would: every report says so at the top.
+  const submissions = submissionSummary(snapshot)
 
   return {
     schemaVersion: 1,
@@ -456,6 +459,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     usage,
     errors,
     ...(notes.length > 0 ? { notes } : {}),
+    ...(submissions ? { submissions } : {}),
     ...(advisory ? { advisory: advisory.section } : {}),
   }
 }

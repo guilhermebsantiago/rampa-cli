@@ -142,6 +142,9 @@ const messages = {
     noteIosLanguage:
       'The export does not say which language the app ran in, so the language of the screen (3.1.1) was not checked. Pass language: to RampaExport, or launch the app with -AppleLanguages.',
     noteProbesAppKinds: 'On an app screen, --probe runs {kinds}; not run here (web pages only): {left}.',
+    submissionsSent: 'Forms submitted (--allow-submit {origins}): {sent} request(s) let through to it, {blocked} blocked elsewhere. Run it on test environments only.',
+    submissionsNone: '--allow-submit {origins}: nothing was submitted ({reason}).',
+    submissionsDryRun: '--submit-dry-run: nothing was submitted; the forms and the values the probe would send are in the probe record.',
     noteProbesNeedDevice: '--probe needs the device: a saved dump is a single state of the screen, so it was checked without probes. Run rampa check android: --probe … with the device connected.',
     noteProbesUntested:
       'The app-screen probes have run only against a fake device and hand-written exports, never on a real Android device or iPhone: read their findings with that in mind (docs/probes.md, "App screens").',
@@ -327,6 +330,9 @@ const messages = {
     noteIosLanguage:
       'A exportação não diz em que idioma o app rodou, então o idioma da tela (3.1.1) não foi verificado. Passe language: ao RampaExport ou abra o app com -AppleLanguages.',
     noteProbesAppKinds: 'Numa tela de app, --probe roda {kinds}; não rodam aqui (só páginas web): {left}.',
+    submissionsSent: 'Formulários enviados (--allow-submit {origins}): {sent} requisição(ões) liberada(s) para lá, {blocked} bloqueada(s) em outros lugares. Use só em ambientes de teste.',
+    submissionsNone: '--allow-submit {origins}: nada foi enviado ({reason}).',
+    submissionsDryRun: '--submit-dry-run: nada foi enviado; os formulários e os valores que a sonda enviaria estão no registro da sonda.',
     noteProbesNeedDevice: '--probe precisa do aparelho: um dump salvo é um só estado da tela, então ele foi verificado sem sondas. Rode rampa check android: --probe … com o aparelho conectado.',
     noteProbesUntested:
       'As sondas de telas de app só rodaram contra um aparelho simulado e exportações escritas à mão, nunca num Android ou iPhone de verdade: leia os achados delas com isso em mente (docs/probes.md, "App screens").',

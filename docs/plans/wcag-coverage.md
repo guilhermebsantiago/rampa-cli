@@ -1,6 +1,6 @@
 # Rampa WCAG 2.2 coverage roadmap
 
-Date: 2026-10-09. Status (2026-10-11): wave A (A1–A10) and wave B (B1–B16) are built (B7 runs with `--probe auth`, B14's OCR backs 1.4.5, which stays on request); from wave C, C1 (interaction harness), C2 (keyboard parity), C3 (focus management), C4 (state exposure), C5 (status messages), C6 (form probes), C7 (pointer probes), C8 (use of color, `--probe color`), C9 (sensory characteristics, on request), C10 (motion and time), C11 (on input), C12 (site consistency), C13 (bypass blocks: the skip-link probe and blocks repeated across a crawl), C14 (structure judged, on request), C15 (contrast in states, `--probe states`), C16 (letter-spaced words) and C17 (scope notes); from wave D, D1 (flash analyzer, `--probe flash`), D2 (gestures and motion), D3 (media in depth), D4 (reading order), D6 (state variants) and D7 (native probes). The rest is a plan.
+Date: 2026-10-09. Status (2026-10-11): all four waves are built: A1–A10, B1–B16, C1–C17 and D1–D7. Every check they added is experimental, below the default threshold, until it passes the gate in section 4.9; most probes are opt-in (`--probe <kind>`, `interact`), and `--allow-submit` alone lets the form probe submit. Parts of some rows were left out on purpose or for later; docs/probes.md, docs/rules.md and docs/criteria.md list them under each check's limits. On app screens (D7) the probes have run only against recorded device output, never on a device.
 
 This plan builds on:
 

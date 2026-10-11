@@ -25,6 +25,9 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   const meta = [`${t(locale, 'surface')}: ${report.surface}`, t(locale, 'wcagTarget', { version }), `${report.engine.name} ${report.engine.version}`]
   if (report.model) meta.push(`${t(locale, 'model')}: ${report.model}`)
   lines.push(p.dim(meta.join(' · ')))
+  // Forms the probe submitted (--allow-submit) come first: the run wrote to a server.
+  const submitted = submissionLine(report)
+  if (submitted) lines.push(p.bold(p.yellow(submitted)))
   lines.push('')
 
   const findings = verbose ? [...report.findings, ...report.belowThreshold] : report.findings
@@ -193,6 +196,19 @@ export function probeCoverageLines(report: Report): string[] {
     lines.push(`  ${row.criterion.padEnd(7)} ${row.method} (${row.rule}) · ${row.conditions}: ${status}${extra.length > 0 ? ` · ${extra.join(' · ')}` : ''}`)
   }
   return lines
+}
+
+/**
+ * What the form probe submitted (--allow-submit) or would have (--submit-dry-run): every format prints it in its header
+ * (the terminal under the target, Markdown under the summary, HTML at the top of the page's section).
+ */
+export function submissionLine(report: Report): string | undefined {
+  const submissions = report.submissions
+  if (!submissions) return undefined
+  const origins = submissions.allowed.join(', ') || '—'
+  if (submissions.dryRun) return t(report.locale, 'submissionsDryRun')
+  if (submissions.skipped !== undefined || submissions.sent === 0) return t(report.locale, 'submissionsNone', { origins, reason: (submissions.skipped ?? 'no form could be submitted').replace(/; nothing (more )?was submitted$/, '') })
+  return t(report.locale, 'submissionsSent', { origins, sent: submissions.sent, blocked: submissions.blocked })
 }
 
 export function notesOf(report: Report, verbose: boolean): string[] {
