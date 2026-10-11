@@ -9,6 +9,7 @@ import { layoutProbes } from './layout.ts'
 import { mediaProbe } from './media.ts'
 import { orientationProbe } from './orientation.ts'
 import { shortcutsProbe } from './shortcuts.ts'
+import { variantsProbe } from './variants.ts'
 import { OPT_IN_KINDS, PROBE_KINDS, type ProbeKind, type ProbeOptions, skippedRecord } from './page.ts'
 
 export { OPT_IN_KINDS, PROBE_KINDS, type ProbeKind, type ProbeOptions } from './page.ts'
@@ -36,7 +37,7 @@ export function probeLaunchArgs(kinds: readonly ProbeKind[] | undefined): string
   return kinds.includes('media') ? [...DETERMINISM_ARGS, ...AUTOPLAY_ARGS] : [...DETERMINISM_ARGS]
 }
 
-/** `--probe layout,keyboard,hover,orientation,shortcuts,media,color,auth`, `all` (every kind but auth) or `none`. */
+/** `--probe layout,keyboard,hover,orientation,shortcuts,media,color,variants,auth`, `all` (every kind but auth) or `none`. */
 export function parseProbeKinds(raw: string | undefined): ProbeKind[] {
   if (!raw) return []
   const kinds = new Set<ProbeKind>()
@@ -53,7 +54,7 @@ export type ProbeStep = (browser: Browser, url: string, options: ProbeOptions) =
 
 /** Runs each requested kind in turn; a probe that fails is recorded as skipped and never fails the check. */
 export async function runProbes(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
-  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe, shortcuts: shortcutsProbe, media: mediaProbe, color: colorProbe, auth: authProbe }
+  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe, shortcuts: shortcutsProbe, media: mediaProbe, color: colorProbe, variants: variantsProbe, auth: authProbe }
   const records: ProbeRecord[] = []
   for (const kind of options.kinds) {
     const started = Date.now()

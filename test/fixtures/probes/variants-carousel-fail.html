@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Offers · Acme</title>
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    .carousel { position: relative; width: 480px; height: 270px; overflow: hidden; }
+    .carousel .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s; }
+    .carousel .slide.active { opacity: 1; }
+    .carousel img { display: block; width: 480px; height: 270px; }
+    .banner { display: block; width: 600px; height: 200px; margin-top: 2em; }
+  </style>
+</head>
+<body>
+  <h1>This week's offers</h1>
+
+  <!-- F20: a carousel that plays by itself; every slide's picture is named after the first one. -->
+  <section class="carousel" aria-roledescription="carousel" aria-label="Offers">
+    <div class="slide active" aria-roledescription="slide"><img src="variants/slide-1.svg" alt="Summer sale: 30% off every coat"></div>
+    <div class="slide" aria-roledescription="slide"><img src="variants/slide-2.svg" alt="Summer sale: 30% off every coat"></div>
+    <div class="slide" aria-roledescription="slide"><img src="variants/slide-3.svg" alt="Summer sale: 30% off every coat"></div>
+  </section>
+
+  <!-- F20, Example 3: a script swaps the image's address and leaves its alt. -->
+  <img class="banner" id="campus" src="variants/banner-a.svg" alt="The campus at sunrise">
+
+  <!-- Slides that do not play: each made visible for its capture. -->
+  <section class="carousel still" aria-roledescription="carousel" aria-label="Rooms" style="margin-top: 2em">
+    <div class="slide active" aria-roledescription="slide"><img src="variants/slide-3.svg" alt="Our rooms"></div>
+    <div class="slide" aria-roledescription="slide"><img src="variants/slide-1.svg" alt="Our rooms"></div>
+  </section>
+
+  <!-- Slides that carry the class themselves, under a container that does not: the container is the carousel. -->
+  <div class="hero" style="position: relative; width: 480px; height: 270px; overflow: hidden; margin-top: 2em">
+    <div class="slider-item" style="position: absolute; inset: 0"><img src="variants/slide-2.svg" alt="Campus news" style="display: block; width: 480px; height: 270px"></div>
+    <div class="slider-item" style="position: absolute; inset: 0; opacity: 0"><img src="variants/slide-1.svg" alt="Campus news" style="display: block; width: 480px; height: 270px"></div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.carousel:not(.still) .slide')
+    let current = 0
+    setInterval(() => {
+      slides[current].classList.remove('active')
+      current = (current + 1) % slides.length
+      slides[current].classList.add('active')
+    }, 3000)
+    const banner = document.getElementById('campus')
+    const pictures = ['variants/banner-a.svg', 'variants/banner-b.svg']
+    let shown = 0
+    setInterval(() => {
+      shown = (shown + 1) % pictures.length
+      banner.src = pictures[shown]
+    }, 5000)
+  </script>
+</body>
+</html>
