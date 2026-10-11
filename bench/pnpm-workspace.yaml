@@ -1,0 +1,6 @@
+# bench/ is its own pnpm root, so its tools never enter Rampa's dependencies or lockfile.
+# No install script runs: the browsers that puppeteer and chromedriver would download are not used,
+# since every tool drives the same installed Microsoft Edge.
+allowBuilds:
+  puppeteer: false
+  chromedriver: false
