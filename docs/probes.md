@@ -21,6 +21,7 @@ rampa check page.html --probe media                  # audio and video: captions
 rampa check page.html --probe color                  # use of color: current items, required fields, links in text, color words (1.4.1)
 rampa check page.html --probe states                 # contrast in hover, focus and selected states (1.4.3, 1.4.11); with keyboard, focus indicators too
 rampa check https://example.com/login --probe auth   # sign-in and recovery: trusted paste, keypads, F109, CAPTCHAs (3.3.8); never part of all
+rampa check page.html --probe flash                  # general and red flashes in the window, animated images and video (2.3.1); never part of all
 rampa check page.html --probe all --save .rampa/rec  # keep the observations to replay offline
 ```
 
@@ -38,6 +39,7 @@ Every probe but one is in the **observe** class:
 - it turns the window between portrait and landscape and sets the screen orientation over the DevTools protocol, with a `window.orientation` shim where the browser has none (the orientation probe); it reads the web app manifest with a GET and runs axe-core's experimental css-orientation-lock in the probe page;
 - it focuses the page's `body` for a moment before the walk, so the first Tab starts at the top of the page;
 - it presses Enter on a link whose address is the page itself plus a fragment that names an element of the page (a skip link, `#main`), at most three such links among the first eight Tab stops, each from a fresh start at the top (the skip-link probe, 2.4.1); never on a link to another page, a route of a single-page app (`#/about`), a button, or anything in a form;
+- it pauses Playwright's fake clock and moves it in steps of 16 ms, pausing CSS and SVG animations and setting them to each instant, while it captures the window (the flash probe); it fetches the page's animated images once more with GET to decode their frames, and plays its videos muted for 3 s to read their frames, then pauses them;
 - it plays audio and video muted for a few seconds, makes their text tracks load, and reads their sound from a copy of their stream; it pauses them and puts their time, muted state and track modes back afterwards (the media probe). It never unmutes anything. For that probe the browser starts with `--autoplay-policy=no-user-gesture-required`, as a browser that lets pages play sound on load does; Playwright starts headless browsers with `--mute-audio`, so no sound reaches the speakers;
 - it changes the colors of one element for a single capture, the peer's colors put on it, and puts them back (the color probe);
 - it takes the marks of a selected or current item off for two captures (an `aria-current`, `aria-selected`, `aria-pressed` or `aria-checked` attribute set to false or removed, a state class such as `active` removed) and puts them back right after (the states probe);
@@ -133,6 +135,7 @@ What `--probe all` adds, and what each criterion still needs from a person. Ever
 | 2.1.1 Keyboard | `probe/keyboard@2`, `rampa/keyboard-reach`: Tab and Shift+Tab walk | a control neither walk reached (medium for a negative tabindex) | — | operating what was reached; drag and drop; states after interaction; handler-only controls |
 | 2.1.2 No Keyboard Trap | `probe/keyboard@2`, `rampa/keyboard-trap` | a cycle Tab, Shift+Tab, Esc and the arrows never leave, twice | traps inside dialogs; traps with exit text | traps after interaction; plug-ins |
 | 2.1.4 Character Key Shortcuts | `probe/shortcuts@1`, `rampa/character-key-shortcuts`: every printable key with focus on the body, twice, against a wait with no key; settings named for shortcuts toggled with Space; `judgment/2.1.4@1` only clears | printable keys that change the page while no control has focus and that no setting on the page stopped (F99), one finding per page, medium | — | settings on other pages or behind login (the message says to waive); shortcuts active only on focus; keyboard layouts and IMEs; speech input |
+| 2.3.1 Three Flashes or Below Threshold | `probe/flash@1`, `rampa/three-flashes` (only with `--probe flash`): the window captured every 16 ms of the page's time for 3 s, animated images decoded, videos played muted for 3 s, on grids of 4 × 4 CSS px | seven transitions or more in one second (more than three general or red flashes) over more than 25% of a 341 × 256 field | — (measured failures only; what could not be read is named in the coverage note) | flashing after an interaction or further down the page; video from another origin, DRM and embedded players; live and user-generated content; certification-grade sign-off |
 | 2.4.1 Bypass Blocks | `probe/keyboard@1` (variant `skip-link`), `rampa/bypass-blocks`: the first 8 Tab stops, and Enter on up to 3 skip links among them | — (never on one page, by design; failures come from `--crawl`, [site criteria](site-criteria.md)) | a skip link that points nowhere, does not move focus, or never shows; links and controls before the content with no skip link, main landmark or heading after them; a skip button or menu toggle, which is never pressed | which blocks repeat on other pages (a crawl compares them); interleaved blocks; single-page-app views; whether a block is substantial |
 | 2.4.7 Focus Visible | `probe/keyboard@2`, `rampa/focus-visible`: focused and blurred captures | no pixel changes in the region or the viewport; focus removed on arrival (F55) | a change only elsewhere; a faint change | whether a change is perceivable; forced colors; other browsers |
 | 2.4.11 Focus Not Obscured (Minimum) | `probe/keyboard@2`, `rampa/focus-obscured`: 5×5 hit grid at the run's window and at 390×844, confirmed by pixels | the element entirely under author content (beyond the target under `--wcag 2.1`) | — | content the user opened or moved; other window sizes and zoom levels |
@@ -222,13 +225,13 @@ The authentication probe, measured the same day (it waits 1.5 s after load for t
 ## Not yet
 
 - With `--crawl`, 2.4.1 is compared across the pages from their markup alone: a link into the page counts without being pressed, since the skip-link probe does not run there yet.
-- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'auth']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
+- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'auth', 'flash']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
 - The `rampa.config` file has no `probe` key yet.
 - Items to review appear with the engine's and the rules' in every format: grouped by criterion and rule in the terminal (each element with `--verbose`), the Markdown and the HTML reports, counted in SARIF's coverage, and listed in the JSON (`needsReview`).
 - Captures are not written next to a saved snapshot; only their hashes are recorded.
 - The rest of the activate class (clicks, Enter and Space on controls, select changes, `--probe interact`) and `--allow-submit` do not exist yet; nothing here clicks or submits, the shortcuts probe presses only printable keys on the body and Space on the settings it found, and the authentication probe (only with `--probe auth`) pastes a dummy value into password and code fields, types one key when the paste did not land, and puts the value back.
 - `--crawl` does not run probes, so it does not find sign-in pages and probe them yet (the plan's B7 asks for that); the authentication probe lists the sign-in and recovery links it saw.
-- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. The color tests ran three times in a row on Edge and once in the full suite, with no verdict changing; their lightness verdicts also read the style sheet's colors, so a platform whose fonts antialias differently cannot turn a 5:1 difference into a failure. The authentication tests ran three times in a row on Edge and once in the full suite, with no verdict changing. The state contrast tests (`test/probes-states.test.ts`, keyboard and states probes on three fixtures) ran three times in a row on Edge and once in the full suite, with no verdict changing. They have not run yet on the Linux CI runner's Chrome.
+- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. The color tests ran three times in a row on Edge and once in the full suite, with no verdict changing; their lightness verdicts also read the style sheet's colors, so a platform whose fonts antialias differently cannot turn a 5:1 difference into a failure. The authentication tests ran three times in a row on Edge and once in the full suite, with no verdict changing. The state contrast tests (`test/probes-states.test.ts`, keyboard and states probes on three fixtures) ran three times in a row on Edge and once in the full suite, with no verdict changing, and so did the flash tests (`test/probes-flash.test.ts`, six pages); the flash probe moves the page's own clock rather than waiting on it, and only its video sampling runs in real time, with a cap. They have not run yet on the Linux CI runner's Chrome.
 - Saved recordings of three real pages replay offline to the same findings, by id; the plan's measurement on 20 pages of the real-page sample (EVAL-1) is not done.
 
 ## The checks
@@ -722,6 +725,69 @@ No ACT rule exists for 3.3.8.
 - Password managers themselves are not run; the attributes that may keep them away go to review.
 - With `--crawl`, probes do not run, so the crawl does not find and probe sign-in pages yet; the links the probe lists say where to run it.
 - One engine (Chromium), headless; pages that refuse headless browsers show a bot check, reported as not checked.
+
+### 2.3.1 Three Flashes or Below Threshold (`--probe flash`, rule `rampa/three-flashes`)
+
+**Only when named.** `--probe flash` plays the page's videos (muted) and takes some 200 captures of the window, so `--probe all` leaves it out, like `auth`. It is item D1 of the plan: one analyzer, measured failures only, no vision model and no certification claim (a "PEAT pass" or "Harding pass" needs those tools and a person).
+
+**WCAG's thresholds, as Rampa measures them** (`src/pixels/flash.ts`):
+
+- A **general flash** is a pair of opposing changes in relative luminance of 10% or more of the maximum (0.1), where the darker state is below 0.80. A transition is the change between a peak and a valley of luminance over time (the Understanding for 2.3.1), so the analyzer follows each spot's luminance and counts a transition when it has moved 0.1 from its last peak or valley in the other direction: a slow fade counts once, however many frames it takes.
+- A **red flash** is a pair of opposing transitions involving a saturated red: one state has R/(R + G + B) of 0.8 or more (on the 8-bit sRGB values), and the two states are more than 0.2 apart in CIE 1976 u′v′ chromaticity (WCAG 2.2's definition). Black, which has no chromaticity, counts as the white point. Red against a gray of the same luminance is a red flash and no general flash; red against orange is neither.
+- **More than three flashes in one second** is seven transitions or more within one second (three flashes are six). Transitions taken from samples (window captures every 16 ms, video frames) are known only to a sample, so the window is shortened by the median step between frames: content at exactly three flashes a second is never counted as more for when its frames happened to be taken. The frames of an animated image are the moments it changes, timed exactly.
+- **Area.** WCAG allows flashing over no more than 25% of a 10° visual field, which it estimates as a 341 × 256 rectangle on a 1024 × 768 screen; the Understanding counts "the contiguous area flashing at the same time within any 10-degree angle of view". Frames are reduced to grids of cells of 4 × 4 CSS px (larger for large images and videos, at most 96 cells across), each the average of its pixels; the cells that make seven transitions or more in the same one-second window form connected regions, and each region's largest share of one 341 × 256 field is its area. Two small regions apart are not added up. Averaging is also why a fine balanced pattern (a small checkerboard that inverts, squares under 0.1°) does not count, as the Understanding says it should not.
+
+The probe runs in a 1024 × 768 window, the screen the 341 × 256 field is defined on, in desktop mode.
+
+**What it reads.**
+
+- **Animated images**: every `img` and every CSS background image that shows (at most 60 read, 12 analyzed). Their bytes are fetched once more with GET (the context's cookies, and `--header` only for the site being checked, as for the page; `data:` addresses read in place; `file:` images only next to a `file:` page). A GIF with two graphic control blocks or more, a PNG with an `acTL` chunk (APNG) or a WebP with an `ANIM` chunk is decoded by the browser's `ImageDecoder`, in a page of its own on an https address answered locally (WebCodecs needs a secure context), each frame drawn at the size the page shows it, transparent pixels over white. Each frame lasts its own duration, 10 ms or less counting as 100 ms, as Chromium plays it; a looping image is analyzed while looping (the Understanding asks for that), over twice its loop or 2 s, at most 6 s.
+- **Video**: each `video` that shows (at most 3) is muted, then played, and each frame the browser presents (`requestVideoFrameCallback`) is drawn into a small canvas and read, for 3 s of media time, waiting at most 9 s of real time. Its sound is never turned on, and Playwright's headless browsers run with `--mute-audio` besides. A video from another origin served without CORS cannot be read: it is named in the coverage note, never failed. A video with native controls is also analyzed at the size full screen would give it in the 1024 × 768 screen ("video that plays full screen should be checked at full screen").
+- **Everything else on screen**: the window is captured at a quarter scale through the DevTools protocol (a pixel per 4 × 4 CSS px), every 16 ms of the page's own time, for 3 s. Playwright's fake clock, installed before the page loads, is paused, and each step moves it 16 ms: timers and `requestAnimationFrame` run as they would, so canvases and scripts that restyle the page draw where they would be at that instant, however slow the machine. CSS animations and transitions (`document.getAnimations()`, including those a script starts meanwhile) are paused and set to each instant; SVG animations through `setCurrentTime`. Videos are paused and, with the animated images, left out of these captures (masked), since they play on their own clock and are read apart. The top of the page is captured; then up to two more windows, 2 s each, for canvases and animations further down that the first does not show.
+
+**The rule.**
+
+| Observation | Result |
+|---|---|
+| An area of the window, an animated image or a video makes seven general transitions or more within one second, over more than 21,824 CSS px² (25%) of one 341 × 256 field | failure: high for window captures and images; medium for a video whose sampling missed frames |
+| The same for red transitions | failure, named as red flashes |
+| A video that passes at its size but fails at full screen | failure, medium, saying "when shown full screen" |
+| More than three flashes a second over a smaller area, or three or fewer over any area | no failure found (below the threshold); the record keeps the most transitions and the area |
+| An animated image or a video that could not be read (another origin without CORS, not fetched again, no frames) | named in the coverage note, never failed |
+| Nothing analyzed at all | "not checked" |
+
+A finding names the image or the video, or, for a window capture, the element at the middle of the area that flashes (a canvas, an animated `div`), else the page's `body`. Its evidence gives the source, the frames, the second the flashes happened in (start, end, first and last frame), the transitions and the area, as a share of the field. The record keeps, for each source, the most transitions any spot made in one second and the largest area that made seven or more, for general and for red flashes, so a saved snapshot is judged again offline. The definitions the probe applied are recorded with it.
+
+**Fixtures** (made in `test/probes-flash.test.ts` and served from memory; the video is `test/fixtures/probes/media/flash.webm`, written by `node scripts/media-fixtures.ts flash`):
+
+- canvases drawn by `requestAnimationFrame`: 600 × 400 at 2 Hz and 40 × 40 at 5 Hz pass; 600 × 400 at 5 Hz fails; 600 × 400 alternating `#ff0000` and `#7f7f7f` (the same luminance) at 5 Hz fails as a red flash only;
+- a CSS animation (`steps(1)`, 200 ms) on a 500 × 360 element fails: it is set to each instant, not played;
+- two looping GIFs made with gifenc, black and white frames of 100 ms: shown at 400 × 300 it fails, at 32 × 32 it passes;
+- a 3 s video, 30 frames a second, black and white every 100 ms, shown at 480 × 360, played muted: fails.
+
+The analyzer's own tests add 3 Hz (six transitions, passes), 4 Hz (eight), a fade, two small regions apart, and changes between two bright colors. No ACT rule exists for 2.3.1; EA's IRIS, which the plan names for a cross-check, has not been run against these fixtures yet.
+
+**Real pages.** On 2026-10-11, with `--probe flash --no-llm --min-confidence low` (Edge 155):
+
+| Page | Read | Findings | Read by hand |
+|---|---|---|---|
+| rampa.guilhermebs.com.br | 2 CSS animations and a canvas; one window, 188 captures | none: one transition at most | Right: nothing on the page flashes |
+| en.wikipedia.org/wiki/GIF | 24 images, 6 animated GIFs decoded (the rotating Earth, a Newton's cradle, an under-construction bulldozer, an interlaced GIF demo…); one window | none: up to 12 transitions a second, over 16 to 400 px² | Right: small moving parts (the cradle's balls, the edge of the globe) change fast over a few cells; nothing flashes over an area near the threshold |
+| animate.style | 3 CSS animations; one window | none: 9 transitions over 32 px² | Right: the page's animations move small areas; nothing flashes |
+| ableplayer.github.io, demo video1 | one video, 640 × 480, sampled 91 frames over 3 s with no frame missed | none: 6 transitions at most | Right: a person talking; no flashing |
+
+None of these pages flashes, so they show no false positive, not that failures are found on real pages; the plan's gate asks for a targeted corpus of pages that do flash, which has not been gathered (they are rare, and most hosts remove them).
+
+**Cost.** 6 to 11 s on the pages above (one window of 3 s at 16 ms steps takes about 4 s of real time: some 20 ms per capture; decoding the GIFs took most of the rest on Wikipedia; a video adds its 3 s). The probe stops at 60 s, analyzing what it has.
+
+**Limits.**
+
+- Frames are the page's, in Chromium: the browser's frame rate and the screen's are not modeled, and content that flashes faster than every 16 ms of page time is sampled, not seen frame by frame.
+- Only the top of the page and up to two more windows are captured, for 3 s and 2 s; flashing that starts later, after an interaction, or further down past the canvases and animations found, is not seen. Content in frames of another origin is captured as rendered, but its animations are not seeked, so it plays in real time between captures.
+- Cross-origin video without CORS, DRM-protected video, and players in frames of another origin are not read; YouTube embeds are among them. Videos are read for their first 3 s only.
+- Images that a script swaps (a slideshow drawn by replacing `src`) are seen in the window captures; CSS background GIFs are read when their address can be fetched again.
+- The red flash uses WCAG 2.2's working definition on 8-bit sRGB values; HDR content and its Michelson-contrast definition are not handled.
+- Scrolling content and moving high-contrast patterns are counted as transitions where each spot changes; WCAG's thresholds speak of flashes, and such patterns over a large area would be reported. No pattern rule (stripes, spirals) is applied.
 
 ### 2.4.7 Focus Visible and 2.4.11 Focus Not Obscured (`--probe keyboard`)
 
