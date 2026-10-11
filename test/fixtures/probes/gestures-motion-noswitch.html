@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tide tables: tilt to scroll</title>
+<style>
+  body { font: 16px/1.6 Arial, sans-serif; margin: 24px; max-width: 640px; }
+  table { border-collapse: collapse; }
+  td, th { border: 1px solid #999; padding: 4px 12px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Tide tables</h1>
+  <p>Tilt your phone forward to scroll through the month.</p>
+  <table>
+    <thead><tr><th>Day</th><th>High tide</th><th>Low tide</th></tr></thead>
+    <tbody id="days"></tbody>
+  </table>
+</main>
+<script>
+  const days = document.getElementById('days')
+  for (let d = 1; d <= 31; d++) {
+    const row = document.createElement('tr')
+    row.innerHTML = `<td>October ${d}</td><td>${(d * 37) % 12 + 1}:${String((d * 13) % 60).padStart(2, '0')}</td><td>${(d * 29) % 12 + 1}:${String((d * 7) % 60).padStart(2, '0')}</td>`
+    days.append(row)
+  }
+  // Tilt forward to scroll; no setting turns it off.
+  window.addEventListener('deviceorientation', (event) => {
+    if (event.beta !== null && event.beta > 20) window.scrollBy(0, 24)
+  })
+</script>
+</body>
+</html>

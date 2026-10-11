@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Harbour gallery: things that only swipe or pinch</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; max-width: 760px; }
+  .carousel { position: relative; width: 480px; height: 160px; overflow: hidden; border: 1px solid #333; touch-action: pan-y; margin-bottom: 24px; }
+  .track { display: flex; height: 100%; transition: transform 300ms ease; }
+  .track figure { flex: 0 0 100%; margin: 0; padding: 56px 16px; box-sizing: border-box; color: #fff; font-size: 20px; }
+  .viewer { width: 480px; height: 220px; overflow: hidden; border: 1px solid #333; touch-action: none; position: relative; margin-bottom: 24px; }
+  .viewer .picture { width: 240px; height: 140px; margin: 40px auto 0; background: linear-gradient(135deg, #0a5 0 50%, #036 50% 100%); transform-origin: center; transition: transform 200ms; }
+  .viewer p { position: absolute; bottom: 4px; left: 8px; margin: 0; }
+  canvas { border: 1px solid #333; touch-action: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Harbour gallery</h1>
+
+  <h2>Photos</h2>
+  <!-- Swiped only: no button, no dot. -->
+  <div class="carousel" id="photos" aria-roledescription="carousel" aria-label="Photos">
+    <div class="track">
+      <figure style="background:#036">Photo 1 of 4: the harbour at dawn</figure>
+      <figure style="background:#630">Photo 2 of 4: boats at noon</figure>
+      <figure style="background:#063">Photo 3 of 4: the lighthouse</figure>
+      <figure style="background:#306">Photo 4 of 4: the pier at night</figure>
+    </div>
+  </div>
+
+  <h2>Map of the harbour</h2>
+  <!-- Pinched only: no zoom buttons. -->
+  <div class="viewer" id="chart" aria-label="Harbour chart">
+    <div class="picture"></div>
+    <p>Zoom: 100%</p>
+  </div>
+
+  <h2>News</h2>
+  <!-- Turns on its own every 3 s, and swipes; no button. -->
+  <div class="carousel" id="news" aria-roledescription="carousel" aria-label="News">
+    <div class="track">
+      <figure style="background:#333">The ferry runs again from Monday</figure>
+      <figure style="background:#553">New benches on the pier</figure>
+      <figure style="background:#335">Fish market opens at six</figure>
+    </div>
+  </div>
+
+  <h2>Sign the guest book</h2>
+  <p id="sign-hint">Sign here with your finger or the mouse.</p>
+  <canvas id="signature" width="420" height="140" aria-label="Signature" aria-describedby="sign-hint"></canvas>
+</main>
+<script>
+  // A carousel moved by touch: a swipe of 40 px or more goes to the next or the previous slide.
+  function carousel(root, { autoplay } = {}) {
+    const track = root.querySelector('.track')
+    const count = track.children.length
+    let index = 0
+    let startX = null
+    const show = (i) => {
+      index = (i + count) % count
+      track.style.transform = `translateX(${-100 * index}%)`
+    }
+    root.addEventListener('touchstart', (event) => { startX = event.touches[0].clientX })
+    root.addEventListener('touchmove', () => {})
+    root.addEventListener('touchend', (event) => {
+      if (startX === null) return
+      const dx = event.changedTouches[0].clientX - startX
+      startX = null
+      if (dx <= -40) show(index + 1)
+      else if (dx >= 40) show(index - 1)
+    })
+    if (autoplay) setInterval(() => show(index + 1), autoplay)
+    return { show, get index() { return index } }
+  }
+  carousel(document.getElementById('photos'))
+  carousel(document.getElementById('news'), { autoplay: 3000 })
+
+  // A picture that zooms when two fingers spread or close.
+  const chart = document.getElementById('chart')
+  const picture = chart.querySelector('.picture')
+  const label = chart.querySelector('p')
+  let zoom = 1
+  let start = null
+  const distance = (touches) => Math.hypot(touches[0].clientX - touches[1].clientX, touches[0].clientY - touches[1].clientY)
+  chart.addEventListener('touchstart', (event) => { if (event.touches.length === 2) start = distance(event.touches) })
+  chart.addEventListener('touchmove', (event) => {
+    if (event.touches.length !== 2 || !start) return
+    event.preventDefault()
+    const scale = Math.min(3, Math.max(1, zoom * (distance(event.touches) / start)))
+    picture.style.transform = `scale(${scale})`
+  }, { passive: false })
+  chart.addEventListener('touchend', () => {
+    if (!start) return
+    const match = /scale\(([\d.]+)\)/.exec(picture.style.transform)
+    zoom = match ? Math.round(Number(match[1]) * 2) / 2 : zoom
+    picture.style.transform = `scale(${zoom})`
+    label.textContent = `Zoom: ${Math.round(zoom * 100)}%`
+    start = null
+  })
+
+  // A signature pad: the pointer's path is drawn.
+  const canvas = document.getElementById('signature')
+  const ink = canvas.getContext('2d')
+  ink.lineWidth = 3
+  let drawing = false
+  canvas.addEventListener('pointerdown', (event) => {
+    drawing = true
+    ink.beginPath()
+    ink.moveTo(event.offsetX, event.offsetY)
+  })
+  canvas.addEventListener('pointermove', (event) => {
+    if (!drawing) return
+    ink.lineTo(event.offsetX, event.offsetY)
+    ink.stroke()
+  })
+  canvas.addEventListener('pointerup', () => { drawing = false })
+</script>
+</body>
+</html>

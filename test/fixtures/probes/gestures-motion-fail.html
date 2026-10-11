@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Packing list: shake to undo</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; max-width: 640px; }
+  li { padding: 4px 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Packing list</h1>
+  <p>Shake your phone to undo the last item you added.</p>
+  <ul id="items">
+    <li>Sunscreen</li>
+    <li>Water bottle</li>
+    <li>Rain jacket</li>
+  </ul>
+  <p role="status" id="status"></p>
+</main>
+<script>
+  // Shake to undo, with no Undo button and no way to turn it off.
+  let last = null
+  let lastShake = 0
+  window.addEventListener('devicemotion', (event) => {
+    const a = event.accelerationIncludingGravity
+    if (!a || a.x === null) return
+    if (last) {
+      const dx = Math.abs(a.x - last.x)
+      const dy = Math.abs(a.y - last.y)
+      const now = Date.now()
+      if (dx > 15 && dy > 15 && now - lastShake > 1000) {
+        lastShake = now
+        const item = document.querySelector('#items li:last-child')
+        if (item) {
+          document.getElementById('status').textContent = `Removed ${item.textContent}`
+          item.remove()
+        }
+      }
+    }
+    last = { x: a.x, y: a.y }
+  })
+</script>
+</body>
+</html>

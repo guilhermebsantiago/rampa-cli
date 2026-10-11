@@ -1,8 +1,10 @@
 import type { Confidence, Finding, ProbeCoverage } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
+import { GESTURES_VARIANT } from '../probes/gestures.ts'
 import { matchNode } from '../probes/identity.ts'
 import { type DragAlternative, type DragCandidate, type GestureCandidate, POINTER_VERSION, type PointerData, type PressCandidate, type PressTrial, pressOutcome } from '../probes/pointer.ts'
 import type { A11yNode, ProbeRecord } from '../snapshot/schema.ts'
+import { gesturesRecord } from './gestures.ts'
 import { type ProbeRule, type ProbeRuleContext, asArray, asRecord, conditionsText, probeFinding, say } from './probes.ts'
 
 export const POINTER_CANCELLATION_RULE = 'rampa/pointer-cancellation'
@@ -402,10 +404,11 @@ export const draggingMovementsRule: ProbeRule = {
 }
 
 /**
- * 2.5.1 Pointer Gestures, over the pointer probe, for review only (the plan's C7: "needs review only"; D2 adds swipes
- * and pinches): each element that reacts to a swipe or a pinch (a carousel, a map, touch or gesture listeners) is an
- * item to review, naming the previous, next or zoom controls found around it, which nothing here presses. Never a
- * failure.
+ * 2.5.1 Pointer Gestures, over the pointer probe, for review only (the plan's C7: "needs review only"): each element
+ * that reacts to a swipe or a pinch (a carousel, a map, touch or gesture listeners) is an item to review, naming the
+ * previous, next or zoom controls found around it, which nothing here presses. Never a failure. When the gestures probe
+ * ran on the page too (D2, `--probe gestures`), it swiped and pinched those elements and decides 2.5.1
+ * (rampa/gesture-alternatives): this list steps aside.
  */
 export const pointerGesturesRule: ProbeRule = {
   id: POINTER_GESTURES_RULE,
@@ -414,6 +417,7 @@ export const pointerGesturesRule: ProbeRule = {
   versions: [POINTER_VERSION],
   criteria: ['2.5.1'],
   run(record: ProbeRecord, ctx: ProbeRuleContext) {
+    if (gesturesRecord(ctx.snapshot, GESTURES_VARIANT)) return { findings: [], review: [], coverage: [] }
     const data = pointerData(record)
     const loc = ctx.locale
     const review: Finding[] = []

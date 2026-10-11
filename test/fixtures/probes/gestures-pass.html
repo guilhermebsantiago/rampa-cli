@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Harbour tours: gestures with a single-pointer way</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; max-width: 760px; }
+  .carousel { position: relative; width: 480px; height: 160px; overflow: hidden; border: 1px solid #333; touch-action: pan-y; }
+  .track { display: flex; height: 100%; transition: transform 300ms ease; }
+  .track figure { flex: 0 0 100%; margin: 0; padding: 56px 16px; box-sizing: border-box; color: #fff; font-size: 20px; }
+  .controls { margin: 8px 0 24px; }
+  .dots button { width: 28px; height: 28px; border-radius: 50%; border: 1px solid #333; background: #fff; }
+  .dots button[aria-current="true"] { background: #036; }
+  .map { position: relative; width: 512px; height: 256px; overflow: hidden; border: 1px solid #333; touch-action: none; }
+  .map .tiles { display: flex; flex-wrap: wrap; width: 512px; }
+  .map img { width: 128px; height: 128px; display: block; }
+  .map .zoom { position: absolute; top: 8px; left: 8px; display: flex; flex-direction: column; }
+  .map .zoom a { display: block; width: 30px; height: 30px; line-height: 30px; text-align: center; background: #fff; border: 1px solid #333; color: #000; text-decoration: none; font-size: 20px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Harbour tours</h1>
+
+  <h2>Gallery</h2>
+  <div class="carousel" id="gallery" aria-roledescription="carousel" aria-label="Gallery">
+    <div class="track">
+      <figure style="background:#036">The harbour at dawn</figure>
+      <figure style="background:#630">Boats at noon</figure>
+      <figure style="background:#063">The lighthouse</figure>
+    </div>
+  </div>
+  <div class="controls">
+    <button type="button" id="gallery-prev">Previous photo</button>
+    <button type="button" id="gallery-next">Next photo</button>
+  </div>
+
+  <h2>Tour stops</h2>
+  <div class="carousel" id="tour" aria-roledescription="carousel" aria-label="Tour stops">
+    <div class="track">
+      <figure style="background:#333">Stop 1: the fish market</figure>
+      <figure style="background:#553">Stop 2: the old customs house</figure>
+      <figure style="background:#335">Stop 3: the dry dock</figure>
+    </div>
+  </div>
+  <div class="controls dots" id="tour-dots">
+    <button type="button" aria-label="Go to slide 1" aria-current="true"></button>
+    <button type="button" aria-label="Go to slide 2"></button>
+    <button type="button" aria-label="Go to slide 3"></button>
+  </div>
+
+  <h2>Map</h2>
+  <!-- Pinched, or zoomed with its own buttons, as Leaflet draws its maps. -->
+  <div class="map leaflet-container" id="map" aria-label="Map of the harbour">
+    <div class="tiles"></div>
+    <div class="zoom">
+      <a href="#" role="button" class="zoom-in" title="Zoom in" aria-label="Zoom in">+</a>
+      <a href="#" role="button" class="zoom-out" title="Zoom out" aria-label="Zoom out">−</a>
+    </div>
+  </div>
+
+  <h2>Offers</h2>
+  <!-- Turns on its own every 3 s; swipes; has buttons. -->
+  <div class="carousel" id="offers" aria-roledescription="carousel" aria-label="Offers">
+    <div class="track">
+      <figure style="background:#036">Two tours for one on Tuesdays</figure>
+      <figure style="background:#630">Children ride free</figure>
+      <figure style="background:#063">Sunset cruise at 7 pm</figure>
+      <figure style="background:#306">Group discounts</figure>
+    </div>
+  </div>
+  <div class="controls">
+    <button type="button" id="offers-prev" aria-label="Previous offer">‹</button>
+    <button type="button" id="offers-next" aria-label="Next offer">›</button>
+  </div>
+</main>
+<script>
+  function carousel(root, { autoplay, dots } = {}) {
+    const track = root.querySelector('.track')
+    const count = track.children.length
+    let index = 0
+    let startX = null
+    const show = (i) => {
+      index = (i + count) % count
+      track.style.transform = `translateX(${-100 * index}%)`
+      if (dots) dots.forEach((dot, n) => dot.setAttribute('aria-current', String(n === index)))
+    }
+    root.addEventListener('touchstart', (event) => { startX = event.touches[0].clientX })
+    root.addEventListener('touchmove', () => {})
+    root.addEventListener('touchend', (event) => {
+      if (startX === null) return
+      const dx = event.changedTouches[0].clientX - startX
+      startX = null
+      if (dx <= -40) show(index + 1)
+      else if (dx >= 40) show(index - 1)
+    })
+    if (dots) dots.forEach((dot, n) => dot.addEventListener('click', () => show(n)))
+    if (autoplay) setInterval(() => show(index + 1), autoplay)
+    return { next: () => show(index + 1), previous: () => show(index - 1) }
+  }
+  const gallery = carousel(document.getElementById('gallery'))
+  document.getElementById('gallery-prev').addEventListener('click', gallery.previous)
+  document.getElementById('gallery-next').addEventListener('click', gallery.next)
+  carousel(document.getElementById('tour'), { dots: [...document.querySelectorAll('#tour-dots button')] })
+  const offers = carousel(document.getElementById('offers'), { autoplay: 3000 })
+  document.getElementById('offers-prev').addEventListener('click', offers.previous)
+  document.getElementById('offers-next').addEventListener('click', offers.next)
+
+  // The map: tiles whose addresses carry their zoom level, z/x/y, as a tile server's do.
+  const map = document.getElementById('map')
+  const tiles = map.querySelector('.tiles')
+  const COLORS = ['0a5', '036', '630', '063', '306', '553', '335', '333']
+  let zoom = 5
+  const draw = () => {
+    tiles.textContent = ''
+    for (let i = 0; i < 8; i++) {
+      const img = document.createElement('img')
+      img.alt = ''
+      img.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Crect width='128' height='128' fill='%23${COLORS[(i + zoom) % COLORS.length]}'/%3E%3C/svg%3E#tiles/${zoom}/${16 + (i % 4)}/${10 + Math.floor(i / 4)}.png`
+      tiles.append(img)
+    }
+  }
+  draw()
+  const setZoom = (z) => { zoom = Math.min(18, Math.max(1, z)); draw() }
+  map.querySelector('.zoom-in').addEventListener('click', (event) => { event.preventDefault(); setZoom(zoom + 1) })
+  map.querySelector('.zoom-out').addEventListener('click', (event) => { event.preventDefault(); setZoom(zoom - 1) })
+  let start = null
+  const distance = (touches) => Math.hypot(touches[0].clientX - touches[1].clientX, touches[0].clientY - touches[1].clientY)
+  map.addEventListener('touchstart', (event) => { if (event.touches.length === 2) start = distance(event.touches) })
+  map.addEventListener('touchmove', (event) => {
+    if (event.touches.length !== 2 || !start) return
+    event.preventDefault()
+    const ratio = distance(event.touches) / start
+    if (ratio > 1.5) { setZoom(zoom + 1); start = null }
+    else if (ratio < 0.66) { setZoom(zoom - 1); start = null }
+  }, { passive: false })
+</script>
+</body>
+</html>

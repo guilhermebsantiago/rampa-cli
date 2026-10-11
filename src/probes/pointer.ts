@@ -495,7 +495,7 @@ export function findPointerTargets(args: { max: number; move: string; more: stri
  * Marks elements that have pointer listeners of their own (`__rampaPtr`: down, move, touch, gesture, drag), read over the
  * DevTools protocol, as the hover probe reads hover listeners. Null when the protocol could not be read.
  */
-async function markPointerListeners(probe: ProbePage): Promise<boolean> {
+export async function markPointerListeners(probe: ProbePage): Promise<boolean> {
   try {
     const cdp = await probe.context.newCDPSession(probe.page)
     try {

@@ -163,8 +163,8 @@ export const WCAG_CRITERIA: readonly SuccessCriterion[] = [
     'Elementos em foco escondidos por cabeçalhos fixos, banners ou diálogos; conteúdo que o usuário abriu ou pode mover',
   ]),
   sc('2.5.1', 'A', '2.1', ['Pointer Gestures', 'Gestos de ponteiro'], [
-    'Multipoint and path-based gestures and their alternatives; real touch hardware',
-    'Gestos multiponto e baseados em trajeto, e suas alternativas; hardware de toque real',
+    'Essential gestures; alternatives elsewhere on the page or in another view; gestures the probe does not make (rotation, longer paths); real touch hardware',
+    'Gestos essenciais; alternativas em outro lugar da página ou em outra visão; gestos que a sonda não faz (rotação, trajetos mais longos); hardware de toque real',
   ]),
   sc('2.5.2', 'A', '2.1', ['Pointer Cancellation', 'Cancelamento de ponteiro'], [
     'Actions on the down-event; undo in drag and drop; touch',
@@ -175,8 +175,8 @@ export const WCAG_CRITERIA: readonly SuccessCriterion[] = [
     'Rótulo versus instrução próxima; símbolos e números; teste com entrada por voz',
   ]),
   sc('2.5.4', 'A', '2.1', ['Motion Actuation', 'Atuação por movimento'], [
-    'Motion and sensor input and its alternatives; real sensors',
-    'Entrada por movimento e sensores, e suas alternativas; sensores reais',
+    'Camera and body gestures; real sensors; essential motion; settings on other pages; motion after a tap or a permission',
+    'Gestos de câmera e do corpo; sensores reais; movimento essencial; configurações em outras páginas; movimento depois de um toque ou de uma permissão',
   ]),
   sc('2.5.7', 'AA', '2.2', ['Dragging Movements', 'Movimentos de arrastar'], [
     'Dragging and its single-pointer alternatives; essential dragging; canvas editors',

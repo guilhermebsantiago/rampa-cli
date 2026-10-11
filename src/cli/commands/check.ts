@@ -71,8 +71,8 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   followLinks?: FollowLinks
   /**
    * Probes to run after collection: layout, keyboard, hover, orientation, shortcuts, media, color, states, variants, auth, flash, links, input,
-   * toggles, status, motion, form, pointer, parity, focus-order, all (every kind but variants, auth, flash, links, input, toggles, status, motion,
-   * form, pointer, parity and focus-order), interact or none (docs/probes.md). On android:, keyboard, layout and orientation drive the device; an
+   * toggles, status, motion, form, pointer, parity, focus-order, gestures, all (every kind but variants, auth, flash, links, input, toggles, status,
+   * motion, form, pointer, parity, focus-order and gestures), interact or none (docs/probes.md). On android:, keyboard, layout and orientation drive the device; an
    * XCUITest export gives layout and orientation from the steps its helper exported.
    */
   probe?: string
