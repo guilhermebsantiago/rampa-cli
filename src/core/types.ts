@@ -5,6 +5,7 @@ import type { Waiver } from '../adoption/waivers.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11ySnapshot, Reach, Surface } from '../snapshot/schema.ts'
 import type { Level, WcagTarget } from '../wcag.ts'
+import type { Timings } from './timings.ts'
 
 export type Confidence = 'low' | 'medium' | 'high'
 
@@ -465,4 +466,9 @@ export interface Report {
    * They live outside findings, so nothing that reads findings (exit code, baseline, toPassRampa, MCP) sees them.
    */
   advisory?: AdvisorySection | undefined
+  /**
+   * Set with --timings (`timings: true` from code): where the page's time went, stage by stage and criterion by criterion
+   * (core/timings.ts, docs/performance.md). Absent otherwise, so reports of the same page stay the same from run to run.
+   */
+  timings?: Timings | undefined
 }

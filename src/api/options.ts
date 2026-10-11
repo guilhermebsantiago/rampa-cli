@@ -54,6 +54,8 @@ export interface RampaOptions {
   config?: RampaConfig | false | undefined
   /** Advisory profiles, like --profile: ['cognitive'] adds report.advisory, which never changes findings. Default: the config's. */
   profiles?: readonly string[] | undefined
+  /** Record where each page's time goes in `report.timings`, like --timings. Default false. */
+  timings?: boolean | undefined
 }
 
 export interface Settings extends CheckOptions {
@@ -61,6 +63,8 @@ export interface Settings extends CheckOptions {
   captureImages: boolean
   /** The time limit per page in milliseconds; each check turns it into a `deadline` when it starts reading the page. */
   timeLimitMs?: number | undefined
+  /** Whether each page gets a stopwatch (`timings: true`); the stopwatch itself is CheckOptions' `timings`. */
+  recordTimings: boolean
 }
 
 export async function resolveSettings(options: RampaOptions = {}): Promise<Settings> {
@@ -96,6 +100,7 @@ export async function resolveSettings(options: RampaOptions = {}): Promise<Setti
     coga: config.coga,
     // As `rampa check` decides, so a report counts the same candidates as the CLI's.
     captureImages: llm && criteria.some((criterion) => criterion.needs.vision),
+    recordTimings: Boolean(options.timings),
   }
 }
 

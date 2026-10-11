@@ -1,3 +1,4 @@
+import { Stopwatch } from '../core/timings.ts'
 import type { CriterionSummary, Report } from '../core/types.ts'
 import { RULE_CHECKS } from '../rules/index.ts'
 import { type PageDriver, collectPage } from '../surfaces/page.ts'
@@ -28,7 +29,8 @@ export const PAGE_CRITERIA: ReadonlySet<string> = new Set(['2.4.2', '3.1.1'])
 /** Checks an open page through a driver; the Playwright and Puppeteer adapters are thin wrappers around it. */
 export async function checkDriver(driver: PageDriver, options: CheckPageOptions = {}): Promise<Report> {
   const resolved = await resolveSettings(options)
-  const settings = { ...resolved, deadline: deadlineOf(resolved) }
+  const watch = resolved.recordTimings ? new Stopwatch() : undefined
+  const settings = { ...resolved, deadline: deadlineOf(resolved), timings: watch }
   const scope = normalizeScope(options.include, options.exclude)
   const collected = await collectPage(driver, {
     locale: settings.locale,
@@ -37,8 +39,9 @@ export async function checkDriver(driver: PageDriver, options: CheckPageOptions 
     captureImages: settings.captureImages,
     scope,
     wcag: settings.wcag,
+    timings: watch,
   })
-  if (!scope) return judge(collected, settings)
+  if (!scope) return withTimings(await judge(collected, settings), watch)
 
   const component = scope.include.length > 0
   const report = await judge(
@@ -51,7 +54,13 @@ export async function checkDriver(driver: PageDriver, options: CheckPageOptions 
   // A criterion left out stays in the report as not applicable, so the coverage shows it was not judged rather than hiding it.
   const criteria = settings.criteria.map((criterion) => report.criteria.find((summary) => summary.criterion === criterion.id) ?? notApplicable(criterion.id))
   const { schemaVersion, rampaVersion, createdAt, target, ...rest } = report
-  return { schemaVersion, rampaVersion, createdAt, target, scope, ...rest, criteria }
+  return withTimings({ schemaVersion, rampaVersion, createdAt, target, scope, ...rest, criteria }, watch)
+}
+
+/** The report with `timings` set last, when the check recorded them. */
+function withTimings(report: Report, watch: Stopwatch | undefined): Report {
+  if (watch) report.timings = watch.result()
+  return report
 }
 
 function notApplicable(criterion: string): CriterionSummary {

@@ -120,6 +120,7 @@ const check = program
   .option('--max-candidates <n>', 'judge at most n candidates per criterion and page, generic texts first; the rest are reported as not judged (0: no cap)', String(DEFAULT_MAX_CANDIDATES))
   .option('--time-limit <seconds>', 'stop asking the model this many seconds after a page starts loading, and report what was judged by then (default: no limit)')
   .option('--verbose', 'list discarded claims, low-confidence findings and unchecked criteria')
+  .option('--timings', "record where each page's time goes, stage by stage and criterion by criterion, in the report and its JSON (docs/performance.md)")
   .addOption(
     new Option('--follow-links <policy>', "read where links lead, to compare them with their text (2.4.4); same-origin reads a local page's local files")
       .choices([...FOLLOW_LINKS])

@@ -1,5 +1,6 @@
 import { mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
+import { type Stopwatch, timed } from '../core/timings.ts'
 import { RampaError, sha256 } from '../core/util.ts'
 import { AXE_REVIEW_RULES, axeLocale, axeSource, axeTags, engineFromAxe } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
@@ -49,6 +50,8 @@ export interface PageCollectOptions {
   pixelContrast?: boolean | undefined
   /** Read the browser's own accessibility tree onto the nodes (`ax`), in Chromium; on by default (surfaces/ax-tree.ts). */
   axTree?: boolean | Partial<AxLimits> | undefined
+  /** Records where the page's time goes (`timings: true`, core/timings.ts). */
+  timings?: Stopwatch | undefined
 }
 
 const MAX_NODES = 5000
@@ -62,57 +65,72 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
   const url = driver.url()
   const scope = options.scope
   const maxNodes = options.maxNodes ?? MAX_NODES
+  const watch = options.timings
   // Selectors are checked before any work, so a typo fails loudly instead of checking nothing.
   if (scope) assertSelectors(await driver.evaluate(resolveScopeInPage, { ...scope, refs: [] }), url)
 
-  await driver.run(await axeSource())
-  const raw = await driver.evaluate(collectInPage, { maxNodes })
-  await driver.run(resolverSource())
+  await timed(watch, 'axe', async () => driver.run(await axeSource()))
+  const raw = await timed(watch, 'collection', async () => {
+    const read = await driver.evaluate(collectInPage, { maxNodes })
+    await driver.run(resolverSource())
+    return read
+  })
   const cdp = driver.cdp?.bind(driver)
   // The browser's own tree, read right after Rampa's, as collectWeb reads it.
-  const axTree = cdp && options.axTree !== false ? await attachAxTree(cdp, raw.root as A11yNode, axLimits(options.axTree)) : undefined
-  const checked = await runAxeInFrames(
-    driver,
-    {
-      tags: axeTags(options.wcag),
-      rules: AXE_REVIEW_RULES,
-      locale: await axeLocale(options.locale),
-      context: scope ? { ...(scope.include.length > 0 ? { include: scope.include } : {}), exclude: scope.exclude } : undefined,
-    },
-    axeSource,
+  const axTree = cdp && options.axTree !== false ? await timed(watch, 'ax-tree', () => attachAxTree(cdp, raw.root as A11yNode, axLimits(options.axTree))) : undefined
+  const checked = await timed(watch, 'axe', async () =>
+    runAxeInFrames(
+      driver,
+      {
+        tags: axeTags(options.wcag),
+        rules: AXE_REVIEW_RULES,
+        locale: await axeLocale(options.locale),
+        context: scope ? { ...(scope.include.length > 0 ? { include: scope.include } : {}), exclude: scope.exclude } : undefined,
+      },
+      axeSource,
+    ),
   )
 
   let root = raw.root as A11yNode
-  if (cdp) await attachFormIssues(cdp, root)
+  const closed = await timed(watch, 'collection', async () => {
+    if (!cdp) return undefined
+    await attachFormIssues(cdp, root)
+    return closedShadowRoots(cdp)
+  })
   const reach = buildReach({
     frames: raw.frames,
     engineFrames: checked.frames,
     shadowRoots: raw.shadowRoots,
-    closed: cdp ? await closedShadowRoots(cdp) : undefined,
+    closed,
     truncated: raw.beyondTruncated,
   })
-  if (scope) root = await scopeRoot(driver, root, scope, { url, truncated: raw.truncated, maxNodes })
+  if (scope) root = await timed(watch, 'collection', () => scopeRoot(driver, root, scope, { url, truncated: raw.truncated, maxNodes }))
   const engine = engineFromAxe(checked.axe)
   const contrast = options.pixelContrast !== false
   const labels = labelTargets(root).length > 0
   if (options.captureImages || labels || contrast) {
     // Element screenshots scroll the page; the caller's test carries on from where it was.
     const scroll = await driver.evaluate(() => [window.scrollX, window.scrollY], null)
-    if (options.captureImages) await captureImages(driver, root)
+    if (options.captureImages) await timed(watch, 'image-capture', () => captureImages(driver, root))
     // Whether each label 3.3.2 relies on shows its text, as collectWeb measures it (label-visibility.ts).
-    if (labels) await measureLabels({ evaluate: (fn, arg) => driver.evaluate(fn, arg), screenshot: (ref) => driver.screenshotElement(ref) }, root)
-    if (contrast) await captureContrast({ evaluate: (fn, arg) => driver.evaluate(fn, arg), screenshot: (ref) => driver.screenshotElement(ref) }, root, engine)
+    if (labels) {
+      await timed(watch, 'label-visibility', () => measureLabels({ evaluate: (fn, arg) => driver.evaluate(fn, arg), screenshot: (ref) => driver.screenshotElement(ref) }, root))
+    }
+    if (contrast) {
+      await timed(watch, 'pixel-contrast', () => captureContrast({ evaluate: (fn, arg) => driver.evaluate(fn, arg), screenshot: (ref) => driver.screenshotElement(ref) }, root, engine))
+    }
     await driver.evaluate(([x = 0, y = 0]) => window.scrollTo(x, y), scroll)
   }
 
   let screenshot: string | undefined
   if (options.screenshotDir) {
     await mkdir(options.screenshotDir, { recursive: true })
-    screenshot = join(options.screenshotDir, `${sha256(url).slice(0, 16)}.png`)
-    await driver.screenshotPage(screenshot)
+    const path = join(options.screenshotDir, `${sha256(url).slice(0, 16)}.png`)
+    screenshot = path
+    await timed(watch, 'screenshot', () => driver.screenshotPage(path))
   }
   // What the page does with the device's motion (2.5.4), as collectWeb reads it; a page-level fact, so not for a scope.
-  if (cdp && !scope) await attachMotionFacts(cdp, root)
+  if (cdp && !scope) await timed(watch, 'collection', () => attachMotionFacts(cdp, root))
 
   const snapshot: A11ySnapshot = {
     schemaVersion: 1,

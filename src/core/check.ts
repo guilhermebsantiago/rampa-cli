@@ -18,7 +18,8 @@ import { criteriaCoverage, engineCoverage, reviewItems, reviewOnlyCriteria, rule
 import { VERSION } from '../version.ts'
 import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria, criteriaFor, successCriterion, wcagTarget } from '../wcag.ts'
 import type { JudgmentCache } from './cache.ts'
-import { judgeCandidates } from './judge.ts'
+import { type Sample, judgeCandidates } from './judge.ts'
+import { type CriterionTiming, type Stopwatch, timed } from './timings.ts'
 import {
   type AnyCriterion,
   type Candidate,
@@ -74,6 +75,8 @@ export interface CheckOptions {
    * Cached judgments are still read.
    */
   deadline?: number | undefined
+  /** Records how long the rules, each criterion and the advisory profiles take (`--timings`, core/timings.ts). */
+  timings?: Stopwatch | undefined
 }
 
 /** Candidates per criterion and page the model judges at most unless `maxCandidates` says otherwise. */
@@ -113,12 +116,15 @@ export function engineFindings(engine: EngineResults): Finding[] {
 }
 
 export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResults, options: CheckOptions): Promise<Report> {
+  const watch = options.timings
+  const ruleStart = performance.now()
   const stage: RuleStageResult = options.rules === false ? emptyRuleStage() : runRuleChecks(snapshot, engine, options.locale, options.rules ?? RULE_CHECKS)
   // Label-in-name failures that differ only by a hyphen or a shortened word go to review (src/rules/label-in-name.ts).
   const fromEngine = options.rules === false ? engineFindings(engine) : reviewLabelInName(engineFindings(engine), snapshot, options.locale)
   // Facts a probe recorded in the snapshot, turned into findings by rules: no browser, no model.
   await prepareProbeRules(snapshot, PROBE_RULES)
   const probe = probeChecks(snapshot, options.locale, PROBE_RULES, options.wcag ?? DEFAULT_WCAG, engine)
+  watch?.add('rules', performance.now() - ruleStart)
   let findings: Finding[] = [...fromEngine, ...stage.findings, ...probe.findings]
   const discarded: Discarded[] = []
   const summaries: CriterionSummary[] = []
@@ -154,7 +160,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     summaries.push(summary)
     if (!summary.applicable) continue
 
+    const started = performance.now()
     await criterion.prepare?.(view)
+    const prepareMs = performance.now() - started
     // An element a stable rule already failed for this criterion is decided: the model is not asked again.
     const failedByRule = stage.decided.get(criterion.id)
     const candidates = criterion.candidates(view, engine).filter((candidate) => !failedByRule?.has(candidate.ref))
@@ -163,7 +171,10 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     const judgeable = llmActive ? candidates : options.llm ? candidates.filter((candidate) => criterion.decide?.(candidate, view) !== undefined) : []
     const judged = capCandidates(criterion, view, judgeable, cap)
     if (judged.length < judgeable.length) summary.capped = judgeable.length - judged.length
-    if (judged.length === 0) continue
+    if (judged.length === 0) {
+      watch?.criterion(criterionTiming(criterion.id, started, prepareMs, candidates.length, []))
+      continue
+    }
 
     const judgments = await judgeCandidates(criterion, view, judged, {
       provider: options.provider,
@@ -174,6 +185,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       signal,
       deadline: options.deadline,
     })
+    watch?.criterion(criterionTiming(criterion.id, started, prepareMs, candidates.length, judgments))
 
     for (const judgment of judgments) {
       // A candidate the criterion passed or failed without a model counts in the coverage as its own method (kind rule).
@@ -400,22 +412,25 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     (id) => !engineCovered.includes(id) && !ruleCovered.includes(id) && !judged.includes(id) && !probed.includes(id) && !reviewOnly.includes(id),
   )
 
+  const profiles = options.profiles
   const advisory =
-    options.profiles && options.profiles.length > 0
-      ? await runProfiles(snapshot, engine, {
-          profiles: options.profiles,
-          locale: options.locale,
-          findings: [...reported, ...belowThreshold],
-          llm: options.llm,
-          provider: options.provider,
-          offline: options.offline,
-          cache: options.cache,
-          runs: options.runs,
-          concurrency: options.concurrency,
-          minConfidence: options.minConfidence,
-          waivers: options.waivers,
-          coga: options.coga,
-        })
+    profiles && profiles.length > 0
+      ? await timed(watch, 'advisory', () =>
+          runProfiles(snapshot, engine, {
+            profiles,
+            locale: options.locale,
+            findings: [...reported, ...belowThreshold],
+            llm: options.llm,
+            provider: options.provider,
+            offline: options.offline,
+            cache: options.cache,
+            runs: options.runs,
+            concurrency: options.concurrency,
+            minConfidence: options.minConfidence,
+            waivers: options.waivers,
+            coga: options.coga,
+          }),
+        )
       : undefined
   if (advisory) for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) usage[key] += advisory.usage[key]
   // Images the collector left without a capture were never in front of a criterion that judges pixels: say so, and why.
@@ -477,6 +492,18 @@ export function capCandidates<C extends Candidate<unknown>>(criterion: AnyCriter
   const first = asked.filter((candidate) => criterion.confidenceCap?.(candidate) === undefined)
   const chosen = new Set([...first, ...asked.filter((candidate) => !first.includes(candidate))].slice(0, cap))
   return candidates.filter((candidate) => decided.has(candidate) || chosen.has(candidate))
+}
+
+/** A criterion's time on the page, with the model calls its judgments made and read from the cache, counted as `usage` counts them. */
+function criterionTiming(criterion: string, started: number, prepareMs: number, candidates: number, judgments: ReadonlyArray<{ samples: readonly Sample<unknown>[] }>): CriterionTiming {
+  let calls = 0
+  let cachedCalls = 0
+  for (const sample of judgments.flatMap((judgment) => judgment.samples)) {
+    if (sample.decided) continue
+    if (sample.cached) cachedCalls++
+    else if (sample.output) calls++
+  }
+  return { criterion, ms: performance.now() - started, prepareMs, candidates, judged: judgments.length, calls, cachedCalls }
 }
 
 /** What the report says about candidates the model never judged: past the cap, and after the time limit. */

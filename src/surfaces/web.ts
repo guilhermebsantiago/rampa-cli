@@ -2,12 +2,13 @@ import { existsSync } from 'node:fs'
 import { mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
 import { type Browser, type ElementHandle, type Page, type Response, chromium } from 'playwright-core'
+import { type Stopwatch, timed } from '../core/timings.ts'
 import type { EngineResults } from '../core/types.ts'
 import { RampaError, errorMessage, sha256 } from '../core/util.ts'
 import { AXE_REVIEW_RULES, axeLocale, axeSource, axeTags, emptyEngine, engineFromAxe } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
 import { type HandleFrame, elementForRef, isQualifiedRef, resolverSource } from '../snapshot/refs.ts'
-import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
+import type { A11yNode, A11ySnapshot, ProbeRecord } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
 import type { WcagVersion } from '../wcag.ts'
 import { walkTree } from '../snapshot/tree.ts'
@@ -63,6 +64,8 @@ export interface WebCollectOptions {
    * which some rules read (surfaces/ax-tree.ts). On by default; false turns it off, or other limits can be given.
    */
   axTree?: boolean | Partial<AxLimits> | undefined
+  /** Records where the page's time goes (`--timings`, core/timings.ts). */
+  timings?: Stopwatch | undefined
 }
 
 export interface Collected {
@@ -115,28 +118,41 @@ export async function launchBrowser(options: { args?: string[] | undefined } = {
 }
 
 export async function collectWeb(browser: Browser, url: string, options: WebCollectOptions): Promise<Collected> {
-  const context = await browser.newContext(contextOptions(options.browserOptions))
-  const page = await context.newPage()
+  const watch = options.timings
+  const { context, page } = await timed(watch, 'navigation', async () => {
+    const context = await browser.newContext(contextOptions(options.browserOptions))
+    return { context, page: await context.newPage() }
+  })
   // Watched from before navigation, so a request still in flight at load holds the wait after it.
   const network = watchNetwork(page)
   try {
-    await prepareContext(context, url, options.browserOptions)
-    const response = await openPage(page, url, options.browserOptions, options.timeoutMs)
+    const response = await timed(watch, 'navigation', async () => {
+      await prepareContext(context, url, options.browserOptions)
+      return openPage(page, url, options.browserOptions, options.timeoutMs)
+    })
     const status = response?.status() ?? 0
     if (options.requireOk && status >= 400) throw new RampaError('http-error', `HTTP ${status} at ${url}`)
     // Content drawn after load (data a framework fetches, a widget that mounts) is collected too.
-    let settled = await settlePage(page, network)
+    let settled = await timed(watch, 'settle', () => settlePage(page, network))
     if (options.inspect) await options.inspect(page, response)
     if (options.mutate) await options.mutate(page)
     const collect = async () => {
-      if (options.runAxe) await page.addScriptTag({ content: await axeSource() })
-      const tree = await page.evaluate(collectInPage, { maxNodes: options.maxNodes ?? 5000 })
-      await page.evaluate(resolverSource())
+      if (options.runAxe) await timed(watch, 'axe', async () => page.addScriptTag({ content: await axeSource() }))
+      const tree = await timed(watch, 'collection', async () => {
+        const read = await page.evaluate(collectInPage, { maxNodes: options.maxNodes ?? 5000 })
+        await page.evaluate(resolverSource())
+        return read
+      })
       // The browser's own tree, read right after Rampa's, so both describe the same document.
-      const axTree = options.axTree === false ? undefined : await attachAxTree(() => context.newCDPSession(page), tree.root as A11yNode, axLimits(options.axTree))
+      const axTree =
+        options.axTree === false
+          ? undefined
+          : await timed(watch, 'ax-tree', () => attachAxTree(() => context.newCDPSession(page), tree.root as A11yNode, axLimits(options.axTree)))
       // After the tree: the engine's results are mapped to the refs the collector gave their elements.
       const checked = options.runAxe
-        ? await runAxeInFrames(libraryFrameDriver(page), { tags: axeTags(options.wcag), rules: AXE_REVIEW_RULES, locale: await axeLocale(options.locale) }, axeSource)
+        ? await timed(watch, 'axe', async () =>
+            runAxeInFrames(libraryFrameDriver(page), { tags: axeTags(options.wcag), rules: AXE_REVIEW_RULES, locale: await axeLocale(options.locale) }, axeSource),
+          )
         : undefined
       return { ...tree, axe: checked?.axe, engineFrames: checked?.frames, axTree }
     }
@@ -149,19 +165,22 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     } catch (error) {
       if (!navigatedAway(error)) throw error
       const timeout = Math.min(options.timeoutMs ?? 30_000, 10_000)
-      await page.waitForURL((address) => address.href !== loaded, { waitUntil: 'load', timeout }).catch(() => undefined)
-      settled = await settlePage(page, network)
+      await timed(watch, 'navigation', () => page.waitForURL((address) => address.href !== loaded, { waitUntil: 'load', timeout }).catch(() => undefined))
+      settled = await timed(watch, 'settle', () => settlePage(page, network))
       raw = await collect()
     }
 
     const root = raw.root as A11yNode
     const cdp = () => context.newCDPSession(page)
-    await attachFormIssues(cdp, root)
+    const closed = await timed(watch, 'collection', async () => {
+      await attachFormIssues(cdp, root)
+      return closedShadowRoots(cdp)
+    })
     const reach = buildReach({
       frames: raw.frames,
       engineFrames: raw.engineFrames,
       shadowRoots: raw.shadowRoots,
-      closed: await closedShadowRoots(cdp),
+      closed,
       unsettledAfterMs: settled.settled ? undefined : SETTLE.capMs,
       truncated: raw.beyondTruncated,
     })
@@ -170,25 +189,28 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     if (refresh !== undefined) root.native.httpRefresh = refresh.slice(0, 500)
     // What was collected is the page the redirect led to; the snapshot keeps the address asked for, and says where it ended.
     if (response && page.url() !== loaded) root.native.redirectedTo = page.url()
-    if (options.captureImages) await captureImages(page, root)
+    if (options.captureImages) await timed(watch, 'image-capture', () => captureImages(page, root))
     // Whether each label 3.3.2 relies on shows its text, from two captures (label-visibility.ts); no model involved.
-    await measureLabelPixels(page, root)
+    await timed(watch, 'label-visibility', () => measureLabelPixels(page, root))
     const engine = raw.axe ? engineFromAxe(raw.axe) : emptyEngine()
-    if (raw.axe && options.pixelContrast !== false) await measureContrast(page, root, engine, options.pixelContrast === true ? {} : options.pixelContrast)
+    if (raw.axe && options.pixelContrast !== false) {
+      const settings = options.pixelContrast === true ? {} : options.pixelContrast
+      await timed(watch, 'pixel-contrast', () => measureContrast(page, root, engine, settings))
+    }
     // Relative links resolve against the document's base: the address after redirects, or its <base href>.
+    const follow = options.followLinks
     const destinations =
-      options.followLinks && options.followLinks.policy !== 'none'
-        ? await followLinks(root, await page.evaluate(() => document.baseURI), options.followLinks)
-        : {}
+      follow && follow.policy !== 'none' ? await timed(watch, 'link-following', async () => followLinks(root, await page.evaluate(() => document.baseURI), follow)) : {}
 
     let screenshot: string | undefined
     if (options.screenshotDir) {
       await mkdir(options.screenshotDir, { recursive: true })
-      screenshot = join(options.screenshotDir, `${sha256(url).slice(0, 16)}.png`)
-      await page.screenshot({ path: screenshot, fullPage: true })
+      const path = join(options.screenshotDir, `${sha256(url).slice(0, 16)}.png`)
+      screenshot = path
+      await timed(watch, 'screenshot', () => page.screenshot({ path, fullPage: true }))
     }
     // Whether the page listens to the device's motion, for 2.5.4 (surfaces/motion.ts): last, as it reads the page's scripts.
-    await attachMotionFacts(cdp, root)
+    await timed(watch, 'collection', () => attachMotionFacts(cdp, root))
 
     const snapshot: A11ySnapshot = {
       schemaVersion: 1,
@@ -207,25 +229,27 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       collector: { name: 'rampa-web', version: VERSION },
     }
     if (options.probes && options.probes.length > 0) {
-      const probes = await runProbes(browser, url, {
-        kinds: options.probes,
+      const probeOptions = {
         browserOptions: options.browserOptions,
         timeoutMs: options.timeoutMs,
         ...(options.submit && options.submit.allowed.length > 0 ? { allowSubmit: options.submit.allowed } : {}),
         ...(options.submit?.dryRun ? { submitDryRun: true } : {}),
-      })
+      }
+      // One kind at a time, in order, as runProbes runs them, so each kind's time is its own.
+      const probes: ProbeRecord[] = []
+      for (const kind of options.probes) probes.push(...(await timed(watch, 'probes', () => runProbes(browser, url, { ...probeOptions, kinds: [kind] }), kind)))
       snapshot.observations = { probes }
       // Where scripted links went when the links probe clicked them: read like any link's address, for 2.4.4.
-      if (options.followLinks && options.followLinks.policy !== 'none') {
+      if (follow && follow.policy !== 'none') {
         const addresses = scriptedAddresses(probes).filter((address) => snapshot.destinations?.[address] === undefined)
-        const read = addresses.length > 0 ? await readDestinations(addresses, page.url(), options.followLinks) : {}
+        const read = addresses.length > 0 ? await timed(watch, 'link-following', () => readDestinations(addresses, page.url(), follow)) : {}
         if (Object.keys(read).length > 0) snapshot.destinations = { ...snapshot.destinations, ...read }
       }
     }
     return { snapshot, engine }
   } finally {
     network.stop()
-    await context.close()
+    await timed(watch, 'teardown', () => context.close())
   }
 }
 

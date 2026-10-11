@@ -5,6 +5,7 @@ import { prepareAdoption, targetsOrConfig } from '../../adoption/apply.ts'
 import { resolveProfiles } from '../../advisory/profile.ts'
 import { type JudgmentCache, fileCache } from '../../core/cache.ts'
 import { checkSnapshot } from '../../core/check.ts'
+import { Stopwatch, timed } from '../../core/timings.ts'
 import type { AnyCriterion, Confidence, EngineResults, Report, Usage } from '../../core/types.ts'
 import { RampaError } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
@@ -89,6 +90,8 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   adb?: AdbRunner
   /** An advisory profile to run on top of the WCAG check (--profile cognitive); the config's profiles otherwise. */
   profile?: string
+  /** --timings: record where each page's time goes, in `report.timings` and the terminal report (core/timings.ts). */
+  timings?: boolean
 }
 
 /** Read links when a criterion needs their destinations and the judgment layer will run. */
@@ -141,14 +144,16 @@ interface CollectContext {
   /** --allow-submit and --submit-dry-run, for the form probe on web pages. */
   submit: { allowed: string[]; dryRun: boolean } | undefined
   adb: AdbRunner | undefined
-  browser: () => Promise<Browser>
+  /** The run's browser, started on the first web page; its launch is timed on that page's stopwatch. */
+  browser: (watch?: Stopwatch) => Promise<Browser>
   wcag: WcagVersion
 }
 
-async function collect(target: Target, ctx: CollectContext): Promise<Collected> {
+async function collect(target: Target, ctx: CollectContext, watch: Stopwatch | undefined): Promise<Collected> {
   switch (target.kind) {
     case 'web': {
-      const web = await collectWeb(await ctx.browser(), target.url, {
+      const web = await collectWeb(await ctx.browser(watch), target.url, {
+        timings: watch,
         runAxe: true,
         locale: ctx.locale,
         screenshotDir: ctx.screenshots ? '.rampa/screenshots' : undefined,
@@ -285,9 +290,9 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     submit,
     adb: options.adb,
     wcag,
-    browser: async () => {
+    browser: async (watch) => {
       // Probes compare pixels: the browser renders with a fixed color profile and no LCD text (and lets media autoplay for the media probe).
-      browser ??= await launchBrowser(probes.length > 0 ? { args: probeLaunchArgs(probes) } : {})
+      browser ??= await timed(watch, 'browser-launch', () => launchBrowser(probes.length > 0 ? { args: probeLaunchArgs(probes) } : {}))
       return browser
     },
   }
@@ -296,9 +301,11 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
       progress(`… ${target.label}`)
       // The time limit counts from here, so it also covers loading the page, as a timeout around the whole run would.
       const deadline = timeLimitMs === undefined ? undefined : Date.now() + timeLimitMs
-      const collected = await collect(target, ctx)
+      const watch = options.timings ? new Stopwatch() : undefined
+      const collected = await collect(target, ctx, watch)
       if (options.save && collected.record) await saveRecording(options.save, target, collected)
       const report = await checkSnapshot(collected.snapshot, collected.engine, {
+        timings: watch,
         criteria,
         llm: options.llm,
         provider,
@@ -324,8 +331,12 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
         for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) report.usage[key] += collected.usage[key]
       }
       // A local page gets file:line for each finding, and its patches as edits to the file.
-      const source = await readPageSource(collected.snapshot.target, root)
-      reports.push(source ? locateReport(report, collected.snapshot, source) : report)
+      const located = await timed(watch, 'source', async () => {
+        const source = await readPageSource(collected.snapshot.target, root)
+        return source ? locateReport(report, collected.snapshot, source) : report
+      })
+      if (watch) located.timings = watch.result()
+      reports.push(located)
     }
   } finally {
     progress('')

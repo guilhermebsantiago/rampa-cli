@@ -9,6 +9,7 @@ import { compareCriteria, criterionLabel, criteriaFor, versionOf } from '../wcag
 import { advisoryLines, cogaCoverage } from './advisory.ts'
 import type { Painter } from './color.ts'
 import { coverageRows, methodsText, plural, reviewGroups, statusText } from './common.ts'
+import { timingLines } from './timings.ts'
 
 export interface PrettyOptions {
   verbose: boolean
@@ -84,6 +85,9 @@ export function renderReport(report: Report, options: PrettyOptions): string {
 
   const usage = usageLine(report)
   if (usage) lines.push(p.dim(usage), '')
+  // --timings: where the page's time went, before the coverage it bought.
+  const timings = timingLines(report, p)
+  if (timings.length > 0) lines.push(...timings, '')
 
   lines.push(p.bold(t(locale, 'coverageTitle')))
   const rows = coverageRows(report)
