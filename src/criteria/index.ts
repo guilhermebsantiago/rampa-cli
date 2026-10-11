@@ -26,8 +26,9 @@ export const CRITERIA: ReadonlyMap<string, AnyCriterion> = new Map<string, AnyCr
 ])
 
 /**
- * 1.4.5 is left out: it adds a vision call for every picture on the page, and whether a banner
- * with a product photo is an image of text is still a call people disagree on. 3.3.1 is left out
+ * 1.4.5 is left out until its findings are measured on real pages (the coverage plan's EVAL-1): OCR now
+ * keeps most pictures from the model, but a handful of real-page findings is not a precision, and
+ * whether a banner with a product photo is an image of text is still a call people disagree on. 3.3.1 is left out
  * while it is experimental: it judges error messages a page already shows (src/criteria/error-messages.ts),
  * and the rules for 3.3.1 and 3.3.3 run without it. Ask for either with --criteria.
  */

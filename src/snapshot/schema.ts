@@ -257,6 +257,11 @@ export const A11ySnapshotSchema = z.object({
   axTree: AxTreeSchema.optional(),
   /** Other pages of the same site that a crawl had read when this one was judged, with their titles (2.4.2). */
   siblings: z.array(z.object({ url: z.string(), title: z.string() })).optional(),
+  /**
+   * Captured pictures of this page that a crawl had also seen on other pages when this one was judged, keyed by
+   * `capture:<hash of the capture>` or `src:<address>`, with the number of other pages (1.4.5: a site's logo repeats).
+   */
+  siteImages: z.record(z.string(), z.number()).optional(),
   collectedAt: z.string(),
   collector: z.object({ name: z.string(), version: z.string() }),
 })

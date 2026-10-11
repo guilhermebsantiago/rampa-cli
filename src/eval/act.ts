@@ -27,6 +27,7 @@ export const ACT_RULES: Record<string, { syntax: string[]; semantic: string[]; p
   // No ACT rule judges whether a field that has no token should have one; the fields of 73f2c2's
   // passing cases, each with a valid token for what it asks, become pairs when the token goes.
   '1.3.5': { syntax: ['73f2c2'], semantic: [], pairs: ['73f2c2'] },
+  // 0va7u6 is scored on its proposed version's "redundant" exception (PROPOSED_OUTCOMES).
   '1.4.5': { syntax: [], semantic: ['0va7u6'] },
   '2.4.2': { syntax: ['2779a5'], semantic: ['c4a8a4'] },
   // fd3a94 compares links with identical names and context: Rampa states, as a fact, where each one leads.
@@ -83,9 +84,25 @@ export function selectRuleTestcases(dataset: ActDataset, actRules: readonly stri
   })
 }
 
+/**
+ * Test cases scored as the proposed version of their rule expects, where it differs from the published JSON (which
+ * keeps the approved version's outcomes). 0va7u6's proposed version adds a "redundant" exception: an image of text
+ * whose information is also available as real text passes, so its "Welcome" picture followed by the paragraph
+ * "Welcome to our website" (Failed Example 4 in the JSON, Passed Example 9 on the proposed rule page and in the test
+ * page's own title) is scored as passed, as the Understanding document for 1.4.5 also reads it.
+ */
+export const PROPOSED_OUTCOMES: Readonly<Record<string, ActOutcome>> = {
+  e1d4ed7556dabfcfde47aaf4cd0861e0fdf585d9: 'passed',
+}
+
 export function selectTestcases(dataset: ActDataset, criterion: string): ActTestcase[] {
   const rules = ACT_RULES[criterion]
   if (!rules) return []
   const wanted = new Set([...rules.syntax, ...rules.semantic, ...(rules.pairs ?? [])])
-  return dataset.testcases.filter((tc) => wanted.has(tc.ruleId) && /\.html?$/i.test(tc.url))
+  return dataset.testcases
+    .filter((tc) => wanted.has(tc.ruleId) && /\.html?$/i.test(tc.url))
+    .map((tc) => {
+      const proposed = PROPOSED_OUTCOMES[tc.testcaseId]
+      return proposed ? { ...tc, expected: proposed } : tc
+    })
 }

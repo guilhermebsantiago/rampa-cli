@@ -50,6 +50,9 @@ export interface CandidateJudgment<Ctx, Out extends JudgmentBase> {
 const OFFLINE_MISS = 'offline-miss'
 const TIME_UP = 'time limit reached'
 
+/** Calls under way for criteria that key their judgments (`Criterion.judgmentKey`), by cache key. */
+const inFlight = new Map<string, Promise<Awaited<ReturnType<ModelProvider['judge']>>>>()
+
 export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
   criterion: Criterion<Ctx, Out>,
   snapshot: A11ySnapshot,
@@ -73,6 +76,9 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
     const prompt = decided ? undefined : criterion.prompt(candidate, snapshot)
     const imageHashes = (prompt?.images ?? []).map((image) => sha256(Buffer.from(image.data).toString('base64')))
     const promptHash = prompt ? sha256([prompt.system, prompt.user, schemaJson, ...imageHashes].join('\u0000')) : ''
+    // A criterion whose answer depends on less than its whole prompt (1.4.5: the picture) keys its judgments by that.
+    const judgmentKey = prompt ? criterion.judgmentKey?.(candidate) : undefined
+    const identity = judgmentKey === undefined ? { promptHash } : { judgmentKey }
 
     for (let sample = 0; prompt && sample < options.runs; sample++) {
       const key = sha256(
@@ -82,7 +88,7 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
           model: options.provider?.id ?? 'none',
           settings: options.provider?.settings ?? '',
           sample,
-          promptHash,
+          ...identity,
         }),
       )
       const cached = await options.cache.get(key)
@@ -101,6 +107,26 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
           continue
         }
       }
+      // Candidates with the same judgment key share the call another one has under way (checked after the cache read,
+      // with no await between this check and registering a new call, so two candidates never both call).
+      const shared = judgmentKey === undefined ? undefined : inFlight.get(key)
+      if (shared) {
+        const result = await shared.then(
+          (value) => ({ value }),
+          (error: unknown) => ({ error }),
+        )
+        if ('value' in result) {
+          const parsed = schema.safeParse(result.value.output)
+          if (parsed.success) {
+            samples.push({ output: parsed.data, cached: true, inputTokens: result.value.inputTokens, outputTokens: result.value.outputTokens, latencyMs: 0, modelId: result.value.modelId })
+            continue
+          }
+        } else {
+          samples.push({ error: options.signal?.aborted ? TIME_UP : errorMessage(result.error), cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
+          if (options.signal?.aborted) break
+          continue
+        }
+      }
       if (options.offline || !options.provider) {
         samples.push({ error: OFFLINE_MISS, cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
         continue
@@ -109,18 +135,26 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
         samples.push({ error: TIME_UP, cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
         break
       }
-      try {
-        const response = await untilAborted(
-          options.provider.judge({
-            system: prompt.system,
-            user: prompt.user,
-            images: prompt.images,
-            schema,
-            schemaName,
-            signal: options.signal,
-          }),
-          options.signal,
+      const call = untilAborted(
+        options.provider.judge({
+          system: prompt.system,
+          user: prompt.user,
+          images: prompt.images,
+          schema,
+          schemaName,
+          signal: options.signal,
+        }),
+        options.signal,
+      )
+      if (judgmentKey !== undefined) {
+        inFlight.set(key, call)
+        call.then(
+          () => inFlight.delete(key),
+          () => inFlight.delete(key),
         )
+      }
+      try {
+        const response = await call
         await options.cache.set(key, {
           output: response.output,
           inputTokens: response.inputTokens,
