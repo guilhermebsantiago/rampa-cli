@@ -46,6 +46,8 @@ The pretty report prints them with `Rampa rule rampa/<id>` and the finding's id,
 
 When a rule is promoted to `stable`, its findings keep the rule's own confidence, high by default.
 
+**Reviewing real-page findings.** The review mode of [Rampa Lab](https://rampalab.guilhermebs.com.br/?view=review) is where a person labels findings for the third part of the gate. It reads the JSON report of each page, `rampa check <url> --format json -o page.json --save recordings/` (the JSON always has the findings below the threshold, and the snapshot `--save` keeps adds the element's crop, names and attributes), or a real-page study's `data` folder. Each finding is labeled true positive, false positive or uncertain, with the studies' rubric (`study/remeasure-2026-10-09/judge-rubric.md`). The Lab's Gate page counts the labels per rule and judged criterion: precision, its Wilson interval, and whether there are 35 with no false positive, or 53 with one. Labels are kept in the browser by page address and finding fingerprint, so they carry over to later runs, and export as JSON whose pages have the shape of the study label files in `study/labels/`.
+
 ## How rules and the other layers interact
 
 - **axe-core comes first.** A rule never reports an element that axe-core already failed for the same criterion or through one of the rule's `engineRules`. The failure is reported once, as axe-core's.
