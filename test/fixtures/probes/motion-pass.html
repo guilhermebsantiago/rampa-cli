@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Today's news: motion people can stop</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; color: #111; background: #fff; }
+  main { padding: 16px; }
+  h1 { animation: enter 2s ease-out 1; }
+  @keyframes enter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+  .viewport { width: 600px; height: 120px; overflow: hidden; border: 1px solid #555; }
+  .track { display: flex; margin: 0; padding: 0; list-style: none; transition: transform 0.5s ease; }
+  .track li { flex: 0 0 600px; height: 120px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+  .ticker { width: 600px; overflow: hidden; white-space: nowrap; border: 1px solid #555; margin-top: 16px; }
+  .ticker span { display: inline-block; padding-left: 100%; animation: scroll 20s linear infinite; }
+  .ticker.stopped span { animation-play-state: paused; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+  .spinner { display: none; width: 24px; height: 24px; border: 3px solid #555; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Today's news</h1>
+  <p>Stories from around the city, updated through the day.</p>
+  <!-- The same carousel, with a button that pauses it. -->
+  <section id="news" aria-roledescription="carousel" aria-label="Top stories">
+    <div class="viewport">
+      <ul class="track" id="track">
+        <li style="background:#dbeafe">Library opens on Main Street</li>
+        <li style="background:#fde68a">River festival this weekend</li>
+        <li style="background:#bbf7d0">New bus lines start Monday</li>
+      </ul>
+    </div>
+    <button type="button" id="pause">Pause</button>
+    <button type="button" id="next">Next story</button>
+  </section>
+  <!-- A ticker with a button that stops it. -->
+  <div class="ticker" id="ticker"><span>Markets: index up 1.2% · Weather: sunny, 24 °C · Traffic: light on the bridge</span></div>
+  <button type="button" id="stop-ticker">Stop scrolling</button>
+  <!-- A counter with a button that pauses its updates. -->
+  <p>Visitors online: <span id="online">120</span> <button type="button" id="pause-online">Pause updates</button></p>
+  <!-- A looping video with the browser's own controls. -->
+  <video id="clip" src="media/silent.webm" width="320" height="180" muted autoplay loop controls playsinline></video>
+  <!-- A spinner that does not show. -->
+  <div class="spinner" aria-hidden="true"></div>
+  <p>Read the full stories below.</p>
+</main>
+<script>
+  let i = 0
+  const track = document.getElementById('track')
+  const show = (n) => { i = (n + 3) % 3; track.style.transform = 'translateX(' + (-600 * i) + 'px)' }
+  let turning = setInterval(() => show(i + 1), 3000)
+  document.getElementById('pause').addEventListener('click', () => clearInterval(turning))
+  document.getElementById('next').addEventListener('click', () => show(i + 1))
+  document.getElementById('stop-ticker').addEventListener('click', () => document.getElementById('ticker').classList.add('stopped'))
+  let n = 120
+  const counting = setInterval(() => { n = (n * 7 + 13) % 997; document.getElementById('online').textContent = String(n) }, 1500)
+  document.getElementById('pause-online').addEventListener('click', () => clearInterval(counting))
+</script>
+</body>
+</html>

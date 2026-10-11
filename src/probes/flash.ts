@@ -411,7 +411,7 @@ export async function decodeFramesInPage(arg: { b64: string; type: string; cols:
 const fromBase64 = (value: string) => new Uint8Array(Buffer.from(value, 'base64'))
 
 /** A page in a context of its own, on an https address answered locally: ImageDecoder needs a secure context. */
-async function decoderPage(browser: Browser): Promise<{ page: Page; context: BrowserContext }> {
+export async function decoderPage(browser: Browser): Promise<{ page: Page; context: BrowserContext }> {
   const context = await browser.newContext()
   await context.route('**/*', (route) => route.fulfill({ status: 200, contentType: 'text/html', body: '<!doctype html><title>decoder</title>' }))
   const page = await context.newPage()
@@ -419,7 +419,7 @@ async function decoderPage(browser: Browser): Promise<{ page: Page; context: Bro
   return { page, context }
 }
 
-async function imageBytes(context: BrowserContext, url: string, pageUrl: string, browserOptions: BrowserOptions | undefined): Promise<Uint8Array | string> {
+export async function imageBytes(context: BrowserContext, url: string, pageUrl: string, browserOptions: BrowserOptions | undefined): Promise<Uint8Array | string> {
   if (url.startsWith('data:')) {
     const comma = url.indexOf(',')
     const meta = url.slice(5, comma)

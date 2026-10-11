@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Driving theory test: a time limit that is part of the test</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; color: #111; background: #fff; }
+  main { padding: 16px; max-width: 640px; }
+  fieldset { margin-top: 12px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Driving theory test</h1>
+  <p>This is a timed test: you have 10 minutes to answer every question. When the time is up, your answers are submitted as they are.</p>
+  <p>Time left: <span role="timer" id="left">10:00</span></p>
+  <form id="test" action="/time/results.html" method="get">
+    <fieldset><legend>1. What does a red light mean?</legend>
+      <label><input type="radio" name="q1" value="a"> Stop</label>
+      <label><input type="radio" name="q1" value="b"> Go</label>
+    </fieldset>
+  </form>
+</main>
+<script>
+  const end = Date.now() + 10 * 60 * 1000
+  const tick = () => {
+    const s = Math.max(0, Math.round((end - Date.now()) / 1000))
+    document.getElementById('left').textContent = String(Math.floor(s / 60)) + ':' + String(s % 60).padStart(2, '0')
+  }
+  setInterval(tick, 1000)
+  setTimeout(() => document.getElementById('test').submit(), 10 * 60 * 1000)
+</script>
+</body>
+</html>

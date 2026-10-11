@@ -127,7 +127,7 @@ const check = program
   )
   .option(
     '--probe <kinds>',
-    'drive web pages after collection: layout, keyboard, hover, orientation, shortcuts, media, color, states, variants, auth, flash, links, input, toggles, status, all (every kind but variants, auth, flash, links, input, toggles and status), interact (the kinds that click, press, type or change a setting: shortcuts, links, input, toggles, status) or none (default: none; docs/probes.md). On android: keyboard, layout and orientation drive the device over adb; an XCUITest export gives layout and orientation from the steps its helper exported',
+    'drive web pages after collection: layout, keyboard, hover, orientation, shortcuts, media, color, states, variants, auth, flash, links, input, toggles, status, motion, all (every kind but variants, auth, flash, links, input, toggles, status and motion), interact (the kinds that click, press, type or change a setting: shortcuts, links, input, toggles, status) or none (default: none; docs/probes.md). On android: keyboard, layout and orientation drive the device over adb; an XCUITest export gives layout and orientation from the steps its helper exported',
   )
   .option('--baseline <file>', 'report only the findings this baseline file does not have (rampa baseline writes it)')
   .option('--no-baseline', 'ignore the baseline set in the config')
@@ -194,7 +194,7 @@ program
   .command('eval')
   .description('measure the baseline and the judgment layer against W3C ACT test cases and corrupted pairs')
   .option('-c, --criteria <ids>', 'criteria to evaluate, comma-separated', DEFAULT_CRITERIA.join(','))
-  .option('--rules <ids>', 'instead of criteria, Rampa rules to measure against their ACT test cases, with no model (meta-viewport,refresh-header; site/2.4.1 compares each test page with a page it links to)')
+  .option('--rules <ids>', 'instead of criteria, Rampa rules to measure against their ACT test cases, with no model (meta-viewport,refresh-header; site/2.4.1 compares each test page with a page it links to; a probe rule such as pause-stop-hide runs its probe)')
   .option('-m, --model <provider:model>', 'model for the judgment layer')
   .option('--no-llm', 'measure the deterministic baseline only')
   .option('--no-pairs', 'skip the corrupted pairs')

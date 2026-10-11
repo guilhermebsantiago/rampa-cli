@@ -7,6 +7,7 @@ import { keyboardReachRule, keyboardTrapRule, onFocusRule } from './keyboard.ts'
 import { hoverRule } from './hover.ts'
 import { scriptedLinksRule } from './links.ts'
 import { MEDIA_RULES } from './media.ts'
+import { pauseStopHideRule } from './motion.ts'
 import { onInputRule } from './on-input.ts'
 import { reflowRule, textSizeRule, textSpacingRule, zoomRule } from './layout.ts'
 import { orientationRule } from './orientation.ts'
@@ -14,6 +15,7 @@ import { shortcutsRule } from './shortcuts.ts'
 import { STATE_CONTRAST_RULES } from './state-contrast.ts'
 import { stateExposureRule } from './state-exposure.ts'
 import { statusMessagesRule } from './status-messages.ts'
+import { timingAdjustableRule } from './time-limits.ts'
 import { VARIANTS_RULES } from './variants.ts'
 import type { ProbeRule } from './probes.ts'
 
@@ -43,4 +45,6 @@ export const PROBE_RULES: readonly ProbeRule[] = [
   ...STATE_CONTRAST_RULES,
   flashRule,
   ...VARIANTS_RULES,
+  timingAdjustableRule,
+  pauseStopHideRule,
 ]
