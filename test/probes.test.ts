@@ -252,7 +252,7 @@ describe('probe stage', () => {
     expect(parseProbeKinds('media')).toEqual(['media'])
     expect(parseProbeKinds('orientation')).toEqual(['orientation'])
     expect(() => parseProbeKinds('touch')).toThrow(
-      /--probe takes layout, keyboard, hover, orientation, shortcuts, media, color, auth, links, all \(every kind but auth, links\), interact \(shortcuts, links\) or none/,
+      /--probe takes layout, keyboard, hover, orientation, shortcuts, media, color, auth, links, input, all \(every kind but auth, links, input\), interact \(shortcuts, links, input\) or none/,
     )
   })
 

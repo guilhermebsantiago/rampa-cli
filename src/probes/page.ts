@@ -5,19 +5,19 @@ import { type BrowserOptions, contextOptions, openPage, prepareContext } from '.
 import { type Guard, installGuard } from './guard.ts'
 import { installHooks, installKit, settleInPage } from './kit.ts'
 
-export const PROBE_KINDS = ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'auth', 'links'] as const
+export const PROBE_KINDS = ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'auth', 'links', 'input'] as const
 export type ProbeKind = (typeof PROBE_KINDS)[number]
 /**
  * Kinds that run only when named: `--probe all` leaves them out. The authentication probe types into the password
  * fields of real sign-in forms (a dummy value, cleared), which nobody should get from a catch-all. The probes of the
  * activate class built on the harness (activate.ts) click controls, which the plan keeps opt-in (wcag-coverage.md, 4.4).
  */
-export const OPT_IN_KINDS: readonly ProbeKind[] = ['auth', 'links']
+export const OPT_IN_KINDS: readonly ProbeKind[] = ['auth', 'links', 'input']
 /**
  * `--probe interact`: the plan's name for the activate class, every probe that presses, clicks or changes a setting
  * (wcag-coverage.md, 4.4). The shortcuts probe is one of them, and stays in `all` as it always was.
  */
-export const INTERACT_KINDS: readonly ProbeKind[] = ['shortcuts', 'links']
+export const INTERACT_KINDS: readonly ProbeKind[] = ['shortcuts', 'links', 'input']
 
 export interface ProbeOptions {
   kinds: readonly ProbeKind[]

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>On input: changes of content, not of context</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; }
+  p { margin: 0 0 12px; }
+  [hidden] { display: none; }
+  #suggestions { border: 1px solid #888; margin: 0; padding: 4px 16px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Checkout preferences</h1>
+  <!-- Choosing "Other" shows a field for it (Understanding 3.2.2: the structure stays). -->
+  <p><label for="contact">How should we contact you?</label>
+    <select id="contact" onchange="document.getElementById('other-wrap').hidden = this.value !== 'other'">
+      <option value="email">E-mail</option>
+      <option value="other">Other</option>
+    </select></p>
+  <p id="other-wrap" hidden><label for="other">Other way</label> <input id="other"></p>
+  <!-- Ticking the box hides the shipping address, which then copies the billing one. -->
+  <p><label><input type="checkbox" id="same" onchange="document.getElementById('shipping').hidden = this.checked"> Ship to my billing address</label></p>
+  <fieldset id="shipping"><legend>Shipping address</legend><label for="street">Street</label> <input id="street"></fieldset>
+  <!-- Typing shows suggestions under the field; focus stays. -->
+  <p><label for="city">City</label> <input id="city" autocomplete="off" oninput="suggest(this.value)"></p>
+  <ul id="suggestions" hidden></ul>
+  <!-- The plan updates the price shown next to it (SCR19). -->
+  <p><label for="plan">Plan</label>
+    <select id="plan" onchange="document.getElementById('price').textContent = this.value === 'pro' ? '$20' : '$5'">
+      <option value="basic">Basic</option>
+      <option value="pro">Pro</option>
+    </select> <span id="price">$5</span></p>
+  <!-- A jump menu with a button (G80): changing the select does nothing until Go is pressed, which Rampa never does. -->
+  <form action="input/results.html" method="get">
+    <p><label for="jump">Section</label>
+      <select id="jump" name="section"><option>News</option><option>Sports</option></select>
+      <button type="submit">Go</button></p>
+  </form>
+  <!-- A volume slider and a date that only show their value. -->
+  <p><label for="volume">Volume</label> <input id="volume" type="range" min="0" max="10" value="5" oninput="document.getElementById('volume-out').textContent = this.value"> <output id="volume-out">5</output></p>
+  <p><label for="when">Delivery date</label> <input id="when" type="date" value="2026-10-20"></p>
+  <p><label for="notes">Notes for the courier</label><br><textarea id="notes" rows="2"></textarea></p>
+</main>
+<script>
+  function suggest(value) {
+    const list = document.getElementById('suggestions')
+    list.hidden = value === ''
+    list.innerHTML = ['Aracaju', 'Belém', 'Fortaleza'].map((city) => `<li>${city}</li>`).join('')
+  }
+</script>
+</body>
+</html>

@@ -618,7 +618,8 @@ export function installActivateKit(): void {
         dom,
         style,
         samples,
-        ...(moved && active ? { focus: kit.describe(active) } : {}),
+        // Named as a person would hear it: a field by its label, which the kit's short label does not read.
+        ...(moved && active ? { focus: { ...kit.describe(active), label: cut(nameOf(active), 80) || kit.describe(active).label } } : {}),
         ...(moved && !active && from.active ? { focusLost: true } : {}),
         ...(scroll.x !== 0 || scroll.y !== 0 ? { scroll } : {}),
         ...(location.href !== from.url
@@ -724,11 +725,6 @@ export class Harness {
     await this.window(probe, async () => undefined, { noise: true, ms: LEARN_MS })
     this.log('learn', { detail: `${LEARN_MS} ms with no input` })
     return probe
-  }
-
-  /** The next control gets a fresh page. */
-  spoil(): void {
-    this.dirty = true
   }
 
   /** Finds a control in the page by ref and identity; logs it when the page no longer has it. */

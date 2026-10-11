@@ -127,7 +127,7 @@ const check = program
   )
   .option(
     '--probe <kinds>',
-    'drive web pages after collection: layout, keyboard, hover, orientation, shortcuts, media, color, auth, links, all (every kind but auth and links), interact (the kinds that click or press: shortcuts, links) or none (default: none; docs/probes.md)',
+    'drive web pages after collection: layout, keyboard, hover, orientation, shortcuts, media, color, auth, links, input, all (every kind but auth, links and input), interact (the kinds that click, press or change a setting: shortcuts, links, input) or none (default: none; docs/probes.md)',
   )
   .option('--baseline <file>', 'report only the findings this baseline file does not have (rampa baseline writes it)')
   .option('--no-baseline', 'ignore the baseline set in the config')
