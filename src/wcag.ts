@@ -126,8 +126,8 @@ export const WCAG_CRITERIA: readonly SuccessCriterion[] = [
     'Tempos-limite no servidor; fluxos atrás de login; as exceções',
   ]),
   sc('2.2.2', 'A', '2.0', ['Pause, Stop, Hide', 'Pausar, parar, ocultar'], [
-    'Moving, blinking and updating content and its controls; essential motion; reliance on reduced motion',
-    'Conteúdo em movimento, piscando ou se atualizando, e seus controles; movimento essencial; dependência de movimento reduzido',
+    'Motion after an interaction or further down the page; whether a control is easy to find and works from the keyboard; essential motion; reliance on reduced motion',
+    'Movimento depois de uma interação ou mais abaixo na página; se um controle é fácil de achar e funciona pelo teclado; movimento essencial; dependência de movimento reduzido',
   ]),
   sc('2.3.1', 'A', '2.0', ['Three Flashes or Below Threshold', 'Três flashes ou abaixo do limite'], [
     'Flashing content, live and user-generated content; certification-grade sign-off',

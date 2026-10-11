@@ -67,6 +67,7 @@ export interface CdpAxNode {
   properties?: Array<{ name: string; value?: AxValue }>
   backendDOMNodeId?: number
   frameId?: string
+  parentId?: string
 }
 
 /** An element of the DOM tree, with the ref the collector gives it. */
@@ -411,6 +412,64 @@ export async function attachAxTree(open: () => Promise<CdpSessionLike | undefine
     return { ...record, skipped: error instanceof Error ? (error.message.split('\n')[0] ?? 'error') : 'error' }
   } finally {
     await session.detach().catch(() => undefined)
+  }
+}
+
+/** What the browser exposes for one element of a live page, and for its ancestors in its tree (nearest first). */
+export interface LiveAxFacts {
+  facts: AxFacts
+  ancestors?: AxFacts[] | undefined
+}
+
+/**
+ * The browser's facts for elements of a live page, read again whenever a probe asks: the activate-class probes read
+ * them before and after each activation (docs/probes.md), since a state that changes on screen must change here too.
+ * `expression` evaluates, in the page, to an array of elements; each gets the facts the snapshot records for a node
+ * (`axFactsOf`, with every name kept), or undefined where the entry is not an element or the browser keeps no node for
+ * it. With `ancestors`, the facts of its ancestors in the browser's tree come with it (a live region around new text).
+ * One `Accessibility.getPartialAXTree` call per element; the browser brings its tree up to date for each.
+ */
+export async function liveAxFacts(session: Pick<CdpSessionLike, 'send'>, expression: string, options: { ancestors?: boolean } = {}): Promise<Array<LiveAxFacts | undefined>> {
+  const group = 'rampa-live-ax'
+  const send = <T>(method: string, params?: Record<string, unknown>) => session.send(method, params) as Promise<T>
+  try {
+    const { result } = await send<{ result: { objectId?: string; subtype?: string } }>('Runtime.evaluate', { expression, objectGroup: group })
+    if (!result.objectId || result.subtype !== 'array') return []
+    const { result: properties } = await send<{ result: Array<{ name: string; value?: { objectId?: string; subtype?: string } }> }>('Runtime.getProperties', { objectId: result.objectId, ownProperties: true })
+    const items = properties.filter((p) => /^\d+$/.test(p.name)).sort((a, b) => Number(a.name) - Number(b.name))
+    const out: Array<LiveAxFacts | undefined> = []
+    for (const item of items) {
+      const objectId = item.value?.subtype === 'node' ? item.value.objectId : undefined
+      if (!objectId) {
+        out.push(undefined)
+        continue
+      }
+      try {
+        const { node } = await send<{ node: { backendNodeId: number } }>('DOM.describeNode', { objectId })
+        const { nodes } = await send<{ nodes: CdpAxNode[] }>('Accessibility.getPartialAXTree', { backendNodeId: node.backendNodeId, fetchRelatives: options.ancestors === true })
+        const own = nodes.find((n) => n.backendDOMNodeId === node.backendNodeId)
+        if (!own) {
+          out.push(undefined)
+          continue
+        }
+        const facts = axFactsOf(own, undefined, () => undefined)
+        if (!options.ancestors) {
+          out.push({ facts })
+          continue
+        }
+        const byId = new Map(nodes.map((n) => [n.nodeId, n]))
+        const ancestors: AxFacts[] = []
+        for (let parent = own.parentId ? byId.get(own.parentId) : undefined, i = 0; parent && i < 60; parent = parent.parentId ? byId.get(parent.parentId) : undefined, i++) {
+          ancestors.push(axFactsOf(parent, undefined, () => undefined))
+        }
+        out.push({ facts, ancestors })
+      } catch {
+        out.push(undefined)
+      }
+    }
+    return out
+  } finally {
+    await send('Runtime.releaseObjectGroup', { objectGroup: group }).catch(() => undefined)
   }
 }
 

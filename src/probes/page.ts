@@ -5,23 +5,24 @@ import { type BrowserOptions, contextOptions, openPage, prepareContext } from '.
 import { type Guard, installGuard } from './guard.ts'
 import { installHooks, installKit, settleInPage } from './kit.ts'
 
-export const PROBE_KINDS = ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'auth', 'flash', 'links', 'input', 'motion'] as const
+export const PROBE_KINDS = ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status', 'motion'] as const
 export type ProbeKind = (typeof PROBE_KINDS)[number]
 /**
  * Kinds that run only when named: `--probe all` leaves them out. The authentication probe types into the password
  * fields of real sign-in forms (a dummy value, cleared), which nobody should get from a catch-all. The flash probe
  * plays media (muted) and takes some 200 captures of the window, which costs more than a catch-all should. The probes
  * of the activate class built on the harness (activate.ts) click controls, which the plan keeps opt-in (wcag-coverage.md, 4.4).
- * The motion probe (2.2.2, 2.2.1) moves the page's time for minutes, up to 20 hours, and presses controls named to pause,
- * stop or hide what moves.
+ * The state-variants probe loads other pages over the network (the page's versions in other languages), which a
+ * catch-all should not do either. The motion probe (2.2.2, 2.2.1) moves the page's time for minutes, up to 20 hours,
+ * and presses controls named to pause, stop or hide what moves.
  */
-export const OPT_IN_KINDS: readonly ProbeKind[] = ['auth', 'flash', 'links', 'input', 'motion']
+export const OPT_IN_KINDS: readonly ProbeKind[] = ['variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status', 'motion']
 /**
  * `--probe interact`: the plan's name for the activate class, every probe that presses, clicks or changes a setting
  * (wcag-coverage.md, 4.4). The shortcuts probe is one of them, and stays in `all` as it always was. The motion probe
  * presses only pause, stop, hide and extend controls, and costs a minute or more a page, so it runs only when named.
  */
-export const INTERACT_KINDS: readonly ProbeKind[] = ['shortcuts', 'links', 'input']
+export const INTERACT_KINDS: readonly ProbeKind[] = ['shortcuts', 'links', 'input', 'toggles', 'status']
 
 export interface ProbeOptions {
   kinds: readonly ProbeKind[]

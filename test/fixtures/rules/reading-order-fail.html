@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Reading order failures · Acme</title>
+  <style>
+    body { font-family: sans-serif; font-size: 16px; margin: 2em; }
+    section { margin-bottom: 2em; }
+    /* F1, Example 1, as W3C gives it: each span placed with absolute positions, inside a positioned section. */
+    .f1 { position: relative; height: 12em; }
+    .menu1 { position: absolute; top: 3em; left: 0em; margin: 0px; font-family: sans-serif; font-size: 120%; color: red; background-color: white }
+    .menu2 { position: absolute; top: 3em; left: 10em; margin: 0px; font-family: sans-serif; font-size: 120%; color: red; background-color: white }
+    .item1 { position: absolute; top: 7em; left: 0em; margin: 0px }
+    .item2 { position: absolute; top: 8em; left: 0em; margin: 0px }
+    .item3 { position: absolute; top: 9em; left: 0em; margin: 0px }
+    .item4 { position: absolute; top: 7em; left: 14em; margin: 0px }
+    .item5 { position: absolute; top: 8em; left: 14em; margin: 0px }
+    #box { position: absolute; top: 5em; left: 5em }
+    .steps { display: flex; gap: 1em; }
+    .steps > div { border: 1px solid #ccc; padding: 0.5em; }
+    .sentence { display: flex; flex-direction: row-reverse; justify-content: flex-end; gap: 0.3em; }
+    .card { display: flex; flex-direction: column-reverse; }
+  </style>
+</head>
+<body>
+  <h1>Planning your stay</h1>
+
+  <!-- F34, Example 1: a menu laid out as a table with spaces. -->
+  <section>
+    <h2>This week's menu</h2>
+<pre>Menu
+         Breakfast        Lunch           Dinner
+
+Monday   2 fried eggs    tomato soup     garden salad
+         bacon           hamburger       Fried Chicken
+         toast           onion rings     green beans
+                         Oatmeal cookie  mashed potatoes
+
+Tuesday   Pancakes       vegetable soup  Caesar salad
+          sausage        hot dogs        Spaghetti with meatballs
+          orange juice   potato salad    Italian bread
+                         brownie         ice cream
+</pre>
+  </section>
+
+  <!-- F33, Example 1: a paragraph set in two columns with spaces. -->
+  <section>
+    <h2>About the guidelines</h2>
+<pre>Web Content Accessibility Guidelines      including blindness and low vision,
+2.0 (WCAG 2.0) covers a wide range of     deafness and hearing loss, learning
+issues and recommendations for making     difficulties, cognitive limitations, limited
+Web content more accessible. This         movement, speech difficulties, and
+document contains principles,             others. Following these guidelines will
+guidelines, success criteria, benefits,   also make your web content more
+and examples that define and explain      accessible to the vast majority of users,
+the requirements for making Web-based     including older users. It will also enable
+information and applications accessible.  people to access web content using
+"Accessible" means usable to a wide       many different devices - including a
+range of people with disabilities,        wide variety of assistive technologies.
+</pre>
+  </section>
+
+  <!-- F1, Example 1: two columns made of absolutely positioned spans; the products are read after "Locations". -->
+  <section class="f1">
+    <div class="box">
+      <span class="menu1">Products</span>
+      <span class="menu2">Locations</span>
+      <span class="item1">Telephones</span>
+      <span class="item2">Computers</span>
+      <span class="item3">Portable MP3 Players</span>
+      <span class="item5">Wisconsin</span>
+      <span class="item4">Idaho</span>
+    </div>
+  </section>
+
+  <!-- Numbered steps put in order by CSS order: the markup reads 3, 1, 2. -->
+  <section>
+    <h2>How to book</h2>
+    <div class="steps">
+      <div style="order: 3">Step 3: Pay for your room</div>
+      <div style="order: 1">Step 1: Choose your dates</div>
+      <div style="order: 2">Step 2: Pick a room</div>
+    </div>
+  </section>
+
+  <!-- A sentence whose halves a reversed row puts the right way round on screen only. -->
+  <section>
+    <p class="sentence"><span>the breakfast is on us.</span><span>Book three nights and</span></p>
+  </section>
+
+  <!-- A heading shown above its text by a reversed column: the text is read before its heading. -->
+  <section>
+    <article class="card">
+      <p>Every room has a desk, fast wifi and a kettle.</p>
+      <h3>Rooms</h3>
+    </article>
+  </section>
+</body>
+</html>

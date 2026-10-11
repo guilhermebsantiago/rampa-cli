@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Offers · Acme</title>
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    .carousel { position: relative; width: 480px; height: 270px; overflow: hidden; }
+    .carousel .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s; }
+    .carousel .slide.active { opacity: 1; }
+    .carousel img { display: block; width: 480px; height: 270px; }
+    .banner { display: block; width: 600px; height: 200px; margin-top: 2em; }
+  </style>
+</head>
+<body>
+  <h1>This week's offers</h1>
+
+  <!-- Each slide's picture named for what it shows. -->
+  <section class="carousel" aria-roledescription="carousel" aria-label="Offers">
+    <div class="slide active" aria-roledescription="slide"><img src="variants/slide-1.svg" alt="Summer sale: 30% off every coat"></div>
+    <div class="slide" aria-roledescription="slide"><img src="variants/slide-2.svg" alt="New arrivals: linen shirts"></div>
+    <div class="slide" aria-roledescription="slide"><img src="variants/slide-3.svg" alt="Free delivery on orders over $50"></div>
+  </section>
+
+  <!-- The script changes the alt with the picture. -->
+  <img class="banner" id="campus" src="variants/banner-a.svg" alt="The campus at sunrise">
+
+  <script>
+    const slides = document.querySelectorAll('.carousel .slide')
+    let current = 0
+    setInterval(() => {
+      slides[current].classList.remove('active')
+      current = (current + 1) % slides.length
+      slides[current].classList.add('active')
+    }, 3000)
+    const banner = document.getElementById('campus')
+    const pictures = [
+      ['variants/banner-a.svg', 'The campus at sunrise'],
+      ['variants/banner-b.svg', 'The library tower under a full moon'],
+    ]
+    let shown = 0
+    setInterval(() => {
+      shown = (shown + 1) % pictures.length
+      banner.src = pictures[shown][0]
+      banner.alt = pictures[shown][1]
+    }, 5000)
+  </script>
+</body>
+</html>

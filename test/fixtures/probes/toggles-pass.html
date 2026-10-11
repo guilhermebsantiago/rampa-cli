@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>State exposure: toggles that expose their state</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; color: #111; background: #fff; }
+  main { padding: 24px; max-width: 760px; }
+  section { margin: 0 0 20px; }
+  button { font: inherit; padding: 6px 12px; border: 1px solid #555; background: #f4f4f4; color: #111; border-radius: 4px; }
+  #clock { font-size: 12px; color: #555; }
+  .panel { border-left: 4px solid #0b5; padding: 8px 12px; margin-top: 8px; background: #effaf3; }
+  .sw { display: inline-block; position: relative; width: 120px; height: 28px; line-height: 28px; padding-left: 56px; cursor: pointer; }
+  .sw::before { content: ''; position: absolute; left: 0; top: 2px; width: 44px; height: 24px; border-radius: 12px; background: #999; }
+  .sw::after { content: ''; position: absolute; left: 3px; top: 5px; width: 18px; height: 18px; border-radius: 9px; background: #fff; }
+  .sw[aria-checked=true]::before { background: #0a6; }
+  .sw[aria-checked=true]::after { left: 23px; }
+  [role=tablist] { display: flex; gap: 4px; }
+  [role=tab] { border-bottom: 3px solid transparent; }
+  [role=tab][aria-selected=true] { border-bottom-color: #05c; background: #e6eeff; }
+  .accordion-header { cursor: pointer; font-weight: bold; padding: 8px; background: #eee; width: 300px; }
+  .fav { font-size: 22px; line-height: 1; color: #999; background: #fff; border-color: #ccc; }
+  .fav[aria-pressed=true] { color: #e6a700; background: #fff8e0; border-color: #e6a700; }
+  .checkbox { cursor: pointer; display: inline-block; padding: 4px 0; }
+  .checkbox .box { display: inline-block; width: 16px; height: 16px; border: 2px solid #333; vertical-align: -3px; margin-right: 6px; }
+  .checkbox[aria-checked=true] .box { background: #333; box-shadow: inset 0 0 0 3px #fff; }
+  .slide { overflow: hidden; transition: max-height 0.3s; max-height: 0; }
+  .slide.open { max-height: 200px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Help center</h1>
+  <p>Updated <span id="clock">0</span> s ago.</p>
+
+  <!-- 1. A disclosure that updates aria-expanded. -->
+  <section class="w-faq">
+    <button class="faq-q" aria-expanded="false" aria-controls="a1" onclick="flip(this, 'a1')">How long does shipping take?</button>
+    <div id="a1" class="panel" hidden><p>Orders leave the warehouse within two days, and arrive in three to five working days.</p></div>
+  </section>
+
+  <!-- 2. A disclosure whose name says its state. -->
+  <section class="w-more">
+    <button class="more-btn" onclick="const p = document.getElementById('a2'); p.hidden = !p.hidden; this.textContent = p.hidden ? 'Show shipping costs' : 'Hide shipping costs'">Show shipping costs</button>
+    <div id="a2" class="panel" hidden><p>Shipping is free above fifty euros; below that, it costs four euros fifty per parcel.</p></div>
+  </section>
+
+  <!-- 3. A switch whose aria-checked follows its look. -->
+  <section class="w-switch">
+    <div class="sw" role="switch" aria-checked="false" tabindex="0" onclick="this.setAttribute('aria-checked', String(this.getAttribute('aria-checked') !== 'true'))">Large text</div>
+  </section>
+
+  <!-- 4. Tabs that move aria-selected. -->
+  <section class="w-tabs">
+    <div role="tablist" aria-label="Plans">
+      <button role="tab" aria-selected="true" aria-controls="p1" id="t1" onclick="tab(this, 'p1')">Monthly</button>
+      <button role="tab" aria-selected="false" aria-controls="p2" id="t2" onclick="tab(this, 'p2')">Yearly</button>
+    </div>
+    <div id="p1" role="tabpanel" aria-labelledby="t1" class="panel">Twelve euros a month, billed every month, with no commitment.</div>
+    <div id="p2" role="tabpanel" aria-labelledby="t2" class="panel" hidden>One hundred and twenty euros a year, two months for free.</div>
+  </section>
+
+  <!-- 5. An accordion header with a button role and aria-expanded; its panel slides open. -->
+  <section class="w-acc">
+    <div class="accordion-header" role="button" tabindex="0" aria-expanded="false" onclick="this.setAttribute('aria-expanded', String(this.getAttribute('aria-expanded') !== 'true')); document.getElementById('a5').classList.toggle('open')">Returns and refunds</div>
+    <div id="a5" class="panel slide"><p>Send the parcel back within thirty days; the refund reaches your card within a week.</p></div>
+  </section>
+
+  <!-- 6. A toggle button with aria-pressed. -->
+  <section class="w-fav">
+    <button class="fav" aria-label="Favorite" aria-pressed="false" onclick="this.setAttribute('aria-pressed', String(this.getAttribute('aria-pressed') !== 'true'))">★</button>
+  </section>
+
+  <!-- 7. Native elements expose their state themselves, and are not clicked. -->
+  <section class="w-native">
+    <details><summary>Opening hours</summary><p>Monday to Friday, nine to six.</p></details>
+    <label><input type="checkbox"> Gift wrap this order</label>
+  </section>
+
+  <!-- 8. A checkbox built from a span, with its role and aria-checked. -->
+  <section class="w-check">
+    <span class="checkbox" role="checkbox" aria-checked="false" tabindex="0" onclick="this.setAttribute('aria-checked', String(this.getAttribute('aria-checked') !== 'true'))"><span class="box"></span>Gift receipt</span>
+  </section>
+</main>
+<script>
+  let seconds = 0
+  setInterval(() => { document.getElementById('clock').textContent = String(++seconds) }, 1000)
+  function flip(button, id) {
+    const el = document.getElementById(id)
+    el.hidden = !el.hidden
+    button.setAttribute('aria-expanded', String(!el.hidden))
+  }
+  function tab(button, id) {
+    for (const t of document.querySelectorAll('[role=tab]')) t.setAttribute('aria-selected', String(t === button))
+    for (const p of document.querySelectorAll('[role=tabpanel]')) p.hidden = p.id !== id
+  }
+</script>
+</body>
+</html>

@@ -10,6 +10,7 @@ import { ERROR_RULES } from './errors.ts'
 import { noVisibleLabelRule } from './forms.ts'
 import { BROWSER_TREE_RULES } from './browser-tree.ts'
 import { fieldLabelInNameRule } from './label-in-name.ts'
+import { READING_ORDER_RULES } from './reading-order.ts'
 import { SCOPE_RULES } from './scope.ts'
 import { SEQUENCE_RULES } from './sequence.ts'
 import { STRUCTURE_RULES } from './structure.ts'
@@ -25,6 +26,7 @@ export const RULE_CHECKS: readonly RuleCheck[] = [
   ...ERROR_RULES,
   ...STRUCTURE_RULES,
   ...SEQUENCE_RULES,
+  ...READING_ORDER_RULES,
   ...CONTRAST_RULES,
   ...BROWSER_TREE_RULES,
   ...SCOPE_RULES,

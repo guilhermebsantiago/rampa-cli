@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>State exposure: near misses</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; color: #111; background: #fff; }
+  main { padding: 24px; max-width: 760px; }
+  section { margin: 0 0 20px; }
+  button { font: inherit; padding: 6px 12px; border: 1px solid #555; background: #f4f4f4; color: #111; border-radius: 4px; }
+  .ring:focus { outline: 4px solid #c00; outline-offset: 2px; background: #ffe; }
+  .tip { position: relative; }
+  .tip .bubble { display: none; position: absolute; left: 0; top: 40px; width: 220px; padding: 6px; background: #222; color: #fff; font-size: 14px; }
+  .tip:hover .bubble { display: block; }
+  .slides > div { padding: 12px; background: #eef; width: 400px; }
+  dialog { width: 400px; }
+</style>
+</head>
+<body>
+<main id="main">
+  <a class="skip" href="#main">Skip to content</a>
+  <h1>Catalog</h1>
+  <p><a href="other.html">Our stores</a></p>
+
+  <!-- An action, not a toggle: each click adds items. -->
+  <section class="w-load">
+    <ul id="items"><li>Red kettle</li><li>Blue kettle</li></ul>
+    <button class="load" onclick="const ul = document.getElementById('items'); for (let i = 0; i < 2; i++) { const li = document.createElement('li'); li.textContent = 'Kettle number ' + 'abcdefghij'[ul.children.length]; ul.append(li) }">Load more</button>
+  </section>
+
+  <!-- An action whose name says what happened. -->
+  <section class="w-copy">
+    <button class="copy" onclick="this.textContent = 'Link copied'">Copy link</button>
+  </section>
+
+  <!-- A carousel: each click shows the next slide, never back to the first in two clicks. -->
+  <section class="w-slides">
+    <div class="slides"><div>Slide one: kettles</div><div hidden>Slide two: teapots</div><div hidden>Slide three: mugs</div></div>
+    <button class="next" onclick="const s = [...document.querySelectorAll('.slides > div')]; const i = s.findIndex((d) => !d.hidden); s[i].hidden = true; s[(i + 1) % s.length].hidden = false">Next slide</button>
+  </section>
+
+  <!-- Opens a modal dialog: a change of context, which its own probe reads. -->
+  <section class="w-dialog">
+    <button class="guide" onclick="document.getElementById('guide').showModal()">Size guide</button>
+    <dialog id="guide"><p>Small fits a 1 litre kettle; large fits 2 litres.</p><button onclick="this.closest('dialog').close()">Close</button></dialog>
+  </section>
+
+  <!-- Only a focus style: nothing else changes. -->
+  <section class="w-ring">
+    <button class="ring" onclick="void 0">Compare</button>
+  </section>
+
+  <!-- A tooltip on hover; clicking does nothing. -->
+  <section class="w-tip">
+    <button class="tip" onclick="void 0">Delivery<span class="bubble">Delivered by our own couriers.</span></button>
+  </section>
+
+  <!-- Never touched: a destructive name. -->
+  <section class="w-delete">
+    <button class="trash-toggle" aria-pressed="false" onclick="fetch('touched?delete'); this.setAttribute('aria-pressed', 'true')">Delete all</button>
+  </section>
+
+  <!-- Native controls expose their state themselves. -->
+  <section class="w-native">
+    <label><input type="checkbox" onchange="fetch('touched?checkbox')"> Gift wrap</label>
+    <details><summary>Care</summary><p>Rinse after use.</p></details>
+  </section>
+</main>
+</body>
+</html>
