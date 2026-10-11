@@ -1,5 +1,5 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import { dirname, join } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 import type { Browser } from 'playwright-core'
 import { prepareAdoption, targetsOrConfig } from '../../adoption/apply.ts'
 import { resolveProfiles } from '../../advisory/profile.ts'
@@ -25,7 +25,8 @@ import { collectImage } from '../../surfaces/image.ts'
 import { type Target, loadRecorded, recordingName, resolveTargets, siblingPng } from '../../surfaces/targets.ts'
 import { type DestinationCache, type FollowLinks, type FollowOptions, destinationCache } from '../../surfaces/destinations.ts'
 import { FILE_FORMATS, type Format, formatReports } from '../../report/formats.ts'
-import { locateReport, readPageSource, repositoryRoot } from '../../source/locate.ts'
+import { type ChangedTargets, onlyChanged } from '../../source/changed.ts'
+import { displayPath, locateReport, readPageSource, repositoryRoot } from '../../source/locate.ts'
 import { type BrowserFlags, type BrowserOptions, parseBrowserFlags, wholeNumber } from '../../surfaces/browser-options.ts'
 import { type CrawlFlags, crawlRequested } from '../../surfaces/crawl.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
@@ -100,6 +101,11 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   fast?: boolean
   /** --batch / --no-batch: batched judgment (core/batch.ts); the config's `batch`, else on with --fast only. */
   batch?: boolean
+  /**
+   * --changed[=<ref>]: of the local HTML files, check only those changed since the ref; true for the merge base with
+   * the default branch (source/changed.ts). Other targets are always checked.
+   */
+  changed?: string | boolean
 }
 
 /** Read links when a criterion needs their destinations and the judgment layer will run. */
@@ -260,10 +266,16 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   const submitDryRun = Boolean(options.submitDryRun)
   if (crawlRequested(options)) {
     if (probes.length > 0) process.stderr.write('rampa: --probe does not run with --crawl yet; the pages are checked without probes.\n')
+    if (options.changed) process.stderr.write('rampa: --changed picks among local HTML files; a crawl checks the pages it finds.\n')
     if (allowSubmit.length > 0 || submitDryRun) process.stderr.write('rampa: --allow-submit and --submit-dry-run do not run with --crawl; nothing is submitted.\n')
     return runSiteCheck(targetsOrConfig(targets, context.config), options, context, browserOptions)
   }
-  const resolved = await resolveTargets(targetsOrConfig(targets, context.config))
+  const all = await resolveTargets(targetsOrConfig(targets, context.config))
+  // --changed: only the local HTML files changed since the ref, said on stderr now and in each report.
+  const changed = options.changed ? await onlyChanged(all, options.changed === true ? undefined : options.changed) : undefined
+  const resolved = changed?.targets ?? all
+  const changedNote = changed ? changedLines(changed, all, context.locale) : undefined
+  if (changedNote) process.stderr.write(`rampa: ${changedNote.stderr}\n`)
   const submit = submitPlan(allowSubmit, submitDryRun, probes, resolved)
   const criteria = resolveCriteria(options.criteria.split(','))
   const profiles = resolveProfiles(options.profile, context.config.profiles)
@@ -354,6 +366,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
       // candidates the model did not judge (past the cap or the time limit).
       const notes = [...collected.notes, ...(report.notes ?? []), ...rulesNotes(collected.engine, context.locale)]
       if (collected.snapshot.surface === 'web') notes.push(singlePageNote(context.locale))
+      if (changedNote?.note) notes.push(changedNote.note)
       if (notes.length > 0) report.notes = notes
       if (collected.usage) {
         for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) report.usage[key] += collected.usage[key]
@@ -375,6 +388,11 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   if (options.onReports) return options.onReports(reports)
 
   const formatOptions = { verbose: Boolean(options.verbose), paint: paint(colorsEnabled()) }
+  // --changed left nothing to check: the terminal says so, instead of an empty report.
+  if (reports.length === 0 && changedNote && options.format === 'pretty' && !options.output) {
+    process.stdout.write(`\n${changedNote.nothing}\n\n`)
+    return 0
+  }
   const render = (format: Format) => formatReports(format, reports, formatOptions)
   if (!options.output) process.stdout.write(render(options.format))
   else if (options.format === 'pretty') {
@@ -410,6 +428,19 @@ export function submitPlan(allowed: string[], dryRun: boolean, probes: readonly 
   const origins = targets.flatMap((target) => (target.kind === 'web' ? [originOf(target.url)] : []))
   if (!origins.some((origin) => allowed.includes(origin))) process.stderr.write('rampa: --allow-submit: no target is on an origin it names, so nothing will be submitted.\n')
   return { allowed, dryRun: false }
+}
+
+/** What --changed did, for stderr, for each report's notes (when it skipped files) and for a run left with nothing to check. */
+export function changedLines(changed: ChangedTargets, all: readonly Target[], locale: Locale): { stderr: string; note: string | undefined; nothing: string } {
+  const local = all.filter((target) => target.kind === 'web' && target.url.startsWith('file:')).length
+  const commit = changed.base.commit.slice(0, 7)
+  const skipped = changed.skipped.map((label) => displayPath(resolve(label), process.cwd()))
+  const list = `${skipped.slice(0, 10).join(', ')}${skipped.length > 10 ? `, … (${skipped.length - 10} more)` : ''}`
+  return {
+    stderr: `--changed (${changed.base.ref}, ${commit}): checking ${local - skipped.length} of ${local} local HTML files; ${skipped.length} unchanged since then are skipped.`,
+    note: skipped.length > 0 ? t(locale, 'changedNote', { count: skipped.length, ref: changed.base.ref, commit, list }) : undefined,
+    nothing: t(locale, 'changedNothing', { ref: changed.base.ref, commit, count: skipped.length }),
+  }
 }
 
 /** Batched judgment: --batch or --no-batch, else the config's `batch`, else on in fast mode only. */

@@ -129,6 +129,10 @@ const check = program
   .option('--no-fast', 'turn off fast: true from the config for this run')
   .option('--batch', 'judge up to 8 candidates per model call where the criterion allows it (on with --fast; docs/performance.md)')
   .option('--no-batch', 'one model call per candidate, also with --fast')
+  .option(
+    '--changed [ref]',
+    'of the local HTML files, check only those changed since a git ref (default: the merge base with the default branch); says what it skipped. Use --changed=<ref> to name one',
+  )
   .addOption(
     new Option('--follow-links <policy>', "read where links lead, to compare them with their text (2.4.4); same-origin reads a local page's local files")
       .choices([...FOLLOW_LINKS])
