@@ -7,6 +7,7 @@ import { fileCache } from '../../core/cache.ts'
 import { type CheckOptions, checkSnapshot } from '../../core/check.ts'
 import { type SiteCriteriaReport, type SitePage, type SiteReport, countReuse, findingSignatures, siteExitCode, summarizeSite } from '../../core/site.ts'
 import { type Sibling, siblingsOf } from '../../core/siblings.ts'
+import { pagePictureKeys, repeatedPictures } from '../../core/site-images.ts'
 import type { Report } from '../../core/types.ts'
 import { RampaError, errorMessage } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
@@ -158,6 +159,8 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
   const cache = countReuse(fileCache(options.cacheDir))
   const pages: Array<SitePage & { index: number }> = []
   const titles: Sibling[] = []
+  // Which pages each captured picture showed on so far, so 1.4.5 can tell a site's own marks (a logo) from content.
+  const pictures = new Map<string, Set<string>>()
   // What the criteria across pages (3.2.3, 3.2.6) read of each page, kept instead of the snapshot.
   const records: Array<SitePageRecord & { index: number }> = []
   // Pages load in parallel but are judged one at a time, in turn: a judgment made for one
@@ -191,6 +194,12 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
     }
     const title = collected.snapshot.title?.trim()
     if (title) titles.push({ url: finalUrl, title })
+    const pictureKeys = pagePictureKeys(collected.snapshot.root, finalUrl)
+    for (const key of pictureKeys) {
+      const pages = pictures.get(key) ?? new Set<string>()
+      pages.add(finalUrl)
+      pictures.set(key, pages)
+    }
     let record: SitePageRecord | undefined
     try {
       record = siteFactsOf({ ...collected.snapshot, target: finalUrl })
@@ -201,7 +210,9 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
       cache.page = turns++
       // The titles of the pages read so far, so 2.4.2 can tell whether this page's title sets it apart from them.
       const siblings = siblingsOf(finalUrl, titles)
-      const snapshot = { ...collected.snapshot, target: finalUrl, ...(siblings.length > 0 ? { siblings } : {}) }
+      // The pictures of this page the crawl has seen on other pages so far: on several, 1.4.5 takes them for the site's marks.
+      const siteImages = repeatedPictures(pictureKeys, pictures, finalUrl)
+      const snapshot = { ...collected.snapshot, target: finalUrl, ...(siblings.length > 0 ? { siblings } : {}), ...(siteImages ? { siteImages } : {}) }
       if (options.save) await saveRecording(options.save, snapshot, collected)
       // Pages are judged one at a time, so a page's time limit counts from its turn, not from its load.
       const deadline = run.timeLimitMs === undefined ? undefined : Date.now() + run.timeLimitMs

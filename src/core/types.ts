@@ -120,8 +120,11 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
    * browser's names one at a time, each measured on its evaluation sets (docs/rules.md).
    */
   names?: 'browser' | undefined
-  /** Loads what the synchronous methods below need, such as an n-gram database; awaited before `candidates`. */
-  prepare?(): Promise<void>
+  /**
+   * Loads what the synchronous methods below need, such as an n-gram database, or measures what they read from the
+   * snapshot's own data, such as the words OCR reads in its captured pictures (1.4.5); awaited before `candidates`.
+   */
+  prepare?(snapshot: A11ySnapshot): Promise<void>
   /** Only the residue the engine could not decide. */
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<Ctx>[]
   /**
@@ -140,6 +143,12 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
   /** The highest confidence a finding about this candidate can have, whatever the model says: a short quote stays low. */
   confidenceCap?(candidate: Candidate<Ctx>): Confidence | undefined
   prompt(candidate: Candidate<Ctx>, snapshot: A11ySnapshot): Prompt
+  /**
+   * What the model's answer depends on, where that is less than the whole prompt: judgments are cached by it, and
+   * candidates with the same key in one run share one call. 1.4.5 keys its judgments by the picture's hash, so a
+   * picture repeated on a page or across the pages of a site is judged once. The prompt's hash when absent.
+   */
+  judgmentKey?(candidate: Candidate<Ctx>): string | undefined
   schema: z.ZodType<Out>
   /**
    * The answer schema for one candidate, where a criterion asks two kinds of question: 1.1.1 asks whether an
