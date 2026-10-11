@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>On input: changes of context with no warning</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; }
+  p { margin: 0 0 12px; }
+  #clock { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Store</h1>
+  <!-- Content that changes on its own: never credited to an input. -->
+  <p>Prices updated <span id="clock">0</span> seconds ago.</p>
+  <!-- A jump menu: choosing a country goes to its page at once (F37's select list). -->
+  <p><label for="country">Country</label>
+    <select id="country" onchange="if (this.value) location.href = 'input/' + this.value + '.html'">
+      <option value="">Choose a country</option>
+      <option value="br">Brasil</option>
+      <option value="cl">Chile</option>
+    </select></p>
+  <!-- Checking the box opens a window (F37). -->
+  <p><label><input type="checkbox" id="terms" onchange="if (this.checked) window.open('input/terms.html')"> Show the terms</label></p>
+  <!-- Choosing an order submits the form (F36). -->
+  <form id="sort-form" action="input/results.html" method="get">
+    <fieldset>
+      <legend>Sort by</legend>
+      <label><input type="radio" name="sort" value="price" checked onchange="this.form.submit()"> Price</label>
+      <label><input type="radio" name="sort" value="name" onchange="this.form.submit()"> Name</label>
+    </fieldset>
+  </form>
+  <!-- Typing a digit moves focus to the next field at once. -->
+  <p><label for="area">Area code</label> <input id="area" inputmode="numeric" maxlength="3" oninput="document.getElementById('number').focus()">
+    <label for="number">Number</label> <input id="number" inputmode="numeric"></p>
+  <!-- Choosing a language opens a modal dialog. -->
+  <p><label for="lang">Language</label>
+    <select id="lang" onchange="document.getElementById('confirm-lang').showModal()">
+      <option>English</option>
+      <option>Português</option>
+    </select></p>
+  <dialog id="confirm-lang"><p>Reload the store in this language?</p><button onclick="this.closest('dialog').close()">Close</button></dialog>
+  <!-- A field that goes to another page when it is left after a change. -->
+  <p><label for="page">Go to page</label> <input id="page" type="number" min="1" onchange="location.href = 'input/results.html?page=' + this.value"></p>
+  <!-- Choosing a view swaps the main content and the address in place: a person must judge it. -->
+  <p><label for="view">View</label>
+    <select id="view" onchange="swap()">
+      <option>List</option>
+      <option>Grid</option>
+    </select></p>
+  <section id="catalog">
+    <h2>Catalog</h2>
+    <p>Rocket engine, 1,200 kN, liquid fuel, reusable up to ten flights with inspection between flights.</p>
+    <p>Fairing, carbon composite, five meters wide, with acoustic blankets and separation springs.</p>
+    <p>Guidance computer, triple redundant, radiation hardened, with a star tracker and an inertial unit.</p>
+    <p>Landing legs, four, deploy pneumatically, crush cores replaceable after each landing on the drone ship.</p>
+  </section>
+</main>
+<script>
+  let seconds = 0
+  setInterval(() => { document.getElementById('clock').textContent = String(++seconds) }, 1000)
+  function swap() {
+    history.pushState({}, '', '?view=grid')
+    document.getElementById('catalog').innerHTML = '<h2>Grid</h2>' + Array.from({ length: 12 }, (_, i) => `<div>Tile ${i + 1}: picture of a product, with its price and a short caption that tells what it is.</div>`).join('')
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>On input: changes of context with a warning before them</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; }
+  p { margin: 0 0 12px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Prices</h1>
+  <!-- G13: the instruction before the control says what a change does. -->
+  <p id="country-help">Selecting a country reloads the page with prices in its currency.</p>
+  <p><label for="country">Country</label>
+    <select id="country" aria-describedby="country-help" onchange="location.href = 'input/' + this.value + '.html'">
+      <option value="us">United States</option>
+      <option value="br">Brasil</option>
+    </select></p>
+  <!-- The label itself warns. -->
+  <p><label><input type="checkbox" id="terms" onchange="if (this.checked) window.open('input/terms.html')"> Show the terms (opens in a new window)</label></p>
+  <!-- No warning anywhere: this one stays a failure. -->
+  <p><label for="currency">Currency</label>
+    <select id="currency" onchange="location.href = 'input/results.html?currency=' + this.value">
+      <option value="usd">Dollar</option>
+      <option value="brl">Real</option>
+    </select></p>
+</main>
+</body>
+</html>

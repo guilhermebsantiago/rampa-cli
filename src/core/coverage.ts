@@ -150,7 +150,9 @@ export function criteriaCoverage(input: CoverageInput): CriterionCoverage[] {
         review: row.review,
         maturity: row.maturity,
         probe: { method: row.method, conditions: row.conditions, ...(row.note ? { note: row.note } : {}) },
-        decided: ran ? Math.max(0, row.applicable - row.review) : 0,
+        // A probe that only gathers facts for another method (where scripted links lead, for 2.4.4) decides nothing.
+        ...(row.inventory ? { inventory: true } : {}),
+        decided: ran && !row.inventory ? Math.max(0, row.applicable - row.review) : 0,
       })
     }
 

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>On input: settings the probe must never change</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; }
+  p { margin: 0 0 12px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Account</h1>
+  <!-- Each of these reports to /touched with a GET if it is ever changed: the test server must never see one. -->
+  <p><label><input type="checkbox" id="delete" onchange="touch('delete')"> Delete my account</label></p>
+  <p><label><input type="checkbox" id="unsub" onchange="touch('unsubscribe')"> Unsubscribe from all e-mails</label></p>
+  <p><label><input type="checkbox" id="excluir" onchange="touch('excluir')"> Excluir meus dados</label></p>
+  <!-- Every other option is destructive: nothing to choose. -->
+  <p><label for="bulk">With the selected items</label>
+    <select id="bulk" onchange="touch('bulk-' + this.value)">
+      <option value="">Choose an action</option>
+      <option value="delete">Delete</option>
+      <option value="archive">Archive</option>
+    </select></p>
+  <!-- A sign-in form: nothing in it is touched. -->
+  <form id="login" action="/touched?login" method="post">
+    <p><label for="user">E-mail</label> <input id="user" type="email" oninput="touch('login-email')"></p>
+    <p><label for="pw">Password</label> <input id="pw" type="password"></p>
+    <p><label><input type="checkbox" id="remember" onchange="touch('remember')"> Remember me</label></p>
+  </form>
+  <p><label for="avatar">Picture</label> <input id="avatar" type="file" onchange="touch('file')"></p>
+  <!-- Not on the skip list: changed. Its handler tries a POST, which the guard blocks. -->
+  <p><label for="theme">Theme</label>
+    <select id="theme" onchange="fetch('/touched?theme', { method: 'POST', body: this.value }).catch(() => {})">
+      <option>Light</option>
+      <option>Dark</option>
+    </select></p>
+</main>
+<script>
+  function touch(what) { new Image().src = '/touched?' + what }
+</script>
+</body>
+</html>

@@ -170,8 +170,9 @@ export function probeCoverageLines(report: Report): string[] {
   if (rows.length === 0) return []
   const lines = [t(locale, 'coverageProbed')]
   for (const row of [...rows].sort((a, b) => compareCriteria(a.criterion, b.criterion))) {
-    const status =
-      row.status === 'failures'
+    const status = row.inventory
+      ? t(locale, 'probeStatusInventory')
+      : row.status === 'failures'
         ? t(locale, 'probeStatusFailures', { count: row.failures })
         : row.status === 'needs-review'
           ? t(locale, 'probeStatusReview', { count: row.review })

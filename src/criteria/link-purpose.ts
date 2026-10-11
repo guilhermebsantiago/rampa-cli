@@ -17,6 +17,7 @@ import {
   verifyQuote,
 } from './shared.ts'
 import { genericLinkText } from './generic-text.ts'
+import { type LinkOutcome, activationText, scriptedDestination, scriptedOutcomes } from '../probes/links.ts'
 
 /**
  * WCAG 2.1 SC 2.4.4 Link Purpose (In Context) (A).
@@ -25,7 +26,8 @@ import { genericLinkText } from './generic-text.ts'
  * The residue judged here: links with a name, read with their programmatically
  * determined context (sentence, paragraph, list item, table cell and its header cells, heading),
  * with where the link leads when that is known (the part of the page a "#part" link points to,
- * or what Rampa read at its address before judging, see src/surfaces/destinations.ts), and with
+ * or what Rampa read at its address before judging, see src/surfaces/destinations.ts; for a scripted
+ * link, what clicking it did when the links probe ran, src/probes/links.ts), and with
  * the other links on the page that share its text.
  * ACT reference rules: c487ae (non-empty name), 5effbb (link in context is descriptive) and
  * fd3a94 (links with the same name and context serve an equivalent purpose).
@@ -85,6 +87,8 @@ export interface LinkPurposeContext {
   /** Set when other links on the page have the same text. */
   sameText: SameText | undefined
   language: string
+  /** A scripted link the links probe clicked: what that did (where it went, what it opened). */
+  activation?: Pick<LinkOutcome, 'kind' | 'url' | 'opened' | 'message'> | undefined
 }
 
 const LANDMARK_ROLES = new Set(['navigation', 'banner', 'contentinfo', 'complementary', 'search', 'form', 'region'])
@@ -157,6 +161,8 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
         .join(' ')
         .trim() || undefined
 
+    // What clicking each scripted link did, when the links probe ran (--probe links).
+    const scripted = scriptedOutcomes(snapshot, index)
     // Every link a person can reach, so links that share a text can be compared.
     const links: LinkInfo[] = []
     let heading: string | undefined
@@ -174,7 +180,7 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
         context: linkContext(index, node, name),
         heading,
         headers: cellHeaders(index, node),
-        place: placeOf(attributes.href, base, destinationOf(snapshot, attributes.href)),
+        place: placeOf(scriptedAddress(scripted.get(node.ref)) ?? attributes.href, base, linkDestination(snapshot, attributes.href, scripted.get(node.ref))),
       })
     }
     const byText = new Map<string, LinkInfo[]>()
@@ -192,8 +198,9 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
       const labelledByAttribute = Boolean(attributes['aria-label'])
       const labelledByIds = (attributes['aria-labelledby'] ?? '').split(/\s+/).some((id) => byId.has(id))
       if (!labelledByAttribute && !labelledByIds && subtreeText(withoutImages(node)) === '') continue
-      const destination = destinationOf(snapshot, attributes.href)
-      const fragment = samePageFragment(attributes.href, base, destination)
+      const activation = scripted.get(node.ref)
+      const destination = linkDestination(snapshot, attributes.href, activation)
+      const fragment = activation?.kind === 'fragment' ? activation.fragment : samePageFragment(attributes.href, base, destination)
       candidates.push({
         ref: node.ref,
         context: {
@@ -212,6 +219,9 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
           destination: destination?.kind === 'page' || destination?.kind === 'file' ? destination : undefined,
           sameText: sameTextOf(link, byText.get(normalizeForMatch(name)) ?? []),
           language: inheritedLang(index, node.ref, snapshot.locale) ?? node.lang ?? 'en',
+          ...(activation && activationText(activation)
+            ? { activation: { kind: activation.kind, url: activation.url, ...(activation.opened ? { opened: activation.opened } : {}), ...(activation.message ? { message: activation.message } : {}) } }
+            : {}),
         },
       })
     }
@@ -236,6 +246,7 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
       c.headers ? `Header cells of its table cell: ${c.headers}` : undefined,
       c.landmark ? `The link sits in: ${c.landmark}` : undefined,
       c.description ? `Description of the link (aria-describedby): ${c.description}` : undefined,
+      c.activation ? `What activating the link does (a browser test clicked it and stopped any navigation): ${activationText(c.activation as LinkOutcome)}` : undefined,
       c.target ? `Where the link leads: within this page, to the part that reads "${c.target}"` : undefined,
       leads ? `Where the link leads (read at its address): ${leads}` : undefined,
       c.sameText ? `Links with the same text: ${sameTextLine(c.sameText)}` : undefined,
@@ -485,6 +496,20 @@ function baseOf(snapshot: A11ySnapshot): string {
 
 function destinationOf(snapshot: A11ySnapshot, href: string | undefined): Destination | undefined {
   return href === undefined ? undefined : snapshot.destinations?.[href]
+}
+
+/** Kinds of a scripted link's click whose address is where it leads. */
+const LEADING = new Set(['navigation', 'new-window', 'download', 'route'])
+
+/** The address a scripted link went to when the links probe clicked it, or undefined. */
+function scriptedAddress(outcome: LinkOutcome | undefined): string | undefined {
+  return outcome && LEADING.has(outcome.kind) ? outcome.url : undefined
+}
+
+/** Where a link leads: for a scripted link the probe clicked, where that went; otherwise what was read at its href. */
+function linkDestination(snapshot: A11ySnapshot, href: string | undefined, outcome: LinkOutcome | undefined): Destination | undefined {
+  if (outcome && scriptedAddress(outcome) !== undefined) return scriptedDestination(snapshot, outcome)
+  return destinationOf(snapshot, href)
 }
 
 /** An href that leads somewhere: not empty, not a bare "#", not a script. */

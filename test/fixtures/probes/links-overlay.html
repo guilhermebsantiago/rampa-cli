@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scripted links under a cookie wall</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; }
+  main { padding: 24px; }
+  #wall { position: fixed; inset: 0; background: rgba(255, 255, 255, .96); display: flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body>
+<main>
+  <h1>News</h1>
+  <p><a id="story" href="#" onclick="location.href = 'links/docs.html'; return false">Read the story</a></p>
+</main>
+<!-- A wall over the whole page until a choice is made: Rampa never makes it, and never guesses past it. -->
+<div id="wall">
+  <div>
+    <p>We use cookies to measure visits.</p>
+    <a id="accept" href="#" onclick="document.getElementById('wall').remove(); return false">Accept all</a>
+    <a id="settings" href="#" onclick="return false">Cookie settings</a>
+  </div>
+</div>
+</body>
+</html>

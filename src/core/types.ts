@@ -265,6 +265,11 @@ export interface ProbeCoverage {
   note?: string | undefined
   maturity: 'experimental' | 'stable'
   beyondTarget?: boolean | undefined
+  /**
+   * The probe rule lists facts for another method and decides nothing: the links probe gives 2.4.4's judgment where
+   * scripted links lead. It never makes its criterion "no failure found" or "probed".
+   */
+  inventory?: boolean | undefined
 }
 
 /**

@@ -5,7 +5,9 @@ import { flashRule } from './flash.ts'
 import { focusObscuredNarrowRule, focusObscuredRule, focusVisibleRule } from './focus.ts'
 import { keyboardReachRule, keyboardTrapRule, onFocusRule } from './keyboard.ts'
 import { hoverRule } from './hover.ts'
+import { scriptedLinksRule } from './links.ts'
 import { MEDIA_RULES } from './media.ts'
+import { onInputRule } from './on-input.ts'
 import { reflowRule, textSpacingRule, zoomRule } from './layout.ts'
 import { orientationRule } from './orientation.ts'
 import { shortcutsRule } from './shortcuts.ts'
@@ -27,6 +29,8 @@ export const PROBE_RULES: readonly ProbeRule[] = [
   ...MEDIA_RULES,
   ...COLOR_RULES,
   authRule,
+  scriptedLinksRule,
+  onInputRule,
   focusVisibleRule,
   focusObscuredRule,
   focusObscuredNarrowRule,

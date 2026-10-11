@@ -11,7 +11,7 @@ import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
 import type { WcagVersion } from '../wcag.ts'
 import { walkTree } from '../snapshot/tree.ts'
-import { type FollowOptions, followLinks } from './destinations.ts'
+import { type FollowOptions, followLinks, readDestinations } from './destinations.ts'
 import { type BrowserOptions, contextOptions, openPage, prepareContext } from './browser-options.ts'
 import { type AxLimits, attachAxTree, axLimits } from './ax-tree.ts'
 import { attachFormIssues } from './form-issues.ts'
@@ -23,6 +23,7 @@ import { labelTargets, measureLabels } from './label-visibility.ts'
 import { buildReach, closedShadowRoots } from './reach.ts'
 import { SETTLE, settlePage, watchNetwork } from './settle.ts'
 import { type ProbeKind, runProbes } from '../probes/run.ts'
+import { scriptedAddresses } from '../probes/links.ts'
 
 export interface WebCollectOptions {
   runAxe: boolean
@@ -200,6 +201,12 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     if (options.probes && options.probes.length > 0) {
       const probes = await runProbes(browser, url, { kinds: options.probes, browserOptions: options.browserOptions, timeoutMs: options.timeoutMs })
       snapshot.observations = { probes }
+      // Where scripted links went when the links probe clicked them: read like any link's address, for 2.4.4.
+      if (options.followLinks && options.followLinks.policy !== 'none') {
+        const addresses = scriptedAddresses(probes).filter((address) => snapshot.destinations?.[address] === undefined)
+        const read = addresses.length > 0 ? await readDestinations(addresses, page.url(), options.followLinks) : {}
+        if (Object.keys(read).length > 0) snapshot.destinations = { ...snapshot.destinations, ...read }
+      }
     }
     return { snapshot, engine }
   } finally {
