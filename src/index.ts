@@ -18,7 +18,7 @@ export { checkSnapshot, engineFindings, type CheckOptions } from './core/check.t
 export { judgeCandidates, majority } from './core/judge.ts'
 export type { RepeatedFinding, SiteReport, SiteSummary } from './core/site.ts'
 export type { PageSet, SiteCriteriaReport, SiteCriterion, SiteFinding, SitePageFacts } from './core/site.ts'
-export { SITE_CRITERIA, type SiteCriteriaOptions, type SitePageRecord, runSiteCriteria, siteFactsOf } from './site/index.ts'
+export { SITE_CRITERIA, type SiteCriteriaOptions, type SitePageRecord, judgeSiteQuestions, runSiteCriteria, siteFactsOf } from './site/index.ts'
 export type * from './core/types.ts'
 export { CRITERIA, DEFAULT_CRITERIA, resolveCriteria } from './criteria/index.ts'
 export { languageOfParts } from './criteria/language-of-parts.ts'

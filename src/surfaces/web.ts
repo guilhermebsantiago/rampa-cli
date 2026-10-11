@@ -18,6 +18,7 @@ import { attachFormIssues } from './form-issues.ts'
 import { type ContrastCaptureOptions, captureContrast } from './contrast-capture.ts'
 import { blankContentInPage, captureImageNodes, hiddenImageTargets, imageTargets, isCapturableImage, restoreImageInPage } from './image-capture.ts'
 import { libraryFrameDriver, runAxeInFrames } from './frames.ts'
+import { attachMotionFacts } from './motion.ts'
 import { collectInPage } from './in-page.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
 import { buildReach, closedShadowRoots } from './reach.ts'
@@ -181,6 +182,8 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       screenshot = join(options.screenshotDir, `${sha256(url).slice(0, 16)}.png`)
       await page.screenshot({ path: screenshot, fullPage: true })
     }
+    // Whether the page listens to the device's motion, for 2.5.4 (surfaces/motion.ts): last, as it reads the page's scripts.
+    await attachMotionFacts(cdp, root)
 
     const snapshot: A11ySnapshot = {
       schemaVersion: 1,

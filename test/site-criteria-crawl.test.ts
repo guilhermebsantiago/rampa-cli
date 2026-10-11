@@ -57,11 +57,15 @@ describe.skipIf(!available)('criteria across the pages of a crawl', { timeout: 9
       ['pt', ['/pt/', '/pt/precos', '/pt/contato', '/pt/privacidade']],
     ])
     expect(across?.unassigned.map((entry) => [path(entry.url), entry.reason])).toEqual([['/plain', 'no-navigation']])
-    expect([...(across?.findings ?? []), ...(across?.belowThreshold ?? []), ...(across?.review ?? [])]).toEqual([])
-    // 2.4.1 compares every page of a language (/plain included); every page here has a main landmark to pass the header.
+    // Only the ways to find pages, which 2.4.5 lists for review in each language.
+    expect([...(across?.findings ?? []), ...(across?.belowThreshold ?? []), ...(across?.review ?? [])].map((finding) => finding.criterion)).toEqual(['2.4.5', '2.4.5'])
+    // 2.4.1, 2.4.2 and 2.4.5 compare every page of a language (/plain included); every page here has a main landmark to pass the header.
     expect(across?.criteria.map((c) => [c.criterion, c.setsCompared])).toEqual([
       ['2.4.1', 2],
+      ['2.4.2', 2],
+      ['2.4.5', 2],
       ['3.2.3', 2],
+      ['3.2.4', 2],
       ['3.2.6', 2],
     ])
     expect(report.summary.coverage.notChecked).not.toContain('3.2.3')
@@ -79,7 +83,7 @@ describe.skipIf(!available)('criteria across the pages of a crawl', { timeout: 9
     expect(findings[0]?.evidence).toMatch(/^Order on \/, \/docs\/, \/blog, \/contact and \d+ more: Docs → Pricing\nOrder on \/pricing: Pricing → Docs$/)
     expect(findings[0]?.elements.find((element) => path(element.page) === '/pricing' && element.name === 'Docs')?.ref).toMatch(/nav/)
     expect(findings[1]?.evidence).toMatch(/^after the main content on .+\nbefore the main content on \/pricing$/)
-    expect(report.siteCriteria?.review).toEqual([])
+    expect(report.siteCriteria?.review.map((finding) => finding.criterion)).toEqual(['2.4.5', '2.4.5'])
 
     // The same comparison from the saved snapshots, with no browser.
     const files = (await readdir(saved)).filter((file) => file.endsWith('.snapshot.json'))
@@ -112,15 +116,17 @@ describe.skipIf(!available)('rampa check --crawl, across pages', { timeout: 90_0
     expect(stdout).toContain('Order on /pricing: Pricing → Docs')
     expect(stdout).toContain('WCAG 3.2.6 (A) — Consistent Help')
     expect(stdout).toContain('No navigation found on: /plain')
-    expect(stdout).toMatch(/Compared across pages: +2\.4\.1 \(2 set\(s\), \d+ compared\); 3\.2\.3 \(2 set\(s\), \d+ compared\); 3\.2\.6 \(2 set\(s\), \d+ compared\)/)
+    expect(stdout).toMatch(
+      /Compared across pages: +2\.4\.1 \(2 set\(s\), \d+ compared\); 2\.4\.2 \(2 set\(s\), \d+ compared\); 2\.4\.5 \(2 set\(s\), \d+ compared\); 3\.2\.3 \(2 set\(s\), \d+ compared\); 3\.2\.4 \(2 set\(s\), \d+ compared\); 3\.2\.6 \(2 set\(s\), \d+ compared\)/,
+    )
   })
 
-  it('says on a single page that 3.2.3, 3.2.6 and the failures of 2.4.1 need a crawl', async () => {
+  it('says on a single page that 3.2.3, 3.2.4, 3.2.6, 2.4.5 and the failures of 2.4.1 need a crawl', async () => {
     const site = await startConsistencySite('consistent')
     sites.push(site)
     const { stdout } = await cli(['check', `${site.origin}/`, '--no-llm', '--criteria', '2.4.2'])
     expect(stdout).toContain(
-      'Not checked on a single page: 3.2.3 Consistent Navigation and 3.2.6 Consistent Help compare the pages of a site, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.',
+      'Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.',
     )
   })
 })

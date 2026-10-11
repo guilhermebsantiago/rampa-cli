@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Gallery · Acme</title>
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    .swiper { position: relative; width: 480px; height: 270px; overflow: hidden; margin-bottom: 2em; }
+    .swiper .swiper-slide { position: absolute; inset: 0; opacity: 0; }
+    .swiper .swiper-slide.active { opacity: 1; }
+    .swiper img { display: block; width: 480px; height: 270px; }
+    .thumbs img { width: 48px; height: 27px; }
+  </style>
+</head>
+<body>
+  <h1>Near misses</h1>
+
+  <!-- The same picture twice, as a looping carousel clones its first slide: one picture, one name. -->
+  <div class="swiper" id="loop">
+    <div class="swiper-slide active"><img src="variants/slide-1.svg" alt="Our hotel by the sea"></div>
+    <div class="swiper-slide"><img src="variants/slide-1.svg" alt="Our hotel by the sea"></div>
+  </div>
+
+  <!-- Decorative slides: nothing to name. -->
+  <div class="swiper" id="decor">
+    <div class="swiper-slide active"><img src="variants/slide-2.svg" alt=""></div>
+    <div class="swiper-slide"><img src="variants/slide-3.svg" alt=""></div>
+  </div>
+
+  <!-- A main picture with thumbnails of other pictures beside it: the thumbnails are not slides. -->
+  <div class="swiper" id="gallery">
+    <div class="swiper-slide active"><img src="variants/slide-3.svg" alt="A room with a sea view"></div>
+    <div class="thumbs" style="position: absolute; bottom: 0; left: 0">
+      <img src="variants/slide-1.svg" alt="A room with a sea view"><img src="variants/slide-2.svg" alt="A room with a sea view">
+    </div>
+  </div>
+
+  <!-- An image a script loads late, once: no rotation, so no picture it fails to describe. -->
+  <img id="late" src="variants/banner-a.svg" data-src="variants/banner-b.svg" alt="Our beach at dusk" style="display: block; width: 600px; height: 200px">
+
+  <script>
+    const late = document.getElementById('late')
+    setTimeout(() => {
+      late.src = late.dataset.src
+    }, 1000)
+    // The looping carousel plays by itself, between its two copies of one picture.
+    const loop = document.querySelectorAll('#loop .swiper-slide')
+    let current = 0
+    setInterval(() => {
+      loop[current].classList.remove('active')
+      current = (current + 1) % loop.length
+      loop[current].classList.add('active')
+    }, 3000)
+  </script>
+</body>
+</html>

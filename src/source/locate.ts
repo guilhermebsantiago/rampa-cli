@@ -52,6 +52,9 @@ export const KEPT_ATTRIBUTES = [
   'aria-invalid',
   'aria-errormessage',
   'aria-live',
+  'action',
+  'method',
+  'hreflang',
 ] as const
 
 /** The collector cuts attribute values at this length. */

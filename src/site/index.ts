@@ -7,13 +7,17 @@ import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria } from '../wcag.ts'
 import { bypassBlocks } from './bypass-blocks.ts'
 import { consistentHelp } from './consistent-help.ts'
+import { consistentIdentification } from './identification.ts'
 import { consistentNavigation } from './consistent-navigation.ts'
+import { type SiteJudgeOptions, judgeSiteCriteria } from './judge.ts'
 import { listPages, pathOf, sm } from './messages.ts'
+import { multipleWays } from './multiple-ways.ts'
 import { type TemplateFacts, templateFacts } from './page.ts'
 import { proposeSets } from './sets.ts'
+import { pageTitles } from './titles.ts'
 
 // biome-ignore lint/suspicious/noExplicitAny: registry of criteria with different facts
-export const SITE_CRITERIA: ReadonlyArray<SiteCriterion<any>> = [bypassBlocks, consistentNavigation, consistentHelp]
+export const SITE_CRITERIA: ReadonlyArray<SiteCriterion<any>> = [bypassBlocks, pageTitles, multipleWays, consistentNavigation, consistentIdentification, consistentHelp]
 
 /** What the site criteria keep of one page: small, so a crawl of many pages holds no snapshot. */
 export interface SitePageRecord {
@@ -65,6 +69,7 @@ export function runSiteCriteria(pages: readonly SitePageRecord[], options: SiteC
       compared: 0,
       findings: 0,
       review: 0,
+      ...(criterion.reviewOnly ? { reviewOnly: true } : {}),
     }
     for (const set of criterion.scope === 'language' ? pools : sets) {
       const members: Array<SitePageFacts<unknown>> = set.pages.flatMap((url) => {
@@ -84,21 +89,45 @@ export function runSiteCriteria(pages: readonly SitePageRecord[], options: SiteC
     criteria.push(summary)
   }
 
-  all.sort((a, b) => compareCriteria(a.criterion, b.criterion) || a.set.localeCompare(b.set) || a.subject.localeCompare(b.subject))
+  all.sort(byCriterion)
+  const report: SiteCriteriaReport = { sets, unassigned, criteria, findings: [], belowThreshold: [], review: [], waived: [] }
+  for (const finding of all) placeFinding(report, finding, options)
+  return report
+}
+
+function byCriterion(a: SiteFinding, b: SiteFinding): number {
+  return compareCriteria(a.criterion, b.criterion) || a.set.localeCompare(b.set) || a.subject.localeCompare(b.subject)
+}
+
+/**
+ * Puts a finding where it belongs: waived, needs review, beyond the target (a WCAG 2.2 criterion in a 2.1 run, such
+ * as 3.2.6, reported apart and never counted), or a failure at or below the threshold (experimental checks always
+ * below it). The lists stay in criterion order.
+ */
+function placeFinding(report: SiteCriteriaReport, finding: SiteFinding, options: Pick<SiteCriteriaOptions, 'minConfidence' | 'waivers' | 'wcag'>): void {
   const threshold = CONFIDENCE_RANK[options.minConfidence]
   const version = options.wcag ?? DEFAULT_WCAG
-  const report: SiteCriteriaReport = { sets, unassigned, criteria, findings: [], belowThreshold: [], review: [], waived: [] }
-  const beyond: SiteFinding[] = []
-  for (const finding of all) {
-    if (options.waivers?.has(finding.fingerprint)) report.waived.push(finding)
-    else if (finding.status === 'review') report.review.push(finding)
-    // A WCAG 2.2 criterion in a 2.1 run (3.2.6) is reported apart, and never counted.
-    else if (beyondTarget(finding.criterion, version)) beyond.push(finding)
-    else if (CONFIDENCE_RANK[finding.experimental ? 'low' : finding.confidence] >= threshold) report.findings.push(finding)
-    else report.belowThreshold.push(finding)
-  }
-  if (beyond.length > 0) report.beyondTarget = beyond
-  return report
+  let list: SiteFinding[]
+  if (options.waivers?.has(finding.fingerprint)) list = report.waived
+  else if (finding.status === 'review') list = report.review
+  else if (beyondTarget(finding.criterion, version)) {
+    report.beyondTarget ??= []
+    list = report.beyondTarget
+  } else if (CONFIDENCE_RANK[finding.experimental ? 'low' : finding.confidence] >= threshold) list = report.findings
+  else list = report.belowThreshold
+  list.push(finding)
+  list.sort(byCriterion)
+}
+
+/**
+ * The questions the rules left to a model (3.2.4, 3.2.6; src/site/judge.ts), asked three times each. Items it answers
+ * move to failures, to `cleared`, or stay to review with the answer; without a model they all stay to review.
+ */
+export async function judgeSiteQuestions(
+  report: SiteCriteriaReport,
+  options: SiteJudgeOptions & Pick<SiteCriteriaOptions, 'minConfidence' | 'waivers' | 'wcag'>,
+): Promise<void> {
+  await judgeSiteCriteria(report, options, (target, finding) => placeFinding(target, finding, options))
 }
 
 /**
@@ -144,9 +173,12 @@ export function pageSetsOf(value: unknown): Record<string, string[]> | undefined
   return sets
 }
 
-/** The criteria that compared something, to take them off the site's "not checked" list. */
+/**
+ * The criteria that compared something, to take them off the site's "not checked" list. One that can only list items to
+ * review (2.4.5) checked nothing: it needs review.
+ */
 export function siteCriteriaChecked(report: SiteCriteriaReport): string[] {
-  return report.criteria.filter((criterion) => criterion.compared > 0).map((criterion) => criterion.criterion)
+  return report.criteria.filter((criterion) => criterion.compared > 0 && !criterion.reviewOnly).map((criterion) => criterion.criterion)
 }
 
 /** The note a single-page web report carries instead: these criteria need several pages. */
@@ -212,6 +244,14 @@ export function renderSiteCriteria(report: SiteCriteriaReport | undefined, local
     } else lines.push(p.yellow(sm(locale, 'reviewHidden2', { count: report.review.length })))
   }
   if (!verbose && report.belowThreshold.length > 0) lines.push(p.yellow(sm(locale, 'belowThreshold', { count: report.belowThreshold.length })))
+  const cleared = report.cleared ?? []
+  if (cleared.length > 0) {
+    if (verbose) {
+      lines.push(p.bold(sm(locale, 'clearedTitle')))
+      for (const finding of cleared) lines.push(...renderFinding(finding, locale, p, p.dim(`- ${finding.criterion}`)))
+      lines.push('')
+    } else lines.push(p.dim(sm(locale, 'clearedHidden', { count: cleared.length })))
+  }
   const beyond = report.beyondTarget ?? []
   if (beyond.length > 0) {
     // As a page's findings beyond the target: said in one line, listed with --verbose, never counted.
@@ -231,7 +271,8 @@ export function siteCriteriaCoverage(report: SiteCriteriaReport | undefined, loc
   const ran = report.criteria.filter((criterion) => criterion.setsCompared > 0)
   const idle = report.criteria.filter((criterion) => criterion.setsCompared === 0).map((criterion) => criterion.criterion)
   const parts = ran.map((criterion) => {
-    const text = sm(locale, 'coverageRan', { id: criterion.criterion, sets: criterion.setsCompared, compared: criterion.compared })
+    let text = sm(locale, 'coverageRan', { id: criterion.criterion, sets: criterion.setsCompared, compared: criterion.compared })
+    if (criterion.judged) text = text.replace(/\)$/, `, ${sm(locale, 'coverageJudged', { judged: criterion.judged })})`)
     return beyondTarget(criterion.criterion, version) ? `${text} (${t(locale, 'statusBeyond')})` : text
   })
   if (idle.length > 0) parts.push(sm(locale, 'coverageNothing', { ids: idle.join(', ') }))

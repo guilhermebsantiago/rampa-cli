@@ -1,23 +1,43 @@
 import type { Confidence, Finding, ProbeCoverage } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
 import { matchNode } from '../probes/identity.ts'
-import { AUDIBLE_DB, type AutoplayFact, type MediaControl, type MediaData, type MediaFrame, type MediaItem, type MediaSignal, type MediaTrack, type WebAudioFact } from '../probes/media.ts'
+import type { MediaAlternative } from '../probes/media-alternatives.ts'
+import {
+  AUDIBLE_DB,
+  type AutoplayFact,
+  type MediaControl,
+  type MediaData,
+  type MediaFrame,
+  type MediaItem,
+  type MediaSignal,
+  type MediaTrack,
+  type WebAudioFact,
+  playerMedia,
+} from '../probes/media.ts'
 import type { A11yNode, A11ySnapshot, ProbeRecord } from '../snapshot/schema.ts'
+import { type AltVerdict, describeAlternative, describeAudio, describeTrack, judgeAlternative, judgeTrack, placeholderCues, weakest } from './media-alternatives.ts'
 import { type ProbeRule, type ProbeRuleContext, type ProbeRuleResult, asArray, asRecord, conditionsText, coverageStatus, probeFinding, say } from './probes.ts'
 
 /**
- * Rules over the media probe (src/probes/media.ts): 1.2.1–1.2.5 and 1.4.2. Only two things fail without a person:
- * a captions track that does not load or holds no cues (1.2.2), and sound that plays on its own for more than
- * 3 seconds with no control on the page that could stop it (1.4.2). The rest of 1.2.x is needs review by design
- * (docs/plans/wcag-coverage.md, section 6): whether captions, a description or a transcript is equivalent needs the
- * full meaning of the media. Each item to review lists what the probe found.
+ * Rules over the media probe (src/probes/media.ts): 1.2.1–1.2.5 and 1.4.2. Only three things fail without a person:
+ * a captions track that does not load, holds no cues, or holds only empty or placeholder cues (1.2.2); sound that
+ * plays on its own for more than 3 seconds with no control on the page that could stop it (1.4.2); and, from probe
+ * version 2, audio-only or video-only media whose every alternative found is a placeholder or broken (1.2.1). The rest
+ * of 1.2.x is needs review by design (docs/plans/wcag-coverage.md, section 6): whether captions, a description or a
+ * transcript is equivalent needs the full meaning of the media. Each item to review quotes what the probe found.
  */
 
 /** Sound that plays on its own for more than this fails 1.4.2. */
 export const AUTOPLAY_LIMIT_MS = 3000
 const MAX_REPORTED = 10
+/** The probe versions these rules read: 2 adds alternatives, track cue texts and the kind of a known player. */
+const VERSIONS = ['1', '2'] as const
 
 const CAPTION_KINDS = new Set(['captions', 'subtitles'])
+/** Tracks that can carry a text alternative of audio or of a video with no sound (chapters and metadata cannot). */
+const TEXT_KINDS = new Set(['captions', 'subtitles', 'descriptions'])
+
+const alternativesOf = (value: unknown): MediaAlternative[] | undefined => (Array.isArray(value) ? (value as MediaAlternative[]) : undefined)
 
 /** Narrowed from a record read back from a file. */
 function mediaData(record: ProbeRecord): MediaData {
@@ -31,9 +51,15 @@ function mediaData(record: ProbeRecord): MediaData {
       description: asArray<MediaSignal>(item.description),
       controls: asArray<MediaControl>(item.controls),
       attributes: { autoplay: false, loop: false, muted: false, controls: false, preload: '', ...asRecord(item.attributes) },
+      alternatives: alternativesOf(item.alternatives),
+      nearMedia: asArray<string>(item.nearMedia),
     })),
     detached: asArray<MediaData['detached'][number]>(data.detached),
-    frames: asArray<MediaFrame>(data.frames),
+    frames: asArray<MediaFrame>(data.frames).map((frame) => ({ ...frame, media: frame.media ?? playerMedia(String(frame.host ?? '')), alternatives: alternativesOf(frame.alternatives) })),
+    pageAlternatives: alternativesOf(data.pageAlternatives),
+    fetched: asArray<{ method: string; url: string; status: number | null }>(data.fetched),
+    ...(typeof data.alternativesError === 'string' ? { alternativesError: data.alternativesError } : {}),
+    ...(typeof data.anchors === 'number' ? { anchors: data.anchors } : {}),
     webAudio: {
       contexts: Number(web.contexts) || 0,
       running: Number(web.running) || 0,
@@ -61,9 +87,21 @@ function pageNode(snapshot: A11ySnapshot): A11yNode {
 /** The media the probe could read: it loaded far enough to have a duration, or is live. */
 const readable = (item: MediaItem) => item.sample !== 'error' && item.sample !== 'no-source' && item.sample !== 'did-not-start' && (item.duration !== null || item.live)
 /** A video a person can see, or an audio player a person can see or hear. */
-const shows = (item: MediaItem) => item.visible || (item.kind === 'audio' && (item.attributes.controls || item.autoplay?.started === true))
+const shows = (item: MediaItem) => item.visible || (item.kind === 'audio' && (item.autoplay?.started === true || customPlayer(item)))
+/** A hidden audio element with a play or pause control showing next to it: a player that draws its own controls (Able Player, MediaElement.js). */
+const customPlayer = (item: MediaItem) => !item.visible && item.controls.some((control) => control.near && control.kind === 'play-pause')
+/**
+ * An audio track with nothing above the audible level all through the sample and at the three more points the probe
+ * read (version 2): a silent soundtrack, which an ACT test video has, not sound.
+ */
+const silentTrack = (item: MediaItem) => item.hasAudio === true && item.level?.audibleMs === 0 && item.points !== undefined && item.points.sampledMs >= 1000 && item.points.audibleMs === 0
+/** No sound: no audio track, or a silent one. */
+const soundless = (item: MediaItem) => item.hasAudio === false || silentTrack(item)
 /** Video with sound, or whose sound could not be read: synchronized media. */
-const withSound = (item: MediaItem) => item.kind === 'video' && item.hasAudio !== false && item.hasVideo !== false
+const withSound = (item: MediaItem) => item.kind === 'video' && !soundless(item) && item.hasVideo !== false
+/** How a 1.2.1 message names a video with no sound. */
+const videoOnlyName = (item: MediaItem, locale: Locale) =>
+  silentTrack(item) ? say(locale, 'Video only (its audio track is silent)', 'Só vídeo (a faixa de áudio é silenciosa)') : say(locale, 'Video only (no audio track)', 'Só vídeo (sem faixa de áudio)')
 
 const seconds = (ms: number) => `${Math.round(ms / 100) / 10} s`
 const quote = (text: string) => `"${text}"`
@@ -78,19 +116,29 @@ function signalsText(near: readonly MediaSignal[], page: readonly MediaSignal[],
 }
 
 function trackText(track: MediaTrack, locale: Locale): string {
+  const placeholder = placeholderCues(track)
   const state =
     track.state === 'error'
       ? say(locale, 'failed to load', 'não carregou')
       : track.state === 'loaded'
         ? track.cues === 0
           ? say(locale, 'loaded, no cues', 'carregou, sem nenhuma deixa')
-          : say(locale, `loaded, ${track.cues} cue(s)`, `carregou, ${track.cues} deixa(s)`)
+          : placeholder === 'blank'
+            ? say(locale, `loaded, ${track.cues} cue(s), all empty`, `carregou, ${track.cues} deixa(s), todas vazias`)
+            : placeholder === 'placeholder'
+              ? say(locale, `loaded, ${track.cues} cue(s), all placeholders: ${(track.texts ?? []).map(quote).join(', ')}`, `carregou, ${track.cues} deixa(s), todas provisórias: ${(track.texts ?? []).map(quote).join(', ')}`)
+              : say(locale, `loaded, ${track.cues} cue(s)`, `carregou, ${track.cues} deixa(s)`)
         : track.state === 'loading'
           ? say(locale, 'still loading', 'ainda carregando')
           : say(locale, 'not loaded', 'não carregado')
   const name = [track.label, track.srclang].filter(Boolean).join(', ')
-  return `${track.kind}${name ? ` (${name})` : ''} ${track.src ? `${track.src}: ` : ''}${state}${track.first ? `, ${say(locale, 'first', 'primeira')}: ${quote(track.first)}` : ''}`
+  return `${track.kind}${name ? ` (${name})` : ''} ${track.src ? `${track.src}: ` : ''}${state}${track.first && !placeholder ? `, ${say(locale, 'first', 'primeira')}: ${quote(track.first)}` : ''}`
 }
+
+/** A track that gives no captions: it fails to load, holds no cues, or only empty or placeholder cues. */
+const brokenTrack = (track: MediaTrack) => track.state === 'error' || (track.state === 'loaded' && (track.cues === 0 || placeholderCues(track) !== undefined))
+/** A track that loaded real cues. */
+const usableTrack = (track: MediaTrack) => track.state === 'loaded' && (track.cues ?? 0) > 0 && placeholderCues(track) === undefined
 
 function factsText(item: MediaItem, locale: Locale): string {
   const parts: string[] = []
@@ -112,6 +160,14 @@ function factsText(item: MediaItem, locale: Locale): string {
         ? say(locale, `sound above ${AUDIBLE_DB} dBFS for ${seconds(item.level.audibleMs)} of the ${seconds(item.level.sampledMs)} ${how} (loudest ${item.level.peakDb} dBFS)`, `som acima de ${AUDIBLE_DB} dBFS em ${seconds(item.level.audibleMs)} dos ${seconds(item.level.sampledMs)} ${how} (pico ${item.level.peakDb} dBFS)`)
         : say(locale, `silent in the ${seconds(item.level.sampledMs)} ${how}`, `silencioso nos ${seconds(item.level.sampledMs)} ${how}`),
     )
+    if (item.points) {
+      const at = item.points.at.map((s) => `${s} s`).join(', ')
+      parts.push(
+        item.points.audibleMs > 0
+          ? say(locale, `then sound at ${at} (loudest ${item.points.peakDb} dBFS)`, `depois som em ${at} (pico ${item.points.peakDb} dBFS)`)
+          : say(locale, `silent again at ${at} (${seconds(item.points.sampledMs)} read, loudest ${item.points.peakDb} dBFS)`, `silencioso de novo em ${at} (${seconds(item.points.sampledMs)} lidos, pico ${item.points.peakDb} dBFS)`),
+      )
+    }
   } else if (item.crossOrigin && item.hasAudio !== false) parts.push(say(locale, 'level not read (media from another origin)', 'nível não lido (mídia de outra origem)'))
   const flags = [item.attributes.autoplay && 'autoplay', item.attributes.muted && 'muted', item.attributes.loop && 'loop', item.attributes.controls && 'controls'].filter(Boolean)
   if (flags.length > 0) parts.push(say(locale, `attributes: ${flags.join(', ')}`, `atributos: ${flags.join(', ')}`))
@@ -154,9 +210,29 @@ function unreadNote(count: number, locale: Locale): string {
     : ''
 }
 
-/** Nothing applied, but something may: a player in a frame of another origin, or media the probe could not read. */
-function undecided(data: MediaData, t: Tally, kinds: ReadonlyArray<MediaItem['kind']>): boolean {
-  return t.applicable === 0 && (data.frames.some((frame) => frame.player && frame.visible) || unread(data, kinds) > 0)
+/**
+ * Nothing applied, but something may: a player in a frame of another origin, or media the probe could not read. From
+ * version 2, a podcast or music player does not count for the criteria about video.
+ */
+function undecided(data: MediaData, t: Tally, kinds: ReadonlyArray<MediaItem['kind']>, record?: ProbeRecord): boolean {
+  const frames = data.frames.filter((frame) => frame.player && frame.visible && !(record && v2(record) && !kinds.includes('audio') && frame.media === 'audio'))
+  return t.applicable === 0 && (frames.length > 0 || unread(data, kinds) > 0)
+}
+
+/** A record of probe version 2 or later: alternatives, cue texts and the kind of a known player are recorded. */
+const v2 = (record: ProbeRecord) => record.version !== '1'
+
+/** The text alternatives found next to a media element or a player (or elsewhere on the page), quoted, for evidence; '' when none. */
+function textsFound(alternatives: readonly MediaAlternative[] | undefined, locale: Locale, elsewhere = false): string {
+  const texts = (alternatives ?? []).filter((a) => a.offers === 'text')
+  if (texts.length === 0) return ''
+  const list = texts.map((a) => describeAlternative(a, judgeAlternative(a, locale), locale)).join(' | ')
+  return elsewhere ? say(locale, `text found elsewhere on the page: ${list}`, `texto achado em outro ponto da página: ${list}`) : say(locale, `text found next to it: ${list}`, `texto achado ao lado dele: ${list}`)
+}
+
+/** Text found next to it, then, on a page where it is the only media the probe looked around, text found elsewhere. */
+function textsAround(alternatives: readonly MediaAlternative[] | undefined, data: MediaData, locale: Locale): string {
+  return [textsFound(alternatives, locale), data.anchors === 1 ? textsFound(data.pageAlternatives, locale, true) : ''].filter(Boolean).join('; ')
 }
 
 function noMediaNote(data: MediaData, locale: Locale): string {
@@ -214,12 +290,13 @@ export const captionsRule: ProbeRule = {
   id: 'rampa/captions',
   kind: 'media',
   variant: 'media',
-  versions: ['1'],
+  versions: VERSIONS,
   criteria: ['1.2.2'],
   run(record, ctx) {
     const data = mediaData(record)
     const t = tally()
     let silent = 0
+    let quietTracks = 0
     let captioned = 0
     for (const item of data.items) {
       if (item.kind !== 'video' || !shows(item) || !readable(item) || item.live) continue
@@ -231,18 +308,23 @@ export const captionsRule: ProbeRule = {
         silent++
         continue
       }
+      if (silentTrack(item)) {
+        quietTracks++
+        continue
+      }
       t.applicable++
       const captions = item.tracks.filter((track) => CAPTION_KINDS.has(track.kind))
       const facts = factsText(item, ctx.locale)
       const tracks = captions.map((track) => trackText(track, ctx.locale)).join('; ')
-      if (captions.some((track) => track.state === 'loaded' && (track.cues ?? 0) > 0)) {
+      if (captions.some(usableTrack)) {
         captioned++
         continue
       }
-      const broken = captions.length > 0 && captions.every((track) => track.state === 'error' || (track.state === 'loaded' && track.cues === 0))
+      const broken = captions.length > 0 && captions.every(brokenTrack)
       if (broken) {
         const allError = captions.every((track) => track.state === 'error')
-        const allEmpty = captions.every((track) => track.state === 'loaded')
+        const allEmpty = captions.every((track) => track.state === 'loaded' && track.cues === 0)
+        const allPlaceholder = captions.every((track) => track.state === 'loaded' && (track.cues ?? 0) > 0)
         const message = allError
           ? say(
               ctx.locale,
@@ -255,11 +337,17 @@ export const captionsRule: ProbeRule = {
                 "This video's captions track loads but holds no cues, so it plays with no captions (WCAG 1.2.2). Put the captions in the WebVTT file.",
                 'A faixa de legendas deste vídeo carrega, mas não tem nenhuma deixa, e ele toca sem legendas (WCAG 1.2.2). Coloque as legendas no arquivo WebVTT.',
               )
-            : say(
-                ctx.locale,
-                "None of this video's captions tracks gives captions: they fail to load or hold no cues (WCAG 1.2.2). Fix the tracks.",
-                'Nenhuma das faixas de legendas deste vídeo dá legendas: elas não carregam ou não têm deixas (WCAG 1.2.2). Corrija as faixas.',
-              )
+            : allPlaceholder
+              ? say(
+                  ctx.locale,
+                  "This video's captions track holds only empty or placeholder cues, so it plays with no captions (WCAG 1.2.2). Put the real captions in the WebVTT file.",
+                  'A faixa de legendas deste vídeo só tem deixas vazias ou provisórias, e ele toca sem legendas (WCAG 1.2.2). Coloque as legendas de verdade no arquivo WebVTT.',
+                )
+              : say(
+                  ctx.locale,
+                  "None of this video's captions tracks gives captions: they fail to load, or hold no cues or only empty or placeholder ones (WCAG 1.2.2). Fix the tracks.",
+                  'Nenhuma das faixas de legendas deste vídeo dá legendas: elas não carregam, ou não têm deixas ou só deixas vazias ou provisórias (WCAG 1.2.2). Corrija as faixas.',
+                )
         const confidence: Confidence = item.hasAudio === true ? 'high' : 'medium'
         push(t.findings, probeFinding({ criterion: '1.2.2', rule: this.id, node, message, evidence: `${tracks}; ${facts}`, confidence, subject: `broken|${captions.map((track) => track.src).join(',')}` }))
         continue
@@ -276,10 +364,13 @@ export const captionsRule: ProbeRule = {
             'This video has sound and no captions or subtitles track. Check that it has captions some other way (burned into the picture, or shown by its player), or that it is an alternative for text on the page, labeled as such (WCAG 1.2.2).',
             'Este vídeo tem som e nenhuma faixa de legendas. Confira se ele tem legendas de outra forma (gravadas na imagem, ou mostradas pelo player), ou se é uma alternativa a um texto da página, identificada como tal (WCAG 1.2.2).',
           )
-      push(t.review, probeFinding({ criterion: '1.2.2', rule: this.id, node, message, evidence: tracks ? `${tracks}; ${facts}` : facts, confidence: 'medium', subject: loading ? 'loading' : 'no-track' }))
+      // Version 2: the text found next to it, quoted. A transcript is no caption, but the video may be the alternative for that text.
+      const texts = loading ? '' : textsAround(item.alternatives, data, ctx.locale)
+      const evidence = [tracks, facts, texts].filter(Boolean).join('; ')
+      push(t.review, probeFinding({ criterion: '1.2.2', rule: this.id, node, message, evidence, confidence: 'medium', subject: loading ? 'loading' : 'no-track' }))
     }
-    // Players in frames of another origin: Rampa reads none of their media.
-    for (const frame of data.frames.filter((f) => f.player && f.visible)) {
+    // Players in frames of another origin: Rampa reads none of their media. A podcast or music host plays audio, which needs no captions (version 2).
+    for (const frame of data.frames.filter((f) => f.player && f.visible && !(v2(record) && f.media === 'audio'))) {
       const node = matchNode(ctx.index, frame.ref, frame.id)
       if (!node) {
         t.unmatched++
@@ -297,7 +388,7 @@ export const captionsRule: ProbeRule = {
             `A ${frame.player} player in a frame of another origin: Rampa cannot read its media, its captions or its audio description. Check its captions (1.2.2), its audio description (1.2.3, 1.2.5), and that it does not play sound on its own (1.4.2).`,
             `Um player ${frame.player} em um frame de outra origem: o Rampa não consegue ler a mídia, as legendas nem a audiodescrição. Confira as legendas (1.2.2), a audiodescrição (1.2.3, 1.2.5) e se ele não toca som sozinho (1.4.2).`,
           ),
-          evidence: frame.src,
+          evidence: [frame.src, textsAround(frame.alternatives, data, ctx.locale)].filter(Boolean).join('; '),
           confidence: 'medium',
           subject: `frame|${frame.host}`,
         }),
@@ -306,34 +397,140 @@ export const captionsRule: ProbeRule = {
     const notes = [
       captioned > 0 ? say(ctx.locale, `${captioned} video(s) with a captions track that loaded cues (their accuracy is not checked)`, `${captioned} vídeo(s) com faixa de legendas que carregou deixas (a precisão não é conferida)`) : '',
       silent > 0 ? say(ctx.locale, `${silent} video(s) with no audio track, which need no captions`, `${silent} vídeo(s) sem faixa de áudio, que não precisam de legendas`) : '',
+      quietTracks > 0
+        ? say(
+            ctx.locale,
+            `${quietTracks} video(s) whose audio track was silent at its start and at three more points, taken as having no sound (1.2.1)`,
+            `${quietTracks} vídeo(s) cuja faixa de áudio estava silenciosa no início e em mais três pontos, tomado(s) como sem som (1.2.1)`,
+          )
+        : '',
       unreadNote(unread(data, ['video']), ctx.locale),
       ...commonNotes(data, ctx.locale, data.items.length === 0 && data.frames.every((f) => !f.player) ? noMediaNote(data, ctx.locale) : undefined),
     ]
-    return result(t, row(this, '1.2.2', record, t, notes, ctx.locale, undecided(data, t, ['video'])))
+    return result(t, row(this, '1.2.2', record, t, notes, ctx.locale, undecided(data, t, ['video'], record)))
   },
 }
 
-/** 1.2.1: audio-only and video-only media, to review, with the transcript signals found. */
+interface Entry {
+  line: string
+  v: AltVerdict
+  /** A track, or another audio player: not a link or text the page offers. */
+  kind: 'alternative' | 'track' | 'audio'
+  /** For a track: captions, subtitles or descriptions. */
+  trackKind?: string | undefined
+}
+
+interface Assessed {
+  /** What is this media's: found next to it, its tracks, and on a page where it is the only media that needs one, what is elsewhere. */
+  own: Entry[]
+  /** Found elsewhere on a page with other media: maybe this media's, never a reason to fail it. */
+  others: Entry[]
+  /** Every one of its own is broken, and nothing elsewhere may be its alternative. */
+  failure: boolean
+}
+
+/**
+ * The alternatives of an audio-only or video-only media element, or of an audio player in a frame, each judged:
+ * holds text, broken, or not read. A failure needs at least one alternative and every one of them broken.
+ */
+function assess(
+  alternatives: readonly MediaAlternative[],
+  extra: Entry[],
+  data: MediaData,
+  single: boolean,
+  offers: 'text' | 'any',
+  locale: Locale,
+): Assessed {
+  const wanted = (a: MediaAlternative) => offers === 'any' || a.offers === 'text'
+  const entry = (a: MediaAlternative, elsewhere: boolean): Entry => {
+    const v = judgeAlternative(a, locale)
+    const line = describeAlternative(a, v, locale)
+    return { line: elsewhere ? say(locale, `elsewhere on the page: ${line}`, `em outro ponto da página: ${line}`) : line, v, kind: 'alternative' }
+  }
+  const page = (data.pageAlternatives ?? []).filter(wanted)
+  const own = [...alternatives.filter(wanted).map((a) => entry(a, false)), ...extra, ...(single ? page.map((a) => entry(a, true)) : [])]
+  const others = single ? [] : page.map((a) => entry(a, true))
+  const failure = own.length > 0 && own.every((e) => e.v.state === 'broken') && !others.some((e) => e.v.state !== 'broken')
+  return { own, others, failure }
+}
+
+/** 1.2.1: audio-only and video-only media. From version 2, the alternatives found are quoted, and media whose every alternative is broken fails. */
 export const audioVideoOnlyRule: ProbeRule = {
   id: 'rampa/audio-video-only',
   kind: 'media',
   variant: 'media',
-  versions: ['1'],
+  versions: VERSIONS,
   criteria: ['1.2.1'],
   run(record, ctx) {
     const data = mediaData(record)
     const t = tally()
-    for (const item of data.items) {
-      if (!shows(item) || item.live) continue
-      const audioOnly = item.kind === 'audio' && readable(item)
-      const videoOnly = item.kind === 'video' && readable(item) && item.hasAudio === false && item.hasVideo !== false
-      if (!audioOnly && !videoOnly) continue
+    const isTarget = (item: MediaItem) =>
+      shows(item) && !item.live && readable(item) && (item.kind === 'audio' || (item.kind === 'video' && soundless(item) && item.hasVideo !== false))
+    const targets = data.items.filter(isTarget)
+    // A known podcast or music player in a frame of another origin plays audio: 1.2.1 applies, to review (version 2).
+    const audioFrames = v2(record) ? data.frames.filter((frame) => frame.player && frame.visible && frame.media === 'audio') : []
+    // What is elsewhere on the page is this media's alternative when it is the only media there that needs one.
+    const single = targets.length + audioFrames.length === 1
+    let failedAlternatives = 0
+    for (const item of targets) {
+      const audioOnly = item.kind === 'audio'
+      const videoOnly = !audioOnly
       const node = matched(ctx, item, t)
       if (!node) continue
       t.applicable++
+      const decorative = videoOnly && item.attributes.autoplay && item.attributes.loop && !item.attributes.controls && (item.attributes.muted || item.hasAudio === false)
+      if (v2(record) && item.alternatives) {
+        const tracks: Entry[] = item.tracks.filter((track) => TEXT_KINDS.has(track.kind)).map((track) => {
+          const v = judgeTrack(track, ctx.locale)
+          return { line: describeTrack(track, v, ctx.locale), v, kind: 'track', trackKind: track.kind }
+        })
+        // For a video with no sound, an audio player right next to it may be its audio version (ACT c3232f).
+        const next = new Set(item.nearMedia ?? [])
+        const audios: Entry[] = videoOnly
+          ? data.items
+              .filter((other) => next.has(other.ref) && other.kind === 'audio' && shows(other) && readable(other))
+              .map((other) => ({ line: describeAudio(other, ctx.locale), v: { state: 'content', confidence: 'high', why: '' }, kind: 'audio' }))
+          : []
+        const found = assess(item.alternatives, [...tracks, ...audios], data, single, audioOnly ? 'text' : 'any', ctx.locale)
+        const facts = factsText(item, ctx.locale)
+        // A video that may only decorate (muted, looping, on its own, no controls) needs no alternative: never a failure.
+        if (found.failure && !decorative) {
+          failedAlternatives++
+          push(
+            t.findings,
+            probeFinding({
+              criterion: '1.2.1',
+              rule: this.id,
+              node,
+              message: brokenMessage(found, audioOnly, videoOnlyName(item, ctx.locale), ctx.locale),
+              evidence: [...found.own.map((e) => e.line), facts].join('; '),
+              confidence: weakest(found.own.map((e) => e.v.confidence)),
+              subject: audioOnly ? 'audio-only|broken' : 'video-only|broken',
+            }),
+          )
+          continue
+        }
+        push(
+          t.review,
+          probeFinding({
+            criterion: '1.2.1',
+            rule: this.id,
+            node,
+            message: reviewMessage(found, audioOnly, videoOnlyName(item, ctx.locale), decorative, ctx.locale),
+            evidence: [
+              ...(found.own.length + found.others.length > 0
+                ? [...found.own, ...found.others].map((e) => e.line)
+                : [say(ctx.locale, 'no transcript or other alternative was found on the page', 'nenhuma transcrição ou outra alternativa foi achada na página')]),
+              facts,
+            ].join('; '),
+            confidence: 'medium',
+            subject: audioOnly ? 'audio-only' : 'video-only',
+          }),
+        )
+        continue
+      }
       const found = signalsText(item.transcript, data.pageTranscript, ctx.locale)
       const descriptions = item.tracks.filter((track) => track.kind === 'descriptions').map((track) => trackText(track, ctx.locale))
-      const decorative = videoOnly && item.attributes.autoplay && item.attributes.loop && !item.attributes.controls && (item.attributes.muted || item.hasAudio === false)
       const message = audioOnly
         ? say(
             ctx.locale,
@@ -352,9 +549,142 @@ export const audioVideoOnlyRule: ProbeRule = {
       ].join('; ')
       push(t.review, probeFinding({ criterion: '1.2.1', rule: this.id, node, message, evidence, confidence: 'medium', subject: audioOnly ? 'audio-only' : 'video-only' }))
     }
-    const notes = [unreadNote(unread(data, ['audio', 'video']), ctx.locale), ...commonNotes(data, ctx.locale, data.items.length === 0 ? noMediaNote(data, ctx.locale) : undefined)]
-    return result(t, row(this, '1.2.1', record, t, notes, ctx.locale, undecided(data, t, ['audio', 'video'])))
+    for (const frame of audioFrames) {
+      const node = matchNode(ctx.index, frame.ref, frame.id)
+      if (!node) {
+        t.unmatched++
+        continue
+      }
+      t.applicable++
+      // Its media is not read, so whatever was found, a person checks: never a failure.
+      const found = assess(frame.alternatives ?? [], [], data, single, 'text', ctx.locale)
+      const lines = [...found.own, ...found.others].map((e) => e.line)
+      const broken = found.own.length > 0 && found.own.every((e) => e.v.state === 'broken')
+      push(
+        t.review,
+        probeFinding({
+          criterion: '1.2.1',
+          rule: this.id,
+          node,
+          message: say(
+            ctx.locale,
+            `A ${frame.player} audio player in a frame of another origin: Rampa cannot read its audio. ${lines.length === 0 ? 'No transcript was found on the page: check' : broken ? 'Every transcript found for it is broken (listed below): check' : 'Check'} that a transcript gives the same information as what it plays (WCAG 1.2.1).`,
+            `Um player de áudio ${frame.player} em um frame de outra origem: o Rampa não consegue ler o áudio. ${lines.length === 0 ? 'Nenhuma transcrição foi achada na página: confira' : broken ? 'Toda transcrição achada para ele está quebrada (listadas abaixo): confira' : 'Confira'} se uma transcrição dá a mesma informação que o que ele toca (WCAG 1.2.1).`,
+          ),
+          evidence: [frame.src, ...(lines.length > 0 ? lines : [say(ctx.locale, 'no transcript or other alternative was found on the page', 'nenhuma transcrição ou outra alternativa foi achada na página')])].join('; '),
+          confidence: 'medium',
+          subject: `frame|${frame.host}`,
+        }),
+      )
+    }
+    const notes = [
+      failedAlternatives > 0
+        ? say(
+            ctx.locale,
+            'a failure here means every alternative found was a placeholder or broken; whether a working one is equivalent is never checked',
+            'uma falha aqui quer dizer que toda alternativa achada era provisória ou quebrada; se uma que funciona é equivalente nunca é conferido',
+          )
+        : '',
+      data.alternativesError ? say(ctx.locale, `alternatives not read: ${data.alternativesError}`, `alternativas não lidas: ${data.alternativesError}`) : '',
+      (data.fetched ?? []).length > 0
+        ? say(ctx.locale, `${(data.fetched ?? []).length} address(es) read (GET in the page's origin, HEAD elsewhere)`, `${(data.fetched ?? []).length} endereço(s) lido(s) (GET na origem da página, HEAD fora dela)`)
+        : '',
+      unreadNote(unread(data, ['audio', 'video']), ctx.locale),
+      ...commonNotes(data, ctx.locale, data.items.length === 0 && audioFrames.length === 0 ? noMediaNote(data, ctx.locale) : undefined),
+    ]
+    return result(t, row(this, '1.2.1', record, t, notes, ctx.locale, undecided(data, t, ['audio', 'video'], record)))
   },
+}
+
+/** A failure under 1.2.1: every alternative found is broken. Names the one when there is one. */
+function brokenMessage(found: Assessed, audioOnly: boolean, videoName: string, locale: Locale): string {
+  const only = found.own.length === 1 ? found.own[0] : undefined
+  if (audioOnly) {
+    return only
+      ? say(
+          locale,
+          `Audio only: the one alternative found for this audio is broken (${only.v.why}), so nobody who cannot hear it gets its content (WCAG 1.2.1). Fix it, or publish the transcript next to the audio.`,
+          `Só áudio: a única alternativa achada para este áudio está quebrada (${only.v.why}), e quem não ouve fica sem o conteúdo (WCAG 1.2.1). Corrija-a, ou publique a transcrição junto do áudio.`,
+        )
+      : say(
+          locale,
+          `Audio only: all ${found.own.length} alternatives found for this audio are placeholders or broken (listed below), so nobody who cannot hear it gets its content (WCAG 1.2.1). Fix them, or publish the transcript next to the audio.`,
+          `Só áudio: todas as ${found.own.length} alternativas achadas para este áudio são provisórias ou estão quebradas (listadas abaixo), e quem não ouve fica sem o conteúdo (WCAG 1.2.1). Corrija-as, ou publique a transcrição junto do áudio.`,
+        )
+  }
+  return only
+    ? say(
+        locale,
+        `${videoName}: the one alternative found for this video is broken (${only.v.why}), so nobody who cannot see it gets its content (WCAG 1.2.1). Fix it, or publish a text description or an audio version next to the video.`,
+        `${videoName}: a única alternativa achada para este vídeo está quebrada (${only.v.why}), e quem não vê fica sem o conteúdo (WCAG 1.2.1). Corrija-a, ou publique uma descrição em texto ou uma versão em áudio junto do vídeo.`,
+      )
+    : say(
+        locale,
+        `${videoName}: all ${found.own.length} alternatives found for this video are placeholders or broken (listed below), so nobody who cannot see it gets its content (WCAG 1.2.1). Fix them, or publish a text description or an audio version next to the video.`,
+        `${videoName}: todas as ${found.own.length} alternativas achadas para este vídeo são provisórias ou estão quebradas (listadas abaixo), e quem não vê fica sem o conteúdo (WCAG 1.2.1). Corrija-as, ou publique uma descrição em texto ou uma versão em áudio junto do vídeo.`,
+      )
+}
+
+/** An item to review under 1.2.1, by what was found: text to compare, alternatives not read, or nothing. */
+function reviewMessage(found: Assessed, audioOnly: boolean, videoName: string, decorative: boolean, locale: Locale): string {
+  const all = [...found.own, ...found.others]
+  const content = all.filter((e) => e.v.state === 'content')
+  const broken = all.filter((e) => e.v.state === 'broken')
+  const brokenNote =
+    broken.length === 1
+      ? say(locale, ' One alternative found is broken or a placeholder (listed below).', ' Uma alternativa achada está quebrada ou é provisória (listada abaixo).')
+      : broken.length > 1
+        ? say(locale, ` ${broken.length} alternatives found are broken or placeholders (listed below).`, ` ${broken.length} alternativas achadas estão quebradas ou são provisórias (listadas abaixo).`)
+        : ''
+  const onlyDescriptions = !audioOnly && content.length > 0 && content.every((e) => e.kind === 'track' && e.trackKind === 'descriptions')
+  const tracksNote = onlyDescriptions
+    ? say(locale, ' The only alternative with content is a descriptions track, which browsers and screen readers seldom present (ACT c3232f counts it as no alternative).', ' A única alternativa com conteúdo é uma faixa de descrições, que navegadores e leitores de tela raramente apresentam (a ACT c3232f a conta como nenhuma alternativa).')
+    : ''
+  const decorativeNote = decorative
+    ? say(locale, ' It plays on its own, muted, in a loop, with no controls: if it only decorates the page, it needs no alternative.', ' Ele toca sozinho, sem som, em loop e sem controles: se só decora a página, não precisa de alternativa.')
+    : ''
+  const exception = audioOnly
+    ? say(locale, 'unless the audio is itself an alternative for text on the page, labeled as such', 'a menos que o próprio áudio seja uma alternativa a um texto da página, identificada como tal')
+    : say(locale, 'unless the video is itself an alternative for text on the page, labeled as such', 'a menos que o próprio vídeo seja uma alternativa a um texto da página, identificada como tal')
+  if (content.length > 0) {
+    return audioOnly
+      ? say(
+          locale,
+          `Audio only: text that may be its transcript was found (quoted below). Check that it gives the same information as the audio (WCAG 1.2.1), ${exception}.${brokenNote}`,
+          `Só áudio: um texto que pode ser a transcrição foi achado (citado abaixo). Confira se ele dá a mesma informação que o áudio (WCAG 1.2.1), ${exception}.${brokenNote}`,
+        )
+      : say(
+          locale,
+          `${videoName}: an alternative was found (quoted below). Check that it gives the same information as the video (WCAG 1.2.1), ${exception}.${brokenNote}${tracksNote}${decorativeNote}`,
+          `${videoName}: uma alternativa foi achada (citada abaixo). Confira se ela dá a mesma informação que o vídeo (WCAG 1.2.1), ${exception}.${brokenNote}${tracksNote}${decorativeNote}`,
+        )
+  }
+  if (all.length > 0 && all.every((e) => e.v.state === 'broken')) {
+    // Only a video that may only decorate gets here: it would otherwise fail.
+    return say(
+      locale,
+      `${audioOnly ? 'Audio only' : videoName}: every alternative found is broken or a placeholder (listed below). Check whether it only decorates the page; if not, it needs a working alternative (WCAG 1.2.1).${decorativeNote}`,
+      `${audioOnly ? 'Só áudio' : videoName}: toda alternativa achada está quebrada ou é provisória (listadas abaixo). Confira se ele só decora a página; se não, precisa de uma alternativa que funcione (WCAG 1.2.1).${decorativeNote}`,
+    )
+  }
+  if (all.length > 0) {
+    return say(
+      locale,
+      `${audioOnly ? 'Audio only' : videoName}: an alternative was found but not read (listed below). Check that it gives the same information as the ${audioOnly ? 'audio' : 'video'} (WCAG 1.2.1), ${exception}.${brokenNote}${decorativeNote}`,
+      `${audioOnly ? 'Só áudio' : videoName}: uma alternativa foi achada, mas não lida (listada abaixo). Confira se ela dá a mesma informação que o ${audioOnly ? 'áudio' : 'vídeo'} (WCAG 1.2.1), ${exception}.${brokenNote}${decorativeNote}`,
+    )
+  }
+  return audioOnly
+    ? say(
+        locale,
+        `Audio only: no transcript was found. Check that a transcript gives the same information as this audio (WCAG 1.2.1), ${exception}.`,
+        `Só áudio: nenhuma transcrição foi achada. Confira se uma transcrição dá a mesma informação que este áudio (WCAG 1.2.1), ${exception}.`,
+      )
+    : say(
+        locale,
+        `${videoName}: no alternative was found. Check that a text alternative or an audio track gives the same information (WCAG 1.2.1), ${exception}.${decorativeNote}`,
+        `${videoName}: nenhuma alternativa foi achada. Confira se uma alternativa em texto ou uma faixa de áudio dá a mesma informação (WCAG 1.2.1), ${exception}.${decorativeNote}`,
+      )
 }
 
 function descriptionFound(item: MediaItem, data: MediaData, locale: Locale, withTranscript: boolean): string {
@@ -364,8 +694,14 @@ function descriptionFound(item: MediaItem, data: MediaData, locale: Locale, with
   const description = signalsText(item.description, data.pageDescription, locale)
   if (description) parts.push(`${say(locale, 'audio description', 'audiodescrição')} ${description}`)
   if (withTranscript) {
-    const transcript = signalsText(item.transcript, data.pageTranscript, locale)
-    if (transcript) parts.push(`${say(locale, 'transcript', 'transcrição')} ${transcript}`)
+    if (item.alternatives) {
+      // Version 2: the text alternatives found, quoted.
+      const texts = textsAround(item.alternatives, data, locale)
+      if (texts) parts.push(texts)
+    } else {
+      const transcript = signalsText(item.transcript, data.pageTranscript, locale)
+      if (transcript) parts.push(`${say(locale, 'transcript', 'transcrição')} ${transcript}`)
+    }
   }
   if (parts.length === 0) {
     parts.push(
@@ -383,7 +719,7 @@ function descriptionRule(id: string, criterion: '1.2.3' | '1.2.5'): ProbeRule {
     id,
     kind: 'media',
     variant: 'media',
-    versions: ['1'],
+    versions: VERSIONS,
     criteria: [criterion],
     run(record, ctx) {
       const data = mediaData(record)
@@ -409,7 +745,7 @@ function descriptionRule(id: string, criterion: '1.2.3' | '1.2.5'): ProbeRule {
         push(t.review, probeFinding({ criterion, rule: id, node, message, evidence, confidence: 'medium', subject: 'description' }))
       }
       const notes = [unreadNote(unread(data, ['video']), ctx.locale), ...commonNotes(data, ctx.locale, data.items.length === 0 ? noMediaNote(data, ctx.locale) : undefined)]
-      return result(t, row(this, criterion, record, t, notes, ctx.locale, undecided(data, t, ['video'])))
+      return result(t, row(this, criterion, record, t, notes, ctx.locale, undecided(data, t, ['video'], record)))
     },
   }
 }
@@ -422,7 +758,7 @@ export const liveCaptionsRule: ProbeRule = {
   id: 'rampa/live-captions',
   kind: 'media',
   variant: 'media',
-  versions: ['1'],
+  versions: VERSIONS,
   criteria: ['1.2.4'],
   run(record, ctx) {
     const data = mediaData(record)
@@ -454,7 +790,7 @@ export const liveCaptionsRule: ProbeRule = {
       unreadNote(unread(data, ['video']), ctx.locale),
       ...commonNotes(data, ctx.locale, data.items.length === 0 ? noMediaNote(data, ctx.locale) : say(ctx.locale, 'no live video found', 'nenhum vídeo ao vivo encontrado')),
     ]
-    return result(t, row(this, '1.2.4', record, t, notes, ctx.locale, undecided(data, t, ['video'])))
+    return result(t, row(this, '1.2.4', record, t, notes, ctx.locale, undecided(data, t, ['video'], record)))
   },
 }
 
@@ -496,7 +832,7 @@ export const audioControlRule: ProbeRule = {
   id: 'rampa/audio-control',
   kind: 'media',
   variant: 'media',
-  versions: ['1'],
+  versions: VERSIONS,
   criteria: ['1.4.2'],
   run(record, ctx) {
     const data = mediaData(record)

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { withSiteCriteria } from '../src/core/coverage.ts'
-import { type SiteReport, siteExitCode } from '../src/core/site.ts'
+import { type SiteCriteriaReport, type SiteReport, siteExitCode } from '../src/core/site.ts'
 import type { Report } from '../src/core/types.ts'
 import { paint } from '../src/report/color.ts'
 import { renderSiteReport } from '../src/report/site.ts'
@@ -101,6 +101,10 @@ const FOOTER: Links = [
   ['help@example.com', 'mailto:help@example.com'],
 ]
 
+/** What a comparison found, without the list of ways to find pages that 2.4.5 gives every set to review. */
+const found = (report: SiteCriteriaReport, lists: Array<'findings' | 'belowThreshold' | 'review'> = ['findings', 'belowThreshold', 'review']) =>
+  lists.flatMap((list) => report[list]).filter((finding) => finding.criterion !== '2.4.5')
+
 function run(snapshots: A11ySnapshot[], options: Partial<Parameters<typeof runSiteCriteria>[1]> = {}) {
   const records: SitePageRecord[] = snapshots.map((snapshot) => siteFactsOf(snapshot))
   return runSiteCriteria(records, { origin: ORIGIN, locale: 'en', minConfidence: 'low', ...options })
@@ -166,7 +170,7 @@ describe('3.2.3 Consistent Navigation', () => {
     ])
     expect(report.sets).toHaveLength(1)
     expect(report.sets[0]?.pages).toHaveLength(4)
-    expect([...report.findings, ...report.belowThreshold, ...report.review]).toEqual([])
+    expect(found(report)).toEqual([])
     expect(report.criteria.find((c) => c.criterion === '3.2.3')).toMatchObject({ setsCompared: 1, findings: 0, review: 0 })
   })
 
@@ -244,16 +248,20 @@ describe('3.2.3 Consistent Navigation', () => {
     })
     expect(report.unassigned).toEqual([{ url: u('/pricing'), reason: 'alone' }])
     expect(report.sets.map((set) => set.pages.length)).toEqual([2])
-    expect(siteCriteriaChecked(report)).toEqual(['3.2.3', '3.2.6'])
+    // 2.4.5 lists the ways to find pages for review: it compares, but checks nothing.
+    expect(siteCriteriaChecked(report)).toEqual(['3.2.3', '3.2.4', '3.2.6'])
 
-    // Two named pages with nothing to compare: the set ran, but nothing was compared.
+    // Two named pages with one link each: no order to compare, but the link is one component on both pages (3.2.4).
     const empty = run([page('/b/1', { nav: [{ links: [['Home', '/']] }] }), page('/b/2', { nav: [{ links: [['Home', '/']] }] })], { pageSets: { blog: ['/b/'] } })
     expect(empty.criteria.map((c) => [c.criterion, c.setsCompared, c.compared])).toEqual([
       ['2.4.1', 1, 0],
+      ['2.4.2', 1, 0],
+      ['2.4.5', 1, 2],
       ['3.2.3', 1, 0],
+      ['3.2.4', 1, 1],
       ['3.2.6', 1, 0],
     ])
-    expect(siteCriteriaChecked(empty)).toEqual([])
+    expect(siteCriteriaChecked(empty)).toEqual(['3.2.4'])
   })
 
   it('checks the sets named in the config before a crawl starts', () => {
@@ -276,7 +284,7 @@ describe('3.2.3 Consistent Navigation', () => {
       ['en', ['/', '/docs/']],
       ['pt', ['/pt/', '/pt/precos']],
     ])
-    expect([...report.findings, ...report.review]).toEqual([])
+    expect(found(report, ['findings', 'review'])).toEqual([])
   })
 
   it('uses the sets named in the config, and groups the other pages by template', () => {
@@ -305,8 +313,8 @@ describe('3.2.3 Consistent Navigation', () => {
       { url: u('/'), reason: 'no-navigation' },
       { url: u('/a'), reason: 'no-navigation' },
     ])
-    // 2.4.1 compares every page of a language, landmarks or not; 3.2.3 and 3.2.6 only pages that share a template.
-    expect(none.criteria.map((c) => c.setsCompared)).toEqual([1, 0, 0])
+    // 2.4.1, 2.4.2 and 2.4.5 compare every page of a language, landmarks or not; 3.2.3, 3.2.4 and 3.2.6 only pages that share a template.
+    expect(none.criteria.map((c) => c.setsCompared)).toEqual([1, 1, 1, 0, 0, 0])
 
     const snapshots = [page('/', { nav: [{ links: MAIN }] }), page('/a', { nav: [{ links: MAIN }] }), page('/b', { nav: [{ links: swap(MAIN, 1, 2) }] })]
     const medium = run(snapshots, { minConfidence: 'medium' })
@@ -505,7 +513,9 @@ describe('the site report', () => {
     expect(text).toContain('Across pages')
     expect(text).toContain('Set template 1 (shared header, navigation and footer): 3 pages, en, 1280×800: /, /a, /b')
     expect(text).toContain('1 finding(s) across pages from experimental checks are below the threshold')
-    expect(text).toContain('Compared across pages:          2.4.1 (1 set(s), 0 compared); 3.2.3 (1 set(s), 2 compared); 3.2.6 (1 set(s), 2 compared)')
+    expect(text).toContain(
+      'Compared across pages:          2.4.1 (1 set(s), 0 compared); 2.4.2 (1 set(s), 0 compared); 2.4.5 (1 set(s), 3 compared); 3.2.3 (1 set(s), 2 compared); 3.2.4 (1 set(s), 8 compared); 3.2.6 (1 set(s), 2 compared)',
+    )
     expect(siteExitCode([below], 'confirmed')).toBe(0)
     expect(siteExitCode([below], 'any')).toBe(1)
 
@@ -560,14 +570,14 @@ describe('the site report', () => {
     expect(help?.status).toBe('failures')
     expect(help?.methods).toEqual([expect.objectContaining({ kind: 'site', id: expect.stringMatching(/^site\/3\.2\.6@/), ran: true, failures: 1 })])
     expect(current.criteria?.find((record) => record.id === '3.2.3')).toMatchObject({ status: 'no-failure-found', methods: [{ kind: 'site', ran: true, failures: 0 }] })
-    expect(current.site).toEqual(['3.2.3', '3.2.6'])
+    expect(current.site).toEqual(['3.2.3', '3.2.4', '3.2.6'])
     expect(current.notChecked).toEqual([])
 
     // Under 2.1, 3.2.6 is beyond the target: listed as such, with its status, and never in "site" or "not checked".
     const v21: Report['coverage'] = { ...base, notChecked: ['3.2.3'], criteria: base.criteria?.filter((record) => record.id === '3.2.3') }
     const older = withSiteCriteria(v21, run(helpMoved, { wcag: '2.1' }), { version: '2.1', locale: 'en', minConfidence: 'low' })
     expect(older.criteria?.find((record) => record.id === '3.2.6')).toMatchObject({ target: 'beyond', status: 'failures', methods: [{ kind: 'site', failures: 1 }] })
-    expect(older.site).toEqual(['3.2.3'])
+    expect(older.site).toEqual(['3.2.3', '3.2.4'])
     expect(older.notChecked).toEqual([])
   })
 })
