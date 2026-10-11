@@ -493,6 +493,7 @@ export function nameWordsOf(text: string, language: SensoryLanguage): string[] {
 // What a shape looks like on a page: characters drawn as that shape, and words in class names, ids, file names and
 // icon names (fa-star, icon-arrow-right, star.svg). A circle is also a box whose corners make it one (native.shape).
 
+// Not the characters text uses for something else: the ellipsis "…", the multiplication sign "×", guillemets « ».
 export const SHAPE_GLYPHS: Readonly<Record<ShapeConcept, string>> = {
   circle: '●○◯⬤◉◎⚪⚫',
   square: '■□▪▫◼◻⬛⬜',
@@ -500,9 +501,9 @@ export const SHAPE_GLYPHS: Readonly<Record<ShapeConcept, string>> = {
   star: '★☆✦✧✩✪✫✬✭✮✯✰⭐🌟',
   heart: '♥♡❤❥💙💚💛🧡💜🖤🤍💗',
   diamond: '◆◇♦◊',
-  cross: '✕✖✗✘❌×',
-  arrow: '←→↑↓⇦⇨⇧⇩➔➜➞➡⬅⬆⬇❮❯‹›«»',
-  dots: '⋮⋯…⁝',
+  cross: '✕✖✗✘❌',
+  arrow: '←→↑↓⇦⇨⇧⇩➔➜➞➡⬅⬆⬇❮❯',
+  dots: '⋮⋯⁝',
   hamburger: '☰≡',
   magnifier: '🔍🔎⌕',
   polygon: '⬡⬢⬟⭓',

@@ -86,6 +86,11 @@ describe('where things lie and what they look like', () => {
     expect(shapeEvidence(node({ ref: 'iframe', native: { tag: 'iframe', attributes: { src: 'star.html' } } }), 'star')).toBeUndefined()
     expect(shapeEvidence(node({ ref: 'b', role: 'button', native: { tag: 'button', attributes: {}, shape: { corners: 'circle' } } }), 'circle')).toBe('its corners make it a circle')
     expect(shapeEvidence(node({ ref: 'b', role: 'button', native: { tag: 'button', attributes: { class: 'rounded' } } }), 'circle')).toBeUndefined()
+    // Punctuation is not a shape: an ellipsis, a multiplication sign, guillemets.
+    expect(shapeEvidence(node({ ref: 'p', text: 'Leia mais…' }), 'dots')).toBeUndefined()
+    expect(shapeEvidence(node({ ref: 'p', text: '2 × R$ 10' }), 'cross')).toBeUndefined()
+    expect(shapeEvidence(node({ ref: 'p', text: '«Olá»' }), 'arrow')).toBeUndefined()
+    expect(shapeEvidence(node({ ref: 'b', text: '⋮' }), 'dots')).toBe('⋮ in its text')
   })
 })
 
