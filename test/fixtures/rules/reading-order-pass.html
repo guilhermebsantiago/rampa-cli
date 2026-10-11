@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Reading order, fixed · Acme</title>
+  <style>
+    body { font-family: sans-serif; font-size: 16px; margin: 2em; }
+    section { margin-bottom: 2em; }
+    .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 2em; }
+    .lists { display: flex; gap: 4em; }
+    .lists h3 { font-size: 120%; color: red; margin: 0; }
+    .steps { display: flex; gap: 1em; }
+    .steps > div { border: 1px solid #ccc; padding: 0.5em; }
+    .card { display: flex; flex-direction: column; }
+  </style>
+</head>
+<body>
+  <h1>Planning your stay</h1>
+
+  <!-- The menu as a table. -->
+  <section>
+    <h2>This week's menu</h2>
+    <table>
+      <caption>Menu</caption>
+      <tr><td></td><th scope="col">Breakfast</th><th scope="col">Lunch</th><th scope="col">Dinner</th></tr>
+      <tr><th scope="row">Monday</th><td>2 fried eggs, bacon, toast</td><td>tomato soup, hamburger, onion rings, oatmeal cookie</td><td>garden salad, fried chicken, green beans, mashed potatoes</td></tr>
+      <tr><th scope="row">Tuesday</th><td>pancakes, sausage, orange juice</td><td>vegetable soup, hot dogs, potato salad, brownie</td><td>Caesar salad, spaghetti with meatballs, Italian bread, ice cream</td></tr>
+    </table>
+  </section>
+
+  <!-- The two columns, each in its own element, in reading order. -->
+  <section>
+    <h2>About the guidelines</h2>
+    <div class="columns">
+      <p>Web Content Accessibility Guidelines 2.0 (WCAG 2.0) covers a wide range of issues and recommendations for making Web content more accessible. This document contains principles, guidelines, success criteria, benefits, and examples that define and explain the requirements for making Web-based information and applications accessible. "Accessible" means usable to a wide range of people with disabilities,</p>
+      <p>including blindness and low vision, deafness and hearing loss, learning difficulties, cognitive limitations, limited movement, speech difficulties, and others. Following these guidelines will also make your web content more accessible to the vast majority of users, including older users.</p>
+    </div>
+  </section>
+
+  <!-- Each column with its heading, in the markup's order. -->
+  <section>
+    <div class="lists">
+      <div><h3>Products</h3><ul><li>Telephones</li><li>Computers</li><li>Portable MP3 Players</li></ul></div>
+      <div><h3>Locations</h3><ul><li>Idaho</li><li>Wisconsin</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How to book</h2>
+    <div class="steps">
+      <div>Step 1: Choose your dates</div>
+      <div>Step 2: Pick a room</div>
+      <div>Step 3: Pay for your room</div>
+    </div>
+  </section>
+
+  <section>
+    <p>Book three nights and the breakfast is on us.</p>
+  </section>
+
+  <section>
+    <article class="card">
+      <h3>Rooms</h3>
+      <p>Every room has a desk, fast wifi and a kettle.</p>
+    </article>
+  </section>
+</body>
+</html>

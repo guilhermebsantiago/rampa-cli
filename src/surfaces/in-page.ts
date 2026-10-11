@@ -441,6 +441,82 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       .map((attribute) => ` ${attribute.name}="${attribute.value.replaceAll('"', '&quot;')}"`)
       .join('')}>`
 
+  /** Text that keeps its spaces and line breaks as written: `pre`, and any box styled white-space: pre, pre-wrap or break-spaces. */
+  const keepsSpaces = (style: CSSStyleDeclaration): boolean => {
+    const collapseValue = style.getPropertyValue('white-space-collapse')
+    return collapseValue ? collapseValue === 'preserve' || collapseValue === 'break-spaces' : ['pre', 'pre-wrap', 'break-spaces'].includes(style.whiteSpace)
+  }
+  let measure: CanvasRenderingContext2D | null | undefined
+  /** Whether the box's font gives every character the same width, so spaces line text up in columns. */
+  const monospace = (style: CSSStyleDeclaration): boolean | undefined => {
+    if (measure === undefined) measure = document.createElement('canvas').getContext('2d')
+    if (!measure) return undefined
+    measure.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`
+    return Math.abs(measure.measureText('iiiiiiiiii').width - measure.measureText('WWWWWWWWWW').width) < 1
+  }
+  /**
+   * Text laid out with white space (1.3.2, F33 and F34): what the outermost box that keeps spaces shows, with its line
+   * breaks and runs of spaces or tabs, when it has both. A field's value (textarea) is not page text.
+   */
+  const preformatted = (el: Element, style: CSSStyleDeclaration): Record<string, unknown> | undefined => {
+    if (el.localName === 'textarea' || !keepsSpaces(style)) return undefined
+    const parent = el.parentElement
+    if (parent && keepsSpaces(styleOf(parent))) return undefined
+    const text = kind(el, 'HTMLElement') ? (el as HTMLElement).innerText : (el.textContent ?? '')
+    if (!/\S[^\n]*\n[^\n]*\S/.test(text) || !/[  ]{2,}|\t/.test(text)) return undefined
+    const mono = monospace(style)
+    return { text: text.slice(0, 8000), ...(mono !== undefined ? { mono } : {}), tabSize: Number.parseInt(style.getPropertyValue('tab-size'), 10) || 8 }
+  }
+  /** Containers whose children CSS may place out of the markup's order, with their kind of layout. */
+  const reorderParents = new Map<Element, 'flex' | 'grid' | 'other'>()
+  /**
+   * What may show a container's children in another order than the markup's (1.3.2, F1): `order` on a flex or grid
+   * item, a reversed flex direction or wrap, explicit grid placement or dense packing, and children positioned absolutely.
+   * Only for a container with two children or more that hold something to read; geometry decides later whether the
+   * order did change, and the rules whether it matters.
+   */
+  const reorderOf = (el: Element, style: CSSStyleDeclaration): { by: string[]; layout: 'flex' | 'grid' | 'other' } | undefined => {
+    const kids = Array.from(el.shadowRoot ? el.shadowRoot.children : el.children).filter((child) => !SKIP.has(child.localName))
+    if (kids.length < 2) return undefined
+    const display = style.display
+    const flex = display.includes('flex')
+    const grid = display.includes('grid')
+    const by = new Set<string>()
+    if (flex && style.flexDirection.endsWith('reverse')) by.add(style.flexDirection)
+    if (flex && style.flexWrap === 'wrap-reverse') by.add('wrap-reverse')
+    if (grid && style.gridAutoFlow.includes('dense')) by.add('grid-dense')
+    for (const child of kids) {
+      const own = styleOf(child)
+      if (own.display === 'none') continue
+      if ((flex || grid) && own.order !== '0' && own.order !== '') by.add('order')
+      if (grid && (own.gridRowStart !== 'auto' || own.gridColumnStart !== 'auto')) by.add('grid-placement')
+      if (own.position === 'absolute' || own.position === 'fixed') by.add('absolute')
+    }
+    if (by.size === 0) return undefined
+    const reading = kids.filter((child) => collapse(child.textContent) !== '' || child.querySelector('img[alt]:not([alt=""])') !== null)
+    if (reading.length < 2) return undefined
+    return { by: [...by], layout: flex ? 'flex' : grid ? 'grid' : 'other' }
+  }
+  /** The first text an element shows: its font is the box's, as people see it. */
+  const firstTextElement = (el: Element): Element => {
+    const walker = el.ownerDocument.createTreeWalker(el, NodeFilter.SHOW_TEXT)
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+      if (collapse(node.textContent) !== '' && node.parentElement) return node.parentElement
+    }
+    return el
+  }
+  /** A child of such a container: its own order, position and placement, and the size and weight of its text. */
+  const boxFacts = (el: Element, style: CSSStyleDeclaration, layout: 'flex' | 'grid' | 'other'): Record<string, unknown> => {
+    const facts: Record<string, unknown> = {}
+    const order = Number.parseInt(style.order, 10)
+    if (layout !== 'other' && order) facts.order = order
+    if (style.position === 'absolute' || style.position === 'fixed') facts.position = style.position
+    if (layout === 'grid' && (style.gridRowStart !== 'auto' || style.gridColumnStart !== 'auto')) facts.placed = `${style.gridRowStart} / ${style.gridColumnStart}`
+    const text = styleOf(firstTextElement(el))
+    facts.font = [Math.round((Number.parseFloat(text.fontSize) || 0) * 10) / 10, Number.parseInt(text.fontWeight, 10) || 400]
+    return facts
+  }
+
   const nativeOf = (el: Element): Record<string, unknown> => {
     const attributes: Record<string, string> = {}
     for (const name of KEEP_ATTRS) {
@@ -489,6 +565,21 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       const drawing = el.innerHTML.replace(/\s+/g, ' ')
       for (let i = 0; i < drawing.length; i++) hash = Math.imul(hash ^ drawing.charCodeAt(i), 0x01000193)
       native.svgHash = (hash >>> 0).toString(16).padStart(8, '0')
+    }
+    // Reading order (1.3.2): text laid out with white space (F33, F34), and boxes CSS may show in another order than
+    // the markup's (F1). The root keeps neither: its outerHTML and its layout are the whole page's.
+    if (tag !== 'html') {
+      const style = styleOf(el)
+      const laidOut = preformatted(el, style)
+      if (laidOut) native.preformatted = laidOut
+      const parent = el.parentElement ?? (isShadowRoot(el.getRootNode()) ? (el.getRootNode() as ShadowRoot).host : null)
+      const container = parent ? reorderParents.get(parent) : undefined
+      if (container) Object.assign(native, boxFacts(el, style, container))
+      const reorder = reorderOf(el, style)
+      if (reorder) {
+        native.reorder = reorder.by
+        reorderParents.set(el, reorder.layout)
+      }
     }
     const explicit = collapse(el.getAttribute('role')).toLowerCase().split(' ')[0] ?? ''
     // role="presentation" loses to focus and to global ARIA attributes, and the element keeps its own role.

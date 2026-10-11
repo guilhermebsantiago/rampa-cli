@@ -8,12 +8,14 @@ import { labelsOrInstructions } from './labels-or-instructions.ts'
 import { languageOfPage } from './language-of-page.ts'
 import { languageOfParts } from './language-of-parts.ts'
 import { linkPurpose } from './link-purpose.ts'
+import { meaningfulSequence } from './meaningful-sequence.ts'
 import { nonTextContent } from './non-text-content.ts'
 import { pageTitled } from './page-titled.ts'
 
 /** Criteria with a judgment module. Others are covered only by the engine for now. */
 export const CRITERIA: ReadonlyMap<string, AnyCriterion> = new Map<string, AnyCriterion>([
   [nonTextContent.id, nonTextContent],
+  [meaningfulSequence.id, meaningfulSequence],
   [identifyInputPurpose.id, identifyInputPurpose],
   [imagesOfText.id, imagesOfText],
   [pageTitled.id, pageTitled],
@@ -29,7 +31,9 @@ export const CRITERIA: ReadonlyMap<string, AnyCriterion> = new Map<string, AnyCr
  * 1.4.5 is left out: it adds a vision call for every picture on the page, and whether a banner
  * with a product photo is an image of text is still a call people disagree on. 3.3.1 is left out
  * while it is experimental: it judges error messages a page already shows (src/criteria/error-messages.ts),
- * and the rules for 3.3.1 and 3.3.3 run without it. Ask for either with --criteria.
+ * and the rules for 3.3.1 and 3.3.3 run without it. 1.3.2 is left out while it is experimental: it only
+ * judges what the reading-order rules nominated and could not verify (src/criteria/meaningful-sequence.ts).
+ * Ask for any of them with --criteria.
  */
 export const DEFAULT_CRITERIA = ['1.1.1', '1.3.5', '2.4.2', '2.4.4', '2.4.6', '3.1.1', '3.1.2', '3.3.2']
 
