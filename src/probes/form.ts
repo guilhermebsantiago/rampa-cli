@@ -160,7 +160,7 @@ export const REUSE_WORDS =
 export const ADDRESS_GROUPS = /\b(billing|shipping|delivery|invoice|postal|mailing)\b|cobran[cç]a|entrega|fatura(mento)?|faturamento|facturaci[oó]n|env[ií]o|correspond[eê]ncia/i
 
 /** Purposes a form may rightly ask for twice, or that are secrets: never a redundant entry. */
-const NOT_REDUNDANT = new Set(['new-password', 'current-password', 'one-time-code', 'cc-number', 'cc-csc', 'cc-exp', 'cc-exp-month', 'cc-exp-year'])
+export const NOT_REDUNDANT = new Set(['new-password', 'current-password', 'one-time-code', 'cc-number', 'cc-csc', 'cc-exp', 'cc-exp-month', 'cc-exp-year'])
 
 /** A pair as the page lists it, with what the skip list reads about each field. */
 export type ListedPair = Omit<RedundantPair, 'first' | 'again'> & { first: EntryField & { facts: ControlFacts }; again: EntryField & { facts: ControlFacts } }
@@ -439,7 +439,7 @@ export function valueFor(entry: Pick<EntryField, 'purpose' | 'type'>): string {
 }
 
 /** The page as the collector reads it, and the field at `ref` in it, as the error state rules read it. */
-async function readAfter(probe: ProbePage, ref: string): Promise<AfterField | undefined> {
+export async function readAfter(probe: ProbePage, ref: string): Promise<AfterField | undefined> {
   const tree = await probe.page.evaluate(collectInPage, { maxNodes: 5000 })
   const snapshot = { root: tree.root as A11yNode } as A11ySnapshot
   const field = errorFieldAt(snapshot, ref)

@@ -212,7 +212,7 @@ rampa mcp: check_html inline HTML: 3 finding(s), 5 model call(s), 0 cached, 8.7 
 | `list_criteria` | What Rampa judges, and whether axe-core, Rampa or only a person checks each of the 55 WCAG 2.2 A/AA criteria | nothing |
 | `explain_finding` | The WCAG text, why a finding failed, how to fix it, and links to the W3C Understanding document and ACT rules | nothing |
 
-All four are read-only. `check_page` and `check_html` take the same options:
+All four are read-only. They run no probes, so an agent cannot make Rampa submit a form: `rampa mcp` has no `--allow-submit` option and no tool takes one ([submitting forms](probes.md#submitting-forms---allow-submit)). `check_page` and `check_html` take the same options:
 
 | Argument | Default | Effect |
 | --- | --- | --- |

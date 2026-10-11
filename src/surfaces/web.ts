@@ -46,6 +46,11 @@ export interface WebCollectOptions {
   inspect?: ((page: Page, response: Response | null) => Promise<void>) | undefined
   /** Probes to run after collection, each on its own fresh page behind the network guard (docs/probes.md). */
   probes?: readonly ProbeKind[] | undefined
+  /**
+   * The form probe's submissions (`--allow-submit`, `--submit-dry-run`; docs/probes.md, "Submitting forms"): the exact
+   * origins where it may submit forms, or a dry run that lists what it would submit. Nothing is submitted without it.
+   */
+  submit?: { allowed: readonly string[]; dryRun?: boolean | undefined } | undefined
   /** Which WCAG version's axe-core rules run; 2.2 by default. */
   wcag?: WcagVersion | undefined
   /**
@@ -202,7 +207,13 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       collector: { name: 'rampa-web', version: VERSION },
     }
     if (options.probes && options.probes.length > 0) {
-      const probes = await runProbes(browser, url, { kinds: options.probes, browserOptions: options.browserOptions, timeoutMs: options.timeoutMs })
+      const probes = await runProbes(browser, url, {
+        kinds: options.probes,
+        browserOptions: options.browserOptions,
+        timeoutMs: options.timeoutMs,
+        ...(options.submit && options.submit.allowed.length > 0 ? { allowSubmit: options.submit.allowed } : {}),
+        ...(options.submit?.dryRun ? { submitDryRun: true } : {}),
+      })
       snapshot.observations = { probes }
       // Where scripted links went when the links probe clicked them: read like any link's address, for 2.4.4.
       if (options.followLinks && options.followLinks.policy !== 'none') {

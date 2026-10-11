@@ -26,7 +26,7 @@ import {
   wcagVersion,
 } from './common.ts'
 import { advisoryMarkdown, cogaClause } from './advisory.ts'
-import { notesOf } from './pretty.ts'
+import { notesOf, submissionLine } from './pretty.ts'
 
 /**
  * Markdown made for a pull request comment: a summary line, one block per finding
@@ -69,6 +69,11 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
     head.push(`**${plural(locale, 'noFindingsPages', reports.length)}**`)
   }
   head.push('')
+  // Forms the probe submitted (--allow-submit): the run wrote to a server, which the comment says before anything else.
+  for (const report of reports) {
+    const submitted = submissionLine(report)
+    if (submitted) head.push(`> **${reports.length > 1 ? `${code(pageLabel(report))}: ` : ''}${prose(submitted)}**`, '')
+  }
 
   // The pages without findings, listed up to a limit so a site of hundreds of pages still fits.
   const cleanPages: string[] = []

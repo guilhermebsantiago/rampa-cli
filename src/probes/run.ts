@@ -5,7 +5,6 @@ import { authProbe } from './auth.ts'
 import { colorProbe } from './color.ts'
 import { flashProbe } from './flash.ts'
 import { focusOrderProbe } from './focus-order.ts'
-import { formProbe } from './form.ts'
 import { hoverProbe } from './hover.ts'
 import { inputProbe } from './input.ts'
 import { keyboardProbe } from './keyboard.ts'
@@ -19,6 +18,7 @@ import { pointerProbe } from './pointer.ts'
 import { shortcutsProbe } from './shortcuts.ts'
 import { statesProbe } from './states.ts'
 import { statusProbe } from './status.ts'
+import { formAndSubmitProbes } from './submit.ts'
 import { togglesProbe } from './toggles.ts'
 import { variantsProbe } from './variants.ts'
 import { INTERACT_KINDS, OPT_IN_KINDS, PROBE_KINDS, type ProbeKind, type ProbeOptions, skippedRecord } from './page.ts'
@@ -77,7 +77,7 @@ export type ProbeStep = (browser: Browser, url: string, options: ProbeOptions) =
 
 /** Runs each requested kind in turn; a probe that fails is recorded as skipped and never fails the check. */
 export async function runProbes(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
-  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe, shortcuts: shortcutsProbe, media: mediaProbe, color: colorProbe, states: statesProbe, variants: variantsProbe, auth: authProbe, flash: flashProbe, links: linksProbe, input: inputProbe, toggles: togglesProbe, status: statusProbe, motion: motionProbe, form: formProbe, pointer: pointerProbe, parity: parityProbe, 'focus-order': focusOrderProbe }
+  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe, shortcuts: shortcutsProbe, media: mediaProbe, color: colorProbe, states: statesProbe, variants: variantsProbe, auth: authProbe, flash: flashProbe, links: linksProbe, input: inputProbe, toggles: togglesProbe, status: statusProbe, motion: motionProbe, form: formAndSubmitProbes, pointer: pointerProbe, parity: parityProbe, 'focus-order': focusOrderProbe }
   const records: ProbeRecord[] = []
   for (const kind of options.kinds) {
     const started = Date.now()

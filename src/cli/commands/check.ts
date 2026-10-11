@@ -28,6 +28,8 @@ import { type BrowserFlags, type BrowserOptions, parseBrowserFlags, wholeNumber 
 import { type CrawlFlags, crawlRequested } from '../../surfaces/crawl.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import { type ProbeKind, parseProbeKinds, probeLaunchArgs } from '../../probes/run.ts'
+import { originOf } from '../../probes/guard.ts'
+import { describeSubmitRecord, parseAllowSubmit } from '../../probes/submit.ts'
 import type { GlobalContext } from '../context.ts'
 import { type FailOn, exitCode } from '../exit-code.ts'
 import { singlePageNote } from '../../site/index.ts'
@@ -76,6 +78,13 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
    * XCUITest export gives layout and orientation from the steps its helper exported.
    */
   probe?: string
+  /**
+   * --allow-submit, repeatable: exact origins where the form probe may submit forms (docs/probes.md, "Submitting
+   * forms"). Command line only: the config file cannot set it.
+   */
+  allowSubmit?: string[]
+  /** --submit-dry-run: the form probe lists what it would submit, and submits nothing. */
+  submitDryRun?: boolean
   /** The adb the Android surface talks to; tests pass a fake device. Not a command-line flag. */
   adb?: AdbRunner
   /** An advisory profile to run on top of the WCAG check (--profile cognitive); the config's profiles otherwise. */
@@ -129,6 +138,8 @@ interface CollectContext {
   browserOptions: BrowserOptions | undefined
   /** Probe kinds to run on web pages and Android screens, or to read from an XCUITest export; empty runs none. */
   probes: ProbeKind[]
+  /** --allow-submit and --submit-dry-run, for the form probe on web pages. */
+  submit: { allowed: string[]; dryRun: boolean } | undefined
   adb: AdbRunner | undefined
   browser: () => Promise<Browser>
   wcag: WcagVersion
@@ -146,7 +157,11 @@ async function collect(target: Target, ctx: CollectContext): Promise<Collected> 
         browserOptions: ctx.browserOptions,
         wcag: ctx.wcag,
         probes: ctx.probes,
+        ...(ctx.submit ? { submit: ctx.submit } : {}),
       })
+      // What the form probe submitted, or would have: on stderr as it happens, and in the report's header.
+      const submitted = web.snapshot.observations?.probes.find((record) => record.kind === 'form' && record.conditions.variant === 'submit')
+      if (submitted) for (const line of describeSubmitRecord(submitted, target.url)) process.stderr.write(`${line}\n`)
       return { ...web, notes: [], record: true }
     }
     case 'android': {
@@ -224,11 +239,16 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   const browserOptions = parseBrowserFlags(options)
   const wcag = wcagOption(options.wcag)
   const probes = parseProbeKinds(options.probe)
+  // Refused before anything loads: an origin that is not exact (a path, a wildcard, another scheme) is a usage error.
+  const allowSubmit = parseAllowSubmit(options.allowSubmit)
+  const submitDryRun = Boolean(options.submitDryRun)
   if (crawlRequested(options)) {
     if (probes.length > 0) process.stderr.write('rampa: --probe does not run with --crawl yet; the pages are checked without probes.\n')
+    if (allowSubmit.length > 0 || submitDryRun) process.stderr.write('rampa: --allow-submit and --submit-dry-run do not run with --crawl; nothing is submitted.\n')
     return runSiteCheck(targetsOrConfig(targets, context.config), options, context, browserOptions)
   }
   const resolved = await resolveTargets(targetsOrConfig(targets, context.config))
+  const submit = submitPlan(allowSubmit, submitDryRun, probes, resolved)
   const criteria = resolveCriteria(options.criteria.split(','))
   const profiles = resolveProfiles(options.profile, context.config.profiles)
   const runs = Math.max(1, Number.parseInt(options.runs, 10) || 1)
@@ -262,6 +282,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     followLinks: follow,
     browserOptions,
     probes,
+    submit,
     adb: options.adb,
     wcag,
     browser: async () => {
@@ -328,6 +349,28 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   }
 
   return exitCode(reports, options.failOn)
+}
+
+/**
+ * What --allow-submit and --submit-dry-run do in this run, said loudly on stderr before anything loads: submitting
+ * writes to a server. Undefined when the form probe will not submit (or list) anything.
+ */
+export function submitPlan(allowed: string[], dryRun: boolean, probes: readonly ProbeKind[], targets: readonly Target[]): CollectContext['submit'] {
+  if (allowed.length === 0 && !dryRun) return undefined
+  if (!probes.includes('form')) {
+    process.stderr.write(`rampa: ${dryRun ? '--submit-dry-run' : '--allow-submit'} takes effect only with --probe form (or --probe interact); nothing is submitted.\n`)
+    return undefined
+  }
+  if (dryRun) {
+    process.stderr.write('rampa: --submit-dry-run: the form probe lists the forms and the values it would submit, and submits nothing.\n')
+    return { allowed, dryRun: true }
+  }
+  process.stderr.write(
+    `rampa: --allow-submit: the form probe will SUBMIT forms on ${allowed.join(', ')}, writing to that server. Use it on test environments only. Every other origin stays blocked; payment, password and file forms, CAPTCHAs, and controls that buy, pay, delete, sign or subscribe are never submitted.\n`,
+  )
+  const origins = targets.flatMap((target) => (target.kind === 'web' ? [originOf(target.url)] : []))
+  if (!origins.some((origin) => allowed.includes(origin))) process.stderr.write('rampa: --allow-submit: no target is on an origin it names, so nothing will be submitted.\n')
+  return { allowed, dryRun: false }
 }
 
 /** --max-candidates (0 for no cap) and --time-limit in milliseconds, undefined when it is not set. */

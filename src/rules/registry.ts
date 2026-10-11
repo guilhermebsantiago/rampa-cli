@@ -19,6 +19,7 @@ import { shortcutsRule } from './shortcuts.ts'
 import { STATE_CONTRAST_RULES } from './state-contrast.ts'
 import { stateExposureRule } from './state-exposure.ts'
 import { statusMessagesRule } from './status-messages.ts'
+import { SUBMIT_RULES } from './submit.ts'
 import { timingAdjustableRule } from './time-limits.ts'
 import { VARIANTS_RULES } from './variants.ts'
 import type { ProbeRule } from './probes.ts'
@@ -44,6 +45,7 @@ export const PROBE_RULES: readonly ProbeRule[] = [
   stateExposureRule,
   statusMessagesRule,
   ...FORM_RULES,
+  ...SUBMIT_RULES,
   ...POINTER_RULES,
   ...PARITY_RULES,
   focusManagementRule,

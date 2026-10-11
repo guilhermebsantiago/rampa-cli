@@ -29,6 +29,13 @@ export interface ProbeOptions {
   kinds: readonly ProbeKind[]
   browserOptions?: BrowserOptions | undefined
   timeoutMs?: number | undefined
+  /**
+   * `--allow-submit`: exact origins (scheme, host and port) where the form probe may submit forms (docs/probes.md,
+   * "Submitting forms"). Every other probe ignores it, and its pages' guards never let a write through.
+   */
+  allowSubmit?: readonly string[] | undefined
+  /** `--submit-dry-run`: the form probe lists what it would submit, and submits nothing. */
+  submitDryRun?: boolean | undefined
 }
 
 /** One loaded probe page, behind its guard, with the kit installed. */
@@ -111,6 +118,11 @@ export interface ProbePageOptions {
    * (at most 15 s), navigations and the page's own GET form submissions go through; then the guard arms as usual.
    */
   follow?: boolean | undefined
+  /**
+   * The form probe's submissions only: the origins its guard lets a submission reach, during the window the probe
+   * opens around the press (guard.ts). Such a page also blocks every other origin once it has loaded.
+   */
+  allowSubmit?: readonly string[] | undefined
 }
 
 export async function openProbePage(browser: Browser, url: string, options: ProbeOptions, page: ProbePageOptions = {}): Promise<ProbePage> {
@@ -127,7 +139,7 @@ export async function openProbePage(browser: Browser, url: string, options: Prob
   try {
     await prepareContext(context, url, options.browserOptions)
     // Registered after the header route, so the guard sees every request first.
-    const guard = await installGuard(context)
+    const guard = await installGuard(context, page.allowSubmit && page.allowSubmit.length > 0 ? { allowSubmit: page.allowSubmit } : {})
     await context.addInitScript(installHooks)
     if (page.clock) await context.clock.install()
     const opened = await context.newPage()

@@ -20,7 +20,7 @@ import type { Hit, RuleCheck } from './types.ts'
 
 const UNDERSTANDING = 'https://www.w3.org/WAI/WCAG22/Understanding/'
 
-const fold = (value: string) =>
+export const fold = (value: string) =>
   value
     .normalize('NFKD')
     .replace(/\p{M}/gu, '')
@@ -47,7 +47,7 @@ const CARD_FIELD =
 const PAYMENT_FRAME =
   /js\.stripe\.com|__privateStripe|checkoutshopper|adyen|braintreegateway|paypal\.com\/(?:sdk|checkoutnow|smart)|mercadopago|pagseguro|squareup|sq-payment|checkout\.com|pagar\.me|ebanx|cielo|getnet|iugu|vindi|paddle\.com|klarna/i
 
-type Commitment = 'financial' | 'legal' | 'data' | 'test'
+export type Commitment = 'financial' | 'legal' | 'data' | 'test'
 
 /** Buttons that commit a purchase, a payment, a transfer, a booking, a bid or a donation (en, pt-BR, es), folded. */
 /**
@@ -69,11 +69,11 @@ const TEST =
   /^(?:submit (?:my |your |the )?(?:test|exam|quiz|answers|assessment)|finish (?:the )?(?:test|exam|quiz)|enviar (?:as )?(?:respostas|prova|respuestas|examen)|finalizar (?:a |el )?(?:prova|teste|simulado|avaliacao|examen)|entregar (?:a )?prova|terminar (?:el )?examen)$/
 
 /** What a page may show of the three mechanisms 3.3.4 accepts (folded). */
-const CONFIRM_BOX =
+export const CONFIRM_BOX =
   /\b(?:i (?:have )?(?:read|reviewed|checked|confirm|agree|accept|understand)|i confirm|li e (?:concordo|aceito)|declaro|confirmo|concordo|estou ciente|he leido|acepto|entiendo)\b/
-const REVIEW_TEXT =
+export const REVIEW_TEXT =
   /\b(?:review (?:your |the )?(?:order|details|information|payment)|order (?:summary|review)|confirm (?:your |the )?(?:order|details|information)|resumo do (?:pedido|pagamento)|revise (?:o |seu )?(?:pedido|dados)|revisar (?:o )?pedido|confira (?:o |seu )?pedido|resumen (?:del |de tu )?(?:pedido|compra)|revisa (?:tu )?pedido)\b/
-const REVERSAL_TEXT =
+export const REVERSAL_TEXT =
   /\b(?:cancel (?:within|at any time|anytime|free)|undo|refund|money[- ]back|direito de arrependimento|cancelar (?:em ate|a qualquer momento|gratis)|desfazer|reembolso|estorno|deshacer|devolucion)\b/
 const TYPE_TO_CONFIRM = /\b(?:type|enter|digite|escreva|escribe)\b.{0,40}\b(?:confirm|confirmar|delete|excluir|eliminar)\b/
 
@@ -95,7 +95,8 @@ function nameOf(node: A11yNode): string {
   return (node.name ?? node.text ?? attribute(node, 'value') ?? '').replace(/\s+/g, ' ').trim()
 }
 
-function commitmentOf(name: string): Commitment | undefined {
+/** What a control commits when its name says so (folded): a purchase or payment, a legal agreement, a deletion, test answers. The form probe never presses one. */
+export function commitmentOf(name: string): Commitment | undefined {
   // "Pay $49.00", "Pagar R$ 49,90": the amount is not part of what the button does.
   const folded = fold(name)
     .replace(/[^\p{L}\p{N} -]+/gu, ' ')
