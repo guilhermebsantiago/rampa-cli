@@ -2,6 +2,7 @@ import { authRule } from './auth.ts'
 import { bypassBlocksRule } from './bypass.ts'
 import { COLOR_RULES } from './color.ts'
 import { flashRule } from './flash.ts'
+import { focusManagementRule } from './focus-order.ts'
 import { FORM_RULES } from './form.ts'
 import { focusObscuredNarrowRule, focusObscuredRule, focusVisibleRule } from './focus.ts'
 import { keyboardReachRule, keyboardTrapRule, onFocusRule } from './keyboard.ts'
@@ -10,6 +11,7 @@ import { scriptedLinksRule } from './links.ts'
 import { MEDIA_RULES } from './media.ts'
 import { pauseStopHideRule } from './motion.ts'
 import { onInputRule } from './on-input.ts'
+import { PARITY_RULES } from './parity.ts'
 import { reflowRule, textSizeRule, textSpacingRule, zoomRule } from './layout.ts'
 import { orientationRule } from './orientation.ts'
 import { POINTER_RULES } from './pointer.ts'
@@ -43,6 +45,8 @@ export const PROBE_RULES: readonly ProbeRule[] = [
   statusMessagesRule,
   ...FORM_RULES,
   ...POINTER_RULES,
+  ...PARITY_RULES,
+  focusManagementRule,
   focusVisibleRule,
   focusObscuredRule,
   focusObscuredNarrowRule,

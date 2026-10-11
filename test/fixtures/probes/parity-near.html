@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Player: near misses for keyboard parity</title>
+<style>
+  body { font: 16px/1.4 sans-serif; margin: 20px; }
+  .box { border: 1px solid #888; padding: 8px; margin: 8px 0; max-width: 600px; }
+  [hidden] { display: none !important; }
+  .pad { width: 300px; height: 120px; border: 1px dashed #333; cursor: crosshair; }
+  .card { border: 1px solid #888; width: 300px; }
+  .card a { display: block; padding: 40px 8px; }
+  .hint { cursor: pointer; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Player</h1>
+  <!-- On the skip list: never pressed nor clicked. It reports to /touched if it is. -->
+  <div id="delete" role="button" tabindex="0" class="box">Delete item</div>
+  <!-- A click that only reports to the server (a POST the guard blocks): nothing seen changes. -->
+  <div id="tracked" class="box" onclick="navigator.sendBeacon('/touched?beacon', 'x')">Seen by the tracker</div>
+  <!-- A pointer cursor on text that does nothing. -->
+  <p><span class="hint">Hover me</span></p>
+  <!-- Enter opens the panel and also moves focus into it: the same function. -->
+  <div id="open" role="button" tabindex="0" class="box">Open the playlist</div>
+  <div id="playlist" hidden tabindex="-1"><p>Track one, track two.</p></div>
+  <!-- Enter changes the label but forgets aria-pressed: another effect, equivalent in function (the judgment's to clear). -->
+  <div id="play" role="button" tabindex="0" aria-pressed="false" class="box">Play</div>
+  <!-- A signature pad: the pointer draws, which depends on the path of its movement. -->
+  <div class="box">
+    <p>Draw your signature with the mouse in the box below.</p>
+    <div id="pad" class="pad"></div>
+    <p id="strokes"></p>
+  </div>
+  <!-- A card whose click lands on the link that fills it. -->
+  <div id="card" class="card" onclick="location.href = '/parity/album.html'"><a href="/parity/album.html">The new album</a></div>
+  <!-- Tips that change on their own, next to a control that Enter and the click both change. -->
+  <p id="ticker">Tip 1 of 9</p>
+  <div id="next" role="button" tabindex="0" class="box">Next song</div>
+  <p id="song">Now playing: Rain</p>
+</main>
+<script>
+  let tip = 0
+  const tips = ['Headphones help.', 'Turn the volume down.', 'Take a break.']
+  setInterval(() => { tip = (tip + 1) % tips.length; document.getElementById('ticker').textContent = tips[tip] }, 250)
+  document.getElementById('delete').addEventListener('click', () => fetch('/touched?delete'))
+  const open = document.getElementById('open')
+  const playlist = document.getElementById('playlist')
+  open.addEventListener('click', () => { playlist.hidden = false })
+  open.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); playlist.hidden = false; playlist.focus() } })
+  const play = document.getElementById('play')
+  play.addEventListener('click', () => { const on = play.getAttribute('aria-pressed') !== 'true'; play.setAttribute('aria-pressed', String(on)); play.textContent = on ? 'Pause' : 'Play' })
+  play.addEventListener('keydown', (event) => { if (event.key === 'Enter') { event.preventDefault(); play.textContent = play.textContent === 'Play' ? 'Pause' : 'Play' } })
+  let strokes = 0
+  document.getElementById('pad').addEventListener('mousedown', () => { strokes++; document.getElementById('strokes').textContent = `${strokes} stroke(s) drawn` })
+  const songs = ['Rain', 'Wind', 'Snow']
+  let song = 0
+  const nextSong = () => { song = (song + 1) % songs.length; document.getElementById('song').textContent = `Now playing: ${songs[song]}` }
+  const next = document.getElementById('next')
+  next.addEventListener('click', nextSong)
+  next.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); nextSong() } })
+</script>
+</body>
+</html>

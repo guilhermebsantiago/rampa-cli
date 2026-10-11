@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Store: widgets with no keyboard support</title>
+<style>
+  body { font: 16px/1.4 sans-serif; margin: 20px; }
+  [hidden] { display: none !important; }
+  .tab { display: inline-block; padding: 4px 8px; border: 1px solid #888; cursor: pointer; }
+  .tab[aria-selected=true] { background: #ddd; }
+  .slider { width: 200px; height: 20px; background: #eee; position: relative; }
+  .thumb { position: absolute; top: 0; width: 10px; height: 20px; background: #333; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Oak table</h1>
+  <!-- Tabs with no keyboard support: the second tab is out of the Tab order, and the arrows do nothing. -->
+  <div role="tablist" aria-label="Sections">
+    <div class="tab" role="tab" id="tab-1" aria-selected="true" tabindex="0" aria-controls="panel-1">Overview</div>
+    <div class="tab" role="tab" id="tab-2" aria-selected="false" tabindex="-1" aria-controls="panel-2">Reviews</div>
+  </div>
+  <div role="tabpanel" id="panel-1" aria-labelledby="tab-1">The overview of the table.</div>
+  <div role="tabpanel" id="panel-2" aria-labelledby="tab-2" hidden>Four stars from twelve buyers.</div>
+  <!-- A slider the pointer moves and the keys do not (F54). -->
+  <p>Volume</p>
+  <div id="volume" class="slider" role="slider" tabindex="0" aria-label="Volume" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20"><div class="thumb" style="left: 20%"></div></div>
+  <!-- 2.1.2: an editor that keeps focus, with an exit instruction that does not work. -->
+  <p>Press Ctrl+M to leave the editor.</p>
+  <div id="editor"><button id="bold" type="button">Bold</button> <textarea id="text" aria-label="Notes"></textarea></div>
+  <p><a href="#outro" id="outro-link">Conclusion</a></p>
+</main>
+<script>
+  for (const tab of document.querySelectorAll('[role=tab]')) {
+    tab.addEventListener('click', () => {
+      for (const other of document.querySelectorAll('[role=tab]')) {
+        other.setAttribute('aria-selected', String(other === tab))
+        other.tabIndex = other === tab ? 0 : -1
+        document.getElementById(other.getAttribute('aria-controls')).hidden = other !== tab
+      }
+    })
+  }
+  const volume = document.getElementById('volume')
+  volume.addEventListener('mousedown', (event) => {
+    const box = volume.getBoundingClientRect()
+    const value = Math.max(0, Math.min(100, Math.round(((event.clientX - box.left) / box.width) * 100)))
+    volume.setAttribute('aria-valuenow', String(value))
+    volume.firstElementChild.style.left = `${value}%`
+  })
+  const first = document.getElementById('bold')
+  const last = document.getElementById('text')
+  document.getElementById('editor').addEventListener('keydown', (event) => {
+    if (event.key !== 'Tab') {
+      if (event.key === 'Escape' || event.key.startsWith('Arrow')) event.preventDefault()
+      return
+    }
+    if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
+    else if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus() }
+  })
+</script>
+</body>
+</html>

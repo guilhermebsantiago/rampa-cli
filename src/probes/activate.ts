@@ -268,6 +268,8 @@ interface ActivateWindow {
     peek(): number
     quiet(args: { quietMs: number; capMs: number }): Promise<number>
     end(args: { noise: boolean }): Omit<Watch, 'blocked' | 'ms'>
+    /** The element, or an ancestor, changed in a wait with no input: what changes there is the page's own doing. */
+    noisy(el: Element): boolean
   }
   __rampaTarget?: Element | null
 }
@@ -389,7 +391,8 @@ export function installActivateKit(): void {
     const texts = [nameOf(el), el.getAttribute('title') ?? '', el.getAttribute('aria-label') ?? '', el.localName === 'input' && ['button', 'submit', 'reset'].includes(type) ? input.value : '']
       .map((t) => cut(collapse(t), 200))
       .filter(Boolean)
-    const code = [el.id, el.getAttribute('class') ?? '', el.getAttribute('name') ?? '', el.getAttribute('onclick') ?? '', el.getAttribute('onchange') ?? '', el.getAttribute('oninput') ?? '', /^\s*javascript:/i.test(href) ? href : '', ...data]
+    // The attribute, not the property: a page may define its own `id` property on an element (undefined, or another node).
+    const code = [el.getAttribute('id') ?? '', el.getAttribute('class') ?? '', el.getAttribute('name') ?? '', el.getAttribute('onclick') ?? '', el.getAttribute('onchange') ?? '', el.getAttribute('oninput') ?? '', /^\s*javascript:/i.test(href) ? href : '', ...data]
       .map((t) => cut(t, 300))
       .filter(Boolean)
     const submit =
@@ -466,6 +469,7 @@ export function installActivateKit(): void {
     | undefined
   w.__rampaActivate = {
     facts,
+    noisy: (el) => inNoise(el),
     locate(args) {
       const el = kit.resolve(args.ref)
       w.__rampaTarget = el && kit.identity(el).sig === args.sig ? el : null
