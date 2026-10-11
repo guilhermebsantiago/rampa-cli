@@ -138,6 +138,8 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
   // A link's name as the browser computes it: text hidden from assistive technology (a TOC number, a coordinate
   // duplicate) is left out, CSS content is in. Its eval sets read the same prompts either way (docs/rules.md).
   names: 'browser',
+  // Batched judgment (--batch, --fast): up to 8 links a call, measured in docs/performance.md.
+  batch: 8,
   schema: LinkPurposeJudgment,
   // Only links whose text is generic keep the model's confidence; see generic-text.ts.
   confidenceCap: (candidate) => (genericLinkText(candidate.context.name) ? undefined : 'low'),

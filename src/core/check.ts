@@ -80,6 +80,11 @@ export interface CheckOptions {
   timings?: Stopwatch | undefined
   /** The run used --fast: what it left out and lowered, stated in the report's coverage (core/fast.ts). */
   fast?: FastCoverage | undefined
+  /**
+   * Batched judgment (--batch, on in --fast): the criteria that allow it (`Criterion.batch`) judge their candidates
+   * several to a call (core/batch.ts). Each criterion's summary counts them, and a note says so.
+   */
+  batch?: boolean | undefined
 }
 
 /** Candidates per criterion and page the model judges at most unless `maxCandidates` says otherwise. */
@@ -192,8 +197,14 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       concurrency: options.concurrency,
       signal,
       deadline: options.deadline,
+      batch: options.batch,
     })
     watch?.criterion(criterionTiming(criterion.id, started, prepareMs, candidates.length, judgments))
+    const inBatches = judgments.filter((judgment) => judgment.samples.some((sample) => sample.batch))
+    if (inBatches.length > 0) {
+      const calls = inBatches.reduce((sum, judgment) => sum + judgment.samples.filter((sample) => sample.batch && !sample.batch.shared).length, 0)
+      summary.batched = { candidates: inBatches.length, calls }
+    }
 
     for (const judgment of judgments) {
       // A candidate the criterion passed or failed without a model counts in the coverage as its own method (kind rule).
@@ -202,7 +213,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
         if (judgment.status === 'failed') summary.decidedFailed = (summary.decidedFailed ?? 0) + 1
       }
       for (const sample of judgment.samples) {
-        if (sample.decided) continue
+        // A batch's call is counted once, on the first candidate it answered.
+        if (sample.decided || sample.batch?.shared) continue
         if (sample.cached) usage.cachedCalls++
         else if (sample.output) usage.calls++
         usage.inputTokens += sample.inputTokens
@@ -507,15 +519,17 @@ export function capCandidates<C extends Candidate<unknown>>(criterion: AnyCriter
 function criterionTiming(criterion: string, started: number, prepareMs: number, candidates: number, judgments: ReadonlyArray<{ samples: readonly Sample<unknown>[] }>): CriterionTiming {
   let calls = 0
   let cachedCalls = 0
+  let batches = 0
   for (const sample of judgments.flatMap((judgment) => judgment.samples)) {
-    if (sample.decided) continue
+    if (sample.decided || sample.batch?.shared) continue
+    if (sample.batch) batches++
     if (sample.cached) cachedCalls++
     else if (sample.output) calls++
   }
-  return { criterion, ms: performance.now() - started, prepareMs, candidates, judged: judgments.length, calls, cachedCalls }
+  return { criterion, ms: performance.now() - started, prepareMs, candidates, judged: judgments.length, calls, cachedCalls, ...(batches > 0 ? { batches } : {}) }
 }
 
-/** What the report says about candidates the model never judged: past the cap, and after the time limit. */
+/** What the report says about candidates the model never judged (past the cap, after the time limit), and those it judged in batches. */
 function notJudgedNotes(summaries: readonly CriterionSummary[], cap: number, locale: Locale): string[] {
   const notes: string[] = []
   const list = (key: 'capped' | 'timedOut') =>
@@ -527,6 +541,10 @@ function notJudgedNotes(summaries: readonly CriterionSummary[], cap: number, loc
   if (capped) notes.push(t(locale, 'notJudgedCap', { max: cap, list: capped }))
   const timedOut = list('timedOut')
   if (timedOut) notes.push(t(locale, 'notJudgedTime', { list: timedOut }))
+  const batched = summaries
+    .flatMap((s) => (s.batched ? [t(locale, 'batchedItem', { criterion: s.criterion, count: s.batched.candidates, calls: s.batched.calls })] : []))
+    .join(', ')
+  if (batched) notes.push(t(locale, 'batchedNote', { list: batched }))
   return notes
 }
 

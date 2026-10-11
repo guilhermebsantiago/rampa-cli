@@ -127,6 +127,8 @@ const check = program
     `preset for CI and pre-commit: at most ${FAST.maxCandidates} candidates per criterion, no link following, no probes or OCR, no contrast from pixels, ${FAST.imageLimit} image captures, ${FAST.settleCapMs / 1000} s of waiting after load; options you set win, and the report lists what was left out (docs/performance.md)`,
   )
   .option('--no-fast', 'turn off fast: true from the config for this run')
+  .option('--batch', 'judge up to 8 candidates per model call where the criterion allows it (on with --fast; docs/performance.md)')
+  .option('--no-batch', 'one model call per candidate, also with --fast')
   .addOption(
     new Option('--follow-links <policy>', "read where links lead, to compare them with their text (2.4.4); same-origin reads a local page's local files")
       .choices([...FOLLOW_LINKS])
@@ -222,7 +224,10 @@ program
       .choices([...FOLLOW_LINKS])
       .default('same-origin'),
   )
-  .action(action(async (options, command: Command) => runEval(options, await context(command))))
+  .option('--batch', 'batched judgment: up to 8 candidates per model call where the criterion allows it')
+  .option('--fast', "rampa check --fast's preset on every test page (batched judgment included; docs/performance.md)")
+  // --fast fills in --follow-links as rampa check --fast does; the config's fast never applies to a measurement.
+  .action(action(async (options, command: Command) => runEval(withFastPreset(command, options, {}), await context(command))))
 
 program
   .command('compare')

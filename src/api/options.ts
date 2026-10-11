@@ -63,6 +63,8 @@ export interface RampaOptions {
    * value. Default: the config's `fast`, else false.
    */
   fast?: boolean | undefined
+  /** Batched judgment, like --batch: several candidates per model call where the criterion allows it. Default: the config's, else on with `fast` only. */
+  batch?: boolean | undefined
 }
 
 export interface Settings extends CheckOptions {
@@ -113,6 +115,7 @@ export async function resolveSettings(options: RampaOptions = {}): Promise<Setti
     // As `rampa check` decides, so a report counts the same candidates as the CLI's.
     captureImages: llm && criteria.some((criterion) => criterion.needs.vision),
     recordTimings: Boolean(options.timings),
+    batch: options.batch ?? config.batch ?? fast,
     ...(fast ? { fastCollection: fastCollection(criteria) } : {}),
   }
 }

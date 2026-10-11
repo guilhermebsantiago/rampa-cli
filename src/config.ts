@@ -38,6 +38,8 @@ export interface RampaConfig {
    * line sets keeps its value; --no-fast turns it off for one run.
    */
   fast?: boolean
+  /** Batched judgment, like --batch: several candidates per model call where the criterion allows it. Default: on with fast only. */
+  batch?: boolean
   /**
    * Sets of pages for the criteria that compare pages (3.2.3, 3.2.6), by name: path patterns
    * in robots.txt syntax, as --include. Pages in no named set are grouped by template.

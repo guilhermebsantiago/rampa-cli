@@ -98,6 +98,8 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
    * in --max-candidates and --follow-links where nothing else set them; the rest applies here.
    */
   fast?: boolean
+  /** --batch / --no-batch: batched judgment (core/batch.ts); the config's `batch`, else on with --fast only. */
+  batch?: boolean
 }
 
 /** Read links when a criterion needs their destinations and the judgment layer will run. */
@@ -277,6 +279,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   // rampa baseline has no --max-candidates: --fast sets its cap here.
   const fast = Boolean(options.fast)
   const maxCandidates = limits.maxCandidates ?? (fast ? FAST.maxCandidates : undefined)
+  const batch = batchSetting(options, context.config)
   // Source paths are relative to the repository root, as GitHub resolves them.
   const root = (await repositoryRoot()) ?? process.cwd()
   const adoption = await prepareAdoption(options.baseline, context.config)
@@ -335,6 +338,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
         wcag,
         maxCandidates,
         deadline,
+        batch,
         fast: fast
           ? fastCoverage({
               criteria,
@@ -406,6 +410,11 @@ export function submitPlan(allowed: string[], dryRun: boolean, probes: readonly 
   const origins = targets.flatMap((target) => (target.kind === 'web' ? [originOf(target.url)] : []))
   if (!origins.some((origin) => allowed.includes(origin))) process.stderr.write('rampa: --allow-submit: no target is on an origin it names, so nothing will be submitted.\n')
   return { allowed, dryRun: false }
+}
+
+/** Batched judgment: --batch or --no-batch, else the config's `batch`, else on in fast mode only. */
+export function batchSetting(options: Pick<CheckCommandOptions, 'batch' | 'fast'>, config: { batch?: boolean | undefined }): boolean {
+  return options.batch ?? config.batch ?? Boolean(options.fast)
 }
 
 /** --max-candidates (0 for no cap) and --time-limit in milliseconds, undefined when it is not set. */

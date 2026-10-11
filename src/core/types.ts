@@ -151,6 +151,12 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
    * picture repeated on a page or across the pages of a site is judged once. The prompt's hash when absent.
    */
   judgmentKey?(candidate: Candidate<Ctx>): string | undefined
+  /**
+   * Batched judgment (core/batch.ts): the most candidates of this criterion one model call may hold when batching is on
+   * (--batch, and --fast). Opt-in per criterion, measured on its evaluation sets (docs/performance.md); each candidate
+   * keeps its own prompt and verification. Absent: one call per candidate, always.
+   */
+  batch?: number | undefined
   schema: z.ZodType<Out>
   /**
    * The answer schema for one candidate, where a criterion asks two kinds of question: 1.1.1 asks whether an
@@ -386,6 +392,8 @@ export interface CriterionSummary {
   capped?: number | undefined
   /** Candidates the model never judged because the time limit ran out first (`--time-limit`). Absent when none. */
   timedOut?: number | undefined
+  /** Candidates the model judged several to a call (batched judgment, --batch or --fast), and the calls. Absent when none. */
+  batched?: { candidates: number; calls: number } | undefined
 }
 
 export interface Usage {

@@ -109,6 +109,8 @@ export const identifyInputPurpose: Criterion<IdentifyInputPurposeContext, Identi
   surfaces: ['web'],
   needs: {},
   engineRules: ENGINE_RULES,
+  // Batched judgment (--batch, --fast): up to 8 fields a call, measured in docs/performance.md.
+  batch: 8,
   schema: IdentifyInputPurposeJudgment,
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<IdentifyInputPurposeContext>[] {

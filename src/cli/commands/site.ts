@@ -39,7 +39,7 @@ import { recordingName } from '../../surfaces/targets.ts'
 import { type Collected, collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import { VERSION } from '../../version.ts'
 import type { GlobalContext } from '../context.ts'
-import { type CheckCommandOptions, judgingLimits, resolveProvider, wcagOption } from './check.ts'
+import { type CheckCommandOptions, batchSetting, judgingLimits, resolveProvider, wcagOption } from './check.ts'
 import { DEFAULT_WCAG, wcagTarget } from '../../wcag.ts'
 
 const SKIP_ORDER: readonly SkipReason[] = ['robots', 'off-site', 'http', 'not-html', 'error']
@@ -91,6 +91,7 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
     coga: context.config.coga,
     wcag: wcagOption(options.wcag),
     maxCandidates,
+    batch: batchSetting(options, context.config),
     // A crawl runs no probes and reads no link destinations either way: fast mode lists only what it changed.
     fast: options.fast ? fastCoverage({ criteria, llm: options.llm, probes: 0, linksSkipped: false, maxCandidates: loweredCap(maxCandidates), web: true }) : undefined,
   }
