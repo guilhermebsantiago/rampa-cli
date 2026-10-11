@@ -3,7 +3,7 @@ import type { Locale } from '../i18n.ts'
 import { matchNode, nameOf } from '../probes/identity.ts'
 import type { Orientation, OrientationCover, OrientationData, OrientationLoad, OrientationState, RotatedElement } from '../probes/orientation.ts'
 import type { A11yNode, A11ySnapshot, ProbeRecord } from '../snapshot/schema.ts'
-import { type ProbeRule, type ProbeRuleContext, asArray, asRecord, conditionsText, coverageStatus, probeFinding, say } from './probes.ts'
+import { type ProbeRule, type ProbeRuleContext, appPlatform, asArray, asRecord, conditionsText, coverageStatus, probeFinding, say } from './probes.ts'
 
 /** How far from a quarter turn (90° or 270°) a change of rotation still counts as one. */
 export const QUARTER_TOLERANCE = 5
@@ -78,6 +78,31 @@ const TEXT: Record<
     gone: 'Na orientação {gone}, a maior parte do texto que a página mostra em {upright} some, sem mensagem explicando. Confira se a página restringe a exibição à orientação {upright} (WCAG 1.3.4).',
     messageOnly: 'Na orientação {gone}, a página mostra uma mensagem sobre girar o aparelho, mas o conteúdo continua visível. Confira se nada fica restrito na orientação {gone} (WCAG 1.3.4).',
     orientation: { portrait: 'retrato', landscape: 'paisagem' },
+  },
+}
+
+/**
+ * The same findings on an app screen (probes/native/orientation.ts): the whole screen counts as turned when the display
+ * stays in one orientation while the device is turned, and what is gone is what the screen shows, not a page.
+ */
+const APP_TEXT: Record<Locale, Omit<(typeof TEXT)['en'], 'orientation'>> = {
+  en: {
+    rotated:
+      'When the device is turned to {sideways}, the app keeps this screen in {upright}, so it reads sideways: its display is restricted to {upright} orientation (WCAG 1.3.4). Let the screen follow the device (Android: screenOrientation or setRequestedOrientation; iOS: the supported interface orientations), unless that orientation is essential.',
+    rotatedSmall: 'Part of this screen turns by a quarter turn against the device between portrait and landscape. Check that this does not restrict its content to one orientation (WCAG 1.3.4).',
+    goneMessage:
+      'In {gone} orientation, the app hides this screen and asks to turn the device: it works only in {upright} (WCAG 1.3.4). Let the content show in both orientations, unless one is essential.',
+    gone: 'In {gone} orientation, most of the text this screen shows in {upright} is gone, with no message saying why. A list may only show fewer rows; check whether the app restricts this screen to {upright} orientation (WCAG 1.3.4).',
+    messageOnly: 'In {gone} orientation, the app shows a message about turning the device, while the screen still shows its content. Check that nothing is restricted in {gone} orientation (WCAG 1.3.4).',
+  },
+  'pt-BR': {
+    rotated:
+      'Quando o aparelho é girado para {sideways}, o app mantém esta tela em {upright}, e ela fica de lado: a exibição fica restrita à orientação {upright} (WCAG 1.3.4). Deixe a tela acompanhar o aparelho (Android: screenOrientation ou setRequestedOrientation; iOS: as orientações de interface suportadas), a menos que essa orientação seja essencial.',
+    rotatedSmall: 'Parte desta tela gira um quarto de volta em relação ao aparelho entre retrato e paisagem. Confira se isso não restringe o conteúdo a uma orientação (WCAG 1.3.4).',
+    goneMessage:
+      'Na orientação {gone}, o app esconde esta tela e pede para girar o aparelho: ele só funciona em {upright} (WCAG 1.3.4). Deixe o conteúdo aparecer nas duas orientações, a menos que uma seja essencial.',
+    gone: 'Na orientação {gone}, a maior parte do texto que esta tela mostra em {upright} some, sem mensagem explicando. Uma lista pode só mostrar menos linhas; confira se o app restringe esta tela à orientação {upright} (WCAG 1.3.4).',
+    messageOnly: 'Na orientação {gone}, o app mostra uma mensagem sobre girar o aparelho, mas a tela continua mostrando o conteúdo. Confira se nada fica restrito na orientação {gone} (WCAG 1.3.4).',
   },
 }
 
@@ -210,7 +235,8 @@ export const orientationRule: ProbeRule = {
       axe: raw.axe as OrientationData['axe'],
       end: raw.end === 'time' ? 'time' : 'complete',
     }
-    const text = TEXT[ctx.locale]
+    const app = appPlatform(record)
+    const text = app ? { ...TEXT[ctx.locale], ...APP_TEXT[ctx.locale] } : TEXT[ctx.locale]
     const name = (o: Orientation) => text.orientation[o]
     const findings: Finding[] = []
     const review: Finding[] = []
@@ -243,6 +269,21 @@ export const orientationRule: ProbeRule = {
       }
     }
     const failedRefs = new Set<string>()
+    // On an app screen, the screen counts as turned when the display did not follow the device (probes/native/orientation.ts).
+    const appTurn = (r: RotatedElement, first: OrientationState, second: OrientationState): string => {
+      const turn = (r as RotatedElement & { turn?: { device?: number[]; display?: number[] } }).turn
+      const step = (s: OrientationState, i: number) =>
+        say(
+          ctx.locale,
+          `the device ${name(s.orientation)} at ${turn?.device?.[i] ?? 0}°, the display at ${turn?.display?.[i] ?? 0}°, the app's window ${s.viewport.width}×${s.viewport.height}`,
+          `o aparelho em ${name(s.orientation)} a ${turn?.device?.[i] ?? 0}°, a tela a ${turn?.display?.[i] ?? 0}°, a janela do app em ${s.viewport.width}×${s.viewport.height}`,
+        )
+      return say(
+        ctx.locale,
+        `${step(first, 0)}; turned: ${step(second, 1)}; the screen is drawn ${quarterOf(r)}° from how the device is held, with ${r.chars} character(s) of text`,
+        `${step(first, 0)}; girado: ${step(second, 1)}; a tela fica ${quarterOf(r)}° fora de como o aparelho está, com ${r.chars} caractere(s) de texto`,
+      )
+    }
     for (const { r, load, pairs, main } of turned.values()) {
       const node = matchNode(ctx.index, r.ref, r.id)
       if (!node) {
@@ -255,16 +296,18 @@ export const orientationRule: ProbeRule = {
       const upright = sidewaysFirst ? second.orientation : first.orientation
       const corroborates = axeRefs.has(r.ref)
       if (corroborates) corroborated = true
-      const evidence = say(
-        ctx.locale,
-        `${nameOf(node, r)} at ${pairText(data, load.pair, first.orientation)} (${name(first.orientation)}): ${rotationText(r.ta, r.a, ctx.locale)}; turned to ${pairText(data, load.pair, second.orientation)} (${name(second.orientation)}): ${rotationText(r.tb, r.b, ctx.locale)}: ${quarterOf(r)}° between the two, with ${r.chars} character(s) of text inside; seen at ${pairsText(data, pairs, ctx.locale)}${corroborates ? "; axe-core's experimental css-orientation-lock flags it too" : ''}`,
-        `${nameOf(node, r)} em ${pairText(data, load.pair, first.orientation)} (${name(first.orientation)}): ${rotationText(r.ta, r.a, ctx.locale)}; girado para ${pairText(data, load.pair, second.orientation)} (${name(second.orientation)}): ${rotationText(r.tb, r.b, ctx.locale)}: ${quarterOf(r)}° entre os dois, com ${r.chars} caractere(s) de texto dentro; visto em ${pairsText(data, pairs, ctx.locale)}${corroborates ? '; a regra experimental css-orientation-lock do axe-core também o aponta' : ''}`,
-      )
+      const evidence = app
+        ? `${nameOf(node, r)}: ${appTurn(r, first, second)}`
+        : say(
+            ctx.locale,
+            `${nameOf(node, r)} at ${pairText(data, load.pair, first.orientation)} (${name(first.orientation)}): ${rotationText(r.ta, r.a, ctx.locale)}; turned to ${pairText(data, load.pair, second.orientation)} (${name(second.orientation)}): ${rotationText(r.tb, r.b, ctx.locale)}: ${quarterOf(r)}° between the two, with ${r.chars} character(s) of text inside; seen at ${pairsText(data, pairs, ctx.locale)}${corroborates ? "; axe-core's experimental css-orientation-lock flags it too" : ''}`,
+            `${nameOf(node, r)} em ${pairText(data, load.pair, first.orientation)} (${name(first.orientation)}): ${rotationText(r.ta, r.a, ctx.locale)}; girado para ${pairText(data, load.pair, second.orientation)} (${name(second.orientation)}): ${rotationText(r.tb, r.b, ctx.locale)}: ${quarterOf(r)}° entre os dois, com ${r.chars} caractere(s) de texto dentro; visto em ${pairsText(data, pairs, ctx.locale)}${corroborates ? '; a regra experimental css-orientation-lock do axe-core também o aponta' : ''}`,
+          )
       const finding = probeFinding({
         criterion: '1.3.4',
         rule: this.id,
         node,
-        message: (main ? text.rotated : text.rotatedSmall).replaceAll('{upright}', name(upright)),
+        message: (main ? text.rotated : text.rotatedSmall).replaceAll('{upright}', name(upright)).replaceAll('{sideways}', name(other(upright))),
         evidence,
         confidence: main ? 'high' : 'medium',
         subject: `rotation|${upright}`,
@@ -347,7 +390,9 @@ export const orientationRule: ProbeRule = {
             )
         : ''
     const notes = [
-      say(ctx.locale, `${compared} load(s) compared, upright and sideways, each loaded and then turned`, `${compared} carregamento(s) comparado(s), em pé e deitado, cada um carregado e depois girado`),
+      app
+        ? say(ctx.locale, `${compared} turn(s) compared: the device set upright, turned sideways, and set upright again`, `${compared} giro(s) comparado(s): o aparelho em pé, deitado e em pé de novo`)
+        : say(ctx.locale, `${compared} load(s) compared, upright and sideways, each loaded and then turned`, `${compared} carregamento(s) comparado(s), em pé e deitado, cada um carregado e depois girado`),
       locks.length > 0
         ? say(ctx.locale, `the page calls screen.orientation.lock(${locks.map((l) => `"${l}"`).join(', ')}), which browsers honor only in full screen or installed apps`, `a página chama screen.orientation.lock(${locks.map((l) => `"${l}"`).join(', ')}), que os navegadores só atendem em tela cheia ou em apps instalados`)
         : '',

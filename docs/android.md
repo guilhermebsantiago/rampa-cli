@@ -16,6 +16,7 @@ Navigate to the screen first, by hand or with your UI tests, then run the check.
 rampa check android:                                  # the screen on the only connected device
 rampa check android:emulator-5554                     # one of several devices, by its adb serial
 rampa check android: --save recordings                # also record the screen, to check it later without the device
+rampa check android: --probe keyboard,layout,orientation   # then drive the device: Tab walk, text at 200%, rotation (below)
 rampa check recordings/android-com-example-shop.snapshot.json   # replay a recording
 rampa check login.xml                                 # a saved UI Automator dump; login.png next to it is the screenshot
 rampa check examples/android/login.xml --no-llm       # the example in this repository
@@ -82,6 +83,26 @@ Without axe-core, the deterministic layer is a set of rules over the tree and th
 
 The contrast measurement takes the color that covers most of the box as the background and the most contrasting color shared by enough pixels as the text, after leaving out lines that cross the box, such as a field's underline. Anti-aliasing only blends text toward the background, so this can overstate a ratio, never understate it, as long as some pixels are fully covered by a stroke; boxes whose strokes are under three pixels wide are not measured.
 
+## Probes: keyboard, text size, orientation
+
+`--probe` drives the device after the screen is collected, over adb, and records what it saw in the snapshot, as the [web probes](probes.md) do for a page. The same rules judge the records, and a recording made with `--save` is judged again with no device.
+
+| `--probe` | What runs on the device | Criteria |
+| --- | --- | --- |
+| `keyboard` | Tab (`input keyevent 61`) and Shift+Tab (`input keycombination 59 61`, Android 13 and later) as hardware key events, the screen dumped after each and captured after each forward Tab; the arrows only to try to leave a suspected trap | 2.1.1, 2.1.2, 3.2.1 (review), 2.4.7, 2.4.11 |
+| `layout` | `settings put system font_scale 1.0`, then `2.0`, the screen dumped at each and once more after the setting is put back | 1.4.4 |
+| `orientation` | auto-rotate off, `user_rotation` 0, 1 and 0, the screen dumped and captured at each | 1.3.4 |
+
+- Enter, Space, Esc (which Android reads as Back), Back and Home are never pressed, and nothing is tapped or swiped.
+- Every setting a probe changes is read first and put back when the probe ends, fails, or is interrupted with Ctrl+C. If one cannot be put back, the terminal and the report say so, with the adb command that does it.
+- Changing the font scale or the rotation recreates the app's screen; an app that does not keep its state may come back on another screen, and the text-size probe then compares nothing.
+- Other kinds (hover, media, color…) drive a browser and do not run on an app screen; a note says which. A saved dump cannot be probed.
+
+What each probe can and cannot tell from a dump, and how the rules read the records, is in [probes on app screens](probes.md#app-screens-android-and-ios).
+
+> [!WARNING]
+> The probes have run only against a fake adb that answers from hand-written dumps (`test/android-device.ts`). **They have not run on a real device or an emulator.** Reports with probe records say so.
+
 ## WCAG2ICT
 
 [WCAG2ICT](https://www.w3.org/TR/wcag2ict-22/) (W3C Group Note, 11 December 2025) explains how WCAG applies to software. Rampa follows it where it changes what a check means:
@@ -100,5 +121,6 @@ UI Automator leaves out much of what TalkBack knows, so these are not checked fr
 
 - The parser, the role and name mapping, the rules and the criteria are tested on hand-written dumps in the three shapes (a plain dump, a `--windows` dump and an Appium page source) and on painted screenshots.
 - The adb collector is tested with a scripted adb. The error paths were run against the real adb from platform-tools 37.0.1 with no device connected. **No device or emulator was available, so `rampa check android:` has not been run against a real screen yet.**
+- The probes (`--probe keyboard,layout,orientation`) are tested against a fake device: a fake adb that keeps focus, the font scale and the rotation as a device would, and serves hand-written dumps for each state (`test/fixtures/android/probes/`), with screenshots drawn from the dumps. Not run on a device either; that `input keycombination` sends Shift+Tab from Android 13 is taken from the platform's documentation, not tried.
 - `examples/android/login.xml` is a hand-written dump and `login.png` a mock rendered in a browser on its bounds (`scripts/mobile-examples.ts`), not a device capture. On it, `ollama:gemma4:12b` judged the logo's `content-desc="image"` a placeholder and proposed "Shopping bag icon"; the rules failed the unlabeled password toggle and the 2.68:1 "Forgot password?" link, and listed both placeholders at 3.1:1 and 4.1:1 for a person.
 - If the screen moves between the dump and the screenshot, crops and contrast describe a different state. Turning off the three animation scales in Developer options keeps runs stable.

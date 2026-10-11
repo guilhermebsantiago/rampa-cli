@@ -96,7 +96,8 @@ export interface TrapAttempt {
   exitHint?: string | undefined
 }
 
-export type WalkEnd = 'cycled' | 'budget' | 'trap' | 'time' | 'frame' | 'not-run'
+/** How a walk ended; `left` (a Tab took the app to another screen) and `no-focus` (no node took focus) end walks on app screens only. */
+export type WalkEnd = 'cycled' | 'budget' | 'trap' | 'time' | 'frame' | 'not-run' | 'left' | 'no-focus'
 
 export interface KeyboardData {
   viewport: { width: number; height: number }

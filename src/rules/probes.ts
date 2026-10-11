@@ -204,6 +204,15 @@ export function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === 'object' && !Array.isArray(value) ? (value as Record<string, unknown>) : {}
 }
 
+/**
+ * The app platform a record comes from: the native probes (probes/native/) write `platform` in their data, so the
+ * rules that read their records can word a message for an app screen. Undefined for a web page's record.
+ */
+export function appPlatform(record: ProbeRecord): 'android' | 'ios' | undefined {
+  const platform = asRecord(record.data).platform
+  return platform === 'android' || platform === 'ios' ? platform : undefined
+}
+
 /** The report's language for a piece of evidence or a note: English, or Brazilian Portuguese. */
 export function say(locale: Locale, en: string, pt: string): string {
   return locale === 'pt-BR' ? pt : en

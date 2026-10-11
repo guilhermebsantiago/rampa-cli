@@ -141,25 +141,33 @@ function dumpProblem(output: string): string {
 
 const isDump = (text: string) => /<(hierarchy|displays)\b/.test(text)
 
-/** The dump with window titles when the device supports it, else the plain one, else through a file. */
-async function dump(adb: AdbRunner, serial: string): Promise<string> {
+/**
+ * The dump with window titles when the device supports it, else the plain one, else through a file. A probe that
+ * dumps the screen at every step passes `memo`: once the dump with windows gave no dump at all while the plain one
+ * did, the next dumps start with the plain one, which spares a failed call per step on a device without `--windows`.
+ */
+export async function dumpWindow(adb: AdbRunner, serial: string, memo?: { plain?: boolean }): Promise<string> {
   const problems: string[] = []
-  for (const args of [
-    ['exec-out', 'uiautomator', 'dump', '--windows', '/dev/tty'],
-    ['exec-out', 'uiautomator', 'dump', '/dev/tty'],
-  ]) {
+  const windows = ['exec-out', 'uiautomator', 'dump', '--windows', '/dev/tty']
+  const plain = ['exec-out', 'uiautomator', 'dump', '/dev/tty']
+  let noWindowsDump = false
+  for (const args of memo?.plain ? [plain] : [windows, plain]) {
     const result = await adb(['-s', serial, ...args], 60_000)
     const text = result.stdout.toString('utf8')
     if (isDump(text)) {
       // A --windows dump can list only system windows while the app's is being replaced: then read the plain one.
       try {
-        if (appWindows(readUiAutomatorDump(text)).length > 0) return text
+        if (appWindows(readUiAutomatorDump(text)).length > 0) {
+          if (memo && args === plain && noWindowsDump) memo.plain = true
+          return text
+        }
         problems.push('no application window in the dump')
       } catch (error) {
         problems.push(error instanceof Error ? error.message : String(error))
       }
       continue
     }
+    if (args === windows) noWindowsDump = true
     problems.push(`${text}\n${result.stderr}`)
   }
   const written = await adb(['-s', serial, 'shell', 'uiautomator', 'dump', DUMP_FILE], 60_000)
@@ -171,7 +179,14 @@ async function dump(adb: AdbRunner, serial: string): Promise<string> {
   throw new RampaError('android-dump-failed', `Could not read the screen with UI Automator: ${dumpProblem(problems.join('\n'))}`)
 }
 
-async function shell(adb: AdbRunner, serial: string, ...command: string[]): Promise<string> {
+/** The screen as PNG (`screencap -p`), or undefined when the device did not give a usable one. */
+export async function screencap(adb: AdbRunner, serial: string): Promise<Buffer | undefined> {
+  const shot = await adb(['-s', serial, 'exec-out', 'screencap', '-p'], 30_000).catch(() => undefined)
+  return shot && isPng(shot.stdout) ? shot.stdout : undefined
+}
+
+/** A shell command's output, trimmed; empty when it failed. */
+export async function shell(adb: AdbRunner, serial: string, ...command: string[]): Promise<string> {
   const result = await adb(['-s', serial, 'shell', ...command], 15_000).catch(() => undefined)
   return result && result.code === 0 ? result.stdout.toString('utf8').trim() : ''
 }
@@ -203,10 +218,9 @@ export interface AndroidScreen {
 
 export async function captureAndroid(adb: AdbRunner, serial?: string): Promise<AndroidScreen & { serial: string }> {
   const device = await chooseDevice(adb, serial)
-  const xml = await dump(adb, device)
+  const xml = await dumpWindow(adb, device)
   // Right after the dump, so both show the same state of the screen.
-  const shot = await adb(['-s', device, 'exec-out', 'screencap', '-p'], 30_000).catch(() => undefined)
-  const png = shot && isPng(shot.stdout) ? shot.stdout : undefined
+  const png = await screencap(adb, device)
   const system = await deviceLocale(adb, device)
   const packageName = snapshotFromUiAutomator(xml).target
   const app = parseAppLocales(await shell(adb, device, 'cmd', 'locale', 'get-app-locales', packageName))

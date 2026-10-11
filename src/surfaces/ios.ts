@@ -3,8 +3,12 @@ import type { EngineResults } from '../core/types.ts'
 import { RampaError } from '../core/util.ts'
 import { runRules } from '../engine/rules.ts'
 import { type Locale, t } from '../i18n.ts'
-import { pngFromBase64, tryDecodePng } from '../pixels/png.ts'
-import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
+import { type RgbaImage, pngFromBase64, tryDecodePng } from '../pixels/png.ts'
+import { nodeAt, NATIVE_LAYOUT_VERSION, TEXT_SIZE_VARIANT, textSizeRecord } from '../probes/native/layout.ts'
+import { NATIVE_ORIENTATION_VERSION, type OrientationStep, orientationRecord } from '../probes/native/orientation.ts'
+import type { NativeScreen } from '../probes/native/screen.ts'
+import { type ProbeKind, skippedRecord } from '../probes/page.ts'
+import type { A11yNode, A11ySnapshot, ProbeRecord } from '../snapshot/schema.ts'
 import { walkTree } from '../snapshot/tree.ts'
 import { VERSION } from '../version.ts'
 import { type NativeDraft, captureImages, finishTree, screenshotScale, sourceTag } from './native.ts'
@@ -127,6 +131,45 @@ const ElementSchema: z.ZodType<XcuiElement> = z.lazy(() =>
   }),
 )
 
+/** One state of the screen a probe helper of RampaExport.swift exported: the tree and the screenshot. */
+const ProbeStepSchema = z.object({
+  root: ElementSchema,
+  /** PNG, base64 or a data URI. */
+  screenshot: z.string().nullable().optional(),
+  exportedAt: z.string().optional(),
+})
+
+const AuditIssueSchema = z.object({
+  /** XCUIAccessibilityAuditType, by name: textClipped, dynamicType... */
+  type: z.string(),
+  description: z.string(),
+  /** The element the issue is about, as the audit named it. */
+  element: z
+    .object({ type: z.string().optional(), identifier: z.string().optional(), label: z.string().optional(), frame: FrameSchema.optional() })
+    .nullable()
+    .optional(),
+})
+
+/**
+ * What RampaExport.captureOrientation and RampaExport.captureTextSize add to an export (docs/ios.md, "Probes"): the
+ * screen in each state a probe put it in. Rampa turns them into the probe records the rules read.
+ */
+const ProbesSchema = z.object({
+  /** The device turned with XCUIDevice: upright, sideways, upright again; the helper puts back the orientation it found. */
+  orientation: z
+    .object({
+      steps: z.array(ProbeStepSchema.extend({ deviceOrientation: z.string() })),
+      original: z.string().optional(),
+    })
+    .optional(),
+  /** The app launched at the default Dynamic Type size, then at a larger one (-UIPreferredContentSizeCategoryName). */
+  textSize: z
+    .object({
+      steps: z.array(ProbeStepSchema.extend({ contentSize: z.string(), audit: z.array(AuditIssueSchema).optional(), auditError: z.string().optional() })),
+    })
+    .optional(),
+})
+
 export const XcuitestExportSchema = z.object({
   format: z.literal(XCUITEST_FORMAT),
   version: z.literal(1),
@@ -141,6 +184,8 @@ export const XcuitestExportSchema = z.object({
   /** PNG, base64 or a data URI. */
   screenshot: z.string().nullable().optional(),
   root: ElementSchema,
+  /** The screen in the states a probe helper put it in; absent from a plain capture. */
+  probes: ProbesSchema.optional(),
 })
 export type XcuitestExport = z.infer<typeof XcuitestExportSchema>
 
@@ -161,16 +206,25 @@ export interface IosImportOptions {
   locale: Locale
   captureImages?: boolean | undefined
   collectedAt?: string | undefined
+  /**
+   * Probe kinds asked for with --probe: only those of the export's probe steps become observations, and a kind the
+   * export has no steps for is recorded as not run. Undefined reads every probe step the export holds.
+   */
+  probes?: readonly ProbeKind[] | undefined
 }
 
-export function importXcuitest(data: unknown, options: IosImportOptions): IosImported {
-  const parsed = XcuitestExportSchema.safeParse(data)
-  if (!parsed.success) throw new RampaError('invalid-export', `Not a valid Rampa XCUITest export:\n${parsed.error.message}`)
-  const exported = parsed.data
-  const screen = exported.root.frame
+interface Converted {
+  draft: NativeDraft | undefined
+  hasTraits: boolean
+  /** Elements left out: the keyboard and the status bar. */
+  dropped: number
+}
+
+/** An exported element tree as drafts of normalized nodes: roles, names, states and frames, as docs/ios.md says. */
+function convertTree(root: XcuiElement): Converted {
+  const screen = root.frame
   let hasTraits = false
   let dropped = 0
-
   const convert = (element: XcuiElement): NativeDraft | undefined => {
     const type = typeName(element)
     if (SYSTEM_TYPES.has(type)) {
@@ -240,8 +294,16 @@ export function importXcuitest(data: unknown, options: IosImportOptions): IosImp
       children: (element.children ?? []).flatMap((child) => convert(child) ?? []),
     }
   }
+  const draft = convert(root)
+  return { draft, hasTraits, dropped }
+}
 
-  const draft = convert(exported.root)
+export function importXcuitest(data: unknown, options: IosImportOptions): IosImported {
+  const parsed = XcuitestExportSchema.safeParse(data)
+  if (!parsed.success) throw new RampaError('invalid-export', `Not a valid Rampa XCUITest export:\n${parsed.error.message}`)
+  const exported = parsed.data
+  const screen = exported.root.frame
+  const { draft, hasTraits, dropped } = convertTree(exported.root)
   if (!draft) throw new RampaError('invalid-export', 'The export holds only the system keyboard or status bar.')
   // iOS picks an app's language among its localizations; the device language alone does not say which one ran.
   const language = exported.language?.trim() || undefined
@@ -272,7 +334,140 @@ export function importXcuitest(data: unknown, options: IosImportOptions): IosImp
   if (!hasTraits) notes.push(t(options.locale, 'noteXcuitestNoTraits'))
   if (!language) notes.push(t(options.locale, 'noteIosLanguage'))
   if (!screenshot) notes.push(t(options.locale, 'noteNoScreenshot'))
+  const records = iosProbeRecords(exported, snapshot, options.probes)
+  if (records.length > 0) snapshot.observations = { probes: records }
   return { snapshot, engine: runRules(snapshot, { locale: options.locale, screenshot }), notes, png }
+}
+
+/** The kinds of probe steps RampaExport.swift can export; iOS has no keyboard walk (docs/ios.md). */
+export const IOS_PROBE_KINDS: readonly ProbeKind[] = ['layout', 'orientation']
+
+/** Dynamic Type's body text size, in points, per content size category: the default (L) is 17. */
+const BODY_POINTS: Record<string, number> = {
+  UICTContentSizeCategoryXS: 14,
+  UICTContentSizeCategoryS: 15,
+  UICTContentSizeCategoryM: 16,
+  UICTContentSizeCategoryL: 17,
+  UICTContentSizeCategoryXL: 19,
+  UICTContentSizeCategoryXXL: 21,
+  UICTContentSizeCategoryXXXL: 23,
+  UICTContentSizeCategoryAccessibilityM: 28,
+  UICTContentSizeCategoryAccessibilityL: 33,
+  UICTContentSizeCategoryAccessibilityXL: 40,
+  UICTContentSizeCategoryAccessibilityXXL: 47,
+  UICTContentSizeCategoryAccessibilityXXXL: 53,
+}
+
+/** A content size category as Settings names it: AX2 for UICTContentSizeCategoryAccessibilityL, with its body text size. */
+function dynamicTypeName(category: string, points: number | undefined): string {
+  const short = category.replace(/^UICTContentSizeCategory/, '')
+  const accessibility = /^Accessibility(M|L|XL|XXL|XXXL)$/.exec(short)?.[1]
+  const name = accessibility ? `AX${['M', 'L', 'XL', 'XXL', 'XXXL'].indexOf(accessibility) + 1}` : short
+  return `Dynamic Type ${name}${points ? `, ${points} pt body text` : ''}`
+}
+
+/** XCUIDevice orientations as quarter turns of the device from upright. */
+const DEVICE_QUARTERS: Record<string, number> = { portrait: 0, landscapeLeft: 1, portraitUpsideDown: 2, landscapeRight: 3 }
+
+/** One exported state as a screen the native probe builders read. */
+function iosScreen(root: XcuiElement, screenshotData: string | null | undefined, bundle: string | undefined): NativeScreen | undefined {
+  const { draft } = convertTree(root)
+  if (!draft) return undefined
+  const tree = finishTree(draft, `/${draft.type}`, 'name')
+  const png = screenshotData ? pngFromBase64(screenshotData) : undefined
+  const screenshot: RgbaImage | undefined = png ? tryDecodePng(png) : undefined
+  return {
+    platform: 'ios',
+    root: tree,
+    window: { ...root.frame },
+    screenshot,
+    scale: screenshot ? screenshotScale(screenshot.width, root.frame.width) : 1,
+    app: bundle,
+  }
+}
+
+/**
+ * The probe records an export's probe steps give (probes/native/): orientation from the device turned with
+ * XCUIDevice, text size from the app launched at two Dynamic Type sizes. A kind asked for with --probe that the export
+ * has no steps for, or that iOS has no probe for (keyboard), is recorded as not run, with what to do.
+ */
+export function iosProbeRecords(exported: XcuitestExport, snapshot: A11ySnapshot, kinds: readonly ProbeKind[] | undefined): ProbeRecord[] {
+  const probes = exported.probes
+  const wanted = (kind: ProbeKind) => (kinds ? kinds.includes(kind) : kind === 'layout' ? Boolean(probes?.textSize) : kind === 'orientation' ? Boolean(probes?.orientation) : false)
+  const device = (exported.device ?? {}) as Record<string, unknown>
+  const version = typeof device.systemVersion === 'string' ? ` ${device.systemVersion}` : ''
+  const model = typeof device.model === 'string' ? `, ${device.model}` : ''
+  const conditions: ProbeRecord['conditions'] = {
+    viewport: { width: snapshot.viewport.width, height: snapshot.viewport.height },
+    deviceScaleFactor: snapshot.viewport.scale,
+    browser: `iOS${version}${model}, from an XCUITest export`,
+  }
+  const records: ProbeRecord[] = []
+  const missing = (kind: ProbeKind, version: string, variant: string, reason: string) =>
+    records.push({ ...skippedRecord(kind, version, variant, reason, 0), conditions: { ...conditions, variant } })
+
+  if (kinds?.includes('keyboard')) missing('keyboard', '2', 'keyboard-walk', 'no keyboard walk on iOS: Full Keyboard Access cannot be turned on from a UI test, so RampaExport.swift does not export one')
+
+  if (wanted('layout')) {
+    const steps = probes?.textSize?.steps ?? []
+    const base = steps[0]
+    const larger = steps.at(-1)
+    const baseScreen = base ? iosScreen(base.root, base.screenshot, exported.bundleIdentifier) : undefined
+    const largerScreen = larger && larger !== base ? iosScreen(larger.root, larger.screenshot, exported.bundleIdentifier) : undefined
+    if (!baseScreen || !largerScreen || !larger) {
+      missing('layout', NATIVE_LAYOUT_VERSION, TEXT_SIZE_VARIANT, 'the export holds no text size steps: call RampaExport.captureTextSize in the UI test (docs/ios.md)')
+    } else {
+      const points = BODY_POINTS[larger.contentSize]
+      const from = BODY_POINTS[base?.contentSize ?? 'UICTContentSizeCategoryL'] ?? 17
+      const audit = (larger.audit ?? []).map((issue) => ({
+        type: issue.type,
+        description: issue.description,
+        node: nodeAt(largerScreen, issue.element?.frame, issue.element?.label),
+      }))
+      records.push(
+        textSizeRecord({
+          platform: 'ios',
+          snapshotRoot: snapshot.root,
+          conditions,
+          base: baseScreen,
+          scaled: largerScreen,
+          setting: dynamicTypeName(larger.contentSize, points),
+          scale: points ? Math.round((points / from) * 100) / 100 : 2,
+          durationMs: 0,
+          ...(larger.audit ? { audit } : {}),
+        }),
+      )
+    }
+  }
+
+  if (wanted('orientation')) {
+    const steps = probes?.orientation?.steps ?? []
+    const turned: OrientationStep[] = []
+    for (const step of steps) {
+      const screen = iosScreen(step.root, step.screenshot, exported.bundleIdentifier)
+      const quarter = DEVICE_QUARTERS[step.deviceOrientation]
+      if (!screen) continue
+      turned.push({ requested: quarter !== undefined && quarter % 2 === 1 ? 'landscape' : 'portrait', quarter: quarter ?? 0, screen, display: undefined, set: quarter !== undefined })
+    }
+    if (turned.length < 2) {
+      missing('orientation', NATIVE_ORIENTATION_VERSION, 'orientation', 'the export holds no orientation steps: call RampaExport.captureOrientation in the UI test (docs/ios.md)')
+    } else {
+      const portrait = turned[0]?.screen.window
+      records.push(
+        orientationRecord({
+          platform: 'ios',
+          snapshotRoot: snapshot.root,
+          conditions,
+          steps: turned,
+          durationMs: 0,
+          // An iPad's shorter side is 744 points and up; a phone's is under 600.
+          mobile: portrait ? Math.min(portrait.width, portrait.height) < 600 : true,
+          scale: snapshot.viewport.scale,
+        }),
+      )
+    }
+  }
+  return records
 }
 
 function typeName(element: XcuiElement): string {

@@ -5,7 +5,7 @@ import { matchNode, nameOf } from '../probes/identity.ts'
 import type { PixelDiff } from '../probes/pixels.ts'
 import type { ProbeRecord } from '../snapshot/schema.ts'
 import { stoppedEarly, walkOf } from './keyboard.ts'
-import { type ProbeRule, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
+import { type ProbeRule, appPlatform, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
 
 const MAX_REPORTED = 10
 const FOCUS_VERSIONS = ['2'] as const
@@ -48,6 +48,8 @@ export const focusVisibleRule: ProbeRule = {
   run(record: ProbeRecord, ctx) {
     const walk = walkOf(record)
     const text = VISIBLE_TEXT[ctx.locale]
+    // On an app screen focus cannot be taken away without moving it on: the captures are with focus, after it moved on, and before it arrived.
+    const app = appPlatform(record) !== undefined
     const findings: Finding[] = []
     const review: Finding[] = []
     let failures = 0
@@ -109,11 +111,17 @@ export const focusVisibleRule: ProbeRule = {
               rule: this.id,
               node,
               message: text.none,
-              evidence: say(
-                ctx.locale,
-                `${keys}: ${nameOf(node, stop.el)} focused and blurred; 0 px changed in the ${region}, 0 px in the ${pixels.viewport?.area ?? 0} px of the viewport (captured twice)${covered ? `; the element is entirely under ${grid.by?.ref ?? 'other content'} (see 2.4.11), so an indicator it has cannot show` : ''}`,
-                `${keys}: ${nameOf(node, stop.el)} com e sem foco; 0 px mudaram nos ${region}, 0 px nos ${pixels.viewport?.area ?? 0} px da janela (capturado duas vezes)${covered ? `; o elemento está todo sob ${grid.by?.ref ?? 'outro conteúdo'} (veja 2.4.11), e um indicador que tenha não aparece` : ''}`,
-              ),
+              evidence: app
+                ? say(
+                    ctx.locale,
+                    `${keys}: ${nameOf(node, stop.el)} with focus, against the screen once focus moved on and before it arrived; 0 px changed in the ${region}, 0 px in the ${pixels.viewport?.area ?? 0} px of the screen${covered ? `; the element is entirely under ${grid.by?.ref ?? 'other content'} (see 2.4.11), so an indicator it has cannot show` : ''}`,
+                    `${keys}: ${nameOf(node, stop.el)} com foco, contra a tela depois que o foco seguiu e antes de chegar; 0 px mudaram nos ${region}, 0 px nos ${pixels.viewport?.area ?? 0} px da tela${covered ? `; o elemento está todo sob ${grid.by?.ref ?? 'outro conteúdo'} (veja 2.4.11), e um indicador que tenha não aparece` : ''}`,
+                  )
+                : say(
+                    ctx.locale,
+                    `${keys}: ${nameOf(node, stop.el)} focused and blurred; 0 px changed in the ${region}, 0 px in the ${pixels.viewport?.area ?? 0} px of the viewport (captured twice)${covered ? `; the element is entirely under ${grid.by?.ref ?? 'other content'} (see 2.4.11), so an indicator it has cannot show` : ''}`,
+                    `${keys}: ${nameOf(node, stop.el)} com e sem foco; 0 px mudaram nos ${region}, 0 px nos ${pixels.viewport?.area ?? 0} px da janela (capturado duas vezes)${covered ? `; o elemento está todo sob ${grid.by?.ref ?? 'outro conteúdo'} (veja 2.4.11), e um indicador que tenha não aparece` : ''}`,
+                  ),
               confidence: covered ? 'medium' : 'high',
               subject: 'none',
             }),
@@ -139,7 +147,12 @@ export const focusVisibleRule: ProbeRule = {
           criterion: '2.4.7',
           method: `probe/keyboard@${record.version}`,
           rule: this.id,
-          conditions: conditionsText(record, say(ctx.locale, `focused and blurred captures at ${walk.viewport.width}×${walk.viewport.height}`, `capturas com e sem foco em ${walk.viewport.width}×${walk.viewport.height}`)),
+          conditions: conditionsText(
+            record,
+            app
+              ? say(ctx.locale, `captures with focus, after it moved on and before it arrived, at ${walk.viewport.width}×${walk.viewport.height}`, `capturas com foco, depois que ele seguiu e antes de chegar, em ${walk.viewport.width}×${walk.viewport.height}`)
+              : say(ctx.locale, `focused and blurred captures at ${walk.viewport.width}×${walk.viewport.height}`, `capturas com e sem foco em ${walk.viewport.width}×${walk.viewport.height}`),
+          ),
           status: coverageStatus(failures, review.length),
           applicable,
           failures,
@@ -178,6 +191,8 @@ function obscuredRuleFor(variant: string): ProbeRule {
     criteria: ['2.4.11'],
     run(record: ProbeRecord, ctx) {
       const walk = walkOf(record)
+      // An app screen has no CSS: no scroll-padding to suggest, and the pixel check is the change on focus, not painting.
+      const app = appPlatform(record) !== undefined
       const findings: Finding[] = []
       let failures = 0
       let unmatched = 0
@@ -209,7 +224,7 @@ function obscuredRuleFor(variant: string): ProbeRule {
         const by = grid.by
         const at = say(ctx.locale, 'at', 'em')
         const cover = by
-          ? `${by.label ? `<${by.tag}> "${by.label.slice(0, 40)}"` : `<${by.tag}>`} ${by.ref} (position: ${by.position}, ${Math.round(by.rect.width)}×${Math.round(by.rect.height)} px ${at} y ${Math.round(by.rect.y)})`
+          ? `${by.label ? `<${by.tag}> "${by.label.slice(0, 40)}"` : `<${by.tag}>`} ${by.ref} (${app ? '' : `position: ${by.position}, `}${Math.round(by.rect.width)}×${Math.round(by.rect.height)} px ${at} y ${Math.round(by.rect.y)})`
           : say(ctx.locale, 'other content', 'outro conteúdo')
         const padding = (side: 'top' | 'bottom') =>
           say(
@@ -217,18 +232,24 @@ function obscuredRuleFor(variant: string): ProbeRule {
             `; scroll-padding-${side}: ${Math.round(by?.rect.height ?? 0)}px on html would keep focused elements clear of it`,
             `; scroll-padding-${side}: ${Math.round(by?.rect.height ?? 0)}px no html manteria os elementos focados livres dele`,
           )
-        const hint = by && by.position !== 'static' && by.rect.y <= 1 ? padding('top') : by && by.position !== 'static' && by.rect.y + by.rect.height >= walk.viewport.height - 1 ? padding('bottom') : ''
+        const hint = app ? '' : by && by.position !== 'static' && by.rect.y <= 1 ? padding('top') : by && by.position !== 'static' && by.rect.y + by.rect.height >= walk.viewport.height - 1 ? padding('bottom') : ''
         findings.push(
           probeFinding({
             criterion: '2.4.11',
             rule: this.id,
             node,
             message: OBSCURED_TEXT[ctx.locale],
-            evidence: say(
-              ctx.locale,
-              `${stop.key} ×${stop.n} in a ${walk.viewport.width}×${walk.viewport.height} window: ${nameOf(node, stop.el)} at y ${Math.round(stop.rect?.y ?? 0)}; ${grid.covered} of ${grid.points} grid points hit ${cover}; painting it changed ${grid.painted} px and hiding it ${grid.hidden} px${hint}`,
-              `${stop.key} ×${stop.n} numa janela de ${walk.viewport.width}×${walk.viewport.height}: ${nameOf(node, stop.el)} em y ${Math.round(stop.rect?.y ?? 0)}; ${grid.covered} de ${grid.points} pontos da grade atingem ${cover}; pintá-lo mudou ${grid.painted} px e escondê-lo, ${grid.hidden} px${hint}`,
-            ),
+            evidence: app
+              ? say(
+                  ctx.locale,
+                  `${stop.key} ×${stop.n} on a ${walk.viewport.width}×${walk.viewport.height} screen: ${nameOf(node, stop.el)} at y ${Math.round(stop.rect?.y ?? 0)}; ${grid.covered} of ${grid.points} grid points lie under ${cover}, drawn over it; ${grid.painted} px around it changed when it took focus`,
+                  `${stop.key} ×${stop.n} numa tela de ${walk.viewport.width}×${walk.viewport.height}: ${nameOf(node, stop.el)} em y ${Math.round(stop.rect?.y ?? 0)}; ${grid.covered} de ${grid.points} pontos da grade ficam sob ${cover}, desenhado por cima; ${grid.painted} px em volta mudaram quando ele recebeu o foco`,
+                )
+              : say(
+                  ctx.locale,
+                  `${stop.key} ×${stop.n} in a ${walk.viewport.width}×${walk.viewport.height} window: ${nameOf(node, stop.el)} at y ${Math.round(stop.rect?.y ?? 0)}; ${grid.covered} of ${grid.points} grid points hit ${cover}; painting it changed ${grid.painted} px and hiding it ${grid.hidden} px${hint}`,
+                  `${stop.key} ×${stop.n} numa janela de ${walk.viewport.width}×${walk.viewport.height}: ${nameOf(node, stop.el)} em y ${Math.round(stop.rect?.y ?? 0)}; ${grid.covered} de ${grid.points} pontos da grade atingem ${cover}; pintá-lo mudou ${grid.painted} px e escondê-lo, ${grid.hidden} px${hint}`,
+                ),
             confidence: 'high',
             subject: variant === 'keyboard-walk' ? 'obscured' : `obscured@${walk.viewport.width}x${walk.viewport.height}`,
           }),
@@ -251,7 +272,12 @@ function obscuredRuleFor(variant: string): ProbeRule {
             criterion: '2.4.11',
             method: `probe/keyboard@${record.version}`,
             rule: this.id,
-            conditions: conditionsText(record, say(ctx.locale, `5×5 hit grid at ${walk.viewport.width}×${walk.viewport.height}, both directions`, `grade de 5×5 pontos em ${walk.viewport.width}×${walk.viewport.height}, nos dois sentidos`)),
+            conditions: conditionsText(
+              record,
+              app
+                ? say(ctx.locale, `5×5 grid over the focused node's bounds at ${walk.viewport.width}×${walk.viewport.height}, forward walk`, `grade de 5×5 pontos sobre os limites do nó focado em ${walk.viewport.width}×${walk.viewport.height}, navegação para a frente`)
+                : say(ctx.locale, `5×5 hit grid at ${walk.viewport.width}×${walk.viewport.height}, both directions`, `grade de 5×5 pontos em ${walk.viewport.width}×${walk.viewport.height}, nos dois sentidos`),
+            ),
             status: coverageStatus(failures, 0),
             applicable: measured.size,
             failures,

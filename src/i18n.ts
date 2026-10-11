@@ -141,6 +141,10 @@ const messages = {
     noteXcuitestNoTraits: 'The export has no accessibility traits, so headings were not found (2.4.6).',
     noteIosLanguage:
       'The export does not say which language the app ran in, so the language of the screen (3.1.1) was not checked. Pass language: to RampaExport, or launch the app with -AppleLanguages.',
+    noteProbesAppKinds: 'On an app screen, --probe runs {kinds}; not run here (web pages only): {left}.',
+    noteProbesNeedDevice: '--probe needs the device: a saved dump is a single state of the screen, so it was checked without probes. Run rampa check android: --probe … with the device connected.',
+    noteProbesUntested:
+      'The app-screen probes have run only against a fake device and hand-written exports, never on a real Android device or iPhone: read their findings with that in mind (docs/probes.md, "App screens").',
     noteImageScope:
       'An image has no accessibility tree: names, roles, states, focus order, language and structure cannot be checked from pixels. Only text contrast is measured, where a model found text.',
     noteImageNoModel: 'No model to find text in the image, so nothing was measured. Pass --model with a vision model.',
@@ -322,6 +326,10 @@ const messages = {
     noteXcuitestNoTraits: 'A exportação não tem os traits de acessibilidade, então os títulos não foram encontrados (2.4.6).',
     noteIosLanguage:
       'A exportação não diz em que idioma o app rodou, então o idioma da tela (3.1.1) não foi verificado. Passe language: ao RampaExport ou abra o app com -AppleLanguages.',
+    noteProbesAppKinds: 'Numa tela de app, --probe roda {kinds}; não rodam aqui (só páginas web): {left}.',
+    noteProbesNeedDevice: '--probe precisa do aparelho: um dump salvo é um só estado da tela, então ele foi verificado sem sondas. Rode rampa check android: --probe … com o aparelho conectado.',
+    noteProbesUntested:
+      'As sondas de telas de app só rodaram contra um aparelho simulado e exportações escritas à mão, nunca num Android ou iPhone de verdade: leia os achados delas com isso em mente (docs/probes.md, "App screens").',
     noteImageScope:
       'Uma imagem não tem árvore de acessibilidade: nomes, papéis, estados, ordem de foco, idioma e estrutura não podem ser verificados em pixels. Só o contraste do texto é medido, onde um modelo encontrou texto.',
     noteImageNoModel: 'Sem modelo para encontrar texto na imagem, nada foi medido. Use --model com um modelo de visão.',

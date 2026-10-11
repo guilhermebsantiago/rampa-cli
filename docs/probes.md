@@ -29,9 +29,11 @@ rampa check page.html --probe toggles                # clicks toggle-like contro
 rampa check page.html --probe status                 # leaves fields, searches, uses copy, filter and sort controls; is new text exposed? (4.1.3); never part of all
 rampa check page.html --probe interact               # the activate class: shortcuts, links, input, toggles and status
 rampa check page.html --probe all --save .rampa/rec  # keep the observations to replay offline
+rampa check android: --probe keyboard,layout,orientation   # an Android screen over adb: Tab walk, text at 200%, rotation (app screens, below)
+rampa check sign-in-orientation.json                        # an XCUITest export with probe steps: orientation, text size (app screens, below)
 ```
 
-Why off: each probe loads the page again, and the keyboard walk takes screenshots at every Tab stop, so a probed page costs seconds to tens of seconds more than an unprobed one. The plan ([wcag-coverage.md](plans/wcag-coverage.md), 4.6) makes each kind a default only after it passes the evaluation gate and its cost is measured on real pages. `--probe` works with `rampa check` on URLs and HTML files; it does not run with `--crawl` yet.
+Why off: each probe loads the page again, and the keyboard walk takes screenshots at every Tab stop, so a probed page costs seconds to tens of seconds more than an unprobed one. The plan ([wcag-coverage.md](plans/wcag-coverage.md), 4.6) makes each kind a default only after it passes the evaluation gate and its cost is measured on real pages. `--probe` works with `rampa check` on URLs and HTML files, on Android screens (`android:`) and on XCUITest exports ([app screens](#app-screens-android-and-ios)); it does not run with `--crawl` yet.
 
 ## What a probe may do
 
@@ -309,7 +311,7 @@ The status probe, measured the same day (each trigger costs 0.5 s of waiting bef
 ## Not yet
 
 - With `--crawl`, 2.4.1 is compared across the pages from their markup alone: a link into the page counts without being pressed, since the skip-link probe does not run there yet.
-- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
+- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers. On app screens, `rampa check android:` runs the keyboard, layout and orientation probes, and an XCUITest export brings layout and orientation steps ([app screens](#app-screens-android-and-ios)); neither has run on a real device.
 - The `rampa.config` file has no `probe` key yet.
 - Items to review appear with the engine's and the rules' in every format: grouped by criterion and rule in the terminal (each element with `--verbose`), the Markdown and the HTML reports, counted in SARIF's coverage, and listed in the JSON (`needsReview`).
 - Captures are not written next to a saved snapshot; only their hashes are recorded.
@@ -1266,6 +1268,102 @@ D6 of the plan: the same content in another state than the one the page loaded i
 The two rules found no failure on these pages, and none was missed by hand. Failures of either kind are rare on any random page, so the gate's 35 reviewed findings will need a targeted corpus: carousels on news and shop home pages, and sites whose translations are machine-switched.
 
 **Limits.** Only carousels that play on timers (the fake clock moves `setTimeout`, `setInterval` and `requestAnimationFrame`), or whose slides can be made visible in place, are seen in more than one state; a track that slides only on a click shows its other slides clipped, and they go to review at most. CSS animations that run without a script, pictures in CSS backgrounds and `<picture>` sources chosen by the window size are not followed. Whether one name fits several pictures is not decided: it fails at medium confidence, experimental, below the threshold. Language versions are read once each, as they load, with no probe of their own; a version behind a sign-in or a cookie wall reads the wall.
+
+## App screens: Android and iOS
+
+Item D7 of the [plan](plans/wcag-coverage.md): the keyboard walk, text at 200% and orientation on an app screen, written as the same observation records the web probes write, so the same rules judge them, offline from a saved snapshot like any other.
+
+> [!WARNING]
+> **None of this has run on a real device.** It was built on a machine with no Android device, no emulator and no Mac. The Android probes are tested against a fake adb that answers from hand-written UI Automator dumps, one per state of the screen (`test/android-device.ts`, `test/fixtures/android/probes/`), and the iOS side against a hand-written export (`test/fixtures/ios/probes.json`). The Swift helper that writes iOS probe steps has not been compiled. Every report with app-screen probe records says so in its notes. Whether real dumps, real timings and real apps behave as the fakes do is the first thing to find out on a device.
+
+```sh
+rampa check android: --probe keyboard,layout,orientation          # the screen on the connected device, then the three probes
+rampa check android:emulator-5554 --probe all --save recordings   # the kinds that apply to an app screen run; a note names the others
+rampa check recordings/android-com-example-shop-sign-in.snapshot.json   # the records judged again, with no device
+rampa check sign-in-orientation.json sign-in-text.json             # XCUITest exports with probe steps (docs/ios.md)
+```
+
+| Kind | Android (over adb) | iOS (XCUITest export) | Record |
+|---|---|---|---|
+| keyboard | Tab and Shift+Tab as hardware key events, the screen dumped after each | not built: Full Keyboard Access cannot be turned on from a UI test | `keyboard`, variant `keyboard-walk`, version 2 |
+| layout | the system font scale at 1.0 and at 2.0 | the app launched at the default Dynamic Type size and at AX2 | `layout`, variant `text-size-200`, version 1 |
+| orientation | auto-rotate off, the rotation set upright, sideways, upright | the device turned with `XCUIDevice`: upright, landscapeLeft, upright | `orientation`, variant `orientation`, version 1 |
+
+Each record has `platform` (`android` or `ios`) in its `data`, and its conditions name the device: `Android 14 (API 34), Pixel 7, over adb`, or `iOS 18.2, iPhone, from an XCUITest export`. Other kinds asked for with `--probe` (hover, media, color…) drive a browser: on an app screen they do not run, and a note says which. A saved dump (`rampa check login.xml --probe keyboard`) is a single state of the screen and is checked without probes, with a note.
+
+### Android, over adb
+
+Nothing is installed on the device. Rampa collects the screen as it does without probes (that is the snapshot every record names), then runs the kinds asked for: keyboard first, since it changes no setting, then layout and orientation, each of which makes Android recreate the app's screen. Every step reads the screen with `uiautomator dump`, as the collector does.
+
+| Kind | What Rampa sends | What it reads |
+|---|---|---|
+| keyboard | `input keyevent 61` (Tab); `input keycombination 59 61` (Shift+Tab, Android 13 and later); `input keyevent 19` to `22` (the arrows), only to try to leave a suspected trap | a dump after every key; `screencap -p` after every forward Tab |
+| layout | `settings put system font_scale 1.0`, then `2.0`; then the value it found, or `settings delete` when there was none | a dump at 1.0, at 2.0, and once more after the setting is back |
+| orientation | `settings put system accelerometer_rotation 0`, then `user_rotation` 0, 1 and 0; then both values it found | a dump and a screenshot at each, with the display's rotation the dump reports |
+
+**Observe class, as on the web.** The walk presses Tab, Shift+Tab and the arrows. It never presses Enter, Space, Back or Home, never taps or swipes, and never presses Esc: Android reads an Esc the app does not handle as Back, which can close the screen. A Tab can still set off what the app does on focus, which is what 3.2.1 looks for.
+
+**Settings are put back.** The layout and orientation probes read each setting before changing it, and put it back when the probe ends, when it fails (a dump that never comes, a device unplugged), and on Ctrl+C or a kill signal while a setting is changed. If putting one back fails, the terminal and the report say so, with the adb command that does it. Changing the font scale or the rotation makes Android recreate the app's activity: an app that does not keep its state may come back on another screen. The text-size probe notices (fewer than a fifth of the screen's named nodes left) and compares nothing.
+
+**The keyboard walk on an app screen** (2.1.1, 2.1.2, 3.2.1, 2.4.7, 2.4.11):
+
+- Tab wraps round an app's window instead of leaving for the browser, so the walk has gone round once when focus comes back to its first stop. Focus coming back to another stop, or staying where it was while other nodes can take focus, is a suspected trap: Shift+Tab, and each arrow followed by Tab or Shift+Tab, are tried as many times as the cycle has elements plus one (at most four), in two rounds.
+- The focused node is the one the dump marks `focused`, in the window a person is on. The controls 2.1.1 expects Tab to reach are the nodes that are clickable, long-clickable or checkable, or have a control's role and take focus, shown and enabled; a control inside another control (the row a switch sits in is what takes focus) and what a WebView shows are left out. Since Tab wraps, the forward walk covers the screen even when a field had focus first, and when the device cannot send Shift+Tab (before Android 13) the walk is forward only, which the record says.
+- 2.4.7 needs the element with and without focus, and an app's focus cannot be taken away without moving it. Each forward stop's capture is compared with the capture after focus moved on; what differs between the capture before focus arrived and the one after it left (both show the element without focus: the neighbours' indicators, anything that moves) is noise. When nothing changed around the element, the whole screen is compared the same way. A stop where focus did not move, the screen scrolled, or the on-screen keyboard (when the dump shows it) covers the element is not judged.
+- 2.4.11: a 5×5 grid over the focused node's bounds. A point is covered when a node drawn over it (later in drawing order, or another window) paints there: text, a name, an image, a control, a bar, a sheet or a card. Every point covered and no pixel around the element changed when it took focus is a failure.
+- 3.2.1: a Tab after which another app is in front, a new window is open over the app, or most of the screen's named nodes are gone. The probe cannot give focus back to see whether the change repeats (that would need Back), so it goes to review, never to a failure; when the app left the screen, the walk stops there and the change is recorded on the screen itself.
+- 1.4.11 focus indicators are not measured on app screens: the platform's own focus highlight, which 1.4.11 exempts, cannot be told apart from the app's, so that coverage line says "not checked".
+- Budgets: 60 stops in each direction and 240 s. A dump takes about one to three seconds on a device (not measured here), so a walk of 20 stops each way may take a minute or two.
+
+**Text at 200%** (1.4.4). WCAG2ICT reads 1.4.4 for software as text that can be resized to 200% without loss of content; the platform's text size setting is how a person resizes an app's text. A dump does not say how a text is drawn, only where its node is, and Android clips each node's bounds to what its ancestors show. What can be told from that, and so what is measured:
+
+- Text whose box comes out shorter at 200% than at 100%, no wider than before, is cut by at least the difference: text never needs less height at a larger size when it is no wider. The cut is put at the edge of the ancestor the box is flush with; through a container that scrolls, the rest can be scrolled to and nothing is cut. Failure, high.
+- Text the app shortens itself at 200% ("Continue to chec…", paired with its full text at 100% by type, id and role): failure, medium; review when a content description holds the full text. A TextView's own `ellipsize`, and Compose's `TextOverflow.Ellipsis`, keep the full text in the dump, so they are not seen.
+- Text shown at 100% that no node shows at 200%, outside containers that scroll (a list shows fewer rows, which is not a loss): review, once per container it was pushed out of, when the screen read again after the setting is back shows it.
+- Text of two nodes that overlaps at 200% and did not at 100%: review.
+- Not seen: text cut inside a box that keeps its size (a button of fixed height whose label no longer fits), text drawn in images, and anything the dump leaves out.
+
+**Orientation** (1.3.4). The screen is read with the device upright, sideways and upright again: two turns, each compared as the web probe compares a load and a turn.
+
+- An app whose display stays upright (the dump's rotation 0) while the device is set sideways shows its screen a quarter turn from how the device is held, which is what ACT b33eff fails on the web. The whole screen is recorded as the element that turned, with the device's and the display's angles: failure, high.
+- A landscape layout that only asks to turn the device back ("Please rotate your device to portrait"), with most of the screen's text gone: failure, high.
+- Most of the text gone with no message: review. A dump holds only what is on the screen, so a list shows fewer rows sideways; the rule's threshold (a quarter of the text or less) leaves that out in most layouts, never all.
+- Not seen: whether a layer is opaque (a "rotate" overlay over content the dump still lists goes to review, not to a failure), and a device that cannot rotate at all (a TV, a car), which looks like a lock. On screens 600 dp wide or more, Android 16 ignores the orientation lock of an app that targets it, so a lock shows only on a phone there.
+
+### iOS, from an XCUITest export
+
+XCUITest runs on a Mac, so iOS probes are steps a UI test exports and Rampa reads anywhere ([docs/ios.md](ios.md#probes-orientation-and-text-size)):
+
+- `RampaExport.captureOrientation` sets `XCUIDevice.shared.orientation` to portrait, landscapeLeft and portrait, exports the screen each time, and puts back the orientation it found. The app's interface orientation is read from the application element's frame: wider than tall is landscape. An app that keeps an upright frame with the device sideways is a lock, as on Android.
+- `RampaExport.captureTextSize` launches the app at the default Dynamic Type size and at AX2 (`-UIPreferredContentSizeCategoryName`), runs the test's own steps to reach the screen each time, and exports both. Dynamic Type has no 200% step: AX2 sets body text to 33 pt, 194% of the default 17 pt, and the findings say 194%. iOS frames are not clipped, so text whose frame reaches past the window, outside anything that scrolls, is cut by the part past the edge (failure, high); overlaps are measured as on Android. On iOS 17 and later the helper also runs Apple's accessibility audit for clipped text and Dynamic Type at AX2 and exports what it reports; each issue is an item to review, never a failure.
+- No keyboard walk: Full Keyboard Access cannot be turned on from a UI test. `--probe keyboard` on an export records that.
+
+The probe steps of an export become observations when Rampa reads it; with `--probe`, only the kinds named do, and a kind the export has no steps for is recorded as not run, with the helper to call.
+
+### How the rules read app-screen records
+
+The rules are the web's. Their logic is unchanged; on an app screen's record they word the message and the evidence for an app (no CSS, no scroll-padding hint, the device's angles), through a small branch on `data.platform`.
+
+| SC | Rule | On an app screen |
+|---|---|---|
+| 1.3.4 | `rampa/orientation` | the display kept upright while the device is sideways; a landscape layout that asks to turn back; text gone (review) |
+| 1.4.4 | `rampa/resize-text`, variant `text-size-200` | text cut at 200% (high), text the app shortens (medium), text past the screen's edge (iOS, high); pushed-off text, overlaps and Apple's audit issues (review) |
+| 2.1.1 | `rampa/keyboard-reach` | a control the walk never reached; the evidence says whether the dump marks it focusable |
+| 2.1.2 | `rampa/keyboard-trap` | a cycle Tab, Shift+Tab and the arrows never leave, twice; inside a dialog window, review |
+| 2.4.7 | `rampa/focus-visible` | no pixel changed around the element or on the screen when it took focus |
+| 2.4.11 | `rampa/focus-obscured` | every grid point under a node drawn over it, and no pixel changed |
+| 3.2.1 | `rampa/on-focus` | another app, a window or another screen after a Tab: review only |
+| 1.4.11 | `rampa/focus-indicator-contrast` | not checked (the platform's own highlight cannot be told apart) |
+
+1.4.10 Reflow and 1.4.12 Text Spacing do not run on app screens. Android's display size (`wm density`) could narrow a screen as 400% zoom narrows a page, but it is not built. 1.4.12 is about spacing a person overrides, with a user style sheet or a bookmarklet on the web; native views offer no such override to set, so there is nothing for a probe to apply (WCAG2ICT's notes on 1.4.12 discuss how it applies to software).
+
+**Node identity.** An app screen's nodes have no tag or attributes; their identity is their type (the Android class or the XCUIElement type), resource-id or accessibilityIdentifier, role and name. Refs are paths, and a list that scrolls or a dialog that opens shifts them, so the probes tie each node they saw to the snapshot node it stands for: one node of that identity on each side is a pair, as many on each side are paired in order, and otherwise a node keeps its pair only where its ref is the same. Records carry the snapshot's refs and identities; a node that could not be paired keeps its own, and the rules count its facts as unmatched.
+
+### Running on a device, and what was tested
+
+On a device: `adb devices` lists it as `device`, the screen to check is open, and animations are best turned off (Developer options, the three animation scales), since a screen that keeps moving never lets UI Automator go idle. Then `rampa check android: --probe keyboard,layout,orientation --save recordings`. If the run is cut short, check Settings > Display > Font size and the auto-rotate tile; the warning in the terminal gives the adb command to put each back.
+
+Tested, with the fakes only (`test/native-probes.test.ts`): the walk going round a sign-in screen with both keys, a control that is clickable but not focusable, a button with no focus indicator, a button under a cookie banner, a field that keeps Tab, a Tab that opens a browser, a device before Android 13; text cut by a card, shortened by the app, pushed out of a container, overlapping, a list that scrolls, and an app that shows another screen; an app that turns, one locked upright, and one whose landscape layout asks to turn back; the font scale and the rotation put back after a run, after a failed dump, and on an interrupt; `rampa check android:` with `--save` replayed offline to the same findings; an export with both kinds of iOS steps, one that turns, and one with none. The screenshots are drawn from the dumps by the fake device, not taken from a screen.
 
 ## Known gap
 
