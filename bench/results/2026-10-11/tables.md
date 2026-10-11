@@ -1,4 +1,4 @@
-Measured on 2026-10-11 (Rampa `6c84d67`, ACT test cases `a9a1483e`): 856 test cases of 56 ACT rules, 896 units under 29 WCAG 2.2 A/AA criteria, 284 of them failed examples; 96 corrupted pairs.
+Measured on 2026-10-11 (Rampa `ebd4d07`, ACT test cases `a9a1483e`): 856 test cases of 56 ACT rules, 896 units under 29 WCAG 2.2 A/AA criteria, 284 of them failed examples; 96 corrupted pairs.
 
 | Tool | Failed examples caught | Precision | F1 | Corrupted pairs told apart | Criteria with a true failure | Median time per page |
 | --- | :---: | :---: | :---: | :---: | :---: | ---: |
@@ -8,15 +8,15 @@ Measured on 2026-10-11 (Rampa `6c84d67`, ACT test cases `a9a1483e`): 856 test ca
 | IBM | 162 of 284 (0.57) | 0.69 | 0.62 | 0 of 96 | 13 | 1.06 s |
 | Alfa | 182 of 284 (0.64) | 0.87 | 0.74 | 0 of 96 | 15 | 0.92 s |
 | QualWeb | 190 of 284 (0.67) | 0.72 | 0.69 | 4 of 96 | 17 | 0.53 s |
-| Rampa | 178 of 284 (0.63) | 0.93 | 0.75 | 0 of 96 | 14 | 0.72 s |
-| Rampa + Gemma | 193 of 284 (0.68) | 0.93 | 0.78 | 47 of 96 | 14 | 3.93 s |
-| Rampa + Gemma + probes | 193 of 284 (0.68) | 0.93 | 0.78 | 47 of 96 | 14 | 20.3 s |
+| Rampa | 178 of 284 (0.63) | 0.93 | 0.75 | 0 of 96 | 14 | 0.85 s |
+| Rampa + Gemma | 193 of 284 (0.68) | 0.93 | 0.78 | 47 of 96 | 14 | 0.86 s |
+| Rampa + Gemma + probes | 190 of 284 (0.67) | 0.93 | 0.78 | 47 of 96 | 14 | 19.8 s |
 | *Rampa + Gemma, low confidence counted* | 227 of 284 (0.80) | 0.88 | 0.84 | 73 of 96 | 15 |  |
-| *Rampa + Gemma + probes, low confidence counted* | 243 of 284 (0.86) | 0.87 | 0.86 | 73 of 96 | 20 |  |
+| *Rampa + Gemma + probes, low confidence counted* | 241 of 284 (0.85) | 0.87 | 0.86 | 73 of 96 | 21 |  |
 
 Failures only, as each tool defines them: what fails its run by default. The rows in italics read the same Rampa runs as `rampa eval` does, also counting findings below the default confidence threshold (judgments of ordinary titles, link texts and headings, and experimental checks such as every probe), which `rampa check` lists only with --verbose. Review items, and the scores if they counted, are in the results below. Every tool is scored on every criterion. Read the caveats before quoting a number: Rampa was tuned on these test cases, and the pairs are its own design.
 
-Run of 2026-10-11: Rampa 0.1.0 at `6c84d67`, ACT test cases `a9a1483e`, 56 ACT rules, 856 test cases, 896 units (a test case under each A/AA criterion its rule maps to), of which 284 are failed examples. 96 corrupted pairs. 
+Run of 2026-10-11: Rampa 0.1.0 at `ebd4d07`, ACT test cases `a9a1483e`, 56 ACT rules, 856 test cases, 896 units (a test case under each A/AA criterion its rule maps to), of which 284 are failed examples. 96 corrupted pairs. 
 
 ### What ran
 
@@ -49,23 +49,23 @@ Recall: failed examples caught, under the criterion their rule maps to. Flagged:
 | QualWeb | 190 / 284 | 0.67 (0.61–0.72) | 40 / 344 | 34 / 268 | 0.72 (0.66–0.77) | 0.69 | 38 | 2 |
 | Rampa | 178 / 284 | 0.63 (0.57–0.68) | 3 / 344 | 10 / 268 | 0.93 (0.89–0.96) | 0.75 | 15 | 0 |
 | Rampa + Gemma | 193 / 284 | 0.68 (0.62–0.73) | 3 / 344 | 12 / 268 | 0.93 (0.88–0.96) | 0.78 | 41 | 0 |
-| Rampa + Gemma + probes | 193 / 284 | 0.68 (0.62–0.73) | 3 / 344 | 12 / 268 | 0.93 (0.88–0.96) | 0.78 | 67 | 0 |
+| Rampa + Gemma + probes | 190 / 284 | 0.67 (0.61–0.72) | 3 / 344 | 12 / 268 | 0.93 (0.88–0.96) | 0.78 | 69 | 2 |
 
 ### Home advantage: rules Rampa was built or tuned on
 
-37 of the 56 rules are mentioned in Rampa's source or tests: its judged criteria were prompted, and its rules and probes adjusted, while reading their test cases. The other tools were not tuned on Rampa's cases, but axe-core, Alfa, QualWeb and IBM implement ACT rules and test against these same cases. Recall / precision / F1 on each side:
+39 of the 56 rules are mentioned in Rampa's source or tests: its judged criteria were prompted, and its rules and probes adjusted, while reading their test cases. The other tools were not tuned on Rampa's cases, but axe-core, Alfa, QualWeb and IBM implement ACT rules and test against these same cases. Recall / precision / F1 on each side:
 
-| Tool | Rules Rampa was tuned on (625 units) | Other rules (271 units) |
+| Tool | Rules Rampa was tuned on (645 units) | Other rules (251 units) |
 | --- | --- | --- |
-| axe-core | 0.58 / 0.92 / 0.71 | 0.75 / 0.94 / 0.83 |
-| Pa11y | 0.22 / 0.56 / 0.32 | 0.10 / 0.44 / 0.16 |
-| Pa11y (axe) | 0.50 / 0.87 / 0.64 | 0.80 / 0.74 / 0.77 |
-| IBM | 0.54 / 0.78 / 0.64 | 0.66 / 0.55 / 0.60 |
-| Alfa | 0.60 / 0.87 / 0.71 | 0.75 / 0.87 / 0.80 |
-| QualWeb | 0.63 / 0.74 / 0.68 | 0.76 / 0.67 / 0.71 |
-| Rampa | 0.58 / 0.93 / 0.71 | 0.75 / 0.94 / 0.83 |
-| Rampa + Gemma | 0.65 / 0.92 / 0.77 | 0.75 / 0.94 / 0.83 |
-| Rampa + Gemma + probes | 0.65 / 0.92 / 0.77 | 0.75 / 0.94 / 0.83 |
+| axe-core | 0.57 / 0.92 / 0.70 | 0.80 / 0.94 / 0.86 |
+| Pa11y | 0.21 / 0.56 / 0.31 | 0.11 / 0.44 / 0.17 |
+| Pa11y (axe) | 0.49 / 0.87 / 0.63 | 0.85 / 0.74 / 0.79 |
+| IBM | 0.52 / 0.78 / 0.63 | 0.70 / 0.55 / 0.62 |
+| Alfa | 0.59 / 0.87 / 0.70 | 0.80 / 0.87 / 0.83 |
+| QualWeb | 0.62 / 0.74 / 0.68 | 0.81 / 0.67 / 0.74 |
+| Rampa | 0.57 / 0.93 / 0.70 | 0.80 / 0.94 / 0.86 |
+| Rampa + Gemma | 0.64 / 0.92 / 0.75 | 0.80 / 0.94 / 0.86 |
+| Rampa + Gemma + probes | 0.63 / 0.92 / 0.75 | 0.78 / 0.94 / 0.85 |
 
 ### Coverage of WCAG 2.2 A/AA criteria
 
@@ -79,9 +79,9 @@ Of the 55 criteria, 29 have ACT test cases here. "Claims" counts the criteria th
 | IBM | 34 | 15 | 13 | 0.74 / 0.69 |
 | Alfa | 23 | 17 | 15 | 0.78 / 0.87 |
 | QualWeb | 29 | 22 | 17 | 0.79 / 0.72 |
-| Rampa | 20 | 15 | 14 | 0.78 / 0.93 |
-| Rampa + Gemma | 20 | 17 | 14 | 0.81 / 0.93 |
-| Rampa + Gemma + probes | 35 | 17 | 14 | 0.81 / 0.93 |
+| Rampa | 21 | 15 | 14 | 0.78 / 0.93 |
+| Rampa + Gemma | 21 | 17 | 14 | 0.81 / 0.93 |
+| Rampa + Gemma + probes | 36 | 17 | 14 | 0.79 / 0.93 |
 
 <details><summary>Which criteria</summary>
 
@@ -105,8 +105,8 @@ Units: failed examples + passed or inapplicable examples under the criterion. Ea
 
 | Criterion | Units | axe-core | Pa11y | Pa11y (axe) | IBM | Alfa | QualWeb | Rampa | Rampa + Gemma | Rampa + Gemma + probes | Rampa + Gemma, low confidence counted | Rampa + Gemma + probes, low confidence counted |
 | --- | ---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| 1.1.1 Non-text Content (A) ★ | 26 + 68 | 18/26 · 0 | 11/26 · 14 | 18/26 · 1 | 17/26 · 6 | 18/26 · 0 | 18/26 · 4 | 18/26 · 0 | 21/26 · 0 | 21/26 · 0 | 26/26 · 1 | 26/26 · 1 |
-| 1.2.1 Audio-only and Video-only (Prerecorded) (A) | 6 + 11 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 |
+| 1.1.1 Non-text Content (A) ★ | 26 + 68 | 18/26 · 0 | 11/26 · 14 | 18/26 · 1 | 17/26 · 6 | 18/26 · 0 | 18/26 · 4 | 18/26 · 0 | 21/26 · 0 | 18/26 · 0 | 26/26 · 1 | 23/26 · 1 |
+| 1.2.1 Audio-only and Video-only (Prerecorded) (A) ★ | 6 + 11 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 1/6 · 0 |
 | 1.2.2 Captions (Prerecorded) (A) | 2 + 4 | 0/2 · 0 | 0/2 · 0 | 2/2 · 2 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 |
 | 1.2.3 Audio Description or Media Alternative (Prerecorded) (A) | 4 + 5 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 |
 | 1.2.5 Audio Description (Prerecorded) (AA) | 3 + 4 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 |
@@ -123,7 +123,7 @@ Units: failed examples + passed or inapplicable examples under the criterion. Ea
 | 2.1.2 No Keyboard Trap (A) ★ | 5 + 11 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 2/5 · 1 |
 | 2.1.4 Character Key Shortcuts (A) ★ | 2 + 8 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 2/2 · 0 |
 | 2.2.1 Timing Adjustable (A) ★ | 4 + 11 | 4/4 · 0 | 4/4 · 1 | 4/4 · 0 | 0/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 |
-| 2.2.2 Pause, Stop, Hide (A) | 1 + 10 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 |
+| 2.2.2 Pause, Stop, Hide (A) ★ | 1 + 10 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 |
 | 2.4.1 Bypass Blocks (A) ★ | 1 + 12 | 0/1 · 0 | 0/1 · 0 | 1/1 · 4 | 0/1 · 0 | 0/1 · 0 | 1/1 · 7 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 |
 | 2.4.2 Page Titled (A) ★ | 9 + 9 | 6/9 · 0 | 6/9 · 2 | 6/9 · 0 | 6/9 · 0 | 6/9 · 0 | 6/9 · 0 | 6/9 · 0 | 6/9 · 0 | 6/9 · 0 | 8/9 · 6 | 8/9 · 6 |
 | 2.4.4 Link Purpose (In Context) (A) ★ | 25 + 45 | 11/25 · 0 | 0/25 · 0 | 11/25 · 0 | 11/25 · 0 | 11/25 · 0 | 11/25 · 1 | 11/25 · 0 | 14/25 · 0 | 14/25 · 0 | 24/25 · 5 | 24/25 · 5 |
@@ -177,9 +177,9 @@ Wall time from opening the page to the tool's results, on this machine, with the
 | IBM | 1009 | 1.06 | 2.89 | 1.62 | — | 14 min | — |
 | Alfa | 1009 | 0.92 | 2.13 | 1.43 | — | 13 min | — |
 | QualWeb | 1009 | 0.53 | 2.04 | 1.05 | — | 9 min | — |
-| Rampa | 1009 | 0.72 | 1.64 | 1.04 | 2.62 | 13 min | — |
-| Rampa + Gemma | 1009 | 3.93 | 9.03 | 5.12 | 5.93 | 44 min | 2085 (585 cached) |
-| Rampa + Gemma + probes | 256 | 20.3 | 27.3 | 23.3 | 23.1 | 52 min | 3 (724 cached) |
+| Rampa | 1009 | 0.85 | 1.15 | 1.00 | 1.81 | 9 min | — |
+| Rampa + Gemma | 1009 | 0.86 | 1.39 | 1.07 | 1.90 | 9 min | 7 (2662 cached) |
+| Rampa + Gemma + probes | 645 | 19.8 | 27.9 | 22.1 | 28.8 | 140 min | 8 (1699 cached) |
 
 ### If review items counted as failures
 
@@ -195,10 +195,10 @@ The same units, now counting what each tool sends to a person (lib/tools.mjs say
 | QualWeb | 0.80 | 92 / 344 | 51 / 268 | 0.61 | 0.70 |
 | Rampa | 0.68 | 31 / 344 | 17 / 268 | 0.80 | 0.74 |
 | Rampa + Gemma | 0.82 | 41 / 344 | 22 / 268 | 0.79 | 0.81 |
-| Rampa + Gemma + probes | 0.92 | 41 / 344 | 27 / 268 | 0.79 | 0.85 |
+| Rampa + Gemma + probes | 0.91 | 43 / 344 | 25 / 268 | 0.79 | 0.85 |
 | Rampa, low confidence counted | 0.65 | 3 / 344 | 13 / 268 | 0.92 | 0.77 |
 | Rampa + Gemma, low confidence counted | 0.80 | 13 / 344 | 18 / 268 | 0.88 | 0.84 |
-| Rampa + Gemma + probes, low confidence counted | 0.86 | 14 / 344 | 21 / 268 | 0.87 | 0.86 |
+| Rampa + Gemma + probes, low confidence counted | 0.85 | 14 / 344 | 21 / 268 | 0.87 | 0.86 |
 
 ### False positives the engines share
 
@@ -243,6 +243,7 @@ On 1009 pages both checked. Pa11y errors that axe-core itself left incomplete: `
 - Lighthouse (accessibility category): 18. `act:m6b1q3:895a5b0d06d892bc50351cfd2db426b31cfcc97f`: Lighthouse CHROME_INTERSTITIAL_ERROR; `act:de46e4:034e1e1a46cfa6d3fe3bcc69ac45ffb6c5d55148`: The "start lh:storage:clearBrowserCaches" performance mark has not been set; `act:97a4e1:3004e7b1a47b2e5a5c77b3eef36b50d495c9e4a1`: Lighthouse NO_FCP; `act:bf051a:7d8c4fd028c504d10c4e5e9bd7183c139549e1a1`: Lighthouse NO_FCP; `act:bf051a:a49f11c86ad81c4d42700dfca58a7eeec377f02e`: Lighthouse NO_FCP
 - Pa11y (HTML_CodeSniffer): 1. `act:bc659a:48a600254c0883cd5a72471420b1ac5a532ca6c3`: Cannot read properties of null (reading 'toLowerCase')
 - QualWeb: 2. `act:bc659a:49d79a4e4e4a994a8eb7cf2eaf59c99d2251cac5`: QualWeb returned no report: {}; `act:bc659a:d48be8e9b638b9c27714cb3118a335376ed65f0f`: QualWeb returned no report: {}
+- Rampa + Gemma 4 12B + probes (--probe all): 2. `act:2t702h:61d7129d076b8cc168168d92734e1ae6ec72cf59`: rampa: https://www.w3.org/WAI/content-assets/wcag-act-rules/testcases/2t702h/61d7129d076b8cc168168d92734e1ae6ec72cf59.html did not reach load within 30000 ms. Raise --timeout.; `act:afw4f7:9e3383a60ab67d5988ac2144fec58a34677c52b2`: rampa: https://www.w3.org/WAI/content-assets/wcag-act-rules/testcases/afw4f7/9e3383a60ab67d5988ac2144fec58a34677c52b2.html did not reach load within 30000 ms. Raise --timeout.
 
 <details><summary>By ACT rule</summary>
 
@@ -268,10 +269,10 @@ On 1009 pages both checked. Pa11y errors that axe-core itself left incomplete: `
 | [6cfa84](https://www.w3.org/WAI/standards-guidelines/act/rules/6cfa84/) Element with aria-hidden has no content in sequential focus navigation | 4.1.2 | 15 | 5/6 · 1 | 0/6 · 0 | 6/6 · 3 | 6/6 · 2 | 6/6 · 1 | 6/6 · 0 | 5/6 · 1 | 5/6 · 1 | 5/6 · 1 |
 | [bc659a](https://www.w3.org/WAI/standards-guidelines/act/rules/bc659a/) Meta element has no refresh delay ★ | 2.2.1 | 15 | 4/4 · 0 | 4/4 · 1 | 4/4 · 0 | 0/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 |
 | [b4f0c3](https://www.w3.org/WAI/standards-guidelines/act/rules/b4f0c3/) Meta viewport allows for zoom ★ | 1.4.4 | 16 | 5/7 · 0 | 0/7 · 0 | 0/7 · 0 | 0/7 · 0 | 7/7 · 0 | 7/7 · 0 | 5/7 · 0 | 5/7 · 0 | 5/7 · 0 |
-| [8fc3b6](https://www.w3.org/WAI/standards-guidelines/act/rules/8fc3b6/) Object element rendering non-text content has non-empty accessible name | 1.1.1 | 18 | 6/6 · 0 | 5/6 · 6 | 6/6 · 1 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 |
+| [8fc3b6](https://www.w3.org/WAI/standards-guidelines/act/rules/8fc3b6/) Object element rendering non-text content has non-empty accessible name | 1.1.1 | 18 | 6/6 · 0 | 5/6 · 6 | 6/6 · 1 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 5/6 · 0 |
 | [b5c3f8](https://www.w3.org/WAI/standards-guidelines/act/rules/b5c3f8/) HTML page has lang attribute ★ | 3.1.1 | 5 | 4/4 · 0 | 3/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 |
 | [c4a8a4](https://www.w3.org/WAI/standards-guidelines/act/rules/c4a8a4/) HTML page title is descriptive ★ | 2.4.2 | 6 | 0/3 · 0 | 0/3 · 1 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 |
-| [qt1vmo](https://www.w3.org/WAI/standards-guidelines/act/rules/qt1vmo/) Image accessible name is descriptive ★ | 1.1.1 | 16 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 1 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 3/3 · 0 | 3/3 · 0 |
+| [qt1vmo](https://www.w3.org/WAI/standards-guidelines/act/rules/qt1vmo/) Image accessible name is descriptive ★ | 1.1.1 | 16 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 1 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 3/3 · 0 | 1/3 · 0 |
 | [0ssw9k](https://www.w3.org/WAI/standards-guidelines/act/rules/0ssw9k/) Scrollable content can be reached with sequential focus navigation | 2.1.1 | 15 | 2/2 · 0 | 0/2 · 0 | 2/2 · 0 | 0/2 · 0 | 2/2 · 2 | 2/2 · 3 | 2/2 · 0 | 2/2 · 0 | 2/2 · 0 |
 | [oj04fd](https://www.w3.org/WAI/standards-guidelines/act/rules/oj04fd/) Element in sequential focus order has visible focus ★ | 2.4.7 | 9 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 |
 | [afw4f7](https://www.w3.org/WAI/standards-guidelines/act/rules/afw4f7/) Text has minimum contrast ★ | 1.4.3 | 34 | 8/11 · 0 | 4/11 · 6 | 11/11 · 5 | 7/11 · 1 | 8/11 · 2 | 9/11 · 1 | 8/11 · 0 | 8/11 · 0 | 8/11 · 0 |
@@ -282,7 +283,7 @@ On 1009 pages both checked. Pa11y errors that axe-core itself left incomplete: `
 | [bc4a75](https://www.w3.org/WAI/standards-guidelines/act/rules/bc4a75/) ARIA required owned elements | 1.3.1 | 24 | 10/10 · 0 | 0/10 · 1 | 10/10 · 0 | 9/10 · 11 | 9/10 · 0 | 10/10 · 4 | 10/10 · 0 | 10/10 · 0 | 10/10 · 0 |
 | [80f0bf](https://www.w3.org/WAI/standards-guidelines/act/rules/80f0bf/) Audio or video element avoids automatically playing audio ★ | 1.4.2 | 8 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 2/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 |
 | [e7aa44](https://www.w3.org/WAI/standards-guidelines/act/rules/e7aa44/) Audio element content has text alternative | 1.2.1 | 8 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 |
-| [efbfc7](https://www.w3.org/WAI/standards-guidelines/act/rules/efbfc7/) Text content that changes automatically can be paused, stopped or hidden | 2.2.2 | 11 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 |
+| [efbfc7](https://www.w3.org/WAI/standards-guidelines/act/rules/efbfc7/) Text content that changes automatically can be paused, stopped or hidden ★ | 2.2.2 | 11 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 |
 | [cf77f2](https://www.w3.org/WAI/standards-guidelines/act/rules/cf77f2/) Bypass Blocks of Repeated Content ★ | 2.4.1 | 13 | 0/1 · 0 | 0/1 · 0 | 1/1 · 4 | 0/1 · 0 | 0/1 · 0 | 1/1 · 7 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 |
 | [off6ek](https://www.w3.org/WAI/standards-guidelines/act/rules/off6ek/) HTML element language subtag matches language ★ | 3.1.2 | 13 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 4/4 · 0 | 4/4 · 0 |
 | [80af7b](https://www.w3.org/WAI/standards-guidelines/act/rules/80af7b/) Focusable element has no keyboard trap ★ | 2.1.2 | 16 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 |
@@ -300,7 +301,7 @@ On 1009 pages both checked. Pa11y errors that axe-core itself left incomplete: `
 | [d0f69e](https://www.w3.org/WAI/standards-guidelines/act/rules/d0f69e/) Table header cell has assigned cells ★ | 1.3.1 | 16 | 0/3 · 0 | 1/3 · 3 | 2/3 · 0 | 3/3 · 10 | 2/3 · 4 | 3/3 · 11 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 |
 | [eac66b](https://www.w3.org/WAI/standards-guidelines/act/rules/eac66b/) Video element auditory content has accessible alternative | 1.2.2 | 6 | 0/2 · 0 | 0/2 · 0 | 2/2 · 2 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 |
 | [c5a4ea](https://www.w3.org/WAI/standards-guidelines/act/rules/c5a4ea/) Video element visual content has accessible alternative | 1.2.3 | 9 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 |
-| [c3232f](https://www.w3.org/WAI/standards-guidelines/act/rules/c3232f/) Video element visual-only content has accessible alternative | 1.2.1 | 9 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 |
+| [c3232f](https://www.w3.org/WAI/standards-guidelines/act/rules/c3232f/) Video element visual-only content has accessible alternative ★ | 1.2.1 | 9 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 |
 | [1ec09b](https://www.w3.org/WAI/standards-guidelines/act/rules/1ec09b/) Video element visual content has strict accessible alternative | 1.2.5 | 7 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 |
 | [2ee8b8](https://www.w3.org/WAI/standards-guidelines/act/rules/2ee8b8/) Visible label is part of accessible name ★ | 2.5.3 | 38 | 16/16 · 2 | 0/16 · 0 | 0/16 · 0 | 15/16 · 4 | 13/16 · 3 | 14/16 · 3 | 16/16 · 0 | 16/16 · 0 | 16/16 · 0 |
 | [59br37](https://www.w3.org/WAI/standards-guidelines/act/rules/59br37/) Zoomed text node is not clipped with CSS overflow ★ | 1.4.4 | 14 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 4/5 · 5 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 |
