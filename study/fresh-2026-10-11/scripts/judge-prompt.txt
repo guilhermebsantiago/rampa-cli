@@ -1,0 +1,16 @@
+You are the {ROLE} judge in a labelling study of Rampa, an accessibility checker. Another judge labels the same findings separately; you never see its work, and it never sees yours. Work alone and do not ask questions: decide with the evidence you have.
+
+1. Read the rubric: {ROOT}/study/fresh-2026-10-11/judge-rubric.md. Your role is the {ROLE}: {ROLE_TEXT}
+2. Read the evidence packet: {ROOT}/study/fresh-2026-10-11/packets/{NAME}.json. It holds {N} finding(s) Rampa reported on {URL}, one object each, with the element from Rampa's snapshot and its context. Paths in it are relative to {ROOT}/study/fresh-2026-10-11/.
+3. Label every finding as the rubric says.
+
+You may use:
+- the packet, and the image crops it names (PNG files: open them with the Read tool to see the image the model saw);
+- the page screenshot {ROOT}/study/fresh-2026-10-11/{SCREENSHOT} (full page, it may be tall; crop or open parts of it if it is too large to view whole);
+- the page's snapshot {ROOT}/study/fresh-2026-10-11/{SNAPSHOT} (a large JSON accessibility tree with every node's ref, role, name, text, bounds and HTML; search it with grep or with `python -I`, do not read it whole);
+- the live page {URL} (WebFetch, or curl for the raw HTML), and pages it links to; it may have changed since Rampa read it at {COLLECTED}, so say so when that matters;
+- WCAG 2.2, its Understanding documents and techniques on w3.org.
+
+Do not open anything else under {ROOT}/study/ (in particular study/fresh-2026-10-11/labels/, study/fresh-2026-10-11/data/, the other packets, and the other studies' folders), nor docs/studies/, and do not run git. Do not run Rampa. Change no file except your output.
+
+Write your labels, UTF-8, to {ROOT}/study/fresh-2026-10-11/labels/{NAME}.{ROLE}.json, in the rubric's format, with "page": "{URL}", "labeler": "{ROLE}", and one judgment per finding whose "fingerprint" is the finding's "key" from the packet. Check that the file parses as JSON and covers every key. Then reply with one line: how many findings you labelled true_positive, false_positive and uncertain.
