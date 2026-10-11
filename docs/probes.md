@@ -25,7 +25,8 @@ rampa check page.html --probe flash                  # general and red flashes i
 rampa check page.html --probe links                  # clicks scripted links and records where they lead, for 2.4.4; never part of all
 rampa check page.html --probe input                  # changes each form control on a fresh load (3.2.2); never part of all
 rampa check page.html --probe parity                 # keys against the pointer, hover menus, exit instructions (2.1.1, 2.1.2); never part of all
-rampa check page.html --probe interact               # the activate class: shortcuts, links, input and parity
+rampa check page.html --probe focus-order            # opens dialogs and menus, and records the Tab sequence (2.4.3); never part of all
+rampa check page.html --probe interact               # the activate class: shortcuts, links, input, parity and focus-order
 rampa check page.html --probe all --save .rampa/rec  # keep the observations to replay offline
 ```
 
@@ -33,7 +34,7 @@ Why off: each probe loads the page again, and the keyboard walk takes screenshot
 
 ## What a probe may do
 
-Every probe but those of the activate class (shortcuts, links, input and parity, below) is in the **observe** class:
+Every probe but those of the activate class (shortcuts, links, input, parity and focus-order, below) is in the **observe** class:
 
 - it presses Tab, Shift+Tab and Esc, and the arrow keys only to try to leave a suspected keyboard trap;
 - it resizes the viewport, changes the device scale factor (200% zoom) and injects CSS;
@@ -50,14 +51,14 @@ Every probe but those of the activate class (shortcuts, links, input and parity,
 - it pastes a dummy value into the password and code fields of sign-in and recovery forms with the real Ctrl+V, types one key when the paste did not arrive, and puts the field's value back (the authentication probe, which runs only with `--probe auth`, never with `all`);
 - it never clicks, never presses Enter or Space on a control (Enter on an in-page link, above, is the one exception the plan's observe class allows), never types (but for the one key of the authentication probe, above), and never submits a form.
 
-The shortcuts probe (`--probe shortcuts`, 2.1.4) is the first of the plan's **activate** class; the links probe (`--probe links`, 2.4.4), the on-input probe (`--probe input`, 3.2.2) and the parity probe (`--probe parity`, 2.1.1 and 2.1.2), below, are built on the activate-class harness. With focus on the page's `body`, it presses each printable key on its own (letters, digits, punctuation and symbols, then capitals; never Space, which scrolls), and a key may do whatever the page bound it to. Then it presses Space on the checkboxes, switches and radios it found named for shortcuts or keys, to toggle them, presses the keys again, and toggles them back. It never clicks, never presses Enter, never types into a field (focus goes back to the body before every key, and if a script keeps a field focused the probe stops pressing), never changes a select, and the network guard is on the whole time, so a key that posts something (archive, delete, send) is blocked and a key that navigates is answered locally. A GET a key sets off still reaches the server; run it on pages where that is harmless, as with every probe.
+The shortcuts probe (`--probe shortcuts`, 2.1.4) is the first of the plan's **activate** class; the links probe (`--probe links`, 2.4.4), the on-input probe (`--probe input`, 3.2.2), the parity probe (`--probe parity`, 2.1.1 and 2.1.2) and the focus-order probe (`--probe focus-order`, 2.4.3), below, are built on the activate-class harness. With focus on the page's `body`, it presses each printable key on its own (letters, digits, punctuation and symbols, then capitals; never Space, which scrolls), and a key may do whatever the page bound it to. Then it presses Space on the checkboxes, switches and radios it found named for shortcuts or keys, to toggle them, presses the keys again, and toggles them back. It never clicks, never presses Enter, never types into a field (focus goes back to the body before every key, and if a script keeps a field focused the probe stops pressing), never changes a select, and the network guard is on the whole time, so a key that posts something (archive, delete, send) is blocked and a key that navigates is answered locally. A GET a key sets off still reaches the server; run it on pages where that is harmless, as with every probe.
 
 ### The activate-class harness
 
 `src/probes/activate.ts` is what every probe that clicks, changes a setting or types goes through (the plan's C1, section 4.4). It generalizes what the shortcuts probe does (a change watch whose noise is learned in a wait with no input, the guard on all along) and adds:
 
 - **A skip list.** A control is never touched when its name, label, title or value holds a destructive, transactional, account-changing or consent word, in English, Portuguese or Spanish (`delete`, `remove`, `buy`, `pay`, `checkout`, `sign out`, `logout`, `unsubscribe`, `submit`, `send`, `confirm`, `accept`, `save`…; `excluir`, `remover`, `comprar`, `pagar`, `sair`, `cancelar assinatura`, `enviar`, `aceitar`…; `eliminar`, `borrar`, `comprar`, `pagar`, `cerrar sesión`, `darse de baja`, `enviar`, `aceptar`…), or when its code does (`deleteItem(3)`, `btn-logout`, `javascript:removeItem(3)`; only unambiguous verbs, so an analytics call such as `ga('send', …)` is no reason to skip). Also left alone: submit buttons (and a button with no type inside a form), anything inside a form that holds a password, file or payment (`autocomplete="cc-…"`) field, a `data-method` other than GET, downloads (`download`, or an address that ends in a file extension), new windows (`target`), addresses on another origin, disabled controls, password and file fields. Each skip is logged with its reason and the word.
-- **A budget** of controls and of time per page: 30 controls and 90 s for the links probe, 40 controls and 180 s for the on-input probe, 30 controls, 8 hover menus and 280 s for the parity probe.
+- **A budget** of controls and of time per page: 30 controls and 90 s for the links probe, 40 controls and 180 s for the on-input probe, 30 controls, 8 hover menus and 280 s for the parity probe, 12 controls and 150 s for the focus-order probe.
 - **A fresh page after each change** (or before every control, as the on-input probe asks). Once an activation changed anything (the DOM outside the noise, the address beyond its fragment, storage or cookies, focus lost, a dialog or layer shown), the next control gets a fresh page in a new browser context, so neither the page nor its storage carries the effect over. An activation whose navigation was intercepted leaves the page as it was, and the next control uses it.
 - **Overlays.** Before a click, the control is scrolled to the middle of the window and hit-tested at its middle: under another layer (a cookie wall, a sticky header), it is not exercised, and the layer is named. A dialog or a fixed layer over a quarter of the window that an activation shows is recorded, and its own controls are not exercised.
 - **Interception.** Once the page has loaded, every navigation the page starts is recorded from the Navigation API's `navigate` event, and one to another document (or a download) is cancelled there, before any request leaves; the network guard stays the backstop, answering any top-level navigation that slips through with 204. `window.open` is hooked as always (it returns `null`), form submission is cancelled, `window.close()` and `print()` are ignored, and writes to storage and cookies are counted.
@@ -128,7 +129,7 @@ Coverage of this run
 
 ## Coverage by criterion and method
 
-What the probes add (`--probe all`, plus `auth`, `links`, `input` and `parity`, which run only when named), and what each criterion still needs from a person. Every rule is experimental.
+What the probes add (`--probe all`, plus `auth`, `links`, `input`, `parity` and `focus-order`, which run only when named), and what each criterion still needs from a person. Every rule is experimental.
 
 | SC | Method (probe, rule) | Failure | Needs review | Stays manual |
 |---|---|---|---|---|
@@ -155,6 +156,7 @@ What the probes add (`--probe all`, plus `auth`, `links`, `input` and `parity`, 
 | 2.1.4 Character Key Shortcuts | `probe/shortcuts@1`, `rampa/character-key-shortcuts`: every printable key with focus on the body, twice, against a wait with no key; settings named for shortcuts toggled with Space; `judgment/2.1.4@1` only clears | printable keys that change the page while no control has focus and that no setting on the page stopped (F99), one finding per page, medium | — | settings on other pages or behind login (the message says to waive); shortcuts active only on focus; keyboard layouts and IMEs; speech input |
 | 2.3.1 Three Flashes or Below Threshold | `probe/flash@1`, `rampa/three-flashes` (only with `--probe flash`): the window captured every 16 ms of the page's time for 3 s, animated images decoded, videos played muted for 3 s, on grids of 4 × 4 CSS px | seven transitions or more in one second (more than three general or red flashes) over more than 25% of a 341 × 256 field | — (measured failures only; what could not be read is named in the coverage note) | flashing after an interaction or further down the page; video from another origin, DRM and embedded players; live and user-generated content; certification-grade sign-off |
 | 2.4.1 Bypass Blocks | `probe/keyboard@1` (variant `skip-link`), `rampa/bypass-blocks`: the first 8 Tab stops, and Enter on up to 3 skip links among them | — (never on one page, by design; failures come from `--crawl`, [site criteria](site-criteria.md)) | a skip link that points nowhere, does not move focus, or never shows; links and controls before the content with no skip link, main landmark or heading after them; a skip button or menu toggle, which is never pressed | which blocks repeat on other pages (a crawl compares them); interleaved blocks; single-page-app views; whether a block is substantial |
+| 2.4.3 Focus Order | `probe/focus-order@1`, `rampa/focus-management` (only with `--probe focus-order`): dialogs, menus and panels opened from the keyboard on fresh loads, Tab into them, Tab inside a modal, Esc; the Tab sequence from the top; `judgment/2.4.3@1` decides the order, below the threshold | focus never gets in within 40 Tab presses, twice (high; F85 for a menu or a panel); more than 3 presses to get in (medium, F85); a modal Tab leaves for the page behind (high); focus left on the document once closed, twice (high); focus more than 3 Tab stops from the trigger once closed (medium, F85); with judgment on, a positive tabindex (F44) or a group Tab visits going back that the model fails, citing transitions a verifier recomputes (low) | focus elsewhere once closing removed the trigger; any absence seen once of two loads | whether an unusual order preserves meaning; dialogs nothing ties to their button; dialogs closed only from their form |
 | 2.4.4 Link Purpose (In Context) | `probe/links@1`, `rampa/scripted-links`: scripted links clicked once, navigations intercepted; an inventory that decides nothing | — (the 2.4.4 judgment decides, with where each link went) | — | links behind a click that is never made (a menu that must open first); destinations behind login; the judgment's own limits |
 | 2.4.7 Focus Visible | `probe/keyboard@2`, `rampa/focus-visible`: focused and blurred captures | no pixel changes in the region or the viewport; focus removed on arrival (F55) | a change only elsewhere; a faint change | whether a change is perceivable; forced colors; other browsers |
 | 2.4.11 Focus Not Obscured (Minimum) | `probe/keyboard@2`, `rampa/focus-obscured`: 5×5 hit grid at the run's window and at 390×844, confirmed by pixels | the element entirely under author content (beyond the target under `--wcag 2.1`) | — | content the user opened or moved; other window sizes and zoom levels |
@@ -274,6 +276,17 @@ The parity probe, measured the same day (a control costs one fresh page when its
 | www.uol.com.br | 32, 6 (22 whose click lands on a link or button inside, 2 covered or not showing, 1 gone on its load, 1 past the time) | 20, 0 | 255 s (time budget: controls stop at 200 s) |
 | `test/fixtures/probes/parity-*.html` | 3 to 8 | 0 to 2 | 30 to 63 s |
 
+The focus-order probe, measured the same day (each control costs a fresh page and its opening, Tab presses and closing, about 3 to 6 s; a failure that rests on an absence costs a second; the sequence walk takes about 0.05 s a stop):
+
+| Page | Controls found, opened | Tab stops walked | Time |
+|---|---|---|---|
+| APG, modal dialog example | 1, 1 | 53 | 8.3 s |
+| APG, menu button (links) | 1, 1 | 54 | 13.2 s |
+| APG, tabs with automatic activation | 0 | 52 | 3.8 s |
+| www.gov.uk | 2, 2 | 88 | 12.3 s |
+| www.camara.leg.br | 8, 6 (two fresh loads failed on the network) | 71 | 55.4 s |
+| `test/fixtures/probes/focus-order-*.html` | 4, 3 to 4 | 10 to 16 | 11 to 20 s |
+
 ## Not yet
 
 - With `--crawl`, 2.4.1 is compared across the pages from their markup alone: a link into the page counts without being pressed, since the skip-link probe does not run there yet.
@@ -281,9 +294,9 @@ The parity probe, measured the same day (a control costs one fresh page when its
 - The `rampa.config` file has no `probe` key yet.
 - Items to review appear with the engine's and the rules' in every format: grouped by criterion and rule in the terminal (each element with `--verbose`), the Markdown and the HTML reports, counted in SARIF's coverage, and listed in the JSON (`needsReview`).
 - Captures are not written next to a saved snapshot; only their hashes are recorded.
-- Of the activate class, the shortcuts probe (printable keys on the body, Space on the settings it found), the links probe (one click on each scripted link), the on-input probe (one change of each form control) and the parity probe (keys, then a click, on controls whose keyboard support is the page's own; hover menus; exit instructions; the last three only with `--probe links`, `--probe input`, `--probe parity` or `--probe interact`) exist; the rest of it (drags) and `--allow-submit` do not. Nothing here submits a form. The authentication probe (only with `--probe auth`) pastes a dummy value into password and code fields, types one key when the paste did not land, and puts the value back.
+- Of the activate class, the shortcuts probe (printable keys on the body, Space on the settings it found), the links probe (one click on each scripted link), the on-input probe (one change of each form control), the parity probe (keys, then a click, on controls whose keyboard support is the page's own; hover menus; exit instructions) and the focus-order probe (dialogs, menus and panels opened from the keyboard; the last four only with `--probe links`, `--probe input`, `--probe parity`, `--probe focus-order` or `--probe interact`) exist; the rest of it (drags) and `--allow-submit` do not. Nothing here submits a form. The authentication probe (only with `--probe auth`) pastes a dummy value into password and code fields, types one key when the paste did not land, and puts the value back.
 - `--crawl` does not run probes, so it does not find sign-in pages and probe them yet (the plan's B7 asks for that); the authentication probe lists the sign-in and recovery links it saw.
-- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. The color tests ran three times in a row on Edge and once in the full suite, with no verdict changing; their lightness verdicts also read the style sheet's colors, so a platform whose fonts antialias differently cannot turn a 5:1 difference into a failure. The authentication tests ran three times in a row on Edge and once in the full suite, with no verdict changing. The state contrast tests (`test/probes-states.test.ts`, keyboard and states probes on three fixtures) ran three times in a row on Edge and once in the full suite, with no verdict changing, and so did the flash tests (`test/probes-flash.test.ts`, six pages); the flash probe moves the page's own clock rather than waiting on it, and only its video sampling runs in real time, with a cap. The links tests (2.4.4) ran three times in a row on Edge and once in the full suite, with no outcome changing; the on-input tests (3.2.2) too, with no verdict changing; so did the parity tests (2.1.1 and 2.1.2, `test/probes-parity.test.ts`, four fixtures, one also with the keyboard walk), about 3.5 minutes a run. They have not run yet on the Linux CI runner's Chrome.
+- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. The color tests ran three times in a row on Edge and once in the full suite, with no verdict changing; their lightness verdicts also read the style sheet's colors, so a platform whose fonts antialias differently cannot turn a 5:1 difference into a failure. The authentication tests ran three times in a row on Edge and once in the full suite, with no verdict changing. The state contrast tests (`test/probes-states.test.ts`, keyboard and states probes on three fixtures) ran three times in a row on Edge and once in the full suite, with no verdict changing, and so did the flash tests (`test/probes-flash.test.ts`, six pages); the flash probe moves the page's own clock rather than waiting on it, and only its video sampling runs in real time, with a cap. The links tests (2.4.4) ran three times in a row on Edge and once in the full suite, with no outcome changing; the on-input tests (3.2.2) too, with no verdict changing; so did the parity tests (2.1.1 and 2.1.2, `test/probes-parity.test.ts`, four fixtures, one also with the keyboard walk), about 3.5 minutes a run, and the focus-order tests (2.4.3, `test/probes-focus-order.test.ts`, three fixtures), under a minute a run. They have not run yet on the Linux CI runner's Chrome.
 - Saved recordings of three real pages replay offline to the same findings, by id; the plan's measurement on 20 pages of the real-page sample (EVAL-1) is not done.
 
 ## The checks
@@ -673,7 +686,7 @@ One finding per trigger and condition, on the trigger, saying "on hover and on f
 
 Evidence names the key sequence (`Tab ×4`), the element, what followed and how many milliseconds later.
 
-**Limits.** Chromium's Tab order only, at one viewport. States reached by activating something (menus, dialogs opened by a button) are not walked. Inside a cross-origin frame the walk sees only the frame element, and stops after 60 stops inside one frame. Elements in open shadow roots are walked and matched to the snapshot, but the 2.1.1 inventory lists only the page's own document, so a control in a shadow root or a frame that Tab never reaches is not reported. An event that a page fires more than 150 ms after focus may be attributed to the next stop; the confirmation step catches most of those. The confirmation gives focus back with a script `focus()`, which runs the same handlers as a key but is not a key press. When the guard blocked requests (often analytics, sometimes data a page needs), the coverage note names their hosts: content that needed them may be missing. 2.1.1 does not test that a reached control can be operated with the keyboard; the parity probe of the activate class (`--probe parity`, below) does, for controls whose keyboard support is the page's own.
+**Limits.** Chromium's Tab order only, at one viewport. States reached by activating something (menus, dialogs opened by a button) are not walked; the focus-order probe (`--probe focus-order`, below) opens them and follows focus in and out. Inside a cross-origin frame the walk sees only the frame element, and stops after 60 stops inside one frame. Elements in open shadow roots are walked and matched to the snapshot, but the 2.1.1 inventory lists only the page's own document, so a control in a shadow root or a frame that Tab never reaches is not reported. An event that a page fires more than 150 ms after focus may be attributed to the next stop; the confirmation step catches most of those. The confirmation gives focus back with a script `focus()`, which runs the same handlers as a key but is not a key press. When the guard blocked requests (often analytics, sometimes data a page needs), the coverage note names their hosts: content that needed them may be missing. 2.1.1 does not test that a reached control can be operated with the keyboard; the parity probe of the activate class (`--probe parity`, below) does, for controls whose keyboard support is the page's own.
 
 ### 2.1.4 Character Key Shortcuts (`--probe shortcuts`, rule `rampa/character-key-shortcuts`)
 
@@ -925,6 +938,79 @@ The plan's gate asks for a targeted corpus of pages with custom widgets (a frame
 - A listener at the document root (React, Vue) does not say which element it serves: such controls are found only by role or by their pointer cursor, at most 8 of the latter.
 - Hover menus count links whose addresses are reachable elsewhere on the same page only; a menu whose links the trigger's own page lists still fails at medium, for a person to check.
 - Exit instructions are read in English, Portuguese and Spanish with a few verbs; an instruction in other words or in an image is not executed. One engine (Chromium).
+
+### 2.4.3 Focus Order: dialogs, menus and the Tab sequence (`--probe focus-order`)
+
+**Only when named.** `--probe focus-order` opens dialogs and menus from the keyboard, so `--probe all` leaves it out; `--probe interact` runs it with the rest of the activate class. It is the coverage plan's C3, on the activate-class harness (above): the skip list, the budget (12 controls, 150 s), a fresh page for each control, the guard, and the log.
+
+**Which controls.** A control that opens a dialog, a menu or a panel and says so before it opens:
+
+- `aria-haspopup="dialog"`, or a control whose `aria-controls`, `data-target` (`data-bs-target`…), `popovertarget`, `commandfor` or `href="#id"` names a hidden dialog (`dialog`, `role="dialog"` or `"alertdialog"`, `aria-modal="true"`, `.modal`): a dialog;
+- `aria-haspopup="true"` or `"menu"`, or one that names a hidden `role="menu"`: a menu (list boxes, trees and grids, which combo boxes open, are left out);
+- `aria-expanded` with `aria-controls` naming hidden content that holds a focusable element: a disclosure panel;
+- an inline handler that names a hidden dialog's id (`onclick="openDialog('dialog1', this)"`, as the APG example does);
+- when hidden dialogs are left that nothing above ties to a control, at most 4 buttons outside forms named to open something ("Open", "Show", "Add", "Edit", "Settings", "Abrir", "Ver", "Configurações", "Añadir"…): a guess, which a trial confirms or drops.
+
+**The trial.** Each control on a fresh load, after the skip list:
+
+1. It gets focus (`focus()`, as Tab would give it) and, 0.2 s later, Enter; when nothing opened within 0.6 s, Space; for a menu, ArrowDown; when no key opened it (2.1.1's to say, `--probe parity`), a click, to still see what focus does. What opened is the element the control names, now showing; else a dialog or layer the harness saw open; else, for a control with `aria-haspopup`, a list beside it that showed (a dropdown nothing names). A dialog that already showed before (a cookie banner) is not it.
+2. Where focus is once it opened: inside it, on the control, on the document, or elsewhere.
+3. When focus is not inside: Tab is pressed from there until focus is inside (at most 40 presses), or leaves the page.
+4. A modal (`dialog:modal` or `aria-modal="true"`) that focus could get into: from its first focusable element, Tab is pressed as many times as it has focusable elements plus two; focus that lands on the page behind it (not the browser's own controls) is recorded.
+5. Esc, from inside (or from the control, for a menu focus never entered); when it stays open, Enter on a button inside it named to close it ("Close", "Fechar", "Cerrar", "Done", "Cancel", "×"); when that does not close it either, nothing is measured on closing.
+6. Where focus lands once it closed, and how many Tab stops lie between that place and the control, in the order a browser follows (positive tabindex first, then document order, only elements that show; an element out of that order is placed by document order).
+7. Focus that never got in, or that was left on the document, is tried again on a second fresh load (at most 6 per page).
+
+It never presses a link or a button inside what opened, but the one that closes it.
+
+**The rule (`rampa/focus-management`).**
+
+| Observation | Result |
+|---|---|
+| Focus stays outside what opened, and 40 Tab presses from there do not get it in (or it leaves the page first), on two loads | failure, high ("the modal never takes focus"; for a menu or a panel, F85) |
+| Focus stays outside, and it takes more than 3 Tab presses to get in | failure, medium (F85: not next to its control in the focus order) |
+| Focus stays outside, and the next Tab presses (3 at most) get it in | no failure (SCR37: inserted right after its control) |
+| A modal lets Tab move focus to the page behind it while it is open | failure, high |
+| Focus is on the document once it closed, on two loads | failure, high |
+| Focus is more than 3 Tab stops from the control once it closed | failure, medium (F85) |
+| Focus is elsewhere once it closed, and closing removed the control | needs review |
+| Focus that never got in, or was lost, on one load of two | needs review |
+| Nothing opened | not applicable; counted |
+
+Each finding names the control, what opened (its name, modal or not), the key that opened it, where focus was, the Tab presses and the stops on the way, and where focus landed once it closed. At most 10 per page.
+
+**The order of the page is the 2.4.3 judgment's.** Rampa never fails an order from geometry alone (the plan's section 6: the order of the document and of the screen differ on most pages without harm). The probe walks the page with Tab from the top (at most 120 stops) and records each stop's box, its tabindex and the groups it sits in (landmarks, forms, fieldsets, labelled sections, lists, tables, dialogs). Two shapes become candidates, recomputed from those facts when the snapshot is judged:
+
+- **positive tabindex**: some stop has `tabindex` above 0, which puts it first; the suspect transitions are those into or out of such a stop (F44);
+- **interleaving**: a group whose stops Tab visits going back at least twice: to a stop above the last one and not in a column to its right, or before it on the same row (right to left on a right-to-left page). Columns read down before across go up and to the right, which is no step back. When a form and the landmark around it hold the same suspects, the form is the candidate. Forms and fieldsets come first; at most 4 candidates per page.
+
+With judgment on, the 2.4.3 judgment (`src/criteria/focus-order.ts`) asks the model, per candidate, whether the order breaks meaning or operation, with the stops in Tab order (name, tabindex, position, groups) and the suspect transitions. A fail must cite transitions by stop number, and the verifier keeps it only when each one goes from a stop to the next and is one of the suspects recomputed from the recorded boxes and tabindex values; the finding's evidence is those transitions as the stops have them ("Tab 1 → 2: `<input>` "City" (x 20, y 380) → `<input>` "Street" (x 20, y 300)"), never the model's words. A pass or a cannot-tell reports nothing. These findings stay below the default confidence threshold until the check is measured on real pages. With `--no-llm`, the candidates are counted in the coverage note and nothing is reported.
+
+**Fixtures** (`test/fixtures/probes/focus-order-*.html`, served over HTTP by the tests; ACT has no rule for 2.4.3):
+
+- `focus-order-fail.html`: a modal placed before its button, which opens without moving focus, so Tab from the button never gets in; a modal that takes focus but lets Tab out to the page behind, and leaves focus on the document when Esc closes it; a menu at the end of the page, 10 Tab presses from its button; a dialog that holds focus and, once closed, sends it to the skip link at the top; a form whose fields `order` shows in another order than Tab visits them; a search field with `tabindex="1"` at the bottom. Five failures from the rule, and two candidates for the judgment.
+- `focus-order-pass.html`: a native `<dialog>` with `showModal()`, a dialog built as the APG says, a menu button that moves focus to its first item and back, a disclosure right after its button, and a two-column form read row by row. Nothing is reported, and nothing goes to the model.
+- `focus-order-near.html`: a dialog that is not modal right after its button (the next Tab is in it), a coupon whose button goes away once claimed (focus goes to the next step: review), "Delete account" (skipped), a dialog only a button's name ties to it ("Open settings", a guess that works), footer links in two columns, and a skip link with `tabindex="1"`, which the model, asked, passes.
+
+**Real pages** (2026-10-11, one run each, Edge, `--probe focus-order`, judgment by `ollama:gemma4:12b`):
+
+| Page | What the probe did | Result | Read by hand |
+|---|---|---|---|
+| APG, modal dialog example | "Add Delivery Address", found by the inline handler that names its dialog, opened with Enter: focus moved into the dialog, Tab stayed in it, Esc closed it and focus went back to the button; 53 Tab stops, no candidate for the judgment | no failure found | Right: the pattern as the APG writes it |
+| APG, menu button (links) | the menu button opened with Enter, focus on its first item, Esc closed it back to the button; 54 stops, no candidate | no failure found | Right |
+| APG, tabs with automatic activation | no control that opens something; 52 stops, no candidate | no failure found, nothing opened | Right |
+| www.gov.uk | the navigation and search toggles each open a panel right after them (the next Tab is in it), and Esc closes it with focus on the toggle; 88 stops, no candidate | no failure found | Right |
+| www.camara.leg.br | the language menu and four of the six main menus (dropdown lists found beside their link) open with Enter, the next Tab is in them, Esc closes them back to the link; the search toggle opens the search box 7 Tab presses away, past the six main menu links; two fresh loads failed on the network and were left not exercised | 1 failure, medium (F85) | Right: checked by hand, the search panel sits after the main menu in the document, so someone who opens search from the keyboard Tabs through six menu links first. The toggle's name, "Toggle navigation", is another problem (2.4.6, 4.1.2), not this check's |
+
+None of these pages gave the judgment a candidate. On the fixtures, `ollama:gemma4:12b` failed both candidates of `focus-order-fail.html` with transitions the verifier kept (Tab 1 → 2 from the search field's positive tabindex to the skip link; 13 → 14 and 15 → 16 in the shipping form) and passed the skip link's `tabindex="1"` in `focus-order-near.html`: 3 calls, 11 s. The plan's gate asks for a corpus of pages with custom dialogs and menus, and with reordered forms, to measure precision; it has not been gathered.
+
+**Limits.**
+
+- Only controls that say what they open, and a few guesses: a dialog opened by a button nothing ties to it (no `aria-haspopup`, `aria-controls`, inline handler or telling name) is not tried.
+- One way in (the first key that opens it) and one way out (Esc, or a close button): a dialog that closes only from its form, or by a click outside, is not measured on closing.
+- Distances count Tab stops that show, in the order a browser follows; shadow roots and frames are not in that count.
+- Interleaving is read from boxes, which nominate only: a group laid out apart in a way the boxes do not show (two columns of one form read in the wrong order) is not a candidate. The judgment's precision is not measured.
+- One engine (Chromium) and one window size.
 
 ### 3.3.8 Accessible Authentication (Minimum) (`--probe auth`, rule `rampa/accessible-authentication`)
 
