@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Library: near misses for pointer cancellation and dragging</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; max-width: 720px; min-height: 900px; }
+  button, a { display: inline-block; margin: 8px 8px 8px 0; padding: 6px 10px; }
+  .is-pressed { background: #ddd; }
+  #sort-menu { border: 1px solid #333; padding: 4px 12px; }
+  table { border-collapse: collapse; }
+  th, td { border: 1px solid #999; padding: 2px 8px; }
+  .shelf { display: flex; gap: 8px; }
+  .shelf div { border: 1px solid #555; padding: 8px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Library</h1>
+  <p>
+    <!-- Rewrites its own address on the press, as search engines do for tracking: not a function of the page. -->
+    <a id="catalog" href="/pointer/catalog.html" onmousedown="this.href = '/pointer/catalog.html?from=home'">Catalog</a>
+    <!-- A pressed look while the pointer is down: feedback on the control itself. -->
+    <button id="borrow" type="button">Details</button>
+    <!-- Opens on the press, and closes when the pointer is released outside it. -->
+    <button id="sort" type="button" aria-haspopup="true" aria-expanded="false">Sort by</button>
+  </p>
+  <ul id="sort-menu" hidden><li>Title</li><li>Author</li></ul>
+  <label>Shelf <select id="shelf"><option>Fiction</option><option>History</option></select></label>
+  <label>Zoom <input type="range" id="zoom" min="1" max="5" value="2"></label>
+
+  <!-- Sortable columns are sorted by a click on their header: not a drag. -->
+  <table>
+    <thead><tr><th class="sortable" aria-sort="none"><button type="button" id="by-title">Title</button></th><th class="sortable"><button type="button" id="by-year">Year</button></th></tr></thead>
+    <tbody><tr><td>Dom Casmurro</td><td>1899</td></tr></tbody>
+  </table>
+
+  <!-- Marked draggable, but nothing listens: a drag changes nothing. -->
+  <div class="shelf">
+    <div draggable="true" id="book-1">Iracema</div>
+    <div draggable="true" id="book-2">O Guarani</div>
+  </div>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id)
+  $('borrow').addEventListener('mousedown', () => $('borrow').classList.add('is-pressed'))
+  document.addEventListener('mouseup', () => $('borrow').classList.remove('is-pressed'))
+  $('sort').addEventListener('mousedown', () => {
+    $('sort').setAttribute('aria-expanded', 'true')
+    $('sort-menu').hidden = false
+  })
+  document.addEventListener('click', (event) => {
+    if (event.target.closest('#sort, #sort-menu')) return
+    $('sort').setAttribute('aria-expanded', 'false')
+    $('sort-menu').hidden = true
+  })
+</script>
+</body>
+</html>

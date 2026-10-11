@@ -128,7 +128,7 @@ export type Destination = z.infer<typeof DestinationSchema>
  * is judged again offline with no browser. See docs/probes.md.
  */
 export const ProbeRecordSchema = z.object({
-  kind: z.enum(['keyboard', 'layout', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'auth', 'flash', 'links', 'input', 'clock', 'interact', 'form']),
+  kind: z.enum(['keyboard', 'layout', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'auth', 'flash', 'links', 'input', 'clock', 'interact', 'form', 'pointer']),
   /** The probe's version; each rule states which versions it reads. */
   version: z.string(),
   conditions: z.object({

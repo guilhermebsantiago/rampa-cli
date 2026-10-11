@@ -11,6 +11,7 @@ import { MEDIA_RULES } from './media.ts'
 import { onInputRule } from './on-input.ts'
 import { reflowRule, textSpacingRule, zoomRule } from './layout.ts'
 import { orientationRule } from './orientation.ts'
+import { POINTER_RULES } from './pointer.ts'
 import { shortcutsRule } from './shortcuts.ts'
 import { STATE_CONTRAST_RULES } from './state-contrast.ts'
 import type { ProbeRule } from './probes.ts'
@@ -33,6 +34,7 @@ export const PROBE_RULES: readonly ProbeRule[] = [
   scriptedLinksRule,
   onInputRule,
   ...FORM_RULES,
+  ...POINTER_RULES,
   focusVisibleRule,
   focusObscuredRule,
   focusObscuredNarrowRule,

@@ -5,21 +5,22 @@ import { type BrowserOptions, contextOptions, openPage, prepareContext } from '.
 import { type Guard, installGuard } from './guard.ts'
 import { installHooks, installKit, settleInPage } from './kit.ts'
 
-export const PROBE_KINDS = ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'auth', 'flash', 'links', 'input', 'form'] as const
+export const PROBE_KINDS = ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'auth', 'flash', 'links', 'input', 'form', 'pointer'] as const
 export type ProbeKind = (typeof PROBE_KINDS)[number]
 /**
  * Kinds that run only when named: `--probe all` leaves them out. The authentication probe types into the password
  * fields of real sign-in forms (a dummy value, cleared), which nobody should get from a catch-all. The flash probe
  * plays media (muted) and takes some 200 captures of the window, which costs more than a catch-all should. The probes
- * of the activate class built on the harness (activate.ts) click controls, change settings or type into fields, which
- * the plan keeps opt-in (wcag-coverage.md, 4.4).
+ * of the activate class built on the harness (activate.ts) click controls, change settings, type into fields or drag,
+ * which the plan keeps opt-in (wcag-coverage.md, 4.4).
  */
-export const OPT_IN_KINDS: readonly ProbeKind[] = ['auth', 'flash', 'links', 'input', 'form']
+export const OPT_IN_KINDS: readonly ProbeKind[] = ['auth', 'flash', 'links', 'input', 'form', 'pointer']
 /**
- * `--probe interact`: the plan's name for the activate class, every probe that presses, clicks, changes a setting or
- * types into a field (wcag-coverage.md, 4.4). The shortcuts probe is one of them, and stays in `all` as it always was.
+ * `--probe interact`: the plan's name for the activate class, every probe that presses, clicks, changes a setting,
+ * types into a field or drags (wcag-coverage.md, 4.4). The shortcuts probe is one of them, and stays in `all` as it
+ * always was.
  */
-export const INTERACT_KINDS: readonly ProbeKind[] = ['shortcuts', 'links', 'input', 'form']
+export const INTERACT_KINDS: readonly ProbeKind[] = ['shortcuts', 'links', 'input', 'form', 'pointer']
 
 export interface ProbeOptions {
   kinds: readonly ProbeKind[]
