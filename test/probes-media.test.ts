@@ -334,7 +334,7 @@ describe.skipIf(!browser)('media probe (1.2.1–1.2.5, 1.4.2)', { timeout: 120_0
     const { snapshot } = await probed('media-fail.html')
     expect(A11ySnapshotSchema.safeParse(snapshot).success).toBe(true)
     const record = snapshot.observations?.probes.find((p) => p.kind === 'media')
-    expect(record).toMatchObject({ kind: 'media', version: '1', status: 'complete', conditions: { variant: 'media' } })
+    expect(record).toMatchObject({ kind: 'media', version: '2', status: 'complete', conditions: { variant: 'media' } })
     expect(record?.guard.blocked).toEqual([])
     const data = dataOf(snapshot)
     const byRef = Object.fromEntries((data?.items ?? []).map((i) => [i.ref, i]))
@@ -413,7 +413,7 @@ describe.skipIf(!browser)('media probe (1.2.1–1.2.5, 1.4.2)', { timeout: 120_0
     for (const criterion of MEDIA) expect(statusOf(report)[criterion]).toBe('no-applicable-content')
     expect(report.coverage.probes?.find((r) => r.criterion === '1.2.2')?.note).toMatch(/^no audio or video found in the page.*may be missed$/)
     const text = renderReport(report, { verbose: true, paint: paint(false) })
-    expect(text).toMatch(/1\.2\.2 +probe\/media@1 \(rampa\/captions\) · watched on load, then played muted for 2\.5 s/)
+    expect(text).toMatch(/1\.2\.2 +probe\/media@2 \(rampa\/captions\) · watched on load, then played muted for 2\.5 s/)
   })
 
   it('replays a saved snapshot offline to the same findings', async () => {
