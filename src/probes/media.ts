@@ -463,7 +463,13 @@ function readWatch(args: { playedMs: number; runMs: number }): WatchSummary {
   let pending = false
   for (const state of states) {
     for (const [el, info] of state.watched) {
-      if (info.own || info.stopped || info.firstAt === null) continue
+      if (info.own || info.stopped) continue
+      if (info.firstAt === null) {
+        // Asked to play, by script (a new Audio() outside the page) or by autoplay, and still loading: wait for it,
+        // up to the cap. A slow machine otherwise ends the watch before the sound starts.
+        if (!el.paused && !el.muted && el.volume > 0 && !el.error && el.readyState < 3) pending = true
+        continue
+      }
       if (el.paused || el.ended || el.muted || el.volume === 0) continue
       // Long enough to tell more than 3 s, and, when the level is read, long enough for the sound to show it (it may start late).
       const sounded = info.firstLoud < 0 ? 0 : info.lastLoud - info.firstLoud
