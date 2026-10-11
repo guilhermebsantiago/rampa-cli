@@ -4,6 +4,7 @@ import type { ProbeRecord } from '../snapshot/schema.ts'
 import { authProbe } from './auth.ts'
 import { colorProbe } from './color.ts'
 import { flashProbe } from './flash.ts'
+import { formProbe } from './form.ts'
 import { hoverProbe } from './hover.ts'
 import { inputProbe } from './input.ts'
 import { keyboardProbe } from './keyboard.ts'
@@ -20,7 +21,8 @@ export { INTERACT_KINDS, OPT_IN_KINDS, PROBE_KINDS, type ProbeKind, type ProbeOp
 /**
  * The probe stage (docs/probes.md). After collection, each probe opens its own freshly loaded
  * page, drives it (keys, focus, viewport, injected CSS, muted media; the probes of the activate class press printable
- * keys, click scripted links or change form controls through the harness in activate.ts) behind the network guard,
+ * keys, click scripted links, change form controls or type invalid values into fields through the harness in
+ * activate.ts) behind the network guard,
  * and records facts in `snapshot.observations`. Rules read only those facts, so a saved
  * snapshot is judged again offline.
  */
@@ -41,8 +43,8 @@ export function probeLaunchArgs(kinds: readonly ProbeKind[] | undefined): string
 }
 
 /**
- * `--probe layout,keyboard,hover,orientation,shortcuts,media,color,states,auth,flash,links,input`, `all` (every kind but the opt-in
- * ones: auth, flash, links, input), `interact` (the activate class: shortcuts, links, input) or `none`.
+ * `--probe layout,keyboard,hover,orientation,shortcuts,media,color,states,auth,flash,links,input,form`, `all` (every kind but the
+ * opt-in ones: auth, flash, links, input, form), `interact` (the activate class: shortcuts, links, input, form) or `none`.
  */
 export function parseProbeKinds(raw: string | undefined): ProbeKind[] {
   if (!raw) return []
@@ -65,7 +67,7 @@ export type ProbeStep = (browser: Browser, url: string, options: ProbeOptions) =
 
 /** Runs each requested kind in turn; a probe that fails is recorded as skipped and never fails the check. */
 export async function runProbes(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
-  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe, shortcuts: shortcutsProbe, media: mediaProbe, color: colorProbe, states: statesProbe, auth: authProbe, flash: flashProbe, links: linksProbe, input: inputProbe }
+  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe, shortcuts: shortcutsProbe, media: mediaProbe, color: colorProbe, states: statesProbe, auth: authProbe, flash: flashProbe, links: linksProbe, input: inputProbe, form: formProbe }
   const records: ProbeRecord[] = []
   for (const kind of options.kinds) {
     const started = Date.now()

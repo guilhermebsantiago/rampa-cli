@@ -24,7 +24,8 @@ rampa check https://example.com/login --probe auth   # sign-in and recovery: tru
 rampa check page.html --probe flash                  # general and red flashes in the window, animated images and video (2.3.1); never part of all
 rampa check page.html --probe links                  # clicks scripted links and records where they lead, for 2.4.4; never part of all
 rampa check page.html --probe input                  # changes each form control on a fresh load (3.2.2); never part of all
-rampa check page.html --probe interact               # the activate class: shortcuts, links and input
+rampa check page.html --probe form                   # types invalid values into fields and leaves them (3.3.1, 3.3.3), and finds fields asked twice (3.3.7); never part of all
+rampa check page.html --probe interact               # the activate class: shortcuts, links, input and form
 rampa check page.html --probe all --save .rampa/rec  # keep the observations to replay offline
 ```
 
@@ -32,7 +33,7 @@ Why off: each probe loads the page again, and the keyboard walk takes screenshot
 
 ## What a probe may do
 
-Every probe but those of the activate class (shortcuts, links and input, below) is in the **observe** class:
+Every probe but those of the activate class (shortcuts, links, input and form, below) is in the **observe** class:
 
 - it presses Tab, Shift+Tab and Esc, and the arrow keys only to try to leave a suspected keyboard trap;
 - it resizes the viewport, changes the device scale factor (200% zoom) and injects CSS;
@@ -49,15 +50,15 @@ Every probe but those of the activate class (shortcuts, links and input, below) 
 - it pastes a dummy value into the password and code fields of sign-in and recovery forms with the real Ctrl+V, types one key when the paste did not arrive, and puts the field's value back (the authentication probe, which runs only with `--probe auth`, never with `all`);
 - it never clicks, never presses Enter or Space on a control (Enter on an in-page link, above, is the one exception the plan's observe class allows), never types (but for the one key of the authentication probe, above), and never submits a form.
 
-The shortcuts probe (`--probe shortcuts`, 2.1.4) is the first of the plan's **activate** class; the links probe (`--probe links`, 2.4.4) and the on-input probe (`--probe input`, 3.2.2), below, are built on the activate-class harness. With focus on the page's `body`, it presses each printable key on its own (letters, digits, punctuation and symbols, then capitals; never Space, which scrolls), and a key may do whatever the page bound it to. Then it presses Space on the checkboxes, switches and radios it found named for shortcuts or keys, to toggle them, presses the keys again, and toggles them back. It never clicks, never presses Enter, never types into a field (focus goes back to the body before every key, and if a script keeps a field focused the probe stops pressing), never changes a select, and the network guard is on the whole time, so a key that posts something (archive, delete, send) is blocked and a key that navigates is answered locally. A GET a key sets off still reaches the server; run it on pages where that is harmless, as with every probe.
+The shortcuts probe (`--probe shortcuts`, 2.1.4) is the first of the plan's **activate** class; the links probe (`--probe links`, 2.4.4), the on-input probe (`--probe input`, 3.2.2) and the form probe (`--probe form`, 3.3.1, 3.3.3 and 3.3.7), below, are built on the activate-class harness. With focus on the page's `body`, it presses each printable key on its own (letters, digits, punctuation and symbols, then capitals; never Space, which scrolls), and a key may do whatever the page bound it to. Then it presses Space on the checkboxes, switches and radios it found named for shortcuts or keys, to toggle them, presses the keys again, and toggles them back. It never clicks, never presses Enter, never types into a field (focus goes back to the body before every key, and if a script keeps a field focused the probe stops pressing), never changes a select, and the network guard is on the whole time, so a key that posts something (archive, delete, send) is blocked and a key that navigates is answered locally. A GET a key sets off still reaches the server; run it on pages where that is harmless, as with every probe.
 
 ### The activate-class harness
 
 `src/probes/activate.ts` is what every probe that clicks, changes a setting or types goes through (the plan's C1, section 4.4). It generalizes what the shortcuts probe does (a change watch whose noise is learned in a wait with no input, the guard on all along) and adds:
 
-- **A skip list.** A control is never touched when its name, label, title or value holds a destructive, transactional, account-changing or consent word, in English, Portuguese or Spanish (`delete`, `remove`, `buy`, `pay`, `checkout`, `sign out`, `logout`, `unsubscribe`, `submit`, `send`, `confirm`, `accept`, `save`…; `excluir`, `remover`, `comprar`, `pagar`, `sair`, `cancelar assinatura`, `enviar`, `aceitar`…; `eliminar`, `borrar`, `comprar`, `pagar`, `cerrar sesión`, `darse de baja`, `enviar`, `aceptar`…), or when its code does (`deleteItem(3)`, `btn-logout`, `javascript:removeItem(3)`; only unambiguous verbs, so an analytics call such as `ga('send', …)` is no reason to skip). Also left alone: submit buttons (and a button with no type inside a form), anything inside a form that holds a password, file or payment (`autocomplete="cc-…"`) field, a `data-method` other than GET, downloads (`download`, or an address that ends in a file extension), new windows (`target`), addresses on another origin, disabled controls, password and file fields. Each skip is logged with its reason and the word.
-- **A budget** of controls and of time per page: 30 controls and 90 s for the links probe, 40 controls and 180 s for the on-input probe.
-- **A fresh page after each change** (or before every control, as the on-input probe asks). Once an activation changed anything (the DOM outside the noise, the address beyond its fragment, storage or cookies, focus lost, a dialog or layer shown), the next control gets a fresh page in a new browser context, so neither the page nor its storage carries the effect over. An activation whose navigation was intercepted leaves the page as it was, and the next control uses it.
+- **A skip list.** A control is never touched when its name, label, title or value holds a destructive, transactional, account-changing or consent word, in English, Portuguese or Spanish (`delete`, `remove`, `buy`, `pay`, `checkout`, `sign out`, `logout`, `unsubscribe`, `submit`, `send`, `confirm`, `accept`, `save`…; `excluir`, `remover`, `comprar`, `pagar`, `sair`, `cancelar assinatura`, `enviar`, `aceitar`…; `eliminar`, `borrar`, `comprar`, `pagar`, `cerrar sesión`, `darse de baja`, `enviar`, `aceptar`…), or when its code does (`deleteItem(3)`, `btn-logout`, `javascript:removeItem(3)`; only unambiguous verbs, so an analytics call such as `ga('send', …)` is no reason to skip). Also left alone: submit buttons (and a button with no type inside a form), anything inside a form that holds a password, file or payment field (`autocomplete="cc-…"`, or, when the token is missing, a name or id with `cc-`, `card`, `cvv` or `cvc`), a `data-method` other than GET, downloads (`download`, or an address that ends in a file extension), new windows (`target`), addresses on another origin, disabled controls, password and file fields. Each skip is logged with its reason and the word.
+- **A budget** of controls and of time per page: 30 controls and 90 s for the links probe, 40 controls and 180 s for the on-input probe, 20 fields and 6 pairs (26 in all) and 150 s for the form probe.
+- **A fresh page after each change** (or before every control, as the on-input probe asks). Once an activation changed anything (the DOM outside the noise, the address beyond its fragment, storage or cookies, focus lost, a dialog or layer shown), the next control gets a fresh page in a new browser context, so neither the page nor its storage carries the effect over. Focus that goes back to the document because the probe left a field itself (`blur()`) does not count. An activation whose navigation was intercepted leaves the page as it was, and the next control uses it.
 - **Overlays.** Before a click, the control is scrolled to the middle of the window and hit-tested at its middle: under another layer (a cookie wall, a sticky header), it is not exercised, and the layer is named. A dialog or a fixed layer over a quarter of the window that an activation shows is recorded, and its own controls are not exercised.
 - **Interception.** Once the page has loaded, every navigation the page starts is recorded from the Navigation API's `navigate` event, and one to another document (or a download) is cancelled there, before any request leaves; the network guard stays the backstop, answering any top-level navigation that slips through with 204. `window.open` is hooked as always (it returns `null`), form submission is cancelled, `window.close()` and `print()` are ignored, and writes to storage and cookies are counted.
 - **A log**, written to the record: every load, wait, click, skip, intercepted navigation, window, submission, download, dialog and blocked request, on one clock, and the guard's own log (`guard`), merged across the fresh pages, with intercepted navigations in it (`cause: "intercepted"`).
@@ -127,7 +128,7 @@ Coverage of this run
 
 ## Coverage by criterion and method
 
-What the probes add (`--probe all`, plus `auth`, `links` and `input`, which run only when named), and what each criterion still needs from a person. Every rule is experimental.
+What the probes add (`--probe all`, plus `auth`, `flash`, `links`, `input` and `form`, which run only when named), and what each criterion still needs from a person. Every rule is experimental.
 
 | SC | Method (probe, rule) | Failure | Needs review | Stays manual |
 |---|---|---|---|---|
@@ -156,6 +157,9 @@ What the probes add (`--probe all`, plus `auth`, `links` and `input`, which run 
 | 2.4.11 Focus Not Obscured (Minimum) | `probe/keyboard@2`, `rampa/focus-obscured`: 5×5 hit grid at the run's window and at 390×844, confirmed by pixels | the element entirely under author content (beyond the target under `--wcag 2.1`) | — | content the user opened or moved; other window sizes and zoom levels |
 | 3.2.1 On Focus | `probe/keyboard@2`, `rampa/on-focus` | navigation, new window, submission or modal on focus, repeated when focus comes back (high); a browser dialog or a script focus move, repeated (medium) | a change that did not repeat; an address change with no load | focus by mouse; changes after interaction; content changes that change meaning |
 | 3.2.2 On Input | `probe/input@1`, `rampa/on-input`: each form control changed once on a fresh load, confirmed on a second; `judgment/3.2.2@1` only clears | a navigation, new window, submission or modal dialog as the value changes (high); the same once the field is left, a browser dialog, focus moved by the page (medium); each again on a second load and with no warning the model could quote | a change once of two loads; an address set in place; most of the text changed; a layer that is not modal; focus lost | whether a warning is adequate; custom widgets; values that matter (one option, a full field); forms with password, file or payment fields |
+| 3.3.1 Error Identification | `probe/form@1`, `rampa/error-on-leave`: an invalid value derived from each field's constraints typed, then the field left; the error state rules of B8 on the page after | a field the page marked invalid (`aria-invalid`) with no message a person sees and assistive technology reads (hidden, under `aria-hidden`, or none) | a field marked only by an error class with no text; a message that showed but is neither tied to the field nor announced | errors the server finds (nothing is submitted, D5); errors on submit; fields with no constraint in their markup; wording |
+| 3.3.3 Error Suggestion | `probe/form@1`, `rampa/suggestion-on-leave`: the same entries | a message that showed after an entry broke `minlength`, `min`, `max` or a type, where neither it, the label nor a hint states the rule | the same for a `pattern` with no example the pattern accepts, `step` and date ranges | whether a suggestion is right; rules only the script or the server knows; the security exception |
+| 3.3.7 Redundant Entry | `probe/form@1`, `rampa/redundant-entry`: fields of one form that ask for the same thing (an autocomplete purpose, or a label in another group); a reuse control toggled, or the first field typed into and the second read | billing and shipping asked twice with no control to reuse the entry, the second neither filled in from the first nor offering it (medium; beyond the target under `--wcag 2.1`) | other pairs asked twice; a second field that asks to confirm ("Confirm e-mail"); a second field in a step that does not show yet; a pair the probe could not type into | steps on other pages; third-party steps; the essential and security exceptions; whether the same label asks about the same person |
 | 3.3.8 Accessible Authentication (Minimum) | `probe/auth@1`, `rampa/accessible-authentication`: sign-in and recovery steps; a trusted paste into each password and code field; keypads, quoted cognitive tests, CAPTCHAs classified; `judgment/3.3.8@1` only clears | a field a paste does not reach while a key does; a split code a paste fills in part; a read-only password filled by a keypad; text asking for some characters of a secret, a calculation or an image transcription (medium) | any of those next to another way to sign in; a field that takes no input; attributes that keep password managers away; a puzzle CAPTCHA | steps behind a submit; security questions; whether an alternative is accessible; real password managers |
 
 "No failure found" in a coverage line applies to the conditions it names: one browser engine, one viewport, the states the observe class reached. It is never a pass.
@@ -258,16 +262,25 @@ The on-input probe, measured the same day (each control costs a fresh page, abou
 | www.gov.uk/search/all | 1 | 0 | 7.5 s |
 | `test/fixtures/probes/input-*.html` | 1 to 9 | 0 to 6 | 3.8 to 43 s |
 
+The form probe, measured on 2026-10-11 with Edge 155 headless, other jobs loading the machine (one run each; a trial costs about 1 to 1.5 s, typing and the wait for the page after the field is left, and reading the page after it costs more on a large page; a fresh page is opened only after a field the page reacted to):
+
+| Page | Text fields found, typed into | Pairs | Fresh pages | Time |
+|---|---|---|---|---|
+| parsleyjs.org, the simple example | 3, 2 | 0 | 2 | 13.8 s |
+| getbootstrap.com/docs/5.3/forms/validation | 22, 20 | 0 | 1 | 49.5 s (94.5 s before a blur of the probe's own stopped counting as a change) |
+| getbootstrap.com/docs/5.3/examples/checkout | 12, 0 (one form, with card fields) | 0 | 1 | 1.2 s |
+| `test/fixtures/probes/form-*.html` | 5 to 9, 1 to 7 | 0 to 4 | 3 to 7 | 12.1 to 19.4 s |
+
 ## Not yet
 
 - With `--crawl`, 2.4.1 is compared across the pages from their markup alone: a link into the page counts without being pressed, since the skip-link probe does not run there yet.
-- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'auth', 'flash', 'links', 'input']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
+- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'auth', 'flash', 'links', 'input', 'form']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
 - The `rampa.config` file has no `probe` key yet.
 - Items to review appear with the engine's and the rules' in every format: grouped by criterion and rule in the terminal (each element with `--verbose`), the Markdown and the HTML reports, counted in SARIF's coverage, and listed in the JSON (`needsReview`).
 - Captures are not written next to a saved snapshot; only their hashes are recorded.
-- Of the activate class, the shortcuts probe (printable keys on the body, Space on the settings it found), the links probe (one click on each scripted link) and the on-input probe (one change of each form control; both only with `--probe links`, `--probe input` or `--probe interact`) exist; the rest of it (Enter and Space on other controls, drags) and `--allow-submit` do not. Nothing here submits a form. The authentication probe (only with `--probe auth`) pastes a dummy value into password and code fields, types one key when the paste did not land, and puts the value back.
+- Of the activate class, the shortcuts probe (printable keys on the body, Space on the settings it found), the links probe (one click on each scripted link), the on-input probe (one change of each form control) and the form probe (invalid values typed into fields, which are then left; a reuse control toggled; all three only with `--probe links`, `--probe input`, `--probe form` or `--probe interact`) exist; the rest of it (Enter and Space on other controls, drags) and `--allow-submit` (the plan's D5: errors the server finds) do not. Nothing here submits a form. The authentication probe (only with `--probe auth`) pastes a dummy value into password and code fields, types one key when the paste did not land, and puts the value back.
 - `--crawl` does not run probes, so it does not find sign-in pages and probe them yet (the plan's B7 asks for that); the authentication probe lists the sign-in and recovery links it saw.
-- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. The color tests ran three times in a row on Edge and once in the full suite, with no verdict changing; their lightness verdicts also read the style sheet's colors, so a platform whose fonts antialias differently cannot turn a 5:1 difference into a failure. The authentication tests ran three times in a row on Edge and once in the full suite, with no verdict changing. The state contrast tests (`test/probes-states.test.ts`, keyboard and states probes on three fixtures) ran three times in a row on Edge and once in the full suite, with no verdict changing, and so did the flash tests (`test/probes-flash.test.ts`, six pages); the flash probe moves the page's own clock rather than waiting on it, and only its video sampling runs in real time, with a cap. The links tests (2.4.4) ran three times in a row on Edge and once in the full suite, with no outcome changing; the on-input tests (3.2.2) too, with no verdict changing. They have not run yet on the Linux CI runner's Chrome.
+- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. The color tests ran three times in a row on Edge and once in the full suite, with no verdict changing; their lightness verdicts also read the style sheet's colors, so a platform whose fonts antialias differently cannot turn a 5:1 difference into a failure. The authentication tests ran three times in a row on Edge and once in the full suite, with no verdict changing. The state contrast tests (`test/probes-states.test.ts`, keyboard and states probes on three fixtures) ran three times in a row on Edge and once in the full suite, with no verdict changing, and so did the flash tests (`test/probes-flash.test.ts`, six pages); the flash probe moves the page's own clock rather than waiting on it, and only its video sampling runs in real time, with a cap. The links tests (2.4.4) ran three times in a row on Edge and once in the full suite, with no outcome changing; the on-input tests (3.2.2) too, with no verdict changing. The form tests (`test/probes-form.test.ts`, five pages) ran four times on Edge and once in the full suite, with no verdict changing. They have not run yet on the Linux CI runner's Chrome.
 - Saved recordings of three real pages replay offline to the same findings, by id; the plan's measurement on 20 pages of the real-page sample (EVAL-1) is not done.
 
 ## The checks
@@ -820,6 +833,86 @@ The plan's gate asks for a targeted corpus of pages that change the context on i
 - A change of context more than about 4 s after the input is missed.
 - Each control costs a page load, two when it changed the context: 40 controls on a slow page reach the time budget.
 - Controls in frames and in shadow roots are not listed. One engine (Chromium).
+
+### Forms: 3.3.1, 3.3.3 and 3.3.7 (`--probe form`, rules `rampa/error-on-leave`, `rampa/suggestion-on-leave`, `rampa/redundant-entry`)
+
+**Only when named.** `--probe form` types into the fields of real forms, so `--probe all` leaves it out; `--probe interact` runs it with the shortcuts, links and on-input probes. It is the coverage plan's C6, on the activate-class harness (above). It never submits: it never presses Enter, the hooks cancel any submission, and the guard lets only GET, HEAD and OPTIONS through. Errors the server finds after a submission are the plan's D5, which needs `--allow-submit` and does not exist.
+
+**Errors on leaving a field (3.3.1, 3.3.3).** The probe lists the text fields that show (text, e-mail, address, telephone, number and search fields, and text areas) with the constraints their markup states, and plans at most two entries for each, derived from those constraints:
+
+| Constraint | What the probe types |
+|---|---|
+| `type="email"`, `type="url"` | `rampa` |
+| `pattern` | the first of `a`, `1`, `ab`, `12`, `a1`, `A`, `rampa`, `!` and `123456789012345` that the pattern refuses |
+| `minlength` | one character too few (`1`s in a field for digits, `a`s otherwise) |
+| `min` or `max` on a number field | one step below the minimum, or above the maximum |
+| `required`, `aria-required="true"`, or a required mark in its label (`Name *`, "(required)", "(obrigatório)") | nothing: a character typed and erased, so the field counts as edited |
+
+`maxlength` cannot be broken by typing. A field that states none of these is counted and left alone. Dates, selects, checkboxes and custom widgets are not tried. At most 20 fields get their entries. For each, on the page (a fresh one once a field before it changed the page), the field is found again by ref and identity, scrolled to the middle of the window and hit-tested, given focus, emptied (Ctrl+A, Backspace), the value typed with real keys, and left with `blur()`, which fires its `change` event; the harness watches the typing and the leaving. When the page reacted (a mutation, a class or style changed, or the text a reader sees around the field changed, which catches a message a style sheet shows for `:user-invalid`), the page as it is then is read the way the collector reads a page, and the field the way the error state rules of B8 read one (`src/criteria/error-messages.ts`): its state (`aria-invalid`, `:user-invalid` with the browser's validity flags, an error class), its messages and how each is tied to it (`aria-errormessage`, `aria-describedby`, next to it, a link of an error summary), whether each is announced (an alert, a status or a live region, on itself or around it), and its hints. The browser's validity flags are read after every entry.
+
+**The rules** run B8's own decisions (`src/rules/errors.ts`) on those facts, the first entry after which the page showed an error of its own for 3.3.1, each entry that broke a stated rule for 3.3.3. A message counts as the page's reaction only when the snapshot did not already show it, with the same text, at the same place: a hint worded like an error that was always there ("Invalid characters are removed") is not an error that appeared.
+
+| Observation on the page after the entry | Result |
+|---|---|
+| The page marked the field invalid (`aria-invalid`), and no message shows that assistive technology reads: none, a hidden one, or one under `aria-hidden` (B8's `rampa/error-without-text`) | 3.3.1 failure, medium |
+| The field is marked only by an error class, with no text | 3.3.1 review |
+| A message showed, but it is neither tied to the field (`aria-describedby`, `aria-errormessage`, an error summary) nor announced | 3.3.1 review: someone on the field with a screen reader may never hear it |
+| A message tied to the field or announced | no failure found |
+| Only the browser's `:user-invalid`, nothing of the page's own | not reported; counted: the browser names the error when the form is sent, which the probe never does |
+| Nothing at all | not reported; counted |
+| A field already in an error state on load | not reported here: B8's rules read it on the snapshot |
+| After an entry that broke `minlength`, `min`, `max` or a type, a message that, with the label and the hints, does not state the rule (the number, the format) (B8's `rampa/error-suggestion`) | 3.3.3 failure, medium |
+| The same for a `pattern` with no example the pattern accepts, `step`, or a date range | 3.3.3 review |
+| An empty required field (`valueMissing`) | 3.3.1's only: saying a field is empty is identifying the error |
+
+Each finding names the field, says what the probe typed and which rule that broke, and gives B8's message; with no field that showed an error of the page's own, 3.3.1 and 3.3.3 stay "not checked", and the coverage note says how many fields were left to the browser's own validation.
+
+**Fields asked twice (3.3.7).** In each form (or, for fields outside a form, the closest block that holds both, short of the page's `body`), the probe pairs a field with an earlier one that asks for the same thing:
+
+- the same autocomplete purpose (`billing street-address` and `shipping street-address`, `email` and `email`), in the same `section-*`: two sections are two people or things, a second traveller, and are left out; secrets and codes (`new-password`, `current-password`, `one-time-code`, card numbers and codes) are never paired;
+- or, without tokens, the same label in another group ("City" under "Billing address" and under "Shipping address"); groups named alike but for a number ("Passenger 1", "Passenger 2") are left out.
+
+It records the pair's groups, whether they are billing and shipping (by their tokens, or by group names such as "billing", "shipping", "delivery", "cobrança", "entrega", "facturación", "envío"), whether the second's label asks to confirm ("Confirm e-mail", "Repita o e-mail"), and the controls in the same form that offer to reuse an entry ("Same as billing address", "Use my billing address", "Igual ao endereço de cobrança", "Mismo domicilio", or an option of a select). Then, on a fresh page: when there is such a control, it clicks it once and records what that did to the second field (filled in, hidden, shown, disabled, nothing); otherwise, when the second field shows, it types a synthetic value that fits the purpose (`Rua Rampa 100`, `rampa.teste@example.com`) into the first, leaves it, and reads the second, then gives the second focus and looks for the value in its `datalist` or in a list of options that showed.
+
+| Observation | Result |
+|---|---|
+| A control offers to reuse the entry; the second field was filled in from the first; or it offered the value | no failure found (the coverage note names how) |
+| Billing and shipping asked twice, the second neither filled in nor offering the value, and no reuse control in the form | failure, medium (beyond the target under `--wcag 2.1`, where 3.3.7 does not exist) |
+| The same purpose or label asked twice otherwise | review: whether it is the same information, and not about another person, needs a person |
+| The second field asks to confirm the entry | review: the security and essential exceptions may apply |
+| The second field is in a part of the form that does not show yet (a later step) | review: the probe does not open the step |
+| A pair the probe could not type into (the skip list, a cover, the budget) | review |
+
+With no pair, 3.3.7 has no applicable content on this page; the note says that steps on other pages are not seen.
+
+**Fixtures** (`test/fixtures/probes/form-*.html`, served over HTTP by the tests; no ACT rule exists for these entries):
+
+- `form-fail.html`: an e-mail field the page marks `aria-invalid` with no text, an age (`min="18"`) whose message is "Invalid age.", a username (`minlength="4"`) whose message "Invalid username." sits next to it, tied to nothing, while the page posts the name to the server (blocked), a CEP whose wrapper gets an error class and an alert "This CEP is invalid." with no example of the pattern, and a phone "Phone *" that gets an error class and no text when left empty. 3.3.1: one failure (the e-mail), two to review (the username's message, the phone's class); 3.3.3: two failures (age, username), one to review (the CEP). The server sees nothing but the page's own loads.
+- `form-pass.html`: the same fields with messages that are tied, or an alert, and state their rule ("Enter an email address like name@example.com", "You must be 18 or older", "Use at least 4 characters", "Enter the CEP in the format 12345-678"), a name with `aria-errormessage`, initials whose message a style sheet shows on `:user-invalid`, a city left to the browser, and a search field with no constraint. Nothing is reported.
+- `form-near.html`: a hint worded like an error that was always there, a field already in an error state on load (B8's), a ZIP code checked only on submit, a motto whose message shows while typing in a live region (announced, not tied: no failure), a sign-in form with a password and a payment form whose fields have no autocomplete token, never typed into. Nothing is reported.
+- `form-redundant.html`: billing and shipping street (by tokens) and city (by label and group), an e-mail and its "Confirm e-mail", two passengers' names in two sections, and a name asked again in a later step that does not show. Two failures (street, city), two to review (the confirmation, the later step); the passengers are not paired.
+- `form-reuse.html`: billing and shipping with "Shipping address is the same as my billing address" (clicked: the shipping fields show), a receipts e-mail the page fills in from the contact e-mail, and a second name offered from the first through a `datalist`. Nothing is reported.
+
+**Real pages** (2026-10-11, one run each, Edge 155, `--probe form --no-llm`):
+
+| Page | What the probe did | Results | Read by hand |
+|---|---|---|---|
+| parsleyjs.org/doc/examples/simple.html | typed `rampa` into the e-mail field and emptied it; emptied the name | 3.3.1 and 3.3.3: no failure found (1 field each); the name left to the browser | Right: Parsley shows "This value should be a valid email." and "This value is required." on change, tied to the field with `aria-describedby`; the name is checked only on submit |
+| getbootstrap.com/docs/5.3/forms/validation | 20 fields, one load | 3.3.1 and 3.3.3 not checked: 17 left to the browser, 3 already in an error state on load (B8 reads those), a textarea skipped (its form has a file field) | Right: Bootstrap's examples validate on submit (`was-validated`), and the server-side example renders its errors |
+| getbootstrap.com/docs/5.3/examples/checkout | nothing typed: the form holds card fields whose ids are `cc-number` and `cc-cvv`, with no autocomplete token | 3.3.7: no pair (one address, and a "Shipping address is the same as my billing address" checkbox) | Right, and why the skip list reads names and ids: the first run, before it did, typed into the card fields |
+
+On material.angular.dev's input examples the e-mail field showed "Please enter a valid email address" tied to it, but its facts did not match the snapshot: Angular numbers its fields (`mat-input-5`) in the order they render, which changed between the collection's load and the probe's, so nothing was reported (unmatched, as the identity check intends).
+
+**Limits.**
+
+- Only constraints the markup states. Fields a script validates with no constraint in the markup (a CPF checked by its digits, a name with no `required`) are not typed into, and rules only the script knows are never 3.3.3's to check.
+- Errors on submit and errors the server finds are never seen: nothing is submitted.
+- One entry per constraint, the first one the field allows; a field that tolerates `a` but refuses `aaa` is not found.
+- Forms with password, file or payment fields are never typed into, which leaves sign-in, sign-up and checkout forms to a person (their 3.3.7 pairs go to review).
+- A message that is neither tied, announced nor near the field (a toast elsewhere, a summary that shows on submit) is not read as the field's.
+- 3.3.7 sees one page: steps on other pages, steps that do not show yet, and data entered in earlier sessions are not compared. A pair of labels can ask about two people; such pairs go to review.
+- Frameworks that number their fields in render order (`mat-input-5`) may not match the snapshot on the probe's fresh load.
+- Fields in frames and in shadow roots are not listed. One engine (Chromium).
 
 ### 3.3.8 Accessible Authentication (Minimum) (`--probe auth`, rule `rampa/accessible-authentication`)
 

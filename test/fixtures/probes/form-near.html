@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Account: near misses for errors on leaving a field</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; max-width: 640px; }
+  label { display: block; margin-top: 12px; }
+  input { font: inherit; padding: 4px; }
+  .error { color: #c00; }
+  .hint { color: #555; font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Your account</h1>
+  <form id="profile" action="/profile" method="post">
+    <!-- A hint worded like an error that was always there: not an error that appeared. -->
+    <div>
+      <label for="nick">Nickname</label>
+      <input id="nick" name="nick" minlength="3">
+      <p class="hint">Invalid characters are removed automatically.</p>
+    </div>
+
+    <!-- Already in an error state on load: the error state rules (B8) read it, not the probe. -->
+    <label for="code">Promo code</label>
+    <input id="code" name="code" minlength="6" value="abc" aria-invalid="true" aria-describedby="code-error">
+    <span id="code-error" class="error">The promo code has 6 letters.</span>
+
+    <!-- Checked only when the form is sent, which the probe never does. -->
+    <label for="zip">ZIP code</label>
+    <input id="zip" name="zip" pattern="\d{5}">
+
+    <!-- Checked while typing, in a live region: announced, even though it is not tied. -->
+    <div>
+      <label for="motto">Motto</label>
+      <input id="motto" name="motto" minlength="8">
+      <span id="motto-live" class="error" aria-live="polite"></span>
+    </div>
+
+    <button type="submit">Save</button>
+  </form>
+
+  <h2>Sign in</h2>
+  <!-- A form with a password: never typed into. -->
+  <form id="signin" action="/signin" method="post">
+    <label for="user">E-mail</label>
+    <input id="user" name="user" type="email" required>
+    <label for="pw">Password</label>
+    <input id="pw" name="pw" type="password" required minlength="8">
+    <button type="submit">Sign in</button>
+  </form>
+
+  <h2>Pay</h2>
+  <!-- A payment form whose fields have no autocomplete token: known by their names. Never typed into. -->
+  <form id="pay" action="/pay" method="post">
+    <label for="holder">Name on the card</label>
+    <input id="holder" name="holder" required>
+    <label for="card-number">Card number</label>
+    <input id="card-number" name="cardnumber" required pattern="[0-9 ]{12,19}">
+    <button type="submit">Pay</button>
+  </form>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id)
+  $('profile').addEventListener('submit', (event) => {
+    if (!$('zip').checkValidity()) {
+      event.preventDefault()
+      $('zip').setAttribute('aria-invalid', 'true')
+    }
+  })
+  $('motto').addEventListener('input', () => {
+    $('motto-live').textContent = $('motto').value.length < 8 ? 'Use at least 8 characters.' : ''
+  })
+  for (const id of ['user', 'pw']) $(id).addEventListener('input', () => fetch('/touched?signin', { method: 'GET' }))
+</script>
+</body>
+</html>

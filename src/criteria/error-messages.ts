@@ -219,8 +219,13 @@ function errorNodesIn(container: A11yNode, index: TreeIndex, skip: (node: A11yNo
   return found
 }
 
-/** Every field of the page in an error state, with the messages and hints around it. */
-export function errorFields(snapshot: A11ySnapshot): ErrorField[] {
+interface FieldScope {
+  index: TreeIndex
+  ordered: A11yNode[]
+  byId: Map<string, A11yNode>
+}
+
+function scopeOf(snapshot: A11ySnapshot): FieldScope {
   const index = indexTree(snapshot.root)
   const ordered = [...walkTree(snapshot.root)]
   const byId = new Map<string, A11yNode>()
@@ -228,77 +233,116 @@ export function errorFields(snapshot: A11ySnapshot): ErrorField[] {
     const id = attributesOf(node).id
     if (id && !byId.has(idKey(node.ref, id))) byId.set(idKey(node.ref, id), node)
   }
+  return { index, ordered, byId }
+}
+
+/** A field with the messages, hints and constraints around it, in whatever state it is. */
+function readField(scope: FieldScope, node: A11yNode, type: string, state: ErrorStateSource[]): ErrorField {
+  const { index, ordered, byId } = scope
+  const attributes = attributesOf(node)
+  const messages: FieldMessage[] = []
+  const hints: string[] = []
+  const add = (target: A11yNode, via: FieldMessage['via']) => {
+    const text = messageText(target)
+    if (!text || messages.some((m) => m.ref === target.ref)) return
+    messages.push({ ref: target.ref, text: truncate(text, 300), via, shown: shown(target) && text !== '', inTree: inTree(target, index) })
+  }
+  const ids = (name: string) =>
+    (attributes[name] ?? '')
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((id) => byId.get(idKey(node.ref, id)))
+      .filter((target): target is A11yNode => target !== undefined)
+  for (const target of ids('aria-errormessage')) add(target, 'aria-errormessage')
+  for (const target of ids('aria-describedby')) {
+    if (looksLikeError(target, index, target)) add(target, 'aria-describedby')
+    else {
+      const text = shown(target) ? shownText(target) : ''
+      if (text) hints.push(truncate(text, 200))
+    }
+  }
+  // Near the field: up to three levels up, short of a container that holds other fields.
+  let container: A11yNode = node
+  for (let level = 0; level < 3; level++) {
+    const parentRef = index.get(container.ref)?.parentRef
+    const parent = parentRef ? index.get(parentRef)?.node : undefined
+    if (!parent || countFields(parent) > 1 || parent.native.tag === 'body' || parent.native.tag === 'form') break
+    container = parent
+  }
+  for (const target of errorNodesIn(container, index, (n) => n === node)) add(target, 'near')
+  // A field in a group (a date as day, month and year; radios): the group's message is the field's, as GOV.UK ties it
+  // to the fieldset with aria-describedby.
+  const group = groupOf(index, node)
+  if (group) {
+    for (const id of `${attributesOf(group)['aria-describedby'] ?? ''} ${attributesOf(group)['aria-errormessage'] ?? ''}`.split(/\s+/).filter(Boolean)) {
+      const target = byId.get(idKey(group.ref, id))
+      if (target && looksLikeError(target, index, target)) add(target, attributesOf(group)['aria-errormessage']?.split(/\s+/).includes(id) ? 'aria-errormessage' : 'aria-describedby')
+    }
+    for (const target of errorNodesIn(group, index, (n) => fieldType(n) !== undefined)) add(target, 'near')
+  }
+  // An error summary: a link to the field.
+  if (attributes.id) {
+    for (const link of ordered) {
+      if (link.native.tag === 'a' && attributesOf(link).href === `#${attributes.id}`) add(link, 'summary')
+    }
+  }
+  const constraints: Record<string, string> = {}
+  for (const name of ['required', 'aria-required', 'minlength', 'maxlength', 'min', 'max', 'step', 'pattern']) {
+    if (attributes[name] !== undefined) constraints[name === 'aria-required' ? 'required' : name] = attributes[name] ?? ''
+  }
+  if (['email', 'url', 'number', 'date', 'time', 'datetime-local', 'month', 'week', 'tel'].includes(type)) constraints.type = type
+  const validity = Array.isArray(node.native.validity) ? (node.native.validity as unknown[]).filter((flag): flag is string => typeof flag === 'string') : []
+  return {
+    node,
+    label: visibleLabelOf(node, ordered, byId) ?? node.name?.trim() ?? attributes.placeholder ?? '',
+    type,
+    state,
+    validity,
+    messages,
+    hints,
+    constraints,
+  }
+}
+
+/** Every field of the page in an error state, with the messages and hints around it. */
+export function errorFields(snapshot: A11ySnapshot): ErrorField[] {
+  const scope = scopeOf(snapshot)
   const fields: ErrorField[] = []
-  for (const node of ordered) {
+  for (const node of scope.ordered) {
     const type = fieldType(node)
     if (!type || node.states.includes('hidden') || node.states.includes('disabled') || isHoneypot(node)) continue
-    const state = stateOf(node, index)
+    const state = stateOf(node, scope.index)
     if (state.length === 0) continue
-    const attributes = attributesOf(node)
-    const messages: FieldMessage[] = []
-    const hints: string[] = []
-    const add = (target: A11yNode, via: FieldMessage['via']) => {
-      const text = messageText(target)
-      if (!text || messages.some((m) => m.ref === target.ref)) return
-      messages.push({ ref: target.ref, text: truncate(text, 300), via, shown: shown(target) && text !== '', inTree: inTree(target, index) })
-    }
-    const ids = (name: string) =>
-      (attributes[name] ?? '')
-        .split(/\s+/)
-        .filter(Boolean)
-        .map((id) => byId.get(idKey(node.ref, id)))
-        .filter((target): target is A11yNode => target !== undefined)
-    for (const target of ids('aria-errormessage')) add(target, 'aria-errormessage')
-    for (const target of ids('aria-describedby')) {
-      if (looksLikeError(target, index, target)) add(target, 'aria-describedby')
-      else {
-        const text = shown(target) ? shownText(target) : ''
-        if (text) hints.push(truncate(text, 200))
-      }
-    }
-    // Near the field: up to three levels up, short of a container that holds other fields.
-    let container: A11yNode = node
-    for (let level = 0; level < 3; level++) {
-      const parentRef = index.get(container.ref)?.parentRef
-      const parent = parentRef ? index.get(parentRef)?.node : undefined
-      if (!parent || countFields(parent) > 1 || parent.native.tag === 'body' || parent.native.tag === 'form') break
-      container = parent
-    }
-    for (const target of errorNodesIn(container, index, (n) => n === node)) add(target, 'near')
-    // A field in a group (a date as day, month and year; radios): the group's message is the field's, as GOV.UK ties it
-    // to the fieldset with aria-describedby.
-    const group = groupOf(index, node)
-    if (group) {
-      for (const id of `${attributesOf(group)['aria-describedby'] ?? ''} ${attributesOf(group)['aria-errormessage'] ?? ''}`.split(/\s+/).filter(Boolean)) {
-        const target = byId.get(idKey(group.ref, id))
-        if (target && looksLikeError(target, index, target)) add(target, attributesOf(group)['aria-errormessage']?.split(/\s+/).includes(id) ? 'aria-errormessage' : 'aria-describedby')
-      }
-      for (const target of errorNodesIn(group, index, (n) => fieldType(n) !== undefined)) add(target, 'near')
-    }
-    // An error summary: a link to the field.
-    if (attributes.id) {
-      for (const link of ordered) {
-        if (link.native.tag === 'a' && attributesOf(link).href === `#${attributes.id}`) add(link, 'summary')
-      }
-    }
-    const constraints: Record<string, string> = {}
-    for (const name of ['required', 'aria-required', 'minlength', 'maxlength', 'min', 'max', 'step', 'pattern']) {
-      if (attributes[name] !== undefined) constraints[name === 'aria-required' ? 'required' : name] = attributes[name] ?? ''
-    }
-    if (['email', 'url', 'number', 'date', 'time', 'datetime-local', 'month', 'week', 'tel'].includes(type)) constraints.type = type
-    const validity = Array.isArray(node.native.validity) ? (node.native.validity as unknown[]).filter((flag): flag is string => typeof flag === 'string') : []
-    fields.push({
-      node,
-      label: visibleLabelOf(node, ordered, byId) ?? node.name?.trim() ?? attributes.placeholder ?? '',
-      type,
-      state,
-      validity,
-      messages,
-      hints,
-      constraints,
-    })
+    fields.push(readField(scope, node, type, state))
   }
   return fields
+}
+
+/**
+ * One field read the same way whatever its state (an empty `state` when nothing marks it as in error): the form probe
+ * (C6) reads the field it typed into on the page after it left it, where a message may show with no mark on the field.
+ */
+export function errorFieldAt(snapshot: A11ySnapshot, ref: string): ErrorField | undefined {
+  const scope = scopeOf(snapshot)
+  const node = scope.index.get(ref)?.node
+  const type = node ? fieldType(node) : undefined
+  if (!node || !type) return undefined
+  return readField(scope, node, type, stateOf(node, scope.index))
+}
+
+/** Whether a message, or an element around it, is announced when it changes: an alert, a status or a live region. */
+export function isAnnounced(snapshot: A11ySnapshot, ref: string): boolean {
+  const index = indexTree(snapshot.root)
+  let current: A11yNode | undefined = index.get(ref)?.node
+  for (let level = 0; current && level < 6; level++) {
+    const attributes = attributesOf(current)
+    const role = attributes.role?.trim().split(/\s+/)[0] ?? ''
+    const live = attributes['aria-live']?.trim().toLowerCase()
+    if (role === 'alert' || role === 'status' || live === 'polite' || live === 'assertive') return true
+    const parentRef: string | undefined = index.get(current.ref)?.parentRef
+    current = parentRef ? index.get(parentRef)?.node : undefined
+  }
+  return false
 }
 
 // The 3.3.1 judgment (ACT 36b590).

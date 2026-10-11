@@ -73,7 +73,7 @@ describe('the activate-class skip list', () => {
   it('keeps the activate class out of --probe all, and names it --probe interact', () => {
     expect(parseProbeKinds('all')).not.toContain('links')
     expect(parseProbeKinds('links')).toEqual(['links'])
-    expect(parseProbeKinds('interact')).toEqual(['shortcuts', 'links', 'input'])
+    expect(parseProbeKinds('interact')).toEqual(['shortcuts', 'links', 'input', 'form'])
   })
 })
 
