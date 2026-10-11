@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Status messages: exposed</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; color: #111; background: #fff; }
+  header { padding: 8px 24px; background: #eef; }
+  main { padding: 24px; max-width: 760px; }
+  section { margin: 0 0 24px; }
+  button, select, input { font: inherit; }
+  .error { color: #a00; margin: 4px 0 0; }
+  .toast { position: fixed; right: 16px; bottom: 16px; padding: 10px 14px; background: #222; color: #fff; }
+  .toast:empty { display: none; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  #clock { font-size: 12px; color: #555; }
+</style>
+</head>
+<body>
+<header><span id="list-count">Your list: 1 item</span> · <span id="clock">0</span> s</header>
+<div id="announcer" class="sr-only" aria-live="polite"></div>
+<div id="toast" class="toast" role="status"></div>
+<main>
+  <h1>Kettles</h1>
+
+  <!-- 1. Validation on blur: the error goes into an alert that was in the page on load. -->
+  <section class="w-email">
+    <label for="email">E-mail for the price alert</label>
+    <input id="email" type="email" aria-describedby="email-error" onblur="if (this.value && !this.value.includes('@')) document.getElementById('email-error').textContent = 'Enter an e-mail address like name@example.com'">
+    <div id="email-error" class="error" role="alert"></div>
+  </section>
+
+  <!-- 2. Copy: the toast is a status region. -->
+  <section class="w-copy">
+    <button class="copy" onclick="document.getElementById('toast').textContent = 'Link copied to the clipboard'">Copy link</button>
+  </section>
+
+  <!-- 3. Sort: the note is a status. -->
+  <section class="w-sort">
+    <label for="sort">Sort by</label>
+    <select id="sort" onchange="document.getElementById('sort-note').textContent = 'Sorted by ' + this.value + ', lowest first'"><option value="name">Name</option><option value="price">Price</option></select>
+    <p id="sort-note" role="status"></p>
+  </section>
+
+  <!-- 4. A search that answers in place: the summary is live, the results are content. -->
+  <section class="w-search">
+    <form id="search" action="results.html" method="get" onsubmit="event.preventDefault(); search(this.q.value)">
+      <label for="q">Search the shop</label> <input id="q" name="q" type="search"> <button>Search</button>
+    </form>
+    <div id="summary" aria-live="polite"></div>
+    <ul id="results"></ul>
+  </section>
+
+  <!-- 5. Add to list: the counter changes, and a hidden live region says it. -->
+  <section class="w-add">
+    <button class="add" onclick="document.getElementById('list-count').textContent = 'Your list: 2 items'; document.getElementById('announcer').textContent = 'Added. Your list has 2 items.'">Add to list</button>
+  </section>
+
+  <!-- 6. A required field left empty: the error is an alert. -->
+  <section class="w-name">
+    <label for="name">Name on the card</label>
+    <input id="name" required aria-describedby="name-error" onblur="if (!this.value) { this.setAttribute('aria-invalid', 'true'); document.getElementById('name-error').textContent = 'Enter the name to print on the card' }">
+    <p id="name-error" class="error" role="alert"></p>
+  </section>
+</main>
+<script>
+  let seconds = 0
+  setInterval(() => { document.getElementById('clock').textContent = String(++seconds) }, 1000)
+  function search(query) {
+    document.getElementById('summary').textContent = '3 results for "' + query + '"'
+    document.getElementById('results').innerHTML = ['Steel', 'Glass', 'Copper'].map((k) => '<li><a href="#">' + k + ' kettle</a></li>').join('')
+  }
+</script>
+</body>
+</html>

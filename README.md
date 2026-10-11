@@ -265,7 +265,7 @@ API keys never go in this file: use environment variables or a local `.env`. `ra
 | Android and iOS | `rampa check android:` over adb; XCUITest exports from a Swift helper | [docs/android.md](docs/android.md), [docs/ios.md](docs/ios.md) |
 | Screenshots | `rampa check screen.png`: text contrast measured from pixels, nothing it cannot see | [docs/image-surface.md](docs/image-surface.md) |
 | Choosing a model | `rampa eval` per criterion, then `rampa compare` | [docs/models.md](docs/models.md) |
-| Exploring an evaluation | load a run folder in [Rampa Lab](https://guilhermebsantiago.github.io/rampa-lab/): scores, case by case, two runs compared; files stay in your browser | |
+| Exploring an evaluation | load a run folder in [Rampa Lab](https://rampalab.guilhermebs.com.br/): scores, case by case, two runs compared; files stay in your browser | |
 
 ## Models
 
@@ -408,7 +408,7 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - [x] `rampa init`, baselines and waivers with expiry, for codebases that already have findings
 - [x] Android (adb and UI Automator), iOS (XCUITest export) and image-only surfaces
 - [x] `rampa compare`, to choose a model per criterion
-- [x] [Rampa Lab](https://guilhermebsantiago.github.io/rampa-lab/), a web app to explore evaluation runs in the browser
+- [x] [Rampa Lab](https://rampalab.guilhermebs.com.br/), a web app to explore evaluation runs in the browser
 - [x] A first false-positive study on real pages ([report](docs/studies/real-pages-2026-10.md)); human review of its labels is next
 - [ ] The study's dev-split fixes: destination evidence for 2.4.4, functional icons and stacked carousel images for 1.1.1, honeypot fields, home pages titled with the site's name
 - [x] WCAG 2.2 by default, with a status for every criterion and axe-core's incomplete results kept for review

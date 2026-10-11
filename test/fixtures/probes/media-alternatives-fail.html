@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Media: alternatives that are placeholders or broken</title>
+<style>body { margin: 0; font: 16px/1.4 Arial, sans-serif; } main { padding: 24px; } video { width: 320px; height: 240px; }</style>
+</head>
+<body>
+<main>
+  <h1>Episodes with broken transcripts</h1>
+  <section>
+    <h2>Episode 1</h2>
+    <!-- 1.2.1: the only transcript link goes to "#", and nothing handles a press. -->
+    <audio id="hash" controls src="media/voice.webm"></audio>
+    <p><a href="#">Transcript</a></p>
+  </section>
+  <section>
+    <h2>Episode 2</h2>
+    <!-- 1.2.1: the transcript link answers 404. -->
+    <audio id="gone" controls src="media/voice.webm"></audio>
+    <p><a href="media/no-such-transcript.html">Read the transcript</a></p>
+  </section>
+  <section>
+    <h2>Episode 3</h2>
+    <!-- 1.2.1: a details whose summary says Transcript, and nothing in it. -->
+    <audio id="empty" controls src="media/voice.webm"></audio>
+    <details><summary>Transcript</summary></details>
+  </section>
+  <section>
+    <h2>Episode 4</h2>
+    <!-- 1.2.1: a transcript heading over a placeholder. -->
+    <audio id="soon" controls src="media/voice.webm"></audio>
+    <h3>Transcript</h3>
+    <p>Transcript coming soon.</p>
+  </section>
+  <section>
+    <h2>Episode 5</h2>
+    <!-- 1.2.1: a link into the page whose target is not on it. -->
+    <audio id="missing" controls src="media/voice.webm"></audio>
+    <p><a href="#episode-5-text">Transcript</a></p>
+  </section>
+  <section>
+    <h2>Episode 6</h2>
+    <!-- 1.2.1: the link answers 200 with a "Page not found" page (a soft 404). -->
+    <audio id="soft" controls src="media/voice.webm"></audio>
+    <p><a href="media/not-found.html">Transcript</a></p>
+  </section>
+  <section>
+    <h2>Episode 7</h2>
+    <!-- 1.2.1: a link to another origin that answers 404 to a HEAD (the test sets its address through ?other=). -->
+    <audio id="remote" controls src="media/voice.webm"></audio>
+    <p><a id="remote-link" href="https://example.invalid/transcript.html">Transcript</a></p>
+  </section>
+  <section>
+    <h2>Silent clip</h2>
+    <!-- 1.2.1: a video with no audio track whose only alternative, a descriptions track, holds no cues. -->
+    <video id="described" controls src="media/silent.webm"><track kind="descriptions" srclang="en" label="Descriptions" src="media/empty.vtt"></video>
+  </section>
+  <section>
+    <h2>Lecture</h2>
+    <!-- 1.2.2: a captions track whose every cue is a placeholder. -->
+    <video id="lorem" controls src="media/talk.webm"><track kind="captions" srclang="en" label="English" src="media/placeholder.vtt"></video>
+  </section>
+  <section>
+    <h2>Seminar</h2>
+    <!-- 1.2.2: a captions track whose every cue is empty. -->
+    <video id="blank" controls src="media/talk.webm"><track kind="captions" srclang="en" label="English" src="media/blank.vtt"></video>
+  </section>
+</main>
+<script>
+  const other = new URLSearchParams(location.search).get('other')
+  if (other) document.getElementById('remote-link').href = `${other}/media/no-such-transcript.html`
+</script>
+</body>
+</html>

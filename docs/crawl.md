@@ -151,7 +151,7 @@ Only identical inputs are reused. A page title (2.4.2) is judged with the page's
 
 ## Criteria across pages
 
-A crawl also compares its pages with each other for 3.2.3 Consistent Navigation and 3.2.6 Consistent Help: whether repeated navigation and help keep their relative order from page to page. The site report shows the sets of pages it compared and what changed order; [site-criteria.md](site-criteria.md) has the details, and `siteCriteria` holds them in the JSON.
+A crawl also compares its pages with each other: 2.4.1 Bypass Blocks, titles that several pages share (2.4.2), the ways to find pages (2.4.5, for review only), 3.2.3 Consistent Navigation and 3.2.6 Consistent Help (whether repeated navigation and help keep their relative order from page to page), and 3.2.4 Consistent Identification (whether components with the same function keep their names). The site report shows the sets of pages it compared and what changed order; [site-criteria.md](site-criteria.md) has the details, and `siteCriteria` holds them in the JSON.
 
 ## JSON
 

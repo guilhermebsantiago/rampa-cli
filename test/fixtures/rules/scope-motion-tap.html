@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shake to undo · Notes</title>
+</head>
+<body>
+<main>
+  <h1>Notes</h1>
+  <p>Shake your phone to undo the last change.</p>
+  <button type="button" id="enable">Turn on shake to undo</button>
+</main>
+<script>
+  // Nothing listens until a tap: iOS asks for permission first, then the page adds the listener.
+  document.getElementById('enable').addEventListener('click', async function () {
+    if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+      const answer = await DeviceMotionEvent.requestPermission()
+      if (answer !== 'granted') return
+    }
+    window.addEventListener("devicemotion", function () {})
+  })
+</script>
+</body>
+</html>

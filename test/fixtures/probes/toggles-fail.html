@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>State exposure: toggles whose state never changes</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; color: #111; background: #fff; }
+  main { padding: 24px; max-width: 760px; }
+  section { margin: 0 0 20px; }
+  button { font: inherit; padding: 6px 12px; border: 1px solid #555; background: #f4f4f4; color: #111; border-radius: 4px; }
+  #clock { font-size: 12px; color: #555; }
+  .panel { border-left: 4px solid #0b5; padding: 8px 12px; margin-top: 8px; background: #effaf3; }
+  .sw { display: inline-block; position: relative; width: 120px; height: 28px; line-height: 28px; padding-left: 56px; cursor: pointer; }
+  .sw::before { content: ''; position: absolute; left: 0; top: 2px; width: 44px; height: 24px; border-radius: 12px; background: #999; }
+  .sw::after { content: ''; position: absolute; left: 3px; top: 5px; width: 18px; height: 18px; border-radius: 9px; background: #fff; }
+  .sw.on::before { background: #0a6; }
+  .sw.on::after { left: 23px; }
+  [role=tablist] { display: flex; gap: 4px; }
+  [role=tab] { border-bottom: 3px solid transparent; }
+  [role=tab].current { border-bottom-color: #05c; background: #e6eeff; }
+  .accordion-header { cursor: pointer; font-weight: bold; padding: 8px; background: #eee; width: 300px; }
+  .fav { font-size: 22px; line-height: 1; color: #999; background: #fff; border-color: #ccc; }
+  .fav.on { color: #e6a700; background: #fff8e0; border-color: #e6a700; }
+  .checkbox { cursor: pointer; display: inline-block; padding: 4px 0; }
+  .checkbox .box { display: inline-block; width: 16px; height: 16px; border: 2px solid #333; vertical-align: -3px; margin-right: 6px; }
+  .checkbox.on .box { background: #333; box-shadow: inset 0 0 0 3px #fff; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Help center</h1>
+  <p>Updated <span id="clock">0</span> s ago.</p>
+
+  <!-- 1. A disclosure that declares aria-expanded and never updates it (stale). -->
+  <section class="w-faq">
+    <button class="faq-q" aria-expanded="false" aria-controls="a1" onclick="flip('a1')">How long does shipping take?</button>
+    <div id="a1" class="panel" hidden><p>Orders leave the warehouse within two days, and arrive in three to five working days.</p></div>
+  </section>
+
+  <!-- 2. A disclosure with no state at all (missing). -->
+  <section class="w-more">
+    <button class="more-btn" onclick="flip('a2')">Shipping costs</button>
+    <div id="a2" class="panel" hidden><p>Shipping is free above fifty euros; below that, it costs four euros fifty per parcel.</p></div>
+  </section>
+
+  <!-- 3. A switch whose aria-checked never follows its look (stale, only its own look changes). -->
+  <section class="w-switch">
+    <div class="sw" role="switch" aria-checked="false" tabindex="0" onclick="this.classList.toggle('on')">Large text</div>
+  </section>
+
+  <!-- 4. Tabs whose aria-selected stays on the first tab (stale, select). -->
+  <section class="w-tabs">
+    <div role="tablist" aria-label="Plans">
+      <button role="tab" class="current" aria-selected="true" aria-controls="p1" id="t1" onclick="tab(this, 'p1')">Monthly</button>
+      <button role="tab" aria-selected="false" aria-controls="p2" id="t2" onclick="tab(this, 'p2')">Yearly</button>
+    </div>
+    <div id="p1" role="tabpanel" aria-labelledby="t1" class="panel">Twelve euros a month, billed every month, with no commitment.</div>
+    <div id="p2" role="tabpanel" aria-labelledby="t2" class="panel" hidden>One hundred and twenty euros a year, two months for free.</div>
+  </section>
+
+  <!-- 5. An accordion header built from a div, with no role and no state (missing). -->
+  <section class="w-acc">
+    <div class="accordion-header" onclick="flip('a5')">Returns and refunds</div>
+    <div id="a5" class="panel" hidden><p>Send the parcel back within thirty days; the refund reaches your card within a week.</p></div>
+  </section>
+
+  <!-- 6. A toggle button whose look flips, with no aria-pressed (missing, only its own look). -->
+  <section class="w-fav">
+    <button class="fav" aria-label="Favorite" onclick="this.classList.toggle('on')">★</button>
+  </section>
+
+  <!-- 7. A disclosure whose aria-expanded goes to true and stays there (stuck). -->
+  <section class="w-filters">
+    <button class="filters-btn" aria-expanded="false" aria-controls="a7" onclick="this.setAttribute('aria-expanded', 'true'); flip('a7')">Filters</button>
+    <div id="a7" class="panel" hidden><p>Colour: red, green, blue. Size: small, medium, large.</p></div>
+  </section>
+
+  <!-- 8. A checkbox built from a span, with no role and no state (missing, only its own look). -->
+  <section class="w-check">
+    <span class="checkbox" onclick="this.classList.toggle('on')"><span class="box"></span>Gift wrap this order</span>
+  </section>
+</main>
+<script>
+  let seconds = 0
+  setInterval(() => { document.getElementById('clock').textContent = String(++seconds) }, 1000)
+  function flip(id) { const el = document.getElementById(id); el.hidden = !el.hidden }
+  function tab(button, id) {
+    for (const t of document.querySelectorAll('[role=tab]')) t.classList.toggle('current', t === button)
+    for (const p of document.querySelectorAll('[role=tabpanel]')) p.hidden = p.id !== id
+  }
+</script>
+</body>
+</html>

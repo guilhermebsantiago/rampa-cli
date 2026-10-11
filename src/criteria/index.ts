@@ -8,6 +8,7 @@ import { labelsOrInstructions } from './labels-or-instructions.ts'
 import { languageOfPage } from './language-of-page.ts'
 import { languageOfParts } from './language-of-parts.ts'
 import { linkPurpose } from './link-purpose.ts'
+import { meaningfulSequence } from './meaningful-sequence.ts'
 import { nonTextContent } from './non-text-content.ts'
 import { infoAndRelationships } from './info-and-relationships.ts'
 import { pageTitled } from './page-titled.ts'
@@ -18,6 +19,7 @@ import { visibleLabelInName } from './visible-label-in-name.ts'
 export const CRITERIA: ReadonlyMap<string, AnyCriterion> = new Map<string, AnyCriterion>([
   [nonTextContent.id, nonTextContent],
   [infoAndRelationships.id, infoAndRelationships],
+  [meaningfulSequence.id, meaningfulSequence],
   [sensoryCharacteristics.id, sensoryCharacteristics],
   [identifyInputPurpose.id, identifyInputPurpose],
   [imagesOfText.id, imagesOfText],
@@ -39,7 +41,8 @@ export const CRITERIA: ReadonlyMap<string, AnyCriterion> = new Map<string, AnyCr
  * and the rules for 3.3.1 and 3.3.3 run without it. 1.3.3 is experimental too, and its failures are rare
  * on real pages (src/criteria/sensory-characteristics.ts); so are 1.3.1 (text styled as a heading,
  * info-and-relationships.ts) and 2.5.3 (a visible label not tied to its field, visible-label-in-name.ts), whose
- * rules run without them. Ask for any of them with --criteria.
+ * rules run without them. 1.3.2 is left out while it is experimental: it only judges what the reading-order rules
+ * nominated and could not verify (meaningful-sequence.ts). Ask for any of them with --criteria.
  */
 export const DEFAULT_CRITERIA = ['1.1.1', '1.3.5', '2.4.2', '2.4.4', '2.4.6', '3.1.1', '3.1.2', '3.3.2']
 

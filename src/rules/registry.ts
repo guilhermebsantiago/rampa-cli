@@ -14,6 +14,9 @@ import { orientationRule } from './orientation.ts'
 import { POINTER_RULES } from './pointer.ts'
 import { shortcutsRule } from './shortcuts.ts'
 import { STATE_CONTRAST_RULES } from './state-contrast.ts'
+import { stateExposureRule } from './state-exposure.ts'
+import { statusMessagesRule } from './status-messages.ts'
+import { VARIANTS_RULES } from './variants.ts'
 import type { ProbeRule } from './probes.ts'
 
 /** The probe rules every report runs; a rule with no record to read reports nothing, not even coverage. */
@@ -33,6 +36,8 @@ export const PROBE_RULES: readonly ProbeRule[] = [
   authRule,
   scriptedLinksRule,
   onInputRule,
+  stateExposureRule,
+  statusMessagesRule,
   ...FORM_RULES,
   ...POINTER_RULES,
   focusVisibleRule,
@@ -40,4 +45,5 @@ export const PROBE_RULES: readonly ProbeRule[] = [
   focusObscuredNarrowRule,
   ...STATE_CONTRAST_RULES,
   flashRule,
+  ...VARIANTS_RULES,
 ]

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mugs · Corner Store</title>
+</head>
+<body>
+<div role="dialog" aria-label="Cookies">
+  <p>We use cookies to remember your cart.</p>
+  <button type="button">Accept all</button> <button type="button">I agree</button> <button type="button">Reject</button>
+</div>
+<header>
+  <form role="search" action="/search"><input type="search" name="q" aria-label="Search"><button>Search</button></form>
+  <a href="/checkout">Checkout</a>
+</header>
+<main>
+  <h1>Mugs</h1>
+  <form action="/cart" method="post"><button type="submit">Add to cart</button></form>
+  <button type="button">Remove filter</button>
+  <form action="/newsletter" method="post">
+    <label>E-mail <input type="email" name="email" autocomplete="email"></label>
+    <label><input type="checkbox" name="consent"> I agree to receive e-mails</label>
+    <button>Subscribe</button>
+  </form>
+  <p><a href="/terms">Terms of sale</a></p>
+</main>
+<script>
+  // Feature detection is not a listener, and nothing here responds to motion.
+  window.supportsMotion = 'ondevicemotion' in window && typeof DeviceMotionEvent !== 'undefined'
+</script>
+</body>
+</html>

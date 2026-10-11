@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Media: alternatives no one can reach</title>
+<style>body { margin: 0; font: 16px/1.4 Arial, sans-serif; } main { padding: 24px; } video { width: 320px; height: 240px; }</style>
+</head>
+<body>
+<main>
+  <h1>Clips</h1>
+  <section>
+    <!-- 1.2.1: the only text about this audio is hidden from assistive technology, and nothing exposes it (ACT ee13b5 Failed Example 3). -->
+    <audio id="aria" controls src="media/voice.webm"></audio>
+    <p aria-hidden="true">The audio above says nothing: a voice hums one low note that rises and falls.</p>
+  </section>
+  <section>
+    <!-- 1.2.1: the only text about this video is not rendered, and nothing on the page shows it. -->
+    <video id="unrendered" controls src="media/silent.webm"></video>
+    <p style="display: none">The video above shows a yellow square sliding across a blue field.</p>
+  </section>
+</main>
+</body>
+</html>

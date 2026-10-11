@@ -1,4 +1,4 @@
-import type { PageSet, SiteCriterion, SiteElement, SiteFinding, SitePageFacts } from '../core/site.ts'
+import type { PageSet, SiteCriterion, SiteElement, SiteFinding, SitePageFacts, SiteQuestion } from '../core/site.ts'
 import { sha256 } from '../core/util.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
@@ -169,12 +169,10 @@ function zoneMove(key: string, kind: { help: HelpKind; name: string }, set: Page
   const zoneB = sm(locale, majorityId.split('+')[0] as Zone)
   const { subject, named } = subjectOf(kind, key, locale)
   const status = kind.help.certain ? 'failure' : 'review'
-  const message = [
-    tie
-      ? sm(locale, 'helpMovedTie', { subject, named, zoneA, zoneB, pages: listPages([...flagged, ...majorityPages], locale) })
-      : sm(locale, 'helpMoved', { subject, named, zoneA, zoneB, pages: listPages(flagged, locale), others: listPages(majorityPages, locale) }),
-    status === 'failure' ? sm(locale, 'helpFix') : sm(locale, 'reviewByName'),
-  ].join(' ')
+  const said = tie
+    ? sm(locale, 'helpMovedTie', { subject, named, zoneA, zoneB, pages: listPages([...flagged, ...majorityPages], locale) })
+    : sm(locale, 'helpMoved', { subject, named, zoneA, zoneB, pages: listPages(flagged, locale), others: listPages(majorityPages, locale) })
+  const message = [said, status === 'failure' ? sm(locale, 'helpFix') : sm(locale, 'reviewByName')].join(' ')
   const observed = ranked.map(([id, list]) => ({ pages: list, order: id.split('+').map((zone) => sm(locale, zone as Zone)) }))
   const elements: SiteElement[] = []
   for (const page of pages) {
@@ -193,6 +191,7 @@ function zoneMove(key: string, kind: { help: HelpKind; name: string }, set: Page
     elements: elements.slice(0, 24),
     observed,
     confidence: tie ? 'medium' : 'high',
+    ...(status === 'review' ? { question: helpQuestion(kind, key, flagged, said, locale) } : {}),
   }
 }
 
@@ -240,12 +239,10 @@ function orderChange(
   const { subject, named } = subjectOf(kind, key, locale)
   const items = anchors.map((anchor) => names.get(anchor) ?? anchor)
   const status = kind.help.certain ? 'failure' : 'review'
-  const message = [
-    tie
-      ? sm(locale, 'helpOrderTie', { subject, named, items: listItems(items, locale), pages: listPages(flagged, locale) })
-      : sm(locale, 'helpOrder', { subject, named, items: listItems(items, locale), pages: listPages(flagged, locale), others: listPages(others, locale) }),
-    status === 'failure' ? sm(locale, 'helpFix') : sm(locale, 'reviewByName'),
-  ].join(' ')
+  const said = tie
+    ? sm(locale, 'helpOrderTie', { subject, named, items: listItems(items, locale), pages: listPages(flagged, locale) })
+    : sm(locale, 'helpOrder', { subject, named, items: listItems(items, locale), pages: listPages(flagged, locale), others: listPages(others, locale) })
+  const message = [said, status === 'failure' ? sm(locale, 'helpFix') : sm(locale, 'reviewByName')].join(' ')
   const elements: SiteElement[] = []
   for (const page of members) {
     if (!flagged.includes(page.url) && page.url !== others[0]) continue
@@ -263,6 +260,18 @@ function orderChange(
     elements: elements.slice(0, 24),
     observed,
     confidence: tie ? 'medium' : 'high',
+    ...(status === 'review' ? { question: helpQuestion(kind, key, flagged, said, locale) } : {}),
+  }
+}
+
+/** Help recognized only by its text: a model may say whether the link is help, and the change becomes a failure (src/site/judge.ts). */
+function helpQuestion(kind: { help: HelpKind; name: string }, key: string, pages: readonly string[], said: string, locale: Locale): SiteQuestion {
+  return {
+    kind: 'help',
+    name: kind.name,
+    href: /^(?:button|link|menuitem|tab):/.test(key) ? undefined : key,
+    page: pages[0] ?? '',
+    confirmed: { status: 'failure', message: [said, sm(locale, 'helpFix')].join(' ') },
   }
 }
 
