@@ -14,7 +14,7 @@ import { emptyEngine } from '../../engine/axe.ts'
 import { chooseModel } from '../../providers/detect.ts'
 import type { ModelProvider } from '../../providers/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
-import { type SitePageRecord, pageSetsOf, runSiteCriteria, siteFactsOf } from '../../site/index.ts'
+import { type SitePageRecord, judgeSiteQuestions, pageSetsOf, runSiteCriteria, siteFactsOf } from '../../site/index.ts'
 import { withSiteCriteria } from '../../core/coverage.ts'
 import { renderSiteReport } from '../../report/site.ts'
 import { type BrowserOptions, addSiteCookies, contextOptions, describeConditions, webUrl } from '../../surfaces/browser-options.ts'
@@ -228,10 +228,36 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
     })
   } catch (error) {
     // The pages are checked and judged by now: a comparison that fails must not lose their report.
-    process.stderr.write(`rampa: the criteria across pages (2.4.1, 3.2.3, 3.2.6) did not run: ${errorMessage(error)}\n`)
+    process.stderr.write(`rampa: the criteria across pages (2.4.1, 2.4.2, 2.4.5, 3.2.3, 3.2.4, 3.2.6) did not run: ${errorMessage(error)}\n`)
+  }
+  // What the rules across pages left to a model (3.2.4 names on icon buttons, 3.2.6 help known by its text), three runs each.
+  if (siteCriteria && options.llm && (run.provider || options.offline)) {
+    run.progress('… questions across pages')
+    try {
+      await judgeSiteQuestions(siteCriteria, {
+        provider: run.provider,
+        cache,
+        offline: Boolean(options.offline),
+        locale: run.context.locale,
+        concurrency: Math.min(2, run.check.concurrency),
+        minConfidence: options.minConfidence,
+        waivers: run.check.waivers,
+        wcag: run.check.wcag ?? DEFAULT_WCAG,
+      })
+    } catch (error) {
+      process.stderr.write(`rampa: the model questions across pages did not run: ${errorMessage(error)}\n`)
+    }
   }
   const summary = summarizeSite(pages, cache.reused)
-  // 2.4.1, 3.2.3 and 3.2.6 get a method of kind site, the status it gives, and leave "not checked" when they compared something.
+  const spent = siteCriteria?.usage
+  if (spent) {
+    summary.usage.calls += spent.calls
+    summary.usage.cachedCalls += spent.cachedCalls
+    summary.usage.inputTokens += spent.inputTokens
+    summary.usage.outputTokens += spent.outputTokens
+    summary.usage.latencyMs += spent.latencyMs
+  }
+  // The criteria across pages get a method of kind site, the status it gives, and leave "not checked" when they compared something.
   if (siteCriteria) {
     summary.coverage = withSiteCriteria(summary.coverage, siteCriteria, {
       version: run.check.wcag ?? DEFAULT_WCAG,

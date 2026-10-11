@@ -351,6 +351,52 @@ export interface SiteFinding {
   confidence: Confidence
   /** Experimental checks report below the default threshold until they pass the evaluation gate (docs/plans/wcag-coverage.md, 4.9). */
   experimental: boolean
+  /**
+   * A question the rules could not settle, for a model to answer by a majority of its runs (3.2.4: do two names on
+   * components grouped only by their icon name the same function; 3.2.6: is a link recognized by its text help). Until
+   * a model answers it, the finding needs review. See src/site/judge.ts.
+   */
+  question?: SiteQuestion | undefined
+  /** What the model answered, when it was asked. */
+  judgment?: SiteJudgment | undefined
+}
+
+/** One name a question quotes, with the page it is on. */
+export interface SiteQuestionName {
+  name: string
+  page: string
+  role: string
+}
+
+export type SiteQuestion =
+  | {
+      kind: 'same-function'
+      names: [SiteQuestionName, SiteQuestionName]
+      /** Where both sit and what they share, for the prompt: "in the header, drawn with the same icon". */
+      context: string
+      /** The finding's message if the model says they are the same function: a failure when the names share no word. */
+      confirmed: { status: 'failure' | 'review'; message: string }
+    }
+  | {
+      kind: 'help'
+      name: string
+      href?: string | undefined
+      page: string
+      confirmed: { status: 'failure' | 'review'; message: string }
+    }
+
+export interface SiteJudgment {
+  /** The majority verdict: same_function, different_functions, help, not_help or cannot_tell. */
+  verdict: string
+  votes: number
+  total: number
+  model: string
+  /** The representative answer's reason, in the model's words. */
+  reason?: string | undefined
+  /** What became of the finding: a failure, still needs review, or cleared (moved to `cleared`). */
+  outcome: 'failure' | 'review' | 'cleared'
+  /** The answer quoted names that are not the ones asked about: it was set aside and the finding still needs review. */
+  discarded?: boolean | undefined
 }
 
 /** One site criterion's run over the sets of a crawl. */
@@ -365,6 +411,20 @@ export interface SiteCriterionSummary {
   compared: number
   findings: number
   review: number
+  /** The criterion never reports a failure (2.4.5, and the duplicate titles of 2.4.2): what it lists needs review. */
+  reviewOnly?: boolean | undefined
+  /** Questions a model answered (src/site/judge.ts), and of those, the findings it cleared. */
+  judged?: number | undefined
+  cleared?: number | undefined
+}
+
+/** What the model questions across pages cost; added to the site summary's usage. */
+export interface SiteUsage {
+  calls: number
+  cachedCalls: number
+  inputTokens: number
+  outputTokens: number
+  latencyMs: number
 }
 
 export interface SiteCriteriaReport {
@@ -382,6 +442,10 @@ export interface SiteCriteriaReport {
    * reported, never counted toward the target or the exit code.
    */
   beyondTarget?: SiteFinding[] | undefined
+  /** Items to review a model cleared: the two names it judged different functions, the link it judged not help. */
+  cleared?: SiteFinding[] | undefined
+  /** What the model questions cost, when any was asked. */
+  usage?: SiteUsage | undefined
 }
 
 /**
@@ -404,6 +468,8 @@ export interface SiteCriterion<Facts = unknown> {
    * page with no landmarks (and so no template) is the one most likely to fail 2.4.1.
    */
   scope?: 'set' | 'language' | undefined
+  /** It never reports a failure: what it finds needs review (2.4.5 Multiple Ways, duplicate titles for 2.4.2). */
+  reviewOnly?: boolean | undefined
   facts(snapshot: A11ySnapshot): Facts
   compare(set: PageSet, pages: ReadonlyArray<SitePageFacts<Facts>>, locale: Locale): { compared: number; findings: SiteFinding[] }
 }

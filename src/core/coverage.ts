@@ -313,6 +313,8 @@ export function withSiteCriteria(
   const shown = (finding: SiteFinding) => CONFIDENCE_RANK[finding.experimental ? 'low' : finding.confidence] >= threshold
   const records = (coverage.criteria ?? []).map((record) => ({ ...record, methods: [...record.methods] }))
   const compared: string[] = []
+  // Criteria whose comparison only lists what to review (2.4.5): they leave "not checked" for "needs review", never for a result.
+  const reviewed: string[] = []
   for (const summary of site.criteria) {
     const sc = successCriterion(summary.criterion)
     if (!sc) continue
@@ -325,6 +327,7 @@ export function withSiteCriteria(
       applicable: summary.compared,
       failures: summary.findings,
       review: summary.review,
+      ...(summary.reviewOnly ? { reviewOnly: true } : {}),
       maturity: summary.maturity,
     }
     const mine = (findings: readonly SiteFinding[] | undefined) => (findings ?? []).filter((finding) => finding.criterion === sc.id)
@@ -332,9 +335,13 @@ export function withSiteCriteria(
     let status: CoverageStatus | undefined
     if (mine(site.findings).length > 0 || beyondFound.some(shown)) status = 'failures'
     else if (mine(site.belowThreshold).length > 0 || mine(site.review).length > 0 || beyondFound.length > 0) status = 'needs-review'
+    // A comparison that can only list items to review decides nothing when it lists none.
+    else if (summary.reviewOnly) status = undefined
     else if (summary.compared > 0) status = 'no-failure-found'
     else if (ran) status = 'no-applicable-content'
-    if (summary.compared > 0 && !beyond) compared.push(sc.id)
+    if (summary.reviewOnly) {
+      if (status === 'needs-review' && !beyond) reviewed.push(sc.id)
+    } else if (summary.compared > 0 && !beyond) compared.push(sc.id)
 
     const record = records.find((entry) => entry.id === sc.id)
     if (record) {
@@ -360,7 +367,7 @@ export function withSiteCriteria(
   const siteList = [...new Set([...(coverage.site ?? []), ...compared])].sort(compareCriteria)
   return {
     ...coverage,
-    notChecked: coverage.notChecked.filter((id) => !siteList.includes(id)),
+    notChecked: coverage.notChecked.filter((id) => !siteList.includes(id) && !reviewed.includes(id)),
     ...(siteList.length > 0 ? { site: siteList } : {}),
     ...(records.length > 0 ? { criteria: records } : {}),
   }
