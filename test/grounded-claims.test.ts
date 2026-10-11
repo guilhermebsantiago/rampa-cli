@@ -61,13 +61,17 @@ describe('generic texts Rampa recognises without a model', () => {
     expect(addressText('ufc.br')).toBe(false)
   })
 
-  it('grounds a link fail only on a generic text, an address, or links that share the text and lead elsewhere', () => {
-    expect(groundedLink('generic', { name: 'Read more', sameText: undefined })).toBe(true)
-    expect(groundedLink('generic', { name: 'TOC', sameText: undefined })).toBe(false)
-    expect(groundedLink('url_or_filename', { name: 'report.pdf', sameText: undefined })).toBe(true)
-    expect(groundedLink('mismatch', { name: 'Pricing', sameText: undefined })).toBe(false)
-    expect(groundedLink('ambiguous', { name: 'Download', sameText: { links: 2, places: 2, apart: false } })).toBe(true)
-    expect(groundedLink('ambiguous', { name: 'Download', sameText: { links: 2, places: 2, apart: true } })).toBe(false)
+  it('grounds a link fail only on a generic text with nothing around it, an address, or links that share the text and lead elsewhere', () => {
+    const alone = { sameText: undefined, context: undefined, headers: undefined, description: undefined }
+    expect(groundedLink('generic', { ...alone, name: 'Read more' })).toBe(true)
+    expect(groundedLink('generic', { ...alone, name: 'TOC' })).toBe(false)
+    // Whether a sentence or a header cell completes a generic text is the model's reading.
+    expect(groundedLink('generic', { ...alone, name: 'Clique aqui', context: 'Clique aqui para mais informações sobre a Ouvidoria da EBC.' })).toBe(false)
+    expect(groundedLink('generic', { ...alone, name: 'Download', headers: 'Books' })).toBe(false)
+    expect(groundedLink('url_or_filename', { ...alone, name: 'report.pdf' })).toBe(true)
+    expect(groundedLink('mismatch', { ...alone, name: 'Pricing' })).toBe(false)
+    expect(groundedLink('ambiguous', { ...alone, name: 'Download', sameText: { links: 2, places: 2, apart: false } })).toBe(true)
+    expect(groundedLink('ambiguous', { ...alone, name: 'Download', sameText: { links: 2, places: 2, apart: true } })).toBe(false)
   })
 
   it('tells apart links with one text by the sections they sit in, not only by the heading right above them', () => {

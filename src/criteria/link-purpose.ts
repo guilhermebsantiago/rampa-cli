@@ -32,8 +32,8 @@ import { type LinkOutcome, activationText, scriptedDestination, scriptedOutcomes
  * ACT reference rules: c487ae (non-empty name), 5effbb (link in context is descriptive) and
  * fd3a94 (links with the same name and context serve an equivalent purpose).
  *
- * A fail is a finding only when a fact Rampa checks itself supports it (`grounded`): a generic text such as "Read more",
- * a raw address, or links that share the text and lead elsewhere from the same context. Any other fail, such as "the
+ * A fail is a finding only when a fact Rampa checks itself supports it (`grounded`): a generic text such as "Read more"
+ * with nothing around it, a raw address, or links that share the text and lead elsewhere from the same context. Any other fail, such as "the
  * text names something else than where it leads" or "this specific text says nothing", is the model's suggestion for a
  * person to review: on real pages those readings were almost all wrong (docs/studies/notes-244-246.md).
  *
@@ -348,21 +348,23 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
 }
 
 /**
- * Whether a fail rests on a fact Rampa checked: a generic text (F84's "click here"), a raw address or file name, or
- * other links with the same text that lead elsewhere from the same context (ACT fd3a94; `verify` already asks for that
- * fact). A mismatch with the destination never does: a title read at an address is no proof of what the text promises,
- * and on real pages every such claim was wrong.
+ * Whether a fail rests on a fact Rampa checked: a generic text (F84's "click here") with no programmatically determined
+ * context of its own to complete it (no sentence, paragraph, list item or cell, header cells or description), a raw
+ * address or file name, or other links with the same text that lead elsewhere from the same context (ACT fd3a94;
+ * `verify` already asks for that fact). Whether a context completes a generic text is the model's reading, and so is a
+ * mismatch with the destination: a title read at an address is no proof of what the text promises. On real pages
+ * every such claim was wrong ("Clique aqui" in "Clique aqui para mais informações sobre a Ouvidoria da EBC.").
  */
-export function groundedLink(problem: (typeof LINK_PROBLEMS)[number], c: Pick<LinkPurposeContext, 'name' | 'sameText'>): boolean {
-  if (problem === 'generic') return genericLinkText(c.name)
+export function groundedLink(problem: (typeof LINK_PROBLEMS)[number], c: Pick<LinkPurposeContext, 'name' | 'sameText' | 'context' | 'headers' | 'description'>): boolean {
+  if (problem === 'generic') return genericLinkText(c.name) && !c.context && !c.headers && !c.description
   if (problem === 'url_or_filename') return addressText(c.name)
   if (problem === 'ambiguous') return Boolean(c.sameText && c.sameText.places > 1 && !c.sameText.apart)
   return false
 }
 
 /** A link a fail could be a finding about: its text is generic or an address, or it shares its text with links that lead elsewhere. */
-function groundable(c: Pick<LinkPurposeContext, 'name' | 'sameText'>): boolean {
-  return genericLinkText(c.name) || addressText(c.name) || groundedLink('ambiguous', c)
+function groundable(c: Pick<LinkPurposeContext, 'name' | 'sameText' | 'context' | 'headers' | 'description'>): boolean {
+  return groundedLink('generic', c) || addressText(c.name) || groundedLink('ambiguous', c)
 }
 
 /** What a page or a file at the link's address is, in one line for the prompt. */
