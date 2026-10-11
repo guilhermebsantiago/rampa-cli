@@ -11,18 +11,20 @@ import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
 import type { WcagVersion } from '../wcag.ts'
 import { walkTree } from '../snapshot/tree.ts'
-import { type FollowOptions, followLinks } from './destinations.ts'
+import { type FollowOptions, followLinks, readDestinations } from './destinations.ts'
 import { type BrowserOptions, contextOptions, openPage, prepareContext } from './browser-options.ts'
 import { type AxLimits, attachAxTree, axLimits } from './ax-tree.ts'
 import { attachFormIssues } from './form-issues.ts'
 import { type ContrastCaptureOptions, captureContrast } from './contrast-capture.ts'
 import { blankContentInPage, captureImageNodes, hiddenImageTargets, imageTargets, isCapturableImage, restoreImageInPage } from './image-capture.ts'
 import { libraryFrameDriver, runAxeInFrames } from './frames.ts'
+import { attachMotionFacts } from './motion.ts'
 import { collectInPage } from './in-page.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
 import { buildReach, closedShadowRoots } from './reach.ts'
 import { SETTLE, settlePage, watchNetwork } from './settle.ts'
 import { type ProbeKind, runProbes } from '../probes/run.ts'
+import { scriptedAddresses } from '../probes/links.ts'
 
 export interface WebCollectOptions {
   runAxe: boolean
@@ -180,6 +182,8 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       screenshot = join(options.screenshotDir, `${sha256(url).slice(0, 16)}.png`)
       await page.screenshot({ path: screenshot, fullPage: true })
     }
+    // Whether the page listens to the device's motion, for 2.5.4 (surfaces/motion.ts): last, as it reads the page's scripts.
+    await attachMotionFacts(cdp, root)
 
     const snapshot: A11ySnapshot = {
       schemaVersion: 1,
@@ -200,6 +204,12 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     if (options.probes && options.probes.length > 0) {
       const probes = await runProbes(browser, url, { kinds: options.probes, browserOptions: options.browserOptions, timeoutMs: options.timeoutMs })
       snapshot.observations = { probes }
+      // Where scripted links went when the links probe clicked them: read like any link's address, for 2.4.4.
+      if (options.followLinks && options.followLinks.policy !== 'none') {
+        const addresses = scriptedAddresses(probes).filter((address) => snapshot.destinations?.[address] === undefined)
+        const read = addresses.length > 0 ? await readDestinations(addresses, page.url(), options.followLinks) : {}
+        if (Object.keys(read).length > 0) snapshot.destinations = { ...snapshot.destinations, ...read }
+      }
     }
     return { snapshot, engine }
   } finally {

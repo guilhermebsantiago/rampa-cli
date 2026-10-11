@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Contrast in states: passes</title>
+<style>
+  body { font: 16px Arial, sans-serif; margin: 1rem; background: #fff; color: #111; }
+  a, button { display: inline-block; margin: 8px; }
+  button { font: inherit; border: 0; padding: 6px 12px; }
+  /* A dark ring on white, 6:1. */
+  #dark-ring { color: #0b57d0; }
+  #dark-ring:focus-visible { outline: 2px solid #005fcc; outline-offset: 2px; }
+  /* A dark ring outside a blue button: dark against the white page. */
+  #green-out { background: #1f5f8b; color: #fff; }
+  #green-out:focus-visible { outline: 3px solid #1b5e20; outline-offset: 2px; }
+  /* Darker on hover. */
+  #hover-dark { color: #0b57d0; }
+  #hover-dark:hover { color: #0a2f6b; }
+  #btn-hover { background: #1a5fb4; color: #fff; }
+  #btn-hover:hover { background: #0b3d91; }
+  #focus-text { background: #1a5fb4; color: #fff; }
+  #focus-text:focus { background: #111; outline: 2px solid #111; outline-offset: 2px; }
+  /* A selected tab with a bar of the link color, 6.4:1. */
+  [role="tablist"] { display: flex; gap: 4px; margin: 16px 8px; }
+  [role="tab"] { background: #fff; color: #111; border-bottom: 3px solid transparent; }
+  [role="tab"][aria-selected="true"] { border-bottom-color: #0b57d0; }
+  /* The current page in a dark pill with white text. */
+  nav ul { list-style: none; display: flex; gap: 4px; padding: 0; }
+  nav a { padding: 6px 10px; color: #111; text-decoration: none; }
+  nav a[aria-current="page"] { background: #0b57d0; color: #fff; }
+  /* A dark check mark. */
+  .check { display: inline-block; width: 18px; height: 18px; border: 2px solid #333; margin: 8px; position: relative; vertical-align: middle; }
+  .check[aria-checked="true"]::after { content: ''; position: absolute; left: 3px; top: 3px; width: 8px; height: 8px; background: #1b1b1b; }
+</style>
+</head>
+<body>
+<main>
+  <h1>States</h1>
+  <p>
+    <a id="dark-ring" href="#a">Dark ring</a>
+    <button id="green-out" type="button">Green outside</button>
+  </p>
+  <p>
+    <a id="hover-dark" href="#b">Darker on hover</a>
+    <button id="btn-hover" type="button">Darker button on hover</button>
+    <button id="focus-text" type="button">Dark on focus</button>
+  </p>
+  <div role="tablist" aria-label="Period">
+    <button id="t-day" role="tab" aria-selected="false" type="button">Day</button>
+    <button id="t-week" role="tab" aria-selected="true" type="button">Week</button>
+    <button id="t-month" role="tab" aria-selected="false" type="button">Month</button>
+  </div>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a id="here" href="#products" aria-current="page">Products</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+  </nav>
+  <p><span id="agree" class="check" role="checkbox" aria-checked="true" tabindex="0" aria-label="I agree"></span> I agree</p>
+</main>
+</body>
+</html>

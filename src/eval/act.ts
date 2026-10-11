@@ -24,14 +24,24 @@ export const ACT_RULES: Record<string, { syntax: string[]; semantic: string[]; p
   // e88epe: an image hidden from assistive technology is decorative. 1.1.1 asks it as its own question, so its
   // cases are scored by that question's judgments, and 23a2a8's and qt1vmo's by the alternative's (Criterion.actFor).
   '1.1.1': { syntax: ['23a2a8'], semantic: ['qt1vmo', 'e88epe'] },
+  // No ACT rule covers F2. b49b2e's passing pages, each with a heading over a paragraph, get a section whose title is
+  // styled like that heading and not marked up.
+  '1.3.1': { syntax: [], semantic: [], pairs: ['b49b2e'] },
+  // 9bd38c (proposed) is a sanity check for 1.3.3, not a gate; its passing instructions, with what names their
+  // target taken away, are the pairs.
+  '1.3.3': { syntax: [], semantic: ['9bd38c'] },
   // No ACT rule judges whether a field that has no token should have one; the fields of 73f2c2's
   // passing cases, each with a valid token for what it asks, become pairs when the token goes.
   '1.3.5': { syntax: ['73f2c2'], semantic: [], pairs: ['73f2c2'] },
+  // 0va7u6 is scored on its proposed version's "redundant" exception (PROPOSED_OUTCOMES).
   '1.4.5': { syntax: [], semantic: ['0va7u6'] },
   '2.4.2': { syntax: ['2779a5'], semantic: ['c4a8a4'] },
   // fd3a94 compares links with identical names and context: Rampa states, as a fact, where each one leads.
   '2.4.4': { syntax: ['c487ae'], semantic: ['5effbb', 'fd3a94'] },
   '2.4.6': { syntax: [], semantic: ['b49b2e', 'cc0f0a'] },
+  // 2ee8b8 is axe-core's (label-content-name-mismatch): the judgment of fields must add no failure to its passing
+  // pages. cc0f0a's passing pages, with each label turned into plain text and the field renamed, are the pairs.
+  '2.5.3': { syntax: ['2ee8b8'], semantic: [], pairs: ['cc0f0a'] },
   '3.1.1': { syntax: ['b5c3f8', 'bf051a'], semantic: ['ucwvc8'] },
   '3.1.2': { syntax: ['de46e4'], semantic: ['off6ek'] },
   // No ACT rule covers 3.3.2. cc0f0a's passing pages have visible labels; with each label moved
@@ -83,9 +93,25 @@ export function selectRuleTestcases(dataset: ActDataset, actRules: readonly stri
   })
 }
 
+/**
+ * Test cases scored as the proposed version of their rule expects, where it differs from the published JSON (which
+ * keeps the approved version's outcomes). 0va7u6's proposed version adds a "redundant" exception: an image of text
+ * whose information is also available as real text passes, so its "Welcome" picture followed by the paragraph
+ * "Welcome to our website" (Failed Example 4 in the JSON, Passed Example 9 on the proposed rule page and in the test
+ * page's own title) is scored as passed, as the Understanding document for 1.4.5 also reads it.
+ */
+export const PROPOSED_OUTCOMES: Readonly<Record<string, ActOutcome>> = {
+  e1d4ed7556dabfcfde47aaf4cd0861e0fdf585d9: 'passed',
+}
+
 export function selectTestcases(dataset: ActDataset, criterion: string): ActTestcase[] {
   const rules = ACT_RULES[criterion]
   if (!rules) return []
   const wanted = new Set([...rules.syntax, ...rules.semantic, ...(rules.pairs ?? [])])
-  return dataset.testcases.filter((tc) => wanted.has(tc.ruleId) && /\.html?$/i.test(tc.url))
+  return dataset.testcases
+    .filter((tc) => wanted.has(tc.ruleId) && /\.html?$/i.test(tc.url))
+    .map((tc) => {
+      const proposed = PROPOSED_OUTCOMES[tc.testcaseId]
+      return proposed ? { ...tc, expected: proposed } : tc
+    })
 }

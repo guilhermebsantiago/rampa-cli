@@ -48,7 +48,7 @@ export interface PageTitledContext {
   headings: string[]
   opening: string
   language: string
-  /** Titles of other pages of the same site, when a crawl read them. */
+  /** Titles of other pages of the same site: pages a crawl read, then pages this one links to (from `snapshot.destinations`). */
   siblings?: string[] | undefined
   /** The page is a site's home page: its address is the root ("/") or a language root ("/pt", "/en-us/"). */
   home?: boolean | undefined
@@ -73,7 +73,7 @@ Reply only with JSON that matches the schema.`
 export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
   id: '2.4.2',
   level: 'A',
-  version: '2',
+  version: '3',
   act: ['2779a5', 'c4a8a4'],
   surfaces: ['web'],
   needs: {},
@@ -103,7 +103,7 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
           headings,
           opening: truncate(subtreeText(body), 700),
           language: snapshot.locale ?? snapshot.root.lang ?? 'en',
-          siblings: siblingTitles(snapshot),
+          siblings: siblingTitles(snapshot, home !== undefined),
           ...(home ? { home: true } : {}),
           ...(siteName ? { siteName } : {}),
         },
@@ -135,7 +135,7 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
       ...(c.siblings?.length
         ? [
             '',
-            'Titles of other pages on the same site, as a crawl read them, are in <content>. A title that is the same as one of them, or differs from it only by the site name, does not tell this page apart (problem "generic").',
+            'Titles of other pages on the same site (pages a crawl read, or pages this page links to) are in <content>. A title that is the same as one of them, or differs from it only by the site name, does not tell this page apart (problem "generic").',
           ]
         : []),
       '',
@@ -270,8 +270,52 @@ export function siteNameIn(title: string, host: string): string | undefined {
   return undefined
 }
 
-/** Titles of the other pages a crawl read, deduplicated; undefined outside a crawl. */
-function siblingTitles(snapshot: A11ySnapshot): string[] | undefined {
-  const titles = [...new Set((snapshot.siblings ?? []).map((sibling) => truncate(sibling.title.replace(/\s+/g, ' ').trim(), 120)).filter(Boolean))]
-  return titles.length > 0 ? titles : undefined
+/** Titles given to the prompt at most, the crawl's first. */
+const MAX_SIBLING_TITLES = 10
+
+/**
+ * Titles of other pages of the same site, deduplicated: those a crawl read (closest by address first), then those of
+ * the pages this one links to, as Rampa read them for 2.4.4 (`snapshot.destinations`). Undefined when there are none.
+ */
+function siblingTitles(snapshot: A11ySnapshot, home: boolean): string[] | undefined {
+  const crawled = (snapshot.siblings ?? []).map((sibling) => sibling.title)
+  // On a home page the site's name describes the page (G88): pages it links to that carry only that name say nothing about it.
+  const linked = home ? [] : linkedTitles(snapshot)
+  const titles = [...new Set([...crawled, ...linked].map((title) => truncate(title.replace(/\s+/g, ' ').trim(), 120)).filter(Boolean))]
+  return titles.length > 0 ? titles.slice(0, MAX_SIBLING_TITLES) : undefined
+}
+
+/**
+ * The titles of the pages of the same site this page links to, in link order, from what was read at their addresses:
+ * pages that answered with HTML (a file, a page not found or a sign-in tells nothing), at another address than this
+ * page's own. Read without running scripts, a destination's title is the one its HTML gives.
+ */
+export function linkedTitles(snapshot: A11ySnapshot): string[] {
+  const page = parseAddress(snapshot.target)
+  if (!page) return []
+  const own = sameDocument(page)
+  const titles: string[] = []
+  for (const [href, destination] of Object.entries(snapshot.destinations ?? {})) {
+    if (destination.kind !== 'page' || !destination.title?.trim()) continue
+    if (destination.status !== undefined && (destination.status < 200 || destination.status >= 300)) continue
+    const address = parseAddress(destination.finalUrl ?? href, page.href)
+    if (!address || address.protocol !== page.protocol || (address.protocol !== 'file:' && address.origin !== page.origin)) continue
+    if (sameDocument(address) === own) continue
+    titles.push(destination.title)
+  }
+  return titles
+}
+
+function parseAddress(value: string, base?: string): URL | undefined {
+  try {
+    return new URL(value, base)
+  } catch {
+    return undefined
+  }
+}
+
+/** An address as the document it names: no query or fragment, no "index.html", no trailing slash. */
+function sameDocument(url: URL): string {
+  const path = url.pathname.replace(/\/index\.(?:html?|php|aspx?|jsp)$/i, '/').replace(/\/+$/, '')
+  return `${url.protocol}//${url.host}${path}`.toLowerCase()
 }

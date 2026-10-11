@@ -128,7 +128,7 @@ export type Destination = z.infer<typeof DestinationSchema>
  * is judged again offline with no browser. See docs/probes.md.
  */
 export const ProbeRecordSchema = z.object({
-  kind: z.enum(['keyboard', 'layout', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'auth', 'variants', 'clock', 'interact', 'form']),
+  kind: z.enum(['keyboard', 'layout', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'variants', 'auth', 'flash', 'links', 'input', 'clock', 'interact', 'form']),
   /** The probe's version; each rule states which versions it reads. */
   version: z.string(),
   conditions: z.object({
@@ -257,6 +257,11 @@ export const A11ySnapshotSchema = z.object({
   axTree: AxTreeSchema.optional(),
   /** Other pages of the same site that a crawl had read when this one was judged, with their titles (2.4.2). */
   siblings: z.array(z.object({ url: z.string(), title: z.string() })).optional(),
+  /**
+   * Captured pictures of this page that a crawl had also seen on other pages when this one was judged, keyed by
+   * `capture:<hash of the capture>` or `src:<address>`, with the number of other pages (1.4.5: a site's logo repeats).
+   */
+  siteImages: z.record(z.string(), z.number()).optional(),
   collectedAt: z.string(),
   collector: z.object({ name: z.string(), version: z.string() }),
 })

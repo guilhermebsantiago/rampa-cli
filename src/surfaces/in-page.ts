@@ -83,7 +83,9 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     // What a field accepts, and whether its form validates it: the cognitive profile reads them (coga/input-formats).
     'maxlength', 'minlength', 'min', 'max', 'step', 'inputmode', 'required', 'aria-required', 'novalidate', 'formnovalidate',
     // Error states the page already shows (3.3.1, 3.3.3): fields marked invalid, their messages, and live regions.
-    'aria-invalid', 'aria-errormessage', 'aria-live']
+    'aria-invalid', 'aria-errormessage', 'aria-live',
+    // What a form does and the language a link leads to: 3.2.4 groups components by function, 3.3.4 reads forms that commit.
+    'action', 'method', 'hreflang']
   const NAME_FROM_CONTENT = new Set(['a', 'button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'summary', 'option', 'th', 'td', 'li', 'label', 'legend', 'caption', 'figcaption'])
   const refs = new Map<Element, string>()
   let count = 0
@@ -586,7 +588,151 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     if (explicit === 'presentation' || explicit === 'none') native.presentational = !roleConflict(el)
     if (tag === 'table' || explicit === 'table' || explicit === 'grid' || explicit === 'treegrid') native.table = tableFacts(el)
     if (tag === 'input' || tag === 'select' || tag === 'textarea') Object.assign(native, invalidFacts(el))
+    // How a control, a picture or an icon is drawn, and a turned block of text: what an instruction may call round or tilted (1.3.3).
+    const shape = shapeOf(el, explicit)
+    if (shape) native.shape = shape
+    // The typography of a heading, and of a short block of text that could pass for one (1.3.1, F2).
+    const look = lookOf(el, tag, explicit)
+    if (look) native.look = look
     return native
+  }
+
+  /** The typography of text, as 1.3.1 compares it (snapshot/look.ts): size to half a pixel, weight, first font family, style, case, color. */
+  const lookFrom = (style: CSSStyleDeclaration): Record<string, unknown> => {
+    const weight = Number.parseInt(style.fontWeight, 10)
+    const look: Record<string, unknown> = {
+      size: Math.round((Number.parseFloat(style.fontSize) || 0) * 2) / 2,
+      weight: Number.isNaN(weight) ? (style.fontWeight === 'bold' ? 700 : 400) : weight,
+      family: (style.fontFamily.split(',')[0] ?? '').replace(/["']/g, '').trim().toLowerCase(),
+      color: style.color,
+    }
+    if (style.fontStyle === 'italic' || style.fontStyle.startsWith('oblique')) look.italic = true
+    const caps = style.textTransform !== 'none' ? style.textTransform : style.fontVariantCaps && style.fontVariantCaps !== 'normal' ? style.fontVariantCaps : ''
+    if (caps) look.caps = caps
+    return look
+  }
+  /** Blocks that may hold a short text styled as a heading. */
+  const HEADING_LIKE_TAGS = new Set(['p', 'div', 'span', 'strong', 'b', 'font', 'dt', 'center'])
+  /** What such a block may not hold: its text would be a link, a control, a picture or a block of its own. */
+  const NOT_IN_HEADING_LIKE = new Set(['a', 'button', 'input', 'select', 'textarea', 'img', 'svg', 'video', 'audio', 'iframe', 'canvas', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'div', 'ul', 'ol', 'dl', 'table', 'li', 'label', 'form', 'section', 'article', 'nav', 'header', 'footer', 'aside', 'blockquote', 'pre'])
+  /** What such a block may not sit in: its text then belongs to a heading, a control or a caption. */
+  const NOT_AROUND_HEADING_LIKE = 'h1, h2, h3, h4, h5, h6, [role="heading"], a, button, label, legend, summary, caption, th, option, select, textarea, [role="button"], [role="link"], [role="tab"], [role="menuitem"], [role="option"]'
+  const BLOCK_DISPLAY = /^(block|flex|grid|list-item|flow-root|table-caption)$/
+  const lookBudget = { headings: 300, blocks: 800 }
+  /** The element that holds all of a block's text, down a chain of single children; undefined when the text is split among elements. */
+  const textCarrier = (el: Element): Element | undefined => {
+    let current = el
+    for (let depth = 0; depth < 4; depth++) {
+      const own = Array.from(current.childNodes).some((child) => child.nodeType === Node.TEXT_NODE && collapse(child.textContent) !== '')
+      const inner = Array.from(current.children).filter((child) => collapse(child.textContent) !== '')
+      if (own) return inner.length === 0 ? current : undefined
+      if (inner.length !== 1) return undefined
+      current = inner[0] as Element
+    }
+    return undefined
+  }
+  /**
+   * The look of a heading's text, and of a short block of text that could pass for a heading: a block element of up to
+   * 120 characters and 15 words, with no link, control, picture or block inside it, not inside a heading, a control or
+   * a caption, whose text is all in one element (`<p><strong>Shipping</strong></p>` reads the strong). Budgeted.
+   */
+  const lookOf = (el: Element, tag: string, role: string): Record<string, unknown> | undefined => {
+    if (/^h[1-6]$/.test(tag) || role === 'heading') {
+      if (lookBudget.headings <= 0) return undefined
+      lookBudget.headings--
+      return lookFrom(styleOf(textCarrier(el) ?? el))
+    }
+    if (!HEADING_LIKE_TAGS.has(tag) || role !== '' || lookBudget.blocks <= 0) return undefined
+    const text = collapse(el.textContent)
+    if (text.length < 2 || text.length > 120 || text.split(' ').length > 15) return undefined
+    const inner = el.getElementsByTagName('*')
+    if (inner.length > 3 || Array.from(inner).some((child) => NOT_IN_HEADING_LIKE.has(child.localName))) return undefined
+    if (el.parentElement && composedClosest(el.parentElement, NOT_AROUND_HEADING_LIKE)) return undefined
+    const style = styleOf(el)
+    if (!BLOCK_DISPLAY.test(style.display)) return undefined
+    const carrier = textCarrier(el)
+    if (!carrier) return undefined
+    lookBudget.blocks--
+    return lookFrom(carrier === el ? style : styleOf(carrier))
+  }
+  /** The look most of the page's body text has: the style of its longer runs of text, weighed by their length (1.3.1, F2). */
+  const bodyLook = (): Record<string, unknown> | undefined => {
+    if (!document.body) return undefined
+    const tally = new Map<string, { look: Record<string, unknown>; chars: number }>()
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT)
+    let read = 0
+    for (let node = walker.nextNode(); node && read < 2000; node = walker.nextNode()) {
+      const parent = node.parentElement
+      const text = collapse(node.textContent)
+      if (!parent || text.length < 20 || SKIP.has(parent.localName)) continue
+      if (parent.closest('h1, h2, h3, h4, h5, h6, [role="heading"], a, button, nav, header, footer, label, legend, option')) continue
+      if (typeof parent.checkVisibility === 'function' && !parent.checkVisibility({ visibilityProperty: true, checkVisibilityCSS: true } as CheckVisibilityOptions)) continue
+      read++
+      const look = lookFrom(styleOf(parent))
+      const key = JSON.stringify(look)
+      const entry = tally.get(key) ?? { look, chars: 0 }
+      entry.chars += text.length
+      tally.set(key, entry)
+    }
+    return [...tally.values()].sort((a, b) => b.chars - a.chars)[0]?.look
+  }
+
+  /** Elements whose look an instruction may describe ("the round button", "the star icon"); text blocks are read for a rotation only. */
+  const SHAPED_TAGS = new Set(['button', 'a', 'img', 'svg', 'canvas', 'input', 'select', 'i'])
+  const SHAPED_ROLES = new Set(['button', 'link', 'img', 'tab', 'checkbox', 'radio', 'switch'])
+  const ICON_CLASS = /(?:^|[\s_-])(?:icon|icons|ico|fa|fas|far|fab|bi|glyphicon|material-icons|material-symbols-outlined|mdi)(?:$|[\s_-])/i
+  const TURNABLE_TAGS = new Set(['div', 'p', 'span', 'section', 'figure', 'li'])
+  /** Elements read per page: controls and pictures, and blocks of text, each with its own budget. */
+  const shapeBudget = { controls: 800, text: 600 }
+  /** The angle of a computed transform and rotate, in whole degrees; undefined when it turns nothing. */
+  const rotationOf = (style: CSSStyleDeclaration): number | undefined => {
+    let angle = 0
+    const matrix = /^matrix(3d)?\(([^)]*)\)$/.exec(style.transform ?? '')
+    if (matrix) {
+      const m = (matrix[2] ?? '').split(',').map((part) => Number.parseFloat(part))
+      angle += (Math.atan2(m[1] ?? 0, m[0] ?? 1) * 180) / Math.PI
+    }
+    const rotate = /(-?[\d.]+)deg\s*$/.exec(style.rotate ?? '')
+    if (rotate) angle += Number.parseFloat(rotate[1] ?? '0')
+    const turned = Math.round((((angle % 360) + 540) % 360) - 180)
+    return Math.abs(turned) >= 3 ? turned : undefined
+  }
+  /**
+   * For a control, a picture or an icon: whether its corners make it a circle or a pill (each radius at least half its
+   * shorter side, on a box that paints something), and its rotation. For a block with text of its own: its rotation.
+   * Undefined when it has neither, or past the budget.
+   */
+  const shapeOf = (el: Element, role: string): { corners?: 'circle' | 'pill'; rotate?: number } | undefined => {
+    const tag = el.localName
+    const control = SHAPED_TAGS.has(tag) || SHAPED_ROLES.has(role) || ICON_CLASS.test(el.getAttribute('class') ?? '')
+    if (!control && !(TURNABLE_TAGS.has(tag) && (ownText(el)?.length ?? 0) >= 3)) return undefined
+    const budget = control ? 'controls' : 'text'
+    if (shapeBudget[budget] <= 0) return undefined
+    shapeBudget[budget]--
+    const style = styleOf(el)
+    const shape: { corners?: 'circle' | 'pill'; rotate?: number } = {}
+    const rotate = rotationOf(style)
+    if (rotate !== undefined) shape.rotate = rotate
+    if (control) {
+      const width = (el as HTMLElement).offsetWidth || el.getBoundingClientRect().width
+      const height = (el as HTMLElement).offsetHeight || el.getBoundingClientRect().height
+      const side = Math.min(width, height)
+      const paints =
+        ['img', 'svg', 'canvas', 'input'].includes(tag) ||
+        !/rgba\(.*,\s*0\)$|transparent/.test(style.backgroundColor) ||
+        style.backgroundImage !== 'none' ||
+        Number.parseFloat(style.borderTopWidth) > 0 ||
+        style.boxShadow !== 'none'
+      const radius = (value: string): number => {
+        const first = value.trim().split(/\s+/)[0] ?? '0'
+        return first.endsWith('%') ? (Number.parseFloat(first) / 100) * side : Number.parseFloat(first) || 0
+      }
+      const corners = [style.borderTopLeftRadius, style.borderTopRightRadius, style.borderBottomRightRadius, style.borderBottomLeftRadius].map(radius)
+      if (side >= 8 && paints && corners.every((r) => r >= side / 2 - 1)) {
+        shape.corners = Math.abs(width - height) <= Math.max(width, height) * 0.15 ? 'circle' : 'pill'
+      }
+    }
+    return shape.corners || shape.rotate !== undefined ? shape : undefined
   }
 
   /**
@@ -805,6 +951,8 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     .filter((meta) => collapse(meta.getAttribute('name')).toLowerCase() === 'viewport')
     .map((meta) => ({ ref: cssPath(meta), content: (meta.getAttribute('content') ?? '').slice(0, 500) }))
   if (metaViewport.length > 0) root.native.metaViewport = metaViewport
+  const body = bodyLook()
+  if (body) root.native.bodyLook = body
   // Left on the page so the collector can map nodes it learns about over CDP (Chromium's form issues) and the
   // engine's results to refs, and find the element of a ref again (image captures, scoping).
   const page = window as unknown as { __rampaRefs?: Map<Element, string>; __rampaNodes?: Map<string, Element>; __rampaRefOf?: (el: Element) => string }

@@ -248,10 +248,14 @@ describe('probe stage', () => {
     expect(parseProbeKinds('none')).toEqual([])
     expect(parseProbeKinds('keyboard,layout')).toEqual(['layout', 'keyboard'])
     expect(parseProbeKinds('hover,layout')).toEqual(['layout', 'hover'])
-    expect(parseProbeKinds('all')).toEqual(['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'variants'])
+    expect(parseProbeKinds('all')).toEqual(['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states'])
     expect(parseProbeKinds('media')).toEqual(['media'])
     expect(parseProbeKinds('orientation')).toEqual(['orientation'])
-    expect(() => parseProbeKinds('touch')).toThrow(/--probe takes layout, keyboard, hover, orientation, shortcuts, media, color, variants, auth, all \(every kind but auth\) or none/)
+    // The state-variants probe loads other pages over the network: only when named.
+    expect(parseProbeKinds('variants,all')).toEqual(['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'variants'])
+    expect(() => parseProbeKinds('touch')).toThrow(
+      /--probe takes layout, keyboard, hover, orientation, shortcuts, media, color, states, variants, auth, flash, links, input, all \(every kind but variants, auth, flash, links, input\), interact \(shortcuts, links, input\) or none/,
+    )
   })
 
   it('ties a fact to a snapshot node only when the ref and the identity match', () => {

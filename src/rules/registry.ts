@@ -1,13 +1,17 @@
 import { authRule } from './auth.ts'
 import { bypassBlocksRule } from './bypass.ts'
 import { COLOR_RULES } from './color.ts'
+import { flashRule } from './flash.ts'
 import { focusObscuredNarrowRule, focusObscuredRule, focusVisibleRule } from './focus.ts'
 import { keyboardReachRule, keyboardTrapRule, onFocusRule } from './keyboard.ts'
 import { hoverRule } from './hover.ts'
+import { scriptedLinksRule } from './links.ts'
 import { MEDIA_RULES } from './media.ts'
+import { onInputRule } from './on-input.ts'
 import { reflowRule, textSpacingRule, zoomRule } from './layout.ts'
 import { orientationRule } from './orientation.ts'
 import { shortcutsRule } from './shortcuts.ts'
+import { STATE_CONTRAST_RULES } from './state-contrast.ts'
 import { VARIANTS_RULES } from './variants.ts'
 import type { ProbeRule } from './probes.ts'
 
@@ -26,8 +30,12 @@ export const PROBE_RULES: readonly ProbeRule[] = [
   ...MEDIA_RULES,
   ...COLOR_RULES,
   authRule,
+  scriptedLinksRule,
+  onInputRule,
   focusVisibleRule,
   focusObscuredRule,
   focusObscuredNarrowRule,
+  ...STATE_CONTRAST_RULES,
+  flashRule,
   ...VARIANTS_RULES,
 ]

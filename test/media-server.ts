@@ -11,6 +11,8 @@ import { extname, join, normalize, resolve } from 'node:path'
 export interface FixtureServers {
   origin: string
   other: string
+  /** Every request either server received, as "METHOD /path?query", in order: what a probe let reach the network. */
+  requests: string[]
   close(): Promise<void>
 }
 
@@ -43,8 +45,9 @@ async function serve(request: IncomingMessage, response: ServerResponse): Promis
   response.end(body)
 }
 
-async function listen(sockets: Set<Socket>): Promise<{ server: ReturnType<typeof createServer>; origin: string }> {
+async function listen(sockets: Set<Socket>, requests: string[]): Promise<{ server: ReturnType<typeof createServer>; origin: string }> {
   const server = createServer((request, response) => {
+    requests.push(`${request.method ?? 'GET'} ${request.url ?? '/'}`)
     serve(request, response).catch(() => response.writeHead(500).end())
   })
   server.on('connection', (socket) => {
@@ -57,10 +60,12 @@ async function listen(sockets: Set<Socket>): Promise<{ server: ReturnType<typeof
 
 export async function startFixtureServers(): Promise<FixtureServers> {
   const sockets = new Set<Socket>()
-  const main = await listen(sockets)
-  const second = await listen(sockets)
+  const requests: string[] = []
+  const main = await listen(sockets, requests)
+  const second = await listen(sockets, requests)
   return {
     origin: main.origin,
+    requests,
     // The same files, but another origin: localhost and 127.0.0.1 are different hosts.
     other: second.origin.replace('127.0.0.1', 'localhost'),
     async close() {

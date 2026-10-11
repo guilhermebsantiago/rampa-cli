@@ -147,11 +147,11 @@ Model calls: 14 new, 33 from cache · 4.7k in / 0.9k out tokens · 33 reused fro
 
 The same crawl with `--model ollama:gemma4:12b` made the same 14 calls and reused 33.
 
-Only identical inputs are reused. A page title (2.4.2) is judged with the page's address, so it is asked once per page; a heading is judged with the content under it; and pages in different languages rarely share an input, because the prompt names the language to answer in. Cached judgments from earlier runs count as "from cache" but not as reused, unless the same input also came up on an earlier page of this run.
+Only identical inputs are reused. A page title (2.4.2) is judged with the page's address, so it is asked once per page; a heading is judged with the content under it; and pages in different languages rarely share an input, because the prompt names the language to answer in. Cached judgments from earlier runs count as "from cache" but not as reused, unless the same input also came up on an earlier page of this run. 1.4.5 (Images of Text, on request) keys its judgments by the picture alone, so a picture is judged once wherever it shows; and a picture the crawl has seen on two other pages or more, by its pixels or its address, is taken for one of the site's own marks, such as its logo, and not judged at all ([criteria.md](criteria.md#145-images-of-text)).
 
 ## Criteria across pages
 
-A crawl also compares its pages with each other for 3.2.3 Consistent Navigation and 3.2.6 Consistent Help: whether repeated navigation and help keep their relative order from page to page. The site report shows the sets of pages it compared and what changed order; [site-criteria.md](site-criteria.md) has the details, and `siteCriteria` holds them in the JSON.
+A crawl also compares its pages with each other: 2.4.1 Bypass Blocks, titles that several pages share (2.4.2), the ways to find pages (2.4.5, for review only), 3.2.3 Consistent Navigation and 3.2.6 Consistent Help (whether repeated navigation and help keep their relative order from page to page), and 3.2.4 Consistent Identification (whether components with the same function keep their names). The site report shows the sets of pages it compared and what changed order; [site-criteria.md](site-criteria.md) has the details, and `siteCriteria` holds them in the JSON.
 
 ## JSON
 

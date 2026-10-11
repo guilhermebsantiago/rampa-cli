@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Contrast in states: failures</title>
+<style>
+  body { font: 16px Arial, sans-serif; margin: 1rem; background: #fff; color: #111; }
+  a, button { display: inline-block; margin: 8px; }
+  button { font: inherit; border: 0; padding: 6px 12px; }
+  /* 1.4.11: a pale gray ring on a white page, 1.6:1. */
+  #pale-ring { color: #0b57d0; }
+  #pale-ring:focus-visible { outline: 2px solid #c8c8c8; outline-offset: 2px; }
+  /* 1.4.11, the Understanding's Figure 9: a yellow ring outside a blue button, on white. */
+  #yellow-out { background: #1f5f8b; color: #fff; }
+  #yellow-out:focus-visible { outline: 3px solid #ffff00; outline-offset: 2px; }
+  /* 1.4.3 on hover: the link turns pale blue, 2.3:1. */
+  #hover-light { color: #0b57d0; }
+  #hover-light:hover { color: #8fb0e6; }
+  /* 1.4.3 on hover: white text on a pale blue background. */
+  #btn-hover { background: #1a5fb4; color: #fff; }
+  #btn-hover:hover { background: #9cbde6; }
+  /* 1.4.3 on focus: white text on yellow. */
+  #focus-text { background: #1a5fb4; color: #fff; }
+  #focus-text:focus { background: #ffd54f; outline: none; }
+  /* 1.4.11 for states: a selected tab marked only by a pale bar, 1.4:1. */
+  [role="tablist"] { display: flex; gap: 4px; margin: 16px 8px; }
+  [role="tab"] { background: #fff; color: #111; border-bottom: 3px solid transparent; }
+  [role="tab"][aria-selected="true"] { border-bottom-color: #d0d7de; }
+  /* The current page marked only by a pale background. */
+  nav ul { list-style: none; display: flex; gap: 4px; padding: 0; }
+  nav a { padding: 6px 10px; color: #111; text-decoration: none; }
+  nav a[aria-current="page"] { background: #edf1f5; }
+  /* A custom checkbox whose check mark is pale gray. */
+  .check { display: inline-block; width: 18px; height: 18px; border: 2px solid #333; margin: 8px; position: relative; vertical-align: middle; }
+  .check[aria-checked="true"]::after { content: ''; position: absolute; left: 3px; top: 3px; width: 8px; height: 8px; background: #d3d9de; }
+</style>
+</head>
+<body>
+<main>
+  <h1>States</h1>
+  <p>
+    <a id="pale-ring" href="#a">Pale ring</a>
+    <button id="yellow-out" type="button">Yellow outside</button>
+  </p>
+  <p>
+    <a id="hover-light" href="#b">Pale on hover</a>
+    <button id="btn-hover" type="button">Pale button on hover</button>
+    <button id="focus-text" type="button">Yellow on focus</button>
+  </p>
+  <div role="tablist" aria-label="Period">
+    <button id="t-day" role="tab" aria-selected="false" type="button">Day</button>
+    <button id="t-week" role="tab" aria-selected="true" type="button">Week</button>
+    <button id="t-month" role="tab" aria-selected="false" type="button">Month</button>
+  </div>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a id="here" href="#products" aria-current="page">Products</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+  </nav>
+  <p><span id="agree" class="check" role="checkbox" aria-checked="true" tabindex="0" aria-label="I agree"></span> I agree</p>
+</main>
+</body>
+</html>

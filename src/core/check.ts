@@ -151,7 +151,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     summaries.push(summary)
     if (!summary.applicable) continue
 
-    await criterion.prepare?.()
+    await criterion.prepare?.(view)
     // An element a stable rule already failed for this criterion is decided: the model is not asked again.
     const failedByRule = stage.decided.get(criterion.id)
     const candidates = criterion.candidates(view, engine).filter((candidate) => !failedByRule?.has(candidate.ref))

@@ -7,6 +7,7 @@ import { fileCache } from '../../core/cache.ts'
 import { type CheckOptions, checkSnapshot } from '../../core/check.ts'
 import { type SiteCriteriaReport, type SitePage, type SiteReport, countReuse, findingSignatures, siteExitCode, summarizeSite } from '../../core/site.ts'
 import { type Sibling, siblingsOf } from '../../core/siblings.ts'
+import { pagePictureKeys, repeatedPictures } from '../../core/site-images.ts'
 import type { Report } from '../../core/types.ts'
 import { RampaError, errorMessage } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
@@ -14,7 +15,7 @@ import { emptyEngine } from '../../engine/axe.ts'
 import { chooseModel } from '../../providers/detect.ts'
 import type { ModelProvider } from '../../providers/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
-import { type SitePageRecord, pageSetsOf, runSiteCriteria, siteFactsOf } from '../../site/index.ts'
+import { type SitePageRecord, judgeSiteQuestions, pageSetsOf, runSiteCriteria, siteFactsOf } from '../../site/index.ts'
 import { withSiteCriteria } from '../../core/coverage.ts'
 import { renderSiteReport } from '../../report/site.ts'
 import { type BrowserOptions, addSiteCookies, contextOptions, describeConditions, webUrl } from '../../surfaces/browser-options.ts'
@@ -158,6 +159,8 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
   const cache = countReuse(fileCache(options.cacheDir))
   const pages: Array<SitePage & { index: number }> = []
   const titles: Sibling[] = []
+  // Which pages each captured picture showed on so far, so 1.4.5 can tell a site's own marks (a logo) from content.
+  const pictures = new Map<string, Set<string>>()
   // What the criteria across pages (3.2.3, 3.2.6) read of each page, kept instead of the snapshot.
   const records: Array<SitePageRecord & { index: number }> = []
   // Pages load in parallel but are judged one at a time, in turn: a judgment made for one
@@ -191,6 +194,12 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
     }
     const title = collected.snapshot.title?.trim()
     if (title) titles.push({ url: finalUrl, title })
+    const pictureKeys = pagePictureKeys(collected.snapshot.root, finalUrl)
+    for (const key of pictureKeys) {
+      const pages = pictures.get(key) ?? new Set<string>()
+      pages.add(finalUrl)
+      pictures.set(key, pages)
+    }
     let record: SitePageRecord | undefined
     try {
       record = siteFactsOf({ ...collected.snapshot, target: finalUrl })
@@ -201,7 +210,9 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
       cache.page = turns++
       // The titles of the pages read so far, so 2.4.2 can tell whether this page's title sets it apart from them.
       const siblings = siblingsOf(finalUrl, titles)
-      const snapshot = { ...collected.snapshot, target: finalUrl, ...(siblings.length > 0 ? { siblings } : {}) }
+      // The pictures of this page the crawl has seen on other pages so far: on several, 1.4.5 takes them for the site's marks.
+      const siteImages = repeatedPictures(pictureKeys, pictures, finalUrl)
+      const snapshot = { ...collected.snapshot, target: finalUrl, ...(siblings.length > 0 ? { siblings } : {}), ...(siteImages ? { siteImages } : {}) }
       if (options.save) await saveRecording(options.save, snapshot, collected)
       // Pages are judged one at a time, so a page's time limit counts from its turn, not from its load.
       const deadline = run.timeLimitMs === undefined ? undefined : Date.now() + run.timeLimitMs
@@ -228,10 +239,36 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
     })
   } catch (error) {
     // The pages are checked and judged by now: a comparison that fails must not lose their report.
-    process.stderr.write(`rampa: the criteria across pages (2.4.1, 3.2.3, 3.2.6) did not run: ${errorMessage(error)}\n`)
+    process.stderr.write(`rampa: the criteria across pages (2.4.1, 2.4.2, 2.4.5, 3.2.3, 3.2.4, 3.2.6) did not run: ${errorMessage(error)}\n`)
+  }
+  // What the rules across pages left to a model (3.2.4 names on icon buttons, 3.2.6 help known by its text), three runs each.
+  if (siteCriteria && options.llm && (run.provider || options.offline)) {
+    run.progress('… questions across pages')
+    try {
+      await judgeSiteQuestions(siteCriteria, {
+        provider: run.provider,
+        cache,
+        offline: Boolean(options.offline),
+        locale: run.context.locale,
+        concurrency: Math.min(2, run.check.concurrency),
+        minConfidence: options.minConfidence,
+        waivers: run.check.waivers,
+        wcag: run.check.wcag ?? DEFAULT_WCAG,
+      })
+    } catch (error) {
+      process.stderr.write(`rampa: the model questions across pages did not run: ${errorMessage(error)}\n`)
+    }
   }
   const summary = summarizeSite(pages, cache.reused)
-  // 2.4.1, 3.2.3 and 3.2.6 get a method of kind site, the status it gives, and leave "not checked" when they compared something.
+  const spent = siteCriteria?.usage
+  if (spent) {
+    summary.usage.calls += spent.calls
+    summary.usage.cachedCalls += spent.cachedCalls
+    summary.usage.inputTokens += spent.inputTokens
+    summary.usage.outputTokens += spent.outputTokens
+    summary.usage.latencyMs += spent.latencyMs
+  }
+  // The criteria across pages get a method of kind site, the status it gives, and leave "not checked" when they compared something.
   if (siteCriteria) {
     summary.coverage = withSiteCriteria(summary.coverage, siteCriteria, {
       version: run.check.wcag ?? DEFAULT_WCAG,

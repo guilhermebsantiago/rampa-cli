@@ -109,7 +109,8 @@ export function reviewOnly(report: Report): string[] {
 
 /** Criteria a probe rule decided something for (--probe): it found failures, experimental or not, or found none. */
 export function probedCriteria(report: Report): string[] {
-  const rows = (report.coverage.probes ?? []).filter((row) => row.status === 'failures' || row.status === 'no-failure-found')
+  // A probe rule that only gathers facts for another method (an inventory) decided nothing.
+  const rows = (report.coverage.probes ?? []).filter((row) => !row.inventory && (row.status === 'failures' || row.status === 'no-failure-found'))
   return [...new Set(rows.map((row) => row.criterion))].sort(compareCriteria)
 }
 
