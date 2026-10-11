@@ -186,7 +186,8 @@ export function criteriaCoverage(input: CoverageInput): CriterionCoverage[] {
         failures: summary.failed - selfFailed,
         review: summary.cannotTell,
         ...(notJudged > 0 ? { notJudged } : {}),
-        maturity: 'stable',
+        // A judgment that decides a probe's items (4.1.3) is as experimental as the probe.
+        maturity: module.settles ? 'experimental' : 'stable',
       })
     }
 

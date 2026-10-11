@@ -131,6 +131,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const criteria = [...options.criteria, ...probeJudgments(snapshot).filter((extra) => !options.criteria.some((given) => given.id === extra.id))]
   // Judgments that may only clear a probe rule's finding: what each decided, applied once every criterion has run.
   const clearing: Array<{ rule: string; criterion: string; ref: string; passed: boolean; evidence?: string | undefined; control?: string | undefined; votes: number; total: number; model?: string | undefined; note?: string | undefined }> = []
+  // Judgments that decide a probe rule's items to review (4.1.3): which item each verified answer settled.
+  const settling: Array<{ rule: string; criterion: string; key: string; passed: boolean; note?: string | undefined }> = []
 
   for (const criterion of criteria) {
     // A criterion that moved to the browser's names reads the snapshot with them; the others, as the collector named it.
@@ -220,6 +222,15 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
               model: options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId,
             })
           }
+          if (criterion.settles && criterion.settledKey) {
+            settling.push({
+              rule: criterion.settles,
+              criterion: criterion.id,
+              key: criterion.settledKey(judgment.candidate),
+              passed: true,
+              note: judgment.representative && criterion.settledNote ? criterion.settledNote(judgment.representative, judgment.candidate, options.locale) : undefined,
+            })
+          }
           continue
         case 'discarded':
         case 'failed': {
@@ -277,7 +288,12 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             // A judgment the criterion made without a model names no model; its message says what decided it.
             agreement: decided ? undefined : { votes: judgment.votes, total: judgment.total },
             model: decided ? undefined : (options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId),
+            // A judgment over a probe's facts is as experimental as the probe.
+            ...(criterion.settles ? { experimental: true } : {}),
           })
+          if (criterion.settles && criterion.settledKey && judgment.status === 'failed') {
+            settling.push({ rule: criterion.settles, criterion: criterion.id, key: criterion.settledKey(judgment.candidate), passed: false })
+          }
         }
       }
     }
@@ -311,6 +327,18 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
         finding.agreement = { votes: decision.votes, total: decision.total }
       }
     }
+  }
+  // A verified answer takes the probe rule's item to review off the list: its fail is the judgment's finding, its pass a note.
+  for (const decision of settling) {
+    const at = probe.review.findIndex((f) => f.ruleId === decision.rule && f.criterion === decision.criterion && f.fingerprint === decision.key)
+    if (at < 0) continue
+    probe.review.splice(at, 1)
+    const row = probe.coverage.find((r) => r.rule === decision.rule && r.criterion === decision.criterion)
+    if (!row) continue
+    row.review = Math.max(0, row.review - 1)
+    if (!decision.passed) row.failures++
+    else if (decision.note) row.note = row.note ? `${row.note}; ${decision.note}` : decision.note
+    row.status = row.failures > 0 ? 'failures' : row.review > 0 ? 'needs-review' : 'no-failure-found'
   }
   const notes = notJudgedNotes(summaries, cap, options.locale)
 

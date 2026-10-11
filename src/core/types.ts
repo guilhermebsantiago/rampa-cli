@@ -179,6 +179,15 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
   clearedNote?(output: Out, locale: Locale): string
   /** With `clears`: what a verified fail adds to the evidence of the finding it keeps. The 2.1.4 wording when absent. */
   keptNote?(output: Out, locale: Locale): string
+  /**
+   * The probe rule whose items to review this judgment decides (4.1.3: is the text that appeared a status message?).
+   * A verified answer takes the item a candidate stands for (`settledKey`, the item's fingerprint) off the review list:
+   * a fail becomes this judgment's finding, experimental like the probe's, and a pass a note on the rule's coverage line
+   * (`settledNote`). With no model, or no verified answer, the item stays for a person.
+   */
+  settles?: string | undefined
+  settledKey?(candidate: Candidate<Ctx>): string
+  settledNote?(output: Out, candidate: Candidate<Ctx>, locale: Locale): string
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: registry of heterogeneous criteria
