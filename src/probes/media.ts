@@ -1,6 +1,7 @@
 import type { Browser, Page } from 'playwright-core'
 import type { ProbeRecord } from '../snapshot/schema.ts'
 import type { InPageElement, InPageIdentity, Kit } from './kit.ts'
+import { type AlternativeAnchor, type MediaAlternative, collectAlternatives } from './media-alternatives.ts'
 import { type ProbeOptions, openProbePage, skippedRecord } from './page.ts'
 
 /**
@@ -14,12 +15,19 @@ import { type ProbeOptions, openProbePage, skippedRecord } from './page.ts'
  * tracks are made to load (mode `hidden`) to count their cues. Then everything is put back. Observe class: the
  * probe plays media muted and reads it; it never clicks, and the network guard is on.
  *
+ * Version 2 also reads the text alternatives around each media element and player frame (media-alternatives.ts):
+ * transcripts, text versions and audio versions, what each link leads to, and the cue text of each track.
+ *
  * The rules (src/rules/media.ts) turn these facts into findings: a captions track that fails to load or holds no
- * cues (1.2.2), audio that plays on its own for more than 3 s with no way to stop it (1.4.2), and items to review
- * for the rest, listing what was found.
+ * cues (1.2.2), audio that plays on its own for more than 3 s with no way to stop it (1.4.2), audio-only and
+ * video-only media whose only alternatives found are placeholders or broken (1.2.1), and items to review for the
+ * rest, quoting what was found.
  */
 
-export const MEDIA_VERSION = '1'
+export const MEDIA_VERSION = '2'
+/** How long the alternatives step may spend reading addresses. */
+const ALTERNATIVES_MS = 20_000
+const MAX_ANCHORS = 16
 /** Sound above this level (dBFS) counts as audible. */
 export const AUDIBLE_DB = -50
 /** How long the probe watches the page after it starts loading, at least, for audio that plays on its own. */
@@ -29,6 +37,8 @@ const WATCH_PLAYED_MS = 3600
 const WATCH_CAP_MS = 12_000
 /** How long media that is not playing is played, muted, to read it. */
 const SAMPLE_MS = 2500
+/** How long each of the three extra points of an audio track silent all through the sample is played. */
+const POINT_MS = 1000
 const MAX_SAMPLED = 12
 const MAX_ITEMS = 60
 const MAX_SIGNALS = 3
@@ -46,6 +56,11 @@ export interface MediaTrack {
   cues: number | null
   /** The first cue's text, cut to 80 characters. */
   first?: string | undefined
+  /** Version 2: cues with no text (tags and whitespace only). */
+  blank?: number | undefined
+  /** Version 2: how many distinct texts the cues hold, and the first three, cut to 80 characters. */
+  distinct?: number | undefined
+  texts?: string[] | undefined
 }
 
 /** Text near a media element, or anywhere on the page, that names a transcript or an audio description. */
@@ -117,6 +132,11 @@ export interface MediaItem extends InPageElement {
   hasVideo: boolean | null
   /** The level read from its stream while it played: loudest, how long it sounded (as in AutoplayFact), ms read. */
   level: { peakDb: number; audibleMs: number; sampledMs: number } | null
+  /**
+   * Version 2: an audio track silent all through the sample was read again at three points of the media (seconds in
+   * `at`), muted: how much was read, its loudest level and how long it sounded there.
+   */
+  points?: { at: number[]; sampledMs: number; peakDb: number; audibleMs: number } | undefined
   error?: string | undefined
   tracks: MediaTrack[]
   autoplay?: AutoplayFact | undefined
@@ -126,6 +146,10 @@ export interface MediaItem extends InPageElement {
   controls: MediaControl[]
   /** Its aria-label, title or aria-describedby text, cut to 120 characters. */
   name: string
+  /** Version 2: text and audio alternatives tied to it, and what each holds or leads to. */
+  alternatives?: MediaAlternative[] | undefined
+  /** Version 2: other media elements next to it, by ref (an audio player next to a video with no sound may be its audio version). */
+  nearMedia?: string[] | undefined
 }
 
 /** A frame of another origin, which the probe cannot read; `player` names a known media player's host. */
@@ -135,7 +159,11 @@ export interface MediaFrame {
   src: string
   host: string
   player: string | null
+  /** Version 2: what the known player plays: audio (a podcast or music host) or video. */
+  media?: 'audio' | 'video' | null | undefined
   visible: boolean
+  /** Version 2: alternatives tied to the frame, as for a media element. */
+  alternatives?: MediaAlternative[] | undefined
 }
 
 /** Web Audio graphs that reached the speakers during the watch. */
@@ -162,6 +190,14 @@ export interface MediaData {
   /** Transcript and audio description signals anywhere on the page. */
   pageTranscript: MediaSignal[]
   pageDescription: MediaSignal[]
+  /** Version 2: alternatives found on the page and tied to no media. */
+  pageAlternatives?: MediaAlternative[] | undefined
+  /** Version 2: the requests the probe made to read alternatives: GET in the page's origin, HEAD elsewhere. */
+  fetched?: Array<{ method: string; url: string; status: number | null }> | undefined
+  /** Version 2: the alternatives could not be read (the step failed): no media has `alternatives`. */
+  alternativesError?: string | undefined
+  /** Version 2: how many media elements and player frames the alternatives were looked for (those that show, have controls or played). */
+  anchors?: number | undefined
   /** The browser's autoplay policy for media elements as the page loaded, where the browser tells it. */
   autoplayPolicy: string | null
   /** How long the watch lasted after the page started loading, and the sample, in ms. */
@@ -172,35 +208,63 @@ export interface MediaData {
   omitted: number
 }
 
-/** Known players that live in frames of another origin, by host. */
-export const PLAYER_HOSTS: ReadonlyArray<[RegExp, string]> = [
-  [/(^|\.)(youtube\.com|youtube-nocookie\.com|youtu\.be)$/, 'YouTube'],
-  [/(^|\.)vimeo\.com$/, 'Vimeo'],
-  [/(^|\.)(dailymotion\.com|dai\.ly)$/, 'Dailymotion'],
-  [/(^|\.)(wistia\.com|wistia\.net)$/, 'Wistia'],
-  [/(^|\.)brightcove\.(net|com)$/, 'Brightcove'],
-  [/(^|\.)(jwplayer\.com|jwplatform\.com|jwpcdn\.com)$/, 'JW Player'],
-  [/(^|\.)kaltura\.com$/, 'Kaltura'],
-  [/(^|\.)vidyard\.com$/, 'Vidyard'],
-  [/(^|\.)loom\.com$/, 'Loom'],
-  [/(^|\.)twitch\.tv$/, 'Twitch'],
-  [/(^|\.)facebook\.com$/, 'Facebook'],
-  [/(^|\.)tiktok\.com$/, 'TikTok'],
-  [/(^|\.)streamable\.com$/, 'Streamable'],
-  [/(^|\.)ted\.com$/, 'TED'],
-  [/(^|\.)globo\.com$/, 'Globo'],
-  [/(^|\.)soundcloud\.com$/, 'SoundCloud'],
-  [/(^|\.)spotify\.com$/, 'Spotify'],
-  [/(^|\.)mixcloud\.com$/, 'Mixcloud'],
-  [/(^|\.)deezer\.com$/, 'Deezer'],
-  [/(^|\.)podcasts\.apple\.com$/, 'Apple Podcasts'],
-  [/(^|\.)bandcamp\.com$/, 'Bandcamp'],
+/** Known players that live in frames of another origin, by host, and what they play: video, or audio (podcast and music hosts). */
+export const PLAYER_HOSTS: ReadonlyArray<[RegExp, string, 'audio' | 'video']> = [
+  [/(^|\.)(youtube\.com|youtube-nocookie\.com|youtu\.be)$/, 'YouTube', 'video'],
+  [/(^|\.)vimeo\.com$/, 'Vimeo', 'video'],
+  [/(^|\.)(dailymotion\.com|dai\.ly)$/, 'Dailymotion', 'video'],
+  [/(^|\.)(wistia\.com|wistia\.net)$/, 'Wistia', 'video'],
+  [/(^|\.)brightcove\.(net|com)$/, 'Brightcove', 'video'],
+  [/(^|\.)(jwplayer\.com|jwplatform\.com|jwpcdn\.com)$/, 'JW Player', 'video'],
+  [/(^|\.)kaltura\.com$/, 'Kaltura', 'video'],
+  [/(^|\.)vidyard\.com$/, 'Vidyard', 'video'],
+  [/(^|\.)loom\.com$/, 'Loom', 'video'],
+  [/(^|\.)twitch\.tv$/, 'Twitch', 'video'],
+  [/(^|\.)facebook\.com$/, 'Facebook', 'video'],
+  [/(^|\.)tiktok\.com$/, 'TikTok', 'video'],
+  [/(^|\.)streamable\.com$/, 'Streamable', 'video'],
+  [/(^|\.)ted\.com$/, 'TED', 'video'],
+  [/(^|\.)globo\.com$/, 'Globo', 'video'],
+  [/(^|\.)soundcloud\.com$/, 'SoundCloud', 'audio'],
+  [/(^|\.)spotify\.com$/, 'Spotify', 'audio'],
+  [/(^|\.)mixcloud\.com$/, 'Mixcloud', 'audio'],
+  [/(^|\.)deezer\.com$/, 'Deezer', 'audio'],
+  [/(^|\.)podcasts\.apple\.com$/, 'Apple Podcasts', 'audio'],
+  [/(^|\.)bandcamp\.com$/, 'Bandcamp', 'audio'],
+  [/(^|\.)megaphone\.fm$/, 'Megaphone', 'audio'],
+  [/(^|\.)libsyn\.com$/, 'Libsyn', 'audio'],
+  [/(^|\.)buzzsprout\.com$/, 'Buzzsprout', 'audio'],
+  [/(^|\.)simplecast\.com$/, 'Simplecast', 'audio'],
+  [/(^|\.)transistor\.fm$/, 'Transistor', 'audio'],
+  [/(^|\.)podbean\.com$/, 'Podbean', 'audio'],
+  [/(^|\.)acast\.com$/, 'Acast', 'audio'],
+  [/(^|\.)omny\.fm$/, 'Omny', 'audio'],
+  [/(^|\.)art19\.com$/, 'Art19', 'audio'],
+  [/(^|\.)audioboom\.com$/, 'Audioboom', 'audio'],
+  [/(^|\.)spreaker\.com$/, 'Spreaker', 'audio'],
+  [/(^|\.)captivate\.fm$/, 'Captivate', 'audio'],
+  [/(^|\.)anchor\.fm$/, 'Anchor', 'audio'],
+  [/(^|\.)(podigee\.com|podigee\.io|podigee-cdn\.net)$/, 'Podigee', 'audio'],
+  [/(^|\.)ausha\.co$/, 'Ausha', 'audio'],
+  [/(^|\.)redcircle\.com$/, 'RedCircle', 'audio'],
+  [/(^|\.)castos\.com$/, 'Castos', 'audio'],
+  [/(^|\.)fireside\.fm$/, 'Fireside', 'audio'],
+  [/(^|\.)blubrry\.com$/, 'Blubrry', 'audio'],
+  [/(^|\.)player\.fm$/, 'Player FM', 'audio'],
+  [/(^|\.)iheart\.com$/, 'iHeart', 'audio'],
 ]
 
 /** The player a frame's host belongs to, or null. */
 export function playerOf(host: string): string | null {
   const lower = host.toLowerCase()
   for (const [pattern, name] of PLAYER_HOSTS) if (pattern.test(lower)) return name
+  return null
+}
+
+/** What a known player's host plays, or null for an unknown host. */
+export function playerMedia(host: string): 'audio' | 'video' | null {
+  const lower = host.toLowerCase()
+  for (const [pattern, , media] of PLAYER_HOSTS) if (pattern.test(lower)) return media
   return null
 }
 
@@ -490,6 +554,8 @@ interface CollectArgs {
   maxSignals: number
   sampleMs: number
   audibleDb: number
+  /** How long each extra point of a silent audio track is played, in ms. */
+  pointMs: number
 }
 
 interface CollectResult {
@@ -854,6 +920,49 @@ async function collectMedia(args: CollectArgs): Promise<CollectResult> {
         entry.wasLoud = loud
       }
     }
+    // An audio track silent all through the sample: listen at three more points (a quarter, half and three quarters in),
+    // muted as before, to tell a silent soundtrack (a video with no sound, 1.2.1) from a quiet opening.
+    const quiet = sampled.filter(
+      (entry) => entry.item.sample === 'played' && entry.analyser && entry.sampledMs > 0 && entry.firstLoud < 0 && Number.isFinite(entry.el.duration) && entry.el.duration > 4 && entry.el.seekable.length > 0,
+    )
+    const points = new Map<(typeof sampled)[number], { at: number[]; sampledMs: number; peak: number; loud: number; wasLoud: boolean }>()
+    for (const entry of quiet) points.set(entry, { at: [], sampledMs: 0, peak: 0, loud: 0, wasLoud: false })
+    for (const point of quiet.length > 0 ? [0.25, 0.5, 0.75] : []) {
+      for (const entry of quiet) {
+        try {
+          entry.el.currentTime = entry.el.duration * point
+          points.get(entry)?.at.push(Math.round(entry.el.duration * point * 10) / 10)
+        } catch {
+          // Not seekable after all.
+        }
+        entry.lastTime = entry.el.currentTime
+        entry.el.play().catch(() => undefined)
+      }
+      const until = performance.now() + args.pointMs
+      while (performance.now() < until) {
+        await new Promise((resolve) => setTimeout(resolve, 100))
+        for (const entry of quiet) {
+          const p = points.get(entry)
+          const delta = Math.min(0.6, Math.max(0, entry.el.currentTime - entry.lastTime))
+          entry.lastTime = entry.el.currentTime
+          if (!p || !entry.analyser || ctx?.state !== 'running' || delta === 0) continue
+          entry.analyser.getFloatTimeDomainData(samples)
+          let sum = 0
+          for (const value of samples) sum += value * value
+          const level = Math.sqrt(sum / samples.length)
+          if (level > p.peak) p.peak = level
+          p.sampledMs += delta * 1000
+          const loud = level > threshold
+          if (loud && p.wasLoud) p.loud += delta * 1000
+          p.wasLoud = loud
+        }
+      }
+      for (const entry of quiet) {
+        const p = points.get(entry)
+        if (p) p.wasLoud = false
+      }
+    }
+    for (const [entry, p] of points) entry.item.points = { at: p.at, sampledMs: Math.round(p.sampledMs), peakDb: db(p.peak), audibleMs: Math.round(p.loud) }
   } else if (modes.length > 0) {
     await new Promise((resolve) => setTimeout(resolve, Math.min(args.sampleMs, 1500)))
   }
@@ -892,6 +1001,14 @@ async function collectMedia(args: CollectArgs): Promise<CollectResult> {
     item.tracks = Array.from(el.querySelectorAll('track')).map((trackEl) => {
       const cues = trackEl.track.cues
       const first = cues && cues.length > 0 ? collapse((cues[0] as VTTCue).text) : ''
+      // Each cue's text without its tags: blank cues, and the distinct texts, to tell placeholder captions.
+      let blank = 0
+      const distinct = new Set<string>()
+      for (const cue of Array.from(cues ?? [])) {
+        const text = collapse((cue as VTTCue).text.replace(/<[^>]*>/g, ' '))
+        if (!text) blank++
+        else if (distinct.size < 50) distinct.add(text)
+      }
       return {
         kind: trackEl.kind || 'subtitles',
         label: cut(collapse(trackEl.label), 60),
@@ -901,6 +1018,7 @@ async function collectMedia(args: CollectArgs): Promise<CollectResult> {
         state: (['none', 'loading', 'loaded', 'error'] as const)[trackEl.readyState] ?? 'none',
         cues: cues ? cues.length : null,
         ...(first ? { first: cut(first, 80) } : {}),
+        ...(cues ? { blank, distinct: distinct.size, texts: [...distinct].slice(0, 3).map((text) => cut(text, 80)) } : {}),
       }
     })
   }
@@ -997,11 +1115,48 @@ export async function runMediaProbe(browser: Browser, url: string, options: Prob
   try {
     const page = probe.page
     await watchPage(page, started)
-    const result = await page.evaluate(collectMedia, { maxItems: MAX_ITEMS, maxSampled: MAX_SAMPLED, maxSignals: MAX_SIGNALS, sampleMs: SAMPLE_MS, audibleDb: AUDIBLE_DB })
-    const frames = result.frames
-      .map((frame) => ({ ...frame, player: playerOf(frame.host) }))
+    const result = await page.evaluate(collectMedia, { maxItems: MAX_ITEMS, maxSampled: MAX_SAMPLED, maxSignals: MAX_SIGNALS, sampleMs: SAMPLE_MS, audibleDb: AUDIBLE_DB, pointMs: POINT_MS })
+    const frames: MediaFrame[] = result.frames
+      .map((frame) => ({ ...frame, player: playerOf(frame.host), media: playerMedia(frame.host) }))
       .sort((a, b) => Number(b.player !== null) - Number(a.player !== null))
       .slice(0, 20)
+    // The alternatives of what a person can see or hear: media that shows, has controls or played, a hidden audio
+    // element with a play control next to it (a player that draws its own controls), and players that show.
+    const anchors: AlternativeAnchor[] = [
+      ...result.items
+        .filter((item) => item.visible || item.attributes.controls || item.autoplay?.started || (item.kind === 'audio' && item.controls.some((c) => c.near && c.kind === 'play-pause')))
+        .map((item) => ({ ref: item.ref, frame: false })),
+      ...frames.filter((frame) => frame.player && frame.visible).map((frame) => ({ ref: frame.ref, frame: true })),
+    ].slice(0, MAX_ANCHORS)
+    let alternativesError: string | undefined
+    const alternatives =
+      anchors.length > 0
+        ? await collectAlternatives(
+            page,
+            probe.context,
+            url,
+            anchors,
+            frames.filter((frame) => frame.player).map((frame) => frame.ref),
+            options.browserOptions,
+            Date.now() + ALTERNATIVES_MS,
+          ).catch((error: unknown) => {
+            alternativesError = (error instanceof Error ? error.message : String(error)).split('\n')[0]?.slice(0, 200)
+            return undefined
+          })
+        : { byRef: new Map<string, MediaAlternative[]>(), mediaByRef: new Map<string, string[]>(), page: [], fetched: [] }
+    // Media past the budget of anchors, or that the page search could not find again, have no `alternatives`.
+    if (alternatives) {
+      for (const item of result.items) {
+        const found = alternatives.byRef.get(item.ref)
+        if (found) item.alternatives = found
+        const near = alternatives.mediaByRef.get(item.ref)
+        if (near) item.nearMedia = near
+      }
+      for (const frame of frames) {
+        const found = alternatives.byRef.get(frame.ref)
+        if (found) frame.alternatives = found
+      }
+    }
     const data: MediaData = {
       items: result.items,
       detached: result.detached,
@@ -1010,6 +1165,8 @@ export async function runMediaProbe(browser: Browser, url: string, options: Prob
       pageControls: result.pageControls,
       pageTranscript: result.pageTranscript,
       pageDescription: result.pageDescription,
+      ...(alternatives ? { pageAlternatives: alternatives.page, fetched: alternatives.fetched, anchors: anchors.length } : {}),
+      ...(alternativesError ? { alternativesError } : {}),
       autoplayPolicy: result.policy,
       watchMs: result.watchMs,
       sampleMs: SAMPLE_MS,
