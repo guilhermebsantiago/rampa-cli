@@ -25,6 +25,8 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   const version = versionOf(report.wcagTarget)
   const meta = [`${t(locale, 'surface')}: ${report.surface}`, t(locale, 'wcagTarget', { version }), `${report.engine.name} ${report.engine.version}`]
   if (report.model) meta.push(`${t(locale, 'model')}: ${report.model}`)
+  // Fast mode says so up front; what it left out is in the coverage.
+  if (report.coverage.fast) meta.push(t(locale, 'fastMode'))
   lines.push(p.dim(meta.join(' · ')))
   // Forms the probe submitted (--allow-submit) come first: the run wrote to a server.
   const submitted = submissionLine(report)

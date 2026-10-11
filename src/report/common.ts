@@ -1,4 +1,5 @@
 import { reviewOnlyCriteria } from '../core/coverage.ts'
+import { fastLine } from '../core/fast.ts'
 import type { CoverageMethod, CoverageStatus, CriterionCoverage, Finding, Report, ReviewItem } from '../core/types.ts'
 import { type Locale, type MessageKey, t } from '../i18n.ts'
 import { reachNotes } from '../snapshot/reach.ts'
@@ -115,7 +116,7 @@ export function probedCriteria(report: Report): string[] {
 }
 
 export interface CoverageRow {
-  key: 'engine' | 'rules' | 'judged' | 'probes' | 'review' | 'notChecked'
+  key: 'engine' | 'rules' | 'judged' | 'probes' | 'review' | 'notChecked' | 'fast'
   label: string
   criteria: string[]
   text: string
@@ -131,6 +132,7 @@ export function coverageRows(
   always = false,
   withRules = (report.coverage.rules?.length ?? 0) > 0,
   withProbes = report.coverage.probes !== undefined,
+  withFast = report.coverage.fast !== undefined,
 ): CoverageRow[] {
   const { locale } = report
   const list = (items: readonly string[]) => (items.length === 0 ? '—' : items.join(', '))
@@ -138,7 +140,11 @@ export function coverageRows(
   const rules = report.coverage.rules ?? []
   // Criteria a probe rule decided something for (--probe); the line is there whenever a probe ran.
   const probed = probedCriteria(report)
+  // --fast: what it left out and the limits it lowered, next to what was checked, so a shorter run never reads as a full one.
+  const fast = report.coverage.fast ? fastLine(report.coverage.fast, locale) : undefined
+  const fastLabel = fastLine({ skipped: [] }, locale).label
   return [
+    ...(withFast ? [{ key: 'fast' as const, label: fast?.label ?? fastLabel, criteria: [], text: fast?.text ?? '—' }] : []),
     { key: 'engine', label: t(locale, 'coverageEngine', { engine: report.engine.name }), criteria: report.coverage.engine, text: list(report.coverage.engine) },
     ...(withRules ? [{ key: 'rules' as const, label: t(locale, 'coverageRules'), criteria: rules, text: list(rules) }] : []),
     { key: 'judged', label: t(locale, 'coverageJudged'), criteria: report.coverage.judged, text: list(report.coverage.judged) },

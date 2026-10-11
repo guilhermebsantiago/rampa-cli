@@ -33,6 +33,12 @@ export interface RampaConfig {
   /** Seconds after a page starts loading when Rampa stops asking the model and reports what was judged, like --time-limit. */
   timeLimit?: number
   /**
+   * The fast preset for CI and pre-commit hooks, like --fast (docs/performance.md): fewer candidates per criterion, no link
+   * following, no contrast from pixels, fewer image captures, a shorter wait after load. What this file or the command
+   * line sets keeps its value; --no-fast turns it off for one run.
+   */
+  fast?: boolean
+  /**
    * Sets of pages for the criteria that compare pages (3.2.3, 3.2.6), by name: path patterns
    * in robots.txt syntax, as --include. Pages in no named set are grouped by template.
    */

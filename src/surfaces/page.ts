@@ -52,6 +52,8 @@ export interface PageCollectOptions {
   axTree?: boolean | Partial<AxLimits> | undefined
   /** Records where the page's time goes (`timings: true`, core/timings.ts). */
   timings?: Stopwatch | undefined
+  /** Images captured at most (image-capture.ts's IMAGE_LIMIT by default); fast mode captures fewer. */
+  imageLimit?: number | undefined
 }
 
 const MAX_NODES = 5000
@@ -111,7 +113,7 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
   if (options.captureImages || labels || contrast) {
     // Element screenshots scroll the page; the caller's test carries on from where it was.
     const scroll = await driver.evaluate(() => [window.scrollX, window.scrollY], null)
-    if (options.captureImages) await timed(watch, 'image-capture', () => captureImages(driver, root))
+    if (options.captureImages) await timed(watch, 'image-capture', () => captureImages(driver, root, options.imageLimit))
     // Whether each label 3.3.2 relies on shows its text, as collectWeb measures it (label-visibility.ts).
     if (labels) {
       await timed(watch, 'label-visibility', () => measureLabels({ evaluate: (fn, arg) => driver.evaluate(fn, arg), screenshot: (ref) => driver.screenshotElement(ref) }, root))
@@ -181,6 +183,6 @@ async function scopeRoot(driver: PageDriver, root: A11yNode, scope: Scope, page:
  * each scrolled into view and loaded first, and left without a capture, saying why, when the screenshot
  * would not be its own pixels (image-capture.ts).
  */
-async function captureImages(driver: PageDriver, root: A11yNode): Promise<void> {
-  await captureImageNodes({ evaluate: (fn, arg) => driver.evaluate(fn, arg), screenshot: (ref) => driver.screenshotElement(ref) }, root)
+async function captureImages(driver: PageDriver, root: A11yNode, limit: number | undefined): Promise<void> {
+  await captureImageNodes({ evaluate: (fn, arg) => driver.evaluate(fn, arg), screenshot: (ref) => driver.screenshotElement(ref) }, root, { limit })
 }

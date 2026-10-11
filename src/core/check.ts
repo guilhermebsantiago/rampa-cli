@@ -19,6 +19,7 @@ import { VERSION } from '../version.ts'
 import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria, criteriaFor, successCriterion, wcagTarget } from '../wcag.ts'
 import type { JudgmentCache } from './cache.ts'
 import { type Sample, judgeCandidates } from './judge.ts'
+import type { FastCoverage } from './fast.ts'
 import { type CriterionTiming, type Stopwatch, timed } from './timings.ts'
 import {
   type AnyCriterion,
@@ -77,10 +78,17 @@ export interface CheckOptions {
   deadline?: number | undefined
   /** Records how long the rules, each criterion and the advisory profiles take (`--timings`, core/timings.ts). */
   timings?: Stopwatch | undefined
+  /** The run used --fast: what it left out and lowered, stated in the report's coverage (core/fast.ts). */
+  fast?: FastCoverage | undefined
 }
 
 /** Candidates per criterion and page the model judges at most unless `maxCandidates` says otherwise. */
 export const DEFAULT_MAX_CANDIDATES = 50
+
+/** The cap when it is below the default one (fast mode's coverage line lists it); undefined for the default, a higher cap or none. */
+export function loweredCap(cap: number | undefined): number | undefined {
+  return cap !== undefined && cap > 0 && cap < DEFAULT_MAX_CANDIDATES ? cap : undefined
+}
 
 export function fingerprint(criterion: string, ref: string | undefined, detail: string): string {
   return sha256(`${criterion}|${ref ?? ''}|${normalizeForMatch(detail)}`).slice(0, 12)
@@ -469,6 +477,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       ...(probe.coverage.length > 0 ? { probes: probe.coverage } : {}),
       ...(reach ? { reach } : {}),
       criteria: records,
+      ...(options.fast ? { fast: options.fast } : {}),
     },
     ...(review.length > 0 ? { needsReview: review } : {}),
     usage,

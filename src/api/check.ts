@@ -7,7 +7,8 @@ import { locateReport, readPageSource, repositoryRoot } from '../source/locate.t
 import { loadRecorded, resolveTargets } from '../surfaces/targets.ts'
 import { type ProbeKind, probeLaunchArgs } from '../probes/run.ts'
 import { type Collected, collectWeb, launchBrowser } from '../surfaces/web.ts'
-import { type RampaOptions, deadlineOf, judge, resolveSettings } from './options.ts'
+import { fastCollectOptions } from '../core/fast.ts'
+import { type RampaOptions, deadlineOf, fastFor, judge, resolveSettings } from './options.ts'
 
 export interface CheckTargetsOptions extends RampaOptions {
   /** A Playwright browser to reuse for web targets. By default Rampa starts Chrome or Edge, like the CLI, and closes it at the end. */
@@ -41,6 +42,7 @@ export async function check(targets: string | readonly string[], options: CheckT
         if (!browser) browser = launched = await timed(watch, 'browser-launch', () => launchBrowser(options.probes?.length ? { args: probeLaunchArgs(options.probes) } : {}))
         collected = await collectWeb(browser, target.url, {
           timings: watch,
+          ...fastCollectOptions(settings.fastCollection),
           runAxe: true,
           locale: settings.locale,
           screenshotDir: options.screenshotDir,
@@ -58,7 +60,9 @@ export async function check(targets: string | readonly string[], options: CheckT
           `${target.label}: check() takes URLs, .html files, folders and snapshot .json files. Android devices, UI Automator dumps and screenshots need the CLI: rampa check ${target.label}`,
         )
       }
-      const report = await judge(collected, { ...settings, deadline, timings: watch })
+      const web = target.kind === 'web'
+      const fast = fastFor(settings, { probes: web ? (options.probes?.length ?? 0) : 0, web, loaded: web })
+      const report = await judge(collected, { ...settings, deadline, timings: watch, fast })
       // As in rampa check: 3.2.3 and 3.2.6 compare pages, which a single page cannot do.
       if (collected.snapshot.surface === 'web') report.notes = [...(report.notes ?? []), singlePageNote(settings.locale)]
       // A local page gets file:line for each finding, and its patches as edits to the file, like rampa check.

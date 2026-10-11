@@ -23,7 +23,7 @@ import { attachMotionFacts } from './motion.ts'
 import { collectInPage } from './in-page.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
 import { buildReach, closedShadowRoots } from './reach.ts'
-import { SETTLE, settlePage, watchNetwork } from './settle.ts'
+import { SETTLE, type SettleOptions, settlePage, watchNetwork } from './settle.ts'
 import { type ProbeKind, runProbes } from '../probes/run.ts'
 import { scriptedAddresses } from '../probes/links.ts'
 
@@ -66,6 +66,10 @@ export interface WebCollectOptions {
   axTree?: boolean | Partial<AxLimits> | undefined
   /** Records where the page's time goes (`--timings`, core/timings.ts). */
   timings?: Stopwatch | undefined
+  /** The wait after load (surfaces/settle.ts): --fast lowers its cap (core/fast.ts). */
+  settle?: Partial<SettleOptions> | undefined
+  /** Images and CSS backgrounds captured at most per page (IMAGE_LIMIT and BACKGROUND_LIMIT by default): --fast captures fewer. */
+  imageCapture?: { limit?: number | undefined; backgrounds?: number | undefined } | undefined
 }
 
 export interface Collected {
@@ -119,6 +123,7 @@ export async function launchBrowser(options: { args?: string[] | undefined } = {
 
 export async function collectWeb(browser: Browser, url: string, options: WebCollectOptions): Promise<Collected> {
   const watch = options.timings
+  const settle: SettleOptions = { ...SETTLE, ...options.settle }
   const { context, page } = await timed(watch, 'navigation', async () => {
     const context = await browser.newContext(contextOptions(options.browserOptions))
     return { context, page: await context.newPage() }
@@ -133,7 +138,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     const status = response?.status() ?? 0
     if (options.requireOk && status >= 400) throw new RampaError('http-error', `HTTP ${status} at ${url}`)
     // Content drawn after load (data a framework fetches, a widget that mounts) is collected too.
-    let settled = await timed(watch, 'settle', () => settlePage(page, network))
+    let settled = await timed(watch, 'settle', () => settlePage(page, network, settle))
     if (options.inspect) await options.inspect(page, response)
     if (options.mutate) await options.mutate(page)
     const collect = async () => {
@@ -166,7 +171,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       if (!navigatedAway(error)) throw error
       const timeout = Math.min(options.timeoutMs ?? 30_000, 10_000)
       await timed(watch, 'navigation', () => page.waitForURL((address) => address.href !== loaded, { waitUntil: 'load', timeout }).catch(() => undefined))
-      settled = await timed(watch, 'settle', () => settlePage(page, network))
+      settled = await timed(watch, 'settle', () => settlePage(page, network, settle))
       raw = await collect()
     }
 
@@ -181,7 +186,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       engineFrames: raw.engineFrames,
       shadowRoots: raw.shadowRoots,
       closed,
-      unsettledAfterMs: settled.settled ? undefined : SETTLE.capMs,
+      unsettledAfterMs: settled.settled ? undefined : settle.capMs,
       truncated: raw.beyondTruncated,
     })
     // Response headers are facts the rules read: a Refresh header works like <meta http-equiv="refresh">, out of axe-core's sight.
@@ -189,7 +194,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     if (refresh !== undefined) root.native.httpRefresh = refresh.slice(0, 500)
     // What was collected is the page the redirect led to; the snapshot keeps the address asked for, and says where it ended.
     if (response && page.url() !== loaded) root.native.redirectedTo = page.url()
-    if (options.captureImages) await timed(watch, 'image-capture', () => captureImages(page, root))
+    if (options.captureImages) await timed(watch, 'image-capture', () => captureImages(page, root, options.imageCapture))
     // Whether each label 3.3.2 relies on shows its text, from two captures (label-visibility.ts); no model involved.
     await timed(watch, 'label-visibility', () => measureLabelPixels(page, root))
     const engine = raw.axe ? engineFromAxe(raw.axe) : emptyEngine()
@@ -267,11 +272,12 @@ const BACKGROUND_LIMIT = 10
  * capture, saying why, when the screenshot would not be its own pixels. An image that did not load is
  * left without one too: its screenshot would show the broken-image icon, not the picture.
  */
-async function captureImages(page: Page, root: A11yNode): Promise<void> {
+async function captureImages(page: Page, root: A11yNode, limits: WebCollectOptions['imageCapture'] = {}): Promise<void> {
+  const backgroundLimit = limits.backgrounds ?? BACKGROUND_LIMIT
   const backgrounds: A11yNode[] = []
   for (const node of walkTree(root)) {
     if (node.states.includes('hidden') || !node.bounds || isCapturableImage(node)) continue
-    if (typeof node.native.backgroundImage === 'string' && backgrounds.length < BACKGROUND_LIMIT && !node.states.includes('offscreen')) {
+    if (typeof node.native.backgroundImage === 'string' && backgrounds.length < backgroundLimit && !node.states.includes('offscreen')) {
       // Icons and sprites this small hold no line of text; anything taller than a banner is a section with a pattern.
       const { width, height } = node.bounds
       if (width >= 24 && height >= 12 && (width > 40 || height > 40) && height <= 1000) backgrounds.push(node)
@@ -290,7 +296,7 @@ async function captureImages(page: Page, root: A11yNode): Promise<void> {
         screenshot: (ref) => shoot(ref).catch(() => undefined),
       },
       root,
-      { beforeEach: layers > 0 ? (node) => showLayersAround(page, node.ref) : undefined },
+      { beforeEach: layers > 0 ? (node) => showLayersAround(page, node.ref) : undefined, limit: limits.limit },
     )
     for (const node of backgrounds) {
       try {

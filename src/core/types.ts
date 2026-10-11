@@ -5,6 +5,7 @@ import type { Waiver } from '../adoption/waivers.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11ySnapshot, Reach, Surface } from '../snapshot/schema.ts'
 import type { Level, WcagTarget } from '../wcag.ts'
+import type { FastCoverage } from './fast.ts'
 import type { Timings } from './timings.ts'
 
 export type Confidence = 'low' | 'medium' | 'high'
@@ -447,6 +448,11 @@ export interface Report {
      */
     reach?: Reach | undefined
     criteria?: CriterionCoverage[] | undefined
+    /**
+     * Set when the run used --fast (`fast: true`): what fast mode left out (probes, link following, OCR, contrast from
+     * pixels, CSS background captures) and the limits it lowered (core/fast.ts). Every report format lists it with the coverage.
+     */
+    fast?: FastCoverage | undefined
   }
   /** What the engine, Rampa's rules or a probe rule could not decide, for a person to look at; never a failure. */
   needsReview?: ReviewItem[] | undefined

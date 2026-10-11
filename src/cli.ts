@@ -11,13 +11,14 @@ import { runMcp } from './cli/commands/mcp.ts'
 import { runInit } from './cli/commands/init.ts'
 import { runModels } from './cli/commands/models.ts'
 import { runWaive, runWaivers } from './cli/commands/waivers.ts'
-import { withConfigOptions } from './cli/config-options.ts'
+import { withConfigOptions, withFastPreset } from './cli/config-options.ts'
 import type { GlobalContext } from './cli/context.ts'
 import { FAIL_ON, parseFailOn } from './cli/exit-code.ts'
 import { intro, menu } from './cli/intro.ts'
 import { browserOptions, crawlOptions, submitOptions } from './cli/web-options.ts'
 import { loadConfig } from './config.ts'
 import { DEFAULT_MAX_CANDIDATES } from './core/check.ts'
+import { FAST } from './core/fast.ts'
 import { RampaError, errorMessage } from './core/util.ts'
 import { DEFAULT_CRITERIA } from './criteria/index.ts'
 import { REASONING_LEVELS } from './providers/ai-sdk.ts'
@@ -49,10 +50,10 @@ function bareContext(command: Command): GlobalContext {
   return { locale: resolveLocale(globals.locale ?? process.env.RAMPA_LOCALE), motion: globals.motion, config: {} }
 }
 
-/** The context, and the options with the config file's values where the command line left defaults. */
+/** The context, and the options with the config file's values where the command line left defaults, then --fast's. */
 async function configured<O extends object>(command: Command, options: O): Promise<[O, GlobalContext]> {
   const ctx = await context(command)
-  return [withConfigOptions(command, options, ctx.config), ctx]
+  return [withFastPreset(command, withConfigOptions(command, options, ctx.config), ctx.config), ctx]
 }
 
 function action<A extends unknown[]>(handler: (...args: A) => Promise<number>) {
@@ -121,6 +122,11 @@ const check = program
   .option('--time-limit <seconds>', 'stop asking the model this many seconds after a page starts loading, and report what was judged by then (default: no limit)')
   .option('--verbose', 'list discarded claims, low-confidence findings and unchecked criteria')
   .option('--timings', "record where each page's time goes, stage by stage and criterion by criterion, in the report and its JSON (docs/performance.md)")
+  .option(
+    '--fast',
+    `preset for CI and pre-commit: at most ${FAST.maxCandidates} candidates per criterion, no link following, no probes or OCR, no contrast from pixels, ${FAST.imageLimit} image captures, ${FAST.settleCapMs / 1000} s of waiting after load; options you set win, and the report lists what was left out (docs/performance.md)`,
+  )
+  .option('--no-fast', 'turn off fast: true from the config for this run')
   .addOption(
     new Option('--follow-links <policy>', "read where links lead, to compare them with their text (2.4.4); same-origin reads a local page's local files")
       .choices([...FOLLOW_LINKS])
@@ -183,6 +189,8 @@ program
   .option('-c, --criteria <ids>', 'criteria to judge, comma-separated', DEFAULT_CRITERIA.join(','))
   .option('-m, --model <provider:model>', 'model for the judgment layer; use the one CI uses')
   .option('--no-llm', 'record engine findings only')
+  .option('--fast', 'record as rampa check --fast checks: use it when CI runs --fast (docs/performance.md)')
+  .option('--no-fast', 'turn off fast: true from the config for this run')
   .option('-r, --runs <k>', 'judgments per candidate, majority vote', '1')
   .addOption(new Option('--wcag <version>', 'WCAG version to state coverage against: 2.2 (default) or 2.1').choices(['2.1', '2.2']).default('2.2'))
   .addOption(new Option('--reasoning <level>', 'model reasoning effort (local models default to none)').choices([...REASONING_LEVELS]))

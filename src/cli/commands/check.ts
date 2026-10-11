@@ -4,7 +4,8 @@ import type { Browser } from 'playwright-core'
 import { prepareAdoption, targetsOrConfig } from '../../adoption/apply.ts'
 import { resolveProfiles } from '../../advisory/profile.ts'
 import { type JudgmentCache, fileCache } from '../../core/cache.ts'
-import { checkSnapshot } from '../../core/check.ts'
+import { checkSnapshot, loweredCap } from '../../core/check.ts'
+import { FAST, type FastCollection, fastCollectOptions, fastCollection, fastCoverage } from '../../core/fast.ts'
 import { Stopwatch, timed } from '../../core/timings.ts'
 import type { AnyCriterion, Confidence, EngineResults, Report, Usage } from '../../core/types.ts'
 import { RampaError } from '../../core/util.ts'
@@ -92,6 +93,11 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   profile?: string
   /** --timings: record where each page's time goes, in `report.timings` and the terminal report (core/timings.ts). */
   timings?: boolean
+  /**
+   * --fast (or `fast: true` in the config): the preset for CI and pre-commit (core/fast.ts). The CLI has already filled
+   * in --max-candidates and --follow-links where nothing else set them; the rest applies here.
+   */
+  fast?: boolean
 }
 
 /** Read links when a criterion needs their destinations and the judgment layer will run. */
@@ -147,6 +153,8 @@ interface CollectContext {
   /** The run's browser, started on the first web page; its launch is timed on that page's stopwatch. */
   browser: (watch?: Stopwatch) => Promise<Browser>
   wcag: WcagVersion
+  /** --fast: the shorter wait after load, the fewer captures and no contrast from pixels. */
+  fast: FastCollection | undefined
 }
 
 async function collect(target: Target, ctx: CollectContext, watch: Stopwatch | undefined): Promise<Collected> {
@@ -163,6 +171,7 @@ async function collect(target: Target, ctx: CollectContext, watch: Stopwatch | u
         wcag: ctx.wcag,
         probes: ctx.probes,
         ...(ctx.submit ? { submit: ctx.submit } : {}),
+        ...fastCollectOptions(ctx.fast),
       })
       // What the form probe submitted, or would have: on stderr as it happens, and in the report's header.
       const submitted = web.snapshot.observations?.probes.find((record) => record.kind === 'form' && record.conditions.variant === 'submit')
@@ -263,7 +272,11 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   const follow = followOptions(options.followLinks, options.llm, criteria, destinationCache({ dir: '.rampa/destinations' }))
   const cache = fileCache(options.cacheDir)
   const concurrency = Math.max(1, Number.parseInt(options.concurrency, 10) || 4)
-  const { maxCandidates, timeLimitMs } = judgingLimits(options)
+  const limits = judgingLimits(options)
+  const timeLimitMs = limits.timeLimitMs
+  // rampa baseline has no --max-candidates: --fast sets its cap here.
+  const fast = Boolean(options.fast)
+  const maxCandidates = limits.maxCandidates ?? (fast ? FAST.maxCandidates : undefined)
   // Source paths are relative to the repository root, as GitHub resolves them.
   const root = (await repositoryRoot()) ?? process.cwd()
   const adoption = await prepareAdoption(options.baseline, context.config)
@@ -290,6 +303,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     submit,
     adb: options.adb,
     wcag,
+    fast: fast ? fastCollection(criteria) : undefined,
     browser: async (watch) => {
       // Probes compare pixels: the browser renders with a fixed color profile and no LCD text (and lets media autoplay for the media probe).
       browser ??= await timed(watch, 'browser-launch', () => launchBrowser(probes.length > 0 ? { args: probeLaunchArgs(probes) } : {}))
@@ -321,6 +335,16 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
         wcag,
         maxCandidates,
         deadline,
+        fast: fast
+          ? fastCoverage({
+              criteria,
+              llm: options.llm,
+              probes: probes.length,
+              linksSkipped: options.followLinks === 'none' && criteria.some((criterion) => criterion.needs.fetch),
+              maxCandidates: loweredCap(maxCandidates),
+              web: target.kind === 'web',
+            })
+          : undefined,
       })
       // What the collector could not see first, then what the check left out: images without a capture, and
       // candidates the model did not judge (past the cap or the time limit).
