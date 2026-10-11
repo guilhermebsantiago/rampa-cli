@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Status messages: shown, never exposed</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; color: #111; background: #fff; }
+  header { padding: 8px 24px; background: #eef; }
+  main { padding: 24px; max-width: 760px; }
+  section { margin: 0 0 24px; }
+  button, select, input { font: inherit; }
+  .error { color: #a00; margin: 4px 0 0; }
+  .toast { position: fixed; right: 16px; bottom: 16px; padding: 10px 14px; background: #222; color: #fff; }
+  #clock { font-size: 12px; color: #555; }
+</style>
+</head>
+<body>
+<header><span id="list-count">Your list: 1 item</span> · <span id="clock">0</span> s</header>
+<main>
+  <h1>Kettles</h1>
+
+  <!-- 1. Validation on blur: the error is added next to the field, in no live region. -->
+  <section class="w-email">
+    <label for="email">E-mail for the price alert</label>
+    <input id="email" type="email" onblur="check(this)">
+  </section>
+
+  <!-- 2. Copy: a toast is added to the page, focus stays on the button. -->
+  <section class="w-copy">
+    <button class="copy" onclick="toast('Link copied to the clipboard')">Copy link</button>
+  </section>
+
+  <!-- 3. Sort: a note that was empty on load says how the list is sorted. -->
+  <section class="w-sort">
+    <label for="sort">Sort by</label>
+    <select id="sort" onchange="sortBy(this.value)"><option value="name">Name</option><option value="price">Price</option></select>
+    <p id="sort-note"></p>
+    <ul id="kettles"><li>Steel kettle, 30 euros</li><li>Glass kettle, 25 euros</li></ul>
+  </section>
+
+  <!-- 4. A search that answers in place: a summary, then the results. -->
+  <section class="w-search">
+    <form id="search" action="results.html" method="get" onsubmit="event.preventDefault(); search(this.q.value)">
+      <label for="q">Search the shop</label> <input id="q" name="q" type="search"> <button>Search</button>
+    </form>
+    <div id="summary"></div>
+    <ul id="results"></ul>
+  </section>
+
+  <!-- 5. Add to list: the counter in the header changes. -->
+  <section class="w-add">
+    <button class="add" onclick="document.getElementById('list-count').textContent = 'Your list: 2 items'">Add to list</button>
+  </section>
+
+  <!-- 6. A required field left empty: the error is tied to it, but not live. -->
+  <section class="w-name">
+    <label for="name">Name on the card</label>
+    <input id="name" required aria-describedby="name-error" onblur="if (!this.value) { this.setAttribute('aria-invalid', 'true'); document.getElementById('name-error').textContent = 'Enter the name to print on the card' }">
+    <p id="name-error" class="error"></p>
+  </section>
+</main>
+<script>
+  let seconds = 0
+  setInterval(() => { document.getElementById('clock').textContent = String(++seconds) }, 1000)
+  function check(field) {
+    if (field.value && !field.value.includes('@') && !field.nextElementSibling) {
+      const p = document.createElement('p')
+      p.className = 'error'
+      p.textContent = 'Enter an e-mail address like name@example.com'
+      field.after(p)
+    }
+  }
+  function toast(text) {
+    const div = document.createElement('div')
+    div.className = 'toast'
+    div.textContent = text
+    document.body.append(div)
+  }
+  function sortBy(key) {
+    const ul = document.getElementById('kettles')
+    const items = [...ul.children].sort((a, b) => key === 'price' ? parseInt(a.textContent.match(/\d+/)) - parseInt(b.textContent.match(/\d+/)) : a.textContent.localeCompare(b.textContent))
+    ul.append(...items)
+    document.getElementById('sort-note').textContent = 'Sorted by ' + key + ', lowest first'
+  }
+  function search(query) {
+    document.getElementById('summary').textContent = '3 results for "' + query + '"'
+    document.getElementById('results').innerHTML = ['Steel', 'Glass', 'Copper'].map((k) => '<li><a href="#">' + k + ' kettle</a></li>').join('')
+  }
+</script>
+</body>
+</html>
