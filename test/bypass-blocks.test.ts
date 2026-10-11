@@ -147,9 +147,13 @@ describe('2.4.1 across pages', () => {
     )
     // No template set (no landmarks), so 3.2.3 and 3.2.6 compare nothing; 2.4.1 compares all three.
     expect(report.sets).toEqual([])
+    // 2.4.2 and 2.4.5 compare the pages of a language too; these have no title.
     expect(report.criteria.map((c) => [c.criterion, c.setsCompared, c.compared])).toEqual([
       ['2.4.1', 1, 3],
+      ['2.4.2', 1, 0],
+      ['2.4.5', 1, 3],
       ['3.2.3', 0, 0],
+      ['3.2.4', 0, 0],
       ['3.2.6', 0, 0],
     ])
     expect(report.findings).toEqual([])

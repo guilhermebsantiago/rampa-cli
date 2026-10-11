@@ -15,6 +15,7 @@ import { type FrameDriver, runAxeInFrames } from './frames.ts'
 import { buildReach, closedShadowRoots } from './reach.ts'
 import { captureImageNodes } from './image-capture.ts'
 import { collectInPage } from './in-page.ts'
+import { attachMotionFacts } from './motion.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
 import { type Scope, resolveScopeInPage, scopeTree } from './scope.ts'
 import type { Collected } from './web.ts'
@@ -110,6 +111,8 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
     screenshot = join(options.screenshotDir, `${sha256(url).slice(0, 16)}.png`)
     await driver.screenshotPage(screenshot)
   }
+  // What the page does with the device's motion (2.5.4), as collectWeb reads it; a page-level fact, so not for a scope.
+  if (cdp && !scope) await attachMotionFacts(cdp, root)
 
   const snapshot: A11ySnapshot = {
     schemaVersion: 1,

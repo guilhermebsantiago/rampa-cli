@@ -83,7 +83,9 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     // What a field accepts, and whether its form validates it: the cognitive profile reads them (coga/input-formats).
     'maxlength', 'minlength', 'min', 'max', 'step', 'inputmode', 'required', 'aria-required', 'novalidate', 'formnovalidate',
     // Error states the page already shows (3.3.1, 3.3.3): fields marked invalid, their messages, and live regions.
-    'aria-invalid', 'aria-errormessage', 'aria-live']
+    'aria-invalid', 'aria-errormessage', 'aria-live',
+    // What a form does and the language a link leads to: 3.2.4 groups components by function, 3.3.4 reads forms that commit.
+    'action', 'method', 'hreflang']
   const NAME_FROM_CONTENT = new Set(['a', 'button', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'summary', 'option', 'th', 'td', 'li', 'label', 'legend', 'caption', 'figcaption'])
   const refs = new Map<Element, string>()
   let count = 0
