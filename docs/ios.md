@@ -7,7 +7,7 @@ XCUITest on a Mac  ──  RampaExport.capture(app, name: "login")  ──>  log
 ```
 
 > [!WARNING]
-> [`integrations/ios/RampaExport.swift`](../integrations/ios/RampaExport.swift) was written without a Mac. **It has not been compiled or run.** It uses public XCUITest API apart from two optional reads that are guarded so they cannot crash. If it does not build with your Xcode, please open an issue with the error. The importer on the Rampa side is tested on hand-written exports that mirror what XCUITest reports.
+> [`integrations/ios/RampaExport.swift`](../integrations/ios/RampaExport.swift) was written without a Mac. **It has not been compiled or run**, nor have its probe helpers (below). It uses public XCUITest API apart from two optional reads that are guarded so they cannot crash. If it does not build with your Xcode, please open an issue with the error. The importer on the Rampa side is tested on hand-written exports that mirror what XCUITest reports.
 
 ## Setup
 
@@ -52,6 +52,47 @@ rampa check rampa/sign-in.json --save recordings        # also record the snapsh
 rampa check examples/ios/login.json --no-llm             # the example in this repository
 ```
 
+## Probes: orientation and text size
+
+Two more helpers export the screen in the states a [probe](probes.md#app-screens-android-and-ios) needs, and `rampa check` turns them into the same observation records the web and Android probes write. Each attaches and writes its own export, as `capture` does.
+
+```swift
+@MainActor
+func testSignInOrientation() throws {
+    let app = XCUIApplication()
+    app.launchArguments += ["-AppleLanguages", "(en)"]
+    app.launch()
+    app.buttons["Sign in"].tap()
+    // Portrait, landscapeLeft, portrait again; the orientation it found is put back afterwards.
+    try RampaExport.captureOrientation(app, name: "sign-in-orientation")
+}
+
+@MainActor
+func testSignInTextSize() throws {
+    // Launches the app twice, at the default Dynamic Type size and at AX2, and reaches the screen each time.
+    try RampaExport.captureTextSize(name: "sign-in-text", launch: {
+        let app = XCUIApplication()
+        app.launchArguments += ["-AppleLanguages", "(en)"]
+        return app
+    }, navigate: { app in
+        app.buttons["Sign in"].tap()
+    })
+}
+```
+
+- **`captureOrientation(app, name:, settle:)`** sets `XCUIDevice.shared.orientation` to portrait, landscapeLeft and portrait, waits `settle` seconds (1.5 by default) after each turn, and exports the screen each time. It puts back the orientation it found, even when an export fails. Rampa reads the app's interface orientation from the application element's frame (wider than tall is landscape): a frame that stays upright while the device is sideways is a lock (1.3.4).
+- **`captureTextSize(name:, size:, launch:, navigate:)`** launches the app with `-UIPreferredContentSizeCategoryName` set to the default size (`UICTContentSizeCategoryL`) and then to `size`, by default `.accessibilityLarge` (AX2): 33 pt body text, 194% of the default 17 pt, since Dynamic Type has no 200% step. `launch` returns the app to launch (with your launch arguments), and `navigate` brings it to the screen. Nothing on the device changes. On iOS 17 and later, with Xcode 15 or later, it also runs `performAccessibilityAudit(for: [.textClipped, .dynamicType])` at the larger size and exports each issue, marked handled so the test does not fail on it.
+- **No keyboard walk.** Full Keyboard Access cannot be turned on from a UI test, and Rampa does not know what a hardware Tab does in your app without it, so `--probe keyboard` on an export records that it did not run.
+
+On the Mac, run the tests as for a plain export (with `TEST_RUNNER_RAMPA_EXPORT_DIR` in the Simulator, or the result bundle's attachments), then, on any machine:
+
+```sh
+rampa check rampa/sign-in-orientation.json rampa/sign-in-text.json
+rampa check rampa/sign-in-text.json --probe layout     # only the kinds named; a kind the export has no steps for is reported as not run
+```
+
+The export's probe steps are under `probes`: `orientation.steps` (each with `deviceOrientation`, `root` and `screenshot`) and `textSize.steps` (each with `contentSize`, `root`, `screenshot`, and at the larger size `audit` with the issues' `type`, `description` and `element`). The export's own screen is the first step. What Rampa measures from them, and what it cannot, is in [probes on app screens](probes.md#ios-from-an-xcuitest-export).
+
 ## The export
 
 A JSON file with `"format": "rampa-xcuitest"` and `"version": 1`. The helper writes what `XCUIElementSnapshot` reports and leaves the meaning to Rampa, so the Swift side stays small and the mapping can be tested:
@@ -95,5 +136,6 @@ The notes in [docs/android.md](android.md#wcag2ict) apply. On iOS, the title in 
 
 - The importer, the rules and the criteria are tested on exports written by hand to mirror real XCUITest trees: a window, nested `other` containers, a navigation bar, header traits, a placeholder-only field, an unlabeled button and the keyboard.
 - **The Swift helper has not been compiled or run.** It is `@MainActor`, like the XCUITest API it calls, so call it from a test marked `@MainActor`, as in the example.
+- The probe steps are read and judged on a hand-written export (`test/fixtures/ios/probes.json`): an app locked upright, one that turns, text past the screen's edge at AX2, an overlap, and an audit issue. Whether `XCUIDevice` turns, the frames XCUITest reports in landscape, and what Apple's audit reports are taken from Apple's documentation, not tried.
 - `examples/ios/login.json` is hand-written, with a screenshot rendered in a browser at 3x on its frames (`scripts/mobile-examples.ts`). On it, `ollama:gemma4:12b` judged the logo label "image" a placeholder and the field label "Field 1" generic (it proposed "Promo code"), passed the link, the navigation title and the language, and also flagged the heading "Welcome back" as not describing its section, which is debatable. The rules failed the unlabeled password toggle and the default placeholder gray at 1.74:1, and listed the secondary text at 3.26:1 and system blue at 4.02:1 for a person.
 - Untested: landscape, iPad split view (the app's frame is not the screen), and Display P3 screenshots, whose colors are read as sRGB.
