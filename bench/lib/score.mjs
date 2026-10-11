@@ -17,6 +17,13 @@ export const READINGS = {
   withLow: (record, criterion) => Boolean(record && !record.error && (has(record.fail, criterion) || has(record.low, criterion))),
 }
 
+/** Wall time of a tool's run: the sum of its segments (an interrupted or repaired run has several). */
+function wallTime(meta) {
+  const segments = meta?.segments ?? (meta?.startedAt && meta?.finishedAt ? [meta] : [])
+  const done = segments.filter((s) => s.startedAt && s.finishedAt)
+  return done.length ? done.reduce((ms, s) => ms + Date.parse(s.finishedAt) - Date.parse(s.startedAt), 0) : undefined
+}
+
 function quantile(sorted, q) {
   if (sorted.length === 0) return undefined
   const position = (sorted.length - 1) * q
@@ -71,7 +78,12 @@ export async function scoreAll({ cases, home, pairs, tools, wcag22, levels }) {
     if (entry.scored) {
       entry.overall = tally(units, recordOf, definite)
       entry.overallWithReview = tally(units, recordOf, READINGS.withReview)
-      if (tool.runner === 'rampa') entry.overallWithLow = tally(units, recordOf, READINGS.withLow)
+      if (tool.runner === 'rampa') {
+        // Rampa's own `rampa eval` reading: findings below the default threshold count too.
+        entry.overallWithLow = tally(units, recordOf, READINGS.withLow)
+        entry.byCriterionWithLow = Object.fromEntries(criteria.map((criterion) => [criterion, tally(units.filter((u) => u.criterion === criterion), recordOf, READINGS.withLow)]))
+        entry.trueFailureWithLow = criteria.filter((criterion) => entry.byCriterionWithLow[criterion].caught > 0)
+      }
       entry.home = tally(
         units.filter((u) => homeSet.has(u.testcase.ruleId)),
         recordOf,
@@ -98,31 +110,8 @@ export async function scoreAll({ cases, home, pairs, tools, wcag22, levels }) {
         definite,
       )
 
-      // Pairs: told apart when the intact half is not failed on the pair's criterion and the corrupted half is.
-      const byCorruptor = new Map()
-      for (const pair of pairs.pairs) {
-        const intact = definite(recordOf(pair.intactId), pair.criterion)
-        const corrupted = definite(recordOf(pair.corruptedId), pair.criterion)
-        const key = `${pair.criterion}|${pair.corruptor}`
-        const row = byCorruptor.get(key) ?? { criterion: pair.criterion, corruptor: pair.corruptor, rampaDefault: pair.rampaDefault, total: 0, toldApart: 0, intactFlagged: 0, corruptedFlagged: 0, errors: 0 }
-        row.total++
-        if (!intact && corrupted) row.toldApart++
-        if (intact) row.intactFlagged++
-        if (corrupted) row.corruptedFlagged++
-        if (recordOf(pair.intactId)?.error || recordOf(pair.corruptedId)?.error || !recordOf(pair.intactId) || !recordOf(pair.corruptedId)) row.errors++
-        byCorruptor.set(key, row)
-      }
-      const rows = [...byCorruptor.values()].sort((a, b) => compareIds(a.criterion, b.criterion) || a.corruptor.localeCompare(b.corruptor))
-      const sum = (list, key) => list.reduce((n, row) => n + row[key], 0)
-      entry.pairs = {
-        rows,
-        total: sum(rows, 'total'),
-        toldApart: sum(rows, 'toldApart'),
-        defaultTotal: sum(rows.filter((r) => r.rampaDefault), 'total'),
-        defaultToldApart: sum(rows.filter((r) => r.rampaDefault), 'toldApart'),
-        intactFlagged: sum(rows, 'intactFlagged'),
-        errors: sum(rows, 'errors'),
-      }
+      entry.pairs = scorePairs(pairs.pairs, recordOf, definite)
+      if (tool.runner === 'rampa') entry.pairsWithLow = scorePairs(pairs.pairs, recordOf, READINGS.withLow)
     }
 
     // Time per page: this tool's own pages, without errors, without a process's first (cold) page.
@@ -136,7 +125,7 @@ export async function scoreAll({ cases, home, pairs, tools, wcag22, levels }) {
       meanMs: times.length ? times.reduce((a, b) => a + b, 0) / times.length : undefined,
       coldMeanMs: cold.length ? cold.reduce((a, b) => a + b, 0) / cold.length : undefined,
       errors: [...own.values()].filter((r) => r.error).length,
-      wallMs: tool.meta?.startedAt && tool.meta?.finishedAt ? Date.parse(tool.meta.finishedAt) - Date.parse(tool.meta.startedAt) : undefined,
+      wallMs: wallTime(tool.meta),
       workers: tool.meta?.workers,
       modelCalls: [...own.values()].reduce((n, r) => n + (r.usage?.calls ?? 0), 0),
       cachedCalls: [...own.values()].reduce((n, r) => n + (r.usage?.cachedCalls ?? 0), 0),
@@ -161,6 +150,34 @@ export async function scoreAll({ cases, home, pairs, tools, wcag22, levels }) {
   result.comparisons = compareEngines(tools)
   result.sharedFalsePositives = sharedFalsePositives(units, tools)
   return result
+}
+
+/** Pairs: told apart when the intact half is not failed under the pair's criterion and the corrupted half is. */
+function scorePairs(list, recordOf, flag) {
+  const byCorruptor = new Map()
+  for (const pair of list) {
+    const intact = flag(recordOf(pair.intactId), pair.criterion)
+    const corrupted = flag(recordOf(pair.corruptedId), pair.criterion)
+    const key = `${pair.criterion}|${pair.corruptor}`
+    const row = byCorruptor.get(key) ?? { criterion: pair.criterion, corruptor: pair.corruptor, rampaDefault: pair.rampaDefault, total: 0, toldApart: 0, intactFlagged: 0, corruptedFlagged: 0, errors: 0 }
+    row.total++
+    if (!intact && corrupted) row.toldApart++
+    if (intact) row.intactFlagged++
+    if (corrupted) row.corruptedFlagged++
+    if (recordOf(pair.intactId)?.error || recordOf(pair.corruptedId)?.error || !recordOf(pair.intactId) || !recordOf(pair.corruptedId)) row.errors++
+    byCorruptor.set(key, row)
+  }
+  const rows = [...byCorruptor.values()].sort((a, b) => compareIds(a.criterion, b.criterion) || a.corruptor.localeCompare(b.corruptor))
+  const sum = (subset, key) => subset.reduce((n, row) => n + row[key], 0)
+  return {
+    rows,
+    total: sum(rows, 'total'),
+    toldApart: sum(rows, 'toldApart'),
+    defaultTotal: sum(rows.filter((r) => r.rampaDefault), 'total'),
+    defaultToldApart: sum(rows.filter((r) => r.rampaDefault), 'toldApart'),
+    intactFlagged: sum(rows, 'intactFlagged'),
+    errors: sum(rows, 'errors'),
+  }
 }
 
 /** The rule engines that do not share code with each other, for the agreement count below. */

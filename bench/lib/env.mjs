@@ -60,6 +60,27 @@ export async function writeJson(path, value) {
   await writeFile(path, `${JSON.stringify(value, null, 2)}\n`, 'utf8')
 }
 
+/** Errors of the network or the machine, not of the tool: `--retry-errors` checks those pages again. */
+export const TRANSIENT_ERROR = /net::ERR_|ECONNRESET|ETIMEDOUT|EAI_AGAIN|ENOTFOUND|socket hang up|fetch failed|timed out|Target closed|browser has disconnected/i
+
+/**
+ * The records already written for a tool, as `done`; with retry, a record whose error was transient is dropped from
+ * the file so its page runs again.
+ */
+export async function resumeRecords(path, retry) {
+  const existing = await readJsonl(path)
+  const kept = retry ? existing.filter((record) => !(record.error && TRANSIENT_ERROR.test(record.error))) : existing
+  if (kept.length !== existing.length) await writeFile(path, kept.map((record) => `${JSON.stringify(record)}\n`).join(''), 'utf8')
+  return { done: new Set(kept.map((record) => record.id)), retried: existing.length - kept.length }
+}
+
+/** Meta of a tool's run: each part of an interrupted or repaired run is a segment, and the wall time is their sum. */
+export async function startSegment(metaPath) {
+  const previous = existsSync(metaPath) ? await readJson(metaPath) : {}
+  const segments = previous.segments ?? (previous.startedAt && previous.finishedAt ? [{ startedAt: previous.startedAt, finishedAt: previous.finishedAt }] : [])
+  return { previous, segments, startedAt: new Date().toISOString() }
+}
+
 export async function readJsonl(path) {
   if (!existsSync(path)) return []
   const text = await readFile(path, 'utf8')

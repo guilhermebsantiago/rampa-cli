@@ -7,8 +7,8 @@
 import { spawn } from 'node:child_process'
 import { existsSync } from 'node:fs'
 import { appendFile, mkdir, readFile, rm } from 'node:fs/promises'
-import { dirname, join } from 'node:path'
-import { ROOT, addHit, arg, browserPath, readJson, readJsonl, writeJson } from '../lib/env.mjs'
+import { dirname, join, resolve } from 'node:path'
+import { ROOT, TRANSIENT_ERROR, addHit, arg, browserPath, readJson, resumeRecords, sleep, startSegment, writeJson } from '../lib/env.mjs'
 import { TOOLS } from '../lib/tools.mjs'
 
 const CHUNK = 20
@@ -20,12 +20,14 @@ if (spec?.runner !== 'rampa') throw new Error(`Not a Rampa row: ${id}`)
 if (!existsSync(CLI)) throw new Error(`${CLI} is missing: run pnpm build at the repository root first`)
 const pages = await readJson(arg('pages'))
 const out = arg('out')
-const work = arg('work')
+const work = resolve(arg('work'))
 const workers = Math.max(1, Number(arg('workers', 2)))
-const cacheDir = arg('cache', join(work, 'judgments'))
+const cacheDir = resolve(arg('cache', join(work, 'judgments')))
 await mkdir(dirname(out), { recursive: true })
 await mkdir(join(work, 'chunks'), { recursive: true })
-const done = new Set((await readJsonl(out)).map((record) => record.id))
+const { done, retried } = await resumeRecords(out, Boolean(arg('retry-errors')))
+if (retried) process.stderr.write(`  ${id}: checking ${retried} page(s) again after a network error
+`)
 const todo = pages.filter((page) => !done.has(page.id))
 
 /** The environment of every run: the shared Edge, English, no model unless the row names one, and no provider key. */
@@ -74,13 +76,22 @@ function readReport(report) {
   // Below the default threshold: what `rampa check` shows only with --verbose and never fails a build on.
   for (const finding of report.belowThreshold ?? []) if (/^\d+\.\d+\.\d+$/.test(finding.criterion)) addHit(record.low, finding.criterion, label(finding))
   for (const item of report.needsReview ?? []) if (/^\d+\.\d+\.\d+$/.test(item.criterion)) addHit(record.review, item.criterion, `review:${item.ruleId}`)
+  // A finding names one criterion, but the report's coverage gives every criterion its status: an axe-core rule mapped
+  // to two criteria (link-name: 2.4.4 and 4.1.2) is reported under the first and makes both "failures". The coverage
+  // status is Rampa's own verdict per criterion, as axe-core's tags are axe-core's.
+  const methodLabel = (method) => `${method.kind === 'axe' ? 'engine' : method.kind}:${method.id}`
+  for (const criterion of report.coverage?.criteria ?? []) {
+    const failing = criterion.methods.filter((method) => method.failures > 0).map(methodLabel)
+    if (criterion.status === 'failures' && !record.fail[criterion.id]) for (const name of failing.length ? failing : ['coverage']) addHit(record.fail, criterion.id, name)
+    if (criterion.status === 'needs-review' && !record.low[criterion.id] && !record.review[criterion.id]) addHit(record.review, criterion.id, 'coverage:needs-review')
+  }
   record.usage = { calls: report.usage?.calls ?? 0, cachedCalls: report.usage?.cachedCalls ?? 0, latencyMs: report.usage?.latencyMs ?? 0 }
   if (report.errors?.length) record.modelErrors = report.errors.slice(0, 3)
   return record
 }
 
 let chunkNo = 0
-async function runChunk(chunk) {
+async function runChunk(chunk, retried = false) {
   const n = chunkNo++
   const file = join(work, 'chunks', `${n}.json`)
   const log = join(work, 'stderr.log')
@@ -99,6 +110,11 @@ async function runChunk(chunk) {
       return
     }
     const error = (stderr.trim().split('\n').find((line) => line.trim() !== '') ?? `exit ${code}`).slice(0, 300)
+    // The network dropped: once more, after a pause.
+    if (!retried && TRANSIENT_ERROR.test(stderr)) {
+      await sleep(15_000)
+      return runChunk(chunk, true)
+    }
     await appendFile(out, `${JSON.stringify({ id: chunk[0].id, ms: Date.now() - started, cold: true, error, fail: {}, review: {} })}\n`, 'utf8')
     return
   }
@@ -113,12 +129,13 @@ async function runChunk(chunk) {
   await appendFile(out, `${lines.join('\n')}\n`, 'utf8')
 }
 
-const startedAt = new Date().toISOString()
 const version = JSON.parse(await readFile(join(ROOT, 'package.json'), 'utf8')).version
 // Claims are read from the reports; a resumed run keeps what the earlier part recorded.
-const before = existsSync(arg('meta')) ? ((await readJson(arg('meta'))).claimed ?? []) : []
-const meta = { tool: id, label: spec.label, versions: { rampa: `${version} (dist/cli.mjs)`, args: spec.args.join(' '), browser: `Microsoft Edge (${browserPath()})` }, workers, chunk: CHUNK, startedAt }
-await writeJson(arg('meta'), { ...meta, claimed: before })
+const segment = await startSegment(arg('meta'))
+if (todo.length === 0) process.exit(0)
+const before = segment.previous.claimed ?? []
+const meta = { tool: id, label: spec.label, versions: { rampa: `${version} (dist/cli.mjs)`, args: spec.args.join(' '), browser: `the same Microsoft Edge, through RAMPA_BROWSER_PATH` }, workers, chunk: CHUNK }
+await writeJson(arg('meta'), { ...meta, claimed: before, segments: segment.segments })
 
 const chunks = []
 for (let i = 0; i < todo.length; i += CHUNK) chunks.push(todo.slice(i, i + CHUNK))
@@ -134,4 +151,8 @@ await Promise.all(
     }
   }),
 )
-await writeJson(arg('meta'), { ...meta, claimed: [...new Set([...before, ...claimed])], finishedAt: new Date().toISOString() })
+await writeJson(arg('meta'), {
+  ...meta,
+  claimed: [...new Set([...before, ...claimed])],
+  segments: [...segment.segments, { startedAt: segment.startedAt, finishedAt: new Date().toISOString(), pages: todo.length }],
+})

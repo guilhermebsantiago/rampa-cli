@@ -15,7 +15,7 @@ pnpm install                      # the other tools, pinned
 node run.mjs --docs               # every row; writes results/<today>/ and the tables in ../docs/benchmark.md
 ```
 
-It takes about three hours on a Ryzen 5 7600X with an RTX 5060 Ti; most of it is Rampa's probes and the model. An interrupted run resumes where it stopped: run the same command again. `--fresh` starts the day's folder over.
+It takes a few hours on a Ryzen 5 7600X with an RTX 5060 Ti (each row's wall time is in the results); most of it is Rampa's model and probes. An interrupted run resumes where it stopped: run the same command again. If the network dropped during the run, `node run.mjs --retry-errors --docs` checks again only the pages that failed to load. `--fresh` starts the day's folder over.
 
 | Option | Effect |
 | --- | --- |
@@ -24,6 +24,7 @@ It takes about three hours on a Ryzen 5 7600X with an RTX 5060 Ti; most of it is
 | `--workers <n>` | Pages at a time for each tool (default 2) |
 | `--limit <n>` | A smoke test: the first n test cases of each ACT rule and the first n pairs of each corruption |
 | `--fresh` | Start the folder over instead of resuming it |
+| `--retry-errors` | Also check again the pages a tool could not load for a reason of the network or the machine (`net::ERR_…`, timeouts); other errors stay |
 | `--score-only` | Run nothing; score the folder again (after editing `lib/score.mjs` or `lib/report.mjs`) |
 | `--docs` | Write the tables into `../docs/benchmark.md`, between its `bench:tables` markers |
 | `--port <n>` | Port of the local server for the pair pages (default 8765) |

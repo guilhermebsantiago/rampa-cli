@@ -23,10 +23,25 @@ const minutes = (ms) => (ms === undefined ? '—' : `${Math.round(ms / 60_000)} 
 const row = (cells) => `| ${cells.join(' | ')} |`
 const header = (cells, align) => [row(cells), row(align ?? cells.map(() => '---'))].join('\n')
 
+/**
+ * The scored rows, plus Rampa + Gemma read as `rampa eval` reads it (findings below the default confidence threshold
+ * counted), as a column of its own in the tables where the two readings differ most.
+ */
+export function columns(scores) {
+  const scored = Object.values(scores.tools).filter((tool) => tool.scored)
+  const out = scored.map((tool) => ({ id: tool.id, label: SHORT[tool.id] ?? tool.label, overall: tool.overall, byCriterion: tool.byCriterion, pairs: tool.pairs, trueFailure: tool.coverage.trueFailure, time: tool.time }))
+  const gemma = scores.tools['rampa-gemma']
+  if (gemma?.overallWithLow) {
+    out.push({ id: 'rampa-gemma-low', label: 'Rampa + Gemma, low confidence counted', overall: gemma.overallWithLow, byCriterion: gemma.byCriterionWithLow, pairs: gemma.pairsWithLow, trueFailure: gemma.trueFailureWithLow, time: gemma.time, variant: true })
+  }
+  return out
+}
+
 export function renderReport({ scores, cases, pairs, run, names, levels, tools }) {
   const scored = Object.values(scores.tools).filter((tool) => tool.scored)
   const all = Object.values(scores.tools)
   const label = (tool) => SHORT[tool.id] ?? tool.label
+  const cols = columns(scores)
   const lines = []
   const push = (...items) => lines.push(...items)
 
@@ -48,8 +63,13 @@ export function renderReport({ scores, cases, pairs, run, names, levels, tools }
       .join(', ')
     push(row([`${tool.label}${tool.scored ? '' : ' (sample, not scored)'}`, versions || '—', spec?.failure ?? '', spec?.review ?? '']))
   }
-  const browsers = [...new Set(all.map((tool) => tool.meta?.versions?.browser).filter((b) => b && /\d/.test(b)))]
-  push('', `Browser: ${browsers.join('; ') || 'Microsoft Edge'}. Machine: ${run.cpu}, ${run.memoryGb} GB, ${run.os}, Node ${run.node}. ${run.workers} pages at a time per tool, one tool at a time.`, '')
+  const browsers = [...new Set(all.map((tool) => tool.meta?.versions?.browser).filter((b) => b && /\d+\.\d+\.\d+/.test(b)))]
+  const model = run.ollama?.model
+  push(
+    '',
+    `Browser: ${browsers.join('; ') || 'Microsoft Edge'}. Machine: ${run.cpu}, ${run.memoryGb} GB, ${run.os}, Node ${run.node}. ${run.workers} pages at a time per tool, one tool at a time.${model ? ` Model: ${model.name} (${model.parameters}, ${model.quantization}, digest \`${model.digest?.slice(0, 12)}\`) on Ollama ${run.ollama.version}, reasoning off, temperature 0 (Rampa's defaults for a local model).` : ''}`,
+    '',
+  )
 
   // Overall
   push('### Overall, on the ACT test cases', '')
@@ -118,11 +138,14 @@ export function renderReport({ scores, cases, pairs, run, names, levels, tools }
 
   // Per criterion
   push('### By criterion', '')
-  push('Each cell: failed examples caught / failed examples, then passed or inapplicable examples flagged. ★ marks a criterion with a rule Rampa was tuned on.', '')
-  push(header(['Criterion', 'Units', ...scored.map(label)], ['---', '---:', ...scored.map(() => ':---:')]))
+  push(
+    'Units: failed examples + passed or inapplicable examples under the criterion. Each cell: failed examples caught / failed examples, then passed or inapplicable examples flagged. ★ marks a criterion with a rule Rampa was tuned on. The last column reads Rampa + Gemma as `rampa eval` does, with findings below the default confidence threshold counted.',
+    '',
+  )
+  push(header(['Criterion', 'Units', ...cols.map((c) => c.label)], ['---', '---:', ...cols.map(() => ':---:')]))
   for (const criterion of scores.criteria) {
-    const cells = scored.map((tool) => {
-      const t = tool.byCriterion[criterion.criterion]
+    const cells = cols.map((col) => {
+      const t = col.byCriterion[criterion.criterion]
       return `${t.caught}/${t.failed} · ${t.passedFlagged + t.inapplicableFlagged}`
     })
     push(row([`${criterion.criterion} ${names[criterion.criterion] ?? ''} (${criterion.level})${criterion.home.length ? ' ★' : ''}`, `${criterion.failed} + ${criterion.others}`, ...cells]))
@@ -136,20 +159,20 @@ export function renderReport({ scores, cases, pairs, run, names, levels, tools }
     '',
   )
   const pairRows = scored[0]?.pairs.rows ?? []
-  push(header(['Criterion', 'Corruption', 'Pairs', ...scored.map(label)], ['---', '---', '---:', ...scored.map(() => '---:')]))
+  push(header(['Criterion', 'Corruption', 'Pairs', ...cols.map((c) => c.label)], ['---', '---', '---:', ...cols.map(() => '---:')]))
   for (const [index, pairRow] of pairRows.entries()) {
     push(
       row([
         `${pairRow.criterion}${pairRow.rampaDefault ? '' : ' (opt-in)'}`,
         `\`${pairRow.corruptor}\``,
         String(pairRow.total),
-        ...scored.map((tool) => String(tool.pairs.rows[index]?.toldApart ?? '—')),
+        ...cols.map((col) => String(col.pairs.rows[index]?.toldApart ?? '—')),
       ]),
     )
   }
-  push(row(['**All**', '', `**${scored[0]?.pairs.total ?? 0}**`, ...scored.map((tool) => `**${tool.pairs.toldApart}**`)]))
-  push(row(['Rampa\'s default criteria', '', String(scored[0]?.pairs.defaultTotal ?? 0), ...scored.map((tool) => String(tool.pairs.defaultToldApart))]))
-  push(row(['Intact page already failed', '', '', ...scored.map((tool) => String(tool.pairs.intactFlagged))]))
+  push(row(['**All**', '', `**${scored[0]?.pairs.total ?? 0}**`, ...cols.map((col) => `**${col.pairs.toldApart}**`)]))
+  push(row(['Rampa\'s default criteria', '', String(scored[0]?.pairs.defaultTotal ?? 0), ...cols.map((col) => String(col.pairs.defaultToldApart))]))
+  push(row(['Intact page already failed', '', '', ...cols.map((col) => String(col.pairs.intactFlagged))]))
   push('')
   if (pairs.dropped?.length) push(`${pairs.dropped.length} copies were left out because the corruptor changed nothing on them, as \`rampa eval\` leaves them out.`, '')
 
@@ -220,7 +243,7 @@ export function renderReport({ scores, cases, pairs, run, names, levels, tools }
   if (lh) {
     push('### Lighthouse against axe-core, page by page', '')
     push(
-      `On ${lh.pages} pages both checked (the first ${tools.lighthouse.sample} test cases of each rule): ${lh.failuresNotInAxe.length === 0 ? 'every audit Lighthouse failed was a violation axe-core reported on the same page' : `${lh.failuresNotInAxe.length} pages had a Lighthouse failure axe-core did not report (${lh.failuresNotInAxe.map((p) => `${p.id}: ${p.rules.join(', ')}`).join('; ')})`}. axe-core WCAG failures Lighthouse did not report: ${Object.entries(lh.axeWcagFailuresLighthouseMissed).map(([rule, n]) => `\`${rule}\` (${n})`).join(', ') || 'none'}. Lighthouse returned no audits on ${lh.errors} pages (${lh.errorKinds.join(', ') || '—'}).`,
+      `On ${lh.pages} pages both checked (the first ${tools.lighthouse.sample} test cases of each rule): ${lh.failuresNotInAxe.length === 0 ? 'every audit Lighthouse failed was a violation axe-core reported on the same page' : `${lh.failuresNotInAxe.length} ${lh.failuresNotInAxe.length === 1 ? 'page had' : 'pages had'} a Lighthouse failure axe-core did not report (${lh.failuresNotInAxe.map((p) => `${p.id}: ${p.rules.join(', ')}`).join('; ')})`}. axe-core WCAG failures Lighthouse did not report: ${Object.entries(lh.axeWcagFailuresLighthouseMissed).map(([rule, n]) => `\`${rule}\` (${n})`).join(', ') || 'none'}. Lighthouse returned no audits on ${lh.errors} pages (${lh.errorKinds.join(', ') || '—'}).`,
       '',
     )
   }
@@ -284,23 +307,23 @@ export function renderSummary({ scores, cases, pairs, run }) {
       ['---', ':---:', ':---:', ':---:', ':---:', ':---:', '---:'],
     ),
   ]
-  for (const tool of scored) {
-    const o = tool.overall
+  for (const col of columns(scores)) {
+    const o = col.overall
     lines.push(
       row([
-        SHORT[tool.id] ?? tool.label,
+        col.variant ? `*${col.label}*` : col.label,
         `${o.caught} of ${o.failed} (${num(o.recall)})`,
         num(o.precision),
         num(o.f1),
-        `${tool.pairs.toldApart} of ${tool.pairs.total}`,
-        String(tool.coverage.trueFailure.length),
-        `${seconds(tool.time.medianMs)} s`,
+        `${col.pairs.toldApart} of ${col.pairs.total}`,
+        String(col.trueFailure.length),
+        col.variant ? '' : `${seconds(col.time.medianMs)} s`,
       ]),
     )
   }
   lines.push(
     '',
-    'Failures only, as each tool defines them; review items, and the scores if they counted, are in the results below. Every tool is scored on every criterion. Read the caveats before quoting a number: Rampa was tuned on these test cases, and the pairs are its own design.',
+    'Failures only, as each tool defines them: what fails its run by default. The last row reads the same Rampa + Gemma run as `rampa eval` does, also counting findings below the default confidence threshold (judgments of ordinary titles, link texts and headings, and experimental checks), which `rampa check` lists only with --verbose. Review items, and the scores if they counted, are in the results below. Every tool is scored on every criterion. Read the caveats before quoting a number: Rampa was tuned on these test cases, and the pairs are its own design.',
   )
   return `${lines.join('\n')}\n`
 }

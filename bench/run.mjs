@@ -12,6 +12,7 @@
 //   --limit <n>      a smoke test: the first n cases of each ACT rule and the first n pairs of each corruptor
 //   --port <n>       the local server for pair pages (default 8765)
 //   --fresh          start the folder over instead of resuming it
+//   --retry-errors   also check again the pages a tool could not load for a reason of the network or the machine
 //   --score-only     run nothing, score what the folder has
 //   --docs           write the tables into ../docs/benchmark.md (between its bench:tables markers)
 import { execFileSync, spawn } from 'node:child_process'
@@ -155,7 +156,7 @@ if (!arg('score-only')) {
     const pages = await pagesFor(id)
     const pagesFile = join(work, id, 'pages.json')
     await writeJson(pagesFile, pages)
-    const common = ['--pages', pagesFile, '--out', join(out, 'raw', `${id}.jsonl`), '--meta', join(out, 'raw', `${id}.meta.json`), '--workers', String(workers)]
+    const common = ['--pages', pagesFile, '--out', join(out, 'raw', `${id}.jsonl`), '--meta', join(out, 'raw', `${id}.meta.json`), '--workers', String(workers), ...(arg('retry-errors') ? ['--retry-errors'] : [])]
     if (spec.args?.includes('--model')) {
       const model = spec.args[spec.args.indexOf('--model') + 1].replace(/^ollama:/, '')
       if (!(await ollamaReady(model))) {
@@ -199,6 +200,18 @@ const git = (...args) => {
   }
 }
 const previous = existsSync(join(out, 'run.json')) ? await readJson(join(out, 'run.json')) : {}
+/** The Ollama and the Gemma weights the judged rows ran on, when Ollama answers. */
+async function ollamaInfo() {
+  const base = process.env.OLLAMA_BASE_URL ?? 'http://localhost:11434'
+  try {
+    const version = (await (await fetch(`${base}/api/version`, { signal: AbortSignal.timeout(5_000) })).json()).version
+    const { models } = await (await fetch(`${base}/api/tags`, { signal: AbortSignal.timeout(5_000) })).json()
+    const gemma = models.find((m) => m.name === 'gemma4:12b')
+    return { version, model: gemma ? { name: gemma.name, digest: gemma.digest, quantization: gemma.details?.quantization_level, parameters: gemma.details?.parameter_size } : undefined }
+  } catch {
+    return previous.ollama
+  }
+}
 const runInfo = {
   date: today,
   rampaCommit: git('rev-parse', '--short', 'HEAD'),
@@ -209,6 +222,7 @@ const runInfo = {
   cpu: `${cpus()[0]?.model.trim()} (${cpus().length} threads)`,
   memoryGb: Math.round(totalmem() / 2 ** 30),
   browser: browserPath(),
+  ollama: await ollamaInfo(),
   act: cases.dataset,
   workers,
   limit: limit ?? null,
