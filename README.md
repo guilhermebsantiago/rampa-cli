@@ -330,6 +330,33 @@ Judgments are cached by a hash of prompt, image, model and settings, so the same
 
 Criteria never read the DOM. They read the snapshot, so the core is the same for any platform. `rampa check screen.json` accepts a snapshot from any exporter that follows [`schema/snapshot.schema.json`](schema/snapshot.schema.json): an Android view hierarchy, an iOS XCUITest export, a desktop UI Automation tree. The same 1.1.1 module judges an `alt`, a `contentDescription` or an `accessibilityLabel`. `rampa check android:` reads a device over adb and UI Automator, a Swift helper exports iOS screens from XCUITest, and `rampa check screen.png` measures text contrast where no tree exists. Each report says what its source could not show.
 
+## How it compares
+
+Rampa and five other free checkers ran on the same pages, in the same headless Edge, scored the same way: the 856 W3C ACT test cases of the 56 ACT rules that map to a WCAG 2.2 A/AA criterion (284 of them failed examples), and 96 corrupted pairs. A tool is credited with a failed example when it fails it under the criterion the rule maps to, and charged with a false positive when it fails a passed or inapplicable example. Measured on 2026-10-11; method, every table and the raw results are in [docs/benchmark.md](docs/benchmark.md).
+
+| Tool | Failed examples caught | Precision | F1 | Corrupted pairs told apart | Criteria with a true failure | Time per page |
+| --- | :---: | :---: | :---: | :---: | :---: | ---: |
+| axe-core 4.14 | 178 (0.63) | 0.92 | 0.75 | 0 of 96 | 14 | 0.75 s |
+| Siteimprove Alfa 0.119 | 182 (0.64) | 0.87 | 0.74 | 0 of 96 | 15 | 0.92 s |
+| QualWeb 0.9 | 190 (0.67) | 0.72 | 0.69 | 4 of 96 | 17 | 0.53 s |
+| IBM Equal Access 4.0 | 162 (0.57) | 0.69 | 0.62 | 0 of 96 | 13 | 1.06 s |
+| Pa11y 10, axe runner | 166 (0.58) | 0.81 | 0.68 | 0 of 96 | 14 | 1.20 s |
+| Pa11y 10, HTML_CodeSniffer | 53 (0.19) | 0.54 | 0.28 | 2 of 96 | 9 | 1.06 s |
+| **Rampa, no model** | 178 (0.63) | 0.93 | 0.75 | 0 of 96 | 14 | 0.85 s |
+| **Rampa + Gemma 4 12B** | **193 (0.68)** | **0.93** | **0.78** | **47 of 96** | 14 | about 4 s |
+| *Rampa + Gemma, low-confidence findings counted* | 227 (0.80) | 0.88 | 0.84 | 73 of 96 | 15 | about 4 s |
+| *Rampa + Gemma + probes, low-confidence counted* | 241 (0.85) | 0.87 | 0.86 | 73 of 96 | 21 | about 20 s |
+
+The first rows count what fails each tool's run by default. The rows in italics read the same Rampa runs as `rampa eval` does, also counting findings below the default confidence threshold: judgments of ordinary titles, link texts and headings, and every experimental check, probes included, which `rampa check` lists only with `--verbose`.
+
+How to read it:
+
+- **On what fails a build, Rampa with a model is ahead, by a little.** It catches 193 of 284 failed examples at precision 0.93, against 178 to 190 for the best rule engines; the intervals overlap ([docs/benchmark.md](docs/benchmark.md) has them). All of that gain is on rules Rampa was tuned on: its prompts were written while reading these test cases. On the other rules it scores exactly what axe-core scores.
+- **The clear difference is meaning.** A corrupted pair is a passing page and a copy broken on purpose (an `alt` that no longer describes the image, a title that says nothing, a link pointed elsewhere, a `lang` that is not the text's). No rule engine told more than 4 of the 96 apart; Rampa told 47 apart at its default threshold and 73 counting its low-confidence findings.
+- **More is measured than is reported.** Counting low-confidence findings and probes, Rampa reaches 241 of 284 and a true failure under 21 criteria, the most of any row. Those checks stay below the default threshold on purpose: on real pages, Rampa's precision was 0.38 at the default threshold ([re-measurement](docs/studies/real-pages-2026-10-remeasure.md)), far below what these small test pages suggest. A check moves above the threshold only once it passes [the gate](docs/plans/wcag-coverage.md#49-evaluation-gate-experimental-to-stable): among other things, at least 35 real-page findings reviewed by a person with no false positive, or 53 with one. Rampa Lab's [review mode](https://rampalab.guilhermebs.com.br/?view=review) is where that review happens.
+- **Not in the table.** Lighthouse's accessibility audits are a subset of axe-core (checked on a sample, and slower). WAVE's engine runs from a script only through a paid API, and ARC Toolkit only as a browser extension, so neither could run here.
+- **One run, on one machine.** Rampa's Gemma rows were run again after the last checks were merged and reused the first run's judgment cache, so their time per page is the first, cold run's. `cd bench && pnpm install && node run.mjs --docs` reruns everything (about three and a half hours with the model); the other tools are pinned in `bench/` and are never Rampa's dependencies.
+
 ## Evaluation
 
 `rampa eval` measures, on the same pages, axe-core alone and axe-core with the judgment layer, for every criterion that has W3C ACT test cases, plus corrupted pairs for each judged criterion:
