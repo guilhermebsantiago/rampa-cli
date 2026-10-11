@@ -201,6 +201,7 @@ export function methodText(method: CoverageMethod, report: Pick<Report, 'locale'
   const tags = [method.reviewOnly ? t(locale, 'methodReviewOnly') : undefined, method.maturity === 'experimental' ? t(locale, 'methodExperimental') : undefined].filter(Boolean)
   const counts = [
     t(locale, 'methodCounts', { applicable: method.applicable, failures: method.failures, review: method.review }),
+    ...(method.suggestions ? [t(locale, 'methodSuggestions', { count: method.suggestions })] : []),
     ...(method.notJudged ? [t(locale, 'methodNotJudged', { count: method.notJudged })] : []),
   ].join(', ')
   // What limits a rule's result, such as elements left out past a budget, follows its counts.
@@ -229,14 +230,20 @@ export interface ReviewGroup {
   helpUrl?: string | undefined
 }
 
-/** Review items by criterion and rule, in criterion order. */
+/**
+ * Review items by criterion and rule, in criterion order. A model's suggestions say what they are as their reason,
+ * since each of them makes its own claim.
+ */
 export function reviewGroups(report: Report): ReviewGroup[] {
   const groups = new Map<string, ReviewGroup>()
   for (const item of report.needsReview ?? []) {
     const key = `${item.criterion}|${item.ruleId}`
     const group = groups.get(key)
     if (group) group.items.push(item)
-    else groups.set(key, { criterion: item.criterion, ruleId: item.ruleId, items: [item], reason: item.message, helpUrl: item.helpUrl })
+    else {
+      const reason = item.model ? t(report.locale, 'suggestionReason') : item.message
+      groups.set(key, { criterion: item.criterion, ruleId: item.ruleId, items: [item], reason, helpUrl: item.helpUrl })
+    }
   }
   return [...groups.values()].sort((a, b) => compareCriteria(a.criterion, b.criterion) || a.ruleId.localeCompare(b.ruleId))
 }

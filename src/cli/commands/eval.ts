@@ -2,7 +2,7 @@ import { mkdir, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { fileCache } from '../../core/cache.ts'
 import { checkSnapshot } from '../../core/check.ts'
-import type { AnyCriterion, Candidate, EngineResults, Finding } from '../../core/types.ts'
+import type { AnyCriterion, Candidate, EngineResults, Finding, ReviewItem } from '../../core/types.ts'
 import type { A11ySnapshot } from '../../snapshot/schema.ts'
 import { errorMessage, mapLimit } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
@@ -69,6 +69,11 @@ export interface EvalRecord {
   discarded: number
   cannotTell: number
   findings: Array<{ source: string; ref?: string | undefined; evidence?: string | undefined; ruleId?: string | undefined; message: string }>
+  /**
+   * The model's suggestions for the criterion on the page: fails no fact Rampa checks supports, which a report lists
+   * for review, never as failures (`Criterion.grounded`). They do not fail the page; absent when none.
+   */
+  suggestions?: Array<{ ref?: string | undefined; message: string }> | undefined
   usage: { calls: number; cachedCalls: number; inputTokens: number; outputTokens: number; latencyMs: number }
   /** The page could not be loaded or collected; the record is left out of the metrics. */
   error?: string | undefined
@@ -235,6 +240,7 @@ async function runJob(
       findings: report.findings
         .filter((f) => f.criterion === criterion.id)
         .map((f) => ({ source: f.source, ref: f.ref, evidence: f.evidence, ruleId: f.ruleId, message: f.message })),
+      ...suggestionsOf(report.needsReview, criterion.id),
       usage: report.usage,
       modelError: report.errors[0],
     }
@@ -251,6 +257,12 @@ async function runJob(
       error: errorMessage(error),
     }
   }
+}
+
+/** The model's suggestions for a criterion among a report's items to review, for the record. */
+function suggestionsOf(review: readonly ReviewItem[] | undefined, criterion: string): Pick<EvalRecord, 'suggestions'> {
+  const mine = (review ?? []).filter((item) => item.model !== undefined && item.criterion === criterion)
+  return mine.length > 0 ? { suggestions: mine.map((item) => ({ ref: item.ref, message: item.message })) } : {}
 }
 
 /**
@@ -293,7 +305,8 @@ export interface EvalSummary {
   followLinks?: FollowLinks | undefined
   sets: SetScores[]
   pairs: Array<{ criterion: string; corruptor: string; total: number; baseline: number; rampa: number }>
-  judgment: { candidates: number; discarded: number; cannotTell: number }
+  /** suggestions: the model's fails no checked fact supports, listed for review on the pages; they fail no page. */
+  judgment: { candidates: number; discarded: number; cannotTell: number; suggestions?: number | undefined }
   usage: { calls: number; cachedCalls: number; inputTokens: number; outputTokens: number; costUsd: number | undefined }
   errors: Array<{ testcaseId: string; error: string }>
 }
@@ -377,6 +390,7 @@ export function summarize(
       candidates: records.reduce((n, r) => n + r.candidates, 0),
       discarded: records.reduce((n, r) => n + r.discarded, 0),
       cannotTell: records.reduce((n, r) => n + r.cannotTell, 0),
+      suggestions: records.reduce((n, r) => n + (r.suggestions?.length ?? 0), 0),
     },
     usage: { ...usage, costUsd: estimateCostUsd(meta.model, usage.inputTokens, usage.outputTokens) },
     errors: records.flatMap((r) => {
@@ -423,7 +437,8 @@ function renderSummary(summary: EvalSummary, p: ReturnType<typeof paint>): strin
         ? ' · local model, no API cost'
         : ` · ≈ US$ ${summary.usage.costUsd.toFixed(4)}`
   if (summary.llm) {
-    lines.push(`Judgment: ${summary.judgment.candidates} candidates · ${summary.judgment.discarded} discarded by verification · ${summary.judgment.cannotTell} cannot tell`)
+    const suggested = summary.judgment.suggestions ? ` · ${summary.judgment.suggestions} model suggestions, for review (no page fails on them)` : ''
+    lines.push(`Judgment: ${summary.judgment.candidates} candidates · ${summary.judgment.discarded} discarded by verification · ${summary.judgment.cannotTell} cannot tell${suggested}`)
     lines.push(`Model calls: ${summary.usage.calls} new, ${summary.usage.cachedCalls} from cache · ${tokens}${cost}`)
   }
   if (summary.errors.length > 0) lines.push(p.yellow(`${summary.errors.length} page(s) with errors; first: ${summary.errors[0]?.error}`))

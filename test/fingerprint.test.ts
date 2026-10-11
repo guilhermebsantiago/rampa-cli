@@ -14,7 +14,7 @@ const PNG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJA
 const PORTUGUESE = 'Bem-vindo à nossa loja. Aproveite as frutas da estação e volte sempre.'
 const DUTCH = 'Welkom in Amsterdam! Het weer is vandaag mooi en zonnig.'
 
-/** One page with a candidate for every criterion: a vague title, a wrong alt, a vague link, heading and label, two wrong langs. */
+/** One page with a candidate for every criterion: a vague title, a wrong alt, a generic link, a placeholder heading, two wrong langs. */
 function page(): A11ySnapshot {
   return {
     schemaVersion: 1,
@@ -50,13 +50,13 @@ function page(): A11ySnapshot {
                 node({
                   ref: 'a.more',
                   role: 'link',
-                  name: 'Read more about shipping',
-                  text: 'Read more about shipping',
-                  native: { tag: 'a', attributes: { href: '/shipping' }, html: '<a href="/shipping">Read more about shipping</a>' },
+                  name: 'Click here to read more',
+                  text: 'Click here to read more',
+                  native: { tag: 'a', attributes: { href: '/shipping' }, html: '<a href="/shipping">Click here to read more</a>' },
                 }),
               ],
             }),
-            node({ ref: 'h2', role: 'heading', name: 'Section 2 of the page', native: { tag: 'h2' } }),
+            node({ ref: 'h2', role: 'heading', name: 'Lorem ipsum dolor sit amet', native: { tag: 'h2' } }),
             node({ ref: 'p.reviews', role: 'paragraph', text: 'Customers love the mug and the umbrella.', native: { tag: 'p' } }),
             node({
               ref: 'blockquote',
@@ -86,12 +86,12 @@ const ANSWERS: Record<string, [unknown, unknown]> = {
     { verdict: 'fail', evidence: 'Untitled document - Corner', problem: 'mismatch', suggestedTitle: 'Corner Store: new arrivals', confidence: 'high' },
   ],
   '2.4.4': [
-    { promises: 'more about shipping', leadsTo: 'unknown', verdict: 'fail', evidence: 'Read more about shipping', problem: 'generic', suggestedText: 'Shipping rates', confidence: 'high' },
-    { promises: 'shipping information', leadsTo: 'unknown', verdict: 'fail', evidence: 'more about shipping', problem: 'generic', suggestedText: 'How shipping works', confidence: 'high' },
+    { promises: 'more of something', leadsTo: 'unknown', verdict: 'fail', evidence: 'Click here to read more', problem: 'generic', suggestedText: 'Shipping rates', confidence: 'high' },
+    { promises: 'more information', leadsTo: 'unknown', verdict: 'fail', evidence: 'here to read more', problem: 'generic', suggestedText: 'How shipping works', confidence: 'high' },
   ],
   '2.4.6': [
-    { named: '', verdict: 'fail', evidence: 'Section 2 of the page', problem: 'generic', suggestedText: 'Customer reviews', confidence: 'high' },
-    { named: 'a section', verdict: 'fail', evidence: 'Section 2 of the', problem: 'mismatch', suggestedText: 'What customers say', confidence: 'high' },
+    { named: '', verdict: 'fail', evidence: 'Lorem ipsum dolor sit amet', problem: 'placeholder_text', suggestedText: 'Customer reviews', confidence: 'high' },
+    { named: '', verdict: 'fail', evidence: 'ipsum dolor sit amet', problem: 'generic', suggestedText: 'What customers say', confidence: 'high' },
   ],
   '3.1.1': [
     { verdict: 'fail', detectedLanguage: 'pt', evidence: 'Bem-vindo à nossa loja', confidence: 'high' },

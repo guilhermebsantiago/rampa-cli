@@ -187,7 +187,7 @@ describe('2.4.4 reads where scripted links lead', () => {
     link('#support', 'span', { id: 'support', role: 'link' }, 'Contact', { kind: 'navigation', url: 'https://example.com/contact/support' }),
   ]
 
-  it('gives the judgment what the click did and what was read there, and keeps a mismatch and an ambiguity it can verify', async () => {
+  it('gives the judgment what the click did and what was read there, and keeps an ambiguity and a mismatch it can verify', async () => {
     const model = perLink(ANSWERS)
     const report = await checkSnapshot(scriptedSnapshot(clicked, destinations), emptyEngine(), probeCheckOptions({ criteria: [linkPurpose], llm: true, provider: model }))
     const pricing = model.asked.find((prompt) => prompt.includes('<link>Pricing</link>')) ?? ''
@@ -198,6 +198,9 @@ describe('2.4.4 reads where scripted links lead', () => {
     expect(findings.map((f) => f.message).sort()).toEqual([
       'The link text "Contact" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.',
       'The link text "Contact" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.',
+    ])
+    // A verified mismatch is the model's comparison, not a checked fact: it is a suggestion to review, never a failure.
+    expect(report.needsReview?.filter((item) => item.criterion === '2.4.4').map((item) => item.message)).toEqual([
       'The link text "Pricing" does not match where the link leads: a page titled "Launch week recap".',
     ])
     expect(report.discarded).toEqual([])
@@ -310,7 +313,8 @@ describe.skipIf(!browser)('links probe (2.4.4)', { timeout: 240_000 }, () => {
     const model = perLink(ANSWERS)
     const report = await checkSnapshot(snapshot, engine, probeCheckOptions({ criteria: [linkPurpose], llm: true, provider: model }))
     const messages = report.findings.filter((f) => f.criterion === '2.4.4').map((f) => f.message)
-    expect(messages).toContain('The link text "Pricing" does not match where the link leads: a page titled "Launch week recap · Acme blog".')
+    const suggested = (report.needsReview ?? []).filter((item) => item.criterion === '2.4.4' && item.model).map((item) => item.message)
+    expect(suggested).toContain('The link text "Pricing" does not match where the link leads: a page titled "Launch week recap · Acme blog".')
     expect(messages.filter((m) => m.startsWith('The link text "Contact" is shared by 2 links'))).toHaveLength(2)
     expect(model.asked.find((p) => p.includes('<link>See the description of the product</link>'))).toContain('within this page, to the part that reads "This product is a set of web pages about rockets."')
     expect(model.asked.find((p) => p.includes('<link>Help center</link>'))).toContain('it opens a new window at')

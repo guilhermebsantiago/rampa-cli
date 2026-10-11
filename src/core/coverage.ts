@@ -178,13 +178,16 @@ export function criteriaCoverage(input: CoverageInput): CriterionCoverage[] {
       judgedDecided = summary.judged - summary.cannotTell - selfDecided
       const notJudged = (summary.capped ?? 0) + (summary.timedOut ?? 0)
       leftUnjudged = input.llmActive && notJudged > 0
+      // The model's suggestions (fails no checked fact supports) are left to a person, as its abstentions are.
+      const suggestions = summary.suggested ?? 0
       methods.push({
         kind: 'judgment',
         id: `judgment/${sc.id}@${module.version}`,
         ran,
         applicable: summary.candidates - selfDecided,
         failures: summary.failed - selfFailed,
-        review: summary.cannotTell,
+        review: summary.cannotTell + suggestions,
+        ...(suggestions > 0 ? { suggestions } : {}),
         ...(notJudged > 0 ? { notJudged } : {}),
         // A judgment that decides a probe's items (4.1.3) is as experimental as the probe.
         maturity: module.settles ? 'experimental' : 'stable',
