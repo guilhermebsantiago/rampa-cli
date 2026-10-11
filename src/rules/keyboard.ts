@@ -2,6 +2,7 @@ import type { Finding, ProbeCoverage } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
 import { matchNode, nameOf } from '../probes/identity.ts'
 import type { Control, KeyEvent, KeyStop, TrapAttempt } from '../probes/keyboard.ts'
+import { type TrapExit, exitFor } from '../probes/parity.ts'
 import type { ProbeRecord } from '../snapshot/schema.ts'
 import { type ProbeRule, type ProbeRuleContext, asArray, asRecord, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
 
@@ -183,10 +184,39 @@ const TRAP_TEXT: Record<Locale, { trap: string; dialog: string; hint: string }> 
   },
 }
 
+/** "Control+m" as a person reads it: "Ctrl+M". */
+export function keyName(combo: string): string {
+  return combo
+    .split('+')
+    .map((part) => (part === 'Control' ? 'Ctrl' : part.length === 1 ? part.toUpperCase() : part))
+    .join('+')
+}
+
+/** The trap message and evidence when a page's own exit instruction was pressed and focus stayed (rampa/keyboard-trap, rampa/trap-exit). */
+export function exitText(exit: TrapExit, locale: Locale): { message: string; evidence: string } {
+  const keys = (Array.isArray(exit.keys) ? exit.keys : []).map(keyName).join(', ')
+  const hint = (exit.hint ?? '').replace(/\s+/g, ' ').trim().slice(0, 80)
+  const size = Array.isArray(exit.cycle) ? exit.cycle.length : 0
+  return {
+    message: say(
+      locale,
+      `Keyboard focus cannot leave this group of elements, and the way out the page names ("${hint}") does not work: pressing ${keys} inside it, then Tab or Shift+Tab, left focus inside (WCAG 2.1.2).`,
+      `O foco do teclado não consegue sair deste grupo de elementos, e a saída que a página indica ("${hint}") não funciona: pressionar ${keys} dentro dele, depois Tab ou Shift+Tab, deixou o foco dentro (WCAG 2.1.2).`,
+    ),
+    evidence: say(
+      locale,
+      `focus cycles through ${size} element(s); Tab, Shift+Tab, Esc and the arrows did not leave; ${keys} pressed in ${exit.rounds} round(s), each followed by Tab and Shift+Tab, did not leave either`,
+      `o foco circula por ${size} elemento(s); Tab, Shift+Tab, Esc e as setas não saíram; ${keys} pressionado(s) em ${exit.rounds} rodada(s), cada uma seguida de Tab e Shift+Tab, também não saiu(saíram)`,
+    ),
+  }
+}
+
 /**
  * 2.1.2 No Keyboard Trap (ACT 80af7b). Focus came back to a stop without leaving the page's
  * elements, then two rounds of Tab, Shift+Tab, Esc and the arrows all failed to leave the
  * cycle: failure, high. Inside a dialog, or with nearby text that names an exit key: review.
+ * When the parity probe (C2, probes/parity.ts) pressed the keys that text names inside the same
+ * cycle, its result decides instead: focus out is no failure, focus still inside is a failure, high.
  */
 export const keyboardTrapRule: ProbeRule = {
   id: 'rampa/keyboard-trap',
@@ -217,6 +247,23 @@ export const keyboardTrapRule: ProbeRule = {
       const first = matched.find((item) => item.node)
       if (!first?.node) {
         unmatched++
+        continue
+      }
+      // The exit instruction, executed by the parity probe in the same cycle.
+      const exit = exitFor(ctx.snapshot.observations?.probes, trap.cycle.map((el) => el.ref))
+      if (exit?.left) {
+        notes.push(
+          say(
+            ctx.locale,
+            `the page's exit instruction ("${exit.hint.slice(0, 60)}") worked: focus left with ${exit.leftWith ?? ''} (probe/parity)`,
+            `a instrução de saída da página ("${exit.hint.slice(0, 60)}") funcionou: o foco saiu com ${exit.leftWith ?? ''} (probe/parity)`,
+          ),
+        )
+        continue
+      }
+      if (exit) {
+        const said = exitText(exit, ctx.locale)
+        findings.push(probeFinding({ criterion: '2.1.2', rule: this.id, node: first.node, message: said.message, evidence: said.evidence, confidence: 'high', subject: 'trap' }))
         continue
       }
       const names = matched.slice(0, 4).map((item) => (item.node ? nameOf(item.node) : item.el.ref))

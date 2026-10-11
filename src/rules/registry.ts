@@ -8,6 +8,7 @@ import { hoverRule } from './hover.ts'
 import { scriptedLinksRule } from './links.ts'
 import { MEDIA_RULES } from './media.ts'
 import { onInputRule } from './on-input.ts'
+import { PARITY_RULES } from './parity.ts'
 import { reflowRule, textSpacingRule, zoomRule } from './layout.ts'
 import { orientationRule } from './orientation.ts'
 import { shortcutsRule } from './shortcuts.ts'
@@ -31,6 +32,7 @@ export const PROBE_RULES: readonly ProbeRule[] = [
   authRule,
   scriptedLinksRule,
   onInputRule,
+  ...PARITY_RULES,
   focusVisibleRule,
   focusObscuredRule,
   focusObscuredNarrowRule,

@@ -414,7 +414,7 @@ async function press(page: Page, key: 'Tab' | 'Shift+Tab' | string): Promise<voi
 }
 
 /** Tries to leave a set of stops with Tab, Shift+Tab, Esc and the arrows, `rounds` times over. */
-async function tryEscape(page: Page, cycle: Set<string>, rounds: number): Promise<{ left: boolean; leftWith?: string; tried: string[]; rounds: number }> {
+export async function tryEscape(page: Page, cycle: Set<string>, rounds: number): Promise<{ left: boolean; leftWith?: string; tried: string[]; rounds: number }> {
   const tries = cycle.size + 2
   const sequences: Array<{ name: string; first?: string; key: string }> = [
     { name: 'Tab', key: 'Tab' },

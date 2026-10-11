@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Store: keyboard parity failures</title>
+<style>
+  body { font: 16px/1.4 sans-serif; margin: 20px; }
+  .box { border: 1px solid #888; padding: 8px; margin: 8px 0; max-width: 600px; }
+  [hidden] { display: none !important; }
+  .menu { list-style: none; padding: 0; margin: 0 0 16px; display: flex; gap: 32px; }
+  .menu > li { position: relative; }
+  .menu > li > ul { display: none; position: absolute; top: 100%; left: 0; background: #fff; border: 1px solid #888; padding: 4px; margin: 0; list-style: none; min-width: 160px; z-index: 2; }
+  .menu > li:hover > ul { display: block; }
+</style>
+</head>
+<body>
+<header>
+  <nav aria-label="Main">
+    <ul class="menu">
+      <li><a href="/parity/home.html">Home</a></li>
+      <!-- A menu that only a hover shows, under a trigger that takes no focus; its links are nowhere else. -->
+      <li id="about"><span>About us</span>
+        <ul><li><a href="/parity/report.html">Annual report</a></li><li><a href="/parity/board.html">Board</a></li></ul>
+      </li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <h1>Oak table</h1>
+  <p>Updated <span id="clock">0</span> ms ago.</p>
+  <!-- A div with role=button, a click handler and no key handler. -->
+  <div class="box"><div id="details" role="button" tabindex="0">Show details</div><div id="details-panel" hidden><p>Made of oak, 120 cm wide.</p></div></div>
+  <!-- A span with role=link that goes to a page on a click only. -->
+  <p><span id="guide" role="link" tabindex="0" style="color: blue; text-decoration: underline">Read the care guide</span></p>
+  <!-- A photo that opens on a click, with no role and no tabindex (F42). -->
+  <div id="photo" class="box" style="width: 200px; height: 120px; background: #ccd" onclick="openPhoto()">Photo of the table</div>
+  <div id="lightbox" hidden role="dialog" aria-label="Large photo" style="position: fixed; inset: 10%; background: #fff; border: 2px solid #000">Large photo <button id="close-photo" type="button">Close</button></div>
+  <!-- A native button that listens to mousedown only (F54): Enter and Space fire click, which nothing listens to. -->
+  <button id="filters" type="button">Filters</button>
+  <div id="filter-panel" hidden><p>Price, size, color.</p></div>
+  <p><a href="#outro" id="outro-link">Conclusion</a></p>
+</main>
+<script>
+  setInterval(() => { document.getElementById('clock').textContent = String(Date.now() % 1000) }, 200)
+  document.getElementById('details').addEventListener('click', () => { const panel = document.getElementById('details-panel'); panel.hidden = !panel.hidden })
+  document.getElementById('guide').addEventListener('click', () => { location.href = '/parity/guide.html' })
+  function openPhoto() { document.getElementById('lightbox').hidden = false }
+  document.getElementById('close-photo').addEventListener('click', () => { document.getElementById('lightbox').hidden = true })
+  document.getElementById('filters').addEventListener('mousedown', () => { const panel = document.getElementById('filter-panel'); panel.hidden = !panel.hidden })
+</script>
+</body>
+</html>
