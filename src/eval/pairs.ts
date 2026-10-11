@@ -404,8 +404,66 @@ export const labelUnseen: Corruptor = {
   },
 }
 
+/** English location, shape, size and orientation words of ACT 9bd38c; its colors are 1.4.1's. */
+const SENSORY_PAIR_WORDS = ['right', 'left', 'above', 'below', 'beneath', 'underneath', 'round', 'circle', 'star', 'triangle', 'square', 'big', 'small', 'wide', 'narrow', 'tilted']
+
+/**
+ * 1.3.3: take away what names the thing an instruction points to by a sensory word, and leave the word. A name the
+ * instruction gives ('labelled "howdy"', 'or search for the "Examples" heading') goes; headings become plain text, in
+ * same-origin frames too; navigation landmarks become plain boxes; a control that shows the sensory word ("Round
+ * button") shows "Go". Only a page with a paragraph that has such a word is changed.
+ */
+export const sensoryOnly: Corruptor = {
+  id: 'sensory-only',
+  criterion: '1.3.3',
+  async apply(page) {
+    return page.evaluate((words: string[]) => {
+      const sensory = new RegExp(`\\b(?:${words.join('|')})\\b`, 'i')
+      const paragraphs = Array.from(document.querySelectorAll('p')).filter((p) => sensory.test(p.textContent ?? ''))
+      if (paragraphs.length === 0) return 0
+      let changed = 0
+      for (const paragraph of paragraphs) {
+        const walker = document.createTreeWalker(paragraph, NodeFilter.SHOW_TEXT)
+        for (let text = walker.nextNode(); text; text = walker.nextNode()) {
+          const before = text.textContent ?? ''
+          const after = before
+            .replace(/,?\s*(?:labell?ed|named|called)\s+["“'][^"”']*["”']\s*,?/gi, ' ')
+            .replace(/\s*,?\s*or you can [^.]*["“][^"”]*["”][^.]*/gi, '')
+          if (after !== before) {
+            text.textContent = after
+            changed++
+          }
+        }
+      }
+      const documents = [document, ...Array.from(document.querySelectorAll('iframe')).flatMap((frame) => {
+        try {
+          return frame.contentDocument ? [frame.contentDocument] : []
+        } catch {
+          return []
+        }
+      })]
+      for (const doc of documents) {
+        for (const element of Array.from(doc.querySelectorAll('h1, h2, h3, h4, h5, h6, [role="heading"], nav, [role="navigation"]'))) {
+          const plain = doc.createElement('div')
+          for (const child of Array.from(element.childNodes)) plain.append(child)
+          element.replaceWith(plain)
+          changed++
+        }
+      }
+      for (const control of Array.from(document.querySelectorAll('button, a[href], [role="button"]'))) {
+        if (sensory.test(control.textContent ?? '')) {
+          control.textContent = 'Go'
+          changed++
+        }
+      }
+      return changed
+    }, SENSORY_PAIR_WORDS)
+  },
+}
+
 export const CORRUPTORS: Readonly<Record<string, Corruptor[]>> = {
   '1.1.1': [altPlaceholder, altSwap],
+  '1.3.3': [sensoryOnly],
   '1.3.5': [autocompleteDrop, autocompleteSwap],
   '1.4.5': [textAsImage],
   '2.4.2': [titleGeneric],

@@ -495,7 +495,68 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     if (explicit === 'presentation' || explicit === 'none') native.presentational = !roleConflict(el)
     if (tag === 'table' || explicit === 'table' || explicit === 'grid' || explicit === 'treegrid') native.table = tableFacts(el)
     if (tag === 'input' || tag === 'select' || tag === 'textarea') Object.assign(native, invalidFacts(el))
+    // How a control, a picture or an icon is drawn, and a turned block of text: what an instruction may call round or tilted (1.3.3).
+    const shape = shapeOf(el, explicit)
+    if (shape) native.shape = shape
     return native
+  }
+
+  /** Elements whose look an instruction may describe ("the round button", "the star icon"); text blocks are read for a rotation only. */
+  const SHAPED_TAGS = new Set(['button', 'a', 'img', 'svg', 'canvas', 'input', 'select', 'i'])
+  const SHAPED_ROLES = new Set(['button', 'link', 'img', 'tab', 'checkbox', 'radio', 'switch'])
+  const ICON_CLASS = /(?:^|[\s_-])(?:icon|icons|ico|fa|fas|far|fab|bi|glyphicon|material-icons|material-symbols-outlined|mdi)(?:$|[\s_-])/i
+  const TURNABLE_TAGS = new Set(['div', 'p', 'span', 'section', 'figure', 'li'])
+  /** Elements read per page: controls and pictures, and blocks of text, each with its own budget. */
+  const shapeBudget = { controls: 800, text: 600 }
+  /** The angle of a computed transform and rotate, in whole degrees; undefined when it turns nothing. */
+  const rotationOf = (style: CSSStyleDeclaration): number | undefined => {
+    let angle = 0
+    const matrix = /^matrix(3d)?\(([^)]*)\)$/.exec(style.transform ?? '')
+    if (matrix) {
+      const m = (matrix[2] ?? '').split(',').map((part) => Number.parseFloat(part))
+      angle += (Math.atan2(m[1] ?? 0, m[0] ?? 1) * 180) / Math.PI
+    }
+    const rotate = /(-?[\d.]+)deg\s*$/.exec(style.rotate ?? '')
+    if (rotate) angle += Number.parseFloat(rotate[1] ?? '0')
+    const turned = Math.round((((angle % 360) + 540) % 360) - 180)
+    return Math.abs(turned) >= 3 ? turned : undefined
+  }
+  /**
+   * For a control, a picture or an icon: whether its corners make it a circle or a pill (each radius at least half its
+   * shorter side, on a box that paints something), and its rotation. For a block with text of its own: its rotation.
+   * Undefined when it has neither, or past the budget.
+   */
+  const shapeOf = (el: Element, role: string): { corners?: 'circle' | 'pill'; rotate?: number } | undefined => {
+    const tag = el.localName
+    const control = SHAPED_TAGS.has(tag) || SHAPED_ROLES.has(role) || ICON_CLASS.test(el.getAttribute('class') ?? '')
+    if (!control && !(TURNABLE_TAGS.has(tag) && (ownText(el)?.length ?? 0) >= 3)) return undefined
+    const budget = control ? 'controls' : 'text'
+    if (shapeBudget[budget] <= 0) return undefined
+    shapeBudget[budget]--
+    const style = styleOf(el)
+    const shape: { corners?: 'circle' | 'pill'; rotate?: number } = {}
+    const rotate = rotationOf(style)
+    if (rotate !== undefined) shape.rotate = rotate
+    if (control) {
+      const width = (el as HTMLElement).offsetWidth || el.getBoundingClientRect().width
+      const height = (el as HTMLElement).offsetHeight || el.getBoundingClientRect().height
+      const side = Math.min(width, height)
+      const paints =
+        ['img', 'svg', 'canvas', 'input'].includes(tag) ||
+        !/rgba\(.*,\s*0\)$|transparent/.test(style.backgroundColor) ||
+        style.backgroundImage !== 'none' ||
+        Number.parseFloat(style.borderTopWidth) > 0 ||
+        style.boxShadow !== 'none'
+      const radius = (value: string): number => {
+        const first = value.trim().split(/\s+/)[0] ?? '0'
+        return first.endsWith('%') ? (Number.parseFloat(first) / 100) * side : Number.parseFloat(first) || 0
+      }
+      const corners = [style.borderTopLeftRadius, style.borderTopRightRadius, style.borderBottomRightRadius, style.borderBottomLeftRadius].map(radius)
+      if (side >= 8 && paints && corners.every((r) => r >= side / 2 - 1)) {
+        shape.corners = Math.abs(width - height) <= Math.max(width, height) * 0.15 ? 'circle' : 'pill'
+      }
+    }
+    return shape.corners || shape.rotate !== undefined ? shape : undefined
   }
 
   /**

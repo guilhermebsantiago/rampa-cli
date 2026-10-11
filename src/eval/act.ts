@@ -24,6 +24,9 @@ export const ACT_RULES: Record<string, { syntax: string[]; semantic: string[]; p
   // e88epe: an image hidden from assistive technology is decorative. 1.1.1 asks it as its own question, so its
   // cases are scored by that question's judgments, and 23a2a8's and qt1vmo's by the alternative's (Criterion.actFor).
   '1.1.1': { syntax: ['23a2a8'], semantic: ['qt1vmo', 'e88epe'] },
+  // 9bd38c (proposed) is a sanity check for 1.3.3, not a gate; its passing instructions, with what names their
+  // target taken away, are the pairs.
+  '1.3.3': { syntax: [], semantic: ['9bd38c'] },
   // No ACT rule judges whether a field that has no token should have one; the fields of 73f2c2's
   // passing cases, each with a valid token for what it asks, become pairs when the token goes.
   '1.3.5': { syntax: ['73f2c2'], semantic: [], pairs: ['73f2c2'] },
