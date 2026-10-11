@@ -135,6 +135,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const clearing: Array<{ rule: string; criterion: string; ref: string; passed: boolean; evidence?: string | undefined; control?: string | undefined; votes: number; total: number; model?: string | undefined; note?: string | undefined }> = []
   // Judgments that decide a probe rule's items to review (4.1.3): which item each verified answer settled.
   const settling: Array<{ rule: string; criterion: string; key: string; passed: boolean; note?: string | undefined }> = []
+  // Verified fails that no fact Rampa checks supports (Criterion.grounded): the model's suggestions, for a person to decide.
+  const suggestions: ReviewItem[] = []
 
   for (const criterion of criteria) {
     // A criterion that moved to the browser's names reads the snapshot with them; the others, as the collector named it.
@@ -247,11 +249,25 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             })
             // Ablation (verify: false) keeps an unverified fail claim as a finding.
             if (options.verify !== false || judgment.verdict !== 'fail') continue
-          } else {
-            summary.failed++
           }
           const output = judgment.representative
           if (!output) continue
+          // A fail that rests on the model's reading alone is its suggestion, not a finding (the ablation keeps it as one).
+          if (judgment.status === 'failed' && options.verify !== false && criterion.grounded && !criterion.grounded(output, judgment.candidate, view)) {
+            summary.suggested = (summary.suggested ?? 0) + 1
+            const suggested = criterion.patch?.(output, judgment.candidate, view)?.to
+            suggestions.push({
+              criterion: criterion.id,
+              level: criterion.level,
+              ruleId: `judgment/${criterion.id}`,
+              ref: judgment.candidate.ref,
+              message: criterion.message(output, judgment.candidate, options.locale),
+              ...(suggested ? { evidence: t(options.locale, 'suggestedText', { text: suggested }) } : {}),
+              model: options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId,
+            })
+            continue
+          }
+          if (judgment.status === 'failed') summary.failed++
           // A judgment that may only clear never makes a finding: its fail keeps the probe's, with the answer as evidence.
           if (criterion.clears) {
             if (judgment.status === 'failed') {
@@ -378,7 +394,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const probed = [...new Set(probe.coverage.filter((row) => (row.status === 'failures' || row.status === 'no-failure-found') && all.has(row.criterion)).map((row) => row.criterion))]
   // What axe-core could not decide, and what Rampa's rules and probe rules sent to review: never a failure.
   const probeReview = probe.review.filter((f) => !options.waivers?.has(f.fingerprint)).map(reviewItemOf)
-  const review = [...reviewItems(unsettled), ...stage.review, ...probeReview].sort((a, b) => compareCriteria(a.criterion, b.criterion))
+  const review = [...reviewItems(unsettled), ...stage.review, ...probeReview, ...suggestions].sort((a, b) => compareCriteria(a.criterion, b.criterion))
   // Findings beyond the target still give their criterion its status, by the same threshold.
   const beyondShown = beyond.filter(shown)
   const beyondBelow = beyond.filter((f) => !shown(f))
@@ -465,16 +481,17 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
 }
 
 /**
- * The candidates the model judges when a criterion has more than `cap` that need it: those whose text is generic
- * (the criterion keeps the model's confidence on them, see criteria/generic-text.ts) come first, then the rest in page
- * order, and the chosen ones keep their page order. Candidates the criterion decides without a model always stay.
+ * The candidates the model judges when a criterion has more than `cap` that need it: those a checked fact could make a
+ * finding of (`judgeFirst`, such as a text on the generic lists, see criteria/generic-text.ts; else those the criterion
+ * keeps the model's confidence on) come first, then the rest in page order, and the chosen ones keep their page order.
+ * Candidates the criterion decides without a model always stay.
  */
 export function capCandidates<C extends Candidate<unknown>>(criterion: AnyCriterion, snapshot: A11ySnapshot, candidates: C[], cap: number): C[] {
   if (cap <= 0 || candidates.length <= cap) return candidates
   const decided = new Set(candidates.filter((candidate) => criterion.decide?.(candidate, snapshot) !== undefined))
   const asked = candidates.filter((candidate) => !decided.has(candidate))
   if (asked.length <= cap) return candidates
-  const first = asked.filter((candidate) => criterion.confidenceCap?.(candidate) === undefined)
+  const first = asked.filter((candidate) => criterion.judgeFirst?.(candidate) ?? criterion.confidenceCap?.(candidate) === undefined)
   const chosen = new Set([...first, ...asked.filter((candidate) => !first.includes(candidate))].slice(0, cap))
   return candidates.filter((candidate) => decided.has(candidate) || chosen.has(candidate))
 }

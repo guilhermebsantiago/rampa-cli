@@ -147,17 +147,16 @@ describe.skipIf(!available)('rampa check --crawl', { timeout: 60_000 }, () => {
     const previous = process.env.RAMPA_OPENAI_COMPATIBLE_URL
     process.env.RAMPA_OPENAI_COMPATIBLE_URL = judge.url
     try {
-      // "Members" is a specific text, so its finding is reported at low confidence (see src/criteria/generic-text.ts).
+      // "Members" is a specific text, so the model's fail on it is its suggestion to review, never a finding (src/criteria/generic-text.ts).
       const { report } = await crawl({ llm: true, model: 'openai-compatible:fake-judge', criteria: '2.4.4', minConfidence: 'low' })
       expect(report.pages).toHaveLength(6)
       expect(judge.prompts.filter((prompt) => prompt.includes('<link>Members</link>'))).toHaveLength(1)
       expect(report.summary.usage.calls).toBe(judge.prompts.length)
       // Six header links on each of the five pages after the first, at least.
       expect(report.summary.usage.reusedAcrossPages).toBeGreaterThanOrEqual(30)
-      const members = report.summary.repeated.find((group) => group.source === 'judgment')
-      expect(members?.message).toBe('The link text "Members" does not tell where the link goes, and nothing around it does.')
-      expect(members?.pages).toHaveLength(6)
-      expect(members?.agreement).toEqual({ votes: 1, total: 1 })
+      expect(report.summary.repeated.find((group) => group.source === 'judgment')).toBeUndefined()
+      const suggested = report.pages.map((page) => (page.needsReview ?? []).filter((item) => item.model).map((item) => item.message))
+      expect(suggested).toEqual(Array.from({ length: 6 }, () => ['The link text "Members" does not tell where the link goes, and nothing around it does.']))
     } finally {
       if (previous === undefined) delete process.env.RAMPA_OPENAI_COMPATIBLE_URL
       else process.env.RAMPA_OPENAI_COMPATIBLE_URL = previous

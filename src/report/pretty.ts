@@ -56,7 +56,12 @@ export function renderReport(report: Report, options: PrettyOptions): string {
     for (const group of review) {
       lines.push(`  ${p.yellow('?')} ${criterionLabel(group.criterion, locale)}: ${plural(locale, 'reviewElements', group.items.length)} · ${group.ruleId}`)
       lines.push(p.dim(`    ${group.reason}`))
-      if (verbose) for (const item of group.items.slice(0, 20)) lines.push(p.dim(`    ${item.ref ?? item.target ?? ''}${item.message !== group.reason ? `: ${item.message}` : ''}`))
+      if (verbose) {
+        for (const item of group.items.slice(0, 20)) {
+          const said = item.message !== group.reason ? `: ${item.message}${item.model && item.evidence ? ` ${item.evidence}` : ''}` : ''
+          lines.push(p.dim(`    ${item.ref ?? item.target ?? ''}${said}`))
+        }
+      }
     }
     lines.push('')
   }

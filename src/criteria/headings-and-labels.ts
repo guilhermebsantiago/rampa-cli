@@ -31,6 +31,12 @@ import { labelsOf, shownText } from './labels-or-instructions.ts'
  * every form field label, read against the field. ACT reference rules: b49b2e (heading is
  * descriptive) and cc0f0a (form field label is descriptive).
  *
+ * A fail is a finding only when a fact Rampa checks itself supports it (`grounded`): a placeholder, a numbering or a
+ * bare structural word ("Section 2", "Field 1", "Lorem ipsum"), a numbered heading under no parent that names its
+ * subject, or one label shared by several fields with nothing visible to tell them apart. Any other fail, such as "this
+ * heading names a different topic" or "this short heading says nothing", is the model's suggestion for a person to
+ * review: on real pages those readings were all wrong (docs/studies/notes-244-246.md).
+ *
  * The normative text in the prompt is quoted from WCAG 2.1
  * (https://www.w3.org/TR/WCAG21/), Copyright © W3C, under the W3C Document License.
  */
@@ -77,6 +83,8 @@ export interface HeadingsAndLabelsContext {
   series?: string[] | undefined
   /** The part of the text that shows on screen, when its box cuts it off. */
   shown?: string | undefined
+  /** Label: other fields share it, and no visible heading or group tells them apart. */
+  sharedUnsorted?: boolean | undefined
   language: string
 }
 
@@ -105,7 +113,7 @@ Reply only with JSON that matches the schema.`
 export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndLabelsJudgment> = {
   id: '2.4.6',
   level: 'AA',
-  version: '3',
+  version: '4',
   act: ['b49b2e', 'cc0f0a'],
   surfaces: ['web', 'android', 'ios', 'windows', 'macos'],
   needs: {},
@@ -113,8 +121,9 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
   // Headings and field labels as the browser names them: a heading that is only an image is named by its alt.
   names: 'browser',
   schema: HeadingsAndLabelsJudgment,
-  // Only placeholder or numbered headings and labels keep the model's confidence; see generic-text.ts.
-  confidenceCap: (candidate) => (genericHeadingOrLabel(candidate.context.text, candidate.context.kind) ? undefined : 'low'),
+  // A finding needs a fact Rampa checks; the rest of the model's fails are its suggestions (see generic-text.ts).
+  grounded: (output, candidate) => (output.problem === 'generic' || output.problem === 'placeholder_text') && saysNothing(candidate.context),
+  judgeFirst: (candidate) => saysNothing(candidate.context),
   subject: (candidate) => candidate.context.text,
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<HeadingsAndLabelsContext>[] {
@@ -208,7 +217,15 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
           .join('\n')
         candidates.push({
           ref: node.ref,
-          context: { kind: 'label', text, target, content: field, shown: label ? shownPart(text, label) : undefined, language },
+          context: {
+            kind: 'label',
+            text,
+            target,
+            content: field,
+            shown: label ? shownPart(text, label) : undefined,
+            ...(places.length > 1 && !placesApart(places) ? { sharedUnsorted: true } : {}),
+            language,
+          },
         })
       }
     })
@@ -390,6 +407,19 @@ export function namesSeriesSubject(parent: string, heading: string): boolean {
   return stem !== seriesStem(heading) && !/^(\p{L}+\s*)?#(\s*\p{L}+)?$/u.test(stem)
 }
 
+/**
+ * Whether Rampa itself can tell that a heading or label names nothing: a placeholder, a numbering or a bare structural
+ * word on the generic lists; a heading that is a number with at most one word ("Part 3"), in a numbered series, under
+ * no parent heading that names their subject; or a label several fields share with nothing visible to tell them apart.
+ */
+export function saysNothing(c: Pick<HeadingsAndLabelsContext, 'kind' | 'text' | 'series' | 'outline' | 'sharedUnsorted'>): boolean {
+  if (genericHeadingOrLabel(c.text, c.kind)) return true
+  if (c.kind === 'label') return c.sharedUnsorted === true
+  const stem = seriesStem(c.text)
+  const parent = c.outline?.at(-1)
+  return c.series !== undefined && stem !== undefined && /^(\p{L}+\s*)?#$/u.test(stem) && !(parent && namesSeriesSubject(parent, c.text))
+}
+
 /** Where a heading sits, for the prompt: its parent heading and the sections above that, its siblings, and its numbered series. */
 function headingPlace(c: HeadingsAndLabelsContext): string[] {
   const outline = c.outline ?? []
@@ -400,9 +430,14 @@ function headingPlace(c: HeadingsAndLabelsContext): string[] {
   ]
 }
 
+/** Whether the fields that share a label each sit under a visible heading or group of their own. */
+function placesApart(places: string[]): boolean {
+  return places.every((place) => place !== '') && new Set(places).size === places.length
+}
+
 /** States, as a fact, whether the fields that share a label are told apart by where they sit. */
 function sharedLabel(places: string[]): string {
-  const apart = places.every((place) => place !== '') && new Set(places).size === places.length
+  const apart = placesApart(places)
   return apart
     ? `${places.length} fields share this label; their visible headings or groups tell them apart: ${places.join(' | ')}`
     : `${places.length} fields share this label, and no visible heading or group tells them apart`

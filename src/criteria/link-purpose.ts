@@ -16,7 +16,7 @@ import {
   subtreeText,
   verifyQuote,
 } from './shared.ts'
-import { genericLinkText } from './generic-text.ts'
+import { addressText, genericLinkText } from './generic-text.ts'
 import { type LinkOutcome, activationText, scriptedDestination, scriptedOutcomes } from '../probes/links.ts'
 
 /**
@@ -31,6 +31,11 @@ import { type LinkOutcome, activationText, scriptedDestination, scriptedOutcomes
  * the other links on the page that share its text.
  * ACT reference rules: c487ae (non-empty name), 5effbb (link in context is descriptive) and
  * fd3a94 (links with the same name and context serve an equivalent purpose).
+ *
+ * A fail is a finding only when a fact Rampa checks itself supports it (`grounded`): a generic text such as "Read more",
+ * a raw address, or links that share the text and lead elsewhere from the same context. Any other fail, such as "the
+ * text names something else than where it leads" or "this specific text says nothing", is the model's suggestion for a
+ * person to review: on real pages those readings were almost all wrong (docs/studies/notes-244-246.md).
  *
  * The normative text in the prompt is quoted from WCAG 2.1
  * (https://www.w3.org/TR/WCAG21/), Copyright © W3C, under the W3C Document License.
@@ -121,6 +126,8 @@ interface LinkInfo {
   description: string | undefined
   context: string | undefined
   heading: string | undefined
+  /** The headings of the sections it sits in, outermost first: "Examples > Linking to an absolute URL > Result". */
+  sections: string
   headers: string | undefined
   /** Where it leads, written the same way for every link; undefined when the markup does not say. */
   place: string | undefined
@@ -129,7 +136,7 @@ interface LinkInfo {
 export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
   id: '2.4.4',
   level: 'A',
-  version: '2',
+  version: '3',
   act: ['c487ae', '5effbb', 'fd3a94'],
   surfaces: ['web', 'android', 'ios', 'windows', 'macos'],
   // Reads snapshot.destinations, which the collection stage fills when links are followed.
@@ -139,8 +146,9 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
   // duplicate) is left out, CSS content is in. Its eval sets read the same prompts either way (docs/rules.md).
   names: 'browser',
   schema: LinkPurposeJudgment,
-  // Only links whose text is generic keep the model's confidence; see generic-text.ts.
-  confidenceCap: (candidate) => (genericLinkText(candidate.context.name) ? undefined : 'low'),
+  // A finding needs a fact Rampa checks; the rest of the model's fails are its suggestions (see generic-text.ts).
+  grounded: (output, candidate) => groundedLink(output.problem, candidate.context),
+  judgeFirst: (candidate) => groundable(candidate.context),
   subject: (candidate) => candidate.context.name,
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<LinkPurposeContext>[] {
@@ -166,8 +174,15 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
     // Every link a person can reach, so links that share a text can be compared.
     const links: LinkInfo[] = []
     let heading: string | undefined
+    // The open sections by level: a heading closes those of its level and below.
+    const open: string[] = []
     for (const node of walkTree(snapshot.root)) {
-      if (node.role === 'heading' && node.name && !isHidden(node)) heading = node.name
+      if (node.role === 'heading' && node.name && !isHidden(node)) {
+        heading = node.name
+        const level = headingLevel(node)
+        open.length = level - 1
+        open[level - 1] = node.name
+      }
       if (node.role !== 'link' || isHidden(node)) continue
       const name = node.name?.trim() ?? ''
       if (name === '') continue
@@ -179,6 +194,7 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
         description: textOfIds(attributes['aria-describedby']),
         context: linkContext(index, node, name),
         heading,
+        sections: open.filter(Boolean).join(' > '),
         headers: cellHeaders(index, node),
         place: placeOf(scriptedAddress(scripted.get(node.ref)) ?? attributes.href, base, linkDestination(snapshot, attributes.href, scripted.get(node.ref))),
       })
@@ -331,6 +347,24 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
   },
 }
 
+/**
+ * Whether a fail rests on a fact Rampa checked: a generic text (F84's "click here"), a raw address or file name, or
+ * other links with the same text that lead elsewhere from the same context (ACT fd3a94; `verify` already asks for that
+ * fact). A mismatch with the destination never does: a title read at an address is no proof of what the text promises,
+ * and on real pages every such claim was wrong.
+ */
+export function groundedLink(problem: (typeof LINK_PROBLEMS)[number], c: Pick<LinkPurposeContext, 'name' | 'sameText'>): boolean {
+  if (problem === 'generic') return genericLinkText(c.name)
+  if (problem === 'url_or_filename') return addressText(c.name)
+  if (problem === 'ambiguous') return Boolean(c.sameText && c.sameText.places > 1 && !c.sameText.apart)
+  return false
+}
+
+/** A link a fail could be a finding about: its text is generic or an address, or it shares its text with links that lead elsewhere. */
+function groundable(c: Pick<LinkPurposeContext, 'name' | 'sameText'>): boolean {
+  return genericLinkText(c.name) || addressText(c.name) || groundedLink('ambiguous', c)
+}
+
 /** What a page or a file at the link's address is, in one line for the prompt. */
 export function describeDestination(destination: Destination): string | undefined {
   const redirect = destination.finalUrl ? ` (the address redirects to ${truncate(destination.finalUrl, 150)})` : ''
@@ -468,7 +502,8 @@ function sameTextLine(same: SameText): string {
 
 /**
  * Compares a link with the others that share its text. Links that lead elsewhere must differ in their
- * context: paragraph, list item or cell, header cells, heading or description.
+ * context: paragraph, list item or cell, header cells, description, or the sections they sit in. Two "Play" links
+ * under "Result" headings tell apart when one "Result" is in the section of one example and the other in another's.
  */
 function sameTextOf(link: LinkInfo, group: readonly LinkInfo[]): SameText | undefined {
   if (group.length < 2 || link.place === undefined) return undefined
@@ -482,7 +517,7 @@ function sameTextOf(link: LinkInfo, group: readonly LinkInfo[]): SameText | unde
 }
 
 function contextKey(link: LinkInfo): string {
-  return normalizeForMatch([link.context, link.heading, link.headers, link.description].map((part) => part ?? '').join(' | '))
+  return normalizeForMatch([link.context, link.sections || link.heading, link.headers, link.description].map((part) => part ?? '').join(' | '))
 }
 
 /** The page's own address, to resolve its links against; a recorded local page keeps only a relative path. */
@@ -635,6 +670,14 @@ function landmarkOf(index: TreeIndex, node: A11yNode): string | undefined {
     parentRef = parent.parentRef
   }
   return undefined
+}
+
+/** A heading's level: aria-level, else its tag's number, else 2. */
+function headingLevel(node: A11yNode): number {
+  const fromAria = Number.parseInt(attributesOf(node)['aria-level'] ?? '', 10)
+  const fromTag = /^h([1-6])$/.exec(typeof node.native.tag === 'string' ? node.native.tag : '')?.[1]
+  const level = Number.isFinite(fromAria) && fromAria > 0 ? fromAria : fromTag ? Number(fromTag) : 2
+  return Math.min(Math.max(level, 1), 12)
 }
 
 function withoutImages(node: A11yNode): A11yNode {

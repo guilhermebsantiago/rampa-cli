@@ -142,6 +142,15 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
   settle?(output: Out, candidate: Candidate<Ctx>): Out
   /** The highest confidence a finding about this candidate can have, whatever the model says: a short quote stays low. */
   confidenceCap?(candidate: Candidate<Ctx>): Confidence | undefined
+  /**
+   * Whether a verified fail rests on a fact Rampa checks without the model: a text on the generic lists, links that
+   * share a text and lead elsewhere from the same context, a numbered heading under no subject. A fail that rests on
+   * the model's reading alone is not a finding: it goes to the report's needsReview as the model's suggestion, for a
+   * person to decide, and never fails a build. Absent: every verified fail is a finding.
+   */
+  grounded?(output: Out, candidate: Candidate<Ctx>, snapshot: A11ySnapshot): boolean
+  /** The candidates the model judges first when a page has more than the cap allows; those without a confidenceCap when absent. */
+  judgeFirst?(candidate: Candidate<Ctx>): boolean
   prompt(candidate: Candidate<Ctx>, snapshot: A11ySnapshot): Prompt
   /**
    * What the model's answer depends on, where that is less than the whole prompt: judgments are cached by it, and
@@ -295,9 +304,11 @@ export interface ReviewItem {
   html?: string | undefined
   /** Why the engine could not decide, in its own words. */
   message: string
-  /** What a Rampa rule read on the element, when the review is one of its hits. */
+  /** What a Rampa rule read on the element, when the review is one of its hits; for a model's suggestion, the text it suggests. */
   evidence?: string | undefined
   helpUrl?: string | undefined
+  /** Set when the item is a model's suggestion (a judgment no checked fact supports, `Criterion.grounded`): the model. */
+  model?: string | undefined
 }
 
 /** A criterion's result in one run. Never "passed": a clean result is "no failure found" in what was checked. */
@@ -319,8 +330,10 @@ export interface CoverageMethod {
   /** Elements the method applied to (candidates, for judgment); passing elements are capped at 200 per rule. */
   applicable: number
   failures: number
-  /** Elements left to a person: undecided by the engine, or where the model abstained. */
+  /** Elements left to a person: undecided by the engine, where the model abstained, or the model's suggestions. */
   review: number
+  /** For judgment: of `review`, the model's suggestions, fails that no fact Rampa checks supports. Absent when none. */
+  suggestions?: number | undefined
   /**
    * For judgment: candidates it applied to but never judged, past the per-criterion cap (`--max-candidates`) or after
    * the time limit (`--time-limit`). They are left to a person too. Absent when none.
@@ -377,6 +390,11 @@ export interface CriterionSummary {
   decided?: number | undefined
   /** Of those, the ones it failed. */
   decidedFailed?: number | undefined
+  /**
+   * Verified fails that no fact Rampa checks supports (`Criterion.grounded`): reported as the model's suggestions in
+   * needsReview, not as findings, and not counted in `failed`. Absent when none.
+   */
+  suggested?: number | undefined
   /**
    * Candidates the model never judged because the criterion reached its cap on this page (`--max-candidates`):
    * the ones further down the page, after those with a generic text. Absent when none.
