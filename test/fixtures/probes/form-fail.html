@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Join the club: errors on leaving a field</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; max-width: 640px; }
+  label { display: block; margin-top: 12px; }
+  input { font: inherit; padding: 4px; }
+  .is-invalid, input[aria-invalid=true] { border: 2px solid #c00; }
+  .error, .msg { color: #c00; }
+  .has-error input { border-color: #c00; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Join the club</h1>
+  <form id="join" action="/join" method="post">
+    <label for="email">E-mail</label>
+    <input id="email" name="email" type="email" required aria-describedby="email-error">
+    <span id="email-error" class="error"></span>
+
+    <label for="age">Age</label>
+    <input id="age" name="age" type="number" min="18" aria-describedby="age-error">
+    <span id="age-error" class="error"></span>
+
+    <div class="row">
+      <label for="username">Username</label>
+      <input id="username" name="username" minlength="4">
+      <div class="msg"></div>
+    </div>
+
+    <div class="field" id="cep-field">
+      <label for="cep">CEP</label>
+      <input id="cep" name="cep" pattern="\d{5}-?\d{3}">
+      <p class="error" role="alert"></p>
+    </div>
+
+    <label for="phone">Phone *</label>
+    <input id="phone" name="phone" type="tel">
+
+    <button type="submit">Join</button>
+  </form>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id)
+  // E-mail: marked invalid, and nothing says what is wrong.
+  $('email').addEventListener('blur', () => {
+    $('email').setAttribute('aria-invalid', String(!$('email').checkValidity()))
+  })
+  // Age: a message that names no rule.
+  $('age').addEventListener('blur', () => {
+    const bad = !$('age').checkValidity()
+    $('age').setAttribute('aria-invalid', String(bad))
+    $('age-error').textContent = bad ? 'Invalid age.' : ''
+  })
+  // Username: a message next to the field, tied to nothing; the page also asks the server, which the guard blocks.
+  $('username').addEventListener('blur', () => {
+    document.querySelector('.row .msg').textContent = $('username').checkValidity() ? '' : 'Invalid username.'
+    fetch('/check-username', { method: 'POST', body: $('username').value }).catch(() => undefined)
+  })
+  // CEP: an error class on the wrapper and an alert that shows no example of the format.
+  $('cep').addEventListener('blur', () => {
+    const bad = !$('cep').checkValidity()
+    $('cep-field').classList.toggle('has-error', bad)
+    document.querySelector('#cep-field .error').textContent = bad ? 'This CEP is invalid.' : ''
+  })
+  // Phone: required by its label's mark; an error class and no text.
+  $('phone').addEventListener('blur', () => {
+    $('phone').classList.toggle('is-invalid', $('phone').value.trim() === '')
+  })
+</script>
+</body>
+</html>

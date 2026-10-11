@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Order: asked twice</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; max-width: 640px; }
+  label { display: block; margin-top: 8px; }
+  fieldset { margin-top: 16px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Your order</h1>
+  <form id="order" action="/order" method="post">
+    <fieldset>
+      <legend>Billing address</legend>
+      <label for="b-street">Street</label>
+      <input id="b-street" name="b-street" autocomplete="billing street-address">
+      <label for="b-city">City</label>
+      <input id="b-city" name="b-city" autocomplete="billing address-level2">
+    </fieldset>
+    <fieldset>
+      <legend>Shipping address</legend>
+      <label for="s-street">Street</label>
+      <input id="s-street" name="s-street" autocomplete="shipping street-address">
+      <!-- No tokens: the same label in a group named for shipping. -->
+      <label for="s-city">City</label>
+      <input id="s-city" name="s-city">
+    </fieldset>
+    <fieldset>
+      <legend>Contact</legend>
+      <label for="email">E-mail</label>
+      <input id="email" name="email" type="email" autocomplete="email">
+      <label for="email2">Confirm e-mail</label>
+      <input id="email2" name="email2" type="email" autocomplete="email">
+    </fieldset>
+    <fieldset>
+      <legend>Passenger 1</legend>
+      <label for="p1">Full name</label>
+      <input id="p1" name="p1" autocomplete="section-p1 name">
+    </fieldset>
+    <fieldset>
+      <legend>Passenger 2</legend>
+      <label for="p2">Full name</label>
+      <input id="p2" name="p2" autocomplete="section-p2 name">
+    </fieldset>
+    <fieldset>
+      <legend>Your details</legend>
+      <label for="name">Name</label>
+      <input id="name" name="name" autocomplete="name">
+      <button type="button" id="next">Next</button>
+    </fieldset>
+    <!-- A later step, not shown yet. -->
+    <fieldset id="step2" hidden>
+      <legend>Gift card</legend>
+      <label for="from">Your name</label>
+      <input id="from" name="from" autocomplete="name">
+    </fieldset>
+    <button type="submit">Place order</button>
+  </form>
+</main>
+<script>
+  document.getElementById('next').addEventListener('click', () => {
+    document.getElementById('step2').hidden = false
+  })
+</script>
+</body>
+</html>

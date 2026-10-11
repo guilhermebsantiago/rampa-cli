@@ -116,7 +116,7 @@ export interface ControlFacts {
   disabled: boolean
   /** A submit button, image input, or a button with no type inside a form. */
   submit: boolean
-  /** Inside a form that holds a password, file or payment (`autocomplete="cc-…"`) field. */
+  /** Inside a form that holds a password, file or payment field (`autocomplete="cc-…"`, or a name or id with cc-, card, cvv or cvc). */
   sensitiveForm: boolean
   /** A `download` attribute, or an address that ends in a file extension. */
   download: boolean
@@ -394,7 +394,9 @@ export function installActivateKit(): void {
       .filter(Boolean)
     const submit =
       (el.localName === 'input' && ['submit', 'image'].includes(type)) || (el.localName === 'button' && (type === 'submit' || (type === '' && form !== null)))
-    const sensitiveForm = form !== null && form.querySelector('input[type=password],input[type=file],[autocomplete^="cc-"]') !== null
+    // Payment fields by their autocomplete token, or by a name or id that says so (cc-number, cardNumber, cvv) when the token is missing.
+    const PAYMENT = 'input[type=password],input[type=file],[autocomplete^="cc-"],input[name^="cc-" i],input[id^="cc-" i],input[name^="cc_" i],input[id^="cc_" i],input[name*="card" i],input[id*="card" i],input[name*="cvv" i],input[id*="cvv" i],input[name*="cvc" i],input[id*="cvc" i]'
+    const sensitiveForm = form !== null && form.querySelector(PAYMENT) !== null
     const target = el.getAttribute('target') ?? undefined
     const method = el.getAttribute('data-method') ?? undefined
     return {
@@ -660,6 +662,11 @@ export interface HarnessConfig {
    * (the motion probe moves the page's time itself), and init scripts of the probe's own.
    */
   page?: Pick<ProbePageOptions, 'clock' | 'viewport' | 'desktop' | 'beforeLoad'> | undefined
+  /**
+   * In-page kits a probe adds to every page the harness opens, installed after the activate kit and before the wait
+   * with no input, so they see that wait too (the pointer probe learns the page's own changes in it).
+   */
+  kits?: ReadonlyArray<() => void> | undefined
 }
 
 /** How long a window lasts at least after the input, and how long it may wait for a late navigation. */
@@ -729,6 +736,7 @@ export class Harness {
     this.loads++
     this.origin = await probe.page.evaluate(() => location.origin).catch(() => '')
     await probe.page.evaluate(installActivateKit)
+    for (const kit of this.config.kits ?? []) await probe.page.evaluate(kit)
     await probe.page.evaluate(armActivate)
     this.log('load', { detail: this.loads === 1 ? probe.page.url() : `fresh page ${this.loads}` })
     // What the page changes on its own in a short wait becomes noise for the windows that follow.
@@ -759,7 +767,7 @@ export class Harness {
    * (at least 0.5 s, at most about 4 s), a little longer when nothing at all happened yet, in case a script navigates
    * late (an analytics callback before it leaves). With `noise`, what changed is learned as noise.
    */
-  async window(probe: ProbePage, act: () => Promise<unknown>, options: { noise?: boolean; ms?: number; ref?: string; label?: string } = {}): Promise<Watch> {
+  async window(probe: ProbePage, act: () => Promise<unknown>, options: { noise?: boolean; ms?: number; ref?: string; label?: string; blurred?: boolean } = {}): Promise<Watch> {
     const page = probe.page
     const from = Date.now()
     await page.evaluate(() => (window as unknown as ActivateWindow).__rampaActivate?.begin())
@@ -812,7 +820,8 @@ export class Harness {
       for (const action of watch.submits) this.log('submit', { ref: options.ref, label: options.label, detail: `cancelled: ${action}` })
       for (const dialog of watch.dialogs) this.log('dialog', { ref: options.ref, label: options.label, detail: `dismissed: ${dialog}` })
       if (watch.opened) this.log('not-exercised', { ref: watch.opened.ref, label: watch.opened.name, detail: `opened by ${options.label ? `"${options.label}"` : 'the input'}; its controls are not exercised` })
-      if (changedPage(watch)) this.dirty = true
+      // With `blurred`, the probe took focus away itself (it left a field): focus back on the document is its own doing.
+      if (changedPage(options.blurred ? { ...watch, focusLost: false } : watch)) this.dirty = true
     }
     return watch
   }

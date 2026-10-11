@@ -1,4 +1,4 @@
-import { type ErrorField, errorFields } from '../criteria/error-messages.ts'
+import { type ErrorField, type ErrorStateSource, type FieldMessage, errorFields } from '../criteria/error-messages.ts'
 import { exampleOf } from '../criteria/labels-or-instructions.ts'
 import type { Locale } from '../i18n.ts'
 import type { Hit, RuleCheck } from './types.ts'
@@ -7,21 +7,79 @@ import type { Hit, RuleCheck } from './types.ts'
  * Error states the page already shows (B8; src/criteria/error-messages.ts finds them). Nothing is submitted: the
  * rules read pages a server rendered with errors, and pages a test drove into an error state (fill a field,
  * leave it, then `checkPage`). Both are narrow: on a page with no field in an error state, they say nothing about
- * 3.3.1 and 3.3.3, which stay "not checked".
+ * 3.3.1 and 3.3.3, which stay "not checked". The form probe (C6, rules/form.ts) runs the same decisions on the page
+ * after it typed an invalid value into a field and left it: `withoutTextHit` and `suggestionHit` read plain facts.
  */
 
 const say = (locale: Locale, en: string, pt: string) => (locale === 'pt-BR' ? pt : en)
 const quote = (text: string) => `"${text.length > 100 ? `${text.slice(0, 99)}…` : text}"`
 
-function stateText(field: ErrorField): string {
+/** What the error state rules read about a field: from the snapshot, or from a probe's record of the page after an input. */
+export interface ErrorFieldFacts {
+  ref: string
+  label: string
+  type: string
+  state: ErrorStateSource[]
+  /** The value of aria-invalid, when the field has one. */
+  invalid?: string | undefined
+  validity: string[]
+  messages: FieldMessage[]
+  hints: string[]
+  constraints: Record<string, string>
+}
+
+/** The facts of a field the snapshot holds. */
+export function errorFieldFacts(field: ErrorField): ErrorFieldFacts {
+  const invalid = (field.node.native.attributes as Record<string, string> | undefined)?.['aria-invalid']
+  return {
+    ref: field.node.ref,
+    label: field.label,
+    type: field.type,
+    state: field.state,
+    ...(invalid !== undefined ? { invalid } : {}),
+    validity: field.validity,
+    messages: field.messages,
+    hints: field.hints,
+    constraints: field.constraints,
+  }
+}
+
+function stateText(field: ErrorFieldFacts): string {
   const parts = field.state.map((source) =>
     source === 'aria-invalid'
-      ? `aria-invalid="${(field.node.native.attributes as Record<string, string> | undefined)?.['aria-invalid'] ?? 'true'}"`
+      ? `aria-invalid="${field.invalid ?? 'true'}"`
       : source === 'user-invalid'
         ? `:user-invalid${field.validity.length > 0 ? ` (${field.validity.join(', ')})` : ''}`
         : 'an error class on the field or its group',
   )
   return parts.join(', ')
+}
+
+/**
+ * 3.3.1's decision for one field: in an error state the page marked (aria-invalid, or a class), with no message a
+ * person sees and assistive technology reads. Undefined when the field passes, or when only the browser's own
+ * validation (:user-invalid) marks it.
+ */
+export function withoutTextHit(field: ErrorFieldFacts): Hit | undefined {
+  const usable = field.messages.filter((message) => message.shown && message.inTree)
+  if (usable.length > 0) return undefined
+  // The browser's own validation (:user-invalid) shows nothing unless the page styles it, and the browser names the
+  // error itself when the form is sent: only the page's own marks (aria-invalid, a class) claim an error is shown.
+  if (!field.state.includes('aria-invalid') && !field.state.includes('class')) return undefined
+  const hidden = field.messages.filter((message) => !message.shown)
+  const silent = field.messages.filter((message) => message.shown && !message.inTree)
+  const why = silent.length > 0 ? 'silent' : hidden.length > 0 ? 'hidden' : 'none'
+  // Only a class says the field is in error: a person decides whether it is one.
+  const sure = field.state.includes('aria-invalid')
+  const message = (silent[0] ?? hidden[0])?.text
+  return {
+    ref: field.ref,
+    outcome: sure ? 'fail' : 'review',
+    subject: `${why}|${field.label}`,
+    evidence: [stateText(field), message ? quote(message) : '', field.label ? `label ${quote(field.label)}` : ''].filter(Boolean).join('; '),
+    facts: { label: field.label, why, state: stateText(field), message: message ?? '', sure },
+    confidence: 'medium',
+  }
 }
 
 /** 3.3.1: a field in an error state with no error text a person can see and assistive technology can read. */
@@ -43,25 +101,8 @@ export const errorWithoutTextRule: RuleCheck = {
     const fields = errorFields(snapshot)
     const hits: Hit[] = []
     for (const field of fields) {
-      const usable = field.messages.filter((message) => message.shown && message.inTree)
-      if (usable.length > 0) continue
-      // The browser's own validation (:user-invalid) shows nothing unless the page styles it, and the browser names the
-      // error itself when the form is sent: only the page's own marks (aria-invalid, a class) claim an error is shown.
-      if (!field.state.includes('aria-invalid') && !field.state.includes('class')) continue
-      const hidden = field.messages.filter((message) => !message.shown)
-      const silent = field.messages.filter((message) => message.shown && !message.inTree)
-      const why = silent.length > 0 ? 'silent' : hidden.length > 0 ? 'hidden' : 'none'
-      // Only a class says the field is in error: a person decides whether it is one.
-      const sure = field.state.includes('aria-invalid')
-      const message = (silent[0] ?? hidden[0])?.text
-      hits.push({
-        ref: field.node.ref,
-        outcome: sure ? 'fail' : 'review',
-        subject: `${why}|${field.label}`,
-        evidence: [stateText(field), message ? quote(message) : '', field.label ? `label ${quote(field.label)}` : ''].filter(Boolean).join('; '),
-        facts: { label: field.label, why, state: stateText(field), message: message ?? '', sure },
-        confidence: 'medium',
-      })
+      const hit = withoutTextHit(errorFieldFacts(field))
+      if (hit) hits.push(hit)
     }
     return { hits, applicable: fields.length }
   },
@@ -102,7 +143,7 @@ interface Constraint {
   flag: string
   /** What the markup asks, for the message: minlength="8". */
   rule: string
-  stated(text: string, field: ErrorField): boolean
+  stated(text: string): boolean
   /** Not stated: a failure when the check is plain (a number, a type); review when it needs reading (a pattern, a date). */
   outcome: 'fail' | 'review'
 }
@@ -116,7 +157,7 @@ const TYPE_WORDS: Record<string, RegExp> = {
   date: /\d|\bdate\b|\bdata\b|\bfecha\b|dd|aaaa|yyyy/i,
 }
 
-function constraintsOf(field: ErrorField): Constraint[] {
+function constraintsOf(field: Pick<ErrorFieldFacts, 'validity' | 'constraints' | 'type'>): Constraint[] {
   const c = field.constraints
   const out: Constraint[] = []
   for (const flag of field.validity) {
@@ -136,6 +177,33 @@ function constraintsOf(field: ErrorField): Constraint[] {
     }
   }
   return out
+}
+
+/**
+ * 3.3.3's decision for one field: `applicable` when it shows an error message and the browser finds it invalid against
+ * a constraint its markup states; a hit when neither the message, the label nor a hint tied to it states that constraint.
+ */
+export function suggestionHit(field: ErrorFieldFacts, locale: Locale): { applicable: boolean; hit?: Hit | undefined } {
+  const messages = field.messages.filter((message) => message.shown)
+  // With no message, 3.3.1 reports the field; a suggestion needs a message to live in.
+  if (messages.length === 0) return { applicable: false }
+  const constraints = constraintsOf(field)
+  if (constraints.length === 0) return { applicable: false }
+  const texts = [...messages.map((message) => message.text), field.label, ...field.hints].filter(Boolean).join(' · ')
+  const missing = constraints.filter((constraint) => !constraint.stated(texts))
+  if (missing.length === 0) return { applicable: true }
+  const outcome = missing.some((constraint) => constraint.outcome === 'fail') ? 'fail' : 'review'
+  return {
+    applicable: true,
+    hit: {
+      ref: field.ref,
+      outcome,
+      subject: missing.map((constraint) => constraint.flag).join(','),
+      evidence: `${missing.map((constraint) => `${constraint.flag}: ${constraint.rule}`).join('; ')}; ${say(locale, 'message', 'mensagem')} ${quote(messages[0]?.text ?? '')}${field.label ? `; ${say(locale, 'label', 'rótulo')} ${quote(field.label)}` : ''}${field.hints.length > 0 ? `; ${say(locale, 'hint', 'dica')} ${quote(field.hints[0] ?? '')}` : ''}`,
+      facts: { label: field.label, rules: missing.map((constraint) => constraint.rule).join(', '), message: messages[0]?.text ?? '', outcome },
+      confidence: 'medium',
+    },
+  }
 }
 
 /**
@@ -161,24 +229,9 @@ export const errorSuggestionRule: RuleCheck = {
     const hits: Hit[] = []
     let applicable = 0
     for (const field of errorFields(snapshot)) {
-      const messages = field.messages.filter((message) => message.shown)
-      // With no message, 3.3.1 reports the field; a suggestion needs a message to live in.
-      if (messages.length === 0) continue
-      const constraints = constraintsOf(field)
-      if (constraints.length === 0) continue
-      applicable++
-      const texts = [...messages.map((message) => message.text), field.label, ...field.hints].filter(Boolean).join(' · ')
-      const missing = constraints.filter((constraint) => !constraint.stated(texts, field))
-      if (missing.length === 0) continue
-      const outcome = missing.some((constraint) => constraint.outcome === 'fail') ? 'fail' : 'review'
-      hits.push({
-        ref: field.node.ref,
-        outcome,
-        subject: missing.map((constraint) => constraint.flag).join(','),
-        evidence: `${missing.map((constraint) => `${constraint.flag}: ${constraint.rule}`).join('; ')}; ${say(ctx.locale, 'message', 'mensagem')} ${quote(messages[0]?.text ?? '')}${field.label ? `; ${say(ctx.locale, 'label', 'rótulo')} ${quote(field.label)}` : ''}${field.hints.length > 0 ? `; ${say(ctx.locale, 'hint', 'dica')} ${quote(field.hints[0] ?? '')}` : ''}`,
-        facts: { label: field.label, rules: missing.map((constraint) => constraint.rule).join(', '), message: messages[0]?.text ?? '', outcome },
-        confidence: 'medium',
-      })
+      const decided = suggestionHit(errorFieldFacts(field), ctx.locale)
+      if (decided.applicable) applicable++
+      if (decided.hit) hits.push(decided.hit)
     }
     return { hits, applicable }
   },

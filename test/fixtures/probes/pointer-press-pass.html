@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reader: controls that act on the release</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; max-width: 720px; min-height: 900px; }
+  button, a, [role=button] { display: inline-block; margin: 8px 8px 8px 0; padding: 6px 10px; position: relative; overflow: hidden; }
+  .ripple { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.1); }
+  #code { font-family: monospace; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Chapter 3</h1>
+  <p id="clock">Updated 0 s ago</p>
+  <p>
+    <a id="go" href="/pointer/next.html">Next chapter</a>
+    <button id="help" type="button" onclick="window.open('/pointer/help.html')">Help</button>
+    <button id="star" type="button" aria-pressed="false">Star this chapter</button>
+    <button id="add-row" type="button">Add a row</button>
+  </p>
+  <p>
+    <!-- Shows the code while pressed, and hides it when released anywhere (up reversal). -->
+    <span id="peek" role="button" tabindex="0">Hold to see the code</span>
+    <span id="code" hidden>4417</span>
+    <!-- A ripple on the press: feedback inside the control, gone on release. -->
+    <button id="preview" type="button">Preview</button>
+  </p>
+  <div id="panel" hidden>Preview of the chapter</div>
+  <table><tbody id="rows"><tr><td>First row</td></tr></tbody></table>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id)
+  let seconds = 0
+  setInterval(() => { $('clock').textContent = `Updated ${++seconds} s ago` }, 200)
+  $('star').addEventListener('click', () => {
+    $('star').setAttribute('aria-pressed', String($('star').getAttribute('aria-pressed') !== 'true'))
+  })
+  $('add-row').addEventListener('click', () => {
+    const row = document.createElement('tr')
+    row.innerHTML = '<td>New row</td>'
+    $('rows').append(row)
+  })
+  $('peek').addEventListener('pointerdown', () => { $('code').hidden = false })
+  document.addEventListener('pointerup', () => { $('code').hidden = true })
+  $('preview').addEventListener('mousedown', () => {
+    const ripple = document.createElement('span')
+    ripple.className = 'ripple'
+    $('preview').append(ripple)
+  })
+  document.addEventListener('mouseup', () => {
+    for (const ripple of document.querySelectorAll('.ripple')) ripple.remove()
+  })
+  $('preview').addEventListener('click', () => { $('panel').hidden = false })
+</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reader: controls that act on the press</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; max-width: 720px; min-height: 900px; }
+  button, a, [role=button] { display: inline-block; margin: 8px 8px 8px 0; padding: 6px 10px; }
+  #menu { border: 1px solid #333; padding: 4px 12px; }
+  table { border-collapse: collapse; margin-top: 8px; }
+  td { border: 1px solid #999; padding: 2px 8px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Chapter 3</h1>
+  <p id="clock">Updated 0 s ago</p>
+  <p>
+    <!-- Goes to the next chapter as soon as the button goes down (F101). -->
+    <a id="go" href="/pointer/next.html" onmousedown="location.href = this.href">Next chapter</a>
+    <!-- Opens the help in a window on the press. -->
+    <button id="help" type="button" onmousedown="window.open('/pointer/help.html')">Help</button>
+    <!-- Toggles its pressed state on the press, and nothing undoes it. -->
+    <button id="star" type="button" aria-pressed="false">Star this chapter</button>
+  </p>
+  <p>
+    <!-- Adds a row on the press. -->
+    <button id="add-row" type="button">Add a row</button>
+    <!-- Opens its menu on the press, and the menu stays. -->
+    <button id="options" type="button" aria-haspopup="true" aria-expanded="false">Options</button>
+  </p>
+  <ul id="menu" hidden>
+    <li>Font size</li>
+    <li>Line spacing</li>
+  </ul>
+  <table><tbody id="rows"><tr><td>First row</td></tr></tbody></table>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id)
+  let seconds = 0
+  setInterval(() => { $('clock').textContent = `Updated ${++seconds} s ago` }, 200)
+  $('star').addEventListener('pointerdown', () => {
+    $('star').setAttribute('aria-pressed', String($('star').getAttribute('aria-pressed') !== 'true'))
+  })
+  $('add-row').addEventListener('mousedown', () => {
+    const row = document.createElement('tr')
+    row.innerHTML = '<td>New row</td>'
+    $('rows').append(row)
+  })
+  $('options').addEventListener('mousedown', () => {
+    $('options').setAttribute('aria-expanded', 'true')
+    $('menu').hidden = false
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Join the club: errors that say what to do</title>
+<style>
+  body { font: 16px/1.4 Arial, sans-serif; margin: 24px; max-width: 640px; }
+  label { display: block; margin-top: 12px; }
+  input { font: inherit; padding: 4px; }
+  input[aria-invalid=true], input:user-invalid { border: 2px solid #c00; }
+  .error { color: #c00; display: block; }
+  .css-only { display: none; }
+  #initials:user-invalid + .css-only { display: block; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Join the club</h1>
+  <form id="join" action="/join" method="post" novalidate>
+    <label for="name">Name</label>
+    <input id="name" name="name" required aria-errormessage="name-error">
+    <span id="name-error" class="error" hidden>Enter your name</span>
+
+    <label for="email">E-mail</label>
+    <input id="email" name="email" type="email" aria-describedby="email-error">
+    <span id="email-error" class="error"></span>
+
+    <label for="age">Age</label>
+    <input id="age" name="age" type="number" min="18" aria-describedby="age-error">
+    <span id="age-error" class="error"></span>
+
+    <div>
+      <label for="username">Username</label>
+      <input id="username" name="username" minlength="4">
+      <span class="error" role="alert"></span>
+    </div>
+
+    <label for="cep">CEP</label>
+    <input id="cep" name="cep" pattern="\d{5}-?\d{3}" aria-describedby="cep-error">
+    <span id="cep-error" class="error"></span>
+
+    <!-- A message the style sheet shows once the browser finds the field invalid: no script at all. -->
+    <label for="initials">Initials</label>
+    <input id="initials" name="initials" minlength="2" aria-describedby="initials-error">
+    <span id="initials-error" class="error css-only">Enter at least 2 letters</span>
+
+    <!-- Left to the browser: it names the error itself when the form is sent. -->
+    <label for="city">City</label>
+    <input id="city" name="city" minlength="2">
+
+    <label for="q">Search the club</label>
+    <input id="q" name="q" type="search">
+
+    <button type="submit">Join</button>
+  </form>
+</main>
+<script>
+  const $ = (id) => document.getElementById(id)
+  const check = (id, text, target) => {
+    $(id).addEventListener('blur', () => {
+      const bad = !$(id).checkValidity()
+      $(id).setAttribute('aria-invalid', String(bad))
+      const message = target ? target() : $(`${id}-error`)
+      message.textContent = bad ? text : ''
+    })
+  }
+  check('email', 'Enter an email address like name@example.com')
+  check('age', 'You must be 18 or older')
+  check('username', 'Use at least 4 characters', () => $('username').nextElementSibling)
+  check('cep', 'Enter the CEP in the format 12345-678')
+  $('name').addEventListener('blur', () => {
+    const bad = $('name').value.trim() === ''
+    $('name').setAttribute('aria-invalid', String(bad))
+    $('name-error').hidden = !bad
+  })
+</script>
+</body>
+</html>
