@@ -42,7 +42,7 @@ Why off: each probe loads the page again, and the keyboard walk takes screenshot
 
 ## What a probe may do
 
-Every probe but those of the activate class (shortcuts, links, input, toggles, status, form, pointer, parity and focus-order, below) is in the **observe** class:
+Every probe but those of the activate class and motion (shortcuts, links, input, toggles, status, form, pointer, parity and focus-order, below) is in the **observe** class:
 
 - it presses Tab, Shift+Tab and Esc, and the arrow keys only to try to leave a suspected keyboard trap;
 - it resizes the viewport, changes the device scale factor (200% zoom) and injects CSS;
