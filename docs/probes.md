@@ -11,7 +11,7 @@ target ─► collect (snapshot + axe) ─► probes (--probe) ─► rules and 
 Probes are **off by default**. Turn them on per run:
 
 ```sh
-rampa check https://example.com --probe all          # layout, keyboard, hover, orientation, shortcuts, media and color
+rampa check https://example.com --probe all          # layout, keyboard, hover, orientation, shortcuts, media, color and states
 rampa check page.html --probe layout                 # reflow (1.4.10), text spacing (1.4.12), 200% zoom (1.4.4)
 rampa check page.html --probe keyboard               # 2.1.1, 2.1.2, 3.2.1, 2.4.7, 2.4.11, and skip links (2.4.1)
 rampa check page.html --probe hover                  # content on hover or focus (1.4.13)
@@ -19,6 +19,7 @@ rampa check page.html --probe orientation            # portrait and landscape (1
 rampa check page.html --probe shortcuts              # single character key shortcuts (2.1.4)
 rampa check page.html --probe media                  # audio and video: captions, alternatives, sound on load (1.2.1–1.2.5, 1.4.2)
 rampa check page.html --probe color                  # use of color: current items, required fields, links in text, color words (1.4.1)
+rampa check page.html --probe states                 # contrast in hover, focus and selected states (1.4.3, 1.4.11); with keyboard, focus indicators too
 rampa check https://example.com/login --probe auth   # sign-in and recovery: trusted paste, keypads, F109, CAPTCHAs (3.3.8); never part of all
 rampa check page.html --probe all --save .rampa/rec  # keep the observations to replay offline
 ```
@@ -39,6 +40,7 @@ Every probe but one is in the **observe** class:
 - it presses Enter on a link whose address is the page itself plus a fragment that names an element of the page (a skip link, `#main`), at most three such links among the first eight Tab stops, each from a fresh start at the top (the skip-link probe, 2.4.1); never on a link to another page, a route of a single-page app (`#/about`), a button, or anything in a form;
 - it plays audio and video muted for a few seconds, makes their text tracks load, and reads their sound from a copy of their stream; it pauses them and puts their time, muted state and track modes back afterwards (the media probe). It never unmutes anything. For that probe the browser starts with `--autoplay-policy=no-user-gesture-required`, as a browser that lets pages play sound on load does; Playwright starts headless browsers with `--mute-audio`, so no sound reaches the speakers;
 - it changes the colors of one element for a single capture, the peer's colors put on it, and puts them back (the color probe);
+- it takes the marks of a selected or current item off for two captures (an `aria-current`, `aria-selected`, `aria-pressed` or `aria-checked` attribute set to false or removed, a state class such as `active` removed) and puts them back right after (the states probe);
 - it pastes a dummy value into the password and code fields of sign-in and recovery forms with the real Ctrl+V, types one key when the paste did not arrive, and puts the field's value back (the authentication probe, which runs only with `--probe auth`, never with `all`);
 - it never clicks, never presses Enter or Space on a control (Enter on an in-page link, above, is the one exception the plan's observe class allows), never types (but for the one key of the authentication probe, above), and never submits a form.
 
@@ -121,8 +123,11 @@ What `--probe all` adds, and what each criterion still needs from a person. Ever
 | 1.3.4 Orientation | `probe/orientation@1`, `rampa/orientation`: portrait and landscape at 1280×800 and at 390×844 (phone), each loaded and then turned | content turned a quarter between orientations: `html`, `body` or most of the text (ACT b33eff); content gone in one orientation behind a "turn your device" message | a smaller element with text or images turned a quarter; content gone with no message (two comparisons); a turn message while the content still shows | essential orientation; real devices and their rotation lock; native apps |
 | 1.4.1 Use of Color | `probe/color@1`: `rampa/color-only-state`, `rampa/color-only-required`, `rampa/link-color-only`, `rampa/color-words`; styles compared with peers, an achromatopsia capture with an 8 px halo, links hovered and focused | a current, selected or pressed item, or required fields, that only color sets apart, under 3:1 in lightness and gone in gray (G182, F81); a link in text that only color sets apart, under 3:1 against the text (F73); a sentence that names a color for required fields marked by that color alone | an item that could not be captured; links at 3:1 or more with no cue on hover or focus (once per page); a sentence that names a color for anything else, or a color nothing has | charts, maps, images and color-coded tables; whether a difference carries meaning; forced colors and themes |
 | 1.4.2 Audio Control | `probe/media@1`, `rampa/audio-control`: what plays on load, with sound, watched for at least 4.5 s; its level read from its stream | sound that plays on its own for more than 3 s (a media element, an `Audio` object or Web Audio) with no native controls and no named pause, stop, mute or volume control near it or for the sound on the page (ACT 80f0bf): high when the level was read, medium when not | the only control is a pause or stop button away from it; autoplay the browser did not start; sound that could not be measured; sound under 3 s that was still playing | whether a control works (it is never pressed); sound started by an interaction; players in frames of another origin |
+| 1.4.3 Contrast (Minimum), in states | `probe/states@1`, `rampa/state-text-contrast`: links and buttons with text hovered, then focused; text measured from pixels where its colors change | text under 4.5:1 (3:1 when large) at its best against what is behind it, in the hover or the focus state | text part above and part below; a reading that is not sure (thin strokes, a translucent element); a state whose colors changed but could not be measured | text over images in those states; states the probe does not reach (pressed, expanded, dark scheme); controls that look alike share one measurement |
 | 1.4.4 Resize Text | `probe/layout@1`, `rampa/resize-text`: 640×512 CSS px at device scale 2 (1280×1024 at 200%) | text cut by an ancestor's overflow `hidden` or `clip` (ACT 59br37, with its no-wrap ellipsis and line-clamp exceptions): high when zoom cut it, medium when it was already cut | line clamps; cut text whose full text is in a name; carousels; text past the edges of a window that does not scroll; new overlaps; text the narrow layout hides with no control seen to show it | text behind menus; lost functionality; other browsers and text-only zoom |
 | 1.4.10 Reflow | `probe/layout@1`, `rampa/reflow`: 320×256 CSS px from 1280×1024 | content past the right edge of a page that scrolls sideways; text cut at 320 px that was whole at 1280 px | doubtful cuts; new overlaps; text cut by a window that cannot scroll sideways | lost functionality; content gone behind collapsed menus (F102); the two-dimensional exception beyond element types |
+| 1.4.11 Non-text Contrast, focus indicators | `probe/keyboard@2`, `rampa/focus-indicator-contrast`: the pixels that change on focus, their main colors against the colors next to them | an indicator whose main colors are all under 3:1 against every color next to them (the Understanding's Figures 9 and 12) | no single color around the indicator; a style sheet color that reaches 3:1 where the pixels do not (a thin, anti-aliased ring) | the browser's own ring (exempt); a change of background inside the component (out of scope, Figure 15); forced colors; whether a ring is thick enough to see (2.4.13, AAA) |
+| 1.4.11 Non-text Contrast, selected and current items | `probe/states@1`, `rampa/state-indicator-contrast`: the item captured with its marks on and off, its text left out | an indicator (a bar, a pill, a check) under 3:1 against the colors next to it, when nothing in the text (bold, an underline) shows the state | the same next to a change of text color alone; no single color around it; an item that could not be captured | items marked by script state the probe cannot take off; native checkboxes and radio buttons (the browser's); graphs and charts; text-input boundaries |
 | 1.4.12 Text Spacing | `probe/layout@1`, `rampa/text-spacing`: the four values as user overrides | text cut that was whole (F104); an ellipsis with no full text (medium) | doubtful cuts; new overlaps | scripts where a metric does not apply; text in canvas and images |
 | 1.4.13 Content on Hover or Focus | `probe/hover@1`, `rampa/hover-content`: up to 30 triggers, hovered and then focused | content over other content that Esc does not close (SCR39); content the pointer cannot move onto (F95); content that goes within 10 s on its own; each loss measured twice | a loss seen once of two tries; content that may be an input error; Esc that only moved focus; content that stays after the pointer and focus leave | triggers the probe does not find; input-error wording; touch; content that moves |
 | 2.1.1 Keyboard | `probe/keyboard@2`, `rampa/keyboard-reach`: Tab and Shift+Tab walk | a control neither walk reached (medium for a negative tabindex) | — | operating what was reached; drag and drop; states after interaction; handler-only controls |
@@ -195,6 +200,17 @@ The color probe, measured on 2026-10-10 (one run each; most of the time goes to 
 | getbootstrap.com/docs/5.3, navs and tabs | 23 current or selected items (8 captured in gray), 11 links | 3.7 to 5.3 s |
 | `test/fixtures/probes/color-*.html` | 3 to 5 items each | 0.7 to 2 s |
 
+The states probe, measured on 2026-10-11 (one run each; most of the time is one hover and one focus per style of control, and four captures per selected item):
+
+| Page | Read | Time |
+|---|---|---|
+| rampa.guilhermebs.com.br | 48 controls with text in 16 styles (10 hovered, 10 focused), no selected item | 4.7 s |
+| www.gov.uk | 80 controls in 11 styles (10 and 10), no selected item | 5.7 s |
+| getbootstrap.com/docs/5.3, navs and tabs | 80 controls in 8 styles (8 and 8), 23 selected or current items (12 captured) | 5.9 s |
+| `test/fixtures/probes/states-*.html` | 11 to 15 controls, 3 items each | 2 to 4 s |
+
+Reading the focus indicator's colors and its style in the keyboard walk adds two short page evaluations per forward stop: the walks of the same day took 28.1 s for 55 stops on Rampa's site and 43.2 s for 89 on gov.uk, against 24.5 s and 40.3 s on 2026-10-09.
+
 The authentication probe, measured the same day (it waits 1.5 s after load for the page's own redirects; then about 0.3 s per paste):
 
 | Page | Read | Time |
@@ -206,13 +222,13 @@ The authentication probe, measured the same day (it waits 1.5 s after load for t
 ## Not yet
 
 - With `--crawl`, 2.4.1 is compared across the pages from their markup alone: a link into the page counts without being pressed, since the skip-link probe does not run there yet.
-- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'auth']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
+- `--probe` runs from `rampa check` on URLs and HTML files, and the programmatic `check()` takes `probes: ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'auth']` (a browser passed in to `check()` is used as it is: without `--autoplay-policy=no-user-gesture-required`, sound set to play on load is held by the browser and only goes to review). Probes do not run with `--crawl`, from `rampa mcp`, or from the Playwright and Puppeteer helpers.
 - The `rampa.config` file has no `probe` key yet.
 - Items to review appear with the engine's and the rules' in every format: grouped by criterion and rule in the terminal (each element with `--verbose`), the Markdown and the HTML reports, counted in SARIF's coverage, and listed in the JSON (`needsReview`).
 - Captures are not written next to a saved snapshot; only their hashes are recorded.
 - The rest of the activate class (clicks, Enter and Space on controls, select changes, `--probe interact`) and `--allow-submit` do not exist yet; nothing here clicks or submits, the shortcuts probe presses only printable keys on the body and Space on the settings it found, and the authentication probe (only with `--probe auth`) pastes a dummy value into password and code fields, types one key when the paste did not land, and puts the value back.
 - `--crawl` does not run probes, so it does not find sign-in pages and probe them yet (the plan's B7 asks for that); the authentication probe lists the sign-in and recovery links it saw.
-- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. The color tests ran three times in a row on Edge and once in the full suite, with no verdict changing; their lightness verdicts also read the style sheet's colors, so a platform whose fonts antialias differently cannot turn a 5:1 difference into a failure. The authentication tests ran three times in a row on Edge and once in the full suite, with no verdict changing. They have not run yet on the Linux CI runner's Chrome.
+- The plan's flake gate (each fixture 10 times in CI) is not wired into CI; the four probe test files were run five times in a row by hand, with no verdict changing, the 1.4.4 and 1.4.13 tests three times in a row on Edge, with none changing either, and the 1.3.4 and 2.1.4 tests three times (twice in a row and once in the full suite), with none changing. The media tests ran four times in a row on Edge, and once in the full suite, with no verdict changing. The color tests ran three times in a row on Edge and once in the full suite, with no verdict changing; their lightness verdicts also read the style sheet's colors, so a platform whose fonts antialias differently cannot turn a 5:1 difference into a failure. The authentication tests ran three times in a row on Edge and once in the full suite, with no verdict changing. The state contrast tests (`test/probes-states.test.ts`, keyboard and states probes on three fixtures) ran three times in a row on Edge and once in the full suite, with no verdict changing. They have not run yet on the Linux CI runner's Chrome.
 - Saved recordings of three real pages replay offline to the same findings, by id; the plan's measurement on 20 pages of the real-page sample (EVAL-1) is not done.
 
 ## The checks
@@ -381,6 +397,76 @@ These pages produced 2 failures, both true, and no false positive; far from the 
 - Color words are read in English, Portuguese and Spanish, and what a sentence names is read from a few words ("fields", "error", "link"), not understood. A sentence about a chart or an image ends in review.
 - Charts, maps, color-coded tables and images that convey information by color are not checked.
 - One engine (Chromium). Forced colors, dark mode and high-contrast themes are not tried.
+
+### Contrast in states: 1.4.3 and 1.4.11 (`--probe states`, and the keyboard walk)
+
+axe-core and Rampa's pixel rules read a page as it loads. The criteria also hold in the states a person puts it in: text must keep its contrast while hovered or focused (1.4.3), and the visual information that identifies a state, such as a focus indicator or the mark of the selected tab, needs 3:1 against the colors next to it (1.4.11). This is item C15 of the plan. Three rules read two probes; every result is measured from pixels, and a reading that is not sure goes to review.
+
+**What the Understanding for 1.4.11 says, and how Rampa reads it.** A focus indicator "must have sufficient contrast against the adjacent background" in the focused state; the Understanding does not compare the focused and unfocused states. Its Figure 8 passes a yellow ring inside a blue button (it contrasts with the button), Figure 9 fails a yellow ring outside it on white, Figure 11 passes a ring partly inside and partly outside, and Figure 15 leaves a change of background inside the component out of scope. The browser's own focus style is exempt ("but must still be visible", which 2.4.7 checks), and so are inactive components. Hover effects are supplemental: the pointer shows hover, so a hover color needs no 3:1 against the default state, but the component must not lose contrast, and its text keeps 1.4.3's. Rampa therefore passes an indicator when one of its main colors reaches 3:1 against one color next to it (Figure 11), which can miss a ring the Understanding fails in its Figure 13 (a ring that contrasts only with the component's own border); it never fails one that a figure passes.
+
+**The indicator, from two captures** (`src/pixels/indicator.ts`). The same region is captured with the state on and off; a third capture of the off state marks pixels that move on their own. The pixels whose color changed (a channel by 8 or more) are the indicator. Its main colors are the clusters of their colors in the "on" capture (colors within 24 of each other in every channel count as one), each with at least 15% of the changed pixels, at most three. For each, the colors next to it are read within 2 px: unchanged pixels always count (a near-white pill on white has white next to it), the indicator's own anti-aliased edge does not, and nothing inside the component's text does (what sits on a pill is not what it must stand out from). A color next to it counts from 15% of those pixels. The indicator's contrast is the best its main colors reach against those.
+
+**Focus indicators** (`rampa/focus-indicator-contrast`, from the keyboard walk). At each forward stop the walk already captures the element's box plus 32 px focused, blurred, and blurred again (2.4.7). It now also reads the element's outline, borders, box shadow, background and text decoration in both states, and keeps the indicator measure in the record (`indicator` on each stop's `focus`, an optional field of `probe/keyboard@2`).
+
+| Observation | Result |
+|---|---|
+| Every main color of the indicator under 3:1 against every color next to it | failure: high when the indicator has at least as many pixels as the box's perimeter, medium for a thinner one |
+| The same, when a color the style sheet draws (an outline, a border or an underline that is there, a box shadow composited over the color next to it) reaches 3:1: a thin ring whose pixels are a blend | needs review, low |
+| The same, with no single color next to the indicator (an image, a gradient) | needs review, low |
+| The browser's own ring: only the outline changed, to style `auto` in the browser's ring color | not judged (exempt); counted in the coverage note |
+| Half of the component's box or more changes color (its background), and outside the box nothing but that same color changes (an outline in the background's color, GOV.UK's yellow skip link) | not judged (out of scope, Figure 15); counted. A ring of another color outside the box is judged on its own |
+| Nothing changed | 2.4.7's to report; not judged here |
+| Any other indicator | no failure found |
+
+**The states probe** (`--probe states`, `src/probes/states.ts`, variant `state-contrast`). A fresh page at the run's window size, in desktop mode so a pointer can hover.
+
+- **Hover and focus** (`rampa/state-text-contrast`, 1.4.3). Links, buttons, tabs, menu items, `summary` and button inputs with visible text (text pushed out of the box, the image-replacement pattern, does not count), at most 80, are grouped by how they look: tag, role, first classes, text and background colors, font, and the page's `:hover` and `:focus` rules that match them (style sheets of other origins cannot be read). One control of each group, at most 10 groups, is scrolled into view and hovered (the pointer moved to it), then, apart, given focus with `focus()`. When the color of its text, or a background or an opacity behind it (its own, the control's, up to two ancestors'), changed, the text is measured as B3's pixel rules measure it: captured twice as rendered, then with its glyphs made transparent, with transitions finished (`measureTarget` in `src/surfaces/contrast-capture.ts`). Disabled controls are inactive components: counted, never hovered or focused.
+
+| Observation | Result |
+|---|---|
+| In the hover or focus state, even the highest contrast between the text and what is behind it is under 4.5:1 (3:1 for large text) | failure: high when the text's color came from the style sheet, medium when read from the pixels |
+| Part of the text reaches the threshold and part does not; a color read from thin strokes; a translucent element | needs review, low |
+| Its colors changed but the pixels could not tell (it moved, nothing showed) | needs review, low |
+| A control axe-core's `color-contrast` already failed at rest | left to axe-core; counted |
+| The colors did not change | not reported; counted |
+
+- **Selected and current items** (`rampa/state-indicator-contrast`, 1.4.11). Items marked current (`aria-current`, unless false), selected (`aria-selected="true"` on a tab, option, cell, row or tree item), pressed (`aria-pressed="true"`), checked (`aria-checked="true"` on a custom checkbox, switch or radio), or carrying a state class (`active`, `is-current`, `selected`, `current-menu-item`…) inside navigation, tab lists, menus, toolbars, list boxes, radio groups or pagination; at most 12. Native checkboxes and radio buttons are the browser's and left out; disabled items are exempt. Each is captured with a halo of 8 px (with the list item or tab that holds it), twice; then its marks are taken off, the attribute set to `false` (or `aria-current` removed) and the state classes removed from it and from its list item, and it is captured twice more; then the marks are put back. The text's style is read in both states.
+
+| Observation | Result |
+|---|---|
+| Outside the item's text, an indicator changed (a bar, a pill, a check mark) whose main colors are all under 3:1 against the colors next to it, and the text does not change | failure, medium |
+| The same, when the only change in the text is its color | needs review, medium: the state shows by a color and by a faint indicator (1.4.1 judges the color alone) |
+| The same, when the text also turns bold, underlined, italic, larger or transformed | not reported: the text shows the state on its own and the indicator is supplemental; counted |
+| No single color next to the indicator; an item that moved, shifted or could not be captured | needs review, low |
+| Only the text changed (fewer changed pixels outside it than a quarter of the item's perimeter) | not reported: 1.4.1 and 1.4.3 judge text; counted |
+| Nothing changed with the marks off | not reported: the page shows the state another way, or not at all; counted |
+
+Each rule speaks only for its own kind of content: on a page with no selected item, `rampa/state-indicator-contrast` says "not checked", never "no applicable content".
+
+**Fixtures** (no ACT rule exists for either criterion in these states):
+
+- `states-fail.html`: a link with a pale gray ring (#c8c8c8 on white, 1.67:1); a blue button with a yellow ring outside it on white (Figure 9, 1.07:1); a link that turns pale blue on hover; a button whose background turns pale blue on hover under white text; a button that turns yellow on focus under white text; a selected tab marked only by a pale bar (1.45:1); the current page marked only by a pale pill (1.14:1); a custom checkbox whose check is pale gray (1.42:1). Each fails once; axe-core fails none of them at rest.
+- `states-pass.html`: the same page fixed (dark rings, darker hover colors, a dark bar, a dark pill, a dark check). Nothing is reported.
+- `states-near.html`, near misses with no failure: a yellow ring inside a blue button (Figure 8) and one straddling its edge (Figure 11); a background that darkens on focus (Figure 15); the browser's ring; a white ring wrapped in a dark shadow; a ring at 3.03:1; a link whose hover gray keeps 4.5:1; a disabled button with pale hover colors; a selected tab with a pale bar and bold text; the current page in a pale pill, underlined; a pressed toggle in black with white text; a disabled selected tab.
+
+**Real pages.** On 2026-10-11, with `--probe keyboard,states --no-llm --min-confidence low` (Edge 155):
+
+| Page | Findings | Read by hand |
+|---|---|---|
+| rampa.guilhermebs.com.br | none; 54 focus stops, 2 hover changes measured, no selected item | Right: the site's focus rings pass; on hover, "View on GitHub" turns from #102a2f to #0b7285 with its text at 4.78:1, just above 4.5:1, and "How it works" gains a #e1e5e0 background (11.82:1) |
+| www.gov.uk | none; 5 focus indicators out of scope; 19 hover and focus states measured (8.0:1 to 14.5:1) | Right: GOV.UK's focus style fills the link with yellow under black text, which Figure 15 leaves out of scope, and its black underline contrasts with both. The skip link's yellow outline is the color of its own yellow background |
+| getbootstrap.com/docs/5.3, navs and tabs | 12 focus indicators (`rampa/focus-indicator-contrast`); 1 focus indicator and 1 current tab to review | Right: the focus ring of those links and buttons is a translucent blue glow (`box-shadow` in `#0c70fb40`, a quarter opaque) with the outline removed: 1.02:1 on the purple navigation bar, 1.41:1 on white. The search button to review shows its white outline and yellow border as a blend in the pixels (#ae7bcb, 2.77:1 against the bar) while the style sheet's white reaches 3:1; the current tab of the tabs example is marked by a #dee2e6 border (1.30:1) and a change of text color |
+
+These pages produced 12 failures, all true, and no false positive; the plan's gate asks for 35 reviewed findings, so the rules stay experimental.
+
+**Limits.**
+
+- Hover and focus are measured once per look of control, for at most 10 looks per state; a control whose `:hover` rule lives in a style sheet of another origin is grouped with others that look alike.
+- Pressed (`:active`), expanded and dark-scheme states are not tried, nor is axe-core run again in each state, which the plan also lists. Text-input boundaries (a field whose border and background both stay under 3:1) are not checked yet.
+- The focus indicator is read in the 32 px around the element: a ring drawn farther away is missed, as 2.4.7's region is.
+- A selected item whose look a script sets (inline styles, a framework's own state) does not change when its marks are taken off, and is counted, not judged. Native checkboxes and radio buttons, which the browser draws, are left out.
+- An indicator passes when any main color reaches 3:1 against any color next to it, so a ring that contrasts only with the component's own border (the Understanding's Figure 13) is missed.
+- One engine (Chromium); forced colors and high-contrast themes are not tried.
 
 ### 1.4.10 Reflow (`--probe layout`, rule `rampa/reflow`)
 
@@ -642,6 +728,8 @@ No ACT rule exists for 3.3.8.
 These ride on the keyboard walk (probe version 2). The walk turns off animated scrolling (`scroll-behavior: auto`) and, before measuring a stop, waits for scrolling to stop (at most 1.5 s), so a page that scrolls with a library is measured where it lands.
 
 **2.4.7, the probe.** At each forward stop, the element's box plus a 32 px margin is captured focused. Focus is then taken away with `blur()` and the same region is captured twice: the second capture marks pixels that change on their own (carousels, video, animation) as noise, never counted. Focus is then given back to the element with `focus({ preventScroll: true })`, so the next Tab reaches the element's own key handlers, as it would with no capture in between. When nothing changed in the region, the whole viewport is captured focused and blurred to confirm, because ACT oj04fd counts a change anywhere in the viewport. The record keeps, per stop, the region, the element's box, how many pixels changed, how many by at least 3:1 contrast, how many *noticeably* (3:1, or 48 in one color channel, which catches a change of hue), how many were noise, the bounding box of the change, its main colors, and hashes of the two captures. Captures are not saved as images.
+
+The same captures also give the indicator's colors against the colors next to it, which 1.4.11 reads ([contrast in states](#contrast-in-states-143-and-1411---probe-states-and-the-keyboard-walk)).
 
 **2.4.7, the rule.** A changed pixel does not prove that focus is visible (the plan's correction to the research), so a change is never a pass:
 

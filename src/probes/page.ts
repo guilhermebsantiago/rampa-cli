@@ -5,7 +5,7 @@ import { type BrowserOptions, contextOptions, openPage, prepareContext } from '.
 import { type Guard, installGuard } from './guard.ts'
 import { installHooks, installKit, settleInPage } from './kit.ts'
 
-export const PROBE_KINDS = ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'auth'] as const
+export const PROBE_KINDS = ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'auth'] as const
 export type ProbeKind = (typeof PROBE_KINDS)[number]
 /**
  * Kinds that run only when named: `--probe all` leaves them out. The authentication probe types into the password

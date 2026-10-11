@@ -1,5 +1,6 @@
 import type { Page } from 'playwright-core'
-import { decodePng } from '../pixels/png.ts'
+import { type StateChange, stateChange } from '../pixels/indicator.ts'
+import { type RgbaImage, decodePng } from '../pixels/png.ts'
 import type { InPageElement, InPageRect } from './kit.ts'
 import type { KeyStop, StopHook } from './keyboard.ts'
 import { type PixelDiff, diffImages, imageHash } from './pixels.ts'
@@ -34,6 +35,59 @@ export interface FocusPixels {
   viewport?: PixelDiff | undefined
   /** Why no comparison was made: outside the viewport, focus could not be restored... */
   skipped?: string | undefined
+  /** The indicator's colors against the colors next to it, for 1.4.11 (rules/state-contrast.ts). */
+  indicator?: FocusIndicator | undefined
+}
+
+/** What the focus indicator is made of: the changed pixels' colors and neighbours, and the style that changed. */
+export interface FocusIndicator {
+  change: StateChange
+  /** Style properties of the element that differ between focused and blurred; colors as #rrggbb or #rrggbbaa. */
+  styles: Array<{ prop: string; focused: string; blurred: string }>
+  /** What the focused element draws: its outline, borders and text decoration styles and widths, changed or not. */
+  drawn?: Record<string, string> | undefined
+  /**
+   * The only change is the browser's own focus ring (outline style auto, in the browser's ring color), which the
+   * Understanding for 1.4.11 exempts ("the default focus style is exempt from contrast requirements").
+   */
+  browserRing?: boolean | undefined
+}
+
+/** Runs in the page: the style properties a focus indicator is made of, on the focused element or the one just blurred. */
+export function focusStyles(arg: { blurred: boolean }): { values: Record<string, string>; ring: string } | null {
+  const w = window as unknown as { __rampaBlurred?: Element | null; __rampaKit: { deepActive(): Element | null } }
+  const el = arg.blurred ? w.__rampaBlurred : w.__rampaKit.deepActive()
+  if (!el) return null
+  const canvas = document.createElement('canvas')
+  canvas.width = 1
+  canvas.height = 1
+  const context = canvas.getContext('2d', { willReadFrequently: true })
+  // Any color syntax (oklch, color-mix...) as #rrggbb, with the alpha when below 1.
+  const hex = (css: string): string => {
+    if (!context || !css) return css
+    context.clearRect(0, 0, 1, 1)
+    context.fillStyle = 'rgba(0, 0, 0, 0)'
+    context.fillStyle = css
+    context.fillRect(0, 0, 1, 1)
+    const [r = 0, g = 0, b = 0, a = 0] = Array.from(context.getImageData(0, 0, 1, 1).data)
+    const two = (n: number) => n.toString(16).padStart(2, '0')
+    return `#${two(r)}${two(g)}${two(b)}${a < 255 ? two(a) : ''}`
+  }
+  const COLOR = /(rgba?\([^)]*\)|hsla?\([^)]*\)|oklch\([^)]*\)|oklab\([^)]*\)|lab\([^)]*\)|lch\([^)]*\)|color\([^)]*\)|#[0-9a-f]{3,8}\b|transparent|currentcolor)/gi
+  const s = getComputedStyle(el)
+  const values: Record<string, string> = {}
+  const color = ['outline-color', 'border-top-color', 'border-right-color', 'border-bottom-color', 'border-left-color', 'background-color', 'color', 'text-decoration-color']
+  const plain = ['outline-style', 'outline-width', 'outline-offset', 'border-top-width', 'border-right-width', 'border-bottom-width', 'border-left-width', 'border-top-style', 'border-right-style', 'border-bottom-style', 'border-left-style', 'background-image', 'text-decoration-line']
+  for (const prop of color) values[prop] = hex(s.getPropertyValue(prop))
+  for (const prop of plain) values[prop] = s.getPropertyValue(prop)
+  values['box-shadow'] = s.boxShadow.replace(COLOR, (match) => hex(match))
+  const probe = document.createElement('div')
+  probe.style.outlineColor = '-webkit-focus-ring-color'
+  probe.style.display = 'none'
+  document.documentElement.append(probe)
+  const ring = hex(getComputedStyle(probe).outlineColor)
+  probe.remove()
+  return { values, ring }
 }
 
 export interface Obscured {
@@ -190,6 +244,26 @@ function regionOf(rect: InPageRect, viewport: { width: number; height: number })
   }
 }
 
+type Styles = { values: Record<string, string>; ring: string } | null
+
+/** The indicator of one stop: its pixels against their neighbours, and which of the element's styles changed. */
+function focusIndicator(focused: RgbaImage, blurred: RgbaImage, noise: RgbaImage, area: { region: Clip; box: Clip }, on: Styles, off: Styles): FocusIndicator {
+  const box = { x: area.box.x - area.region.x, y: area.box.y - area.region.y, width: area.box.width, height: area.box.height }
+  const change = stateChange(focused, blurred, noise, { box, mode: 'focus' })
+  const styles: FocusIndicator['styles'] = []
+  if (on && off) {
+    for (const [prop, value] of Object.entries(on.values)) {
+      const before = off.values[prop] ?? ''
+      if (value !== before) styles.push({ prop, focused: value, blurred: before })
+    }
+  }
+  const indicator: FocusIndicator = { change, styles }
+  if (on) indicator.drawn = Object.fromEntries(Object.entries(on.values).filter(([prop]) => /^(outline|border)-.*(style|width)$|^text-decoration-line$/.test(prop)))
+  // Only the outline changed, to the browser's own ring: the default focus style.
+  if (on && on.values['outline-style'] === 'auto' && on.values['outline-color'] === on.ring && styles.length > 0 && styles.every((s) => s.prop.startsWith('outline-'))) indicator.browserRing = true
+  return indicator
+}
+
 const readRef = (page: Page) =>
   page.evaluate(() => {
     const kit = (window as unknown as { __rampaKit: { deepActive(): Element | null; cssPath(el: Element): string } }).__rampaKit
@@ -265,13 +339,18 @@ export const forwardFocusHook: StopHook = async (page, keyStop) => {
     return
   }
   const focusedPng = await capture(page, area.region)
+  const focusedStyle = await page.evaluate(focusStyles, { blurred: false }).catch(() => null)
   await obscuredCheck(page, stop, { clip: area.region, png: focusedPng })
   await page.evaluate(selfBlur)
   const blurredPng = await capture(page, area.region)
   const noisePng = await capture(page, area.region)
+  const blurredStyle = await page.evaluate(focusStyles, { blurred: true }).catch(() => null)
   const focused = decodePng(focusedPng)
-  const diff = diffImages(focused, decodePng(blurredPng), decodePng(noisePng))
+  const blurred = decodePng(blurredPng)
+  const noise = decodePng(noisePng)
+  const diff = diffImages(focused, blurred, noise)
   const pixels: FocusPixels = { region: area.region, box: area.box, diff, focused: imageHash(focusedPng), blurred: imageHash(blurredPng) }
+  if (diff.changed > 0) pixels.indicator = focusIndicator(focused, blurred, noise, area, focusedStyle, blurredStyle)
   const back = await page.evaluate(selfRefocus)
   if (diff.changed === 0 && diff.masked / Math.max(1, diff.area) <= NOISE_LIMIT) {
     // Nothing changed near the element: confirm over the whole viewport, focused again.

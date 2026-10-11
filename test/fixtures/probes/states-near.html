@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Contrast in states: near misses</title>
+<style>
+  body { font: 16px Arial, sans-serif; margin: 1rem; background: #fff; color: #111; }
+  a, button { display: inline-block; margin: 8px; }
+  button { font: inherit; border: 0; padding: 8px 14px; }
+  /* The Understanding's Figure 8: a yellow ring inside a blue button contrasts with the button (6.4:1), not with white. */
+  #inside-ring { background: #1f5f8b; color: #fff; }
+  #inside-ring:focus-visible { outline: 3px solid #ffff00; outline-offset: -5px; }
+  /* Figure 11: partly inside, partly outside; against the blue it reaches 3:1, against the white page it does not. */
+  #straddle { background: #1f5f8b; color: #fff; }
+  #straddle:focus-visible { outline: 4px solid #ffff00; outline-offset: -2px; }
+  /* Figure 15: a change of background inside the component is out of scope for 1.4.11. */
+  #fill-focus { background: #e8e8e8; color: #111; }
+  #fill-focus:focus { background: #c9c9c9; outline: none; }
+  /* A white ring with a dark one around it: the dark one stands out. */
+  #two-tone:focus-visible { outline: 2px solid #fff; box-shadow: 0 0 0 4px #1a1a1a; }
+  /* Just above 3:1 on white. */
+  #just-enough:focus-visible { outline: 2px solid #949494; outline-offset: 2px; }
+  /* Hover keeps 4.5:1. */
+  #hover-ok { color: #595959; }
+  #hover-ok:hover { color: #767676; }
+  /* A disabled button is an inactive component: its hover colors are exempt. */
+  #off-hover:hover { background: #eee; color: #ccc; }
+  /* A selected tab with a pale bar and bold text: the text shows the state on its own. */
+  [role="tablist"] { display: flex; gap: 4px; margin: 16px 8px; }
+  [role="tab"] { background: #fff; color: #111; border-bottom: 3px solid transparent; }
+  [role="tab"][aria-selected="true"] { border-bottom-color: #d0d7de; font-weight: 700; }
+  [role="tab"][aria-disabled="true"] { color: #999; }
+  [role="tab"][aria-disabled="true"][aria-selected="true"] { font-weight: 400; }
+  /* The current page in a pale pill, underlined. */
+  nav ul { list-style: none; display: flex; gap: 4px; padding: 0; }
+  nav a { padding: 6px 10px; color: #111; text-decoration: none; }
+  nav a[aria-current="page"] { background: #edf1f5; text-decoration: underline; }
+  /* A pressed toggle: a dark background with white text. */
+  .toggle { background: #fff; color: #111; border: 1px solid #555; }
+  .toggle[aria-pressed="true"] { background: #1a1a1a; color: #fff; }
+</style>
+</head>
+<body>
+<main>
+  <h1>States</h1>
+  <p>
+    <button id="inside-ring" type="button">Inside ring</button>
+    <button id="straddle" type="button">Straddling ring</button>
+    <button id="fill-focus" type="button">Darker on focus</button>
+  </p>
+  <p>
+    <a id="default-ring" href="#a">Browser ring</a>
+    <a id="two-tone" href="#b">Two-tone ring</a>
+    <a id="just-enough" href="#c">Just enough</a>
+  </p>
+  <p>
+    <a id="hover-ok" href="#d">Gray on hover</a>
+    <button id="off-hover" type="button" disabled>Disabled</button>
+  </p>
+  <div role="tablist" aria-label="Period">
+    <button id="t-day" role="tab" aria-selected="false" type="button">Day</button>
+    <button id="t-week" role="tab" aria-selected="true" type="button">Week</button>
+    <button id="t-month" role="tab" aria-selected="false" type="button">Month</button>
+  </div>
+  <div role="tablist" aria-label="Archive">
+    <button id="t-old" role="tab" aria-selected="true" aria-disabled="true" type="button">Archived</button>
+    <button id="t-new" role="tab" aria-selected="false" type="button">Recent</button>
+  </div>
+  <nav aria-label="Main">
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a id="here" href="#products" aria-current="page">Products</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+  </nav>
+  <p><button id="bold" class="toggle" type="button" aria-pressed="true">Bold</button></p>
+</main>
+</body>
+</html>

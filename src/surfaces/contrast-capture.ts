@@ -67,7 +67,8 @@ export interface ContrastCaptureOptions {
   layers?: ContrastLayers | undefined
 }
 
-interface Target {
+/** One element to measure; the states probe (probes/states.ts) measures text in its hover and focus states with it too. */
+export interface Target {
   kind: PixelKind
   node: A11yNode
   /** The element captured: the text's element, the field, or the icon itself. */
@@ -144,7 +145,7 @@ export async function captureContrast(driver: ContrastDriver, root: A11yNode, en
   root.native.pixelContrastRun = run
 }
 
-async function measureTarget(driver: ContrastDriver, target: Target, waitMs: number): Promise<PixelContrastFact> {
+export async function measureTarget(driver: ContrastDriver, target: Target, waitMs: number): Promise<PixelContrastFact> {
   const { kind } = target
   const base: PixelContrastFact = { kind, status: 'unmeasured', ...(target.axeReason ? { axeReason: target.axeReason } : {}) }
   try {
