@@ -461,9 +461,72 @@ export const sensoryOnly: Corruptor = {
   },
 }
 
+/**
+ * 1.3.1 (F2): add a section whose title is a div styled exactly like the page's first heading (size, weight, font,
+ * style, case, color, margins), followed by a paragraph. Sighted people see one more heading; screen readers list none.
+ * The words are not among the prompt's examples.
+ */
+export const headingAsText: Corruptor = {
+  id: 'heading-as-text',
+  criterion: '1.3.1',
+  async apply(page) {
+    return page.evaluate(() => {
+      const heading = Array.from(document.querySelectorAll('h1, h2, h3, h4, h5, h6')).find(
+        (element) => (element.textContent ?? '').trim() !== '' && (typeof element.checkVisibility !== 'function' || element.checkVisibility()),
+      )
+      if (!heading) return 0
+      const style = getComputedStyle(heading)
+      const title = document.createElement('div')
+      title.textContent = 'Opening hours'
+      for (const property of ['font-size', 'font-weight', 'font-family', 'font-style', 'text-transform', 'font-variant-caps', 'color', 'line-height', 'letter-spacing', 'margin-top', 'margin-bottom']) {
+        title.style.setProperty(property, style.getPropertyValue(property))
+      }
+      const text = document.createElement('p')
+      text.textContent = 'The shop is open Monday to Friday from nine to five, and on Saturday mornings from nine to noon.'
+      document.body.append(title, text)
+      return 1
+    })
+  },
+}
+
+/**
+ * 2.5.3: turn each label into plain text in the same place, and give its field an accessible name with other words.
+ * People still see "First name" beside the field; speech input users who say it get no answer.
+ */
+export const labelDetached: Corruptor = {
+  id: 'label-detached',
+  criterion: '2.5.3',
+  async apply(page) {
+    return page.evaluate((skipped: string[]) => {
+      let changed = 0
+      for (const [index, label] of Array.from(document.querySelectorAll('label')).entries()) {
+        const field = (label as HTMLLabelElement).control
+        if (!field || (field instanceof HTMLInputElement && skipped.includes(field.type))) continue
+        const text = Array.from(label.childNodes)
+          .filter((child) => !child.contains(field))
+          .map((child) => child.textContent ?? '')
+          .join(' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+        if (text === '') continue
+        const plain = document.createElement('span')
+        plain.textContent = text
+        // A wrapped field moves out of its label, right after the text.
+        if (label.contains(field)) label.replaceWith(plain, ' ', field)
+        else label.replaceWith(plain)
+        field.setAttribute('aria-label', `Entry ${index + 1}`)
+        changed++
+      }
+      return changed
+    }, NOT_DATA_FIELDS)
+  },
+}
+
 export const CORRUPTORS: Readonly<Record<string, Corruptor[]>> = {
   '1.1.1': [altPlaceholder, altSwap],
+  '1.3.1': [headingAsText],
   '1.3.3': [sensoryOnly],
+  '2.5.3': [labelDetached],
   '1.3.5': [autocompleteDrop, autocompleteSwap],
   '1.4.5': [textAsImage],
   '2.4.2': [titleGeneric],

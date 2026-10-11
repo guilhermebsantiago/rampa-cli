@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Structure judged</title>
+    <style>
+      body { margin: 0; padding: 20px; font: 16px/1.5 Arial, sans-serif; color: #222; width: 900px; }
+      h2, .h2 { font-size: 24px; font-weight: 700; font-family: Georgia, serif; color: #123; margin: 24px 0 8px; }
+      .price { font-size: 24px; font-weight: 700; font-family: Georgia, serif; color: #123; }
+      .lead { font-size: 20px; }
+      form > div { margin: 8px 0; }
+      .row { display: flex; gap: 8px; align-items: center; }
+      fieldset { border: 0; padding: 0; margin: 8px 0; }
+    </style>
+  </head>
+  <body>
+    <h2>Delivery</h2>
+    <p>We deliver to every state within five working days, and track every parcel.</p>
+    <p class="h2" id="fake-heading">Returns</p>
+    <p>You can return any item within thirty days of delivery, at no cost to you.</p>
+    <div class="price" id="price">R$ 49,90</div>
+    <p class="lead" id="lead">This lead paragraph is larger than the body text.</p>
+    <h2>Payments</h2>
+    <p class="h2" id="subtitle">Cards and bank slips</p>
+    <p>We take every card and the bank slip, which you can pay at any bank within three days.</p>
+    <p class="h2" id="lead-in">Choose one of the ways to pay listed below:</p>
+    <ul>
+      <li>Credit or debit card, in up to three payments</li>
+      <li>Bank slip, paid within three days</li>
+    </ul>
+    <form>
+      <div class="row"><span id="email-text">Email</span><input id="email" type="email" aria-label="Your address" /></div>
+      <div class="row"><span>Phone</span><input id="phone" type="tel" aria-label="Phone number" /></div>
+      <div class="row"><label for="city">City</label><input id="city" aria-label="Town" /></div>
+      <div class="row"><input id="news" type="checkbox" aria-label="Opt in" /><span>Send me the newsletter</span></div>
+      <div class="row"><span>Type your code in capitals.</span><input id="code" aria-label="Code" /></div>
+      <div class="row">
+        <input type="radio" name="contact" id="yes" /><label for="yes">Yes</label>
+        <input type="radio" name="contact" id="no" /><label for="no">No</label>
+      </div>
+      <fieldset>
+        <legend>Preferred time</legend>
+        <input type="radio" name="time" id="am" /><label for="am">Morning</label>
+        <input type="radio" name="time" id="pm" /><label for="pm">Evening</label>
+      </fieldset>
+      <p>How did you hear about us?</p>
+      <div class="row">
+        <input type="radio" name="source" id="friend" /><label for="friend">A friend</label>
+        <input type="radio" name="source" id="ad" /><label for="ad">An ad</label>
+      </div>
+      <div class="row"><label for="birth">Date of birth</label><input id="birth" name="birth" /></div>
+      <div class="row"><label for="start">Start date (DD/MM/YYYY)</label><input id="start" name="start" /></div>
+      <div class="row" lang="pt-BR"><label for="validade">Validade do cartão</label><input id="validade" name="validade" /></div>
+      <div class="row"><label for="day">Day</label><input id="day" name="data" /></div>
+    </form>
+    <p class="h2" id="part-of">Part of</p>
+    <p><a href="#vote">Vote in elections</a></p>
+    <p class="h2" id="end-title">Thank you</p>
+  </body>
+</html>
