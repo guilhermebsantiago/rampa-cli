@@ -134,7 +134,7 @@ Each report says what was found, what was judged and what was not checked. This 
 - `criteria` counts, per criterion, the candidates left for judgment and what happened to them; `offlineMisses` and `errors` count the ones that were not judged.
 - `wcagTarget` is what the run checked against: `wcag22-aa` by default, `wcag21-aa` with `wcag: '2.1'`.
 - `coverage` lists the criteria axe-core checked (partly), the ones judged with verified evidence, and the ones nothing automated checked. `coverage.criteria` gives each criterion a status and the methods behind it; a criterion whose only result is something to review, such as 2.4.1 and 3.3.2 here, is in neither list. See [WCAG 2.2 and coverage](wcag-2-2.md).
-- `needsReview`, when present, lists what axe-core could not decide: never findings.
+- `needsReview`, when present, lists what axe-core, Rampa's rules or a probe could not decide, and the model's suggestions on 2.4.4 and 2.4.6 (items with a `model`: fails that no fact Rampa checks supports, see [criteria.md](criteria.md#244-link-purpose-in-context)): never findings.
 - A report from a scoped `checkPage` also has `scope: { include, exclude }`.
 
 The types are exported: `Report`, `Finding`, `Patch`, `CriterionSummary`, `Usage`, `Confidence` and the rest of `src/core/types.ts`.

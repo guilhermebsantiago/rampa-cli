@@ -64,7 +64,7 @@ When axe-core cannot decide an element, the report lists it under **Needs review
 | Status | Meaning |
 |---|---|
 | `failures` | Some check reported a confirmed failure. |
-| `needs-review` | A person must look at something: an undecided element, a finding below the confidence threshold, a case where the model abstained, or a criterion that only a review-only rule touched. |
+| `needs-review` | A person must look at something: an undecided element, a finding below the confidence threshold, a case where the model abstained, a model's suggestion that no checked fact supports (2.4.4, 2.4.6), or a criterion that only a review-only rule touched. |
 | `no-failure-found` | A check that can fail ran on applicable content and found nothing. This covers only what was checked. |
 | `no-applicable-content` | The checks ran but found nothing to apply to, such as no video for 1.2.2. |
 | `not-checked` | Nothing automated ran. |

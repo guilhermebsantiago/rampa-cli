@@ -4,12 +4,16 @@ import { defaultTitle, placeholderText } from '../rules/content.ts'
  * Texts that say nothing whatever the page: "Click here", "Section 2", "Untitled document".
  *
  * The real-page study of 2026-10 (docs/studies) found that a model's claims about 2.4.2, 2.4.4 and 2.4.6 were almost
- * all false positives when the text was an ordinary, specific one: on its dev pages, 0 true failures among 38 link and
- * heading findings (docs/studies/notes-244-246.md), and on its held-out pages, 0 again. They were true, or at least
- * debatable, only when the text was one of these.
+ * all false positives: on its dev pages, 0 true failures among 38 link and heading findings, and on its held-out pages,
+ * 0 again. The claims that verification let through were readings of ordinary, specific texts ("ISTs", "Download",
+ * "Introduction") or of whether a sentence completes a generic one; only claims on these texts were debatable at all
+ * (docs/studies/notes-244-246.md).
  *
- * - 2.4.4 and 2.4.6: a claim that a link, heading or label says nothing is a finding only when its text is on these
- *   lists (`Criterion.grounded`); otherwise it is the model's suggestion, in the report's needsReview, never a failure.
+ * - 2.4.4: a claim that a link says nothing is a finding only when its text is one of these and the link has no
+ *   context of its own (sentence, paragraph, list item, cell, header cells, description) that could complete it
+ *   (`Criterion.grounded` in link-purpose.ts). 2.4.6: a claim that a heading or label says nothing is a finding only
+ *   when its text is one of these, or another fact shows it names nothing (headings-and-labels.ts, `saysNothing`).
+ *   Any other claim is the model's suggestion, in the report's needsReview, never a failure.
  * - 2.4.2: a judgment about a title on these lists keeps its confidence, and one about any other title is reported at
  *   low confidence, below the default threshold.
  */

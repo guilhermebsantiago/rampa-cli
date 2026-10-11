@@ -2,7 +2,7 @@
 
 WCAG 2.4.4 asks that the purpose of each link can be told from its text, alone or with its programmatically determined context. Rampa judges each link with a model, and gives that model facts it cannot guess:
 
-- **The link's context**: its sentence, paragraph, list item (and the items it is nested in), table cell and the header cells of that cell, the heading it sits under, and its `aria-describedby` description. A short `div` or `span` around a link counts as its sentence. A block that holds nothing but links is no context.
+- **The link's context**: its sentence, paragraph, list item (and the items it is nested in), table cell and the header cells of that cell, the heading it sits under (and, to tell links with one text apart, the headings of the sections it sits in), and its `aria-describedby` description. A short `div` or `span` around a link counts as its sentence. A block that holds nothing but links is no context.
 - **Where the link leads**: the part of the page a `#part` link points to, and, for other links, what Rampa read at the address before judging: a page's title, first `h1`, meta description and the part a `#fragment` points to, or a file's type and size.
 - **The links that share its text**: how many there are, how many different places they lead to, and whether the context of each tells it apart from the ones that lead elsewhere.
 
@@ -16,7 +16,9 @@ With these, the model can report three problems besides a generic text such as "
 
 Verification keeps a `mismatch` only when the destination was read (the `#part` it points to, or a title or main heading read at its address that is not the site's name, not shared by pages at other addresses and not a not-found page; see [criteria.md](criteria.md#244-link-purpose-in-context)), and an `ambiguous` only when the facts say other links with the same text lead elsewhere from the same context. The destination never makes an unclear text pass: people do not see it before they follow the link.
 
-`examples/link-purpose/news.html` shows all three, and `news-fixed.html` the same page fixed:
+**Which of them are failures.** An `ambiguous` claim rests on a fact Rampa counted, and so does a `url_or_filename` claim on an address with a path or a file name: those are findings. A `mismatch` is the model's comparison of a promise with a page it read in part, and on real pages every such claim was wrong (a privacy notice that holds the cookie statement its link names, a page about the setting its link's sentence describes; [notes-244-246.md](studies/notes-244-246.md)). So a verified `mismatch` is reported as the model's suggestion, under "Needs review", for a person to decide, never as a failure. The same goes for a claim that a specific text, such as "TOC" or "Download", says nothing, and for a claim that the context around a generic text does not complete it; a generic text such as "Read more" with no sentence, list item, cell, header cells or description of its own stays a finding.
+
+`examples/link-purpose/news.html` shows all three (the mismatch as a suggestion to review), and `news-fixed.html` the same page fixed:
 
 ```sh
 rampa check examples/link-purpose/news.html --criteria 2.4.4
