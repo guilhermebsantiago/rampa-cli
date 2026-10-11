@@ -1,6 +1,6 @@
 # Rampa WCAG 2.2 coverage roadmap
 
-Date: 2026-10-09. Status (2026-10-11): wave A (A1–A10) and wave B (B1–B16) are built (B7 runs with `--probe auth`, B14's OCR backs 1.4.5, which stays on request); from wave C, C8 (use of color, `--probe color`), C9 (sensory characteristics, on request), C13 (bypass blocks: the skip-link probe and blocks repeated across a crawl), C14 (structure judged, on request) and C16 (letter-spaced words). The rest is a plan.
+Date: 2026-10-09. Status (2026-10-11): wave A (A1–A10) and wave B (B1–B16) are built (B7 runs with `--probe auth`, B14's OCR backs 1.4.5, which stays on request); from wave C, C8 (use of color, `--probe color`), C9 (sensory characteristics, on request), C13 (bypass blocks: the skip-link probe and blocks repeated across a crawl), C14 (structure judged, on request), C15 (contrast in states, `--probe states`) and C16 (letter-spaced words); from wave D, D1 (flash analyzer, `--probe flash`). The rest is a plan.
 
 This plan builds on:
 

@@ -1,6 +1,7 @@
 /**
- * Writes the small WebM files the media probe tests play (test/fixtures/probes/media/). They are committed;
- * run this only to make them again: `node scripts/media-fixtures.ts`.
+ * Writes the small WebM files the media and flash probe tests play (test/fixtures/probes/media/). They are committed;
+ * run this only to make them again: `node scripts/media-fixtures.ts`, or `node scripts/media-fixtures.ts flash` for
+ * the named ones only.
  *
  * The browser encodes them with WebCodecs (VP8 video, Opus audio, both played by Chrome on Linux and by Edge),
  * and this script puts the frames in a WebM file with its duration written, so a player knows the length on load.
@@ -32,6 +33,10 @@ interface Spec {
   video: boolean
   /** 'voice': a tone that rises and falls, loud enough throughout; 'silence': an audio track of zeros. */
   audio?: 'voice' | 'silence' | undefined
+  /** Frames a second (10 when absent). */
+  fps?: number | undefined
+  /** 'square': a yellow square moving over blue (the default); 'flash': the whole picture black and white, 5 times a second. */
+  picture?: 'square' | 'flash' | undefined
 }
 
 const SPECS: Spec[] = [
@@ -40,6 +45,8 @@ const SPECS: Spec[] = [
   { name: 'quiet', seconds: 6, video: true, audio: 'silence' },
   { name: 'voice', seconds: 6, video: false, audio: 'voice' },
   { name: 'beep', seconds: 2, video: false, audio: 'voice' },
+  // For the flash probe (2.3.1): no sound at all, 30 frames a second, black and white every 100 ms (5 flashes a second).
+  { name: 'flash', seconds: 3, video: true, fps: 30, picture: 'flash' },
 ]
 
 /** Runs in the page: encodes the frames and the samples with WebCodecs. */
@@ -57,17 +64,25 @@ async function encode(spec: Spec): Promise<Encoded> {
         throw e
       },
     })
-    encoder.configure({ codec: 'vp8', width: 64, height: 48, bitrate: 40_000, framerate: 10 })
+    const fps = spec.fps ?? 10
+    encoder.configure({ codec: 'vp8', width: 64, height: 48, bitrate: 40_000, framerate: fps })
     const canvas = new OffscreenCanvas(64, 48)
     const g = canvas.getContext('2d') as OffscreenCanvasRenderingContext2D
-    const frames = spec.seconds * 10
+    const frames = spec.seconds * fps
+    const step = Math.round(1_000_000 / fps)
     for (let i = 0; i < frames; i++) {
-      g.fillStyle = '#204060'
-      g.fillRect(0, 0, 64, 48)
-      g.fillStyle = '#f0c040'
-      g.fillRect((i * 3) % 48, 16, 16, 16)
-      const frame = new VideoFrame(canvas, { timestamp: i * 100_000, duration: 100_000 })
-      encoder.encode(frame, { keyFrame: i % 10 === 0 })
+      if (spec.picture === 'flash') {
+        // Black for 100 ms, white for 100 ms.
+        g.fillStyle = Math.floor((i * 10) / fps) % 2 === 0 ? '#000000' : '#ffffff'
+        g.fillRect(0, 0, 64, 48)
+      } else {
+        g.fillStyle = '#204060'
+        g.fillRect(0, 0, 64, 48)
+        g.fillStyle = '#f0c040'
+        g.fillRect((i * 3) % 48, 16, 16, 16)
+      }
+      const frame = new VideoFrame(canvas, { timestamp: i * step, duration: step })
+      encoder.encode(frame, { keyFrame: i % fps === 0 })
       frame.close()
     }
     await encoder.flush()
@@ -210,7 +225,8 @@ const server = createServer((_request, response) => {
 })
 await new Promise<void>((done) => server.listen(0, '127.0.0.1', done))
 await page.goto(`http://localhost:${(server.address() as AddressInfo).port}/`)
-for (const spec of SPECS) {
+const only = process.argv.slice(2)
+for (const spec of SPECS.filter((s) => only.length === 0 || only.includes(s.name))) {
   const encoded = await page.evaluate(encode, spec)
   const file = join(OUT, `${spec.name}.webm`)
   const buffer = mux(spec, encoded)

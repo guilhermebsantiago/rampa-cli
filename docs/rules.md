@@ -194,6 +194,8 @@ The collector also keeps axe-core's reason key on each `color-contrast` result (
 
 **Budget.** At most 20 texts, 10 placeholders and 20 icons per page, in document order, and 6 s for all of them. What is left out is counted. Undecided texts that were left out stay in axe-core's review, and the coverage line says how many, for example `rampa/pixel-contrast (20 applicable, 3 failed, 5 to review; experimental; 57 not measured: the page's time budget ran out)`. Each element costs three screenshots of its box. On the pages below, the measurement took about 0.4 s on Rampa's site (3 elements), 2.6 s on nasa.gov (28) and 6 s, the budget, on stripe.com. `collectWeb` takes `pixelContrast: false` to turn it off, or other limits and another budget; `collectPage` takes `pixelContrast: false`. The CLI has no flag for it.
 
+**Other states.** These rules read the page as it loads. Contrast in the states a person puts it in, text while hovered or focused (1.4.3), focus indicators and the marks of selected and current items (1.4.11), is measured by probes, with the same pair measurement for text: see [contrast in states](probes.md#contrast-in-states-143-and-1411---probe-states-and-the-keyboard-walk).
+
 **A narrow rule.** Icon-only controls are one kind of content among many that 1.4.11 covers. On a page with none, `rampa/icon-contrast` says nothing, and 1.4.11 stays "not checked", never "no applicable content" (`narrow` in `RuleCheck`). The same holds for the two 1.4.3 rules on a page with nothing to measure.
 
 ### Browser tree rules: 4.1.2, 2.5.3, 1.3.1 and 4.1.3
