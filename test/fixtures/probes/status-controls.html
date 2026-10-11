@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Status messages: near misses</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; color: #111; background: #fff; }
+  main { padding: 24px; max-width: 760px; }
+  section { margin: 0 0 24px; }
+  button, select, input { font: inherit; }
+  .error { color: #a00; }
+  .panel { border: 1px solid #ccc; padding: 8px; }
+  dialog { width: 400px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Kettles</h1>
+  <p>Prices updated <span id="clock">0</span> seconds ago.</p>
+
+  <!-- A filter panel: new controls, not a status message. -->
+  <section class="w-filters">
+    <button class="filters" onclick="document.getElementById('filters').hidden = !document.getElementById('filters').hidden">Filters</button>
+    <div id="filters" class="panel" hidden>
+      <label><input type="checkbox" onchange="fetch('touched?filter')"> Steel</label>
+      <label><input type="checkbox" onchange="fetch('touched?filter')"> Glass</label>
+      <label><input type="checkbox" onchange="fetch('touched?filter')"> Copper</label>
+    </div>
+  </section>
+
+  <!-- More items: content, not a status message. -->
+  <section class="w-more">
+    <ul id="items"><li>Steel kettle</li><li>Glass kettle</li></ul>
+    <button class="more" onclick="const ul = document.getElementById('items'); ['Copper kettle', 'Enamel kettle', 'Travel kettle'].forEach((t) => { const li = document.createElement('li'); li.textContent = t; ul.append(li) })">Load more</button>
+  </section>
+
+  <!-- Text shown for its own sake: nothing tells it from a message but reading it, so without a model it goes to review. -->
+  <section class="w-story">
+    <button class="story" onclick="document.getElementById('story').hidden = false">Show more</button>
+    <p id="story" hidden>Our kettles are made in Porto by a family business, in steel and glass, since 1952.</p>
+  </section>
+
+  <!-- The button says it itself: the change is where focus is. -->
+  <section class="w-copy">
+    <button class="copy" onclick="this.textContent = 'Copied'">Copy</button>
+  </section>
+
+  <!-- A dialog: a change of context, not a status message. -->
+  <section class="w-compare">
+    <button class="compare" onclick="document.getElementById('compare').showModal()">Add to compare</button>
+    <dialog id="compare"><p>Steel and glass kettles side by side.</p><button onclick="this.closest('dialog').close()">Close</button></dialog>
+  </section>
+
+  <!-- An error summary that takes focus: delivered by focus. -->
+  <section class="w-zip">
+    <label for="zip">Postcode</label>
+    <input id="zip" pattern="[0-9]{5}" onblur="if (this.value && !this.checkValidity()) { const s = document.getElementById('summary'); s.textContent = 'There is a problem: the postcode has 5 digits'; s.hidden = false; s.focus() }">
+    <div id="summary" class="error" tabindex="-1" hidden></div>
+  </section>
+
+  <!-- Never touched: a sign-in form and a destructive name. -->
+  <section class="w-signin">
+    <form action="touched" method="post">
+      <label for="user">E-mail</label> <input id="user" type="email" onblur="fetch('touched?user')">
+      <label for="pw">Password</label> <input id="pw" type="password">
+    </form>
+    <button class="clear" onclick="fetch('touched?delete')">Delete all filters</button>
+  </section>
+</main>
+<script>
+  let seconds = 0
+  setInterval(() => { document.getElementById('clock').textContent = String(++seconds) }, 1000)
+</script>
+</body>
+</html>

@@ -13,6 +13,8 @@ import { mediaProbe } from './media.ts'
 import { orientationProbe } from './orientation.ts'
 import { shortcutsProbe } from './shortcuts.ts'
 import { statesProbe } from './states.ts'
+import { statusProbe } from './status.ts'
+import { togglesProbe } from './toggles.ts'
 import { variantsProbe } from './variants.ts'
 import { INTERACT_KINDS, OPT_IN_KINDS, PROBE_KINDS, type ProbeKind, type ProbeOptions, skippedRecord } from './page.ts'
 
@@ -21,7 +23,8 @@ export { INTERACT_KINDS, OPT_IN_KINDS, PROBE_KINDS, type ProbeKind, type ProbeOp
 /**
  * The probe stage (docs/probes.md). After collection, each probe opens its own freshly loaded
  * page, drives it (keys, focus, viewport, injected CSS, muted media; the probes of the activate class press printable
- * keys, click scripted links or change form controls through the harness in activate.ts) behind the network guard,
+ * keys, click scripted links and toggles, change form controls or set off status messages through the harness in activate.ts)
+ * behind the network guard,
  * and records facts in `snapshot.observations`. Rules read only those facts, so a saved
  * snapshot is judged again offline.
  */
@@ -42,8 +45,9 @@ export function probeLaunchArgs(kinds: readonly ProbeKind[] | undefined): string
 }
 
 /**
- * `--probe layout,keyboard,hover,orientation,shortcuts,media,color,states,variants,auth,flash,links,input`, `all` (every kind but the
- * opt-in ones: variants, auth, flash, links, input), `interact` (the activate class: shortcuts, links, input) or `none`.
+ * `--probe layout,keyboard,hover,orientation,shortcuts,media,color,states,variants,auth,flash,links,input,toggles,status`, `all`
+ * (every kind but the opt-in ones: variants, auth, flash, links, input, toggles, status), `interact` (the activate class:
+ * shortcuts, links, input, toggles, status) or `none`.
  */
 export function parseProbeKinds(raw: string | undefined): ProbeKind[] {
   if (!raw) return []
@@ -66,7 +70,7 @@ export type ProbeStep = (browser: Browser, url: string, options: ProbeOptions) =
 
 /** Runs each requested kind in turn; a probe that fails is recorded as skipped and never fails the check. */
 export async function runProbes(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
-  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe, shortcuts: shortcutsProbe, media: mediaProbe, color: colorProbe, states: statesProbe, variants: variantsProbe, auth: authProbe, flash: flashProbe, links: linksProbe, input: inputProbe }
+  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe, shortcuts: shortcutsProbe, media: mediaProbe, color: colorProbe, states: statesProbe, variants: variantsProbe, auth: authProbe, flash: flashProbe, links: linksProbe, input: inputProbe, toggles: togglesProbe, status: statusProbe }
   const records: ProbeRecord[] = []
   for (const kind of options.kinds) {
     const started = Date.now()

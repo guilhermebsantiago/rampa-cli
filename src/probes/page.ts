@@ -5,7 +5,7 @@ import { type BrowserOptions, contextOptions, openPage, prepareContext } from '.
 import { type Guard, installGuard } from './guard.ts'
 import { installHooks, installKit, settleInPage } from './kit.ts'
 
-export const PROBE_KINDS = ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'variants', 'auth', 'flash', 'links', 'input'] as const
+export const PROBE_KINDS = ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status'] as const
 export type ProbeKind = (typeof PROBE_KINDS)[number]
 /**
  * Kinds that run only when named: `--probe all` leaves them out. The authentication probe types into the password
@@ -15,12 +15,12 @@ export type ProbeKind = (typeof PROBE_KINDS)[number]
  * The state-variants probe loads other pages over the network (the page's versions in other languages), which a
  * catch-all should not do either.
  */
-export const OPT_IN_KINDS: readonly ProbeKind[] = ['variants', 'auth', 'flash', 'links', 'input']
+export const OPT_IN_KINDS: readonly ProbeKind[] = ['variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status']
 /**
  * `--probe interact`: the plan's name for the activate class, every probe that presses, clicks or changes a setting
  * (wcag-coverage.md, 4.4). The shortcuts probe is one of them, and stays in `all` as it always was.
  */
-export const INTERACT_KINDS: readonly ProbeKind[] = ['shortcuts', 'links', 'input']
+export const INTERACT_KINDS: readonly ProbeKind[] = ['shortcuts', 'links', 'input', 'toggles', 'status']
 
 export interface ProbeOptions {
   kinds: readonly ProbeKind[]

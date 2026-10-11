@@ -12,6 +12,8 @@ import { reflowRule, textSizeRule, textSpacingRule, zoomRule } from './layout.ts
 import { orientationRule } from './orientation.ts'
 import { shortcutsRule } from './shortcuts.ts'
 import { STATE_CONTRAST_RULES } from './state-contrast.ts'
+import { stateExposureRule } from './state-exposure.ts'
+import { statusMessagesRule } from './status-messages.ts'
 import { VARIANTS_RULES } from './variants.ts'
 import type { ProbeRule } from './probes.ts'
 
@@ -33,6 +35,8 @@ export const PROBE_RULES: readonly ProbeRule[] = [
   authRule,
   scriptedLinksRule,
   onInputRule,
+  stateExposureRule,
+  statusMessagesRule,
   focusVisibleRule,
   focusObscuredRule,
   focusObscuredNarrowRule,

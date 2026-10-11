@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Media: alternatives found and quoted</title>
+<style>body { margin: 0; font: 16px/1.4 Arial, sans-serif; } main { padding: 24px; } video { width: 320px; height: 240px; }</style>
+</head>
+<body>
+<main>
+  <h1>Episodes and their transcripts</h1>
+  <section>
+    <h2>Episode 1</h2>
+    <!-- A link to a transcript page of this origin: read with GET, quoted. -->
+    <audio id="linked" controls src="media/voice.webm"></audio>
+    <p><a href="media/transcript.html">Transcript</a></p>
+  </section>
+  <section>
+    <h2>Episode 2</h2>
+    <!-- A link into this page: the section it names, quoted. -->
+    <audio id="inpage" controls src="media/voice.webm"></audio>
+    <p><a href="#episode-2-text">Read the transcript</a></p>
+  </section>
+  <section>
+    <h2>Episode 3</h2>
+    <!-- A details whose summary names a transcript, in Portuguese. -->
+    <audio id="details" controls src="media/voice.webm"></audio>
+    <details><summary>Transcrição</summary><p>Locutor: uma voz cantarola uma nota grave, que sobe e depois desce.</p></details>
+  </section>
+  <section>
+    <h2>Silent clip</h2>
+    <!-- A video with no audio track, and a sentence next to it that describes it. -->
+    <video id="silent" controls src="media/silent.webm"></video>
+    <p>The video above shows a yellow square sliding across a blue field, from the left edge to the right one.</p>
+  </section>
+  <section>
+    <h2>Quiet clip</h2>
+    <!-- A video whose audio track is silent all through (as ACT's test videos): read again at three points, it has no sound (1.2.1, not 1.2.2). -->
+    <video id="quietclip" controls src="media/quiet.webm"></video>
+    <p>The video above shows the same yellow square, with a silent soundtrack.</p>
+  </section>
+  <section>
+    <h2>Episode 4</h2>
+    <!-- A link to "#" that a script handles: the probe never presses it. -->
+    <audio id="scripted" controls src="media/voice.webm"></audio>
+    <p><a href="#" id="show-transcript">Transcript</a></p>
+    <div id="panel" hidden><p>Host: a voice hums a low note.</p></div>
+  </section>
+  <section>
+    <h2>Episode 5</h2>
+    <!-- A broken link next to a working transcript: to review, the broken one named. -->
+    <audio id="mixed" controls src="media/voice.webm"></audio>
+    <p><a href="media/missing-transcript.pdf">Transcript (PDF)</a></p>
+    <details><summary>Transcript</summary><p>Host: a voice hums a low note, which rises and falls.</p></details>
+  </section>
+  <section>
+    <h2>Episode 6</h2>
+    <!-- A link to another origin: one HEAD, never read (the test sets its address through ?other=). -->
+    <audio id="remote" controls src="media/voice.webm"></audio>
+    <p><a id="remote-link" href="https://example.invalid/transcript.html">Transcript</a></p>
+  </section>
+  <section>
+    <h2>Episode 7</h2>
+    <!-- A region named for a transcript by its class. -->
+    <audio id="region" controls src="media/voice.webm"></audio>
+    <div class="episode-transcript"><p>Host: the note rises, then falls, and stops after six seconds.</p></div>
+  </section>
+  <section>
+    <!-- A player named by its label, and a section elsewhere whose heading names it. -->
+    <audio id="named" controls src="media/voice.webm" aria-label="Interview with Ada Lovelace"></audio>
+  </section>
+  <section id="episode-2-text">
+    <h2>Episode 2: transcript</h2>
+    <p>Host: Welcome back. In this episode a single voice hums one low note for six seconds.</p>
+  </section>
+  <section>
+    <h2>Interview with Ada Lovelace</h2>
+    <p>Ada Lovelace: The Analytical Engine weaves algebraic patterns just as the Jacquard loom weaves flowers and leaves.
+    Interviewer: What did you add to the notes on the engine? Ada Lovelace: I described how it could compute Bernoulli numbers,
+    step by step, and I wrote that it might act upon other things besides number, such as musical sounds, if their relations
+    could be expressed in the abstract science of operations. Interviewer: Thank you for your time.</p>
+  </section>
+</main>
+<script>
+  document.getElementById('show-transcript').addEventListener('click', (event) => {
+    event.preventDefault()
+    document.getElementById('panel').hidden = false
+  })
+  const other = new URLSearchParams(location.search).get('other')
+  if (other) document.getElementById('remote-link').href = `${other}/media/transcript.html`
+</script>
+</body>
+</html>
