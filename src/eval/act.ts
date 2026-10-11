@@ -24,6 +24,12 @@ export const ACT_RULES: Record<string, { syntax: string[]; semantic: string[]; p
   // e88epe: an image hidden from assistive technology is decorative. 1.1.1 asks it as its own question, so its
   // cases are scored by that question's judgments, and 23a2a8's and qt1vmo's by the alternative's (Criterion.actFor).
   '1.1.1': { syntax: ['23a2a8'], semantic: ['qt1vmo', 'e88epe'] },
+  // No ACT rule covers F2. b49b2e's passing pages, each with a heading over a paragraph, get a section whose title is
+  // styled like that heading and not marked up.
+  '1.3.1': { syntax: [], semantic: [], pairs: ['b49b2e'] },
+  // 9bd38c (proposed) is a sanity check for 1.3.3, not a gate; its passing instructions, with what names their
+  // target taken away, are the pairs.
+  '1.3.3': { syntax: [], semantic: ['9bd38c'] },
   // No ACT rule judges whether a field that has no token should have one; the fields of 73f2c2's
   // passing cases, each with a valid token for what it asks, become pairs when the token goes.
   '1.3.5': { syntax: ['73f2c2'], semantic: [], pairs: ['73f2c2'] },
@@ -33,6 +39,9 @@ export const ACT_RULES: Record<string, { syntax: string[]; semantic: string[]; p
   // fd3a94 compares links with identical names and context: Rampa states, as a fact, where each one leads.
   '2.4.4': { syntax: ['c487ae'], semantic: ['5effbb', 'fd3a94'] },
   '2.4.6': { syntax: [], semantic: ['b49b2e', 'cc0f0a'] },
+  // 2ee8b8 is axe-core's (label-content-name-mismatch): the judgment of fields must add no failure to its passing
+  // pages. cc0f0a's passing pages, with each label turned into plain text and the field renamed, are the pairs.
+  '2.5.3': { syntax: ['2ee8b8'], semantic: [], pairs: ['cc0f0a'] },
   '3.1.1': { syntax: ['b5c3f8', 'bf051a'], semantic: ['ucwvc8'] },
   '3.1.2': { syntax: ['de46e4'], semantic: ['off6ek'] },
   // No ACT rule covers 3.3.2. cc0f0a's passing pages have visible labels; with each label moved
