@@ -52,6 +52,24 @@ describe('2.4.2 with the titles of sibling pages', () => {
     expect(user).toContain('Titles of other pages: "Help center"')
     expect(user).toContain('does not tell this page apart')
   })
+
+  it('adds the titles of the pages of the same site it links to, as read for 2.4.4', () => {
+    const destinations: A11ySnapshot['destinations'] = {
+      '/help/shipping': { kind: 'page', status: 200, title: 'Shipping' },
+      // The page itself under another address, another site, a file and a page that could not be read say nothing.
+      '/help/returns/?ref=footer': { kind: 'page', status: 200, title: 'Returns' },
+      'https://other.example/': { kind: 'page', status: 200, title: 'Other shop' },
+      '/help/policy.pdf': { kind: 'file', status: 200, contentType: 'application/pdf' },
+      '/help/gone': { kind: 'unreadable', status: 404, reason: 'not found' },
+      '/old-help': { kind: 'page', status: 200, finalUrl: 'https://shop.example/help/faq', title: 'Returns' },
+    }
+    const [candidate] = pageTitled.candidates(page(body, { destinations, siblings: [{ url: 'https://shop.example/help/faq', title: 'Help center' }] }), NO_ENGINE)
+    // A crawl's titles come first; a title the page shares with a page it links to stays: it is what tells nothing apart.
+    expect(candidate?.context.siblings).toEqual(['Help center', 'Shipping', 'Returns'])
+    // A home page is described by the site's name (G88): the pages it links to are not listed.
+    const [home] = pageTitled.candidates(page(body, { target: 'https://shop.example/', title: 'Returns', destinations }), NO_ENGINE)
+    expect(home?.context.siblings).toBeUndefined()
+  })
 })
 
 describe('2.4.6 with headings and labels cut off on screen', () => {
