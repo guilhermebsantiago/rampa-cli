@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your account: a warning with no way to extend</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; color: #111; background: #fff; }
+  main { padding: 16px; max-width: 640px; }
+  .warning { position: fixed; top: 25%; left: 50%; transform: translateX(-50%); width: 420px; background: #fff; border: 2px solid #111; padding: 16px; }
+  .warning[hidden] { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Your account</h1>
+  <p>Check your orders and your address.</p>
+  <ul><li>Order 1043: shipped</li><li>Order 1051: being packed</li></ul>
+</main>
+<div class="warning" id="warn" role="alertdialog" aria-labelledby="warn-title" hidden>
+  <h2 id="warn-title">Session expiring</h2>
+  <p>For your security, you will be signed out in 2 minutes.</p>
+  <button type="button" id="ok">OK</button>
+</div>
+<script>
+  setTimeout(() => { document.getElementById('warn').hidden = false }, 8 * 60 * 1000)
+  // "OK" only closes the warning: the session still ends at 10 minutes.
+  document.getElementById('ok').addEventListener('click', () => { document.getElementById('warn').hidden = true })
+  setTimeout(() => { location.href = '/time/signed-out.html' }, 10 * 60 * 1000)
+</script>
+</body>
+</html>

@@ -2,7 +2,7 @@ import type { Browser } from 'playwright-core'
 import type { ProbeRecord } from '../snapshot/schema.ts'
 import type { GuardLog } from './guard.ts'
 import type { InPageElement } from './kit.ts'
-import { type ProbeOptions, type ProbePage, openProbePage } from './page.ts'
+import { type ProbeOptions, type ProbePage, type ProbePageOptions, openProbePage } from './page.ts'
 
 /**
  * The activate class (docs/plans/wcag-coverage.md, 4.4; docs/probes.md): a harness for probes that click, change a
@@ -655,6 +655,11 @@ export interface HarnessConfig {
   version: string
   variant: string
   limits: { controls: number; timeMs: number }
+  /**
+   * How each fresh page opens, beyond the harness's own hooks: Playwright's fake clock installed before the page loads
+   * (the motion probe moves the page's time itself), and init scripts of the probe's own.
+   */
+  page?: Pick<ProbePageOptions, 'clock' | 'viewport' | 'desktop' | 'beforeLoad'> | undefined
 }
 
 /** How long a window lasts at least after the input, and how long it may wait for a late navigation. */
@@ -708,10 +713,15 @@ export class Harness {
   async page(fresh = false): Promise<ProbePage> {
     if (this.current && !this.dirty && !fresh) return this.current
     await this.closeCurrent()
+    const own = this.config.page
     const probe = await openProbePage(this.browser, this.url, this.options, {
+      ...(own?.clock ? { clock: true } : {}),
+      ...(own?.viewport ? { viewport: own.viewport } : {}),
+      ...(own?.desktop ? { desktop: true } : {}),
       variant: this.config.variant,
-      beforeLoad: async (page) => {
+      beforeLoad: async (page, context) => {
         await page.addInitScript(installActivateHooks)
+        await own?.beforeLoad?.(page, context)
       },
     })
     this.current = probe

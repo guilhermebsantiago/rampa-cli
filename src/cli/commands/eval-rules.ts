@@ -8,6 +8,9 @@ import { type ActTestcase, loadActTestcases, selectRuleTestcases } from '../../e
 import { type Scores, confusion, scores } from '../../eval/metrics.ts'
 import type { Painter } from '../../report/color.ts'
 import { resolveRules, runRuleChecks } from '../../rules/index.ts'
+import type { ProbeRule } from '../../rules/probes.ts'
+import { PROBE_RULES } from '../../rules/registry.ts'
+import { PROBE_KINDS, type ProbeKind, probeLaunchArgs } from '../../probes/run.ts'
 import type { RuleCheck } from '../../rules/types.ts'
 import type { PageSet, SiteCriterion } from '../../core/site.ts'
 import { SITE_CRITERIA } from '../../site/index.ts'
@@ -25,6 +28,9 @@ import { VERSION } from '../../version.ts'
  * A criterion across pages that lists ACT rules (`site/2.4.1`) is measured the same way, from two pages: each
  * test page and the first page of the same site it links to, compared as a crawl would compare them. The test
  * page's outcome is the criterion's on it; an item to review is listed apart, not counted as a flag.
+ *
+ * A probe rule that lists ACT rules (`pause-stop-hide`, `timing-adjustable`) is measured with its probe: each test
+ * page is collected with that probe kind (`--probe motion`), and the rule alone reads its record.
  */
 
 export interface RuleEvalOptions {
@@ -67,6 +73,15 @@ export interface RuleEvalSummary {
   errors: Array<{ testcaseId: string; error: string }>
 }
 
+/** The probe rules a `--rules` list names that list ACT rules, by id with or without the `rampa/` prefix. */
+export function resolveProbeRules(ids: readonly string[]): ProbeRule[] {
+  return ids.flatMap((id) => {
+    const full = id.includes('/') ? id : `rampa/${id}`
+    const rule = PROBE_RULES.find((candidate) => candidate.id === full && (candidate.act?.length ?? 0) > 0)
+    return rule ? [rule] : []
+  })
+}
+
 /** The criteria across pages a `--rules` list names as `site/<id>`. */
 export function resolveSiteChecks(ids: readonly string[]): Array<SiteCriterion<unknown>> {
   return ids.map((id) => {
@@ -78,12 +93,14 @@ export function resolveSiteChecks(ids: readonly string[]): Array<SiteCriterion<u
 
 export async function runRuleEval(options: RuleEvalOptions, p: Painter): Promise<number> {
   const ids = options.rules.split(',').map((id) => id.trim()).filter(Boolean)
-  const rules = resolveRules(ids.filter((id) => !id.startsWith('site/')))
+  const probeRules = resolveProbeRules(ids.filter((id) => !id.startsWith('site/')))
+  const probeIds = new Set(probeRules.map((rule) => rule.id))
+  const rules = resolveRules(ids.filter((id) => !id.startsWith('site/') && !probeIds.has(id.includes('/') ? id : `rampa/${id}`)))
   const siteChecks = resolveSiteChecks(ids.filter((id) => id.startsWith('site/')))
   const limit = options.limit ? Number.parseInt(options.limit, 10) : undefined
   const dataset = await loadActTestcases('.rampa/act', Boolean(options.refresh))
   const skipped: RuleEvalSummary['skipped'] = []
-  const jobs: Array<{ rule: RuleCheck; testcase: ActTestcase } | { site: SiteCriterion<unknown>; testcase: ActTestcase }> = []
+  const jobs: Array<{ rule: RuleCheck; testcase: ActTestcase } | { site: SiteCriterion<unknown>; testcase: ActTestcase } | { probe: ProbeRule; testcase: ActTestcase }> = []
   for (const site of siteChecks) {
     if (!site.act?.length) {
       skipped.push({ rule: `site/${site.id}`, reason: 'no ACT rule: measured by its fixtures' })
@@ -103,11 +120,19 @@ export async function runRuleEval(options: RuleEvalOptions, p: Painter): Promise
     for (const testcase of cases) jobs.push({ rule, testcase })
   }
 
-  const browser = await launchBrowser()
+  for (const rule of probeRules) {
+    let cases = selectRuleTestcases(dataset, rule.act ?? [])
+    if (limit !== undefined) cases = cases.slice(0, limit)
+    for (const testcase of cases) jobs.push({ probe: rule, testcase })
+  }
+
+  // Probes run in a browser started as `rampa check --probe` starts it.
+  const kinds = probeRules.map((rule) => rule.kind).filter((kind): kind is ProbeKind => (PROBE_KINDS as readonly string[]).includes(kind))
+  const browser = await launchBrowser(kinds.length > 0 ? { args: probeLaunchArgs(kinds) } : {})
   let records: RuleEvalRecord[]
   try {
     records = await mapLimit(jobs, Math.max(1, Number.parseInt(options.concurrency, 10) || 4), (job) =>
-      'site' in job ? runSiteJob(job.site, job.testcase, browser) : runRuleJob(job.rule, job.testcase, browser),
+      'site' in job ? runSiteJob(job.site, job.testcase, browser) : 'probe' in job ? runProbeJob(job.probe, job.testcase, browser) : runRuleJob(job.rule, job.testcase, browser),
     )
   } finally {
     await browser.close()
@@ -170,6 +195,54 @@ async function runRuleJob(rule: RuleCheck, testcase: ActTestcase, browser: Await
         .filter((f) => f.criterion === criterion)
         .map((f) => ({ source: f.source, ruleId: f.ruleId, ref: f.ref, evidence: f.evidence })),
       redirectedTo,
+    }
+  } catch (error) {
+    return { ...base, axe: 'passed', rule_alone: 'passed', rampa: 'passed', findings: [], error: errorMessage(error) }
+  }
+}
+
+async function runProbeJob(rule: ProbeRule, testcase: ActTestcase, browser: Awaited<ReturnType<typeof launchBrowser>>): Promise<RuleEvalRecord> {
+  const criterion = rule.criteria[0] ?? ''
+  const base = {
+    schemaVersion: 1 as const,
+    rule: rule.id,
+    criterion,
+    actRule: testcase.ruleId,
+    testcaseId: testcase.testcaseId,
+    title: testcase.testcaseTitle,
+    url: testcase.url,
+    expected: testcase.expected,
+  }
+  try {
+    const kind = rule.kind as ProbeKind
+    const { snapshot, engine } = await collectWeb(browser, testcase.url, { runAxe: true, locale: 'en', requireOk: true, probes: [kind] })
+    const record = snapshot.observations?.probes.find((p) => p.kind === rule.kind && (rule.variant === undefined || p.conditions.variant === rule.variant))
+    if (!record || record.status === 'skipped') throw new Error(`the ${rule.kind} probe did not run: ${record?.reason ?? 'no record'}`)
+    const report = await checkSnapshot(snapshot, engine, {
+      criteria: [],
+      llm: false,
+      provider: undefined,
+      runs: 1,
+      cache: memoryCache(),
+      offline: false,
+      locale: 'en',
+      minConfidence: 'low',
+      concurrency: 1,
+      rules: [],
+    })
+    const axe = engine.rules.some((r) => r.outcome === 'violation' && r.criteria.includes(criterion) && !AXE_REVIEW_RULES.includes(r.ruleId))
+    // The probe rule alone; what it sends to review counts as flagging the page unless it only means the probe could not decide.
+    const flags = !rule.undecidedReview
+    const failed = report.findings.some((f) => f.ruleId === rule.id)
+    const reviewed = (report.needsReview ?? []).some((item) => item.ruleId === rule.id)
+    const alone = failed || (flags && reviewed)
+    return {
+      ...base,
+      axe: axe ? 'failed' : 'passed',
+      rule_alone: alone ? 'failed' : 'passed',
+      rampa: axe || alone ? 'failed' : 'passed',
+      ...(reviewed && !flags ? { review: true } : {}),
+      findings: report.findings.filter((f) => f.criterion === criterion).map((f) => ({ source: f.source, ruleId: f.ruleId, ref: f.ref, evidence: f.evidence })),
     }
   } catch (error) {
     return { ...base, axe: 'passed', rule_alone: 'passed', rampa: 'passed', findings: [], error: errorMessage(error) }

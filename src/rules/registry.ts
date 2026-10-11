@@ -7,11 +7,13 @@ import { keyboardReachRule, keyboardTrapRule, onFocusRule } from './keyboard.ts'
 import { hoverRule } from './hover.ts'
 import { scriptedLinksRule } from './links.ts'
 import { MEDIA_RULES } from './media.ts'
+import { pauseStopHideRule } from './motion.ts'
 import { onInputRule } from './on-input.ts'
 import { reflowRule, textSpacingRule, zoomRule } from './layout.ts'
 import { orientationRule } from './orientation.ts'
 import { shortcutsRule } from './shortcuts.ts'
 import { STATE_CONTRAST_RULES } from './state-contrast.ts'
+import { timingAdjustableRule } from './time-limits.ts'
 import type { ProbeRule } from './probes.ts'
 
 /** The probe rules every report runs; a rule with no record to read reports nothing, not even coverage. */
@@ -36,4 +38,6 @@ export const PROBE_RULES: readonly ProbeRule[] = [
   focusObscuredNarrowRule,
   ...STATE_CONTRAST_RULES,
   flashRule,
+  timingAdjustableRule,
+  pauseStopHideRule,
 ]

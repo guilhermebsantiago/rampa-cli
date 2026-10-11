@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Motion Rampa cannot decide</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; color: #111; background: #fff; }
+  main { padding: 16px; }
+  .ticker { width: 600px; overflow: hidden; white-space: nowrap; border: 1px solid #555; }
+  .ticker span { display: inline-block; padding-left: 100%; animation: scroll 20s linear infinite; }
+  .ticker.stopped span { animation-play-state: paused; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+  .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; background: #b91c1c; color: #fff; animation: glow 1s ease-in-out infinite alternate; }
+  @keyframes glow { from { background-color: #b91c1c; } to { background-color: #f97316; } }
+  .wall { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.35); display: flex; align-items: flex-end; justify-content: center; }
+  .wall div { background: #fff; padding: 16px; margin: 16px; max-width: 480px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Markets</h1>
+  <p>Prices from the exchange, updated through the day.</p>
+  <!-- A ticker whose pause button is under the cookie wall: not pressed. -->
+  <div class="ticker" id="ticker"><span>Index up 1.2% · Bonds flat · Dollar down 0.3%</span></div>
+  <button type="button" id="pause-ticker">Pause ticker</button>
+  <!-- A counter whose only control sets how often it updates: never set. -->
+  <p>Trades today: <span id="trades">1000</span></p>
+  <label for="rate">Update frequency (seconds)</label> <input id="rate" type="text" value="2"> <button type="button" id="rate-set">Change frequency</button>
+  <!-- A badge whose color pulses: only colors change. -->
+  <p><span class="badge" id="live">Live</span> Market open</p>
+</main>
+<div class="wall" id="wall"><div><p>We use cookies to remember your settings.</p><button type="button">Cookie settings</button></div></div>
+<script>
+  document.getElementById('pause-ticker').addEventListener('click', () => document.getElementById('ticker').classList.add('stopped'))
+  let n = 1000
+  let every = 2000
+  let timer = setInterval(() => { n += 17; document.getElementById('trades').textContent = String(n) }, every)
+  document.getElementById('rate-set').addEventListener('click', () => {
+    clearInterval(timer)
+    every = Number(document.getElementById('rate').value) * 1000 || 2000
+    timer = setInterval(() => { n += 17; document.getElementById('trades').textContent = String(n) }, every)
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your account: a session with a warning that extends it</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; color: #111; background: #fff; }
+  main { padding: 16px; max-width: 640px; }
+  .warning { position: fixed; top: 25%; left: 50%; transform: translateX(-50%); width: 420px; background: #fff; border: 2px solid #111; padding: 16px; box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.4); }
+  .warning[hidden] { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Your account</h1>
+  <p>Check your orders and your address.</p>
+  <ul><li>Order 1043: shipped</li><li>Order 1051: being packed</li></ul>
+</main>
+<div class="warning" id="warn" role="alertdialog" aria-modal="true" aria-labelledby="warn-title" hidden>
+  <h2 id="warn-title">Your session is about to expire</h2>
+  <p>You will be signed out in 2 minutes.</p>
+  <button type="button" id="stay">Stay signed in</button>
+  <button type="button" id="leave">Sign out now</button>
+</div>
+<script>
+  let warnTimer
+  let endTimer
+  const arm = () => {
+    clearTimeout(warnTimer)
+    clearTimeout(endTimer)
+    document.getElementById('warn').hidden = true
+    warnTimer = setTimeout(() => { document.getElementById('warn').hidden = false }, 13 * 60 * 1000)
+    endTimer = setTimeout(() => { location.href = '/time/signed-out.html' }, 15 * 60 * 1000)
+  }
+  document.getElementById('stay').addEventListener('click', arm)
+  document.getElementById('leave').addEventListener('click', () => { location.href = '/time/signed-out.html' })
+  arm()
+</script>
+</body>
+</html>

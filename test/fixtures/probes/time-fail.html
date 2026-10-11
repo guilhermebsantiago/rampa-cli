@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Apply for a permit: a session that ends with no warning</title>
+<style>
+  body { margin: 0; font: 16px/1.4 Arial, sans-serif; color: #111; background: #fff; }
+  main { padding: 16px; max-width: 640px; }
+  label { display: block; margin-top: 12px; }
+  .note { background: #ecfdf5; border: 1px solid #065f46; padding: 8px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Apply for a parking permit</h1>
+  <p>Fill in the form to apply. It takes about ten minutes.</p>
+  <!-- A message that goes away by itself after 5 s. -->
+  <p class="note" id="saved" role="status">Your draft was saved a moment ago.</p>
+  <form action="/time/apply" method="get">
+    <label for="name">Full name</label> <input id="name" name="name" type="text" autocomplete="name">
+    <label for="plate">Licence plate</label> <input id="plate" name="plate" type="text">
+  </form>
+</main>
+<script>
+  setTimeout(() => document.getElementById('saved').remove(), 5000)
+  // After 15 minutes with no input, the page signs the person out, with no warning.
+  setTimeout(() => { location.href = '/time/expired.html' }, 15 * 60 * 1000)
+</script>
+</body>
+</html>

@@ -40,6 +40,13 @@ export interface ProbeRule {
   /** Probe versions the rule understands; other records are not read. */
   versions: readonly string[]
   criteria: readonly string[]
+  /** ACT rules the rule is measured against: `rampa eval --rules` runs its probe on their test cases. */
+  act?: readonly string[] | undefined
+  /**
+   * Its review items are what the probe could not decide (a control it could not try): `rampa eval --rules` lists
+   * them apart and does not count them as flagging a page, as for `RuleCheck.undecidedReview`.
+   */
+  undecidedReview?: boolean | undefined
   run(record: ProbeRecord, ctx: ProbeRuleContext): ProbeRuleResult
 }
 
