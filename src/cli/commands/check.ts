@@ -9,14 +9,16 @@ import type { AnyCriterion, Confidence, EngineResults, Report, Usage } from '../
 import { RampaError } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
 import { rulesNotes } from '../../engine/rules.ts'
-import type { Locale } from '../../i18n.ts'
+import { type Locale, t } from '../../i18n.ts'
 import { type Reasoning, createModelProvider, providerIdentity } from '../../providers/ai-sdk.ts'
 import { chooseModel } from '../../providers/detect.ts'
 import type { ModelProvider } from '../../providers/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
 import { renderReport } from '../../report/pretty.ts'
 import type { A11ySnapshot } from '../../snapshot/schema.ts'
-import { collectAndroid, fromScreen } from '../../surfaces/android/adb.ts'
+import { type AdbRunner, collectAndroid, fromScreen, systemAdb } from '../../surfaces/android/adb.ts'
+import { ANDROID_PROBE_KINDS, runAndroidProbes } from '../../surfaces/android/probes.ts'
+import { IOS_PROBE_KINDS } from '../../surfaces/ios.ts'
 import { collectImage } from '../../surfaces/image.ts'
 import { type Target, loadRecorded, recordingName, resolveTargets, siblingPng } from '../../surfaces/targets.ts'
 import { type DestinationCache, type FollowLinks, type FollowOptions, destinationCache } from '../../surfaces/destinations.ts'
@@ -67,8 +69,14 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   onReports?: (reports: Report[]) => Promise<number>
   /** Which links to read before judging, for criteria that compare a link with where it leads. */
   followLinks?: FollowLinks
-  /** Probes to run on web pages after collection: layout, keyboard, hover, orientation, shortcuts, media, color, states, variants, auth, flash, links, input, all (every kind but variants, auth, flash, links and input), interact or none (docs/probes.md). */
+  /**
+   * Probes to run after collection: layout, keyboard, hover, orientation, shortcuts, media, color, states, variants, auth, flash, links, input, all
+   * (every kind but variants, auth, flash, links and input), interact or none (docs/probes.md). On android:, keyboard, layout and orientation
+   * drive the device; an XCUITest export gives layout and orientation from the steps its helper exported.
+   */
   probe?: string
+  /** The adb the Android surface talks to; tests pass a fake device. Not a command-line flag. */
+  adb?: AdbRunner
   /** An advisory profile to run on top of the WCAG check (--profile cognitive); the config's profiles otherwise. */
   profile?: string
 }
@@ -118,8 +126,9 @@ interface CollectContext {
   followLinks: FollowOptions | undefined
   /** Viewport, device, session, headers and what to wait for, for web pages. */
   browserOptions: BrowserOptions | undefined
-  /** Probe kinds to run on web pages; empty runs none. */
+  /** Probe kinds to run on web pages and Android screens, or to read from an XCUITest export; empty runs none. */
   probes: ProbeKind[]
+  adb: AdbRunner | undefined
   browser: () => Promise<Browser>
   wcag: WcagVersion
 }
@@ -140,13 +149,28 @@ async function collect(target: Target, ctx: CollectContext): Promise<Collected> 
       return { ...web, notes: [], record: true }
     }
     case 'android': {
-      const android = await collectAndroid({ serial: target.serial, locale: ctx.locale, captureImages: ctx.captureImages })
+      const adb = ctx.adb ?? systemAdb()
+      const android = await collectAndroid({ serial: target.serial, locale: ctx.locale, captureImages: ctx.captureImages, adb })
+      if (ctx.probes.length > 0) {
+        // The screen as collected names the nodes every probe record cites; the probes then drive the device.
+        const run = await runAndroidProbes({ adb, serial: android.screen.serial, kinds: ctx.probes, snapshot: android.snapshot })
+        if (run.records.length > 0) {
+          android.snapshot.observations = { probes: run.records }
+          android.notes.push(t(ctx.locale, 'noteProbesUntested'))
+        }
+        if (run.leftOut.length > 0) android.notes.push(t(ctx.locale, 'noteProbesAppKinds', { kinds: ANDROID_PROBE_KINDS.join(', '), left: run.leftOut.join(', ') }))
+        for (const warning of run.warnings) {
+          process.stderr.write(`rampa: ${warning}\n`)
+          android.notes.push(warning)
+        }
+      }
       return { ...android, dump: android.screen.xml, png: android.screen.png, record: true }
     }
     case 'android-dump': {
       const screen = { xml: await readFile(target.path, 'utf8'), png: await siblingPng(target.path), locale: undefined, localeSource: undefined }
       const android = fromScreen(screen, ctx.locale, ctx.captureImages)
       android.snapshot.source = { kind: 'android-xml', path: target.label.replaceAll('\\', '/') }
+      if (ctx.probes.length > 0) android.notes.push(t(ctx.locale, 'noteProbesNeedDevice'))
       return { ...android, record: true }
     }
     case 'image': {
@@ -161,7 +185,14 @@ async function collect(target: Target, ctx: CollectContext): Promise<Collected> 
       return { ...image, record: true }
     }
     case 'snapshot': {
-      const loaded = await loadRecorded(target.path, ctx.locale, ctx.captureImages)
+      const loaded = await loadRecorded(target.path, ctx.locale, ctx.captureImages, ctx.probes.length > 0 ? ctx.probes : undefined)
+      // App-screen probe records, from an export's steps or in a recording: say they have only run against fakes.
+      const app = loaded.snapshot.surface === 'android' || loaded.snapshot.surface === 'ios'
+      if (app && (loaded.snapshot.observations?.probes.length ?? 0) > 0) loaded.notes.push(t(ctx.locale, 'noteProbesUntested'))
+      if (loaded.from === 'xcuitest') {
+        const leftOut = ctx.probes.filter((kind) => !IOS_PROBE_KINDS.includes(kind) && kind !== 'keyboard')
+        if (leftOut.length > 0) loaded.notes.push(t(ctx.locale, 'noteProbesAppKinds', { kinds: IOS_PROBE_KINDS.join(', '), left: leftOut.join(', ') }))
+      }
       return { ...loaded, record: loaded.from === 'xcuitest' }
     }
   }
@@ -230,6 +261,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     followLinks: follow,
     browserOptions,
     probes,
+    adb: options.adb,
     wcag,
     browser: async () => {
       // Probes compare pixels: the browser renders with a fixed color profile and no LCD text (and lets media autoplay for the media probe).

@@ -9,11 +9,29 @@ import type { InPageIdentity } from './kit.ts'
  */
 
 const cut = (value: unknown): string => (typeof value === 'string' ? value.slice(0, 100) : '')
+const text = (value: unknown): string | undefined => (typeof value === 'string' && value !== '' ? value : undefined)
 
-/** The identity the kit computes in the page, computed again from a snapshot node. */
+/** A node of an app screen's platform type: an Android class, or an XCUIElement type name. */
+export function nativeType(node: A11yNode): string | undefined {
+  return text(node.native.class) ?? text(node.native.elementType)
+}
+
+/**
+ * The identity of a node of an app screen (Android, iOS), which has no tag and no attributes: its platform type, its
+ * resource-id or accessibilityIdentifier, its role and its name. The native probes (probes/native/) tie each node they
+ * saw to the snapshot node it stands for and record this signature, which the rules compute again from the snapshot.
+ */
+export function nativeSignature(node: A11yNode): string {
+  const id = text(node.native.resourceId) ?? text(node.native.identifier) ?? ''
+  return ['native', cut(nativeType(node) ?? ''), cut(id), cut(node.role), cut(node.name)].join('|')
+}
+
+/** The identity the kit computes in the page, computed again from a snapshot node; an app screen's nodes have their own. */
 export function snapshotSignature(node: A11yNode): string {
+  // Every node a web collector writes has its tag; app screens' nodes have none.
+  if (typeof node.native.tag !== 'string') return nativeSignature(node)
   const attributes = (node.native.attributes ?? {}) as Record<string, unknown>
-  const tag = typeof node.native.tag === 'string' ? node.native.tag : ''
+  const tag = node.native.tag
   return [tag, cut(attributes.id), cut(attributes.role), cut(attributes.type), cut(attributes.name), cut(attributes.href)].join('|')
 }
 
@@ -27,10 +45,17 @@ export function matchNode(index: TreeIndex, ref: unknown, id: unknown): A11yNode
   return snapshotSignature(node) === identity.sig ? node : undefined
 }
 
+/** How a message names a node's kind: its tag on the web, its class without the package (Button) or its element type on app screens. */
+export function tagOf(node: A11yNode): string | undefined {
+  if (typeof node.native.tag === 'string') return node.native.tag
+  const type = nativeType(node)
+  return type ? (type.split('.').pop() ?? type) : undefined
+}
+
 /** How a finding names an element: its role and name, or its tag and text. */
 export function nameOf(node: A11yNode | undefined, fallback: { tag?: string | undefined; label?: string | undefined } = {}): string {
-  const tag = typeof node?.native.tag === 'string' ? node.native.tag : (fallback.tag ?? 'element')
-  const text = (node?.name || node?.text || fallback.label || '').replace(/\s+/g, ' ').trim()
-  const short = text.length > 60 ? `${text.slice(0, 59)}…` : text
+  const tag = (node ? tagOf(node) : undefined) ?? fallback.tag ?? 'element'
+  const value = (node?.name || node?.text || fallback.label || '').replace(/\s+/g, ' ').trim()
+  const short = value.length > 60 ? `${value.slice(0, 59)}…` : value
   return short ? `<${tag}> "${short}"` : `<${tag}>`
 }

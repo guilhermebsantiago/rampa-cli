@@ -3,7 +3,7 @@ import type { Locale } from '../i18n.ts'
 import { matchNode, nameOf } from '../probes/identity.ts'
 import type { Control, KeyEvent, KeyStop, TrapAttempt } from '../probes/keyboard.ts'
 import type { ProbeRecord } from '../snapshot/schema.ts'
-import { type ProbeRule, type ProbeRuleContext, asArray, asRecord, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
+import { type ProbeRule, type ProbeRuleContext, appPlatform, asArray, asRecord, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
 
 const MAX_REPORTED = 10
 export const KEYBOARD_VERSIONS = ['1', '2'] as const
@@ -100,6 +100,7 @@ export const keyboardReachRule: ProbeRule = {
   run(record, ctx) {
     const walk = walkOf(record)
     const what = viewportText(walk, ctx.locale)
+    const app = appPlatform(record)
     // From the top of the page, one forward round reaches everything Tab can; from an autofocused field it
     // reaches only what follows it, and the backward walk must go round too.
     if (walk.end.forward !== 'cycled' || (walk.startFocus && walk.end.backward !== 'cycled')) {
@@ -137,7 +138,11 @@ export const keyboardReachRule: ProbeRule = {
         continue
       }
       const negative = control.tabindex !== undefined && control.tabindex < 0
-      const why = negative
+      const why = app
+        ? (control as { focusable?: unknown }).focusable === false
+          ? say(ctx.locale, 'the screen marks it clickable but not focusable, so the keyboard cannot reach it', 'a tela o marca como clicável, mas não focalizável, então o teclado não chega a ele')
+          : say(ctx.locale, 'the screen marks it focusable, but Tab never moved focus to it', 'a tela o marca como focalizável, mas o Tab nunca levou o foco a ele')
+        : negative
         ? say(ctx.locale, `it has tabindex="${control.tabindex}", which takes it out of the Tab order`, `ele tem tabindex="${control.tabindex}", que o tira da ordem do Tab`)
         : NATIVE_FOCUSABLE.has(control.tag)
           ? say(ctx.locale, 'it is a native control that never took focus', 'é um controle nativo que nunca recebeu foco')
@@ -170,6 +175,18 @@ export const keyboardReachRule: ProbeRule = {
   },
 }
 
+/** On an app screen Esc is never pressed (Android reads it as Back, which can leave the screen), nor Back itself. */
+const APP_TRAP_TEXT: Record<Locale, { trap: string; dialog: string }> = {
+  en: {
+    trap: 'Keyboard focus cannot leave this group of elements: Tab, Shift+Tab and the arrow keys all keep it inside. (Esc is not pressed on an app screen, where Android reads it as Back.)',
+    dialog: 'Focus stays inside this dialog. That is fine when Back or a control inside it closes it from the keyboard; Rampa never presses Back on an app screen, so check that one does.',
+  },
+  'pt-BR': {
+    trap: 'O foco do teclado não consegue sair deste grupo de elementos: Tab, Shift+Tab e as setas o mantêm dentro. (Esc não é pressionado numa tela de app, onde o Android o lê como Voltar.)',
+    dialog: 'O foco fica preso neste diálogo. Tudo bem se Voltar ou um controle dentro dele o fecha pelo teclado; o Rampa nunca pressiona Voltar numa tela de app, então confira se algum fecha.',
+  },
+}
+
 const TRAP_TEXT: Record<Locale, { trap: string; dialog: string; hint: string }> = {
   en: {
     trap: 'Keyboard focus cannot leave this group of elements: Tab, Shift+Tab, Esc and the arrow keys all keep it inside.',
@@ -197,7 +214,7 @@ export const keyboardTrapRule: ProbeRule = {
   run(record, ctx) {
     const walk = walkOf(record)
     const what = viewportText(walk, ctx.locale)
-    const text = TRAP_TEXT[ctx.locale]
+    const text = appPlatform(record) ? { ...TRAP_TEXT[ctx.locale], ...APP_TRAP_TEXT[ctx.locale] } : TRAP_TEXT[ctx.locale]
     const findings: Finding[] = []
     const review: Finding[] = []
     let unmatched = 0
@@ -264,6 +281,18 @@ const CHANGE_WORDS: Record<Locale, Record<string, string>> = {
   },
 }
 
+/** What a change of context is on an app screen, which the native walk notices between two dumps. */
+const APP_CHANGE_WORDS: Record<Locale, Record<string, string>> = {
+  en: { navigation: 'showed another screen', open: 'brought another app to the front', modal: 'opened a window over the screen' },
+  'pt-BR': { navigation: 'mostrou outra tela', open: 'trouxe outro app para a frente', modal: 'abriu uma janela sobre a tela' },
+}
+
+/** An app screen's change cannot be confirmed by giving focus back: that would take Back, which the probe never presses. */
+const APP_ONCE_TEXT: Record<Locale, string> = {
+  en: 'While keyboard focus moved to this element, the app {what}. On an app screen Rampa cannot give focus back to see whether it happens again (that would need Back), so check whether focus caused it.',
+  'pt-BR': 'Quando o foco do teclado chegou a este elemento, o app {what}. Numa tela de app o Rampa não consegue devolver o foco para ver se isso se repete (precisaria de Voltar), então confira se o foco causou isso.',
+}
+
 const ON_FOCUS_TEXT: Record<Locale, { change: string; review: string; once: string }> = {
   en: {
     change: 'Moving keyboard focus to this element, with nothing activated, {what}: a change of context on focus.',
@@ -295,8 +324,9 @@ export const onFocusRule: ProbeRule = {
     const walk = walkOf(record)
     const what = viewportText(walk, ctx.locale)
     const idle = new Set(walk.idle.map((event) => `${event.type}|${event.detail ?? ''}`))
-    const words = CHANGE_WORDS[ctx.locale]
-    const text = ON_FOCUS_TEXT[ctx.locale]
+    const app = appPlatform(record)
+    const words = app ? { ...CHANGE_WORDS[ctx.locale], ...APP_CHANGE_WORDS[ctx.locale] } : CHANGE_WORDS[ctx.locale]
+    const text = app ? { ...ON_FOCUS_TEXT[ctx.locale], once: APP_ONCE_TEXT[ctx.locale] } : ON_FOCUS_TEXT[ctx.locale]
     const findings: Finding[] = []
     const review: Finding[] = []
     let unmatched = 0
@@ -361,7 +391,7 @@ export const onFocusRule: ProbeRule = {
               rule: this.id,
               node,
               message: text.once.replace('{what}', [...new Set(kinds)].join(', ')),
-              evidence: `${focusOn} ${parts.join('; ')}; ${idleNote}${say(ctx.locale, '; it did not happen again when focus came back', '; não se repetiu quando o foco voltou')}`,
+              evidence: `${focusOn} ${parts.join('; ')}; ${idleNote}${app ? '' : say(ctx.locale, '; it did not happen again when focus came back', '; não se repetiu quando o foco voltou')}`,
               confidence: 'low',
               subject,
             }),

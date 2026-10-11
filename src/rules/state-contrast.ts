@@ -9,7 +9,7 @@ import type { PixelContrastFact } from '../snapshot/pixel-contrast.ts'
 import type { ProbeRecord } from '../snapshot/schema.ts'
 import { contrastCall, isLargeText } from './contrast.ts'
 import { walkOf } from './keyboard.ts'
-import { type ProbeRule, type ProbeRuleContext, type ProbeRuleResult, asArray, asRecord, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
+import { type ProbeRule, type ProbeRuleContext, type ProbeRuleResult, appPlatform, asArray, asRecord, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
 
 /**
  * Contrast in states (C15 of docs/plans/wcag-coverage.md), read from probe records:
@@ -210,7 +210,15 @@ export const focusIndicatorRule: ProbeRule = {
       tally.fill
         ? say(ctx.locale, `${tally.fill} whose focus changes the background inside the component, which 1.4.11 leaves out of scope (Understanding, Figure 15)`, `${tally.fill} cujo foco muda o fundo dentro do componente, o que a 1.4.11 deixa fora do escopo (Understanding, Figura 15)`)
         : '',
-      tally.old ? say(ctx.locale, `${tally.old} stop(s) recorded without the indicator's colors (an older recording)`, `${tally.old} parada(s) gravada(s) sem as cores do indicador (uma gravação mais antiga)`) : '',
+      tally.old
+        ? appPlatform(record)
+          ? say(
+              ctx.locale,
+              `${tally.old} focus indicator(s) on an app screen not measured: the platform's own focus highlight, which 1.4.11 exempts, cannot be told apart from the app's`,
+              `${tally.old} indicador(es) de foco numa tela de app não medido(s): o realce de foco da própria plataforma, que a 1.4.11 isenta, não se distingue do do app`,
+            )
+          : say(ctx.locale, `${tally.old} stop(s) recorded without the indicator's colors (an older recording)`, `${tally.old} parada(s) gravada(s) sem as cores do indicador (uma gravação mais antiga)`)
+        : '',
     ].filter(Boolean)
     const coverage: ProbeCoverage = {
       criterion: '1.4.11',

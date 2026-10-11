@@ -7,6 +7,7 @@ import { emptyEngine } from '../engine/axe.ts'
 import { runRules } from '../engine/rules.ts'
 import { type Locale, t } from '../i18n.ts'
 import { type RgbaImage, isPng, pngFromBase64, tryDecodePng } from '../pixels/png.ts'
+import type { ProbeKind } from '../probes/page.ts'
 import { type A11ySnapshot, A11ySnapshotSchema } from '../snapshot/schema.ts'
 import { importXcuitest, isXcuitestExport } from './ios.ts'
 
@@ -108,11 +109,12 @@ export interface Loaded {
 /**
  * A .json target ready to check: an XCUITest export goes through the importer and the
  * rules; a recorded snapshot comes with its recorded engine results, and an app snapshot
- * recorded without them gets the rules, with its screenshot when it can be found.
+ * recorded without them gets the rules, with its screenshot when it can be found. `probes`
+ * (--probe) chooses which of an export's probe steps become observations; without it, all do.
  */
-export async function loadRecorded(path: string, locale: Locale, captureImages = true): Promise<Loaded> {
+export async function loadRecorded(path: string, locale: Locale, captureImages = true, probes?: readonly ProbeKind[]): Promise<Loaded> {
   const data: unknown = JSON.parse(await readFile(path, 'utf8'))
-  if (isXcuitestExport(data)) return { ...importXcuitest(data, { locale, captureImages }), from: 'xcuitest' }
+  if (isXcuitestExport(data)) return { ...importXcuitest(data, { locale, captureImages, probes }), from: 'xcuitest' }
   const snapshot = parseSnapshot(data, path)
   const notes = scopeNotes(snapshot, locale)
   const recorded = await loadEngineFor(path)

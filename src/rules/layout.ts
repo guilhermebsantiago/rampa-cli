@@ -1,6 +1,6 @@
 import type { Finding, ProbeCoverage } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
-import { matchNode, nameOf } from '../probes/identity.ts'
+import { matchNode, nameOf, tagOf } from '../probes/identity.ts'
 import {
   type LayoutBox,
   type LayoutMeasure,
@@ -16,7 +16,8 @@ import {
   wholeBox,
 } from '../probes/layout.ts'
 import type { A11yNode, ProbeRecord } from '../snapshot/schema.ts'
-import { type ProbeRule, type ProbeRuleContext, asArray, asRecord, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
+import { TEXT_SIZE_VARIANT } from '../probes/native/layout.ts'
+import { type ProbeRule, type ProbeRuleContext, appPlatform, asArray, asRecord, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
 
 /** Findings per rule and kind; the rest are counted in the coverage line, never dropped silently. */
 const MAX_REPORTED = 10
@@ -65,7 +66,7 @@ function cutContext(box: LayoutBox, locale: Locale): string {
 function clipperName(ctx: ProbeRuleContext, box: LayoutBox): string {
   if (!box.clipBy) return say(ctx.locale, 'an ancestor', 'um ancestral')
   const node = ctx.index.get(box.clipBy)?.node
-  return node ? `<${String(node.native.tag ?? 'element')}> ${box.clipBy}` : box.clipBy
+  return node ? `<${tagOf(node) ?? 'element'}> ${box.clipBy}` : box.clipBy
 }
 
 interface Hit {
@@ -417,6 +418,79 @@ const ZOOM_TEXT: Record<
   },
 }
 
+/**
+ * 1.4.4 on an app screen: the system text size at 200% (Android's font_scale 2.0, iOS's Dynamic Type) against 100%,
+ * the native probes' record (probes/native/layout.ts). WCAG2ICT reads 1.4.4 for software as text that can be resized
+ * to 200% without loss of content; the platform's text size setting is how a person resizes an app's text.
+ */
+const APP_TEXT_SIZE_TEXT: Record<Locale, typeof ZOOM_TEXT.en & { ellipsis: string; audit: string }> = {
+  en: {
+    clipped: 'With the system text size at {size}, this text is cut off: the container it is in does not grow with it. It is whole at 100%.',
+    clippedAlways: 'With the system text size at {size}, this text is cut off. It is cut at 100% too, so the larger text did not cause it, but it cannot be read at {size} either.',
+    review: 'With the system text size at {size}, this text is cut or shortened, but a content description holds the full text. Check that the text can be read at {size}.',
+    edgeX: 'With the system text size at {size}, this text runs past the edge of the screen, outside anything that scrolls, so part of it cannot be seen. It fits at 100%.',
+    edgeY: 'With the system text size at {size}, text that fit on the screen at 100% falls below its bottom edge, outside anything that scrolls, so it cannot be reached.',
+    overlap: 'With the system text size at {size}, this text overlaps other text that it did not overlap at 100%.',
+    missing: 'Text shown at 100% is gone from the screen with the system text size at {size}, outside anything that scrolls. Check that it can still be reached at {size}.',
+    ellipsis: 'With the system text size at {size}, the app shortens this text to an ellipsis, and nothing on the screen gives the full text.',
+    audit: "Apple's accessibility audit, run with text at the larger size, reports an issue here: {description} Check that the text can be read.",
+    reasons: {
+      clipped: 'pushed out of a container that does not scroll',
+      removed: 'gone from the screen',
+      'off-page': 'moved off the screen',
+    },
+  },
+  'pt-BR': {
+    clipped: 'Com o tamanho do texto do sistema em {size}, este texto fica cortado: o contêiner em que está não cresce com ele. A 100% ele aparece inteiro.',
+    clippedAlways: 'Com o tamanho do texto do sistema em {size}, este texto fica cortado. Ele já fica cortado a 100%, então o texto maior não é a causa, mas ele também não pode ser lido a {size}.',
+    review: 'Com o tamanho do texto do sistema em {size}, este texto fica cortado ou encurtado, mas uma descrição de conteúdo tem o texto completo. Confira se o texto pode ser lido a {size}.',
+    edgeX: 'Com o tamanho do texto do sistema em {size}, este texto passa da borda da tela, fora de algo que role, e parte dele não aparece. A 100% ele cabe.',
+    edgeY: 'Com o tamanho do texto do sistema em {size}, texto que cabia na tela a 100% fica abaixo da borda inferior, fora de algo que role, e não pode ser alcançado.',
+    overlap: 'Com o tamanho do texto do sistema em {size}, este texto se sobrepõe a outro texto, o que não acontecia a 100%.',
+    missing: 'Texto que aparece a 100% some da tela com o tamanho do texto do sistema em {size}, fora de algo que role. Confira se ele ainda pode ser alcançado a {size}.',
+    ellipsis: 'Com o tamanho do texto do sistema em {size}, o app encurta este texto com reticências, e nada na tela traz o texto completo.',
+    audit: 'A auditoria de acessibilidade da Apple, rodada com o texto no tamanho maior, aponta um problema aqui: {description} Confira se o texto pode ser lido.',
+    reasons: {
+      clipped: 'empurrado para fora de um contêiner que não rola',
+      removed: 'sumiu da tela',
+      'off-page': 'saiu da tela',
+    },
+  },
+}
+
+/** The native texts at the size the record measured: 200% on Android, 194% for iOS's AX2. */
+function appTexts(record: ProbeRecord, locale: Locale): (typeof APP_TEXT_SIZE_TEXT)['en'] {
+  const size = `${Math.round((Number(asRecord(record.data).scale) || 2) * 100)}%`
+  const texts = APP_TEXT_SIZE_TEXT[locale]
+  const fill = (value: string) => value.replaceAll('{size}', size)
+  return {
+    ...texts,
+    clipped: fill(texts.clipped),
+    clippedAlways: fill(texts.clippedAlways),
+    review: fill(texts.review),
+    edgeX: fill(texts.edgeX),
+    edgeY: fill(texts.edgeY),
+    overlap: fill(texts.overlap),
+    missing: fill(texts.missing),
+    ellipsis: fill(texts.ellipsis),
+  }
+}
+
+/** Where each state was measured, as the evidence of 1.4.4 names it: a zoomed page, or an app screen's text size. */
+function zoomPhrases(record: ProbeRecord, locale: Locale): { atVariant: string; atBase: string; at: string; back: string; whole: string; cutAlready: string } {
+  const pt = locale === 'pt-BR'
+  if (!appPlatform(record)) {
+    return pt
+      ? { atVariant: 'com 640×512 px CSS, escala 2', atBase: 'com 1280×1024', at: 'com 640×512 px CSS', back: 'aparece de novo com 1280×1024', whole: 'inteiro', cutAlready: 'já cortado' }
+      : { atVariant: 'at 640×512 CSS px, device scale 2', atBase: 'at 1280×1024', at: 'at 640×512 CSS px', back: 'shown again back at 1280×1024', whole: 'whole', cutAlready: 'already cut' }
+  }
+  const setting = String(asRecord(record.data).setting ?? 'font_scale 2.0')
+  const size = `${Math.round((Number(asRecord(record.data).scale) || 2) * 100)}%`
+  return pt
+    ? { atVariant: `com o texto a ${size} (${setting})`, atBase: 'a 100%', at: `com o texto a ${size}`, back: 'aparece de novo com o texto de volta a 100%', whole: 'inteiro', cutAlready: 'já cortado' }
+    : { atVariant: `with text at ${size} (${setting})`, atBase: 'at 100%', at: `with text at ${size}`, back: 'shown again once the text size was back at 100%', whole: 'whole', cutAlready: 'already cut' }
+}
+
 /** ACT 59br37, expectation 1's exception: the clipping ancestor does not wrap and shows an ellipsis (text-overflow other than clip). */
 export function nowrapEllipsis(x: LayoutBox['xClip']): boolean {
   return Boolean(x && (x.ws === 'nowrap' || x.wrap === 'nowrap') && x.to !== '' && x.to !== 'clip')
@@ -449,7 +523,11 @@ export const zoomRule: ProbeRule = {
     const before = measureOf(data.baseline)
     const after = measureOf(data.variant)
     const missing = asArray<MissingGroup>(data.missing).filter((g) => g && typeof g === 'object' && g.root && typeof g.root.ref === 'string' && typeof g.boxes === 'number')
-    const text = ZOOM_TEXT[ctx.locale]
+    // An app screen's record (probes/native/layout.ts): the same facts, measured with the system text size at 200%.
+    const app = appPlatform(record)
+    const appText = appTexts(record, ctx.locale)
+    const text = app ? appText : ZOOM_TEXT[ctx.locale]
+    const where = zoomPhrases(record, ctx.locale)
     const baseline = new Map(before.boxes.map((box) => [pairOf(box), box]))
     const findings: Finding[] = []
     const review: Finding[] = []
@@ -500,11 +578,22 @@ export const zoomRule: ProbeRule = {
           ),
         )
       }
-      const evidence = say(
-        ctx.locale,
-        `at 640×512 CSS px, device scale 2: ${parts.join('; ')}; at 1280×1024 ${zoomCaused ? 'whole' : 'already cut'}${cutContext(box, ctx.locale)}`,
-        `com 640×512 px CSS, escala 2: ${parts.join('; ')}; com 1280×1024 ${zoomCaused ? 'inteiro' : 'já cortado'}${cutContext(box, ctx.locale)}`,
-      )
+      // A dump has no CSS: what an app screen cut is said from the box, and an ellipsis is text the app shortened itself.
+      const shortened = app !== undefined && box.ellipsis === true
+      // Cut by the screen itself (an iOS label past the window, outside anything that scrolls), not by a container.
+      const atEdge = app !== undefined && box.clipBy === ctx.snapshot.root.ref
+      if (app && parts.length === 0) {
+        parts.push(
+          shortened
+            ? say(ctx.locale, `shown as "${box.text}", about ${r1(box.cut.right)} px of its text left out`, `mostrado como "${box.text}", cerca de ${r1(box.cut.right)} px do texto deixados de fora`)
+            : atEdge
+              ? `${cutText(box, ctx.locale)} ${say(ctx.locale, 'past the edge of the screen', 'além da borda da tela')}`
+              : `${cutText(box, ctx.locale)} ${say(ctx.locale, 'by', 'por')} ${clipperName(ctx, box)}`,
+        )
+      }
+      // The shortened text already says so; the context would only repeat the ellipsis.
+      const context = cutContext(shortened ? { ...box, ellipsis: false } : box, ctx.locale)
+      const evidence = `${where.atVariant}: ${parts.join('; ')}; ${where.atBase} ${zoomCaused ? where.whole : where.cutAlready}${context}`
       const doubtful = (cutY && box.yClip?.clamp) || box.full || (box.hiddenPeers ?? 0) > 0
       if (doubtful) {
         if (review.length < MAX_REPORTED * 2) review.push(probeFinding({ criterion: '1.4.4', rule: this.id, node, message: text.review, evidence, confidence: 'medium', subject: 'clipped' }))
@@ -517,10 +606,10 @@ export const zoomRule: ProbeRule = {
             criterion: '1.4.4',
             rule: this.id,
             node,
-            message: zoomCaused ? text.clipped : text.clippedAlways,
+            message: shortened ? appText.ellipsis : atEdge && zoomCaused ? appText.edgeX : zoomCaused ? text.clipped : text.clippedAlways,
             evidence,
-            confidence: zoomCaused ? 'high' : 'medium',
-            subject: 'clipped',
+            confidence: zoomCaused && !shortened ? 'high' : 'medium',
+            subject: shortened ? 'ellipsis' : 'clipped',
           }),
         )
       }
@@ -594,8 +683,8 @@ export const zoomRule: ProbeRule = {
           message: text.overlap,
           evidence: say(
             ctx.locale,
-            `${nameOf(hit.node)} and ${hit.other} overlap by ${r1(hit.width)}×${r1(hit.height)} px at 640×512 CSS px`,
-            `${nameOf(hit.node)} e ${hit.other} se sobrepõem em ${r1(hit.width)}×${r1(hit.height)} px com 640×512 px CSS`,
+            `${nameOf(hit.node)} and ${hit.other} overlap by ${r1(hit.width)}×${r1(hit.height)} px ${where.at}`,
+            `${nameOf(hit.node)} e ${hit.other} se sobrepõem em ${r1(hit.width)}×${r1(hit.height)} px ${where.at}`,
           ),
           confidence: 'low',
           subject: `overlap|${hit.other}`,
@@ -628,7 +717,7 @@ export const zoomRule: ProbeRule = {
         .filter((value) => typeof value === 'string')
         .map((value) => `"${value}"`)
         .join(', ')
-      const reason = text.reasons[group.reason] ?? group.reason
+      const reason = (text.reasons as Record<string, string>)[group.reason] ?? group.reason
       review.push(
         probeFinding({
           criterion: '1.4.4',
@@ -637,11 +726,33 @@ export const zoomRule: ProbeRule = {
           message: text.missing,
           evidence: say(
             ctx.locale,
-            `at 1280×1024 shown; at 640×512 CSS px ${reason} (<${group.root.tag}> ${group.root.ref}): ${group.boxes} text box(es)${sample ? `, such as ${sample}` : ''}; shown again back at 1280×1024`,
-            `com 1280×1024 aparece; com 640×512 px CSS ${reason} (<${group.root.tag}> ${group.root.ref}): ${group.boxes} caixa(s) de texto${sample ? `, como ${sample}` : ''}; aparece de novo com 1280×1024`,
+            `${where.atBase} shown; ${where.at} ${reason} (<${group.root.tag}> ${group.root.ref}): ${group.boxes} text box(es)${sample ? `, such as ${sample}` : ''}${app && group.back === undefined ? '' : `; ${where.back}`}`,
+            `${where.atBase} aparece; ${where.at} ${reason} (<${group.root.tag}> ${group.root.ref}): ${group.boxes} caixa(s) de texto${sample ? `, como ${sample}` : ''}${app && group.back === undefined ? '' : `; ${where.back}`}`,
           ),
           confidence: 'low',
           subject: `missing|${group.root.ref}`,
+        }),
+      )
+    }
+
+    // Apple's accessibility audit, when the XCUITest export ran it at the larger size: never a failure on its own.
+    for (const issue of asArray<{ type?: unknown; description?: unknown; ref?: unknown; id?: unknown }>(data.audit)) {
+      if (!app || typeof issue?.description !== 'string') continue
+      const node = matchNode(ctx.index, issue.ref, issue.id)
+      if (!node) {
+        unmatched++
+        continue
+      }
+      if (review.length >= MAX_REPORTED * 3) continue
+      review.push(
+        probeFinding({
+          criterion: '1.4.4',
+          rule: this.id,
+          node,
+          message: appText.audit.replace('{description}', issue.description.trim().replace(/([^.])$/, '$1.')),
+          evidence: `${where.atVariant}: ${say(ctx.locale, 'XCUITest audit type', 'tipo de auditoria do XCUITest')} ${String(issue.type ?? '')}, ${nameOf(node)}`,
+          confidence: 'low',
+          subject: `audit|${String(issue.type ?? '')}`,
         }),
       )
     }
@@ -655,11 +766,17 @@ export const zoomRule: ProbeRule = {
         ? say(ctx.locale, `${behindToggle} hidden text box(es) sit behind a menu button, not opened`, `${behindToggle} caixa(s) de texto escondida(s) atrás de um botão de menu, não aberto`)
         : '',
       notBack > 0
-        ? say(
-            ctx.locale,
-            `${notBack} text box(es) gone at 640 px and not back at 1280 px: not counted (a timer or a carousel)`,
-            `${notBack} caixa(s) de texto sumida(s) com 640 px e não de volta com 1280 px: não contadas (um timer ou carrossel)`,
-          )
+        ? app
+          ? say(
+              ctx.locale,
+              `${notBack} text box(es) gone at 200% and not back at 100%: not counted (something else changed the screen)`,
+              `${notBack} caixa(s) de texto sumida(s) a 200% e não de volta a 100%: não contadas (outra coisa mudou a tela)`,
+            )
+          : say(
+              ctx.locale,
+              `${notBack} text box(es) gone at 640 px and not back at 1280 px: not counted (a timer or a carousel)`,
+              `${notBack} caixa(s) de texto sumida(s) com 640 px e não de volta com 1280 px: não contadas (um timer ou carrossel)`,
+            )
         : '',
       after.truncated ? say(ctx.locale, 'box budget reached; hidden text not checked', 'limite de caixas atingido; texto escondido não verificado') : '',
     ].filter(Boolean)
@@ -667,7 +784,16 @@ export const zoomRule: ProbeRule = {
       criterion: '1.4.4',
       method: `probe/layout@${record.version}`,
       rule: this.id,
-      conditions: conditionsText(record, say(ctx.locale, '640×512 CSS px at device scale 2 (1280×1024 at 200%)', '640×512 px CSS com escala 2 (1280×1024 a 200%)')),
+      conditions: conditionsText(
+        record,
+        app
+          ? say(
+              ctx.locale,
+              `the system text size at ${Math.round((Number(data.scale) || 2) * 100)}% (${String(data.setting ?? 'font_scale 2.0')}) against 100%, on a ${record.conditions.viewport.width}×${record.conditions.viewport.height} screen`,
+              `o tamanho do texto do sistema em ${Math.round((Number(data.scale) || 2) * 100)}% (${String(data.setting ?? 'font_scale 2.0')}) contra 100%, numa tela de ${record.conditions.viewport.width}×${record.conditions.viewport.height}`,
+            )
+          : say(ctx.locale, '640×512 CSS px at device scale 2 (1280×1024 at 200%)', '640×512 px CSS com escala 2 (1280×1024 a 200%)'),
+      ),
       status: coverageStatus(failures, review.length),
       applicable: after.measured,
       failures,
@@ -679,3 +805,9 @@ export const zoomRule: ProbeRule = {
     return { findings, review, coverage: [coverage] }
   },
 }
+
+/**
+ * The same rule over an app screen's text-size record (probes/native/layout.ts, variant text-size-200): the system text
+ * size at 200% instead of 200% zoom. A snapshot holds one or the other, so 1.4.4 gets one coverage line.
+ */
+export const textSizeRule: ProbeRule = { ...zoomRule, variant: TEXT_SIZE_VARIANT }
