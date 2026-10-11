@@ -30,9 +30,11 @@ const header = (cells, align) => [row(cells), row(align ?? cells.map(() => '---'
 export function columns(scores) {
   const scored = Object.values(scores.tools).filter((tool) => tool.scored)
   const out = scored.map((tool) => ({ id: tool.id, label: SHORT[tool.id] ?? tool.label, overall: tool.overall, byCriterion: tool.byCriterion, pairs: tool.pairs, trueFailure: tool.coverage.trueFailure, time: tool.time }))
-  const gemma = scores.tools['rampa-gemma']
-  if (gemma?.overallWithLow) {
-    out.push({ id: 'rampa-gemma-low', label: 'Rampa + Gemma, low confidence counted', overall: gemma.overallWithLow, byCriterion: gemma.byCriterionWithLow, pairs: gemma.pairsWithLow, trueFailure: gemma.trueFailureWithLow, time: gemma.time, variant: true })
+  // Probes are experimental: their findings are all below the threshold, so they show only in this reading.
+  for (const id of ['rampa-gemma', 'rampa-probes']) {
+    const tool = scores.tools[id]
+    if (!tool?.overallWithLow) continue
+    out.push({ id: `${id}-low`, label: `${SHORT[id]}, low confidence counted`, overall: tool.overallWithLow, byCriterion: tool.byCriterionWithLow, pairs: tool.pairsWithLow, trueFailure: tool.trueFailureWithLow, time: tool.time, variant: true })
   }
   return out
 }
@@ -139,7 +141,7 @@ export function renderReport({ scores, cases, pairs, run, names, levels, tools }
   // Per criterion
   push('### By criterion', '')
   push(
-    'Units: failed examples + passed or inapplicable examples under the criterion. Each cell: failed examples caught / failed examples, then passed or inapplicable examples flagged. ★ marks a criterion with a rule Rampa was tuned on. The last column reads Rampa + Gemma as `rampa eval` does, with findings below the default confidence threshold counted.',
+    'Units: failed examples + passed or inapplicable examples under the criterion. Each cell: failed examples caught / failed examples, then passed or inapplicable examples flagged. ★ marks a criterion with a rule Rampa was tuned on. The last two columns read the Rampa + Gemma runs as `rampa eval` does, with findings below the default confidence threshold counted; probe findings are experimental, so they only show there.',
     '',
   )
   push(header(['Criterion', 'Units', ...cols.map((c) => c.label)], ['---', '---:', ...cols.map(() => ':---:')]))
@@ -323,7 +325,7 @@ export function renderSummary({ scores, cases, pairs, run }) {
   }
   lines.push(
     '',
-    'Failures only, as each tool defines them: what fails its run by default. The last row reads the same Rampa + Gemma run as `rampa eval` does, also counting findings below the default confidence threshold (judgments of ordinary titles, link texts and headings, and experimental checks), which `rampa check` lists only with --verbose. Review items, and the scores if they counted, are in the results below. Every tool is scored on every criterion. Read the caveats before quoting a number: Rampa was tuned on these test cases, and the pairs are its own design.',
+    'Failures only, as each tool defines them: what fails its run by default. The rows in italics read the same Rampa runs as `rampa eval` does, also counting findings below the default confidence threshold (judgments of ordinary titles, link texts and headings, and experimental checks such as every probe), which `rampa check` lists only with --verbose. Review items, and the scores if they counted, are in the results below. Every tool is scored on every criterion. Read the caveats before quoting a number: Rampa was tuned on these test cases, and the pairs are its own design.',
   )
   return `${lines.join('\n')}\n`
 }

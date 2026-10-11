@@ -56,14 +56,16 @@ if (limit !== undefined) {
   })
 }
 const home = await homeRules(cases.rules.map((rule) => rule.ruleId))
+// Where the file sits on this machine stays out of the results.
+const { path: _path, ...actFile } = cases.dataset
 await writeJson(join(out, 'cases.json'), {
-  dataset: cases.dataset,
+  dataset: actFile,
   limit: limit ?? null,
   excluded: cases.excluded,
   rules: cases.rules,
   home,
   cases: cases.cases.map(({ id, ruleId, title, expected, criteria, url }) => ({ id, ruleId, title, expected, criteria, url })),
-})
+}, { compact: true })
 cases.home = home
 log(`ACT ${cases.dataset.sha256.slice(0, 8)}: ${cases.rules.length} rules, ${cases.cases.length} test cases; Rampa was tuned on ${home.length} of the rules`)
 
@@ -101,14 +103,14 @@ if (existsSync(pairsFile) && existsSync(pairDir)) {
     served: [...built.served.entries()].map(([key, file]) => [key, relative(pairDir, file)]),
   }
   for (const [key, file] of built.served) served.set(key, file)
-  await writeJson(pairsFile, pairs)
+  await writeJson(pairsFile, pairs, { compact: true })
   log(`${pairs.pairs.length} pairs (${pairs.dropped.length} copies the corruptor left unchanged)`)
 }
 
 // 3. Every page every tool runs on.
 const actPages = cases.cases.map((testcase) => ({ id: testcase.id, url: testcase.url, kind: 'act' }))
 const allPages = [...actPages, ...(pairs?.pages ?? []).map(({ id, url, kind }) => ({ id, url, kind }))]
-await writeJson(join(out, 'pages.json'), allPages)
+await writeJson(join(work, 'pages.json'), allPages)
 
 async function pagesFor(id) {
   const spec = TOOLS[id]
@@ -223,13 +225,13 @@ const runInfo = {
   memoryGb: Math.round(totalmem() / 2 ** 30),
   browser: browserPath(),
   ollama: await ollamaInfo(),
-  act: cases.dataset,
+  act: actFile,
   workers,
   limit: limit ?? null,
   runs: [...(previous.runs ?? []), ...(runLog.length ? [{ at: new Date().toISOString(), rows: runLog }] : [])],
 }
 await writeJson(join(out, 'run.json'), runInfo)
-await writeJson(join(out, 'scores.json'), scores)
+await writeJson(join(out, 'scores.json'), scores, { compact: true })
 const reportInput = { scores, cases, pairs: pairs ?? { pairs: [], dropped: [], notes: {} }, run: runInfo, names, levels, tools: TOOLS }
 const summary = renderSummary(reportInput)
 const markdown = renderReport(reportInput)

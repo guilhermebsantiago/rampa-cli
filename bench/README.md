@@ -15,7 +15,7 @@ pnpm install                      # the other tools, pinned
 node run.mjs --docs               # every row; writes results/<today>/ and the tables in ../docs/benchmark.md
 ```
 
-It takes a few hours on a Ryzen 5 7600X with an RTX 5060 Ti (each row's wall time is in the results); most of it is Rampa's model and probes. An interrupted run resumes where it stopped: run the same command again. If the network dropped during the run, `node run.mjs --retry-errors --docs` checks again only the pages that failed to load. `--fresh` starts the day's folder over.
+The run of 2026-10-11 took about three and a half hours on a Ryzen 5 7600X with an RTX 5060 Ti (each row's wall time is in the results); most of it was Rampa's model and probes. An interrupted run resumes where it stopped: run the same command again. If the network dropped during the run, `node run.mjs --retry-errors --docs` checks again only the pages that failed to load. `--fresh` starts the day's folder over.
 
 | Option | Effect |
 | --- | --- |
@@ -35,19 +35,18 @@ Environment: `BENCH_BROWSER_PATH` points at another Chromium-based browser than 
 
 1. **Cases** (`lib/cases.mjs`). Reads the W3C ACT test cases through Rampa's own build (`dist/eval/index.mjs`, the code `rampa eval` uses): the file cached in `../.rampa/act`, or downloaded on the first run, with its SHA-256 recorded. A rule is kept when it maps to a WCAG 2.2 A or AA criterion for conformance; device-motion rules are left out (no tool can move the device); SVG and XML cases are left out, as `rampa eval` leaves them out.
 2. **Pairs** (`lib/pairs.mjs`, `lib/server.mjs`). Rampa's corruptors (`src/eval/pairs.ts`) break passed test pages on purpose. Each intact and corrupted half is built once in Edge, saved, and served from a local server at the test page's own path, so every tool loads the same two pages.
-3. **Rows** (`lib/tools.mjs`, `tools/*.mjs`). Each tool runs over every page, one tool at a time, two pages at a time, and writes one JSON line per page to `results/<date>/raw/<tool>.jsonl`: the criteria it failed (with the rule ids), the criteria it sent to review, and the time.
+3. **Rows** (`lib/tools.mjs`, `tools/*.mjs`). Each tool runs over every page (Lighthouse over a sample, the probes row over the pages of criteria a probe checks), one tool at a time, two pages at a time, and writes one JSON line per page to `results/<date>/raw/<tool>.jsonl`: the criteria it failed (with the rule ids), the criteria it sent to review, and the time.
 4. **Scores** (`lib/score.mjs`, `lib/report.mjs`). `scores.json` and `tables.md` in the results folder, and the tables of `docs/benchmark.md` with `--docs`.
 
 ## Results folder
 
 | File | What |
 | --- | --- |
-| `run.json` | Date, Rampa commit, machine, browser, ACT file hash, how long each row took |
+| `run.json` | Date, Rampa commit, machine, browser, Ollama and model digest, ACT file hash, how long each row took |
 | `cases.json` | The ACT rules and test cases scored, the rules left out and why, the rules Rampa was tuned on |
 | `pairs.json` | Every pair: test case, corruption, elements changed, and a hash of each saved half |
-| `pages.json` | Every page and its URL |
-| `raw/<tool>.jsonl` | One line per page: `fail` and `review` (criterion → rule ids), `ms`, `error` when the tool could not check it |
-| `raw/<tool>.meta.json` | Versions, the criteria the tool claims, workers, start and end |
+| `raw/<tool>.jsonl` | One line per page: `fail` and `review` (criterion → rule ids), `low` for Rampa's findings below its threshold, `notice` for advice that is not scored, `failRules` (every rule that failed, WCAG or not), `ms` (`cold` on the first page of a Rampa process), `usage` (model calls), `error` when the tool could not check the page |
+| `raw/<tool>.meta.json` | Versions, the criteria the tool claims, workers, and the start and end of each part of the run |
 | `scores.json`, `tables.md` | Everything the tables show |
 
 The saved pair pages and the proxied W3C files are in `.cache/` (not committed); the hashes in `pairs.json` say whether a rebuild changed a page.

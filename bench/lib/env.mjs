@@ -55,9 +55,10 @@ export async function readJson(path) {
   return JSON.parse(await readFile(path, 'utf8'))
 }
 
-export async function writeJson(path, value) {
+/** Pretty by default; `compact` for the big files of a results folder, which are read by programs. */
+export async function writeJson(path, value, { compact = false } = {}) {
   await mkdir(dirname(path), { recursive: true })
-  await writeFile(path, `${JSON.stringify(value, null, 2)}\n`, 'utf8')
+  await writeFile(path, `${compact ? JSON.stringify(value) : JSON.stringify(value, null, 2)}\n`, 'utf8')
 }
 
 /** Errors of the network or the machine, not of the tool: `--retry-errors` checks those pages again. */
