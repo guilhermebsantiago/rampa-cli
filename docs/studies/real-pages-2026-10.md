@@ -4,7 +4,7 @@ Rampa runs axe-core first. A model then judges, one WCAG criterion at a time, wh
 
 **In short.** With Gemma 4 12B on a local GPU, the judgment layer's findings on 19 real pages were mostly false positives. On the held-out test pages, no finding for 2.4.4 (0 of 34) or 2.4.6 (0 of 32) was a real failure, and 12 of 37 decided findings for 1.1.1 were. 1.3.5 was the only criterion whose findings were mostly right on the dev pages (8 of 9). That is far below the precision the same model reaches on the ACT test cases for 2.4.4, 2.4.6 and 1.1.1. The labels come from two Claude agents, not from people. Read them as a pre-annotation that still needs human review.
 
-The held-out re-measure of the test split, after the changes the dev split suggested, is in [real-pages-2026-10-remeasure.md](real-pages-2026-10-remeasure.md). How 2.4.4 and 2.4.6 report their judgments since, read from the dev split only, is in [notes-244-246.md](notes-244-246.md).
+The re-measure of the test split, after the changes the dev split suggested, is in [real-pages-2026-10-remeasure.md](real-pages-2026-10-remeasure.md); the test split's findings had been read for the patterns below by then, so it is not a clean held-out measurement. The held-out one is the [fresh-page study](real-pages-2026-10-fresh.md). How 2.4.4 and 2.4.6 report their judgments since, read from the dev split only, is in [notes-244-246.md](notes-244-246.md).
 
 ## Question
 
@@ -59,7 +59,7 @@ Only judgment findings were labeled. Engine findings (axe-core violations) were 
 
 Each judge gave a label (`true_positive`, `false_positive` or `uncertain`), a cause for false positives and a rationale. The causes are `context_missing` (the model lacked context it needed), `model_error` (it had the context and judged wrongly), `criterion_misapplied` (it applied a stricter or different rule than the criterion), `collector_error` (the snapshot gave it wrong data) and `other`. **The final label is the label both judges gave. When they differ, the final label is `uncertain`.** A false positive's cause is the one both judges gave; when they named different causes it counts as *disputed*.
 
-**Both judges are Claude agents, which are language models.** Their labels are a pre-annotation, not ground truth, and they need human review before anyone relies on them. The judges can be wrong themselves, and since both are the same family of model, their errors are probably correlated. They also saw the live page some hours after Rampa's snapshot, so a page that changed in between can make a judge disagree with what Rampa saw.
+**Both judges are Claude agents, which are language models.** Their labels are a pre-annotation, not ground truth, and they need human review before anyone relies on them. The judges can be wrong themselves, and since both are the same family of model, their errors are probably correlated. They ran on the same machine and files, so only their instructions kept them from reading each other's labels, and those prompts were not saved: what each judge was told and shown cannot be checked now. Their rationales quote Rampa's patches, which can anchor a label. They also saw the live page some hours after Rampa's snapshot, so a page that changed in between can make a judge disagree with what Rampa saw.
 
 ### Analysis
 
@@ -76,7 +76,7 @@ Each judge gave a label (`true_positive`, `false_positive` or `uncertain`), a ca
 | Criterion | True positive | False positive | Uncertain | Precision | 95% Wilson |
 | --- | ---: | ---: | ---: | ---: | --- |
 | 1.1.1 Non-text Content | 1 | 23 | 7 | 0.04 | 0.01–0.20 |
-| 1.3.5 Identify Input Purpose | 8 | 1 | 0 | 0.89 | 0.56–0.98 |
+| 1.3.5 Identify Input Purpose | 8 | 1 | 0 | 0.89 | 0.57–0.98 |
 | 2.4.2 Page Titled | 0 | 2 | 0 | 0.00 | 0.00–0.66 |
 | 2.4.4 Link Purpose (In Context) | 0 | 21 | 2 | 0.00 | 0.00–0.15 |
 | 2.4.6 Headings and Labels | 0 | 13 | 2 | 0.00 | 0.00–0.23 |
@@ -87,7 +87,7 @@ Each judge gave a label (`true_positive`, `false_positive` or `uncertain`), a ca
 
 | Criterion | True positive | False positive | Uncertain | Precision | 95% Wilson |
 | --- | ---: | ---: | ---: | ---: | --- |
-| 1.1.1 Non-text Content | 12 | 25 | 7 | 0.32 | 0.20–0.48 |
+| 1.1.1 Non-text Content | 12 | 25 | 7 | 0.32 | 0.20–0.49 |
 | 1.3.5 Identify Input Purpose | 2 | 3 | 0 | 0.40 | 0.12–0.77 |
 | 2.4.2 Page Titled | 0 | 3 | 0 | 0.00 | 0.00–0.56 |
 | 2.4.4 Link Purpose (In Context) | 0 | 34 | 1 | 0.00 | 0.00–0.10 |
@@ -276,6 +276,7 @@ Why the gap:
 
 - **Recall.** Only reported findings were labeled. Real failures that the model passed were not counted.
 - **Ground truth.** The labels come from two Claude agents, and they still need human review. The judges agree well on whether a finding is wrong (kappa 0.69) but poorly on why (0.33).
+- **How independent the judges were.** They were kept apart by instruction only, on a shared filesystem, with prompts that were not saved. They saw Rampa's own output, patches included (every finding's confidence was `high`, so that could not set findings apart). Both are the same model family, so their agreement is partly shared bias.
 - **How well the numbers generalise.** There are 19 pages, picked by hand for variety rather than at random, and four of them hold almost half the findings (98 of 202). Findings on one page are correlated, and the intervals do not account for that.
 - **The heaviest pages.** Five pages timed out on a shared GPU, so long listings and reference pages are missing.
 - **Other models or settings.** There was one model, one run per page and no `--runs` voting. Whether a larger model, voting, or reasoning mode changes the picture is untested.
@@ -284,7 +285,7 @@ Why the gap:
 
 ## Improvements suggested by the dev split
 
-Each change below comes only from false positives on the dev pages, and lists the dev examples behind it. The test split's findings were read to describe the patterns above but were not used to choose any change. After the changes are made, measure them once on the test split and then on fresh pages.
+Each change below comes only from false positives on the dev pages, and lists the dev examples behind it. The test split's findings were read to describe the patterns above but were not used to choose any change; having been read, the test split no longer gives a clean held-out measurement of these changes. After the changes are made, measure them once on the test split and then on fresh pages.
 
 1. **Make 2.4.4 and 2.4.6 experimental and off by default. Put the "wrong content" problem of 1.1.1 behind the same flag.** Dev precision was:
 
