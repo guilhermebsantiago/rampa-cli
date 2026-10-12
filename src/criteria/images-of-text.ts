@@ -114,7 +114,10 @@ export const imagesOfText: Criterion<ImagesOfTextContext, ImagesOfTextJudgment> 
   schema: ImagesOfTextJudgment,
   // OCR passed it without a model: it reads no words in the picture, or they are less than half of it.
   decidedBy: 'rampa/ocr',
-  // A picture is judged once per run and cached by its hash, wherever it shows: the prompt holds nothing else of the page.
+  // A picture repeated on a page or across a crawl is judged once, on purpose: the prompt holds nothing else of the page
+  // (no ref, no text around it), so its copies share one call and one cached judgment. The cache key also holds the
+  // prompt's hash (core/judge.ts): the same picture with another alt, file name, size or way of drawing is another
+  // question, and an edited prompt is never answered from a judgment made with the old one.
   judgmentKey: (candidate) => `${candidate.context.kind}:${candidate.context.imageHash}`,
   // Without OCR a model's claim is not confirmed: it stays below the default threshold.
   confidenceCap: (candidate) => (candidate.context.ocr ? undefined : 'low'),

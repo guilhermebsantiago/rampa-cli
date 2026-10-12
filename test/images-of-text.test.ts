@@ -147,7 +147,7 @@ describe('1.4.5 candidates', () => {
     expect(imagesOfText.judgmentKey?.(welcome)).not.toBe(imagesOfText.judgmentKey?.(banner))
   })
 
-  it('asks the model once for a picture that shows twice, even when both are judged at once', async () => {
+  it('asks the model once for a picture that shows twice the same way, even when both are judged at once', async () => {
     let calls = 0
     const provider: ModelProvider = {
       id: 'test:counting',
@@ -158,14 +158,45 @@ describe('1.4.5 candidates', () => {
       },
     }
     const banner = candidate('#banner')
-    const welcome = candidate('#welcome')
-    const twice = [banner, { ...welcome, context: { ...welcome.context, imageHash: banner.context.imageHash } }]
+    // The same capture, with the same alternative and file name, elsewhere on the page.
+    const twice = [banner, { ...banner, ref: 'footer > img' }]
     const cache = memoryCache()
     const judged = await judgeCandidates(imagesOfText, home(), twice, { provider, runs: 1, cache, offline: false, concurrency: 2 })
     expect(calls).toBe(1)
     expect(judged.map((j) => j.representative?.evidence)).toEqual(['SUMMER SALE 50% OFF', 'SUMMER SALE 50% OFF'])
-    await judgeCandidates(imagesOfText, home(), [twice[1] ?? banner], { provider, runs: 1, cache, offline: false, concurrency: 1 })
+    // And on another page of the site.
+    await judgeCandidates(imagesOfText, home(), [{ ...banner, ref: 'main > img' }], { provider, runs: 1, cache, offline: false, concurrency: 1 })
     expect(calls).toBe(1)
+  })
+
+  it('caches a judgment under the prompt too: the same picture with another alternative or file name, or an edited prompt, is asked again', async () => {
+    let calls = 0
+    const provider: ModelProvider = {
+      id: 'test:counting',
+      async judge(request) {
+        calls++
+        return { output: request.schema.parse(bannerFail), inputTokens: 1, outputTokens: 1, latencyMs: 1, modelId: 'counting' }
+      },
+    }
+    const cache = memoryCache()
+    const judge = (picture: ReturnType<typeof candidate>, criterion = imagesOfText) => judgeCandidates(criterion, home(), [picture], { provider, runs: 1, cache, offline: false, concurrency: 1 })
+    const banner = candidate('#banner')
+    await judge(banner)
+    expect(calls).toBe(1)
+    // Same capture, so the same judgment key; keyed by the picture alone, these read the first verdict.
+    const otherAlt = { ...banner, context: { ...banner.context, alt: 'Half price on all umbrellas' } }
+    const otherFile = { ...banner, context: { ...banner.context, src: 'sale-2026.png' } }
+    expect(imagesOfText.judgmentKey?.(otherAlt)).toBe(imagesOfText.judgmentKey?.(banner))
+    await judge(otherAlt)
+    await judge(otherFile)
+    expect(calls).toBe(3)
+    // A prompt edited without a version bump is not answered from the old prompt's judgment.
+    const edited = { ...imagesOfText, prompt: (c: typeof banner, s: A11ySnapshot) => ({ ...imagesOfText.prompt(c, s), system: `${imagesOfText.prompt(c, s).system}\nBe brief.` }) }
+    await judge(banner, edited)
+    expect(calls).toBe(4)
+    await judge(banner)
+    await judge(otherAlt)
+    expect(calls).toBe(4)
   })
 
   it('leaves out a picture in a link to a home page, and one a crawl saw on several pages', () => {

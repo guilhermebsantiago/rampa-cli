@@ -2,7 +2,7 @@ import { Output, generateText } from 'ai'
 import { z } from 'zod'
 import { RampaError } from '../core/util.ts'
 import { createCliProvider } from './cli/provider.ts'
-import { PROVIDERS, type ProviderDef, findProvider } from './registry.ts'
+import { PROVIDERS, type ProviderDef, type ProviderModel, findProvider } from './registry.ts'
 import type { ModelProvider } from './types.ts'
 
 export const REASONING_LEVELS = ['provider-default', 'none', 'minimal', 'low', 'medium', 'high'] as const
@@ -42,10 +42,35 @@ export function defaultReasoning(provider: string): Reasoning {
   return findProvider(provider)?.reasoning ?? 'provider-default'
 }
 
-/** Identity of a provider as the cache sees it, shared by live and offline runs. */
-export function providerIdentity(spec: string, reasoning?: Reasoning): { id: string; settings: string } {
+/**
+ * Identity of a provider as the cache sees it, shared by live and offline runs: the model's name, the reasoning level,
+ * and any sampling setting that is not one the registry ships (samplingKey).
+ *
+ * Known gap: the model's weights are not in it. A local model is named by its tag (`ollama:gemma4:12b`), and `ollama
+ * pull` can put other weights behind the same tag (a new digest) without changing the name; judgments cached with the
+ * old weights are still read. Clear the cache, or give the run another --cache-dir, after pulling a model again.
+ */
+export function providerIdentity(spec: string, reasoning?: Reasoning, sampling?: Pick<ProviderModel, 'temperature' | 'providerOptions'>): { id: string; settings: string } {
   const { provider, modelId } = parseModelSpec(spec)
-  return { id: `${provider}:${modelId}`, settings: `reasoning=${reasoning ?? defaultReasoning(provider)}` }
+  return { id: `${provider}:${modelId}`, settings: `reasoning=${reasoning ?? defaultReasoning(provider)}${sampling ? samplingKey(sampling) : ''}` }
+}
+
+/** Provider options the registry ships, as JSON: Bedrock's JSON tool mode. */
+const SHIPPED_PROVIDER_OPTIONS = new Set([JSON.stringify({ bedrock: { structuredOutputMode: 'jsonTool' } })])
+
+/**
+ * The part of the cache key that sampling settings add: nothing for what the registry ships (temperature 0, or the
+ * provider's own default where its models reject one; no provider options, or Bedrock's JSON tool mode), so every
+ * judgment cached before these were keyed keeps its key; `;temperature=…` and `;providerOptions=…` for anything else,
+ * so a judgment made at another temperature or with other options is never read for these. An offline run, which
+ * never creates the model, keys with the shipped settings: it misses such judgments rather than read the wrong ones.
+ */
+export function samplingKey(sampling: Pick<ProviderModel, 'temperature' | 'providerOptions'>): string {
+  const parts: string[] = []
+  if (sampling.temperature !== undefined && sampling.temperature !== 0) parts.push(`temperature=${sampling.temperature}`)
+  const options = sampling.providerOptions === undefined ? undefined : JSON.stringify(sampling.providerOptions)
+  if (options !== undefined && !SHIPPED_PROVIDER_OPTIONS.has(options)) parts.push(`providerOptions=${options}`)
+  return parts.map((part) => `;${part}`).join('')
 }
 
 export async function createModelProvider(spec: string, options: ProviderOptions = {}): Promise<ModelProvider> {
@@ -63,7 +88,7 @@ export async function createModelProvider(spec: string, options: ProviderOptions
   const resolved = await definition.create(modelId, options.fetch)
   const reasoning = options.reasoning ?? definition.reasoning
   return {
-    ...providerIdentity(spec, reasoning),
+    ...providerIdentity(spec, reasoning, resolved),
     async judge(request) {
       const started = performance.now()
       const images = request.images ?? []

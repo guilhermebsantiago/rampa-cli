@@ -109,9 +109,11 @@ async function askAlone<Ctx, Out extends JudgmentBase>(criterion: Criterion<Ctx,
   if (!prompt) return samples
   const imageHashes = (prompt.images ?? []).map((image) => sha256(Buffer.from(image.data).toString('base64')))
   const promptHash = sha256([prompt.system, prompt.user, schemaJson, ...imageHashes].join('\u0000'))
-  // A criterion whose answer depends on less than its whole prompt (1.4.5: the picture) keys its judgments by that.
+  // A criterion that keys its judgments (1.4.5: the picture's hash) has candidates with the same key and prompt share one
+  // call. The cache key holds the prompt's hash too: keyed by the picture alone, an edited prompt, or the same picture
+  // with another alt or file name, was answered from an old judgment. Changing this key re-asks 1.4.5's judgments once.
   const judgmentKey = criterion.judgmentKey?.(candidate)
-  const identity = judgmentKey === undefined ? { promptHash } : { judgmentKey }
+  const identity = judgmentKey === undefined ? { promptHash } : { judgmentKey, promptHash }
 
   for (let sample = 0; sample < options.runs; sample++) {
     const key = sha256(
