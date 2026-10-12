@@ -1,0 +1,24 @@
+{
+  "page": "https://www.tuasaude.com/dengue/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "619d7774beb3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the first icon-only link in the fixed share bar beside the article. It opens the Facebook sharer and its only content is an SVG Facebook logo with no title. Its accessible name comes from aria-label=\"compartilhe\" (\"share\"), which overrides the content. The WhatsApp and Pinterest links next to it have exactly the same name. I looked for a way it could pass and found none. The snapshot and the live HTML (unchanged on 2026-10-11) show no title, no aria-describedby and no visible or hidden text naming the network; the only context text is the visually hidden \"compartilhe\" in div.share-info. The exception for links ambiguous to users in general does not apply, because sighted users can see the brand icon. The Understanding document's remark that distinct link text is a \"best practice\" does not save it either: the network is part of what each link does, just as the format is in the Understanding document's PDF/mp3 example. A screen-reader user hears \"compartilhe\" three times and cannot pick a network. This fails 2.4.4 as claimed (the visual-only icon meaning also touches 1.1.1)."
+    },
+    {
+      "fingerprint": "c45d03e2742b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the second link in the same fixed share bar. It opens api.whatsapp.com/send and contains only an untitled SVG WhatsApp icon. Its name is aria-label=\"compartilhe\", identical to the Facebook and Pinterest links beside it. The screenshot shows the green WhatsApp icon, so the network is conveyed only visually. Neither the snapshot nor the live HTML has any title, description or link-context text that names WhatsApp: the li, the ul and the div.share-info (\"compartilhe\") are the only context. The exception for links ambiguous to users in general does not apply. Nothing makes this link's purpose (share on WhatsApp) determinable from its text and context, so the 2.4.4 claim holds."
+    },
+    {
+      "fingerprint": "0814e7748827",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the third link in the fixed share bar. It opens Pinterest's pin/create page and contains only an untitled SVG Pinterest logo. Its name is aria-label=\"compartilhe\", the same as the other two share links, which go to different services. The screenshot shows the red Pinterest icon, so sighted users can tell the links apart but assistive-technology users cannot. I checked the snapshot's computed name (nameFrom aria-label), the SVG children (a path only), the ancestors and the live HTML. None of them names Pinterest programmatically. No sufficient technique applies (aria-label is used, but it does not describe the purpose) and no exception applies. This is a real 2.4.4 failure as reported."
+    }
+  ]
+}

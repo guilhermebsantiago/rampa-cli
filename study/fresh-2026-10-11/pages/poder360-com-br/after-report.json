@@ -1,0 +1,2623 @@
+{
+  "schemaVersion": 1,
+  "rampaVersion": "0.1.0",
+  "createdAt": "2026-10-12T01:14:37.044Z",
+  "target": "https://www.poder360.com.br/",
+  "surface": "web",
+  "wcagTarget": "wcag22-aa",
+  "locale": "en",
+  "llm": "on",
+  "model": "ollama:gemma4:12b",
+  "engine": {
+    "name": "axe-core",
+    "version": "4.14.0"
+  },
+  "findings": [
+    {
+      "fingerprint": "607f44deabf2",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "engine",
+      "ref": "#goog_246052519 |> img",
+      "target": "[\"#goog_246052519\",\"img\"]",
+      "message": "Images must have alternative text",
+      "confidence": "high",
+      "ruleId": "image-alt",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/image-alt?application=axeAPI",
+      "html": "<img src=\"https://imasdk.googleapis.com/formats/wta/help_outline_white_24dp_with_3px_trbl_padding.png?wp=ca-video-pub-4272971530084173\" onerror=\"this.style.display=&quot;none&quot;\" width=\"18px\" height=\"18px\">"
+    },
+    {
+      "fingerprint": "1f49dd4dd08c",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#page-885654 > div > section:nth-of-type(1) > a > div > div > div:nth-of-type(1) > article:nth-of-type(2) > img",
+      "message": "The text alternative \"Lula\" is a file name or a placeholder.",
+      "evidence": "Lula",
+      "subject": "Lula",
+      "patch": {
+        "ref": "#page-885654 > div > section:nth-of-type(1) > a > div > div > div:nth-of-type(1) > article:nth-of-type(2) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "Lula",
+        "to": "Lula com um selo de 16%",
+        "before": "<img class=\"foto-candidato foto-candidato-2\" src=\"https://www.poder360.com.br/wp-content/themes/poder/assets/img/widget-header-eleicoes/Lula.png\" alt=\"Lula\" width=\"220\" height=\"189\" fetchpriority=\"high\" data-fallback=\"[&quot;https://www.poder360.com.br/wp-content/themes/poder/assets/img/widget-header-eleicoes/silhueta-vazio.png&quot;]\" data-source=\"https://www.poder360.com.br/wp-content/themes/poder/assets/img/widget-header-eleicoes/Lula.png\">",
+        "after": "<img class=\"foto-candidato foto-candidato-2\" src=\"https://www.poder360.com.br/wp-content/themes/poder/assets/img/widget-header-eleicoes/Lula.png\" alt=\"Lula com um selo de 16%\" width=\"220\" height=\"189\" fetchpriority=\"high\" data-fallback=\"[&quot;https://www.poder360.com.br/wp-content/themes/poder/assets/img/widget-header-eleicoes/silhueta-vazio.png&quot;]\" data-source=\"https://www.poder360.com.br/wp-content/themes/poder/assets/img/widget-header-eleicoes/Lula.png\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "62789fbd11d4",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#google_ads_iframe_\\/50451226\\/1248x250_home_desktop_0 |> #img_anch_CJ6GuLfyspcDFRmmlQIdJ0wn3g > img",
+      "message": "The text alternative \"Advertisement\" is all its link holds, and does not say where the link leads.",
+      "evidence": "Advertisement",
+      "subject": "Advertisement",
+      "patch": {
+        "ref": "#google_ads_iframe_\\/50451226\\/1248x250_home_desktop_0 |> #img_anch_CJ6GuLfyspcDFRmmlQIdJ0wn3g > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "Advertisement",
+        "to": "A evolução do seu jeito de investir. Descubra uma nova experiência com o app Ágora. Saiba mais.",
+        "before": "<img src=\"https://s0.2mdn.net/simgad/9075036038877917428\" alt=\"Advertisement\" border=\"0\" width=\"1248\" height=\"250\" style=\"display:block\">",
+        "after": "<img src=\"https://s0.2mdn.net/simgad/9075036038877917428\" alt=\"A evolução do seu jeito de investir. Descubra uma nova experiência com o app Ágora. Saiba mais.\" border=\"0\" width=\"1248\" height=\"250\" style=\"display:block\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "ea93c3e9897e",
+      "criterion": "1.3.1",
+      "level": "A",
+      "source": "engine",
+      "ref": "#page-885654 > div > div:nth-of-type(19) > div:nth-of-type(2)",
+      "target": "[\".feriados-tabs\"]",
+      "message": "Certain ARIA roles must contain particular children",
+      "confidence": "high",
+      "ruleId": "aria-required-children",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-required-children?application=axeAPI",
+      "html": "<div class=\"feriados-tabs\" role=\"tablist\" aria-label=\"Seleção de cidade/âmbito\">"
+    },
+    {
+      "fingerprint": "9af9ac8766ce",
+      "criterion": "1.3.5",
+      "level": "AA",
+      "source": "judgment",
+      "ref": "#page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > input:nth-of-type(1)",
+      "message": "The field \"seu e-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+      "evidence": "seu e-mail",
+      "patch": {
+        "ref": "#page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > input:nth-of-type(1)",
+        "kind": "set-attribute",
+        "attribute": "autocomplete",
+        "to": "email",
+        "before": "<input type=\"text\" class=\"form-subscribe__text--modelo2 form-create__email\" placeholder=\"seu e-mail\">",
+        "after": "<input type=\"text\" class=\"form-subscribe__text--modelo2 form-create__email\" placeholder=\"seu e-mail\" autocomplete=\"email\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "5c282597fcd6",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#page-885654 > div > section:nth-of-type(1) > a > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > p:nth-of-type(1)",
+      "target": "[\".turno\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<p class=\"turno\">1º TURNO</p>"
+    },
+    {
+      "fingerprint": "744718e3a2b8",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#page-885654 > div > section:nth-of-type(1) > a > div > div > div:nth-of-type(1) > div > div:nth-of-type(3) > p:nth-of-type(2)",
+      "target": "[\".tag-apuracao\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<p class=\"tag-apuracao tag-apuracao--positivo\">Irá para 2º turno</p>"
+    },
+    {
+      "fingerprint": "5e0d8318bc4b",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#goog_246052519 |> #dtujmw1i6d73 |> .ns-041ag-e-30",
+      "target": "[\"#goog_246052519\",\"#dtujmw1i6d73\",\".ns-041ag-e-30\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<div class=\"ns-041ag-e-30 countdown\">0:12</div>"
+    },
+    {
+      "fingerprint": "a922c20c2a27",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#brasil > div > div:nth-of-type(2)",
+      "target": "[\"#brasil > .proximo-feriado > .proximo-nome\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<div class=\"proximo-nome\">Nossa Senhora Aparecida</div>"
+    },
+    {
+      "fingerprint": "f00554bfcb20",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#page-885654 > div > section:nth-of-type(1) > a > div > div > div:nth-of-type(1) > article:nth-of-type(1) > div > p:nth-of-type(3)",
+      "target": "#page-885654 > div > section:nth-of-type(1) > a > div > div > div:nth-of-type(1) > article:nth-of-type(1) > div > p:nth-of-type(3)",
+      "message": "The text \"56.104.503 votos\" has at most 4.41:1 contrast with what is behind it (#8fb0d6 on #194675…#194474), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#8fb0d6 on #194574; #194675…#194474 · 4.41:1 at best, 4.30:1 at worst · 14px, 500",
+      "subject": "56.104.503 votos",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<p class=\"votos-candidato\">"
+    },
+    {
+      "fingerprint": "556ac34acd7f",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#page-885654 > div > section:nth-of-type(1) > a > div > div > div:nth-of-type(1) > article:nth-of-type(2) > div > p:nth-of-type(3)",
+      "target": "#page-885654 > div > section:nth-of-type(1) > a > div > div > div:nth-of-type(1) > article:nth-of-type(2) > div > p:nth-of-type(3)",
+      "message": "The text \"53.879.538 votos\" has at most 4.41:1 contrast with what is behind it (#8fb0d6 on #194675…#194474), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#8fb0d6 on #194574; #194675…#194474 · 4.41:1 at best, 4.30:1 at worst · 14px, 500",
+      "subject": "53.879.538 votos",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<p class=\"votos-candidato\">"
+    },
+    {
+      "fingerprint": "d87659acefb2",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#swiper-wrapper-4d1457642e5242bf > div:nth-of-type(1) > a > div > p:nth-of-type(1)",
+      "target": "#swiper-wrapper-4d1457642e5242bf > div:nth-of-type(1) > a > div > p:nth-of-type(1)",
+      "message": "The text \"Poder Internacional\" has at most 3.03:1 contrast with what is behind it (#f7f7f7 on #fd541e), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#f7f7f7 on #fd541e · 3.03:1 at best, 3.03:1 at worst · 16px, 400",
+      "subject": "Poder Internacional",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<p class=\"destaqueHome__swiper-tag\">"
+    },
+    {
+      "fingerprint": "204f66d71fa4",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#swiper-wrapper-4d1457642e5242bf > div:nth-of-type(2) > a > div > p:nth-of-type(1)",
+      "target": "#swiper-wrapper-4d1457642e5242bf > div:nth-of-type(2) > a > div > p:nth-of-type(1)",
+      "message": "The text \"Poder Eleições 2026\" has at most 3.03:1 contrast with what is behind it (#f7f7f7 on #fd541e), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#f7f7f7 on #fd541e · 3.03:1 at best, 3.03:1 at worst · 16px, 400",
+      "subject": "Poder Eleições 2026",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<p class=\"destaqueHome__swiper-tag\">"
+    },
+    {
+      "fingerprint": "3f84a90323eb",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#swiper-wrapper-4d1457642e5242bf > div:nth-of-type(3) > a > div > p:nth-of-type(1)",
+      "target": "#swiper-wrapper-4d1457642e5242bf > div:nth-of-type(3) > a > div > p:nth-of-type(1)",
+      "message": "The text \"Poder Internacional\" has at most 3.03:1 contrast with what is behind it (#f7f7f7 on #fd541e), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#f7f7f7 on #fd541e · 3.03:1 at best, 3.03:1 at worst · 16px, 400",
+      "subject": "Poder Internacional",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<p class=\"destaqueHome__swiper-tag\">"
+    },
+    {
+      "fingerprint": "59f6873e5ad2",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#swiper-wrapper-4d1457642e5242bf > div:nth-of-type(4) > a > div > p:nth-of-type(1)",
+      "target": "#swiper-wrapper-4d1457642e5242bf > div:nth-of-type(4) > a > div > p:nth-of-type(1)",
+      "message": "The text \"Poder Eleições 2026\" has at most 3.03:1 contrast with what is behind it (#f7f7f7 on #fd541e), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#f7f7f7 on #fd541e · 3.03:1 at best, 3.03:1 at worst · 16px, 400",
+      "subject": "Poder Eleições 2026",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<p class=\"destaqueHome__swiper-tag\">"
+    },
+    {
+      "fingerprint": "371240bdccce",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#swiper-wrapper-4d1457642e5242bf > div:nth-of-type(5) > a > div > p:nth-of-type(1)",
+      "target": "#swiper-wrapper-4d1457642e5242bf > div:nth-of-type(5) > a > div > p:nth-of-type(1)",
+      "message": "The text \"Poder Tech\" has at most 3.03:1 contrast with what is behind it (#f7f7f7 on #fd541e), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#f7f7f7 on #fd541e · 3.03:1 at best, 3.03:1 at worst · 16px, 400",
+      "subject": "Poder Tech",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<p class=\"destaqueHome__swiper-tag\">"
+    },
+    {
+      "fingerprint": "34eb7c775ce5",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#page-885654 > div > div:nth-of-type(14) > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > a > span",
+      "target": "#page-885654 > div > div:nth-of-type(14) > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > a > span",
+      "message": "The text \"Opinião\" has at most 4.26:1 contrast with what is behind it (#f7f7f7 on #dd3600), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#f7f7f7 on #dd3600 · 4.26:1 at best, 4.26:1 at worst · 12px, 400",
+      "subject": "Opinião",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<span class=\"box-queue__special-tag box-queue__special-tag--type-b\">"
+    },
+    {
+      "fingerprint": "50d2ffb7982c",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#page-885654 > div > div:nth-of-type(14) > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a > span",
+      "target": "#page-885654 > div > div:nth-of-type(14) > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a > span",
+      "message": "The text \"Opinião\" has at most 4.26:1 contrast with what is behind it (#f7f7f7 on #dd3600), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#f7f7f7 on #dd3600 · 4.26:1 at best, 4.26:1 at worst · 12px, 400",
+      "subject": "Opinião",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<span class=\"box-queue__special-tag box-queue__special-tag--type-b\">"
+    },
+    {
+      "fingerprint": "25f977cade46",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#page-885654 > div > div:nth-of-type(14) > div > div > div:nth-of-type(3) > div > div:nth-of-type(1) > a > span",
+      "target": "#page-885654 > div > div:nth-of-type(14) > div > div > div:nth-of-type(3) > div > div:nth-of-type(1) > a > span",
+      "message": "The text \"Opinião\" has at most 4.26:1 contrast with what is behind it (#f7f7f7 on #dd3600), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#f7f7f7 on #dd3600 · 4.26:1 at best, 4.26:1 at worst · 12px, 400",
+      "subject": "Opinião",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<span class=\"box-queue__special-tag box-queue__special-tag--type-b\">"
+    },
+    {
+      "fingerprint": "0af9c6335e9a",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > input:nth-of-type(1)",
+      "target": "#page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > input:nth-of-type(1)",
+      "message": "The placeholder \"seu e-mail\" has a contrast of 4.45:1 with the field (#757575 on #fbfbfb). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#757575 on #fbfbfb · 4.45:1 at best, 4.45:1 at worst · 16px, 400",
+      "subject": "seu e-mail",
+      "confidence": "low",
+      "ruleId": "rampa/placeholder-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<input type=\"text\" class=\"form-subscribe__text--modelo2 form-create__email\" placeholder=\"seu e-mail\">"
+    },
+    {
+      "fingerprint": "658c035cae48",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > a",
+      "target": "#page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > a",
+      "message": "The icon of this link has at most 1.97:1 contrast with the pixels next to it (#ffffff on #22d467). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+      "evidence": "#ffffff on #22d467 · 1.97:1 at best, 1.97:1 at worst",
+      "subject": "#page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > a",
+      "confidence": "low",
+      "ruleId": "rampa/icon-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+      "html": "<a href=\"https://whatsapp.com/channel/0029Va5v6dHDTkKCX0EaVR09\" target=\"_blank\">"
+    },
+    {
+      "fingerprint": "b88f80eb9cd9",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#google_ads_iframe_\\/50451226\\/970x250_home_desktop_0 |> #aw0",
+      "target": "[\"#google_ads_iframe_\\\\/50451226\\\\/970x250_home_desktop_0\",\"#aw0\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a id=\"aw0\" target=\"_blank\" href=\"https://googleads.g....\" onfocus=\"ss('aw0')\" onmousedown=\"st('aw0')\" onmouseover=\"ss('aw0')\" onclick=\"ha('aw0')\">"
+    },
+    {
+      "fingerprint": "2f9b72cbefda",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#google_ads_iframe_\\/50451226\\/970x90_home_desktop_0 |> #bannerAWithoutBody > a:nth-of-type(1)",
+      "target": "[\"#google_ads_iframe_\\\\/50451226\\\\/970x90_home_desktop_0\",\".ns-3vp17-e-1\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a class=\"ns-3vp17-e-1 svg-anc...\" data-asoch-targets=\"ad0,ochImage\" href=\"https://adclick.g.do...\" on=\"tap:asoch-exit-api-0...\" target=\"_top\">"
+    },
+    {
+      "fingerprint": "50f3bdbe2acb",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#google_ads_iframe_\\/50451226\\/970x90_home_desktop_0 |> #bannerAWithoutBody > a:nth-of-type(2)",
+      "target": "[\"#google_ads_iframe_\\\\/50451226\\\\/970x90_home_desktop_0\",\".ns-3vp17-e-4\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a class=\"ns-3vp17-e-4 svg-anc...\" data-asoch-targets=\"ad0,ochLogo\" href=\"https://adclick.g.do...\" on=\"tap:asoch-exit-api-0...\" target=\"_top\">"
+    },
+    {
+      "fingerprint": "3416c2e7029c",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > a",
+      "message": "The link text \"INSCREVA-SE\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+      "evidence": "INSCREVA-SE",
+      "subject": "INSCREVA-SE",
+      "patch": {
+        "ref": "#page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(2) > div > a",
+        "kind": "set-text",
+        "from": "INSCREVA-SE",
+        "to": "Inscreva-se no canal do WhatsApp",
+        "before": "<a class=\"form-subscribe__link form-subscribe__link--whatsapp\" href=\"https://whatsapp.com/channel/0029Va5v6dHDTkKCX0EaVR09\" target=\"_blank\">INSCREVA-SE</a>",
+        "after": "<a class=\"form-subscribe__link form-subscribe__link--whatsapp\" href=\"https://whatsapp.com/channel/0029Va5v6dHDTkKCX0EaVR09\" target=\"_blank\">Inscreva-se no canal do WhatsApp</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "2baf73060c39",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(2) > div > a",
+      "message": "The link text \"INSCREVA-SE\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+      "evidence": "INSCREVA-SE",
+      "subject": "INSCREVA-SE",
+      "patch": {
+        "ref": "#page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(2) > div > a",
+        "kind": "set-text",
+        "from": "INSCREVA-SE",
+        "to": "Inscreva-se no Telegram",
+        "before": "<a class=\"form-subscribe__link form-subscribe__link--telegram \" href=\"https://t.me/Poder360\" target=\"_blank\">INSCREVA-SE</a>",
+        "after": "<a class=\"form-subscribe__link form-subscribe__link--telegram \" href=\"https://t.me/Poder360\" target=\"_blank\">Inscreva-se no Telegram</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "d218a724596c",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#page-885654 > div > section:nth-of-type(1) > a",
+      "target": "[\".header-dinamico-eleicoes__link\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a class=\"header-dinamico-eleicoes__link\" href=\"https://eleicoes.poder360.com.br/apuracao?ano=2026&turno=1\" aria-label=\"Eleições 2026 — PRESIDENTE: ver apuração\">"
+    },
+    {
+      "fingerprint": "d34e44165116",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#page-885654 > div > div:nth-of-type(19) > div:nth-of-type(2) > a",
+      "target": "[\".tab-button--link\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a class=\"tab-button tab-button--link\" href=\"https://poder360.com.br/feriados-nacionais\" role=\"link\" aria-label=\"Ver todos os feriados\">"
+    },
+    {
+      "fingerprint": "5574c2fda4be",
+      "criterion": "3.1.2",
+      "level": "AA",
+      "source": "judgment",
+      "ref": "#video_38455",
+      "message": "Marked as lang=\"pt-br\", but the text is in English (en).",
+      "evidence": "Video Player Play Video Play Video Advertisement Advertisement",
+      "subject": "pt-br",
+      "patch": {
+        "ref": "#video_38455",
+        "kind": "set-attribute",
+        "attribute": "lang",
+        "from": "pt-br",
+        "to": "en",
+        "before": "<div class=\"video-js vjs-default-skin vjs-big-play-centered vjs-paused video_38455-dimensions vjs-fluid vjs-controls-enabled vjs-workinghover vjs-v7 vjs-user-active\" id=\"video_38455\" tabindex=\"-1\" lang=\"pt-br\" role=\"region\" aria-label=\"Video Player\">",
+        "after": "<div class=\"video-js vjs-default-skin vjs-big-play-centered vjs-paused video_38455-dimensions vjs-fluid vjs-controls-enabled vjs-workinghover vjs-v7 vjs-user-active\" id=\"video_38455\" tabindex=\"-1\" lang=\"en\" role=\"region\" aria-label=\"Video Player\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "fabe9c11f7b9",
+      "criterion": "3.3.2",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#gsc-i-id1",
+      "message": "Nothing on screen tells what to enter in the field \"pesquisar\": its name is in aria-label, which only screen readers get.",
+      "evidence": "pesquisar",
+      "patch": {
+        "ref": "#gsc-i-id1",
+        "kind": "replace-element",
+        "to": "pesquisar",
+        "before": "<input autocomplete=\"off\" type=\"text\" size=\"10\" class=\"gsc-input\" name=\"search\" title=\"pesquisar\" aria-label=\"pesquisar\" id=\"gsc-i-id1\" dir=\"ltr\" spellcheck=\"false\" style=\"width: 100%; padding: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; margin: 0px; height: auto; outline: none;\">",
+        "after": "<label for=\"gsc-i-id1\">pesquisar</label> <input autocomplete=\"off\" type=\"text\" size=\"10\" class=\"gsc-input\" name=\"search\" title=\"pesquisar\" aria-label=\"pesquisar\" id=\"gsc-i-id1\" dir=\"ltr\" spellcheck=\"false\" style=\"width: 100%; padding: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; margin: 0px; height: auto; outline: none;\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "b5f0d462abc9",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#goog_246052519 |> .videoAdUiIconV2",
+      "target": "[\"#goog_246052519\",\".videoAdUiIconV2\"]",
+      "message": "ARIA commands must have an accessible name",
+      "confidence": "high",
+      "ruleId": "aria-command-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-command-name?application=axeAPI",
+      "html": "<div class=\"videoAdUiIconV2 vastIcon\" role=\"button\" tabindex=\"0\" data-ck-tag=\"thumbnail\" data-ck-navigates=\"true\" style=\"height: 18px; width: 18px; position: absolute; overflow: hidden; left: 325px; bottom: 0px;\">"
+    },
+    {
+      "fingerprint": "6ba2f54c1931",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#goog_246052519 |> #dtujmw1i6d73 |> .ns-041ag-e-8",
+      "target": "[\"#goog_246052519\",\"#dtujmw1i6d73\",\".ns-041ag-e-8\"]",
+      "message": "ARIA commands must have an accessible name",
+      "confidence": "high",
+      "ruleId": "aria-command-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-command-name?application=axeAPI",
+      "html": "<div class=\"ns-041ag-e-8 channel-icon-container\" data-ck-navigates=\"true\" data-ck-tag=\"thumbnail\" role=\"button\" tabindex=\"0\"></div>"
+    },
+    {
+      "fingerprint": "a2ae678d96bb",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#google_ads_iframe_\\/50451226\\/970x90_home_desktop_0 |> #abgc",
+      "target": "[\"#google_ads_iframe_\\\\/50451226\\\\/970x90_home_desktop_0\",\"#abgc\"]",
+      "message": "ARIA hidden element must not be focusable or contain focusable elements",
+      "confidence": "high",
+      "ruleId": "aria-hidden-focus",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-hidden-focus?application=axeAPI",
+      "html": "<div aria-hidden=\"true\" class=\"abgc abgf pen\" dir=\"ltr\" id=\"abgc\">"
+    },
+    {
+      "fingerprint": "8d0ec5b69c18",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#menuV2Sidebar > div > nav > div:nth-of-type(1) > button",
+      "target": "[\"div[data-section=\\\"editorias\\\"] > .navigation-menu-v2__section-title[data-toggle=\\\"menu-section\\\"][aria-controls=\\\"menu-section-content\\\"]\"]",
+      "message": "ARIA attributes must conform to valid values",
+      "confidence": "high",
+      "ruleId": "aria-valid-attr-value",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI",
+      "html": "<button class=\"navigation-menu-v2__section-title\" data-toggle=\"menu-section\" aria-expanded=\"true\" aria-controls=\"menu-section-content\">"
+    },
+    {
+      "fingerprint": "a56433bf72f9",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#menuV2Sidebar > div > nav > div:nth-of-type(2) > button",
+      "target": "[\"div[data-section=\\\"opiniao\\\"] > .navigation-menu-v2__section-title[data-toggle=\\\"menu-section\\\"][aria-controls=\\\"menu-section-content\\\"]\"]",
+      "message": "ARIA attributes must conform to valid values",
+      "confidence": "high",
+      "ruleId": "aria-valid-attr-value",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI",
+      "html": "<button class=\"navigation-menu-v2__section-title\" data-toggle=\"menu-section\" aria-expanded=\"true\" aria-controls=\"menu-section-content\">"
+    },
+    {
+      "fingerprint": "49592e5c570d",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#menuV2Sidebar > div > nav > div:nth-of-type(3) > button",
+      "target": "[\"div[data-section=\\\"eleicoes\\\"] > .navigation-menu-v2__section-title[data-toggle=\\\"menu-section\\\"][aria-controls=\\\"menu-section-content\\\"]\"]",
+      "message": "ARIA attributes must conform to valid values",
+      "confidence": "high",
+      "ruleId": "aria-valid-attr-value",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI",
+      "html": "<button class=\"navigation-menu-v2__section-title\" data-toggle=\"menu-section\" aria-expanded=\"true\" aria-controls=\"menu-section-content\">"
+    },
+    {
+      "fingerprint": "0812f0b57274",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#menuV2Sidebar > div > nav > div:nth-of-type(5) > button",
+      "target": "[\"div[data-section=\\\"produtos\\\"] > .navigation-menu-v2__section-title[data-toggle=\\\"menu-section\\\"][aria-controls=\\\"menu-section-content\\\"]\"]",
+      "message": "ARIA attributes must conform to valid values",
+      "confidence": "high",
+      "ruleId": "aria-valid-attr-value",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI",
+      "html": "<button class=\"navigation-menu-v2__section-title\" data-toggle=\"menu-section\" aria-expanded=\"true\" aria-controls=\"menu-section-content\">"
+    },
+    {
+      "fingerprint": "18522f3a1ece",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#menuV2Sidebar > div > nav > div:nth-of-type(6) > button",
+      "target": "[\"div[data-section=\\\"videos\\\"] > .navigation-menu-v2__section-title[data-toggle=\\\"menu-section\\\"][aria-controls=\\\"menu-section-content\\\"]\"]",
+      "message": "ARIA attributes must conform to valid values",
+      "confidence": "high",
+      "ruleId": "aria-valid-attr-value",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI",
+      "html": "<button class=\"navigation-menu-v2__section-title\" data-toggle=\"menu-section\" aria-expanded=\"true\" aria-controls=\"menu-section-content\">"
+    },
+    {
+      "fingerprint": "f4f087ee512c",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#menuV2Sidebar > div > nav > div:nth-of-type(7) > button",
+      "target": "[\"div[data-section=\\\"parcerias\\\"] > .navigation-menu-v2__section-title[data-toggle=\\\"menu-section\\\"][aria-controls=\\\"menu-section-content\\\"]\"]",
+      "message": "ARIA attributes must conform to valid values",
+      "confidence": "high",
+      "ruleId": "aria-valid-attr-value",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI",
+      "html": "<button class=\"navigation-menu-v2__section-title\" data-toggle=\"menu-section\" aria-expanded=\"true\" aria-controls=\"menu-section-content\">"
+    },
+    {
+      "fingerprint": "781e3ee77da6",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#menuV2Sidebar > div > nav > div:nth-of-type(8) > button",
+      "target": "[\"div[data-section=\\\"icij-poder360\\\"] > .navigation-menu-v2__section-title[data-toggle=\\\"menu-section\\\"][aria-controls=\\\"menu-section-content\\\"]\"]",
+      "message": "ARIA attributes must conform to valid values",
+      "confidence": "high",
+      "ruleId": "aria-valid-attr-value",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI",
+      "html": "<button class=\"navigation-menu-v2__section-title\" data-toggle=\"menu-section\" aria-expanded=\"true\" aria-controls=\"menu-section-content\">"
+    },
+    {
+      "fingerprint": "32d1e2b80451",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#menuV2Sidebar > div > nav > div:nth-of-type(9) > button",
+      "target": "[\"div[data-section=\\\"especiais\\\"] > .navigation-menu-v2__section-title[data-toggle=\\\"menu-section\\\"][aria-controls=\\\"menu-section-content\\\"]\"]",
+      "message": "ARIA attributes must conform to valid values",
+      "confidence": "high",
+      "ruleId": "aria-valid-attr-value",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI",
+      "html": "<button class=\"navigation-menu-v2__section-title\" data-toggle=\"menu-section\" aria-expanded=\"true\" aria-controls=\"menu-section-content\">"
+    },
+    {
+      "fingerprint": "8c41da6d5a98",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#menuV2Sidebar > div > nav > div:nth-of-type(10) > button",
+      "target": "[\"div[data-section=\\\"utilitarios\\\"] > .navigation-menu-v2__section-title[data-toggle=\\\"menu-section\\\"][aria-controls=\\\"menu-section-content\\\"]\"]",
+      "message": "ARIA attributes must conform to valid values",
+      "confidence": "high",
+      "ruleId": "aria-valid-attr-value",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI",
+      "html": "<button class=\"navigation-menu-v2__section-title\" data-toggle=\"menu-section\" aria-expanded=\"true\" aria-controls=\"menu-section-content\">"
+    },
+    {
+      "fingerprint": "127f7719d88e",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#menuV2Sidebar > div > nav > div:nth-of-type(11) > button",
+      "target": "[\"div[data-section=\\\"institucional\\\"] > .navigation-menu-v2__section-title[data-toggle=\\\"menu-section\\\"][aria-controls=\\\"menu-section-content\\\"]\"]",
+      "message": "ARIA attributes must conform to valid values",
+      "confidence": "high",
+      "ruleId": "aria-valid-attr-value",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI",
+      "html": "<button class=\"navigation-menu-v2__section-title\" data-toggle=\"menu-section\" aria-expanded=\"true\" aria-controls=\"menu-section-content\">"
+    },
+    {
+      "fingerprint": "9e52b5716e86",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#goog_246052519 |> #dtujmw1i6d73",
+      "target": "[\"#goog_246052519\",\"#dtujmw1i6d73\"]",
+      "message": "Frames must have an accessible name",
+      "confidence": "high",
+      "ruleId": "frame-title",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/frame-title?application=axeAPI",
+      "html": "<iframe id=\"dtujmw1i6d73\" name=\"dtujmw1i6d73\" allow=\"autoplay\" allowfullscreen=\"\" sandbox=\"allow-scripts allow-...\" srcdoc=\"<!DOCTYPE html><html...\" style=\"border: 0px; opacity...\">"
+    }
+  ],
+  "belowThreshold": [],
+  "waived": [],
+  "discarded": [
+    {
+      "criterion": "2.4.4",
+      "ref": "#menu-item-2486431 > a",
+      "reason": "no other link with this text leads elsewhere from the same context",
+      "output": {
+        "promises": "The link text 'Conteúdo de Marca' (Branded Content) in a navigation menu suggests a section for sponsored or branded content.",
+        "leadsTo": "https://www.poder360.com.br/conteudo-de-marca/",
+        "verdict": "fail",
+        "evidence": "Conteúdo de Marca",
+        "problem": "ambiguous",
+        "suggestedText": "Página de Conteúdo de Marca",
+        "confidence": "high"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "criterion": "1.1.1",
+      "applicable": true,
+      "candidates": 12,
+      "judged": 12,
+      "failed": 2,
+      "passed": 10,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "1.3.5",
+      "applicable": true,
+      "candidates": 2,
+      "judged": 2,
+      "failed": 1,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.2",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "decided": 1
+    },
+    {
+      "criterion": "2.4.4",
+      "applicable": true,
+      "candidates": 447,
+      "judged": 50,
+      "failed": 2,
+      "passed": 47,
+      "cannotTell": 0,
+      "discarded": 1,
+      "errors": 0,
+      "offlineMisses": 0,
+      "capped": 397
+    },
+    {
+      "criterion": "2.4.6",
+      "applicable": true,
+      "candidates": 109,
+      "judged": 50,
+      "failed": 0,
+      "passed": 41,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "capped": 59,
+      "suggested": 9
+    },
+    {
+      "criterion": "3.1.1",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "3.1.2",
+      "applicable": true,
+      "candidates": 3,
+      "judged": 3,
+      "failed": 1,
+      "passed": 2,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "decided": 1
+    },
+    {
+      "criterion": "3.3.2",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 1,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    }
+  ],
+  "coverage": {
+    "engine": [
+      "1.1.1",
+      "1.3.1",
+      "1.3.5",
+      "1.4.3",
+      "1.4.4",
+      "1.4.12",
+      "2.1.1",
+      "2.4.2",
+      "2.4.4",
+      "2.5.3",
+      "2.5.8",
+      "3.1.1",
+      "3.1.2",
+      "4.1.2"
+    ],
+    "judged": [
+      "1.1.1",
+      "1.3.5",
+      "2.4.4",
+      "2.4.6",
+      "3.1.1",
+      "3.1.2",
+      "3.3.2"
+    ],
+    "notChecked": [
+      "1.2.1",
+      "1.2.3",
+      "1.2.4",
+      "1.2.5",
+      "1.3.2",
+      "1.3.3",
+      "1.3.4",
+      "1.4.1",
+      "1.4.2",
+      "1.4.5",
+      "1.4.10",
+      "1.4.13",
+      "2.1.2",
+      "2.1.4",
+      "2.2.1",
+      "2.2.2",
+      "2.3.1",
+      "2.4.3",
+      "2.4.5",
+      "2.4.7",
+      "2.4.11",
+      "2.5.1",
+      "2.5.2",
+      "2.5.4",
+      "2.5.7",
+      "3.2.1",
+      "3.2.2",
+      "3.2.3",
+      "3.2.4",
+      "3.2.6",
+      "3.3.1",
+      "3.3.3",
+      "3.3.4",
+      "3.3.7",
+      "3.3.8",
+      "4.1.3"
+    ],
+    "rules": [
+      "1.1.1",
+      "1.3.1",
+      "1.4.3",
+      "1.4.11",
+      "2.4.2",
+      "2.4.6",
+      "2.5.3",
+      "3.1.2",
+      "3.3.2",
+      "4.1.2"
+    ],
+    "reach": {
+      "frames": [
+        {
+          "ref": "#goog_246052519",
+          "url": "https://imasdk.googleapis.com/js/core/bridge3.792.0_en.html#deid=%22%22&eventfe_experiment_ids=%5B%5D&fid=%22goog_246052519%22&genotype_experiment_data=%7B%22experimentStateProto%22%3A%22%5B%5B%5B45713128%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45848619%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45796605%2Cnull%2Cnull%2",
+          "collected": false,
+          "reason": "cross-origin",
+          "engine": true
+        },
+        {
+          "ref": "#goog_246052519 |> html > body > div:nth-child(3) > iframe",
+          "collected": false,
+          "reason": "cross-origin",
+          "engine": true
+        }
+      ]
+    },
+    "criteria": [
+      {
+        "id": "1.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "image-alt",
+            "ran": true,
+            "applicable": 108,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-meter-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-progressbar-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "object-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "role-img-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "svg-img-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-alt",
+            "ran": true,
+            "applicable": 105,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.1.1@4",
+            "ran": true,
+            "applicable": 12,
+            "failures": 2,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Equivalence for complex and contextual images; decorative or not; long descriptions; CAPTCHA usability"
+      },
+      {
+        "id": "1.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a transcript is equivalent; decorative video-only; labeled media alternatives"
+      },
+      {
+        "id": "1.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "video-caption",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 2,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Accuracy, completeness, synchronization, speakers; players Rampa cannot read"
+      },
+      {
+        "id": "1.2.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether visual information matters, and whether the description or alternative is adequate"
+      },
+      {
+        "id": "1.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Everything about live captions"
+      },
+      {
+        "id": "1.2.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Quality of the description; pauses; importance of the visuals"
+      },
+      {
+        "id": "1.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-required-children",
+            "ran": true,
+            "applicable": 2,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-parent",
+            "ran": true,
+            "applicable": 9,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "list",
+            "ran": true,
+            "applicable": 35,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "listitem",
+            "ran": true,
+            "applicable": 200,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "definition-list",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "dlitem",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "table-fake-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-has-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-headers-attr",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "th-has-data-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/table-header-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/presentational-table",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/orphan-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Whether formatting carries meaning; complex tables; charts and maps; structure \"available in text\""
+      },
+      {
+        "id": "1.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether an order matters; magazine and dashboard layouts; bidirectional text"
+      },
+      {
+        "id": "1.3.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Instructions in images and media; references that depend on context"
+      },
+      {
+        "id": "1.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential orientation; real devices with the rotation lock; native apps"
+      },
+      {
+        "id": "1.3.5",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "autocomplete-valid",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.3.5@2",
+            "ran": true,
+            "applicable": 2,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whose data a field collects in ambiguous contexts; whether autofill works"
+      },
+      {
+        "id": "1.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-in-text-block",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Charts, maps, color-coded tables; whether a difference carries meaning"
+      },
+      {
+        "id": "1.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "no-autoplay-audio",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Audio started by other interactions; games; cross-origin media; keyboard access to the control"
+      },
+      {
+        "id": "1.4.3",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "color-contrast",
+            "ran": true,
+            "applicable": 215,
+            "failures": 4,
+            "review": 11,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/pixel-contrast",
+            "ran": true,
+            "applicable": 20,
+            "failures": 10,
+            "review": 0,
+            "maturity": "experimental",
+            "note": "8 not measured, past the limit of 20 per page"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-contrast",
+            "ran": true,
+            "applicable": 1,
+            "failures": 1,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Text over photos and video; text in images; logotypes"
+      },
+      {
+        "id": "1.4.4",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-viewport",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/meta-viewport",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Lost functionality in complex widgets; acceptable truncation; real mobile browsers"
+      },
+      {
+        "id": "1.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential presentation; customizable images; infographics"
+      },
+      {
+        "id": "1.4.10",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Lost functionality at 320 CSS px; content that scrolls horizontally; whether the two-dimensional exception applies"
+      },
+      {
+        "id": "1.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/icon-contrast",
+            "ran": true,
+            "applicable": 20,
+            "failures": 1,
+            "review": 10,
+            "maturity": "experimental",
+            "note": "2 not measured, past the limit of 20 per page"
+          }
+        ],
+        "manual": "Graphs and charts; whether a graphic is required; hover and active states; gradients"
+      },
+      {
+        "id": "1.4.12",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "avoid-inline-spacing",
+            "ran": true,
+            "applicable": 10,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Text clipped or overlapping with the spacing applied; scripts where a metric does not apply; text in canvas and images"
+      },
+      {
+        "id": "1.4.13",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Content shown on hover or focus: dismissible, hoverable, persistent; touch; content that moves"
+      },
+      {
+        "id": "2.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "scrollable-region-focusable",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-focusable-content",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "server-side-image-map",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Operating everything with the keyboard; states behind login; drag and drop; canvas; speech and switch input"
+      },
+      {
+        "id": "2.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Moving through the whole page with the keyboard; traps after interactions; plug-ins; screen-reader modes"
+      },
+      {
+        "id": "2.1.4",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Settings on other pages or behind login, and whether they work; shortcuts in frames; keyboard layouts and IMEs; speech input"
+      },
+      {
+        "id": "2.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-refresh",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/refresh-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Server-side time-outs; flows behind login; the exceptions"
+      },
+      {
+        "id": "2.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "blink",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "marquee",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Motion after an interaction or further down the page; whether a control is easy to find and works from the keyboard; essential motion; reliance on reduced motion"
+      },
+      {
+        "id": "2.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Flashing content, live and user-generated content; certification-grade sign-off"
+      },
+      {
+        "id": "2.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "bypass",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a block is substantial; whether skip links work; single-page-app views"
+      },
+      {
+        "id": "2.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "document-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/default-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/home-page-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.2@3",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a title fits the domain and audience"
+      },
+      {
+        "id": "2.4.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether the focus order preserves meaning; dialogs and menus"
+      },
+      {
+        "id": "2.4.4",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 203,
+            "failures": 3,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.4@3",
+            "ran": true,
+            "applicable": 447,
+            "failures": 2,
+            "review": 0,
+            "notJudged": 397,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "The \"ambiguous to users in general\" exception; destinations behind login"
+      },
+      {
+        "id": "2.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Defining the set of pages; the process exception"
+      },
+      {
+        "id": "2.4.6",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-text",
+            "ran": true,
+            "applicable": 115,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.6@4",
+            "ran": true,
+            "applicable": 109,
+            "failures": 0,
+            "review": 9,
+            "suggestions": 9,
+            "notJudged": 59,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a heading or label fits the domain and audience"
+      },
+      {
+        "id": "2.4.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether every focused element shows it; faint indicators; forced colors"
+      },
+      {
+        "id": "2.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Focused elements hidden by sticky headers, banners or dialogs; content the user opened or can move"
+      },
+      {
+        "id": "2.5.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential gestures; alternatives elsewhere on the page or in another view; gestures the probe does not make (rotation, longer paths); real touch hardware"
+      },
+      {
+        "id": "2.5.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Actions on the down-event; undo in drag and drop; touch"
+      },
+      {
+        "id": "2.5.3",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "label-content-name-mismatch",
+            "ran": true,
+            "applicable": 3,
+            "failures": 2,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/field-label-in-name",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Label versus nearby instruction; symbols and numbers; testing with speech input"
+      },
+      {
+        "id": "2.5.4",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Camera and body gestures; real sensors; essential motion; settings on other pages; motion after a tap or a permission"
+      },
+      {
+        "id": "2.5.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Dragging and its single-pointer alternatives; essential dragging; canvas editors"
+      },
+      {
+        "id": "2.5.8",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "target-size",
+            "ran": true,
+            "applicable": 200,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Essential or legally required presentation; equivalent targets; canvas and SVG maps"
+      },
+      {
+        "id": "3.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "html-has-lang",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-lang-valid",
+            "ran": true,
+            "applicable": 3,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-xml-lang-mismatch",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.1@2",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Balanced bilingual pages; dialects"
+      },
+      {
+        "id": "3.1.2",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "valid-lang",
+            "ran": true,
+            "applicable": 3,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-switcher-lang",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-id",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.2@2",
+            "ran": true,
+            "applicable": 2,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Unmarked passages; single words; proper names; loanwords"
+      },
+      {
+        "id": "3.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when an element receives focus; states after interaction"
+      },
+      {
+        "id": "3.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when a setting changes, and whether notice is adequate; custom widgets"
+      },
+      {
+        "id": "3.2.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Navigation order across the set of pages; personalization; pages behind login"
+      },
+      {
+        "id": "3.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "What counts as the same function; icons in context"
+      },
+      {
+        "id": "3.2.6",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Help mechanisms and their order across the set of pages; help that is not a link"
+      },
+      {
+        "id": "3.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Error messages after input; errors the server finds; wording"
+      },
+      {
+        "id": "3.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "form-field-multiple-labels",
+            "ran": true,
+            "applicable": 4,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/no-visible-label",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.3.2@1",
+            "ran": true,
+            "applicable": 1,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether instructions are enough; icons as labels"
+      },
+      {
+        "id": "3.3.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a suggestion is correct; server-side errors; the security exception"
+      },
+      {
+        "id": "3.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Reversal, checking or confirmation of submissions: almost all of it"
+      },
+      {
+        "id": "3.3.7",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Information asked again in a process; third-party steps; the exceptions"
+      },
+      {
+        "id": "3.3.8",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Cognitive function tests in sign-in and recovery; CAPTCHA escalations; later steps that need an account"
+      },
+      {
+        "id": "4.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-command-name",
+            "ran": true,
+            "applicable": 15,
+            "failures": 2,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-focus",
+            "ran": true,
+            "applicable": 50,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr-value",
+            "ran": true,
+            "applicable": 66,
+            "failures": 10,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title",
+            "ran": true,
+            "applicable": 5,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 203,
+            "failures": 3,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title-unique",
+            "ran": true,
+            "applicable": 4,
+            "failures": 0,
+            "review": 2,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-allowed-attr",
+            "ran": true,
+            "applicable": 66,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-conditional-attr",
+            "ran": true,
+            "applicable": 66,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-deprecated-role",
+            "ran": true,
+            "applicable": 38,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-prohibited-attr",
+            "ran": true,
+            "applicable": 66,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-attr",
+            "ran": true,
+            "applicable": 38,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-roles",
+            "ran": true,
+            "applicable": 38,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr",
+            "ran": true,
+            "applicable": 66,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "button-name",
+            "ran": true,
+            "applicable": 22,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "duplicate-id-aria",
+            "ran": true,
+            "applicable": 81,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-button-name",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "label",
+            "ran": true,
+            "applicable": 4,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "nested-interactive",
+            "ran": true,
+            "applicable": 141,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-braille-equivalent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-input-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tab-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-toggle-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tooltip-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "select-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "summary-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/duplicate-id-reference",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/widget-name",
+            "ran": true,
+            "applicable": 569,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/custom-control",
+            "ran": true,
+            "applicable": 3,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/tab-state",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Roles for custom widgets; values set by assistive technology; what is actually announced"
+      },
+      {
+        "id": "4.1.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/live-regions",
+            "ran": true,
+            "applicable": 3,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "note": "3 live region(s): #video_38455 > button > span:nth-of-type(2) (generic, polite, \"Play Video\"); #swiper-wrapper-4d1457642e5242bf (generic, polite, \"Trump diz que a Ucrânia deveria ter um …\"); #page-885654 > div > section:nth-of-type(2) > section > div > span (generic, assertive, atomic, empty). Whether status messages reach them only shows with the page in use",
+            "inventory": true
+          }
+        ],
+        "manual": "Whether status messages are announced in screen readers"
+      }
+    ]
+  },
+  "needsReview": [
+    {
+      "criterion": "1.2.2",
+      "level": "A",
+      "ruleId": "video-caption",
+      "ref": "#video_38455_html5_api",
+      "target": "[\"#video_38455_html5_api\"]",
+      "html": "<video id=\"video_38455_html5_api\" class=\"vjs-tech\" tabindex=\"-1\" preload=\"none\" poster=\"https://membrana-cdn.media/video/pdr/videofile-3125353-20261011-0.webp\" src=\"https://membrana-cdn.media/video/pdr/videofile-3125353-20261011-desktop.mp4\"></video>",
+      "message": "Check that captions are available for the element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/video-caption?application=axeAPI"
+    },
+    {
+      "criterion": "1.2.2",
+      "level": "A",
+      "ruleId": "video-caption",
+      "ref": "#video_38455_ima-ad-container > div:nth-of-type(1) > div:nth-of-type(1) > video",
+      "target": "[\"div:nth-child(1) > video[webkit-playsinline=\\\"true\\\"][playsinline=\\\"true\\\"]\"]",
+      "html": "<video title=\"Advertisement\" webkit-playsinline=\"true\" playsinline=\"true\" src=\"https://rr2---sn-cgp...\" style=\"background-color: rg...\">",
+      "message": "Check that captions are available for the element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/video-caption?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#goog_246052519 |> #dtujmw1i6d73 |> .ns-041ag-e-5",
+      "target": "[\"#goog_246052519\",\"#dtujmw1i6d73\",\".ns-041ag-e-5\"]",
+      "html": "<span class=\"ns-041ag-e-5\" dir=\"auto\" x-code=\"0\">Um Choque de Amor</span>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#goog_246052519 |> #dtujmw1i6d73 |> .ns-041ag-e-7",
+      "target": "[\"#goog_246052519\",\"#dtujmw1i6d73\",\".ns-041ag-e-7\"]",
+      "html": "<span class=\"ns-041ag-e-7\" dir=\"auto\" x-code=\"0\">netflix.com</span>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#goog_246052519 |> #dtujmw1i6d73 |> .ns-041ag-e-11",
+      "target": "[\"#goog_246052519\",\"#dtujmw1i6d73\",\".ns-041ag-e-11\"]",
+      "html": "<span class=\"ns-041ag-e-11\" dir=\"auto\" x-code=\"0\">Assista</span>",
+      "message": "Element's background color could not be determined because it is overlapped by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#page-885654 > div > div:nth-of-type(19) > div:nth-of-type(2) > button:nth-of-type(2)",
+      "target": "[\"button[aria-controls=\\\"sao-paulo\\\"]\"]",
+      "html": "<button class=\"tab-button\" data-tab=\"sao-paulo\" role=\"tab\" aria-selected=\"false\" aria-controls=\"sao-paulo\">São Paulo</button>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#page-885654 > div > div:nth-of-type(19) > div:nth-of-type(2) > button:nth-of-type(3)",
+      "target": "[\"button[aria-controls=\\\"rio-de-janeiro\\\"]\"]",
+      "html": "<button class=\"tab-button\" data-tab=\"rio-de-janeiro\" role=\"tab\" aria-selected=\"false\" aria-controls=\"rio-de-janeiro\">Rio de Janeiro</button>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#page-885654 > div > div:nth-of-type(19) > div:nth-of-type(2) > button:nth-of-type(4)",
+      "target": "[\"button[aria-controls=\\\"brasilia\\\"]\"]",
+      "html": "<button class=\"tab-button\" data-tab=\"brasilia\" role=\"tab\" aria-selected=\"false\" aria-controls=\"brasilia\">Brasília</button>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#page-885654 > div > div:nth-of-type(19) > div:nth-of-type(2) > button:nth-of-type(5)",
+      "target": "[\"button[aria-controls=\\\"curitiba\\\"]\"]",
+      "html": "<button class=\"tab-button\" data-tab=\"curitiba\" role=\"tab\" aria-selected=\"false\" aria-controls=\"curitiba\">Curitiba</button>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#page-885654 > div > div:nth-of-type(19) > div:nth-of-type(2) > a",
+      "target": "[\".tab-button--link\"]",
+      "html": "<a class=\"tab-button tab-button--link\" href=\"https://poder360.com.br/feriados-nacionais\" role=\"link\" aria-label=\"Ver todos os feriados\">",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#page-885654 > div > div:nth-of-type(21) > div:nth-of-type(2) > div:nth-of-type(3) > div > div > h2 > a",
+      "target": "[\".box-single-highlight__title > a\"]",
+      "html": "<a href=\"https://www.poder360.com.br/conteudo-patrocinado/educacao-integrada-ao-mercado-amplia-produtividade/\">Educação integrada ao mercado amplia produtividade</a>",
+      "message": "Element's background color could not be determined because element contains an image node",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#google_ads_iframe_\\/50451226\\/970x90_home_desktop_0 |> #bannerAWithoutBody > div:nth-of-type(3) > a",
+      "target": "[\"#google_ads_iframe_\\\\/50451226\\\\/970x90_home_desktop_0\",\".ns-3vp17-e-8\"]",
+      "html": "<a class=\"ns-3vp17-e-8 milo-fo...\" data-asoch-targets=\"ad0,ochTitle\" dir=\"auto\" href=\"https://adclick.g.do...\" on=\"tap:asoch-exit-api-0...\" target=\"_top\">",
+      "message": "Element's background color could not be determined because it is overlapped by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#google_ads_iframe_\\/50451226\\/970x90_home_desktop_0 |> #bannerAWithoutBody > div:nth-of-type(5) > a > div > div > span",
+      "target": "[\"#google_ads_iframe_\\\\/50451226\\\\/970x90_home_desktop_0\",\".ns-3vp17-e-14\"]",
+      "html": "<span class=\"ns-3vp17-e-14\" dir=\"auto\">Abrir</span>",
+      "message": "Element's background color could not be determined because it is overlapped by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "html > body > header > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(3) > ul:nth-of-type(1) > li:nth-of-type(1) > a",
+      "target": "html > body > header > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(3) > ul:nth-of-type(1) > li:nth-of-type(1) > a",
+      "html": "<a href=\"https://www.facebook.com/Poder360\" target=\"_blank\">",
+      "message": "The contrast of the icon of this link could not be measured: its glyphs did not show in the pixels (covered by something, or drawn in a way that making the text transparent does not reach).",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "html > body > header > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(3) > ul:nth-of-type(1) > li:nth-of-type(2) > a",
+      "target": "html > body > header > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(3) > ul:nth-of-type(1) > li:nth-of-type(2) > a",
+      "html": "<a href=\"https://www.youtube.com/poder360\" target=\"_blank\">",
+      "message": "The contrast of the icon of this link could not be measured: its glyphs did not show in the pixels (covered by something, or drawn in a way that making the text transparent does not reach).",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "html > body > header > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(3) > ul:nth-of-type(1) > li:nth-of-type(3) > a",
+      "target": "html > body > header > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(3) > ul:nth-of-type(1) > li:nth-of-type(3) > a",
+      "html": "<a href=\"https://twitter.com/Poder360\" target=\"_blank\">",
+      "message": "The contrast of the icon of this link could not be measured: its glyphs did not show in the pixels (covered by something, or drawn in a way that making the text transparent does not reach).",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "html > body > header > div > div:nth-of-type(3) > div > div:nth-of-type(3) > div > ul > li:nth-of-type(1) > a",
+      "target": "html > body > header > div > div:nth-of-type(3) > div > div:nth-of-type(3) > div > ul > li:nth-of-type(1) > a",
+      "html": "<a href=\"https://api.whatsapp.com/send?text=Notícias do poder e da política. Editado por Fernando Rodrigues e equipe -  https://www.poder360.com.br\" target=\"_blank\">",
+      "message": "The contrast of the icon of this link could not be measured: most of it lies outside the page.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "html > body > header > div > div:nth-of-type(3) > div > div:nth-of-type(3) > div > ul > li:nth-of-type(2) > a",
+      "target": "html > body > header > div > div:nth-of-type(3) > div > div:nth-of-type(3) > div > ul > li:nth-of-type(2) > a",
+      "html": "<a href=\"https://t.me/share/url?url=https://www.poder360.com.br&amp;text=Notícias do poder e da política. Editado por Fernando Rodrigues e equipe\" target=\"_blank\" class=\"navigation-menu__telegram\">",
+      "message": "The contrast of the icon of this link could not be measured: most of it lies outside the page.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "html > body > header > div > div:nth-of-type(3) > div > div:nth-of-type(3) > div > ul > li:nth-of-type(3) > a",
+      "target": "html > body > header > div > div:nth-of-type(3) > div > div:nth-of-type(3) > div > ul > li:nth-of-type(3) > a",
+      "html": "<a href=\"https://x.com/intent/tweet?text=Not%C3%ADcias+do+poder+e+da+pol%C3%ADtica.+Editado+por+Fernando+Rodrigues+e+equipe&amp;url=https%3A%2F%2Fwww.poder360.com.br&amp;via=Poder360\" target=\"_blank\">",
+      "message": "The contrast of the icon of this link could not be measured: most of it lies outside the page.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#menuV2Sidebar > div > div:nth-of-type(4) > div > a:nth-of-type(1)",
+      "target": "#menuV2Sidebar > div > div:nth-of-type(4) > div > a:nth-of-type(1)",
+      "html": "<a href=\"https://x.com/poder360\" target=\"_blank\" rel=\"noopener\" aria-label=\"X (Twitter)\">",
+      "message": "The contrast of the icon of this link (\"X (Twitter)\") could not be measured: most of it lies outside the page.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#menuV2Sidebar > div > div:nth-of-type(4) > div > a:nth-of-type(2)",
+      "target": "#menuV2Sidebar > div > div:nth-of-type(4) > div > a:nth-of-type(2)",
+      "html": "<a href=\"https://www.tiktok.com/@poder360\" target=\"_blank\" rel=\"noopener\" aria-label=\"TikTok\">",
+      "message": "The contrast of the icon of this link (\"TikTok\") could not be measured: most of it lies outside the page.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#menuV2Sidebar > div > div:nth-of-type(4) > div > a:nth-of-type(3)",
+      "target": "#menuV2Sidebar > div > div:nth-of-type(4) > div > a:nth-of-type(3)",
+      "html": "<a href=\"https://www.instagram.com/poder360/\" target=\"_blank\" rel=\"noopener\" aria-label=\"Instagram\">",
+      "message": "The contrast of the icon of this link (\"Instagram\") could not be measured: most of it lies outside the page.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#menuV2Sidebar > div > div:nth-of-type(4) > div > a:nth-of-type(4)",
+      "target": "#menuV2Sidebar > div > div:nth-of-type(4) > div > a:nth-of-type(4)",
+      "html": "<a href=\"https://www.linkedin.com/company/poder360/\" target=\"_blank\" rel=\"noopener\" aria-label=\"LinkedIn\">",
+      "message": "The contrast of the icon of this link (\"LinkedIn\") could not be measured: most of it lies outside the page.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#page-885654 > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(2) > h2",
+      "message": "The heading \"Daniel Vorcaro recebeu Flávio Bolsonaro em sua casa em 2025\" names a different topic than the content under it.",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#page-885654 > div > div:nth-of-type(4) > div > div:nth-of-type(1) > h2",
+      "message": "The heading \"PODERDATA/AYA\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Pesquisas e Dados Eleitorais\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#page-885654 > div > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(2) > h2",
+      "message": "The heading \"PODER BRASIL\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Notícias de Política\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#page-885654 > div > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(2) > h2",
+      "message": "The heading \"PODER GENTE\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Notícias e Atualidades\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#page-885654 > div > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(2) > h3",
+      "message": "The heading \"Viúva de Lito Sousa relata dificuldade para viajar após morte do marido\" names a different topic than the content under it.",
+      "evidence": "The model suggests: \"Lula e Flávio têm 3 debates e duas sabatinas marcados\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#page-885654 > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > h2",
+      "message": "The heading \"PROGRAMA DE TRAINEES 2027\" names a different topic than the content under it.",
+      "evidence": "The model suggests: \"Poder360 anuncia 3º programa de trainees em jornalismo\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#page-885654 > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > h3",
+      "message": "The heading \"Poder360 anuncia 3º programa de trainees em jornalismo\" names a different topic than the content under it.",
+      "evidence": "The model suggests: \"Inovação impulsiona evolução do portfólio ‘wellness’ da Ambev\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#page-885654 > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(2) > h2",
+      "message": "The heading \"CONTEÚDO DE MARCA\" names a different topic than the content under it.",
+      "evidence": "The model suggests: \"Notícias e Atualidades\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#page-885654 > div > div:nth-of-type(6) > div > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > h2",
+      "message": "The heading \"PODER INTERNACIONAL\" names a different topic than the content under it.",
+      "evidence": "The model suggests: \"Notícias Internacionais\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "frame-title-unique",
+      "ref": "#google_ads_iframe_\\/50451226\\/1248x250_home_desktop_0",
+      "target": "[\"#google_ads_iframe_\\\\/50451226\\\\/1248x250_home_desktop_0\"]",
+      "html": "<iframe id=\"google_ads_iframe_/5...\" name=\"google_ads_iframe_/5...\" title=\"3rd party ad content\" width=\"1248\" height=\"250\" scrolling=\"no\" marginwidth=\"0\" marginheight=\"0\" frameborder=\"0\" aria-label=\"Advertisement\" tabindex=\"0\" allow=\"private-state-token-...\" data-load-complete=\"true\" ...>",
+      "message": "Element's title attribute is not unique",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/frame-title-unique?application=axeAPI"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "frame-title-unique",
+      "ref": "#google_ads_iframe_\\/50451226\\/970x250_home_desktop_0",
+      "target": "[\"#google_ads_iframe_\\\\/50451226\\\\/970x250_home_desktop_0\"]",
+      "html": "<iframe id=\"google_ads_iframe_/5...\" name=\"google_ads_iframe_/5...\" title=\"3rd party ad content\" width=\"970\" height=\"250\" scrolling=\"no\" marginwidth=\"0\" marginheight=\"0\" frameborder=\"0\" aria-label=\"Advertisement\" tabindex=\"0\" allow=\"private-state-token-...\" data-load-complete=\"true\" ...>",
+      "message": "Element's title attribute is not unique",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/frame-title-unique?application=axeAPI"
+    }
+  ],
+  "usage": {
+    "calls": 100,
+    "cachedCalls": 18,
+    "inputTokens": 106734,
+    "outputTokens": 11383,
+    "latencyMs": 666572
+  },
+  "errors": [],
+  "notes": [
+    "2 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #goog_246052519 (https://imasdk.googleapis.com/js/core/bridge3.792.0_en.html#deid=%22%22&eventfe_experiment_ids=%5B%5D&fid=%22goog_246052519%22&genotype_experiment_data=%7B%22experimentStateProto%22%3A%22%5B%5B%5B45713128%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45848619%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45796605%2Cnull%2Cnull%2), #goog_246052519 |> html > body > div:nth-child(3) > iframe.",
+    "97 image(s) were left without a capture, so no judgment looked at them: 5 outside the page (an off-canvas menu); 8 transparent where it sits; 84 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+    "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 397 of 447 for 2.4.4, 59 of 109 for 2.4.6. The coverage lists them as not judged.",
+    "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+  ]
+}

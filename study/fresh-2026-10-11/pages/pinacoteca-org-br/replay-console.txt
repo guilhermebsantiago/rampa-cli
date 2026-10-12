@@ -1,0 +1,137 @@
+
+https://pinacoteca.org.br/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.1.1 (A) — Non-text Content
+  ✗ #body-page > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > a > img
+    The text alternative "Pinacoteca" describes something the image does not show.
+    Evidence: "Pinacoteca"
+    Patch:
+      - <img class="logo logo-p" src="https://pinacoteca.org.br/wp-content/uploads/2022/03/Grupo-928.png" alt="Pinacoteca">
+      + <img class="logo logo-p" src="https://pinacoteca.org.br/wp-content/uploads/2022/03/Grupo-928.png" alt="Pinacoteca de São Paulo">
+    confidence high · 1/1 runs · evidence verified · id 5271a6389592
+
+WCAG 1.3.5 (AA) — Identify Input Purpose
+  ✗ #fale-conosco-nome
+    The field "Nome*" asks for the user's full name but does not identify that purpose: autocomplete="name" is missing.
+    Evidence: "Nome*"
+    Patch:
+      - <input size="40" maxlength="400" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required form-control" id="fale-conosco-nome" aria-required="true" aria-invalid="false" placeholder="Nome*" value="" type="text" name="fale-conosco-nome">
+      + <input size="40" maxlength="400" class="wpcf7-form-control wpcf7-text wpcf7-validates-as-required form-control" id="fale-conosco-nome" aria-required="true" aria-invalid="false" placeholder="Nome*" value="" type="text" name="fale-conosco-nome" autocomplete="name">
+    confidence high · 1/1 runs · evidence verified · id ee7607bd2053
+  ✗ #fale-conosco-email
+    The field "Email*" asks for the user's email address but does not identify that purpose: autocomplete="email" is missing.
+    Evidence: "Email*"
+    Patch:
+      - <input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email form-control" id="fale-conosco-email" aria-required="true" aria-invalid="false" placeholder="E-mail*" value="" type="email" name="fale-conosco-email">
+      + <input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email form-control" id="fale-conosco-email" aria-required="true" aria-invalid="false" placeholder="E-mail*" value="" type="email" name="fale-conosco-email" autocomplete="email">
+    confidence high · 1/1 runs · evidence verified · id bad5c8c25204
+  ✗ #fale-conosco-telefone
+    The field "Telefone" asks for the user's telephone number but does not identify that purpose: autocomplete="tel" is missing.
+    Evidence: "Telefone"
+    Patch:
+      - <input size="40" maxlength="15" class="wpcf7-form-control wpcf7-tel wpcf7-text wpcf7-validates-as-tel form-control phone" id="fale-conosco-telefone" aria-invalid="false" placeholder="Telefone" value="" type="tel" name="fale-conosco-telefone">
+      + <input size="40" maxlength="15" class="wpcf7-form-control wpcf7-tel wpcf7-text wpcf7-validates-as-tel form-control phone" id="fale-conosco-telefone" aria-invalid="false" placeholder="Telefone" value="" type="tel" name="fale-conosco-telefone" autocomplete="tel">
+    confidence high · 1/1 runs · evidence verified · id 13cb282fd79d
+  ✗ #newsletter-email
+    The field "Email*" asks for the user's email address but does not identify that purpose: autocomplete="email" is missing.
+    Evidence: "Email*"
+    Patch:
+      - <input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email form-control" id="newsletter-email" aria-required="true" aria-invalid="false" placeholder="Exemplo: nome@mail.com" value="" type="email" name="newsletter-email">
+      + <input size="40" maxlength="400" class="wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email form-control" id="newsletter-email" aria-required="true" aria-invalid="false" placeholder="Exemplo: nome@mail.com" value="" type="email" name="newsletter-email" autocomplete="email">
+    confidence high · 1/1 runs · evidence verified · id 6982a269f459
+
+WCAG 1.4.3 (AA) — Contrast (Minimum)
+  ✗ #topbarGlobal > nav > p
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 914ed267f39c
+  ✗ #govsp-dropdown > li:nth-of-type(9) > p
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id ef81c9b248d1
+
+WCAG 1.4.11 (AA) — Non-text Contrast
+  ✗ #rodape > div:nth-of-type(3) > div > div > a
+    The icon of this link ("Logotipo Hous 360") has at most 2.21:1 contrast with the pixels next to it (#abaeb9 on #ffffff). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).
+    Evidence: "#abaeb9 on #ffffff · 2.21:1 at best, 2.21:1 at worst"
+    confidence low · Rampa rule rampa/icon-contrast · id 92e86e45ee76
+
+WCAG 2.4.4 (A) — Link Purpose (In Context)
+  ✗ #rodape > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > a
+    Links must have discernible text
+    high · rule link-name · id 24d17f16dd5c
+  ✗ #rodape > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a
+    Links must have discernible text
+    high · rule link-name · id fdb6f1eedde9
+  ✗ #rodape > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > a
+    Links must have discernible text
+    high · rule link-name · id 070770b2d81d
+  ✗ #rodape > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(4) > a
+    Links must have discernible text
+    high · rule link-name · id 7f07aa8d44a6
+  ✗ #rodape > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > ul > li:nth-of-type(1) > a
+    Links must have discernible text
+    high · rule link-name · id da8cb6152b4e
+  ✗ #rodape > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(6) > a
+    Links must have discernible text
+    high · rule link-name · id c55b4b53f48a
+
+WCAG 2.5.8 (AA) — Target Size (Minimum)
+  ✗ #header > div:nth-of-type(1) > div > div > div:nth-of-type(2) > ul > li:nth-of-type(3) > div > button:nth-of-type(1)
+    All touch targets must be 24px large, or leave sufficient space
+    low · rule target-size · id 1a887e4ef800
+  ✗ #header > div:nth-of-type(1) > div > div > div:nth-of-type(2) > ul > li:nth-of-type(3) > div > button:nth-of-type(2)
+    All touch targets must be 24px large, or leave sufficient space
+    low · rule target-size · id 65f8717d54f3
+
+WCAG 4.1.2 (A) — Name, Role, Value
+  ✗ #govsp-dropdown
+    ARIA hidden element must not be focusable or contain focusable elements
+    high · rule aria-hidden-focus · id ea2b91eff3d6
+  ✗ #splide04
+    ARIA hidden element must not be focusable or contain focusable elements
+    high · rule aria-hidden-focus · id e246c31d91d5
+  ✗ #topo-home > div > div:nth-of-type(4) > div > div > button
+    ARIA attributes must conform to valid values
+    high · rule aria-valid-attr-value · id 8685536d1ff6
+  ✗ #rodape > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(5) > a
+    The browser exposes this element as a link but computes no name for it: a screen reader announces only "link", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).
+    Evidence: "role link · name """
+    confidence low · Rampa rule rampa/widget-name · id 2dc9d1d76a1a
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.2.2 (A) — Captions (Prerecorded): 1 element · video-caption
+    Check that captions are available for the element
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 3 elements · color-contrast
+    Element content is too short to determine if it is actual text content
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 1 element · rampa/pixel-contrast
+    The contrast of "Clicando em "Aceito todos os Cookies" ou continuar a navega…" reads from 8.00:1 to 15.09:1 in the pixels (#4c4d53 on #f9f9f9…#f9fafa), but its color could not be read for sure (many colors in the text). WCAG 1.4.3 asks for 4.5:1.
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 2 elements · rampa/placeholder-contrast
+    The placeholder "E-mail*" has a contrast from 6.73:1 to 6.73:1 with the field (#595c5f on #ffffff), where WCAG 1.4.3 asks for 4.5:1: check it by eye.
+  ? WCAG 1.4.11 (AA) — Non-text Contrast: 2 elements · rampa/icon-contrast
+    The icon of this button has a contrast from 19.39:1 to 19.39:1 with the pixels next to it (#ffffff on #060e17); WCAG 1.4.11 asks for 3:1 where the icon must be seen: check it by eye.
+  ? WCAG 2.4.4 (A) — Link Purpose (In Context): 2 elements · judgment/2.4.4
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+  ? WCAG 3.3.2 (A) — Labels or Instructions: 2 elements · form-field-multiple-labels
+    Multiple label elements is not widely supported in assistive technologies. Ensure the first label contains all necessary information.
+  ? WCAG 4.1.2 (A) — Name, Role, Value: 1 element · aria-valid-attr-value
+    ARIA attribute element ID does not exist on the page: aria-describedby="topoVideoD-desc"
+
+2 closed shadow root(s) cannot be read by any script, so nothing inside them was checked (hosts: #wpcf7-f5-o1 > form > div > div > div:nth-of-type(1) > div:nth-of-type(7) > div > div > div, #wpcf7-f85-o2 > form > div > div > div:nth-of-type(1) > div:nth-of-type(4) > div > div > div).
+152 image(s) were left without a capture, so no judgment looked at them: 1 still loading after the wait; 151 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).
+The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 13 of 63 for 2.4.4. The coverage lists them as not judged.
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+5 claim(s) from the model did not hold against the snapshot and were dropped.
+
+Model calls: 0 new, 96 from cache · 89.3k in / 9.3k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.4.1, 1.4.3, 1.4.4, 1.4.12, 2.4.2, 2.4.4, 2.5.3, 2.5.8, 3.1.1, 3.1.2, 4.1.2
+  Checked by Rampa rules (partial):  1.1.1, 1.3.2, 1.4.3, 1.4.11, 2.4.2, 2.4.6, 3.1.1, 4.1.2
+  Judged with verified evidence:     1.1.1, 1.3.5, 2.4.4, 2.4.6, 3.1.2
+  Needs review only:                 1.2.2, 2.4.1, 3.3.2
+  Not checked automatically:         35 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

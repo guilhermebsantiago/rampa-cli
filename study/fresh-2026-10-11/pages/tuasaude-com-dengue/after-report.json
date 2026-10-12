@@ -1,0 +1,2996 @@
+{
+  "schemaVersion": 1,
+  "rampaVersion": "0.1.0",
+  "createdAt": "2026-10-12T01:25:02.355Z",
+  "target": "https://www.tuasaude.com/dengue/",
+  "surface": "web",
+  "wcagTarget": "wcag22-aa",
+  "locale": "en",
+  "llm": "on",
+  "model": "ollama:gemma4:12b",
+  "engine": {
+    "name": "axe-core",
+    "version": "4.14.0"
+  },
+  "findings": [
+    {
+      "fingerprint": "2f799605fa63",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > svg",
+      "message": "This image is hidden from screen readers (an svg with no name), but it conveys what the text around it does not say: \"Logo naming the organizations: \"TUA SAÚDE | REDE D'OR\"\".",
+      "evidence": "Logo naming the organizations: \"TUA SAÚDE | REDE D'OR\"",
+      "subject": "hidden svg",
+      "patch": {
+        "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > svg",
+        "kind": "set-attribute",
+        "attribute": "aria-label",
+        "from": "",
+        "to": "Logotipos da Tua Saúde e Rede D'Or.",
+        "before": "<svg class=\"icon icon-logo-tuasaude-rdor \">",
+        "after": "<svg class=\"icon icon-logo-tuasaude-rdor \" aria-label=\"Logotipos da Tua Saúde e Rede D'Or.\">"
+      },
+      "confidence": "low",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "ec8856835c41",
+      "criterion": "1.3.5",
+      "level": "AA",
+      "source": "judgment",
+      "ref": "#newsletter-footer > div:nth-of-type(2) > div:nth-of-type(1) > input:nth-of-type(1)",
+      "message": "The field \"Digite seu email\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+      "evidence": "Digite seu email",
+      "patch": {
+        "ref": "#newsletter-footer > div:nth-of-type(2) > div:nth-of-type(1) > input:nth-of-type(1)",
+        "kind": "set-attribute",
+        "attribute": "autocomplete",
+        "to": "email",
+        "before": "<input name=\"email\" required=\"\" type=\"email\" class=\"input\" placeholder=\"Digite seu email\">",
+        "after": "<input name=\"email\" required=\"\" type=\"email\" class=\"input\" placeholder=\"Digite seu email\" autocomplete=\"email\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "0b77e963a459",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#header > div:nth-of-type(2) > div > ul > li:nth-of-type(1) > a",
+      "target": "[\"a[href$=\\\"tuasaude.com/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://www.tuasaude.com/\" data-type=\"blog\" data-active=\"1\">\n              Tua Saúde            </a>"
+    },
+    {
+      "fingerprint": "1c6fdb99bab1",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#header > div:nth-of-type(2) > div > ul > li:nth-of-type(3) > a",
+      "target": "[\"a[data-type=\\\"exam\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://www.tuasaude.com/marcar-exame/\" data-type=\"exam\" data-active=\"\">\n              Agendar Exame            </a>"
+    },
+    {
+      "fingerprint": "76b25f8b310b",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#header > div:nth-of-type(2) > div > ul > li:nth-of-type(4) > a",
+      "target": "[\"a[data-type=\\\"doctor-answer\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://www.tuasaude.com/medico-responde/\" data-type=\"doctor-answer\" data-active=\"\">\n              Médico Responde            </a>"
+    },
+    {
+      "fingerprint": "d380af88832e",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#header > div:nth-of-type(3) > div > label > span:nth-of-type(2)",
+      "target": "[\".search-trigger-text\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"search-trigger-text\">Busca IA do Tua Saúde</span>"
+    },
+    {
+      "fingerprint": "61bc2ab63c99",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > ul > li:nth-of-type(1) > a",
+      "target": "[\"li:nth-child(1) > a[href=\\\"/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"/\">\n                        Tua Saúde                    </a>"
+    },
+    {
+      "fingerprint": "74c7cf5fe2e5",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > ul > li:nth-of-type(2) > a",
+      "target": "[\"li:nth-child(2) > a[href$=\\\"saude-a-z/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"/t/saude-a-z/\">\n                        Saúde A-Z                    </a>"
+    },
+    {
+      "fingerprint": "86cdf97c16ad",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > ul > li:nth-of-type(3) > a",
+      "target": "[\"li:nth-child(3) > a[href$=\\\"doencas-e-condicoes/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"/t/doencas-e-condicoes/\">\n                        Doenças e condições                    </a>"
+    },
+    {
+      "fingerprint": "2143b6a2b2ce",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(2) > time",
+      "target": "[\"time\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<time datetime=\"2026-10-07 16:40:37\" class=\"article-updated-at\">"
+    },
+    {
+      "fingerprint": "7a579a10c41d",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(3) > div > a > span",
+      "target": "[\".article-author-name > a > span\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span>Marcela Lemos</span>"
+    },
+    {
+      "fingerprint": "023a1c9e04b3",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(3) > div > strong > span",
+      "target": "[\".article-author-license\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"article-author-license\">CRBM/PE 08598</span>"
+    },
+    {
+      "fingerprint": "7c21c43d4771",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(3) > div > div",
+      "target": "[\".article-author-creator\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<div class=\"article-author-creator\">"
+    },
+    {
+      "fingerprint": "22e3c85f557f",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(3) > div > div > a",
+      "target": "[\".article-author-creator > a\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://www.tuasaude.com/karla-leal/\">Karla Leal</a>"
+    },
+    {
+      "fingerprint": "c54da6c48b51",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(3) > div > div > span",
+      "target": "[\".article-author-creator-specialty\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"article-author-creator-specialty\">Nutricionista</span>"
+    },
+    {
+      "fingerprint": "6d823e04d49b",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > div > ul > li:nth-of-type(1) > a",
+      "target": "[\"a[href$=\\\"#sintomas\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a data-article=\"dengue\" href=\"#sintomas\">Sintomas</a>"
+    },
+    {
+      "fingerprint": "baf30a580301",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > div > ul > li:nth-of-type(2) > a",
+      "target": "[\"a[href$=\\\"#diagnostico\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a data-article=\"dengue\" href=\"#diagnostico\">Diagnóstico</a>"
+    },
+    {
+      "fingerprint": "4af0f713f519",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > div > ul > li:nth-of-type(3) > a",
+      "target": "[\"a[href$=\\\"#transmissao\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a data-article=\"dengue\" href=\"#transmissao\">Transmissão</a>"
+    },
+    {
+      "fingerprint": "9de25a54add9",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > div > ul > li:nth-of-type(4) > a",
+      "target": "[\"a[href$=\\\"#tratamento\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a data-article=\"dengue\" href=\"#tratamento\">Tratamento</a>"
+    },
+    {
+      "fingerprint": "ebb13b07b519",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > div > ul > li:nth-of-type(5) > a",
+      "target": "[\"a[href$=\\\"#prevencao\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a data-article=\"dengue\" href=\"#prevencao\">Prevenção</a>"
+    },
+    {
+      "fingerprint": "47285675f783",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(1) > span:nth-of-type(2) > span",
+      "target": "[\".article-link-simple:nth-child(5) > .fake-link-wrapper > .fake-link\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"fake-link\">tuasaude.com/pode-nao-ser-dengue</span>"
+    },
+    {
+      "fingerprint": "3ade003aab47",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > p:nth-of-type(3) > a",
+      "target": "[\"p:nth-child(6) > a[data-google-interstitial=\\\"false\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"/marcar-consulta/infectologista/\" data-google-interstitial=\"false\">consultar o infectologista</a>"
+    },
+    {
+      "fingerprint": "0e0b0a3a9dc6",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > ul:nth-of-type(1) > li:nth-of-type(3) > a",
+      "target": "[\"a[href$=\\\"mal-estar/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"/mal-estar/\">mal-estar</a>"
+    },
+    {
+      "fingerprint": "3195fe198c2e",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > div:nth-of-type(3) > div > div:nth-of-type(2) > a > span",
+      "target": "[\"a[data-rdor-external-cta-type=\\\"banner_article_symptoms\\\"] > span\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span>\n                agende sua consulta online            </span>"
+    },
+    {
+      "fingerprint": "c39e6cff527c",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > div:nth-of-type(3) > div > span",
+      "target": "[\".rdor-find-doctor-generic > .disclaimer\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"disclaimer\">Disponível em: São Paulo, Rio de Janeiro, Distrito Federal, Pernambuco, Bahia, Maranhão, Pará, Paraná, Sergipe e Ceará.</span>"
+    },
+    {
+      "fingerprint": "b1db82675b20",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > p:nth-of-type(8) > a",
+      "target": "[\"p:nth-child(15) > a[href$=\\\"sintomas-da-dengue/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"/sintomas-da-dengue/\">sintomas de dengue clássica e hemorrágica.</a>"
+    },
+    {
+      "fingerprint": "1598d810cddc",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(1) > div > button:nth-of-type(1)",
+      "target": "[\"li[data-index=\\\"0\\\"] > .options > button[data-answer=\\\"1\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"1\">Sim</button>"
+    },
+    {
+      "fingerprint": "78168ff4e7f4",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(1) > div > button:nth-of-type(2)",
+      "target": "[\"li[data-index=\\\"0\\\"] > .options > button[data-answer=\\\"0\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"0\">Não</button>"
+    },
+    {
+      "fingerprint": "3fdb19ac5b50",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(2) > div > button:nth-of-type(1)",
+      "target": "[\"li[data-index=\\\"1\\\"] > .options > button[data-answer=\\\"1\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"1\">Sim</button>"
+    },
+    {
+      "fingerprint": "8387d25a6b4c",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(2) > div > button:nth-of-type(2)",
+      "target": "[\"li[data-index=\\\"1\\\"] > .options > button[data-answer=\\\"0\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"0\">Não</button>"
+    },
+    {
+      "fingerprint": "ef84ec884755",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(3) > div > button:nth-of-type(1)",
+      "target": "[\"li[data-index=\\\"2\\\"] > .options > button[data-answer=\\\"1\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"1\">Sim</button>"
+    },
+    {
+      "fingerprint": "726abd3cecae",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(3) > div > button:nth-of-type(2)",
+      "target": "[\"li[data-index=\\\"2\\\"] > .options > button[data-answer=\\\"0\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"0\">Não</button>"
+    },
+    {
+      "fingerprint": "147e647d7860",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(4) > div > button:nth-of-type(1)",
+      "target": "[\"li[data-index=\\\"3\\\"] > .options > button[data-answer=\\\"1\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"1\">Sim</button>"
+    },
+    {
+      "fingerprint": "53c3b5551e53",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(4) > div > button:nth-of-type(2)",
+      "target": "[\"li[data-index=\\\"3\\\"] > .options > button[data-answer=\\\"0\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"0\">Não</button>"
+    },
+    {
+      "fingerprint": "b46636bf02ff",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(5) > div > button:nth-of-type(1)",
+      "target": "[\"li[data-index=\\\"4\\\"] > .options > button[data-answer=\\\"1\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"1\">Sim</button>"
+    },
+    {
+      "fingerprint": "dab5b11c3e0e",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(5) > div > button:nth-of-type(2)",
+      "target": "[\"li[data-index=\\\"4\\\"] > .options > button[data-answer=\\\"0\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"0\">Não</button>"
+    },
+    {
+      "fingerprint": "3101bb278142",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(6) > div > button:nth-of-type(1)",
+      "target": "[\"li[data-index=\\\"5\\\"] > .options > button[data-answer=\\\"1\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"1\">Sim</button>"
+    },
+    {
+      "fingerprint": "70cbe902fce1",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(6) > div > button:nth-of-type(2)",
+      "target": "[\"li[data-index=\\\"5\\\"] > .options > button[data-answer=\\\"0\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"0\">Não</button>"
+    },
+    {
+      "fingerprint": "87f661406593",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(7) > div > button:nth-of-type(1)",
+      "target": "[\"li[data-index=\\\"6\\\"] > .options > button[data-answer=\\\"1\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"1\">Sim</button>"
+    },
+    {
+      "fingerprint": "7474fae1b63c",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(7) > div > button:nth-of-type(2)",
+      "target": "[\"li[data-index=\\\"6\\\"] > .options > button[data-answer=\\\"0\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"0\">Não</button>"
+    },
+    {
+      "fingerprint": "ee50af2661fe",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(8) > div > button:nth-of-type(1)",
+      "target": "[\"li[data-index=\\\"7\\\"] > .options > button[data-answer=\\\"1\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"1\">Sim</button>"
+    },
+    {
+      "fingerprint": "b9d0ad4a9dda",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(8) > div > button:nth-of-type(2)",
+      "target": "[\"li[data-index=\\\"7\\\"] > .options > button[data-answer=\\\"0\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"0\">Não</button>"
+    },
+    {
+      "fingerprint": "b659abe3e6b5",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(9) > div > button:nth-of-type(1)",
+      "target": "[\"li[data-index=\\\"8\\\"] > .options > button[data-answer=\\\"1\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"1\">Sim</button>"
+    },
+    {
+      "fingerprint": "3263f148b10b",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(9) > div > button:nth-of-type(2)",
+      "target": "[\"li[data-index=\\\"8\\\"] > .options > button[data-answer=\\\"0\\\"][type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" data-answer=\"0\">Não</button>"
+    },
+    {
+      "fingerprint": "f5999f0b79b1",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(2) > span:nth-of-type(2) > span",
+      "target": "[\".article-link-simple:nth-child(27) > .fake-link-wrapper > .fake-link\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"fake-link\">tuasaude.com/dengue-na-crianca</span>"
+    },
+    {
+      "fingerprint": "3c7a473950c3",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(3) > span:nth-of-type(2) > span",
+      "target": "[\".article-link-simple:nth-child(37) > .fake-link-wrapper > .fake-link\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"fake-link\">tuasaude.com/medico-responde/dengue-da-dor-de-barriga-e-diarreia</span>"
+    },
+    {
+      "fingerprint": "000969369d9a",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(4) > span:nth-of-type(2) > span",
+      "target": "[\".article-link-simple:nth-child(46) > .fake-link-wrapper > .fake-link\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"fake-link\">tuasaude.com/dengue-hemorragica</span>"
+    },
+    {
+      "fingerprint": "87cd95827d93",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > p:nth-of-type(25) > a",
+      "target": "[\"p:nth-child(48) > a[href$=\\\"como-saber-se-e-dengue/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"/como-saber-se-e-dengue/\"> os principais testes para saber se é dengue.</a>"
+    },
+    {
+      "fingerprint": "01e7cb794b79",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(5) > span:nth-of-type(2) > span",
+      "target": "[\".article-link-simple:nth-child(51) > .fake-link-wrapper > .fake-link\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"fake-link\">tuasaude.com/teste-dengue-farmacia</span>"
+    },
+    {
+      "fingerprint": "2534c02f7f8d",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > p:nth-of-type(27) > a",
+      "target": "[\"a[href$=\\\"transmissao-da-dengue/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"/transmissao-da-dengue/\">como acontece a transmissão da dengue.</a>"
+    },
+    {
+      "fingerprint": "b4b0b4533324",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(6) > span:nth-of-type(2) > span",
+      "target": "[\".article-link-simple:nth-child(55) > .fake-link-wrapper > .fake-link\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"fake-link\">tuasaude.com/como-tratar-a-dengue-na-gravidez</span>"
+    },
+    {
+      "fingerprint": "5f756aabd609",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > p:nth-of-type(32) > a",
+      "target": "[\"p:nth-child(62) > a[href$=\\\"tipos-de-dengue/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"/tipos-de-dengue/\">quais são os tipos de dengue</a>"
+    },
+    {
+      "fingerprint": "ddc4b4a23b97",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(7) > span:nth-of-type(2) > span",
+      "target": "[\".article-link-simple:nth-child(67) > .fake-link-wrapper > .fake-link\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"fake-link\">tuasaude.com/pode-nao-ser-dengue</span>"
+    },
+    {
+      "fingerprint": "17f0090443b8",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > p:nth-of-type(36) > a",
+      "target": "[\"p:nth-child(69) > a[href$=\\\"tratamento-da-dengue/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"/tratamento-da-dengue/\">tratamento para dengue</a>"
+    },
+    {
+      "fingerprint": "7bc296fcb15d",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(8) > span:nth-of-type(2) > span",
+      "target": "[\".article-link-simple:nth-child(74) > .fake-link-wrapper > .fake-link\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"fake-link\">tuasaude.com/remedios-para-dengue</span>"
+    },
+    {
+      "fingerprint": "1c070c0646a3",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(9) > span:nth-of-type(2) > span",
+      "target": "[\".article-link-simple:nth-child(82) > .fake-link-wrapper > .fake-link\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"fake-link\">tuasaude.com/alimentos-para-dengue</span>"
+    },
+    {
+      "fingerprint": "a3b29357e7bc",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > p:nth-of-type(45) > a",
+      "target": "[\"a[href$=\\\"sequelas-da-dengue/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"/sequelas-da-dengue/\">principais complicações da dengue.</a>"
+    },
+    {
+      "fingerprint": "d52b09caa5ce",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(10) > span:nth-of-type(2) > span",
+      "target": "[\".article-link-simple:nth-child(90) > .fake-link-wrapper > .fake-link\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"fake-link\">tuasaude.com/prevencao-da-dengue</span>"
+    },
+    {
+      "fingerprint": "6b012ac642f9",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(11) > span:nth-of-type(2) > span",
+      "target": "[\".article-link-simple:nth-child(94) > .fake-link-wrapper > .fake-link\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"fake-link\">tuasaude.com/vacina-contra-dengue</span>"
+    },
+    {
+      "fingerprint": "63c0321774c2",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(12) > span:nth-of-type(2) > span",
+      "target": "[\".article-link-simple:nth-child(104) > .fake-link-wrapper > .fake-link\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"fake-link\">tuasaude.com/quantos-dias-duram-os-sintomas-da-dengue</span>"
+    },
+    {
+      "fingerprint": "b532f73b7025",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(13) > span:nth-of-type(2) > span",
+      "target": "[\".article-link-simple:nth-child(107) > .fake-link-wrapper > .fake-link\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"fake-link\">tuasaude.com/medico-responde/posso-tomar-dipirona-com-dengue</span>"
+    },
+    {
+      "fingerprint": "322d7385fd40",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > a",
+      "target": "[\".clinical-reviewer-card-name\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"clinical-reviewer-card-name\" href=\"https://www.tuasaude.com/marcela-lemos/\">\n            Marcela Lemos          </a>"
+    },
+    {
+      "fingerprint": "e2706f74d772",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > span:nth-of-type(2)",
+      "target": "[\".clinical-reviewer-card-license\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"clinical-reviewer-card-license\">CRBM/PE 08598</span>"
+    },
+    {
+      "fingerprint": "4985a0d38e76",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(2) > div:nth-of-type(3) > form:nth-of-type(1) > div > button:nth-of-type(1)",
+      "target": "[\".yes\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" class=\"yes\" data-answer=\"1\">"
+    },
+    {
+      "fingerprint": "b59603839249",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(2) > div:nth-of-type(3) > form:nth-of-type(1) > div > button:nth-of-type(2)",
+      "target": "[\".no\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" class=\"no\" data-answer=\"0\">"
+    },
+    {
+      "fingerprint": "93f05f7b3ed6",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > aside > section:nth-of-type(1) > div > a > span",
+      "target": "[\".first-paragraph-banner__cta > span\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span>Buscar Médico</span>"
+    },
+    {
+      "fingerprint": "a2399d988986",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(1)",
+      "target": "[\".ar82zL-partner-label\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<div class=\"ar82zL-partner-label\">publicidade</div>"
+    },
+    {
+      "fingerprint": "76d2774727c5",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(3)",
+      "target": "[\".find-doctor-wrapper > .disclaimer\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<div class=\"disclaimer\">\n        Disponível em: São Paulo, Rio de Janeiro, Distrito Federal, Pernambuco, Bahia, Maranhão, Pará, Paraná, Sergipe e Ceará.      </div>"
+    },
+    {
+      "fingerprint": "02989267ebfe",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#newsletter-footer > div:nth-of-type(2) > div:nth-of-type(2)",
+      "target": "[\".newsletter-footer-container > .disclaimer\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<div class=\"disclaimer\">\n      Ao clicar Inscrever\" você aceita a nossa Política de Privacidade e autoriza receber dicas e novidades do Tua Saúde e dos parceiros do grupo Rede D'Or.\"\n    </div>"
+    },
+    {
+      "fingerprint": "1027ef1d1238",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#footer > div:nth-of-type(1) > div > div > div:nth-of-type(5)",
+      "target": "[\".footer-certificate\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<div class=\"footer-certificate \">"
+    },
+    {
+      "fingerprint": "479b559545f9",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > div > ul > li:nth-of-type(6) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > div > ul > li:nth-of-type(6) > a",
+      "message": "The text \"Dúvidas comuns\" has at most 3.23:1 contrast with what is behind it (#8f8f8f on #ffffff), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#8f8f8f on #ffffff · 3.23:1 at best, 3.23:1 at worst · 16px, 400",
+      "subject": "Dúvidas comuns",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a data-article=\"dengue\" href=\"#duvidas-comuns\">"
+    },
+    {
+      "fingerprint": "68f1f5b19051",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(1) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(1) > a",
+      "message": "The text \"Infectologista São Paulo\" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400",
+      "subject": "Infectologista São Paulo",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a href=\"/marcar-consulta/infectologista/em/sao-paulo/\" data-rdor-cta=\"\" data-rdor-internal-cta-type=\"banner_linkList\" data-google-interstitial=\"false\" data-rdor-loaded=\"true\">"
+    },
+    {
+      "fingerprint": "0caf467c7646",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+      "message": "The text \"Infectologista Santo André\" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400",
+      "subject": "Infectologista Santo André",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a href=\"/marcar-consulta/infectologista/em/santo-andre/\" data-rdor-cta=\"\" data-rdor-internal-cta-type=\"banner_linkList\" data-google-interstitial=\"false\" data-rdor-loaded=\"true\">"
+    },
+    {
+      "fingerprint": "6d001f0b0820",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(3) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(3) > a",
+      "message": "The text \"Infectologista Osasco\" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400",
+      "subject": "Infectologista Osasco",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a href=\"/marcar-consulta/infectologista/em/osasco/\" data-rdor-cta=\"\" data-rdor-internal-cta-type=\"banner_linkList\" data-google-interstitial=\"false\" data-rdor-loaded=\"true\">"
+    },
+    {
+      "fingerprint": "796ecd3122c5",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(4) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(4) > a",
+      "message": "The text \"Infectologista Guarulhos\" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400",
+      "subject": "Infectologista Guarulhos",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a href=\"/marcar-consulta/infectologista/em/guarulhos/\" data-rdor-cta=\"\" data-rdor-internal-cta-type=\"banner_linkList\" data-google-interstitial=\"false\" data-rdor-loaded=\"true\">"
+    },
+    {
+      "fingerprint": "b91013476867",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(5) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(5) > a",
+      "message": "The text \"Infectologista São Bernardo do Campo\" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400",
+      "subject": "Infectologista São Bernardo do Campo",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a href=\"/marcar-consulta/infectologista/em/sao-bernardo-do-campo/\" data-rdor-cta=\"\" data-rdor-internal-cta-type=\"banner_linkList\" data-google-interstitial=\"false\" data-rdor-loaded=\"true\">"
+    },
+    {
+      "fingerprint": "cff2fcb405a8",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(6) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(6) > a",
+      "message": "The text \"Infectologista Rio de Janeiro\" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400",
+      "subject": "Infectologista Rio de Janeiro",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a href=\"/marcar-consulta/infectologista/em/rio-de-janeiro/\" data-rdor-cta=\"\" data-rdor-internal-cta-type=\"banner_linkList\" data-google-interstitial=\"false\" data-rdor-loaded=\"true\">"
+    },
+    {
+      "fingerprint": "c747c16bb502",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(7) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(7) > a",
+      "message": "The text \"Infectologista Brasília\" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400",
+      "subject": "Infectologista Brasília",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a href=\"/marcar-consulta/infectologista/em/brasilia/\" data-rdor-cta=\"\" data-rdor-internal-cta-type=\"banner_linkList\" data-google-interstitial=\"false\" data-rdor-loaded=\"true\">"
+    },
+    {
+      "fingerprint": "294d4ff2b693",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(1) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(1) > a",
+      "message": "The text \"Infectologista SulAmérica\" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400",
+      "subject": "Infectologista SulAmérica",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a href=\"/marcar-consulta/infectologista/atende/sulamerica/\" data-rdor-cta=\"\" data-rdor-internal-cta-type=\"banner_linkList\" data-google-interstitial=\"false\" data-rdor-loaded=\"true\">"
+    },
+    {
+      "fingerprint": "2d524b8c4ace",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+      "message": "The text \"Infectologista Bradesco\" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400",
+      "subject": "Infectologista Bradesco",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a href=\"/marcar-consulta/infectologista/atende/bradesco/\" data-rdor-cta=\"\" data-rdor-internal-cta-type=\"banner_linkList\" data-google-interstitial=\"false\" data-rdor-loaded=\"true\">"
+    },
+    {
+      "fingerprint": "d95c6a765510",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(3) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(3) > a",
+      "message": "The text \"Infectologista Mediservice\" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400",
+      "subject": "Infectologista Mediservice",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a href=\"/marcar-consulta/infectologista/atende/mediservice/\" data-rdor-cta=\"\" data-rdor-internal-cta-type=\"banner_linkList\" data-google-interstitial=\"false\" data-rdor-loaded=\"true\">"
+    },
+    {
+      "fingerprint": "ed4992fd4a13",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+      "message": "The text \"Infectologista Porto Seguro\" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400",
+      "subject": "Infectologista Porto Seguro",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a href=\"/marcar-consulta/infectologista/atende/porto-seguro/\" data-rdor-cta=\"\" data-rdor-internal-cta-type=\"banner_linkList\" data-google-interstitial=\"false\" data-rdor-loaded=\"true\">"
+    },
+    {
+      "fingerprint": "acdc6a0f48e8",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(5) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(5) > a",
+      "message": "The text \"Infectologista Amil\" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400",
+      "subject": "Infectologista Amil",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a href=\"/marcar-consulta/infectologista/atende/amil/\" data-rdor-cta=\"\" data-rdor-internal-cta-type=\"banner_linkList\" data-google-interstitial=\"false\" data-rdor-loaded=\"true\">"
+    },
+    {
+      "fingerprint": "c582f0eb3d9b",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(6) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(6) > a",
+      "message": "The text \"Infectologista Saúde Caixa\" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400",
+      "subject": "Infectologista Saúde Caixa",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a href=\"/marcar-consulta/infectologista/atende/saude-caixa/\" data-rdor-cta=\"\" data-rdor-internal-cta-type=\"banner_linkList\" data-google-interstitial=\"false\" data-rdor-loaded=\"true\">"
+    },
+    {
+      "fingerprint": "451036cf1cc9",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(7) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(7) > a",
+      "message": "The text \"Infectologista Saúde Petrobras\" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400",
+      "subject": "Infectologista Saúde Petrobras",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a href=\"/marcar-consulta/infectologista/atende/saude-petrobras/\" data-rdor-cta=\"\" data-rdor-internal-cta-type=\"banner_linkList\" data-google-interstitial=\"false\" data-rdor-loaded=\"true\">"
+    },
+    {
+      "fingerprint": "2e8b92dffca0",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#newsletter-footer > div:nth-of-type(2) > div:nth-of-type(1) > input:nth-of-type(1)",
+      "target": "#newsletter-footer > div:nth-of-type(2) > div:nth-of-type(1) > input:nth-of-type(1)",
+      "message": "The placeholder \"Digite seu email\" has a contrast of 2.52:1 with the field (#a3a3a3 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#a3a3a3 on #ffffff · 2.52:1 at best, 2.52:1 at worst · 14px, 400",
+      "subject": "Digite seu email",
+      "confidence": "low",
+      "ruleId": "rampa/placeholder-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<input name=\"email\" required=\"\" type=\"email\" class=\"input\" placeholder=\"Digite seu email\">"
+    },
+    {
+      "fingerprint": "2b5d332732d4",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+      "message": "The icon of this link (\"compartilhe\") has at most 1.98:1 contrast with the pixels next to it (#ffffff on #25d366). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+      "evidence": "#ffffff on #25d366 · 1.98:1 at best, 1.98:1 at worst",
+      "subject": "compartilhe",
+      "confidence": "low",
+      "ruleId": "rampa/icon-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+      "html": "<a class=\"green\" target=\"_blank\" href=\"https://api.whatsapp.com/send?text=Dengue%3A+o+que+%C3%A9%2C+sintomas%2C+transmiss%C3%A3o+e+tratamento+%28com+teste+de+sintomas%29:+https%3A%2F%2Fwww.tuasaude.com%2Fdengue%2F\" rel=\"nofollow\" aria-label=\"compartilhe\">"
+    },
+    {
+      "fingerprint": "95c8ff8e4545",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > button:nth-of-type(2)",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > button:nth-of-type(2)",
+      "message": "The icon of this button (\"Próximo item\") has at most 2.47:1 contrast with the pixels next to it (#36b1df on #ffffff). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+      "evidence": "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst",
+      "subject": "Próximo item",
+      "confidence": "low",
+      "ruleId": "rampa/icon-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+      "html": "<button class=\"next navigator-wrapper\" aria-label=\"Próximo item\">"
+    },
+    {
+      "fingerprint": "619d7774beb3",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > ul > li:nth-of-type(1) > a",
+      "message": "The link text \"compartilhe\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "compartilhe",
+      "subject": "compartilhe",
+      "patch": {
+        "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > ul > li:nth-of-type(1) > a",
+        "kind": "set-attribute",
+        "attribute": "aria-label",
+        "from": "compartilhe",
+        "to": "Compartilhar no Facebook",
+        "before": "<a class=\"blue\" target=\"_blank\" href=\"https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.tuasaude.com%2Fdengue%2F\" rel=\"nofollow\" aria-label=\"compartilhe\">",
+        "after": "<a class=\"blue\" target=\"_blank\" href=\"https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.tuasaude.com%2Fdengue%2F\" rel=\"nofollow\" aria-label=\"Compartilhar no Facebook\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "c45d03e2742b",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+      "message": "The link text \"compartilhe\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "compartilhe",
+      "subject": "compartilhe",
+      "patch": {
+        "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+        "kind": "set-attribute",
+        "attribute": "aria-label",
+        "from": "compartilhe",
+        "to": "Compartilhar no WhatsApp",
+        "before": "<a class=\"green\" target=\"_blank\" href=\"https://api.whatsapp.com/send?text=Dengue%3A+o+que+%C3%A9%2C+sintomas%2C+transmiss%C3%A3o+e+tratamento+%28com+teste+de+sintomas%29:+https%3A%2F%2Fwww.tuasaude.com%2Fdengue%2F\" rel=\"nofollow\" aria-label=\"compartilhe\">",
+        "after": "<a class=\"green\" target=\"_blank\" href=\"https://api.whatsapp.com/send?text=Dengue%3A+o+que+%C3%A9%2C+sintomas%2C+transmiss%C3%A3o+e+tratamento+%28com+teste+de+sintomas%29:+https%3A%2F%2Fwww.tuasaude.com%2Fdengue%2F\" rel=\"nofollow\" aria-label=\"Compartilhar no WhatsApp\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "0814e7748827",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > ul > li:nth-of-type(3) > a",
+      "message": "The link text \"compartilhe\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "compartilhe",
+      "subject": "compartilhe",
+      "patch": {
+        "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > ul > li:nth-of-type(3) > a",
+        "kind": "set-attribute",
+        "attribute": "aria-label",
+        "from": "compartilhe",
+        "to": "Compartilhar no Pinterest",
+        "before": "<a class=\"red\" target=\"_blank\" href=\"https://www.pinterest.com/pin/create/button?url=https%3A%2F%2Fwww.tuasaude.com%2Fdengue%2F&amp;media=https%3A%2F%2Fimage.tuasaude.com%2Fmedia%2Farticle%2Fpc%2Fdw%2Fdengue_63752.jpg&amp;description=Dengue%3A+o+que+%C3%A9%2C+sintomas%2C+transmiss%C3%A3o+e+tratamento+%28com+teste+de+sintomas%29\" rel=\"nofollow\" aria-label=\"compartilhe\">",
+        "after": "<a class=\"red\" target=\"_blank\" href=\"https://www.pinterest.com/pin/create/button?url=https%3A%2F%2Fwww.tuasaude.com%2Fdengue%2F&amp;media=https%3A%2F%2Fimage.tuasaude.com%2Fmedia%2Farticle%2Fpc%2Fdw%2Fdengue_63752.jpg&amp;description=Dengue%3A+o+que+%C3%A9%2C+sintomas%2C+transmiss%C3%A3o+e+tratamento+%28com+teste+de+sintomas%29\" rel=\"nofollow\" aria-label=\"Compartilhar no Pinterest\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "bd5e755747a0",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > button:nth-of-type(2)",
+      "target": "[\".next\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<button class=\"next navigator-wrapper\" aria-label=\"Próximo item\">"
+    },
+    {
+      "fingerprint": "a67691859109",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "rule",
+      "ref": "#header > div:nth-of-type(3) > div > label",
+      "target": "#header > div:nth-of-type(3) > div > label",
+      "message": "This element (\"Busca IA do Tua Saúde\") takes keyboard focus and listens to click, keydown, so it works as a control, but the browser exposes it as LabelText, with no control role: a screen reader does not announce it as a button or a link (F59). Use the native element (button, a) or give it the role of the control it is.",
+      "evidence": "role LabelText · click, keydown · \"Busca IA do Tua Saúde\"",
+      "subject": "LabelText click,keydown",
+      "confidence": "low",
+      "ruleId": "rampa/custom-control",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F59",
+      "html": "<label tabindex=\"0\" for=\"headerSearch\" class=\"search\">"
+    }
+  ],
+  "belowThreshold": [],
+  "waived": [],
+  "discarded": [
+    {
+      "criterion": "2.4.4",
+      "ref": "#header > div:nth-of-type(2) > div > ul > li:nth-of-type(2) > a",
+      "reason": "no other link with this text leads elsewhere from the same context",
+      "output": {
+        "promises": "The link text 'BUSCAR MÉDICO' (Search Doctor) and its context in a banner suggest it leads to a page for finding or booking a doctor.",
+        "leadsTo": "A page titled 'Marque consulta com um médico perto de você' (Book an appointment with a doctor near you) where users can schedule appointments.",
+        "verdict": "fail",
+        "evidence": "BUSCAR MÉDICO",
+        "problem": "ambiguous",
+        "suggestedText": "Buscar e marcar consulta com um médico",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "2.4.4",
+      "ref": "#dropdown-menu-17 > div > div:nth-of-type(1) > a:nth-of-type(1)",
+      "reason": "no other link with this text leads elsewhere from the same context",
+      "output": {
+        "promises": "A page about symptoms and how to deal with common discomforts.",
+        "leadsTo": "A page titled 'Sintomas: como lidar com os desconfortos mais comuns - Tua Saúde' describing how to deal with common health discomforts like heartburn, headache, cough, chest pain, etc.",
+        "verdict": "fail",
+        "evidence": "SINTOMAS",
+        "problem": "ambiguous",
+        "suggestedText": "Sintomas e como lidar com desconfortos comuns",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "2.4.4",
+      "ref": "#dropdown-menu-18 > div > div:nth-of-type(2) > a:nth-of-type(5)",
+      "reason": "mismatch without a known destination",
+      "output": {
+        "promises": "The link text describes an illustrative image for an article about 19 weight loss remedies (pharmacy and natural), but the URL suggests it leads to a general category or page about weight loss remedies.",
+        "leadsTo": "/remedio-para-emagrecer/",
+        "verdict": "fail",
+        "evidence": "Imagem ilustrativa do artigo 19 remédios para emagrecer: de farmácia e naturais 19 remédios para emagrecer: de farmácia e naturais",
+        "problem": "mismatch",
+        "suggestedText": "Remédios para emagrecer",
+        "confidence": "high"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "criterion": "1.1.1",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 1,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "1.3.5",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 1,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.2",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.4",
+      "applicable": true,
+      "candidates": 177,
+      "judged": 50,
+      "failed": 3,
+      "passed": 44,
+      "cannotTell": 0,
+      "discarded": 3,
+      "errors": 0,
+      "offlineMisses": 0,
+      "capped": 127
+    },
+    {
+      "criterion": "2.4.6",
+      "applicable": true,
+      "candidates": 40,
+      "judged": 40,
+      "failed": 0,
+      "passed": 40,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "3.1.1",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "decided": 1
+    },
+    {
+      "criterion": "3.1.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "3.3.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    }
+  ],
+  "coverage": {
+    "engine": [
+      "1.1.1",
+      "1.3.1",
+      "1.4.1",
+      "1.4.3",
+      "1.4.4",
+      "1.4.12",
+      "2.4.2",
+      "2.4.4",
+      "2.5.8",
+      "3.1.1",
+      "4.1.2"
+    ],
+    "judged": [
+      "1.1.1",
+      "1.3.5",
+      "2.4.2",
+      "2.4.4",
+      "2.4.6"
+    ],
+    "notChecked": [
+      "1.2.1",
+      "1.2.2",
+      "1.2.3",
+      "1.2.4",
+      "1.2.5",
+      "1.3.3",
+      "1.3.4",
+      "1.4.2",
+      "1.4.5",
+      "1.4.10",
+      "1.4.13",
+      "2.1.1",
+      "2.1.2",
+      "2.1.4",
+      "2.2.1",
+      "2.2.2",
+      "2.3.1",
+      "2.4.3",
+      "2.4.5",
+      "2.4.7",
+      "2.4.11",
+      "2.5.1",
+      "2.5.2",
+      "2.5.3",
+      "2.5.7",
+      "3.1.2",
+      "3.2.1",
+      "3.2.2",
+      "3.2.3",
+      "3.2.4",
+      "3.2.6",
+      "3.3.1",
+      "3.3.3",
+      "3.3.4",
+      "3.3.7",
+      "3.3.8",
+      "4.1.3"
+    ],
+    "rules": [
+      "1.1.1",
+      "1.3.2",
+      "1.4.3",
+      "1.4.11",
+      "2.4.2",
+      "2.4.6",
+      "3.1.1",
+      "4.1.2"
+    ],
+    "criteria": [
+      {
+        "id": "1.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "image-alt",
+            "ran": true,
+            "applicable": 45,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-meter-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-progressbar-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "object-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "role-img-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "svg-img-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-alt",
+            "ran": true,
+            "applicable": 45,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.1.1@4",
+            "ran": true,
+            "applicable": 1,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Equivalence for complex and contextual images; decorative or not; long descriptions; CAPTCHA usability"
+      },
+      {
+        "id": "1.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a transcript is equivalent; decorative video-only; labeled media alternatives"
+      },
+      {
+        "id": "1.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "video-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Accuracy, completeness, synchronization, speakers; players Rampa cannot read"
+      },
+      {
+        "id": "1.2.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether visual information matters, and whether the description or alternative is adequate"
+      },
+      {
+        "id": "1.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Everything about live captions"
+      },
+      {
+        "id": "1.2.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Quality of the description; pauses; importance of the visuals"
+      },
+      {
+        "id": "1.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "list",
+            "ran": true,
+            "applicable": 13,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "listitem",
+            "ran": true,
+            "applicable": 73,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-children",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-parent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "definition-list",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "dlitem",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "table-fake-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-has-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-headers-attr",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "th-has-data-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/table-header-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/presentational-table",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/orphan-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Whether formatting carries meaning; complex tables; charts and maps; structure \"available in text\""
+      },
+      {
+        "id": "1.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/css-reading-order",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "note": "1 group(s) CSS reordered with no relationship verified to break: left to the 1.3.2 judgment (--criteria 1.3.2)"
+          }
+        ],
+        "manual": "Whether an order matters; magazine and dashboard layouts; bidirectional text"
+      },
+      {
+        "id": "1.3.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Instructions in images and media; references that depend on context"
+      },
+      {
+        "id": "1.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential orientation; real devices with the rotation lock; native apps"
+      },
+      {
+        "id": "1.3.5",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "autocomplete-valid",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.3.5@2",
+            "ran": true,
+            "applicable": 1,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whose data a field collects in ambiguous contexts; whether autofill works"
+      },
+      {
+        "id": "1.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-in-text-block",
+            "ran": true,
+            "applicable": 9,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Charts, maps, color-coded tables; whether a difference carries meaning"
+      },
+      {
+        "id": "1.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "no-autoplay-audio",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Audio started by other interactions; games; cross-origin media; keyboard access to the control"
+      },
+      {
+        "id": "1.4.3",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "color-contrast",
+            "ran": true,
+            "applicable": 274,
+            "failures": 68,
+            "review": 6,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/pixel-contrast",
+            "ran": true,
+            "applicable": 20,
+            "failures": 15,
+            "review": 1,
+            "maturity": "experimental",
+            "note": "6 not measured, past the limit of 20 per page"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-contrast",
+            "ran": true,
+            "applicable": 1,
+            "failures": 1,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Text over photos and video; text in images; logotypes"
+      },
+      {
+        "id": "1.4.4",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-viewport",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/meta-viewport",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Lost functionality in complex widgets; acceptable truncation; real mobile browsers"
+      },
+      {
+        "id": "1.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential presentation; customizable images; infographics"
+      },
+      {
+        "id": "1.4.10",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Lost functionality at 320 CSS px; content that scrolls horizontally; whether the two-dimensional exception applies"
+      },
+      {
+        "id": "1.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/icon-contrast",
+            "ran": true,
+            "applicable": 4,
+            "failures": 2,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Graphs and charts; whether a graphic is required; hover and active states; gradients"
+      },
+      {
+        "id": "1.4.12",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "avoid-inline-spacing",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Text clipped or overlapping with the spacing applied; scripts where a metric does not apply; text in canvas and images"
+      },
+      {
+        "id": "1.4.13",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Content shown on hover or focus: dismissible, hoverable, persistent; touch; content that moves"
+      },
+      {
+        "id": "2.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "frame-focusable-content",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "scrollable-region-focusable",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "server-side-image-map",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Operating everything with the keyboard; states behind login; drag and drop; canvas; speech and switch input"
+      },
+      {
+        "id": "2.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Moving through the whole page with the keyboard; traps after interactions; plug-ins; screen-reader modes"
+      },
+      {
+        "id": "2.1.4",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Settings on other pages or behind login, and whether they work; shortcuts in frames; keyboard layouts and IMEs; speech input"
+      },
+      {
+        "id": "2.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-refresh",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/refresh-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Server-side time-outs; flows behind login; the exceptions"
+      },
+      {
+        "id": "2.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "blink",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "marquee",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Motion after an interaction or further down the page; whether a control is easy to find and works from the keyboard; essential motion; reliance on reduced motion"
+      },
+      {
+        "id": "2.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Flashing content, live and user-generated content; certification-grade sign-off"
+      },
+      {
+        "id": "2.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "bypass",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a block is substantial; whether skip links work; single-page-app views"
+      },
+      {
+        "id": "2.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "document-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/default-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.2@3",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a title fits the domain and audience"
+      },
+      {
+        "id": "2.4.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether the focus order preserves meaning; dialogs and menus"
+      },
+      {
+        "id": "2.4.4",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 178,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.4@3",
+            "ran": true,
+            "applicable": 177,
+            "failures": 3,
+            "review": 0,
+            "notJudged": 127,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "The \"ambiguous to users in general\" exception; destinations behind login"
+      },
+      {
+        "id": "2.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Defining the set of pages; the process exception"
+      },
+      {
+        "id": "2.4.6",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-text",
+            "ran": true,
+            "applicable": 48,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.6@4",
+            "ran": true,
+            "applicable": 40,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a heading or label fits the domain and audience"
+      },
+      {
+        "id": "2.4.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether every focused element shows it; faint indicators; forced colors"
+      },
+      {
+        "id": "2.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Focused elements hidden by sticky headers, banners or dialogs; content the user opened or can move"
+      },
+      {
+        "id": "2.5.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential gestures; alternatives elsewhere on the page or in another view; gestures the probe does not make (rotation, longer paths); real touch hardware"
+      },
+      {
+        "id": "2.5.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Actions on the down-event; undo in drag and drop; touch"
+      },
+      {
+        "id": "2.5.3",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "label-content-name-mismatch",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/field-label-in-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Label versus nearby instruction; symbols and numbers; testing with speech input"
+      },
+      {
+        "id": "2.5.4",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/motion-actuation-scope",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 1,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Camera and body gestures; real sensors; essential motion; settings on other pages; motion after a tap or a permission"
+      },
+      {
+        "id": "2.5.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Dragging and its single-pointer alternatives; essential dragging; canvas editors"
+      },
+      {
+        "id": "2.5.8",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "target-size",
+            "ran": true,
+            "applicable": 193,
+            "failures": 1,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Essential or legally required presentation; equivalent targets; canvas and SVG maps"
+      },
+      {
+        "id": "3.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "html-has-lang",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-lang-valid",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-xml-lang-mismatch",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-id",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.1@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Balanced bilingual pages; dialects"
+      },
+      {
+        "id": "3.1.2",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "valid-lang",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-switcher-lang",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.2@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Unmarked passages; single words; proper names; loanwords"
+      },
+      {
+        "id": "3.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when an element receives focus; states after interaction"
+      },
+      {
+        "id": "3.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when a setting changes, and whether notice is adequate; custom widgets"
+      },
+      {
+        "id": "3.2.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Navigation order across the set of pages; personalization; pages behind login"
+      },
+      {
+        "id": "3.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "What counts as the same function; icons in context"
+      },
+      {
+        "id": "3.2.6",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Help mechanisms and their order across the set of pages; help that is not a link"
+      },
+      {
+        "id": "3.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Error messages after input; errors the server finds; wording"
+      },
+      {
+        "id": "3.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "form-field-multiple-labels",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/no-visible-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.3.2@1",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether instructions are enough; icons as labels"
+      },
+      {
+        "id": "3.3.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a suggestion is correct; server-side errors; the security exception"
+      },
+      {
+        "id": "3.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Reversal, checking or confirmation of submissions: almost all of it"
+      },
+      {
+        "id": "3.3.7",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Information asked again in a process; third-party steps; the exceptions"
+      },
+      {
+        "id": "3.3.8",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Cognitive function tests in sign-in and recovery; CAPTCHA escalations; later steps that need an account"
+      },
+      {
+        "id": "4.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-allowed-attr",
+            "ran": true,
+            "applicable": 7,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-conditional-attr",
+            "ran": true,
+            "applicable": 7,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-focus",
+            "ran": true,
+            "applicable": 5,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-prohibited-attr",
+            "ran": true,
+            "applicable": 7,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr-value",
+            "ran": true,
+            "applicable": 7,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr",
+            "ran": true,
+            "applicable": 7,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "button-name",
+            "ran": true,
+            "applicable": 24,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "duplicate-id-aria",
+            "ran": true,
+            "applicable": 6,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "label",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 178,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "nested-interactive",
+            "ran": true,
+            "applicable": 71,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "summary-name",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-braille-equivalent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-command-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-deprecated-role",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-input-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-attr",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-roles",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tab-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-toggle-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tooltip-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title-unique",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-button-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "select-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/duplicate-id-reference",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/widget-name",
+            "ran": true,
+            "applicable": 205,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/custom-control",
+            "ran": true,
+            "applicable": 1,
+            "failures": 1,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Roles for custom widgets; values set by assistive technology; what is actually announced"
+      },
+      {
+        "id": "4.1.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether status messages are announced in screen readers"
+      }
+    ]
+  },
+  "needsReview": [
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#footer > div:nth-of-type(2) > div > div:nth-of-type(2) > span",
+      "target": "[\".footer-rdor-group > .title\"]",
+      "html": "<span class=\"title\">Nossas Marcas</span>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a:nth-of-type(1)",
+      "target": "[\"a[rel=\\\"dofollow\\\"][target=\\\"_blank\\\"][data-google-interstitial=\\\"false\\\"]:nth-child(1)\"]",
+      "html": "<a href=\"https://www.rededorsaoluiz.com.br/\" rel=\"dofollow\" target=\"_blank\" data-google-interstitial=\"false\">Rede D'Or São Luiz</a>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a:nth-of-type(2)",
+      "target": "[\".footer-rdor-brands-row:nth-child(1) > a[rel=\\\"dofollow\\\"][target=\\\"_blank\\\"][data-google-interstitial=\\\"false\\\"]:nth-child(2)\"]",
+      "html": "<a href=\"https://www.rededorsaoluiz.com.br/onco/oncologiador/\" rel=\"dofollow\" target=\"_blank\" data-google-interstitial=\"false\">Oncologia D’Or</a>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > a:nth-of-type(1)",
+      "target": "[\".footer-rdor-brands-row:nth-child(2) > a[rel=\\\"dofollow\\\"][target=\\\"_blank\\\"]:nth-child(1)\"]",
+      "html": "<a href=\"https://portal.sulamericaseguros.com.br/\" rel=\"dofollow\" target=\"_blank\">SulAmérica</a>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > a:nth-of-type(2)",
+      "target": "[\".footer-rdor-brands-row:nth-child(2) > a[rel=\\\"dofollow\\\"][target=\\\"_blank\\\"][data-google-interstitial=\\\"false\\\"]\"]",
+      "html": "<a href=\"https://www.rededorsaoluiz.com.br/richet/\" rel=\"dofollow\" target=\"_blank\" data-google-interstitial=\"false\">Richet Laboratórios</a>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#footer > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > a:nth-of-type(3)",
+      "target": "[\"a[rel=\\\"dofollow\\\"][target=\\\"_blank\\\"]:nth-child(3)\"]",
+      "html": "<a href=\"https://www.qualicorp.com.br?utm_source=TUASAUDE&amp;utm_medium=ORGANICO&amp;utm_campaign=TRAFEGO_LINK+PARCEIRO_NACIONAL_HOME+SITE&amp;utm_content=\" rel=\"dofollow\" target=\"_blank\">Qualicorp</a>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > aside > section:nth-of-type(1) > div > span:nth-of-type(1)",
+      "target": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > aside > section:nth-of-type(1) > div > span:nth-of-type(1)",
+      "html": "<span class=\"first-paragraph-banner__title\">",
+      "message": "Part of the text \"Encontre um Infectologista perto de você!\" has enough contrast and part does not: from 2.45:1 to 15.23:1 against what is behind it (#ffffff on #8ca9c2…#16263d), where WCAG 1.4.3 asks for 4.5:1. Check the part over a gradient.",
+      "evidence": "#ffffff on #6286ab; #8ca9c2…#16263d · 15.23:1 at best, 2.45:1 at worst · 22px, 600",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "2.5.4",
+      "level": "A",
+      "ruleId": "rampa/motion-actuation-scope",
+      "ref": "html",
+      "target": "html",
+      "html": "<html lang=\"pt-BR\" data-big-menu=\"1\" style=\"--header-height: 124px;\">",
+      "message": "2.5.4 applies here: the page listens to the device's motion (deviceorientation (jsc.mgid.com/…/739767.js:203), deviceorientation (jsc.mgid.com/…/739767.js:203)). Check that whatever is done by moving or tilting the device can also be done with a control on the screen, and that responding to motion can be turned off to avoid accidental actuation, unless the motion is essential or goes through an accessibility-supported interface (WCAG 2.5.4). If the script only collects data (analytics, fraud checks) and nothing on the page responds to motion, 2.5.4 does not apply.",
+      "evidence": "deviceorientation (jsc.mgid.com/…/739767.js:203), deviceorientation (jsc.mgid.com/…/739767.js:203)",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/motion-actuation.html"
+    }
+  ],
+  "usage": {
+    "calls": 90,
+    "cachedCalls": 3,
+    "inputTokens": 87090,
+    "outputTokens": 8924,
+    "latencyMs": 274257
+  },
+  "errors": [],
+  "notes": [
+    "45 image(s) were left without a capture, so no judgment looked at them: 25 cut off by the box that holds it; 20 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+    "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 127 of 177 for 2.4.4. The coverage lists them as not judged.",
+    "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+  ]
+}
