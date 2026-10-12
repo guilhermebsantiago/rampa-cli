@@ -6,6 +6,7 @@ import { loadWaivers } from '../../config.ts'
 import { fileCache } from '../../core/cache.ts'
 import { type CheckOptions, checkSnapshot, loweredCap } from '../../core/check.ts'
 import { type FastCollection, fastCollectOptions, fastCollection, fastCoverage } from '../../core/fast.ts'
+import { nothingJudgedNote } from '../../core/gate.ts'
 import { type SiteCriteriaReport, type SitePage, type SiteReport, countReuse, findingSignatures, siteExitCode, summarizeSite } from '../../core/site.ts'
 import { type Sibling, siblingsOf } from '../../core/siblings.ts'
 import { Stopwatch } from '../../core/timings.ts'
@@ -128,6 +129,8 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
     await browser.close()
   }
 
+  // The gate in effect, next to each page's threshold, as a single check records it.
+  for (const page of sites.flatMap((site) => site.pages)) page.failOn = options.failOn
   const json = `${JSON.stringify(sites.length === 1 ? sites[0] : sites, null, 2)}\n`
   if (options.format === 'json' && !options.output) process.stdout.write(json)
   if (options.format !== 'json') {
@@ -138,6 +141,11 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
   if (options.output) {
     await mkdir(dirname(options.output), { recursive: true })
     await writeFile(options.output, json, 'utf8')
+  }
+  // A page that asked for judgment and judged nothing makes the crawl exit 2: stderr says which, and why.
+  for (const page of sites.flatMap((site) => site.pages)) {
+    const nothing = nothingJudgedNote(page)
+    if (nothing) process.stderr.write(`rampa: ${page.target}: ${nothing}\n`)
   }
   return siteExitCode(sites, options.failOn)
 }

@@ -203,6 +203,69 @@ describe('SARIF', () => {
     expectValid(log)
   })
 
+  it('sets each level by the gate: error when the finding fails --fail-on, note below the threshold, warning otherwise', async () => {
+    const { report } = await recordedReport()
+    const levels = (log: SarifLog) => Object.fromEntries((log.runs[0]?.results ?? []).map((result) => [result.properties.findingId, result.level]))
+    const link = findingOf(report, '2.4.4')
+    const heading = findingOf(report, '2.4.6')
+    // A medium-confidence finding fails the default gate, so it is an error, not the warning it used to be.
+    const medium = { ...report, findings: report.findings.map((finding) => (finding === link ? { ...finding, confidence: 'medium' as const } : finding)) }
+    const confirmed = toSarif([medium])
+    expect(levels(confirmed)[link.fingerprint]).toBe('error')
+    expect(new Set(Object.values(levels(confirmed)))).toEqual(new Set(['error']))
+    expectValid(confirmed)
+    // --fail-on AA, A and none, from the report as rampa check records it, or from the options.
+    expect(levels(toSarif([{ ...report, failOn: 'A' }]))[heading.fingerprint]).toBe('warning')
+    expect(levels(toSarif([{ ...report, failOn: 'A' }]))[link.fingerprint]).toBe('error')
+    expect(new Set(Object.values(levels(toSarif([report], { failOn: 'none' }))))).toEqual(new Set(['warning']))
+    // Below the threshold: a note with --verbose, and a result even without it when --fail-on any counts it, as an error.
+    const below = { ...report, belowThreshold: [{ ...link, fingerprint: 'low-one', confidence: 'low' as const, experimental: true }] }
+    expect(levels(toSarif([below], { verbose: true }))['low-one']).toBe('note')
+    expect(levels(toSarif([below]))['low-one']).toBeUndefined()
+    const any = toSarif([{ ...below, failOn: 'any' }])
+    expect(levels(any)['low-one']).toBe('error')
+    expect(any.runs[0]?.results.find((result) => result.properties.findingId === 'low-one')?.properties).toMatchObject({ belowThreshold: true, failsGate: true })
+    expectValid(any)
+  })
+
+  it('carries maturity, the threshold and the gate in result, rule and run properties', async () => {
+    const { report } = await recordedReport()
+    const experimental = { ...findingOf(report, '2.4.6'), fingerprint: 'exp-one', experimental: true, confidence: 'low' as const }
+    const log = toSarif([{ ...report, failOn: 'AA', findings: [...report.findings, experimental], belowThreshold: [{ ...experimental, fingerprint: 'exp-two', criterion: '2.5.8', level: 'AA' as const, ruleId: 'target-size', source: 'engine' as const }] }], { verbose: true })
+    expectValid(log)
+    const run = log.runs[0]
+    const result = (id: string) => run?.results.find((r) => r.properties.findingId === id)
+    expect(result(findingOf(report, '2.4.4').fingerprint)?.properties).toMatchObject({ maturity: 'stable', experimental: false, failsGate: true })
+    expect(result('exp-one')?.properties).toMatchObject({ maturity: 'experimental', experimental: true })
+    // A rule with stable and experimental results is mixed; one with experimental results only is tagged.
+    const rule = (id: string) => run?.tool.driver.rules.find((r) => r.id === id)
+    expect(rule('WCAG-2.4.6')?.properties).toMatchObject({ maturity: 'mixed', experimental: false })
+    expect(rule('WCAG-2.4.6')?.properties.tags).not.toContain('experimental')
+    expect(rule('WCAG-2.5.8')?.properties).toMatchObject({ maturity: 'experimental', experimental: true })
+    expect(rule('WCAG-2.5.8')?.properties.tags).toContain('experimental')
+    expect(rule('WCAG-1.1.1')?.properties).toMatchObject({ maturity: 'stable', experimental: false })
+    expect(run?.properties).toMatchObject({ minConfidence: 'medium', failOn: 'AA' })
+    expect(run?.properties.coverage).toEqual([expect.objectContaining({ minConfidence: 'medium', belowThreshold: 1 })])
+    const methods = (run?.properties.coverage as Array<{ criteria: Array<{ id: string; methods: Array<{ id: string; maturity: string }> }> }>)[0]?.criteria.find((c) => c.id === '2.4.2')?.methods
+    expect(methods).toContainEqual(expect.objectContaining({ id: 'rampa/default-title', maturity: 'experimental' }))
+  })
+
+  it('counts the findings it leaves out below the threshold, with the threshold, and says when nothing was judged', async () => {
+    const { report } = await recordedReport()
+    const below = { ...report, belowThreshold: [{ ...findingOf(report, '2.4.4'), fingerprint: 'low-one', confidence: 'low' as const }] }
+    const notes = toSarif([below]).runs[0]?.invocations[0]?.toolExecutionNotifications ?? []
+    expect(notes.find((n) => n.descriptor.id === 'below-threshold')?.message.text).toBe(
+      'examples/store/before.html: 1 finding(s) below the confidence threshold (medium) are not listed; --verbose shows them.',
+    )
+    // With --verbose they are results, so no notification counts them.
+    expect(toSarif([below], { verbose: true }).runs[0]?.invocations[0]?.toolExecutionNotifications.some((n) => n.descriptor.id === 'below-threshold')).toBe(false)
+    const unjudged = { ...report, criteria: report.criteria.map((c) => ({ ...c, judged: 0, passed: 0, failed: 0, offlineMisses: c.candidates })) }
+    const log = toSarif([unjudged])
+    expect(log.runs[0]?.invocations[0]?.executionSuccessful).toBe(false)
+    expect(log.runs[0]?.invocations[0]?.toolExecutionNotifications.find((n) => n.descriptor.id === 'nothing-judged')).toMatchObject({ level: 'error' })
+    expectValid(log)
+  })
+
   it('speaks the report language', async () => {
     const log = toSarif([(await recordedReport('examples-store-before', { locale: 'pt-BR' })).report])
     expect(log.runs[0]?.language).toBe('pt-BR')

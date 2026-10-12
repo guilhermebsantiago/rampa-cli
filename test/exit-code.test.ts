@@ -74,6 +74,28 @@ describe('--fail-on', () => {
     expect(exitCode([partial], 'confirmed')).toBe(0)
   })
 
+  it('exits 2 when judgment was asked for and the model judged none of the candidates that needed it', () => {
+    // --offline with nothing cached, no model found, the time limit run out before the first answer.
+    const offline = report([], { llm: 'on', criteria: [summary({ candidates: 3, offlineMisses: 3 })] })
+    const noModel = report([], { llm: 'no-model', criteria: [summary({ candidates: 3 })] })
+    const timedOut = report([], { llm: 'on', criteria: [summary({ candidates: 3, timedOut: 3 })] })
+    for (const unjudged of [offline, noModel, timedOut]) {
+      expect(exitCode([unjudged], 'none')).toBe(2)
+      expect(exitCode([report([finding('A')]), unjudged], 'confirmed')).toBe(2)
+    }
+    // --no-llm judges nothing on purpose; a page with nothing to judge has nothing to miss.
+    expect(exitCode([report([], { llm: 'off', criteria: [summary({ candidates: 3 })] })], 'confirmed')).toBe(0)
+    expect(exitCode([report([], { llm: 'on', criteria: [summary({ candidates: 0 })] })], 'confirmed')).toBe(0)
+    expect(exitCode([report([], { llm: 'no-model', criteria: [summary({ applicable: false, candidates: 0 })] })], 'confirmed')).toBe(0)
+    // One candidate judged is a run that judged, partial or not; its notes say what was left.
+    expect(exitCode([report([], { llm: 'on', criteria: [summary({ candidates: 3, judged: 1, passed: 1, offlineMisses: 2 })] })], 'confirmed')).toBe(0)
+    // What a criterion decided by itself never needed the model: with no model, those are all it had.
+    const decided = report([], { llm: 'no-model', criteria: [summary({ candidates: 1, judged: 1, passed: 1, decided: 1 })] })
+    expect(exitCode([decided], 'confirmed')).toBe(0)
+    const decidedAndMore = report([], { llm: 'no-model', criteria: [summary({ candidates: 4, judged: 1, passed: 1, decided: 1 })] })
+    expect(exitCode([decidedAndMore], 'confirmed')).toBe(2)
+  })
+
   it('reads the policy in any case and rejects the rest', () => {
     expect(parseFailOn('aa')).toBe('AA')
     expect(parseFailOn(' A ')).toBe('A')

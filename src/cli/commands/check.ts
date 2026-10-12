@@ -5,6 +5,7 @@ import { prepareAdoption, targetsOrConfig } from '../../adoption/apply.ts'
 import { resolveProfiles } from '../../advisory/profile.ts'
 import { type JudgmentCache, fileCache } from '../../core/cache.ts'
 import { checkSnapshot, loweredCap } from '../../core/check.ts'
+import { nothingJudgedNote } from '../../core/gate.ts'
 import { FAST, type FastCollection, fastCollectOptions, fastCollection, fastCoverage } from '../../core/fast.ts'
 import { Stopwatch, timed } from '../../core/timings.ts'
 import type { AnyCriterion, Confidence, EngineResults, Report, Usage } from '../../core/types.ts'
@@ -16,7 +17,7 @@ import { type Reasoning, createModelProvider, providerIdentity } from '../../pro
 import { chooseModel } from '../../providers/detect.ts'
 import type { ModelProvider } from '../../providers/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
-import { renderReport } from '../../report/pretty.ts'
+import { displayTarget, renderReport } from '../../report/pretty.ts'
 import type { A11ySnapshot } from '../../snapshot/schema.ts'
 import { type AdbRunner, collectAndroid, fromScreen, systemAdb } from '../../surfaces/android/adb.ts'
 import { ANDROID_PROBE_KINDS, runAndroidProbes } from '../../surfaces/android/probes.ts'
@@ -386,6 +387,8 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   // Expired waivers and the baseline: from here on, findings are the new ones.
   for (const [index, report] of reports.entries()) reports[index] = adoption.apply(report)
   if (options.onReports) return options.onReports(reports)
+  // The gate in effect goes in every report, next to its threshold: SARIF's levels follow it, and JSON states it.
+  for (const report of reports) report.failOn = options.failOn
 
   const formatOptions = { verbose: Boolean(options.verbose), paint: paint(colorsEnabled()) }
   // --changed left nothing to check: the terminal says so, instead of an empty report.
@@ -405,6 +408,11 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     if (file) await writeOutput(file, render(format))
   }
 
+  // A run that asked for judgment and judged nothing exits 2: stderr says why, whatever the format on stdout.
+  for (const report of reports) {
+    const nothing = nothingJudgedNote(report)
+    if (nothing) process.stderr.write(`rampa: ${displayTarget(report.target)}: ${nothing}\n`)
+  }
   return exitCode(reports, options.failOn)
 }
 

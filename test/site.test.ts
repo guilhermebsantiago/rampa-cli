@@ -335,4 +335,20 @@ describe('siteExitCode', () => {
     expect(siteExitCode([below], 'confirmed')).toBe(0)
     expect(siteExitCode([below], 'any')).toBe(1)
   })
+
+  it('applies none, A and AA as a page check does', () => {
+    // --fail-on none used to exit 1 on a crawl's findings, and A failed on a Level AA one.
+    expect(siteExitCode([failing], 'none')).toBe(0)
+    const levelAA = siteReport([{ url: u('/'), report: report(u('/'), [finding({ criterion: '2.4.6', level: 'AA', message: 'z' })]), signatures: ['s'] }])
+    expect(siteExitCode([levelAA], 'A')).toBe(0)
+    expect(siteExitCode([levelAA], 'AA')).toBe(1)
+  })
+
+  it('exits 2 when a page asked for judgment and the model judged none of its candidates', () => {
+    const criteria = [{ criterion: '2.4.4', applicable: true, candidates: 3, judged: 0, failed: 0, passed: 0, cannotTell: 0, discarded: 0, errors: 0, offlineMisses: 3 }]
+    const unjudged = siteReport([{ url: u('/'), report: report(u('/'), [], { llm: 'on', criteria }), signatures: [] }])
+    expect(siteExitCode([unjudged], 'none')).toBe(2)
+    const off = siteReport([{ url: u('/'), report: report(u('/'), [], { llm: 'off', criteria }), signatures: [] }])
+    expect(siteExitCode([off], 'confirmed')).toBe(0)
+  })
 })

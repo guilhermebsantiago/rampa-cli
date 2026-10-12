@@ -1,6 +1,7 @@
 import { AXE_REVIEW_RULES, EXPERIMENTAL_RULES, REVIEW_ONLY_RULES } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
 import type { RuleRan } from '../rules/index.ts'
+import { judgmentMaturity } from './maturity.ts'
 import type { SiteCriteriaReport, SiteFinding } from './site.ts'
 import { WCAG_CRITERIA, type WcagVersion, beyondTarget, compareCriteria, criteriaFor, successCriterion } from '../wcag.ts'
 import {
@@ -164,7 +165,8 @@ export function criteriaCoverage(input: CoverageInput): CriterionCoverage[] {
     const selfFailed = selfDecided > 0 ? (summary?.decidedFailed ?? 0) : 0
     if (module && selfDecided > 0) {
       const id = module.decidedBy ?? `rampa/decided/${sc.id}`
-      byRule.set(id, { kind: 'rule', id, ran: true, applicable: selfDecided, failures: selfFailed, review: 0, maturity: 'stable', decided: selfDecided })
+      // What an experimental module decides by itself (1.3.3's sensory words) is as experimental as its judgment.
+      byRule.set(id, { kind: 'rule', id, ran: true, applicable: selfDecided, failures: selfFailed, review: 0, maturity: judgmentMaturity(module), decided: selfDecided })
     }
     for (const { decided: _, ...method } of byRule.values()) methods.push(method)
 
@@ -189,8 +191,8 @@ export function criteriaCoverage(input: CoverageInput): CriterionCoverage[] {
         review: summary.cannotTell + suggestions,
         ...(suggestions > 0 ? { suggestions } : {}),
         ...(notJudged > 0 ? { notJudged } : {}),
-        // A judgment that decides a probe's items (4.1.3) is as experimental as the probe.
-        maturity: module.settles ? 'experimental' : 'stable',
+        // An experimental module (core/maturity.ts), or a judgment over a probe's facts, which is as experimental as the probe.
+        maturity: judgmentMaturity(module),
       })
     }
 

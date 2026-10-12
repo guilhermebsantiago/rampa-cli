@@ -21,6 +21,8 @@ import {
   runUsageLine,
   safeUrl,
   shownFindings,
+  sourceLabel,
+  thresholdLevel,
   toolsLine,
   understandingUrl,
   wcagVersion,
@@ -161,15 +163,19 @@ function findingBlock(finding: Finding, report: Report): string {
   if (finding.evidence) meta.push(`${t(locale, 'evidence')}: "${prose(finding.evidence)}"`)
   const confidence = `${t(locale, 'confidence')} ${t(locale, finding.confidence)}`
   meta.push(meta.length === 0 ? capitalize(confidence) : confidence)
+  // Probe findings are always experimental; the others say so when their method is.
+  if (finding.experimental || finding.source === 'probe') meta.push(t(locale, 'experimental'))
   if (finding.agreement) meta.push(`${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`)
-  if (finding.source !== 'judgment' && finding.ruleId) {
+  // What found it: a model with verified evidence, or a rule of axe-core, of Rampa or over a probe's facts.
+  if (finding.source === 'judgment') meta.push(t(locale, 'verified'))
+  else if (finding.ruleId) {
     const help = safeUrl(finding.helpUrl)
     // In angle brackets, a ) in the address cannot end the link early.
     const rule = help ? `[${prose(finding.ruleId)}](<${help}>)` : code(finding.ruleId)
-    meta.push(finding.source === 'rule' ? `${t(locale, 'rampaRule')} ${rule}` : `${t(locale, 'engineRule')} ${rule} (${prose(report.engine.name)})`)
+    meta.push(`${sourceLabel(finding.source, locale)} ${rule}${finding.source === 'engine' ? ` (${prose(report.engine.name)})` : ''}`)
   }
   if (report.findings.includes(finding)) meta.push(`id ${code(finding.fingerprint)}`)
-  else meta.push(`${t(locale, 'belowThresholdShort')} · id ${code(finding.fingerprint)}`)
+  else meta.push(`${t(locale, 'belowThresholdShort', { level: thresholdLevel(report) })} · id ${code(finding.fingerprint)}`)
   lines.push(meta.join(' · '), '')
   return lines.join('\n')
 }

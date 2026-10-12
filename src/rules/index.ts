@@ -156,6 +156,8 @@ export function runRuleChecks(snapshot: A11ySnapshot, engine: EngineResults, loc
         ruleId: rule.id,
         helpUrl: rule.helpUrl,
         html: hit.html,
+        // Every finding of an experimental rule says so, in every format, next to its low confidence.
+        ...(rule.maturity === 'experimental' ? { experimental: true } : {}),
       })
       if (sure) {
         for (const id of rule.criteria) stage.decided.set(id, (stage.decided.get(id) ?? new Set()).add(hit.ref))

@@ -2,7 +2,7 @@ import { z } from 'zod'
 import type { EngineResults, Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
-import { reviewGroups, reviewOnly } from '../report/common.ts'
+import { reviewGroups, reviewOnly, thresholdLevel } from '../report/common.ts'
 import { beyondTargetNote, displayTarget, usageLine } from '../report/pretty.ts'
 import { criteriaFor, criterionLabel, successCriterion, versionOf } from '../wcag.ts'
 
@@ -275,7 +275,7 @@ function notesOf(report: Report, findings: AgentFinding[]): string[] {
   if (sum('cannotTell') > 0) notes.push(t(locale, 'cannotTell', { count: sum('cannotTell') }))
   if (sum('offlineMisses') > 0) notes.push(t(locale, 'offlineMisses', { count: sum('offlineMisses') }))
   if (sum('errors') > 0) notes.push(t(locale, 'judgmentErrors', { count: sum('errors'), error: report.errors[0] ?? '' }))
-  if (report.belowThreshold.length > 0) notes.push(t(locale, 'agentBelowThreshold', { count: report.belowThreshold.length }))
+  if (report.belowThreshold.length > 0) notes.push(t(locale, 'agentBelowThreshold', { count: report.belowThreshold.length, level: thresholdLevel(report) }))
   const beyond = beyondTargetNote(report)
   if (beyond) notes.push(beyond)
   return notes

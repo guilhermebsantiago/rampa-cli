@@ -65,6 +65,7 @@ describe('rampa check --profile cognitive', { timeout: 120_000 }, () => {
     expect(configured.out).toContain('◇ Advisory · COGA o4p08 Accept different input formats (not a WCAG requirement) · barrier')
     expect(rampa(dir, 'check', 'cadastro.snapshot.json', '--no-llm', '--profile', 'dyslexia').code).toBe(2)
     await writeFile(join(dir, 'rampa.config.json'), JSON.stringify({ profiles: ['dyslexia'] }))
-    expect(rampa(dir, 'check', 'cadastro.snapshot.json', '--no-llm')).toMatchObject({ code: 2, err: expect.stringContaining('Unknown profile "dyslexia"') })
+    // The config is checked when it loads: the message names the key and the profiles there are.
+    expect(rampa(dir, 'check', 'cadastro.snapshot.json', '--no-llm')).toMatchObject({ code: 2, err: expect.stringContaining('profiles.0 is "dyslexia"; allowed values are cognitive.') })
   })
 })

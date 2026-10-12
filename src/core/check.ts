@@ -20,11 +20,12 @@ import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria, criteria
 import type { JudgmentCache } from './cache.ts'
 import { type Sample, judgeCandidates } from './judge.ts'
 import type { FastCoverage } from './fast.ts'
+import { assertConfidence, meetsThreshold, nothingJudgedNote } from './gate.ts'
+import { judgmentMaturity } from './maturity.ts'
 import { type CriterionTiming, type Stopwatch, timed } from './timings.ts'
 import {
   type AnyCriterion,
   type Candidate,
-  CONFIDENCE_RANK,
   type Confidence,
   type CriterionSummary,
   type Discarded,
@@ -107,6 +108,8 @@ export function engineFindings(engine: EngineResults): Finding[] {
     const criterion = criteria[0] ?? 'best-practice'
     // An experimental axe-core rule Rampa runs on purpose reports needs review only (core/coverage.ts, reviewItems).
     if (AXE_REVIEW_RULES.includes(rule.ruleId)) continue
+    // An experimental rule (target-size) reports at low confidence, and says it is experimental.
+    const experimental = EXPERIMENTAL_RULES.has(rule.ruleId)
     for (const node of rule.nodes) {
       findings.push({
         fingerprint: fingerprint(criterion, node.ref ?? node.target, rule.ruleId),
@@ -117,11 +120,12 @@ export function engineFindings(engine: EngineResults): Finding[] {
         target: node.target,
         message: node.detail ?? rule.help,
         evidence: node.evidence,
-        confidence: node.confidence ?? (EXPERIMENTAL_RULES.has(rule.ruleId) ? 'low' : 'high'),
+        confidence: node.confidence ?? (experimental ? 'low' : 'high'),
         ruleId: rule.ruleId,
         helpUrl: rule.helpUrl,
         html: node.html,
         locatedBy: node.locatedBy,
+        ...(experimental ? { experimental: true } : {}),
       })
     }
   }
@@ -129,6 +133,8 @@ export function engineFindings(engine: EngineResults): Finding[] {
 }
 
 export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResults, options: CheckOptions): Promise<Report> {
+  // From JavaScript or a config file the type does not hold: an unknown level would put every finding below the threshold.
+  const threshold = assertConfidence(options.minConfidence)
   const watch = options.timings
   const ruleStart = performance.now()
   const stage: RuleStageResult = options.rules === false ? emptyRuleStage() : runRuleChecks(snapshot, engine, options.locale, options.rules ?? RULE_CHECKS)
@@ -338,8 +344,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             // A judgment the criterion made without a model names no model; its message says what decided it.
             agreement: decided ? undefined : { votes: judgment.votes, total: judgment.total },
             model: decided ? undefined : (options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId),
-            // A judgment over a probe's facts is as experimental as the probe.
-            ...(criterion.settles ? { experimental: true } : {}),
+            // An experimental module, or a judgment over a probe's facts, which is as experimental as the probe.
+            ...(judgmentMaturity(criterion) === 'experimental' ? { experimental: true } : {}),
           })
           if (criterion.settles && criterion.settledKey && judgment.status === 'failed') {
             settling.push({ rule: criterion.settles, criterion: criterion.id, key: criterion.settledKey(judgment.candidate), passed: false })
@@ -403,9 +409,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   // A WCAG 2.2 criterion in a 2.1 run is reported apart, and never counted.
   const beyond = unwaived.filter((f) => beyondTarget(f.criterion, version))
   const active = unwaived.filter((f) => !beyondTarget(f.criterion, version))
-  const threshold = CONFIDENCE_RANK[options.minConfidence]
   // An experimental check reports below the default threshold until it passes the evaluation gate.
-  const shown = (f: Finding) => CONFIDENCE_RANK[f.confidence] >= threshold && (!f.experimental || options.minConfidence === 'low')
+  const shown = (f: Finding) => meetsThreshold(f, threshold)
   const reported = active.filter(shown)
   const belowThreshold = active.filter((f) => !shown(f))
   reported.sort((a, b) => compareCriteria(a.criterion, b.criterion))
@@ -462,7 +467,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             cache: options.cache,
             runs: options.runs,
             concurrency: options.concurrency,
-            minConfidence: options.minConfidence,
+            minConfidence: threshold,
             waivers: options.waivers,
             coga: options.coga,
           }),
@@ -479,6 +484,10 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const reach = unreached(snapshot.reach)
   // The form probe submitted forms, or listed what it would: every report says so at the top.
   const submissions = submissionSummary(snapshot)
+  const llm: Report['llm'] = !options.llm ? 'off' : llmActive ? 'on' : 'no-model'
+  // Judgment was asked for and the model judged nothing: the report says so, and rampa check exits 2.
+  const nothingJudged = nothingJudgedNote({ llm, criteria: summaries, locale: options.locale })
+  if (nothingJudged) notes.push(nothingJudged)
 
   return {
     schemaVersion: 1,
@@ -488,9 +497,10 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     surface: snapshot.surface,
     wcagTarget: wcagTarget(version),
     locale: options.locale,
-    llm: !options.llm ? 'off' : llmActive ? 'on' : 'no-model',
+    llm,
     model: options.provider?.id,
     engine: engine.engine,
+    minConfidence: threshold,
     findings: reported,
     belowThreshold,
     ...(beyond.length > 0 ? { beyondTarget: beyond } : {}),

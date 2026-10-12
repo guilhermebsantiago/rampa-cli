@@ -6,6 +6,7 @@ import type { CrawlSkip } from '../surfaces/crawl.ts'
 import { compareCriteria, criteriaFor, criterionLabel, versionOf } from '../wcag.ts'
 import { reviewOnlyCriteria } from '../core/coverage.ts'
 import { siteAdvisoryLines } from './advisory.ts'
+import { thresholdLevel } from './common.ts'
 import { type PrettyOptions, renderFinding } from './pretty.ts'
 import { renderSiteCriteria, siteCriteriaCoverage } from '../site/index.ts'
 
@@ -199,7 +200,11 @@ export function renderSiteReport(site: SiteReport, options: PrettyOptions): stri
       sections.push(p.bold(path(report.target)))
       for (const [criterion, list] of byCriterion(findings)) {
         sections.push(`  ${p.bold(criterionLabel(criterion, locale))}`)
-        for (const finding of list) sections.push(...renderFinding(finding, locale, p).map((line) => `  ${line}`))
+        // With --verbose a page lists its findings below the threshold too, each marked as such.
+        const below = report.belowThreshold.length > 0 ? { level: thresholdLevel(report) } : undefined
+        for (const finding of list) {
+          sections.push(...renderFinding(finding, locale, p, below && report.belowThreshold.includes(finding) ? below : undefined).map((line) => `  ${line}`))
+        }
       }
       if (discarded.length > 0) {
         sections.push(`  ${p.bold(st(locale, 'discardedOn'))}`)
@@ -404,7 +409,10 @@ function siteNotes(site: SiteReport, verbose: boolean): string[] {
     notes.push(t(locale, 'judgmentErrors', { count: sum('errors'), error }))
   }
   const below = site.pages.reduce((total, report) => total + report.belowThreshold.length, 0)
-  if (!verbose && below > 0) notes.push(t(locale, 'belowThreshold', { count: below }))
+  if (below > 0) {
+    const level = site.pages[0] ? thresholdLevel(site.pages[0]) : ''
+    notes.push(t(locale, verbose ? 'belowThresholdListed' : 'belowThreshold', { count: below, level }))
+  }
   return notes
 }
 

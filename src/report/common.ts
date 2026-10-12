@@ -73,6 +73,16 @@ export function findingPlace(finding: Finding): string {
   return finding.ref ?? finding.target ?? ''
 }
 
+/** ` (medium)`: the run's confidence threshold, for the messages about findings below it; empty for a report that does not record it. */
+export function thresholdLevel(report: Pick<Report, 'minConfidence' | 'locale'>): string {
+  return report.minConfidence ? ` (${t(report.locale, report.minConfidence)})` : ''
+}
+
+/** What found a finding that is not a judgment, before its rule's id: axe-core's rule, a Rampa rule, or a probe rule. */
+export function sourceLabel(source: Exclude<Finding['source'], 'judgment'>, locale: Locale): string {
+  return t(locale, source === 'rule' ? 'rampaRule' : source === 'probe' ? 'probeRule' : 'engineRule')
+}
+
 /** What a report shows: confirmed findings, plus those below the confidence threshold with --verbose. */
 export function shownFindings(report: Report, verbose: boolean): Finding[] {
   const findings = verbose ? [...report.findings, ...report.belowThreshold] : [...report.findings]
@@ -115,6 +125,27 @@ export function probedCriteria(report: Report): string[] {
   return [...new Set(rows.map((row) => row.criterion))].sort(compareCriteria)
 }
 
+/**
+ * The criteria of a coverage line split by the maturity of the methods that decided them, read from the report's
+ * per-criterion records: a criterion is experimental when every method of `kind` that decided something for it is.
+ * Undefined for a report without records, whose line is left as it was.
+ */
+export function byMaturity(report: Report, ids: readonly string[], kind: 'rule' | 'judgment'): { stable: string[]; experimental: string[] } | undefined {
+  const records = report.coverage.criteria
+  if (!records || records.length === 0) return undefined
+  const stable: string[] = []
+  const experimental: string[] = []
+  for (const id of ids) {
+    // Rampa's own rules (rampa/...), and what a judged criterion decided without a model; never the engine's rules of a
+    // native surface, which are of kind rule too, nor an inventory or a rule that only sends to review.
+    const deciders = (records.find((record) => record.id === id)?.methods ?? []).filter((method) =>
+      kind === 'judgment' ? method.kind === 'judgment' && method.ran : method.kind === 'rule' && method.id.startsWith('rampa/') && !method.inventory && !method.reviewOnly && method.applicable - method.review > 0,
+    )
+    ;(deciders.length > 0 && deciders.every((method) => method.maturity === 'experimental') ? experimental : stable).push(id)
+  }
+  return { stable, experimental }
+}
+
 export interface CoverageRow {
   key: 'engine' | 'rules' | 'judged' | 'probes' | 'review' | 'notChecked' | 'fast'
   label: string
@@ -138,6 +169,17 @@ export function coverageRows(
   const list = (items: readonly string[]) => (items.length === 0 ? '—' : items.join(', '))
   const review = reviewOnly(report)
   const rules = report.coverage.rules ?? []
+  // The rules and the judgment say which of their criteria rest on experimental methods only: all of them, in the label
+  // (a table of several pages keeps one label per column, so there it goes in the cell), or some, after the others.
+  const tagged = (ids: readonly string[], kind: 'rule' | 'judgment', plain: MessageKey, experimentalKey: MessageKey) => {
+    const split = byMaturity(report, ids, kind)
+    if (!split || split.experimental.length === 0) return { label: t(locale, plain), text: list(ids) }
+    const marked = `${t(locale, 'experimental')}: ${split.experimental.join(', ')}`
+    if (split.stable.length > 0) return { label: t(locale, plain), text: `${split.stable.join(', ')}; ${marked}` }
+    return always ? { label: t(locale, plain), text: marked } : { label: t(locale, experimentalKey), text: list(ids) }
+  }
+  const rulesRow = tagged(rules, 'rule', 'coverageRules', 'coverageRulesExperimental')
+  const judgedRow = tagged(report.coverage.judged, 'judgment', 'coverageJudged', 'coverageJudgedExperimental')
   // Criteria a probe rule decided something for (--probe); the line is there whenever a probe ran.
   const probed = probedCriteria(report)
   // --fast: what it left out and the limits it lowered, next to what was checked, so a shorter run never reads as a full one.
@@ -146,8 +188,8 @@ export function coverageRows(
   return [
     ...(withFast ? [{ key: 'fast' as const, label: fast?.label ?? fastLabel, criteria: [], text: fast?.text ?? '—' }] : []),
     { key: 'engine', label: t(locale, 'coverageEngine', { engine: report.engine.name }), criteria: report.coverage.engine, text: list(report.coverage.engine) },
-    ...(withRules ? [{ key: 'rules' as const, label: t(locale, 'coverageRules'), criteria: rules, text: list(rules) }] : []),
-    { key: 'judged', label: t(locale, 'coverageJudged'), criteria: report.coverage.judged, text: list(report.coverage.judged) },
+    ...(withRules ? [{ key: 'rules' as const, label: rulesRow.label, criteria: rules, text: rulesRow.text }] : []),
+    { key: 'judged', label: judgedRow.label, criteria: report.coverage.judged, text: judgedRow.text },
     ...(withProbes ? [{ key: 'probes' as const, label: t(locale, 'coverageProbed'), criteria: probed, text: list(probed) }] : []),
     ...(review.length > 0 || always ? [{ key: 'review' as const, label: t(locale, 'coverageReview'), criteria: review, text: list(review) }] : []),
     {
