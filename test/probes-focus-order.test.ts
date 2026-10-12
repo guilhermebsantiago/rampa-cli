@@ -280,6 +280,17 @@ describe.skipIf(!browser)('focus-order probe (2.4.3)', { timeout: 400_000 }, () 
     expect(orderCandidates(dataOf(snapshot).sequence).map((c) => c.kind)).toEqual(['tabindex'])
   })
 
+  it('never answers a dialog Esc leaves open: no OK, Confirm or Done, only a button named to close it', async () => {
+    const { snapshot } = await probed('focus-order-confirm.html')
+    expect(opened(snapshot)).toEqual(['#open-renew Enter inside stays', '#open-notes Enter inside closed→trigger'])
+    const trials = Object.fromEntries(dataOf(snapshot).triggers.map((t) => [t.ref, t.trial]))
+    expect(trials['#open-renew']?.close).toEqual({ with: 'none', closed: false })
+    expect(trials['#open-notes']?.close).toMatchObject({ with: 'close button', closed: true, button: { ref: '#notes-close', label: 'Close dialog' } })
+    expect(dataOf(snapshot).actions.filter((a) => a.detail === 'pressed Enter (close button)').map((a) => a.ref)).toEqual(['#notes-close'])
+    // Not one of the answers reached the server: OK, Confirm, Done and "Cancel my order" were never pressed.
+    expect((servers?.requests ?? []).filter((r) => r.includes('/focus-order-confirm/'))).toEqual([])
+  })
+
   it('replays a saved snapshot offline to the same findings', async () => {
     const { snapshot, engine } = await probed('focus-order-fail.html')
     const live = await checkSnapshot(snapshot, engine, probeCheckOptions())

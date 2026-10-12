@@ -14,8 +14,10 @@ import { type ProbeOptions, type ProbePage, skippedRecord } from './page.ts'
  *    is left unclaimed) are each opened on a fresh load, from the keyboard (focus, then Enter, Space, or ArrowDown for
  *    a menu; a click only when no key opens it). The probe records where focus is once it opened; when it is not
  *    inside, how many Tab presses from there get it inside (at most 40); for a modal, whether Tab lets focus out to the
- *    page behind; then Esc (or a close button inside) and where focus lands once it closed, with how many Tab stops
- *    lie between that place and the trigger. A failure that rests on an absence is tried again on a second load.
+ *    page behind; then Esc and where focus lands once it closed, with how many Tab stops lie between that place and
+ *    the trigger. Only when Esc leaves it open, Enter on a button inside whose whole name says close, dismiss or cancel
+ *    and that the skip list lets through; never "OK", "Done" or "Confirm". A failure that rests on an absence is tried
+ *    again on a second load.
  * 2. The sequence. A Tab walk from the top records each stop with its box, its tabindex and the groups it sits in
  *    (landmarks, forms, fieldsets, sections, lists, tables, dialogs). Rules never fail an order from geometry
  *    (wcag-coverage.md, section 6): positive tabindex values and groups whose stops Tab visits going back up and left
@@ -363,25 +365,50 @@ export function focusInside(): boolean {
   return container.contains(w.__rampaKit.deepActive())
 }
 
-/** Runs in the page: a button inside what opened that is named to close it; focused, when there is one. */
-export function focusCloseButton(): InPageElement | null {
+/**
+ * Runs in the page: the buttons inside what opened whose whole name says close, dismiss or cancel ("Close", "Close
+ * dialog", "Fechar", "Cancelar", "×"), with their facts for the skip list. Never one that confirms or finishes ("OK",
+ * "Done", "Confirm", "Continue") or that names something else after the word ("Cancel my order", "Close account"):
+ * pressing such a button is an answer to the layer, not a way out of it.
+ */
+export function closeButtons(): Array<InPageElement & { facts: ControlFacts }> {
   const w = window as unknown as PopupWindow
   const container = w.__rampaPopup?.container
-  if (!container) return null
-  const CLOSE = /^(close|fechar|cerrar|dismiss|done|ok|cancel|cancelar|voltar|back|×|✕|✖|x)\b|^(×|✕|✖|x)$/i
+  if (!container) return []
+  const CLOSE =
+    /^(close|dismiss|cancel|fechar|dispensar|cancelar|cerrar)( (the|this|o|a|esta|este|el|la))?( (dialog|dialogue|modal|window|popup|pop up|menu|panel|overlay|banner|message|notice|notification|drawer|janela|dialogo|caixa|painel|mensagem|aviso|ventana|cuadro|mensaje))?$/
+  const SYMBOL = /^[×✕✖✗xX]$/
   const collapse = (value: string | null | undefined) => (value ?? '').replace(/\s+/g, ' ').trim()
+  const plain = (value: string) =>
+    value
+      .normalize('NFD')
+      .replace(/\p{M}/gu, '')
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}]+/gu, ' ')
+      .trim()
+  const out: Array<InPageElement & { facts: ControlFacts }> = []
   for (const el of Array.from(container.querySelectorAll<HTMLElement>('button,[role=button],input[type=button],a[href="#"]'))) {
     const name = collapse(el.getAttribute('aria-label') || el.getAttribute('title') || el.innerText || (el as HTMLInputElement).value)
-    if (!CLOSE.test(name) || !w.__rampaKit.visible(el)) continue
-    w.__rampaSelf = true
-    try {
-      el.focus({ preventScroll: true })
-    } finally {
-      w.__rampaSelf = false
-    }
-    return w.__rampaKit.describe(el)
+    if (!(SYMBOL.test(name) || CLOSE.test(plain(name))) || !w.__rampaKit.visible(el)) continue
+    out.push({ ...w.__rampaKit.describe(el), facts: w.__rampaActivate.facts(el) })
+    if (out.length >= 4) break
   }
-  return null
+  return out
+}
+
+/** Runs in the page: focuses the button `ref` names, when it is inside what opened. */
+export function focusCloseButton(args: { ref: string }): boolean {
+  const w = window as unknown as PopupWindow
+  const container = w.__rampaPopup?.container
+  const el = w.__rampaKit.resolve(args.ref) as HTMLElement | null
+  if (!container || !el || !container.contains(el)) return false
+  w.__rampaSelf = true
+  try {
+    el.focus({ preventScroll: true })
+  } finally {
+    w.__rampaSelf = false
+  }
+  return w.__rampaKit.deepActive() === el
 }
 
 /**
@@ -710,7 +737,19 @@ async function runPopupTrial(harness: Harness, trigger: PopupTrigger, fresh: boo
   await harness.window(probe, () => page.keyboard.press('Escape'), { ...labels, ms: OPEN_MS })
   let close: PopupTrial['close'] = { with: 'Escape', closed: !(await page.evaluate(popupStillOpen)) }
   if (!close.closed) {
-    const button = await page.evaluate(focusCloseButton)
+    // Esc left it open: a button named only to close it, dismiss it or cancel, that the skip list lets through.
+    let button: InPageElement | undefined
+    for (const { facts, ...candidate } of await page.evaluate(closeButtons).catch(() => [])) {
+      const skip = skipReason(facts, harness.origin)
+      if (skip) {
+        harness.skip(candidate, skip.reason, skip.detail)
+        continue
+      }
+      if (await page.evaluate(focusCloseButton, { ref: candidate.ref }).catch(() => false)) {
+        button = candidate
+        break
+      }
+    }
     if (button) {
       harness.log('activate', { ref: button.ref, label: button.label, detail: 'pressed Enter (close button)' })
       await harness.window(probe, () => page.keyboard.press('Enter'), { ref: button.ref, label: button.label, ms: OPEN_MS })
