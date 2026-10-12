@@ -4,6 +4,8 @@ The action runs `rampa check` in a workflow, uploads the SARIF report to code sc
 
 Rampa is not on npm yet, so the action builds the CLI from its own checkout: it sets up Node.js, then installs from the lockfile and builds with pnpm through corepack. That adds an install and a build to the job.
 
+**Pin a commit.** The examples below use `guilhermebsantiago/rampa-cli@main`, which moves with every change merged into Rampa, so the same workflow can check differently from one run to the next. There is no version tag yet; one will come with the npm release. Until then, for a stable job, pin the full commit SHA you tried, such as `uses: guilhermebsantiago/rampa-cli@<40-character SHA>`, and move it when you choose to.
+
 ## A complete workflow
 
 Save as `.github/workflows/accessibility.yml` (the same file is in [`examples/github-workflow.yml`](../examples/github-workflow.yml)):
@@ -40,7 +42,7 @@ jobs:
 
       - name: Check accessibility
         id: rampa
-        # Pin a commit SHA instead of main once you have tried it.
+        # main moves with every merge and there is no version tag yet: pin a commit SHA once you have tried it.
         uses: guilhermebsantiago/rampa-cli@main
         with:
           targets: site/
