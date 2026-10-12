@@ -124,7 +124,7 @@ const check = program
   .option('--timings', "record where each page's time goes, stage by stage and criterion by criterion, in the report and its JSON (docs/performance.md)")
   .option(
     '--fast',
-    `preset for CI and pre-commit: at most ${FAST.maxCandidates} candidates per criterion, no link following, no probes or OCR, no contrast from pixels, ${FAST.imageLimit} image captures, ${FAST.settleCapMs / 1000} s of waiting after load; options you set win, and the report lists what was left out (docs/performance.md)`,
+    `preset for CI and pre-commit: at most ${FAST.maxCandidates} candidates per criterion, batched judgment, no link following, no probes or OCR, no contrast from pixels, ${FAST.imageLimit} image captures, ${FAST.settleCapMs / 1000} s of waiting after load; options you set win, and the report lists what was left out (docs/performance.md)`,
   )
   .option('--no-fast', 'turn off fast: true from the config for this run')
   .option('--batch', 'judge up to 8 candidates per model call where the criterion allows it (on with --fast; docs/performance.md)')

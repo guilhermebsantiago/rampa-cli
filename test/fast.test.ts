@@ -64,7 +64,7 @@ describe("fast mode's coverage line", () => {
     })
     expect(fastLine(fastCoverage(run), 'en')).toEqual({
       label: 'Fast mode (--fast):',
-      text: "left out probes, link following (2.4.4 judged from text and context), OCR (1.4.5), contrast from pixels (axe-core's undecided contrast stays to review), CSS background captures; lowered to at most 10 candidates per criterion, 10 image captures, 1 s of waiting after load",
+      text: "left out probes, link following (2.4.4 judged from text and context), OCR (1.4.5), contrast from pixels (axe-core's undecided contrast stays to review), CSS background captures; lowered to at most 10 candidates per criterion, 15 image captures, 1 s of waiting after load",
     })
     expect(fastLine(fastCoverage(run), 'pt-BR').text).toContain('deixou de fora sondas, leitura dos destinos dos links')
   })
@@ -85,7 +85,7 @@ describe("fast mode's coverage line", () => {
   it('captures CSS backgrounds only when 1.4.5 reads them', () => {
     expect(fastCollectOptions(fastCollection(DEFAULTS))).toEqual({
       settle: { capMs: FAST.settleCapMs },
-      imageCapture: { limit: FAST.imageLimit, backgrounds: 0 },
+      imageCapture: { limit: FAST.imageLimit, backgrounds: 0, budgetMs: FAST.imageBudgetMs },
       pixelContrast: false,
     })
     expect(fastCollection(resolveCriteria(['1.4.5'])).backgroundLimit).toBe(FAST.imageLimit)
@@ -142,7 +142,7 @@ describe.skipIf(!browser)('fast collection in a real browser', { timeout: 60_000
   it('captures at most its image limit, measures no contrast from pixels and records its shorter wait', async () => {
     if (!browser) throw new Error('no browser')
     const dir = mkdtempSync(join(tmpdir(), 'rampa-fast-'))
-    const colors = Array.from({ length: 14 }, (_, i) => `hsl(${i * 25} 70% 45%)`)
+    const colors = Array.from({ length: 20 }, (_, i) => `hsl(${i * 18} 70% 45%)`)
     const images = colors
       .map((color, i) => `<img alt="Swatch ${i}" width="40" height="40" src="data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><rect width='40' height='40' fill='${color}'/></svg>`)}">`)
       .join('\n')
@@ -154,7 +154,7 @@ describe.skipIf(!browser)('fast collection in a real browser', { timeout: 60_000
     const fast = await collectWeb(browser, url, { runAxe: true, locale: 'en', captureImages: true, ...fastCollectOptions(fastCollection(DEFAULTS)) })
     expect(Date.now() - started).toBeLessThan(15_000)
     const limited = [...walkTree(fast.snapshot.root)].filter((node) => node.native.imageSkipped === 'limit')
-    expect(limited).toHaveLength(14 - FAST.imageLimit)
+    expect(limited).toHaveLength(20 - FAST.imageLimit)
     expect(fast.snapshot.root.native.pixelContrastRun).toBeUndefined()
     expect(fast.snapshot.reach?.unsettledAfterMs).toBe(FAST.settleCapMs)
     const full = await collectWeb(browser, url, { runAxe: true, locale: 'en', captureImages: true })

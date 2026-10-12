@@ -69,7 +69,7 @@ export interface WebCollectOptions {
   /** The wait after load (surfaces/settle.ts): --fast lowers its cap (core/fast.ts). */
   settle?: Partial<SettleOptions> | undefined
   /** Images and CSS backgrounds captured at most per page (IMAGE_LIMIT and BACKGROUND_LIMIT by default): --fast captures fewer. */
-  imageCapture?: { limit?: number | undefined; backgrounds?: number | undefined } | undefined
+  imageCapture?: { limit?: number | undefined; backgrounds?: number | undefined; budgetMs?: number | undefined } | undefined
 }
 
 export interface Collected {
@@ -296,7 +296,7 @@ async function captureImages(page: Page, root: A11yNode, limits: WebCollectOptio
         screenshot: (ref) => shoot(ref).catch(() => undefined),
       },
       root,
-      { beforeEach: layers > 0 ? (node) => showLayersAround(page, node.ref) : undefined, limit: limits.limit },
+      { beforeEach: layers > 0 ? (node) => showLayersAround(page, node.ref) : undefined, limit: limits.limit, budgetMs: limits.budgetMs },
     )
     for (const node of backgrounds) {
       try {

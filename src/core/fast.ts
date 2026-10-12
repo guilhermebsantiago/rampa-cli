@@ -12,8 +12,13 @@ export const FAST = {
   maxCandidates: 10,
   /** The longest wait after load for the page to settle, in milliseconds (the default is 3000). */
   settleCapMs: 1000,
-  /** Images captured per page for the criteria that judge pixels (the default is 25). */
-  imageLimit: 10,
+  /**
+   * Images captured per page for the criteria that judge pixels (the default is 25). At 10, one of the three measured
+   * pages lost an image 1.1.1 failed in full mode; 15 holds the images of all three.
+   */
+  imageLimit: 15,
+  /** The longest the image captures may take together, waits for lazy images included (the default is 15 s). */
+  imageBudgetMs: 5000,
 } as const
 
 /**
@@ -39,6 +44,7 @@ export interface FastCoverage {
 export interface FastCollection {
   settleCapMs: number
   imageLimit: number
+  imageBudgetMs: number
   /** CSS backgrounds captured; none unless 1.4.5 is judged. */
   backgroundLimit: number
   pixelContrast: false
@@ -46,17 +52,27 @@ export interface FastCollection {
 
 /** The collection settings of fast mode, for a run that judges `criteria`. */
 export function fastCollection(criteria: readonly { id: string }[]): FastCollection {
-  return { settleCapMs: FAST.settleCapMs, imageLimit: FAST.imageLimit, backgroundLimit: criteria.some((c) => c.id === '1.4.5') ? FAST.imageLimit : 0, pixelContrast: false }
+  return {
+    settleCapMs: FAST.settleCapMs,
+    imageLimit: FAST.imageLimit,
+    imageBudgetMs: FAST.imageBudgetMs,
+    backgroundLimit: criteria.some((c) => c.id === '1.4.5') ? FAST.imageLimit : 0,
+    pixelContrast: false,
+  }
 }
 
 /** Fast mode's settings as collectWeb takes them (surfaces/web.ts); none without fast mode. */
 export function fastCollectOptions(collection: FastCollection | undefined): {
   settle?: { capMs: number }
-  imageCapture?: { limit: number; backgrounds: number }
+  imageCapture?: { limit: number; backgrounds: number; budgetMs: number }
   pixelContrast?: false
 } {
   if (!collection) return {}
-  return { settle: { capMs: collection.settleCapMs }, imageCapture: { limit: collection.imageLimit, backgrounds: collection.backgroundLimit }, pixelContrast: collection.pixelContrast }
+  return {
+    settle: { capMs: collection.settleCapMs },
+    imageCapture: { limit: collection.imageLimit, backgrounds: collection.backgroundLimit, budgetMs: collection.imageBudgetMs },
+    pixelContrast: collection.pixelContrast,
+  }
 }
 
 /**
