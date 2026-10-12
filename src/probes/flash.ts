@@ -6,6 +6,7 @@ import { tryDecodePng } from '../pixels/png.ts'
 import type { ProbeRecord } from '../snapshot/schema.ts'
 import { type BrowserOptions, headersFor } from '../surfaces/browser-options.ts'
 import type { InPageElement, InPageRect, Kit } from './kit.ts'
+import { destructiveAddress } from './guard.ts'
 import { type ProbeOptions, openProbePage, skippedRecord } from './page.ts'
 
 /**
@@ -433,6 +434,8 @@ export async function imageBytes(context: BrowserContext, url: string, pageUrl: 
     return bytes ? (bytes.length > MAX_IMAGE_BYTES ? 'too-large' : new Uint8Array(bytes)) : 'not-fetched'
   }
   if (!/^https?:/i.test(url)) return 'not-fetched'
+  // This GET goes around the guard's route, so its rule is kept here: an address that names a destructive action is not fetched.
+  if (destructiveAddress(url)) return 'not-fetched'
   // The same GET the page made: the context's cookies, and --header only for the site being checked, as for the page.
   let headers: Record<string, string> | undefined
   try {

@@ -2,7 +2,7 @@ import type { Browser, CDPSession, Page } from 'playwright-core'
 import type { ProbeRecord } from '../snapshot/schema.ts'
 import { liveAxFacts } from '../surfaces/ax-tree.ts'
 import { type ControlFacts, Harness, type HarnessAction, type SkipReason, type Watch, destructiveWord, skipReason } from './activate.ts'
-import { blurTarget, chooseOption, focusTarget } from './input.ts'
+import { blurTarget, chooseOption, focusTarget, staleOption } from './input.ts'
 import type { InPageElement, InPageIdentity } from './kit.ts'
 import { type ProbeOptions, type ProbePage, skippedRecord } from './page.ts'
 
@@ -132,9 +132,13 @@ export interface StatusData {
   end: 'complete' | 'budget' | 'time'
 }
 
-/** Words of a control used without submitting anything: copy, filter, sort, add to a list, load more. */
+/**
+ * Words of a control used without submitting anything: copy, filter, sort, add to a list or a comparison, load more.
+ * Adding to favourites, a wish list or a collection writes to an account: such a control is no trigger, and the skip
+ * list names favourites and wish lists.
+ */
 export const CLIENT_WORDS =
-  /(^|\s)(copy|copiar|filter|filters|filtrar|filtro|filtros|sort|sort by|ordenar|ordem|classificar|order by|add to (list|favou?rites|wishlist|compare|collection)|adicionar (à|a|aos) (lista|favoritos|comparação)|añadir a (la lista|favoritos)|agregar a (la lista|favoritos)|favoritar|load more|show more|see more results|carregar mais|mostrar mais|ver mais resultados|cargar más|mostrar más|apply|aplicar|clear filters|limpar filtros|borrar filtros|check availability|calculate|calcular|simular|verificar disponibilidade)(\s|$)/i
+  /(^|\s)(copy|copiar|filter|filters|filtrar|filtro|filtros|sort|sort by|ordenar|ordem|classificar|order by|add to (list|compare)|adicionar (à|a|aos) (lista|comparação)|añadir a la lista|agregar a la lista|load more|show more|see more results|carregar mais|mostrar mais|ver mais resultados|cargar más|mostrar más|apply|aplicar|clear filters|limpar filtros|borrar filtros|check availability|calculate|calcular|simular|verificar disponibilidade)(\s|$)/i
 /** Words that make a select or a checkbox a filter or a sort. */
 export const SETTING_WORDS = /\b(filter|filtr\w*|sort\w*|order by|ordenar|ordem|classificar|categor\w*|price|preço|precio|brand|marca|size|tamanho|tamaño|colou?r|cor)\b/i
 /** Names of a search field. */
@@ -544,11 +548,18 @@ function queryFor(page: Page): Promise<string> {
     .catch(() => 'test')
 }
 
+/** The skip list for a trigger, and for the option it would choose. */
+function triggerSkip(facts: ControlFacts, origin: string, trigger: Pick<StatusTrigger, 'choice'>): ReturnType<typeof skipReason> {
+  const word = trigger.choice ? destructiveWord(trigger.choice.label) : undefined
+  return skipReason(facts, origin) ?? (word ? { reason: 'destructive', detail: word } : undefined)
+}
+
 /** One trigger on a page of its own: a wait with no input, then the action, then what appeared. */
 async function tryTrigger(harness: Harness, trigger: StatusTrigger, fresh: boolean): Promise<StatusTrial> {
   const probe = await harness.page(fresh)
   const page = probe.page
-  if (!(await harness.locate(probe, trigger))) return { outcome: 'unmatched' }
+  if (!(await harness.locate(probe, trigger, { check: (facts) => triggerSkip(facts, harness.origin, trigger) }))) return { outcome: 'unmatched' }
+  if (trigger.choice && (await staleOption(harness, probe, trigger, trigger.choice.i))) return { outcome: 'not-exercised', reason: 'the option to choose names a destructive action on this load' }
   const aimed = await harness.aim(probe, trigger, trigger.via === 'label' ? 'label' : 'target')
   if ('cover' in aimed) return { outcome: 'not-exercised', cover: aimed.cover }
   if ('hidden' in aimed) {
@@ -645,7 +656,7 @@ export async function runStatusProbe(browser: Browser, url: string, options: Pro
     for (const { facts, ...trigger } of listed.triggers) {
       const entry: StatusTrigger = trigger
       data.triggers.push(entry)
-      const skip = skipReason(facts, harness.origin) ?? (trigger.choice && destructiveWord(trigger.choice.label) ? { reason: 'destructive' as const, detail: destructiveWord(trigger.choice.label) } : undefined)
+      const skip = triggerSkip(facts, harness.origin, trigger)
       if (skip) {
         entry.skip = skip
         harness.skip(trigger, skip.reason, skip.detail)

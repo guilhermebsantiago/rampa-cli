@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Guard fixture: GETs once loaded</title></head>
+<body>
+<main>
+  <h1>A page whose scripts send GETs once it has loaded</h1>
+  <!-- Loaded with the page, before the guard is armed: the page loads as it would for any visitor. -->
+  <iframe id="frame" title="Offers" src="guard/frame-first.html"></iframe>
+  <p><a id="away" href="guard/popup.html" target="_blank">Open the offers in a new window</a></p>
+</main>
+<script>
+  // The test calls this once the guard is armed. Each request below loads a frame, opens a window, or names a
+  // destructive action in its address: none may reach the server.
+  window.act = () => {
+    document.getElementById('frame').src = 'guard/frame-next.html'
+    const added = document.createElement('iframe')
+    added.title = 'Added'
+    added.src = 'guard/frame-added.html'
+    document.body.append(added)
+    fetch('/logout').catch(() => {})
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', '/api/cart/remove-item?id=3')
+    xhr.send()
+    const pixel = document.createElement('img')
+    pixel.alt = ''
+    pixel.src = '/account/delete?id=1'
+    document.body.append(pixel)
+    // Nothing destructive in these addresses: they reach the server.
+    fetch('/guard/deleted-items.json').catch(() => {})
+    fetch('/guard/help?q=how-to-delete').catch(() => {})
+    const icon = document.createElement('img')
+    icon.alt = ''
+    icon.src = '/guard/icons/delete.svg'
+    document.body.append(icon)
+  }
+</script>
+</body>
+</html>

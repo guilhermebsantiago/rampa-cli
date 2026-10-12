@@ -7,7 +7,8 @@ import type { Report } from '../src/core/types.ts'
 import { linkPurpose } from '../src/criteria/link-purpose.ts'
 import { emptyEngine } from '../src/engine/axe.ts'
 import type { JudgeRequest, ModelProvider } from '../src/providers/types.ts'
-import { type ControlFacts, type Watch, changedPage, destructiveCode, destructiveWord, skipReason, skipText } from '../src/probes/activate.ts'
+import { type ControlFacts, Harness, type Watch, buttonWord, changedPage, destructiveCode, destructiveWord, skipReason, skipText } from '../src/probes/activate.ts'
+import type { InPageElement } from '../src/probes/kit.ts'
 import { type LinksData, type ScriptedLink, linkOutcome, scriptedAddresses } from '../src/probes/links.ts'
 import { DETERMINISM_ARGS, parseProbeKinds } from '../src/probes/run.ts'
 import { renderReport } from '../src/report/pretty.ts'
@@ -46,10 +47,61 @@ describe('the activate-class skip list', () => {
     }
   })
 
+  it('reads replies, bookmarks, favourites, revocations and deploys, and the Portuguese and Spanish verbs that finish, enrol or schedule', () => {
+    for (const [text, word] of [
+      ['Reply', 'reply'],
+      ['Bookmark this page', 'bookmark'],
+      ['★ Favorite', 'favorite'],
+      ['Add to favourites', 'add to favourites'],
+      ['Add to wishlist', 'add to wishlist'],
+      ['Revoke access', 'revoke'],
+      ['Deploy to production', 'deploy'],
+      ['Finalizar', 'finalizar'],
+      ['Concluir inscrição', 'concluir'],
+      ['Inscrever-se', 'inscrever'],
+      ['Agendar consulta', 'agendar'],
+      ['Adicionar aos favoritos', 'adicionar aos favoritos'],
+      ['Añadir a favoritos', 'anadir a favoritos'],
+    ] as const) {
+      expect(destructiveWord(text), text).toBe(word)
+    }
+    // Nouns and other words that only begin the same stay usable: links to lists, histories, reviews.
+    for (const text of ['Favorites', 'Bookmarks', 'Replies (3)', 'Order history', 'Book reviews', 'Registration help', 'Shared with me']) {
+      expect(destructiveWord(text), text).toBeUndefined()
+    }
+  })
+
+  it('reads order, book, register, share and activar only where a plain button begins with them, never "Order by"', () => {
+    for (const [text, word] of [
+      ['Order', 'order'],
+      ['Order now', 'order'],
+      ['Book a table', 'book'],
+      ['Register', 'register'],
+      ['Share', 'share'],
+      ['Cadastrar', 'cadastrar'],
+      ['Compartilhar', 'compartilhar'],
+      ['Compartir', 'compartir'],
+      ['Registrarse', 'registrarse'],
+      ['Activar cuenta', 'activar'],
+    ] as const) {
+      expect(buttonWord(text), text).toBe(word)
+    }
+    for (const text of ['Order by price', 'Order history', 'Your order', 'E-book', 'Click to share']) expect(buttonWord(text), text).toBeUndefined()
+    const origin = 'https://example.com'
+    expect(skipReason(facts({ texts: ['Order'], button: true }), origin)).toEqual({ reason: 'destructive', detail: 'order' })
+    // A link to an address, a toggle, a menu button: the same words are no reason to skip it.
+    expect(skipReason(facts({ texts: ['Order'] }), origin)).toBeUndefined()
+    expect(skipReason(facts({ texts: ['Order by price'], button: true }), origin)).toBeUndefined()
+  })
+
   it('reads the same verbs in code (handlers, javascript: addresses, ids, classes), but not analytics calls', () => {
     expect(skipText('removeItem(3)')).toBe(' remove item 3 ')
     expect(destructiveCode('javascript:removeItem(3)')).toBe('remove')
     expect(destructiveCode('btn-logout')).toBe('logout')
+    // An address's path and query are code too.
+    expect(destructiveCode('/account/delete?id=1')).toBe('delete')
+    expect(destructiveCode('/conta/sair')).toBe('sair')
+    expect(destructiveCode('/cart?action=removeItem&id=3')).toBe('remove')
     expect(destructiveCode("ga('send', 'event'); location.assign('/docs')")).toBeUndefined()
     expect(destructiveCode("document.forms[0].submit()")).toBeUndefined()
   })
@@ -333,13 +385,16 @@ describe.skipIf(!browser)('links probe (2.4.4)', { timeout: 240_000 }, () => {
       '#seen': 'skip submit data-method="post"',
       '#report': 'skip download',
       '#gallery': 'skip new-window target="_blank"',
+      '#item5': 'skip destructive excluir',
+      '#item6': 'skip destructive remove',
+      '#order': 'skip destructive order',
       '#tips': 'skip sensitive-form',
       '#refresh': 'nothing',
       '#next': 'navigation',
     })
     const data = dataOf(snapshot)
     expect(data.actions.filter((a) => a.action === 'activate').map((a) => a.ref)).toEqual(['#refresh', '#next'])
-    expect(data.actions.filter((a) => a.action === 'skip').map((a) => a.ref)).toEqual(['#delete', '#remove', '#sair', '#news', '#comprar', '#eliminar', '#seen', '#report', '#gallery', '#tips'])
+    expect(data.actions.filter((a) => a.action === 'skip').map((a) => a.ref)).toEqual(['#delete', '#remove', '#sair', '#news', '#comprar', '#eliminar', '#seen', '#report', '#gallery', '#item5', '#item6', '#order', '#tips'])
     // The guard's log: the one POST a click tried, blocked, and the one navigation, intercepted.
     const origin = servers?.origin ?? ''
     expect(record?.guard.blocked.map((b) => `${b.method} ${b.url}`)).toEqual([`POST ${origin}/touched?post`])
@@ -372,5 +427,88 @@ describe.skipIf(!browser)('links probe (2.4.4)', { timeout: 240_000 }, () => {
     const key = (report: Report) => report.findings.map((f) => `${f.fingerprint} ${f.message}`).sort()
     expect(key(second)).toEqual(key(first))
     expect(replay.asked.sort()).toEqual(live.asked.sort())
+  })
+})
+
+describe.skipIf(!browser)('the skip list on a live page (activate.ts)', { timeout: 120_000 }, () => {
+  type FactsWindow = { __rampaKit: { describe(el: Element): InPageElement }; __rampaActivate: { facts(el: Element): ControlFacts } }
+
+  it('reads what a control holds (an icon’s alt, an svg title, an aria-label inside), its address, and button words on plain buttons only', async () => {
+    if (!browser || !servers) return
+    const harness = new Harness(browser, `${servers.origin}/skip-facts.html`, { kinds: [] }, { kind: 'links', version: '1', variant: 'skip-facts', limits: { controls: 5, timeMs: 60_000 } })
+    try {
+      const probe = await harness.page()
+      const read = await probe.page.evaluate(() => {
+        const w = window as unknown as FactsWindow
+        return Array.from(document.querySelectorAll('main [id]')).map((el) => [el.id, w.__rampaActivate.facts(el)] as const)
+      })
+      const verdicts = Object.fromEntries(
+        read.map(([id, f]) => {
+          const skip = skipReason(f, harness.origin)
+          return [id, skip ? `${skip.reason} ${skip.detail}` : 'used']
+        }),
+      )
+      expect(verdicts).toEqual({
+        'icon-alt': 'destructive excluir',
+        'icon-svg': 'destructive delete',
+        'icon-label': 'destructive remove',
+        'href-delete': 'destructive delete',
+        'href-sair': 'destructive sair',
+        order: 'destructive order',
+        'order-by': 'used',
+        'order-history': 'used',
+        book: 'destructive book',
+        'book-reviews': 'used',
+        share: 'destructive share',
+        'share-menu': 'used',
+        activar: 'used',
+        'activar-cuenta': 'destructive activar',
+        favorite: 'destructive favorite',
+        agendar: 'destructive agendar',
+        stale: 'used',
+      })
+    } finally {
+      await harness.close()
+    }
+  })
+
+  it('reads the list again on the page it is about to use a control on: a label swapped since the listing leaves it alone', async () => {
+    if (!browser || !servers) return
+    let loads = 0
+    // Every load after the first names the button "Excluir tudo": the page the probe listed said "Refresh".
+    const harness = new Harness(browser, `${servers.origin}/skip-facts.html`, { kinds: [] }, {
+      kind: 'links',
+      version: '1',
+      variant: 'skip-facts',
+      limits: { controls: 5, timeMs: 60_000 },
+      page: {
+        beforeLoad: async (page) => {
+          loads++
+          if (loads > 1) await page.addInitScript(() => ((window as unknown as { __rampaStale?: boolean }).__rampaStale = true))
+        },
+      },
+    })
+    try {
+      const first = await harness.page()
+      const listed = await first.page.evaluate(() => {
+        const w = window as unknown as FactsWindow
+        const el = document.getElementById('stale') as Element
+        return { ...w.__rampaKit.describe(el), facts: w.__rampaActivate.facts(el) }
+      })
+      expect(listed.label).toBe('Refresh')
+      expect(skipReason(listed.facts, harness.origin)).toBeUndefined()
+      expect(await harness.locate(first, listed)).toBe(true)
+      const fresh = await harness.page(true)
+      expect(await fresh.page.textContent('#stale')).toBe('Excluir tudo')
+      // Same ref, same identity (tag, id, type): only the name changed, and the harness reads it again.
+      expect(await harness.locate(fresh, listed)).toBe(false)
+      expect(harness.lastSkip).toEqual({ reason: 'destructive', detail: 'excluir' })
+      expect(harness.actions.filter((a) => a.action === 'skip').map((a) => `${a.ref} ${a.detail}`)).toEqual(['#stale destructive: excluir, read again on the page it was about to be used on'])
+      // What is not a control (a surface a gesture is made on) is only found.
+      expect(await harness.locate(fresh, listed, { check: false })).toBe(true)
+    } finally {
+      await harness.close()
+    }
+    expect((servers?.requests ?? []).filter((r) => r.includes('/touched'))).toEqual([])
   })
 })

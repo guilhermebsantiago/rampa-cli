@@ -1,13 +1,19 @@
-import type { BrowserContext, Page, Route } from 'playwright-core'
+import type { BrowserContext, Frame, Page, Route } from 'playwright-core'
 import type { ProbeRecord } from '../snapshot/schema.ts'
 
 /**
  * The network guard, on for the whole life of a probe page (docs/probes.md):
  * - only GET, HEAD and OPTIONS reach the network; other requests (sendBeacon included) are aborted and logged;
- * - once the page is loaded, a top-level navigation is answered locally with 204 and logged;
+ * - once the page is loaded (armed), every navigation is answered locally with 204 and logged: the page's own, a
+ *   frame's (an iframe sent elsewhere, or one added after load) and a window's the page opened;
+ * - once armed, a request of a safe method whose address names a destructive action in a path segment or the query
+ *   (`/logout`, `/account/delete?id=1`, `?action=remove`; `destructiveAddress`) is aborted and logged, whatever loads
+ *   it: a script's fetch or XHR, an image, a style, a frame's own resources;
  * - WebSockets and EventSource are blocked;
  * - popups are closed, dialogs dismissed (confirm answers cancel), downloads refused.
  * window.open and form submission are hooked in the page itself (kit.ts).
+ * Before the guard is armed the page loads as it would for any visitor, and as Rampa collected it: its own GETs on
+ * load go through, whatever their address.
  *
  * With `allowSubmit` (the form probe's submissions, `--allow-submit`, docs/probes.md), and only then, the guard has a
  * submission window the probe opens around the one press that submits a form it chose. While the window is open, and
@@ -21,6 +27,64 @@ const SAFE_METHODS = new Set(['GET', 'HEAD', 'OPTIONS'])
 /** The resource types a form's submission is made of: its navigation, or a page script's fetch or XHR. Beacons never are. */
 const SUBMIT_TYPES = new Set(['document', 'fetch', 'xhr'])
 
+/**
+ * Words that name a destructive action in an address (en, pt-BR, es), read where a path segment or a query
+ * parameter's name or value begins: `/logout`, `/users/sign_out`, `/cart/remove-item`, `/delete.php?id=3`,
+ * `?action=deletePost`. Kept short on purpose: a GET to such an address is what a badly built server may act on, and
+ * nothing a probe needs.
+ */
+export const DESTRUCTIVE_ADDRESS_WORDS: readonly string[] = [
+  'logout', 'log-out', 'logoff', 'log-off', 'signout', 'sign-out', 'delete', 'remove', 'destroy', 'unsubscribe', 'deactivate',
+  'sair', 'excluir', 'remover', 'apagar', 'descadastrar',
+  'eliminar', 'borrar', 'cerrar-sesion',
+]
+const ADDRESS_WORDS = DESTRUCTIVE_ADDRESS_WORDS.map((word) => ({ word, tokens: word.split('-') }))
+/** Files, not actions: a segment with one of these extensions (`delete.svg`, an icon) is never read for words. */
+const STATIC_FILE = /\.(png|jpe?g|gif|webp|avif|svg|ico|bmp|tiff?|css|js|mjs|cjs|map|woff2?|ttf|otf|eot|mp4|m4v|webm|mov|mp3|m4a|wav|ogg|oga|opus|flac|vtt|srt|pdf|wasm)$/i
+
+/** A segment's words, in order: decoded, camelCase split, lower case, no accents, an extension (`.php`, `.aspx`) dropped. */
+function addressTokens(segment: string): string[] {
+  let text = segment
+  try {
+    text = decodeURIComponent(segment)
+  } catch {
+    // A malformed escape: read it as it is.
+  }
+  if (STATIC_FILE.test(text)) return []
+  return text
+    .replace(/\.[a-z0-9]{1,5}$/i, '')
+    .replace(/(\p{Ll})(\p{Lu})/gu, '$1 $2')
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .toLowerCase()
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter(Boolean)
+}
+
+/**
+ * The destructive word an address names, or undefined: a path segment, or a query parameter's name or value, that is
+ * the word or begins with it (`delete`, `delete-account`, `deleteItem`, `logout.php`, `sign_out`). The word inside a
+ * segment (`/how-to-delete`, `/makeup-remover`), another word that begins the same (`/deleted`), a static file
+ * (`/icons/delete.svg`) and the fragment do not count.
+ */
+export function destructiveAddress(url: string): string | undefined {
+  let parsed: URL
+  try {
+    parsed = new URL(url)
+  } catch {
+    return undefined
+  }
+  if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return undefined
+  const parts = [...parsed.pathname.split('/'), ...[...parsed.searchParams].flat()]
+  for (const part of parts) {
+    if (part === '') continue
+    const tokens = addressTokens(part)
+    const found = ADDRESS_WORDS.find((entry) => entry.tokens.every((token, i) => tokens[i] === token))
+    if (found) return found.word
+  }
+  return undefined
+}
+
 export type GuardLog = ProbeRecord['guard']
 
 export interface GuardOptions {
@@ -32,7 +96,10 @@ export interface Guard {
   log: GuardLog
   /** The probe's own page: any other page the context opens is a popup. */
   watch(page: Page): void
-  /** From now on, top-level navigations of the watched page are answered locally instead of followed. */
+  /**
+   * From now on, every navigation (the watched page's, a frame's, a popup's) is answered locally instead of followed,
+   * and a request to an address that names a destructive action is aborted.
+   */
   arm(): void
   /** Milliseconds since the probe started, the clock every `at` uses. */
   now(): number
@@ -70,8 +137,8 @@ export async function installGuard(context: BrowserContext, options: GuardOption
   let armed = false
   let submitting = false
 
-  const block = async (route: Route, method: string, type: string) => {
-    log.blocked.push({ method, url: route.request().url().slice(0, 300), at: now(), type })
+  const block = async (route: Route, method: string, type: string, cause?: string) => {
+    log.blocked.push({ method, url: route.request().url().slice(0, 300), at: now(), type, ...(cause ? { cause } : {}) })
     return route.abort('blockedbyclient')
   }
   const handle = async (route: Route) => {
@@ -94,17 +161,39 @@ export async function installGuard(context: BrowserContext, options: GuardOption
         log.blocked.push({ method: 'EVENTSOURCE', url: request.url().slice(0, 300), at: now() })
         return await route.abort('blockedbyclient')
       }
-      if (armed && ownPage && request.isNavigationRequest()) {
-        const frame = request.frame()
-        if (frame === ownPage.mainFrame()) {
+      if (armed && request.isNavigationRequest()) {
+        let frame: Frame | undefined
+        try {
+          frame = request.frame()
+        } catch {
+          frame = undefined
+        }
+        const url = request.url().slice(0, 300)
+        if (ownPage && frame === ownPage.mainFrame()) {
           // A submission with GET, or the next step after one, loads in the window when its origin is allowed.
           if (submitting && allow.has(origin)) {
-            ;(log.submitted ??= []).push({ method, url: request.url().slice(0, 300), at: now(), type })
+            ;(log.submitted ??= []).push({ method, url, at: now(), type })
             return await route.fallback()
           }
-          log.navigations.push({ url: request.url().slice(0, 300), at: now() })
+          log.navigations.push({ url, at: now() })
           return await route.fulfill({ status: 204, body: '' })
         }
+        // Any other frame: one of the page's own (an iframe sent elsewhere, or added after load), or a window the page
+        // opened, which Playwright never reports as a page once its first load is answered with 204.
+        let page: Page | undefined
+        try {
+          page = frame?.page() ?? undefined
+        } catch {
+          page = undefined
+        }
+        if (ownPage && page === ownPage) log.blocked.push({ method, url, at: now(), type, cause: 'frame' })
+        else log.navigations.push({ url, at: now(), cause: 'popup' })
+        return await route.fulfill({ status: 204, body: '' })
+      }
+      if (armed) {
+        // Whatever loads it (a script's fetch or XHR, an image, a style, a frame's resource): a GET to /logout is not sent.
+        const word = destructiveAddress(request.url())
+        if (word) return await block(route, method, type, `destructive: ${word}`)
       }
       return await route.fallback()
     } catch {

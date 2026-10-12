@@ -601,9 +601,8 @@ export async function runDeviceMotionProbe(browser: Browser, url: string, option
         if (control.role === 'alternative' && reproduced) continue
         const entry: MotionControl = control
         data.controls.push(entry)
-        const skip = skipReason(facts, harness.origin)
-        // A switch named "Disable shake to undo" holds a skip-list word; turning motion off is what is asked of it.
-        if (skip && !(control.role === 'switch' && skip.reason === 'destructive' && ['deactivate', 'desativar', 'desactivar', 'disable'].includes(skip.detail ?? ''))) {
+        const skip = motionControlSkip(facts, harness.origin, control.role)
+        if (skip) {
           entry.skipped = skip.detail ? `${skip.reason}: ${skip.detail}` : skip.reason
           harness.skip(control, skip.reason, skip.detail)
           continue
@@ -646,14 +645,22 @@ export async function runDeviceMotionProbe(browser: Browser, url: string, option
   return record
 }
 
+/** The skip list for a control of this probe: a switch named "Disable shake to undo" holds a skip-list word, and turning motion off is what is asked of it. */
+function motionControlSkip(facts: ControlFacts, origin: string, role: MotionControl['role']): ReturnType<typeof skipReason> {
+  const skip = skipReason(facts, origin)
+  if (skip && role === 'switch' && skip.reason === 'destructive' && ['deactivate', 'desativar', 'desactivar', 'disable'].includes(skip.detail ?? '')) return undefined
+  return skip
+}
+
 /**
  * Clicks a control on a fresh load (or on `on`, the page given), and reads what it did. A string says why it was not
  * clicked.
  */
-async function clickControl(harness: Harness, control: Pick<MotionControl, 'ref' | 'id' | 'label'>, on?: ProbePage): Promise<MotionEffect | undefined | string> {
+async function clickControl(harness: Harness, control: Pick<MotionControl, 'ref' | 'id' | 'label' | 'role'>, on?: ProbePage): Promise<MotionEffect | undefined | string> {
   const probe = on ?? (await harness.page(true))
   const page = probe.page
-  if (!(await harness.locate(probe, control))) return 'not found on a fresh load'
+  if (!(await harness.locate(probe, control, { check: (facts) => motionControlSkip(facts, harness.origin, control.role) })))
+    return harness.lastSkip ? `${harness.lastSkip.reason}${harness.lastSkip.detail ? `: ${harness.lastSkip.detail}` : ''} (read again on this load)` : 'not found on a fresh load'
   // A checkbox hidden behind a styled switch is clicked through its label.
   let at = await harness.aim(probe, control)
   if (!('x' in at)) at = await harness.aim(probe, control, 'label')

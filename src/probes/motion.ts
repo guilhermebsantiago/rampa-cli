@@ -631,14 +631,14 @@ async function tryControl(harness: Harness, control: MotionControl, opener: Moti
       }),
     )
     if (opener) {
-      if (!(await harness.locate(probe, opener.el))) return { outcome: 'unmatched', via: opener.key, reason: 'the control that shows it is not on this load' }
+      if (!(await harness.locate(probe, opener.el, { check: (facts) => skipOf(facts, harness.origin, opener.name) }))) return { outcome: 'unmatched', via: opener.key, reason: 'the control that shows it is not on this load' }
       const at = await harness.aim(probe, opener.el)
       if (!('x' in at)) return { outcome: 'not-exercised', via: opener.key, reason: 'cover' in at ? 'the control that shows it is under another layer' : 'the control that shows it does not show', ...('cover' in at ? { cover: at.cover } : {}) }
       harness.log('activate', { ref: opener.el.ref, label: opener.name, detail: `pressed to show "${control.name}"` })
       await page.mouse.click(at.x, at.y)
       await advance(page, 600)
     }
-    if (!(await harness.locate(probe, control.el))) return { outcome: 'unmatched', ...(opener ? { via: opener.key } : {}) }
+    if (!(await harness.locate(probe, control.el, { check: (facts) => skipOf(facts, harness.origin, control.name) }))) return { outcome: 'unmatched', ...(opener ? { via: opener.key } : {}) }
     const at = await harness.aim(probe, control.el)
     if (!('x' in at)) return { outcome: 'not-exercised', reason: 'cover' in at ? 'under another layer' : 'does not show', ...('cover' in at ? { cover: at.cover } : {}), ...(opener ? { via: opener.key } : {}) }
     harness.log('activate', { ref: control.el.ref, label: control.name, detail: `pressed to ${control.kind}` })

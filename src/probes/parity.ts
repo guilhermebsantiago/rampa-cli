@@ -1306,7 +1306,8 @@ async function runMenuTrial(harness: Harness, menu: HoverMenu, fresh: boolean): 
   let probe = await parityPage(harness, fresh)
   const refs = { trigger: menu.trigger.ref, triggerSig: menu.trigger.id.sig, container: menu.container.ref, containerSig: menu.container.id.sig, focusable: menu.focusable?.ref }
   const empty = { hover: false, tried: [] as string[], elsewhere: 0, missing: [] as MenuTrial['missing'] }
-  if (!(await harness.locate(probe, menu.trigger)) || !(await probe.page.evaluate(locateMenu, refs).catch(() => false))) return { ...empty, outcome: 'unmatched' }
+  // The trigger is only hovered here; the skip list is read on what the keys are pressed on, below.
+  if (!(await harness.locate(probe, menu.trigger, { check: false })) || !(await probe.page.evaluate(locateMenu, refs).catch(() => false))) return { ...empty, outcome: 'unmatched' }
   const aimed = await harness.aim(probe, menu.trigger)
   if ('cover' in aimed) return { ...empty, outcome: 'not-exercised', reason: `covered by <${aimed.cover.tag}> "${aimed.cover.text.slice(0, 60)}"` }
   if ('hidden' in aimed) return { ...empty, outcome: 'not-exercised', reason: 'not showing on this load' }
@@ -1322,13 +1323,16 @@ async function runMenuTrial(harness: Harness, menu: HoverMenu, fresh: boolean): 
   // The keyboard, on a page where the menu does not show.
   if (staysOpen) {
     probe = await parityPage(harness, true)
-    if (!(await harness.locate(probe, menu.trigger)) || !(await probe.page.evaluate(locateMenu, refs).catch(() => false))) return { ...empty, hover, staysOpen, outcome: 'unmatched' }
+    if (!(await harness.locate(probe, menu.trigger, { check: false })) || !(await probe.page.evaluate(locateMenu, refs).catch(() => false))) return { ...empty, hover, staysOpen, outcome: 'unmatched' }
   }
   const tried: string[] = []
   let revealedBy: MenuTrial['revealedBy']
   const keyPage = probe.page
   const shown = async () => (await keyPage.evaluate(menuShown).catch(() => false)) || (await keyPage.evaluate(focusInMenu).catch(() => false))
-  if (menu.focusable) {
+  // What the keys are pressed on (Space and Enter among them) is read against the skip list on this page first.
+  const left = menu.focusable && !(await harness.locate(probe, menu.focusable)) ? harness.lastSkip : undefined
+  if (left) tried.push(`skipped: ${left.reason}${left.detail ? ` (${left.detail})` : ''}`)
+  else if (menu.focusable) {
     const steps: Array<{ name: NonNullable<MenuTrial['revealedBy']>; key?: string }> = [{ name: 'focus' }, { name: 'Tab', key: 'Tab' }, { name: 'ArrowDown', key: 'ArrowDown' }, { name: 'Space', key: 'Space' }, { name: 'Enter', key: 'Enter' }]
     for (const step of steps) {
       if (!harness.timeLeft()) break

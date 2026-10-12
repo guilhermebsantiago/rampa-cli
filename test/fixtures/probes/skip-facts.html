@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Controls the skip list reads</title>
+<style>body { font: 16px/1.4 Arial, sans-serif; margin: 24px; } svg { width: 16px; height: 16px; }</style>
+</head>
+<body>
+<main>
+  <h1>Your saved items</h1>
+  <!-- Each reports to /touched with a GET if it is ever pressed: the test server must never see one. -->
+  <!-- Named only by what they hold: an icon's alt, an <svg>'s <title>, an aria-label inside. -->
+  <p><a id="icon-alt" href="#" onclick="touch('icon-alt'); return false"><img alt="Excluir" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"></a></p>
+  <p><button id="icon-svg" type="button" onclick="touch('icon-svg')"><svg viewBox="0 0 16 16"><title>Delete</title><rect width="16" height="16"></rect></svg></button></p>
+  <p><button id="icon-label" type="button" onclick="touch('icon-label')">Item 4 <span aria-label="Remove item 4">✕</span></button></p>
+  <!-- The address says what it does. -->
+  <p><a id="href-delete" href="/account/delete?id=1" onclick="touch('href-delete'); return false">Details</a></p>
+  <p><a id="href-sair" href="/conta/sair">Até logo</a></p>
+  <!-- Button words: skipped on plain buttons, never on links, sorts, menus or toggles. -->
+  <p><button id="order" type="button" onclick="touch('order')">Order</button></p>
+  <p><button id="order-by" type="button">Order by price</button></p>
+  <p><a id="order-history" href="/orders">Order history</a></p>
+  <p><button id="book" type="button" onclick="touch('book')">Book a table</button></p>
+  <p><a id="book-reviews" href="#/books">Book reviews</a></p>
+  <p><button id="share" type="button" onclick="touch('share')">Share</button></p>
+  <p><button id="share-menu" type="button" aria-haspopup="true" aria-expanded="false">Share</button></p>
+  <p><button id="activar" type="button" aria-pressed="false">Activar modo oscuro</button></p>
+  <p><button id="activar-cuenta" type="button" onclick="touch('activar')">Activar cuenta</button></p>
+  <p><button id="favorite" type="button" aria-pressed="false" onclick="touch('favorite')">★ Favorite</button></p>
+  <p><button id="agendar" type="button" onclick="touch('agendar')">Agendar consulta</button></p>
+  <!-- Harmless on the page the probe listed; the test makes a later load name it "Excluir". -->
+  <p><button id="stale" type="button" onclick="touch('stale')">Refresh</button></p>
+</main>
+<script>
+  function touch(what) { new Image().src = '/touched?' + what }
+  if (window.__rampaStale) document.getElementById('stale').textContent = 'Excluir tudo'
+</script>
+</body>
+</html>

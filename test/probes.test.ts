@@ -3,6 +3,7 @@ import { pathToFileURL } from 'node:url'
 import { afterAll, describe, expect, it } from 'vitest'
 import { checkSnapshot } from '../src/core/check.ts'
 import { emptyEngine } from '../src/engine/axe.ts'
+import { DESTRUCTIVE_ADDRESS_WORDS, destructiveAddress } from '../src/probes/guard.ts'
 import { matchNode, snapshotSignature } from '../src/probes/identity.ts'
 import { openProbePage } from '../src/probes/page.ts'
 import { parseProbeKinds } from '../src/probes/run.ts'
@@ -12,6 +13,7 @@ import { PROBE_RULES } from '../src/rules/registry.ts'
 import { A11ySnapshotSchema, type A11ySnapshot, type ProbeRecord } from '../src/snapshot/schema.ts'
 import { indexTree } from '../src/snapshot/tree.ts'
 import { launchTestBrowser } from './browser.ts'
+import { startFixtureServers } from './media-server.ts'
 import { probeCheckOptions } from './probe-helpers.ts'
 
 const fixture = (name: string) => pathToFileURL(resolve('test/fixtures/probes', name)).href
@@ -298,11 +300,54 @@ describe('probe stage', () => {
   })
 })
 
+describe('addresses the guard reads as destructive', () => {
+  it('reads a word that is, or begins, a path segment or a query name or value, in English, Portuguese and Spanish', () => {
+    for (const [url, word] of [
+      ['https://example.com/logout', 'logout'],
+      ['https://example.com/users/sign_out', 'sign-out'],
+      ['https://example.com/LogOut.aspx', 'log-out'],
+      ['https://example.com/account/delete?id=1', 'delete'],
+      ['https://example.com/delete.php?id=3', 'delete'],
+      ['https://example.com/api/deleteItem/3', 'delete'],
+      ['https://example.com/api/cart/remove-item?id=3', 'remove'],
+      ['https://example.com/posts/3/destroy', 'destroy'],
+      ['https://example.com/newsletter/unsubscribe?token=x', 'unsubscribe'],
+      ['https://example.com/wp-login.php?action=logout', 'logout'],
+      ['https://example.com/?logout=1', 'logout'],
+      ['https://example.com/conta/sair', 'sair'],
+      ['https://example.com/itens/3/excluir', 'excluir'],
+      ['https://example.com/cuenta/cerrar-sesi%C3%B3n', 'cerrar-sesion'],
+      ['https://example.com/carrito/eliminar?item=4', 'eliminar'],
+    ] as const) {
+      expect(destructiveAddress(url), url).toBe(word)
+    }
+    for (const url of [
+      'https://example.com/',
+      'https://example.com/blog/how-to-delete-photos',
+      'https://example.com/products/makeup-remover',
+      'https://example.com/icons/delete.svg',
+      'https://example.com/deleted-items',
+      'https://example.com/hair-removal',
+      'https://example.com/help?q=how-to-delete',
+      'https://example.com/page#logout',
+      'https://example.com/saired',
+      'data:text/plain,logout',
+    ]) {
+      expect(destructiveAddress(url), url).toBeUndefined()
+    }
+    expect(DESTRUCTIVE_ADDRESS_WORDS).toEqual(expect.arrayContaining(['logout', 'delete', 'sair', 'excluir', 'eliminar', 'borrar', 'cerrar-sesion']))
+  })
+})
+
 const launched = await launchTestBrowser('the probe guard tests')
 if ('skip' in launched) process.stderr.write(`\n${launched.skip}\n`)
 const browser = 'browser' in launched ? launched.browser : undefined
+const servers = browser ? await startFixtureServers() : undefined
 // Closing Edge can take long on a loaded machine.
-afterAll(async () => browser?.close(), 60_000)
+afterAll(async () => {
+  await browser?.close()
+  await servers?.close()
+}, 60_000)
 
 describe.skipIf(!browser)('network guard', { timeout: 30_000 }, () => {
   it('aborts writes, answers navigations locally, blocks sockets, closes popups and dismisses dialogs', async () => {
@@ -324,6 +369,40 @@ describe.skipIf(!browser)('network guard', { timeout: 30_000 }, () => {
       expect(hooks.map((event) => event.type)).toEqual(expect.arrayContaining(['open', 'submit']))
       expect(hooks.find((event) => event.type === 'open')?.detail).toBe('https://example.invalid/popup')
       expect(probe.context.pages()).toHaveLength(1)
+    } finally {
+      await probe.context.close()
+    }
+  })
+
+  it('once armed, answers the navigation of every frame and window, and aborts GETs to destructive addresses: none reach the server', async () => {
+    if (!browser || !servers) return
+    const origin = servers.origin
+    const probe = await openProbePage(browser, `${origin}/guard-get.html`, { kinds: [] })
+    try {
+      // Before the guard is armed, the page loads as any visitor's would: its frame came from the server.
+      expect(servers.requests).toContain('GET /guard/frame-first.html')
+      await probe.page.evaluate(() => (window as unknown as { act(): void }).act())
+      await probe.page.evaluate(() => document.getElementById('away')?.click())
+      await probe.page.waitForTimeout(1000)
+      const reached = servers.requests.filter((r) => r !== 'GET /guard-get.html' && r !== 'GET /guard/frame-first.html')
+      // What the page may still fetch: GETs whose addresses name nothing destructive (404s here, but received).
+      expect(reached).toEqual(expect.arrayContaining(['GET /guard/deleted-items.json', 'GET /guard/help?q=how-to-delete', 'GET /guard/icons/delete.svg']))
+      // An iframe sent elsewhere, an iframe added after load, a window, a fetch, an XHR and an image: none reached it.
+      for (const path of ['/guard/frame-next.html', '/guard/frame-added.html', '/guard/popup.html', '/logout', '/api/cart/remove-item', '/account/delete']) {
+        expect(reached.filter((r) => r.includes(path)), path).toEqual([])
+      }
+      const { blocked, navigations } = probe.guard.log
+      const line = (entry: { method: string; url: string; type?: string | undefined; cause?: string | undefined }) => `${entry.cause} ${entry.method} ${entry.type} ${entry.url.replace(origin, '')}`
+      expect(blocked.map(line).sort()).toEqual([
+        'destructive: delete GET image /account/delete?id=1',
+        'destructive: logout GET fetch /logout',
+        'destructive: remove GET xhr /api/cart/remove-item?id=3',
+        'frame GET document /guard/frame-added.html',
+        'frame GET document /guard/frame-next.html',
+      ])
+      // The window is recorded as one the page tried to open; the page itself never moved.
+      expect(navigations.map((n) => `${n.cause} ${n.url.replace(origin, '')}`)).toEqual(['popup /guard/popup.html'])
+      expect(probe.page.url()).toBe(`${origin}/guard-get.html`)
     } finally {
       await probe.context.close()
     }

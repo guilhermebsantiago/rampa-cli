@@ -140,7 +140,7 @@ export interface PointerData {
 
 interface PointerWindow {
   __rampaKit: { describe(el: Element): InPageElement; visible(el: Element): boolean; resolve(ref: string): Element | null; deepActive(): Element | null }
-  __rampaActivate: { facts(el: Element): ControlFacts }
+  __rampaActivate: { facts(el: Element, options?: { own?: boolean }): ControlFacts }
   __rampaTarget?: Element | null
   __rampaPointer?: PointerKit
 }
@@ -358,9 +358,10 @@ export function findPointerTargets(args: { max: number; move: string; more: stri
   const addDrag = (el: Element, kind: DragKind, extra: Partial<DragCandidate> = {}) => {
     if (drags.length >= 20 || dragElements.has(el)) return
     dragElements.add(el)
-    const facts = w.__rampaActivate.facts(el)
+    // Its own words, as the harness reads them again before the drag (Harness.locate with `own`).
+    const facts = w.__rampaActivate.facts(el, { own: true })
     const label = ownText(el)
-    drags.push({ ...kit.describe(el), label: label || kit.describe(el).label, kind, ...extra, facts: { ...facts, texts: [label, el.getAttribute('title') ?? ''].filter(Boolean) } })
+    drags.push({ ...kit.describe(el), label: label || kit.describe(el).label, kind, ...extra, facts })
   }
   for (const el of Array.from(document.querySelectorAll('[role=slider]'))) {
     if (el.localName === 'input' || !showing(el)) continue
@@ -838,7 +839,7 @@ async function tryDrag(harness: Harness, candidate: DragCandidate): Promise<Drag
   const args = { kind: candidate.kind, ref: candidate.ref, container: candidate.container?.ref, item: candidate.item }
   let probe = await harness.page(true)
   let page = probe.page
-  if (!(await harness.locate(probe, candidate))) return { outcome: 'unmatched' }
+  if (!(await harness.locate(probe, candidate, { own: true }))) return { outcome: 'unmatched' }
   const aimed = await harness.aim(probe, candidate)
   if ('cover' in aimed) return { outcome: 'not-exercised', reason: `covered by <${aimed.cover.tag}> "${aimed.cover.text.slice(0, 60)}"` }
   if ('hidden' in aimed) return { outcome: 'not-exercised', reason: 'not showing on this load' }
@@ -860,7 +861,7 @@ async function tryDrag(harness: Harness, candidate: DragCandidate): Promise<Drag
   // The alternatives, each on a page where the drag has not happened.
   probe = await harness.page(true)
   page = probe.page
-  if (!(await harness.locate(probe, candidate))) return { moved: true, effect, alternatives, outcome: 'unmatched' }
+  if (!(await harness.locate(probe, candidate, { own: true }))) return { moved: true, effect, alternatives, outcome: 'unmatched' }
   const fresh = await page.evaluate(planDrag, args)
   if (candidate.kind === 'slider' && fresh?.track) {
     const track = fresh.track
@@ -911,7 +912,7 @@ async function tryDrag(harness: Harness, candidate: DragCandidate): Promise<Drag
     probe = await harness.page(true)
     page = probe.page
     // The candidate passed the skip list before it was dragged; what its click shows is checked again below.
-    if (await harness.locate(probe, candidate)) {
+    if (await harness.locate(probe, candidate, { own: true })) {
       const before2 = new Set((await page.evaluate(shownMoveControls, { move: MOVE_WORDS.source })).map((c) => c.ref))
       const at = await harness.aim(probe, candidate)
       if ('x' in at) {

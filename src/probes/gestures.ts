@@ -676,7 +676,8 @@ async function tryGesture(harness: Harness, target: GestureTarget, gesture: Gest
   const probe = await harness.page(fresh)
   const page = probe.page
   const none = (outcome: GestureTry['outcome'], reason?: string): Trial => ({ tried: { gesture, changed: [], outcome, ...(reason ? { reason } : {}) }, autoplay: false, restless: false })
-  if (!(await harness.locate(probe, target))) return none('unmatched')
+  // The element a gesture is made on is a surface (a carousel, a map), never on the skip list: what is pressed around it is.
+  if (!(await harness.locate(probe, target, { check: false }))) return none('unmatched')
   const aimed = await harness.aim(probe, target)
   if ('cover' in aimed) return none('not-exercised', `covered by <${aimed.cover.tag}> "${aimed.cover.text.slice(0, 60)}"`)
   if ('hidden' in aimed) return none('not-exercised', 'not showing on this load')
@@ -717,7 +718,7 @@ async function tryGesture(harness: Harness, target: GestureTarget, gesture: Gest
 async function tryAlternative(harness: Harness, target: GestureTarget, alternative: GestureAlternative & { id: InPageElement['id'] }, fresh: boolean): Promise<{ changed?: string[]; before?: ViewState; after?: ViewState; skipped?: string }> {
   const probe = await harness.page(fresh)
   const page = probe.page
-  if (!(await harness.locate(probe, target))) return { skipped: 'the element was not found on a fresh load' }
+  if (!(await harness.locate(probe, target, { check: false }))) return { skipped: 'the element was not found on a fresh load' }
   const aimed = await harness.aim(probe, target)
   if (!('x' in aimed)) return { skipped: 'cover' in aimed ? `the element is covered by <${aimed.cover.tag}>` : 'the element is not showing' }
   const cdp = await cdpOf(probe)
@@ -738,7 +739,7 @@ async function tryAlternative(harness: Harness, target: GestureTarget, alternati
     { ms: 0, ref: alternative.ref, label: alternative.label },
   )
   // Back on the element: the click may have scrolled the page.
-  if (await harness.locate(probe, target)) await harness.aim(probe, target)
+  if (await harness.locate(probe, target, { check: false })) await harness.aim(probe, target)
   const after = await view(page, cdp, target.ref)
   return { changed: effectOf(viewChange(before, after)), ...(before ? { before } : {}), ...(after ? { after } : {}) }
 }
@@ -780,7 +781,7 @@ async function exercise(harness: Harness, target: GestureTarget): Promise<void> 
   // A drawing area's path is the point (essential): what stands in for it is for a person.
   if (!target.essential && reference && !effect.context) {
     const probe = await harness.page(true)
-    const listed = (await harness.locate(probe, target))
+    const listed = (await harness.locate(probe, target, { check: false }))
       ? await probe.page.evaluate(listAlternatives, { ref: target.ref, gesture: effect.gesture, words: Object.fromEntries(Object.entries(ALTERNATIVE_WORDS).map(([key, value]) => [key, value.source])) as Record<keyof typeof ALTERNATIVE_WORDS, string> }).catch(() => [])
       : []
     let untouched = true

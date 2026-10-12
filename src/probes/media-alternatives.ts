@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url'
 import type { BrowserContext, Page } from 'playwright-core'
 import { errorMessage, mapLimit } from '../core/util.ts'
 import { type BrowserOptions, headersFor } from '../surfaces/browser-options.ts'
+import { destructiveAddress } from './guard.ts'
 import type { InPageIdentity, Kit } from './kit.ts'
 
 /**
@@ -927,6 +928,9 @@ async function fetchAlternative(ctx: FetchContext, address: string): Promise<Alt
     return fetched
   }
   const start: AltFetch = { method: 'GET', url: url.href, status: null, crossOrigin: url.origin !== ctx.pageUrl.origin }
+  // These requests go around the guard's route, so its rule is kept here: an address that names a destructive action is not sent.
+  const refused = (target: URL): AltFetch => ({ ...start, ...(target.href !== url.href ? { final: target.href.slice(0, 500) } : {}), error: `not fetched: its address names "${destructiveAddress(target.href)}"` })
+  if (destructiveAddress(url.href)) return refused(url)
   if (url.origin !== ctx.pageUrl.origin) return head(url, start)
   let current = url
   for (let hop = 0; hop < MAX_HOPS; hop++) {
@@ -950,6 +954,7 @@ async function fetchAlternative(ctx: FetchContext, address: string): Promise<Alt
         return { ...start, status, error: 'a redirect to no valid address' }
       }
       next.hash = ''
+      if (destructiveAddress(next.href)) return refused(next)
       // Another origin: one HEAD, never a GET.
       if (next.origin !== ctx.pageUrl.origin) return head(next, { ...start, final: next.href.slice(0, 500) })
       current = next

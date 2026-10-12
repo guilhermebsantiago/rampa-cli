@@ -20,8 +20,11 @@ export const OPT_IN_KINDS: readonly ProbeKind[] = ['variants', 'auth', 'flash', 
 /**
  * `--probe interact`: the plan's name for the activate class, every probe that presses, clicks, changes a setting,
  * types into a field, drags, swipes, pinches or moves the device (wcag-coverage.md, 4.4). The shortcuts probe is one of them, and stays in `all` as it
- * always was. The motion probe presses only pause, stop, hide and extend controls, and costs a minute or more a page,
- * so it runs only when named.
+ * always was: it only presses printable keys with focus on the body (and Space on shortcut settings, toggled back),
+ * and behind the guard a key can neither write, nor navigate any frame or window, nor send a GET to an address that
+ * names a destructive action (guard.ts). What it can still set off is a GET to another address, which a server that
+ * acts on GETs may act on (docs/probes.md, "The network guard"). The motion probe presses only pause, stop, hide and
+ * extend controls, and costs a minute or more a page, so it runs only when named.
  */
 export const INTERACT_KINDS: readonly ProbeKind[] = ['shortcuts', 'links', 'input', 'toggles', 'status', 'form', 'pointer', 'parity', 'focus-order', 'gestures']
 
