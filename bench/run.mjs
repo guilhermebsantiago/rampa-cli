@@ -230,10 +230,13 @@ async function ollamaInfo() {
     return previous.ollama
   }
 }
+/** Scoring alone runs no tool, so the run keeps the date and commit its rows ran at, and records what scored them. */
+const rescored = Boolean(arg('score-only') && previous.rampaCommit)
 const runInfo = {
-  date: today,
-  rampaCommit: git('rev-parse', '--short', 'HEAD'),
-  rampaDirty: Boolean(git('status', '--porcelain', '--', 'src')),
+  date: rescored ? previous.date : today,
+  rampaCommit: rescored ? previous.rampaCommit : git('rev-parse', '--short', 'HEAD'),
+  rampaDirty: rescored ? previous.rampaDirty : Boolean(git('status', '--porcelain', '--', 'src')),
+  ...(rescored ? { scoredAt: git('rev-parse', '--short', 'HEAD') } : {}),
   rampaVersion: ev.VERSION,
   node: process.version,
   os: `${type()} ${release()}`,
