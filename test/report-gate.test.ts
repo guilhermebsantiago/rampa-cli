@@ -24,7 +24,7 @@ import { recordedReport } from './report-fixtures.ts'
 const CLI = resolve('src/cli.ts')
 const RECORDED = resolve('demo/recorded/examples-store-before.snapshot.json')
 const plain = { bold: String, dim: String, red: String, redBold: String, green: String, yellow: String, gray: String } as unknown as Parameters<typeof renderReport>[1]['paint']
-const env = { ...Object.fromEntries(Object.entries(process.env).filter(([name]) => !name.startsWith('RAMPA_'))), NO_COLOR: '1' }
+const env = { ...Object.fromEntries(Object.entries(process.env).filter(([name]) => !name.startsWith('RAMPA_'))), NO_COLOR: '1', RAMPA_LOCALE: 'en', RAMPA_MODEL: '' }
 
 function rampa(args: string[], cwd = process.cwd()) {
   const run = spawnSync(process.execPath, [CLI, ...args], { cwd, encoding: 'utf8', env })
