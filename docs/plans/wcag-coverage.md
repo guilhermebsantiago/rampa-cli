@@ -2,6 +2,16 @@
 
 Date: 2026-10-09. Status (2026-10-11): all four waves are built: A1–A10, B1–B16, C1–C17 and D1–D7. Every check they added is experimental, below the default threshold, until it passes the gate in section 4.9; most probes are opt-in (`--probe <kind>`, `interact`), and `--allow-submit` alone lets the form probe submit. Parts of some rows were left out on purpose or for later; docs/probes.md, docs/rules.md and docs/criteria.md list them under each check's limits. On app screens (D7) the probes have run only against recorded device output, never on a device.
 
+**Status as of 2026-10-11.** Sections 0 and 2 describe Rampa as it was when this plan was written (`0459809`): "Now", "axe-core today" and "Rampa today" are that state, not the current one. Counted from the source at `90fc91d`, the 55 WCAG 2.2 A/AA criteria stand like this, by where a check for each one runs:
+
+- **18 can get a confirmed finding in a default run**, from an axe-core rule that can fail or a judgment module that runs by default: 1.1.1, 1.3.1, 1.3.5, 1.4.1, 1.4.3, 1.4.4, 1.4.12, 2.1.1, 2.2.1, 2.2.2, 2.4.2, 2.4.4, 2.4.6, 2.5.3, 3.1.1, 3.1.2, 3.3.2 and 4.1.2.
+- **5 more have a check in every default run, but only an experimental one**, below the threshold: 1.3.2, 1.4.11, 3.3.1 and 3.3.3 (Rampa's rules), and 2.5.8, whose only check is axe-core's `target-size`.
+- **26 have a check only with `--probe`**, and every probe rule is experimental. 15 are covered by `--probe all`: 1.2.1 to 1.2.5, 1.3.4, 1.4.2, 1.4.10, 1.4.13, 2.1.2, 2.1.4, 2.4.1, 2.4.7, 2.4.11 and 3.2.1. 11 need a kind that runs only when named: 2.3.1, 2.4.3, 2.5.1, 2.5.2, 2.5.4, 2.5.7, 3.2.2, 3.3.4, 3.3.7, 3.3.8 and 4.1.3. For 1.2.3, 1.2.4, 1.2.5 and 3.3.4 the probe lists items to review and never reports a failure. Without a probe, a default run still lists items to review for some of them: axe-core's review-only rules (1.2.2, 1.4.2, 2.4.1), a scope note (2.5.4, 3.3.4) and the live regions found (4.1.3). 2.4.1 also has a check across a crawl.
+- **4 have a check only with `--crawl` or `--sitemap`**, experimental: 2.4.5, which never reports a failure, 3.2.3, 3.2.4 and 3.2.6.
+- **2 have a check only when `--criteria` asks for its judgment module**: 1.3.3 (experimental) and 1.4.5.
+
+So every criterion now has an automated check of some kind, as section 0 planned for after wave D, but in a default run only 18 can fail the build. The other 37 report below the threshold, report only items to review, or need `--probe`, `--crawl` or `--criteria`.
+
 This plan builds on:
 
 - the Rampa source on `main` at 0459809, with axe-core 4.14.0;
@@ -361,7 +371,7 @@ The "stays manual" text lives in `src/wcag.ts` next to each criterion's name, in
 
 ### 4.9 Evaluation gate: experimental to stable
 
-A new check reports below the default confidence threshold, visible with `--verbose` or `--min-confidence low`, until all of these hold:
+A new check reports below the default confidence threshold until all of these hold. `--verbose` lists its findings without failing the build; `--min-confidence low` reports them as findings, which fail it.
 
 1. **ACT test cases, where they exist.** Every failed example is found and no passed example is flagged, scored the way ACT intends. For most rules, "passed" means "further testing needed", not "satisfied".
 2. **Fixtures in pairs**, a passing and a failing variant per failure technique. They go into `rampa eval` through a no-model path for rule and probe criteria (A3). Today `rampa eval` only runs criteria that have a judgment module.

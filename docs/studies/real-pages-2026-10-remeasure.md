@@ -1,6 +1,6 @@
-# Re-measure on the held-out test pages (October 2026)
+# Re-measure on the first study's test pages (October 2026)
 
-The [real-page study](real-pages-2026-10.md) split 24 public pages into a dev half and a test half. Its dev findings motivated a set of changes to the judgment layer, and those changes were merged. The test half was never used to choose or tune any of them. This document runs the current code once on the test pages, with the study's settings, and labels the findings with the study's method. It is the held-out measurement the study asked for: "After the changes are made, measure them once on the test split."
+The [real-page study](real-pages-2026-10.md) split 24 public pages into a dev half and a test half. Its dev findings motivated a set of changes to the judgment layer, and those changes were merged. The test half's findings had been read when the study described its false-positive patterns and true positives, which cite 12 test-split examples, and the study was committed before any of the changes (`00a272b`); the fixes were taken from the dev half's examples, but this is not a clean held-out measurement. The [fresh-page study](real-pages-2026-10-fresh.md) is. This document runs the current code once on the test pages, with the study's settings, and labels the findings with the study's method, as the study asked: "After the changes are made, measure them once on the test split."
 
 **In short.** On the 11 test pages that finished in both runs, precision of the judgment layer went from **0.12 to 0.38 at the default threshold**, which is what a user sees, and from **0.12 to 0.19 with low-confidence findings included**. The biggest single cause of the gain at the default threshold is that 2.4.4 and 2.4.6 claims about ordinary text now sit below the threshold, not better judgments: with low-confidence findings counted, 2.4.4 is still 0 of 27 and 2.4.6 still 0 of 19. 1.1.1 rose from 0.32 to 0.42. Of the 14 true positives of the first run, 13 are still reported. The one lost was dropped by a fix (a suggestion that was only the word "decorative"), every time the model was asked. Precision of 0.38 is still far from usable without a person checking each finding. The labels come from Claude agents, not from people, and the run is a single run.
 
@@ -61,11 +61,11 @@ A report keeps the findings at or above the threshold in `findings` and the rest
 - **Judgment findings only, as in the first run.** Engine (axe-core) findings were not labelled.
 - **Reusing labels.** A new finding reuses the first run's two labels when it is on the same page, for the same criterion, and on the same element. Matching tries the fingerprint first, then the ref, then the quoted subject (alt text, link text, heading or title), one old finding to one new finding at most. 73 of the 96 like-for-like findings matched: 72 by fingerprint and one by subject (a g1.globo.com link whose ref had changed).
 - **Matches whose claim changed.** Three matched findings now make a different claim about the same element. The method reuses the first run's label for them. They were also labelled again, as a sensitivity check (see below).
-- **Labelling the rest.** Every unmatched finding was labelled as the study did. For each page, two independent Claude agents were spawned: an **auditor**, which looks at the snapshot, the screenshot and the live page and decides whether the finding is a real failure, and a **skeptic**, which looks for concrete reasons the finding could be wrong.
-  - Each judge got the rubric and an evidence packet for that page's findings, and nothing else. The packet holds the finding as reported, the element from the snapshot with its ancestors, nearby headings and the destination Rampa read, and the image crop the model saw. The judge could also use the page's snapshot, its screenshot and the live page.
-  - The judges did not see the first run's labels, each other's labels, or any other page. They were told not to open them.
+- **Labelling the rest.** Every unmatched finding was labelled as the study did. For each page, two Claude agents were spawned: an **auditor**, which looks at the snapshot, the screenshot and the live page and decides whether the finding is a real failure, and a **skeptic**, which looks for concrete reasons the finding could be wrong.
+  - Each judge got the rubric and an evidence packet for that page's findings, and nothing else. The packet holds the finding as reported, including Rampa's `confidence` and `patch`, the element from the snapshot with its ancestors, nearby headings and the destination Rampa read, and the image crop the model saw. The judge could also use the page's snapshot, its screenshot and the live page.
+  - The judges were told not to open the first run's labels, each other's labels or any other page (`scripts/judge-prompt.txt`). They ran on the same machine and files, so that instruction is all that kept them apart; nothing in the record shows a judge opening them.
   - The first run did not save its judge prompts. The rubric used here (`study/remeasure-2026-10-09/judge-rubric.md`) is rebuilt from the study's method section and from its labels' rationales.
-  - This took 20 judge agents: an auditor and a skeptic for each of the 9 pages with unmatched findings, and one more pair for the three changed claims.
+  - This took 24 judge agents, one per label file in `labels/`: an auditor and a skeptic for each of the 9 pages with unmatched findings, and for each of the 3 packets of changed claims (one each for ibge.gov.br, mit.edu and padocadomani.com.br).
 - **Final label and agreement.** As in the first run, the final label is the label both judges gave. When they differ it is `uncertain`, and a false positive's cause is `disputed` when the judges named different causes. Precision is TP / (TP + FP), with uncertain findings left out, and intervals are 95% Wilson intervals.
 
 ### Why a finding of the first run is gone
@@ -88,7 +88,7 @@ All 12 test pages produced a report, adafruit.com included. The like-for-like co
 
 | Criterion | Before (first run) | After, default threshold | After, all findings |
 | --- | --- | --- | --- |
-| 1.1.1 Non-text Content | 12 TP / 25 FP / 7 unc: **0.32** (0.20–0.48) | 15 / 21 / 2: **0.42** (0.27–0.58) | 15 / 21 / 2: **0.42** (0.27–0.58) |
+| 1.1.1 Non-text Content | 12 TP / 25 FP / 7 unc: **0.32** (0.20–0.49) | 15 / 21 / 2: **0.42** (0.27–0.58) | 15 / 21 / 2: **0.42** (0.27–0.58) |
 | 1.3.5 Identify Input Purpose | 2 / 3 / 0: 0.40 (0.12–0.77) | 2 / 3 / 0: 0.40 (0.12–0.77) | 2 / 3 / 0: 0.40 (0.12–0.77) |
 | 2.4.2 Page Titled | 0 / 3 / 0: 0.00 (0.00–0.56) | no findings | no findings |
 | 2.4.4 Link Purpose (In Context) | 0 / 34 / 1: 0.00 (0.00–0.10) | 0 / 3 / 0: 0.00 (0.00–0.56) | 0 / 27 / 4: 0.00 (0.00–0.12) |
@@ -141,7 +141,7 @@ Fate of the 121 judgment findings the first run reported on the 11 pages, by the
 
 **False positives.** 73 of the 98 are gone from what a user sees, and 40 are gone from the report entirely.
 
-- **Below the threshold: 33.** All are 2.4.4 and 2.4.6 claims about non-generic text, such as the docs.python.org keyword links, form labels and python.org.br group headings. They stay in the report. `--verbose` or `--min-confidence low` shows them.
+- **Below the threshold: 33.** All are 2.4.4 and 2.4.6 claims about non-generic text, such as the docs.python.org keyword links, form labels and python.org.br group headings. They stay in the report: `--verbose` lists them, and `--min-confidence low` would report them as findings.
 - **Gone because of a code change: 26.** The first run's code still fails each of these elements on today's page.
   - The candidate cap: 9. Links and headings on long pages that fell outside the 50 judged, so they were not judged at all.
   - The model now passes the element under the current prompt: 10. Headings judged with their parent and siblings, such as nhs.uk "Do" and "Don't", ibge.gov.br "IndústriaPIM-PF", and the python.org.br "GruPy-RP" and "PyTche". Links judged with their context, such as docs.python.org "while" and mit.edu "Healthier aging" and "Visit". Two linked logos are now judged as functional images: python.org.br "Python Brasil 2026" and the mwpt.com.br logo.
@@ -233,6 +233,7 @@ Both judges agreed on all three changed claims. On why a finding is wrong they a
 ## Caveats
 
 - **One run.** Ollama runs at temperature 0, and five fresh calls about the lost true positive all gave the same answer. But a different GPU load, collector timing or page state still changes what the model is asked, and 13 first-run false positives vanished for such reasons. The first run was also one run.
+- **Judges kept apart by instruction only.** Both judges of a page were Claude agents on one machine and filesystem, told not to read each other's labels; nothing enforced it. Their packets held Rampa's own `confidence` and `patch`, which can anchor a label. And they are one model family, so their mistakes are likely correlated: their agreement is consistency, not accuracy.
 - **LLM-judge labels, pending human review.** Every label, reused or new, comes from Claude agents. 73 of the 96 like-for-like findings reuse the first run's labels as they are, and the judges here may be a different Claude model from the first run's. The rubric is rebuilt, because the first run did not save its judge prompts. The labels are a pre-annotation, as in the study, and need human review before anyone relies on them.
 - **Reuse can carry an old label onto a new claim.** Three matched findings changed their claim. One of them, mit.edu "colorful cell", flips from false positive to true positive when labelled again. The headline numbers keep the reused label, as the method says. The sensitivity check gives the other figure.
 - **The pages may have changed.** The first run's snapshots and screenshots were kept out of git, and no content hashes were saved. Only three page titles survive, as 2.4.2 findings, and all three are unchanged.
