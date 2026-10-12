@@ -546,9 +546,11 @@ async function tryExtension(harness: Harness, refs: string[], warning: TimeWarni
   for (let at = warning.at; at < eventAt; at += stepMs) {
     await jump(page, now, at)
     now = at
-    if (await harness.locate(probe, control.el)) break
+    // Only waiting for it to show; the skip list is read on it below, once, before the press.
+    if (await harness.locate(probe, control.el, { check: false })) break
   }
-  if (!(await harness.locate(probe, control.el))) return { ...base, outcome: 'unmatched', reason: 'the warning or its control did not show on this load' }
+  if (!(await harness.locate(probe, control.el, { check: (facts) => withSkip(facts, harness.origin, control.name, warning.text).skip })))
+    return { ...base, outcome: 'unmatched', reason: harness.lastSkip ? 'the skip list, read again on this load, leaves the control alone' : 'the warning or its control did not show on this load' }
   const aimed = await harness.aim(probe, control.el)
   if (!('x' in aimed)) return { ...base, outcome: 'not-exercised', reason: 'cover' in aimed ? 'under another layer' : 'does not show' }
   harness.log('activate', { ref: control.el.ref, label: control.name, detail: 'pressed to extend the time limit' })

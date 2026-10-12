@@ -515,25 +515,17 @@ async function tryPair(harness: Harness, pair: ListedPair): Promise<RedundantTri
   if (toggle) {
     const probe = await harness.page(true)
     const page = probe.page
-    if (!(await harness.locate(probe, pair.again))) return { outcome: 'unmatched' }
+    // The field asked again is only read here: the skip list is for the toggle, read on this page by `locate`.
+    if (!(await harness.locate(probe, pair.again, { check: false }))) return { outcome: 'unmatched' }
     const before = await page.evaluate(readField)
-    if (!(await harness.locate(probe, toggle))) return { outcome: 'unmatched' }
-    const facts = await page.evaluate(() => {
-      const w = window as unknown as { __rampaTarget?: Element | null; __rampaActivate: { facts(el: Element): ControlFacts } }
-      return w.__rampaTarget ? w.__rampaActivate.facts(w.__rampaTarget) : undefined
-    })
-    const skip = facts ? skipReason(facts, harness.origin) : undefined
-    if (skip) {
-      harness.skip(toggle, skip.reason, skip.detail)
-      return { outcome: 'skipped', reason: skip.reason }
-    }
+    if (!(await harness.locate(probe, toggle))) return harness.lastSkip ? { outcome: 'skipped', reason: harness.lastSkip.reason } : { outcome: 'unmatched' }
     let aimed = await harness.aim(probe, toggle)
     // A styled checkbox hides its input and shows its label.
     if ('hidden' in aimed && (toggle.control === 'checkbox' || toggle.control === 'radio')) aimed = await harness.aim(probe, toggle, 'label')
     if (!('x' in aimed)) return { outcome: 'not-exercised', reason: 'cover' in aimed ? `covered by <${aimed.cover.tag}>` : 'not showing' }
     harness.log('activate', { ref: toggle.ref, label: toggle.label, detail: 'clicked the reuse control' })
     await harness.window(probe, () => page.mouse.click(aimed.x, aimed.y), { ref: toggle.ref, label: toggle.label })
-    if (!(await harness.locate(probe, pair.again))) return { toggled: { label: toggle.label, effect: 'hidden' } }
+    if (!(await harness.locate(probe, pair.again, { check: false }))) return { toggled: { label: toggle.label, effect: 'hidden' } }
     const after = await page.evaluate(readField)
     const effect: NonNullable<RedundantTrial['toggled']>['effect'] =
       before.shows && !after.shows ? 'hidden' : !before.shows && after.shows ? 'shown' : after.disabled && !before.disabled ? 'disabled' : after.value !== before.value && after.value !== '' ? 'filled' : 'nothing'

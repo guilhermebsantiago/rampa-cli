@@ -40,7 +40,8 @@ export const SKIP_WORDS: Readonly<Record<'en' | 'pt-BR' | 'es', readonly string[
     'cancel membership', 'cancel plan', 'cancel account', 'cancel booking', 'cancel reservation', 'submit', 'send', 'post', 'publish', 'confirm',
     'approve', 'accept', 'agree', 'allow', 'consent', 'transfer', 'withdraw', 'book now', 'reserve', 'renew', 'upgrade', 'downgrade', 'follow',
     'unfollow', 'like', 'unlike', 'vote', 'upvote', 'downvote', 'report abuse', 'report spam', 'block', 'ban', 'invite', 'reset', 'archive',
-    'install', 'uninstall', 'download', 'print', 'save', 'join', 'leave group',
+    'install', 'uninstall', 'download', 'print', 'save', 'join', 'leave group', 'reply', 'bookmark', 'favorite', 'favourite', 'unfavorite',
+    'unfavourite', 'add to favorites', 'add to favourites', 'add to wishlist', 'revoke', 'deploy',
   ],
   'pt-BR': [
     'excluir', 'apagar', 'deletar', 'remover', 'eliminar', 'descartar', 'esvaziar', 'limpar tudo', 'limpar carrinho', 'limpar historico', 'comprar',
@@ -49,7 +50,8 @@ export const SKIP_WORDS: Readonly<Record<'en' | 'pt-BR' | 'es', readonly string[
     'cancelar inscricao', 'cancelar pedido', 'cancelar conta', 'cancelar plano', 'descadastrar', 'desinscrever', 'sair', 'deslogar', 'desconectar',
     'encerrar sessao', 'encerrar conta', 'desativar', 'enviar', 'envie', 'submeter', 'publicar', 'postar', 'confirmar', 'aprovar', 'aceitar',
     'aceito', 'concordo', 'permitir', 'transferir', 'sacar', 'reservar', 'renovar', 'contratar', 'seguir', 'deixar de seguir', 'curtir', 'votar',
-    'denunciar', 'bloquear', 'redefinir', 'arquivar', 'instalar', 'desinstalar', 'baixar', 'imprimir', 'salvar', 'participar',
+    'denunciar', 'bloquear', 'redefinir', 'arquivar', 'instalar', 'desinstalar', 'baixar', 'imprimir', 'salvar', 'participar', 'finalizar',
+    'concluir', 'inscrever', 'agendar', 'favoritar', 'adicionar aos favoritos', 'adicionar a lista de desejos',
   ],
   es: [
     'eliminar', 'borrar', 'quitar', 'suprimir', 'descartar', 'vaciar', 'vaciar carrito', 'comprar', 'compra ahora', 'comprar ahora',
@@ -58,18 +60,31 @@ export const SKIP_WORDS: Readonly<Record<'en' | 'pt-BR' | 'es', readonly string[
     'cancelar pedido', 'cancelar cuenta', 'cerrar sesion', 'salir', 'desconectar', 'desactivar', 'enviar', 'envia', 'publicar', 'confirmar',
     'aprobar', 'aceptar', 'acepto', 'permitir', 'transferir', 'retirar', 'reservar', 'renovar', 'contratar', 'seguir', 'dejar de seguir',
     'me gusta', 'votar', 'denunciar', 'bloquear', 'restablecer', 'archivar', 'instalar', 'desinstalar', 'descargar', 'imprimir', 'guardar', 'unirse',
+    'anadir a favoritos', 'agregar a favoritos', 'anadir a la lista de deseos',
   ],
 }
 
 /**
- * The same kind of words, read in a control's code: its id, class, inline handler, `javascript:` address and data
- * attributes (`deleteItem(3)`, `btn-logout`). Only words that are verbs in code too: `send` and `submit` are left out,
- * because analytics calls (`ga('send', …)`) sit in front of most scripted navigations.
+ * Words that skip a control only when it is a plain button (`ControlFacts.button`: not a toggle, not a control that
+ * opens a menu or dialog, not a link to an address) whose name begins with one: "Order", "Book a table", "Register",
+ * "Share", "Activar cuenta". As nouns, or on links, they name ordinary navigation ("Order history", "Book reviews",
+ * a "Register" link to the sign-up page), which the probes need; "Order by" sorts, and "Order history" is a list.
+ */
+export const SKIP_BUTTON_WORDS: readonly string[] = ['order', 'reorder', 'book', 'register', 'share', 'cadastrar', 'compartilhar', 'compartir', 'registrar', 'registrarse', 'activar']
+/** What a button word may be followed by and be no action of its own: a sort, or a noun ("Order history" opens a list). */
+const BUTTON_WORD_EXCEPTIONS = ['order by', 'order history', 'order status', 'order details', 'order summary', 'order tracking', 'book reviews']
+
+/**
+ * The same kind of words, read in a control's code: its id, class, inline handler, data attributes, and its address's
+ * path and query (`deleteItem(3)`, `btn-logout`, `javascript:removeItem(3)`, `/account/delete?id=1`). Only words that
+ * are verbs in code too: `send` and `submit` are left out, because analytics calls (`ga('send', …)`) sit in front of
+ * most scripted navigations.
  */
 export const SKIP_CODE_WORDS: readonly string[] = [
-  'delete', 'remove', 'destroy', 'erase', 'purge', 'trash', 'logout', 'log out', 'signout', 'sign out', 'logoff', 'unsubscribe', 'checkout',
-  'purchase', 'buy', 'pay', 'payment', 'donate', 'deactivate', 'add to cart', 'download', 'print', 'excluir', 'deletar', 'apagar', 'remover',
-  'eliminar', 'borrar', 'comprar', 'pagar', 'descadastrar', 'cerrar sesion', 'encerrar sessao', 'desativar', 'desactivar',
+  'delete', 'remove', 'destroy', 'erase', 'purge', 'trash', 'logout', 'log out', 'signout', 'sign out', 'logoff', 'log off', 'unsubscribe',
+  'checkout', 'purchase', 'buy', 'pay', 'payment', 'donate', 'deactivate', 'add to cart', 'download', 'print', 'excluir', 'deletar', 'apagar',
+  'remover', 'eliminar', 'borrar', 'comprar', 'pagar', 'descadastrar', 'sair', 'deslogar', 'cerrar sesion', 'encerrar sessao', 'desativar',
+  'desactivar',
 ]
 
 /** Lower case, no accents, camelCase split, every run of other characters one space, padded with spaces. */
@@ -102,17 +117,38 @@ export function destructiveWord(...texts: ReadonlyArray<string | undefined>): st
   return firstPhrase(NAME_PHRASES, texts)
 }
 
-/** The skip-list word a control's code holds (id, class, handler, `javascript:` address, data attributes). */
+/** The skip-list word a control's code holds (id, class, handler, address, data attributes). */
 export function destructiveCode(...texts: ReadonlyArray<string | undefined>): string | undefined {
   return firstPhrase(CODE_PHRASES, texts)
 }
 
+/** The button word (`SKIP_BUTTON_WORDS`) a plain button's name begins with. */
+export function buttonWord(...texts: ReadonlyArray<string | undefined>): string | undefined {
+  for (const text of texts) {
+    if (!text) continue
+    const normalized = skipText(text)
+    if (BUTTON_WORD_EXCEPTIONS.some((phrase) => normalized.startsWith(` ${phrase} `))) continue
+    const found = SKIP_BUTTON_WORDS.find((word) => normalized.startsWith(` ${word} `))
+    if (found) return found
+  }
+  return undefined
+}
+
 /** What the page tells about a control, for the skip list. Read in the page by the kit (`facts`). */
 export interface ControlFacts {
-  /** Accessible name and visible texts: its label, title, aria-label, value, placeholder. */
+  /**
+   * Accessible name and visible texts: its label, title, aria-label, alt, value, and the alt, title and aria-label of
+   * what it holds (an icon's `<img alt>`, an `<svg><title>`).
+   */
   texts: string[]
-  /** Its id, class, name attribute, inline click and change handlers, `javascript:` address, data-* values. */
+  /** Its id, class, name attribute, inline click and change handlers, address (path and query), data-* values. */
   code: string[]
+  /**
+   * A plain button: a button, an image or button input, `role=button` or `menuitem`, or a link that goes nowhere
+   * (`href="#"`, `javascript:`, none), that is not a toggle (`aria-pressed`) and opens no menu or dialog
+   * (`aria-haspopup`, `aria-expanded`). Only such a control is skipped for a button word.
+   */
+  button?: boolean | undefined
   disabled: boolean
   /** A submit button, image input, or a button with no type inside a form. */
   submit: boolean
@@ -143,12 +179,15 @@ export function skipReason(facts: ControlFacts, origin: string): { reason: SkipR
   if (facts.download) return { reason: 'download' }
   if (facts.target && !['_self', '_top', '_parent', ''].includes(facts.target.toLowerCase())) return { reason: 'new-window', detail: `target="${facts.target}"` }
   if (facts.origin && facts.origin !== origin) return { reason: 'other-origin', detail: facts.origin }
-  const word = destructiveWord(...facts.texts)
+  const word = destructiveWord(...facts.texts) ?? (facts.button ? buttonWord(...facts.texts) : undefined)
   if (word) return { reason: 'destructive', detail: word }
   const code = destructiveCode(...facts.code)
   if (code) return { reason: 'destructive', detail: code }
   return undefined
 }
+
+/** A skip decision, as `skipReason` makes it; a probe with its own exceptions passes its own to `Harness.locate`. */
+export type SkipCheck = (facts: ControlFacts) => { reason: SkipReason | string; detail?: string | undefined } | undefined
 
 /** One entry of the harness log: what it did, on which element, at what time (ms since the probe started). */
 export interface HarnessAction {
@@ -260,7 +299,8 @@ interface ActivateWindow {
   __rampaStorage?: number
   __rampaIgnored?: string[]
   __rampaActivate?: {
-    facts(el: Element): ControlFacts
+    /** With `own`, the texts are the element's own words, without the controls inside it (a list item's "Remove"). */
+    facts(el: Element, options?: { own?: boolean }): ControlFacts
     locate(args: { ref: string; sig: string }): boolean
     target(): Element | null
     aim(args: { el?: 'target' | 'label' }): { x: number; y: number } | { cover: InPageElement & { text: string } } | { hidden: true }
@@ -360,18 +400,38 @@ export function installActivateKit(): void {
     const el = elementOf(node)
     return !el || SKIP.has(el.localName) || el.closest('head') !== null
   }
-  const nameOf = (el: Element): string => {
-    const labelled = collapse(
+  const labelledBy = (el: Element): string =>
+    collapse(
       (el.getAttribute('aria-labelledby') ?? '')
         .split(/\s+/)
         .filter(Boolean)
         .map((id) => document.getElementById(id)?.textContent ?? '')
         .join(' '),
     )
-    const labels = 'labels' in el ? Array.from((el as HTMLInputElement).labels ?? []).map((l) => collapse(l.textContent)).join(' ') : ''
-    return collapse(el.getAttribute('aria-label') || labelled || labels || collapse((el as HTMLElement).innerText ?? el.textContent) || el.getAttribute('title') || '')
+  // The names an element's content gives it besides its text: an icon's alt, an <svg>'s <title>, an aria-label or title inside.
+  const innerNames = (root: Element): string[] => {
+    const out: string[] = []
+    for (const child of Array.from(root.querySelectorAll('img[alt], area[alt], input[type=image][alt], svg title, [aria-label], [title]')).slice(0, 20)) {
+      if (child.localName === 'title') out.push(collapse(child.textContent))
+      else for (const attribute of ['alt', 'aria-label', 'title']) out.push(collapse(child.getAttribute(attribute)))
+    }
+    return out.filter(Boolean)
   }
-  const facts = (el: Element): ControlFacts => {
+  const nameOf = (el: Element): string => {
+    const labels = 'labels' in el ? Array.from((el as HTMLInputElement).labels ?? []).map((l) => collapse(l.textContent)).join(' ') : ''
+    return collapse(
+      el.getAttribute('aria-label') ||
+        labelledBy(el) ||
+        labels ||
+        collapse((el as HTMLElement).innerText ?? el.textContent) ||
+        el.getAttribute('alt') ||
+        innerNames(el).join(' ') ||
+        el.getAttribute('title') ||
+        '',
+    )
+  }
+  const CONTROLS_INSIDE = 'button, a, input, select, textarea, [role=button], [role=link]'
+  const facts = (el: Element, options?: { own?: boolean }): ControlFacts => {
     const input = el as HTMLInputElement
     const form = (el as HTMLInputElement).form ?? el.closest('form')
     const type = (el.getAttribute('type') ?? '').toLowerCase()
@@ -388,15 +448,42 @@ export function installActivateKit(): void {
     const data = Array.from(el.attributes)
       .filter((a) => a.name.startsWith('data-') && a.value.length <= 200)
       .map((a) => `${a.name.slice(5)} ${a.value}`)
-    const texts = [nameOf(el), el.getAttribute('title') ?? '', el.getAttribute('aria-label') ?? '', el.localName === 'input' && ['button', 'submit', 'reset'].includes(type) ? input.value : '']
+    // Its own words (a list item's, without the "Remove" button inside it), or its name and everything it holds.
+    let names: string[]
+    if (options?.own) {
+      const clone = el.cloneNode(true) as Element
+      for (const control of Array.from(clone.querySelectorAll(CONTROLS_INSIDE))) control.remove()
+      names = [collapse(el.getAttribute('aria-label') || labelledBy(el) || clone.textContent), ...innerNames(clone)]
+    } else names = [nameOf(el), ...innerNames(el)]
+    const texts = [...names, el.getAttribute('title') ?? '', el.getAttribute('aria-label') ?? '', el.getAttribute('alt') ?? '', el.localName === 'input' && ['button', 'submit', 'reset'].includes(type) ? input.value : '']
       .map((t) => cut(collapse(t), 200))
       .filter(Boolean)
+    // The address's path and query, as the page wrote it (never the page's own address a fragment link resolves to).
+    let path = ''
+    if (href !== '' && !href.startsWith('#') && !/^javascript:/i.test(href)) {
+      path = href.replace(/#.*$/, '').replace(/^[a-z][a-z0-9+.-]*:\/\/[^/?#]*/i, '')
+      try {
+        path = decodeURIComponent(path)
+      } catch {
+        // A malformed escape: read it as it is.
+      }
+    }
     // The attribute, not the property: a page may define its own `id` property on an element (undefined, or another node).
-    const code = [el.getAttribute('id') ?? '', el.getAttribute('class') ?? '', el.getAttribute('name') ?? '', el.getAttribute('onclick') ?? '', el.getAttribute('onchange') ?? '', el.getAttribute('oninput') ?? '', /^\s*javascript:/i.test(href) ? href : '', ...data]
+    const code = [el.getAttribute('id') ?? '', el.getAttribute('class') ?? '', el.getAttribute('name') ?? '', el.getAttribute('onclick') ?? '', el.getAttribute('onchange') ?? '', el.getAttribute('oninput') ?? '', /^\s*javascript:/i.test(href) ? href : '', path, ...data]
       .map((t) => cut(t, 300))
       .filter(Boolean)
     const submit =
       (el.localName === 'input' && ['submit', 'image'].includes(type)) || (el.localName === 'button' && (type === 'submit' || (type === '' && form !== null)))
+    // A plain button: it acts on its own, rather than toggling, opening a menu or dialog, or leading to an address.
+    const role = (el.getAttribute('role') ?? '').trim().split(/\s+/)[0]?.toLowerCase() ?? ''
+    const leads = (el.localName === 'a' || el.localName === 'area') && href !== '' && href !== '#' && !/^javascript:/i.test(href)
+    const buttonLike =
+      !leads &&
+      (role === 'button' ||
+        role === 'menuitem' ||
+        (role === '' &&
+          ((el.localName === 'button' && type !== 'reset') || (el.localName === 'input' && ['button', 'submit', 'image'].includes(type)) || el.localName === 'a')))
+    const opens = el.hasAttribute('aria-pressed') || el.hasAttribute('aria-expanded') || !['', 'false'].includes((el.getAttribute('aria-haspopup') ?? '').trim().toLowerCase())
     // Payment fields by their autocomplete token, or by a name or id that says so (cc-number, cardNumber, cvv) when the token is missing.
     const PAYMENT = 'input[type=password],input[type=file],[autocomplete^="cc-"],input[name^="cc-" i],input[id^="cc-" i],input[name^="cc_" i],input[id^="cc_" i],input[name*="card" i],input[id*="card" i],input[name*="cvv" i],input[id*="cvv" i],input[name*="cvc" i],input[id*="cvc" i]'
     const sensitiveForm = form !== null && form.querySelector(PAYMENT) !== null
@@ -405,6 +492,7 @@ export function installActivateKit(): void {
     return {
       texts,
       code,
+      ...(buttonLike && !opens ? { button: true } : {}),
       disabled: (el as HTMLInputElement).disabled === true || el.getAttribute('aria-disabled') === 'true',
       submit,
       sensitiveForm,
@@ -751,12 +839,47 @@ export class Harness {
     return probe
   }
 
-  /** Finds a control in the page by ref and identity; logs it when the page no longer has it. */
-  async locate(probe: ProbePage, target: Pick<InPageElement, 'ref' | 'id' | 'label'>): Promise<boolean> {
-    const found = await probe.page.evaluate((args) => (window as unknown as ActivateWindow).__rampaActivate?.locate(args) ?? false, { ref: target.ref, sig: target.id.sig }).catch(() => false)
-    if (!found) this.log('unmatched', { ref: target.ref, label: target.label })
-    return found
+  /**
+   * Finds a control in the page by ref and identity, and reads the skip list again on what it found there, right
+   * before the probe uses it: the facts a probe listed come from another load, and a ref and identity (tag, id, role,
+   * type, name attribute, address) say nothing of its name, which may have changed since ("Save" then "Delete").
+   * `check` is the probe's own decision (`skipReason` with its exceptions, as at listing; by default `skipReason`), or
+   * false for what is not a control and was never on the list (a surface a gesture is made on). `own` reads the
+   * element's own words, as the listing did for a draggable item. Logs the control when the page no longer has it, or
+   * when the list now says to leave it, and answers false either way: the probe does not touch it.
+   */
+  async locate(probe: ProbePage, target: Pick<InPageElement, 'ref' | 'id' | 'label'>, options: { check?: SkipCheck | false; own?: boolean } = {}): Promise<boolean> {
+    this.lastSkip = undefined
+    const read = options.check !== false
+    const found = await probe.page
+      .evaluate(
+        (args) => {
+          const activate = (window as unknown as ActivateWindow).__rampaActivate
+          if (!activate?.locate(args)) return null
+          const el = activate.target()
+          return { facts: el && args.read ? activate.facts(el, { own: args.own }) : null }
+        },
+        { ref: target.ref, sig: target.id.sig, read, own: options.own === true },
+      )
+      .catch(() => null)
+    if (!found) {
+      this.log('unmatched', { ref: target.ref, label: target.label })
+      return false
+    }
+    if (!read) return true
+    const check = options.check === undefined || options.check === false ? (facts: ControlFacts) => skipReason(facts, this.origin) : options.check
+    // A control whose facts cannot be read is not used: what cannot be checked is not touched.
+    const skip = found.facts ? check(found.facts) : { reason: 'unmatched', detail: 'its facts could not be read' }
+    if (skip) {
+      this.lastSkip = skip
+      this.skip(target, skip.reason, `${skip.detail ? `${skip.detail}, ` : ''}read again on the page it was about to be used on`)
+      return false
+    }
+    return true
   }
+
+  /** Why the last `locate` left its control alone, when the skip list (read again) was the reason; reset by each call. */
+  lastSkip: { reason: string; detail?: string | undefined } | undefined
 
   /**
    * Brings the located control (or its label) into view and checks that it is on top at its middle. A control under

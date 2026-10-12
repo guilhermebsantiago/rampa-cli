@@ -288,6 +288,23 @@ export function chooseOption(args: { i: number }): boolean {
   return true
 }
 
+/** Runs in the page: the label of the located select's option `i`, as this load shows it. */
+export function optionLabel(args: { i: number }): string {
+  const option = ((window as unknown as InputWindow).__rampaTarget as HTMLSelectElement | null)?.options?.[args.i]
+  return (option?.label || option?.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 120)
+}
+
+/**
+ * The option a probe is about to choose, read again on this load: a list read on another load may have changed its
+ * options since ("Archive" there, "Delete selected" here). Logs the skip and gives the word when it names one.
+ */
+export async function staleOption(harness: Harness, probe: ProbePage, target: Pick<InPageElement, 'ref' | 'label'>, i: number): Promise<string | undefined> {
+  const label = await probe.page.evaluate(optionLabel, { i }).catch(() => '')
+  const word = destructiveWord(label)
+  if (word) harness.skip(target, 'destructive', `${word}, in the option "${label.slice(0, 60)}" read again on the page it was about to be chosen on`)
+  return word
+}
+
 /** Runs in the page: whether the located slider is at its maximum, so the arrow goes the other way. */
 export function atMaximum(): boolean {
   const input = (window as unknown as InputWindow).__rampaTarget as HTMLInputElement | null
@@ -311,6 +328,7 @@ async function tryControl(harness: Harness, control: InputControl, choice: Choic
     harness.log('not-exercised', { ref: target.ref, label: target.label, detail: 'not showing on this load' })
     return { outcome: 'not-exercised', reason: 'not showing on this load' }
   }
+  if (control.control === 'select' && (await staleOption(harness, probe, target, choice?.i ?? 0))) return { outcome: 'not-exercised', reason: 'the option to choose names a destructive action on this load' }
   const before = await page.evaluate(readValue)
   // Focus first, as a person does before changing a setting; what focus alone does is 3.2.1's, not this criterion's.
   const focused = await page.evaluate(focusTarget)
