@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Images that probes must leave as collection saw them</title>
+</head>
+<body>
+  <main>
+    <!-- axe-core's object-alt applies only while the object shows its image, not its fallback: a violation here. -->
+    <object data="../ocr/photo.png" type="image/png" width="320" height="200">
+      <img src="../ocr/photo.png" alt="A photo">
+    </object>
+    <!-- 1.1.1 candidates: an image with a text alternative, and a canvas drawn from an image once it loads. -->
+    <img src="../ocr/banner.png" alt="ERCIM logo" width="480" height="100">
+    <canvas id="drawn" width="84" height="45" aria-label="HTML 5 logo"></canvas>
+  </main>
+  <script>
+    const picture = new Image()
+    picture.src = '../ocr/button.png'
+    picture.onload = () => document.querySelector('#drawn').getContext('2d').drawImage(picture, 0, 0)
+  </script>
+</body>
+</html>

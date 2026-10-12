@@ -61,8 +61,11 @@ export async function writeJson(path, value, { compact = false } = {}) {
   await writeFile(path, `${compact ? JSON.stringify(value) : JSON.stringify(value, null, 2)}\n`, 'utf8')
 }
 
-/** Errors of the network or the machine, not of the tool: `--retry-errors` checks those pages again. */
-export const TRANSIENT_ERROR = /net::ERR_|ECONNRESET|ETIMEDOUT|EAI_AGAIN|ENOTFOUND|socket hang up|fetch failed|timed out|Target closed|browser has disconnected/i
+/**
+ * Errors of the network or the machine, not of the tool: `--retry-errors` checks those pages again. Rampa says a page
+ * that did not load in time as "<url> did not reach load within 30000 ms".
+ */
+export const TRANSIENT_ERROR = /net::ERR_|ECONNRESET|ETIMEDOUT|EAI_AGAIN|ENOTFOUND|socket hang up|fetch failed|timed out|did not reach \w+ within|Target closed|browser has disconnected/i
 
 /**
  * The records already written for a tool, as `done`; with retry, a record whose error was transient is dropped from

@@ -124,13 +124,26 @@ async function pagesFor(id) {
     })
   }
   if (spec.probesOnly) {
-    const { PROBE_RULES } = await rampaEval()
-    const probed = new Set(PROBE_RULES.flatMap((rule) => rule.criteria))
-    const byId = new Map(cases.cases.map((c) => [c.id, c]))
-    const pairById = new Map((pairs?.pairs ?? []).flatMap((pair) => [[pair.intactId, pair], [pair.corruptedId, pair]]))
-    return allPages.filter((page) => (byId.get(page.id)?.criteria ?? [pairById.get(page.id)?.criterion]).some((criterion) => probed.has(criterion)))
+    const probed = await probeScope(id)
+    return allPages.filter((page) => probed(page.id))
   }
   return allPages
+}
+
+/**
+ * The pages a probes-only row runs, and is scored on: those of the criteria a probe of the kinds its --probe runs
+ * checks. Not every probe rule's criteria: `--probe all` leaves the opt-in kinds out, and a page of a criterion only
+ * they check (1.1.1, 2.4.4, 3.1.1) would be loaded once per probe for nothing. It could only lose what the row it
+ * inherits from found, when the server refuses a reload: W3C's answered a test image many pages share with a
+ * challenge (HTTP 429) to headless Edge, and the row lost an object-alt violation and two 1.1.1 judgments.
+ */
+async function probeScope(id) {
+  const spec = TOOLS[id]
+  const { probedCriteria } = await rampaEval()
+  const probed = new Set(probedCriteria(spec.args[spec.args.indexOf('--probe') + 1]))
+  const byId = new Map(cases.cases.map((c) => [c.id, c]))
+  const pairById = new Map((pairs?.pairs ?? []).flatMap((pair) => [[pair.intactId, pair], [pair.corruptedId, pair]]))
+  return (pageId) => (byId.get(pageId)?.criteria ?? [pairById.get(pageId)?.criterion]).some((criterion) => probed.has(criterion))
 }
 
 function run(command, args) {
@@ -184,7 +197,10 @@ const tools = []
 for (const id of DEFAULT_ORDER) {
   const file = join(out, 'raw', `${id}.jsonl`)
   if (!existsSync(file)) continue
-  const records = new Map((await readJsonl(file)).map((record) => [record.id, record]))
+  // A probes-only row is scored on the pages it runs, as probeScope picks them now; a record from a run that picked
+  // more pages is left out, and its page keeps the result of the row it inherits from.
+  const probed = TOOLS[id].probesOnly ? await probeScope(id) : undefined
+  const records = new Map((await readJsonl(file)).filter((record) => !probed || probed(record.id)).map((record) => [record.id, record]))
   const metaFile = join(out, 'raw', `${id}.meta.json`)
   const meta = existsSync(metaFile) ? await readJson(metaFile) : {}
   tools.push({ id, label: TOOLS[id].label, runner: TOOLS[id].runner, inherit: TOOLS[id].inherit, scored: TOOLS[id].scored, records, meta })
