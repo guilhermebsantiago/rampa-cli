@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { Candidate, Criterion, EngineResults, Patch, Verification } from '../core/types.ts'
-import { normalizeForMatch, truncate } from '../core/util.ts'
+import { dataBlock, normalizeForMatch, tagged, truncate } from '../core/util.ts'
 import { languageName } from '../i18n.ts'
 import { sameScope } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
@@ -240,16 +240,13 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
       c.kind === 'heading'
         ? [
             `A level ${c.level ?? '?'} heading:`,
-            `<heading>${c.text}</heading>`,
+            tagged('heading', c.text),
             ...cutOff(c),
             '',
             'Content under the heading:',
-            '<content>',
-            ...headingPlace(c),
-            c.content,
-            '</content>',
+            ...dataBlock('content', [...headingPlace(c), c.content]),
           ]
-        : ['A form field label:', `<label>${c.text}</label>`, ...cutOff(c), '', 'The field:', '<content>', c.content, '</content>']
+        : ['A form field label:', tagged('label', c.text), ...cutOff(c), '', 'The field:', ...dataBlock('content', [c.content])]
     const user = [`Surface: ${snapshot.surface}`, `Write suggestedText in: ${languageName(c.language, 'en')} (${c.language})`, ...lines].join('\n')
     return { system: SYSTEM, user }
   },

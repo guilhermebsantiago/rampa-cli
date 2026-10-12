@@ -1,11 +1,11 @@
 import { z } from 'zod'
 import { type LanguageReading, agreement, fitsAsWell, loadLanguageIdentifier, readLanguage } from '../core/language-id.ts'
 import type { Candidate, Criterion, EngineResults, Patch, Verification } from '../core/types.ts'
-import { canonicalLanguageTag, letterCount, normalizeForMatch, primarySubtag, truncate } from '../core/util.ts'
+import { canonicalLanguageTag, dataBlock, letterCount, normalizeForMatch, primarySubtag, tagged, truncate } from '../core/util.ts'
 import { languageName } from '../i18n.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { textInheritingLang } from '../snapshot/tree.ts'
-import { failedByEngine, isNativeSurface, startTagOf } from './shared.ts'
+import { failedByEngine, isNativeSurface, startTagOf, trivialQuote } from './shared.ts'
 
 /**
  * WCAG 2.1 SC 3.1.1 Language of Page (A).
@@ -108,14 +108,15 @@ export const languageOfPage: Criterion<LanguageOfPageContext, LanguageOfPageJudg
     const declaration = isNativeSurface(snapshot.surface)
       ? `Declared language of the screen (the language the app runs in): ${declared}`
       : `Declared page language (lang on the root element): ${declared}`
-    const title = candidate.context.title ? ['', 'The page title:', `<title>${candidate.context.title}</title>`] : []
-    const user = [`Surface: ${snapshot.surface}`, declaration, ...title, '', '<text>', text, '</text>'].join('\n')
+    const title = candidate.context.title ? ['', 'The page title:', tagged('title', candidate.context.title)] : []
+    const user = [`Surface: ${snapshot.surface}`, declaration, ...title, '', ...dataBlock('text', [text])].join('\n')
     return { system: SYSTEM, user }
   },
 
   verify(output, candidate): Verification {
     const evidence = normalizeForMatch(output.evidence)
-    if (letterCount(evidence) < 2) return { ok: false, reason: 'evidence too short' }
+    // Three letters at least ("de" is in nearly any text), unless the quote is all of the title or the text.
+    if (trivialQuote(evidence, [candidate.context.title ?? '', candidate.context.text], 'letters')) return { ok: false, reason: 'evidence too short' }
     if (evidence.length > 400) return { ok: false, reason: 'evidence too long to be a quote' }
     if (!normalizeForMatch(judgedText(candidate.context)).includes(evidence)) return { ok: false, reason: 'evidence is not in the page text' }
     const detected = canonicalLanguageTag(output.detectedLanguage)

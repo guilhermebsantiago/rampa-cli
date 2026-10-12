@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { Candidate, Criterion, EngineResults, Patch, Verification } from '../core/types.ts'
-import { normalizeForMatch, truncate } from '../core/util.ts'
+import { dataBlock, normalizeForMatch, tagged, truncate } from '../core/util.ts'
 import { nearMatch } from '../rules/label-in-name.ts'
 import { nameSource } from '../snapshot/ax.ts'
 import { idKey } from '../snapshot/refs.ts'
@@ -105,13 +105,13 @@ export const visibleLabelInName: Criterion<VisibleLabelContext, VisibleLabelJudg
     const user = [
       `Surface: ${snapshot.surface}`,
       'The visible text beside the field:',
-      `<text>${c.text}</text>`,
+      tagged('text', c.text),
       '',
-      '<content>',
-      `The field: ${c.field}, ${c.where === 'above' ? 'right below the text' : c.where === 'left' ? 'right after the text, on the same line' : 'right before the text, on the same line'}.`,
-      `Its accessible name: "${c.name}", from ${c.source}. The text is not tied to it (no label element for it, no aria-labelledby).`,
-      c.around ? `Text around them: ${c.around}` : 'No other text around them.',
-      '</content>',
+      ...dataBlock('content', [
+        `The field: ${c.field}, ${c.where === 'above' ? 'right below the text' : c.where === 'left' ? 'right after the text, on the same line' : 'right before the text, on the same line'}.`,
+        `Its accessible name: "${c.name}", from ${c.source}. The text is not tied to it (no label element for it, no aria-labelledby).`,
+        c.around ? `Text around them: ${c.around}` : 'No other text around them.',
+      ]),
     ].join('\n')
     return { system: SYSTEM, user }
   },

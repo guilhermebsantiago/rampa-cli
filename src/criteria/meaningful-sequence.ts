@@ -1,11 +1,11 @@
 import { z } from 'zod'
 import type { Candidate, Criterion, Verification } from '../core/types.ts'
-import { normalizeForMatch, truncate } from '../core/util.ts'
+import { dataBlock, normalizeForMatch, truncate } from '../core/util.ts'
 import type { Locale } from '../i18n.ts'
 import { type OrderBox, columnsOf, leftAsCode, mechanismText, preformattedOf, readingOrders, whitespaceLayout } from '../rules/reading-order.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree, walkTree } from '../snapshot/tree.ts'
-import { isHidden } from './shared.ts'
+import { isHidden, trivialQuote } from './shared.ts'
 
 /**
  * WCAG 2.2 SC 1.3.2 Meaningful Sequence (A): the question geometry cannot settle.
@@ -154,34 +154,31 @@ export const meaningfulSequence: Criterion<MeaningfulSequenceContext, Meaningful
   prompt(candidate) {
     const c = candidate.context
     if (c.kind === 'whitespace') {
-      const user = [
-        '<content>',
+      const user = dataBlock('content', [
         'The lines, as a screen reader reads them:',
         ...c.read.map((line, i) => `${i + 1}. "${line}"`),
         'The same lines, cut into their two columns:',
         ...c.seen.map((cells, i) => `${i + 1}. ${cells.map((cell) => `"${cell}"`).join(' | ')}`),
-        '</content>',
-      ].join('\n')
+      ]).join('\n')
       return { system: SYSTEM_WHITESPACE, user }
     }
-    const user = [
-      '<content>',
+    const user = dataBlock('content', [
       `What reorders them: ${c.by ? mechanismText(c.by, 'en') : 'CSS'}`,
       "The boxes in the markup's order, as a screen reader reads them:",
       ...c.read.map((text, i) => `${i + 1}. "${text}"`),
       'The boxes on screen, line by line (top to bottom, left to right in each line):',
       ...c.seen.map((line, i) => `Line ${i + 1}: ${line.map((text) => `"${text}"`).join(' | ')}`),
-      '</content>',
-    ].join('\n')
+    ]).join('\n')
     return { system: SYSTEM_REORDER, user }
   },
 
   verify(output, candidate): Verification {
     if (output.verdict === 'cannot_tell') return { ok: true }
     const evidence = normalizeForMatch(output.evidence)
-    if (evidence.length < 2) return { ok: false, reason: 'evidence too short' }
-    if (evidence.length > 400) return { ok: false, reason: 'evidence too long to be a quote' }
     const all = (candidate.context.kind === 'reorder' ? candidate.context.read : candidate.context.quotable).map(normalizeForMatch)
+    // Three letters or digits at least, unless the quote is a whole box or line ("1", "A").
+    if (trivialQuote(evidence, all)) return { ok: false, reason: 'evidence too short' }
+    if (evidence.length > 400) return { ok: false, reason: 'evidence too long to be a quote' }
     if (output.verdict === 'pass') {
       if (output.relation !== 'none') return { ok: false, reason: 'pass verdict while naming a relation' }
       // A pass makes no finding: it may quote one box, or list several.

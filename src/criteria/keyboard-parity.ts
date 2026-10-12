@@ -1,10 +1,11 @@
 import { z } from 'zod'
 import type { AnyCriterion, Candidate, Criterion, Verification } from '../core/types.ts'
-import { normalizeForMatch } from '../core/util.ts'
+import { dataBlock, normalizeForMatch } from '../core/util.ts'
 import { type KeyAttempt, attemptsOf, effectLines, parityData, parityRecord, parityVerdicts } from '../probes/parity.ts'
 import { PARITY_RULE, walkedRound } from '../rules/parity.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree } from '../snapshot/tree.ts'
+import { verifyListedQuote } from './shared.ts'
 
 /**
  * WCAG 2.0 SC 2.1.1 Keyboard (A): the two questions the parity probe leaves to a model.
@@ -103,8 +104,7 @@ export const keyboardParity: Criterion<ParityContext, ParityJudgment> & { clears
 
   prompt(candidate) {
     const c = candidate.context
-    const user = [
-      '<content>',
+    const user = dataBlock('content', [
       `Control: ${c.control}`,
       `What the test found: ${c.result === 'unreachable' ? 'it takes no keyboard focus, so no key reached it' : c.result === 'none' ? 'no key did anything' : 'the keys did something else'}`,
       'Texts of the control and around it:',
@@ -113,8 +113,7 @@ export const keyboardParity: Criterion<ParityContext, ParityJudgment> & { clears
       ...(c.click.length > 0 ? c.click.map((f) => `- ${f.id}: ${f.text}`) : ['- nothing']),
       'What the keys did, per key path:',
       ...(c.keys.length > 0 ? c.keys.flatMap((k) => [`- keys "${k.path}" (pressed: ${k.pressed}):`, ...(k.facts.length > 0 ? k.facts.map((f) => `  - ${f.id}: ${f.text}`) : ['  - nothing'])]) : ['- no key could be pressed']),
-      '</content>',
-    ].join('\n')
+    ]).join('\n')
     return { system: SYSTEM, user }
   },
 
@@ -134,9 +133,8 @@ export const keyboardParity: Criterion<ParityContext, ParityJudgment> & { clears
     if (output.reason === 'path-dependent') {
       const evidence = normalizeForMatch(output.evidence)
       if (evidence.length < MIN_QUOTE) return { ok: false, reason: 'a path-dependent pass must quote the text that shows it' }
-      const sources = c.texts.map(normalizeForMatch).filter((text) => text.length > 0)
-      if (!sources.some((text) => text.includes(evidence))) return { ok: false, reason: 'evidence is not text the page shows' }
-      return { ok: true }
+      // One listed text, or most of it (verifyQuote's rule): six letters of a long text could be anyone's words.
+      return verifyListedQuote(evidence, c.texts)
     }
     return { ok: false, reason: 'a pass needs a reason: equivalent or path-dependent' }
   },

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { Candidate, Criterion, EngineResults, PromptImage, Verification } from '../core/types.ts'
-import { normalizeForMatch, truncate } from '../core/util.ts'
+import { dataBlock, normalizeForMatch, truncate } from '../core/util.ts'
 import { languageName } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { hiddenImageSignals, textAround } from '../snapshot/hidden-images.ts'
@@ -374,13 +374,13 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
       c.src ? `Image file name: ${c.src}` : undefined,
       f ? functionalGuidance(f.control) : c.actionText ? `The image is inside a link or button named: "${c.actionText}"` : undefined,
       '',
-      '<content>',
-      c.html || '(markup not available)',
-      c.nearbyText ? `Nearby text: ${c.nearbyText}` : '',
-      f?.title ? `Title of the ${f.control}: "${f.title}"` : undefined,
-      f?.href ? `The link leads to: ${truncate(f.href, 200)}${f.destination ? ` (a page titled "${truncate(f.destination, 200)}")` : ''}` : undefined,
-      f?.nextTo ? `Text next to the ${f.control}: ${f.nextTo}` : undefined,
-      '</content>',
+      ...dataBlock('content', [
+        c.html || '(markup not available)',
+        c.nearbyText ? `Nearby text: ${c.nearbyText}` : '',
+        f?.title ? `Title of the ${f.control}: "${f.title}"` : undefined,
+        f?.href ? `The link leads to: ${truncate(f.href, 200)}${f.destination ? ` (a page titled "${truncate(f.destination, 200)}")` : ''}` : undefined,
+        f?.nextTo ? `Text next to the ${f.control}: ${f.nextTo}` : undefined,
+      ]),
       '',
       'The attached picture is the image as it renders on the page.',
     ]

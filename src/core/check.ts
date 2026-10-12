@@ -158,8 +158,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const criteria = [...options.criteria, ...probeJudgments(snapshot).filter((extra) => !options.criteria.some((given) => given.id === extra.id))]
   // Judgments that may only clear a probe rule's finding: what each decided, applied once every criterion has run.
   const clearing: Array<{ rule: string; criterion: string; ref: string; passed: boolean; evidence?: string | undefined; control?: string | undefined; votes: number; total: number; model?: string | undefined; note?: string | undefined }> = []
-  // Judgments that decide a probe rule's items to review (4.1.3): which item each verified answer settled.
-  const settling: Array<{ rule: string; criterion: string; key: string; passed: boolean; note?: string | undefined }> = []
+  // Judgments that decide a probe rule's items to review (4.1.3): which item each verified answer settled, and which
+  // item a pass that verification dropped (`unverified`) leaves where it is.
+  const settling: Array<{ rule: string; criterion: string; key: string; passed: boolean; unverified?: boolean | undefined; note?: string | undefined }> = []
   // Verified fails that no fact Rampa checks supports (Criterion.grounded): the model's suggestions, for a person to decide.
   const suggestions: ReviewItem[] = []
 
@@ -285,6 +286,11 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
               reason: judgment.verification && !judgment.verification.ok ? judgment.verification.reason : 'unverified',
               output: judgment.representative,
             })
+            // A pass verification dropped settles nothing: its item stays for a person, saying the model passed it unproven.
+            if (criterion.settles && criterion.settledKey && judgment.verdict === 'pass' && judgment.representative) {
+              const note = criterion.unsettledNote?.(judgment.representative, judgment.candidate, options.locale)
+              settling.push({ rule: criterion.settles, criterion: criterion.id, key: criterion.settledKey(judgment.candidate), passed: true, unverified: true, note })
+            }
             // Ablation (verify: false) keeps an unverified fail claim as a finding.
             if (options.verify !== false || judgment.verdict !== 'fail') continue
           }
@@ -388,6 +394,14 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   for (const decision of settling) {
     const at = probe.review.findIndex((f) => f.ruleId === decision.rule && f.criterion === decision.criterion && f.fingerprint === decision.key)
     if (at < 0) continue
+    if (decision.unverified) {
+      const item = probe.review[at]
+      const note =
+        decision.note ??
+        (options.locale === 'pt-BR' ? 'o modelo o aprovou sem evidência verificada, então fica para uma pessoa' : 'the model passed it without verified evidence, so it stays for a person')
+      if (item) item.evidence = item.evidence ? `${item.evidence}; ${note}` : note
+      continue
+    }
     probe.review.splice(at, 1)
     const row = probe.coverage.find((r) => r.rule === decision.rule && r.criterion === decision.criterion)
     if (!row) continue

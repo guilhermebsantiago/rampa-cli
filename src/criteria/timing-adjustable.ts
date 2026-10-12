@@ -1,9 +1,10 @@
 import { z } from 'zod'
 import type { AnyCriterion, Candidate, Criterion, Verification } from '../core/types.ts'
-import { normalizeForMatch } from '../core/util.ts'
+import { dataBlock, normalizeForMatch } from '../core/util.ts'
 import { TIMING_ADJUSTABLE_RULE, duration, eventText, timeData, timeRecord, timeVerdicts } from '../rules/time-limits.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree } from '../snapshot/tree.ts'
+import { verifyListedQuote } from './shared.ts'
 
 /**
  * WCAG 2.0 SC 2.2.1 Timing Adjustable (A): the question the time-limit probe leaves to a model.
@@ -95,14 +96,12 @@ export const timingAdjustable: Criterion<TimingContext, TimingJudgment> & { clea
 
   prompt(candidate) {
     const c = candidate.context
-    const user = [
-      '<content>',
+    const user = dataBlock('content', [
       `What happened: after ${c.after} with no input, the page ${c.consequence}`,
       `Warning before it: ${c.warning ? `"${c.warning}"` : 'none'}`,
       'Texts on the page about time (countdowns, timers, sentences about time limits):',
       ...(c.texts.length > 0 ? c.texts.map((t) => `- "${t}"`) : ['- none']),
-      '</content>',
-    ].join('\n')
+    ]).join('\n')
     return { system: SYSTEM, user }
   },
 
@@ -112,8 +111,8 @@ export const timingAdjustable: Criterion<TimingContext, TimingJudgment> & { clea
     const evidence = normalizeForMatch(output.evidence)
     if (evidence.length < MIN_QUOTE) return { ok: false, reason: 'a pass must quote the text that shows the exception' }
     const sources = [...candidate.context.texts, ...(candidate.context.warning ? [candidate.context.warning] : [])].map(normalizeForMatch).filter((text) => text.length >= MIN_QUOTE)
-    if (!sources.some((text) => text.includes(evidence) || evidence.includes(text))) return { ok: false, reason: 'evidence is not text the page shows' }
-    return { ok: true }
+    // The quote is one listed text, or most of it (verifyQuote's rule): never two joined, nor a longer text holding one.
+    return verifyListedQuote(evidence, sources)
   },
 
   message(_output, candidate, locale) {

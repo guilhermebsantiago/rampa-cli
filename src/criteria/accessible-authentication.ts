@@ -1,10 +1,11 @@
 import { z } from 'zod'
 import type { AnyCriterion, Candidate, Criterion, Verification } from '../core/types.ts'
-import { normalizeForMatch } from '../core/util.ts'
+import { dataBlock, normalizeForMatch } from '../core/util.ts'
 import type { Locale } from '../i18n.ts'
 import { AUTH_RULE, authData, authRecord, cognitiveTests } from '../rules/auth.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree } from '../snapshot/tree.ts'
+import { verifyListedQuote } from './shared.ts'
 
 /**
  * WCAG 2.2 SC 3.3.8 Accessible Authentication (Minimum) (AA): the question the authentication probe leaves to a model.
@@ -96,25 +97,23 @@ export const accessibleAuthentication: Criterion<AuthenticationContext, Authenti
 
   prompt(candidate) {
     const c = candidate.context
-    const user = [
-      '<content>',
+    const user = dataBlock('content', [
       `Step: ${c.step === 'recovery' ? 'account recovery' : 'sign-in'}`,
       'Text quoted as a possible test:',
       ...c.tests.map((t) => `- (${t.kind}) "${t.quote}"`),
       'Every visible text of the step:',
       ...(c.texts.length > 0 ? c.texts.map((t) => `- "${t}"`) : ['- none']),
-      '</content>',
-    ].join('\n')
+    ]).join('\n')
     return { system: SYSTEM, user }
   },
 
   verify(output, candidate): Verification {
     if (output.verdict === 'cannot_tell') return { ok: true }
-    const evidence = normalizeForMatch(output.evidence)
-    if (evidence === '') return { ok: false, reason: 'empty evidence' }
+    // Either answer quotes one listed text, or most of it (verifyQuote's rule): a pass clears the finding, so a few
+    // letters of a text, or a longer text that only holds one, are not enough.
     const sources = [...candidate.context.tests.map((t) => t.quote), ...candidate.context.texts].map(normalizeForMatch).filter((text) => text.length >= 3)
-    // The quote is part of a listed text, or holds one whole (models join two quotes).
-    if (!sources.some((text) => text.includes(evidence) || evidence.includes(text))) return { ok: false, reason: 'evidence is not text the page shows' }
+    const quote = verifyListedQuote(output.evidence, sources)
+    if (!quote.ok) return quote
     if (output.verdict === 'fail' && !(TEST_KINDS as readonly string[]).includes(output.kind)) return { ok: false, reason: 'a fail must name the kind of test' }
     if (output.verdict === 'pass' && !(PASS_KINDS as readonly string[]).includes(output.kind)) return { ok: false, reason: 'a pass must say why it is not a test' }
     return { ok: true }

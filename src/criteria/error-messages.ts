@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { Candidate, Criterion, JudgmentBase, Verification } from '../core/types.ts'
-import { normalizeForMatch, truncate } from '../core/util.ts'
+import { dataBlock, normalizeForMatch, tagged, truncate } from '../core/util.ts'
 import { idKey } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { type TreeIndex, indexTree, walkTree } from '../snapshot/tree.ts'
@@ -530,7 +530,7 @@ export const errorIdentification: Criterion<ErrorMessageContext, ErrorIdentifica
 
   prompt(candidate) {
     const c = candidate.context
-    return { system: SYSTEM, user: [`<message>${c.text}</message>`, '', '<content>', c.facts, '</content>'].join('\n') }
+    return { system: SYSTEM, user: [tagged('message', c.text), '', ...dataBlock('content', [c.facts])].join('\n') }
   },
 
   // An error message hidden from assistive technology fails ACT 36b590's third expectation, whatever else it says.

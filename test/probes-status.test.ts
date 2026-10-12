@@ -160,10 +160,10 @@ describe('4.1.3 over recorded messages', () => {
     expect(off.criteria.find((c) => c.criterion === '4.1.3')).toMatchObject({ candidates: 2, judged: 0 })
   })
 
-  it('turns a status message the model quotes into a finding, with role="status" on its own element, and clears what it reads as content', async () => {
+  it('turns a status message the model quotes into a finding, with role="status" on its own element, and clears what it quotes as content', async () => {
     const model = reader({
       Sorted: { verdict: 'fail', evidence: 'Sorted by price', confidence: 'high' },
-      'Link copied': { verdict: 'pass', evidence: '', confidence: 'high' },
+      'Link copied': { verdict: 'pass', evidence: 'Link copied', confidence: 'high' },
     })
     const report = await checkSnapshot(statusSnapshot([sorted, copied]), emptyEngine(), probeCheckOptions({ llm: true, provider: model }))
     expect(model.asked).toHaveLength(2)
@@ -180,6 +180,25 @@ describe('4.1.3 over recorded messages', () => {
     expect(row?.note).toContain('the model read "Link copied" as content, not a status message')
     const methods = report.coverage.criteria?.find((c) => c.id === '4.1.3')?.methods ?? []
     expect(methods.map((m) => `${m.kind} ${m.maturity}`)).toEqual(['probe experimental', 'judgment experimental'])
+  })
+
+  it('leaves the item for a person when a pass quotes nothing of the text, saying the model passed it without evidence', async () => {
+    const model = reader({ 'Link copied': { verdict: 'pass', evidence: '', confidence: 'high' } })
+    const report = await checkSnapshot(statusSnapshot([copied]), emptyEngine(), probeCheckOptions({ llm: true, provider: model }))
+    expect(model.asked).toHaveLength(1)
+    expect(report.discarded).toEqual([expect.objectContaining({ criterion: '4.1.3', reason: 'a pass must quote the text that appeared' })])
+    expect(report.findings.filter((f) => f.criterion === '4.1.3')).toEqual([])
+    const review = reviewByRule(report, STATUS_RULE)
+    expect(review.map((r) => r.ref)).toEqual(['html > body > main'])
+    expect(review[0]?.evidence).toMatch(/; the model passed it as content without evidence \(it quoted none of the text that appeared\), so it stays for a person$/)
+    const row = report.coverage.probes?.find((c) => c.rule === STATUS_RULE)
+    expect(row).toMatchObject({ review: 1, failures: 0, status: 'needs-review' })
+    expect(row?.note).not.toContain('as content, not a status message')
+    // Two letters of it settle nothing either, and the item says what the model quoted is not the text.
+    const few = await checkSnapshot(statusSnapshot([copied]), emptyEngine(), probeCheckOptions({ llm: true, provider: reader({ 'Link copied': { verdict: 'pass', evidence: 'Li', confidence: 'high' } }) }))
+    expect(reviewByRule(few, STATUS_RULE)[0]?.evidence).toMatch(/; the model passed it as content, but what it quoted is not the text that appeared, so it stays for a person$/)
+    const pt = await checkSnapshot(statusSnapshot([copied]), emptyEngine(), probeCheckOptions({ llm: true, provider: model, locale: 'pt-BR' }))
+    expect(reviewByRule(pt, STATUS_RULE)[0]?.evidence).toContain('o modelo o aprovou como conteúdo sem evidência (não citou o texto que apareceu), então fica para uma pessoa')
   })
 
   it('discards a fail that quotes words the page did not show, and leaves the item to review', async () => {
@@ -289,7 +308,7 @@ describe.skipIf(!browser)('status probe (4.1.3)', { timeout: 400_000 }, () => {
     const verdicts = statusVerdicts(data, indexTree(snapshot.root))
     // The error summary, the "Copied" label and the dialog all take focus; the panel of filters and the list are content.
     expect(verdicts.counts).toMatchObject({ unexposed: 1, focused: 3, content: 2 })
-    const model = reader({ 'Our kettles': { verdict: 'pass', evidence: '', confidence: 'high' } })
+    const model = reader({ 'Our kettles': { verdict: 'pass', evidence: 'Our kettles are made in Porto by a family business, in steel and glass, since 1952.', confidence: 'high' } })
     const judged = await checkSnapshot(snapshot, engine, probeCheckOptions({ llm: true, provider: model }))
     expect(reviewByRule(judged, STATUS_RULE)).toEqual([])
     expect(judged.findings.filter((f) => f.criterion === '4.1.3')).toEqual([])

@@ -1,10 +1,11 @@
 import { z } from 'zod'
 import type { AnyCriterion, Candidate, Criterion, Verification } from '../core/types.ts'
-import { normalizeForMatch } from '../core/util.ts'
+import { dataBlock, normalizeForMatch } from '../core/util.ts'
 import { inputVerdicts } from '../probes/input.ts'
 import { ON_INPUT_RULE, changeText, controlName, inputData, inputRecord } from '../rules/on-input.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree } from '../snapshot/tree.ts'
+import { verifyListedQuote } from './shared.ts'
 
 /**
  * WCAG 2.0 SC 3.2.2 On Input (A): the question the on-input probe leaves to a model.
@@ -98,8 +99,7 @@ export const onInput: Criterion<OnInputContext, OnInputJudgment> & { clears: str
 
   prompt(candidate) {
     const c = candidate.context
-    const user = [
-      '<content>',
+    const user = dataBlock('content', [
       `Control: ${c.control}`,
       `What the test did: ${c.action}`,
       `What followed: it ${c.change}`,
@@ -107,8 +107,7 @@ export const onInput: Criterion<OnInputContext, OnInputJudgment> & { clears: str
       ...(c.texts.length > 0 ? c.texts.map((t) => `- "${t}"`) : ['- none']),
       'Sentences elsewhere on the page that speak of such changes:',
       ...(c.page.length > 0 ? c.page.map((t) => `- "${t}"`) : ['- none']),
-      '</content>',
-    ].join('\n')
+    ]).join('\n')
     return { system: SYSTEM, user }
   },
 
@@ -117,9 +116,8 @@ export const onInput: Criterion<OnInputContext, OnInputJudgment> & { clears: str
     const evidence = normalizeForMatch(output.evidence)
     if (evidence.length < MIN_QUOTE) return { ok: false, reason: 'a pass must quote the text that warns' }
     const sources = [...candidate.context.texts, ...candidate.context.page].map(normalizeForMatch).filter((text) => text.length >= MIN_QUOTE)
-    // The quote is part of a listed text, or holds one whole (models join two quotes).
-    if (!sources.some((text) => text.includes(evidence) || evidence.includes(text))) return { ok: false, reason: 'evidence is not text the page shows' }
-    return { ok: true }
+    // The quote is one listed text, or most of it (verifyQuote's rule): never two joined, nor a longer text holding one.
+    return verifyListedQuote(evidence, sources)
   },
 
   message(_output, candidate, locale) {

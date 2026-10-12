@@ -159,9 +159,11 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
   judgeFirst?(candidate: Candidate<Ctx>): boolean
   prompt(candidate: Candidate<Ctx>, snapshot: A11ySnapshot): Prompt
   /**
-   * What the model's answer depends on, where that is less than the whole prompt: judgments are cached by it, and
-   * candidates with the same key in one run share one call. 1.4.5 keys its judgments by the picture's hash, so a
-   * picture repeated on a page or across the pages of a site is judged once. The prompt's hash when absent.
+   * What candidates that may share one answer have in common: candidates with the same key and the same prompt share
+   * one call in a run (they are never batched), and the cache keeps their judgment under both, so an edited prompt, or
+   * the same picture with another alternative or file name, is never answered from an old judgment. 1.4.5 keys its
+   * judgments by the picture's hash, so a picture repeated on a page or across the pages of a site with the same alt
+   * is judged once. Absent: the prompt's hash alone.
    */
   judgmentKey?(candidate: Candidate<Ctx>): string | undefined
   /**
@@ -209,6 +211,11 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
   settles?: string | undefined
   settledKey?(candidate: Candidate<Ctx>): string
   settledNote?(output: Out, candidate: Candidate<Ctx>, locale: Locale): string
+  /**
+   * With `settles`: what a pass `verify` dropped (no quote, or not one of the text it judged) adds to the item it leaves
+   * for a person. A generic note when absent.
+   */
+  unsettledNote?(output: Out, candidate: Candidate<Ctx>, locale: Locale): string
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: registry of heterogeneous criteria

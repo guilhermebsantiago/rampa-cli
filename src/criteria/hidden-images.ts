@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { Patch, Prompt, PromptImage, Verification } from '../core/types.ts'
-import { normalizeForMatch, truncate } from '../core/util.ts'
+import { dataBlock, normalizeForMatch, truncate } from '../core/util.ts'
 import { type Locale, languageName } from '../i18n.ts'
 import { type HiddenBy, type HiddenImage, meaningWords } from '../snapshot/hidden-images.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
@@ -98,11 +98,7 @@ export function hiddenPrompt(facts: HiddenImageFacts, context: { html: string; s
     context.src ? `Image file name: ${context.src}` : undefined,
     `Rendered size: ${facts.width} × ${facts.height} px`,
     '',
-    '<content>',
-    context.html || '(markup not available)',
-    `Text right before it: ${facts.before || 'none'}`,
-    `Text right after it: ${facts.after || 'none'}`,
-    '</content>',
+    ...dataBlock('content', [context.html || '(markup not available)', `Text right before it: ${facts.before || 'none'}`, `Text right after it: ${facts.after || 'none'}`]),
     '',
     'The attached picture is the image as it renders on the page.',
   ]

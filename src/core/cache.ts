@@ -1,5 +1,12 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
+import { randomBytes } from 'node:crypto'
+import { access, mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
+
+const exists = (path: string): Promise<boolean> =>
+  access(path).then(
+    () => true,
+    () => false,
+  )
 
 export interface CachedJudgment {
   output: unknown
@@ -31,7 +38,19 @@ export function fileCache(dir: string): JudgmentCache {
       ready ??= mkdir(dir, { recursive: true })
       await ready
       await mkdir(join(dir, key.slice(0, 2)), { recursive: true })
-      await writeFile(pathOf(key), `${JSON.stringify(value, null, 2)}\n`, 'utf8')
+      // Written to a file of its own in the same folder, then renamed over the entry: a run stopped mid-write, or a
+      // reader in another run, never sees half a judgment.
+      const path = pathOf(key)
+      const temp = `${path}.${process.pid}.${randomBytes(4).toString('hex')}.tmp`
+      await writeFile(temp, `${JSON.stringify(value, null, 2)}\n`, 'utf8')
+      try {
+        await rename(temp, path)
+      } catch (error) {
+        await rm(temp, { force: true })
+        // On Windows the rename fails while another run writes or reads the same entry. Its judgment has the same key,
+        // so it is the same question: theirs stands.
+        if (!(await exists(path))) throw error
+      }
     },
   }
 }

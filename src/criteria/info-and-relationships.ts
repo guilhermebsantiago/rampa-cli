@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { Candidate, Criterion, Patch, Verification } from '../core/types.ts'
-import { truncate } from '../core/util.ts'
+import { dataBlock, tagged, truncate } from '../core/util.ts'
 import { type Look, bodyLookOf, describeLook, lookOf, sameLook, standsOut } from '../snapshot/look.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { type TreeIndex, indexTree, walkTree } from '../snapshot/tree.ts'
@@ -86,13 +86,11 @@ export const infoAndRelationships: Criterion<StyledHeadingContext, StyledHeading
     const user = [
       `Surface: ${snapshot.surface}`,
       'The text:',
-      `<text>${c.text}</text>`,
+      tagged('text', c.text),
       '',
       `It is a <${c.tag}> element. It looks exactly like these headings of the page: ${examples} (${describeLook(c.look)}).`,
       'The content right after it:',
-      '<content>',
-      c.after,
-      '</content>',
+      ...dataBlock('content', [c.after]),
     ].join('\n')
     return { system: SYSTEM, user }
   },
