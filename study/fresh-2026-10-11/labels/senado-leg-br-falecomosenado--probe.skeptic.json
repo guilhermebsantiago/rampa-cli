@@ -1,0 +1,18 @@
+{
+  "page": "https://www12.senado.leg.br/institucional/falecomosenado",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "91ace23a192b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Fale com o Senado' link in the dark blue top bar (16px, weight 400, so not large text). I hovered it on the live page in headless Edge at 1280x800 and waited past its 0.15s color transition. The text settles at #cccccc on the nav's solid #005b9e, with no background image, text-shadow or opacity change. That is 4.37:1 (I recomputed it), under 4.5:1, so it is not a mid-transition artefact. The 1.4.3 Understanding document puts text in hover and focus states in scope. I tried a G174 defence: the page has an 'Alto contraste' toggle, and in that mode this link is white on black. G174 only applies if the alternate presentation conforms, though, and the high-contrast mode has its own 1.4.3 failures: the phone number is #333 on black (1.66:1) and the 24px blue headings are #205c90 on black (2.99:1). So that defence fails and the finding stands. The live page matched the probe on 2026-10-11."
+    },
+    {
+      "fingerprint": "e8a108f18197",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Sobre o Senado' dropdown toggle (#js-menu-0) in the section nav bar, one of six links that share the style. The text is 16px, weight 400. On the live page in headless Edge at 1280x800, hovering changes its color from #ffffff to #dddddd, the end value after the 0.15s transition. The background stays the nav's solid #007db8 (no image or shadow). That gives 3.34:1 (recomputed), well under 4.5:1. At rest, white on #007db8 is only 4.54:1, so hover pushes it below the threshold. Hover state text is in 1.4.3's scope per its Understanding document. The 'Alto contraste' toggle cannot rescue it under G174, because the high-contrast mode itself fails 1.4.3 elsewhere on the page (#333 on black at 1.66:1, 24px blue headings at 2.99:1). The live page matched the probe on 2026-10-11."
+    }
+  ]
+}

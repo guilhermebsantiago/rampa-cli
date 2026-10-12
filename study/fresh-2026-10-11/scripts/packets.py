@@ -268,6 +268,9 @@ def main():
                 labelled = [f for f in findings if f["kind"] in ("probe", "probe-judgment")]
             crops = os.path.join(HERE, "packets", packet_name)
             packets = [packet(f, page, crops, probe=(run == "probe")) for f in labelled]
+            print(f"{packet_name}: {len(findings)} findings, {len(labelled)} to label ({sum(1 for f in labelled if f['shown'])} at the default threshold)")
+            if not packets:
+                continue
             write_json(os.path.join(HERE, "packets", f"{packet_name}.json"), {
                 "page": page_meta["url"],
                 "slug": slug,
@@ -283,7 +286,6 @@ def main():
                 rows.append({"slug": slug, "split": page_meta["split"], "run": run, "packet": packet_name,
                              **{k: f.get(k) for k in ("key", "fingerprint", "criterion", "level", "source", "ruleId", "kind", "list", "shown", "experimental",
                                                       "confidence", "ref", "subject", "message", "evidence", "patch", "html", "agreement", "model")}})
-            print(f"{packet_name}: {len(findings)} findings, {len(labelled)} to label ({sum(1 for f in labelled if f['shown'])} at the default threshold)")
     write_json(raw_path, rows)
 
 

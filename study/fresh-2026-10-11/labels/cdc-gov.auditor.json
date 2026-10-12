@@ -1,0 +1,48 @@
+{
+  "page": "https://www.cdc.gov/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "99bc00f5ec4b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the hero carousel image for the 'Screening for Prostate Cancer' slide, with alt \"Man in a blue shirt standing outdoors\". The crop the model saw shows a man in a blue polo shirt, arms crossed, in front of blurred outdoor foliage. The alt text is accurate, and the slide's purpose is carried by the visible title text next to it, so 1.1.1 passes. The finding's claim that the alt describes something the image does not show is wrong. Note: the live page (fetched after the run) appears to use different alt text now (\"A man smiling\"), which does not change the judgment of the version Rampa read."
+    },
+    {
+      "fingerprint": "a76a2f980d1c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the footer X/Twitter link. Its only content is <i role=\"img\" aria-label=\"x icon\">, so the link's accessible name is \"x icon\" and it points to twitter.com/CDCgov. It sits in a row of social links with the same naming pattern (\"facebook icon\", \"instagram icon\" and so on, which Rampa did not flag). The text names the X brand, so it identifies where the link goes about as well as \"facebook icon\" does. \"Icon\" is redundant and \"CDC on X\" would be better, but that is a best-practice note, not a 1.1.1 failure. Lowercase \"x\" could be misread as a close glyph, but it is announced as a link inside a list of social networks, which makes that unlikely. The finding says the text does not say where the link leads, and that is not accurate."
+    },
+    {
+      "fingerprint": "b06cf26cb5ca",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the footer RSS link (href https://www.cdc.gov/rss). Its only content is <i role=\"img\" aria-label=\"rss icon\">, so the link name is \"rss icon\". The destination is CDC's RSS feeds page, so the text alternative does identify the link's purpose: RSS. The suggested patch, \"RSS Feed\", carries the same information. Wording the alt as the image (\"icon\") rather than the function is a style point and does not fail 1.1.1."
+    },
+    {
+      "fingerprint": "6eb191ee73cb",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the \"Learn More\" button on the Ebola hero slide; it goes to /ebola/situation-summary/returning-travelers.html. The link text alone is generic, and the page has three \"Learn More\" links with different destinations. However, the claim that \"nothing around it\" gives the purpose is not true. The large slide title \"Ebola Situation Summary\" (a span.slide-title) is the link's immediate sibling inside the same div.col, which contains only the title and the button, and it is read right before the link. The title is not a heading, paragraph, list item or table cell, so the sufficient techniques (H77-H81, G53) do not clearly apply. Whether a sibling text block in a generic container counts as programmatically determined link context is a well-known point where competent auditors disagree, so this cannot be settled either way."
+    },
+    {
+      "fingerprint": "cef725705a84",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the carousel indicator link \"Ebola Situation Summary\" (a.indicator-text), which goes to /ebola/situation-summary/returning-travelers.html. I fetched the destination. It is a travel-guidance page (\"Information for Travelers Returning from Ebola-Affected Areas\": entry restrictions and screening) with no case counts or outbreak status, and it links separately to the real \"Ebola Outbreak: Current Situation\" page (/ebola/situation-summary/index.html). So the link text does misname the destination. On the other hand, the destination is the slide's own featured Ebola page, it sits in the situation-summary section, and the topic (Ebola) is conveyed. Whether inaccurate but topically related link text fails 2.4.4 or is only an editorial issue that affects all users equally is a point where competent auditors would disagree."
+    },
+    {
+      "fingerprint": "41e7f4fa5216",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the footer link \"Funding and Grants\" in the About CDC list, pointing to https://www.cdc.gov/budget/. I fetched the destination. It is CDC's budget landing page (budget requests and operating plans), and its Related Topics section links to the Funding page (Office of Financial Resources) and the Grants page. A user who wants information about CDC funding and grants ends up in the right place, so the link's purpose can be determined from its text. 2.4.4 does not require link text to match the destination's title. The finding applies that stricter text-versus-title rule."
+    },
+    {
+      "fingerprint": "6ed01b590230",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Español\" language-switcher link in the top official-notice banner, pointing to https://www.cdc.gov/spanish/. The snapshot shows <html lang=\"en-us\"> and no lang attribute on the link or any of its ancestors, so the Spanish word is exposed as English. A language name in its own language is not a proper name or vernacular term under the 3.1.2 exceptions. The 3.1.2 Understanding document's own language-switcher example says each link's language is indicated with a lang attribute, and it shows Español marked with lang=\"es\". The suggested fix (lang=\"es\" on the link) is correct."
+    }
+  ]
+}

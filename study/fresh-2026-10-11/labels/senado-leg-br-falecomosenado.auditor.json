@@ -1,0 +1,96 @@
+{
+  "page": "https://www12.senado.leg.br/institucional/falecomosenado",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "79fa8824c82a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'SENADO FEDERAL' logo, the only content of a link to www.senado.leg.br. Its markup is <img alt=\"Title\"> inside <a title=\"Senado Federal\">. The browser's accessibility tree gives the link the name \"Title\" (from its contents); \"Senado Federal\" from the title attribute is only its description. The alt is placeholder text: it does not identify the logo or where the link goes, which is failure F30 / technique H30. The live page still has alt=\"Title\". Rampa's snapshot shows the link name as \"Senado Federal\", which is wrong, but the finding's claim holds."
+    },
+    {
+      "fingerprint": "1e40cf0f86c7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the A+ icon in the accessibility toolbar button (title \"Aumentar fonte\"). The page script shows the button raises page zoom, font size and image size together (zoomPagina += 10, tamanhoFonte += 2). So alt=\"Aumentar zoom\" (\"increase zoom\") correctly says what the button does, and the icon has an equivalent text alternative. Calling it \"zoom\" instead of \"font\" is a wording choice, not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "72052a7e9974",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the A- icon in the matching \"Diminuir fonte\" button. The button lowers the page zoom and font size, so alt=\"Diminuir zoom\" (\"decrease zoom\") correctly describes its function. The text alternative is equivalent to the icon, so this is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "f854d4c4a681",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the header search field. Its visible placeholder \"Buscar\" is the field's only label (the accessible name also comes from the placeholder). I sampled the screenshot pixels: the glyphs are #cccccc on a #005b9e field, which gives 4.37:1. The text is 16px at weight 400, so it needs 4.5:1, and WCAG does not round. Visible placeholder text that labels the field is text under 1.4.3, so this fails, though only narrowly."
+    },
+    {
+      "fingerprint": "1967669205d9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The title \"Contatos do Senado :: falecomosenado — Portal Institucional do Senado Federal\" means \"Senate contacts\" on the institutional portal. That is the page's topic: phone numbers, the ombudsman and other contact channels. The \"falecomosenado\" slug looks untidy, but the title still describes the topic and purpose, so 2.4.2 is met. The live title is unchanged."
+    },
+    {
+      "fingerprint": "a0b3745d8114",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Especiais\" is a dropdown toggle (href=\"#\", aria-haspopup, aria-expanded=false) in the section's navigation bar, beside Sobre o Senado, Serviços and the others. It opens the \"Especiais\" submenu (Bicentenário, Prodasen 50 anos, Senado 185 anos), and its label names that menu, so its purpose is clear in context. Using a link for a button may raise a 4.1.2 role question, but it is not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "d1acacc1b5fa",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the h3 heading link \"Procuradoria Especial da Mulher\" in a list of contact channels. It leads to /institucional/procuradoria/envie-sua-mensagem, whose title is \"Procuradoria\" and whose heading is \"Procuradoria Especial da Mulher\". The link text names the destination exactly, and on a 'contact the Senate' page its purpose (reach that office) is clear. Not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "177b2983b9e1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the description line under the \"Procuradoria Especial da Mulher\" heading, also a link to the same Procuradoria page. Its text describes the Procuradoria's mission and names it (\"a Procuradoria atua...\"). Its preceding heading, in the same card, names the office. So the link text plus its programmatic context makes clear it leads to the Procuradoria, and the destination matches. A redundant link is a usability point, not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "b4ea1af4aba0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the description line under the \"Participe de audiências públicas\" item in the e-Cidadania box, a second link to the same ecidadania/principalaudiencia URL. Its text says all public hearings and other events are open to public participation. Under the \"e-Cidadania\" heading, and right after a link with the same target, it is clear the link leads to e-Cidadania's public-hearings participation page. The pattern is redundant, but link text plus context identifies the purpose, so 2.4.4 passes."
+    },
+    {
+      "fingerprint": "387563e93fd9",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the footer link \"Servidor comissionado\" to /institucional/pessoas/pessoas. I fetched that page: it is the HR portal for Senate staff, with sections headed Servidor efetivo, Servidor comissionado, Servidor aposentado and Pensionista. The comissionado section covers network access, appointment and ex-employee forms. So the link does lead to content for commissioned staff. Rampa saw only the page title \"Pessoas\" and heading \"Institucional\". Several audience links sharing one URL is not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "b6a918bdcff8",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the footer link \"Servidor aposentado\" to the same Pessoas HR page. The live page has a \"Servidor aposentado\" section, which includes things like the SIS digital card and intranet access. The link text matches content at the destination, so its purpose is clear. Rampa judged only from the generic page title."
+    },
+    {
+      "fingerprint": "6b9bb1ff51c1",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the footer link \"Pensionista\" to the same Pessoas HR page. The live page has a \"Pensionista\" section (SIS card, payment calendar, pension contact numbers), so the link leads to content for pensioners as its text says. Not a 2.4.4 failure. Rampa saw only the title \"Pessoas\"."
+    },
+    {
+      "fingerprint": "3599c437b6fc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer language link \"ENGLISH\" (to the English Carta de Serviços), on a page with lang=\"pt-br\" and no lang on the link. This is the \"Alternative language links\" example in Understanding 3.1.2, where each language name, written in that language, gets its own lang. \"English\" is not a Portuguese word, so none of the exceptions applies. The live page is unchanged."
+    },
+    {
+      "fingerprint": "62e74e589095",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer language link \"ESPAÑOL\", with no lang attribute on a pt-br page. The Portuguese word is \"Espanhol\"; \"Español\" with ñ is Spanish and should be marked lang=\"es\", as in the language-links example in Understanding 3.1.2. This fails 3.1.2, and the live page is unchanged."
+    },
+    {
+      "fingerprint": "1e922ae3fe11",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer language link \"FRANÇAIS\", with no lang attribute on a pt-br page. The Portuguese word is \"Francês\"; \"Français\" is French, and a Portuguese voice will mispronounce it. Understanding 3.1.2's language-links example requires lang=\"fr\" here. This fails, and the live page is unchanged."
+    }
+  ]
+}

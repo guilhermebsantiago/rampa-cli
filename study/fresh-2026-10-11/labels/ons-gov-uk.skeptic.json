@@ -1,0 +1,24 @@
+{
+  "page": "https://www.ons.gov.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "c1b9f6e252ac",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the 'Economy' item in the primary site navigation, a link to /economy with aria-label 'Economy sub menu toggle'. The destination is the Economy section page, and the name starts with that topic, so the link's purpose can be worked out from its text inside the 'Site navigation' landmark. 2.4.4 asks for a determinable purpose. It does not ask the name to equal the destination title. The extra words also describe real behaviour. In the live site's JS (sixteens main.js), at small viewports a click on .js-expandable runs preventDefault and toggleSubnav, and a duplicate link to the section page is added inside the submenu. At 1280 px, focus opens the submenu (aria-expanded becomes true). The live markup still matches the snapshot. The worst case is that a desktop screen reader user expects a toggle and gets taken to the section page. That is a small name/behaviour nit (4.1.2 at most), not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "032b9e080653",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Same pattern: the 'Employment and labour market' primary-nav link (href /employmentandlabourmarket, aria-label 'Employment and labour market sub menu toggle'). The destination page's title and h1 are 'Employment and labour market', and the name contains that exact phrase, so the purpose can be determined from the link text. The 'sub menu toggle' suffix matches what the element does at small viewports, where JS stops navigation and toggles the submenu. At desktop width, focusing it expands the submenu. The checker treated extra words as a mismatch, which is stricter than 2.4.4. Any concern about the toggle wording on a link that navigates belongs to name/role (4.1.2) or usability, not link purpose. The live page still has this markup."
+    },
+    {
+      "fingerprint": "3e63909de91c",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Same pattern: the 'People, population and community' primary-nav link (href /peoplepopulationandcommunity, aria-label 'People, population and community sub menu toggle', visible text 'People, population and community'). The destination's title and heading are 'People, population and community', which the name contains word for word, so the link purpose is clear from its text. The 'sub menu toggle' wording reflects real behaviour: a JS submenu toggle at small viewports, and submenu expansion on focus at desktop width. 2.4.4 does not require the accessible name to match the destination title exactly, so the reported mismatch is not a failure of this criterion. The live page still matches the snapshot."
+    }
+  ]
+}

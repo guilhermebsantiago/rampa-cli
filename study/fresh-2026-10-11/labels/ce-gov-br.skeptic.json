@@ -1,0 +1,48 @@
+{
+  "page": "https://www.ce.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "69576a303b73",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is a 32x32 vehicle pictogram inside the 'Mais Acessados' link whose visible text is 'Emitir o licenciamento anual do veículo (CRLV)'. Its alt names the service the icon stands for, which is a functional or symbolic alternative, and WCAG 1.1.1 asks for equivalent purpose, not a description of how the icon looks. The alt repeats the adjacent link text. That is a redundancy issue (H2 or alt=\"\" would be cleaner), but it is not a 1.1.1 failure, and it is not the mismatch the finding claims. The suggested patch, 'Ícone de veículo', would make it worse. The live markup is unchanged."
+    },
+    {
+      "fingerprint": "758c19025aeb",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is a 32x32 document-with-currency pictogram inside the link 'DAE para pagamento de IPVA - boleto/pix', and the link text is visible. The alt gives the purpose of the service the icon represents, which is acceptable under 1.1.1's equivalent-purpose requirement, and it duplicates the link text. That makes it redundant, but redundancy is not a failure. The finding requires the alt to describe the icon's appearance ('Ícone de documento com cifrão'), which is a rule WCAG does not impose and would degrade the link name."
+    },
+    {
+      "fingerprint": "65ae4e2a7b90",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The same pattern as the other service icons. A vehicle pictogram sits in the link 'Transferir a propriedade do veículo', with the same text visible next to it. The alt conveys the meaning or function the icon represents rather than its look, which satisfies 1.1.1's equivalent purpose, and at worst it is redundant with the link text (a best-practice issue, alt=\"\" preferred). The claim that the alt 'describes something the image does not show' applies an appearance-description rule that is stricter than, and different from, WCAG's."
+    },
+    {
+      "fingerprint": "67ae80cb5c64",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the featured photo of the 'Ceará em Destaque' bulletin card: a buggy on a dune with a beach behind it. It sits directly under the h3 'Ceará em Destaque' and above 'Boletim publicado! 09/10/2026 / Ler boletim'. The image is not a link, and its alt repeats the h3. Competent auditors would split three ways. One reading treats it as an informative photo, so the alt fails as claimed. Another treats it as ambience next to its own heading, in which case the right fix is alt=\"\" (an F38-style issue) rather than a description. A third treats it as the edition's cover image, which is fairly identified by the publication's title. The evidence cannot settle which purpose the photo serves."
+    },
+    {
+      "fingerprint": "8cc68cf0d6a4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the first slide of the 'Banners institucionais' carousel and is visible at load. It is an image of text reading 'ESPECIAIS - Reportagens que vão além dos fatos cotidianos'. It is the only content of a link to the 'matérias especiais' news listing, and its alt is the file name 'Tarja-Especiais-Site-Interna-1', so that file name also becomes the link's name. This is the documented failure F30 (a file name used as the text alternative). I checked for things that would excuse it: no aria-label or title on the link, no adjacent text, and the slide is not hidden. The live HTML still has this alt."
+    },
+    {
+      "fingerprint": "be79776c4869",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The measurement holds up. The 'Entrar' link in the header is #fefefe text on the green header gradient (about #20a13f behind it). style.css sets .btn-outline-cc to 1.25rem (20px) with font-weight 400 !important, so this is normal-size text needing 4.5:1, and it reaches only about 3.3-3.5:1 in the default presentation. The page, however, offers a visible, focusable 'Ativar alto contraste' toggle in the same header (its icon is about 3.8:1 against the green; it is also bound to Alt+Shift+C). Activating it sets body.contrast-active, and menu-mobile.css then forces the header to #111 with white text, which passes. This is technique G174. Whether that suffices is debatable: G174 needs the control itself to meet the contrast requirement, and it is an icon at 3.8:1, not text at 4.5:1. It also needs the alternate version to conform fully, which this page's other failures make doubtful. Auditors would reasonably disagree, so this is a true positive only if the toggle is not accepted."
+    },
+    {
+      "fingerprint": "9012df6cee36",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The measurement holds up. The h4 'Boletim publicado!' is 24px weight 500 in Kanit, which counts as large text needing 3:1. Its CSS colour is #ef6000 on the light gradient card band (#dff0ee to #e8f0ef), giving 2.81-2.86:1; my own pixel sample was at most 2.92:1. So the default presentation narrowly fails 1.4.3. The page does provide a high-contrast toggle (G174). In that mode, home-for-you.css sets this card band (.for-you-card--last-boletim .bg-active) to background #111 and .text-secondary/.titulo to #fff, which passes easily. Whether that toggle satisfies 1.4.3 is open to debate. Its icon is only about 3.8:1, and G174 requires the alternate version to conform fully, which is doubtful here. Competent auditors would reasonably disagree, so this is a true positive only if the toggle is not accepted."
+    }
+  ]
+}

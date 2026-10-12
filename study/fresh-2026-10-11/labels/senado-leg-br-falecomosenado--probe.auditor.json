@@ -1,0 +1,18 @@
+{
+  "page": "https://www12.senado.leg.br/institucional/falecomosenado",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "91ace23a192b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Fale com o Senado' link in the dark blue global top bar (nav.navbar_global, background rgb(0,91,158) = #005b9e). I drove the live page in headless Edge at 1280x800 and hovered it. Its color changes from #ffffff to #cccccc (rule ':not(#_) .sf-wrapper .link-deep:hover { color: #ccc }' in essencial.css). Background, opacity, text-shadow and decoration stay the same. The text is 16px at weight 400, so it is not large text and needs 4.5:1. #cccccc on #005b9e works out to 4.37:1, which matches the probe. The rendered crop shows the same solid colors. WCAG 1.4.3 has no exemption for hover states: the hovered text is still text shown to the user, and in that state it falls below 4.5:1. The margin is small but it is a real failure."
+    },
+    {
+      "fingerprint": "e8a108f18197",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Sobre o Senado' dropdown toggle (#js-menu-0) in the section menu bar (nav.navbar_control, background rgb(0,125,184) = #007db8). The same rule styles the other five toggles (js-menu-1 to js-menu-5). On the live page, hover changes the text color from #ffffff to #dddddd (rule ':not(#_) .sf-wrapper .link--nav:hover { color: #ddd }'), and the background stays #007db8. The text is 16px at weight 400, so it needs 4.5:1. #dddddd on #007db8 works out to 3.34:1, which matches the probe. Even the resting white text is only about 4.54:1 there. The hover-state text clearly fails 1.4.3. The probe's claim is accurate and the live page has not changed."
+    }
+  ]
+}

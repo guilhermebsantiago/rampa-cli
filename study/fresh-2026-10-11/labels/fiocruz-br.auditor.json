@@ -1,0 +1,96 @@
+{
+  "page": "https://fiocruz.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "76f009c519df",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A news-teaser image (not a link) beside the InfoGripe story; the crop and the screenshot show a colour-coded map of Brazil with the InfoGripe logo, i.e. the bulletin's cover graphic (file infocapa_12.jpg). The alt \"Boletim InfoGripe\" identifies exactly what the image is, so it does not describe something the image does not show; the model's own patch even mentions the InfoGripe logo. No 1.1.1 failure."
+    },
+    {
+      "fingerprint": "e97b0d56dd33",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to /unidades-e-escritorios (Unidades e escritórios). Its alt \"Mapa do Brasil\" describes only the picture and says nothing about units, offices or Fiocruz's national presence, so the control's name does not describe its purpose (1.1.1, controls; H30). The box title \"Presença nacional\" is a separate, redundant link in a plain div, not part of this link's name. Best fix: merge the image and title links, or give the image an alt that names the destination."
+    },
+    {
+      "fingerprint": "ed0d3627fc67",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to the news item \"Inscrições abertas para estágio na Fiocruz\". Its alt \"Mulher de touca e luva fita tubo de ensaio\" describes the photo only and gives no hint of internships or of where the link goes, so the link's name does not describe its purpose as 1.1.1 requires for a functional image. The adjacent title link \"Estágios na Fiocruz\" is a separate link and does not name this one."
+    },
+    {
+      "fingerprint": "cef9e80d5663",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to /agenda-fiocruz (Agenda Fiocruz: upcoming events and all Fiocruz transmissions). The alt \"Arte transmissões da Fiocruz\" is phrased as a description of the artwork, but it does name the destination's subject (Fiocruz transmissions), and the box title link \"Eventos e transmissões da Fiocruz\" goes to the same place. Whether that name describes the link's purpose well enough is a judgment call on which competent auditors would differ."
+    },
+    {
+      "fingerprint": "3f72f0c5492b",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to museudavida.fiocruz.br. The alt is a description of the photo (\"Pirâmide científica do Museu da Vida tem telescópios...\") rather than a statement of the link's purpose, but it names the Museu da Vida, which is where the link goes, and the adjacent title link \"Museu da Vida Fiocruz\" has the same target. A user can roughly infer the destination, but not that it is the museum's site; auditors would reasonably split on whether this fails 1.1.1."
+    },
+    {
+      "fingerprint": "40dde10145a2",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the only content of a link to /castelo-patrimonio-da-ciencia. Its alt \"Tour 360º\" matches the words in the image and describes the purpose: I checked the live destination, which embeds the virtual 360° tour of the castle (iframe \"Tour castelo Fiocruz\"), and the box title is \"Tour virtual no Castelo Fiocruz\". The name says what the link leads to, so 1.1.1 is met. Rampa had the destination and the box title text."
+    },
+    {
+      "fingerprint": "c6c86444a8e7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the only content of a link to agencia.fiocruz.br; it is a screenshot of that news agency's front page. \"Capa AFN\" means the front page of AFN (Agência Fiocruz de Notícias), which is both what the image shows and where the link goes, and the adjacent title link spells the acronym out (\"Agência Fiocruz de Notícias\", same target). The name does say where the link leads. An unexpanded abbreviation is at most a 3.1.4 (AAA) matter, not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "e1c71bacd7c5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"Acessibilidade\" header link is 16px bold, which is not large text, so it needs 4.5:1. The theme CSS confirms colour #4f2000 on the header gradient (#faab0f to #a7430d). From the measured backgrounds (#ca6f0e to #d67d0e) I get 3.76 to 4.42:1, below 4.5:1 everywhere, and the screenshot matches. The page has a \"Contraste\" toggle (CSS filter contrast(2)), which would lift this link to about 6.5:1. But that mode leaves the language links next to it at 3.5 to 4.4:1, so it is not a compliant alternate presentation (G174) and cannot be relied on."
+    },
+    {
+      "fingerprint": "8dd0e63969ab",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"Português\" language link is 16px bold, colour #4f2000 (confirmed in fernando.css), on the darker part of the header gradient (#a7420d to #b3520d). I recomputed 2.23 to 2.68:1, far below 4.5:1, and the screenshot shows dark brown on rust. Even with the site's \"Contraste\" toggle (filter contrast(2)) it only reaches about 3.5 to 4.4:1, so no mechanism rescues it."
+    },
+    {
+      "fingerprint": "6eec7d722429",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"English\" language link has the same styling and position as \"Português\": #4f2000 on #a7420d to #b3520d, 16px bold, 2.23 to 2.68:1 against the 4.5:1 required. The \"Contraste\" toggle still leaves it below 4.5:1. The live page is unchanged."
+    },
+    {
+      "fingerprint": "ddfc30dfd016",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"Español\" language link has the same styling as the other language links: #4f2000 on #a7430d to #b3520d, 16px bold, 2.24 to 2.68:1, well below 4.5:1, and it stays below 4.5:1 with the site's \"Contraste\" mode. A real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "1c06dd4923a3",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "\"Simplifique!\" is a link in the standard federal gov.br bar, and its text is the proper name of the federal Simplifique! service it links to (an ombudsman channel for simplifying public services). Link text that names its destination meets 2.4.4 even if a user doesn't know the programme; 2.4.4 does not require the link to explain what the service is. On the live site the URL now redirects to a gov.br login page, a broken-link issue rather than an unclear purpose."
+    },
+    {
+      "fingerprint": "038364cde7fc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The language-switcher link \"English\" has hreflang=\"en\" but no lang attribute, so it inherits the page's pt-br, and a Portuguese voice will mispronounce it. The Understanding document for 3.1.2 uses exactly this case (\"Alternative language links\", each link marked with lang) as its example. The live HTML still lacks lang. A real 3.1.2 failure."
+    },
+    {
+      "fingerprint": "e7000032d563",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The language-switcher link \"Español\" has hreflang=\"es\" but no lang attribute, so it is announced as pt-br. Understanding 3.1.2's \"Alternative language links\" example says such links must carry lang, and the live HTML is unchanged. Real 3.1.2 failure, though the mispronunciation is milder than for \"English\"."
+    },
+    {
+      "fingerprint": "9ddef2f28b1a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The paragraph holds only the footer's bottom ornament image (ornamento_rodape_2.png, a decorative border line). Its alt is the English phrase \"Image Fiocruz from A to Z\" with no lang, on a pt-br page, so AT reads that English text with Portuguese rules: a real 3.1.2 failure as reported. The better fix is alt=\"\", since the image is decorative and the alt is also inaccurate and untranslated; adding lang=\"en\" only fixes the pronunciation."
+    }
+  ]
+}

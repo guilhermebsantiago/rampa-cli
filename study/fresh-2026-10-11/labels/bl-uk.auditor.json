@@ -1,0 +1,36 @@
+{
+  "page": "https://www.bl.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "96cefcb59fd2",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the thumbnail of the 'Partial building closure' news card, with alt=\"British Library clocktower\". The crop the model saw shows a red-brick clock tower above red-brick roofs, which is the British Library's St Pancras clocktower, and the file name says the same. The alt text describes exactly what the image shows. The image sits in a link that has its own text, so it could arguably have been decorative, but an accurate alt is not a 1.1.1 failure. The model had the right image and judged it wrongly. The patch, which only adds 'The', confirms that nothing is actually wrong. The live page is unchanged."
+    },
+    {
+      "fingerprint": "c8a7e7eb30db",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the image in the 'Support our conservation appeal' banner, with alt=\"The corner of a highly decorated page\". The crop shows a close-up of the corner of an illuminated manuscript page: a floral border, a gilded frame and a painted panel. The alt text accurately describes what the image shows, and the model's own patch says the same thing in more words. It is a correct text alternative, so 1.1.1 is met. The model had the right image and judged it wrongly. The live page is unchanged."
+    },
+    {
+      "fingerprint": "3dfed6a746f4",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Visit' link in the British Library site's primary navigation (nav > ul with Collection, What's on, Visit, Stories), and it goes to /visit, titled 'Visit the British Library – Opening Times and Visitor Info'. On a library's own site, a top-level navigation item called 'Visit' makes its purpose clear: information for visiting the Library. The navigation context makes it clearer still. This is the expected pattern for 2.4.4, not a failure. Rampa had the destination and the nav context, so it judged wrongly; the low confidence reflects this."
+    },
+    {
+      "fingerprint": "24a0cd1d7751",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the footer link 'Learning', under the 'About us' column label (a span, not a heading). It goes to /about/learn, which I fetched live: the page is titled 'Events and resources for kids, schools and adults' and its h1 is 'Learn'. The link text alone says where the link goes: the Library's learning (education) section. The footer grouping (About us: Who we are, Learning, Press and media, Jobs) adds context, even though it is not strictly programmatically associated. A user can tell what the link does, so 2.4.4 is met. Rampa did not read the destination, but the link text was enough, so this is a judgment error rather than missing context."
+    },
+    {
+      "fingerprint": "ebe690627b11",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is an h2 with the text 'Everything for', followed by three link tiles: Research, Business and Schools (to /hubs/research, /hubs/business and /hubs/schools). Visually, the heading reads as the start of a phrase that the tiles finish. As a heading, though, 'Everything for' is a dangling fragment. In a headings list, or when jumping by heading, it reads as 'Everything for, heading level 2' and says nothing about the section's topic (audience hubs for researchers, businesses and schools). 2.4.6 requires headings to describe the topic or purpose of their section, and this one does not without the visual layout that follows. Some auditors would accept it as a stylistic lead-in, so it is a low-severity call, but I judge it a real failure as reported. The suggested replacement, 'Research Business Schools', is a poor fix (something like 'Everything for research, business and schools' would be better), but that does not change the label. The live page still has the same h2."
+    }
+  ]
+}

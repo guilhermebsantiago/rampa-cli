@@ -1,0 +1,90 @@
+{
+  "page": "https://chicorei.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "7c21c1d74b22",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Próximo is the right-hand scroll button of the 'Novidades!' product carousel. Live at 1280x800 it is a plain native <button> (tabIndex 0, not disabled, not inert). Tabbing forward through the six product links scrolls the carousel to its end, and the site then sets display:none on the button's wrapper, so the forward walk skips it; a reverse walk on a page left in that scrolled state skips it too. On a fresh page, Shift+Tab from the first category link ('Musica') lands on Próximo, visible and operable. Its function is also available by keyboard anyway: every product in the carousel is Tab-reachable and scrolls into view on focus, and arrow keys scroll the container. So the functionality is keyboard operable and 2.1.1 is not failed; the probe's stateful walk measured the button only while it was hidden."
+    },
+    {
+      "fingerprint": "5e13adb36239",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The claim is that pressing 'd' with focus on the body changes the page. Live at 1280x800 I pressed 'd' repeatedly, and also 'q', 'x', 'a' and no key at all, while logging DOM mutations and screenshot diffs. The only changes in every case came from the countdown digits and the header 'advantages' strip, which rotates on a fixed 3000 ms timer regardless of key presses (rotations at 2611, 5615, 8615, 11613, 14613 ms... with keys pressed in between and no extra change). The only document key listeners are analytics, Sentry and performance wrappers; there are no shortcut handlers. No single-character shortcut exists, so 2.1.4 does not apply. The probe attributed ambient animation to the key press."
+    },
+    {
+      "fingerprint": "86eb6f03b475",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Chico Rei' logo link in the desktop header, the first Tab stop. Live at 1280x800, Tab focuses it (:focus-visible matches) and its computed outline-style is none, with no box-shadow, border, background or underline change. Crops of the logo focused and unfocused are identical, and the only viewport changes come from the countdown timer. A keyboard user gets no visible focus indicator, so it fails 2.4.7."
+    },
+    {
+      "fingerprint": "f8b073e76772",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the cookie banner's 'Concordar' button (#confirmPolicyButton), fixed at the bottom of the viewport. Live at 1280x800, Tabbing to it gives :focus-visible with outline-style none and no box-shadow or colour change. A screenshot crop of the button and its margin is byte-identical focused and blurred. It has no visible focus indicator, so it fails 2.4.7."
+    },
+    {
+      "fingerprint": "831bdb75b4c0",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Conheça nossas coleções!' text link. Live at 390x844, Tab scrolls it to the bottom of the viewport (y≈827), and every hit-test point lands on the fixed #contador popup. The screenshot shows only the popup there, with the link fully covered. The #contador coupon/countdown popup is a non-modal, author-positioned fixed layer (390x170 px at the bottom of the 390x844 viewport, z-index 1000) that appears on load without user action. It does not close when focus leaves it and Escape does not dismiss it (checked live); its only close control is a 'Fechar' link earlier in the Tab order, so the user would have to move focus back to reveal the element. No scroll-padding is set. This is the sticky-footer pattern of F110. The focused link is entirely hidden by author content, so it fails 2.4.11."
+    },
+    {
+      "fingerprint": "13c2097c27e1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the '+ Galeria de Artistas' link in the footer value blocks, normally visible. Live at 390x844, Tab brings it to y≈792, and all hit-test points land on the #contador popup, so it is fully covered. The #contador coupon/countdown popup is a non-modal, author-positioned fixed layer (390x170 px at the bottom of the 390x844 viewport, z-index 1000) that appears on load without user action. It does not close when focus leaves it and Escape does not dismiss it (checked live); its only close control is a 'Fechar' link earlier in the Tab order, so the user would have to move focus back to reveal the element. No scroll-padding is set. This is the sticky-footer pattern of F110. It fails 2.4.11 as reported."
+    },
+    {
+      "fingerprint": "2d160121cc94",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the 'Central de ajuda' link in the mobile footer accordion 'PRECISA DE AJUDA?', which is collapsed by default. Live at 390x844 the link stays in the Tab order while collapsed. Its container .collapsible-text has max-height:0 and overflow:hidden, so on focus the link is completely invisible: hit tests land on the neighbouring accordion buttons, and the screenshot shows no trace of it. Focus on invisible content is a real defect. But here it is hidden by clipping inside a collapsed panel, not overlapped by a sticky or overlay layer, which is the scenario 2.4.11's Understanding document describes. Many auditors would file this under 2.4.7 (no visible focus) and/or 2.4.3 instead. The probe's 'hidden behind the SOBRE A CHICO REI button' is a hit-test reading of that clipping. Whether 2.4.11 covers it is open to reasonable disagreement."
+    },
+    {
+      "fingerprint": "d63bd139ef74",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Quem Somos' link in the mobile footer accordion 'SOBRE A CHICO REI'. Live at 390x844 it is focusable while the accordion is collapsed (max-height:0, overflow:hidden). In the Tab walk it is scrolled to y≈682 under the fixed #contador popup, and all hit-test points land on the popup. The #contador coupon/countdown popup is a non-modal, author-positioned fixed layer (390x170 px at the bottom of the 390x844 viewport, z-index 1000) that appears on load without user action. It does not close when focus leaves it and Escape does not dismiss it (checked live); its only close control is a 'Fechar' link earlier in the Tab order, so the user would have to move focus back to reveal the element. No scroll-padding is set. This is the sticky-footer pattern of F110. When focused, the component is entirely hidden by author-created content, so 2.4.11 fails. It would also stay invisible without the popup because of the collapsed panel, which is a further focus-visibility defect (2.4.7)."
+    },
+    {
+      "fingerprint": "323915a76d16",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Sustentabilidade' link in the collapsed 'SOBRE A CHICO REI' mobile footer accordion. It is the same situation as 'Quem Somos': at 390x844 it takes focus at y≈682, entirely under the fixed #contador popup. The #contador coupon/countdown popup is a non-modal, author-positioned fixed layer (390x170 px at the bottom of the 390x844 viewport, z-index 1000) that appears on load without user action. It does not close when focus leaves it and Escape does not dismiss it (checked live); its only close control is a 'Fechar' link earlier in the Tab order, so the user would have to move focus back to reveal the element. No scroll-padding is set. This is the sticky-footer pattern of F110. It fails 2.4.11. It is also clipped by the collapsed panel, which is a further 2.4.7 problem."
+    },
+    {
+      "fingerprint": "82277b759031",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'FORMAS DE PAGAMENTO' accordion button in the mobile footer, a visible 390x68 control. Live at 390x844, Tab brings it to y≈691-759, entirely inside the area of the fixed #contador popup (y 674-844), and hit tests land on the popup. Without the popup the button is fully visible. The #contador coupon/countdown popup is a non-modal, author-positioned fixed layer (390x170 px at the bottom of the 390x844 viewport, z-index 1000) that appears on load without user action. It does not close when focus leaves it and Escape does not dismiss it (checked live); its only close control is a 'Fechar' link earlier in the Tab order, so the user would have to move focus back to reveal the element. No scroll-padding is set. This is the sticky-footer pattern of F110. It fails 2.4.11."
+    },
+    {
+      "fingerprint": "b3acc91ca709",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'REDES SOCIAIS' accordion button in the mobile footer, a visible control. Live at 390x844, Tab brings it to y≈761-829, fully under the fixed #contador popup, and hit tests land on the popup. Without the popup it is visible. The #contador coupon/countdown popup is a non-modal, author-positioned fixed layer (390x170 px at the bottom of the 390x844 viewport, z-index 1000) that appears on load without user action. It does not close when focus leaves it and Escape does not dismiss it (checked live); its only close control is a 'Fechar' link earlier in the Tab order, so the user would have to move focus back to reveal the element. No scroll-padding is set. This is the sticky-footer pattern of F110. It fails 2.4.11."
+    },
+    {
+      "fingerprint": "432f2999d659",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Instagram icon link in the 'REDES SOCIAIS' mobile footer accordion. At 390x844 it takes focus at y≈808, entirely under the fixed #contador popup, and all hit-test points land on the popup. The #contador coupon/countdown popup is a non-modal, author-positioned fixed layer (390x170 px at the bottom of the 390x844 viewport, z-index 1000) that appears on load without user action. It does not close when focus leaves it and Escape does not dismiss it (checked live); its only close control is a 'Fechar' link earlier in the Tab order, so the user would have to move focus back to reveal the element. No scroll-padding is set. This is the sticky-footer pattern of F110. It fails 2.4.11. The accordion is collapsed by default (max-height:0, overflow:hidden), so the link would stay invisible even without the popup, which is a further 2.4.7 issue."
+    },
+    {
+      "fingerprint": "4dd7847142e6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Twitter icon link in the collapsed 'REDES SOCIAIS' mobile footer accordion. It is the same situation as Instagram: at 390x844 it takes focus at y≈808, entirely under the fixed #contador popup. The #contador coupon/countdown popup is a non-modal, author-positioned fixed layer (390x170 px at the bottom of the 390x844 viewport, z-index 1000) that appears on load without user action. It does not close when focus leaves it and Escape does not dismiss it (checked live); its only close control is a 'Fechar' link earlier in the Tab order, so the user would have to move focus back to reveal the element. No scroll-padding is set. This is the sticky-footer pattern of F110. It fails 2.4.11. The collapsed panel also clips it, a further 2.4.7 issue."
+    },
+    {
+      "fingerprint": "301a2fadf540",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Facebook icon link in the collapsed 'REDES SOCIAIS' mobile footer accordion. At 390x844 it takes focus at y≈808, entirely under the fixed #contador popup. The #contador coupon/countdown popup is a non-modal, author-positioned fixed layer (390x170 px at the bottom of the 390x844 viewport, z-index 1000) that appears on load without user action. It does not close when focus leaves it and Escape does not dismiss it (checked live); its only close control is a 'Fechar' link earlier in the Tab order, so the user would have to move focus back to reveal the element. No scroll-padding is set. This is the sticky-footer pattern of F110. It fails 2.4.11. The collapsed panel also clips it, a further 2.4.7 issue."
+    }
+  ]
+}

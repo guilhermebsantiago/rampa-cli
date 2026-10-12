@@ -1,0 +1,30 @@
+{
+  "page": "https://www.berkeley.edu/admissions/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "d731a71b3f06",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the desktop skip link in the 'Skip to content links' nav. Its href is #main-menu-item-1. In the snapshot and on the live page (unchanged), that id belongs to the 'About' toggle button, the first item of the main mega-menu (ul#menu-main). So 'Skip to main menu' moves focus to the start of the main menu, exactly as its text says. 'About' is just the label of the menu's first entry, not a different destination. The link text describes its purpose accurately, so 2.4.4 passes. Rampa never resolved the target and read the target button's name as if it were the link's destination."
+    },
+    {
+      "fingerprint": "7811c0b2ea9d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'Visit' link in the berkeley.edu site-wide footer primary menu (Visit, Jobs, News, Events, Give), under the UC Berkeley logo. It leads to visit.berkeley.edu ('Visitor Services'). The same 'Visit' link also appears in the main navigation. On the UC Berkeley site, 'Visit' clearly means information on visiting UC Berkeley, which is the conventional meaning of this footer link, so most users can tell its purpose from the link text in context. This is not a 2.4.4 failure. The suggested patch, 'Visit Berkeley Study Abroad', shows the model misread a nearby 'Study Abroad' content heading as the link's context."
+    },
+    {
+      "fingerprint": "6dd5c348b724",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'Give' link in the site-wide footer primary menu of berkeley.edu. It goes to give.berkeley.edu, the university's giving site, and the same link appears in the top utility bar. On a university site, 'Give' is the standard, recognized label for donating to the institution, and the page context (UC Berkeley branding, footer) makes its purpose clear. This is not a 2.4.4 failure. The patch 'Donate to Study Abroad' is wrong: the model tied the link to an unrelated nearby 'Study Abroad' heading."
+    },
+    {
+      "fingerprint": "64f52746004c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'Accessibility' link in the site footer's secondary menu, next to 'Privacy policy' and 'Contact Us'. It goes to dap.berkeley.edu/get-help/report-web-accessibility-issue ('Report a Web Accessibility Issue | Digital Accessibility'). A footer link named 'Accessibility' is the conventional pointer to a site's accessibility information and help, and this destination fits that purpose. Users can tell where it goes from the text in context. A more specific label could help, but WCAG 2.4.4 does not require one, so this is not a failure."
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "page": "https://medlineplus.gov/diabetes.html",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "f173ceca6da8",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the X logo image (alt=\"X\", link title=\"X\", href=\"#\") in the share row beside the h1, between siblings named \"Email this page to a friend\", \"Print\", \"Facebook\", \"Pinterest\" and \"Subscribe to RSS\". The alt names the service the link goes to, so the claim that it \"does not say where the link leads\" does not hold: it leads to X. It also gives a non-sighted user the same information the logo gives a sighted user, who likewise infers \"share\" from the toolbar. \"Share on X\" would be clearer, and a single letter \"X\" is a usability weakness, but requiring the verb is stricter than 1.1.1. The identical Facebook and Pinterest icons were not flagged. This one is borderline, and some auditors would flag it."
+    },
+    {
+      "fingerprint": "90f05ce2b90b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main nav link \"Health Topics\". The live CSS sets #mplus-nav-bar .nav-list a to color #007CBF, bold, 1.14286em of 14px = 16px, with background none, over #mplus-nav's linear-gradient(#fafafa 10%, #f6f6f6 75%). I computed the contrast at 4.34:1 at the lightest stop (#fafafa) and 4.19:1 at the darkest (#f6f6f6), so it is below 4.5:1 everywhere. 16px bold is under the 18.66px bold threshold for large text, so 4.5:1 applies. No technique or exception rescues it. The screenshot shows the same blue on light grey."
+    },
+    {
+      "fingerprint": "ed7dfbcdce69",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main nav link \"Drugs & Supplements\". It has the same CSS as the other nav links: #007CBF, 16px bold, on the #fafafa-to-#f6f6f6 nav gradient. Contrast is 4.19 to 4.34:1 across the whole gradient, and the text is not large, so it fails the 4.5:1 minimum."
+    },
+    {
+      "fingerprint": "bfe4de5c6d87",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main nav link \"Genetics\". It has the same styling: #007CBF, 16px bold, on the #fafafa-to-#f6f6f6 gradient. Contrast is at most 4.34:1, below 4.5:1 for text that is not large."
+    },
+    {
+      "fingerprint": "2e2e77978ded",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main nav link \"Medical Tests\". It has the same styling: #007CBF, 16px bold, on the #fafafa-to-#f6f6f6 gradient. Contrast is 4.19 to 4.34:1, below 4.5:1, and 16px bold does not count as large text."
+    },
+    {
+      "fingerprint": "eac5f547e9b9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main nav link \"Medical Encyclopedia\". It has the same styling: #007CBF, 16px bold, on the #fafafa-to-#f6f6f6 gradient. Contrast is at most 4.34:1, below the 4.5:1 required for text that is not large."
+    },
+    {
+      "fingerprint": "f27d97960438",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Language toggle \"Español\" (#mplus-lang-toggle). The live CSS for the US site (html class \"us\") gives it color #CF5200, bold, inheriting the body's 14px. It is absolutely positioned on the #mplus-nav gradient (#fafafa to #f6f6f6). I computed the contrast at 4.00 to 4.14:1, below 4.5:1, and 14px bold is not large text. The screenshot confirms orange text on light grey."
+    },
+    {
+      "fingerprint": "38855e25cfc4",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The title \"Diabetes | Type 1 Diabetes | Type 2 Diabetes | MedlinePlus\" names the page's topic (the h1 is \"Diabetes\") and the site, so it describes the page's topic and purpose. The keyword repetition is an SEO choice, not a 2.4.2 failure. The claim that it \"says nothing about this page\" is wrong, and the suggested \"Diabetes Overview | MedlinePlus\" is no more descriptive."
+    },
+    {
+      "fingerprint": "b7a6ccd60460",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Start Here\" is the h2 of a section in the Basics group, listed in the page's \"On this page\" box beside \"Summary\" and \"Diagnosis and Tests\". It holds introductory resources such as \"Managing Diabetes\" and \"What is Diabetes?\". The heading states its purpose: the recommended starting resources on the topic. That is enough for 2.4.6, which does not require long headings. The suggested \"Introduction\" is no more descriptive."
+    },
+    {
+      "fingerprint": "f439dfc2b858",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Topic Image\" is a visually hidden h2 (class hide-offscreen) over a sidebar section whose only content is the topic illustration (img alt=\"Diabetes\"). The heading accurately describes what the section holds, which is the topic's image, so it describes the section's topic and purpose. It is not a vague or misleading heading. The suggested \"Diabetes Information\" would describe the section less accurately."
+    },
+    {
+      "fingerprint": "42efd2c38dea",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"Español\" link to the Spanish version has no lang attribute, in the snapshot or in the live HTML, so it inherits lang=\"en\". The Understanding document for 3.1.2 uses exactly this case, \"Alternative language links\" (each language name in its own language, marked with lang), as its example. I checked whether it is a single word absorbed into English under the vernacular exception. It is not: a change of language is clearly intended for Spanish readers, and English rules would not pronounce the ñ correctly. None of the exceptions (proper name, technical term, indeterminate language, vernacular) applies cleanly."
+    }
+  ]
+}

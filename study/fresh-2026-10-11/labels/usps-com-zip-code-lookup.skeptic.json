@@ -1,0 +1,60 @@
+{
+  "page": "https://tools.usps.com/zip-code-lookup.htm",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "a3284cc11e9a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The header mega menu has a chain of hidden skip links, one at the start of each menu item: Skip Quick Tools -> #navmailship (Skip Send) -> #navtrackmanage (Skip Receive) -> #navpostalstore (Skip Shop) -> #navbusiness (Skip Business) -> #navinternational (Skip International) -> #navhelp (Skip Help) -> #navsearch (Skip Search) -> #endnav. I confirmed the chain in the snapshot and in the live HTML on 2026-10-11, and the live HTML matches the snapshot. \"Skip Send Links\" sits at the top of the Send menu item and points to #navtrackmanage, the \"Skip Receive Links\" anchor at the start of the next menu item. Following it moves past the Send links, which is exactly what the text says. Landing on the next section's skip link is how a skip link works, not a mismatch. The model read the destination's own text as the link's purpose. The link's purpose is clear from its text, so 2.4.4 passes."
+    },
+    {
+      "fingerprint": "fd0477559f73",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The header mega menu has a chain of hidden skip links, one at the start of each menu item: Skip Quick Tools -> #navmailship (Skip Send) -> #navtrackmanage (Skip Receive) -> #navpostalstore (Skip Shop) -> #navbusiness (Skip Business) -> #navinternational (Skip International) -> #navhelp (Skip Help) -> #navsearch (Skip Search) -> #endnav. I confirmed the chain in the snapshot and in the live HTML on 2026-10-11, and the live HTML matches the snapshot. \"Skip Receive Links\" sits at the top of the Receive menu item and points to #navpostalstore, the \"Skip Shop Links\" anchor at the start of the next menu item. Following it moves past the Receive links, which is exactly what the text says. Landing on the next section's skip link is how a skip link works, not a mismatch. The model read the destination's own text as the link's purpose. The link's purpose is clear from its text, so 2.4.4 passes."
+    },
+    {
+      "fingerprint": "63e7e07faa51",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The header mega menu has a chain of hidden skip links, one at the start of each menu item: Skip Quick Tools -> #navmailship (Skip Send) -> #navtrackmanage (Skip Receive) -> #navpostalstore (Skip Shop) -> #navbusiness (Skip Business) -> #navinternational (Skip International) -> #navhelp (Skip Help) -> #navsearch (Skip Search) -> #endnav. I confirmed the chain in the snapshot and in the live HTML on 2026-10-11, and the live HTML matches the snapshot. \"Skip Shop Links\" sits at the top of the Shop menu item and points to #navbusiness, the \"Skip Business Links\" anchor at the start of the next menu item. Following it moves past the Shop links, which is exactly what the text says. Landing on the next section's skip link is how a skip link works, not a mismatch. The model read the destination's own text as the link's purpose. The link's purpose is clear from its text, so 2.4.4 passes."
+    },
+    {
+      "fingerprint": "136c220da518",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The header mega menu has a chain of hidden skip links, one at the start of each menu item: Skip Quick Tools -> #navmailship (Skip Send) -> #navtrackmanage (Skip Receive) -> #navpostalstore (Skip Shop) -> #navbusiness (Skip Business) -> #navinternational (Skip International) -> #navhelp (Skip Help) -> #navsearch (Skip Search) -> #endnav. I confirmed the chain in the snapshot and in the live HTML on 2026-10-11, and the live HTML matches the snapshot. \"Skip Business Links\" sits at the top of the Business menu item and points to #navinternational, the \"Skip International Links\" anchor at the start of the next menu item. Following it moves past the Business links, which is exactly what the text says. Landing on the next section's skip link is how a skip link works, not a mismatch. The model read the destination's own text as the link's purpose. The link's purpose is clear from its text, so 2.4.4 passes."
+    },
+    {
+      "fingerprint": "b1a6f38c04b0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The header mega menu has a chain of hidden skip links, one at the start of each menu item: Skip Quick Tools -> #navmailship (Skip Send) -> #navtrackmanage (Skip Receive) -> #navpostalstore (Skip Shop) -> #navbusiness (Skip Business) -> #navinternational (Skip International) -> #navhelp (Skip Help) -> #navsearch (Skip Search) -> #endnav. I confirmed the chain in the snapshot and in the live HTML on 2026-10-11, and the live HTML matches the snapshot. \"Skip International Links\" sits at the top of the International menu item and points to #navhelp, the \"Skip Help Links\" anchor at the start of the next menu item. Following it moves past the International links, which is exactly what the text says. Landing on the next section's skip link is how a skip link works, not a mismatch. The model read the destination's own text as the link's purpose. The link's purpose is clear from its text, so 2.4.4 passes."
+    },
+    {
+      "fingerprint": "dfd88fe460ce",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The header mega menu has a chain of hidden skip links, one at the start of each menu item: Skip Quick Tools -> #navmailship (Skip Send) -> #navtrackmanage (Skip Receive) -> #navpostalstore (Skip Shop) -> #navbusiness (Skip Business) -> #navinternational (Skip International) -> #navhelp (Skip Help) -> #navsearch (Skip Search) -> #endnav. I confirmed the chain in the snapshot and in the live HTML on 2026-10-11, and the live HTML matches the snapshot. \"Skip Help Links\" sits at the top of the Help menu item and points to #navsearch, the \"Skip Search\" anchor at the start of the next menu item. Following it moves past the Help links, which is exactly what the text says. Landing on the next section's skip link is how a skip link works, not a mismatch. The model read the destination's own text as the link's purpose. The link's purpose is clear from its text, so 2.4.4 passes."
+    },
+    {
+      "fingerprint": "a5b6a30db855",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the site search input inside the Send mega-menu panel. It has a visually hidden <label> \"Search USPS.com\", a visible placeholder \"Search or Enter a Tracking Number\", and sits in a form with role=search. The live HTML matches. 2.4.6 only asks that a label describe the field's topic or purpose, and the Understanding document says short labels are enough. \"Search USPS.com\" plainly says the field is for searching the site. Requiring the label to also list tracking numbers as an accepted input is stricter than the criterion. The visible placeholder already says it anyway. Not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "a4f50ff2e70c",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the site search input inside the Receive mega-menu panel. It has a visually hidden <label> \"Search USPS.com\", a visible placeholder \"Search or Enter a Tracking Number\", and sits in a form with role=search. The live HTML matches. 2.4.6 only asks that a label describe the field's topic or purpose, and the Understanding document says short labels are enough. \"Search USPS.com\" plainly says the field is for searching the site. Requiring the label to also list tracking numbers as an accepted input is stricter than the criterion. The visible placeholder already says it anyway. Not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "008aef1b6f37",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the site search input inside the International mega-menu panel. It has a visually hidden <label> \"Search USPS.com\", a visible placeholder \"Search or Enter a Tracking Number\", and sits in a form with role=search. The live HTML matches. 2.4.6 only asks that a label describe the field's topic or purpose, and the Understanding document says short labels are enough. \"Search USPS.com\" plainly says the field is for searching the site. Requiring the label to also list tracking numbers as an accepted input is stricter than the criterion. The visible placeholder already says it anyway. Not a 2.4.6 failure."
+    }
+  ]
+}

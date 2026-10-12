@@ -1,0 +1,36 @@
+{
+  "page": "https://www.ikea.com/gb/en/cat/tables-chairs-fu002/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "c6a34addc74a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'Explore now' button in the teaser at the top of the page. In the snapshot it sits in the same pub__teaser__info-container as the h2 'How would you like to explore? By style, feature, size or shape', and that heading comes immediately before it. The screenshot shows them side by side as one unit. Under H80 (link text plus the preceding heading), 'Explore now' reads as exploring dining furniture by style, feature, size or shape. That is exactly the destination: a page titled 'Dining Furniture By Style', described as 'Explore all dining furniture by style, feature, size or shape'. The purpose can be determined in context, so 2.4.4 passes. The heading was in the context the model was given (ancestors and headingsNear)."
+    },
+    {
+      "fingerprint": "726e92ca9431",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a 'Learn more' link in the 'Delivery' card of the 'More ways to shop' section. The card's div holds an icon, the h3 'Delivery', a paragraph ('IKEA Family members save on delivery...') and then this link, which goes to /customer-service/services/delivery/. The h3 is the heading immediately before the link (H80), and the screenshot shows it as a self-contained card. So the purpose, learning more about delivery, can be determined from link text plus context, and 2.4.4 (In Context) passes. The finding says 'nothing around it' tells the purpose, which is wrong: the heading was in headingsNear and the card text was in the ancestors. Repeated identical 'Learn more' texts may matter for 2.4.9 (AAA), not for 2.4.4."
+    },
+    {
+      "fingerprint": "7e8cb1bfe172",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'Learn more' link in the 'Finance' card. The card div contains the h3 'Finance', the paragraph 'Enjoy today, pay later. Compare our range of Finance services*' and then this link, which goes to /customer-service/services/finance-options/. The preceding h3 gives the link's purpose in context (H80), and the screenshot shows it as a distinct card. So 2.4.4 passes. The neighbouring 'Assembly' card has the same structure and was not flagged, which suggests model noise rather than a principled distinction. The heading and card text were in the context the model had."
+    },
+    {
+      "fingerprint": "abb8aee1d033",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'Learn more' link in the 'Click and collect' card. The card div holds the h3 'Click and collect', the paragraph 'Collect near you at an IKEA store or a local pick-up point' and then this link, which goes to /customer-service/services/click-collect/. The immediately preceding heading identifies the purpose (H80), and the screenshot shows the card as one visual unit. So the link passes 2.4.4 (In Context). The model had the heading in headingsNear and the card text in the ancestors, so it judged wrongly with the context in hand."
+    },
+    {
+      "fingerprint": "6393a3bd9dce",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the footer's 'Learn more' link, which goes to /ikea-family/. It has aria-describedby='hnf-footer-featured-link2', which points to the h3 'Join IKEA Family'. The snapshot's accessibility tree shows the link's computed description as 'Join IKEA Family'. So the link context is programmatically determined (ARIA1), and the same h3 is also the heading immediately before the link (H80). Visually it sits in the 'Join IKEA Family' block (screenshot). The purpose is clear in context, and 2.4.4 passes. The aria-describedby attribute and the heading were both in the evidence the model had."
+    }
+  ]
+}

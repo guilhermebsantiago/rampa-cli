@@ -1,0 +1,168 @@
+{
+  "page": "https://www.poder360.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "1f49dd4dd08c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the photo of candidate Lula in the election-results banner, with alt=\"Lula\". The file is Lula.png, but the alt is the person's real name, which correctly identifies the photo (the visible text next to it repeats 'Lula PT 53.879.538 votos'). It is not a file name or placeholder in the F30 sense. The '16%' badge in the crop is the edge of the separate '45,16%' results bar drawn over the image bounds, not part of the image, so the suggested alt is also wrong. No 1.1.1 failure."
+    },
+    {
+      "fingerprint": "62789fbd11d4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Google ad (Ágora/Bradesco banner) inside the ad iframe: a link whose only content is an img with alt=\"Advertisement\". The image holds the ad's text ('A evolução do seu jeito de investir... Saiba mais') and is the link's only content. The alt tells only that it is an ad, not the advertiser, message or destination. 1.1.1 requires a control's text alternative to describe its purpose, so this fails (also 2.4.4). Third-party ad content is not exempt from conformance. The ad creative may rotate on the live page."
+    },
+    {
+      "fingerprint": "9af9ac8766ce",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter sign-up field ('alertas grátis do Poder360'): <input type=\"text\" placeholder=\"seu e-mail\"> with no autocomplete, and the live HTML is the same. It collects the user's own email, a purpose listed in the Input Purposes section, and nothing (no autocomplete token, not even type=email) identifies that purpose programmatically. Fails 1.3.5."
+    },
+    {
+      "fingerprint": "f00554bfcb20",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'56.104.503 votos' under Flávio Bolsonaro in the results banner. Live CSS sets .votos-candidato to color:#8fb0d6, 14px, weight 500. Screenshot pixels show the text as exactly #8fb0d6 on a #194575 background, about 4.36:1. Normal-size text needs 4.5:1 and no exception (logo, incidental, inactive) applies. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "556ac34acd7f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'53.879.538 votos' under Lula in the results banner. It has the same .votos-candidato style (#8fb0d6, 14px, weight 500, confirmed in live CSS). Screenshot pixels show #8fb0d6 on #194575, about 4.36:1, below 4.5:1 for normal text. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "d87659acefb2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Category pill 'PODER INTERNACIONAL' in the 'Destaques do poder' carousel (slide 1). Live CSS for .destaqueHome__swiper-tag is color:#f7f7f7 on background-color:#fd541e at 1.6rem (16px), normal weight, giving 3.03:1, below 4.5:1. It is an editorial category label, not a logotype, so the logo exception does not apply. The full-page screenshot is covered there by the fixed menu panel, but the CSS confirms the measured colours. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "204f66d71fa4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Category pill 'PODER ELEIÇÕES 2026' (carousel slide 2). It has the same .destaqueHome__swiper-tag style confirmed in live CSS: #f7f7f7 on #fd541e, 16px normal, 3.03:1, below 4.5:1. It is a category label, not a logo. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "3f84a90323eb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Category pill 'PODER INTERNACIONAL' on another carousel slide (slide 3). It has the same .destaqueHome__swiper-tag style (#f7f7f7 on #fd541e, 16px normal), 3.03:1, below 4.5:1. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "59f6873e5ad2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Category pill 'PODER ELEIÇÕES 2026' on carousel slide 4. It has the same .destaqueHome__swiper-tag style (#f7f7f7 on #fd541e, 16px normal), 3.03:1, below 4.5:1. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "371240bdccce",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Category pill 'PODER TECH' on carousel slide 5, partly beyond the viewport edge but reachable by the carousel. It has the same .destaqueHome__swiper-tag style (#f7f7f7 on #fd541e, 16px normal), 3.03:1, below 4.5:1. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "34eb7c775ce5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'OPINIÃO' tag over an opinion-article photo. Live CSS .box-queue__special-tag is color:#f7f7f7 on background #dd3600 (plus a quote-mark icon) at 1.2rem (12px). Screenshot pixels show #f7f7f7/#ffffff on #dd3600, 4.26:1. Small text needs 4.5:1. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "50d2ffb7982c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Second 'OPINIÃO' tag. It has the same .box-queue__special-tag style (#f7f7f7 on #dd3600, 12px), 4.26:1, below 4.5:1, and the crop's pixels confirm the colours. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "25f977cade46",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Third 'OPINIÃO' tag. It has the same .box-queue__special-tag style (#f7f7f7 on #dd3600, 12px), 4.26:1, below 4.5:1, and the crop's pixels confirm the colours. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "0af9c6335e9a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Placeholder 'seu e-mail' in the newsletter field. No author ::placeholder rule matches this input (.form-subscribe/widget__modelo2), so Chrome's default #757575 applies, on the field's #fbfbfb background. Both colours appear in screenshot pixels, and the ratio is 4.45:1. The Understanding document for 1.4.3 says it applies to placeholder text, and thresholds are not rounded. Here the placeholder is the field's only visible text cue. Fails 1.4.3, though only narrowly."
+    },
+    {
+      "fingerprint": "658c035cae48",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link is the WhatsApp logo (icon-whatsapp.svg: white glyph on a green #22d467 circle, close to WhatsApp's brand green #25D366), linking to the Poder360 WhatsApp channel. Understanding 1.4.11 exempts logos under the essential exception, and says this exemption normatively carries over when a logo acts as a control. The brand colours are not an author choice to lower contrast. A separate, readable 'INSCREVA-SE' link right next to it goes to the same URL. Not a 1.4.11 failure."
+    },
+    {
+      "fingerprint": "5ecf82256adb",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An h2 that is the linked headline of a news teaser card. It names exactly the article it links to (the card image's alt is the same). What follows it in the DOM is the next card, which is not this heading's section. On a news-grid homepage, each headline heading describes its own teaser. Not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "6a3c67ee2cc3",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Section heading 'PoderData/Aya', a link to /poderdata/, over a block of poll stories ('Flávio tem 53% contra 47%... diz pesquisa', 'expectativa de vitória', 'rejeição'). PoderData is Poder360's polling brand, so the heading names the source and topic of what it introduces. 2.4.6 does not require long or generic wording. A brand or section name that matches the content is a valid cue. Not a failure."
+    },
+    {
+      "fingerprint": "1a8db604ec9b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Category heading 'Poder Brasil', a link to the /poder-brasil section, over a Brazil news item (Sarney in hospital). It names the section and topic of the item below it. Not a 2.4.6 failure. Using a category kicker as an h2 above an h3 headline is at most a structure choice, not an undescriptive heading."
+    },
+    {
+      "fingerprint": "6593202ab4ad",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Category heading 'Poder Gente' ('people' section), a link to /poder-gente, over a personality story (the widow of Lito Sousa). It describes the section and topic of the item below it. Not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "5f41b05fa6ab",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An h3 that is the linked headline of the Poder Gente teaser. It names exactly the article it links to. The 'content under it' in DOM order is the next card, which is not its section, and the suggested patch would give it another article's headline. Not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "af903b237f47",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Category heading 'Programa de Trainees 2027' over the headline 'Poder360 anuncia 3º programa de trainees em jornalismo'. The heading and its content are on the same topic, the 2027 trainee programme, so the claim that it names a different topic is simply wrong. Not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "595684b4bf68",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An h3 that is the linked headline of the trainee-programme teaser. It describes its own article. The model treated the next card ('Conteúdo de Marca'/Ambev) as its content, and the patch would rename it to that other headline. Not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "0ead9112b163",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Category heading 'Conteúdo de Marca' (branded content) over 'Por Ambev — Inovação impulsiona evolução do portfólio wellness da Ambev', a sponsored piece. The heading accurately says what kind of content follows, and that distinction matters to readers. Not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "b548584bffbc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Category heading 'Poder Internacional', a link to /poder-internacional, over an international news item (Pope Leo XIV to have surgery). It names the section and topic of the item. Not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "9328d3c9328b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Category heading 'Poder Internacional' over an international news item (South Korea's first commercial Arctic–Europe voyage). It names the section and topic of the item. Not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "5574c2fda4be",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Video.js player div#video_38455 explicitly carries lang=\"pt-br\", but its strings are untranslated English. Exposed now are aria-label 'Video Player', the button 'Play Video', and the IMA ad video/iframe titled 'Advertisement'. Shown once the control bar appears are 'Mute', 'Current Time', 'Playback Rate', 'Subtitles', 'Audio Track' and 'Seek to live, currently behind live'. These are English phrases, not proper names or pt-BR vernacular (at most 'play'/'player' might pass as loanwords, 'Advertisement' or 'Mute' would not). Their language cannot be programmatically determined as English. Fails 3.1.2. Loading the pt-BR translation would be a better fix than the suggested lang=\"en\"."
+    },
+    {
+      "fingerprint": "fabe9c11f7b9",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Google CSE search input #gsc-i-id1 inside the hamburger menu panel, which was closed (offscreen at y=-1077) when the page was read. When the panel is shown, a magnifying-glass icon sits inside the box (visible in the screenshot where the menu panel is drawn). The Understanding document for 3.3.2 names a global search field with a loupe icon as having a sufficient visible label. The checker had no image of the field and missed that cue. The icon's low contrast is a possible 1.4.11 issue, not 3.3.2."
+    }
+  ]
+}

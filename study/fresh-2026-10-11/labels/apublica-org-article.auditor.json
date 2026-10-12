@@ -1,0 +1,114 @@
+{
+  "page": "https://apublica.org/2026/10/flavio-bolsonaro-e-o-risco-de-um-presidente-com-esqueletos-no-armario/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "ef78fe55d02b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Thumbnail (alt=\"\") of a teaser card in the 'Artigos mais recentes' carousel; the card's h2 'Gestão Tarcísio exonera professoras com regra da ditadura' and its summary carry the content, and the image is not in a link. The crop shows hands breaking chalk with '1968' on a board: an editorial illustration of 'regra da ditadura', not information the teaser needs. A null alt on a supplementary teaser image meets 1.1.1 (decorative/redundant). (Separately, each card has an empty stretched link '#post-… > a' with no name, a 2.4.4/4.1.2 problem not claimed here.)"
+    },
+    {
+      "fingerprint": "45a76e5b7541",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Teaser thumbnail (alt=\"\") for the card 'Plataformas mantêm anúncios e recomendações políticas irregulares no dia da votação'; the image is not a link and the card's heading and summary give the content. The photo of the e-Título app with an error dialog ('Não foi possível executar a operação') is a stock-style illustration; the dialog text is not information the teaser must convey. Null alt is acceptable for this supplementary image, so 1.1.1 is met."
+    },
+    {
+      "fingerprint": "eda908cce89c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The <title> 'Flávio Bolsonaro e os esqueletos no armário' (unchanged on the live page) is a shortened form of the h1 'Flávio Bolsonaro e o risco de um presidente com esqueletos no armário' and clearly describes the page's topic. 2.4.2 does not require the site name or the full headline; the finding's claim that it 'says nothing about this page' is wrong."
+    },
+    {
+      "fingerprint": "db71915291b1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Inline link 'chamou' in the sentence 'A jornalista Flávia de Oliveira chamou a atenção para o fato de que ... Flávio é o único candidato investigado ...' (checked on the live HTML), pointing to Flávia Oliveira's O Globo column. The enclosing sentence (programmatically determined context, G53) tells the user the link is the journalist's piece making this point, which is all a sighted reader gets too. 2.4.4 is met. (The snapshot's paragraph text reorders the inline pieces, but the context was present.)"
+    },
+    {
+      "fingerprint": "7f03854bcb29",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Inline citation link 'lavava' in '...pela empresa Entre Investimentos, que lavava inclusive dinheiro para o crime organizado...', pointing to a CNN Brasil story that the company financing Dark Horse received money from organised crime. The sentence makes the purpose determinable (the source for the money-laundering claim), and sighted users get no more than that; under 2.4.4's link-context allowance (G53) and its 'ambiguous to users in general' exception this is not a failure. Weak link text, but it passes AA."
+    },
+    {
+      "fingerprint": "fae4a15820a9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Link text 'piauí' is the magazine's name, in the sentence '...segundo demonstram os diálogos completos publicados pela revista piauí: são 50 mensagens de Flávio, 46 de Vorcaro...', and it goes to piauí's article publishing those messages. The link text plus its sentence say exactly where it goes. 2.4.4 is met; the claim that nothing around it helps is wrong."
+    },
+    {
+      "fingerprint": "850642a0a512",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Link 'revelou' in 'A mesma revista revelou, ainda, que Flávio e Vorcaro viajaram para Fort Lauderdale...', going to piauí's report on that trip. The enclosing sentence states what the linked report revealed, and the preceding paragraph names the magazine (piauí). The purpose can be determined from the link and its sentence context (G53), so 2.4.4 passes."
+    },
+    {
+      "fingerprint": "4b7890517b60",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Link 'revelou' in 'Como revelou o ICL, Flávio tem uma empresa de capacetes que está registrada no mesmo lugar de empresas do operador financeiro...', going to ICL Notícias' story on Flávio's companies and the 'Careca do INSS'. The sentence names the outlet and the content, so the purpose is clear from the link's context. 2.4.4 is met."
+    },
+    {
+      "fingerprint": "ddfc2be4c0c6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Link 'bastante detalhada' in 'Em uma reportagem bastante detalhada aqui na Agência Pública, mostramos como Flávio comandava ... os hospitais federais durante a epidemia'. Rampa read the destination: 'Flávio Bolsonaro, os hospitais federais e a pandemia de Covid no Rio de Janeiro', which is exactly what the sentence describes. The purpose is determinable from the link and its sentence, so 2.4.4 passes."
+    },
+    {
+      "fingerprint": "9a0ffa0a3651",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'PONTUAL' is one of three toggle controls (Pontual/Mensal/Anual, href=\"#_\", js-trigger_values) in the donation box under the heading 'Leia de graça, retribua com uma doação' and the text 'Escolha como contribuir'. It goes nowhere; it picks a one-time donation, and that is clear from the heading and the group (H80/G53 context), as it is visually. Not a 2.4.4 failure. The real problem is 4.1.2: a link used as a toggle with no button role or selected state (the active one is only shown by colour/class)."
+    },
+    {
+      "fingerprint": "381999ea7952",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'MENSAL' is the monthly option of the Pontual/Mensal/Anual donation-frequency toggles (href=\"#_\") under 'Leia de graça, retribua com uma doação'. Its purpose, choosing a monthly donation, is clear from its text and the heading and group around it, so 2.4.4 is met. The real defect is 4.1.2 (link role used for a toggle, no exposed pressed/selected state)."
+    },
+    {
+      "fingerprint": "1b2849bbdc14",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'ANUAL' is the annual option of the donation-frequency toggles (href=\"#_\") in the 'Leia de graça, retribua com uma doação' box. With its heading and group context the purpose (choose an annual donation) is clear, so 2.4.4 passes. The patch 'Plano Anual' adds nothing. Any real issue is 4.1.2 (toggle exposed as a link with no state)."
+    },
+    {
+      "fingerprint": "283dc18513d1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'PODER' is a category chip in a teaser card ('Reportagem' + 'Poder', see screenshot) linking to apublica.org/editorial/poder/. Rampa read the destination: title 'Arquivo de Poder', heading 'Poder'. The link text names the section it opens, which is also a section in the site's main navigation, so the purpose is clear. 2.4.4 is met."
+    },
+    {
+      "fingerprint": "72d63686a1b8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h5 'Assine nossas newsletters' heads a dashed call-to-action box whose only content is an 'ASSINAR →' button (screenshot and snapshot: box text 'Assine nossas newsletters Assinar'). The heading describes its content exactly. The model took the box to be part of the surrounding article. 2.4.6 is met, and the suggested 'Notícias sobre o caso' would be wrong."
+    },
+    {
+      "fingerprint": "d4e95d4328bc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h2 'Aviso' (Notice) heads one sentence: 'Este é um conteúdo exclusivo da Agência Pública e não pode ser republicado.' (screenshot). A short generic heading that correctly says the section is a notice describes its purpose; 2.4.6 does not require more specific wording. The patch 'Apoie a Agência Pública' misreads the content, which is about republishing, not donations."
+    },
+    {
+      "fingerprint": "085514b111f6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Number input #other-amount (min 10) named only by its placeholder 'Outro valor', placed after the amount buttons R$ 25 / 50 / 100 / 250 / 500 in the donation box. In that context 'Outro valor' (other amount) says exactly what to enter, so the label is descriptive and 2.4.6 is met. A placeholder-only label could raise 3.3.2/1.3.1 concerns, but that is not what this finding claims."
+    },
+    {
+      "fingerprint": "2a29f47fad34",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link 'English' (to /category/english/, the English-language section) has no lang attribute, so it inherits pt-BR; the live HTML is the same, with no lang on any link. The 3.1.2 Understanding document's 'Alternative language links' example marks each language name in its own language (e.g. lang=\"de\" on 'Deutsch'), and 'English' is not a Portuguese word or a proper name. This fails 3.1.2 as reported. (Nearby nav items like 'Read our stories' and '¿Quiénes somos?' have the same problem.)"
+    },
+    {
+      "fingerprint": "045b3a4f0a06",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Español' (to /category/espanol/, the Spanish-language section) has no lang attribute and inherits pt-BR (confirmed on the live HTML). Per the 3.1.2 Understanding example on alternative language links, a language name written in that language should carry its lang. Portuguese TTS will say it close to 'espanhol', which softens the impact, but the passage is Spanish and is not marked. This fails 3.1.2 as reported."
+    }
+  ]
+}

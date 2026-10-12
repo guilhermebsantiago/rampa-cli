@@ -4,6 +4,8 @@ The [real-page study](real-pages-2026-10.md) split 24 public pages into a dev ha
 
 **In short.** On the 11 test pages that finished in both runs, precision of the judgment layer went from **0.12 to 0.38 at the default threshold**, which is what a user sees, and from **0.12 to 0.19 with low-confidence findings included**. The biggest single cause of the gain at the default threshold is that 2.4.4 and 2.4.6 claims about ordinary text now sit below the threshold, not better judgments: with low-confidence findings counted, 2.4.4 is still 0 of 27 and 2.4.6 still 0 of 19. 1.1.1 rose from 0.32 to 0.42. Of the 14 true positives of the first run, 13 are still reported. The one lost was dropped by a fix (a suggestion that was only the word "decorative"), every time the model was asked. Precision of 0.38 is still far from usable without a person checking each finding. The labels come from Claude agents, not from people, and the run is a single run.
 
+The next measurement, on 24 fresh pages with their own dev and test split, is in [real-pages-2026-10-fresh.md](real-pages-2026-10-fresh.md).
+
 ## What changed since the first run
 
 The first run used commit `46029c1`. This run used `cf7991a`, the head of `main` when it started.

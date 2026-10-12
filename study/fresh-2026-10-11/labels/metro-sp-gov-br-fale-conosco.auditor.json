@@ -1,0 +1,42 @@
+{
+  "page": "https://www.metro.sp.gov.br/fale-conosco/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "a96a1739ad0c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image (image.png, alt=\"\") is the Metrô Conecta app icon with the words 'METRÔ CONECTA' beside it, shown next to 'Informe qualquer ocorrência em tempo real pelo nosso aplicativo.' and the App Store / Google Play badges. I searched the snapshot and the live HTML (unchanged): the app's name appears nowhere in text. The paragraph only says 'nosso aplicativo', and both store badge links also have alt=\"\" images, so they have no names. The image of text is the only place the app is named, so marking it decorative hides information. That fails 1.1.1, as the finding says."
+    },
+    {
+      "fingerprint": "d857826b62a0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Sua Viagem' is the first item of the main navigation: an href=\"#\" Bootstrap dropdown toggle with aria-expanded=\"false\" and a caret. It opens the 'Sua Viagem' submenu (Mapa da Rede, Linhas e Estações, Acessibilidade...). It goes nowhere: its purpose is to expand that menu section, and its text names the section, as the visible text does for everyone. That is enough for 2.4.4. The suggested patch ('Minha Viagem') is only a synonym, which shows there is no real defect. Using a link with href=\"#\" as a button is a role issue (4.1.2), not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "578feeff8b32",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link text is the URL www.viaquatro.com.br/fale-conosco, and in the screenshot and live page it ends the sentence 'Endereço eletrônico para registro de manifestações referentes a Linha 4-Amarela:'. That sentence is in the same list item, under 'Ouvidoria' and the heading 'Central de Atendimento da Linha 4-Amarela'. So the link's purpose is clear from its text and its programmatically determined context: go to ViaQuatro's contact page to file a complaint about Line 4. The URL itself also reads 'fale-conosco'. WCAG has no rule that link text must not be a URL; the checker applied a stricter rule than 2.4.4."
+    },
+    {
+      "fingerprint": "63ed1ea69c7f",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Same pattern as the Line 4 link. The link text www.viamobilidade.com.br/fale-conosco ends the sentence 'Endereço eletrônico para registro de manifestações referentes a Linha 5-Lilás:'. That sentence is in the same list item, under 'Fale Conosco' and the heading 'Central de Atendimento da Linha 5-Lilás' (confirmed in the snapshot, screenshot and the unchanged live HTML). The purpose, ViaMobilidade's contact page for Line 5 complaints, is clear from the link text and its programmatic context. A URL as link text is not by itself a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "78b8c763b40a",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'SIC' is a link in the São Paulo state government footer bar, next to 'Ouvidoria' and 'Transparência', and points to https://fala.sp.gov.br/. Fala.SP is the state's Ouvidoria and Serviço de Informação ao Cidadão platform (its page lists 'Contato dos Serviços de Informação ao Cidadão'). So the link goes where its text says. SIC is the standard name for the access-to-information service on Brazilian government sites, and this page's own content links 'Serviço de Informações ao Cidadão'. Sighted users see exactly the same 'SIC' with no more context, so any remaining ambiguity falls under 2.4.4's 'ambiguous to users in general' exception. An unexpanded abbreviation is at most a 3.1.4 (AAA) matter. The suggested patch ('Fale.SP - Ouvidoria do Estado') would also misname the SIC link."
+    },
+    {
+      "fingerprint": "c001cd6a149f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the message textarea of the 'Lina do Metrô' chat widget (Smooch, inside an iframe). It was collapsed at capture (bounds null) but appears when the user opens the chat, so it is page content. Its accessible name comes from title=\"Enviar\" ('Send'), which takes precedence over placeholder=\"Digite uma mensagem...\". A screen reader user therefore hears the field announced as 'Enviar'. That describes the send action, not what to type, and makes the field sound like a button. The label given to assistive technology does not describe the field's purpose, which is what 2.4.6 requires. Only the visible placeholder is descriptive. This also bears on 4.1.2. The live chat widget is injected by script, so I could not re-check it with a fetch."
+    }
+  ]
+}

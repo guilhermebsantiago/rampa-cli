@@ -1,0 +1,126 @@
+{
+  "page": "https://www.rijksmuseum.nl/en/newsletter?slug=NEWSLETTER_EN",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "cd33198e74e9",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The footer ANBI logo (the ANBI wordmark with 'Algemeen Nut Beogende Instelling') is the only content of a link to /en/support/donate/anbi-information, and its alt 'ANBIlogo' gives the link its name. The alt names the logo, and the link goes to information about that same ANBI status. That is the accepted pattern for a logo link (H30), so the image's alternative serves its purpose. Writing 'ANBI information' would be nicer, but the current alt is not a 1.1.1 failure. Rampa never read the destination page."
+    },
+    {
+      "fingerprint": "7194a6c9a72f",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop and the screenshot show this 20px footer icon is the Instagram glyph, and its alt is 'Instagramlogo'. The claim that the alt describes something the image does not show is wrong: it is the Instagram logo. The link also takes its name from aria-label 'Instagramlink', which identifies the destination. The words run together, which is a cosmetic flaw and not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "deb92ae9bd00",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop shows the Facebook 'f' glyph, and its alt is 'Facebooklogo'. That matches what the image shows, so the claim is wrong. The parent link is named 'Facebooklink' by aria-label and leads to facebook.com/rijksmuseum. The run-together wording is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "1484c5b3ac0e",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop shows the YouTube play-button logo, and its alt is 'Youtubelogo'. That accurately identifies the image, so the claim is wrong. The link is named 'Youtubelink' by aria-label and leads to the museum's YouTube channel. This is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "8b7812ed3a08",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop shows the TikTok note logo, and its alt is 'Tiktoklogo'. That matches the image, so the claim is wrong. The link has aria-label 'Tiktoklink' and leads to tiktok.com/@rijksmuseum. This is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "a5af81a3f45f",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop shows the LinkedIn 'in' logo, and its alt is 'Linkedinlogo'. That matches the image, so the claim is wrong. The link has aria-label 'Linkedinlink' and leads to the museum's LinkedIn page. This is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "93f12a9ec6ca",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the Dutch government crest with the words 'Ministry of Education, Culture and Science', and its alt is 'Ministry of Education, Culture and Sciencelogo'. The alt reproduces the logo's text and identifies it, and the link (aria-label '...link') leads to a page headed 'Ministry of Education, Culture and Science'. The claim that the alt describes something not shown is false. This is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "784b3aa7fbe7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the ING lion logo, and its alt is 'ING - Engelslogo'. 'Engels' (Dutch for 'English') is a leftover CMS label, which is sloppy, but the alt still identifies the image as the ING logo. The link (aria-label 'ING - Engelslink') leads to the ING partnership page, so the alternative still serves its purpose. The leftover word is a quality issue, not a 1.1.1 failure. The KPN and Vriendenloterij logos have the same pattern and were not flagged."
+    },
+    {
+      "fingerprint": "46204e105279",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter sign-up form asks for the user's own email address. In both the snapshot and the live HTML, the input is <input type=\"email\" id=\"NewsletterSubscription_Email\"> with no autocomplete attribute, and the form has none either. type=email does not expose the 'email' input purpose, so the field fails 1.3.5 as stated."
+    },
+    {
+      "fingerprint": "32e4614db0f1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Firstname' input collects the user's own given name. Neither the snapshot nor the live HTML has an autocomplete attribute on it (or on the form), so the purpose 'given-name' is not programmatically determinable. This fails 1.3.5."
+    },
+    {
+      "fingerprint": "b5ecd47330a8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The required 'Lastname*' input collects the user's own family name. Neither the snapshot nor the live HTML has an autocomplete attribute on it (or on the form). This fails 1.3.5 as reported."
+    },
+    {
+      "fingerprint": "e2dd926961fe",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The cookie bar's 'Accept' button is 15px bold white text on .button-primary {background-color:#d55140}, confirmed in the live CSS and in the screenshot pixels. White on #d55140 is 4.13:1. 15px bold is not large text (that needs 18.66px bold), so 4.5:1 is required and the button fails 1.4.3."
+    },
+    {
+      "fingerprint": "edcbd8e2bf35",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header 'Login' link is 17.2px regular white text over the hero painting, under only a light header::before gradient (opacity 0.45). The screenshot has a rgba(0,0,0,0.6) cookie mask over it. Removing that mask, the background behind the word is about #8c8c7d, matching Rampa's #838072-#afac94. Against white that is about 3.3:1 to 4:1, well below the 4.5:1 that normal-size text needs, and no text-shadow is applied. This fails 1.4.3."
+    },
+    {
+      "fingerprint": "9b139802ffff",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header 'Giftshop' link is 17.2px regular white text over the light swan-wing area of the hero image, with only the faint header gradient behind it. Removing the cookie mask from the screenshot gives a background of about #b9b49b, matching Rampa's measurement. That is about 2:1 against white, far below 4.5:1, and there is no text shadow. This fails 1.4.3."
+    },
+    {
+      "fingerprint": "832188215c65",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Rijksmuseum tickets' header button is .button-2020-primary: white, font-weight 700, background #d55140 (live CSS). Its font-size is calc(1rem + 0.125*((100vw - 20rem)/100)), which is 17.2px at 1280px. That is below the 18.66px bold large-text threshold, so 4.5:1 applies, and white on #d55140 is 4.13:1. This fails 1.4.3."
+    },
+    {
+      "fingerprint": "61f9e0822445",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The main-content 'Login' button (a.button-like.button-big.button-bold.button-primary) is 18px bold white text (1.2em of 15px) on #d55140. That gives 4.13:1. 18px bold is just under the 18.66px large-text threshold, so 4.5:1 is required. This fails 1.4.3."
+    },
+    {
+      "fingerprint": "f0733d8f3269",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The finding names the element by its CSS selector because the collector had no name for it, but the element is the 'Sign up' submit input (value 'Sign up'). It is 18px bold white text on .button-primary #d55140, which gives 4.13:1 even in the best case. 18px bold is not large text, so 4.5:1 is required. This fails 1.4.3. The odd subject naming does not change the claim."
+    },
+    {
+      "fingerprint": "e5c57b575409",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The <title> 'Keep me informed' is the same as the H1 and states the page's purpose: signing up to be kept informed, that is, the newsletter. WCAG 2.4.2 asks for a title that describes the topic or purpose. It does not require the site name, although adding 'Rijksmuseum' or 'newsletter' would help. The claim that the title 'says nothing about this page' is not accurate. This is not a 2.4.2 failure."
+    },
+    {
+      "fingerprint": "7e963d87a32c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The footer social link to the museum's YouTube channel has aria-label 'Youtubelink' and contains the YouTube logo. Its name says the link goes to YouTube, and its context (the site footer's social icon row) shows it is the Rijksmuseum's channel. The purpose is clear from the link text and its context, so it does not fail 2.4.4."
+    },
+    {
+      "fingerprint": "d7e3831db0a0",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The optional field between 'Firstname' and 'Lastname*' is labelled 'Preposition'. It is a literal translation of the Dutch 'tussenvoegsel', meaning surname particles such as 'van' or 'de'. An English user unfamiliar with Dutch names may not know what to enter, so the claim has some merit. But its position in the name sequence gives a clue, and auditors rarely fail 2.4.6 over a translation choice, so competent auditors could disagree. The suggested patch ('e.g., at or in') misreads the field."
+    }
+  ]
+}

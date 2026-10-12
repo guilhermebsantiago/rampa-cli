@@ -1,0 +1,48 @@
+{
+  "page": "https://www.cdc.gov/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "99bc00f5ec4b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the hero image on the prostate-cancer screening slide, with alt \"Man in a blue shirt standing outdoors\". Both the crop the model saw and the page screenshot show a man in a blue polo shirt against a blurred outdoor background of foliage. The alt describes what the image shows, so the claim that it describes something absent is wrong. The suggested replacement says much the same thing in other words."
+    },
+    {
+      "fingerprint": "a76a2f980d1c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the footer link to twitter.com/CDCgov. Its only content is <i role=\"img\" aria-label=\"x icon\">, and the visible icon is the X logo. The text alternative names the service (X), which is the same information a sighted user gets from the logo, and it sits in a row with \"facebook icon\", \"instagram icon\" and \"linkedin icon\", so the link's destination can be identified. The word \"icon\" is redundant and \"CDC on X\" would be better, but that is a best-practice improvement rather than a 1.1.1 failure. The suggested patch (\"Twitter\") would also no longer match the visible logo."
+    },
+    {
+      "fingerprint": "b06cf26cb5ca",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the footer link to https://www.cdc.gov/rss. Its only content is <i role=\"img\" aria-label=\"rss icon\">, and the icon is the standard RSS feed glyph. \"rss\" names what the icon stands for and where the link leads, CDC's RSS feeds, so the text alternative is equivalent to the image. \"icon\" is redundant, but the text is not missing or misleading, so this is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "6eb191ee73cb",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the \"Learn More\" button-link on the Ebola carousel slide. The snapshot shows that its parent div holds only a span reading \"Ebola Situation Summary\" (the slide's visual title) and this link. A screen reader reading in order announces the title immediately before the link, so the claim that \"nothing around it\" gives the purpose overstates the case. However, the title is a plain span, not a heading, paragraph, sentence or list item, and the page has two other identical \"Learn More\" links. So whether this counts as programmatically determined link context is the kind of question auditors split on. The title itself also misdescribes the destination (see finding cef725705a84)."
+    },
+    {
+      "fingerprint": "cef725705a84",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the carousel indicator link \"Ebola Situation Summary\", which points to /ebola/situation-summary/returning-travelers.html. On the live site, that page is traveler entry and screening guidance with no outbreak status. CDC's actual situation page, \"Ebola Outbreak: Current Situation\", is /ebola/situation-summary/index.html. So the text does point users at the wrong page. On the other side, the destination sits under the situation-summary path, is linked from the situation page as part of it, and covers the current outbreak-driven entry restrictions. Every user, sighted or not, sees the same text. And no documented failure covers link text that names a related but not exact page. Whether a misleading-but-related label fails 2.4.4 or is just an editorial mismatch is debatable."
+    },
+    {
+      "fingerprint": "41e7f4fa5216",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the footer link \"Funding and Grants\" to https://www.cdc.gov/budget/, titled \"Budget\". I fetched the live destination. It is CDC's budget and financial hub: it covers COVID-19 state, tribal, local and territorial funding, links to \"Funding\" and \"Grants\" pages, and says how CDC uses grants and cooperative agreements. CDC's own footer elsewhere calls it \"Budget & Funding\". The link text describes what a user finds there. 2.4.4 does not require link text to match the destination's title, and the checker seems to have expected it to, using only the title, heading and description."
+    },
+    {
+      "fingerprint": "6ed01b590230",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the header link \"Español\" to the Spanish CDC site. The snapshot has exactly one lang attribute on the whole page, lang=\"en-us\" on <html>. Neither the link nor any wrapper marks it as Spanish, and the live page shows the same markup. The Understanding document for 3.1.2 uses this exact case as its example: alternative-language links whose text is the language's name in that language need a lang attribute, and it shows \"Español\" with lang=\"es\". None of the exceptions apply: the word is not a proper name, a technical term or English vernacular, and the change of language is clearly intended. The other \"Español\" links on the page have the same problem, but this finding names a real failure."
+    }
+  ]
+}

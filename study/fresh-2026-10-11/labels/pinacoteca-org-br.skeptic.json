@@ -1,0 +1,60 @@
+{
+  "page": "https://pinacoteca.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "5271a6389592",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header logo image (alt=\"Pinacoteca\") inside the home link, which also carries a visually hidden \"Ir para a página inicial\". The crop the model saw, and the page screenshot, show the wordmark \"PINACOTECA DE SÃO PAULO\", so the image does show \"Pinacoteca\". The finding's claim that the alt describes something the image does not show is false. \"Pinacoteca\" is the museum's common short name (it is also the page's h1) and serves the logo's purpose. At most the alt is shorter than the wordmark, which is not a 1.1.1 failure. The model had the crop and judged it wrongly."
+    },
+    {
+      "fingerprint": "ee7607bd2053",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Nome*\" text input (#fale-conosco-nome) in the \"Fale conosco\" contact form, and it collects the user's own name. The snapshot HTML and the live page fetched on 2026-10-11 have no autocomplete attribute on the input or the form (the string \"autocomplete\" does not occur anywhere in the page). HTML supports autocomplete=\"name\", so without it the input's purpose is not programmatically determined, as 1.3.5 requires (H98). I found no other technique that would make it pass."
+    },
+    {
+      "fingerprint": "bad5c8c25204",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the contact form's e-mail input (#fale-conosco-email, type=email), and it collects the user's own e-mail address. The snapshot and the live page show no autocomplete attribute. type=\"email\" only constrains the format. It does not state that the field is the user's own e-mail, which is the purpose 1.3.5 needs exposed (autocomplete=\"email\", H98). No passing technique applies."
+    },
+    {
+      "fingerprint": "13cb282fd79d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the contact form's \"Telefone\" input (#fale-conosco-telefone, type=tel), an optional field for the user's own phone number. 1.3.5 applies whether or not a field is required. The snapshot and the live page have no autocomplete attribute. type=\"tel\" does not identify the input purpose (autocomplete=\"tel\"). This is a real 1.3.5 failure."
+    },
+    {
+      "fingerprint": "6982a269f459",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the newsletter sign-up e-mail input (#newsletter-email, label \"Email*\" under \"Cadastre seu e-mail:\"), and it collects the user's own e-mail address. The snapshot and the live page show no autocomplete attribute on it. The purpose is therefore not programmatically determined, which fails 1.3.5 (H98 not used). No exemption applies."
+    },
+    {
+      "fingerprint": "92e86e45ee76",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer \"developed by\" link to hous360.com.br. Its only visible content is an inline SVG logo whose paths are filled #575d73 inside <g opacity=\"0.5\">. That renders exactly #abaeb9 on the white bar, about 2.2:1, matching the rule's measurement and the screenshot. The obvious defence is the logo exemption. However, the WCAG 2.2 Understanding for 1.4.11 says a logo presented at low contrast as an author choice, not because of brand colours, is not 'essential' and is not exempt. Here the brand colour #575d73 (about 6.5:1) is deliberately faded to 50% opacity, and no hover or focus style restores it (theme CSS checked). The logo is all that identifies the link, so it fails 1.4.11."
+    },
+    {
+      "fingerprint": "86a15474b521",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Visita\" is a top-level main-menu item with href=\"#\", data-bs-toggle=\"dropdown\", aria-haspopup and aria-expanded=false. The accessibility tree exposes hasPopup=menu, collapsed. It does not go anywhere: it opens the \"Visita\" submenu (Ingresso, Como chegar, Planeje sua visita, Grupos agendados, Acessibilidade). Its text plus its programmatic context (a navigation list item and the popup state) makes that purpose clear, which satisfies 2.4.4. The finding judges it as if it were a navigation link to a destination. Exposing a toggle as a link rather than a button would be a 4.1.2 role question, not 2.4.4. The model had the dropdown-toggle HTML and the submenu text in the ancestors."
+    },
+    {
+      "fingerprint": "b6efb42597b7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Pina\" is a main-menu dropdown toggle (href=\"#\", data-bs-toggle=\"dropdown\", aria-haspopup, aria-expanded=false; the accessibility tree has hasPopup=menu). It opens a submenu about the museum (O museu, Acervo, Biblioteca, Conservação e Restauro, Gestão...). \"Pina\" is the museum's own nickname, used across the page (e.g. \"Pina nas redes sociais\"). Its purpose, opening the Pina section menu, is determinable from the text and its programmatic context, so 2.4.4 is met. The suggested rename \"Pina Educação\" is even wrong, since Educação is a separate menu. The model had the HTML and the submenu text."
+    },
+    {
+      "fingerprint": "2dc9d1d76a1a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is a footer link to https://www.cultura.sp.gov.br/ whose only content is an image (the São Paulo government / Secretaria da Cultura crest) with alt=\"\". There is no title, aria-label or text, and it is focusable and not hidden. The browser's accessibility tree gives the link no name, and the live HTML on 2026-10-11 is the same. This is documented failure F89 (also 2.4.4): screen readers announce just \"link\". The other logo links in the same row share the defect. Nearby text links do not name this link, so no passing technique applies."
+    }
+  ]
+}

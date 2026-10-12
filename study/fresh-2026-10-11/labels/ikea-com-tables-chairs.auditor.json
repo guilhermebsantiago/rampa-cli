@@ -1,0 +1,36 @@
+{
+  "page": "https://www.ikea.com/gb/en/cat/tables-chairs-fu002/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "c6a34addc74a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 'Explore now' button-styled link is one of only two children of the teaser header container (div.pub__teaser__info-container); the other is the h2 'How would you like to explore? By style, feature, size or shape', shown right beside it in the screenshot. The heading in the link's own container gives the purpose (explore the tables & chairs range by style, feature, size or shape). The destination page, 'Dining Furniture By Style', with the description 'Explore all dining furniture by style, feature, size or shape', matches that. The claim that nothing around the link tells where it goes is wrong. Heading context alone is only advisory (H80) in WCAG 2.2, but the heading falls within the link context as W3C's ACT rules define it, so this passes 2.4.4. The link text alone would fail 2.4.9 (AAA), not this Level A criterion. The live page markup is unchanged."
+    },
+    {
+      "fingerprint": "726e92ca9431",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'Learn more' link in the 'Delivery' card of the 'More ways to shop' block. The card is a block-level div holding an h3 'Delivery', a summary paragraph ('IKEA Family members save on delivery. Sign up for free today.') and then the link, which goes to the delivery services page. This is the summary-followed-by-'Read more' pattern that the Understanding document for 2.4.4 gives as passing. The enclosing block (the card) and its heading are programmatically determined link context (ACT's link-context definition uses the closest block-container ancestor), so the purpose, learning more about delivery, can be determined. Rampa had this card text in the ancestors and the heading, so 'nothing around it does' is a misjudgment. The repeated 'Learn more' text is a 2.4.9 (AAA) issue, not a 2.4.4 failure. The live page markup is unchanged."
+    },
+    {
+      "fingerprint": "7e8cb1bfe172",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'Learn more' link in the 'Finance' card: a block div with an h3 'Finance', the text 'Enjoy today, pay later. Compare our range of Finance services*', then the link to the finance-options page. The card's heading and summary text, which come right before the link in the same block container, are its programmatically determined link context and make the purpose (learn more about finance options) clear. This matches the 'Read more' after a summary example in Understanding 2.4.4. Rampa was given this card text and heading, so the claim that nothing around it explains the link is a misjudgment. The link text alone would fail only 2.4.9 (AAA)."
+    },
+    {
+      "fingerprint": "abb8aee1d033",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'Learn more' link in the 'Click and collect' card: a block div with an h3 'Click and collect', the text 'Collect near you at an IKEA store or a local pick-up point', then the link to the click-collect services page. The heading and summary in the same card are programmatically determined link context and state the purpose (learn more about Click and collect). Rampa's own suggested link text ('Learn more about Click and Collect') is taken straight from that context. This passes 2.4.4; the generic text alone is a 2.4.9 (AAA) concern only."
+    },
+    {
+      "fingerprint": "6393a3bd9dce",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the footer 'Learn more' link to /gb/en/ikea-family/. It has aria-describedby='hnf-footer-featured-link2', which points to the h3 'Join IKEA Family'. The snapshot's accessibility tree computes its description as 'Join IKEA Family', so screen readers announce that context on focus. The link is also preceded in the same featured-link block by that heading and the paragraph 'Collect points, earn rewards and get instant benefits by joining our IKEA Family club for free today.' Text referenced by aria-describedby is programmatically determined link context, and it gives the purpose (learn more about IKEA Family). Rampa's packet held both the aria-describedby attribute and the heading with that id, so the finding is a misjudgment. It does not fail 2.4.4."
+    }
+  ]
+}

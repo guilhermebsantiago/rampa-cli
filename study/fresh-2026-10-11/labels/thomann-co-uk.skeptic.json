@@ -1,0 +1,60 @@
+{
+  "page": "https://www.thomann.co.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "aaffd2ae56ce",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the cartoon image in the cookie consent banner. The crop shows a grandmother (\"Oma\" is German for grandma) holding a tray of cookies, so alt=\"oma-with-cookies\" describes exactly what the image shows. The suggested patch says the same thing in English. The claim that the alt describes something the image does not show is wrong. The image is decorative and alt=\"\" would be better, and the alt is clumsy and comes from the filename. But a correct, non-misleading description is not a 1.1.1 failure. The live page is unchanged."
+    },
+    {
+      "fingerprint": "e57bb43c6304",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is a USP badge link: an icon reading \"30 DAYS\", then a visible span \"Days Money-Back\". The image alt is \"Days Money-Back\", so the link's accessible name is \"Days Money-Back Days Money-Back\" (snapshot AX tree). The number 30 appears only in the image, and no alt, title or hidden text supplies it. The text alternative does not match the image of text and drops the key fact, which is a real 1.1.1 failure. The finding's wording is loose (the real gap is the missing \"30\", not invented content), but its claim of an alt/image mismatch holds, and its patch \"30 Days Money-Back\" names the fix. The live page still has the same markup."
+    },
+    {
+      "fingerprint": "eeed0609636c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the same badge pattern: the icon reads \"3 YEARS\", and both the alt and the adjacent span say \"Years warranty\". The link name is \"Years warranty Years warranty\", so the 3 conveyed by the image of text is not available programmatically anywhere. The alt is not equivalent to the image, so 1.1.1 fails. The patch \"3 years warranty\" fixes the real gap, though the message overstates it as describing something not shown. The live markup is the same."
+    },
+    {
+      "fingerprint": "2f34fbd5090b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The icon is a delivery truck inside a link whose visible text is \"Free Shipping Over £149\", and its alt is \"Free Shipping Over \". A truck icon stands for shipping, so a functional alt naming the shipping offer is acceptable. The icon adds no information beyond the adjacent text. Repeating the text is redundant (alt=\"\" would be cleaner), but redundancy is not a 1.1.1 failure. The model asked for a description of the image's appearance (its patch: \"Delivery truck icon\"), which is not what 1.1.1 requires for a functional icon."
+    },
+    {
+      "fingerprint": "e1a5f1a0d15c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Alright!\" accept button in the cookie consent banner. The live stylesheet (vendor-fx.css) confirms the colours: `.cookie-consent-spice .consent-button--primary{background:#13e47c;color:var(--fx-color--neutral-white)}`. White on #13e47c works out to 1.69:1. The text is 18px bold (13.5pt bold), below the large-text threshold, so 4.5:1 applies. It would also fail the 3:1 large-text minimum. It is real text on an active control, so the incidental and logotype exceptions do not apply. The full-page screenshot does not show the banner, but the snapshot captured it and the live CSS confirms the colours."
+    },
+    {
+      "fingerprint": "51690a83cfa3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the review count \"142\" next to the star rating on a product card (Product Highlights / Trends). In the live CSS, `.fx-rating-stars__description` is `color: var(--fx-color--neutral-400)`, which is #8a8a8a, at 16px bold on a white card. That gives 3.45:1, under the 4.5:1 required for 16px bold (12pt) text. The screenshot shows light grey numbers on white. The review count is informative content, not incidental."
+    },
+    {
+      "fingerprint": "5e936728e66f",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the header link \"Free Shipping Over £149\" pointing to helpdesk_shipping.html, titled \"Shipping Costs and Delivery Times\". The live destination has a shipping cost table and \"Free shipping above {price}\" content. So the link text is a fair statement of what the user will learn there. 2.4.4 needs the purpose to be determinable from the link text, not the text to match the destination's title. Nothing misleads here."
+    },
+    {
+      "fingerprint": "3daf46cb5051",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the h4 \"Served with love!\" in the cookie consent banner. It is a pun: it comes right after the grandma-with-cookies image (alt \"oma-with-cookies\"), and the next sentence starts \"With our cookies...\". In reading order, the context makes the topic clear at once. Read alone in a headings list, though, it names neither the topic (cookies/consent) nor its purpose. 2.4.6 is lenient about creative headings, so competent auditors would split on this one."
+    },
+    {
+      "fingerprint": "87dd4c1df537",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the h2 \"In Your Own Words\" over a carousel of customer feedback quotes signed with initials and dates (seen in the screenshot). \"In your own words\" is an idiom for customer testimonials, and on a shop homepage it tells users the section holds what customers say. 2.4.6 asks that headings describe the topic, not that they use a particular literal label like \"Customer Reviews\". This heading does describe it."
+    }
+  ]
+}

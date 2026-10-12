@@ -11,6 +11,8 @@ You may use:
 - the live page {URL} (WebFetch, or curl for the raw HTML), and pages it links to; it may have changed since Rampa read it at {COLLECTED}, so say so when that matters;
 - WCAG 2.2, its Understanding documents and techniques on w3.org.
 
-Do not open anything else under {ROOT}/study/ (in particular study/fresh-2026-10-11/labels/, study/fresh-2026-10-11/data/, the other packets, and the other studies' folders), nor docs/studies/, and do not run git. Do not run Rampa. Change no file except your output.
+The machine runs Windows with Git Bash: use `python -I` for Python (`python3` does not work). To look at part of the screenshot (an element's bounds from the packet, with some margin), crop it with `{NODE} {ROOT}/study/fresh-2026-10-11/scripts/crop.mjs <screenshot> <x> <y> <width> <height> {ROOT}/study/fresh-2026-10-11/packets/{NAME}/judge-{ROLE}-<anything>.png` and open the output with the Read tool; write crops nowhere else. If you write a helper script (to build your output, say), put it in {ROOT}/study/fresh-2026-10-11/packets/{NAME}/ as judge-{ROLE}-<anything>.py (or .mjs for Node). Never run a script you did not write in this task, and do not use any scratchpad or temporary directory: files there belong to other work.
+
+Do not open anything else under {ROOT}/study/ (in particular study/fresh-2026-10-11/labels/, study/fresh-2026-10-11/data/, the other packets, and the other studies' folders), nor docs/studies/, and do not run git. Do not run Rampa. Change no file except your output, your crops and your helper scripts.
 
 Write your labels, UTF-8, to {ROOT}/study/fresh-2026-10-11/labels/{NAME}.{ROLE}.json, in the rubric's format, with "page": "{URL}", "labeler": "{ROLE}", and one judgment per finding whose "fingerprint" is the finding's "key" from the packet. Check that the file parses as JSON and covers every key. Then reply with one line: how many findings you labelled true_positive, false_positive and uncertain.

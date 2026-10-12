@@ -1,0 +1,96 @@
+{
+  "page": "https://fiocruz.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "76f009c519df",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the thumbnail for the news item 'InfoGripe alerta para a importância da vacinação...'. The screenshot and the crop show a map of Brazil with coloured states and the InfoGripe logo ('INFO GRIPE') in the lower left corner, so the image is the InfoGripe bulletin's graphic. The claim that 'Boletim InfoGripe' describes something the image does not show is wrong: the alt correctly identifies the bulletin graphic. The map has no legend and is too small to read data from, so it is illustrative, and a short identifying alt is enough for 1.1.1. The model appears to have missed the small logo in the crop."
+    },
+    {
+      "fingerprint": "e97b0d56dd33",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to /unidades-e-escritorios (titled 'Unidades e escritórios'). Its alt 'Mapa do Brasil' describes the picture, not where the link goes. I looked for something that would make it pass. The 'Presença nacional' title link before it goes to the same place, but it is a separate link in a separate div, not programmatically determined context, and it does not change the image link's own name. Under 1.1.1, a control needs a name that describes its purpose (H30), and this one has none. A real failure."
+    },
+    {
+      "fingerprint": "ed0d3627fc67",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to the news article 'Inscrições abertas para estágio na Fiocruz'. Its alt 'Mulher de touca e luva fita tubo de ensaio' describes the photo and gives no hint of the destination or its purpose. The 'Estágios na Fiocruz' title link before it goes to the same place, but it is a separate link and does not give the image link a name that describes its purpose. Nothing makes it pass. 1.1.1 fails for this functional image."
+    },
+    {
+      "fingerprint": "cef9e80d5663",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to /agenda-fiocruz. That page's description is 'Confira os próximos eventos programados abaixo e todas as transmissões realizadas pelos nossos canais'. The alt is 'Arte transmissões da Fiocruz' ('artwork: Fiocruz broadcasts'). The 'Arte' prefix makes it read as a description of the graphic. But its subject, Fiocruz broadcasts, is what the destination lists, so a user could fairly infer the link leads to Fiocruz broadcasts. It is borderline whether the name describes the link's purpose, and competent auditors would reasonably disagree."
+    },
+    {
+      "fingerprint": "3f72f0c5492b",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to https://www.museudavida.fiocruz.br/, the Museu da Vida website (Rampa did not read the destination, but the href is unambiguous). The alt 'Pirâmide científica do Museu da Vida tem telescópios, livros, mesas e fotos científicas' is a photo description, not a statement of purpose. It does, however, name the Museu da Vida, which is where the link goes. Whether this is a name that describes the purpose or just a description of a specific exhibit is a judgment call on which auditors would differ."
+    },
+    {
+      "fingerprint": "40dde10145a2",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The image is an image of text: a castle photo with large 'TOUR 360°' lettering. Its alt 'Tour 360º' matches that text, which is what 1.1.1 asks for an image of text. The link goes to /castelo-patrimonio-da-ciencia. Rampa's destination summary did not mention it, but on the live page the main content of that page is an embedded 360° virtual tour of the Castle (iframe titled 'Tour castelo Fiocruz'). So 'Tour 360º' does say where the link leads. The suggested 'Tour 360º do Castelo' is a nicety, not a requirement."
+    },
+    {
+      "fingerprint": "c6c86444a8e7",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to https://agencia.fiocruz.br/, the front page of the Agência Fiocruz de Notícias. The image is a screenshot of that front page, and the alt 'Capa AFN' means 'AFN front page' in Brazilian web/newsroom usage, which is literally the destination. The acronym AFN is not expanded in the alt, though the adjacent title link 'Agência Fiocruz de Notícias' gives it away visually. Whether a cryptic but accurate name like this describes the link's purpose is a point on which auditors would reasonably disagree."
+    },
+    {
+      "fingerprint": "e1c71bacd7c5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Acessibilidade' header link is 16px bold, which is not large text, so it needs 4.5:1. Its text colour #4f2000 comes from CSS, and it sits on the orange header gradient. The bullet-arrow background image is why axe gave up. I sampled the screenshot row by row behind the glyphs (y 70-83): the background goes from #d67d0e (4.42:1) to #c96e0e (3.72:1), so every part of the text is below 4.5:1. I checked G174: the page has a 'Contraste' button, and the a11y module applies body filter contrast(2). By my calculation that would lift this link to about 6.5-7:1. But the same mode leaves the language links at about 3.5-4.4:1, so the alternate presentation does not meet 1.4.3 and G174 is not satisfied. The default failure stands, though the margin is small."
+    },
+    {
+      "fingerprint": "8dd0e63969ab",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Português' language link is 16px bold (normal size, needs 4.5:1), with CSS colour #4f2000 on the darker part of the header gradient. My own screenshot samples behind the text, rows y 108-124, range #b4530d to #a6420d, which gives 2.2-2.7:1. That agrees with Rampa. The page's 'Contraste' toggle (body filter contrast(2)) would still leave it at about 3.5-4.4:1, so G174 does not rescue it. Being the current-language link does not exempt it. A clear failure."
+    },
+    {
+      "fingerprint": "6eec7d722429",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'English' language link is 16px bold, CSS colour #4f2000, on the header gradient. The pixels behind it measure #b4530d to #a6420d, which gives 2.2-2.7:1, far below 4.5:1. The 'Contraste' mode (filter contrast(2)) would still leave it below 4.5:1, so no G174 escape. No exception applies; it is real link text. A real failure."
+    },
+    {
+      "fingerprint": "ddfc30dfd016",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Español' language link is the same case as the other two language links: 16px bold, #4f2000 on #a7430d-#b3520d, which gives about 2.2-2.7:1. I confirmed this from the screenshot pixels. The page's contrast toggle does not bring it to 4.5:1. A real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "1c06dd4923a3",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Simplifique!' is a link in the standard gov.br federal identity bar, next to 'Comunica BR', 'Participe', 'Acesso à informação' and others. It is the proper name of the federal government's Simplifique! service (citizen requests to simplify public services), and it links to that service's page. Link text that names its destination service identifies the link's purpose (G91), just as the neighbouring 'Comunica BR' and 'Participe' links do, which Rampa did not flag. Today the URL redirects to a 403 'Conteúdo Restrito' page. That makes it a broken or outdated link, not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "038364cde7fc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The live markup matches the snapshot: <a href=\"/en\" hreflang=\"en\">English</a> in a page with <html lang=\"pt-br\">, with no lang on the link or its ancestors. hreflang describes the target resource, not the link text. The Understanding document for 3.1.2 gives exactly this case as an example ('Alternative language links', each marked with lang). Its single-word guidance does not apply, because the change of language is clearly intended. No exception applies, so this is a real failure."
+    },
+    {
+      "fingerprint": "e7000032d563",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the same as the English link: on the live page, <a href=\"/es\" hreflang=\"es\">Español</a> has no lang attribute, so it inherits pt-br. 'Español' is Spanish, not the Portuguese 'Espanhol', and it is deliberately in Spanish in a language switcher. That is the 'Alternative language links' example in the Understanding document for 3.1.2. A real failure."
+    },
+    {
+      "fingerprint": "9ddef2f28b1a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The paragraph holds only <img src=\"ornamento_rodape_2.png\" alt=\"Image Fiocruz from A to Z\">. The image is the decorative flourish divider at the bottom of the 'Fiocruz de A a Z' footer, and the alt is unchanged on the live page. The alt is an English phrase on a pt-br page with no lang, so AT exposes it and reads it with Portuguese rules. Text alternatives are content under 3.1.2, and no exception (proper name, technical term, vernacular) covers 'Image ... from A to Z'. The deeper problem is that a decorative image should have alt=\"\" (a 1.1.1 issue, F39). Fixing that would also remove this one, but as reported the 3.1.2 claim is accurate."
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "page": "https://www.ce.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "69576a303b73",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is a 32px vehicle icon inside the 'Mais Acessados' link to service 2671. The link also shows the same text, 'Emitir o licenciamento anual do veículo (CRLV)', and the live HTML is unchanged. An image inside a link may take an alt that states the link's function, so 1.1.1 does not require the alt to describe the picture. The alt only repeats the visible text. alt=\"\" would be better practice (H2), but that redundancy is not a 1.1.1 failure. The suggested 'Ícone de veículo' would add nothing useful."
+    },
+    {
+      "fingerprint": "758c19025aeb",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is a document-with-dollar-sign icon inside the link to service 2426. The visible link text, 'DAE para pagamento de IPVA - boleto/pix', is the same as the alt. The alt states the link's function, which is acceptable for an image inside a link. Repeating the visible text is a redundancy best-practice issue (H2 would use alt=\"\"), not a failure of 1.1.1. The finding wrongly demands an alt that describes the picture."
+    },
+    {
+      "fingerprint": "65ae4e2a7b90",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is a vehicle icon inside the link to service 3284, next to the visible text 'Transferir a propriedade do veículo'. Its alt repeats the link text, so it states the link's function. That is an acceptable text alternative for an image inside a link. At worst the alt is redundant (alt=\"\" per H2 would be cleaner), which is not a 1.1.1 failure. The patch's 'Ícone de veículo' would not improve the page."
+    },
+    {
+      "fingerprint": "67ae80cb5c64",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the featured photo of the 'Ceará em Destaque' bulletin card (a buggy on a sand dune). It is not inside a link, and the h3 directly above it is also 'Ceará em Destaque'. The alt names the publication, not what the photo shows, and the live HTML is the same. If the photo is treated as informative, the alt does not convey its content and the finding holds. If it is an illustration in a card whose information is all in the heading, date and link, it is decorative and the alt is only redundant. That would be at most an F38-style issue, not the inaccurate description the finding claims. Competent auditors would reasonably disagree about whether this photo carries information."
+    },
+    {
+      "fingerprint": "8cc68cf0d6a4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Banners institucionais' slide image. It is the only content of a link to the 'matérias especiais' news category, and the live HTML is unchanged. Its alt, 'Tarja-Especiais-Site-Interna-1', is the file name. The image is text: 'ESPECIAIS - Reportagens que vão além dos fatos cotidianos'. A file name used as alt is documented failure F30 of 1.1.1. Because the image is the link's only content, the link's purpose is lost as well (2.4.4)."
+    },
+    {
+      "fingerprint": "be79776c4869",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the desktop 'Entrar' outline button in the header: white text on the header's green gradient. Sampling the screenshot inside the button gives #21a23e to #24a53a behind #fefefe, about 3.2:1 to 3.4:1. At 20px and weight 400 the text is not large, so it needs 4.5:1, and it fails. The page has an 'Alternar alto contraste' toggle, but G174 does not rescue this. G174 requires the alternate presentation to meet all other criteria, and that mode would keep failures such as the file-name alt on the 'Especiais' banner. So 1.4.3 fails in the default view."
+    },
+    {
+      "fingerprint": "9012df6cee36",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the h4 'Boletim publicado!' on the bulletin card, in .text-secondary orange. Sampling the screenshot gives text pixels of exactly #ef6000 on a pale mint gradient (#dff1ef to #e8efee), about 2.83:1. At 24px and weight 500 it counts as large text, so it needs only 3:1, but it still falls short. The live markup is unchanged. The high-contrast toggle does not excuse it, for the same G174 reason as the 'Entrar' button."
+    }
+  ]
+}

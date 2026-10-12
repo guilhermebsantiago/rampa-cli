@@ -1,0 +1,114 @@
+{
+  "page": "https://apublica.org/2026/10/flavio-bolsonaro-e-o-risco-de-um-presidente-com-esqueletos-no-armario/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "ef78fe55d02b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the featured thumbnail of a teaser card in the 'Artigos mais recentes' carousel (hands breaking chalk over a faint '1968'). The card itself carries the headline 'Gestão Tarcísio exonera professoras com regra da ditadura', an excerpt, and category, date and author. The thumbnail is an editorial illustration of that headline, and the model itself says it 'represents the theme'. Nothing in it is needed to understand or use the card, so alt=\"\" is acceptable for this kind of decorative teaser image, and the incidental '1968' does not make it informative content. The card's real defect is a different one: its stretched link (#post-267202 > a) has no accessible name (2.4.4/4.1.2). That has nothing to do with this image's alt text."
+    },
+    {
+      "fingerprint": "45a76e5b7541",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a stock-style photo of a phone showing the e-Título app with an error dialog. It is the thumbnail of a teaser card whose headline ('Plataformas mantêm anúncios e recomendações políticas irregulares no dia da votação') and excerpt carry the story. The error text in the photo is incidental illustration, not information the card needs to convey, so alt=\"\" on a decorative teaser thumbnail does not fail 1.1.1. The card's empty stretched link is a separate issue under another criterion."
+    },
+    {
+      "fingerprint": "eda908cce89c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page title 'Flávio Bolsonaro e os esqueletos no armário' is a shortened form of the H1 ('Flávio Bolsonaro e o risco de um presidente com esqueletos no armário'), and the live page still has it. It clearly describes the topic of this column. 2.4.2 does not require the site name or the full headline, so the claim that it 'says nothing about this page' is wrong."
+    },
+    {
+      "fingerprint": "db71915291b1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is an inline citation link in the column. The live HTML and the snapshot's readingText give the sentence as 'A jornalista Flávia de Oliveira chamou a atenção para o fato de que, por conta da ação de André Mendonça...'. Under 2.4.4 the purpose can be determined from the link text together with its enclosing sentence (G53), and the sentence makes clear that the link points to the source where Flávia Oliveira made this point (it goes to her O Globo column). So the claim that 'nothing around it' tells the purpose is false. The snapshot's own paragraph 'text' field reorders the link words ('...Oliveira a atenção ... chamou por conta...'), which may have misled the model, but readingText was correct."
+    },
+    {
+      "fingerprint": "7f03854bcb29",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is an inline source link in the sentence '...pela empresa Entre Investimentos, que lavava inclusive dinheiro para o crime organizado...'. It goes to a CNN Brasil report on that company's ties to organized crime. Read with its enclosing sentence (the programmatically determined context 2.4.4 allows), its purpose is clear: it is the source for the claim that the company laundered money for organized crime. A more descriptive link text would be better practice, but the link does not fail the AA criterion."
+    },
+    {
+      "fingerprint": "fae4a15820a9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link text is the magazine's name, 'piauí', inside the clause 'segundo demonstram os diálogos completos publicados pela revista piauí: são 50 mensagens de Flávio...'. Link text plus sentence identify the purpose: the piauí article that published the dialogues, and the href is piaui.uol.com.br/web/mensagens-celular-flavio-vorcaro/. The context names exactly what the link is, so it passes 2.4.4."
+    },
+    {
+      "fingerprint": "850642a0a512",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is an inline citation in 'A mesma revista revelou, ainda, que Flávio e Vorcaro viajaram para Fort Lauderdale...'. The previous paragraph identifies the magazine as piauí, and the link goes to piauí's report on the trip. The enclosing sentence and paragraph state what the linked source revealed, so the purpose can be determined in context (G53) and 2.4.4 is met."
+    },
+    {
+      "fingerprint": "4b7890517b60",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is an inline citation in 'Como revelou o ICL, Flávio tem uma empresa de capacetes que está registrada no mesmo lugar...'. The sentence names the outlet (ICL) and what it revealed, and the link goes to iclnoticias.com.br's story on that topic. In context its purpose is determinable, so it passes 2.4.4."
+    },
+    {
+      "fingerprint": "ddfc2be4c0c6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The sentence reads 'Em uma reportagem bastante detalhada aqui na Agência Pública, mostramos como Flávio comandava as decisões administrativas... dos hospitais federais durante a epidemia'. Rampa read the destination itself: a Pública report on Flávio Bolsonaro and the federal hospitals in the pandemic. That matches what the sentence says, so link text plus sentence clearly identify the purpose and 2.4.4 is met."
+    },
+    {
+      "fingerprint": "9a0ffa0a3651",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Pontual' is one of three toggles (Pontual / Mensal / Anual) in the donation box ('Leia de graça, retribua com uma doação ... Escolha como contribuir'), followed by the amount options. Given the box and its sibling options, the purpose (choose a one-off donation) is clear, so this does not fail 2.4.4. The real problem lies elsewhere: these are <a href=\"#_\"> elements acting as toggle buttons, with the selected state shown only by a CSS 'active' class (4.1.2 Name, Role, Value)."
+    },
+    {
+      "fingerprint": "381999ea7952",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Mensal' is the monthly-frequency toggle in the donation widget, next to 'Pontual' and 'Anual' under the 'Escolha como contribuir' text. In that context its purpose (choose a monthly donation) is evident, so 2.4.4 is not failed. The actual defect is that a link is used as a toggle button with no role or pressed/selected state (4.1.2)."
+    },
+    {
+      "fingerprint": "1b2849bbdc14",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Anual' is the annual-frequency toggle in the same donation widget. Its purpose (choose an annual donation) is clear from the widget's text and the sibling options, so 2.4.4 is met. Any failure here is under 4.1.2: a link used as a toggle without role or state."
+    },
+    {
+      "fingerprint": "283dc18513d1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a category tag link ('Poder') in a teaser card's tag row ('Reportagem Poder'). It goes to /editorial/poder/, which Rampa read: its title is 'Arquivo de Poder' and its heading is 'Poder'. The link text matches the destination, and in the card's tag row its purpose (open the Poder section) is clear, so it passes 2.4.4. Rampa had the destination and judged wrongly."
+    },
+    {
+      "fingerprint": "72d63686a1b8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h5 'Assine nossas newsletters' heads a bordered call-to-action box placed mid-column. The box contains only an 'Assinar' button to the newsletter signup (screenshot confirms), so the heading accurately describes its own content and purpose. The article paragraphs that follow in DOM order are not that heading's content, and an interjected heading level is at most a 1.3.1 structure concern, not a non-descriptive heading under 2.4.6."
+    },
+    {
+      "fingerprint": "d4e95d4328bc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h2 'Aviso' ('Notice') heads a one-sentence notice: 'Este é um conteúdo exclusivo da Agência Pública e não pode ser republicado.' (live HTML and screenshot). The heading names the section's purpose: it is a notice. 2.4.6 does not require headings to be long. The suggested replacement 'Apoie a Agência Pública' shows the model misread which content sits under the heading."
+    },
+    {
+      "fingerprint": "085514b111f6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "#other-amount is a number input (min 10) at the end of a row of preset donation amounts (R$ 25 ... R$ 500), and its only label is the placeholder 'Outro valor'. In that context 'Outro valor' (other amount) says exactly what to enter, so the 2.4.6 claim fails. A placeholder-only label could be raised under 3.3.2 or 1.3.1, but that is a different claim from the one made here."
+    },
+    {
+      "fingerprint": "2a29f47fad34",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "In the footer menu under 'Republicação', the link 'English' (to /category/english/) has no lang attribute, and the live HTML shows none on its li, ul or ancestors, so it inherits html lang=\"pt-BR\". The text is the name of a language written in that language, which is the case the 3.1.2 Understanding document uses as its example: alternative-language links should carry lang, e.g. <a lang=\"de\">Deutsch</a>. None of the exceptions (proper name, technical term, indeterminate language, vernacular) applies, so this is a real failure."
+    },
+    {
+      "fingerprint": "045b3a4f0a06",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link 'Español' (to /category/espanol/) has no lang attribute on itself or any ancestor, so it inherits pt-BR. It is a Spanish word (Portuguese would be 'Espanhol') used as a language-version link, the pattern the 3.1.2 Understanding document gives as needing lang (it even cites a span containing 'Español' with lang=\"es\"). No exception applies, so it fails 3.1.2 as reported."
+    }
+  ]
+}

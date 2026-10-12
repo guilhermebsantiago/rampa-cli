@@ -1,0 +1,36 @@
+{
+  "page": "https://www.propublica.org/article/draftkings-sports-gambling-problem-vip-fanduel",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "7ab4896283db",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer newsletter sign-up field, an input type=\"email\" with a visually hidden label \"Email Address:\". It collects the user's own email address, which is one of the WCAG input purposes. The snapshot has no autocomplete attribute anywhere on the page. The live HTML fetched on 2026-10-11 has the same markup (only the id suffix differs) and still no autocomplete. type=\"email\" gives the data type, not the input purpose, so nothing makes the purpose programmatically determinable. That fails 1.3.5 as the finding says."
+    },
+    {
+      "fingerprint": "72877e66c607",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the bottom-panel newsletter call-to-action field, an input type=\"email\" with the visually hidden label \"Please enter your email address:\" and the placeholder you@example.com. It asks for the user's own email address and has no autocomplete attribute, both in the snapshot and in the live HTML (no autocomplete appears anywhere on the page). Nothing else identifies the purpose programmatically, so it fails 1.3.5."
+    },
+    {
+      "fingerprint": "aedb799e09d0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is an inline citation link in the article body. The live HTML reads: \"Today, <a>nearly a quarter of all Americans</a>, and half of men ages 18 to 49, say they have an active sportsbook account, according to the Siena Research Institute.\" Under 2.4.4, the purpose of a link can be determined from the link text together with its programmatically determined context, and the enclosing sentence and paragraph count as that context. Here the sentence makes clear that the link leads to the Siena Research Institute source for the statistic, and the href (sri.siena.edu) matches. The paragraph text was in the packet's ancestor context, so the model had what it needed and judged wrongly."
+    },
+    {
+      "fingerprint": "b65b02010773",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the footer h2 \"Info\" (shown in uppercase by CSS), heading a list of links to About, Impact, Leadership, Staff, Partners, Awards, Events, Jobs and Fellowships. Its sibling footer headings are Coverage, Local, Contact and Support us. \"Info\" is short, but it describes the topic of the group: information about the organization. 2.4.6 requires headings to describe their topic or purpose, not to be detailed or exhaustive. The packet showed the section content, so this is a wrong judgment, not missing context. Competent auditors would pass this footer column heading."
+    },
+    {
+      "fingerprint": "be87e276134b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The label of the bottom-panel email field is \"Please enter your email address:\" (a label element with for=bottom-panel-cta-email, visually hidden with class p-a11y). It says exactly what to enter: an email address. The suggested fix, \"Email address\", says the same thing. The label describes the field's purpose, so 2.4.6 is met. Any problem caused by the label being visually hidden would belong to 3.3.2, not to this claim."
+    }
+  ]
+}

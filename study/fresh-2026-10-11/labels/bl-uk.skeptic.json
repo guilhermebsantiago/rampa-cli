@@ -1,0 +1,36 @@
+{
+  "page": "https://www.bl.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "96cefcb59fd2",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Thumbnail img in the 'Partial building closure' news card, alt=\"British Library clocktower\". The crop the model saw shows the red-brick British Library clock tower with its clock face against a blue sky, so the alt matches the image exactly (the file name is even british-library-clocktower.jpg). The model had the right image and judged wrongly; its patch only adds 'The'. No 1.1.1 failure."
+    },
+    {
+      "fingerprint": "c8a7e7eb30db",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Image in the 'Support our conservation appeal' banner, alt=\"The corner of a highly decorated page\". The crop shows exactly that: a close-up of the corner of an illuminated page with a floral border, gilded frame and a painted scene. The model's own patch describes the same thing in more words, which shows the alt is accurate. It serves the image's purpose in a fundraising banner, so there is no 1.1.1 failure."
+    },
+    {
+      "fingerprint": "3dfed6a746f4",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Visit' is a top-level item in the main site navigation (Collection, What's on, Visit, Stories) on the British Library's own site, linking to /visit. Rampa read the destination ('Visit the British Library – Opening Times and Visitor Info'), which matches what the link text says. In this navigation context, 'Visit' clearly means planning a visit to the Library, so 2.4.4 (purpose from the link text or its context) is met. The model had the destination and the context and still judged wrongly."
+    },
+    {
+      "fingerprint": "24a0cd1d7751",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer link 'Learning' (href /about/learn) in the column visibly labelled 'About us', next to Who we are, Press and media and Jobs. Rampa did not read the destination. I fetched it live: its h1 is 'Learn' and its title is 'Events and resources for kids, schools and adults', so the link goes exactly where 'Learning' says (the Library's learning programme). That purpose is clear from the link text alone in a library site's footer, so 2.4.4 is not failed. The claim that 'nothing around it' helps is also wrong, because the 'About us' column label is in the ancestor text the model had."
+    },
+    {
+      "fingerprint": "ebe690627b11",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "h2 'Everything for' sits directly above three large card links: Research, Business and Schools (hub pages). On screen it reads as a lead-in that the cards complete ('Everything for Research / Business / Schools'), and the site uses the same label for the same link group in its navigation. The live page has the same markup, with no hidden text. Read with the cards that follow, the heading does tell you this is a set of audience hubs, and 2.4.6 allows short headings that give an appropriate cue. Out of context, though (in a screen reader's headings list, for example), 'Everything for' is a dangling fragment that names no topic. Competent auditors could reasonably call this either a pass or a weak-heading failure, so I cannot confirm it as a true positive. The suggested patch is also poor."
+    }
+  ]
+}

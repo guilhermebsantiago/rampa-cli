@@ -1,0 +1,90 @@
+{
+  "page": "https://chicorei.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "7c21c1d74b22",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The \"Próximo\" button scrolls the \"Novidades\" product strip. I checked the live page at 1280x800. It is a native button with no tabindex. Its wrapper turns display:none once the strip reaches its end, and Tabbing through the six product links scrolls the strip there. So a forward walk skips it, and a backward walk run in that same scrolled state skips it too. After a fresh load, Shift+Tab from below does reach it (7th Shift+Tab in my test), so the claim that Tab and Shift+Tab never reach it comes from the state the walk left the strip in. Its function, showing the next products, is also available by keyboard: every product link takes focus and scrolls the strip into view. So 2.1.1 is not failed."
+    },
+    {
+      "fingerprint": "5e13adb36239",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The finding is about single-key shortcuts on the body. On the live page, the only key listeners on window, document, html and body are keydown, keypress and keyup on document, all wrapped by the Sentry SDK. With focus on body, pressing \"d\" (and \"x\" and \"j\") changed nothing my checks caught: no scroll, no URL change, no focus move, and no DOM mutation other than the per-second countdown digits and the rotating header-advantages ticker. Those change just the same with no key pressed. The probe's 'changed what the window shows' most likely caught a timer tick, not a shortcut. No evidence of any character-key shortcut."
+    },
+    {
+      "fingerprint": "86eb6f03b475",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The desktop header logo link \"Chico Rei\" is the first Tab stop. On the live page at 1280x800, Tabbing to it gives :focus-visible but computed outline-style none, no box-shadow, and no background or decoration change. A crop with a 30 px margin is pixel-identical focused and blurred, which matches the probe's 0 px change. Other links on the page keep the browser's auto outline, so this rule specifically removes the indicator (F78). I found no other technique that makes focus visible here."
+    },
+    {
+      "fingerprint": "f8b073e76772",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The cookie-bar button \"Concordar\" (#confirmPolicyButton) is the last Tab stop. I Tabbed to it on the live page at 1280x800: it matches :focus-visible, but outline is none (.btn style), with no box-shadow and no colour change. A crop with a 30 px margin is pixel-identical focused and blurred. The keyboard user gets no visible focus indicator on this button, so this fails 2.4.7."
+    },
+    {
+      "fingerprint": "831bdb75b4c0",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link \"Conheça nossas coleções!\" in main is the subject. At 390x844 the #contador coupon banner is position:fixed, z-index 1000, 390x170 px at y 674, and the page sets no scroll-padding. html uses scroll-behavior:smooth, so I sampled the position over 1.5 s to rule out a mid-scroll capture. In two of my three live walks the link scrolled to mid-viewport and was visible. In the third, focused at Tab 31 as in Rampa's walk, it settled at y 827 and stayed fully under the banner. A sticky banner the author placed, not one the user opened, that entirely covers the focused element is failure F110. Whether it happens depends on the scroll state, but it is a real, reachable failure."
+    },
+    {
+      "fingerprint": "13c2097c27e1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"+ Galeria de Artistas\" is the subject. In my live 390x844 Tab walks it receives focus at y 792 and stays there, since focus does not scroll the page. Every sampled point hits the fixed #contador banner (y 674-844), and with the banner hidden the link is visible. The banner is not user-opened, and the page has no scroll-padding (C43). This is F110: a sticky footer entirely hides the focused element."
+    },
+    {
+      "fingerprint": "2d160121cc94",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "\"Central de ajuda\" sits inside the collapsed \"Precisa de ajuda?\" footer accordion at 390 px. Its container .collapsible-text has max-height:0, overflow:hidden and is 2 px tall. The link is invisible because its own collapsed container clips it, not because the static \"SOBRE A CHICO REI\" button covers it; that button only happens to lie under the hit-test points. Focus landing on content inside a collapsed section is a real problem, but it fails 2.4.7 Focus Visible (and arguably 2.4.3 Focus Order), not 2.4.11's obscuring by other content."
+    },
+    {
+      "fingerprint": "d63bd139ef74",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "\"Quem Somos\" sits inside the collapsed \"Sobre a Chico Rei\" footer accordion at 390 px. Its container has max-height:0, overflow:hidden and a 2 px height. On the live page it is clipped and invisible whether or not #contador is shown: with the banner hidden, its points still do not hit the link. The banner on top is incidental, so 'hidden behind #contador' misstates the cause. Tabbing into a collapsed section's invisible links fails 2.4.7 (and arguably 2.4.3), not 2.4.11."
+    },
+    {
+      "fingerprint": "323915a76d16",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "\"Sustentabilidade\" (footer) is in the same collapsed \"Sobre a Chico Rei\" accordion as \"Quem Somos\": max-height:0, overflow:hidden, 2 px tall. It is invisible because its container clips it, not because #contador covers it, and hiding the banner does not reveal it. The real issue, focus moving to invisible content in a collapsed section, is a failure of 2.4.7 (and arguably 2.4.3), not of 2.4.11 as claimed."
+    },
+    {
+      "fingerprint": "82277b759031",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The subject is the \"Formas de pagamento\" footer accordion button, a visible 390x68 button. In my live 390x844 walks it gets focus at y 691-759 and no scroll happens. That box lies entirely inside the fixed #contador banner (y 674-844, z-index 1000), and every sampled point hits the banner. With the banner hidden the button is visible. The banner is author-placed sticky content and there is no scroll-padding, so this is F110."
+    },
+    {
+      "fingerprint": "b3acc91ca709",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The subject is the \"REDES SOCIAIS\" footer accordion button, visible and 390x68. In my live 390x844 walks it is focused at y 761-829, entirely inside the fixed #contador banner (y 674-844), with no scroll and no scroll-padding. Every sampled point hits the banner, and with the banner hidden the button is visible. This is a real 2.4.11 failure (F110)."
+    },
+    {
+      "fingerprint": "432f2999d659",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The \"Instagram\" icon link is in the collapsed \"REDES SOCIAIS\" footer section at 390 px. Its container .collapsible-text has max-height:0, overflow:hidden and is 2 px tall. Along with Twitter, Facebook, TikTok and the other social links, it sits at y 808 inside that clipped container. It is invisible because of the collapse, not because #contador covers it, and hiding the banner does not reveal it. This fails 2.4.7 (and arguably 2.4.3), not 2.4.11 as described."
+    },
+    {
+      "fingerprint": "4dd7847142e6",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The \"Twitter\" icon link has the same situation as Instagram. It is in the collapsed \"REDES SOCIAIS\" footer section (max-height:0, overflow:hidden, 2 px tall) and is clipped by that container. The #contador banner on top does not cause the hiding, and removing it would not reveal the link. Invisible focus inside a collapsed section is a 2.4.7 (and arguably 2.4.3) problem, not an obscured-by-content failure of 2.4.11."
+    },
+    {
+      "fingerprint": "301a2fadf540",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The \"Facebook\" icon link is in the collapsed \"REDES SOCIAIS\" footer section (max-height:0, overflow:hidden, 2 px tall), so its own container clips it whatever lies on top. The probe attributed the hiding to the fixed #contador banner, but hiding the banner would not reveal the link. The real defect, focus reaching invisible collapsed content, fails 2.4.7 (and arguably 2.4.3), not 2.4.11."
+    }
+  ]
+}
