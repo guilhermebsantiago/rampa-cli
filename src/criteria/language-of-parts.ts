@@ -6,7 +6,7 @@ import { languageName } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree, inheritedLang, textInheritingLang, walkTree } from '../snapshot/tree.ts'
 import { identifiedNote, verifyAgainstIdentifier } from './language-of-page.ts'
-import { isHidden, propertyPatch, readingTextOf, startTagOf, subtreeText, withAttribute } from './shared.ts'
+import { isHidden, propertyPatch, readingTextOf, startTagOf, subtreeText, trivialQuote, withAttribute } from './shared.ts'
 
 /**
  * WCAG 2.1 SC 3.1.2 Language of Parts (AA).
@@ -208,7 +208,8 @@ export const languageOfParts: Criterion<LanguageOfPartsContext, LanguageOfPartsJ
 
   verify(output, candidate): Verification {
     const evidence = normalizeForMatch(output.evidence)
-    if (letterCount(evidence) < 2) return { ok: false, reason: 'evidence too short' }
+    // Three letters at least ("de" is in nearly any text), unless the quote is all of the element's text.
+    if (trivialQuote(evidence, [candidate.context.text], 'letters')) return { ok: false, reason: 'evidence too short' }
     if (evidence.length > 400) return { ok: false, reason: 'evidence too long to be a quote' }
     if (!normalizeForMatch(candidate.context.text).includes(evidence)) {
       return { ok: false, reason: 'evidence is not in the element text' }

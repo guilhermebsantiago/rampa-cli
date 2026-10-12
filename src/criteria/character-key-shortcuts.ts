@@ -4,6 +4,7 @@ import { dataBlock, normalizeForMatch } from '../core/util.ts'
 import type { ShortcutsData } from '../probes/shortcuts.ts'
 import { SHORTCUTS_RULE, effectOf, shortcutNode, shortcutVerdicts } from '../rules/shortcuts.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
+import { verifyListedQuote } from './shared.ts'
 
 /**
  * WCAG 2.1 SC 2.1.4 Character Key Shortcuts (A): the one question the shortcuts probe leaves to a model.
@@ -117,12 +118,10 @@ export const characterKeyShortcuts: Criterion<ShortcutSettingsContext, ShortcutS
     if (control === '') return { ok: false, reason: 'pass verdict without a control' }
     const named = [...candidate.context.openers, ...candidate.context.controls].map(normalizeForMatch)
     if (!named.includes(control)) return { ok: false, reason: 'the control is not one the page shows' }
-    const evidence = normalizeForMatch(output.evidence)
-    if (evidence === '') return { ok: false, reason: 'empty evidence' }
-    // The evidence quotes the page: it is part of a listed text, or holds one whole (models join two quotes).
+    // The evidence quotes one listed text, or most of it (verifyQuote's rule): the pass clears the finding, so a few
+    // letters of a text, or a longer text that only holds one, are not enough.
     const sources = [...named, ...candidate.context.instructions.map(normalizeForMatch)].filter((text) => text.length >= 3)
-    if (!sources.some((text) => text.includes(evidence) || evidence.includes(text))) return { ok: false, reason: 'evidence is not text the page shows' }
-    return { ok: true }
+    return verifyListedQuote(output.evidence, sources)
   },
 
   message(output, _candidate, locale) {

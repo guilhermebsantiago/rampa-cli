@@ -1,5 +1,5 @@
 import type { EngineResults, Patch, Verification } from '../core/types.ts'
-import { normalizeForMatch } from '../core/util.ts'
+import { letterCount, normalizeForMatch } from '../core/util.ts'
 import type { A11yNode, Surface } from '../snapshot/schema.ts'
 
 /** Refs of the nodes the engine already failed on these rules: they go to the report as they are, never to the model. */
@@ -164,6 +164,37 @@ export function propertyPatch(surface: NativeSurface, ref: string, property: str
   }
 }
 
+/** The share of a text a quote that is not all of it must keep: it may drop a little at the ends, never most of the text. */
+export const QUOTE_SHARE = 0.6
+
+/**
+ * The fewest letters and digits a quote holds, unless it is all of the text it comes from. One or two ("de", "a", "OK"
+ * cut out of a sentence) are in nearly any text, so finding them there shows nothing. Three still let through a
+ * language's name ("Lao", "Twi"), a word of another language ("Oui", "Sim", "日本語") and a number ("404"); a text
+ * shorter than that ("Sí", "OK", "中文") can only be quoted whole.
+ */
+export const MIN_QUOTE = 3
+
+/** The letters and digits of a text, normalized: what a quote is measured and compared by. */
+function significant(text: string): string {
+  return normalizeForMatch(text).replace(/[^\p{L}\p{N}]/gu, '')
+}
+
+/**
+ * Whether a quote is too short to show what it was read from: under MIN_QUOTE letters and digits (letters only, for a
+ * quote that must show a language), and not all of any of the texts it may come from, punctuation aside.
+ */
+export function trivialQuote(evidence: string, texts: readonly string[], count: 'letters' | 'alphanumerics' = 'alphanumerics'): boolean {
+  const quote = significant(evidence)
+  if ((count === 'letters' ? letterCount(quote) : quote.length) >= MIN_QUOTE) return false
+  return quote === '' || !texts.some((text) => significant(text) === quote)
+}
+
+/** Whether a normalized quote is the normalized text: all of it, or most of it in one piece (QUOTE_SHARE). */
+function quotes(quote: string, text: string): boolean {
+  return quote === text || (text.includes(quote) && quote.length >= text.length * QUOTE_SHARE)
+}
+
 /**
  * The quoted text must be the element's current text: the same words, at most trimmed.
  * A model that quotes something else is describing another element.
@@ -172,8 +203,20 @@ export function verifyQuote(evidence: string, current: string, what: string): Ve
   const quote = normalizeForMatch(evidence)
   const text = normalizeForMatch(current)
   if (quote === '') return { ok: false, reason: 'empty evidence' }
-  if (quote === text) return { ok: true }
-  // A quote may drop a little at the ends, never most of the text.
-  if (text.includes(quote) && quote.length >= text.length * 0.6) return { ok: true }
+  if (trivialQuote(quote, [text])) return { ok: false, reason: 'evidence too short to be a quote' }
+  if (quotes(quote, text)) return { ok: true }
   return { ok: false, reason: `evidence is not the ${what}` }
+}
+
+/**
+ * verifyQuote's rule over a list of texts the answer may quote, each one an element's text as the prompt listed it: the
+ * quote must be one of them, or most of one, and not trivial. Never part of two joined, nor a longer text that only
+ * holds one of them: a pass that takes a finding or an item to review away must show exactly what it read.
+ */
+export function verifyListedQuote(evidence: string, texts: readonly string[], reason = 'evidence is not text the page shows'): Verification {
+  const quote = normalizeForMatch(evidence)
+  if (quote === '') return { ok: false, reason: 'empty evidence' }
+  const listed = texts.map(normalizeForMatch).filter((text) => text !== '')
+  if (trivialQuote(quote, listed)) return { ok: false, reason: 'evidence too short to be a quote' }
+  return listed.some((text) => quotes(quote, text)) ? { ok: true } : { ok: false, reason }
 }

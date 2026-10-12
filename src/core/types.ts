@@ -205,6 +205,11 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
   settles?: string | undefined
   settledKey?(candidate: Candidate<Ctx>): string
   settledNote?(output: Out, candidate: Candidate<Ctx>, locale: Locale): string
+  /**
+   * With `settles`: what a pass `verify` dropped (no quote, or not one of the text it judged) adds to the item it leaves
+   * for a person. A generic note when absent.
+   */
+  unsettledNote?(output: Out, candidate: Candidate<Ctx>, locale: Locale): string
 }
 
 // biome-ignore lint/suspicious/noExplicitAny: registry of heterogeneous criteria

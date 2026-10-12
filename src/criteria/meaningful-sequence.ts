@@ -5,7 +5,7 @@ import type { Locale } from '../i18n.ts'
 import { type OrderBox, columnsOf, leftAsCode, mechanismText, preformattedOf, readingOrders, whitespaceLayout } from '../rules/reading-order.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree, walkTree } from '../snapshot/tree.ts'
-import { isHidden } from './shared.ts'
+import { isHidden, trivialQuote } from './shared.ts'
 
 /**
  * WCAG 2.2 SC 1.3.2 Meaningful Sequence (A): the question geometry cannot settle.
@@ -175,9 +175,10 @@ export const meaningfulSequence: Criterion<MeaningfulSequenceContext, Meaningful
   verify(output, candidate): Verification {
     if (output.verdict === 'cannot_tell') return { ok: true }
     const evidence = normalizeForMatch(output.evidence)
-    if (evidence.length < 2) return { ok: false, reason: 'evidence too short' }
-    if (evidence.length > 400) return { ok: false, reason: 'evidence too long to be a quote' }
     const all = (candidate.context.kind === 'reorder' ? candidate.context.read : candidate.context.quotable).map(normalizeForMatch)
+    // Three letters or digits at least, unless the quote is a whole box or line ("1", "A").
+    if (trivialQuote(evidence, all)) return { ok: false, reason: 'evidence too short' }
+    if (evidence.length > 400) return { ok: false, reason: 'evidence too long to be a quote' }
     if (output.verdict === 'pass') {
       if (output.relation !== 'none') return { ok: false, reason: 'pass verdict while naming a relation' }
       // A pass makes no finding: it may quote one box, or list several.

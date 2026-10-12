@@ -5,6 +5,7 @@ import { GESTURES_VARIANT } from '../probes/gestures.ts'
 import { GESTURE_ALTERNATIVES_RULE, gestureVerdicts, gesturesData, gesturesRecord } from '../rules/gestures.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree } from '../snapshot/tree.ts'
+import { verifyListedQuote } from './shared.ts'
 
 /**
  * WCAG 2.1 SC 2.5.1 Pointer Gestures (A): the one question the gestures probe leaves to a model.
@@ -107,9 +108,8 @@ export const pointerGestures: Criterion<GestureContext, GestureJudgment> & { cle
     if (output.verdict !== 'pass') return { ok: true }
     const evidence = normalizeForMatch(output.evidence)
     if (evidence.length < MIN_QUOTE) return { ok: false, reason: 'an essential pass must quote the text that shows it' }
-    const sources = candidate.context.texts.map(normalizeForMatch).filter((text) => text.length > 0)
-    if (!sources.some((text) => text.includes(evidence))) return { ok: false, reason: 'evidence is not text the page shows' }
-    return { ok: true }
+    // One listed text, or most of it (verifyQuote's rule): six letters of a long text could be anyone's words.
+    return verifyListedQuote(evidence, candidate.context.texts)
   },
 
   message(_output, candidate, locale) {

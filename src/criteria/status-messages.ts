@@ -4,7 +4,7 @@ import { dataBlock, normalizeForMatch } from '../core/util.ts'
 import { STATUS_RULE, statusData, statusRecord, statusVerdicts, triggerText } from '../rules/status-messages.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree } from '../snapshot/tree.ts'
-import { attributesOf, startTagOf, withAttribute } from './shared.ts'
+import { attributesOf, startTagOf, trivialQuote, verifyQuote, withAttribute } from './shared.ts'
 
 /**
  * WCAG 2.1 SC 4.1.3 Status Messages (AA): the question the status probe leaves to a model.
@@ -15,7 +15,9 @@ import { attributesOf, startTagOf, withAttribute } from './shared.ts'
  * without judgment: does the new content give information on the result of an action, a wait, a process's progress or
  * an error? The model answers that one question for the text, and a fail must quote the words that make it a status
  * message, from the text. A verified answer settles the rule's item to review: a fail becomes this finding, with
- * role="status" as the patch when the message's element was in the page on load; a pass removes the item, with a note.
+ * role="status" as the patch when the message's element was in the page on load; a pass removes the item, with a note,
+ * only when it quotes the text that appeared (all of it or most of it): one without that quote leaves the item for a
+ * person, saying the model passed it without evidence.
  *
  * The normative text and the definition in the prompt are quoted from WCAG 2.2 (https://www.w3.org/TR/WCAG22/),
  * Copyright © W3C, under the W3C Document License.
@@ -119,9 +121,15 @@ export const statusMessages: Criterion<StatusContext, StatusJudgment> & { settle
   },
 
   verify(output, candidate): Verification {
-    if (output.verdict !== 'fail') return { ok: true }
+    if (output.verdict === 'cannot_tell') return { ok: true }
+    // A pass takes the item off the review list, so it must show what it read, by verifyQuote's rule: the text that
+    // appeared, all of it or most of it. One that does not leaves the item for a person (checkSnapshot, unsettledNote).
+    if (output.verdict === 'pass') {
+      if (normalizeForMatch(output.evidence) === '') return { ok: false, reason: 'a pass must quote the text that appeared' }
+      return verifyQuote(output.evidence, candidate.context.text, 'text that appeared')
+    }
     const evidence = normalizeForMatch(output.evidence)
-    if (evidence.length < 2) return { ok: false, reason: 'a fail must quote the status message' }
+    if (trivialQuote(evidence, [candidate.context.text])) return { ok: false, reason: 'a fail must quote the status message' }
     if (!normalizeForMatch(candidate.context.text).includes(evidence)) return { ok: false, reason: 'evidence is not text that appeared' }
     return { ok: true }
   },
@@ -143,6 +151,18 @@ export const statusMessages: Criterion<StatusContext, StatusJudgment> & { settle
     return locale === 'pt-BR'
       ? `o modelo leu "${short(candidate.context.text, 60)}" como conteúdo, não mensagem de status`
       : `the model read "${short(candidate.context.text, 60)}" as content, not a status message`
+  },
+
+  unsettledNote(output, _candidate, locale) {
+    const quoted = normalizeForMatch(output.evidence) !== ''
+    if (locale === 'pt-BR') {
+      return quoted
+        ? 'o modelo o aprovou como conteúdo, mas o que citou não é o texto que apareceu, então fica para uma pessoa'
+        : 'o modelo o aprovou como conteúdo sem evidência (não citou o texto que apareceu), então fica para uma pessoa'
+    }
+    return quoted
+      ? 'the model passed it as content, but what it quoted is not the text that appeared, so it stays for a person'
+      : 'the model passed it as content without evidence (it quoted none of the text that appeared), so it stays for a person'
   },
 }
 

@@ -5,6 +5,7 @@ import { type KeyAttempt, attemptsOf, effectLines, parityData, parityRecord, par
 import { PARITY_RULE, walkedRound } from '../rules/parity.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree } from '../snapshot/tree.ts'
+import { verifyListedQuote } from './shared.ts'
 
 /**
  * WCAG 2.0 SC 2.1.1 Keyboard (A): the two questions the parity probe leaves to a model.
@@ -132,9 +133,8 @@ export const keyboardParity: Criterion<ParityContext, ParityJudgment> & { clears
     if (output.reason === 'path-dependent') {
       const evidence = normalizeForMatch(output.evidence)
       if (evidence.length < MIN_QUOTE) return { ok: false, reason: 'a path-dependent pass must quote the text that shows it' }
-      const sources = c.texts.map(normalizeForMatch).filter((text) => text.length > 0)
-      if (!sources.some((text) => text.includes(evidence))) return { ok: false, reason: 'evidence is not text the page shows' }
-      return { ok: true }
+      // One listed text, or most of it (verifyQuote's rule): six letters of a long text could be anyone's words.
+      return verifyListedQuote(evidence, c.texts)
     }
     return { ok: false, reason: 'a pass needs a reason: equivalent or path-dependent' }
   },
