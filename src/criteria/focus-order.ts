@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import type { AnyCriterion, Candidate, Criterion, Verification } from '../core/types.ts'
+import { dataBlock } from '../core/util.ts'
 import { type OrderCandidate, type SeqStop, type Transition, focusOrderData, focusOrderRecord, orderCandidates } from '../probes/focus-order.ts'
 import { matchNode } from '../probes/identity.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
@@ -121,13 +122,11 @@ export const focusOrder: Criterion<OrderContext, OrderJudgment> = {
 
   prompt(candidate) {
     const c = candidate.context
-    const user = [
-      '<content>',
+    const user = dataBlock('content', [
       c.kind === 'tabindex' ? 'Some stops have a positive tabindex, which puts them first in the Tab order.' : `The stops of ${c.group ?? 'one group'}, in Tab order:`,
       ...c.stops.map((s) => `${s.n}. ${s.name}${s.tabindex !== undefined ? ` tabindex=${s.tabindex}` : ''} at x ${s.at.x}, y ${s.at.y}${s.groups ? ` in ${s.groups}` : ''}`),
       `Suspect transitions: ${c.suspects.map(([from, to]) => `${from} → ${to}`).join(', ')}`,
-      '</content>',
-    ].join('\n')
+    ]).join('\n')
     return { system: SYSTEM, user }
   },
 

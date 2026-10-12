@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { pageData } from './util.ts'
 
 /**
  * Batched judgment: several candidates of one criterion in one model call (`Criterion.batch`, `--batch`, on in --fast).
@@ -16,7 +17,8 @@ Answer with one entry per item in "items", in the order given, each with the ite
 /** The prompt of a batch: the criterion's instructions with the batch note, and each candidate's question as an item. */
 export function batchPrompt(system: string, users: readonly string[]): { system: string; user: string; ids: string[] } {
   const ids = users.map((_, index) => String(index + 1))
-  const user = users.map((text, index) => `<item id="${ids[index]}">\n${text}\n</item>`).join('\n\n')
+  // An item's page data cannot end the item either (pageData): a `</item>` in it is escaped, as its own blocks' tags are.
+  const user = users.map((text, index) => `<item id="${ids[index]}">\n${pageData('item', text)}\n</item>`).join('\n\n')
   return { system: `${system}\n\n${BATCH_SYSTEM}`, user, ids }
 }
 

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { AnyCriterion, Candidate, Criterion, Verification } from '../core/types.ts'
-import { normalizeForMatch } from '../core/util.ts'
+import { dataBlock, normalizeForMatch } from '../core/util.ts'
 import { inputVerdicts } from '../probes/input.ts'
 import { ON_INPUT_RULE, changeText, controlName, inputData, inputRecord } from '../rules/on-input.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
@@ -98,8 +98,7 @@ export const onInput: Criterion<OnInputContext, OnInputJudgment> & { clears: str
 
   prompt(candidate) {
     const c = candidate.context
-    const user = [
-      '<content>',
+    const user = dataBlock('content', [
       `Control: ${c.control}`,
       `What the test did: ${c.action}`,
       `What followed: it ${c.change}`,
@@ -107,8 +106,7 @@ export const onInput: Criterion<OnInputContext, OnInputJudgment> & { clears: str
       ...(c.texts.length > 0 ? c.texts.map((t) => `- "${t}"`) : ['- none']),
       'Sentences elsewhere on the page that speak of such changes:',
       ...(c.page.length > 0 ? c.page.map((t) => `- "${t}"`) : ['- none']),
-      '</content>',
-    ].join('\n')
+    ]).join('\n')
     return { system: SYSTEM, user }
   },
 

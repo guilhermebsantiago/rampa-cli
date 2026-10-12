@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { Candidate, Criterion, EngineResults, Patch, Verification } from '../core/types.ts'
-import { truncate } from '../core/util.ts'
+import { dataBlock, tagged, truncate } from '../core/util.ts'
 import { languageName } from '../i18n.ts'
 import { idKey, sameScope } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
@@ -250,11 +250,9 @@ export const labelsOrInstructions: Criterion<LabelsOrInstructionsContext, Labels
       `Surface: ${snapshot.surface}`,
       `Write rule in: ${languageName(c.language, 'en')} (${c.language})`,
       c.kind === 'group' ? "The options' labels:" : "The field's name:",
-      `<name>${c.name}</name>`,
+      tagged('name', c.name),
       '',
-      '<content>',
-      c.facts,
-      '</content>',
+      ...dataBlock('content', [c.facts]),
     ].join('\n')
     return { system: c.kind === 'group' ? SYSTEM_GROUP : c.kind === 'format' ? SYSTEM_FORMAT : SYSTEM, user }
   },

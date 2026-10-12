@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { Candidate, Criterion, EngineResults, Patch, Verification } from '../core/types.ts'
-import { truncate } from '../core/util.ts'
+import { dataBlock, tagged, truncate } from '../core/util.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { type TreeIndex, indexTree, walkTree } from '../snapshot/tree.ts'
 import {
@@ -162,7 +162,7 @@ export const identifyInputPurpose: Criterion<IdentifyInputPurposeContext, Identi
 
   prompt(candidate, snapshot) {
     const c = candidate.context
-    const user = [`Surface: ${snapshot.surface}`, "The field's label:", `<label>${c.label}</label>`, '', '<content>', c.facts, '</content>'].join('\n')
+    const user = [`Surface: ${snapshot.surface}`, "The field's label:", tagged('label', c.label), '', ...dataBlock('content', [c.facts])].join('\n')
     return { system: SYSTEM, user }
   },
 

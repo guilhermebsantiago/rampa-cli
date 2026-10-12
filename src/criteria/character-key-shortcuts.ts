@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { AnyCriterion, Candidate, Criterion, Verification } from '../core/types.ts'
-import { normalizeForMatch } from '../core/util.ts'
+import { dataBlock, normalizeForMatch } from '../core/util.ts'
 import type { ShortcutsData } from '../probes/shortcuts.ts'
 import { SHORTCUTS_RULE, effectOf, shortcutNode, shortcutVerdicts } from '../rules/shortcuts.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
@@ -96,8 +96,7 @@ export const characterKeyShortcuts: Criterion<ShortcutSettingsContext, ShortcutS
   prompt(candidate) {
     const c = candidate.context
     const list = (items: string[]) => (items.length > 0 ? items.map((item) => `- "${item}"`).join('\n') : '- none')
-    const user = [
-      '<content>',
+    const user = dataBlock('content', [
       'Keys that change the page while no control has focus:',
       list(c.keys),
       'Settings for shortcuts that are not showing, with the text of what hides them:',
@@ -108,8 +107,7 @@ export const characterKeyShortcuts: Criterion<ShortcutSettingsContext, ShortcutS
       list(c.controls),
       'Showing text about shortcuts or keys:',
       list(c.instructions),
-      '</content>',
-    ].join('\n')
+    ]).join('\n')
     return { system: SYSTEM, user }
   },
 

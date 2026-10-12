@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { Candidate, Criterion, EngineResults, Patch, Verification } from '../core/types.ts'
-import { normalizeForMatch, truncate } from '../core/util.ts'
+import { dataBlock, normalizeForMatch, tagged, truncate } from '../core/util.ts'
 import { languageName } from '../i18n.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { walkTree } from '../snapshot/tree.ts'
@@ -125,7 +125,7 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
       `Surface: ${snapshot.surface}`,
       `Write suggestedTitle in: ${languageName(c.language, 'en')} (${c.language})`,
       'The page title:',
-      `<title>${c.title}</title>`,
+      tagged('title', c.title),
       ...(c.home
         ? [
             '',
@@ -139,12 +139,12 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
           ]
         : []),
       '',
-      '<content>',
-      `Address: ${c.address}`,
-      `Headings: ${c.headings.length > 0 ? c.headings.map((h) => `"${h}"`).join(', ') : 'none'}`,
-      `Opening text: ${c.opening || '(none)'}`,
-      ...(c.siblings?.length ? [`Titles of other pages: ${c.siblings.map((title) => `"${title}"`).join(', ')}`] : []),
-      '</content>',
+      ...dataBlock('content', [
+        `Address: ${c.address}`,
+        `Headings: ${c.headings.length > 0 ? c.headings.map((h) => `"${h}"`).join(', ') : 'none'}`,
+        `Opening text: ${c.opening || '(none)'}`,
+        ...(c.siblings?.length ? [`Titles of other pages: ${c.siblings.map((title) => `"${title}"`).join(', ')}`] : []),
+      ]),
     ].join('\n')
     return { system: SYSTEM, user }
   },

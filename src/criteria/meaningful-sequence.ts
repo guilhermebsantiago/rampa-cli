@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { Candidate, Criterion, Verification } from '../core/types.ts'
-import { normalizeForMatch, truncate } from '../core/util.ts'
+import { dataBlock, normalizeForMatch, truncate } from '../core/util.ts'
 import type { Locale } from '../i18n.ts'
 import { type OrderBox, columnsOf, leftAsCode, mechanismText, preformattedOf, readingOrders, whitespaceLayout } from '../rules/reading-order.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
@@ -154,25 +154,21 @@ export const meaningfulSequence: Criterion<MeaningfulSequenceContext, Meaningful
   prompt(candidate) {
     const c = candidate.context
     if (c.kind === 'whitespace') {
-      const user = [
-        '<content>',
+      const user = dataBlock('content', [
         'The lines, as a screen reader reads them:',
         ...c.read.map((line, i) => `${i + 1}. "${line}"`),
         'The same lines, cut into their two columns:',
         ...c.seen.map((cells, i) => `${i + 1}. ${cells.map((cell) => `"${cell}"`).join(' | ')}`),
-        '</content>',
-      ].join('\n')
+      ]).join('\n')
       return { system: SYSTEM_WHITESPACE, user }
     }
-    const user = [
-      '<content>',
+    const user = dataBlock('content', [
       `What reorders them: ${c.by ? mechanismText(c.by, 'en') : 'CSS'}`,
       "The boxes in the markup's order, as a screen reader reads them:",
       ...c.read.map((text, i) => `${i + 1}. "${text}"`),
       'The boxes on screen, line by line (top to bottom, left to right in each line):',
       ...c.seen.map((line, i) => `Line ${i + 1}: ${line.map((text) => `"${text}"`).join(' | ')}`),
-      '</content>',
-    ].join('\n')
+    ]).join('\n')
     return { system: SYSTEM_REORDER, user }
   },
 

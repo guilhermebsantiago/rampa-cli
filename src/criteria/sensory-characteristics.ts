@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { Candidate, Criterion, Verification } from '../core/types.ts'
-import { truncate } from '../core/util.ts'
+import { dataBlock, tagged, truncate } from '../core/util.ts'
 import {
   type Direction,
   type ReferentKind,
@@ -146,7 +146,7 @@ export const sensoryCharacteristics: Criterion<SensoryContext, SensoryJudgment> 
       ...c.found.slice(0, 4).map((thing) => `- ${thing.what}${thing.label ? ` "${thing.label}"` : ''}: ${thing.why}`),
       'Nothing else names it: the sentence quotes no name and uses no word of its name or text, and no heading or landmark the sentence names holds it.',
     ].filter((line): line is string => line !== undefined)
-    const user = [`Surface: ${snapshot.surface}`, `Language: ${c.language}`, 'The sentence:', `<sentence>${c.sentence}</sentence>`, '', 'Around it:', '<content>', c.block, ...facts, '</content>'].join('\n')
+    const user = [`Surface: ${snapshot.surface}`, `Language: ${c.language}`, 'The sentence:', tagged('sentence', c.sentence), '', 'Around it:', ...dataBlock('content', [c.block, ...facts])].join('\n')
     return { system: SYSTEM, user }
   },
 

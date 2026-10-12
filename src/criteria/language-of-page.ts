@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { type LanguageReading, agreement, fitsAsWell, loadLanguageIdentifier, readLanguage } from '../core/language-id.ts'
 import type { Candidate, Criterion, EngineResults, Patch, Verification } from '../core/types.ts'
-import { canonicalLanguageTag, letterCount, normalizeForMatch, primarySubtag, truncate } from '../core/util.ts'
+import { canonicalLanguageTag, dataBlock, letterCount, normalizeForMatch, primarySubtag, tagged, truncate } from '../core/util.ts'
 import { languageName } from '../i18n.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { textInheritingLang } from '../snapshot/tree.ts'
@@ -108,8 +108,8 @@ export const languageOfPage: Criterion<LanguageOfPageContext, LanguageOfPageJudg
     const declaration = isNativeSurface(snapshot.surface)
       ? `Declared language of the screen (the language the app runs in): ${declared}`
       : `Declared page language (lang on the root element): ${declared}`
-    const title = candidate.context.title ? ['', 'The page title:', `<title>${candidate.context.title}</title>`] : []
-    const user = [`Surface: ${snapshot.surface}`, declaration, ...title, '', '<text>', text, '</text>'].join('\n')
+    const title = candidate.context.title ? ['', 'The page title:', tagged('title', candidate.context.title)] : []
+    const user = [`Surface: ${snapshot.surface}`, declaration, ...title, '', ...dataBlock('text', [text])].join('\n')
     return { system: SYSTEM, user }
   },
 

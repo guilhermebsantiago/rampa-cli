@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { AnyCriterion, Candidate, Criterion, Verification } from '../core/types.ts'
-import { normalizeForMatch } from '../core/util.ts'
+import { dataBlock, normalizeForMatch } from '../core/util.ts'
 import type { Locale } from '../i18n.ts'
 import { AUTH_RULE, authData, authRecord, cognitiveTests } from '../rules/auth.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
@@ -96,15 +96,13 @@ export const accessibleAuthentication: Criterion<AuthenticationContext, Authenti
 
   prompt(candidate) {
     const c = candidate.context
-    const user = [
-      '<content>',
+    const user = dataBlock('content', [
       `Step: ${c.step === 'recovery' ? 'account recovery' : 'sign-in'}`,
       'Text quoted as a possible test:',
       ...c.tests.map((t) => `- (${t.kind}) "${t.quote}"`),
       'Every visible text of the step:',
       ...(c.texts.length > 0 ? c.texts.map((t) => `- "${t}"`) : ['- none']),
-      '</content>',
-    ].join('\n')
+    ]).join('\n')
     return { system: SYSTEM, user }
   },
 

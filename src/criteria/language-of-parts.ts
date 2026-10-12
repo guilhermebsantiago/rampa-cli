@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { type LanguageReading, agreement, foreignRuns, loadLanguageIdentifier, readLanguage } from '../core/language-id.ts'
 import type { Candidate, Criterion, EngineResults, Verification } from '../core/types.ts'
-import { canonicalLanguageTag, letterCount, normalizeForMatch, primarySubtag, truncate } from '../core/util.ts'
+import { canonicalLanguageTag, dataBlock, letterCount, normalizeForMatch, primarySubtag, truncate } from '../core/util.ts'
 import { languageName } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree, inheritedLang, textInheritingLang, walkTree } from '../snapshot/tree.ts'
@@ -186,12 +186,10 @@ export const languageOfParts: Criterion<LanguageOfPartsContext, LanguageOfPartsJ
       const user = [
         `Surface: ${snapshot.surface}`,
         `Inherited language (from the closest ancestor with lang): ${declared}`,
-        ...(around ? ['', 'The text the passage sits in:', '<content>', around, '</content>'] : []),
+        ...(around ? ['', 'The text the passage sits in:', ...dataBlock('content', [around])] : []),
         '',
         'The passage:',
-        '<text>',
-        text,
-        '</text>',
+        ...dataBlock('text', [text]),
       ].join('\n')
       return { system: SYSTEM_UNMARKED, user }
     }
@@ -200,14 +198,10 @@ export const languageOfParts: Criterion<LanguageOfPartsContext, LanguageOfPartsJ
       `Declared language (lang attribute on this element): ${declared}`,
       `Language inherited from the surrounding content: ${inherited ?? 'unknown'}`,
       '',
-      '<content>',
-      html || '(markup not available)',
-      '</content>',
+      ...dataBlock('content', [html || '(markup not available)']),
       '',
       'Text that inherits the declared language, in reading order:',
-      '<text>',
-      text,
-      '</text>',
+      ...dataBlock('text', [text]),
     ].join('\n')
     return { system: SYSTEM, user }
   },

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { Candidate, Criterion, EngineResults, Patch, Verification } from '../core/types.ts'
-import { normalizeForMatch, truncate } from '../core/util.ts'
+import { dataBlock, normalizeForMatch, tagged, truncate } from '../core/util.ts'
 import { type Locale, languageName } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot, Destination } from '../snapshot/schema.ts'
 import { type TreeIndex, indexTree, inheritedLang, walkTree } from '../snapshot/tree.ts'
@@ -252,22 +252,22 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
       `Surface: ${snapshot.surface}`,
       `Write suggestedText in: ${languageName(c.language, 'en')} (${c.language})`,
       'The link text:',
-      `<link>${c.name}</link>`,
+      tagged('link', c.name),
       // A scripted link has no address; saying "unknown" would read as a flaw of the text.
       c.href ? `Address (href): ${truncate(c.href, 200)}` : undefined,
       '',
-      '<content>',
-      `Markup: ${c.startTag}`,
-      c.context ? `Text around the link (sentence, paragraph, list items or cell it sits in): ${c.context}` : 'Text around the link: none',
-      c.heading ? `Heading the link sits under (part of its context): ${c.heading}` : 'Heading the link sits under: none',
-      c.headers ? `Header cells of its table cell: ${c.headers}` : undefined,
-      c.landmark ? `The link sits in: ${c.landmark}` : undefined,
-      c.description ? `Description of the link (aria-describedby): ${c.description}` : undefined,
-      c.activation ? `What activating the link does (a browser test clicked it and stopped any navigation): ${activationText(c.activation as LinkOutcome)}` : undefined,
-      c.target ? `Where the link leads: within this page, to the part that reads "${c.target}"` : undefined,
-      leads ? `Where the link leads (read at its address): ${leads}` : undefined,
-      c.sameText ? `Links with the same text: ${sameTextLine(c.sameText)}` : undefined,
-      '</content>',
+      ...dataBlock('content', [
+        `Markup: ${c.startTag}`,
+        c.context ? `Text around the link (sentence, paragraph, list items or cell it sits in): ${c.context}` : 'Text around the link: none',
+        c.heading ? `Heading the link sits under (part of its context): ${c.heading}` : 'Heading the link sits under: none',
+        c.headers ? `Header cells of its table cell: ${c.headers}` : undefined,
+        c.landmark ? `The link sits in: ${c.landmark}` : undefined,
+        c.description ? `Description of the link (aria-describedby): ${c.description}` : undefined,
+        c.activation ? `What activating the link does (a browser test clicked it and stopped any navigation): ${activationText(c.activation as LinkOutcome)}` : undefined,
+        c.target ? `Where the link leads: within this page, to the part that reads "${c.target}"` : undefined,
+        leads ? `Where the link leads (read at its address): ${leads}` : undefined,
+        c.sameText ? `Links with the same text: ${sameTextLine(c.sameText)}` : undefined,
+      ]),
     ]
       .filter((line) => line !== undefined)
       .join('\n')

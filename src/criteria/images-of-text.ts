@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { REPEATED_ON, captureHash, pictureKeys } from '../core/site-images.ts'
 import type { Candidate, Criterion, EngineResults, Patch, PromptImage, Verification } from '../core/types.ts'
-import { letterCount, truncate } from '../core/util.ts'
+import { dataBlock, letterCount, truncate } from '../core/util.ts'
 import { type OcrReading, type OcrWord, openOcr, textShare } from '../pixels/ocr.ts'
 import { pngFromBase64, tryDecodePng } from '../pixels/png.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
@@ -200,10 +200,7 @@ export const imagesOfText: Criterion<ImagesOfTextContext, ImagesOfTextJudgment> 
       `Drawn as: ${drawnAs[c.kind]}`,
       `Rendered size: ${c.width} × ${c.height} px`,
       '',
-      '<content>',
-      c.alt ? `Text alternative: "${c.alt}"` : 'Text alternative: none',
-      c.src ? `Image file name: ${c.src}` : undefined,
-      '</content>',
+      ...dataBlock('content', [c.alt ? `Text alternative: "${c.alt}"` : 'Text alternative: none', c.src ? `Image file name: ${c.src}` : undefined]),
       '',
       'The attached picture is the image as it renders on the page.',
     ]

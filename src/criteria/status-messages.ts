@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { AnyCriterion, Candidate, Criterion, Patch, Verification } from '../core/types.ts'
-import { normalizeForMatch } from '../core/util.ts'
+import { dataBlock, normalizeForMatch } from '../core/util.ts'
 import { STATUS_RULE, statusData, statusRecord, statusVerdicts, triggerText } from '../rules/status-messages.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree } from '../snapshot/tree.ts'
@@ -110,13 +110,11 @@ export const statusMessages: Criterion<StatusContext, StatusJudgment> & { settle
 
   prompt(candidate) {
     const c = candidate.context
-    const user = [
-      '<content>',
+    const user = dataBlock('content', [
       `What the test did: it ${c.trigger}`,
       `Text that appeared, in <${c.tag}>${c.added ? ' added with it' : ''}: "${c.text}"`,
       ...(c.describedBy ? ['The field the test left names this text with aria-describedby or aria-errormessage.'] : []),
-      '</content>',
-    ].join('\n')
+    ]).join('\n')
     return { system: SYSTEM, user }
   },
 

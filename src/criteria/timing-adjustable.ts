@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import type { AnyCriterion, Candidate, Criterion, Verification } from '../core/types.ts'
-import { normalizeForMatch } from '../core/util.ts'
+import { dataBlock, normalizeForMatch } from '../core/util.ts'
 import { TIMING_ADJUSTABLE_RULE, duration, eventText, timeData, timeRecord, timeVerdicts } from '../rules/time-limits.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { indexTree } from '../snapshot/tree.ts'
@@ -95,14 +95,12 @@ export const timingAdjustable: Criterion<TimingContext, TimingJudgment> & { clea
 
   prompt(candidate) {
     const c = candidate.context
-    const user = [
-      '<content>',
+    const user = dataBlock('content', [
       `What happened: after ${c.after} with no input, the page ${c.consequence}`,
       `Warning before it: ${c.warning ? `"${c.warning}"` : 'none'}`,
       'Texts on the page about time (countdowns, timers, sentences about time limits):',
       ...(c.texts.length > 0 ? c.texts.map((t) => `- "${t}"`) : ['- none']),
-      '</content>',
-    ].join('\n')
+    ]).join('\n')
     return { system: SYSTEM, user }
   },
 
