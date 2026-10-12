@@ -9,4 +9,5 @@ export { type Confusion, type Scores, confusion, scores, wilson } from './metric
 export { WCAG22_A_AA, WCAG_CRITERIA, compareCriteria, criterionFromAxeTag, type SuccessCriterion } from '../wcag.ts'
 export { CRITERIA, DEFAULT_CRITERIA } from '../criteria/index.ts'
 export { PROBE_RULES } from '../rules/registry.ts'
+export { probedCriteria } from './probed.ts'
 export { VERSION } from '../version.ts'
