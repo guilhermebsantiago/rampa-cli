@@ -1,4 +1,4 @@
-Measured on 2026-10-11 (Rampa `ebd4d07`, ACT test cases `a9a1483e`): 856 test cases of 56 ACT rules, 896 units under 29 WCAG 2.2 A/AA criteria, 284 of them failed examples; 96 corrupted pairs.
+Measured on 2026-10-12 (Rampa `927cf63`, ACT test cases `a9a1483e`): 856 test cases of 56 ACT rules, 896 units under 29 WCAG 2.2 A/AA criteria, 284 of them failed examples; 96 corrupted pairs.
 
 | Tool | Failed examples caught | Precision | F1 | Corrupted pairs told apart | Criteria with a true failure | Median time per page |
 | --- | :---: | :---: | :---: | :---: | :---: | ---: |
@@ -8,15 +8,15 @@ Measured on 2026-10-11 (Rampa `ebd4d07`, ACT test cases `a9a1483e`): 856 test ca
 | IBM | 162 of 284 (0.57) | 0.69 | 0.62 | 0 of 96 | 13 | 1.06 s |
 | Alfa | 182 of 284 (0.64) | 0.87 | 0.74 | 0 of 96 | 15 | 0.92 s |
 | QualWeb | 190 of 284 (0.67) | 0.72 | 0.69 | 4 of 96 | 17 | 0.53 s |
-| Rampa | 178 of 284 (0.63) | 0.93 | 0.75 | 0 of 96 | 14 | 0.85 s |
-| Rampa + Gemma | 193 of 284 (0.68) | 0.93 | 0.78 | 47 of 96 | 14 | 0.86 s |
-| Rampa + Gemma + probes | 190 of 284 (0.67) | 0.93 | 0.78 | 47 of 96 | 14 | 19.8 s |
-| *Rampa + Gemma, low confidence counted* | 227 of 284 (0.80) | 0.88 | 0.84 | 73 of 96 | 15 |  |
-| *Rampa + Gemma + probes, low confidence counted* | 241 of 284 (0.85) | 0.87 | 0.86 | 73 of 96 | 21 |  |
+| Rampa | 178 of 284 (0.63) | 0.93 | 0.75 | 0 of 96 | 14 | 0.87 s |
+| Rampa + Gemma | 201 of 284 (0.71) | 0.92 | 0.80 | 58 of 96 | 15 | 0.92 s |
+| Rampa + Gemma + probes | 199 of 284 (0.70) | 0.92 | 0.80 | 58 of 96 | 15 | 20.0 s |
+| *Rampa + Gemma, low confidence counted* | 216 of 284 (0.76) | 0.89 | 0.82 | 60 of 96 | 15 |  |
+| *Rampa + Gemma + probes, low confidence counted* | 228 of 284 (0.80) | 0.88 | 0.84 | 60 of 96 | 21 |  |
 
 Failures only, as each tool defines them: what fails its run by default. The rows in italics read the same Rampa runs as `rampa eval` does, also counting findings below the default confidence threshold (judgments of ordinary titles, link texts and headings, and experimental checks such as every probe), which `rampa check` lists only with --verbose. Review items, and the scores if they counted, are in the results below. Every tool is scored on every criterion. Read the caveats before quoting a number: Rampa was tuned on these test cases, and the pairs are its own design.
 
-Run of 2026-10-11: Rampa 0.1.0 at `ebd4d07`, ACT test cases `a9a1483e`, 56 ACT rules, 856 test cases, 896 units (a test case under each A/AA criterion its rule maps to), of which 284 are failed examples. 96 corrupted pairs. 
+Run of 2026-10-12: Rampa 0.1.0 at `927cf63`, ACT test cases `a9a1483e`, 56 ACT rules, 856 test cases, 896 units (a test case under each A/AA criterion its rule maps to), of which 284 are failed examples. 96 corrupted pairs. 
 
 ### What ran
 
@@ -48,8 +48,8 @@ Recall: failed examples caught, under the criterion their rule maps to. Flagged:
 | Alfa | 182 / 284 | 0.64 (0.58–0.69) | 10 / 344 | 18 / 268 | 0.87 (0.81–0.91) | 0.74 | 13 | 0 |
 | QualWeb | 190 / 284 | 0.67 (0.61–0.72) | 40 / 344 | 34 / 268 | 0.72 (0.66–0.77) | 0.69 | 38 | 2 |
 | Rampa | 178 / 284 | 0.63 (0.57–0.68) | 3 / 344 | 10 / 268 | 0.93 (0.89–0.96) | 0.75 | 15 | 0 |
-| Rampa + Gemma | 193 / 284 | 0.68 (0.62–0.73) | 3 / 344 | 12 / 268 | 0.93 (0.88–0.96) | 0.78 | 41 | 0 |
-| Rampa + Gemma + probes | 190 / 284 | 0.67 (0.61–0.72) | 3 / 344 | 12 / 268 | 0.93 (0.88–0.96) | 0.78 | 69 | 2 |
+| Rampa + Gemma | 201 / 284 | 0.71 (0.65–0.76) | 5 / 344 | 12 / 268 | 0.92 (0.88–0.95) | 0.80 | 33 | 0 |
+| Rampa + Gemma + probes | 199 / 284 | 0.70 (0.65–0.75) | 5 / 344 | 12 / 268 | 0.92 (0.88–0.95) | 0.80 | 58 | 0 |
 
 ### Home advantage: rules Rampa was built or tuned on
 
@@ -64,8 +64,8 @@ Recall: failed examples caught, under the criterion their rule maps to. Flagged:
 | Alfa | 0.59 / 0.87 / 0.70 | 0.80 / 0.87 / 0.83 |
 | QualWeb | 0.62 / 0.74 / 0.68 | 0.81 / 0.67 / 0.74 |
 | Rampa | 0.57 / 0.93 / 0.70 | 0.80 / 0.94 / 0.86 |
-| Rampa + Gemma | 0.64 / 0.92 / 0.75 | 0.80 / 0.94 / 0.86 |
-| Rampa + Gemma + probes | 0.63 / 0.92 / 0.75 | 0.78 / 0.94 / 0.85 |
+| Rampa + Gemma | 0.68 / 0.92 / 0.78 | 0.80 / 0.94 / 0.86 |
+| Rampa + Gemma + probes | 0.67 / 0.92 / 0.77 | 0.78 / 0.94 / 0.85 |
 
 ### Coverage of WCAG 2.2 A/AA criteria
 
@@ -80,8 +80,8 @@ Of the 55 criteria, 29 have ACT test cases here. "Claims" counts the criteria th
 | Alfa | 23 | 17 | 15 | 0.78 / 0.87 |
 | QualWeb | 29 | 22 | 17 | 0.79 / 0.72 |
 | Rampa | 21 | 15 | 14 | 0.78 / 0.93 |
-| Rampa + Gemma | 21 | 17 | 14 | 0.81 / 0.93 |
-| Rampa + Gemma + probes | 36 | 17 | 14 | 0.79 / 0.93 |
+| Rampa + Gemma | 21 | 17 | 15 | 0.84 / 0.92 |
+| Rampa + Gemma + probes | 36 | 17 | 15 | 0.83 / 0.92 |
 
 <details><summary>Which criteria</summary>
 
@@ -94,8 +94,8 @@ Of the 55 criteria, 29 have ACT test cases here. "Claims" counts the criteria th
 | Alfa | 1.1.1, 1.3.1, 1.3.4, 1.3.5, 1.4.3, 1.4.4, 1.4.12, 2.1.1, 2.2.1, 2.4.2, 2.4.4, 2.5.3, 3.1.1, 3.1.2, 4.1.2 | 1.4.1, 2.5.8 |
 | QualWeb | 1.1.1, 1.3.1, 1.3.4, 1.3.5, 1.4.2, 1.4.3, 1.4.4, 1.4.12, 2.1.1, 2.2.1, 2.4.1, 2.4.2, 2.4.4, 2.5.3, 3.1.1, 3.1.2, 4.1.2 | 1.4.5, 2.4.7, 3.2.1, 3.2.2, 3.3.2 |
 | Rampa | 1.1.1, 1.3.1, 1.3.5, 1.4.3, 1.4.4, 1.4.12, 2.1.1, 2.2.1, 2.4.2, 2.4.4, 2.5.3, 3.1.1, 3.1.2, 4.1.2 | 1.4.1 |
-| Rampa + Gemma | 1.1.1, 1.3.1, 1.3.5, 1.4.3, 1.4.4, 1.4.12, 2.1.1, 2.2.1, 2.4.2, 2.4.4, 2.5.3, 3.1.1, 3.1.2, 4.1.2 | 1.4.1, 2.4.6, 3.3.2 |
-| Rampa + Gemma + probes | 1.1.1, 1.3.1, 1.3.5, 1.4.3, 1.4.4, 1.4.12, 2.1.1, 2.2.1, 2.4.2, 2.4.4, 2.5.3, 3.1.1, 3.1.2, 4.1.2 | 1.4.1, 2.4.6, 3.3.2 |
+| Rampa + Gemma | 1.1.1, 1.3.1, 1.3.5, 1.4.3, 1.4.4, 1.4.12, 2.1.1, 2.2.1, 2.4.2, 2.4.4, 2.4.6, 2.5.3, 3.1.1, 3.1.2, 4.1.2 | 1.4.1, 3.3.2 |
+| Rampa + Gemma + probes | 1.1.1, 1.3.1, 1.3.5, 1.4.3, 1.4.4, 1.4.12, 2.1.1, 2.2.1, 2.4.2, 2.4.4, 2.4.6, 2.5.3, 3.1.1, 3.1.2, 4.1.2 | 1.4.1, 3.3.2 |
 
 </details>
 
@@ -105,7 +105,7 @@ Units: failed examples + passed or inapplicable examples under the criterion. Ea
 
 | Criterion | Units | axe-core | Pa11y | Pa11y (axe) | IBM | Alfa | QualWeb | Rampa | Rampa + Gemma | Rampa + Gemma + probes | Rampa + Gemma, low confidence counted | Rampa + Gemma + probes, low confidence counted |
 | --- | ---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| 1.1.1 Non-text Content (A) ★ | 26 + 68 | 18/26 · 0 | 11/26 · 14 | 18/26 · 1 | 17/26 · 6 | 18/26 · 0 | 18/26 · 4 | 18/26 · 0 | 21/26 · 0 | 18/26 · 0 | 26/26 · 1 | 23/26 · 1 |
+| 1.1.1 Non-text Content (A) ★ | 26 + 68 | 18/26 · 0 | 11/26 · 14 | 18/26 · 1 | 17/26 · 6 | 18/26 · 0 | 18/26 · 4 | 18/26 · 0 | 21/26 · 0 | 19/26 · 0 | 26/26 · 1 | 21/26 · 1 |
 | 1.2.1 Audio-only and Video-only (Prerecorded) (A) ★ | 6 + 11 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 1/6 · 0 |
 | 1.2.2 Captions (Prerecorded) (A) | 2 + 4 | 0/2 · 0 | 0/2 · 0 | 2/2 · 2 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 |
 | 1.2.3 Audio Description or Media Alternative (Prerecorded) (A) | 4 + 5 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 |
@@ -126,8 +126,8 @@ Units: failed examples + passed or inapplicable examples under the criterion. Ea
 | 2.2.2 Pause, Stop, Hide (A) ★ | 1 + 10 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 |
 | 2.4.1 Bypass Blocks (A) ★ | 1 + 12 | 0/1 · 0 | 0/1 · 0 | 1/1 · 4 | 0/1 · 0 | 0/1 · 0 | 1/1 · 7 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 |
 | 2.4.2 Page Titled (A) ★ | 9 + 9 | 6/9 · 0 | 6/9 · 2 | 6/9 · 0 | 6/9 · 0 | 6/9 · 0 | 6/9 · 0 | 6/9 · 0 | 6/9 · 0 | 6/9 · 0 | 8/9 · 6 | 8/9 · 6 |
-| 2.4.4 Link Purpose (In Context) (A) ★ | 25 + 45 | 11/25 · 0 | 0/25 · 0 | 11/25 · 0 | 11/25 · 0 | 11/25 · 0 | 11/25 · 1 | 11/25 · 0 | 14/25 · 0 | 14/25 · 0 | 24/25 · 5 | 24/25 · 5 |
-| 2.4.6 Headings and Labels (AA) ★ | 10 + 18 | 0/10 · 0 | 0/10 · 0 | 0/10 · 0 | 0/10 · 0 | 0/10 · 0 | 0/10 · 0 | 0/10 · 0 | 0/10 · 0 | 0/10 · 0 | 9/10 · 1 | 9/10 · 1 |
+| 2.4.4 Link Purpose (In Context) (A) ★ | 25 + 45 | 11/25 · 0 | 0/25 · 0 | 11/25 · 0 | 11/25 · 0 | 11/25 · 0 | 11/25 · 1 | 11/25 · 0 | 21/25 · 2 | 21/25 · 2 | 21/25 · 2 | 21/25 · 2 |
+| 2.4.6 Headings and Labels (AA) ★ | 10 + 18 | 0/10 · 0 | 0/10 · 0 | 0/10 · 0 | 0/10 · 0 | 0/10 · 0 | 0/10 · 0 | 0/10 · 0 | 1/10 · 0 | 1/10 · 0 | 1/10 · 0 | 1/10 · 0 |
 | 2.4.7 Focus Visible (AA) ★ | 1 + 8 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 1/1 · 0 |
 | 2.5.3 Label in Name (A) ★ | 16 + 22 | 16/16 · 2 | 0/16 · 0 | 0/16 · 0 | 15/16 · 4 | 13/16 · 3 | 14/16 · 3 | 16/16 · 0 | 16/16 · 0 | 16/16 · 0 | 16/16 · 2 | 16/16 · 2 |
 | 3.1.1 Language of Page (A) ★ | 13 + 12 | 8/13 · 4 | 4/13 · 3 | 8/13 · 4 | 8/13 · 5 | 8/13 · 4 | 8/13 · 4 | 8/13 · 4 | 13/13 · 4 | 13/13 · 4 | 13/13 · 4 | 13/13 · 4 |
@@ -149,18 +149,18 @@ A pair is a passed example of an ACT rule and a copy Rampa's corruptor broke on 
 | 1.3.5 | `autocomplete-swap` | 7 | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 6 | 6 | 6 | 6 |
 | 1.4.5 (opt-in) | `text-as-image` | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 2.4.2 | `title-generic` | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3 | 3 | 3 | 3 |
-| 2.4.4 | `link-generic` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 11 | 11 |
-| 2.4.4 | `link-mismatch` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 10 | 10 |
-| 2.4.6 | `heading-generic` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 5 | 8 | 8 |
+| 2.4.4 | `link-generic` | 11 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 11 | 11 | 11 | 11 |
+| 2.4.4 | `link-mismatch` | 10 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 2.4.6 | `heading-generic` | 9 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 5 | 5 | 5 |
 | 2.5.3 (opt-in) | `label-detached` | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 3.1.1 | `html-lang-swap` | 4 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 4 | 4 | 4 | 4 |
 | 3.1.2 | `lang-drop` | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 2 | 2 |
 | 3.1.2 | `lang-swap` | 5 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 5 | 5 | 5 |
 | 3.3.2 | `label-hidden` | 7 | 0 | 0 | 0 | 0 | 0 | 4 | 0 | 7 | 7 | 7 | 7 |
 | 3.3.2 | `label-unseen` | 7 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 7 | 7 | 7 | 7 |
-| **All** |  | **96** | **0** | **2** | **0** | **0** | **0** | **4** | **0** | **47** | **47** | **73** | **73** |
-| Rampa's default criteria |  | 79 | 0 | 2 | 0 | 0 | 0 | 4 | 0 | 47 | 47 | 73 | 73 |
-| Intact page already failed |  |  | 0 | 4 | 0 | 4 | 0 | 6 | 0 | 0 | 0 | 1 | 1 |
+| **All** |  | **96** | **0** | **2** | **0** | **0** | **0** | **4** | **0** | **58** | **58** | **60** | **60** |
+| Rampa's default criteria |  | 79 | 0 | 2 | 0 | 0 | 0 | 4 | 0 | 58 | 58 | 60 | 60 |
+| Intact page already failed |  |  | 0 | 4 | 0 | 4 | 0 | 6 | 0 | 0 | 0 | 0 | 0 |
 
 49 copies were left out because the corruptor changed nothing on them, as `rampa eval` leaves them out.
 
@@ -177,9 +177,9 @@ Wall time from opening the page to the tool's results, on this machine, with the
 | IBM | 1009 | 1.06 | 2.89 | 1.62 | — | 14 min | — |
 | Alfa | 1009 | 0.92 | 2.13 | 1.43 | — | 13 min | — |
 | QualWeb | 1009 | 0.53 | 2.04 | 1.05 | — | 9 min | — |
-| Rampa | 1009 | 0.85 | 1.15 | 1.00 | 1.81 | 9 min | — |
-| Rampa + Gemma | 1009 | 0.86 | 1.39 | 1.07 | 1.90 | 9 min | 7 (2662 cached) |
-| Rampa + Gemma + probes | 645 | 19.8 | 27.9 | 22.1 | 28.8 | 140 min | 8 (1699 cached) |
+| Rampa | 1009 | 0.87 | 1.43 | 1.05 | 1.86 | 9 min | — |
+| Rampa + Gemma | 1009 | 0.92 | 7.26 | 3.29 | 3.33 | 28 min | 583 (2087 cached) |
+| Rampa + Gemma + probes | 645 | 20.0 | 28.2 | 22.1 | 23.5 | 121 min | 2 (1709 cached) |
 
 ### If review items counted as failures
 
@@ -195,10 +195,10 @@ The same units, now counting what each tool sends to a person (lib/tools.mjs say
 | QualWeb | 0.80 | 92 / 344 | 51 / 268 | 0.61 | 0.70 |
 | Rampa | 0.68 | 31 / 344 | 17 / 268 | 0.80 | 0.74 |
 | Rampa + Gemma | 0.82 | 41 / 344 | 22 / 268 | 0.79 | 0.81 |
-| Rampa + Gemma + probes | 0.91 | 43 / 344 | 25 / 268 | 0.79 | 0.85 |
+| Rampa + Gemma + probes | 0.90 | 42 / 344 | 24 / 268 | 0.80 | 0.85 |
 | Rampa, low confidence counted | 0.65 | 3 / 344 | 13 / 268 | 0.92 | 0.77 |
-| Rampa + Gemma, low confidence counted | 0.80 | 13 / 344 | 18 / 268 | 0.88 | 0.84 |
-| Rampa + Gemma + probes, low confidence counted | 0.85 | 14 / 344 | 21 / 268 | 0.87 | 0.86 |
+| Rampa + Gemma, low confidence counted | 0.76 | 11 / 344 | 16 / 268 | 0.89 | 0.82 |
+| Rampa + Gemma + probes, low confidence counted | 0.80 | 12 / 344 | 19 / 268 | 0.88 | 0.84 |
 
 ### False positives the engines share
 
@@ -213,8 +213,8 @@ A passed or inapplicable example can still fail its criterion for a reason its r
 | Alfa | 28 | 9 |
 | QualWeb | 74 | 9 |
 | Rampa | 13 | 12 |
-| Rampa + Gemma | 15 | 12 |
-| Rampa + Gemma + probes | 15 | 12 |
+| Rampa + Gemma | 17 | 12 |
+| Rampa + Gemma + probes | 17 | 12 |
 
 <details><summary>Examples at least four engines fail</summary>
 
@@ -243,7 +243,6 @@ On 1009 pages both checked. Pa11y errors that axe-core itself left incomplete: `
 - Lighthouse (accessibility category): 18. `act:m6b1q3:895a5b0d06d892bc50351cfd2db426b31cfcc97f`: Lighthouse CHROME_INTERSTITIAL_ERROR; `act:de46e4:034e1e1a46cfa6d3fe3bcc69ac45ffb6c5d55148`: The "start lh:storage:clearBrowserCaches" performance mark has not been set; `act:97a4e1:3004e7b1a47b2e5a5c77b3eef36b50d495c9e4a1`: Lighthouse NO_FCP; `act:bf051a:7d8c4fd028c504d10c4e5e9bd7183c139549e1a1`: Lighthouse NO_FCP; `act:bf051a:a49f11c86ad81c4d42700dfca58a7eeec377f02e`: Lighthouse NO_FCP
 - Pa11y (HTML_CodeSniffer): 1. `act:bc659a:48a600254c0883cd5a72471420b1ac5a532ca6c3`: Cannot read properties of null (reading 'toLowerCase')
 - QualWeb: 2. `act:bc659a:49d79a4e4e4a994a8eb7cf2eaf59c99d2251cac5`: QualWeb returned no report: {}; `act:bc659a:d48be8e9b638b9c27714cb3118a335376ed65f0f`: QualWeb returned no report: {}
-- Rampa + Gemma 4 12B + probes (--probe all): 2. `act:2t702h:61d7129d076b8cc168168d92734e1ae6ec72cf59`: rampa: https://www.w3.org/WAI/content-assets/wcag-act-rules/testcases/2t702h/61d7129d076b8cc168168d92734e1ae6ec72cf59.html did not reach load within 30000 ms. Raise --timeout.; `act:afw4f7:9e3383a60ab67d5988ac2144fec58a34677c52b2`: rampa: https://www.w3.org/WAI/content-assets/wcag-act-rules/testcases/afw4f7/9e3383a60ab67d5988ac2144fec58a34677c52b2.html did not reach load within 30000 ms. Raise --timeout.
 
 <details><summary>By ACT rule</summary>
 
@@ -272,7 +271,7 @@ On 1009 pages both checked. Pa11y errors that axe-core itself left incomplete: `
 | [8fc3b6](https://www.w3.org/WAI/standards-guidelines/act/rules/8fc3b6/) Object element rendering non-text content has non-empty accessible name | 1.1.1 | 18 | 6/6 · 0 | 5/6 · 6 | 6/6 · 1 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 5/6 · 0 |
 | [b5c3f8](https://www.w3.org/WAI/standards-guidelines/act/rules/b5c3f8/) HTML page has lang attribute ★ | 3.1.1 | 5 | 4/4 · 0 | 3/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 |
 | [c4a8a4](https://www.w3.org/WAI/standards-guidelines/act/rules/c4a8a4/) HTML page title is descriptive ★ | 2.4.2 | 6 | 0/3 · 0 | 0/3 · 1 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 |
-| [qt1vmo](https://www.w3.org/WAI/standards-guidelines/act/rules/qt1vmo/) Image accessible name is descriptive ★ | 1.1.1 | 16 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 1 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 3/3 · 0 | 1/3 · 0 |
+| [qt1vmo](https://www.w3.org/WAI/standards-guidelines/act/rules/qt1vmo/) Image accessible name is descriptive ★ | 1.1.1 | 16 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 1 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 3/3 · 0 | 2/3 · 0 |
 | [0ssw9k](https://www.w3.org/WAI/standards-guidelines/act/rules/0ssw9k/) Scrollable content can be reached with sequential focus navigation | 2.1.1 | 15 | 2/2 · 0 | 0/2 · 0 | 2/2 · 0 | 0/2 · 0 | 2/2 · 2 | 2/2 · 3 | 2/2 · 0 | 2/2 · 0 | 2/2 · 0 |
 | [oj04fd](https://www.w3.org/WAI/standards-guidelines/act/rules/oj04fd/) Element in sequential focus order has visible focus ★ | 2.4.7 | 9 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 |
 | [afw4f7](https://www.w3.org/WAI/standards-guidelines/act/rules/afw4f7/) Text has minimum contrast ★ | 1.4.3 | 34 | 8/11 · 0 | 4/11 · 6 | 11/11 · 5 | 7/11 · 1 | 8/11 · 2 | 9/11 · 1 | 8/11 · 0 | 8/11 · 0 | 8/11 · 0 |
@@ -287,7 +286,7 @@ On 1009 pages both checked. Pa11y errors that axe-core itself left incomplete: `
 | [cf77f2](https://www.w3.org/WAI/standards-guidelines/act/rules/cf77f2/) Bypass Blocks of Repeated Content ★ | 2.4.1 | 13 | 0/1 · 0 | 0/1 · 0 | 1/1 · 4 | 0/1 · 0 | 0/1 · 0 | 1/1 · 7 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 |
 | [off6ek](https://www.w3.org/WAI/standards-guidelines/act/rules/off6ek/) HTML element language subtag matches language ★ | 3.1.2 | 13 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 4/4 · 0 | 4/4 · 0 |
 | [80af7b](https://www.w3.org/WAI/standards-guidelines/act/rules/80af7b/) Focusable element has no keyboard trap ★ | 2.1.2 | 16 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 |
-| [cc0f0a](https://www.w3.org/WAI/standards-guidelines/act/rules/cc0f0a/) Form field label is descriptive ★ | 2.4.6 | 16 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 |
+| [cc0f0a](https://www.w3.org/WAI/standards-guidelines/act/rules/cc0f0a/) Form field label is descriptive ★ | 2.4.6 | 16 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 1/6 · 0 | 1/6 · 0 |
 | [b49b2e](https://www.w3.org/WAI/standards-guidelines/act/rules/b49b2e/) Heading is descriptive ★ | 2.4.6 | 12 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 |
 | [ucwvc8](https://www.w3.org/WAI/standards-guidelines/act/rules/ucwvc8/) HTML page language subtag matches default language ★ | 3.1.1 | 14 | 0/5 · 4 | 0/5 · 2 | 0/5 · 4 | 0/5 · 4 | 0/5 · 4 | 0/5 · 4 | 0/5 · 4 | 5/5 · 4 | 5/5 · 4 |
 | [4b1c6c](https://www.w3.org/WAI/standards-guidelines/act/rules/4b1c6c/) Iframe elements with identical accessible names have equivalent purpose | 4.1.2 | 23 | 1/4 · 3 | 0/4 · 0 | 2/4 · 10 | 1/4 · 4 | 1/4 · 3 | 1/4 · 4 | 1/4 · 3 | 1/4 · 3 | 1/4 · 3 |
@@ -295,7 +294,7 @@ On 1009 pages both checked. Pa11y errors that axe-core itself left incomplete: `
 | [e88epe](https://www.w3.org/WAI/standards-guidelines/act/rules/e88epe/) Image not in the accessibility tree is decorative ★ | 1.1.1 | 20 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 2/5 · 1 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 |
 | [36b590](https://www.w3.org/WAI/standards-guidelines/act/rules/36b590/) Error message describes invalid form field value ★ | 3.3.1 | 9 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 | 0/5 · 0 |
 | [5effbb](https://www.w3.org/WAI/standards-guidelines/act/rules/5effbb/) Link in context is descriptive ★ | 2.4.4 | 18 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 1 | 0/6 · 0 | 3/6 · 0 | 3/6 · 0 |
-| [fd3a94](https://www.w3.org/WAI/standards-guidelines/act/rules/fd3a94/) Links with identical accessible names and same context serve equivalent purpose ★ | 2.4.4 | 24 | 0/8 · 0 | 0/8 · 0 | 0/8 · 0 | 0/8 · 0 | 0/8 · 0 | 0/8 · 0 | 0/8 · 0 | 0/8 · 0 | 0/8 · 0 |
+| [fd3a94](https://www.w3.org/WAI/standards-guidelines/act/rules/fd3a94/) Links with identical accessible names and same context serve equivalent purpose ★ | 2.4.4 | 24 | 0/8 · 0 | 0/8 · 0 | 0/8 · 0 | 0/8 · 0 | 0/8 · 0 | 0/8 · 0 | 0/8 · 0 | 7/8 · 2 | 7/8 · 2 |
 | [9bd38c](https://www.w3.org/WAI/standards-guidelines/act/rules/9bd38c/) Content has alternative for visual reference ★ | 1.3.3 | 21 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 |
 | [ffbc54](https://www.w3.org/WAI/standards-guidelines/act/rules/ffbc54/) No keyboard shortcut uses only printable characters ★ | 2.1.4 | 10 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 |
 | [d0f69e](https://www.w3.org/WAI/standards-guidelines/act/rules/d0f69e/) Table header cell has assigned cells ★ | 1.3.1 | 16 | 0/3 · 0 | 1/3 · 3 | 2/3 · 0 | 3/3 · 10 | 2/3 · 4 | 3/3 · 11 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 |
