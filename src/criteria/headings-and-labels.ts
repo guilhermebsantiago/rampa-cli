@@ -112,7 +112,7 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
   engineRules: ENGINE_RULES,
   // Headings and field labels as the browser names them: a heading that is only an image is named by its alt.
   names: 'browser',
-  // Batched judgment (--batch, --fast): up to 8 headings or labels a call, measured in docs/performance.md.
+  // Batched judgment (--batch, --fast): up to 8 headings or labels a call; its scores held batched (docs/performance.md).
   batch: 8,
   schema: HeadingsAndLabelsJudgment,
   // Only placeholder or numbered headings and labels keep the model's confidence; see generic-text.ts.

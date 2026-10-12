@@ -2,11 +2,12 @@ import { spawnSync } from 'node:child_process'
 import { describe, expect, it } from 'vitest'
 import { resolveSettings } from '../src/api/options.ts'
 import { batchSetting } from '../src/cli/commands/check.ts'
-import { BATCH_SYSTEM, batchAnswers, batchPrompt, batchSchema, batchesOf } from '../src/core/batch.ts'
+import { BATCH_CHARS, BATCH_SYSTEM, batchAnswers, batchPrompt, batchSchema, batchesOf } from '../src/core/batch.ts'
 import { type CachedJudgment, type JudgmentCache, memoryCache } from '../src/core/cache.ts'
 import { type CheckOptions, checkSnapshot } from '../src/core/check.ts'
 import { Stopwatch } from '../src/core/timings.ts'
 import type { EngineResults, Report } from '../src/core/types.ts'
+import { CRITERIA, DEFAULT_CRITERIA } from '../src/criteria/index.ts'
 import { linkPurpose } from '../src/criteria/link-purpose.ts'
 import type { JudgeRequest, ModelProvider } from '../src/providers/types.ts'
 import type { A11yNode, A11ySnapshot } from '../src/snapshot/schema.ts'
@@ -41,11 +42,12 @@ function listing(count: number): A11ySnapshot {
   }
 }
 
-// 2.4.4 allows batches of 8 (link-purpose.ts); the tests hold the criterion to its own setting.
-const MAX = linkPurpose.batch ?? 0
+// 2.4.4 with batches of 8 (2.4.4 itself does not opt in: its scores dropped batched, docs/performance.md), so the
+// tests read like a page of links whichever criteria opt in.
+const batchedLinks = { ...linkPurpose, batch: 8 }
 
 function options(provider: ModelProvider | undefined, extra: Partial<CheckOptions> = {}): CheckOptions {
-  return { criteria: [linkPurpose], llm: true, provider, runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 2, batch: true, ...extra }
+  return { criteria: [batchedLinks], llm: true, provider, runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 2, batch: true, ...extra }
 }
 
 /** The stub, with a hook that changes a batch's answer before it is returned. */
@@ -77,6 +79,12 @@ describe('batches', () => {
     expect(batchesOf([], 8)).toEqual([])
   })
 
+  it('starts a new batch before its text passes the budget, and leaves an item larger than it alone', () => {
+    const sizes = [1500, 1500, 1500, 500, 5000, 100, 100]
+    expect(batchesOf(sizes, 8, (n) => n, BATCH_CHARS)).toEqual([[1500, 1500], [1500, 500], [5000], [100, 100]])
+    expect(batchesOf(sizes, 8, (n) => n, 100_000).map((b) => b.length)).toEqual([7])
+  })
+
   it('wraps each question in an item under the criterion instructions, and reads one answer per id', () => {
     const prompt = batchPrompt('Judge one link.', ['<link>A</link>', '<link>B</link>'])
     expect(prompt.system).toBe(`Judge one link.\n\n${BATCH_SYSTEM}`)
@@ -93,7 +101,6 @@ describe('batches', () => {
 
 describe('batched judgment', () => {
   it('judges a criterion that allows it several candidates to a call, with the same findings as one call each', async () => {
-    expect(MAX).toBeGreaterThan(1)
     const model = stubModel()
     const batched = await checkSnapshot(listing(12), NO_ENGINE, options(model))
     expect(model.batches).toEqual([6, 6])
@@ -185,6 +192,12 @@ describe('batched judgment', () => {
     const model = stubModel()
     await checkSnapshot(listing(4), NO_ENGINE, options(model, { batch: undefined }))
     expect(model.batches).toEqual([])
+  })
+})
+
+describe('the criteria that opt in', () => {
+  it('are those whose scores held batched on their evaluation sets', () => {
+    expect(DEFAULT_CRITERIA.filter((id) => (CRITERIA.get(id)?.batch ?? 0) > 1)).toEqual(['2.4.6', '3.1.2', '3.3.2'])
   })
 })
 

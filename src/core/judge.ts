@@ -234,7 +234,8 @@ async function judgeInBatches<Ctx, Out extends JudgmentBase>(
     const key = `${ask.prompt.system}\u0000${ask.schemaJson}`
     groups.set(key, [...(groups.get(key) ?? []), ask])
   }
-  const batches = [...groups.values()].flatMap((group) => batchesOf(group, max)).filter((batch) => batch.length > 1)
+  // Batches also stop at a size in characters, so a batch of long questions fits a small model's context.
+  const batches = [...groups.values()].flatMap((group) => batchesOf(group, max, (ask) => ask.prompt?.user.length ?? 0)).filter((batch) => batch.length > 1)
   await mapLimit(batches, options.concurrency, async (batch) => {
     for (const [ask, samples] of await askBatch(criterion, batch, schemaName, options)) answered.set(ask, samples)
   })

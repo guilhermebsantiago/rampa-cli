@@ -42,12 +42,34 @@ export function batchAnswers<Out>(answer: BatchAnswer<Out>, ids: readonly string
   return found
 }
 
-/** `items` split into as few batches of at most `max` as it takes, of sizes as even as can be, in order. */
-export function batchesOf<T>(items: readonly T[], max: number): T[][] {
+/**
+ * The most item text one batch holds, in characters. With the criterion's instructions (3,000 to 5,000 characters) and
+ * an answer per item, a batch stays well inside a 4,096-token context, the one Ollama gives a local model by default
+ * (at about 3.5 characters a token); past it, Ollama cuts the prompt without saying so.
+ */
+export const BATCH_CHARS = 4000
+
+/**
+ * `items` split into batches in order: as few as `max` items each allows, of sizes as even as can be, and a new batch
+ * whenever the next item's text (`size`) would take one past `budget` characters. An item larger than the budget alone
+ * makes a batch of one, which is asked alone.
+ */
+export function batchesOf<T>(items: readonly T[], max: number, size: (item: T) => number = () => 0, budget: number = BATCH_CHARS): T[][] {
   if (items.length === 0) return []
-  const count = Math.ceil(items.length / Math.max(1, max))
-  const size = Math.ceil(items.length / count)
+  const target = Math.ceil(items.length / Math.ceil(items.length / Math.max(1, max)))
   const batches: T[][] = []
-  for (let start = 0; start < items.length; start += size) batches.push(items.slice(start, start + size))
+  let current: T[] = []
+  let chars = 0
+  for (const item of items) {
+    const length = size(item)
+    if (current.length > 0 && (current.length >= target || chars + length > budget)) {
+      batches.push(current)
+      current = []
+      chars = 0
+    }
+    current.push(item)
+    chars += length
+  }
+  batches.push(current)
   return batches
 }
