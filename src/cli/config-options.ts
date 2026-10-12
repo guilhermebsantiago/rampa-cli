@@ -1,5 +1,6 @@
 import type { Command } from 'commander'
 import type { RampaConfig } from '../config.ts'
+import { FAST } from '../core/fast.ts'
 
 /**
  * Options the config file can set. Commander fills every option that has a default, so without
@@ -23,6 +24,26 @@ export function withConfigOptions<T extends object>(command: Command, options: T
   for (const [key, value] of Object.entries(fromConfig)) {
     const source = command.getOptionValueSource(key)
     if (value !== undefined && defined.has(key) && (source === 'default' || source === undefined)) merged[key] = value
+  }
+  return merged as T
+}
+
+/**
+ * --fast, or `fast: true` in the config (--no-fast wins over the config): the preset fills in the options it changes
+ * (core/fast.ts) where the command line and the config left Rampa's default. `fast` comes out true or false.
+ */
+export function withFastPreset<T extends object>(command: Command, options: T, config: RampaConfig): T {
+  const defined = new Set(command.options.map((option) => option.attributeName()))
+  if (!defined.has('fast')) return options
+  const merged = { ...options } as Record<string, unknown>
+  const fromCli = command.getOptionValueSource('fast') === 'cli'
+  merged.fast = fromCli ? merged.fast === true : config.fast === true
+  if (!merged.fast) return merged as T
+  const preset: Record<string, string> = { maxCandidates: String(FAST.maxCandidates), followLinks: 'none' }
+  const inConfig: Record<string, boolean> = { maxCandidates: config.maxCandidates !== undefined, followLinks: false }
+  for (const [key, value] of Object.entries(preset)) {
+    const source = command.getOptionValueSource(key)
+    if (defined.has(key) && (source === 'default' || source === undefined) && !inConfig[key]) merged[key] = value
   }
   return merged as T
 }

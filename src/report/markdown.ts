@@ -231,10 +231,11 @@ function coverageSection(reports: readonly Report[], verbose: boolean, withCrite
   } else if (first) {
     const withRules = reports.some((report) => (report.coverage.rules?.length ?? 0) > 0)
     const withProbes = reports.some((report) => report.coverage.probes !== undefined)
-    const labels = coverageRows(first, true, withRules, withProbes).map((row) => row.label.replace(/:$/, ''))
+    const withFast = reports.some((report) => report.coverage.fast !== undefined)
+    const labels = coverageRows(first, true, withRules, withProbes, withFast).map((row) => row.label.replace(/:$/, ''))
     lines.push(`| ${t(locale, 'page')} | ${labels.join(' | ')} |`, `| --- | ${labels.map(() => '---').join(' | ')} |`)
     for (const report of reports.slice(0, MAX_LIST)) {
-      const cells = coverageRows(report, true, withRules, withProbes).map((row) => row.text)
+      const cells = coverageRows(report, true, withRules, withProbes, withFast).map((row) => row.text)
       lines.push(`| ${code(pageLabel(report))} | ${cells.map((cell) => prose(cell)).join(' | ')} |`)
     }
     if (reports.length > MAX_LIST) lines.push('', plural(locale, 'andMore', reports.length - MAX_LIST))

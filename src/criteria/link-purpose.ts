@@ -145,6 +145,7 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
   // A link's name as the browser computes it: text hidden from assistive technology (a TOC number, a coordinate
   // duplicate) is left out, CSS content is in. Its eval sets read the same prompts either way (docs/rules.md).
   names: 'browser',
+  // No batched judgment: batched, 5effbb fell from F1 1.00 to 0.83 and the pairs from 0.98 to 0.95 (docs/performance.md).
   schema: LinkPurposeJudgment,
   // A finding needs a fact Rampa checks; the rest of the model's fails are its suggestions (see generic-text.ts).
   grounded: (output, candidate) => groundedLink(output.problem, candidate.context),

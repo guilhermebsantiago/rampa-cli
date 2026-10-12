@@ -1,10 +1,12 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import { dirname, join } from 'node:path'
+import { dirname, join, resolve } from 'node:path'
 import type { Browser } from 'playwright-core'
 import { prepareAdoption, targetsOrConfig } from '../../adoption/apply.ts'
 import { resolveProfiles } from '../../advisory/profile.ts'
 import { type JudgmentCache, fileCache } from '../../core/cache.ts'
-import { checkSnapshot } from '../../core/check.ts'
+import { checkSnapshot, loweredCap } from '../../core/check.ts'
+import { FAST, type FastCollection, fastCollectOptions, fastCollection, fastCoverage } from '../../core/fast.ts'
+import { Stopwatch, timed } from '../../core/timings.ts'
 import type { AnyCriterion, Confidence, EngineResults, Report, Usage } from '../../core/types.ts'
 import { RampaError } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
@@ -23,7 +25,8 @@ import { collectImage } from '../../surfaces/image.ts'
 import { type Target, loadRecorded, recordingName, resolveTargets, siblingPng } from '../../surfaces/targets.ts'
 import { type DestinationCache, type FollowLinks, type FollowOptions, destinationCache } from '../../surfaces/destinations.ts'
 import { FILE_FORMATS, type Format, formatReports } from '../../report/formats.ts'
-import { locateReport, readPageSource, repositoryRoot } from '../../source/locate.ts'
+import { type ChangedTargets, onlyChanged } from '../../source/changed.ts'
+import { displayPath, locateReport, readPageSource, repositoryRoot } from '../../source/locate.ts'
 import { type BrowserFlags, type BrowserOptions, parseBrowserFlags, wholeNumber } from '../../surfaces/browser-options.ts'
 import { type CrawlFlags, crawlRequested } from '../../surfaces/crawl.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
@@ -89,6 +92,20 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   adb?: AdbRunner
   /** An advisory profile to run on top of the WCAG check (--profile cognitive); the config's profiles otherwise. */
   profile?: string
+  /** --timings: record where each page's time goes, in `report.timings` and the terminal report (core/timings.ts). */
+  timings?: boolean
+  /**
+   * --fast (or `fast: true` in the config): the preset for CI and pre-commit (core/fast.ts). The CLI has already filled
+   * in --max-candidates and --follow-links where nothing else set them; the rest applies here.
+   */
+  fast?: boolean
+  /** --batch / --no-batch: batched judgment (core/batch.ts); the config's `batch`, else on with --fast only. */
+  batch?: boolean
+  /**
+   * --changed[=<ref>]: of the local HTML files, check only those changed since the ref; true for the merge base with
+   * the default branch (source/changed.ts). Other targets are always checked.
+   */
+  changed?: string | boolean
 }
 
 /** Read links when a criterion needs their destinations and the judgment layer will run. */
@@ -141,14 +158,18 @@ interface CollectContext {
   /** --allow-submit and --submit-dry-run, for the form probe on web pages. */
   submit: { allowed: string[]; dryRun: boolean } | undefined
   adb: AdbRunner | undefined
-  browser: () => Promise<Browser>
+  /** The run's browser, started on the first web page; its launch is timed on that page's stopwatch. */
+  browser: (watch?: Stopwatch) => Promise<Browser>
   wcag: WcagVersion
+  /** --fast: the shorter wait after load, the fewer captures and no contrast from pixels. */
+  fast: FastCollection | undefined
 }
 
-async function collect(target: Target, ctx: CollectContext): Promise<Collected> {
+async function collect(target: Target, ctx: CollectContext, watch: Stopwatch | undefined): Promise<Collected> {
   switch (target.kind) {
     case 'web': {
-      const web = await collectWeb(await ctx.browser(), target.url, {
+      const web = await collectWeb(await ctx.browser(watch), target.url, {
+        timings: watch,
         runAxe: true,
         locale: ctx.locale,
         screenshotDir: ctx.screenshots ? '.rampa/screenshots' : undefined,
@@ -158,6 +179,7 @@ async function collect(target: Target, ctx: CollectContext): Promise<Collected> 
         wcag: ctx.wcag,
         probes: ctx.probes,
         ...(ctx.submit ? { submit: ctx.submit } : {}),
+        ...fastCollectOptions(ctx.fast),
       })
       // What the form probe submitted, or would have: on stderr as it happens, and in the report's header.
       const submitted = web.snapshot.observations?.probes.find((record) => record.kind === 'form' && record.conditions.variant === 'submit')
@@ -244,10 +266,16 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   const submitDryRun = Boolean(options.submitDryRun)
   if (crawlRequested(options)) {
     if (probes.length > 0) process.stderr.write('rampa: --probe does not run with --crawl yet; the pages are checked without probes.\n')
+    if (options.changed) process.stderr.write('rampa: --changed picks among local HTML files; a crawl checks the pages it finds.\n')
     if (allowSubmit.length > 0 || submitDryRun) process.stderr.write('rampa: --allow-submit and --submit-dry-run do not run with --crawl; nothing is submitted.\n')
     return runSiteCheck(targetsOrConfig(targets, context.config), options, context, browserOptions)
   }
-  const resolved = await resolveTargets(targetsOrConfig(targets, context.config))
+  const all = await resolveTargets(targetsOrConfig(targets, context.config))
+  // --changed: only the local HTML files changed since the ref, said on stderr now and in each report.
+  const changed = options.changed ? await onlyChanged(all, options.changed === true ? undefined : options.changed) : undefined
+  const resolved = changed?.targets ?? all
+  const changedNote = changed ? changedLines(changed, all, context.locale) : undefined
+  if (changedNote) process.stderr.write(`rampa: ${changedNote.stderr}\n`)
   const submit = submitPlan(allowSubmit, submitDryRun, probes, resolved)
   const criteria = resolveCriteria(options.criteria.split(','))
   const profiles = resolveProfiles(options.profile, context.config.profiles)
@@ -258,7 +286,12 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   const follow = followOptions(options.followLinks, options.llm, criteria, destinationCache({ dir: '.rampa/destinations' }))
   const cache = fileCache(options.cacheDir)
   const concurrency = Math.max(1, Number.parseInt(options.concurrency, 10) || 4)
-  const { maxCandidates, timeLimitMs } = judgingLimits(options)
+  const limits = judgingLimits(options)
+  const timeLimitMs = limits.timeLimitMs
+  // rampa baseline has no --max-candidates: --fast sets its cap here.
+  const fast = Boolean(options.fast)
+  const maxCandidates = limits.maxCandidates ?? (fast ? FAST.maxCandidates : undefined)
+  const batch = batchSetting(options, context.config)
   // Source paths are relative to the repository root, as GitHub resolves them.
   const root = (await repositoryRoot()) ?? process.cwd()
   const adoption = await prepareAdoption(options.baseline, context.config)
@@ -285,9 +318,10 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     submit,
     adb: options.adb,
     wcag,
-    browser: async () => {
+    fast: fast ? fastCollection(criteria) : undefined,
+    browser: async (watch) => {
       // Probes compare pixels: the browser renders with a fixed color profile and no LCD text (and lets media autoplay for the media probe).
-      browser ??= await launchBrowser(probes.length > 0 ? { args: probeLaunchArgs(probes) } : {})
+      browser ??= await timed(watch, 'browser-launch', () => launchBrowser(probes.length > 0 ? { args: probeLaunchArgs(probes) } : {}))
       return browser
     },
   }
@@ -296,9 +330,11 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
       progress(`… ${target.label}`)
       // The time limit counts from here, so it also covers loading the page, as a timeout around the whole run would.
       const deadline = timeLimitMs === undefined ? undefined : Date.now() + timeLimitMs
-      const collected = await collect(target, ctx)
+      const watch = options.timings ? new Stopwatch() : undefined
+      const collected = await collect(target, ctx, watch)
       if (options.save && collected.record) await saveRecording(options.save, target, collected)
       const report = await checkSnapshot(collected.snapshot, collected.engine, {
+        timings: watch,
         criteria,
         llm: options.llm,
         provider,
@@ -314,18 +350,34 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
         wcag,
         maxCandidates,
         deadline,
+        batch,
+        fast: fast
+          ? fastCoverage({
+              criteria,
+              llm: options.llm,
+              probes: probes.length,
+              linksSkipped: options.followLinks === 'none' && criteria.some((criterion) => criterion.needs.fetch),
+              maxCandidates: loweredCap(maxCandidates),
+              web: target.kind === 'web',
+            })
+          : undefined,
       })
       // What the collector could not see first, then what the check left out: images without a capture, and
       // candidates the model did not judge (past the cap or the time limit).
       const notes = [...collected.notes, ...(report.notes ?? []), ...rulesNotes(collected.engine, context.locale)]
       if (collected.snapshot.surface === 'web') notes.push(singlePageNote(context.locale))
+      if (changedNote?.note) notes.push(changedNote.note)
       if (notes.length > 0) report.notes = notes
       if (collected.usage) {
         for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) report.usage[key] += collected.usage[key]
       }
       // A local page gets file:line for each finding, and its patches as edits to the file.
-      const source = await readPageSource(collected.snapshot.target, root)
-      reports.push(source ? locateReport(report, collected.snapshot, source) : report)
+      const located = await timed(watch, 'source', async () => {
+        const source = await readPageSource(collected.snapshot.target, root)
+        return source ? locateReport(report, collected.snapshot, source) : report
+      })
+      if (watch) located.timings = watch.result()
+      reports.push(located)
     }
   } finally {
     progress('')
@@ -336,6 +388,11 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   if (options.onReports) return options.onReports(reports)
 
   const formatOptions = { verbose: Boolean(options.verbose), paint: paint(colorsEnabled()) }
+  // --changed left nothing to check: the terminal says so, instead of an empty report.
+  if (reports.length === 0 && changedNote && options.format === 'pretty' && !options.output) {
+    process.stdout.write(`\n${changedNote.nothing}\n\n`)
+    return 0
+  }
   const render = (format: Format) => formatReports(format, reports, formatOptions)
   if (!options.output) process.stdout.write(render(options.format))
   else if (options.format === 'pretty') {
@@ -371,6 +428,24 @@ export function submitPlan(allowed: string[], dryRun: boolean, probes: readonly 
   const origins = targets.flatMap((target) => (target.kind === 'web' ? [originOf(target.url)] : []))
   if (!origins.some((origin) => allowed.includes(origin))) process.stderr.write('rampa: --allow-submit: no target is on an origin it names, so nothing will be submitted.\n')
   return { allowed, dryRun: false }
+}
+
+/** What --changed did, for stderr, for each report's notes (when it skipped files) and for a run left with nothing to check. */
+export function changedLines(changed: ChangedTargets, all: readonly Target[], locale: Locale): { stderr: string; note: string | undefined; nothing: string } {
+  const local = all.filter((target) => target.kind === 'web' && target.url.startsWith('file:')).length
+  const commit = changed.base.commit.slice(0, 7)
+  const skipped = changed.skipped.map((label) => displayPath(resolve(label), process.cwd()))
+  const list = `${skipped.slice(0, 10).join(', ')}${skipped.length > 10 ? `, … (${skipped.length - 10} more)` : ''}`
+  return {
+    stderr: `--changed (${changed.base.ref}, ${commit}): checking ${local - skipped.length} of ${local} local HTML files; ${skipped.length} unchanged since then are skipped.`,
+    note: skipped.length > 0 ? t(locale, 'changedNote', { count: skipped.length, ref: changed.base.ref, commit, list }) : undefined,
+    nothing: t(locale, 'changedNothing', { ref: changed.base.ref, commit, count: skipped.length }),
+  }
+}
+
+/** Batched judgment: --batch or --no-batch, else the config's `batch`, else on in fast mode only. */
+export function batchSetting(options: Pick<CheckCommandOptions, 'batch' | 'fast'>, config: { batch?: boolean | undefined }): boolean {
+  return options.batch ?? config.batch ?? Boolean(options.fast)
 }
 
 /** --max-candidates (0 for no cap) and --time-limit in milliseconds, undefined when it is not set. */

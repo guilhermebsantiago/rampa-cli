@@ -4,9 +4,11 @@ import type { Browser } from 'playwright-core'
 import { resolveProfiles } from '../../advisory/profile.ts'
 import { loadWaivers } from '../../config.ts'
 import { fileCache } from '../../core/cache.ts'
-import { type CheckOptions, checkSnapshot } from '../../core/check.ts'
+import { type CheckOptions, checkSnapshot, loweredCap } from '../../core/check.ts'
+import { type FastCollection, fastCollectOptions, fastCollection, fastCoverage } from '../../core/fast.ts'
 import { type SiteCriteriaReport, type SitePage, type SiteReport, countReuse, findingSignatures, siteExitCode, summarizeSite } from '../../core/site.ts'
 import { type Sibling, siblingsOf } from '../../core/siblings.ts'
+import { Stopwatch } from '../../core/timings.ts'
 import { pagePictureKeys, repeatedPictures } from '../../core/site-images.ts'
 import type { Report } from '../../core/types.ts'
 import { RampaError, errorMessage } from '../../core/util.ts'
@@ -37,7 +39,7 @@ import { recordingName } from '../../surfaces/targets.ts'
 import { type Collected, collectWeb, launchBrowser } from '../../surfaces/web.ts'
 import { VERSION } from '../../version.ts'
 import type { GlobalContext } from '../context.ts'
-import { type CheckCommandOptions, judgingLimits, resolveProvider, wcagOption } from './check.ts'
+import { type CheckCommandOptions, batchSetting, judgingLimits, resolveProvider, wcagOption } from './check.ts'
 import { DEFAULT_WCAG, wcagTarget } from '../../wcag.ts'
 
 const SKIP_ORDER: readonly SkipReason[] = ['robots', 'off-site', 'http', 'not-html', 'error']
@@ -57,6 +59,8 @@ interface SiteRun {
   progress: (message: string) => void
   /** The config's named sets of pages, checked before the crawl starts. */
   pageSets: Record<string, string[]> | undefined
+  /** --fast: the shorter wait after load, the fewer captures and no contrast from pixels. */
+  fast: FastCollection | undefined
 }
 
 /** `rampa check <url> --crawl`: the pages of a site, one summary for the site and a report per page. */
@@ -87,6 +91,9 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
     coga: context.config.coga,
     wcag: wcagOption(options.wcag),
     maxCandidates,
+    batch: batchSetting(options, context.config),
+    // A crawl runs no probes and reads no link destinations either way: fast mode lists only what it changed.
+    fast: options.fast ? fastCoverage({ criteria, llm: options.llm, probes: 0, linksSkipped: false, maxCandidates: loweredCap(maxCandidates), web: true }) : undefined,
   }
   const progress = (message: string) => {
     if (process.stderr.isTTY && options.format === 'pretty') process.stderr.write(`\x1b[2K${message}\r`)
@@ -113,6 +120,7 @@ export async function runSiteCheck(targets: string[], options: CheckCommandOptio
       needsImages: options.llm && criteria.some((criterion) => criterion.needs.vision),
       progress,
       pageSets,
+      fast: options.fast ? fastCollection(criteria) : undefined,
     }
     for (const site of await resolveSites(targets, fetch)) sites.push(await checkSite(site, run))
   } finally {
@@ -172,14 +180,18 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
     run.progress(`… ${frontier.loaded}/${crawl.maxPages} ${task.url}`)
     let finalUrl = task.url
     let collected: Collected
+    // Pages load in parallel and wait their turn to be judged: that wait is the timings' "other".
+    const watch = options.timings ? new Stopwatch() : undefined
     try {
       collected = await collectWeb(run.browser, task.url, {
+        timings: watch,
         runAxe: true,
         locale: run.context.locale,
         screenshotDir: options.screenshots ? '.rampa/screenshots' : undefined,
         captureImages: run.needsImages,
         browserOptions: run.browserOptions,
         wcag: run.check.wcag,
+        ...fastCollectOptions(run.fast),
         inspect: async (page, response) => {
           finalUrl = page.url()
           const verdict = frontier.arrived(task, finalUrl, response?.status(), response?.headers()['content-type'])
@@ -216,7 +228,9 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
       if (options.save) await saveRecording(options.save, snapshot, collected)
       // Pages are judged one at a time, so a page's time limit counts from its turn, not from its load.
       const deadline = run.timeLimitMs === undefined ? undefined : Date.now() + run.timeLimitMs
-      return { snapshot, report: await checkSnapshot(snapshot, collected.engine, { ...run.check, cache, deadline }) }
+      const report = await checkSnapshot(snapshot, collected.engine, { ...run.check, cache, deadline, timings: watch })
+      if (watch) report.timings = watch.result()
+      return { snapshot, report }
     })
     judging = turn.catch(() => undefined)
     const { snapshot, report } = await turn

@@ -47,7 +47,7 @@ It never replaces a file that exists: it says it kept it. `--force` overwrites t
 
 **The workflow.** It asks for `pull-requests: write` and `security-events: write`, which the action's pull request comment and code scanning upload need, and passes `locale` because the action's own default (`en`) would otherwise override the config's. Build or start the site in the steps before it; the comments in the file show where.
 
-**The config file.** With `targets` in the config, `rampa check` and `rampa baseline` need no arguments. `criteria`, `minConfidence`, `runs`, `cacheDir`, `concurrency`, `maxCandidates` and `timeLimit` apply too; the command line still wins over the file.
+**The config file.** With `targets` in the config, `rampa check` and `rampa baseline` need no arguments. `criteria`, `minConfidence`, `runs`, `cacheDir`, `concurrency`, `maxCandidates`, `timeLimit`, `fast` and `batch` apply too; the command line still wins over the file (`--no-fast` turns off the config's `fast` for one run).
 
 ## Baselines: report only what is new
 
@@ -76,7 +76,7 @@ Every finding has an id, its fingerprint: 12 hexadecimal characters built from t
 
 The element is identified by its CSS path, such as `main > p:nth-of-type(3) > a`. When content is added above it, the path changes and so does the id. The baseline makes up for it: a finding with no match by id is matched by content, the engine rule and the element's start tag, or the criterion and what was judged, but only when the pairing is certain: one leftover baseline entry and one unmatched finding with that content. Several links all named "Read more" are not guessed between, so they are reported. Each baseline entry matches one finding at most, so a second copy of a known problem is still new. One case stays ambiguous: if the only known "Read more" link is fixed and a new one is added elsewhere in the same run, the new one is taken for the old one, moved. Waivers do not do this: a waiver whose element moved stops matching, and `rampa waivers --report` lists it as unused.
 
-A baseline finding counts as no longer found only where the run could have found it again. A judgment finding is not "fixed" when the run had no model, did not judge its criterion, or the model abstained, failed or had no cached answer on that criterion; the report counts those as not checked again.
+A baseline finding counts as no longer found only where the run could have found it again. A judgment finding is not "fixed" when the run had no model, did not judge its criterion, or the model abstained, failed or had no cached answer on that criterion, or left some of its candidates unjudged past the cap (`--max-candidates`, 10 with `--fast`) or the time limit; the report counts those as not checked again.
 
 ### Keeping it current
 
@@ -134,6 +134,15 @@ The file is `.rampa/waivers.json` unless the config's `waivers` or `--file` says
 7. **Retire the baseline.** When it is empty, remove the `baseline` line. From then on every confirmed finding fails the build.
 
 The baseline and the waivers cover what Rampa checks. Everything the report lists as not checked still needs manual review and testing with people.
+
+### Keeping CI fast
+
+A full check of a real page takes several seconds before any model call, and the judgment layer adds a call per candidate. On pull requests, two flags keep the job short ([performance.md](performance.md) has the measurements):
+
+- **`--fast`** is a preset for CI and pre-commit hooks. It judges at most 10 candidates per criterion (generic texts first), several per model call where the criterion allows it (2.4.6, 3.1.2, 3.3.2), does not read where links lead or measure contrast from pixels, captures at most 15 images and waits at most 1 s after load. Every report says it ran in fast mode and lists what it left out, under the coverage. What you set yourself (`--max-candidates`, `--follow-links`, `--probe`, `--criteria`, `--no-batch`) keeps its value. On three real pages it took 23 to 55% less time without a model, with the same confirmed findings, and 55 to 65% less with Gemma 4 12B, a third of the model calls; on the ACT evaluation, F1 went from 0.919 to 0.910, all of it 2.4.4 links whose test cases turn on where the link leads.
+- **`--changed`** checks only the local HTML files changed since the merge base with the default branch (or `--changed=<ref>`), and says how many it skipped. It needs the history: `actions/checkout` with `fetch-depth: 0`.
+
+Run the full check, without `--fast`, where time matters less: on `main`, nightly, or before a release. **Record the baseline the way CI checks:** a baseline recorded without `--fast` lists judgment findings past the 10th candidate of a criterion, which a `--fast` run never judges; `rampa baseline --fast` records what `rampa check --fast` sees.
 
 ## Limits
 

@@ -101,6 +101,8 @@ export const languageOfParts: Criterion<LanguageOfPartsContext, LanguageOfPartsJ
   surfaces: ['web', 'android', 'ios'],
   needs: {},
   engineRules: ENGINE_RULES,
+  // Batched judgment (--batch, --fast): up to 8 passages a call; its scores held batched (docs/performance.md).
+  batch: 8,
   schema: LanguageOfPartsJudgment,
   // The claim is about the declared language; which words the model quotes as proof varies.
   // An unmarked passage is keyed by its words too: one block can hold several.

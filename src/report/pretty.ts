@@ -9,6 +9,7 @@ import { compareCriteria, criterionLabel, criteriaFor, versionOf } from '../wcag
 import { advisoryLines, cogaCoverage } from './advisory.ts'
 import type { Painter } from './color.ts'
 import { coverageRows, methodsText, plural, reviewGroups, statusText } from './common.ts'
+import { timingLines } from './timings.ts'
 
 export interface PrettyOptions {
   verbose: boolean
@@ -24,6 +25,8 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   const version = versionOf(report.wcagTarget)
   const meta = [`${t(locale, 'surface')}: ${report.surface}`, t(locale, 'wcagTarget', { version }), `${report.engine.name} ${report.engine.version}`]
   if (report.model) meta.push(`${t(locale, 'model')}: ${report.model}`)
+  // Fast mode says so up front; what it left out is in the coverage.
+  if (report.coverage.fast) meta.push(t(locale, 'fastMode'))
   lines.push(p.dim(meta.join(' · ')))
   // Forms the probe submitted (--allow-submit) come first: the run wrote to a server.
   const submitted = submissionLine(report)
@@ -89,6 +92,9 @@ export function renderReport(report: Report, options: PrettyOptions): string {
 
   const usage = usageLine(report)
   if (usage) lines.push(p.dim(usage), '')
+  // --timings: where the page's time went, before the coverage it bought.
+  const timings = timingLines(report, p)
+  if (timings.length > 0) lines.push(...timings, '')
 
   lines.push(p.bold(t(locale, 'coverageTitle')))
   const rows = coverageRows(report)

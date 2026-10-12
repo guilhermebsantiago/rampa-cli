@@ -3,7 +3,8 @@ import { resolveProfiles } from '../advisory/profile.ts'
 import { resolveProvider } from '../cli/commands/check.ts'
 import { type RampaConfig, loadConfig, loadWaivers } from '../config.ts'
 import { type JudgmentCache, fileCache } from '../core/cache.ts'
-import { type CheckOptions, checkSnapshot } from '../core/check.ts'
+import { type CheckOptions, checkSnapshot, loweredCap } from '../core/check.ts'
+import { FAST, type FastCollection, type FastCoverage, fastCollection, fastCoverage } from '../core/fast.ts'
 import { type AnyCriterion, CONFIDENCE_RANK, type Confidence, type Report } from '../core/types.ts'
 import { RampaError } from '../core/util.ts'
 import { DEFAULT_CRITERIA, resolveCriteria } from '../criteria/index.ts'
@@ -54,6 +55,16 @@ export interface RampaOptions {
   config?: RampaConfig | false | undefined
   /** Advisory profiles, like --profile: ['cognitive'] adds report.advisory, which never changes findings. Default: the config's. */
   profiles?: readonly string[] | undefined
+  /** Record where each page's time goes in `report.timings`, like --timings. Default false. */
+  timings?: boolean | undefined
+  /**
+   * The fast preset, like --fast: at most 10 candidates per criterion, no contrast from pixels, fewer image captures, a
+   * shorter wait after load; `report.coverage.fast` says what was left out. What you set (maxCandidates, probes) keeps its
+   * value. Default: the config's `fast`, else false.
+   */
+  fast?: boolean | undefined
+  /** Batched judgment, like --batch: several candidates per model call where the criterion allows it. Default: the config's, else on with `fast` only. */
+  batch?: boolean | undefined
 }
 
 export interface Settings extends CheckOptions {
@@ -61,6 +72,10 @@ export interface Settings extends CheckOptions {
   captureImages: boolean
   /** The time limit per page in milliseconds; each check turns it into a `deadline` when it starts reading the page. */
   timeLimitMs?: number | undefined
+  /** Whether each page gets a stopwatch (`timings: true`); the stopwatch itself is CheckOptions' `timings`. */
+  recordTimings: boolean
+  /** Fast mode's collection settings, when `fast` is on (core/fast.ts). */
+  fastCollection?: FastCollection | undefined
 }
 
 export async function resolveSettings(options: RampaOptions = {}): Promise<Settings> {
@@ -78,6 +93,9 @@ export async function resolveSettings(options: RampaOptions = {}): Promise<Setti
   }
   const llm = !options.noLlm
   const offline = Boolean(options.offline)
+  const fast = options.fast ?? config.fast ?? false
+  // The preset's cap only where neither the call nor the config set one.
+  const maxCandidates = count(options.maxCandidates ?? config.maxCandidates, 'maxCandidates') ?? (fast ? FAST.maxCandidates : undefined)
   return {
     criteria,
     llm,
@@ -88,7 +106,7 @@ export async function resolveSettings(options: RampaOptions = {}): Promise<Setti
     locale: resolveLocale(options.locale ?? process.env.RAMPA_LOCALE ?? config.locale),
     minConfidence,
     concurrency: whole(options.concurrency ?? config.concurrency, 4),
-    maxCandidates: count(options.maxCandidates ?? config.maxCandidates, 'maxCandidates'),
+    maxCandidates,
     timeLimitMs: seconds(options.timeLimit ?? config.timeLimit),
     wcag: wcagSetting(options.wcag ?? config.wcag),
     waivers: await waiversFrom(options.waivers),
@@ -96,7 +114,23 @@ export async function resolveSettings(options: RampaOptions = {}): Promise<Setti
     coga: config.coga,
     // As `rampa check` decides, so a report counts the same candidates as the CLI's.
     captureImages: llm && criteria.some((criterion) => criterion.needs.vision),
+    recordTimings: Boolean(options.timings),
+    batch: options.batch ?? config.batch ?? fast,
+    ...(fast ? { fastCollection: fastCollection(criteria) } : {}),
   }
+}
+
+/**
+ * Fast mode's coverage line for a check from code: `probes` kinds ran, `web` whether the page was read in a browser (not
+ * a recorded snapshot), and `loaded` whether Rampa loaded it (check) or the caller had (checkPage, where the wait after
+ * load is not Rampa's). From code, links are never read either way.
+ */
+export function fastFor(settings: Settings, run: { probes: number; web: boolean; loaded: boolean }): FastCoverage | undefined {
+  if (!settings.fastCollection) return undefined
+  const fast = fastCoverage({ criteria: settings.criteria, llm: settings.llm, probes: run.probes, linksSkipped: false, maxCandidates: loweredCap(settings.maxCandidates), web: run.web })
+  // checkPage never captures CSS backgrounds, fast or not.
+  if (!run.loaded) return { ...fast, skipped: fast.skipped.filter((skip) => skip !== 'css-backgrounds'), settleCapMs: undefined }
+  return fast
 }
 
 /** Judges what a surface collected, as `rampa check` does. `criteria` narrows the configured ones. */

@@ -1,4 +1,5 @@
 import type { Browser } from 'playwright-core'
+import { Stopwatch, timed } from '../core/timings.ts'
 import type { Report } from '../core/types.ts'
 import { RampaError } from '../core/util.ts'
 import { singlePageNote } from '../site/index.ts'
@@ -6,7 +7,8 @@ import { locateReport, readPageSource, repositoryRoot } from '../source/locate.t
 import { loadRecorded, resolveTargets } from '../surfaces/targets.ts'
 import { type ProbeKind, probeLaunchArgs } from '../probes/run.ts'
 import { type Collected, collectWeb, launchBrowser } from '../surfaces/web.ts'
-import { type RampaOptions, deadlineOf, judge, resolveSettings } from './options.ts'
+import { fastCollectOptions } from '../core/fast.ts'
+import { type RampaOptions, deadlineOf, fastFor, judge, resolveSettings } from './options.ts'
 
 export interface CheckTargetsOptions extends RampaOptions {
   /** A Playwright browser to reuse for web targets. By default Rampa starts Chrome or Edge, like the CLI, and closes it at the end. */
@@ -33,11 +35,14 @@ export async function check(targets: string | readonly string[], options: CheckT
   try {
     for (const target of resolved) {
       const deadline = deadlineOf(settings)
+      const watch = settings.recordTimings ? new Stopwatch() : undefined
       let collected: Collected
       if (target.kind === 'web') {
         // Probes compare pixels: a browser Rampa starts gets the fixed rendering flags (and, for the media probe, autoplay); one passed in is used as it is.
-        if (!browser) browser = launched = await launchBrowser(options.probes?.length ? { args: probeLaunchArgs(options.probes) } : {})
+        if (!browser) browser = launched = await timed(watch, 'browser-launch', () => launchBrowser(options.probes?.length ? { args: probeLaunchArgs(options.probes) } : {}))
         collected = await collectWeb(browser, target.url, {
+          timings: watch,
+          ...fastCollectOptions(settings.fastCollection),
           runAxe: true,
           locale: settings.locale,
           screenshotDir: options.screenshotDir,
@@ -55,12 +60,18 @@ export async function check(targets: string | readonly string[], options: CheckT
           `${target.label}: check() takes URLs, .html files, folders and snapshot .json files. Android devices, UI Automator dumps and screenshots need the CLI: rampa check ${target.label}`,
         )
       }
-      const report = await judge(collected, { ...settings, deadline })
+      const web = target.kind === 'web'
+      const fast = fastFor(settings, { probes: web ? (options.probes?.length ?? 0) : 0, web, loaded: web })
+      const report = await judge(collected, { ...settings, deadline, timings: watch, fast })
       // As in rampa check: 3.2.3 and 3.2.6 compare pages, which a single page cannot do.
       if (collected.snapshot.surface === 'web') report.notes = [...(report.notes ?? []), singlePageNote(settings.locale)]
       // A local page gets file:line for each finding, and its patches as edits to the file, like rampa check.
-      const source = await readPageSource(collected.snapshot.target, root)
-      reports.push(source ? locateReport(report, collected.snapshot, source) : report)
+      const located = await timed(watch, 'source', async () => {
+        const source = await readPageSource(collected.snapshot.target, root)
+        return source ? locateReport(report, collected.snapshot, source) : report
+      })
+      if (watch) located.timings = watch.result()
+      reports.push(located)
     }
   } finally {
     await launched?.close()

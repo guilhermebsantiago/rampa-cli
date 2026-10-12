@@ -5,6 +5,8 @@ import type { Waiver } from '../adoption/waivers.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11ySnapshot, Reach, Surface } from '../snapshot/schema.ts'
 import type { Level, WcagTarget } from '../wcag.ts'
+import type { FastCoverage } from './fast.ts'
+import type { Timings } from './timings.ts'
 
 export type Confidence = 'low' | 'medium' | 'high'
 
@@ -158,6 +160,12 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
    * picture repeated on a page or across the pages of a site is judged once. The prompt's hash when absent.
    */
   judgmentKey?(candidate: Candidate<Ctx>): string | undefined
+  /**
+   * Batched judgment (core/batch.ts): the most candidates of this criterion one model call may hold when batching is on
+   * (--batch, and --fast). Opt-in per criterion, measured on its evaluation sets (docs/performance.md); each candidate
+   * keeps its own prompt and verification. Absent: one call per candidate, always.
+   */
+  batch?: number | undefined
   schema: z.ZodType<Out>
   /**
    * The answer schema for one candidate, where a criterion asks two kinds of question: 1.1.1 asks whether an
@@ -402,6 +410,8 @@ export interface CriterionSummary {
   capped?: number | undefined
   /** Candidates the model never judged because the time limit ran out first (`--time-limit`). Absent when none. */
   timedOut?: number | undefined
+  /** Candidates the model judged several to a call (batched judgment, --batch or --fast), and the calls. Absent when none. */
+  batched?: { candidates: number; calls: number } | undefined
 }
 
 export interface Usage {
@@ -464,6 +474,11 @@ export interface Report {
      */
     reach?: Reach | undefined
     criteria?: CriterionCoverage[] | undefined
+    /**
+     * Set when the run used --fast (`fast: true`): what fast mode left out (probes, link following, OCR, contrast from
+     * pixels, CSS background captures) and the limits it lowered (core/fast.ts). Every report format lists it with the coverage.
+     */
+    fast?: FastCoverage | undefined
   }
   /** What the engine, Rampa's rules or a probe rule could not decide, for a person to look at; never a failure. */
   needsReview?: ReviewItem[] | undefined
@@ -483,4 +498,9 @@ export interface Report {
    * They live outside findings, so nothing that reads findings (exit code, baseline, toPassRampa, MCP) sees them.
    */
   advisory?: AdvisorySection | undefined
+  /**
+   * Set with --timings (`timings: true` from code): where the page's time went, stage by stage and criterion by criterion
+   * (core/timings.ts, docs/performance.md). Absent otherwise, so reports of the same page stay the same from run to run.
+   */
+  timings?: Timings | undefined
 }

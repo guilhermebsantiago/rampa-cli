@@ -120,6 +120,8 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
   engineRules: ENGINE_RULES,
   // Headings and field labels as the browser names them: a heading that is only an image is named by its alt.
   names: 'browser',
+  // Batched judgment (--batch, --fast): up to 8 headings or labels a call; its scores held batched (docs/performance.md).
+  batch: 8,
   schema: HeadingsAndLabelsJudgment,
   // A finding needs a fact Rampa checks; the rest of the model's fails are its suggestions (see generic-text.ts).
   grounded: (output, candidate) => (output.problem === 'generic' || output.problem === 'placeholder_text') && saysNothing(candidate.context),

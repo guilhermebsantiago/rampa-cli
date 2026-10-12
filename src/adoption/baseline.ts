@@ -202,7 +202,8 @@ function contentKey(entry: Pick<BaselineEntry, 'criterion' | 'source' | 'ruleId'
 /**
  * Whether this run would have found the entry again. Engine findings need the engine to have run;
  * judgments need the model to have judged their criterion with no abstention, error or cache miss,
- * since any of those could be the very candidate the entry was about.
+ * and no candidate left out past the cap (--max-candidates, --fast) or the time limit, since any of
+ * those could be the very candidate the entry was about.
  */
 function rechecked(entry: BaselineEntry, report: Report): boolean {
   if (entry.source === 'engine') return report.engine.name !== 'none'
@@ -223,6 +224,7 @@ function rechecked(entry: BaselineEntry, report: Report): boolean {
   if (report.llm !== 'on') return false
   const summary = report.criteria.find((c) => c.criterion === entry.criterion)
   if (!summary?.applicable || summary.cannotTell > 0 || summary.errors > 0 || summary.offlineMisses > 0) return false
+  if ((summary.capped ?? 0) > 0 || (summary.timedOut ?? 0) > 0) return false
   return !report.discarded.some((claim) => claim.criterion === entry.criterion && claim.ref === entry.ref)
 }
 

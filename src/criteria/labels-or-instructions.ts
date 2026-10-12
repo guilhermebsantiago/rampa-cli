@@ -137,6 +137,8 @@ export const labelsOrInstructions: Criterion<LabelsOrInstructionsContext, Labels
   engineRules: ENGINE_RULES,
   // A field's name as the browser computes it, which is what a screen reader announces.
   names: 'browser',
+  // Batched judgment (--batch, --fast): up to 8 fields or groups a call; its scores held batched (docs/performance.md).
+  batch: 8,
   schema: LabelsOrInstructionsJudgment,
   // Option groups and dates are new: below the default threshold until they pass the evaluation gate.
   confidenceCap: (candidate) => (candidate.context.kind ? 'low' : undefined),

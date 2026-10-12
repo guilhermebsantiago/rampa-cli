@@ -16,6 +16,7 @@ import { estimateCostUsd, subscriptionOf } from '../../providers/models.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
 import { type FollowLinks, type FollowOptions, destinationCache } from '../../surfaces/destinations.ts'
 import { collectWeb, launchBrowser } from '../../surfaces/web.ts'
+import { FAST, type FastCollection, fastCollectOptions, fastCollection } from '../../core/fast.ts'
 import { VERSION } from '../../version.ts'
 import type { GlobalContext } from '../context.ts'
 import { followOptions, resolveProvider, wcagOption } from './check.ts'
@@ -46,6 +47,10 @@ export interface EvalCommandOptions {
   followLinks?: FollowLinks
   /** Rampa rules to measure against their ACT test cases, with no model, instead of the judged criteria. */
   rules?: string
+  /** --batch: batched judgment where the criterion allows it (core/batch.ts), to measure it against one call per candidate. */
+  batch?: boolean
+  /** --fast: the fast preset (core/fast.ts) on every test page; links are not followed unless --follow-links says so. */
+  fast?: boolean
 }
 
 type PageVerdict = 'failed' | 'passed'
@@ -75,6 +80,8 @@ export interface EvalRecord {
    */
   suggestions?: Array<{ ref?: string | undefined; message: string }> | undefined
   usage: { calls: number; cachedCalls: number; inputTokens: number; outputTokens: number; latencyMs: number }
+  /** Candidates judged several to a call, and the calls (--batch, --fast). Absent when none. */
+  batched?: { candidates: number; calls: number } | undefined
   /** The page could not be loaded or collected; the record is left out of the metrics. */
   error?: string | undefined
   /** The model failed on some candidate; the page still counts, with those candidates unjudged. */
@@ -128,6 +135,9 @@ export async function runEval(options: EvalCommandOptions, context: GlobalContex
   }
 
   const destinations = destinationCache({ dir: '.rampa/destinations' })
+  const fast = Boolean(options.fast)
+  const batch = options.batch ?? fast
+  const started = Date.now()
   const browser = await launchBrowser()
   let done = 0
   const tick = () => {
@@ -138,7 +148,19 @@ export async function runEval(options: EvalCommandOptions, context: GlobalContex
   try {
     records = await mapLimit(jobs, Math.max(1, Number.parseInt(options.concurrency, 10) || 4), async (job) => {
       const follow = followOptions(options.followLinks, llm, [job.criterion], destinations)
-      const record = await runJob(job, { browser, provider, llm, runs, cache, offline: Boolean(options.offline), verify: options.verify, follow, wcag })
+      const record = await runJob(job, {
+        browser,
+        provider,
+        llm,
+        runs,
+        cache,
+        offline: Boolean(options.offline),
+        verify: options.verify,
+        follow,
+        wcag,
+        batch,
+        fast: fast ? fastCollection([job.criterion]) : undefined,
+      })
       tick()
       return record
     })
@@ -158,6 +180,9 @@ export async function runEval(options: EvalCommandOptions, context: GlobalContex
     criteria: criteria.map((c) => c.id),
     followLinks: followed,
     wcag,
+    batch,
+    fast,
+    wallMs: Date.now() - started,
   })
   const stamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)
   const dir = join(options.outDir, `${stamp}-${(provider?.id ?? 'baseline').replace(/[^\w.-]+/g, '-')}`)
@@ -181,6 +206,9 @@ async function runJob(
     verify: boolean
     follow?: FollowOptions | undefined
     wcag: WcagVersion
+    batch?: boolean | undefined
+    /** --fast: its collection settings, and its cap on the candidates judged per page. */
+    fast?: FastCollection | undefined
   },
 ): Promise<EvalRecord | undefined> {
   const { criterion, testcase, corruptor } = job
@@ -204,6 +232,7 @@ async function runJob(
       captureImages: ctx.llm && Boolean(criterion.needs.vision),
       followLinks: ctx.follow,
       wcag: ctx.wcag,
+      ...fastCollectOptions(ctx.fast),
       requireOk: true,
       mutate: corruptor
         ? async (page) => {
@@ -224,6 +253,8 @@ async function runJob(
       concurrency: 2,
       verify: ctx.verify,
       wcag: ctx.wcag,
+      batch: ctx.batch,
+      ...(ctx.fast ? { maxCandidates: FAST.maxCandidates } : {}),
     })
     // An engine failure counts only for the ACT rule its axe-core rule implements.
     const baselineFails = engineFailsAct(collected.engine, criterion.id, testcase.ruleId, axeActIds())
@@ -242,6 +273,7 @@ async function runJob(
         .map((f) => ({ source: f.source, ref: f.ref, evidence: f.evidence, ruleId: f.ruleId, message: f.message })),
       ...suggestionsOf(report.needsReview, criterion.id),
       usage: report.usage,
+      ...(summary?.batched ? { batched: summary.batched } : {}),
       modelError: report.errors[0],
     }
   } catch (error) {
@@ -303,10 +335,16 @@ export interface EvalSummary {
   wcag?: WcagVersion | undefined
   /** Which links were read before judging, when a criterion compares links with where they lead. */
   followLinks?: FollowLinks | undefined
+  /** Batched judgment (--batch, or --fast) was on; absent in runs made before it existed. */
+  batch?: boolean | undefined
+  /** The fast preset (--fast) ran on every test page. */
+  fast?: boolean | undefined
+  /** Wall time of the run, from the browser's launch to the last test page. */
+  wallMs?: number | undefined
   sets: SetScores[]
   pairs: Array<{ criterion: string; corruptor: string; total: number; baseline: number; rampa: number }>
   /** suggestions: the model's fails no checked fact supports, listed for review on the pages; they fail no page. */
-  judgment: { candidates: number; discarded: number; cannotTell: number; suggestions?: number | undefined }
+  judgment: { candidates: number; discarded: number; cannotTell: number; suggestions?: number | undefined; batched?: { candidates: number; calls: number } | undefined }
   usage: { calls: number; cachedCalls: number; inputTokens: number; outputTokens: number; costUsd: number | undefined }
   errors: Array<{ testcaseId: string; error: string }>
 }
@@ -322,6 +360,9 @@ export function summarize(
     criteria: string[]
     followLinks?: FollowLinks | undefined
     wcag?: WcagVersion | undefined
+    batch?: boolean | undefined
+    fast?: boolean | undefined
+    wallMs?: number | undefined
   },
 ): EvalSummary {
   const ok = records.filter((r) => !r.error)
@@ -384,6 +425,9 @@ export function summarize(
     criteria: meta.criteria,
     wcag: meta.wcag,
     followLinks: meta.followLinks,
+    ...(meta.batch ? { batch: true } : {}),
+    ...(meta.fast ? { fast: true } : {}),
+    ...(meta.wallMs !== undefined ? { wallMs: meta.wallMs } : {}),
     sets,
     pairs,
     judgment: {
@@ -391,6 +435,14 @@ export function summarize(
       discarded: records.reduce((n, r) => n + r.discarded, 0),
       cannotTell: records.reduce((n, r) => n + r.cannotTell, 0),
       suggestions: records.reduce((n, r) => n + (r.suggestions?.length ?? 0), 0),
+      ...(records.some((r) => r.batched)
+        ? {
+            batched: {
+              candidates: records.reduce((n, r) => n + (r.batched?.candidates ?? 0), 0),
+              calls: records.reduce((n, r) => n + (r.batched?.calls ?? 0), 0),
+            },
+          }
+        : {}),
     },
     usage: { ...usage, costUsd: estimateCostUsd(meta.model, usage.inputTokens, usage.outputTokens) },
     errors: records.flatMap((r) => {
@@ -410,6 +462,8 @@ function renderSummary(summary: EvalSummary, p: ReturnType<typeof paint>): strin
     summary.verify ? 'verification on' : p.yellow('verification OFF (ablation)'),
     `ACT ${summary.actSha256.slice(0, 8)}`,
     summary.followLinks ? `links followed: ${summary.followLinks}` : undefined,
+    summary.fast ? 'fast mode' : undefined,
+    summary.batch ? 'batched judgment' : undefined,
   ].filter((part) => part !== undefined)
   lines.push(p.bold(head.join(' · ')))
   lines.push('')
@@ -440,7 +494,10 @@ function renderSummary(summary: EvalSummary, p: ReturnType<typeof paint>): strin
     const suggested = summary.judgment.suggestions ? ` · ${summary.judgment.suggestions} model suggestions, for review (no page fails on them)` : ''
     lines.push(`Judgment: ${summary.judgment.candidates} candidates · ${summary.judgment.discarded} discarded by verification · ${summary.judgment.cannotTell} cannot tell${suggested}`)
     lines.push(`Model calls: ${summary.usage.calls} new, ${summary.usage.cachedCalls} from cache · ${tokens}${cost}`)
+    const batched = summary.judgment.batched
+    if (batched) lines.push(`Batched: ${batched.candidates} candidates in ${batched.calls} calls`)
   }
+  if (summary.wallMs !== undefined) lines.push(`Wall time: ${(summary.wallMs / 1000).toFixed(1)} s`)
   if (summary.errors.length > 0) lines.push(p.yellow(`${summary.errors.length} page(s) with errors; first: ${summary.errors[0]?.error}`))
   return lines.join('\n')
 }

@@ -18,7 +18,9 @@ import { criteriaCoverage, engineCoverage, reviewItems, reviewOnlyCriteria, rule
 import { VERSION } from '../version.ts'
 import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria, criteriaFor, successCriterion, wcagTarget } from '../wcag.ts'
 import type { JudgmentCache } from './cache.ts'
-import { judgeCandidates } from './judge.ts'
+import { type Sample, judgeCandidates } from './judge.ts'
+import type { FastCoverage } from './fast.ts'
+import { type CriterionTiming, type Stopwatch, timed } from './timings.ts'
 import {
   type AnyCriterion,
   type Candidate,
@@ -74,10 +76,24 @@ export interface CheckOptions {
    * Cached judgments are still read.
    */
   deadline?: number | undefined
+  /** Records how long the rules, each criterion and the advisory profiles take (`--timings`, core/timings.ts). */
+  timings?: Stopwatch | undefined
+  /** The run used --fast: what it left out and lowered, stated in the report's coverage (core/fast.ts). */
+  fast?: FastCoverage | undefined
+  /**
+   * Batched judgment (--batch, on in --fast): the criteria that allow it (`Criterion.batch`) judge their candidates
+   * several to a call (core/batch.ts). Each criterion's summary counts them, and a note says so.
+   */
+  batch?: boolean | undefined
 }
 
 /** Candidates per criterion and page the model judges at most unless `maxCandidates` says otherwise. */
 export const DEFAULT_MAX_CANDIDATES = 50
+
+/** The cap when it is below the default one (fast mode's coverage line lists it); undefined for the default, a higher cap or none. */
+export function loweredCap(cap: number | undefined): number | undefined {
+  return cap !== undefined && cap > 0 && cap < DEFAULT_MAX_CANDIDATES ? cap : undefined
+}
 
 export function fingerprint(criterion: string, ref: string | undefined, detail: string): string {
   return sha256(`${criterion}|${ref ?? ''}|${normalizeForMatch(detail)}`).slice(0, 12)
@@ -113,12 +129,15 @@ export function engineFindings(engine: EngineResults): Finding[] {
 }
 
 export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResults, options: CheckOptions): Promise<Report> {
+  const watch = options.timings
+  const ruleStart = performance.now()
   const stage: RuleStageResult = options.rules === false ? emptyRuleStage() : runRuleChecks(snapshot, engine, options.locale, options.rules ?? RULE_CHECKS)
   // Label-in-name failures that differ only by a hyphen or a shortened word go to review (src/rules/label-in-name.ts).
   const fromEngine = options.rules === false ? engineFindings(engine) : reviewLabelInName(engineFindings(engine), snapshot, options.locale)
   // Facts a probe recorded in the snapshot, turned into findings by rules: no browser, no model.
   await prepareProbeRules(snapshot, PROBE_RULES)
   const probe = probeChecks(snapshot, options.locale, PROBE_RULES, options.wcag ?? DEFAULT_WCAG, engine)
+  watch?.add('rules', performance.now() - ruleStart)
   let findings: Finding[] = [...fromEngine, ...stage.findings, ...probe.findings]
   const discarded: Discarded[] = []
   const summaries: CriterionSummary[] = []
@@ -156,7 +175,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     summaries.push(summary)
     if (!summary.applicable) continue
 
+    const started = performance.now()
     await criterion.prepare?.(view)
+    const prepareMs = performance.now() - started
     // An element a stable rule already failed for this criterion is decided: the model is not asked again.
     const failedByRule = stage.decided.get(criterion.id)
     const candidates = criterion.candidates(view, engine).filter((candidate) => !failedByRule?.has(candidate.ref))
@@ -165,7 +186,10 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     const judgeable = llmActive ? candidates : options.llm ? candidates.filter((candidate) => criterion.decide?.(candidate, view) !== undefined) : []
     const judged = capCandidates(criterion, view, judgeable, cap)
     if (judged.length < judgeable.length) summary.capped = judgeable.length - judged.length
-    if (judged.length === 0) continue
+    if (judged.length === 0) {
+      watch?.criterion(criterionTiming(criterion.id, started, prepareMs, candidates.length, []))
+      continue
+    }
 
     const judgments = await judgeCandidates(criterion, view, judged, {
       provider: options.provider,
@@ -175,7 +199,14 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       concurrency: options.concurrency,
       signal,
       deadline: options.deadline,
+      batch: options.batch,
     })
+    watch?.criterion(criterionTiming(criterion.id, started, prepareMs, candidates.length, judgments))
+    const inBatches = judgments.filter((judgment) => judgment.samples.some((sample) => sample.batch))
+    if (inBatches.length > 0) {
+      const calls = inBatches.reduce((sum, judgment) => sum + judgment.samples.filter((sample) => sample.batch && !sample.batch.shared).length, 0)
+      summary.batched = { candidates: inBatches.length, calls }
+    }
 
     for (const judgment of judgments) {
       // A candidate the criterion passed or failed without a model counts in the coverage as its own method (kind rule).
@@ -184,7 +215,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
         if (judgment.status === 'failed') summary.decidedFailed = (summary.decidedFailed ?? 0) + 1
       }
       for (const sample of judgment.samples) {
-        if (sample.decided) continue
+        // A batch's call is counted once, on the first candidate it answered.
+        if (sample.decided || sample.batch?.shared) continue
         if (sample.cached) usage.cachedCalls++
         else if (sample.output) usage.calls++
         usage.inputTokens += sample.inputTokens
@@ -416,22 +448,25 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     (id) => !engineCovered.includes(id) && !ruleCovered.includes(id) && !judged.includes(id) && !probed.includes(id) && !reviewOnly.includes(id),
   )
 
+  const profiles = options.profiles
   const advisory =
-    options.profiles && options.profiles.length > 0
-      ? await runProfiles(snapshot, engine, {
-          profiles: options.profiles,
-          locale: options.locale,
-          findings: [...reported, ...belowThreshold],
-          llm: options.llm,
-          provider: options.provider,
-          offline: options.offline,
-          cache: options.cache,
-          runs: options.runs,
-          concurrency: options.concurrency,
-          minConfidence: options.minConfidence,
-          waivers: options.waivers,
-          coga: options.coga,
-        })
+    profiles && profiles.length > 0
+      ? await timed(watch, 'advisory', () =>
+          runProfiles(snapshot, engine, {
+            profiles,
+            locale: options.locale,
+            findings: [...reported, ...belowThreshold],
+            llm: options.llm,
+            provider: options.provider,
+            offline: options.offline,
+            cache: options.cache,
+            runs: options.runs,
+            concurrency: options.concurrency,
+            minConfidence: options.minConfidence,
+            waivers: options.waivers,
+            coga: options.coga,
+          }),
+        )
       : undefined
   if (advisory) for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) usage[key] += advisory.usage[key]
   // Images the collector left without a capture were never in front of a criterion that judges pixels: say so, and why.
@@ -470,6 +505,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       ...(probe.coverage.length > 0 ? { probes: probe.coverage } : {}),
       ...(reach ? { reach } : {}),
       criteria: records,
+      ...(options.fast ? { fast: options.fast } : {}),
     },
     ...(review.length > 0 ? { needsReview: review } : {}),
     usage,
@@ -496,7 +532,21 @@ export function capCandidates<C extends Candidate<unknown>>(criterion: AnyCriter
   return candidates.filter((candidate) => decided.has(candidate) || chosen.has(candidate))
 }
 
-/** What the report says about candidates the model never judged: past the cap, and after the time limit. */
+/** A criterion's time on the page, with the model calls its judgments made and read from the cache, counted as `usage` counts them. */
+function criterionTiming(criterion: string, started: number, prepareMs: number, candidates: number, judgments: ReadonlyArray<{ samples: readonly Sample<unknown>[] }>): CriterionTiming {
+  let calls = 0
+  let cachedCalls = 0
+  let batches = 0
+  for (const sample of judgments.flatMap((judgment) => judgment.samples)) {
+    if (sample.decided || sample.batch?.shared) continue
+    if (sample.batch) batches++
+    if (sample.cached) cachedCalls++
+    else if (sample.output) calls++
+  }
+  return { criterion, ms: performance.now() - started, prepareMs, candidates, judged: judgments.length, calls, cachedCalls, ...(batches > 0 ? { batches } : {}) }
+}
+
+/** What the report says about candidates the model never judged (past the cap, after the time limit), and those it judged in batches. */
 function notJudgedNotes(summaries: readonly CriterionSummary[], cap: number, locale: Locale): string[] {
   const notes: string[] = []
   const list = (key: 'capped' | 'timedOut') =>
@@ -508,6 +558,10 @@ function notJudgedNotes(summaries: readonly CriterionSummary[], cap: number, loc
   if (capped) notes.push(t(locale, 'notJudgedCap', { max: cap, list: capped }))
   const timedOut = list('timedOut')
   if (timedOut) notes.push(t(locale, 'notJudgedTime', { list: timedOut }))
+  const batched = summaries
+    .flatMap((s) => (s.batched ? [t(locale, 'batchedItem', { criterion: s.criterion, count: s.batched.candidates, calls: s.batched.calls })] : []))
+    .join(', ')
+  if (batched) notes.push(t(locale, 'batchedNote', { list: batched }))
   return notes
 }
 

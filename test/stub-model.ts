@@ -15,13 +15,28 @@ const GENERIC = /^(click here|read more|section \d+|field \d+|untitled document|
  * suggestion and passes the rest, always quoting the element so verification holds. It
  * records every question, so tests can check what reached the model and what never did.
  */
-export function stubModel(): ModelProvider & { asked: Asked[] } {
+export function stubModel(): ModelProvider & { asked: Asked[]; batches: number[] } {
   const asked: Asked[] = []
+  const batches: number[] = []
   return {
     id: 'stub:rules',
     asked,
+    batches,
     async judge<T>(request: JudgeRequest<T>) {
-      const criterion = request.schemaName.replace(/^wcag_/, '').replace(/_judgment$/, '').replaceAll('_', '.')
+      const criterion = request.schemaName
+        .replace(/^wcag_/, '')
+        .replace(/_(judgment|batch)$/, '')
+        .replaceAll('_', '.')
+      // A batch (core/batch.ts): each item is answered as if it were asked alone.
+      if (request.schemaName.endsWith('_batch')) {
+        const items = [...request.user.matchAll(/<item id="(\d+)">\n([\s\S]*?)\n<\/item>/g)].map(([, id = '', text = '']) => {
+          const { subject, output } = answer(criterion, text)
+          asked.push({ criterion, subject, images: 0 })
+          return { id, judgment: output }
+        })
+        batches.push(items.length)
+        return { output: request.schema.parse({ items }), inputTokens: 120, outputTokens: 30 * items.length, latencyMs: 1, modelId: 'stub' }
+      }
       const { subject, output } = answer(criterion, request.user)
       asked.push({ criterion, subject, images: request.images?.length ?? 0 })
       return { output: request.schema.parse(output), inputTokens: 120, outputTokens: 30, latencyMs: 1, modelId: 'stub' }

@@ -1,8 +1,9 @@
 import { z } from 'zod'
 import type { ModelProvider } from '../providers/types.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
+import { type BatchAnswer, batchAnswers, batchPrompt, batchSchema, batchesOf } from './batch.ts'
 import type { JudgmentCache } from './cache.ts'
-import type { Candidate, Criterion, JudgmentBase, Verdict, Verification } from './types.ts'
+import type { Candidate, Criterion, JudgmentBase, Prompt, Verdict, Verification } from './types.ts'
 import { errorMessage, mapLimit, sha256 } from './util.ts'
 
 export interface JudgeOptions {
@@ -20,6 +21,11 @@ export interface JudgeOptions {
   signal?: AbortSignal | undefined
   /** The moment the signal aborts, in milliseconds since the epoch: checked before each call, between timer ticks too. */
   deadline?: number | undefined
+  /**
+   * Batched judgment (core/batch.ts): where the criterion allows it (`Criterion.batch`), candidates asked the same way
+   * share one call. A candidate with a picture, one alone in its group, and one a batch answer leaves out are asked alone.
+   */
+  batch?: boolean | undefined
 }
 
 export interface Sample<Out> {
@@ -32,6 +38,11 @@ export interface Sample<Out> {
   outputTokens: number
   latencyMs: number
   modelId?: string | undefined
+  /**
+   * From a call that held `size` candidates (batched judgment). The first candidate answered carries the call and its
+   * tokens; the others are `shared`, so usage counts the call once.
+   */
+  batch?: { size: number; shared: boolean } | undefined
 }
 
 export type JudgmentStatus = 'failed' | 'passed' | 'cannot_tell' | 'discarded' | 'error' | 'offline-miss' | 'not-judged'
@@ -53,6 +64,15 @@ const TIME_UP = 'time limit reached'
 /** Calls under way for criteria that key their judgments (`Criterion.judgmentKey`), by cache key. */
 const inFlight = new Map<string, Promise<Awaited<ReturnType<ModelProvider['judge']>>>>()
 
+/** What one candidate asks the model, or what the criterion decided without it. */
+interface Ask<Ctx, Out extends JudgmentBase> {
+  candidate: Candidate<Ctx>
+  decided: Out | undefined
+  prompt: Prompt | undefined
+  schema: z.ZodType<Out>
+  schemaJson: string
+}
+
 export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
   criterion: Criterion<Ctx, Out>,
   snapshot: A11ySnapshot,
@@ -61,100 +81,216 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
 ): Promise<CandidateJudgment<Ctx, Out>[]> {
   const schemaJsons = new Map<z.ZodType<Out>, string>()
   const schemaName = `wcag_${criterion.id.replaceAll('.', '_')}_judgment`
-
-  return mapLimit(candidates, options.concurrency, async (candidate) => {
+  const asks = candidates.map((candidate): Ask<Ctx, Out> => {
     const schema = criterion.schemaFor?.(candidate) ?? criterion.schema
     let schemaJson = schemaJsons.get(schema)
     if (schemaJson === undefined) {
       schemaJson = JSON.stringify(z.toJSONSchema(schema))
       schemaJsons.set(schema, schemaJson)
     }
-    const samples: Sample<Out>[] = []
     // A candidate the criterion settles by itself is never sent to the model.
     const decided = criterion.decide?.(candidate, snapshot)
-    if (decided) samples.push({ output: decided, cached: false, decided: true, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
-    const prompt = decided ? undefined : criterion.prompt(candidate, snapshot)
-    const imageHashes = (prompt?.images ?? []).map((image) => sha256(Buffer.from(image.data).toString('base64')))
-    const promptHash = prompt ? sha256([prompt.system, prompt.user, schemaJson, ...imageHashes].join('\u0000')) : ''
-    // A criterion whose answer depends on less than its whole prompt (1.4.5: the picture) keys its judgments by that.
-    const judgmentKey = prompt ? criterion.judgmentKey?.(candidate) : undefined
-    const identity = judgmentKey === undefined ? { promptHash } : { judgmentKey }
+    return { candidate, decided, prompt: decided ? undefined : criterion.prompt(candidate, snapshot), schema, schemaJson }
+  })
+  const batched = options.batch ? await judgeInBatches(criterion, asks, schemaName, options) : new Map<Ask<Ctx, Out>, Sample<Out>[]>()
 
-    for (let sample = 0; prompt && sample < options.runs; sample++) {
-      const key = sha256(
-        JSON.stringify({
-          criterion: criterion.id,
-          version: criterion.version,
-          model: options.provider?.id ?? 'none',
-          settings: options.provider?.settings ?? '',
-          sample,
-          ...identity,
-        }),
-      )
-      const cached = await options.cache.get(key)
-      if (cached) {
-        const parsed = schema.safeParse(cached.output)
-        if (parsed.success) {
-          // Cached samples keep the tokens they cost, so totals show what the results took to produce.
-          samples.push({
-            output: parsed.data,
-            cached: true,
-            inputTokens: cached.inputTokens,
-            outputTokens: cached.outputTokens,
-            latencyMs: 0,
-            modelId: cached.modelId,
-          })
-          continue
-        }
-      }
-      // Candidates with the same judgment key share the call another one has under way (checked after the cache read,
-      // with no await between this check and registering a new call, so two candidates never both call).
-      const shared = judgmentKey === undefined ? undefined : inFlight.get(key)
-      if (shared) {
-        const result = await shared.then(
-          (value) => ({ value }),
-          (error: unknown) => ({ error }),
-        )
-        if ('value' in result) {
-          const parsed = schema.safeParse(result.value.output)
-          if (parsed.success) {
-            samples.push({ output: parsed.data, cached: true, inputTokens: result.value.inputTokens, outputTokens: result.value.outputTokens, latencyMs: 0, modelId: result.value.modelId })
-            continue
-          }
-        } else {
-          samples.push({ error: options.signal?.aborted ? TIME_UP : errorMessage(result.error), cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
-          if (options.signal?.aborted) break
-          continue
-        }
-      }
-      if (options.offline || !options.provider) {
-        samples.push({ error: OFFLINE_MISS, cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
+  return mapLimit(asks, options.concurrency, async (ask) => {
+    const samples: Sample<Out>[] = ask.decided
+      ? [{ output: ask.decided, cached: false, decided: true, inputTokens: 0, outputTokens: 0, latencyMs: 0 }]
+      : (batched.get(ask) ?? (await askAlone(criterion, ask, schemaName, options)))
+    return conclude(criterion, snapshot, ask.candidate, samples)
+  })
+}
+
+/** The samples of one candidate asked on its own: from the cache, a call another candidate has under way, or a call. */
+async function askAlone<Ctx, Out extends JudgmentBase>(criterion: Criterion<Ctx, Out>, ask: Ask<Ctx, Out>, schemaName: string, options: JudgeOptions): Promise<Sample<Out>[]> {
+  const { candidate, prompt, schema, schemaJson } = ask
+  const samples: Sample<Out>[] = []
+  if (!prompt) return samples
+  const imageHashes = (prompt.images ?? []).map((image) => sha256(Buffer.from(image.data).toString('base64')))
+  const promptHash = sha256([prompt.system, prompt.user, schemaJson, ...imageHashes].join('\u0000'))
+  // A criterion whose answer depends on less than its whole prompt (1.4.5: the picture) keys its judgments by that.
+  const judgmentKey = criterion.judgmentKey?.(candidate)
+  const identity = judgmentKey === undefined ? { promptHash } : { judgmentKey }
+
+  for (let sample = 0; sample < options.runs; sample++) {
+    const key = sha256(
+      JSON.stringify({
+        criterion: criterion.id,
+        version: criterion.version,
+        model: options.provider?.id ?? 'none',
+        settings: options.provider?.settings ?? '',
+        sample,
+        ...identity,
+      }),
+    )
+    const cached = await options.cache.get(key)
+    if (cached) {
+      const parsed = schema.safeParse(cached.output)
+      if (parsed.success) {
+        // Cached samples keep the tokens they cost, so totals show what the results took to produce.
+        samples.push({
+          output: parsed.data,
+          cached: true,
+          inputTokens: cached.inputTokens,
+          outputTokens: cached.outputTokens,
+          latencyMs: 0,
+          modelId: cached.modelId,
+        })
         continue
       }
-      if (options.signal?.aborted || (options.deadline !== undefined && Date.now() >= options.deadline)) {
-        samples.push({ error: TIME_UP, cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
-        break
-      }
-      const call = untilAborted(
-        options.provider.judge({
-          system: prompt.system,
-          user: prompt.user,
-          images: prompt.images,
-          schema,
-          schemaName,
-          signal: options.signal,
-        }),
-        options.signal,
+    }
+    // Candidates with the same judgment key share the call another one has under way (checked after the cache read,
+    // with no await between this check and registering a new call, so two candidates never both call).
+    const shared = judgmentKey === undefined ? undefined : inFlight.get(key)
+    if (shared) {
+      const result = await shared.then(
+        (value) => ({ value }),
+        (error: unknown) => ({ error }),
       )
-      if (judgmentKey !== undefined) {
-        inFlight.set(key, call)
-        call.then(
-          () => inFlight.delete(key),
-          () => inFlight.delete(key),
-        )
+      if ('value' in result) {
+        const parsed = schema.safeParse(result.value.output)
+        if (parsed.success) {
+          samples.push({ output: parsed.data, cached: true, inputTokens: result.value.inputTokens, outputTokens: result.value.outputTokens, latencyMs: 0, modelId: result.value.modelId })
+          continue
+        }
+      } else {
+        samples.push({ error: options.signal?.aborted ? TIME_UP : errorMessage(result.error), cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
+        if (options.signal?.aborted) break
+        continue
       }
+    }
+    if (options.offline || !options.provider) {
+      samples.push({ error: OFFLINE_MISS, cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
+      continue
+    }
+    if (timeUp(options)) {
+      samples.push({ error: TIME_UP, cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
+      break
+    }
+    const call = untilAborted(
+      options.provider.judge({
+        system: prompt.system,
+        user: prompt.user,
+        images: prompt.images,
+        schema,
+        schemaName,
+        signal: options.signal,
+      }),
+      options.signal,
+    )
+    if (judgmentKey !== undefined) {
+      inFlight.set(key, call)
+      call.then(
+        () => inFlight.delete(key),
+        () => inFlight.delete(key),
+      )
+    }
+    try {
+      const response = await call
+      await options.cache.set(key, {
+        output: response.output,
+        inputTokens: response.inputTokens,
+        outputTokens: response.outputTokens,
+        latencyMs: response.latencyMs,
+        modelId: response.modelId,
+        createdAt: new Date().toISOString(),
+      })
+      samples.push({
+        output: response.output,
+        cached: false,
+        inputTokens: response.inputTokens,
+        outputTokens: response.outputTokens,
+        latencyMs: response.latencyMs,
+        modelId: response.modelId,
+      })
+    } catch (error) {
+      // A call the time limit cut short is not a model error: the candidate was not judged.
+      samples.push({ error: options.signal?.aborted ? TIME_UP : errorMessage(error), cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
+      if (options.signal?.aborted) break
+    }
+  }
+  return samples
+}
+
+/**
+ * Batched judgment: the candidates a criterion asks the same way (the same instructions and answer schema, no picture)
+ * are split into batches of at most `Criterion.batch`, in page order, and each batch is one call per run. Returns the
+ * samples of the candidates the batches answered; the rest are asked alone.
+ */
+async function judgeInBatches<Ctx, Out extends JudgmentBase>(
+  criterion: Criterion<Ctx, Out>,
+  asks: readonly Ask<Ctx, Out>[],
+  schemaName: string,
+  options: JudgeOptions,
+): Promise<Map<Ask<Ctx, Out>, Sample<Out>[]>> {
+  const answered = new Map<Ask<Ctx, Out>, Sample<Out>[]>()
+  const max = criterion.batch ?? 1
+  // A criterion that keys its judgments by less than the prompt (1.4.5: the picture) shares answers its own way.
+  if (max < 2 || criterion.judgmentKey) return answered
+  const groups = new Map<string, Ask<Ctx, Out>[]>()
+  for (const ask of asks) {
+    if (!ask.prompt || (ask.prompt.images?.length ?? 0) > 0) continue
+    const key = `${ask.prompt.system}\u0000${ask.schemaJson}`
+    groups.set(key, [...(groups.get(key) ?? []), ask])
+  }
+  // Batches also stop at a size in characters, so a batch of long questions fits a small model's context.
+  const batches = [...groups.values()].flatMap((group) => batchesOf(group, max, (ask) => ask.prompt?.user.length ?? 0)).filter((batch) => batch.length > 1)
+  await mapLimit(batches, options.concurrency, async (batch) => {
+    for (const [ask, samples] of await askBatch(criterion, batch, schemaName, options)) answered.set(ask, samples)
+  })
+  return answered
+}
+
+/**
+ * One batch, `runs` times: from the cache, keyed by the batch's own prompt, or a call. A batch's answer is never read for
+ * a candidate asked alone, nor a lone candidate's for a batch. A candidate a batch answer leaves out, in any run, is
+ * asked alone for all its runs, so its votes never mix the two; so is the whole batch when its call fails, or when its
+ * answer is not in the cache of an offline run.
+ */
+async function askBatch<Ctx, Out extends JudgmentBase>(
+  criterion: Criterion<Ctx, Out>,
+  batch: readonly Ask<Ctx, Out>[],
+  schemaName: string,
+  options: JudgeOptions,
+): Promise<Map<Ask<Ctx, Out>, Sample<Out>[]>> {
+  const [first] = batch
+  if (!first?.prompt) return new Map()
+  const prompt = batchPrompt(
+    first.prompt.system,
+    batch.map((ask) => ask.prompt?.user ?? ''),
+  )
+  const schema = batchSchema(first.schema, prompt.ids)
+  const identity = sha256([prompt.system, prompt.user, JSON.stringify(z.toJSONSchema(schema))].join('\u0000'))
+  const notJudged = () => new Map(batch.map((ask) => [ask, [{ error: TIME_UP, cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 } as Sample<Out>]]))
+  const samples = batch.map((): Sample<Out>[] => [])
+
+  for (let sample = 0; sample < options.runs; sample++) {
+    const key = sha256(
+      JSON.stringify({
+        criterion: criterion.id,
+        version: criterion.version,
+        model: options.provider?.id ?? 'none',
+        settings: options.provider?.settings ?? '',
+        sample,
+        batch: identity,
+      }),
+    )
+    let answer: { output: BatchAnswer<Out>; inputTokens: number; outputTokens: number; latencyMs: number; modelId: string; cached: boolean } | undefined
+    const cached = await options.cache.get(key)
+    const parsed = cached ? schema.safeParse(cached.output) : undefined
+    if (cached && parsed?.success) {
+      answer = { output: parsed.data, inputTokens: cached.inputTokens, outputTokens: cached.outputTokens, latencyMs: 0, modelId: cached.modelId, cached: true }
+    } else if (options.offline || !options.provider) {
+      return new Map()
+    } else if (timeUp(options)) {
+      return notJudged()
+    } else {
       try {
-        const response = await call
+        const response = await untilAborted(
+          options.provider.judge({ system: prompt.system, user: prompt.user, schema, schemaName: schemaName.replace(/_judgment$/, '_batch'), signal: options.signal }),
+          options.signal,
+        )
         await options.cache.set(key, {
           output: response.output,
           inputTokens: response.inputTokens,
@@ -163,51 +299,68 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
           modelId: response.modelId,
           createdAt: new Date().toISOString(),
         })
-        samples.push({
-          output: response.output,
-          cached: false,
-          inputTokens: response.inputTokens,
-          outputTokens: response.outputTokens,
-          latencyMs: response.latencyMs,
-          modelId: response.modelId,
-        })
-      } catch (error) {
-        // A call the time limit cut short is not a model error: the candidate was not judged.
-        samples.push({ error: options.signal?.aborted ? TIME_UP : errorMessage(error), cached: false, inputTokens: 0, outputTokens: 0, latencyMs: 0 })
-        if (options.signal?.aborted) break
+        answer = { ...response, cached: false }
+      } catch {
+        // Cut short by the time limit, the batch is not judged; any other failure sends each candidate alone.
+        return options.signal?.aborted ? notJudged() : new Map()
       }
     }
+    const answers = batchAnswers(answer.output, prompt.ids)
+    let counted = false
+    batch.forEach((_, index) => {
+      const output = answers.get(prompt.ids[index] ?? '')
+      if (output === undefined) return
+      samples[index]?.push({
+        output,
+        cached: answer.cached,
+        inputTokens: counted ? 0 : answer.inputTokens,
+        outputTokens: counted ? 0 : answer.outputTokens,
+        latencyMs: counted ? 0 : answer.latencyMs,
+        modelId: answer.modelId,
+        batch: { size: batch.length, shared: counted },
+      })
+      counted = true
+    })
+  }
+  return new Map(batch.flatMap((ask, index): Array<[Ask<Ctx, Out>, Sample<Out>[]]> => (samples[index]?.length === options.runs ? [[ask, samples[index] ?? []]] : [])))
+}
 
-    // A vote the time limit cut short is no vote: the candidate counts as not judged, whatever samples it has.
-    if (samples.some((s) => s.error === TIME_UP)) return { candidate, samples, status: 'not-judged', votes: 0, total: 0 }
+/** The vote over a candidate's samples, then the criterion's verification of the answer that won. */
+function conclude<Ctx, Out extends JudgmentBase>(criterion: Criterion<Ctx, Out>, snapshot: A11ySnapshot, candidate: Candidate<Ctx>, samples: Sample<Out>[]): CandidateJudgment<Ctx, Out> {
+  // A vote the time limit cut short is no vote: the candidate counts as not judged, whatever samples it has.
+  if (samples.some((s) => s.error === TIME_UP)) return { candidate, samples, status: 'not-judged', votes: 0, total: 0 }
 
-    const outputs = samples.flatMap((s) => (s.output ? [criterion.settle?.(s.output, candidate) ?? s.output] : []))
-    if (outputs.length === 0) {
-      const status: JudgmentStatus = samples.every((s) => s.error === OFFLINE_MISS) ? 'offline-miss' : 'error'
-      return { candidate, samples, status, votes: 0, total: 0 }
+  const outputs = samples.flatMap((s) => (s.output ? [criterion.settle?.(s.output, candidate) ?? s.output] : []))
+  if (outputs.length === 0) {
+    const status: JudgmentStatus = samples.every((s) => s.error === OFFLINE_MISS) ? 'offline-miss' : 'error'
+    return { candidate, samples, status, votes: 0, total: 0 }
+  }
+
+  const { verdict, votes } = majority(outputs.map((o) => o.verdict))
+  const representative = outputs.find((o) => o.verdict === verdict)
+  if (verdict === 'cannot_tell' || !representative) {
+    return { candidate, samples, status: 'cannot_tell', verdict: 'cannot_tell', votes, total: outputs.length, representative }
+  }
+
+  let claim = representative
+  let verification = criterion.verify(claim, candidate, snapshot)
+  // Some models copy a quote together with what the prompt shows it in: quotation marks, or a tag such as
+  // <title>. Only a claim that failed as written is tried once without them, and the quote must still match.
+  const unwrapped = verification.ok ? undefined : withoutDelimiters(claim)
+  if (unwrapped) {
+    const retried = criterion.verify(unwrapped, candidate, snapshot)
+    if (retried.ok) {
+      claim = unwrapped
+      verification = retried
     }
+  }
+  const status: JudgmentStatus = !verification.ok ? 'discarded' : verdict === 'fail' ? 'failed' : 'passed'
+  return { candidate, samples, status, verdict, votes, total: outputs.length, representative: claim, verification }
+}
 
-    const { verdict, votes } = majority(outputs.map((o) => o.verdict))
-    const representative = outputs.find((o) => o.verdict === verdict)
-    if (verdict === 'cannot_tell' || !representative) {
-      return { candidate, samples, status: 'cannot_tell', verdict: 'cannot_tell', votes, total: outputs.length, representative }
-    }
-
-    let claim = representative
-    let verification = criterion.verify(claim, candidate, snapshot)
-    // Some models copy a quote together with what the prompt shows it in: quotation marks, or a tag such as
-    // <title>. Only a claim that failed as written is tried once without them, and the quote must still match.
-    const unwrapped = verification.ok ? undefined : withoutDelimiters(claim)
-    if (unwrapped) {
-      const retried = criterion.verify(unwrapped, candidate, snapshot)
-      if (retried.ok) {
-        claim = unwrapped
-        verification = retried
-      }
-    }
-    const status: JudgmentStatus = !verification.ok ? 'discarded' : verdict === 'fail' ? 'failed' : 'passed'
-    return { candidate, samples, status, verdict, votes, total: outputs.length, representative: claim, verification }
-  })
+/** Whether the time limit has run out: no call starts after it. */
+function timeUp(options: Pick<JudgeOptions, 'signal' | 'deadline'>): boolean {
+  return Boolean(options.signal?.aborted) || (options.deadline !== undefined && Date.now() >= options.deadline)
 }
 
 /** The call's result, or a rejection as soon as the signal aborts, for a provider that does not stop by itself. */

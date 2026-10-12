@@ -133,6 +133,9 @@ describe('comparing with a baseline', () => {
     // The model abstained or failed on a 2.4.4 candidate, which may be the link.
     expect(unchecked({ criteria: [summary('1.1.1'), summary('2.4.4', { cannotTell: 1 })] })).toEqual([link.fingerprint])
     expect(unchecked({ criteria: [summary('1.1.1'), summary('2.4.4', { errors: 1 })] })).toEqual([link.fingerprint])
+    // Candidates left out past the cap (--max-candidates, --fast) or the time limit may be the one the entry is about.
+    expect(unchecked({ criteria: [summary('1.1.1'), summary('2.4.4', { capped: 40 })] })).toEqual([link.fingerprint])
+    expect(unchecked({ criteria: [summary('1.1.1', { timedOut: 2 }), summary('2.4.4')] })).toEqual([alt.fingerprint])
     expect(unchecked({ criteria: [summary('1.1.1')] })).toEqual([link.fingerprint])
     expect(unchecked({ discarded: [{ criterion: '1.1.1', ref: alt.ref ?? '', reason: 'evidence is not the current text alternative', output: {} }] })).toEqual([
       alt.fingerprint,

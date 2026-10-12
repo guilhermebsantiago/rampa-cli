@@ -376,7 +376,7 @@ function skipText(skip: CrawlSkip, locale: Locale, path: (url: string) => string
 function siteNotes(site: SiteReport, verbose: boolean): string[] {
   const locale = site.locale
   const notes: string[] = []
-  const sum = (key: keyof Omit<CriterionSummary, 'criterion' | 'applicable'>) =>
+  const sum = (key: keyof Omit<CriterionSummary, 'criterion' | 'applicable' | 'batched'>) =>
     site.pages.reduce((total, report) => total + report.criteria.reduce((n, c) => n + (c[key] ?? 0), 0), 0)
   if (site.crawl.robots.status === 'unreachable') {
     notes.push(st(locale, 'robotsUnreadable', { url: site.crawl.robots.url, detail: site.crawl.robots.detail ?? '?' }))

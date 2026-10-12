@@ -22,6 +22,18 @@ function record(partial: Partial<EvalRecord> & Pick<EvalRecord, 'criterion' | 's
 const meta = { model: 'test', runs: 1, llm: true, verify: true, actSha256: 'x', criteria: ['2.4.6', '3.3.2'] }
 
 describe('eval summary', () => {
+  it('records batched judgment, fast mode and the wall time when the run had them', () => {
+    const records = [
+      record({ criterion: '2.4.6', set: 'act', testcaseId: 'a', expected: 'failed', rampa: 'failed', batched: { candidates: 3, calls: 1 } }),
+      record({ criterion: '2.4.6', set: 'act', testcaseId: 'b', expected: 'passed', rampa: 'passed' }),
+    ]
+    const summary = summarize(records, { ...meta, batch: true, fast: true, wallMs: 1234 })
+    expect(summary).toMatchObject({ batch: true, fast: true, wallMs: 1234, judgment: { batched: { candidates: 3, calls: 1 } } })
+    const plain = summarize(records.slice(1), meta)
+    expect(plain.batch).toBeUndefined()
+    expect(plain.judgment.batched).toBeUndefined()
+  })
+
   it('scores a rule lent for pairs only in the pairs, never as an ACT set of the criterion', () => {
     const summary = summarize(
       [

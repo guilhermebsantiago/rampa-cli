@@ -61,6 +61,30 @@ jobs:
 
 Targets are paths in your repository (files or folders of `.html` files) or URLs. To check a site that needs a server, start it in an earlier step and pass its address, such as `http://localhost:4173/`; findings on URLs have no file to point to, so they show in the comment and the HTML report but not as code scanning annotations.
 
+## Fast checks on pull requests
+
+A full check reads each page for several seconds before any model call (pixel contrast, link destinations, image captures) and makes a call per candidate. On pull requests, `--fast` and `--changed` keep the job short; [performance.md](performance.md) has the measurements behind them:
+
+```yaml
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # --changed compares with the merge base, which a shallow clone lacks
+
+      # ...
+
+      - name: Check accessibility
+        uses: guilhermebsantiago/rampa-cli@main
+        with:
+          targets: site/
+          fail-on: AA
+          # Pull requests: the fast preset, on the pages they changed. main: the full check.
+          args: ${{ github.event_name == 'pull_request' && '--fast --changed' || '' }}
+```
+
+- `--fast` judges at most 10 candidates per criterion, several per model call, skips link destinations and contrast measured from pixels, captures fewer images and waits less after load. The comment and every report say it ran in fast mode and list what it left out, under the coverage.
+- `--changed` checks only the local `.html` files changed since the merge base with `origin/main` (or `origin/master`), and the report notes how many it skipped. With another default branch, name it: `--changed=origin/${{ github.base_ref }}`. A change to a shared style sheet or script changes pages whose HTML did not change; the full check on `main` sees those.
+- If CI uses a baseline, record it with `rampa baseline --fast` so it lists what a fast run sees ([adoption.md](adoption.md#keeping-ci-fast)).
+
 ## Inputs
 
 | Input | Default | What it does |
@@ -76,7 +100,7 @@ Targets are paths in your repository (files or folders of `.html` files) or URLs
 | `sarif-category` | `rampa` | Code scanning category; give each upload its own when you run the action more than once |
 | `summary` | `true` | Add the Markdown report to the job summary |
 | `working-directory` | `.` | Where `rampa check` runs. Targets, `.rampa/waivers.json` and `.rampa/cache` are read from there |
-| `args` | | More options for `rampa check`, such as `--min-confidence high --runs 3` |
+| `args` | | More options for `rampa check`, such as `--min-confidence high --runs 3`, or `--fast --changed` on pull requests ([above](#fast-checks-on-pull-requests)) |
 | `github-token` | `github.token` | Token for the comment |
 | `node-version` | `24` | Node.js for building and running Rampa (22.18 or later). Empty uses the Node.js already set up in the job |
 
