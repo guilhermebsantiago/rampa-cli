@@ -10,9 +10,9 @@ Measured on 2026-10-12 (Rampa `927cf63`, ACT test cases `a9a1483e`): 856 test ca
 | QualWeb | 190 of 284 (0.67) | 0.72 | 0.69 | 4 of 96 | 17 | 0.53 s |
 | Rampa | 178 of 284 (0.63) | 0.93 | 0.75 | 0 of 96 | 14 | 0.87 s |
 | Rampa + Gemma | 201 of 284 (0.71) | 0.92 | 0.80 | 58 of 96 | 15 | 0.92 s |
-| Rampa + Gemma + probes | 199 of 284 (0.70) | 0.92 | 0.80 | 58 of 96 | 15 | 20.0 s |
+| Rampa + Gemma + probes | 201 of 284 (0.71) | 0.92 | 0.80 | 58 of 96 | 15 | 19.8 s |
 | *Rampa + Gemma, low confidence counted* | 216 of 284 (0.76) | 0.89 | 0.82 | 60 of 96 | 15 |  |
-| *Rampa + Gemma + probes, low confidence counted* | 228 of 284 (0.80) | 0.88 | 0.84 | 60 of 96 | 21 |  |
+| *Rampa + Gemma + probes, low confidence counted* | 233 of 284 (0.82) | 0.88 | 0.85 | 60 of 96 | 21 |  |
 
 Failures only, as each tool defines them: what fails its run by default. The rows in italics read the same Rampa runs as `rampa eval` does, also counting findings below the default confidence threshold (judgments of ordinary titles, link texts and headings, and experimental checks such as every probe), which `rampa check` lists only with --verbose. Review items, and the scores if they counted, are in the results below. Every tool is scored on every criterion. Read the caveats before quoting a number: Rampa was tuned on these test cases, and the pairs are its own design.
 
@@ -49,7 +49,7 @@ Recall: failed examples caught, under the criterion their rule maps to. Flagged:
 | QualWeb | 190 / 284 | 0.67 (0.61–0.72) | 40 / 344 | 34 / 268 | 0.72 (0.66–0.77) | 0.69 | 38 | 2 |
 | Rampa | 178 / 284 | 0.63 (0.57–0.68) | 3 / 344 | 10 / 268 | 0.93 (0.89–0.96) | 0.75 | 15 | 0 |
 | Rampa + Gemma | 201 / 284 | 0.71 (0.65–0.76) | 5 / 344 | 12 / 268 | 0.92 (0.88–0.95) | 0.80 | 33 | 0 |
-| Rampa + Gemma + probes | 199 / 284 | 0.70 (0.65–0.75) | 5 / 344 | 12 / 268 | 0.92 (0.88–0.95) | 0.80 | 58 | 0 |
+| Rampa + Gemma + probes | 201 / 284 | 0.71 (0.65–0.76) | 5 / 344 | 12 / 268 | 0.92 (0.88–0.95) | 0.80 | 61 | 0 |
 
 ### Home advantage: rules Rampa was built or tuned on
 
@@ -65,7 +65,7 @@ Recall: failed examples caught, under the criterion their rule maps to. Flagged:
 | QualWeb | 0.62 / 0.74 / 0.68 | 0.81 / 0.67 / 0.74 |
 | Rampa | 0.57 / 0.93 / 0.70 | 0.80 / 0.94 / 0.86 |
 | Rampa + Gemma | 0.68 / 0.92 / 0.78 | 0.80 / 0.94 / 0.86 |
-| Rampa + Gemma + probes | 0.67 / 0.92 / 0.77 | 0.78 / 0.94 / 0.85 |
+| Rampa + Gemma + probes | 0.68 / 0.92 / 0.78 | 0.80 / 0.94 / 0.86 |
 
 ### Coverage of WCAG 2.2 A/AA criteria
 
@@ -81,7 +81,7 @@ Of the 55 criteria, 29 have ACT test cases here. "Claims" counts the criteria th
 | QualWeb | 29 | 22 | 17 | 0.79 / 0.72 |
 | Rampa | 21 | 15 | 14 | 0.78 / 0.93 |
 | Rampa + Gemma | 21 | 17 | 15 | 0.84 / 0.92 |
-| Rampa + Gemma + probes | 36 | 17 | 15 | 0.83 / 0.92 |
+| Rampa + Gemma + probes | 36 | 17 | 15 | 0.84 / 0.92 |
 
 <details><summary>Which criteria</summary>
 
@@ -105,7 +105,7 @@ Units: failed examples + passed or inapplicable examples under the criterion. Ea
 
 | Criterion | Units | axe-core | Pa11y | Pa11y (axe) | IBM | Alfa | QualWeb | Rampa | Rampa + Gemma | Rampa + Gemma + probes | Rampa + Gemma, low confidence counted | Rampa + Gemma + probes, low confidence counted |
 | --- | ---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| 1.1.1 Non-text Content (A) ★ | 26 + 68 | 18/26 · 0 | 11/26 · 14 | 18/26 · 1 | 17/26 · 6 | 18/26 · 0 | 18/26 · 4 | 18/26 · 0 | 21/26 · 0 | 19/26 · 0 | 26/26 · 1 | 21/26 · 1 |
+| 1.1.1 Non-text Content (A) ★ | 26 + 68 | 18/26 · 0 | 11/26 · 14 | 18/26 · 1 | 17/26 · 6 | 18/26 · 0 | 18/26 · 4 | 18/26 · 0 | 21/26 · 0 | 21/26 · 0 | 26/26 · 1 | 26/26 · 1 |
 | 1.2.1 Audio-only and Video-only (Prerecorded) (A) ★ | 6 + 11 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 0/6 · 0 | 1/6 · 0 |
 | 1.2.2 Captions (Prerecorded) (A) | 2 + 4 | 0/2 · 0 | 0/2 · 0 | 2/2 · 2 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 | 0/2 · 0 |
 | 1.2.3 Audio Description or Media Alternative (Prerecorded) (A) | 4 + 5 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 | 0/4 · 0 |
@@ -179,7 +179,7 @@ Wall time from opening the page to the tool's results, on this machine, with the
 | QualWeb | 1009 | 0.53 | 2.04 | 1.05 | — | 9 min | — |
 | Rampa | 1009 | 0.87 | 1.43 | 1.05 | 1.86 | 9 min | — |
 | Rampa + Gemma | 1009 | 0.92 | 7.26 | 3.29 | 3.33 | 28 min | 583 (2087 cached) |
-| Rampa + Gemma + probes | 645 | 20.0 | 28.2 | 22.1 | 23.5 | 121 min | 2 (1709 cached) |
+| Rampa + Gemma + probes | 256 | 19.8 | 29.7 | 23.0 | 25.5 | 121 min | 0 (722 cached) |
 
 ### If review items counted as failures
 
@@ -195,10 +195,10 @@ The same units, now counting what each tool sends to a person (lib/tools.mjs say
 | QualWeb | 0.80 | 92 / 344 | 51 / 268 | 0.61 | 0.70 |
 | Rampa | 0.68 | 31 / 344 | 17 / 268 | 0.80 | 0.74 |
 | Rampa + Gemma | 0.82 | 41 / 344 | 22 / 268 | 0.79 | 0.81 |
-| Rampa + Gemma + probes | 0.90 | 42 / 344 | 24 / 268 | 0.80 | 0.85 |
+| Rampa + Gemma + probes | 0.92 | 42 / 344 | 24 / 268 | 0.80 | 0.86 |
 | Rampa, low confidence counted | 0.65 | 3 / 344 | 13 / 268 | 0.92 | 0.77 |
 | Rampa + Gemma, low confidence counted | 0.76 | 11 / 344 | 16 / 268 | 0.89 | 0.82 |
-| Rampa + Gemma + probes, low confidence counted | 0.80 | 12 / 344 | 19 / 268 | 0.88 | 0.84 |
+| Rampa + Gemma + probes, low confidence counted | 0.82 | 12 / 344 | 19 / 268 | 0.88 | 0.85 |
 
 ### False positives the engines share
 
@@ -268,10 +268,10 @@ On 1009 pages both checked. Pa11y errors that axe-core itself left incomplete: `
 | [6cfa84](https://www.w3.org/WAI/standards-guidelines/act/rules/6cfa84/) Element with aria-hidden has no content in sequential focus navigation | 4.1.2 | 15 | 5/6 · 1 | 0/6 · 0 | 6/6 · 3 | 6/6 · 2 | 6/6 · 1 | 6/6 · 0 | 5/6 · 1 | 5/6 · 1 | 5/6 · 1 |
 | [bc659a](https://www.w3.org/WAI/standards-guidelines/act/rules/bc659a/) Meta element has no refresh delay ★ | 2.2.1 | 15 | 4/4 · 0 | 4/4 · 1 | 4/4 · 0 | 0/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 |
 | [b4f0c3](https://www.w3.org/WAI/standards-guidelines/act/rules/b4f0c3/) Meta viewport allows for zoom ★ | 1.4.4 | 16 | 5/7 · 0 | 0/7 · 0 | 0/7 · 0 | 0/7 · 0 | 7/7 · 0 | 7/7 · 0 | 5/7 · 0 | 5/7 · 0 | 5/7 · 0 |
-| [8fc3b6](https://www.w3.org/WAI/standards-guidelines/act/rules/8fc3b6/) Object element rendering non-text content has non-empty accessible name | 1.1.1 | 18 | 6/6 · 0 | 5/6 · 6 | 6/6 · 1 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 5/6 · 0 |
+| [8fc3b6](https://www.w3.org/WAI/standards-guidelines/act/rules/8fc3b6/) Object element rendering non-text content has non-empty accessible name | 1.1.1 | 18 | 6/6 · 0 | 5/6 · 6 | 6/6 · 1 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 | 6/6 · 0 |
 | [b5c3f8](https://www.w3.org/WAI/standards-guidelines/act/rules/b5c3f8/) HTML page has lang attribute ★ | 3.1.1 | 5 | 4/4 · 0 | 3/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 | 4/4 · 0 |
 | [c4a8a4](https://www.w3.org/WAI/standards-guidelines/act/rules/c4a8a4/) HTML page title is descriptive ★ | 2.4.2 | 6 | 0/3 · 0 | 0/3 · 1 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 |
-| [qt1vmo](https://www.w3.org/WAI/standards-guidelines/act/rules/qt1vmo/) Image accessible name is descriptive ★ | 1.1.1 | 16 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 1 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 3/3 · 0 | 2/3 · 0 |
+| [qt1vmo](https://www.w3.org/WAI/standards-guidelines/act/rules/qt1vmo/) Image accessible name is descriptive ★ | 1.1.1 | 16 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 0/3 · 1 | 0/3 · 0 | 0/3 · 0 | 0/3 · 0 | 3/3 · 0 | 3/3 · 0 |
 | [0ssw9k](https://www.w3.org/WAI/standards-guidelines/act/rules/0ssw9k/) Scrollable content can be reached with sequential focus navigation | 2.1.1 | 15 | 2/2 · 0 | 0/2 · 0 | 2/2 · 0 | 0/2 · 0 | 2/2 · 2 | 2/2 · 3 | 2/2 · 0 | 2/2 · 0 | 2/2 · 0 |
 | [oj04fd](https://www.w3.org/WAI/standards-guidelines/act/rules/oj04fd/) Element in sequential focus order has visible focus ★ | 2.4.7 | 9 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 | 0/1 · 0 |
 | [afw4f7](https://www.w3.org/WAI/standards-guidelines/act/rules/afw4f7/) Text has minimum contrast ★ | 1.4.3 | 34 | 8/11 · 0 | 4/11 · 6 | 11/11 · 5 | 7/11 · 1 | 8/11 · 2 | 9/11 · 1 | 8/11 · 0 | 8/11 · 0 | 8/11 · 0 |
