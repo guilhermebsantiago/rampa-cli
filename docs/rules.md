@@ -39,8 +39,8 @@ Every rule ships as `experimental`, as the plan requires, until it passes the ev
 
 An experimental rule's findings are reported at **low** confidence. That is below the default threshold (`medium`), so:
 
-- they appear with `--verbose` or `--min-confidence low`;
-- they never change the exit code under the default settings.
+- `--verbose` lists them, and they never change the exit code under the default settings;
+- `--min-confidence low` reports them as findings, so they fail the build under the default `--fail-on confirmed`, and `--fail-on any` counts them at any threshold.
 
 The pretty report prints them with `Rampa rule rampa/<id>` and the finding's id, which waivers and baselines use.
 

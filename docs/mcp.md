@@ -212,14 +212,16 @@ rampa mcp: check_html inline HTML: 3 finding(s), 5 model call(s), 0 cached, 8.7 
 | `list_criteria` | What Rampa judges, and whether axe-core, Rampa or only a person checks each of the 55 WCAG 2.2 A/AA criteria | nothing |
 | `explain_finding` | The WCAG text, why a finding failed, how to fix it, and links to the W3C Understanding document and ACT rules | nothing |
 
-All four are read-only. They run no probes, so an agent cannot make Rampa submit a form: `rampa mcp` has no `--allow-submit` option and no tool takes one ([submitting forms](probes.md#submitting-forms---allow-submit)). `check_page` and `check_html` take the same options:
+All four are read-only: they change none of your files (the check tools write only the judgment cache, `--cache-dir`, and `check_html` a temporary file it deletes). They run no probes, so an agent cannot make Rampa submit a form: `rampa mcp` has no `--allow-submit` option and no tool takes one ([submitting forms](probes.md#submitting-forms---allow-submit)). Read-only is not sandboxed, though. `check_page` opens whatever the agent names: any local file the server's user can read (an absolute path, a `file://` URL, a path starting with `~`) or any address that machine can reach, local network and `localhost` included. `check_html` loads what its `base_url` points to, a local folder included. Both open the page in a headless browser and run that page's own scripts, as `rampa check` does, and the page's text then goes to the model. Give the server to agents you would trust with those reads.
+
+`check_page` and `check_html` take the same options:
 
 | Argument | Default | Effect |
 | --- | --- | --- |
 | `target` (`check_page`) | required | `http(s)` or `file` URL, an `.html` file or a snapshot `.json` recorded with `rampa check --save`. One page per call |
 | `html` (`check_html`) | required | A whole document or a fragment, up to 2,000,000 characters |
 | `base_url` (`check_html`) | | Where relative URLs point: an `http(s)` URL, a `file` URL or an absolute folder. Without it, relative images do not load, and images that do not render are not judged |
-| `criteria` | all six | Criteria to judge: `1.1.1`, `2.4.2`, `2.4.4`, `2.4.6`, `3.1.1`, `3.1.2`. axe-core checks the whole page either way |
+| `criteria` | the eight defaults | Criteria to judge: `1.1.1`, `1.3.5`, `2.4.2`, `2.4.4`, `2.4.6`, `3.1.1`, `3.1.2` and `3.3.2` by default, or any of the 14 that have a module ([criteria](criteria.md)). axe-core checks the whole page either way |
 | `model` | the server's | `provider:model`, such as `ollama:gemma4:12b` |
 | `no_llm` | the server's | `true` runs only axe-core |
 | `locale` | the server's | `en` or `pt-BR` |

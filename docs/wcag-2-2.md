@@ -36,20 +36,24 @@ An exempt target is kept in the engine results as a pass with `exempt: "user-age
 
 On iOS snapshots, the same spacing test runs on the element bounds, which are in points, as WCAG applied to non-web software. Android dumps give bounds in screen pixels and no screen density, so 2.5.8 is not measured there.
 
-**The check is experimental.** Its findings have low confidence, below the default threshold, until it passes Rampa's evaluation gate. They do not change the exit code by default. To see them, pass `--verbose` (or `--min-confidence low` to report them).
+**The check is experimental.** Its findings have low confidence, below the default threshold, until it passes Rampa's evaluation gate. They do not change the exit code by default. `--verbose` lists them without failing the build; `--min-confidence low` reports them as findings, which then fail it under the default `--fail-on confirmed`.
 
 These still need a person: presentation that is essential or legally required, other equivalent controls on the page, and targets inside canvas or SVG maps.
 
 ## What the coverage of a report means
 
-A report puts every criterion of its target in one of these groups:
+The coverage summary at the end of a report has up to six lines. A criterion can be on more than one of the first four; "Needs review only" and "Not checked automatically" hold the rest:
 
-| Line | Meaning |
-|---|---|
-| Checked by axe-core (partial) | A rule that can report a failure decided at least one element for this criterion. |
-| Judged with verified evidence | A model judged candidates, and each claim it kept was checked against the page. |
-| Needs review only | The only automated results are ones a person must look at. |
-| Not checked automatically | Nothing automated reported a decision for this criterion. |
+| Line | Shown | Meaning |
+|---|---|---|
+| Checked by axe-core (partial) | always | An axe-core rule that can report a failure decided at least one element for this criterion. |
+| Checked by Rampa rules (partial) | when one of Rampa's rules decided something on the page | One of Rampa's own rules ([rules](rules.md)) looked at an element and failed it or let it be, rather than sending it to review. An experimental rule counts here; its failures stay below the threshold. A rule that only takes an inventory never counts. |
+| Judged with verified evidence | always | A model judged candidates, and each claim it kept was checked against the page. |
+| Probed (experimental) | when a probe ran (`--probe`) | A probe rule ([probes](probes.md)) found a failure or found none, on what it applied to, in the conditions it records. |
+| Needs review only | when there is any | The only automated results are ones a person must look at. |
+| Not checked automatically | always, as a count (`--verbose` lists them) | Nothing automated reported a decision for this criterion. |
+
+A run with `--fast` adds a first line, "Fast mode (--fast)", with what it left out and the limits it lowered ([performance](performance.md)).
 
 Some axe-core rules can never report a failure. Their checks return "needs review" instead: `bypass` (2.4.1), `video-caption` (1.2.2), `no-autoplay-audio` (1.4.2), `th-has-data-cells` (1.3.1), `form-field-multiple-labels` (3.3.2) and `duplicate-id-aria` (4.1.2). Such a rule never makes a criterion count as checked. If it is the only rule that applied, the criterion needs review.
 

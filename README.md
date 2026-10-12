@@ -8,7 +8,7 @@
 [![CI](https://github.com/guilhermebsantiago/rampa-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/guilhermebsantiago/rampa-cli/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-0b7285)](LICENSE)
 ![Node.js 22.12+](https://img.shields.io/badge/node-%E2%89%A5%2022.12-0b7285)
-![WCAG 2.2 AA](https://img.shields.io/badge/WCAG-2.2%20AA-0b7285)
+![Checks against WCAG 2.2 A/AA](https://img.shields.io/badge/checks%20against-WCAG%202.2%20A%2FAA-0b7285)
 ![Status: early](https://img.shields.io/badge/status-early-9a6700)
 
 **[Quick start](#quick-start)** · **[Before and after](#before-and-after)** · **[How it works](#how-it-works)** · **[Evaluation](#evaluation)** · **[Roadmap](#roadmap)**
@@ -30,7 +30,7 @@ Automated accessibility checkers are good at what attributes and styles can prov
 <img src="dog.jpg" alt="img-1">
 ```
 
-axe-core reports this image as compliant, because it has an `alt`. A person using a screen reader hears "img-1". The same goes for a page titled "Untitled document", a link that says "Click here", a heading "Section 2" over customer reviews, a field labeled "Field 1", or a Dutch quote marked as Spanish: valid syntax, wrong meaning. In February 2026, 95.9% of the top million home pages had detectable WCAG failures ([WebAIM Million](https://webaim.org/projects/million/)), and that counts only what tools can detect.
+axe-core reports that this image passes, because it has an `alt`. A person using a screen reader hears "img-1". The same goes for a page titled "Untitled document", a link that says "Click here", a heading "Section 2" over customer reviews, a field labeled "Field 1", or a Dutch quote marked as Spanish: valid syntax, wrong meaning. In February 2026, 95.9% of the top million home pages had detectable WCAG failures ([WebAIM Million](https://webaim.org/projects/million/)), and that counts only what tools can detect.
 
 Rampa keeps the deterministic engine and adds a judgment layer for that residue:
 
@@ -67,7 +67,7 @@ Every claim must cite a node and a quote that exist on the page. Claims that do 
 
 ## What it judges
 
-Fourteen WCAG success criteria have a judgment module. Eight run by default and 1.4.5 runs when you ask for it; the table lists those nine. The other five are experimental and run only with `--criteria`: 1.3.1 (text styled as a heading), 1.3.2 (reading order the rules could not verify), 1.3.3 (instructions that rely on shape or position), 2.5.3 (a visible label not tied to its field) and 3.3.1 (error messages the page shows). For each, axe-core keeps the part rules can decide, and the model only sees the rest. [docs/criteria.md](docs/criteria.md) describes each module: its context, verification and limits.
+Fourteen WCAG success criteria have a judgment module. Eight run by default and 1.4.5 runs when you ask for it; the table lists those nine. The other five are experimental and run only with `--criteria`: 1.3.1 (text styled as a heading), 1.3.2 (reading order the rules could not verify), 1.3.3 (instructions that rely on shape or position), 2.5.3 (a visible label not tied to its field) and 3.3.1 (error messages the page shows). For each, axe-core keeps the part rules can decide, and the model only sees the rest. Eight more modules ask a model one narrow question about what a probe recorded, and run only when that probe ran (`--probe`) and left something to ask: 2.1.1, 2.1.4, 2.2.1, 2.4.3, 2.5.1, 3.2.2, 3.3.8 and 4.1.3. Most of them can only clear their probe rule's finding, never make one. [docs/criteria.md](docs/criteria.md) describes each module: its context, verification and limits.
 
 > [!NOTE]
 > On real pages, judgments about ordinary titles, links, headings and labels were mostly false positives in the [first real-page study](docs/studies/real-pages-2026-10.md): with Gemma 4 12B, precision was 0 of 55 on 2.4.4 and 0 of 45 on 2.4.6, while the W3C test cases scored much higher. So for 2.4.2 a finding keeps its confidence only when the title is generic by a fixed list ("Untitled document", "Home"); any other is reported at low confidence, below the default threshold. For 2.4.4 and 2.4.6, a model's fail becomes a finding only when a fact Rampa checks itself supports it: a generic text such as "Click here" or "Section 2" with no context of its own, a raw address, links that share a text and lead elsewhere from the same context, a numbered heading under no subject, a label several fields share. Every other fail is the model's *suggestion*: it is listed with the items to review, never as a failure, and the criterion's coverage says a person has to look ([why](docs/studies/notes-244-246.md)).
@@ -94,11 +94,11 @@ Rampa reports against WCAG 2.2 by default (`--wcag 2.1` for the older target), a
 | --- | --- | --- |
 | Rampa rules (experimental) | Deterministic checks axe-core does not make: placeholder alt text, framework default titles, viewport zoom, the HTTP Refresh header, language switchers, table headers, layout tables, labels that name nothing, ids that hijack a name, a field's label left out of its name (2.5.3), labels that show nothing on screen, words spelled out with spaces between the letters (1.3.2), error messages on the page that are not in text or give no suggestion (3.3.1, 3.3.3), contrast measured from pixels where axe-core cannot decide (1.4.3, 1.4.11), and checks over the browser's own accessibility tree: controls with no name or no role, tab and disclosure states (4.1.2), live regions listed for 4.1.3 | [docs/rules.md](docs/rules.md) |
 | WCAG 2.2 | 2.5.8 Target Size (experimental), the 2.2 list and honest coverage: axe-core's "incomplete" results become items to review, never "checked" | [docs/wcag-2-2.md](docs/wcag-2-2.md) |
-| Probes (experimental, `--probe layout|keyboard|hover|orientation|shortcuts|media|all`) | Drive the page read-only: captions, audio description and sound that plays by itself (1.2.1–1.2.5, 1.4.2), orientation locked (1.3.4), text cut at 200% zoom (1.4.4), reflow at 320 CSS px (1.4.10), text spacing (1.4.12), content on hover or focus (1.4.13), keyboard reachability and traps (2.1.1, 2.1.2), single-key shortcuts (2.1.4), skip links pressed (2.4.1), change on focus (3.2.1), focus visible and not obscured (2.4.7, 2.4.11) | [docs/probes.md](docs/probes.md) |
+| Probes (experimental, `--probe <kinds>`, off by default) | Load the page again and drive it, behind a network guard that lets only GET, HEAD and OPTIONS through. 21 kinds; `--probe all` runs eight: layout (reflow at 320 CSS px, text spacing, text cut at 200% zoom), keyboard (reachability and traps, focus visible and not obscured, change on focus, skip links pressed), hover, orientation, media (captions, alternatives, sound that plays by itself), color, states, and shortcuts, which presses every printable key on the page. The other thirteen run only when named: those that click, type, drag or swipe (links, input, toggles, status, form, pointer, parity, focus-order, gestures), auth (pastes into sign-in fields), flash, motion and variants. Only the form probe can submit, and only to an origin `--allow-submit` names | [docs/probes.md](docs/probes.md), with every kind and what it may do |
 | Site criteria (experimental) | With `--crawl` or `--sitemap`: 2.4.1 Bypass Blocks (blocks repeated across pages with no way past them), 3.2.3 Consistent Navigation and 3.2.6 Consistent Help, across the pages of a template or a language | [docs/site-criteria.md](docs/site-criteria.md) |
 | Cognitive profile | `--profile cognitive`: advisories from the W3C COGA guidance (input formats that reject how people write, labels that are only a placeholder, pre-ticked paid options, unexplained abbreviations) plus readability measurements. Advisories are never WCAG failures and never change the exit code unless you ask | [docs/cognitive-profile.md](docs/cognitive-profile.md) |
 
-Experimental checks report at low confidence, below the default threshold, until enough of their findings have been reviewed by a person; `--verbose` or `--min-confidence low` shows them. The plans behind this are in [docs/plans](docs/plans).
+Experimental checks report at low confidence, below the default threshold, until enough of their findings have been reviewed by a person. `--verbose` lists them without failing the build; `--min-confidence low` promotes them to findings, which then fail the build under the default `--fail-on confirmed`. The plans behind this are in [docs/plans](docs/plans).
 
 ## Before and after
 
@@ -205,27 +205,37 @@ Exit codes: `0` no confirmed failure, `1` at least one confirmed failure (see `-
 
 | Option | Default | Effect |
 | --- | --- | --- |
-| `-c, --criteria <ids>` | eight | Criteria to judge: `1.1.1`, `1.3.5`, `2.4.2`, `2.4.4`, `2.4.6`, `3.1.1`, `3.1.2`, `3.3.2`, and `1.4.5` on request |
+| `-c, --criteria <ids>` | eight | Criteria to judge: `1.1.1`, `1.3.5`, `2.4.2`, `2.4.4`, `2.4.6`, `3.1.1`, `3.1.2`, `3.3.2`; on request `1.4.5`, and the experimental `1.3.1`, `1.3.2`, `1.3.3`, `2.5.3` and `3.3.1` ([criteria](docs/criteria.md)) |
 | `-m, --model <provider:model>` | detected | Model for the judgment layer |
 | `--no-llm` | | Deterministic layer only |
 | `-r, --runs <k>` | `1` | Judgments per candidate, majority vote |
 | `--reasoning <level>` | `none` locally | `provider-default`, `none`, `minimal`, `low`, `medium`, `high` |
+| `--wcag <version>` | `2.2` | State coverage against WCAG `2.2` (55 A/AA criteria) or `2.1` (50) ([WCAG 2.2](docs/wcag-2-2.md)) |
 | `-f, --format <format>` | `pretty` | `pretty`, `json`, `sarif`, `markdown` or `html` ([formats](docs/output-formats.md)) |
 | `-o, --output <file>` | | Write the report to a file; with `pretty`, the file gets JSON |
 | `--json`, `--sarif`, `--markdown`, `--html <file>` | | Also write that format from the same run |
-| `--fail-on <policy>` | `confirmed` | `confirmed`, `any`, `A`, `AA` or `none` |
-| `--baseline <file>` | | Report only findings the baseline does not have ([adoption](docs/adoption.md)) |
+| `--fail-on <policy>` | `confirmed` | `confirmed`, `any` (also the findings below the threshold), `A`, `AA`, `advisory` (confirmed findings and also the confirmed advisories of `--profile`) or `none` |
+| `--min-confidence <level>` | `medium` | The threshold, `low`, `medium` or `high`: findings below it are kept apart (`--verbose` lists them) and fail the build only under `--fail-on any`. `low` takes in every finding, the experimental checks' included, so they fail the build under the default `--fail-on confirmed` |
+| `--verbose` | | List discarded claims, findings below the threshold and unchecked criteria; changes no finding and no exit code |
+| `--baseline <file>`, `--no-baseline` | | Report only findings the baseline does not have ([adoption](docs/adoption.md)) |
 | `--follow-links <policy>` | `same-origin` | Read where links lead for 2.4.4: `none`, `same-origin` or `all` |
+| `--max-candidates <n>` | `50` | Judge at most n candidates per criterion and page, those a checked fact could make a finding of first; the rest are reported as not judged (`0`: no cap) |
+| `--time-limit <seconds>` | none | Stop asking the model this long after a page starts loading, and report what was judged by then |
+| `--probe <kinds>` | `none` | Drive the page after collection: one or more of the 21 kinds, `all` (eight of them) or `interact` (the ten that press, click, type, drag or swipe) ([probes](docs/probes.md)) |
+| `--allow-submit <origin>`, `--submit-dry-run` | | Let the form probe submit forms on that exact origin, for test environments only; or list what it would submit, and submit nothing ([submitting forms](docs/probes.md#submitting-forms---allow-submit)) |
+| `--profile cognitive` | | Also run the cognitive accessibility advisories, which are never WCAG failures ([cognitive profile](docs/cognitive-profile.md)) |
+| `--fast`, `--no-fast` | | A preset for CI and pre-commit hooks: at most 10 candidates per criterion, batched judgment, no link following, probes, OCR or contrast from pixels, fewer image captures, a shorter wait; options you set win, and the report lists what it left out ([performance](docs/performance.md)) |
+| `--batch`, `--no-batch` | | Judge up to 8 candidates per model call where the criterion allows it (on with `--fast`) |
+| `--changed [ref]` | | Of the local HTML files, check only those changed since a git ref (default: the merge base with the default branch); the report says what it skipped |
+| `--timings` | | Record where each page's time goes, stage by stage, in the report and its JSON |
 | `--save <dir>` | | Record each snapshot and its engine results, to check later without a browser |
-| `--crawl`, `--sitemap`, `--max-pages` | | Check a whole site ([crawl](docs/crawl.md)) |
-| `--storage-state`, `--header`, `--device`, `--viewport`, `--color-scheme`, `--wait-for` | | Pages behind a login, phones, dark mode ([browser options](docs/browser-options.md)) |
-| `--min-confidence <level>` | `medium` | Hide findings below `low`, `medium` or `high` |
+| `--crawl`, `--sitemap`, `--max-pages`, `--max-depth`, `--include`, `--exclude`, `--ignore-query`, `--crawl-concurrency` | | Check a whole site ([crawl](docs/crawl.md)) |
+| `--storage-state`, `--header`, `--cookie`, `--device`, `--viewport`, `--color-scheme`, `--reduced-motion`, `--browser-locale`, `--wait-for`, `--timeout`, `--user-agent` | | Pages behind a login, phones, dark mode ([browser options](docs/browser-options.md)) |
 | `--offline` | | Cached judgments only, never call the model |
 | `--screenshots` | | Save full-page screenshots to `.rampa/screenshots` |
 | `--cache-dir <dir>` | `.rampa/cache` | Judgment cache |
 | `--concurrency <n>` | `4` | Parallel model calls |
 | `--locale <locale>` | `en` | `en` or `pt-BR` |
-| `--verbose` | | List discarded claims, low-confidence findings and unchecked criteria |
 
 </details>
 
@@ -253,7 +263,7 @@ API keys never go in this file: use environment variables or a local `.env`. `ra
 
 | Where | How | Guide |
 | --- | --- | --- |
-| GitHub Actions | `uses: guilhermebsantiago/rampa-cli@main`: SARIF to code scanning and one sticky pull request comment, with each finding's patch | [docs/github-action.md](docs/github-action.md) |
+| GitHub Actions | `uses: guilhermebsantiago/rampa-cli@main`, or a commit SHA, since `main` moves and there is no release tag yet: SARIF to code scanning and one sticky pull request comment, with each finding's patch | [docs/github-action.md](docs/github-action.md) |
 | Reports | SARIF, Markdown for pull requests, a single-file HTML report, JSON; `file:line` for local pages | [docs/output-formats.md](docs/output-formats.md) |
 | Pre-commit | the pre-commit framework, Husky, lint-staged or Lefthook, on staged `.html` files | [docs/pre-commit.md](docs/pre-commit.md) |
 | Playwright tests | `import { checkPage } from '@rampa/cli/playwright'` and `await expect(page).toPassRampa()`, scoped to a component if you like | [docs/playwright.md](docs/playwright.md) |
@@ -299,7 +309,7 @@ Model ids and prices were checked on each provider's own pages on 2026-10-07, an
 
 - **Every provider has a test.** It checks the request the provider builds (prompt, image and schema) and reads a reply in its wire format, with no network. The published evaluation ran on Ollama; tables for hosted models come next.
 - **Cloud details.** Vertex uses the `global` location unless `GOOGLE_VERTEX_LOCATION` says otherwise. Bedrock returns the JSON through a forced tool, which every Claude on Bedrock supports; with AWS SSO or profiles, export the session first with `eval "$(aws configure export-credentials --format env)"`. Azure takes your deployment name, not the model name.
-- **1.1.1 and 1.4.5 need vision.** `gemma4:12b` has it and runs on a 16 GB GPU. Measured on the full evaluation against Qwen3-VL 8B, Qwen 3.5 9B and Ministral 3 14B, it got the most cases right (320 of 343) and told apart the most corrupted pairs (71 of 79), with the caveat that the prompts were tuned on its errors; [docs/models.md](docs/models.md) has the comparison and what to use on a smaller GPU. Text-only models such as `groq:openai/gpt-oss-20b` judge the rest with `--criteria 1.3.5,2.4.2,2.4.4,2.4.6,3.1.1,3.1.2,3.3.2`.
+- **1.1.1 and 1.4.5 need vision.** `gemma4:12b` has it and runs on a 16 GB GPU. Measured on 2026-10-10 on the full default evaluation against Qwen3-VL 8B, Qwen 3.5 9B and Ministral 3 14B, it got the most cases right (320 of 343) and told apart the most corrupted pairs (71 of 79), with the caveat that the prompts were tuned on its errors (that run's sets and pairs are not the [Evaluation](#evaluation) table's, which is an earlier run); [docs/models.md](docs/models.md) has the comparison and what to use on a smaller GPU. Text-only models such as `groq:openai/gpt-oss-20b` judge the rest with `--criteria 1.3.5,2.4.2,2.4.4,2.4.6,3.1.1,3.1.2,3.3.2`.
 - **Reasoning is off by default for local models.** On an RTX 5060 Ti that cut a judgment from about 6 s to 2 s with the same answer; `--reasoning` brings it back, and `rampa eval` can measure the trade-off.
 - **Subscriptions.** Codex CLI (ChatGPT plans) and Gemini CLI (Gemini Code Assist) can judge on a subscription through their official CLIs: you install and sign in to the CLI, and Rampa runs it in its non-interactive mode with your own setup kept out, never reading the credentials ([docs/subscriptions.md](docs/subscriptions.md)). Claude plans are not supported: Anthropic's terms say Pro and Max usage limits assume ordinary, individual usage, and that third-party developers may not route requests through plan credentials on behalf of their users ([Legal and compliance](https://code.claude.com/docs/en/legal-and-compliance)). With Claude, use an API key; Claude Max and Team plans include monthly API credits ([Help Center](https://support.claude.com/en/articles/15036540)) that a key can draw on.
 - **Recommendations come from measurement.** `rampa models` lists a starting point; the model per criterion should be chosen with `rampa eval`, not generic benchmarks.
@@ -385,12 +395,12 @@ How to read it:
 
 Corrupted pairs, a passing page and a copy broken on purpose: axe-core tells **none of 71** apart, Rampa **66**. By kind: `alt` 2 of 2; `autocomplete` removed 8 of 9 and swapped for other data 6 of 7; text pictured as an image 4 of 4; title 3 of 3; link text made generic 10 of 11 and pointed elsewhere 10 of 10; headings and labels 8 of 9; page `lang` 4 of 4; `lang` on parts 4 of 5; labels moved off the screen 7 of 7.
 
-Run on 2026-10-09: axe-core 4.14.0, Gemma 4 12B on a local GPU, reasoning off, one run, ACT test cases `a9a1483e`. 271 judgments, 4 dropped by verification, no API cost. Read the numbers with these caveats:
+Run on 2026-10-09 at 04:30 UTC: axe-core 4.14.0, Gemma 4 12B on a local GPU, reasoning off, one run, ACT test cases `a9a1483e`. 271 judgments, 4 dropped by verification, no API cost. The comparison of four local models in [Models](#models) (320 of 343 cases, 71 of 79 pairs) is a later run, on 2026-10-10, on a different set: the eight default criteria without 1.4.5, with the hidden-image set e88epe and two more kinds of pairs (`lang-drop` and `label-unseen`), so its totals do not match this table's. Read the numbers with these caveats:
 
 - **The prompts were tuned on these cases.** Every criterion added since the first run had its prompt and context adjusted after reading its errors here, without copying the test pages into the prompts. Until fresh pages confirm them, the numbers say "the pipeline works", not more.
 - **Some low precisions are scoring, not judgment.** 2779a5 only checks that a title exists, and its passing pages are titled "Title of the page."; Rampa says those describe nothing, which is right for 2.4.2. On ucwvc8 every passed and failed example is right; the false positives are pages the rule calls inapplicable, four of which axe-core fails for a missing or invalid `lang`. On 73f2c2 the two false positives are `autocomplete=""` on a username field, which is a real 1.3.5 failure that the rule leaves out.
 - **Where Rampa is weak.** fd3a94 asks whether links that share a name lead to equivalent places, and ACT accepts copies of a page and links "ambiguous to everyone" that Rampa reports. On 1.4.5, Gemma reads "WCAG Rocks" as a logo, and Rampa follows the WCAG Understanding document, not the ACT case, on an image of text shown next to the same real text.
-- **Real pages are noisier than test cases.** The [real-page study](docs/studies/real-pages-2026-10.md) (24 public pages, two independent LLM judges per finding, a pre-annotation pending human review) found precision of 0.13 on the dev pages and 0.12 on the test pages across all judged findings: 1.3.5 held up, 1.1.1 was weak, and 2.4.2, 2.4.4 and 2.4.6 were almost all false positives. After fixes taken only from the dev pages, a [re-measurement on the held-out test pages](docs/studies/real-pages-2026-10-remeasure.md) found precision of 0.38 at the default threshold (0.12 before) and 0.19 counting low-confidence findings: most of the gain comes from reporting 2.4.4 and 2.4.6 claims about ordinary text below the threshold, not from better judgments, and those two criteria still had no true failure among their findings. Since then, a fail on those two criteria is a finding only when a checked fact supports it, and the rest are the model's suggestions for review ([notes](docs/studies/notes-244-246.md)); a [second study on 24 fresh pages](docs/studies/real-pages-2026-10-fresh.md), run on the code just before that change, found precision of 0.42 on its dev pages and 0.35 on its test pages at the default threshold (0.26 and 0.14 counting low-confidence findings): 1.3.5 was 11 of 11, 1.1.1 about a third, and 2.4.4 and 2.4.6 still wrong almost every time, while the experimental pixel-contrast rule was 60 of 60. [Judged again with the change](docs/studies/real-pages-2026-10-fresh.md#after-the-2442446-change), its test pages gave 0.38 at the default threshold (no measurable change from 0.35) and 0.38 counting low-confidence findings (0.14 before): 2.4.4 and 2.4.6 went from 97 findings with 1 true failure to 13 with 5, and the rest are now suggestions, almost all of them wrong too.
+- **Real pages are noisier than test cases.** The [real-page study](docs/studies/real-pages-2026-10.md) (24 public pages; each finding labelled by two Claude agents, an auditor and a skeptic told not to read each other's work, whose mistakes are likely correlated since they are one model family; a pre-annotation pending human review) found precision of 0.13 on the dev pages and 0.12 on the test pages across all judged findings: 1.3.5 held up, 1.1.1 was weak, and 2.4.2, 2.4.4 and 2.4.6 were almost all false positives. After fixes taken from the dev pages' examples, a [re-measurement on the test pages](docs/studies/real-pages-2026-10-remeasure.md), whose findings had been read when the study described its patterns, so not a clean held-out measurement, found precision of 0.38 at the default threshold (0.12 before) and 0.19 counting low-confidence findings: most of the gain comes from reporting 2.4.4 and 2.4.6 claims about ordinary text below the threshold, not from better judgments, and those two criteria still had no true failure among their findings. Since then, a fail on those two criteria is a finding only when a checked fact supports it, and the rest are the model's suggestions for review ([notes](docs/studies/notes-244-246.md)); a [second study on 24 fresh pages](docs/studies/real-pages-2026-10-fresh.md), the held-out measurement, labelled the same way and run on the code just before that change, found precision of 0.42 on its dev pages and 0.35 on its test pages at the default threshold (0.26 and 0.14 counting low-confidence findings): 1.3.5 was 11 of 11, 1.1.1 about a third, and 2.4.4 and 2.4.6 still wrong almost every time, while the experimental pixel-contrast rule was 60 of 60. [Judged again with the change](docs/studies/real-pages-2026-10-fresh.md#after-the-2442446-change), its test pages gave 0.38 at the default threshold (no measurable change from 0.35) and 0.38 counting low-confidence findings (0.14 before): 2.4.4 and 2.4.6 went from 97 findings with 1 true failure to 13 with 5, and the rest are now suggestions, almost all of them wrong too.
 - **Small samples, one run.** Read these as a working pipeline, not as a result. Wilson intervals are in each run's `summary.json`, and `rampa compare` puts two runs side by side.
 
 The first run, on 2026-10-07 with only 1.1.1 and 3.1.2, had recall 0.67 on qt1vmo and 0.75 on off6ek. An error analysis showed the misses never reached a model: Rampa did not treat `<canvas>` as an image, and did not count image names from `aria-labelledby` as text. On those two criteria, `openai:gpt-6-luna` got the same numbers as Gemma in two runs with fresh calls (about US$ 0.005 per run).
@@ -437,7 +447,7 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - [x] `rampa compare`, to choose a model per criterion
 - [x] [Rampa Lab](https://rampalab.guilhermebs.com.br/), a web app to explore evaluation runs in the browser
 - [x] A first false-positive study on real pages ([report](docs/studies/real-pages-2026-10.md)); human review of its labels is next
-- [ ] The study's dev-split fixes: destination evidence for 2.4.4, functional icons and stacked carousel images for 1.1.1, honeypot fields, home pages titled with the site's name
+- [x] The study's dev-split fixes: destination evidence for 2.4.4, functional icons and stacked carousel images for 1.1.1, honeypot fields, home pages titled with the site's name ([re-measurement](docs/studies/real-pages-2026-10-remeasure.md#what-changed-since-the-first-run))
 - [x] WCAG 2.2 by default, with a status for every criterion and axe-core's incomplete results kept for review
 - [x] Deterministic Rampa rules, and 2.5.8 target size (experimental)
 - [x] Site criteria over a crawl: 3.2.3 consistent navigation and 3.2.6 consistent help (experimental)
@@ -445,9 +455,9 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - [x] Probes that drive the page, opt-in with `--probe`: media (captions, sound that plays by itself), orientation, text cut at 200% zoom, reflow at 320 px, text spacing, content on hover or focus, keyboard reachability and traps, single-key shortcuts, change on focus, focus visible and not obscured ([docs/probes.md](docs/probes.md))
 - [x] Contrast measured from pixels where axe-core cannot decide (text over images, gradients and video; placeholders; icon-only controls), and axe-core in every frame, open shadow roots and same-origin frames in the snapshot ([docs/rules.md](docs/rules.md))
 - [x] A language identifier that decides long, clear 3.1.1 and 3.1.2 cases without a model and drops model claims that contradict it
-- [ ] The rest of the probe waves ([plan](docs/plans/wcag-coverage.md))
+- [x] The rest of the probe waves: all four waves of the [plan](docs/plans/wcag-coverage.md) are built, every check experimental and every probe off by default
 - [x] The browser's accessibility tree in the snapshot (Chromium, over CDP): names and roles as assistive technology gets them, used by the rules and by 2.4.4, 2.4.6 and 3.3.2
-- [ ] The rest of the WCAG 2.2 waves: accessible authentication, focus management, errors after submitting, motion and time limits
+- [x] The rest of the WCAG 2.2 waves, as experimental probes run only when named: accessible authentication (`auth`), focus management (`focus-order`), errors after submitting (`form` with `--allow-submit`), motion and time limits (`motion`)
 - [x] ChatGPT and Gemini subscriptions through their official CLIs
 
 ## Development
@@ -477,6 +487,6 @@ Use `--locale pt-BR` para o relatório em português. O julgamento roda num mode
 
 - [axe-core](https://github.com/dequelabs/axe-core) (MPL-2.0) is a dependency, loaded unmodified from `node_modules`.
 - The prompts quote short normative passages of [WCAG 2.1](https://www.w3.org/TR/WCAG21/) and [WCAG 2.2](https://www.w3.org/TR/WCAG22/), Copyright © W3C, used under the [W3C Document License](https://www.w3.org/copyright/document-license/).
-- The [W3C ACT test cases](https://act-rules.github.io/pages/license/) are downloaded at run time and never redistributed.
+- The [W3C ACT test cases](https://act-rules.github.io/pages/license/) are downloaded at run time; the test pages are not redistributed. Run outputs kept in this repository (`docs/models/runs/`, `bench/results/`, `test/fixtures/runs/`) quote test case titles, addresses and short excerpts of the pages under the W3C license; [NOTICE](NOTICE) has the notice.
 - The word lists in `src/rules/words/` (used to find letter-spaced words, WCAG F32) are the most frequent lower-case words in [Tatoeba](https://tatoeba.org)'s sentences, licensed [CC BY 2.0 FR](https://creativecommons.org/licenses/by/2.0/fr/); `scripts/word-lists.py` rebuilds them and [docs/rules.md](docs/rules.md) records the export used.
 - The illustrations in `examples/` were drawn for this project and are covered by its MIT license.
