@@ -48,12 +48,14 @@ interface PageResult {
   notes: string[]
   usage: Report['usage']
   totals: number[]
+  /** Where each run's report is, to compare runs finding by finding. */
+  reports: string[]
 }
 
 mkdirSync(OUT, { recursive: true })
 const results: PageResult[] = []
 for (const page of pages) {
-  const runs: Array<{ processMs: number; report: Report }> = []
+  const runs: Array<{ processMs: number; report: Report; path: string }> = []
   for (let run = 0; run < repeats; run++) {
     const cwd = mkdtempSync(join(OUT, 'cwd-'))
     const out = join(cwd, 'report.json')
@@ -70,7 +72,7 @@ for (const page of pages) {
       continue
     }
     const report = JSON.parse(readFileSync(out, 'utf8')) as Report
-    runs.push({ processMs, report })
+    runs.push({ processMs, report, path: out })
     process.stderr.write(`${label} · ${page} · run ${run + 1}: ${((report.timings?.totalMs ?? 0) / 1000).toFixed(2)} s\n`)
   }
   const last = runs.at(-1)?.report
@@ -95,6 +97,7 @@ for (const page of pages) {
     notes: last.notes ?? [],
     usage: last.usage,
     totals: runs.map((r) => r.report.timings?.totalMs ?? 0),
+    reports: runs.map((r) => r.path),
   })
 }
 writeFileSync(join(OUT, `${label}.json`), `${JSON.stringify({ label, options: extra, repeats, results }, null, 2)}\n`)

@@ -24,10 +24,12 @@ The first run builds Rampa inside pre-commit's copy of this repository, with pnp
 
 ```yaml
       - id: rampa
-        args: [--no-llm, --fail-on, AA]                     # stop only for what blocks AA conformance
+        args: [--no-llm, --fast, --fail-on, AA]                     # stop only for what blocks AA conformance
       - id: rampa
-        args: [--model, ollama:gemma4:12b, --fail-on, A]    # judge with a local model, stop on Level A
+        args: [--fast, --model, ollama:gemma4:12b, --fail-on, A]    # judge with a local model, stop on Level A
 ```
+
+`--fast` suits a hook: a commit should not wait on a full check. It skips the contrast measured from pixels, which took about 2 s of every real page in [our measurements](performance.md) and whose findings sit below the default confidence threshold, and waits at most 1 s after load; with a model it also judges at most 10 candidates per criterion, some several per call, and reads no link destinations. On three real pages it took 23 to 55% less time without a model, with the same confirmed findings, and about a third of the model calls with one. The report says it ran in fast mode and lists what it left out. Run the full check in CI or before a release.
 
 pre-commit sets aside the changes you did not stage, so the hook checks the files exactly as they will be committed. `pre-commit run rampa --all-files` checks every HTML file in the repository.
 
@@ -48,15 +50,17 @@ pnpm install && pnpm build && pnpm link --global
 ```sh
 # Check the HTML files in this commit; stop it when a finding fails --fail-on.
 if git diff --cached --quiet --diff-filter=ACMR -- '*.html' '*.htm'; then exit 0; fi
-git diff --cached --name-only --diff-filter=ACMR -z -- '*.html' '*.htm' | xargs -0 rampa check --no-llm
+git diff --cached --name-only --diff-filter=ACMR -z -- '*.html' '*.htm' | xargs -0 rampa check --no-llm --fast
 ```
+
+Rampa can pick the files itself: `rampa check site --changed=HEAD --no-llm --fast` checks the HTML files under `site` that differ from the last commit (staged, modified or new), and says how many it skipped.
 
 Husky checks the files as they are in your working tree, which includes changes you did not stage. To check exactly what is staged, run Rampa through lint-staged, which sets the other changes aside first:
 
 ```json
 {
   "lint-staged": {
-    "*.{html,htm}": "rampa check --no-llm"
+    "*.{html,htm}": "rampa check --no-llm --fast"
   }
 }
 ```
@@ -72,7 +76,7 @@ pre-commit:
   commands:
     rampa:
       glob: "*.{html,htm}"
-      run: rampa check --no-llm {staged_files}
+      run: rampa check --no-llm --fast {staged_files}
 ```
 
 Lefthook skips the command when no staged file matches. Like Husky, it reads the files from the working tree.

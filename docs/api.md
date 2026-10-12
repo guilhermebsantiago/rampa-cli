@@ -39,8 +39,11 @@ interface RampaOptions {
   cacheDir?: string                    // --cache-dir
   cache?: JudgmentCache                // a cache of your own, such as memoryCache()
   concurrency?: number                 // --concurrency
-  maxCandidates?: number               // --max-candidates; 50 by default, 0 for no cap
+  maxCandidates?: number               // --max-candidates; 50 by default (10 with fast), 0 for no cap
   timeLimit?: number                   // --time-limit, in seconds per page; no limit by default
+  fast?: boolean                       // --fast: the CI preset (docs/performance.md); report.coverage.fast says what it left out
+  batch?: boolean                      // --batch: several candidates per model call where the criterion allows it; on with fast
+  timings?: boolean                    // --timings: report.timings, where each page's time went
   config?: RampaConfig | false         // rampa.config.* by default; false for none
 }
 ```
