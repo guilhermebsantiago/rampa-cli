@@ -1,0 +1,30 @@
+{
+  "page": "https://www.martinsfontespaulista.com.br/livros/literatura-brasileira",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "43c7c510f895",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the department banner, a generic stock photo of open books (banner-departamento.png). The live HTML and CSS show that the white pill reading \"Literatura Brasileira\" is not part of the image: it is an HTML h2.titulo-sessao placed on top of it, and its bounds in the snapshot match the pill exactly. The image itself has alt=\"Banner padrão\" (\"default banner\"). That is a CMS placeholder label, not an equivalent for anything the image shows, which is the documented failure F30 (placeholder text used as a text alternative). Because the image is decorative and the heading carries the meaning, alt=\"Banner padrão\" also matches F39, where an image that should be ignored has a non-null alt. Read fairly, the finding's claim that the alt does not match what the image shows names a real 1.1.1 failure. The suggested patch is weak: alt=\"Literatura Brasileira\" would repeat the h2 right beside it, and alt=\"\" is the right fix."
+    },
+    {
+      "fingerprint": "576f1b748dff",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the header search field. The live stylesheet sets .search__input::placeholder{color:grey;font-size:14px}, which is #808080, on a .search__form background of #fff. That gives 3.95:1, below the 4.5:1 that 1.4.3 requires for 14px text at weight 400. Placeholder text is visible text. None of the 1.4.3 exceptions applies: it is not incidental, not a logotype, and not part of an inactive component. The field also has no visible label, so the placeholder is the main visible text saying what the field is for. The screenshot shows the grey placeholder on white, which matches the measurement."
+    },
+    {
+      "fingerprint": "ebe721e040ef",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the shopping-bag (minicart) link in the header: <a href=\"#\" class=\"header__minicart-icon\"><span class=\"header__minicart-total\">0</span></a>. The bag icon is a CSS ::before background image with content '', so it adds nothing to the accessible name, and the live page has no aria-label or title. The link's name is therefore just \"0\", the item count. Its programmatically determined context (the parent div with the account links) does not say that it opens the cart or bag. The \"Minha sacola\" text is inside the separate minicart panel and is not context for this link. A screen-reader user hears only \"link, 0\", so the purpose cannot be worked out from the link text or its context. This fails 2.4.4 as reported. The snapshot had an extra hide-total class on the span, but the 0 badge is visible in the screenshot and is also on the live page."
+    },
+    {
+      "fingerprint": "99c70d2e2736",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the h3 at the top of the sidebar category filter. The live CSS hides the link text \"Livros\" with font-size:0 and adds a ::before with content 'Categorias'. Sighted users see the heading \"Categorias\", and the browser computes the name \"CategoriasLivros\", which is CSS-generated text joined to the link text with no space. Directly under it are the current category (h4 \"Literatura Brasileira\") and a list of category links. A heading reading \"Categorias\", or even \"CategoriasLivros\", describes that content (categories, under Livros). The missing space is a small rendering quirk and does not make the heading non-descriptive. The checker had the name and the following h4, so this is a wrong judgment, not missing context. Nothing here fails 2.4.6."
+    }
+  ]
+}

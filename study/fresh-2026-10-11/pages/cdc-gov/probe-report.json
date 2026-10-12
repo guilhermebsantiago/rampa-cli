@@ -1,0 +1,3012 @@
+{
+  "schemaVersion": 1,
+  "rampaVersion": "0.1.0",
+  "createdAt": "2026-10-12T00:17:40.749Z",
+  "target": "https://www.cdc.gov/",
+  "surface": "web",
+  "wcagTarget": "wcag22-aa",
+  "locale": "en",
+  "llm": "on",
+  "model": "ollama:gemma4:12b",
+  "engine": {
+    "name": "axe-core",
+    "version": "4.14.0"
+  },
+  "findings": [
+    {
+      "fingerprint": "99bc00f5ec4b",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(2) > img",
+      "message": "The text alternative \"Man in a blue shirt standing outdoors\" describes something the image does not show.",
+      "evidence": "Man in a blue shirt standing outdoors",
+      "subject": "Man in a blue shirt standing outdoors",
+      "patch": {
+        "ref": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(2) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "Man in a blue shirt standing outdoors",
+        "to": "A man looking at the camera, representing a person who may be screened for prostate cancer.",
+        "before": "<img src=\"/homepage/images/banner/prostate-cancer.jpg\" alt=\"Man in a blue shirt standing outdoors\" class=\"img-fluid w-100\" sizes=\"(max-width: 600px) 0, 1200px\" srcset=\"/homepage/images/banner/prostate-cancer-mobile.jpg 600w,\n/homepage/images/banner/prostate-cancer.jpg 1200w\">",
+        "after": "<img src=\"/homepage/images/banner/prostate-cancer.jpg\" alt=\"A man looking at the camera, representing a person who may be screened for prostate cancer.\" class=\"img-fluid w-100\" sizes=\"(max-width: 600px) 0, 1200px\" srcset=\"/homepage/images/banner/prostate-cancer-mobile.jpg 600w,\n/homepage/images/banner/prostate-cancer.jpg 1200w\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "a76a2f980d1c",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(2) > i",
+      "message": "The text alternative \"x icon\" is all its link holds, and does not say where the link leads.",
+      "evidence": "x icon",
+      "subject": "x icon",
+      "patch": {
+        "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(2) > i",
+        "kind": "set-attribute",
+        "attribute": "aria-label",
+        "from": "x icon",
+        "to": "Twitter"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "b06cf26cb5ca",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > a:nth-of-type(4) > i",
+      "message": "The text alternative \"rss icon\" is all its link holds, and does not say where the link leads.",
+      "evidence": "rss icon",
+      "subject": "rss icon",
+      "patch": {
+        "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > a:nth-of-type(4) > i",
+        "kind": "set-attribute",
+        "attribute": "aria-label",
+        "from": "rss icon",
+        "to": "RSS Feed"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "75ab34d1fd5d",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "probe",
+      "ref": "html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2) > a",
+      "target": "html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2) > a",
+      "message": "When the pointer is over this control (hover), its text has a contrast of 3.71:1 at best with what is behind it, under the 4.5:1 WCAG 1.4.3 asks. Text must keep its contrast in every state a person puts it in; change the hover colors.",
+      "evidence": "hover: <a> \"Here's how you know\"; changed: color #005ea2 → #007a99, -webkit-text-fill-color #005ea2 → #007a99; #59a8bd on #ffffff: 3.71:1 at best, 2.71:1 at worst · 12px, 300",
+      "confidence": "medium",
+      "ruleId": "rampa/state-text-contrast",
+      "html": "<a data-bs-toggle=\"collapse\" href=\"#gov-notice\" role=\"button\" aria-expanded=\"true\" aria-controls=\"gov-notice\" class=\"\">\n\t\t\t\t\tHere's how you know\n\t\t\t\t\t<i class=\"cdc-fa-angle-down\" aria-hidden=\"true\"></i>\n\t\t\t\t</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "e15ea679c5fc",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "probe",
+      "ref": "html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a",
+      "target": "html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a",
+      "message": "When the pointer is over this control (hover), its text has a contrast of 4.01:1 at best with what is behind it, under the 4.5:1 WCAG 1.4.3 asks. Text must keep its contrast in every state a person puts it in; change the hover colors.",
+      "evidence": "hover: <a> \"Español\"; changed: color #005ea2 → #007a99, -webkit-text-fill-color #005ea2 → #007a99; #67b0c2 on #ffffff: 4.01:1 at best, 2.45:1 at worst · 12px, 300",
+      "confidence": "medium",
+      "ruleId": "rampa/state-text-contrast",
+      "html": "<a href=\"https://www.cdc.gov/spanish/\" class=\"\">Español</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "8a31d62ef6ed",
+      "criterion": "1.4.10",
+      "level": "AA",
+      "source": "probe",
+      "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > a",
+      "target": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > a",
+      "message": "Text that is whole at 1280 px wide is cut off at 320 CSS px wide.",
+      "evidence": "at 1280×1024 whole; at 320×256 16 px cut across by <footer> html > body > footer",
+      "confidence": "high",
+      "ruleId": "rampa/reflow",
+      "html": "<a href=\"https://www.cdc.gov/\">\n\t\t\t\t<img src=\"/TemplatePackage/5.0/img/logo/cdc-logo-tag-right.svg\" alt=\"Centers for Disease Control and Prevention\">\n\t\t\t</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "70601d6a47e5",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(1) > a",
+      "target": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(1) > a",
+      "message": "When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×24: <a> \"A\" focused and blurred; 812 px of its indicator around it: #7fafd1 (778 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a href=\"/health-topics.html#A\">A</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "397bd71e5d47",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(2) > a",
+      "target": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(2) > a",
+      "message": "When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×25: <a> \"B\" focused and blurred; 812 px of its indicator around it: #7fafd1 (774 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a href=\"/health-topics.html#B\">B</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "e25bfcb6d97b",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(3) > a",
+      "target": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(3) > a",
+      "message": "When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×26: <a> \"C\" focused and blurred; 812 px of its indicator around it: #7fafd1 (776 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a href=\"/health-topics.html#C\">C</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "ffd098256391",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(4) > a",
+      "target": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(4) > a",
+      "message": "When this element has keyboard focus, its focus indicator (#7eaed1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×27: <a> \"D\" focused and blurred; 812 px of its indicator around it: #7eaed1 (777 px) next to #fefeff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a href=\"/health-topics.html#D\">D</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "c90705b8ea17",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(5) > a",
+      "target": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(5) > a",
+      "message": "When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×28: <a> \"E\" focused and blurred; 812 px of its indicator around it: #7fafd1 (778 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a href=\"/health-topics.html#E\">E</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "f28485b49ab4",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(6) > a",
+      "target": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(6) > a",
+      "message": "When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×29: <a> \"F\" focused and blurred; 812 px of its indicator around it: #7fafd1 (772 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a href=\"/health-topics.html#F\">F</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "942e8a6fb329",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(7) > a",
+      "target": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(7) > a",
+      "message": "When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×30: <a> \"G\" focused and blurred; 812 px of its indicator around it: #7fafd1 (772 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a href=\"/health-topics.html#G\">G</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "cc4d6d6c78cc",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(8) > a",
+      "target": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(8) > a",
+      "message": "When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×31: <a> \"H\" focused and blurred; 812 px of its indicator around it: #7fafd1 (774 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a href=\"/health-topics.html#H\">H</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "f795d0fc8846",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(9) > a",
+      "target": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(9) > a",
+      "message": "When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×32: <a> \"I\" focused and blurred; 812 px of its indicator around it: #7fafd1 (772 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a href=\"/health-topics.html#I\">I</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "489e8a403332",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(10) > a",
+      "target": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(10) > a",
+      "message": "When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×33: <a> \"J\" focused and blurred; 812 px of its indicator around it: #7fafd1 (775 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a href=\"/health-topics.html#J\">J</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "6eb191ee73cb",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(1) > div > div > div > div > a",
+      "message": "The link text \"Learn More \" does not tell where the link goes, and nothing around it does.",
+      "evidence": "Learn More ",
+      "subject": "Learn More ",
+      "patch": {
+        "ref": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(1) > div > div > div > div > a",
+        "kind": "set-text",
+        "from": "Learn More ",
+        "to": "Learn more about Ebola situation summary for returning travelers",
+        "before": "<a href=\"/ebola/situation-summary/returning-travelers.html\" class=\"btn btn-outline-light\" tabindex=\"0\">Learn More </a>",
+        "after": "<a href=\"/ebola/situation-summary/returning-travelers.html\" class=\"btn btn-outline-light\" tabindex=\"0\">Learn more about Ebola situation summary for returning travelers</a>"
+      },
+      "confidence": "low",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "cef725705a84",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#hero-carousel > div:nth-of-type(2) > div > span:nth-of-type(1) > span:nth-of-type(2) > a",
+      "message": "The link text \"Ebola Situation Summary\" does not match where the link leads: a page titled \"Information for Travelers Returning from Ebola-Affected Areas | Ebola | CDC\".",
+      "evidence": "Ebola Situation Summary",
+      "subject": "Ebola Situation Summary",
+      "patch": {
+        "ref": "#hero-carousel > div:nth-of-type(2) > div > span:nth-of-type(1) > span:nth-of-type(2) > a",
+        "kind": "set-text",
+        "from": "Ebola Situation Summary",
+        "to": "Information for Travelers Returning from Ebola-Affected Areas",
+        "before": "<a class=\"indicator-text\" href=\"/ebola/situation-summary/returning-travelers.html\">Ebola Situation Summary</a>",
+        "after": "<a class=\"indicator-text\" href=\"/ebola/situation-summary/returning-travelers.html\">Information for Travelers Returning from Ebola-Affected Areas</a>"
+      },
+      "confidence": "low",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "41e7f4fa5216",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "html > body > footer > footer > section > div > div > div:nth-of-type(2) > ul > li:nth-of-type(6) > a",
+      "message": "The link text \"Funding and Grants\" does not match where the link leads: a page titled \"Budget | Budget | CDC\".",
+      "evidence": "Funding and Grants",
+      "subject": "Funding and Grants",
+      "patch": {
+        "ref": "html > body > footer > footer > section > div > div > div:nth-of-type(2) > ul > li:nth-of-type(6) > a",
+        "kind": "set-text",
+        "from": "Funding and Grants",
+        "to": "CDC Budget and Funding",
+        "before": "<a href=\"https://www.cdc.gov/budget/\">Funding and Grants</a>",
+        "after": "<a href=\"https://www.cdc.gov/budget/\">CDC Budget and Funding</a>"
+      },
+      "confidence": "low",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "4472f3536d38",
+      "criterion": "2.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(1) > a:nth-of-type(6)",
+      "target": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(1) > a:nth-of-type(6)",
+      "message": "When this element receives keyboard focus, it is entirely hidden behind other content, so a keyboard user cannot see where focus is.",
+      "evidence": "Shift+Tab ×61 in a 1280×800 window: <a> \"Food Safety Tips for Dining Out\" at y 0; 25 of 25 grid points hit <nav> \"HEALTH TOPICS OUTBREAKS ABOUT CDC SEARCH\" html > body > nav (position: fixed, 1280×74 px at y 0); painting it changed 0 px and hiding it 0 px; scroll-padding-top: 74px on html would keep focused elements clear of it",
+      "confidence": "high",
+      "ruleId": "rampa/focus-obscured",
+      "html": "<a href=\"/restaurant-food-safety/communication-resources/tips-for-dining-out.html\" class=\"btn btn-outline-primary\">Food Safety Tips for Dining Out</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "0b1fa8e1a762",
+      "criterion": "2.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(1) > a:nth-of-type(5)",
+      "target": "#content > div:nth-of-type(1) > div > div > section:nth-of-type(1) > a:nth-of-type(5)",
+      "message": "When this element receives keyboard focus, it is entirely hidden behind other content, so a keyboard user cannot see where focus is.",
+      "evidence": "Shift+Tab ×62 in a 1280×800 window: <a> \"H5 Bird Flu: Current Situation\" at y 0; 25 of 25 grid points hit <nav> \"HEALTH TOPICS OUTBREAKS ABOUT CDC SEARCH\" html > body > nav (position: fixed, 1280×74 px at y 0); painting it changed 0 px and hiding it 0 px; scroll-padding-top: 74px on html would keep focused elements clear of it",
+      "confidence": "high",
+      "ruleId": "rampa/focus-obscured",
+      "html": "<a href=\"/bird-flu/situation-summary/index.html\" class=\"btn btn-outline-primary\">H5 Bird Flu: Current Situation</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "6ed01b590230",
+      "criterion": "3.1.2",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a",
+      "target": "html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a",
+      "message": "\"Español\" is in Spanish, but it inherits the page's language (en-us): a screen reader mispronounces the language's name. Add lang=\"es\" to the link.",
+      "evidence": "Español",
+      "subject": "Español",
+      "patch": {
+        "ref": "html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a",
+        "kind": "set-attribute",
+        "attribute": "lang",
+        "to": "es",
+        "before": "<a href=\"https://www.cdc.gov/spanish/\" class=\"\">",
+        "after": "<a href=\"https://www.cdc.gov/spanish/\" class=\"\" lang=\"es\">"
+      },
+      "confidence": "low",
+      "ruleId": "rampa/language-switcher-lang",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+      "html": "<a href=\"https://www.cdc.gov/spanish/\" class=\"\">"
+    }
+  ],
+  "belowThreshold": [],
+  "waived": [],
+  "discarded": [
+    {
+      "criterion": "1.1.1",
+      "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > a:nth-of-type(1) > i",
+      "reason": "suggested alternative only rewords the current one",
+      "output": {
+        "verdict": "fail",
+        "evidence": "youtube icon",
+        "problem": "missing_information",
+        "imageShows": "A white YouTube logo inside a circle on a dark background.",
+        "suggestedAlt": "YouTube",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > a:nth-of-type(3) > i",
+      "reason": "suggested alternative only rewords the current one",
+      "output": {
+        "verdict": "fail",
+        "evidence": "snapchat icon",
+        "problem": "missing_information",
+        "imageShows": "A white Snapchat logo inside a circle on a dark background.",
+        "suggestedAlt": "Snapchat",
+        "confidence": "high"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "criterion": "1.1.1",
+      "applicable": true,
+      "candidates": 13,
+      "judged": 13,
+      "failed": 3,
+      "passed": 8,
+      "cannotTell": 0,
+      "discarded": 2,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "1.3.5",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.2",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "decided": 1
+    },
+    {
+      "criterion": "2.4.4",
+      "applicable": true,
+      "candidates": 29,
+      "judged": 29,
+      "failed": 3,
+      "passed": 26,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.6",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "3.1.1",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "decided": 1
+    },
+    {
+      "criterion": "3.1.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "3.3.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    }
+  ],
+  "coverage": {
+    "engine": [
+      "1.1.1",
+      "1.3.1",
+      "1.4.3",
+      "1.4.4",
+      "1.4.12",
+      "2.4.2",
+      "2.4.4",
+      "2.5.8",
+      "3.1.1",
+      "4.1.2"
+    ],
+    "judged": [
+      "1.1.1",
+      "2.4.4",
+      "2.4.6"
+    ],
+    "notChecked": [
+      "1.3.3",
+      "1.3.5",
+      "1.4.5",
+      "2.2.1",
+      "2.2.2",
+      "2.3.1",
+      "2.4.3",
+      "2.4.5",
+      "2.5.1",
+      "2.5.2",
+      "2.5.3",
+      "2.5.4",
+      "2.5.7",
+      "3.2.2",
+      "3.2.3",
+      "3.2.4",
+      "3.2.6",
+      "3.3.1",
+      "3.3.2",
+      "3.3.3",
+      "3.3.4",
+      "3.3.7",
+      "3.3.8",
+      "4.1.3"
+    ],
+    "rules": [
+      "1.1.1",
+      "1.3.2",
+      "1.4.3",
+      "1.4.11",
+      "2.4.2",
+      "2.4.6",
+      "3.1.1",
+      "3.1.2",
+      "4.1.2"
+    ],
+    "probes": [
+      {
+        "criterion": "1.4.4",
+        "method": "probe/layout@1",
+        "rule": "rampa/resize-text",
+        "conditions": "640×512 CSS px at device scale 2 (1280×1024 at 200%) · chromium 155.0.4283.45 (headless)",
+        "status": "needs-review",
+        "applicable": 49,
+        "failures": 0,
+        "review": 4,
+        "unmatched": 0,
+        "note": "3 text box(es) gone at 640 px and not back at 1280 px: not counted (a timer or a carousel); the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.10",
+        "method": "probe/layout@1",
+        "rule": "rampa/reflow",
+        "conditions": "320×256 CSS px from 1280×1024 · chromium 155.0.4283.45 (headless)",
+        "status": "failures",
+        "applicable": 49,
+        "failures": 1,
+        "review": 0,
+        "unmatched": 0,
+        "note": "the page does not scroll sideways at 320 px; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.12",
+        "method": "probe/layout@1",
+        "rule": "rampa/text-spacing",
+        "conditions": "spacing overrides at 1280×1024 · chromium 155.0.4283.45 (headless)",
+        "status": "needs-review",
+        "applicable": 58,
+        "failures": 0,
+        "review": 1,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+      },
+      {
+        "criterion": "1.4.13",
+        "method": "probe/hover@1",
+        "rule": "rampa/hover-content",
+        "conditions": "hover and focus on up to 30 triggers at 1280×800 · chromium 155.0.4283.45 (headless)",
+        "status": "needs-review",
+        "applicable": 1,
+        "failures": 0,
+        "review": 1,
+        "unmatched": 0,
+        "note": "15 trigger(s) tried of 15 found (15 hovered, 14 focused); 1 showed content; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.3.4",
+        "method": "probe/orientation@1",
+        "rule": "rampa/orientation",
+        "conditions": "portrait and landscape at 1280×800 and 390×844 (phone) · chromium 155.0.4283.45 (headless)",
+        "status": "no-failure-found",
+        "applicable": 73,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "4 load(s) compared, upright and sideways, each loaded and then turned; the guard blocked 16 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "2.1.1",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/keyboard-reach",
+        "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.45 (headless)",
+        "status": "no-failure-found",
+        "applicable": 44,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+      },
+      {
+        "criterion": "2.1.2",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/keyboard-trap",
+        "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.45 (headless)",
+        "status": "no-failure-found",
+        "applicable": 84,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+      },
+      {
+        "criterion": "3.2.1",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/on-focus",
+        "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.45 (headless)",
+        "status": "no-failure-found",
+        "applicable": 84,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+      },
+      {
+        "criterion": "2.4.1",
+        "method": "probe/keyboard@1",
+        "rule": "rampa/bypass-blocks",
+        "conditions": "first 8 Tab stop(s), skip links pressed: 2 · chromium 155.0.4283.45 (headless)",
+        "status": "needs-review",
+        "applicable": 1,
+        "failures": 0,
+        "review": 2,
+        "unmatched": 0,
+        "note": "link “Skip to site content” → #content works (16 element(s) skipped); also: main landmark, heading “Featured Topics”; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "2.1.4",
+        "method": "probe/shortcuts@1",
+        "rule": "rampa/character-key-shortcuts",
+        "conditions": "printable keys with focus on the body at 1280×800 · chromium 155.0.4283.45 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "94 printable key(s) pressed one at a time with focus on the page; the guard blocked 6 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.1",
+        "method": "probe/media@2",
+        "rule": "rampa/audio-video-only",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.2",
+        "method": "probe/media@2",
+        "rule": "rampa/captions",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.3",
+        "method": "probe/media@2",
+        "rule": "rampa/media-alternative",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.4",
+        "method": "probe/media@2",
+        "rule": "rampa/live-captions",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.5",
+        "method": "probe/media@2",
+        "rule": "rampa/audio-description",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.2",
+        "method": "probe/media@2",
+        "rule": "rampa/audio-control",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.1",
+        "method": "probe/color@1",
+        "rule": "rampa/color-only-state",
+        "conditions": "current and selected items against their neighbours at 1280×800 · chromium 155.0.4283.45 (headless)",
+        "status": "no-failure-found",
+        "applicable": 2,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "2 current or selected item(s) found; 1 set apart by more than color; 1 look the same as the items next to them; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.1",
+        "method": "probe/color@1",
+        "rule": "rampa/color-only-required",
+        "conditions": "required fields against optional ones at 1280×800 · chromium 155.0.4283.45 (headless)",
+        "status": "not-checked",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "0 form(s) with required and optional fields; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.1",
+        "method": "probe/color@1",
+        "rule": "rampa/link-color-only",
+        "conditions": "links in text against the text around them, at rest, on hover and on focus at 1280×800 · chromium 155.0.4283.45 (headless)",
+        "status": "not-checked",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "0 link(s) in blocks of text; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.1",
+        "method": "probe/color@1",
+        "rule": "rampa/color-words",
+        "conditions": "sentences that name a color, against the hue of what they name at 1280×800 · chromium 155.0.4283.45 (headless)",
+        "status": "not-checked",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "0 sentence(s) that convey something by a color; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "2.4.7",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/focus-visible",
+        "conditions": "focused and blurred captures at 1280×800 · chromium 155.0.4283.45 (headless)",
+        "status": "needs-review",
+        "applicable": 83,
+        "failures": 0,
+        "review": 9,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+      },
+      {
+        "criterion": "2.4.11",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/focus-obscured",
+        "conditions": "5×5 hit grid at 1280×800, both directions · chromium 155.0.4283.45 (headless)",
+        "status": "failures",
+        "applicable": 84,
+        "failures": 2,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+      },
+      {
+        "criterion": "2.4.11",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/focus-obscured",
+        "conditions": "5×5 hit grid at 390×844, both directions · chromium 155.0.4283.45 (headless)",
+        "status": "no-failure-found",
+        "applicable": 76,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+      },
+      {
+        "criterion": "1.4.11",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/focus-indicator-contrast",
+        "conditions": "focus indicators against the colors next to them, at 1280×800 · chromium 155.0.4283.45 (headless)",
+        "status": "failures",
+        "applicable": 83,
+        "failures": 34,
+        "review": 0,
+        "unmatched": 0,
+        "note": "24 more failure(s) not listed; 9 with the browser's own focus ring, which 1.4.11 exempts; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.3",
+        "method": "probe/states@1",
+        "rule": "rampa/state-text-contrast",
+        "conditions": "text in hover and focus states at 1280×800 · chromium 155.0.4283.45 (headless)",
+        "status": "failures",
+        "applicable": 7,
+        "failures": 2,
+        "review": 0,
+        "unmatched": 0,
+        "note": "38 control(s) with text in 13 style(s); 10 hovered and 10 focused; 13 kept their colors; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.11",
+        "method": "probe/states@1",
+        "rule": "rampa/state-indicator-contrast",
+        "conditions": "selected and current items with their marks on and off at 1280×800 · chromium 155.0.4283.45 (headless)",
+        "status": "no-failure-found",
+        "applicable": 2,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "2 selected, current, pressed or checked item(s) found, 2 captured; 2 looked the same with their marks taken off (the page shows the state another way, or not at all); the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing",
+        "maturity": "experimental"
+      }
+    ],
+    "criteria": [
+      {
+        "id": "1.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "image-alt",
+            "ran": true,
+            "applicable": 6,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "role-img-alt",
+            "ran": true,
+            "applicable": 8,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-meter-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-progressbar-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "object-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "svg-img-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-alt",
+            "ran": true,
+            "applicable": 14,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.1.1@4",
+            "ran": true,
+            "applicable": 13,
+            "failures": 3,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Equivalence for complex and contextual images; decorative or not; long descriptions; CAPTCHA usability"
+      },
+      {
+        "id": "1.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/audio-video-only",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Whether a transcript is equivalent; decorative video-only; labeled media alternatives"
+      },
+      {
+        "id": "1.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "video-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/captions",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Accuracy, completeness, synchronization, speakers; players Rampa cannot read"
+      },
+      {
+        "id": "1.2.3",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/media-alternative",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Whether visual information matters, and whether the description or alternative is adequate"
+      },
+      {
+        "id": "1.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/live-captions",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Everything about live captions"
+      },
+      {
+        "id": "1.2.5",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/audio-description",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Quality of the description; pauses; importance of the visuals"
+      },
+      {
+        "id": "1.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "list",
+            "ran": true,
+            "applicable": 3,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "listitem",
+            "ran": true,
+            "applicable": 17,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-children",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-parent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "definition-list",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "dlitem",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "table-fake-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-has-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-headers-attr",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "th-has-data-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/table-header-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/presentational-table",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/orphan-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Whether formatting carries meaning; complex tables; charts and maps; structure \"available in text\""
+      },
+      {
+        "id": "1.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/css-reading-order",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "note": "1 group(s) CSS reordered with no relationship verified to break: left to the 1.3.2 judgment (--criteria 1.3.2)"
+          }
+        ],
+        "manual": "Whether an order matters; magazine and dashboard layouts; bidirectional text"
+      },
+      {
+        "id": "1.3.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Instructions in images and media; references that depend on context"
+      },
+      {
+        "id": "1.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/orientation",
+            "ran": true,
+            "applicable": 73,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/orientation@1",
+              "conditions": "portrait and landscape at 1280×800 and 390×844 (phone) · chromium 155.0.4283.45 (headless)",
+              "note": "4 load(s) compared, upright and sideways, each loaded and then turned; the guard blocked 16 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Essential orientation; real devices with the rotation lock; native apps"
+      },
+      {
+        "id": "1.3.5",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "autocomplete-valid",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.3.5@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whose data a field collects in ambiguous contexts; whether autofill works"
+      },
+      {
+        "id": "1.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-in-text-block",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/color-only-state",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/color@1",
+              "conditions": "current and selected items against their neighbours at 1280×800 · chromium 155.0.4283.45 (headless)",
+              "note": "2 current or selected item(s) found; 1 set apart by more than color; 1 look the same as the items next to them; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/color-only-required",
+            "ran": false,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/color@1",
+              "conditions": "required fields against optional ones at 1280×800 · chromium 155.0.4283.45 (headless)",
+              "note": "0 form(s) with required and optional fields; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/link-color-only",
+            "ran": false,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/color@1",
+              "conditions": "links in text against the text around them, at rest, on hover and on focus at 1280×800 · chromium 155.0.4283.45 (headless)",
+              "note": "0 link(s) in blocks of text; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/color-words",
+            "ran": false,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/color@1",
+              "conditions": "sentences that name a color, against the hue of what they name at 1280×800 · chromium 155.0.4283.45 (headless)",
+              "note": "0 sentence(s) that convey something by a color; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Charts, maps, color-coded tables; whether a difference carries meaning"
+      },
+      {
+        "id": "1.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "no-autoplay-audio",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/audio-control",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Audio started by other interactions; games; cross-origin media; keyboard access to the control"
+      },
+      {
+        "id": "1.4.3",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "color-contrast",
+            "ran": true,
+            "applicable": 22,
+            "failures": 0,
+            "review": 9,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/pixel-contrast",
+            "ran": true,
+            "applicable": 20,
+            "failures": 0,
+            "review": 5,
+            "maturity": "experimental",
+            "note": "9 not measured, past the limit of 20 per page"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/state-text-contrast",
+            "ran": true,
+            "applicable": 7,
+            "failures": 2,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/states@1",
+              "conditions": "text in hover and focus states at 1280×800 · chromium 155.0.4283.45 (headless)",
+              "note": "38 control(s) with text in 13 style(s); 10 hovered and 10 focused; 13 kept their colors; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Text over photos and video; text in images; logotypes"
+      },
+      {
+        "id": "1.4.4",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-viewport",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/meta-viewport",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/resize-text",
+            "ran": true,
+            "applicable": 49,
+            "failures": 0,
+            "review": 4,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/layout@1",
+              "conditions": "640×512 CSS px at device scale 2 (1280×1024 at 200%) · chromium 155.0.4283.45 (headless)",
+              "note": "3 text box(es) gone at 640 px and not back at 1280 px: not counted (a timer or a carousel); the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Lost functionality in complex widgets; acceptable truncation; real mobile browsers"
+      },
+      {
+        "id": "1.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential presentation; customizable images; infographics"
+      },
+      {
+        "id": "1.4.10",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/reflow",
+            "ran": true,
+            "applicable": 49,
+            "failures": 1,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/layout@1",
+              "conditions": "320×256 CSS px from 1280×1024 · chromium 155.0.4283.45 (headless)",
+              "note": "the page does not scroll sideways at 320 px; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Lost functionality at 320 CSS px; content that scrolls horizontally; whether the two-dimensional exception applies"
+      },
+      {
+        "id": "1.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/icon-contrast",
+            "ran": true,
+            "applicable": 8,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/focus-indicator-contrast",
+            "ran": true,
+            "applicable": 83,
+            "failures": 34,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "focus indicators against the colors next to them, at 1280×800 · chromium 155.0.4283.45 (headless)",
+              "note": "24 more failure(s) not listed; 9 with the browser's own focus ring, which 1.4.11 exempts; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/state-indicator-contrast",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/states@1",
+              "conditions": "selected and current items with their marks on and off at 1280×800 · chromium 155.0.4283.45 (headless)",
+              "note": "2 selected, current, pressed or checked item(s) found, 2 captured; 2 looked the same with their marks taken off (the page shows the state another way, or not at all); the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Graphs and charts; whether a graphic is required; hover and active states; gradients"
+      },
+      {
+        "id": "1.4.12",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "avoid-inline-spacing",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/text-spacing",
+            "ran": true,
+            "applicable": 58,
+            "failures": 0,
+            "review": 1,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/layout@1",
+              "conditions": "spacing overrides at 1280×1024 · chromium 155.0.4283.45 (headless)",
+              "note": "the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Text clipped or overlapping with the spacing applied; scripts where a metric does not apply; text in canvas and images"
+      },
+      {
+        "id": "1.4.13",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/hover-content",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 1,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/hover@1",
+              "conditions": "hover and focus on up to 30 triggers at 1280×800 · chromium 155.0.4283.45 (headless)",
+              "note": "15 trigger(s) tried of 15 found (15 hovered, 14 focused); 1 showed content; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Content shown on hover or focus: dismissible, hoverable, persistent; touch; content that moves"
+      },
+      {
+        "id": "2.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "frame-focusable-content",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "scrollable-region-focusable",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "server-side-image-map",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/keyboard-reach",
+            "ran": true,
+            "applicable": 44,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.45 (headless)",
+              "note": "the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Operating everything with the keyboard; states behind login; drag and drop; canvas; speech and switch input"
+      },
+      {
+        "id": "2.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/keyboard-trap",
+            "ran": true,
+            "applicable": 84,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.45 (headless)",
+              "note": "the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Moving through the whole page with the keyboard; traps after interactions; plug-ins; screen-reader modes"
+      },
+      {
+        "id": "2.1.4",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/character-key-shortcuts",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/shortcuts@1",
+              "conditions": "printable keys with focus on the body at 1280×800 · chromium 155.0.4283.45 (headless)",
+              "note": "94 printable key(s) pressed one at a time with focus on the page; the guard blocked 6 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Settings on other pages or behind login, and whether they work; shortcuts in frames; keyboard layouts and IMEs; speech input"
+      },
+      {
+        "id": "2.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-refresh",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/refresh-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Server-side time-outs; flows behind login; the exceptions"
+      },
+      {
+        "id": "2.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "blink",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "marquee",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Motion after an interaction or further down the page; whether a control is easy to find and works from the keyboard; essential motion; reliance on reduced motion"
+      },
+      {
+        "id": "2.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Flashing content, live and user-generated content; certification-grade sign-off"
+      },
+      {
+        "id": "2.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "bypass",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/bypass-blocks",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 2,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@1",
+              "conditions": "first 8 Tab stop(s), skip links pressed: 2 · chromium 155.0.4283.45 (headless)",
+              "note": "link “Skip to site content” → #content works (16 element(s) skipped); also: main landmark, heading “Featured Topics”; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Whether a block is substantial; whether skip links work; single-page-app views"
+      },
+      {
+        "id": "2.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "document-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/default-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/home-page-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.2@3",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a title fits the domain and audience"
+      },
+      {
+        "id": "2.4.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether the focus order preserves meaning; dialogs and menus"
+      },
+      {
+        "id": "2.4.4",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 52,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.4@2",
+            "ran": true,
+            "applicable": 29,
+            "failures": 3,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "The \"ambiguous to users in general\" exception; destinations behind login"
+      },
+      {
+        "id": "2.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Defining the set of pages; the process exception"
+      },
+      {
+        "id": "2.4.6",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-text",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.6@3",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a heading or label fits the domain and audience"
+      },
+      {
+        "id": "2.4.7",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/focus-visible",
+            "ran": true,
+            "applicable": 83,
+            "failures": 0,
+            "review": 9,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "focused and blurred captures at 1280×800 · chromium 155.0.4283.45 (headless)",
+              "note": "the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Whether every focused element shows it; faint indicators; forced colors"
+      },
+      {
+        "id": "2.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/focus-obscured",
+            "ran": true,
+            "applicable": 84,
+            "failures": 2,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "5×5 hit grid at 1280×800, both directions · chromium 155.0.4283.45 (headless)",
+              "note": "the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/focus-obscured",
+            "ran": true,
+            "applicable": 76,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "5×5 hit grid at 390×844, both directions · chromium 155.0.4283.45 (headless)",
+              "note": "the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Focused elements hidden by sticky headers, banners or dialogs; content the user opened or can move"
+      },
+      {
+        "id": "2.5.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential gestures; alternatives elsewhere on the page or in another view; gestures the probe does not make (rotation, longer paths); real touch hardware"
+      },
+      {
+        "id": "2.5.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Actions on the down-event; undo in drag and drop; touch"
+      },
+      {
+        "id": "2.5.3",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "label-content-name-mismatch",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/field-label-in-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Label versus nearby instruction; symbols and numbers; testing with speech input"
+      },
+      {
+        "id": "2.5.4",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Camera and body gestures; real sensors; essential motion; settings on other pages; motion after a tap or a permission"
+      },
+      {
+        "id": "2.5.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Dragging and its single-pointer alternatives; essential dragging; canvas editors"
+      },
+      {
+        "id": "2.5.8",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "target-size",
+            "ran": true,
+            "applicable": 52,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Essential or legally required presentation; equivalent targets; canvas and SVG maps"
+      },
+      {
+        "id": "3.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "html-has-lang",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-lang-valid",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-xml-lang-mismatch",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-id",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.1@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Balanced bilingual pages; dialects"
+      },
+      {
+        "id": "3.1.2",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "valid-lang",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-switcher-lang",
+            "ran": true,
+            "applicable": 1,
+            "failures": 1,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.2@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Unmarked passages; single words; proper names; loanwords"
+      },
+      {
+        "id": "3.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/on-focus",
+            "ran": true,
+            "applicable": 84,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.45 (headless)",
+              "note": "the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Changes of context when an element receives focus; states after interaction"
+      },
+      {
+        "id": "3.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when a setting changes, and whether notice is adequate; custom widgets"
+      },
+      {
+        "id": "3.2.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Navigation order across the set of pages; personalization; pages behind login"
+      },
+      {
+        "id": "3.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "What counts as the same function; icons in context"
+      },
+      {
+        "id": "3.2.6",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Help mechanisms and their order across the set of pages; help that is not a link"
+      },
+      {
+        "id": "3.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Error messages after input; errors the server finds; wording"
+      },
+      {
+        "id": "3.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "form-field-multiple-labels",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/no-visible-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.3.2@1",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether instructions are enough; icons as labels"
+      },
+      {
+        "id": "3.3.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a suggestion is correct; server-side errors; the security exception"
+      },
+      {
+        "id": "3.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Reversal, checking or confirmation of submissions: almost all of it"
+      },
+      {
+        "id": "3.3.7",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Information asked again in a process; third-party steps; the exceptions"
+      },
+      {
+        "id": "3.3.8",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Cognitive function tests in sign-in and recovery; CAPTCHA escalations; later steps that need an account"
+      },
+      {
+        "id": "4.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-prohibited-attr",
+            "ran": true,
+            "applicable": 27,
+            "failures": 0,
+            "review": 3,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "duplicate-id-aria",
+            "ran": true,
+            "applicable": 29,
+            "failures": 0,
+            "review": 1,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-allowed-attr",
+            "ran": true,
+            "applicable": 27,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-conditional-attr",
+            "ran": true,
+            "applicable": 27,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-deprecated-role",
+            "ran": true,
+            "applicable": 21,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-focus",
+            "ran": true,
+            "applicable": 9,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-attr",
+            "ran": true,
+            "applicable": 21,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-roles",
+            "ran": true,
+            "applicable": 21,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr-value",
+            "ran": true,
+            "applicable": 27,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr",
+            "ran": true,
+            "applicable": 27,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "button-name",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 52,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "nested-interactive",
+            "ran": true,
+            "applicable": 27,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-braille-equivalent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-command-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-input-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tab-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-toggle-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tooltip-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title-unique",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-button-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "select-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "summary-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/duplicate-id-reference",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/widget-name",
+            "ran": true,
+            "applicable": 53,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/custom-control",
+            "ran": true,
+            "applicable": 3,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/disclosure-state",
+            "ran": true,
+            "applicable": 6,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Roles for custom widgets; values set by assistive technology; what is actually announced"
+      },
+      {
+        "id": "4.1.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether status messages are announced in screen readers"
+      }
+    ]
+  },
+  "needsReview": [
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "html > body > footer > footer > section > div > div > div:nth-of-type(2) > ul > li:nth-of-type(1) > a",
+      "target": "[\"li:nth-child(1) > a[href$=\\\"about/\\\"]\"]",
+      "html": "<a href=\"https://www.cdc.gov/about/\">About CDC</a>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "html > body > footer > footer > section > div > div > div:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+      "target": "[\"li:nth-child(2) > a[href$=\\\"media/\\\"]\"]",
+      "html": "<a href=\"https://www.cdc.gov/media/\">Pressroom</a>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "html > body > footer > footer > section > div > div > div:nth-of-type(2) > ul > li:nth-of-type(3) > a",
+      "target": "[\".footer__main-nav > li:nth-child(3) > a\"]",
+      "html": "<a href=\"https://www.cdc.gov/about/organization/\">Organization</a>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "html > body > footer > footer > section > div > div > div:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+      "target": "[\".footer__main-nav > li:nth-child(4) > a\"]",
+      "html": "<a href=\"https://www.cdc.gov/about/leadership/\">Leadership</a>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "html > body > footer > footer > section > div > div > div:nth-of-type(2) > ul > li:nth-of-type(5) > a",
+      "target": "[\".footer__main-nav > li:nth-child(5) > a\"]",
+      "html": "<a href=\"https://www.cdc.gov/labs/strong-lab-safety/\">Lab Safety</a>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "html > body > footer > footer > section > div > div > div:nth-of-type(2) > ul > li:nth-of-type(6) > a",
+      "target": "[\"li:nth-child(6) > a[href$=\\\"budget/\\\"]\"]",
+      "html": "<a href=\"https://www.cdc.gov/budget/\">Funding and Grants</a>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "html > body > footer > footer > section > div > div > div:nth-of-type(2) > ul > li:nth-of-type(7) > a",
+      "target": "[\".footer__main-nav > li:nth-child(7) > a\"]",
+      "html": "<a href=\"https://jobs.cdc.gov/index.html\">Careers at CDC</a>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "html > body > footer > footer > section > div > div > div:nth-of-type(2) > ul > li:nth-of-type(8) > a",
+      "target": "[\".footer__main-nav > li:nth-child(8) > a\"]",
+      "html": "<a href=\"https://www.cdc.gov/fellowships/php/index.html\">Fellowships and Training</a>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "html > body > footer > footer > section > div > div > div:nth-of-type(2) > ul > li:nth-of-type(9) > a",
+      "target": "[\"a[href$=\\\"museum/\\\"]\"]",
+      "html": "<a href=\"https://www.cdc.gov/museum/\">CDC Museum</a>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#healthTopicsDropdown",
+      "target": "#healthTopicsDropdown",
+      "html": "<a class=\"nav-link\" href=\"#\" id=\"healthTopicsDropdown\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">",
+      "message": "axe-core could not decide the contrast of \"Health Topics\" (an image in the element), and the pixels could not either: what is behind it moves on its own (a video, an animation).",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(1) > div > div > div > div > span",
+      "target": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(1) > div > div > div > div > span",
+      "html": "<span class=\"slide-title\">",
+      "message": "axe-core could not decide the contrast of \"Ebola Situation Summary\" (a pseudo-element), and the pixels could not either: it is not shown.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(1) > div > div > div > div > a",
+      "target": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(1) > div > div > div > div > a",
+      "html": "<a href=\"/ebola/situation-summary/returning-travelers.html\" class=\"btn btn-outline-light\" tabindex=\"0\">",
+      "message": "axe-core could not decide the contrast of \"Learn More\" (a pseudo-element), and the pixels could not either: it is not shown.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div > span",
+      "target": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div > span",
+      "html": "<span class=\"slide-title\">",
+      "message": "axe-core could not decide the contrast of \"Screening for Prostate Cancer\" (a pseudo-element), and the pixels could not either: it is not shown.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div > a",
+      "target": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div > a",
+      "html": "<a href=\"/prostate-cancer/screening/get-screened.html\" class=\"btn btn-outline-light\" tabindex=\"-1\">",
+      "message": "axe-core could not decide the contrast of \"Learn More\" (a pseudo-element), and the pixels could not either: it is not shown.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.4",
+      "level": "AA",
+      "ruleId": "rampa/resize-text",
+      "ref": "html > body > header:nth-of-type(3) > nav:nth-of-type(2)",
+      "target": "html > body > header:nth-of-type(3) > nav:nth-of-type(2)",
+      "message": "Text shown at 1280×1024 is hidden at 200% zoom (640×512 CSS px), and no other text on the page at that size has the same words. Check that it can still be reached at 200%, for example through a menu.",
+      "evidence": "at 1280×1024 shown; at 640×512 CSS px display: none (<nav> html > body > header:nth-of-type(3) > nav:nth-of-type(2)): 1 text box(es), such as \"Search\"; shown again back at 1280×1024"
+    },
+    {
+      "criterion": "1.4.4",
+      "level": "AA",
+      "ruleId": "rampa/resize-text",
+      "ref": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(1)",
+      "target": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(1)",
+      "message": "Text shown at 1280×1024 is hidden at 200% zoom (640×512 CSS px), and no other text on the page at that size has the same words. Check that it can still be reached at 200%, for example through a menu.",
+      "evidence": "at 1280×1024 shown; at 640×512 CSS px opacity 0 (<div> #hero-carousel > div:nth-of-type(1) > div:nth-of-type(1)): 2 text box(es), such as \"Ebola Situation Summary\", \"Learn More\"; shown again back at 1280×1024"
+    },
+    {
+      "criterion": "1.4.4",
+      "level": "AA",
+      "ruleId": "rampa/resize-text",
+      "ref": "#hero-carousel > div:nth-of-type(2) > div > span:nth-of-type(1)",
+      "target": "#hero-carousel > div:nth-of-type(2) > div > span:nth-of-type(1)",
+      "message": "Text shown at 1280×1024 is hidden at 200% zoom (640×512 CSS px), and no other text on the page at that size has the same words. Check that it can still be reached at 200%, for example through a menu.",
+      "evidence": "at 1280×1024 shown; at 640×512 CSS px display: none (<span> #hero-carousel > div:nth-of-type(2) > div > span:nth-of-type(1)): 1 text box(es), such as \"Ebola Situation Summary\"; shown again back at 1280×1024"
+    },
+    {
+      "criterion": "1.4.4",
+      "level": "AA",
+      "ruleId": "rampa/resize-text",
+      "ref": "#hero-carousel > div:nth-of-type(2) > div > span:nth-of-type(2)",
+      "target": "#hero-carousel > div:nth-of-type(2) > div > span:nth-of-type(2)",
+      "message": "Text shown at 1280×1024 is hidden at 200% zoom (640×512 CSS px), and no other text on the page at that size has the same words. Check that it can still be reached at 200%, for example through a menu.",
+      "evidence": "at 1280×1024 shown; at 640×512 CSS px display: none (<span> #hero-carousel > div:nth-of-type(2) > div > span:nth-of-type(2)): 1 text box(es), such as \"Screening for Prostate Cancer\"; shown again back at 1280×1024"
+    },
+    {
+      "criterion": "1.4.12",
+      "level": "AA",
+      "ruleId": "rampa/text-spacing",
+      "ref": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div > span",
+      "target": "#hero-carousel > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > div > span",
+      "message": "With text spacing raised as a user would, this text overlaps other text that it did not overlap before.",
+      "evidence": "<span> \"Screening for Prostate Cancer\" and <span> \"Signs of Meningococcal Disease\" overlap by 239×67 px with the spacing applied"
+    },
+    {
+      "criterion": "1.4.13",
+      "level": "AA",
+      "ruleId": "rampa/hover-content",
+      "ref": "html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2) > a",
+      "target": "html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2) > a",
+      "html": "<a data-bs-toggle=\"collapse\" href=\"#gov-notice\" role=\"button\" aria-expanded=\"true\" aria-controls=\"gov-notice\" class=\"\">\n\t\t\t\t\tHere's how you know\n\t\t\t\t\t<i class=\"cdc-fa-angle-down\" aria-hidden=\"true\"></i>\n\t\t\t\t</a>",
+      "message": "Content that appears on focus failed the persistent check in one of two tries. Check it by hand.",
+      "evidence": "on focus, <a> \"Here's how you know\" showed <div> \"Signs of Meningococcal Disease Learn More\" at x 0, y 37, 1280×578 px (position relative); 10 s later on the fake clock, with the pointer or focus still on the trigger, it was gone, in 1 of 1 tries"
+    },
+    {
+      "criterion": "2.4.1",
+      "level": "A",
+      "ruleId": "rampa/bypass-blocks",
+      "ref": "#skipmenu > a:nth-of-type(2)",
+      "target": "#skipmenu > a:nth-of-type(2)",
+      "html": "<a class=\"skippy visually-hidden-focusable\" href=\"#headerSearch\" tabindex=\"2\">Skip to search</a>",
+      "message": "This skip link points to #headerSearch, but nothing on the page has that id or anchor name: it goes nowhere.",
+      "evidence": "Tab ×2: focus on <a> \"Skip to search\""
+    },
+    {
+      "criterion": "2.4.1",
+      "level": "A",
+      "ruleId": "rampa/bypass-blocks",
+      "ref": "html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2) > a",
+      "target": "html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2) > a",
+      "html": "<a data-bs-toggle=\"collapse\" href=\"#gov-notice\" role=\"button\" aria-expanded=\"true\" aria-controls=\"gov-notice\" class=\"\">\n\t\t\t\t\tHere's how you know\n\t\t\t\t\t<i class=\"cdc-fa-angle-down\" aria-hidden=\"true\"></i>\n\t\t\t\t</a>",
+      "message": "Pressing Enter on this skip link did not move focus to #gov-notice: the next Tab went to <a> \"Español\", before it. Keyboard users cannot use it to pass the blocks before the content.",
+      "evidence": "Tab ×4: focus on <a> \"Here's how you know\"; after Enter, focus on the link; the next Tab went before the target (<a> \"Español\"); 1 element(s) between the link and #gov-notice"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "#healthTopicsDropdown",
+      "target": "#healthTopicsDropdown",
+      "html": "<a class=\"nav-link\" href=\"#\" id=\"healthTopicsDropdown\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">\n\t\t\t\t\t\tHealth Topics\t\t\t\t\t</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×7: 1963 of 26378 px changed, 392 by at least 3:1, 392 noticeably (mostly #1467b5 → #ffffff); 2548 px that move on their own left out in the 218×121 px around the element; a 1 px outline around its 153.6×56 px box would paint 419 px"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "#aboutCDCDropdown",
+      "target": "#aboutCDCDropdown",
+      "html": "<a class=\"nav-link\" href=\"#\" id=\"aboutCDCDropdown\" role=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">\n\t\t\t\t\t\tAbout CDC\t\t\t\t\t</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×9: 1806 of 23111 px changed, 355 by at least 3:1, 355 noticeably (mostly #0e70b0 → #ffffff); 1365 px that move on their own left out in the 191×121 px around the element; a 1 px outline around its 125.8×56 px box would paint 364 px"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "#navbarSupportedContent > ul > li:nth-of-type(4) > a",
+      "target": "#navbarSupportedContent > ul > li:nth-of-type(4) > a",
+      "html": "<a id=\"cdc-desktop-search-toggle\" class=\"nav-link\" href=\"#\" aria-controls=\"cdc-desktop-search-form\"><i class=\"cdc-fa-magnifying-glass me-2\"></i>\n\t\t\t\t\t\tSearch\t\t\t\t\t</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×10: 1747 of 21901 px changed, 336 by at least 3:1, 336 noticeably (mostly #0977aa → #ffffff); 1247 px that move on their own left out in the 181×121 px around the element; a 1 px outline around its 116.3×56 px box would paint 345 px"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "#contactUs-btn",
+      "target": "#contactUs-btn",
+      "html": "<a id=\"contactUs-btn\" class=\"cdc-footer__nav-link\" data-bs-toggle=\"collapse\" href=\"#contactUs\" role=\"button\" aria-expanded=\"false\" aria-controls=\"contactUs\">\n\t\t\t\t\tContact Us <span class=\"cdc-fa-angle-down\"></span>\n\t\t\t\t</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×68: 423 of 20482 px changed, 364 by at least 3:1, 389 noticeably (mostly #0b4778 → #ffffff) in the 209×98 px around the element; a 1 px outline around its 163.3×65 px box would paint 457 px"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "#aboutCDC-btn",
+      "target": "#aboutCDC-btn",
+      "html": "<a id=\"aboutCDC-btn\" class=\"cdc-footer__nav-link\" data-bs-toggle=\"collapse\" href=\"#aboutCDC\" role=\"button\" aria-expanded=\"false\" aria-controls=\"aboutCDC\">\n\t\t\t\t\tAbout CDC <span class=\"cdc-fa-angle-down\"></span>\n\t\t\t\t</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×69: 414 of 22344 px changed, 357 by at least 3:1, 380 noticeably (mostly #0b4778 → #ffffff); 539 px that move on their own left out in the 228×98 px around the element; a 1 px outline around its 163×65 px box would paint 456 px"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "#policies-btn",
+      "target": "#policies-btn",
+      "html": "<a id=\"policies-btn\" class=\"cdc-footer__nav-link\" data-bs-toggle=\"collapse\" href=\"#policies\" role=\"button\" aria-expanded=\"false\" aria-controls=\"policies\">\n\t\t\t\t\tPolicies <span class=\"cdc-fa-angle-down\"></span>\n\t\t\t\t</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×70: 833 of 19012 px changed, 305 by at least 3:1, 345 noticeably (mostly #0b4778 → #ffffff) in the 194×98 px around the element; a 1 px outline around its 129.3×65 px box would paint 389 px"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "#languages-btn",
+      "target": "#languages-btn",
+      "html": "<a id=\"languages-btn\" class=\"cdc-footer__nav-link\" data-bs-toggle=\"collapse\" href=\"#languages\" role=\"button\" aria-expanded=\"false\" aria-controls=\"languages\">\n\t\t\t\t\tLanguages <span class=\"cdc-fa-angle-down\"></span>\n\t\t\t\t</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×71: 956 of 22344 px changed, 355 by at least 3:1, 404 noticeably (mostly #0b4778 → #ffffff) in the 228×98 px around the element; a 1 px outline around its 164×65 px box would paint 458 px"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "#archive-btn",
+      "target": "#archive-btn",
+      "html": "<a id=\"archive-btn\" class=\"cdc-footer__nav-link\" data-bs-toggle=\"collapse\" href=\"#archive\" role=\"button\" aria-expanded=\"false\" aria-controls=\"archive\">\n\t\t\t\t\tArchive <span class=\"cdc-fa-angle-down\"></span>\n\t\t\t\t</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×72: 370 of 19110 px changed, 291 by at least 3:1, 333 noticeably (mostly #0b4778 → #ffffff); 445 px that move on their own left out in the 195×98 px around the element; a 1 px outline around its 129.5×65 px box would paint 389 px"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > a",
+      "target": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > a",
+      "html": "<a href=\"https://www.cdc.gov/\">\n\t\t\t\t<img src=\"/TemplatePackage/5.0/img/logo/cdc-logo-tag-right.svg\" alt=\"Centers for Disease Control and Prevention\">\n\t\t\t</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×73: 244 of 30794 px changed, 214 by at least 3:1, 226 noticeably (mostly #3d4551 → #ffffff) in the 346×89 px around the element; a 1 px outline around its 300×24 px box would paint 648 px"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "aria-prohibited-attr",
+      "ref": "#hero-carousel > div:nth-of-type(2) > div > span:nth-of-type(1)",
+      "target": "[\"span[data-bs-slide-to=\\\"0\\\"]\"]",
+      "html": "<span data-bs-target=\"#hero-carousel\" data-bs-slide-to=\"0\" class=\"\" aria-label=\"Ebola Situation Summary\" tabindex=\"0\">",
+      "message": "aria-label attribute is not well supported on \"span\" elements with no valid role attribute.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "aria-prohibited-attr",
+      "ref": "#hero-carousel > div:nth-of-type(2) > div > span:nth-of-type(2)",
+      "target": "[\"span[data-bs-slide-to=\\\"1\\\"]\"]",
+      "html": "<span data-bs-target=\"#hero-carousel\" data-bs-slide-to=\"1\" class=\"active\" aria-current=\"true\" aria-label=\"Screening for Prostate Cancer\" tabindex=\"0\">",
+      "message": "aria-label attribute is not well supported on \"span\" elements with no valid role attribute.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "aria-prohibited-attr",
+      "ref": "#hero-carousel > div:nth-of-type(2) > div > span:nth-of-type(3)",
+      "target": "[\"span[data-bs-slide-to=\\\"2\\\"]\"]",
+      "html": "<span data-bs-target=\"#hero-carousel\" data-bs-slide-to=\"2\" class=\"\" aria-current=\"true\" aria-label=\"Signs of Meningococcal Disease\" tabindex=\"0\">",
+      "message": "aria-label attribute is not well supported on \"span\" elements with no valid role attribute.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "duplicate-id-aria",
+      "ref": "#navbarSupportedContent > ul > li:nth-of-type(4) > a",
+      "target": "[\"#navbarSupportedContent > .navbar-nav.mb-2.mb-lg-0 > .nav-item:nth-child(4) > .nav-link[aria-controls=\\\"cdc-desktop-search-form\\\"][href=\\\"#\\\"]\"]",
+      "html": "<a id=\"cdc-desktop-search-toggle\" class=\"nav-link\" href=\"#\" aria-controls=\"cdc-desktop-search-form\"><i class=\"cdc-fa-magnifying-glass me-2\"></i>\n\t\t\t\t\t\tSearch\t\t\t\t\t</a>",
+      "message": "Document has multiple elements referenced with ARIA with the same id attribute: cdc-desktop-search-toggle",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/duplicate-id-aria?application=axeAPI"
+    }
+  ],
+  "usage": {
+    "calls": 12,
+    "cachedCalls": 31,
+    "inputTokens": 39079,
+    "outputTokens": 4078,
+    "latencyMs": 65421
+  },
+  "errors": [],
+  "notes": [
+    "1 image(s) were left without a capture, so no judgment looked at them: 1 outside the page (an off-canvas menu). The snapshot says why for each (native.imageSkipped).",
+    "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+  ]
+}

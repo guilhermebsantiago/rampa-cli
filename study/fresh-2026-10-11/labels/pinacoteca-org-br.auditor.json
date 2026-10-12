@@ -1,0 +1,60 @@
+{
+  "page": "https://pinacoteca.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "5271a6389592",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the header logo, an image of the text \"PINACOTECA DE SÃO PAULO\" (I checked the crop and the screenshot) with alt=\"Pinacoteca\", inside the home link that also has a visually hidden \"Ir para a página inicial\". The alt names exactly the institution the image shows: \"Pinacoteca\" is its common name and also the page's h1. So the claim that the alt describes something the image does not show is wrong. At most the alt is a shortened form of the logotype, which is acceptable for a logo in a link. The live page has the same markup."
+    },
+    {
+      "fingerprint": "ee7607bd2053",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Nome*\" text input in the \"Fale conosco\" contact form. It collects the user's own name, which is an input purpose listed in WCAG 7, but it has no autocomplete attribute and neither does the form. The live HTML has no autocomplete anywhere on the page. Its purpose is therefore not programmatically determinable, so it fails 1.3.5 as reported."
+    },
+    {
+      "fingerprint": "bad5c8c25204",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the contact form's e-mail field (type=email, label \"Email*\"). It collects the user's own e-mail address but has no autocomplete=\"email\", in the snapshot or on the live page. type=email alone does not meet H98 for identifying the input purpose. It fails 1.3.5."
+    },
+    {
+      "fingerprint": "13cb282fd79d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the contact form's \"Telefone\" field (type=tel). It asks for the user's own phone number, an input purpose WCAG lists, but it has no autocomplete=\"tel\". type=tel does not identify the field as the user's telephone in the way 1.3.5 requires (H98). The field is still missing the attribute on the live page, so it fails 1.3.5."
+    },
+    {
+      "fingerprint": "6982a269f459",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the newsletter sign-up e-mail input (#newsletter-email, label \"Email*\"). It collects the user's own e-mail address and has no autocomplete attribute, in the snapshot or on the live page. The input purpose is not programmatically determined, so it fails 1.3.5."
+    },
+    {
+      "fingerprint": "92e86e45ee76",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the footer credit link to Hous360, the site's developer. Its only visible content is an SVG of the Hous logotype, with fill #575d73 inside a group set to opacity=\"0.5\", so it renders about #abaeb9 on white. I computed 2.21:1, so the measurement is right, and the crop shows a faint grey logo. Logos and logotypes fall under 1.4.11's essential exception, and the Understanding document says that exemption normatively carries over to a control whose only content is a logo. But the same document says a logo that normally has enough contrast loses the exemption when an author chooses to show it with low contrast. Here #575d73 at full opacity would be about 6.5:1, and the 50% fade is hard-coded in the theme, but I cannot tell whether it comes from Hous360's brand guidelines. Competent auditors would reasonably split on this. The finding also calls the logo an \"icon\" (G207), which understates the logo question."
+    },
+    {
+      "fingerprint": "86a15474b521",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Visita\" is a top-level main-menu dropdown toggle (href=\"#\", data-bs-toggle=\"dropdown\", aria-haspopup, aria-expanded=false; the accessibility tree reports hasPopup=menu). It opens a submenu: Ingresso, Como chegar, Planeje sua visita, Grupos agendados, Acessibilidade. Its purpose, opening the \"Visita\" section menu, is clear from its text together with its programmatically determined context (the menu list item and its popup state). The packet gave the model that context, so 2.4.4 is met. The suggested text \"Visite a Pina Educação\" is also wrong. If anything is at issue, it is that a dropdown toggle is exposed as a link rather than a button (4.1.2), not link purpose."
+    },
+    {
+      "fingerprint": "b6efb42597b7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Pina\" is a top-level main-menu dropdown toggle (href=\"#\", data-bs-toggle=\"dropdown\", aria-haspopup, aria-expanded=false). It opens the section about the museum: O museu, Acervo, Biblioteca, Conservação e Restauro, Apoie, Gestão and more. \"Pina\" is the museum's own short name and is used throughout the page (\"Pina nas redes sociais\", \"ingressos da Pina\"). With its menu context, the purpose of opening the Pina section is determinable, so 2.4.4 is met. The suggested \"Pina Educação\" would mislabel it, since Educação is a separate menu."
+    },
+    {
+      "fingerprint": "2dc9d1d76a1a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer logo link to https://www.cultura.sp.gov.br/. Its only content is an image of the São Paulo state government crest (\"Governo do Estado de São Paulo, Secretaria da Cultura\"), which has alt=\"\", and the link has no aria-label, title or other text. The accessibility tree shows a link with no name, and the live page has the same markup. A screen reader announces only \"link\", so the link fails 4.1.2 (and 2.4.4 and 1.1.1 by F89). The sibling logo links in that row have the same problem."
+    }
+  ]
+}

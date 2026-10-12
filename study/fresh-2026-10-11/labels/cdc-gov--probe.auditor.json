@@ -1,0 +1,96 @@
+{
+  "page": "https://www.cdc.gov/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "75ab34d1fd5d",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Here's how you know' toggle (a role=button). The link is in the gov banner: 12px Poppins weight 300 text on white. On the live page (2026-10-11, headless Edge, 1280x800) the computed color is #005ea2 at rest and #007a99 on hover, with no opacity, filter or background change. Background is #ffffff. #007a99 on #ffffff is 4.95:1, which passes the 4.5:1 that 1.4.3 asks. The 3.71:1 / 4.01:1 come from the darkest rendered pixel of thin, anti-aliased text (#59a8bd / #67b0c2). Even the rest state renders lighter than its color: the darkest pixel I got was 5.08:1 against a specified 6.73:1. The 1.4.3 Understanding note says to use the colors from the markup and style sheets, not the text as shown on screen, and that anti-aliasing is to be ignored. The rule had the specified hover color in its own evidence but judged rendered pixels, a different test from the one the criterion sets. Thin 12px light text is a readability concern, but it is not a 1.4.3 failure."
+    },
+    {
+      "fingerprint": "e15ea679c5fc",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Español' link. The link is in the gov banner: 12px Poppins weight 300 text on white. On the live page (2026-10-11, headless Edge, 1280x800) the computed color is #005ea2 at rest and #007a99 on hover, with no opacity, filter or background change. Background is #ffffff. #007a99 on #ffffff is 4.95:1, which passes the 4.5:1 that 1.4.3 asks. The 3.71:1 / 4.01:1 come from the darkest rendered pixel of thin, anti-aliased text (#59a8bd / #67b0c2). Even the rest state renders lighter than its color: the darkest pixel I got was 5.08:1 against a specified 6.73:1. The 1.4.3 Understanding note says to use the colors from the markup and style sheets, not the text as shown on screen, and that anti-aliasing is to be ignored. The rule had the specified hover color in its own evidence but judged rendered pixels, a different test from the one the criterion sets. Thin 12px light text is a readability concern, but it is not a 1.4.3 failure."
+    },
+    {
+      "fingerprint": "8a31d62ef6ed",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Footer CDC logo link (img alt 'Centers for Disease Control and Prevention'). On the live page at 320x256 the <a> box is 336px wide only because the img has an 18px right margin (and 18px right padding). The image itself spans x 18-318 inside the 320px footer, which has overflow-x: hidden. A screenshot at 320px shows the whole logo, with 'U.S. CENTERS FOR DISEASE CONTROL AND PREVENTION' complete. The 16px that is 'cut' is empty margin past the image, not text or content, so nothing is lost and there is no 1.4.10 failure. The probe measured the inline link box rather than its visible content."
+    },
+    {
+      "fingerprint": "70601d6a47e5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z letter link 'A' (65x65 tile, transparent background on the white section). On the live page, keyboard focus (:focus-visible) applies 'main a:focus-visible' from hp-2024.min.css: outline-color transparent and box-shadow 0 0 0 3px rgba(0,95,163,.5). That gives a ring of about #7fafd1 outside the tile. Nothing else changes: text color, background and decoration stay the same. The ring is adjacent to white on both sides: the page outside and the tile's transparent background inside. #7fafd1 vs #ffffff is 2.35:1. The 1.4.11 Understanding says an indicator outside the component must contrast 3:1 with the background, and Figure 43 fails a 2.3:1 grey ring on white. This is an author style, not the user agent default, so it is not exempt. It is the only focus indication, and it is under 3:1, so this is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "397bd71e5d47",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z letter link 'B' (65x65 tile, transparent background on the white section). On the live page, keyboard focus (:focus-visible) applies 'main a:focus-visible' from hp-2024.min.css: outline-color transparent and box-shadow 0 0 0 3px rgba(0,95,163,.5). That gives a ring of about #7fafd1 outside the tile. Nothing else changes: text color, background and decoration stay the same. The ring is adjacent to white on both sides: the page outside and the tile's transparent background inside. #7fafd1 vs #ffffff is 2.35:1. The 1.4.11 Understanding says an indicator outside the component must contrast 3:1 with the background, and Figure 43 fails a 2.3:1 grey ring on white. This is an author style, not the user agent default, so it is not exempt. It is the only focus indication, and it is under 3:1, so this is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "e25bfcb6d97b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z letter link 'C' (65x65 tile, transparent background on the white section). On the live page, keyboard focus (:focus-visible) applies 'main a:focus-visible' from hp-2024.min.css: outline-color transparent and box-shadow 0 0 0 3px rgba(0,95,163,.5). That gives a ring of about #7fafd1 outside the tile. Nothing else changes: text color, background and decoration stay the same. The ring is adjacent to white on both sides: the page outside and the tile's transparent background inside. #7fafd1 vs #ffffff is 2.35:1. The 1.4.11 Understanding says an indicator outside the component must contrast 3:1 with the background, and Figure 43 fails a 2.3:1 grey ring on white. This is an author style, not the user agent default, so it is not exempt. It is the only focus indication, and it is under 3:1, so this is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "ffd098256391",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z letter link 'D' (65x65 tile, transparent background on the white section). On the live page, keyboard focus (:focus-visible) applies 'main a:focus-visible' from hp-2024.min.css: outline-color transparent and box-shadow 0 0 0 3px rgba(0,95,163,.5). That gives a ring of about #7fafd1 outside the tile. Nothing else changes: text color, background and decoration stay the same. The ring is adjacent to white on both sides: the page outside and the tile's transparent background inside. #7fafd1 vs #ffffff is 2.35:1. The 1.4.11 Understanding says an indicator outside the component must contrast 3:1 with the background, and Figure 43 fails a 2.3:1 grey ring on white. This is an author style, not the user agent default, so it is not exempt. It is the only focus indication, and it is under 3:1, so this is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "c90705b8ea17",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z letter link 'E' (65x65 tile, transparent background on the white section). On the live page, keyboard focus (:focus-visible) applies 'main a:focus-visible' from hp-2024.min.css: outline-color transparent and box-shadow 0 0 0 3px rgba(0,95,163,.5). That gives a ring of about #7fafd1 outside the tile. Nothing else changes: text color, background and decoration stay the same. The ring is adjacent to white on both sides: the page outside and the tile's transparent background inside. #7fafd1 vs #ffffff is 2.35:1. The 1.4.11 Understanding says an indicator outside the component must contrast 3:1 with the background, and Figure 43 fails a 2.3:1 grey ring on white. This is an author style, not the user agent default, so it is not exempt. It is the only focus indication, and it is under 3:1, so this is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "f28485b49ab4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z letter link 'F' (65x65 tile, transparent background on the white section). On the live page, keyboard focus (:focus-visible) applies 'main a:focus-visible' from hp-2024.min.css: outline-color transparent and box-shadow 0 0 0 3px rgba(0,95,163,.5). That gives a ring of about #7fafd1 outside the tile. Nothing else changes: text color, background and decoration stay the same. The ring is adjacent to white on both sides: the page outside and the tile's transparent background inside. #7fafd1 vs #ffffff is 2.35:1. The 1.4.11 Understanding says an indicator outside the component must contrast 3:1 with the background, and Figure 43 fails a 2.3:1 grey ring on white. This is an author style, not the user agent default, so it is not exempt. It is the only focus indication, and it is under 3:1, so this is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "942e8a6fb329",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z letter link 'G' (65x65 tile, transparent background on the white section). On the live page, keyboard focus (:focus-visible) applies 'main a:focus-visible' from hp-2024.min.css: outline-color transparent and box-shadow 0 0 0 3px rgba(0,95,163,.5). That gives a ring of about #7fafd1 outside the tile. Nothing else changes: text color, background and decoration stay the same. The ring is adjacent to white on both sides: the page outside and the tile's transparent background inside. #7fafd1 vs #ffffff is 2.35:1. The 1.4.11 Understanding says an indicator outside the component must contrast 3:1 with the background, and Figure 43 fails a 2.3:1 grey ring on white. This is an author style, not the user agent default, so it is not exempt. It is the only focus indication, and it is under 3:1, so this is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "cc4d6d6c78cc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z letter link 'H' (65x65 tile, transparent background on the white section). On the live page, keyboard focus (:focus-visible) applies 'main a:focus-visible' from hp-2024.min.css: outline-color transparent and box-shadow 0 0 0 3px rgba(0,95,163,.5). That gives a ring of about #7fafd1 outside the tile. Nothing else changes: text color, background and decoration stay the same. The ring is adjacent to white on both sides: the page outside and the tile's transparent background inside. #7fafd1 vs #ffffff is 2.35:1. The 1.4.11 Understanding says an indicator outside the component must contrast 3:1 with the background, and Figure 43 fails a 2.3:1 grey ring on white. This is an author style, not the user agent default, so it is not exempt. It is the only focus indication, and it is under 3:1, so this is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "f795d0fc8846",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z letter link 'I' (65x65 tile, transparent background on the white section). On the live page, keyboard focus (:focus-visible) applies 'main a:focus-visible' from hp-2024.min.css: outline-color transparent and box-shadow 0 0 0 3px rgba(0,95,163,.5). That gives a ring of about #7fafd1 outside the tile. Nothing else changes: text color, background and decoration stay the same. The ring is adjacent to white on both sides: the page outside and the tile's transparent background inside. #7fafd1 vs #ffffff is 2.35:1. The 1.4.11 Understanding says an indicator outside the component must contrast 3:1 with the background, and Figure 43 fails a 2.3:1 grey ring on white. This is an author style, not the user agent default, so it is not exempt. It is the only focus indication, and it is under 3:1, so this is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "489e8a403332",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z letter link 'J' (65x65 tile, transparent background on the white section). On the live page, keyboard focus (:focus-visible) applies 'main a:focus-visible' from hp-2024.min.css: outline-color transparent and box-shadow 0 0 0 3px rgba(0,95,163,.5). That gives a ring of about #7fafd1 outside the tile. Nothing else changes: text color, background and decoration stay the same. The ring is adjacent to white on both sides: the page outside and the tile's transparent background inside. #7fafd1 vs #ffffff is 2.35:1. The 1.4.11 Understanding says an indicator outside the component must contrast 3:1 with the background, and Figure 43 fails a 2.3:1 grey ring on white. This is an author style, not the user agent default, so it is not exempt. It is the only focus indication, and it is under 3:1, so this is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "4472f3536d38",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Featured Topics button 'Food Safety Tips for Dining Out' (47px tall). I replayed the backward walk on the live page at 1280x800: focus the last element, then Shift+Tab. Shift+Tab #54 puts focus on it, and the browser scrolls it to y = -0.3..46.7. The body > nav header is position: fixed, 0-74px. All 25 elementFromPoint grid points over the button hit the nav, and the viewport screenshot shows no part of the button. html has no scroll-padding-top. The focused component is entirely hidden by author-created sticky content. That is the documented failure F110 of 2.4.11 Focus Not Obscured (Minimum), as the finding says."
+    },
+    {
+      "fingerprint": "0b1fa8e1a762",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Featured Topics button 'H5 Bird Flu: Current Situation' (47px tall). I replayed the backward walk on the live page at 1280x800: focus the last element, then Shift+Tab. Shift+Tab #55 puts focus on it, and the browser scrolls it to y = -0.3..46.7. The body > nav header is position: fixed, 0-74px. All 25 elementFromPoint grid points over the button hit the nav, and the viewport screenshot shows no part of the button. html has no scroll-padding-top. The focused component is entirely hidden by author-created sticky content. That is the documented failure F110 of 2.4.11 Focus Not Obscured (Minimum), as the finding says."
+    }
+  ]
+}

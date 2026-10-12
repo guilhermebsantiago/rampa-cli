@@ -1,0 +1,66 @@
+{
+  "page": "https://chicorei.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "d66868d67ce4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the installment price line \"4x R$ 22,48\" (p.text-default-3) on the \"Camiseta Infantil Fazendo Arte\" card in the Novidades carousel. I looked for a reason it might pass and found none. The live base-critical CSS sets .text-default-3 to color: var(--color-default-text-3) !important, and that variable is #818181. The snapshot says the foreground came from CSS, and the card background is plain white, as the screenshot shows. #818181 on #ffffff is 3.90:1. The text is 16px at weight 400, so it is not large text, and price information is not incidental. The 'partially obscured' note only explains why axe could not decide (the card is cut off at the carousel's edge). Once the carousel scrolls it into view, the colours are the same, so it fails 1.4.3."
+    },
+    {
+      "fingerprint": "cfa790a37693",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the same \"4x R$ 22,48\" installment line, on the \"Camiseta Infantil Mais Energia\" card, which sits off-screen to the right in the Novidades carousel. The pixel measurement of an off-screen card is not what decides this: the colour comes from CSS (.text-default-3 is #818181 !important in the live stylesheet) and the card background is white, the same as on the visible cards. That gives 3.90:1 for 16px text at weight 400, below 4.5:1. When the carousel arrow brings the card into view, it is the same failure of 1.4.3."
+    },
+    {
+      "fingerprint": "a356eb88d102",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the installment line \"4x R$ 9,98\" on the \"Camiseta Deus Me Proteja\" card, partly visible at the right edge of the \"Voce vai curtir\" carousel. It uses the same .text-default-3 class: #818181 from CSS (confirmed in the live stylesheet) on the card's white background, 3.90:1 for 16px text at weight 400. The screenshot shows the same grey text on white on every card in this row. Nothing (large text, incidental text, a decorative role) exempts it, so it fails 1.4.3."
+    },
+    {
+      "fingerprint": "fad4fceb7e20",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the hero banner link to /promo/. Its name comes from title and img alt \"Promo 10 de 10\", the name of the current sale campaign (the banner reads \"Promo 10 de 10 - todas as camisetas da oferta por R$ 39,90\"). The destination's title tag is generic (\"Camisetas em Promocao\"), but the live /promo/ page is that campaign's page: its own banner data says \"Promo 10 de 10: Todas as Camisetas da Oferta por R$ 39,90\". The link names the promotion and leads to the promotion, so its purpose is clear and 2.4.4 passes. The bare alt text may be worth a 1.1.1 review, but that is a different criterion."
+    },
+    {
+      "fingerprint": "0345232dbae1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a product card link named \"Nova Camiseta Infantil Fazendo Arte R$ 89,90 4x R$ 22,48\" (with image alt text). It goes to /camiseta/camiseta-infantil-fazendo-arte-402003.html. That page's title tag says \"Camiseta Infantil Show da Luna\", but this is a metadata slip on the destination: its meta description (which was in the packet), product schema and tracking data all say \"Camiseta Infantil Fazendo Arte\", as I confirmed on the live page. The link text correctly names the product page it opens, so 2.4.4 passes. The wrong title, if anything, is a 2.4.2 problem on the product page."
+    },
+    {
+      "fingerprint": "64cd2f4640c6",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is an icon link with aria-label and title \"Prosa\", in the footer's \"REDES SOCIAIS\" group next to Instagram, Twitter, Facebook, TikTok, Pinterest, YouTube and Spotify, all labelled by their channel name. Rampa never read the destination. On the live site, /prosa is Chico Rei's own content channel, titled \"Prosa - Chico Rei\" (\"Um dedo de prosa e um bocado de ideias\"). The link names the channel it leads to, exactly as the sibling social links do, and the suggested \"Pagina da Prosa\" adds nothing. Its purpose is as clear as \"TikTok\", so this is not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "9c3a40e4c66d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the h2 \"Novidades!\" (\"New arrivals!\") over a carousel of newly released products, each marked \"Nova\", with a \"Ver todas\" link beside it. On a shop's home page, \"Novidades\" exactly describes what the section is: the new products. 2.4.6 asks that a heading describe the topic or purpose, not that it list the product category, so the suggested \"Novidades em Camisetas Infantis\" is stricter than the criterion. It passes."
+    },
+    {
+      "fingerprint": "74ea7ed78d08",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the h2 \"Voce vai curtir :)\" (\"You'll like it\") over a carousel of recommended T-shirts. It is the familiar shop convention, like \"You may also like\", and tells the user the purpose of the section: products recommended for them. 2.4.6 asks that a heading describe the topic or purpose, and this one does. A plainer wording would be nicer, but that is style, not a failure. The hidden mobile variant \"Ce vai curtir:\" is display:none and does not enter the computed name (the browser name is just \"VOCE VAI CURTIR :)\"), so there is no naming problem either."
+    },
+    {
+      "fingerprint": "94cbb01096bc",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the h3 product title \"Camiseta Cambiar La Realidad\". \"Cambiar La Realidad\" is the name of the product (a T-shirt design that quotes Galeano), used as a proper name inside the Portuguese naming pattern \"Camiseta X\". 3.1.2 explicitly exempts proper names, so a brand or product name does not need a lang attribute. Flagging it applies a stricter rule than WCAG requires."
+    },
+    {
+      "fingerprint": "cbcb137b347e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the header account/login control #button-open-login: an <a> with no href, whose only content is an icon-font <i>, and no aria-label, title or text. The live HTML is unchanged. The snapshot's CDP accessibility data exposes it as role link (Chrome treats a clickable anchor as a link), and the computed name is empty, so a screen reader announces just \"link\". Even if it were exposed as generic, it would be a script-driven control with no name, which still fails 4.1.2. No technique on the page supplies a name, so the claim holds."
+    }
+  ]
+}

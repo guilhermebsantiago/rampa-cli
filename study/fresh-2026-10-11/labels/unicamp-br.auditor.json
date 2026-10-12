@@ -1,0 +1,60 @@
+{
+  "page": "https://www.unicamp.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "a5962cfd9c34",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header's 60-years seal (an SVG reading '60 anos') is the only content of a link to https://60anos.unicamp.br/ (titled 'Home - Unicamp 60 Anos'), and it opens in a new tab. Its alt is 'Selo comemorativo', so the link is announced as 'Selo comemorativo'. That doesn't give the text in the image ('60 anos') or the link's purpose (the site for Unicamp's 60th anniversary), and nothing in the link's programmatic context supplies it. Under H30/F89, a functional image must give the link's purpose, so this is a real 1.1.1 failure (and a 2.4.4 one). The live page still has the same markup."
+    },
+    {
+      "fingerprint": "6cbd1d19652c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the background image of the 'Diretorias Executivas' cover card (Placa-perri-DSC_0197.jpg). The crop the model saw shows the campus entrance with flowers and the Unicamp sign, so 'Imagem do campus' is generic but accurate. The finding says the alt describes something the image does not show, and that is wrong. At most the image could be treated as decorative, but that is not what the finding claims."
+    },
+    {
+      "fingerprint": "ffe4f75f0d3e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the cover-block background behind the grid of eight navigation links (Ingresso, Graduação, etc.). Its alt is a reused news caption: 'Placas de QR Code estão sendo afixadas nas árvores... Foto: Antonio Scarpinetti'. I opened the original image (man-po_arvores-unicamp_20220615_capa.jpg) and the screenshot. They show students walking along a tree-lined campus path, with no QR-code plates being put on trees. So the text alternative states content the image doesn't show and is not an equivalent, which fails 1.1.1 as the finding says. As a background behind links, the image is really decorative, so the proper fix is alt=\"\". The suggested patch, which describes the button grid, is wrong, but that doesn't change the label."
+    },
+    {
+      "fingerprint": "8248dc004099",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the cover image of Jornal da Unicamp edition 751 in the newspaper block. The crop shows exactly that: the masthead, 'ED. 751', and Orides Fontela on the cover. So 'Capa da edição 751' correctly identifies what the image shows, and the link 'Acesse a íntegra da edição 751' sits right next to it. The claim that the alt describes something the image does not show is false. Someone could argue the cover's headlines deserve a fuller alt, but the finding doesn't say that."
+    },
+    {
+      "fingerprint": "997f7fa2786f",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This banner image is the only content of a link to https://www.unicamp.br/novasaude/, a page titled 'Nova Saúde - Portal Unicamp' with H1 'Nova Saúde'. Its alt is 'Imagem aérea da área da saúde com o selo Nova Saúde Unicamp', which names the Nova Saúde Unicamp program the link goes to, so the link's purpose can be worked out from its accessible name. The wording leans toward describing the picture instead of the function, but the claim that it doesn't say where the link leads is not borne out. This is not a 1.1.1 or 2.4.4 failure."
+    },
+    {
+      "fingerprint": "1abfa8851e75",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the newsletter e-mail field in the footer. It has no visible label: the placeholder 'E-mail' is the only on-screen text that tells users what to enter. I measured the screenshot pixels: the darkest placeholder glyph pixel is about #b8b7b7 on #ffffff, about 2.0:1, which matches Rampa's 2.02:1 and is far below the 4.5:1 that 14px/400 text needs. Placeholder text is text that carries information, so this fails 1.4.3. The live markup is unchanged."
+    },
+    {
+      "fingerprint": "2d908c8b83e0",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the red 'Conteúdo digital' button-link to https://jornal.unicamp.br/noticias/. On screen it sits under the large 'Jornal da Unicamp' masthead and pairs with 'Conteúdo do impresso', so sighted users understand it as 'the Jornal's digital content'. The finding is wrong that nothing visible around it gives that context. In code, though, the masthead is a linked image with alt=\"\". The nearest preceding heading is 'Conheça a Unicamp', and the link isn't in a sentence, list item or cell that names the Jornal. So under a strict reading of programmatically determined link context it could fail, while a pragmatic auditor would accept 'Conteúdo digital' in this block. The clearer failure is the masthead link with no accessible name. Competent auditors would disagree on this one."
+    },
+    {
+      "fingerprint": "a7d8ab2fa5c1",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "This is the lead news card in 'Notícias Institucionais'. In the live HTML, the <a> wraps the photo (long descriptive alt), the title 'HC celebra 41 anos e homenageia quem construiu sua história' and the excerpt. The link text therefore includes the headline, which exactly matches the destination's title and H1. The finding quotes only the first 300 characters of the alt, which is how the snapshot's AX name is cut off (the cut falls exactly at 300 characters). Rampa's own name field shows the headline. The long alt adds noise, but the link's purpose is clear from its text, so this does not fail 2.4.4."
+    },
+    {
+      "fingerprint": "fabe9c11f7b9",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the Google CSE search box in the header, in a 'search-compressed' container. When collapsed, the input is transparent (opacity 0, per the theme CSS) and is drawn as a magnifying-glass icon (the CSS ::before on .gsib_a), which the screenshot shows at the field's position. Clicking it expands the field and shows the visible label 'Buscar no site'. The Understanding document for 3.3.2 explicitly accepts a magnifying-glass icon as the visible label of a search field, so the claim that nothing on screen says what to enter is wrong. The icon is a CSS pseudo-element and doesn't appear in the snapshot the model judged. Separately, the field doesn't expand on keyboard focus and its outline is removed, which raises a possible 2.4.7 issue, not 3.3.2."
+    }
+  ]
+}

@@ -1,0 +1,454 @@
+{
+  "page": "https://www12.senado.leg.br/institucional/falecomosenado",
+  "slug": "senado-leg-br-falecomosenado",
+  "run": "probe",
+  "title": "Contatos do Senado :: falecomosenado — Portal Institucional do Senado Federal",
+  "language": "pt-br",
+  "snapshot": "pages/senado-leg-br-falecomosenado/probe-recording/www12-senado-leg-br-institucional-falecomosenado.snapshot.json",
+  "screenshot": "pages/senado-leg-br-falecomosenado/probe-screenshot.png",
+  "collectedAt": "2026-10-11T21:35:35.700Z",
+  "findings": [
+    {
+      "key": "91ace23a192b",
+      "fingerprint": "91ace23a192b",
+      "criterion": "1.4.3",
+      "source": "probe",
+      "ruleId": "rampa/state-text-contrast",
+      "message": "When the pointer is over this control (hover), its text has a contrast of 4.37:1 at best with what is behind it, under the 4.5:1 WCAG 1.4.3 asks. Text must keep its contrast in every state a person puts it in; change the hover colors.",
+      "evidence": "hover: <a> \"Fale com o Senado\"; changed: color #ffffff → #cccccc, -webkit-text-fill-color #ffffff → #cccccc; #cccccc on #005b9e: 4.37:1 at best, 4.37:1 at worst · 16px, 400",
+      "subject": null,
+      "patch": null,
+      "confidence": "high",
+      "html": "<a class=\"link link-deep fale-com-o-senado\" href=\"http://www12.senado.gov.br/institucional/falecomosenado\">Fale com o Senado</a>",
+      "probeRecords": [
+        {
+          "kind": "orientation",
+          "conditions": {
+            "viewport": {
+              "width": 800,
+              "height": 1280
+            },
+            "deviceScaleFactor": 1,
+            "browser": "chromium 155.0.4283.45 (headless)",
+            "variant": "orientation"
+          },
+          "itemsNamingTheElement": [
+            {
+              "path": ".data.loads[2].states[1].only[0]",
+              "item": {
+                "ref": "#header-institucional > div:nth-of-type(1) > nav > div:nth-of-type(3) > div > a",
+                "id": {
+                  "tag": "a",
+                  "sig": "a|||||http://www12.senado.gov.br/institucional/falecomosenado"
+                },
+                "tag": "a",
+                "label": "Fale com o Senado",
+                "text": "Fale com o Senado",
+                "chars": 17
+              }
+            },
+            {
+              "path": ".data.loads[3].states[0].only[0]",
+              "item": {
+                "ref": "#header-institucional > div:nth-of-type(1) > nav > div:nth-of-type(3) > div > a",
+                "id": {
+                  "tag": "a",
+                  "sig": "a|||||http://www12.senado.gov.br/institucional/falecomosenado"
+                },
+                "tag": "a",
+                "label": "Fale com o Senado",
+                "text": "Fale com o Senado",
+                "chars": 17
+              }
+            }
+          ]
+        },
+        {
+          "kind": "states",
+          "conditions": {
+            "viewport": {
+              "width": 1280,
+              "height": 800
+            },
+            "deviceScaleFactor": 1,
+            "browser": "chromium 155.0.4283.45 (headless)",
+            "variant": "state-contrast"
+          },
+          "itemsNamingTheElement": [
+            {
+              "path": ".data.hover[1]",
+              "item": {
+                "el": {
+                  "ref": "#header-institucional > div:nth-of-type(1) > nav > div:nth-of-type(3) > div > a",
+                  "id": {
+                    "tag": "a",
+                    "sig": "a|||||http://www12.senado.gov.br/institucional/falecomosenado"
+                  },
+                  "tag": "a",
+                  "role": "link",
+                  "label": "Fale com o Senado"
+                },
+                "text": "#header-institucional > div:nth-of-type(1) > nav > div:nth-of-type(3) > div > a",
+                "state": "hover",
+                "alike": 1,
+                "changed": [
+                  {
+                    "prop": "color",
+                    "rest": "#ffffff",
+                    "now": "#cccccc"
+                  },
+                  {
+                    "prop": "-webkit-text-fill-color",
+                    "rest": "#ffffff",
+                    "now": "#cccccc"
+                  }
+                ],
+                "measure": {
+                  "kind": "text",
+                  "status": "measured",
+                  "fontSize": 16,
+                  "fontWeight": 400,
+                  "foreground": "#cccccc",
+                  "foregroundFrom": "css",
+                  "background": {
+                    "common": "#005b9e",
+                    "worst": "#005b9e",
+                    "best": "#005b9e"
+                  },
+                  "highest": 4.373,
+                  "lowest": 4.373,
+                  "pixels": 646,
+                  "stroke": 3
+                }
+              }
+            },
+            {
+              "path": ".data.focus[1]",
+              "item": {
+                "el": {
+                  "ref": "#header-institucional > div:nth-of-type(1) > nav > div:nth-of-type(3) > div > a",
+                  "id": {
+                    "tag": "a",
+                    "sig": "a|||||http://www12.senado.gov.br/institucional/falecomosenado"
+                  },
+                  "tag": "a",
+                  "role": "link",
+                  "label": "Fale com o Senado"
+                },
+                "text": "#header-institucional > div:nth-of-type(1) > nav > div:nth-of-type(3) > div > a",
+                "state": "focus",
+                "alike": 1,
+                "changed": []
+              }
+            }
+          ]
+        }
+      ],
+      "element": {
+        "ref": "#header-institucional > div:nth-of-type(1) > nav > div:nth-of-type(3) > div > a",
+        "role": "link",
+        "name": "Fale com o Senado",
+        "browserName": null,
+        "text": "Fale com o Senado",
+        "states": [
+          "focusable"
+        ],
+        "bounds": {
+          "x": 1074.4,
+          "y": 18,
+          "width": 141.6,
+          "height": 24
+        },
+        "tag": "a",
+        "attributes": {
+          "class": "link link-deep fale-com-o-senado",
+          "href": "http://www12.senado.gov.br/institucional/falecomosenado"
+        },
+        "html": "<a class=\"link link-deep fale-com-o-senado\" href=\"http://www12.senado.gov.br/institucional/falecomosenado\">Fale com o Senado</a>",
+        "readingText": null,
+        "imageSkipped": null,
+        "contentText": "Fale com o Senado"
+      },
+      "ancestors": [
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "[img: Acessibilidade] [img: Libras] [img: Aumentar zoom] [img: Diminuir zoom] Fale com o Senado"
+        },
+        {
+          "role": "navigation",
+          "tag": "nav",
+          "name": null,
+          "text": "Menu [img: Title] [img: Acessibilidade] [img: Libras] [img: Aumentar zoom] [img: Diminuir zoom] Fale com o Senado"
+        },
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "Menu [img: Title] [img: Acessibilidade] [img: Libras] [img: Aumentar zoom] [img: Diminuir zoom] Fale com o Senado MENU Institucional Institucional Sobre o Senado Sobre o Senado Atribuições Composição Estrutura Organizacional Funcionamento História Manuais e Guias Responsabilidade Social Visite o Se…"
+        }
+      ],
+      "headingsNear": {
+        "before": [],
+        "after": [
+          {
+            "tag": "h1",
+            "text": "InstitucionalFale com o Senado",
+            "ref": "#content-header > div:nth-of-type(2) > div > div:nth-of-type(1) > div > h1"
+          }
+        ]
+      },
+      "link": {
+        "ref": "#header-institucional > div:nth-of-type(1) > nav > div:nth-of-type(3) > div > a",
+        "name": "Fale com o Senado",
+        "href": "http://www12.senado.gov.br/institucional/falecomosenado",
+        "title": null
+      },
+      "destination": "not read by Rampa"
+    },
+    {
+      "key": "e8a108f18197",
+      "fingerprint": "e8a108f18197",
+      "criterion": "1.4.3",
+      "source": "probe",
+      "ruleId": "rampa/state-text-contrast",
+      "message": "When the pointer is over this control (hover), its text has a contrast of 3.34:1 at best with what is behind it, under the 4.5:1 WCAG 1.4.3 asks. Text must keep its contrast in every state a person puts it in; change the hover colors.",
+      "evidence": "hover: <a> \"Sobre o Senado\" (and 5 alike control(s)); changed: color #ffffff → #dddddd, -webkit-text-fill-color #ffffff → #dddddd; #dddddd on #007db8: 3.34:1 at best, 3.34:1 at worst · 16px, 400",
+      "subject": null,
+      "patch": null,
+      "confidence": "high",
+      "html": "<a class=\"link link--nav dropdown-toggle\" id=\"js-menu-0\" data-toggle=\"dropdown.se\" aria-haspopup=\"true\" aria-expanded=\"false\" href=\"#\">Sobre o Senado</a>",
+      "probeRecords": [
+        {
+          "kind": "hover",
+          "conditions": {
+            "viewport": {
+              "width": 1280,
+              "height": 800
+            },
+            "deviceScaleFactor": 1,
+            "browser": "chromium 155.0.4283.45 (headless)",
+            "variant": "hover-focus"
+          },
+          "itemsNamingTheElement": [
+            {
+              "path": ".data.triggers[0]",
+              "item": {
+                "ref": "#js-menu-0",
+                "id": {
+                  "tag": "a",
+                  "sig": "a|js-menu-0||||#"
+                },
+                "tag": "a",
+                "role": "link",
+                "label": "Sobre o Senado",
+                "t": 0,
+                "rect": {
+                  "x": 15,
+                  "y": 137,
+                  "width": 124.3,
+                  "height": 21
+                },
+                "sources": [
+                  "popup"
+                ],
+                "focusable": true
+              }
+            }
+          ]
+        },
+        {
+          "kind": "orientation",
+          "conditions": {
+            "viewport": {
+              "width": 800,
+              "height": 1280
+            },
+            "deviceScaleFactor": 1,
+            "browser": "chromium 155.0.4283.45 (headless)",
+            "variant": "orientation"
+          },
+          "itemsNamingTheElement": [
+            {
+              "path": ".data.loads[1].states[0].only[0]",
+              "item": {
+                "ref": "#js-menu-0",
+                "id": {
+                  "tag": "a",
+                  "sig": "a|js-menu-0||||#"
+                },
+                "tag": "a",
+                "label": "Sobre o Senado",
+                "text": "Sobre o Senado",
+                "chars": 14
+              }
+            }
+          ]
+        },
+        {
+          "kind": "states",
+          "conditions": {
+            "viewport": {
+              "width": 1280,
+              "height": 800
+            },
+            "deviceScaleFactor": 1,
+            "browser": "chromium 155.0.4283.45 (headless)",
+            "variant": "state-contrast"
+          },
+          "itemsNamingTheElement": [
+            {
+              "path": ".data.hover[4]",
+              "item": {
+                "el": {
+                  "ref": "#js-menu-0",
+                  "id": {
+                    "tag": "a",
+                    "sig": "a|js-menu-0||||#"
+                  },
+                  "tag": "a",
+                  "role": "link",
+                  "label": "Sobre o Senado"
+                },
+                "text": "#js-menu-0",
+                "state": "hover",
+                "alike": 6,
+                "changed": [
+                  {
+                    "prop": "color",
+                    "rest": "#ffffff",
+                    "now": "#dddddd"
+                  },
+                  {
+                    "prop": "-webkit-text-fill-color",
+                    "rest": "#ffffff",
+                    "now": "#dddddd"
+                  }
+                ],
+                "measure": {
+                  "kind": "text",
+                  "status": "measured",
+                  "fontSize": 16,
+                  "fontWeight": 400,
+                  "foreground": "#dddddd",
+                  "foregroundFrom": "css",
+                  "background": {
+                    "common": "#007db8",
+                    "worst": "#007db8",
+                    "best": "#007db8"
+                  },
+                  "highest": 3.343,
+                  "lowest": 3.343,
+                  "pixels": 539,
+                  "stroke": 3
+                }
+              }
+            },
+            {
+              "path": ".data.focus[4]",
+              "item": {
+                "el": {
+                  "ref": "#js-menu-0",
+                  "id": {
+                    "tag": "a",
+                    "sig": "a|js-menu-0||||#"
+                  },
+                  "tag": "a",
+                  "role": "link",
+                  "label": "Sobre o Senado"
+                },
+                "text": "#js-menu-0",
+                "state": "focus",
+                "alike": 6,
+                "changed": []
+              }
+            }
+          ]
+        }
+      ],
+      "element": {
+        "ref": "#js-menu-0",
+        "role": "link",
+        "name": "Sobre o Senado",
+        "browserName": null,
+        "text": "Sobre o Senado",
+        "states": [
+          "collapsed",
+          "focusable"
+        ],
+        "bounds": {
+          "x": 15,
+          "y": 137,
+          "width": 124.3,
+          "height": 21
+        },
+        "tag": "a",
+        "attributes": {
+          "id": "js-menu-0",
+          "class": "link link--nav dropdown-toggle",
+          "href": "#"
+        },
+        "html": "<a class=\"link link--nav dropdown-toggle\" id=\"js-menu-0\" data-toggle=\"dropdown.se\" aria-haspopup=\"true\" aria-expanded=\"false\" href=\"#\">Sobre o Senado</a>",
+        "readingText": null,
+        "imageSkipped": null,
+        "contentText": "Sobre o Senado"
+      },
+      "ancestors": [
+        {
+          "role": "listitem",
+          "tag": "li",
+          "name": "Sobre o Senado Atribuições Composição Estrutura Organizacional Funcionamento História Manuais e guias Responsabilidade social Visite o Senado",
+          "text": "Sobre o Senado Atribuições Composição Estrutura Organizacional Funcionamento História Manuais e guias Responsabilidade social Visite o Senado"
+        },
+        {
+          "role": "list",
+          "tag": "ul",
+          "name": null,
+          "text": "Sobre o Senado Atribuições Composição Estrutura Organizacional Funcionamento História Manuais e guias Responsabilidade social Visite o Senado Sobre o Senado Atribuições Composição Estrutura Organizacional Funcionamento História Manuais e guias Responsabilidade social Visite o Senado Fale com o Sena…"
+        },
+        {
+          "role": "navigation",
+          "tag": "nav",
+          "name": null,
+          "text": "MENU DESTA SEÇÃO Sobre o Senado Atribuições Composição Estrutura Organizacional Funcionamento História Manuais e guias Responsabilidade social Visite o Senado Sobre o Senado Atribuições Composição Estrutura Organizacional Funcionamento História Manuais e guias Responsabilidade social Visite o Senad…"
+        },
+        {
+          "role": "generic",
+          "tag": "div",
+          "name": null,
+          "text": "[img: Senado Federal] Institucional Fale com o Senado MENU DESTA SEÇÃO Sobre o Senado Atribuições Composição Estrutura Organizacional Funcionamento História Manuais e guias Responsabilidade social Visite o Senado Sobre o Senado Atribuições Composição Estrutura Organizacional Funcionamento História …"
+        },
+        {
+          "role": "banner",
+          "tag": "header",
+          "name": null,
+          "text": "Institucional Fale com o Senado [img: Senado Federal] Institucional Fale com o Senado MENU DESTA SEÇÃO Sobre o Senado Atribuições Composição Estrutura Organizacional Funcionamento História Manuais e guias Responsabilidade social Visite o Senado Sobre o Senado Atribuições Composição Estrutura Organi…"
+        }
+      ],
+      "headingsNear": {
+        "before": [
+          {
+            "tag": "h1",
+            "text": "InstitucionalFale com o Senado",
+            "ref": "#content-header > div:nth-of-type(2) > div > div:nth-of-type(1) > div > h1"
+          }
+        ],
+        "after": [
+          {
+            "tag": "h3",
+            "text": "Ligue para o Senado",
+            "ref": "#content > div:nth-of-type(1) > div:nth-of-type(1) > div > h3"
+          }
+        ]
+      },
+      "link": {
+        "ref": "#js-menu-0",
+        "name": "Sobre o Senado",
+        "href": "#",
+        "title": null
+      },
+      "destination": "not read by Rampa"
+    }
+  ]
+}

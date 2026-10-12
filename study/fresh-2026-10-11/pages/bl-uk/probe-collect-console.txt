@@ -1,0 +1,102 @@
+
+https://www.bl.uk/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.4.3 (AA) — Contrast (Minimum)
+  ✗ #content > div > div:nth-of-type(2) > div:nth-of-type(3) > a
+    When this control has focus, its text has a contrast of 4.36:1 at best with what is behind it, under the 4.5:1 WCAG 1.4.3 asks. Text must keep its contrast in every state a person puts it in; change the focus colors.
+    Evidence: "focus: <a> "All events"; changed: background-color (control) #e8e6dc → #d4d0c3; #181710 on #7f7d75: 4.36:1 at best, 4.36:1 at worst · 16px, 500"
+    confidence medium · experimental · probe rule rampa/state-text-contrast · id 793e0fb39037
+
+WCAG 1.4.11 (AA) — Non-text Contrast
+  ✗ #ccc-close
+    When this element has keyboard focus, its focus indicator (#5a5853, around it) has a contrast of 1.78:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×1: <button> "Close cookie control" focused and blurred; 240 px of its indicator around it: #5a5853 (240 px) next to #313147 (100%): 1.78:1"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id 89e6cbfc2de8
+  ✗ #ccc-recommended-settings
+    When this element has keyboard focus, its focus indicator (#5a5853, around it) has a contrast of 1.78:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×2: <button> "I accept" focused and blurred; 548 px of its indicator around it: #5a5853 (548 px) next to #313147 (100%): 1.78:1"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id 026d91109a77
+  ✗ #ccc-reject-settings
+    When this element has keyboard focus, its focus indicator (#5a5853, around it) has a contrast of 1.78:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×3: <button> "I do not accept" focused and blurred; 662 px of its indicator around it: #5a5853 (662 px) next to #313147 (100%): 1.78:1"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id 9f6d54acba25
+  ✗ #ccc-info-link
+    When this element has keyboard focus, its focus indicator (#5a5853, #1b1a33, around it) has a contrast of 2.38:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×6: <a> "About this tool(Opens in a new window)" focused and blurred; 450 px of its indicator around it: #5a5853 (313 px) next to #3d3c4b (74%): 1.52:1; #1b1a33 (75 px) next to #3a3943 (50%), #5a5853 (39%): 2.38:1"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id ddfb4dc26616
+  ✗ #ccc-icon
+    When this element has keyboard focus, its focus indicator (#5a5853, around it) has a contrast of 1.78:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×7: <button> "Set cookie preferences" focused and blurred; 352 px of its indicator around it: #5a5853 (334 px) next to #313147 (94%): 1.78:1"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id 88b3b1d02a01
+
+WCAG 1.4.12 (AA) — Text Spacing
+  ✗ #content > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > a > div > p
+    With text spacing raised as a user would, this text is cut to an ellipsis, and no name or title gives the full text.
+    Evidence: "before: whole; with the spacing: 25 px cut down by <p> #content > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > a > div > p; shown with an ellipsis"
+    confidence medium · experimental · probe rule rampa/text-spacing · id 7a94c86b72f4
+  ✗ #content > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > a > div > p
+    With text spacing raised as a user would, this text is cut to an ellipsis, and no name or title gives the full text.
+    Evidence: "before: whole; with the spacing: 25 px cut down by <p> #content > div > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(3) > a > div > p; shown with an ellipsis"
+    confidence medium · experimental · probe rule rampa/text-spacing · id 1985ed130a21
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.2.2 (A) — Captions (Prerecorded): 1 element · rampa/captions
+    This video has sound and no captions or subtitles track. Check that it has captions some other way (burned into the picture, or shown by its player), or that it is an alternative for text on the page, labeled as such (WCAG 1.2.2).
+  ? WCAG 1.2.3 (A) — Audio Description or Media Alternative (Prerecorded): 1 element · rampa/media-alternative
+    Video with sound: check that an audio description, or a full text alternative (what is seen and heard, in order), gives what is only shown on screen (WCAG 1.2.3), unless the soundtrack already says it.
+  ? WCAG 1.2.5 (AA) — Audio Description (Prerecorded): 1 element · rampa/audio-description
+    Video with sound: check that an audio description gives what is only shown on screen (WCAG 1.2.5; at level AA a transcript is not enough), unless the soundtrack already says it.
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 2 elements · rampa/pixel-contrast
+    axe-core could not decide the contrast of "On" (an element over or under it), and the pixels could not either: its glyphs did not show in the pixels (covered by something, or drawn in a way that making the text transparent does not reach).
+  ? WCAG 1.4.4 (AA) — Resize Text: 2 elements · rampa/resize-text
+    At 200% zoom a container that hides its overflow cuts this text, in a way that may be on purpose: it clamps lines with an ellipsis, a name or title holds the full text, or the container hides other text too, as a carousel does. Check that the text can be read at 200%.
+  ? WCAG 1.4.10 (AA) — Reflow: 2 elements · rampa/reflow
+    Text that is whole at 1280 px wide is cut at 320 CSS px wide; a name or title holds the full text, or its container hides other content too, as a carousel does. Check that the text can be read.
+  ? WCAG 1.4.11 (AA) — Non-text Contrast: 1 element · rampa/icon-contrast
+    The contrast of the icon of this button ("Pause video") could not be measured: what is behind it moves on its own (a video, an animation).
+  ? WCAG 2.4.7 (AA) — Focus Visible: 1 element · rampa/focus-visible
+    The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.
+
+The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 4 of 54 for 2.4.4. The coverage lists them as not judged.
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+78 candidate(s) had no cached judgment (--offline).
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.4.1, 1.4.3, 1.4.4, 1.4.12, 2.1.1, 2.4.2, 2.4.4, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  1.1.1, 1.4.3, 1.4.11, 2.4.2, 2.4.6, 3.1.1, 4.1.2
+  Judged with verified evidence:     —
+  Probed (experimental):             1.2.1, 1.2.4, 1.3.4, 1.4.1, 1.4.2, 1.4.3, 1.4.11, 1.4.12, 1.4.13, 2.1.2, 2.1.4, 2.4.1, 2.4.11, 3.2.1
+    1.2.1   probe/media@2 (rampa/audio-video-only) · watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless): no failure found · 0 element(s) · the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.2.2   probe/media@2 (rampa/captions) · watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless): 1 to review · 1 element(s) · the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.2.3   probe/media@2 (rampa/media-alternative) · watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless): 1 to review · 1 element(s) · the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.2.4   probe/media@2 (rampa/live-captions) · watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless): no failure found · 0 element(s) · no live video found; the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.2.5   probe/media@2 (rampa/audio-description) · watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless): 1 to review · 1 element(s) · the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.3.4   probe/orientation@1 (rampa/orientation) · portrait and landscape at 1280×800 and 390×844 (phone) · chromium 155.0.4283.45 (headless): no failure found · 93 element(s) · 4 load(s) compared, upright and sideways, each loaded and then turned; the guard blocked 28 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.1   probe/color@1 (rampa/color-only-state) · current and selected items against their neighbours at 1280×800 · chromium 155.0.4283.45 (headless): not checked · 0 current or selected item(s) found; the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.1   probe/color@1 (rampa/color-only-required) · required fields against optional ones at 1280×800 · chromium 155.0.4283.45 (headless): not checked · 0 form(s) with required and optional fields; the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.1   probe/color@1 (rampa/link-color-only) · links in text against the text around them, at rest, on hover and on focus at 1280×800 · chromium 155.0.4283.45 (headless): no failure found · 1 element(s) · 1 link(s) in blocks of text; 1 set apart by more than color; the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.1   probe/color@1 (rampa/color-words) · sentences that name a color, against the hue of what they name at 1280×800 · chromium 155.0.4283.45 (headless): not checked · 0 sentence(s) that convey something by a color; the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.2   probe/media@2 (rampa/audio-control) · watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless): no failure found · 0 element(s) · nothing played sound on its own in the 6.2 s watched; the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.3   probe/states@1 (rampa/state-text-contrast) · text in hover and focus states at 1280×800 · chromium 155.0.4283.45 (headless): 1 failure(s) · 1 element(s) · 51 control(s) with text in 16 style(s); 10 hovered and 10 focused; 19 kept their colors; the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.4   probe/layout@1 (rampa/resize-text) · 640×512 CSS px at device scale 2 (1280×1024 at 200%) · chromium 155.0.4283.45 (headless): 2 to review · 147 element(s) · 4 text box(es) gone at 640 px and not back at 1280 px: not counted (a timer or a carousel); the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.10  probe/layout@1 (rampa/reflow) · 320×256 CSS px from 1280×1024 · chromium 155.0.4283.45 (headless): 2 to review · 125 element(s) · the page does not scroll sideways at 320 px; the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.11  probe/keyboard@2 (rampa/focus-indicator-contrast) · focus indicators against the colors next to them, at 1280×800 · chromium 155.0.4283.45 (headless): 5 failure(s) · 7 element(s) · the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.11  probe/states@1 (rampa/state-indicator-contrast) · selected and current items with their marks on and off at 1280×800 · chromium 155.0.4283.45 (headless): not checked · 0 selected, current, pressed or checked item(s) found, 0 captured; the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.12  probe/layout@1 (rampa/text-spacing) · spacing overrides at 1280×1024 · chromium 155.0.4283.45 (headless): 2 failure(s) · 155 element(s) · the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.13  probe/hover@1 (rampa/hover-content) · hover and focus on up to 30 triggers at 1280×800 · chromium 155.0.4283.45 (headless): no failure found · 0 element(s) · 4 trigger(s) tried of 4 found (4 hovered, 4 focused); 0 showed content; the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    2.1.1   probe/keyboard@2 (rampa/keyboard-reach) · keyboard walk at 1280×800 · chromium 155.0.4283.45 (headless): not checked · the walk did not go round the page (forward: trap, backward: not-run), so what it missed is unknown; the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    2.1.2   probe/keyboard@2 (rampa/keyboard-trap) · keyboard walk at 1280×800 · chromium 155.0.4283.45 (headless): no failure found · 7 element(s) · focus cycled through 7 element(s) and left with Escape, then Tab; the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    2.1.4   probe/shortcuts@1 (rampa/character-key-shortcuts) · printable keys with focus on the body at 1280×800 · chromium 155.0.4283.45 (headless): no failure found · 0 element(s) · 94 printable key(s) pressed one at a time with focus on the page; 24 changed it on one press of two, not counted; 18 not pressed a second time (budget); the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    2.4.1   probe/keyboard@1 (rampa/bypass-blocks) · first 7 Tab stop(s), skip links pressed: 0 · chromium 155.0.4283.45 (headless): no failure found · 1 element(s) · only 1 item(s) before the content, fewer than a block to pass (2 links or 40 characters); the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    2.4.7   probe/keyboard@2 (rampa/focus-visible) · focused and blurred captures at 1280×800 · chromium 155.0.4283.45 (headless): 1 to review · 7 element(s) · the walk stopped early (trap); the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    2.4.11  probe/keyboard@2 (rampa/focus-obscured) · 5×5 hit grid at 1280×800, both directions · chromium 155.0.4283.45 (headless): no failure found · 7 element(s) · the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    2.4.11  probe/keyboard@2 (rampa/focus-obscured) · 5×5 hit grid at 390×844, both directions · chromium 155.0.4283.45 (headless): no failure found · 7 element(s) · the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+    3.2.1   probe/keyboard@2 (rampa/on-focus) · keyboard walk at 1280×800 · chromium 155.0.4283.45 (headless): no failure found · 7 element(s) · the walk stopped early (trap); the guard blocked 7 request(s) to pagead2.googlesyndication.com, www.google-analytics.com, www.google.com; content that needed them may be missing
+  Needs review only:                 1.2.2, 1.2.3, 1.2.5, 1.4.10, 2.4.7, 3.3.2
+  Not checked automatically:         25 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

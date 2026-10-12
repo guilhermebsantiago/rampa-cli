@@ -1,0 +1,96 @@
+{
+  "page": "https://www12.senado.leg.br/institucional/falecomosenado",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "79fa8824c82a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header logo link (to www.senado.leg.br) holds only an img whose alt is \"Title\"; the image shows the text \"SENADO FEDERAL\". Chrome's AX tree gives the link the name \"Title\" (from contents), with the link's title attribute \"Senado Federal\" exposed only as a description. Rampa's own snapshot name \"Senado Federal\" is a naming error, but the claim stands. A placeholder alt like \"Title\" is not an equivalent for a functional logo image (F30). I found no technique that rescues it, and the live page is unchanged."
+    },
+    {
+      "fingerprint": "1e40cf0f86c7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the \"A+\" icon in the button #aumentarBtn (title \"Aumentar fonte\"). Its alt \"Aumentar zoom\" is the button's accessible name. The live page's script shows that the button increases body zoom by 10% and the font size by 2px, so \"Aumentar zoom\" describes exactly what it does. The text alternative serves the purpose of the image, so this is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "72052a7e9974",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the \"A-\" icon in the button #diminuirBtn (title \"Diminuir fonte\"). Its alt \"Diminuir zoom\" names the button, and the script shows that the button lowers page zoom and font size. The alt accurately states the button's function, so 1.1.1 is met."
+    },
+    {
+      "fingerprint": "f854d4c4a681",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the header search field, whose placeholder \"Buscar\" is its only visible label. I decoded the screenshot pixels: glyph cores are exactly #cccccc on #005b9e, which is 4.37:1. The text is 16px at weight 400, so it is not large text and needs 4.5:1. Understanding 1.4.3 explicitly says the criterion applies to placeholder text, and no exception (inactive, decorative) applies. This is a real failure, though a narrow one."
+    },
+    {
+      "fingerprint": "1967669205d9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The title \"Contatos do Senado :: falecomosenado — Portal Institucional do Senado Federal\" names the topic (Senate contacts) and the site. The page lists contact channels under the h1 \"Fale com o Senado\". The slug-like \"falecomosenado\" is untidy, but the title clearly describes the topic and purpose, so 2.4.2 is met. A stray second <title> in the body (\"Exibir Data e Hora em HTML\") does not change document.title, which uses the first one."
+    },
+    {
+      "fingerprint": "a0b3745d8114",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Especiais\" is a dropdown toggle in the section navigation (href=\"#\", aria-haspopup=\"true\", aria-expanded). Its menu, labelled by it, holds the special pages (Bicentenário da Independência, Prodasen 50 anos, Senado 185 anos), and that list sits in the same list item, which the model saw. Its purpose (open the \"Especiais\" submenu) is clear from its text and programmatic context, so this is not a 2.4.4 failure. Using a link rather than a button for a toggle is at most a 4.1.2 role concern."
+    },
+    {
+      "fingerprint": "d1acacc1b5fa",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the h3 link \"Procuradoria Especial da Mulher\" on a \"Fale com o Senado\" contact page, leading to /institucional/procuradoria/envie-sua-mensagem. Rampa recorded that page's heading as \"Institucional Procuradoria Especial da Mulher\". The link text names the destination exactly, and the page context (a list of contact channels) makes the contact purpose clear. The generic page title \"Procuradoria\" is consistent, not a mismatch."
+    },
+    {
+      "fingerprint": "177b2983b9e1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the descriptive link under the h3 \"Procuradoria Especial da Mulher\", in the same media-body block, going to the same Procuradoria message page. The link text names \"a Procuradoria\", and the immediately preceding heading supplies the full name (H80, link text plus preceding heading). Within the contact page, its purpose (reach the Procuradoria Especial da Mulher) can be determined. The destination is the Procuradoria's page, so there is no mismatch."
+    },
+    {
+      "fingerprint": "b4ea1af4aba0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the e-Cidadania list link \"Todas as audiências públicas, sabatinas e outros eventos são abertos para participação popular.\" It goes to ecidadania/principalaudiencia, which today is titled \"Evento Interativo - Pesquisa :: Portal e-Cidadania\". The link text itself names public hearings and events open to participation. It sits under the h3 \"e-Cidadania\", right after the item \"Participe de audiências públicas\", which goes to the same URL. The purpose is determinable, and the claim that nothing around it tells where it goes is wrong."
+    },
+    {
+      "fingerprint": "387563e93fd9",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the footer link \"Servidor comissionado\" to /institucional/pessoas/pessoas. Rampa read only that page's title (\"Pessoas\") and its generic heading. The live destination is the Senate's HR/people page, with sections for Servidor Efetivo, Servidor comissionado, Servidor aposentado and Pensionista, including commissioned-staff forms and the SEPCOM contact. The link leads to commissioned-staff information, as its text says, so this is not a 2.4.4 failure. (The page may open on the 'efetivo' tab by default, which is a convenience issue only.)"
+    },
+    {
+      "fingerprint": "b6a918bdcff8",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the footer link \"Servidor aposentado\" to the same \"Pessoas\" page. The live destination has a \"Servidor aposentado\" section among its four audience tabs. The link text correctly states what the user will find; Rampa judged only from the generic title \"Pessoas\"."
+    },
+    {
+      "fingerprint": "6b9bb1ff51c1",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the footer link \"Pensionista\" to the \"Pessoas\" page. The live destination has a \"Pensionista\" section with pensioner services and contacts. The link text matches content on the destination, so 2.4.4 is met; Rampa only saw the page title \"Pessoas\"."
+    },
+    {
+      "fingerprint": "3599c437b6fc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer link \"ENGLISH\" to the English Carta de Serviços. The live HTML has no lang on it or on any ancestor except <html lang=\"pt-br\">. It is an English word deliberately used as the language's own name, not a Portuguese loan word (Portuguese would say \"Inglês\"), and a pt-BR voice will mispronounce it. Exceptions that might rescue it: (1) Is it a proper name used across languages untranslated? No, it is translated in Portuguese. (2) Has it become vernacular? No. (3) Is the change of language unintended? No, it is clearly intended. None of these holds, so it fails 3.1.2."
+    },
+    {
+      "fingerprint": "62e74e589095",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer link \"ESPAÑOL\" to the Spanish Carta de Serviços, with no lang (the page is pt-br). The Spanish spelling with ñ (Portuguese is \"Espanhol\") shows the language change is intended, so Understanding 3.1.2's 'single word, when in doubt' allowance does not apply. The practical mispronunciation by a pt-BR voice is small, but the criterion requires the language to be programmatically determinable, and no exception covers it."
+    },
+    {
+      "fingerprint": "1e922ae3fe11",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer link \"FRANÇAIS\" to the French Carta de Serviços, with no lang; it inherits pt-br. It is a French word intentionally used as the language's own name (Portuguese is \"Francês\"), and a Portuguese voice reads it wrongly. It is neither a proper name used untranslated nor a vernacular loan word, so it fails 3.1.2. The live page still lacks lang."
+    }
+  ]
+}

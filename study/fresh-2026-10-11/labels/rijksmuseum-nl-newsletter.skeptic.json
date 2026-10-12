@@ -1,0 +1,126 @@
+{
+  "page": "https://www.rijksmuseum.nl/en/newsletter?slug=NEWSLETTER_EN",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "cd33198e74e9",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Footer image link (no aria-label) to /en/support/donate/anbi-information; its only content is the ANBI logo with alt \"ANBIlogo\". The crop shows the logo is the word ANBI (plus the small expansion 'Algemeen Nut Beogende Instelling'). The alt names ANBI, which is both what the image shows and the topic of the destination (ANBI information), so a screen reader user gets the same cue a sighted user gets. The extra word 'logo' is noise and 'ANBI information' would be better, but requiring the alt to spell out the destination more than the visible logo does is stricter than 1.1.1 (H30 is satisfied when the alt conveys the link's purpose, which 'ANBI' does here)."
+    },
+    {
+      "fingerprint": "7194a6c9a72f",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the Instagram logo in the footer's social row (the crop shows the Instagram glyph, white on black), and its alt \"Instagramlogo\" names exactly that, so the claim that the alt describes something the image does not show is wrong. The run-together \"logo\" suffix is clumsy wording, not a failure. The enclosing link also carries aria-label \"Instagramlink\", which supplies the link's name, so the alt is not even what a screen reader announces for the link. The text alternative serves the image's purpose; no 1.1.1 failure."
+    },
+    {
+      "fingerprint": "deb92ae9bd00",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the Facebook logo in the footer's social row (the crop shows the Facebook glyph, white on black), and its alt \"Facebooklogo\" names exactly that, so the claim that the alt describes something the image does not show is wrong. The run-together \"logo\" suffix is clumsy wording, not a failure. The enclosing link also carries aria-label \"Facebooklink\", which supplies the link's name, so the alt is not even what a screen reader announces for the link. The text alternative serves the image's purpose; no 1.1.1 failure."
+    },
+    {
+      "fingerprint": "1484c5b3ac0e",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the YouTube logo in the footer's social row (the crop shows the YouTube glyph, white on black), and its alt \"Youtubelogo\" names exactly that, so the claim that the alt describes something the image does not show is wrong. The run-together \"logo\" suffix is clumsy wording, not a failure. The enclosing link also carries aria-label \"Youtubelink\", which supplies the link's name, so the alt is not even what a screen reader announces for the link. The text alternative serves the image's purpose; no 1.1.1 failure."
+    },
+    {
+      "fingerprint": "8b7812ed3a08",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the TikTok logo in the footer's social row (the crop shows the TikTok glyph, white on black), and its alt \"Tiktoklogo\" names exactly that, so the claim that the alt describes something the image does not show is wrong. The run-together \"logo\" suffix is clumsy wording, not a failure. The enclosing link also carries aria-label \"Tiktoklink\", which supplies the link's name, so the alt is not even what a screen reader announces for the link. The text alternative serves the image's purpose; no 1.1.1 failure."
+    },
+    {
+      "fingerprint": "a5af81a3f45f",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the LinkedIn logo in the footer's social row (the crop shows the LinkedIn glyph, white on black), and its alt \"Linkedinlogo\" names exactly that, so the claim that the alt describes something the image does not show is wrong. The run-together \"logo\" suffix is clumsy wording, not a failure. The enclosing link also carries aria-label \"Linkedinlink\", which supplies the link's name, so the alt is not even what a screen reader announces for the link. The text alternative serves the image's purpose; no 1.1.1 failure."
+    },
+    {
+      "fingerprint": "93f12a9ec6ca",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer logo of the Dutch Ministry of Education, Culture and Science; the crop shows the royal coat of arms with the text 'Ministry of Education, Culture and Science', and the alt says exactly that (with a run-together 'logo' suffix). The claim that it describes something the image does not show is wrong. The link has aria-label 'Ministry of Education, Culture and Sciencelink' and leads to a page headed 'Ministry of Education, Culture and Science', so purpose is conveyed too. No 1.1.1 failure."
+    },
+    {
+      "fingerprint": "784b3aa7fbe7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer partner logo; the crop shows the ING wordmark with its lion, and the alt 'ING - Engelslogo' identifies ING. The '- Engels' part is a leaked CMS variant label (Dutch for 'English') and is not shown, which is sloppy, but the text alternative still identifies the partner the image shows and serves its purpose; the link (aria-label 'ING - Engelslink') leads to a page headed 'ING'. A quality issue, not a 1.1.1 failure, and the finding's claim that the alt describes something the image does not show is wrong for its substance."
+    },
+    {
+      "fingerprint": "46204e105279",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter sign-up's Email* input (type=email) collects the user's own email address, a purpose listed in 'Input Purposes for User Interface Components'. Neither the snapshot DOM nor the live HTML (re-fetched 2026-10-11) has an autocomplete attribute on it or on its form. type=email gives a data type, not the input purpose, so the purpose is not programmatically determined. Fails 1.3.5."
+    },
+    {
+      "fingerprint": "32e4614db0f1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Firstname input of the sign-up form collects the user's own given name (token given-name) and has no autocomplete attribute, in the snapshot or in the live HTML; nothing else exposes its purpose programmatically. Fails 1.3.5."
+    },
+    {
+      "fingerprint": "b5ecd47330a8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Lastname* input collects the user's own last name and has no autocomplete attribute (snapshot and live HTML). I considered whether the separate Dutch-style 'Preposition' field takes the field out of the family-name purpose; it does not, the field still collects the user's last name, which family-name covers. Fails 1.3.5."
+    },
+    {
+      "fingerprint": "e2dd926961fe",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The cookie banner's Accept button: white 15px bold text on the button's solid background. The site CSS sets .button-primary to background-color #d55140, and the screenshot pixels around the label are #d55140 (the banner is not dimmed). White on #d55140 is 4.13:1; 15px bold is not large text (needs 18.66px bold), so 4.5:1 applies. The background-image is only the small arrow sprite. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "edcbd8e2bf35",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header 'Login' link: white 17.2px regular text laid directly over the hero painting (the swan's light wing). The measured background #838072-#afac94 gives 2.3-3.97:1, below 4.5:1 even at its darkest; the undimmed strip of the swan at the top of the screenshot is of the same light tone (about #a19c83), and the site CSS adds no text-shadow or scrim for .link-2020-inverse. The screenshot itself is dimmed by the cookie overlay, but in that state the text is dimmed too, and in the normal state the background is lighter, so either way it fails 1.4.3."
+    },
+    {
+      "fingerprint": "9b139802ffff",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header 'Giftshop' link: white 17.2px regular text over the lightest part of the swan painting; measured background #9e9a84-#bfbba4 gives 1.93-2.83:1, far below 4.5:1, and no text-shadow or scrim is defined for these header links. Same reasoning as the header Login: the cookie overlay in the screenshot does not rescue it. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "832188215c65",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header 'Rijksmuseum tickets' CTA: .button-2020 sets white bold text with font-size calc(1rem + 0.125*((100vw - 20rem)/100)), which is 17.2px at the 1280px viewport, and .button-2020-primary sets background #d55140. White on #d55140 is 4.13:1, and 17.2px bold is below the 18.66px bold large-text threshold, so 4.5:1 applies. Fails 1.4.3 (it would only become large text at viewports near 2560px)."
+    },
+    {
+      "fingerprint": "61f9e0822445",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The in-content 'Login' button (a.button-primary button-big button-bold): white bold text at 18px (1.2em of 15px) on #d55140 from the .button-primary rule; the crop shows a solid #d55140 fill with only the arrow sprite. 4.13:1, and 18px bold is just under the 18.66px (14pt) bold large-text size, so 4.5:1 applies. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "f0733d8f3269",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The form's 'Sign up' submit input (button-primary button-big button-bold): white 18px bold value text on #d55140, 4.13:1 at best, below the 4.5:1 required for text under 18.66px bold. The message names the text by its selector instead of 'Sign up' (the value text is not captured as text), and in the screenshot the button is under the cookie banner, but the claim itself, white on #d55140 at 4.13:1, is correct per the site CSS. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "e5c57b575409",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The document title is 'Keep me informed', identical to the page's h1, on a page whose sole content is a newsletter sign-up ('Sign me up for the general English newsletter'). The title states the page's purpose, which is what 2.4.2 asks; it lacks the site name, but WCAG does not require one (adding it is advisory). The finding's claim that it 'says nothing about this page' does not hold; the suggested 'Newsletter Sign-up - Rijksmuseum' is a best-practice improvement, not a fix for a failure."
+    },
+    {
+      "fingerprint": "7e963d87a32c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer social link to the Rijksmuseum YouTube channel with aria-label 'Youtubelink', the YouTube icon as its only content, sitting in the row with Instagram, Facebook, TikTok and LinkedIn links on the Rijksmuseum site. The name says it goes to YouTube, which, in the footer of the museum's site, identifies the museum's YouTube presence; the run-together wording is clumsy but the purpose is clear. The claim that it does not tell where the link goes is wrong; no 2.4.4 failure."
+    },
+    {
+      "fingerprint": "d7e3831db0a0",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Optional text field labelled 'Preposition' between Firstname and Lastname*: an English rendering of the Dutch 'tussenvoegsel' (name particles such as 'van', 'de'). In that position many users will infer it is part of the name, and the label does name what it wants; but 'Preposition' is not the usual English term for a name particle and an English speaker unfamiliar with Dutch names could read it as grammar, as the model's own patch ('at' or 'in') did. Whether that makes the label non-descriptive under 2.4.6 is a judgment call on which competent auditors would disagree."
+    }
+  ]
+}

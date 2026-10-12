@@ -1,0 +1,72 @@
+{
+  "page": "https://medlineplus.gov/diabetes.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "f173ceca6da8",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the X logo, the only content of a share link (mplus-share.js builds it as <a class=\"share-twitter\" title=\"X\" href=\"#\"><img alt=\"X\">; clicking opens a tweet-intent window). It sits in the page-actions row beside the title, next to 'Email this page to a friend', Print, Facebook, Pinterest and RSS icons. The alt 'X' names the service the logo shows, so it gives the same information a sighted user gets from the icon, and the link is not unnamed (F89 does not apply). The finding says the alt 'does not say where the link leads'. That is a link-purpose (2.4.4) concern, and a best-practice wish for 'Share on X'. It is not a 1.1.1 failure: the text alternative is equivalent to the image."
+    },
+    {
+      "fingerprint": "90f05ce2b90b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Health Topics' main-nav link uses color #007CBF (live common_new.css, .nav-list a), bold, font-size 1.14286em of a 14px base, so 16px bold. That is not large text (bold needs 18.66px). The #mplus-nav background is linear-gradient(#fafafa 10%, #f6f6f6 75%). The pixel measure found #f6f6f6 to #f9f9f9 behind the text. #007CBF gives about 4.23:1 on #f6f6f6 and only 4.34:1 even on the lightest stop, #fafafa. Every point of the gradient is below 4.5:1, so the text fails 1.4.3, as reported."
+    },
+    {
+      "fingerprint": "ed7dfbcdce69",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Drugs & Supplements' link in the same main-nav bar, with the same CSS: #007CBF, 16px bold (not large text), on the #fafafa to #f6f6f6 gradient. The contrast is about 4.2 to 4.34:1 across the whole gradient, below the 4.5:1 that 1.4.3 requires. The screenshot shows the same rendering. It is a real failure."
+    },
+    {
+      "fingerprint": "bfe4de5c6d87",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Genetics' main-nav link, styled like the other nav links: #007CBF, 16px bold, on the #fafafa to #f6f6f6 gradient. The best case is about 4.34:1, below 4.5:1 for normal-size text. It fails 1.4.3."
+    },
+    {
+      "fingerprint": "2e2e77978ded",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Medical Tests' main-nav link, styled like the other nav links: #007CBF, 16px bold (not large), on the #fafafa to #f6f6f6 gradient. The contrast is about 4.2 to 4.34:1, below 4.5:1. It fails 1.4.3."
+    },
+    {
+      "fingerprint": "eac5f547e9b9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Medical Encyclopedia' main-nav link, styled like the other nav links: #007CBF, 16px bold, on the #fafafa to #f6f6f6 gradient. It reaches at most about 4.34:1, below the 4.5:1 minimum for text that is not large. It fails 1.4.3."
+    },
+    {
+      "fingerprint": "f27d97960438",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Español' language toggle (#mplus-lang-toggle) has color #CF5200 and bold weight in the live CSS, with no font-size change, so it is 14px bold. That is not large text. It sits on the nav bar's #fafafa to #f6f6f6 gradient. #CF5200 gives about 4.00:1 on #f6f6f6 and about 4.14:1 on #fafafa, below 4.5:1 everywhere. The screenshot shows the orange text on the light-grey bar. It fails 1.4.3."
+    },
+    {
+      "fingerprint": "38855e25cfc4",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page title is 'Diabetes | Type 1 Diabetes | Type 2 Diabetes | MedlinePlus' (confirmed on the live page). It names the page's topic (diabetes, with its main types) and the site, and it matches the h1 'Diabetes'. That fully meets 2.4.2. The claim that it 'says nothing about this page' is wrong, and the suggested 'Diabetes Overview | MedlinePlus' is no more descriptive."
+    },
+    {
+      "fingerprint": "b7a6ccd60460",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Start Here' is the visible h2 of a MedlinePlus resource-list section. Under it are introductory links: 'Managing Diabetes' and 'What is Diabetes?' (NIDDK). It sits among sibling sections named 'Diagnosis and Tests', 'Prevention and Risk Factors' and so on, and it states the section's purpose: the recommended starting resources for this topic. 2.4.6 accepts headings that describe purpose, and short ones are fine. A sighted or screen-reader user knows what to expect. The suggested 'Introduction' says no more. This is not a failure."
+    },
+    {
+      "fingerprint": "f439dfc2b858",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Topic Image' is an h2 hidden off-screen (class hide-offscreen, 1px wide in the snapshot) at the top of the sidebar aside. The only content in its section is the topic's illustrative image, <img alt=\"Diabetes\">. The heading accurately describes that content: the image for this topic. It is generic, but it is accurate and lets screen-reader users recognise and skip the section. Nothing under it is mislabelled, so 2.4.6 is not failed."
+    },
+    {
+      "fingerprint": "42efd2c38dea",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The live markup is <a id=\"mplus-lang-toggle\" href=\".../spanish/diabetes.html\" title=\"Español\">Español</a> with no lang attribute, inside <html lang=\"en\">. 'Español' is a Spanish word, the name of the target language in a language switcher. It is not an English proper name or vernacular term, so English speech synthesis mispronounces it. Marking such language-selector items with their own language is the standard H58 practice, and auditors routinely report missing lang here under 3.1.2. The finding is correct."
+    }
+  ]
+}

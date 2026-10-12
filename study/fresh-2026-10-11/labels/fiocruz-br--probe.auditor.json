@@ -1,0 +1,30 @@
+{
+  "page": "https://fiocruz.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "4444ecd62436",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header logo link (img alt \"Início\", the white FIOCRUZ | CIÊNCIA E SAÚDE PELA VIDA wordmark). I re-ran the page live in headless Edge at 320x256: documentElement.scrollWidth is 360 against a 320 px viewport, so the page scrolls sideways. The overflow comes from the branding block (12-360 px). The logo image is 316 px wide with max-width:none, so it ends at 328 px and the link box ends at 344 px. On screen the tagline reads \"CIÊNCIA E SAÚD\": the final letter is past the viewport edge. Scrolling right does not bring it back into view, because the orange header background stops at the viewport width and the white letter sits on white. A small overflow, but it is real horizontal scrolling at 320 CSS px that clips content outside any two-dimensional-layout exception. The visible image overflows by 8 px, not the 24 px measured on the link box, but the claim still holds."
+    },
+    {
+      "fingerprint": "cf2b7b09d52e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the active pagination bullet (span role=button \"Go to slide 1\") of the home banner Swiper. I confirmed it live: it carries aria-current=\"true\" and is a 10 px dot in #fff, opacity 1. The other bullets are the same white at opacity 0.5, scaled to 0.66 and 0.33 (dynamic bullets). All of them sit on the slide's light teal strip (#bfd6d8). White on #bfd6d8 is about 1.5:1. The larger size is a non-color cue, but it can only be seen through the dot itself, and the dot is far below the 3:1 that 1.4.11 asks for the visual information identifying this component and its current/selected state. This is the state the slider opens in. Other slides may put the dots on a different background, which could change the ratio, but that does not save the default view."
+    },
+    {
+      "fingerprint": "695f0063ade2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The trigger is the gov.br bar's VLibras link (#logovlibras, an empty anchor at the top right). A pure-CSS rule (.logo-vlibras:hover/:focus + .link-vlibras) shows a 184x224 px panel with the VLibras avatar and the text \"O conteúdo desse portal pode ser acessível em Libras usando o VLibras\". I reproduced it live: the panel appears on both hover and keyboard focus. It covers the Intranet and Visite a Fiocruz links, the Dislexia and Contraste buttons and part of the search field. Pressing Esc while focused, and again while hovering, left it showing; nothing else dismisses it without moving the pointer or focus. It obscures other content and is not an error message, so the dismissible requirement of 1.4.13 fails."
+    },
+    {
+      "fingerprint": "6c8cfb2618c3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the same VLibras hover panel. Its CSS does include .link-vlibras:hover, so moving onto it was meant to keep it open. But a decorative full-width div.torres (absolute, from y=30.4 px) overlaps the bottom ~1.6 px of the 32 px trigger, and the panel starts at y=32. I traced it live: moving the pointer straight down from the trigger in 1 px or 2 px steps (a slow, magnifier-style movement) lands on .torres at y 30-32. The trigger loses :hover, the panel collapses during its 0.1 s transition, and at y>=33 the pointer hits the nav underneath, so the panel is gone. Diagonal moves through the same strip fail the same way. Only jumps that skip the strip (or teleporting into the panel) keep it open. Ordinary pointer movement onto the content makes it disappear, so the hoverable requirement fails as the finding says, though the cause is an overlapping layer rather than a missing hover rule."
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "page": "https://www.thomann.co.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "aaffd2ae56ce",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The cookie-banner illustration (crop and src oma_with_thomann_cookies.png) shows a cartoon grandmother holding a tray of cookies. 'Oma' is German for grandma, so alt=\"oma-with-cookies\" describes exactly what the image shows. It is clumsy, filename-like and partly German, and the image is arguably decorative, so alt=\"\" might be better. But the finding's claim, that the alt describes something the image does not show, is wrong. The model seems not to have understood 'oma'."
+    },
+    {
+      "fingerprint": "e57bb43c6304",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The USP badge icon is an image of text reading '30 DAYS' in a hexagon. Its alt is 'Days Money-Back', and the link's visible text is also only 'Days Money-Back' (confirmed in the screenshot and on the live page). The number 30, the actual guarantee period, exists only as pixels and is missing from the text alternative, so the alt is not equivalent to the image. The finding's wording (the alt describes something not shown) is loose, but its claim that the alt does not match the image holds. The patch ('30 Days Money-Back') fixes exactly that, so it is a real 1.1.1 failure."
+    },
+    {
+      "fingerprint": "eeed0609636c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The badge icon is an image of text reading '3 YEARS'. Its alt is 'Years warranty', and the adjacent visible link text is also just 'Years warranty' (screenshot and live HTML). The warranty length '3' appears only in the image and is missing from its text alternative, so the alternative is not equivalent. The finding's mismatch claim is fair, and the patch ('3 years warranty') supplies the missing information. Real 1.1.1 failure."
+    },
+    {
+      "fingerprint": "2f34fbd5090b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The badge image is a plain delivery-truck icon inside a link whose visible text is 'Free Shipping Over £149'. Its alt, 'Free Shipping Over ', states the icon's purpose (shipping) rather than its appearance, which 1.1.1 allows for functional images. Unlike the 30-days and 3-years badges, the icon carries no information that the visible text lacks. At worst the alt is redundant with the link text (alt=\"\" would be cleaner), which is not a 1.1.1 failure. The suggested 'Delivery truck icon' reflects a literal-description requirement that WCAG does not impose."
+    },
+    {
+      "fingerprint": "e1a5f1a0d15c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Alright!' text on the cookie banner's primary accept button is 18px bold, which is below the 18.66px bold large-text threshold, so it needs 4.5:1. The live CSS confirms '.cookie-consent-spice .consent-button--primary{background:#13e47c; color:#fff}' (the wrapper does have class cookie-consent-spice), which gives about 1.69:1. That fails even the 3:1 large-text threshold. The banner is shown on load, and the measurement matches the stylesheet. Real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "51690a83cfa3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The '142' is the review count next to the star rating on a product tile. The live stylesheet gives .fx-rating-stars__description color var(--fx-color--neutral-400) = #8a8a8a, and 16px bold at viewports of 940px and wider. This tile has no skin-light override and sits on white (the screenshot shows grey numbers on white below the image), so the contrast is 3.45:1. Normal-size text needs 4.5:1, and the count is meaningful content, not incidental. Real 1.4.3 failure; the same styling applies to every product tile's count."
+    },
+    {
+      "fingerprint": "5e936728e66f",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The header link 'Free Shipping Over £149' leads to helpdesk_shipping.html, titled 'Shipping Costs and Delivery Times'. That page is exactly where a user expects to learn the shipping terms the link advertises. The link text identifies the purpose (information about free shipping and its threshold) without needing to repeat the destination's title, so 2.4.4 is met."
+    },
+    {
+      "fingerprint": "3daf46cb5051",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The h4 'Served with love!' heads the cookie-consent banner, whose content asks the user to accept cookies for preferences, statistics and marketing. The heading is a pun that only works with the cookie imagery and the body text. On its own, for example in a heading list, it says nothing about cookies or privacy choices, so a strict auditor could call it non-descriptive under 2.4.6. A more lenient one would accept it as themed marketing copy whose topic (cookies served) is immediately clear in context. Competent auditors would reasonably disagree."
+    },
+    {
+      "fingerprint": "87dd4c1df537",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h2 'In Your Own Words' heads a carousel of dated customer testimonials and also labels the section through aria-labelledby. 'In your own words' tells the reader that the section holds customers' own statements, which is its topic. 'Customer Reviews' would be more conventional, but 2.4.6 asks for headings that describe the topic, not the most literal wording, and this one does. Not a failure."
+    }
+  ]
+}

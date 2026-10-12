@@ -1,0 +1,84 @@
+{
+  "page": "https://www.tcd.ie/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "fb4ee788c311",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the hero banner image, with alt \"Frontsquare TCD\". The crop shows the classical facade of Trinity's Front Square (the pediment with the clock, the lamp posts and the campus signage) with two students in front. So the alt names exactly the place the photo shows, and a short location label is an adequate alternative for a banner photo. The finding says the alt describes something the image does not show, which is wrong. The suggested patch also invents a 'Welcome to Trinity' sign: that text is an HTML h1 laid over the image, not part of the photo."
+    },
+    {
+      "fingerprint": "3afa44774123",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the footer Instagram icon link (href instagram.com/trinitycollegedublin). Its only content is an img with alt=\"istagram\", and the live page still has it. The alt is misspelled, but it still names the destination, Instagram. It sits in a list of social icons (facebook, istagram, X, Youtube, LinkedIn) under the heading \"Connect with us\", so the link's purpose is clear both read as text and read aloud. The typo is a quality problem. The claim that the alt does not say where the link leads does not hold, so this is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "4f525d7192f7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the footer X/Twitter icon link (href twitter.com/tcddublin). Its image is the X logo with alt=\"X\". X is the service's actual current name, so the alt is a correct equivalent of the logo and names the destination. It sits in the \"Connect with us\" list of social networks, which removes any ambiguity of the single letter. 1.1.1 is met. The suggested patch (\"Twitter\") would swap in the service's outdated name."
+    },
+    {
+      "fingerprint": "c55bdff0117b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the category tag \"Arts, Culture, Research\" on the first Latest News card: 15px text at normal weight. I sampled the screenshot pixels: the darkest glyph pixel is about #18afd2 on the card background #eff0f1, which gives 2.27:1. That matches the reported 2.25:1 and is well under 4.5:1. The text is real content (the article's categories), not incidental text or a logotype, and it is not large text. I found nothing that makes it pass."
+    },
+    {
+      "fingerprint": "c872a9366f43",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the category tag \"Culture, Research, Society\" on the second news card, with the same styling: 15px, normal weight, light cyan on #eff0f1. Pixel sampling gives at most 2.27:1, under the 4.5:1 required for normal-size text. It is informative text, and no exception applies."
+    },
+    {
+      "fingerprint": "9e13171d1eed",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the category tag \"Culture, Research, Society\" on the third news card (the Irish-language story). It has the same styling, and pixel sampling again gives at most 2.27:1 for 15px normal text on #eff0f1. That fails 1.4.3, and no exception applies."
+    },
+    {
+      "fingerprint": "dd094d567a70",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the event venue \"Campanile\" on the first What's On card: 15px normal text in light cyan on #eff0f1. Pixel sampling gives a darkest glyph pixel of about #18afd2, at 2.27:1. The venue is meaningful content and is not large text, so it fails 1.4.3."
+    },
+    {
+      "fingerprint": "9c5e39cd13cd",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the event venue \"Trinity Business School 182 Pearse Street\" on the second What's On card: 15px normal text in light cyan on #eff0f1. Measured from the screenshot, it reaches at most 2.27:1, well below 4.5:1. It is real content, and none of 1.4.3's exceptions apply."
+    },
+    {
+      "fingerprint": "7adb926af178",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the header site-search input. The screenshot shows the placeholder \"Search\" in #757575 on the #ececec field, which gives 3.90:1 for 16px normal text. The field's label (\"Search text\") is visually hidden, and the submit control is only a magnifier icon, so the placeholder is the only visible text saying what the field is for. 1.4.3 has no exception for placeholder text, and the dominant reading (including W3C WAI tutorial guidance) treats it as text that must reach 4.5:1. I found no reason that makes it pass."
+    },
+    {
+      "fingerprint": "ab1a80843e2a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a button-styled link \"SPORT\" (href tcd.ie/Sport/) on a photo card of student athletes. It is one of a row of section links on the university homepage (LIBRARIES, ALUMNI & GIVING, CLUBS & SOCIETIES, SPORT). On a university site, the link text alone says where it goes: the university's sport section, as the URL confirms. 2.4.4 is satisfied. Rampa never read the destination, but that does not change the result."
+    },
+    {
+      "fingerprint": "17d6977f0183",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the header language-switcher link \"Gaeilge\" (to the Irish version). Neither the link nor any ancestor has a lang attribute, so it inherits lang=\"en\"; the live page is the same. Marking language-switcher endonyms with lang is common practice, and here a change of language is clearly intended. But the Understanding document for 3.1.2 exempts proper names, and a language's name arguably is one. It also says single words should be treated as part of the surrounding language unless a change is clearly intended. And 'Gaeilge' is in everyday Hiberno-English use; the site's own English text uses Irish terms such as 'Gaeltacht' unmarked. Competent auditors split on single-word language-switcher links, so I cannot call this a clear failure."
+    },
+    {
+      "fingerprint": "5bbc5b88f32c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the h3 headline of the third news card, \"Is bagairt í an géarchéim tithíochta don nGaelainn mar theanga phobail in Iarthar Dhuibhneach\": a full sentence in Irish. Neither the snapshot nor the live HTML has a lang attribute on the h3 or any ancestor up to <html lang=\"en\">, so it is exposed as English. A full Irish sentence is not a proper name, a technical term or a borrowed word, so 3.1.2 fails. The evidence quote is only a fragment of the headline, but the claim that the passage is unmarked Irish holds for the whole heading."
+    },
+    {
+      "fingerprint": "866ca7d31834",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the summary paragraph of the third news card, two lines of continuous Irish prose (\"Tá an géarchéim tithíochta ... Baile Átha Cliath, inniu.\"). Neither the snapshot nor the live HTML puts a lang attribute on the p or any ancestor, so the page's lang=\"en\" applies. A whole Irish passage falls under none of 3.1.2's exceptions, so this is a real failure. The quoted evidence is only the end of the paragraph, but the whole paragraph is unmarked Irish."
+    }
+  ]
+}

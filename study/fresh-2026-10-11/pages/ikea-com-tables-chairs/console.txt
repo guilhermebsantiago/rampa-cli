@@ -1,0 +1,87 @@
+
+https://www.ikea.com/gb/en/cat/tables-chairs-fu002/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 2.4.4 (A) — Link Purpose (In Context)
+  ✗ #\34 7e416c8-6970-11f1-9946-bdbb8eff92dc > div > p:nth-of-type(5) > a:nth-of-type(1)
+    Links must have discernible text
+    high · rule link-name · id 7f51baf5e54e
+  ✗ #bfc23f60-3a4c-11f1-97aa-3fa1bfb68f96 > div > div > div > div:nth-of-type(1) > a
+    The link text "Explore now" does not tell where the link goes, and nothing around it does.
+    Evidence: "<link>Explore now</link>"
+    Patch:
+      - <a class="pub__btn pub__btn--small pub__btn--secondary pub__teaser__top-button" href="https://www.ikea.com/gb/en/rooms/dining/shop-dining-furniture-by-style-pub7fe64cb0/">Explore now</a>
+      + <a class="pub__btn pub__btn--small pub__btn--secondary pub__teaser__top-button" href="https://www.ikea.com/gb/en/rooms/dining/shop-dining-furniture-by-style-pub7fe64cb0/">Explore dining furniture by style</a>
+    confidence low · 1/1 runs · evidence verified · id c6a34addc74a
+  ✗ #fe858dd1-e335-11ec-aa30-f1ff1fc0055d > div > div:nth-of-type(1) > a
+    The link text "Learn more" does not tell where the link goes, and nothing around it does.
+    Evidence: "<link>Learn more</link>"
+    Patch:
+      - <a target="" href="https://www.ikea.com/gb/en/customer-service/services/delivery/" class="c18h3b1h pub__link" aria-disabled="false">Learn more</a>
+      + <a target="" href="https://www.ikea.com/gb/en/customer-service/services/delivery/" class="c18h3b1h pub__link" aria-disabled="false">Learn more about IKEA Family delivery benefits</a>
+    confidence high · 1/1 runs · evidence verified · id 726e92ca9431
+  ✗ #fe858dd1-e335-11ec-aa30-f1ff1fc0055d > div > div:nth-of-type(2) > a
+    The link text "Learn more" does not tell where the link goes, and nothing around it does.
+    Evidence: "Learn more"
+    Patch:
+      - <a target="" href="https://www.ikea.com/gb/en/customer-service/services/finance-options/" class="c18h3b1h pub__link" aria-disabled="false">Learn more</a>
+      + <a target="" href="https://www.ikea.com/gb/en/customer-service/services/finance-options/" class="c18h3b1h pub__link" aria-disabled="false">Learn more about our finance options</a>
+    confidence high · 1/1 runs · evidence verified · id 7e8cb1bfe172
+  ✗ #fe858dd1-e335-11ec-aa30-f1ff1fc0055d > div > div:nth-of-type(4) > a
+    The link text "Learn more" does not tell where the link goes, and nothing around it does.
+    Evidence: "Learn more"
+    Patch:
+      - <a target="" href="https://www.ikea.com/gb/en/customer-service/services/click-collect/" class="c18h3b1h pub__link" aria-disabled="false">Learn more</a>
+      + <a target="" href="https://www.ikea.com/gb/en/customer-service/services/click-collect/" class="c18h3b1h pub__link" aria-disabled="false">Learn more about Click and Collect</a>
+    confidence high · 1/1 runs · evidence verified · id abb8aee1d033
+  ✗ html > body > div:nth-of-type(2) > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > p > a
+    The link text "Learn more" does not tell where the link goes, and nothing around it does.
+    Evidence: "Learn more"
+    Patch:
+      - <a href="https://www.ikea.com/gb/en/ikea-family/" aria-describedby="hnf-footer-featured-link2" class="hnf-link">Learn more</a>
+      + <a href="https://www.ikea.com/gb/en/ikea-family/" aria-describedby="hnf-footer-featured-link2" class="hnf-link">Learn more about IKEA Family</a>
+    confidence high · 1/1 runs · evidence verified · id 6393a3bd9dce
+
+WCAG 2.5.3 (A) — Label in Name
+  ✗ html > body > div:nth-of-type(1) > header > div:nth-of-type(2) > div > div:nth-of-type(1) > button
+    Elements must have their visible text as part of their accessible name
+    high · rule label-content-name-mismatch · id eb0a127abc25
+  ✗ html > body > div:nth-of-type(2) > footer > div > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(2) > div:nth-of-type(2) > button
+    Elements must have their visible text as part of their accessible name
+    high · rule label-content-name-mismatch · id c4498a5e3c4e
+  ✗ #onetrust-policy-text > a
+    Elements must have their visible text as part of their accessible name
+    high · rule label-content-name-mismatch · id 6d62fc3c9096
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.2.2 (A) — Captions (Prerecorded): 2 elements · video-caption
+    Check that captions are available for the element
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 9 elements · color-contrast
+    Element's background color could not be determined because it's partially obscured by another element
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 1 element · rampa/pixel-contrast
+    axe-core could not decide the contrast of "Skip to main content" (no reason given), and the pixels could not either: it is not shown.
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 1 element · rampa/placeholder-contrast
+    The contrast of the placeholder "#ikea-search-input" could not be measured: what is behind it moves on its own (a video, an animation).
+  ? WCAG 1.4.11 (AA) — Non-text Contrast: 4 elements · rampa/icon-contrast
+    The contrast of the icon of this link ("Hej! Log in") could not be measured: what is behind it moves on its own (a video, an animation).
+  ? WCAG 2.5.3 (A) — Label in Name: 1 element · rampa/field-label-in-name
+    The field shows only its placeholder, "What are you looking for?", and is named "Search for products, inspiration or new arrivals" (aria-label): needs review. If the placeholder is the label people see, people using speech input say it, and the field does not answer to it.
+
+69 image(s) were left without a capture, so no judgment looked at them: 69 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).
+The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 117 of 167 for 2.4.4. The coverage lists them as not judged.
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+5 claim(s) from the model did not hold against the snapshot and were dropped.
+
+Model calls: 114 new, 0 from cache · 109.9k in / 10.9k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.3.5, 1.4.1, 1.4.3, 1.4.4, 1.4.12, 2.1.1, 2.4.2, 2.4.4, 2.5.3, 2.5.8, 3.1.1, 3.1.2, 4.1.2
+  Checked by Rampa rules (partial):  1.1.1, 1.3.2, 1.4.3, 1.4.11, 2.4.2, 2.4.6, 3.1.1, 3.1.2, 4.1.2
+  Judged with verified evidence:     1.1.1, 2.4.2, 2.4.4, 2.4.6
+  Needs review only:                 1.2.2, 2.4.1, 3.3.2
+  Not checked automatically:         34 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

@@ -1,0 +1,102 @@
+{
+  "page": "https://www.martinsfontespaulista.com.br/livros/literatura-brasileira",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "e4a3401dc69a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The site CSS sets '*{outline:0!important}' and ':focus{outline:0!important}', so the only focus style left on this benefits-bar link is Bootstrap's author rule 'a:focus{color:#23527c;text-decoration:underline}'. The span text stays white; what appears on focus is a 1 px #23527c underline on the #1a1818 bar. I reproduced it live in headless Edge (Tab, focused vs blurred: about 107 px changed, all on the underline rows 22-24) and measured #23527c vs #1a1818 = 2.16:1. Understanding 1.4.11 says an author-styled focus indicator must reach 3:1 against adjacent colours; this one does not, and it is not a user-agent default. No reason to doubt the finding. Element: 'Formas de entrega'."
+    },
+    {
+      "fingerprint": "ce62e3f00bdc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The site CSS sets '*{outline:0!important}' and ':focus{outline:0!important}', so the only focus style left on this benefits-bar link is Bootstrap's author rule 'a:focus{color:#23527c;text-decoration:underline}'. The span text stays white; what appears on focus is a 1 px #23527c underline on the #1a1818 bar. I reproduced it live in headless Edge (Tab, focused vs blurred: about 171 px changed, all on the underline rows 22-24) and measured #23527c vs #1a1818 = 2.16:1. Understanding 1.4.11 says an author-styled focus indicator must reach 3:1 against adjacent colours; this one does not, and it is not a user-agent default. No reason to doubt the finding. Element: 'Em até 4x sem juros no cartão*'."
+    },
+    {
+      "fingerprint": "c5474bf87875",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The site CSS sets '*{outline:0!important}' and ':focus{outline:0!important}', so the only focus style left on this benefits-bar link is Bootstrap's author rule 'a:focus{color:#23527c;text-decoration:underline}'. The span text stays white; what appears on focus is a 1 px #23527c underline on the #1a1818 bar. I reproduced it live in headless Edge (Tab, focused vs blurred: about 56 px changed, all on the underline rows 22-24) and measured #23527c vs #1a1818 = 2.16:1. Understanding 1.4.11 says an author-styled focus indicator must reach 3:1 against adjacent colours; this one does not, and it is not a user-agent default. No reason to doubt the finding. Element: 'Eventos'."
+    },
+    {
+      "fingerprint": "7e4cd41ec93b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header logo link (an SVG only). The site removes every outline ('*{outline:0!important}'), and the a:focus underline/colour rule has no text to act on. Live at 1280x800, focusing it by Tab and blurring it changed 0 viewport pixels, matching the probe. A keyboard user gets no visible indicator, which fails 2.4.7 (F78). I found no technique or artefact that would make it pass."
+    },
+    {
+      "fingerprint": "4356dee9e3ce",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Search submit button 'Buscar', drawn as the magnifier icon at the left of the search field. It has no outline, box-shadow or other :focus style (outline removed site-wide). Live, Tab focus vs blur changed 0 px, and the screenshot looks the same as unfocused. Fails 2.4.7."
+    },
+    {
+      "fingerprint": "47a5970fa265",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Search text field. Live in Edge, Tab focus shows a blinking text caret (caret-color rgb(77,66,62) on white). With the caret shown, my captures alternate between two images; a capture taken with Playwright's default caret:'hide' matches the caret-off frame, so the probe's '0 px changed' is consistent with screenshots that hide the caret. Understanding 2.4.7 gives this as an example of a focus indicator: 'When text fields receive focus, a vertical bar is displayed in the field'. Focus also opens the 'Termos mais buscados' suggestion panel in my runs. Some auditors find a caret alone weak, but by the W3C example the field passes 2.4.7. The probe's 'no visible indicator' claim comes from how it captured the field."
+    },
+    {
+      "fingerprint": "4da1d8c0c06c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header 'Nossas Livrarias' icon link (href='#', no text). Outline is removed site-wide, and the a:focus underline has no text to draw under. Live, Tab focus vs blur changed 0 px. Nothing appears on focus, so it fails 2.4.7."
+    },
+    {
+      "fingerprint": "1b49a73b57f8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header wishlist (heart) icon link, no text content. Live, Tab focus vs blur changed 0 px, and nothing changes in the icon or around it (outline:0!important site-wide). Fails 2.4.7."
+    },
+    {
+      "fingerprint": "43f56fea7a81",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header account (person) icon link, href='#', no text. Live, Tab focus vs blur changed 0 px, and focus opens no dropdown. Outline is suppressed site-wide, so no focus indicator is visible. Fails 2.4.7."
+    },
+    {
+      "fingerprint": "2cf8de026f4f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header minicart (bag) icon link; its only text is the count badge '0', which is positioned outside the text flow. Live, Tab focus vs blur changed 0 px: the a:focus underline does not show and the outline is removed. Fails 2.4.7."
+    },
+    {
+      "fingerprint": "48e323cdc0e5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header nav link 'Livros Importados'. Without the search panel open, its own focus style (a black underline) is visible. In a real Tab walk, though, focusing the search field opens the 'Termos mais buscados' suggestion panel (x 432-918, y 108-494). The panel stays open after focus leaves the field and does not close on Escape. When Tab reaches this link, all 15 of my sample points hit the panel, and focus vs blur changes 0 px. So the claim of no visible indicator holds in that state. This partly double-counts the 2.4.11 obscuring finding, but Understanding 2.4.11 says that if the focus indicator is fully obscured 'it would likely fail 2.4.7 Focus Visible'. The obscurer is the search panel, a child of the header, not the header bar itself."
+    },
+    {
+      "fingerprint": "5eaf9ed370d5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Filter-sidebar 'Voltar' button (btn-outline-secondary). Computed outline is none and box-shadow is none on focus; the Bootstrap 4 focus shadow is not present. Live, Tab focus vs blur changed 0 px. No visible focus indicator, which fails 2.4.7."
+    },
+    {
+      "fingerprint": "5f78eb1a7c99",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Scrollable list of 'Marca' filter options (fieldset > div). The checkboxes inside are not in the Tab order, so the browser makes the scroller itself a Tab stop. I confirmed this live: Tab lands on the div, then the next Tab goes to 'LIMPAR FILTROS'. Focus vs blur changed 0 px, because the author's '*{outline:0!important}' removes the browser's default focus ring. Focusability here comes from the browser, but the missing indicator is author-caused (F78) and the scroller is keyboard-operable. Fails 2.4.7."
+    },
+    {
+      "fingerprint": "6a60c9b29558",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header nav link 'Livros Importados' at 1280x800. The probe's explanation is wrong: the link sits inside the fixed header, so the header bar does not hide it, and scroll-padding-top would not help. The real cause: focusing the search field opens the 'Termos mais buscados' suggestion panel (a header descendant, x 432-918, y 108-494). It stays open after focus moves on, and Escape does not close it (checked live). When Tab reaches the link, it sits wholly under the panel (15/15 points). Understanding 2.4.11 puts combobox lists that stay open after focus moves away at risk, and the user cannot reveal the link without moving focus. So 'entirely hidden behind other content' is a real 2.4.11 failure."
+    },
+    {
+      "fingerprint": "b7572b7a995a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Mobile breadcrumb link 'Livros' (visible at 390 px; hidden on desktop, hence 'hidden' in the desktop snapshot). It sits at y 182, below the 109 px fixed header, so the header bar is not what hides it, and the scroll-padding patch is off. Live at 390x844, Tab into the search field opens the 'Termos mais buscados' panel (a header descendant reaching to about y 530). The panel stays open; at Tab 70 the focused 'Livros' was entirely under it (screenshot confirms), and Escape left it open. This reproduced in two of three runs (in one fast run the panel had closed). The finding's claim, that the focused element is entirely hidden behind other content, holds and fails 2.4.11."
+    },
+    {
+      "fingerprint": "9fceb279bdf9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Mobile breadcrumb link 'Literatura Brasileira' at y 182 (390x844). As with 'Livros', the cause is not the 109 px header bar. It is the search suggestion panel that opened when the search field took focus and never closes on blur or Escape. Live, at the next Tab after 'Livros', this link's centre was covered by the panel, and focus vs blur changed 0 px. The probe named the wrong obscurer and patch, but the claim that the focused link is entirely hidden is a real 2.4.11 failure."
+    }
+  ]
+}

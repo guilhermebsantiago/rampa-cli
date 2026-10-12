@@ -1,0 +1,102 @@
+{
+  "page": "https://www.martinsfontespaulista.com.br/livros/literatura-brasileira",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "e4a3401dc69a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link 'Formas de entrega' in the dark benefits bar. The only focus change is a text-decoration underline in #23527c (the anchor's a:focus color; the white span text keeps its own color) drawn on the #1a1818 benefits bar: my live Tab walk in headless Edge at 1280x800 showed outline none and a 1-2 px row of changed pixels under the text, nothing else. #23527c vs #1a1818 is 2.16:1, under the 3:1 that Understanding 1.4.11 (Relationship with Focus Visible) requires of a focus indicator against its adjacent background."
+    },
+    {
+      "fingerprint": "ce62e3f00bdc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link 'Em até 4x sem juros no cartão*' in the dark benefits bar. The only focus change is a text-decoration underline in #23527c (the anchor's a:focus color; the white span text keeps its own color) drawn on the #1a1818 benefits bar: my live Tab walk in headless Edge at 1280x800 showed outline none and a 1-2 px row of changed pixels under the text, nothing else. #23527c vs #1a1818 is 2.16:1, under the 3:1 that Understanding 1.4.11 (Relationship with Focus Visible) requires of a focus indicator against its adjacent background."
+    },
+    {
+      "fingerprint": "c5474bf87875",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link 'Eventos' in the dark benefits bar. The only focus change is a text-decoration underline in #23527c (the anchor's a:focus color; the white span text keeps its own color) drawn on the #1a1818 benefits bar: my live Tab walk in headless Edge at 1280x800 showed outline none and a 1-2 px row of changed pixels under the text, nothing else. #23527c vs #1a1818 is 2.16:1, under the 3:1 that Understanding 1.4.11 (Relationship with Focus Visible) requires of a focus indicator against its adjacent background."
+    },
+    {
+      "fingerprint": "7e4cd41ec93b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header logo link (SVG with fixed fills, no text). Live Tab walk in headless Edge at 1280x800: on focus the anchor's color/underline change computes to #23527c, but the link has no text or only an icon background, outline is none, and a full-viewport pixel diff between focused and blurred states was 0 px, matching Rampa's record. Author CSS removed the default ring and nothing replaces it, so 2.4.7 fails (F78-style)."
+    },
+    {
+      "fingerprint": "4356dee9e3ce",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Search submit button 'Buscar' shown as a magnifier icon. Live check at 1280x800: outline none, no border, shadow or background change on focus; focused vs blurred viewport diff 0 px, as Rampa recorded. No visible focus indicator, so 2.4.7 fails."
+    },
+    {
+      "fingerprint": "47a5970fa265",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Search text input. It has no author focus style (outline none, no border change), but when it is focused the browser draws a blinking text caret (color #4d423e on white) inside the field. My live screenshots with the caret captured show 15 px changing at the start of the field, and the 'Termos mais buscados' panel also opens under the field on focus. Understanding 2.4.7 gives this as its own example of a visible focus indication for text fields ('a vertical bar is displayed in the field'), and the ACT rule passes on any changed pixel. Rampa's captures missed the caret, probably because the screenshot hides it or it was in its off phase. A team could still require a stronger ring as good practice, but this is not a 2.4.7 failure."
+    },
+    {
+      "fingerprint": "4da1d8c0c06c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Empty 'Nossas Livrarias' store icon link (href '#'). Live Tab walk in headless Edge at 1280x800: on focus the anchor's color/underline change computes to #23527c, but the link has no text or only an icon background, outline is none, and a full-viewport pixel diff between focused and blurred states was 0 px, matching Rampa's record. Author CSS removed the default ring and nothing replaces it, so 2.4.7 fails (F78-style)."
+    },
+    {
+      "fingerprint": "1b49a73b57f8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Wishlist heart icon link (/account/favoritos), no text. Live Tab walk in headless Edge at 1280x800: on focus the anchor's color/underline change computes to #23527c, but the link has no text or only an icon background, outline is none, and a full-viewport pixel diff between focused and blurred states was 0 px, matching Rampa's record. Author CSS removed the default ring and nothing replaces it, so 2.4.7 fails (F78-style)."
+    },
+    {
+      "fingerprint": "43f56fea7a81",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Account icon link (href '#'), no text. Live Tab walk in headless Edge at 1280x800: on focus the anchor's color/underline change computes to #23527c, but the link has no text or only an icon background, outline is none, and a full-viewport pixel diff between focused and blurred states was 0 px, matching Rampa's record. Author CSS removed the default ring and nothing replaces it, so 2.4.7 fails (F78-style)."
+    },
+    {
+      "fingerprint": "2cf8de026f4f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Minicart icon link whose only content is the count '0'. Live Tab walk in headless Edge at 1280x800: on focus the anchor's color/underline change computes to #23527c, but the link has no text or only an icon background, outline is none, and a full-viewport pixel diff between focused and blurred states was 0 px, matching Rampa's record. Author CSS removed the default ring and nothing replaces it, so 2.4.7 fails (F78-style)."
+    },
+    {
+      "fingerprint": "48e323cdc0e5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Nav link 'Livros Importados'. On focus it only gains a black underline (inline color:#000 overrides the focus color). Tabbing forward always passes through the search field first, which opens the 'Termos mais buscados' panel (white, opaque, inside the fixed header, x 432-918, y 108-494). The panel stays open after focus leaves and does not close on Escape. In my live walk it covered all 9 sample points of the link, and the focused vs blurred diff was 0 px, the same as Rampa's 25/25 points and 0 px. The indicator exists but is fully hidden in normal keyboard use. Understanding 2.4.11 says a fully obscured focus indicator 'would likely fail 2.4.7', so the 'no visible focus indicator' claim holds. It is the same root cause as the 2.4.11 finding on this link."
+    },
+    {
+      "fingerprint": "5eaf9ed370d5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Filter panel '🢀 Voltar' button (Bootstrap btn-outline-secondary). Live check at 1280x800, reaching it by Tab from the breadcrumb: outline none, box-shadow none, and border, background and color identical when focused and blurred; viewport diff 0 px. No visible focus indicator, so 2.4.7 fails."
+    },
+    {
+      "fingerprint": "5f78eb1a7c99",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Scrollable 'Editoras' filter list (overflow-y auto, no tabindex). Edge/Chrome put it in the Tab order as a keyboard-focusable scroller because the checkboxes inside are not tab stops, and arrow keys then scroll it. Live check: when it is focused (page scrolls to y 188), outline computes to none, which means author CSS overrode the browser's focus ring, and focused vs blurred diff is 0 px. A keyboard user lands on an invisible stop, so 2.4.7 fails. The unfocusable checkboxes are a separate 2.1.1 concern."
+    },
+    {
+      "fingerprint": "6a60c9b29558",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Nav link 'Livros Importados' at 1280x800. The message's claim, that it is entirely hidden when focused, holds live. The cover is the 'Termos mais buscados' search-suggestion panel: it lives inside the fixed <header>, opens when the search field gets focus, and stays open after focus moves on. Escape does not close it, and scrolling cannot reveal the link because both are in the fixed header. elementFromPoint hit the panel at every sample point and the screenshot shows the panel over the link. Understanding 2.4.11 says a dropdown that persists after losing focus fails, and the Note 2 exception does not apply. Rampa names the containing header and suggests scroll-padding, a fix that would not help, but the failure is real."
+    },
+    {
+      "fingerprint": "b7572b7a995a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Breadcrumb link 'Livros' at 390x844 (y 182, no scroll). Live: after Tab passes the search field, the 'Termos mais buscados' panel opens (absolute inside the fixed header, x 21-369, y 147-533) and stays open. When the breadcrumb receives focus, the panel covers it entirely (screenshot confirms). Escape does not close the panel, and Space/arrow keys only scroll the link further under the header, so the user cannot reveal it without moving focus. This fails 2.4.11 as the message says. Rampa's scroll-padding fix is wrong, but that does not change the label."
+    },
+    {
+      "fingerprint": "9fceb279bdf9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Breadcrumb link 'Literatura Brasileira' at 390x844 (y 182). This is the same situation as the 'Livros' breadcrumb: the persistent search-suggestion panel inside the fixed header covers it completely when it receives focus (all sample points hit the panel's links). Escape does not dismiss the panel and scrolling cannot reveal the link. This fails 2.4.11. The obscurer is the panel inside the header rather than the header bar itself, and the scroll-padding patch would not fix it."
+    }
+  ]
+}

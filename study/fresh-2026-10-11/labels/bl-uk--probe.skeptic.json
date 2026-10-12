@@ -1,0 +1,54 @@
+{
+  "page": "https://www.bl.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "793e0fb39037",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the secondary 'All events' button link below the event cards. On the live page I tabbed onto it in headless Edge. Once focused it settles on a #d4d0c3 background with #28261b text, which is 9.84:1. The site's floating-focus script briefly lays a 30% #5a5853 overlay on the button for about 0.8 s after focus moves, and even then the background is about #afaba1 and the text stays above 4.5:1. The background Rampa reports, #7f7d75, never sits behind the text. It matches the anti-aliased pixels of the 2 px floating focus ring drawn 2 px outside the button (I sampled #7d7a77 there), so the probe took the ring, or a moment in the animation, as the text background. The background-color change Rampa records (#e8e6dc to #d4d0c3) is correct and leaves the text with plenty of contrast. This is not a 1.4.3 failure."
+    },
+    {
+      "fingerprint": "89e6cbfc2de8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Close cookie control' X button in the CIVIC cookie panel, a dark #313147 slide-out. After any keyboard use the site enables floating-focus-a11y, which removes the element's outline and draws a floating 2 px border in the outline colour, rgb(90,88,83) = #5a5853 (var(--color-text-tertiary)), 2 px outside the button. I confirmed on the live page that the floating element's border is solid 2px #5a5853 and that the button's computed outline-style is none. The ring has only panel colour on both sides, and #5a5853 against #313147 is 1.78:1. Once the transient overlay fades, nothing else marks focus. The UA-default exception does not apply because the author replaced the default ring; that default is only visible when the panel auto-focuses the button on load, before any key is pressed. This matches the Understanding 1.4.11 case of an external indicator that does not contrast with the adjacent background."
+    },
+    {
+      "fingerprint": "026d91109a77",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'I accept' button in the dark cookie panel. On focus the only lasting change is the floating-focus ring: a 2 px #5a5853 border 2 px outside the button's white border, with panel colour #313147 on both sides, which is 1.78:1. The button's own border, background and text stay as they are; the 30% overlay fades after about 1 s. My live focused and blurred screenshots show the ring as a faint grey line. No technique makes this pass the 3:1 that 1.4.11 asks of a focus indicator against adjacent colours, and the ring is author-styled, so the UA exception does not apply."
+    },
+    {
+      "fingerprint": "9f6d54acba25",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'I do not accept' button in the same cookie panel and has the same indicator as 'I accept'. Its focused computed style is identical (outline-style none) and focus is shown only by the floating 2 px #5a5853 ring over #313147, which is 1.78:1. The live screenshot shows a barely visible grey ring, with no other lasting focus cue. The indicator is author-defined and under 3:1 against adjacent colours, so this is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "ddfb4dc26616",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'About this tool' link at the bottom of the cookie panel. When focused, the only lasting indicator is the floating 2 px #5a5853 ring around the link text, with no underline, colour or background change. The ring runs over the dark panel (#313147 / #3d3c4b) and partly under the cookie-icon triangle, giving 1.5 to 2.4:1 against adjacent colours. My live screenshot shows only a faint ring. Rampa's exact pixel values may vary slightly with what the ring crosses, but every adjacent colour gives under 3:1, so the claim holds."
+    },
+    {
+      "fingerprint": "88b3b1d02a01",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 80x80 'Set cookie preferences' triangle button (#ccc-icon) at the bottom-left of the viewport. While the panel is open it overlaps the panel, and the probe reached it by tabbing inside the open panel. Its focus indicator is the same floating 2 px #5a5853 ring at a 2 px offset. Only the top and right edges are on screen, and they lie on the #313147 panel, which is 1.78:1. On the live page the ring is barely visible when I compare the focused and blurred captures. With the panel closed the ring would sit on the light page and pass, but the open-panel state is a real keyboard state and fails 1.4.11 there."
+    },
+    {
+      "fingerprint": "7a94c86b72f4",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the teaser description in the 'Treasures of the British Library' card. The paragraph is inside the card's link to events.bl.uk/exhibitions/treasures-of-the-british-library and is styled with -webkit-line-clamp: 3 and an ellipsis. Live at 1280 px with WCAG text spacing, the paragraph needs 4 lines and the last words ('our permanent exhibition.') become an ellipsis, so the measurement is right. However, Understanding 1.4.12 ('Use of ellipses') says a page still conforms 'where the ellipsis is part of a section of content which includes a link, the truncated text is revealed on the linked page'. Rampa never read the destination. That page says the gallery is a 'free permanent gallery' displaying 'some of the world's most exciting, beautiful and significant books, manuscripts...', so the hidden content is available there. The same clamp also cuts the text at 1024 px with no text spacing, which shows it is a deliberate teaser convention. A strict auditor might want the exact sentence, but the documented link allowance applies."
+    },
+    {
+      "fingerprint": "1985ed130a21",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the description in the 'All events' card ('...In London, Yorkshire and online.'). It sits inside the card link to https://events.bl.uk/ and has a 3-line -webkit-line-clamp. Live at 1280 px with text spacing only the last word, 'online.', becomes an ellipsis, and the same word is already clamped at 1024 px without spacing. Understanding 1.4.12 allows ellipses inside a section with a link when the truncated text is revealed on the linked page. Rampa did not read the destination and only checked the name and title. The events.bl.uk listing presents online events and says courses run 'both in-person and online', so the hidden content is available one activation away. Under the documented allowance this is not a 1.4.12 failure, though a strict reading requiring the verbatim sentence could disagree."
+    }
+  ]
+}

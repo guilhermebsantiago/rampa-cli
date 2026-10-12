@@ -1,0 +1,180 @@
+{
+  "page": "https://www.fuvest.br/vestibular-da-usp",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "228b20fd1771",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Decorative step illustration (a framed certificate) in the INSCRIÇÃO section, next to text that already says everything: \"Informe a escolaridade.\" Its alt and title are the file name \"ico-escolaridade\", so a screen reader announces the file name instead of ignoring the image. This is documented failure F30 (file names as text alternatives): a decorative image must be ignorable (alt=\"\"), and an informative one needs a real description. The live page still has the same alt."
+    },
+    {
+      "fingerprint": "b0eaadf4f265",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Illustration of a phone with a ringing bell above the GABARITO heading and paragraph in ACOMPANHE OS RESULTADOS. The image is decorative, but its alt and title are the file name \"img_acompanhe\", which a screen reader announces. That is failure F30: the image is neither ignorable nor described. The live page is unchanged."
+    },
+    {
+      "fingerprint": "ec855db0c436",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Illustration of a phone showing a form above the LISTA DE CHAMADAS heading and paragraph. Its alt and title are the file name \"img_formulario\", which is announced in place of the image. That is failure F30 under 1.1.1: alt=\"\" (decorative) or a real description is required. The live page is unchanged."
+    },
+    {
+      "fingerprint": "8d2e3aadc17c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The third illustration of the ACOMPANHE OS RESULTADOS series, above LISTA DE ESPERA. In the capture it is covered by the cookie banner, but the markup is the same as its siblings: alt and title are the file name \"img_listadeespera\", announced by screen readers. That is failure F30 under 1.1.1. The live page is unchanged."
+    },
+    {
+      "fingerprint": "848fe91c8b84",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Step illustration (a phone with a padlock and key) next to \"Você preenche o formulário de dados pessoais e cria uma senha de acesso.\" Its alt is the file name \"img_senha\", which a screen reader reads instead of ignoring or describing the image. That is failure F30 under 1.1.1. The patch's descriptive alt is more than needed (alt=\"\" would do, since the text carries the meaning), but the claim that the alt is a file name is right."
+    },
+    {
+      "fingerprint": "3038b0961729",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Step illustration (a person holding a phone, a selfie) next to \"É preciso inserir uma foto de rosto para o reconhecimento facial...\". Its alt is the file name \"img_fotoinscricao\", which is announced to screen-reader users. That is failure F30 under 1.1.1. The descriptive alt in the patch is optional (alt=\"\" would also conform); the failure is real."
+    },
+    {
+      "fingerprint": "7a0911a55171",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Step illustration (a phone with check-box options) next to the text about choosing the affirmative-action quotas (EP or PPI). Its alt is the file name \"img_selecaoopcao\", which is announced. That is failure F30 under 1.1.1. The patch's description is optional; the failure is real."
+    },
+    {
+      "fingerprint": "55617165121c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Step illustration (a person surrounded by connected dots) next to \"Escolha a carreira e o(s) curso(s).\" Its alt is the file name \"img_escolha\", which is announced. That is failure F30 under 1.1.1. alt=\"\" or a real description is needed. The live page is unchanged."
+    },
+    {
+      "fingerprint": "a6e852413f9a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Illustration (three hands joined around a circle) next to the paragraph about the socioeconomic profile questionnaire. Its alt is the file name \"img_perfil\", which a screen reader announces. That is failure F30 under 1.1.1. The descriptive patch is optional; the failure is real."
+    },
+    {
+      "fingerprint": "c9746a6b3770",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "img_locaisdeprova.svg is a small illustration (São Paulo state outline with a location pin) directly above \"Assinale em qual cidade gostaria de fazer a prova.\" It belongs to the same series of decorative step illustrations. The pin on a map only restates 'choose the city' and adds no information the text lacks; a visual description is not information. alt=\"\" is the correct, conforming treatment (H67), so 1.1.1 passes. Ironically it is the only illustration in the series coded correctly. The adjacent text was in the packet, so the error is in the model's judgment."
+    },
+    {
+      "fingerprint": "ca395ae1aa19",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h2 \"VESTIBULAR FUVEST 2027\" (58px, weight 600). The live Elementor CSS (element e9e49a2) sets color #00adee, and the screenshot shows it on white and the light #eef5fb band. #00adee on #ffffff is 2.56:1, lower on the tint, so even as large text it is below the 3:1 minimum. The site's 'Alternar Alto Contraste' toggle does not make this pass under G174, because that technique requires the alternate presentation to conform to all other success criteria, and the file-name alts and unnamed home link persist there."
+    },
+    {
+      "fingerprint": "d7d58d48e8c7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h2 \"TIPOS DE VAGA\" (32px, weight 600). The live CSS (03a9ca8) sets color #00adee; the screenshot shows it on white and #eef5fb. That is 2.56:1 at best, below the 3:1 required for large text. The high-contrast toolbar toggle does not satisfy G174 (the alternate presentation still fails other SC)."
+    },
+    {
+      "fingerprint": "7d367005bc21",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h2 paragraph \"Todos os candidatos inscritos concorrerão...\" (18px, weight 600). The live CSS (89102ef) sets color #7a7a7a. 18px semi-bold is under the 14pt bold (about 18.66px) threshold, so it is normal text needing 4.5:1. #7a7a7a on #ffffff is 4.29:1, and on the #eef5fb band 3.90:1. It fails 1.4.3."
+    },
+    {
+      "fingerprint": "f1e5075b5d57",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The bold \"AC\" inside the 'Todos os candidatos...' h2 inherits #7a7a7a (live CSS) at 18px. That is normal-size text, so 4.5:1 applies. It sits on the #eef5fb tinted band (3.90:1) and would be only 4.29:1 even on white. It fails 1.4.3. It overlaps finding 7d367005bc21 (same paragraph), but the claim about this text is correct."
+    },
+    {
+      "fingerprint": "8bd4b92d0ea8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h2 \"RECURSOS ESPECÍFICOS\" (27px, weight 600). The live CSS (9c1fad2) sets #00adee; the screenshot shows it on white and #eef5fb. That is 2.56:1 at best, below the 3:1 for large text. The high-contrast toggle does not meet G174 (the alternate presentation still fails other SC)."
+    },
+    {
+      "fingerprint": "f81ba80b7dc9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h2 \"INSCRIÇÃO\" (32px, weight 600). The live CSS (fc399c4) sets #00adee, and the section background is #f9f9f9 or #eef5fb. That is about 2.43:1 or less, below the 3:1 for large text. It fails 1.4.3."
+    },
+    {
+      "fingerprint": "a9198eb8ab00",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h2 \"LEITURAS OBRIGATÓRIAS\" (32px, weight 600). The live CSS (647fa00) sets #00adee on a #f9f9f9 or #eef5fb background, about 2.33 to 2.43:1. That is below the 3:1 for large text, so it fails 1.4.3."
+    },
+    {
+      "fingerprint": "993e40b821db",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h2 \"Além do conteúdo programático, há nove livros...\" (17px, weight 600). That is normal-size text, so 4.5:1 applies. The live CSS (3055fbf) sets #7a7a7a, which is 4.08:1 on the #f9f9f9 section background and 3.90:1 on the #eef5fb band. It fails 1.4.3."
+    },
+    {
+      "fingerprint": "31a930761015",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h2 \"ACOMPANHE OS RESULTADOS\" (32px, weight 600). The live CSS (b3f170e) sets #00adee; the screenshot shows it on white and #eef5fb. That is 2.56:1 at best, below the 3:1 for large text, so it fails 1.4.3."
+    },
+    {
+      "fingerprint": "93e3224e455c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first main-menu item is a link to https://www.fuvest.br showing only a FontAwesome home glyph (U+F015, 20px). The screenshot (sticky header) shows the light-blue icon on the white header bar; the snapshot records #00adee from CSS on #ffffff, which is 2.56:1. The icon is the only thing that identifies this control, so it is a graphical object required to understand it, and 1.4.11 requires 3:1 against adjacent colors (G207). It fails."
+    },
+    {
+      "fingerprint": "9ce09e8e23e1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link text is \"aqui\" (href #Editais), but the live HTML and the snapshot show its enclosing sentence, in the same text block: \"Acompanhe aqui as publicações do vestibular FUVEST 2027.\" Link text plus its programmatically determined sentence context gives the purpose (the vestibular's publications). That is sufficient technique G53, so 2.4.4 (Level A) passes; only 2.4.9 (AAA) would require a self-describing link. The sentence was in the packet's ancestor text, so the model misjudged."
+    },
+    {
+      "fingerprint": "ab4ca14e83a7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'next page' link of the Últimas Notícias pagination (nav aria-label=\"Pagination\"). Its only text is \"»\", with no screen-reader text, title or aria-label. The live HTML shows Elementor gave the page-number links hidden 'Page' text but not this one. Screen readers announce the guillemet as a symbol name, or nothing at default punctuation levels, and no sentence, list or cell context says 'next page'. The purpose rests only on visual convention, so 2.4.4 fails. The finding's 'nothing around it does' is slightly overstated (the nav label hints at pagination), but the failure stands."
+    },
+    {
+      "fingerprint": "271ae532e2ce",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link text is \"aqui\" (to Formulario-de-Documentacao-Comprobatoria.pdf), but it sits in the paragraph <p>Baixar aqui o Formulário de Documentação Comprobatória de Condições Especiais Específicas e preencher de acordo com as instruções do Guia de Inclusão.</p>. The same sentence states exactly what the link downloads, so the purpose is determinable from the link text plus its programmatically determined context (G53), and 2.4.4 passes. The paragraph was in the packet, so the model misjudged."
+    },
+    {
+      "fingerprint": "90aeb1d993d2",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An h2 \"01/11/2026\" in the exam-phases block. It is the date pill under '1ª FASE / MÚLTIPLA ESCOLHA', followed by '80 QUESTÕES' and the curricular components. In this exam schedule the date identifies the exam day whose content is described below, so it describes the topic. 2.4.6 only asks headings to describe topic or purpose, not to be exhaustive. Whether a date should be a heading at all is a 1.3.1 question, and the '1ª FASE' image with alt=\"\" is a separate 1.1.1 issue. 'Data da prova: ...' would be a nicer label, not a fix for a failure."
+    },
+    {
+      "fingerprint": "d9e6bc5d156e",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An h2 \"06/12/2026\" in the 2ª FASE / DISSERTATIVA column, directly followed by 'PRIMEIRA PROVA: 10 questões de Português e 1 Redação'. As in any schedule, the heading names the day of the exam described in the short section under it. That meets 2.4.6 (describes topic). A fuller label would be better practice, but its absence is not a failure."
+    },
+    {
+      "fingerprint": "e33bb0d98c53",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An h2 \"07/12/2026\" in the 2ª FASE column, followed by 'SEGUNDA PROVA: 12 questões...'. Like the other date pills, it identifies the exam day the following text describes, so it describes the topic of its section within the schedule. 2.4.6 is met; the patch is an enhancement."
+    },
+    {
+      "fingerprint": "8d1265d2d7d2",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "An h2 \"ATENÇÃO!\" (orange, under a megaphone icon) heads a box of notices: where the exam site and room are published, that the 2ª fase venue may differ, and gate times. It conveys the section's purpose (an important-notice callout) but not its topic (venue and schedule rules). 2.4.6 accepts 'topic or purpose', and generic callout headings like 'Atenção'/'Importante' are passed by some competent auditors and failed by others as non-descriptive for heading navigation. The evidence does not settle it."
+    },
+    {
+      "fingerprint": "ef36412eec3a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An h2 \"08/12/2026 a 11/12/2026\" in the right column of the block titled by the h2 'PROVAS DE COMPETÊNCIAS ESPECÍFICAS'. It is the date-range pill for those exams, followed by the paragraph explaining them. In context it describes the topic (when these exams take place) as a sub-label of an already well-labelled section. 2.4.6 does not require each heading to restate the section name, so this is not a failure."
+    },
+    {
+      "fingerprint": "21f406d8c105",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The home link in the main menu (<a href=\"https://www.fuvest.br\"><span style=\"font-family:FontAwesome\">U+F015</span></a>) has no aria-label, title or hidden text. Its name comes from its contents, which are only the private-use glyph U+F015: the snapshot's ax tree shows nameFrom contents, and the list item's name is \\uf015. Screen readers announce nothing meaningful, so the link has no usable accessible name. It fails 4.1.2 (and 2.4.4). Minor inaccuracy: the glyph is literal DOM text styled with an icon font, not CSS-generated content, but the claim and the fix are right."
+    }
+  ]
+}

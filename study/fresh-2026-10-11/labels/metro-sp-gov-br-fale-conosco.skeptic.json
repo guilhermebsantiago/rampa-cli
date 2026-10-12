@@ -1,0 +1,42 @@
+{
+  "page": "https://www.metro.sp.gov.br/fale-conosco/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "a96a1739ad0c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img (wp-image-13947, alt=\"\") is the Metrô Conecta app logo: an icon plus the visible words \"METRÔ CONECTA\". I looked for a reason it could be decorative. The paragraph next to it says only \"Informe qualquer ocorrência em tempo real pelo nosso aplicativo\" (\"our app\") and never names the app. The App Store and Google Play badge links beside it also have alt=\"\" images, so the name appears only in their hrefs, which users don't hear. The live page (checked 2026-10-11) still has the same markup. So the image is the only place the app's name is given. Logos are exempt from 1.4.5, not from 1.1.1, so hiding it from assistive technology fails 1.1.1 as the finding says."
+    },
+    {
+      "fingerprint": "d857826b62a0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Sua Viagem\" is a top-level item in the main navigation. It is a Bootstrap dropdown toggle (href=\"#\", data-bs-toggle=\"dropdown\", aria-expanded=\"false\") that opens a submenu: Mapa da Rede, Linhas e Estações, Acessibilidade e Atendimento Preferencial, and so on. Its purpose is to open the \"Sua Viagem\" (your trip) section of the menu. The text names that section, and the expanded state and the nav/list context say it is a menu toggle, so the purpose can be determined. The packet gave the model the toggle HTML and the list item holding the submenu, so it had the context and judged wrongly. Using role=link for a toggle is at most a 4.1.2 concern, not 2.4.4. The suggested patch (\"Minha Viagem\") would not change anything."
+    },
+    {
+      "fingerprint": "578feeff8b32",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link text is the URL www.viaquatro.com.br/fale-conosco. It sits in the same sentence and list item as \"Endereço eletrônico para registro de manifestações referentes a Linha 4-Amarela:\" (web address for filing complaints about Line 4-Yellow), under the heading \"Central de Atendimento da Linha 4-Amarela\". Link text together with its enclosing sentence or list item is programmatically determined context (G53, H78/H79-style context), so the purpose is clear. The URL also names the operator's contact page. WCAG 2.4.4 does not forbid a URL as link text. Rejecting it as \"an address, not a purpose\" applies a stricter rule than the criterion. The live page is unchanged."
+    },
+    {
+      "fingerprint": "63ed1ea69c7f",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the same pattern as the Line 4 link. The link text www.viamobilidade.com.br/fale-conosco closes the sentence \"Endereço eletrônico para registro de manifestações referentes a Linha 5-Lilás:\" inside a list item headed \"Fale Conosco\", under the heading \"Central de Atendimento da Linha 5-Lilás\". That surrounding sentence is programmatically determined context, and it says plainly what the link is for: the operator's page for filing complaints about Line 5. A URL as link text is not a 2.4.4 failure in itself. The finding applies a stricter best-practice rule than WCAG."
+    },
+    {
+      "fingerprint": "78b8c763b40a",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "\"SIC\" is one of three buttons in the shared São Paulo government footer: Ouvidoria, Transparência, SIC. In Brazilian government sites SIC is the standard, legally required label for the Serviço de Informação ao Cidadão. The link goes to fala.sp.gov.br (Fala.SP), the state's platform for ombudsman and access-to-information (SIC) requests; a fetch on 2026-10-11 confirmed that the page covers \"acesso à informação\" and SIC. So the link text names its destination service, and the footer group gives context. That some users may not know the acronym is an abbreviation-expansion issue under 3.1.4 (AAA), not 2.4.4. The main content of the page also links \"Serviço de Informações ao Cidadão\". The claim that nothing around the link says where it goes does not hold."
+    },
+    {
+      "fingerprint": "c001cd6a149f",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the message textarea of the third-party Smooch/Zendesk chat widget (\"Lina do Metrô\"), inside an iframe. The widget was closed when Rampa read the page: the textarea had no bounds and only the launcher button showed. The textarea gets its accessible name \"Enviar\" from a title attribute that the widget fills with its sendButtonText setting (seen in the live page's config). Its visible placeholder is \"Digite uma mensagem...\" (\"Type a message...\"), which does say what to enter. Arguments against a 2.4.6 failure: the identifier shown to sighted users is descriptive, and \"Enviar\" appears only as a hover tooltip and in the programmatic name. On that reading, the mismatch is better filed under 4.1.2 or 2.5.3. The argument for it: screen reader users get \"Enviar\" (\"Send\") as the field's label, which names the button's action rather than what to type. Competent auditors would split on whether that is a 2.4.6 label failure, so I label it uncertain."
+    }
+  ]
+}

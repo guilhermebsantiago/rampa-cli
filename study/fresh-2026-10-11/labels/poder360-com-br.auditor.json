@@ -1,0 +1,168 @@
+{
+  "page": "https://www.poder360.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "1f49dd4dd08c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the photo of candidate Lula in the election results widget, with alt=\"Lula\". That alt names the person shown, which is the right text alternative for a candidate photo. It is not a file name or a placeholder, even though the file is Lula.png. The \"16%\" in the crop is the end of the separate \"45,16%\" vote-bar text overlapping the photo, not part of the image. So the suggested alt \"Lula com um selo de 16%\" would be wrong."
+    },
+    {
+      "fingerprint": "62789fbd11d4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Google Ad Manager banner (an Ágora/Bradesco ad). Its img is the only content of a link to the advertiser, with alt=\"Advertisement\". The image is mostly text (\"A evolução do seu jeito de investir\", \"Descubra uma nova experiência com o app Ágora\", \"Saiba mais\"). \"Advertisement\" gives neither that text nor the link's purpose, so the functional image has no equivalent text alternative. That is a real 1.1.1 failure on the page (the ad is third-party and rotates, but it is part of the page as served). The link also fails 2.4.4."
+    },
+    {
+      "fingerprint": "9af9ac8766ce",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the newsletter signup field (\"alertas grátis do Poder360\"). It is <input type=\"text\" placeholder=\"seu e-mail\"> with no autocomplete attribute, and it asks for the user's own email address. The live HTML still has no autocomplete. Without autocomplete=\"email\" the field's input purpose is not programmatically determinable, so it fails 1.3.5."
+    },
+    {
+      "fingerprint": "f00554bfcb20",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The vote count under Flávio Bolsonaro's name (\"56.104.503 votos\") in the dark-blue election widget is 14px, weight 500, so it is not large text. The CSS colour is #8fb0d6. I sampled the screenshot: solid glyph pixels are #8fb0d6 and the background is #194575, giving about 4.35:1 (Rampa says 4.30–4.41). That is below 4.5:1, so it fails 1.4.3."
+    },
+    {
+      "fingerprint": "556ac34acd7f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The vote count under Lula's name (\"53.879.538 votos\") in the dark-blue election widget is 14px, weight 500, so it is not large text. The CSS colour is #8fb0d6. I sampled the screenshot: solid glyph pixels are #8fb0d6 and the background is #194575, giving about 4.35:1 (Rampa says 4.30–4.41). That is below 4.5:1, so it fails 1.4.3."
+    },
+    {
+      "fingerprint": "d87659acefb2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the category tag \"Poder Internacional\" (slide 1) on a slide of the \"Destaques do Poder\" carousel. Live CSS (css-swiper.min.css): .destaqueHome__swiper-tag{color:#f7f7f7;background-color:#fd541e;font-size:1.6rem}, rendered at 16px, weight 400, uppercase. That is not large text, and #f7f7f7 on #fd541e is 3.03:1, below the 4.5:1 that 1.4.3 requires. The stories have rotated on the live page since the run, but the tag styling is unchanged. (The full-page screenshot happens to show the open menu over this area, so I checked the CSS instead.)"
+    },
+    {
+      "fingerprint": "204f66d71fa4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the category tag \"Poder Eleições 2026\" (slide 2) on a slide of the \"Destaques do Poder\" carousel. Live CSS (css-swiper.min.css): .destaqueHome__swiper-tag{color:#f7f7f7;background-color:#fd541e;font-size:1.6rem}, rendered at 16px, weight 400, uppercase. That is not large text, and #f7f7f7 on #fd541e is 3.03:1, below the 4.5:1 that 1.4.3 requires. The stories have rotated on the live page since the run, but the tag styling is unchanged. (The full-page screenshot happens to show the open menu over this area, so I checked the CSS instead.)"
+    },
+    {
+      "fingerprint": "3f84a90323eb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the category tag \"Poder Internacional\" (slide 3) on a slide of the \"Destaques do Poder\" carousel. Live CSS (css-swiper.min.css): .destaqueHome__swiper-tag{color:#f7f7f7;background-color:#fd541e;font-size:1.6rem}, rendered at 16px, weight 400, uppercase. That is not large text, and #f7f7f7 on #fd541e is 3.03:1, below the 4.5:1 that 1.4.3 requires. The stories have rotated on the live page since the run, but the tag styling is unchanged. (The full-page screenshot happens to show the open menu over this area, so I checked the CSS instead.)"
+    },
+    {
+      "fingerprint": "59f6873e5ad2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the category tag \"Poder Eleições 2026\" (slide 4) on a slide of the \"Destaques do Poder\" carousel. Live CSS (css-swiper.min.css): .destaqueHome__swiper-tag{color:#f7f7f7;background-color:#fd541e;font-size:1.6rem}, rendered at 16px, weight 400, uppercase. That is not large text, and #f7f7f7 on #fd541e is 3.03:1, below the 4.5:1 that 1.4.3 requires. The stories have rotated on the live page since the run, but the tag styling is unchanged. (The full-page screenshot happens to show the open menu over this area, so I checked the CSS instead.)"
+    },
+    {
+      "fingerprint": "371240bdccce",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the category tag \"Poder Tech\" (slide 5, partly beyond the viewport until the carousel is advanced) on a slide of the \"Destaques do Poder\" carousel. Live CSS (css-swiper.min.css): .destaqueHome__swiper-tag{color:#f7f7f7;background-color:#fd541e;font-size:1.6rem}, rendered at 16px, weight 400, uppercase. That is not large text, and #f7f7f7 on #fd541e is 3.03:1, below the 4.5:1 that 1.4.3 requires. The stories have rotated on the live page since the run, but the tag styling is unchanged. (The full-page screenshot happens to show the open menu over this area, so I checked the CSS instead.)"
+    },
+    {
+      "fingerprint": "34eb7c775ce5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"OPINIÃO\" tag on the first opinion teaser image. Live CSS: .box-queue__special-tag{color:#f7f7f7;background:#dd3600 url(aspas.svg)} at 1.2rem (12px), and the .box-queue__news-b override makes it weight 400. #f7f7f7 on #dd3600 is 4.26:1, below 4.5:1 for small text, so it fails 1.4.3. Some anti-aliased glyph pixels in the screenshot read near #fff (4.56:1), but 1.4.3 is judged on the specified colour, not on anti-aliasing. Rampa's own 80x20 crop shows only the quote icon, but the full screenshot shows the text clearly."
+    },
+    {
+      "fingerprint": "50d2ffb7982c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"OPINIÃO\" tag on the second opinion teaser image. Live CSS: .box-queue__special-tag{color:#f7f7f7;background:#dd3600 url(aspas.svg)} at 1.2rem (12px), and the .box-queue__news-b override makes it weight 400. #f7f7f7 on #dd3600 is 4.26:1, below 4.5:1 for small text, so it fails 1.4.3. Some anti-aliased glyph pixels in the screenshot read near #fff (4.56:1), but 1.4.3 is judged on the specified colour, not on anti-aliasing. Rampa's own 80x20 crop shows only the quote icon, but the full screenshot shows the text clearly."
+    },
+    {
+      "fingerprint": "25f977cade46",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"OPINIÃO\" tag on the third opinion teaser image. Live CSS: .box-queue__special-tag{color:#f7f7f7;background:#dd3600 url(aspas.svg)} at 1.2rem (12px), and the .box-queue__news-b override makes it weight 400. #f7f7f7 on #dd3600 is 4.26:1, below 4.5:1 for small text, so it fails 1.4.3. Some anti-aliased glyph pixels in the screenshot read near #fff (4.56:1), but 1.4.3 is judged on the specified colour, not on anti-aliasing. Rampa's own 80x20 crop shows only the quote icon, but the full screenshot shows the text clearly."
+    },
+    {
+      "fingerprint": "0af9c6335e9a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the placeholder \"seu e-mail\" in the newsletter field. The screenshot pixels confirm placeholder text #757575 (Chrome's default) on a #fbfbfb field background: 4.45:1 for 16px regular text. The placeholder is the only visible cue for what the field wants: the nearby <label for> points to an id that does not exist, and its text is \"alertas grátis do Poder360\". So it is informative text, it falls under 1.4.3, and it misses 4.5:1, if only narrowly."
+    },
+    {
+      "fingerprint": "658c035cae48",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the WhatsApp channel link in the newsletter box: the WhatsApp brand logo (white glyph on WhatsApp green #22d467, on a #fbfbfb box). The 1.97:1 measurement is right, but the Understanding document for 1.4.11 exempts logos under the essential exception and says the exemption carries over to a UI component that is a logo. The logo is shown in its brand colours. Next to it is an \"INSCREVA-SE\" text link to the same WhatsApp URL. So this is not a 1.4.11 failure; at most it is the best-practice note in the Understanding document."
+    },
+    {
+      "fingerprint": "5ecf82256adb",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This h2 is the headline of a teaser and links to the article it names. The teaser's image shows Flávio Bolsonaro and Daniel Vorcaro, and the image alt repeats the headline. The heading describes exactly the content it labels. What follows it in the DOM is simply the next teaser in the grid, which is normal for a news home page. So the heading is descriptive, and 2.4.6 passes."
+    },
+    {
+      "fingerprint": "6a3c67ee2cc3",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"PoderData/Aya\" is the section heading over Poder360's polling section. PoderData is its polling unit, and the bar carries the Poder/Aya branding. Every story under it is about poll results (\"Pesquisas mostravam avanço de Flávio...\", \"Flávio tem 53% contra 47% de Lula no 2º turno, diz pesquisa\", and so on). A section named after the outlet's polling brand describes that section's topic. 2.4.6 does not require a generic description, so this is not a failure."
+    },
+    {
+      "fingerprint": "1a8db604ec9b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This h2 is the section kicker \"Poder Brasil\" above one teaser, \"Sarney apresenta boa evolução, mas continua internado na UTI\", a national news story from that section. The heading names the section the story belongs to, and it links to that section. That describes the content under it, so 2.4.6 passes. Marking kickers as headings is at most a structural (1.3.1) question, not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "6593202ab4ad",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This h2 is the section kicker \"Poder Gente\" (the people/society section) above one teaser, \"Viúva de Lito Sousa relata dificuldade para viajar após morte do marido\", a story from that section. The heading names the story's section and links to it, so it describes its content. This is not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "5f41b05fa6ab",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This h3 is the headline of the \"Poder Gente\" teaser, and its photo shows the widow and Lito Sousa. It describes exactly the story it labels and links to. The model compared it with the next row's teaser (\"Lula e Flávio têm 3 debates...\"), which is a separate item. The suggested patch would mislabel the story. This is not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "af903b237f47",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This h2 is the section kicker \"Programa de Trainees 2027\". The teaser directly under it is \"Poder360 anuncia 3º programa de trainees em jornalismo\", with a photo of the trainee group. The heading names precisely the topic of the content it labels, so this is not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "595684b4bf68",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This h3 is the headline of the trainee-programme teaser and links to that article. It describes its own content. The model took the next teaser (the Ambev branded-content story) as the content \"under\" it, and the patch would replace the headline with another story's title. This is not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "0ead9112b163",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This h2 is the kicker \"Conteúdo de Marca\" (branded content), shown in teal over the teaser \"Por Ambev / Inovação impulsiona evolução do portfólio ‘wellness’ da Ambev\". The teaser is indeed sponsored content, so the heading accurately describes what it labels and tells readers it is advertising. This is not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "b548584bffbc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This h2 is the \"Poder Internacional\" section kicker over the teaser \"Papa Leão 14 fará cirurgia para remover nódulo no pulmão\", an international story. In the snapshot, the h3 headline immediately after this h2 is that story. The heading names the section and topic of its content correctly, so this is not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "9328d3c9328b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This h2 is the \"Poder Internacional\" section kicker over the teaser \"Coreia do Sul realiza 1ª viagem comercial entre Ártico e Europa\", an international story. In the snapshot, the h3 headline immediately after this h2 is that story. The heading names the section and topic of its content correctly, so this is not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "5574c2fda4be",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the video.js player in the home page grid. Its container is explicitly marked lang=\"pt-br\" (role=region), yet its accessible text is English: the region label \"Video Player\", the \"Play Video\" button, the ad video's title \"Advertisement\", and control texts such as \"Mute\", \"Current Time\" and \"Seek to live\". These are English phrases, not proper names or vernacular, and they are programmatically marked Portuguese. A pt-BR screen reader voice will mispronounce them, so 3.1.2 fails as claimed. The patch is poor, though. Setting lang=\"en\" on the whole player is not the right fix; the player's strings should be localized to pt-BR, or each English string marked lang=\"en\"."
+    },
+    {
+      "fingerprint": "fabe9c11f7b9",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the Google Programmable Search box inside the site's slide-out menu. At capture time the menu was closed (the field was off-screen at y=-1077), and the snapshot marks the adjacent search button, an SVG titled \"pesquisar\", as hidden. When the menu is open, the screenshot shows the field with a magnifying-glass icon beside it. The Understanding document for 3.3.2 names exactly this case: a global search field paired with a loupe icon has that icon as its visible label. So the field has a visible cue. The low contrast of that icon would be a 1.4.11 question, not a 3.3.2 failure."
+    }
+  ]
+}

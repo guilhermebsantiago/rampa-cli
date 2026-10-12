@@ -1,0 +1,30 @@
+{
+  "page": "https://fiocruz.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "4444ecd62436",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header logo link (an <img> of the FIOCRUZ logotype with the tagline 'Ciência e saúde pela vida', alt 'Início'). I loaded the live page in headless Edge at 320x256 and got the same numbers Rampa did: document scrollWidth is 360, the anchor runs 12-344 px, the image 12-328 px, and its region div (.region-nav-branding) reaches 360 px. That div is what makes the page scroll sideways. The other overflowing boxes are off-screen swiper slides inside a clipped container. The image has max-width:none and renders at a fixed 316 px, so it never shrinks to fit. The last letter of 'SAÚDE' is cut off at the viewport edge. One detail differs from the finding's wording: scrolling sideways does not bring that letter back. The orange header background is only 320 px wide, so the white glyph lands on the white page background. The content is lost, not just reachable by two-way scrolling. Read fairly, the claim (the content does not fit at 320 CSS px and the page scrolls horizontally) is still a real 1.4.10 failure. The overflow is small and the clipped part is a logotype tagline, which makes it low severity, but 1.4.10 has no exception for logos and the image does not need a two-dimensional layout."
+    },
+    {
+      "fingerprint": "cf2b7b09d52e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the active Swiper pagination bullet ('Go to slide 1', role=button, aria-current=true) of the home banner carousel. On the live page, the active bullet is a 10 px white dot at opacity 1. The inactive bullets are the same white at opacity 0.5, drawn smaller (6.6 and 3.3 px dynamic bullets). Nothing else (border, outline, shadow) marks them. The bullets have no background of their own and sit on the slide image. On slide 1, the first slide shown and the one Rampa saw, that image is a light teal bar (#bfd6d8 in the screenshot), and white on it is 1.52:1. I looked for reasons it could pass. The size and opacity differences are all carried by the same white dot, so a low-vision user who cannot see the dot against the bar cannot see the state either. Slide 2 has a dark wooden background with better contrast, but slide 1 (and slide 3, light grey) is a real state of the page and fails. Rampa compared the indicator with its adjacent color, which is the comparison 1.4.11 asks for, not a stricter rule. The visual information that identifies the current-slide state is below 3:1."
+    },
+    {
+      "fingerprint": "695f0063ade2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The trigger is the VLibras icon link (#logovlibras) in the gov.br 'Barra Brasil' strip, which is part of the page. Its CSS (:hover/:focus + .link-vlibras) shows a 184x224 px panel with an animated sign-language image, a sentence and a 'VLibras' link. I hovered and focused the trigger in headless Edge. The panel appears at x 936-1120, y 32-256 and is painted on top (z-index 8; elementFromPoint returns the panel). It hides 'Intranet', 'Visite a Fiocruz', 'Dislexia', 'Contraste', 'Inverter' and part of the search field. Pressing Esc did not hide it, either on hover or on focus, and focus stayed on the trigger. It is pure CSS with no script that dismisses it. It is not an input-error message, and it does obscure other content, so neither exception of the dismissible clause applies. The only way to hide it is to move the pointer or focus, which 1.4.13 does not accept. This is a real dismissible failure."
+    },
+    {
+      "fingerprint": "6c8cfb2618c3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the same VLibras hover panel. The strongest reason against the finding is that the barra CSS does include '.link-vlibras:hover' to keep the panel open, and with some pointer paths it does stay open. When I moved straight down in 8 px steps from the icon's centre, the panel stayed visible and hovered, which differs from Rampa's 2-of-2 result. Hit-testing shows why both outcomes happen. The page's decorative 'div.torres' (absolute, z-index 0) covers the bottom 2 px of the trigger (y 30-31). A pointer there hovers neither the trigger nor the panel, so the panel switches at once to display:block/height:0, collapses and turns hidden. Slow straight-down moves of 1, 2, 3 and 5 px per frame, and Rampa-style 8 px steps aimed at the panel's centre, all made it disappear. Only paths that happen to jump over the 2 px band keep it open. Slow pointer movement is typical of screen-magnifier users, the group this clause protects. Moving the pointer onto the panel often makes it vanish, so it is not reliably hoverable (F95). The finding names a real 1.4.13 failure, even though whether a given try fails depends on the pointer path."
+    }
+  ]
+}

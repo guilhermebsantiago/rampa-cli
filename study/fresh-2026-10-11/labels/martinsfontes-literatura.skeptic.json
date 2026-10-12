@@ -1,0 +1,30 @@
+{
+  "page": "https://www.martinsfontespaulista.com.br/livros/literatura-brasileira",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "43c7c510f895",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the category header image (banner-departamento.png, a generic stock photo of open books) with alt=\"Banner padrão\", inside an <a> with no href. The white pill reading \"Literatura Brasileira\" in the model's crop is not part of the image: it is the separate absolutely positioned <h2 class=\"titulo-sessao\"> (bounds 447.9,243.2 384x65.7, matching the pill). The live HTML has the same structure. So the crop misled the model about what the image shows, and the suggested alt \"Literatura Brasileira\" would only repeat the heading. The image still fails 1.1.1, though. If it is decorative (most likely, since the h2 carries the information), a non-null placeholder alt like \"Banner padrão\" is failure F39/F30. If it is informative, \"default banner\" names no content. Either way the claim holds: the text alternative is not a valid alternative for the image. None of my skeptic reasons rescues the element."
+    },
+    {
+      "fingerprint": "576f1b748dff",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field. Its placeholder \"Digite aqui o que está buscando :D\" is the only visible text that says what the field is for. The live stylesheet (0-mtf-web-style.css) sets .search__input::placeholder to color:grey (#808080) at 14px, and the input background is transparent over a white form. I decoded the screenshot pixels in the placeholder box: the darkest text pixels are exactly (128,128,128) on (255,255,255), which is 3.95:1. That is below 4.5:1 for 14px normal-weight text. WCAG has no exemption for placeholder text: it is not incidental, not part of an inactive control, and not a logo. The rule measured it correctly."
+    },
+    {
+      "fingerprint": "ebe721e040ef",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header minicart control: <a href=\"#\" class=\"header__minicart-icon\"><span>0</span></a>. The bag icon is drawn by CSS and has no text alternative. There is no aria-label or title, so the computed name is \"0\" (the item count), which is the same in the live HTML. The link's programmatic context is only generic divs. The \"Minha sacola\" drawer it opens is hidden and is not link context under WCAG's definition (sentence, paragraph, list item, table cell or associated heading). A screen reader user hears \"link, 0\" and cannot tell that it opens the shopping bag. That fails 2.4.4 as claimed. It also arguably fails 4.1.2 for using a link role for a control that opens a panel, but that does not change this label."
+    },
+    {
+      "fingerprint": "99c70d2e2736",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h3 at the top of the left filter sidebar. Its markup is <h3 class=\"livros\"><span></span><a href=\"/livros\">Livros</a></h3>. CSS generated content on the span shows \"Categorias\", and the h3's font-size is 0, so the \"Livros\" link is invisible. The screenshot shows the heading \"Categorias\" with a chevron, and under it the current category \"Literatura Brasileira\" (an h4). The browser's accessible name is \"CategoriasLivros\". That is a missing space, but the words still say this is the categories section and name the parent category, and the content under it is exactly the category navigation. The claim that the heading \"says nothing about the content under it\" is wrong; the patch \"Categorias de Livros\" even keeps the same meaning. The joined words are at most a minor pronunciation issue, not a 2.4.6 failure. The model had the name and context and judged wrongly."
+    }
+  ]
+}

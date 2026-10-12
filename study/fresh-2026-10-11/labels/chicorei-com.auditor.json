@@ -1,0 +1,66 @@
+{
+  "page": "https://chicorei.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "d66868d67ce4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The instalment price line \"4x R$ 22,48\" under the Fazendo Arte product card in the Novidades carousel. Its class text-default-3 resolves to color var(--color-default-text-3), which the live base-critical CSS sets to #818181. It sits on the white card background (the screenshot confirms it) at about 16px, normal weight. That is 3.9:1, below the 4.5:1 that 1.4.3 asks of normal-size text. The card is partly covered by the carousel's next button, which is why axe could not decide, but the colour pair is the same on every card. Real failure."
+    },
+    {
+      "fingerprint": "cfa790a37693",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The same \"4x R$ 22,48\" instalment line on the Mais Energia card, the next item in the same carousel. At capture time it was scrolled out of view, and the carousel's next button brings it in. It uses the same text-default-3 class: #818181 (confirmed in the live CSS) on white, at 16px, normal weight, which is 3.9:1, below 4.5:1. Content in an off-screen carousel slide is still page content, and it fails when shown. Real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "a356eb88d102",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The instalment line \"4x R$ 9,98\" on the Deus Me Proteja card in the \"Você vai curtir\" carousel. The screenshot shows the same light grey on white as every other card. The class text-default-3 resolves to #818181 on #ffffff, which is 3.9:1, at 16px and weight 400. That is below the 4.5:1 that 1.4.3 requires. Real failure."
+    },
+    {
+      "fingerprint": "fad4fceb7e20",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the hero banner link. Its image alt and title are \"Promo 10 de 10\", and the banner reads \"Promo 10 de 10 - Todas as camisetas da oferta por R$ 39,90\". It goes to /promo/. The site's own menu data gives that URL the item title \"Promo 10 de 10: Todas as Camisetas da Oferta por R$ 39,90\", and the destination is the promotions listing. Its generic title (\"Camisetas em Promoção...\") does not contradict the link text: the link names the campaign that the page lists. The purpose can be determined. The model read a different wording of the title as a mismatch."
+    },
+    {
+      "fingerprint": "0345232dbae1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a product card link. Its name includes the product name \"Camiseta Infantil Fazendo Arte\" (twice, from the image alt and the h3) and the price. It goes to camiseta-infantil-fazendo-arte-402003.html. The destination's meta description is \"A Camiseta Infantil Fazendo Arte é...\". Only the HTML <title> says \"Camiseta Infantil Show da Luna\", the licensed line the shirt belongs to. The link text describes exactly where it leads: that product's page. A sloppy destination title does not make the link purpose unclear under 2.4.4. The repeated text in the name is verbose but not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "64cd2f4640c6",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is an icon link in the footer group headed \"REDES SOCIAIS\", next to Instagram, Twitter, Facebook, TikTok, Pinterest, YouTube and Spotify. Its aria-label and title are \"Prosa\", and it goes to /prosa. I opened the live destination: it is titled \"Prosa - Chico Rei\" and headed \"Um dedo de prosa e um bocado de ideias\", the brand's own content channel called Prosa. The link text is the destination's name, like the neighbouring \"Facebook\" or \"Spotify\" links, so its purpose can be determined. Rampa never read the destination."
+    },
+    {
+      "fingerprint": "9c3a40e4c66d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h2 \"Novidades!\" (\"New arrivals!\") heads a carousel of newly released products, each tagged \"Nova\", with a \"Ver todas\" link. The heading accurately states the topic of the section, new products. 2.4.6 asks that headings describe topic or purpose, not that they name every attribute of the items (that they happen to be children's shirts today). Not a failure."
+    },
+    {
+      "fingerprint": "74ea7ed78d08",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h2 \"Você vai curtir :)\" (\"You'll like it :)\") heads the #recommendation section, a carousel of recommended T-shirts. Like the common \"You may also like\", it conveys the section's purpose: product suggestions for the shopper. That is sufficient for 2.4.6, which requires headings to describe topic or purpose, not to be maximally specific. The suggested replacement, \"Nossas Camisetas\", is not more descriptive of a recommendations block. Not a failure."
+    },
+    {
+      "fingerprint": "94cbb01096bc",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The h3 \"Camiseta Cambiar La Realidad\" is a product title on a pt-BR page. \"Cambiar La Realidad\" is the proper name of the shirt design, taken from a Galeano quote printed on it. 3.1.2 explicitly exempts proper names, and a product name is one. The proposed fix of lang=\"es\" on the whole h3 would also mislabel the Portuguese word \"Camiseta\". No 3.1.2 failure."
+    },
+    {
+      "fingerprint": "cbcb137b347e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "#button-open-login is the account/login icon in the header (a person icon, per the screenshot). Its markup is <a id=\"button-open-login\" rel=\"nofollow\"> with no href, containing only an empty <i> icon-font element. The live HTML is the same. The snapshot's browser accessibility node gives role link, focusable, with no accessible name: no text, aria-label, title or alt. A screen reader user gets an unnamed control in place of \"Entrar\" or \"Minha conta\". This is a 4.1.2 name failure, as reported."
+    }
+  ]
+}

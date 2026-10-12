@@ -1,0 +1,84 @@
+{
+  "page": "https://www.tcd.ie/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "fb4ee788c311",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The hero image (alt=\"Frontsquare TCD\") is a photograph of Front Square at Trinity College Dublin: the classical facade with the clock pediment and the arch to Front Gate, with students in the foreground. The alt text names exactly what the photo shows, so the claim that it describes something the image does not show is wrong. The 'Welcome to Trinity' text the model wanted in the alt is an HTML h1 overlaid on the image, not part of the picture. No 1.1.1 failure."
+    },
+    {
+      "fingerprint": "3afa44774123",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Footer social link to instagram.com/trinitycollegedublin whose only content is the Instagram logo with alt=\"istagram\" (confirmed in the live HTML). The alt is a typo of Instagram, but it still identifies the platform. It sits in a 'Connect with us' list next to facebook, X, Youtube and LinkedIn, so the link's purpose and the image's function are still conveyed. Fixing the spelling is worth doing, but a typo that still names the destination is not a failure to provide an equivalent text alternative. The finding's claim that it 'does not say where the link leads' overstates the problem."
+    },
+    {
+      "fingerprint": "4f525d7192f7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer social link to twitter.com/tcddublin whose only content is the X logo (x-logo.svg) with alt=\"X\". X is the platform's current name and the image is its logo, so the alt names the destination as accurately as its siblings (facebook, Youtube, LinkedIn) do, inside the 'Connect with us' list. The suggested fix, 'Twitter', is the outdated name. The alt serves the image's purpose, so there is no 1.1.1 failure."
+    },
+    {
+      "fingerprint": "c55bdff0117b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card category text 'Arts, Culture, Research' (p.news-events-list__item-type, 15px, regular weight). The live CSS gives it color rgba(0,169,206,.9) on the card background #eff0f1. I recomputed the blended contrast as 2.25:1, and the screenshot shows light cyan on pale grey. That is far below the 4.5:1 that 1.4.3 requires for normal-size text, and no exception applies."
+    },
+    {
+      "fingerprint": "c872a9366f43",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Same category style on the second news card ('Culture, Research, Society'): rgba(0,169,206,.9) on #eff0f1, 15px regular. Recomputed contrast is 2.25:1, which is below 4.5:1, and the screenshot confirms the pale cyan text. This is a real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "9e13171d1eed",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Category text 'Culture, Research, Society' on the third (Irish-language) news card has the same styling: rgba(0,169,206,.9) on #eff0f1, 15px regular, 2.25:1 contrast by my recomputation and visible in the screenshot. It fails the 4.5:1 minimum of 1.4.3."
+    },
+    {
+      "fingerprint": "dd094d567a70",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Event location 'Campanile' in the What's On cards uses the same p.news-events-list__item-type class: cyan text on the #eff0f1 card, 15px regular. The screenshot shows the same pale cyan on light grey as the news cards, about 2.25:1, which is below 4.5:1. This is a real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "9c5e39cd13cd",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Event location 'Trinity Business School 182 Pearse Street' uses the same item-type style (cyan on #eff0f1, 15px regular), and the screenshot confirms it. Contrast is about 2.25:1 against the 4.5:1 that 1.4.3 requires for normal text. This is a real failure."
+    },
+    {
+      "fingerprint": "7adb926af178",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header search field (#search-input) shows the placeholder 'Search' on a #ececec background, which the site CSS sets. The site's ::placeholder colour rules apply only inside main and the A-Z search, so this header field gets the browser default grey (#757575), about 3.9:1 on #ececec. Text is 16px regular, so 4.5:1 is required. The placeholder is the only visible text identifying the field (its 'Search text' label is not visible), and the author set the background without a matching placeholder colour. This is a 1.4.3 failure."
+    },
+    {
+      "fingerprint": "ab1a80843e2a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'SPORT' is a button-styled link to https://www.tcd.ie/Sport/ on the university homepage. It sits in a grid of section links (LIBRARIES, ALUMNI & GIVING, VISITORS & BOOK OF KELLS, INNOVATION & ENTERPRISE, CLUBS & SOCIETIES, SPORT). On Trinity's homepage, 'Sport' clearly means the university's sport section, and the link goes there. The link purpose is determinable from the link text alone, so 2.4.4 passes. The suggested 'Sports Department' adds nothing."
+    },
+    {
+      "fingerprint": "17d6977f0183",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header navigation link 'Gaeilge' leads to the Irish-language site (index.ga.php). It is the name of the language written in Irish, and the live HTML has no lang attribute on it, so it inherits html lang=\"en\". The Understanding document for 3.1.2 uses this exact case as its example ('Alternative language links': each language name, written in that language, carries a lang attribute). The language change is clearly intended, so the single-word and vernacular exceptions do not reasonably apply. This is a 3.1.2 failure."
+    },
+    {
+      "fingerprint": "5bbc5b88f32c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h3 'Is bagairt í an géarchéim tithíochta don nGaelainn mar theanga phobail in Iarthar Dhuibhneach' is a whole headline in Irish. The live HTML has no lang attribute on the h3, the li or the link, so it is exposed as English (html lang=\"en\"). The quoted fragment is part of that unmarked Irish passage. This is a full phrase in another language, not a proper name or a borrowed word, so it fails 3.1.2."
+    },
+    {
+      "fingerprint": "866ca7d31834",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The summary paragraph of the third news card ('Tá an géarchéim tithíochta ag bagairt ... Baile Átha Cliath, inniu.') is entirely in Irish, with no lang attribute on it or any ancestor in the live HTML, so it inherits lang=\"en\". The quoted fragment includes proper names (Coláiste na Tríonóide, Baile Átha Cliath), but the passage as a whole is Irish prose and must be marked lang=\"ga\". This fails 3.1.2."
+    }
+  ]
+}

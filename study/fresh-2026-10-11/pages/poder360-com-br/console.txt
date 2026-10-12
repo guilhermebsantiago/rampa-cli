@@ -1,0 +1,280 @@
+
+https://www.poder360.com.br/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.1.1 (A) — Non-text Content
+  ✗ #goog_246052519 |> img
+    Images must have alternative text
+    high · rule image-alt · id 607f44deabf2
+  ✗ #page-885654 > div > section:nth-of-type(1) > a > div > div > div:nth-of-type(1) > article:nth-of-type(2) > img
+    The text alternative "Lula" is a file name or a placeholder.
+    Evidence: "Lula"
+    Patch:
+      - <img class="foto-candidato foto-candidato-2" src="https://www.poder360.com.br/wp-content/themes/poder/assets/img/widget-header-eleicoes/Lula.png" alt="Lula" width="220" height="189" fetchpriority="high" data-fallback="[&quot;https://www.poder360.com.br/wp-content/themes/poder/assets/img/widget-header-eleicoes/silhueta-vazio.png&quot;]" data-source="https://www.poder360.com.br/wp-content/themes/poder/assets/img/widget-header-eleicoes/Lula.png">
+      + <img class="foto-candidato foto-candidato-2" src="https://www.poder360.com.br/wp-content/themes/poder/assets/img/widget-header-eleicoes/Lula.png" alt="Lula com um selo de 16%" width="220" height="189" fetchpriority="high" data-fallback="[&quot;https://www.poder360.com.br/wp-content/themes/poder/assets/img/widget-header-eleicoes/silhueta-vazio.png&quot;]" data-source="https://www.poder360.com.br/wp-content/themes/poder/assets/img/widget-header-eleicoes/Lula.png">
+    confidence high · 1/1 runs · evidence verified · id 1f49dd4dd08c
+  ✗ #google_ads_iframe_\/50451226\/1248x250_home_desktop_0 |> #img_anch_CJ6GuLfyspcDFRmmlQIdJ0wn3g > img
+    The text alternative "Advertisement" is all its link holds, and does not say where the link leads.
+    Evidence: "Advertisement"
+    Patch:
+      - <img src="https://s0.2mdn.net/simgad/9075036038877917428" alt="Advertisement" border="0" width="1248" height="250" style="display:block">
+      + <img src="https://s0.2mdn.net/simgad/9075036038877917428" alt="A evolução do seu jeito de investir. Descubra uma nova experiência com o app Ágora. Saiba mais." border="0" width="1248" height="250" style="display:block">
+    confidence high · 1/1 runs · evidence verified · id 62789fbd11d4
+
+WCAG 1.3.1 (A) — Info and Relationships
+  ✗ #page-885654 > div > div:nth-of-type(19) > div:nth-of-type(2)
+    Certain ARIA roles must contain particular children
+    high · rule aria-required-children · id ea93c3e9897e
+
+WCAG 1.3.5 (AA) — Identify Input Purpose
+  ✗ #page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > input:nth-of-type(1)
+    The field "seu e-mail" asks for the user's email address but does not identify that purpose: autocomplete="email" is missing.
+    Evidence: "seu e-mail"
+    Patch:
+      - <input type="text" class="form-subscribe__text--modelo2 form-create__email" placeholder="seu e-mail">
+      + <input type="text" class="form-subscribe__text--modelo2 form-create__email" placeholder="seu e-mail" autocomplete="email">
+    confidence high · 1/1 runs · evidence verified · id 9af9ac8766ce
+
+WCAG 1.4.3 (AA) — Contrast (Minimum)
+  ✗ #page-885654 > div > section:nth-of-type(1) > a > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > p:nth-of-type(1)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 5c282597fcd6
+  ✗ #page-885654 > div > section:nth-of-type(1) > a > div > div > div:nth-of-type(1) > div > div:nth-of-type(3) > p:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 744718e3a2b8
+  ✗ #goog_246052519 |> #dtujmw1i6d73 |> .ns-041ag-e-30
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 5e0d8318bc4b
+  ✗ #brasil > div > div:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id a922c20c2a27
+  ✗ #page-885654 > div > section:nth-of-type(1) > a > div > div > div:nth-of-type(1) > article:nth-of-type(1) > div > p:nth-of-type(3)
+    The text "56.104.503 votos" has at most 4.41:1 contrast with what is behind it (#8fb0d6 on #194675…#194474), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#8fb0d6 on #194574; #194675…#194474 · 4.41:1 at best, 4.30:1 at worst · 14px, 500"
+    confidence low · Rampa rule rampa/pixel-contrast · id f00554bfcb20
+  ✗ #page-885654 > div > section:nth-of-type(1) > a > div > div > div:nth-of-type(1) > article:nth-of-type(2) > div > p:nth-of-type(3)
+    The text "53.879.538 votos" has at most 4.41:1 contrast with what is behind it (#8fb0d6 on #194675…#194474), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#8fb0d6 on #194574; #194675…#194474 · 4.41:1 at best, 4.30:1 at worst · 14px, 500"
+    confidence low · Rampa rule rampa/pixel-contrast · id 556ac34acd7f
+  ✗ #swiper-wrapper-4d1457642e5242bf > div:nth-of-type(1) > a > div > p:nth-of-type(1)
+    The text "Poder Internacional" has at most 3.03:1 contrast with what is behind it (#f7f7f7 on #fd541e), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#f7f7f7 on #fd541e · 3.03:1 at best, 3.03:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id d87659acefb2
+  ✗ #swiper-wrapper-4d1457642e5242bf > div:nth-of-type(2) > a > div > p:nth-of-type(1)
+    The text "Poder Eleições 2026" has at most 3.03:1 contrast with what is behind it (#f7f7f7 on #fd541e), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#f7f7f7 on #fd541e · 3.03:1 at best, 3.03:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 204f66d71fa4
+  ✗ #swiper-wrapper-4d1457642e5242bf > div:nth-of-type(3) > a > div > p:nth-of-type(1)
+    The text "Poder Internacional" has at most 3.03:1 contrast with what is behind it (#f7f7f7 on #fd541e), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#f7f7f7 on #fd541e · 3.03:1 at best, 3.03:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 3f84a90323eb
+  ✗ #swiper-wrapper-4d1457642e5242bf > div:nth-of-type(4) > a > div > p:nth-of-type(1)
+    The text "Poder Eleições 2026" has at most 3.03:1 contrast with what is behind it (#f7f7f7 on #fd541e), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#f7f7f7 on #fd541e · 3.03:1 at best, 3.03:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 59f6873e5ad2
+  ✗ #swiper-wrapper-4d1457642e5242bf > div:nth-of-type(5) > a > div > p:nth-of-type(1)
+    The text "Poder Tech" has at most 3.03:1 contrast with what is behind it (#f7f7f7 on #fd541e), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#f7f7f7 on #fd541e · 3.03:1 at best, 3.03:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 371240bdccce
+  ✗ #page-885654 > div > div:nth-of-type(14) > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > a > span
+    The text "Opinião" has at most 4.26:1 contrast with what is behind it (#f7f7f7 on #dd3600), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#f7f7f7 on #dd3600 · 4.26:1 at best, 4.26:1 at worst · 12px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 34eb7c775ce5
+  ✗ #page-885654 > div > div:nth-of-type(14) > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a > span
+    The text "Opinião" has at most 4.26:1 contrast with what is behind it (#f7f7f7 on #dd3600), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#f7f7f7 on #dd3600 · 4.26:1 at best, 4.26:1 at worst · 12px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 50d2ffb7982c
+  ✗ #page-885654 > div > div:nth-of-type(14) > div > div > div:nth-of-type(3) > div > div:nth-of-type(1) > a > span
+    The text "Opinião" has at most 4.26:1 contrast with what is behind it (#f7f7f7 on #dd3600), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#f7f7f7 on #dd3600 · 4.26:1 at best, 4.26:1 at worst · 12px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 25f977cade46
+  ✗ #page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > input:nth-of-type(1)
+    The placeholder "seu e-mail" has a contrast of 4.45:1 with the field (#757575 on #fbfbfb). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#757575 on #fbfbfb · 4.45:1 at best, 4.45:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/placeholder-contrast · id 0af9c6335e9a
+
+WCAG 1.4.11 (AA) — Non-text Contrast
+  ✗ #page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > a
+    The icon of this link has at most 1.97:1 contrast with the pixels next to it (#ffffff on #22d467). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).
+    Evidence: "#ffffff on #22d467 · 1.97:1 at best, 1.97:1 at worst"
+    confidence low · Rampa rule rampa/icon-contrast · id 658c035cae48
+
+WCAG 2.4.4 (A) — Link Purpose (In Context)
+  ✗ #google_ads_iframe_\/50451226\/970x250_home_desktop_0 |> #aw0
+    Links must have discernible text
+    high · rule link-name · id b88f80eb9cd9
+  ✗ #google_ads_iframe_\/50451226\/970x90_home_desktop_0 |> #bannerAWithoutBody > a:nth-of-type(1)
+    Links must have discernible text
+    high · rule link-name · id 2f9b72cbefda
+  ✗ #google_ads_iframe_\/50451226\/970x90_home_desktop_0 |> #bannerAWithoutBody > a:nth-of-type(2)
+    Links must have discernible text
+    high · rule link-name · id 50f3bdbe2acb
+
+WCAG 2.4.6 (AA) — Headings and Labels
+  ✗ #page-885654 > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(2) > h2
+    The heading "Daniel Vorcaro recebeu Flávio Bolsonaro em sua casa em 2025" names a different topic than the content under it.
+    Evidence: "Daniel Vorcaro recebeu Flávio Bolsonaro em sua casa em 2025"
+    confidence low · 1/1 runs · evidence verified · id 5ecf82256adb
+  ✗ #page-885654 > div > div:nth-of-type(4) > div > div:nth-of-type(1) > h2
+    The heading "PODERDATA/AYA" says nothing about the content under it.
+    Evidence: "PODERDATA/AYA"
+    Patch:
+      - <h2 class="archive-list__title box-title__title archive-list__title--padding-left box-title--fonte-branco box-title--fundo-azul box-title--borda-laranja mb-0">PODERDATA/AYA</h2>
+      + <h2 class="archive-list__title box-title__title archive-list__title--padding-left box-title--fonte-branco box-title--fundo-azul box-title--borda-laranja mb-0">Pesquisas e dados eleitorais</h2>
+    confidence low · 1/1 runs · evidence verified · id 6a3c67ee2cc3
+  ✗ #page-885654 > div > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(2) > h2
+    The heading "PODER BRASIL" says nothing about the content under it.
+    Evidence: "PODER BRASIL"
+    Patch:
+      - <h2 class="box-queue__category">PODER BRASIL</h2>
+      + <h2 class="box-queue__category">Notícias de Política e Poder</h2>
+    confidence low · 1/1 runs · evidence verified · id 1a8db604ec9b
+  ✗ #page-885654 > div > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(2) > h2
+    The heading "PODER GENTE" says nothing about the content under it.
+    Evidence: "PODER GENTE"
+    Patch:
+      - <h2 class="box-queue__category">PODER GENTE</h2>
+      + <h2 class="box-queue__category">Notícias e Atualidades</h2>
+    confidence low · 1/1 runs · evidence verified · id 6593202ab4ad
+  ✗ #page-885654 > div > div:nth-of-type(5) > div > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(2) > h3
+    The heading "Viúva de Lito Sousa relata dificuldade para viajar após morte do marido" names a different topic than the content under it.
+    Evidence: "Viúva de Lito Sousa relata dificuldade para viajar após morte do marido"
+    Patch:
+      - <h3 class="box-queue__subhead">Viúva de Lito Sousa relata dificuldade para viajar após morte do marido</h3>
+      + <h3 class="box-queue__subhead">Lula e Flávio têm 3 debates e duas sabatinas marcados</h3>
+    confidence low · 1/1 runs · evidence verified · id 5f41b05fa6ab
+  ✗ #page-885654 > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > h2
+    The heading "PROGRAMA DE TRAINEES 2027" names a different topic than the content under it.
+    Evidence: "PROGRAMA DE TRAINEES 2027"
+    Patch:
+      - <h2 class="box-queue__category">PROGRAMA DE TRAINEES 2027</h2>
+      + <h2 class="box-queue__category">Poder360 anuncia 3º programa de trainees em jornalismo</h2>
+    confidence low · 1/1 runs · evidence verified · id af903b237f47
+  ✗ #page-885654 > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > h3
+    The heading "Poder360 anuncia 3º programa de trainees em jornalismo" names a different topic than the content under it.
+    Evidence: "Poder360 anuncia 3º programa de trainees em jornalismo"
+    Patch:
+      - <h3 class="box-queue__subhead">Poder360 anuncia 3º programa de trainees em jornalismo</h3>
+      + <h3 class="box-queue__subhead">Inovação impulsiona evolução do portfólio ‘wellness’ da Ambev</h3>
+    confidence low · 1/1 runs · evidence verified · id 595684b4bf68
+  ✗ #page-885654 > div > div:nth-of-type(5) > div > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(2) > h2
+    The heading "CONTEÚDO DE MARCA" says nothing about the content under it.
+    Evidence: "CONTEÚDO DE MARCA"
+    Patch:
+      - <h2 class="box-queue__category box-queue__category--marca">CONTEÚDO DE MARCA</h2>
+      + <h2 class="box-queue__category box-queue__category--marca">Notícias e Conteúdo de Marca</h2>
+    confidence low · 1/1 runs · evidence verified · id 0ead9112b163
+  ✗ #page-885654 > div > div:nth-of-type(6) > div > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(2) > h2
+    The heading "PODER INTERNACIONAL" names a different topic than the content under it.
+    Evidence: "PODER INTERNACIONAL"
+    Patch:
+      - <h2 class="box-queue__category">PODER INTERNACIONAL</h2>
+      + <h2 class="box-queue__category">Notícias Internacionais</h2>
+    confidence low · 1/1 runs · evidence verified · id b548584bffbc
+  ✗ #page-885654 > div > div:nth-of-type(6) > div > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(3) > div > div:nth-of-type(2) > h2
+    The heading "PODER INTERNACIONAL" names a different topic than the content under it.
+    Evidence: "PODER INTERNACIONAL"
+    Patch:
+      - <h2 class="box-queue__category">PODER INTERNACIONAL</h2>
+      + <h2 class="box-queue__category">Notícias Internacionais</h2>
+    confidence low · 1/1 runs · evidence verified · id 9328d3c9328b
+
+WCAG 2.5.3 (A) — Label in Name
+  ✗ #page-885654 > div > section:nth-of-type(1) > a
+    Elements must have their visible text as part of their accessible name
+    high · rule label-content-name-mismatch · id d218a724596c
+  ✗ #page-885654 > div > div:nth-of-type(19) > div:nth-of-type(2) > a
+    Elements must have their visible text as part of their accessible name
+    high · rule label-content-name-mismatch · id d34e44165116
+
+WCAG 3.1.2 (AA) — Language of Parts
+  ✗ #video_38455
+    Marked as lang="pt-br", but the text is in English (en).
+    Evidence: "Video Player Play Video Play Video Advertisement Advertisement"
+    Patch:
+      - <div class="video-js vjs-default-skin vjs-big-play-centered vjs-paused video_38455-dimensions vjs-fluid vjs-controls-enabled vjs-workinghover vjs-v7 vjs-user-active" id="video_38455" tabindex="-1" lang="pt-br" role="region" aria-label="Video Player">
+      + <div class="video-js vjs-default-skin vjs-big-play-centered vjs-paused video_38455-dimensions vjs-fluid vjs-controls-enabled vjs-workinghover vjs-v7 vjs-user-active" id="video_38455" tabindex="-1" lang="en" role="region" aria-label="Video Player">
+    confidence high · 1/1 runs · evidence verified · id 5574c2fda4be
+
+WCAG 3.3.2 (A) — Labels or Instructions
+  ✗ #gsc-i-id1
+    Nothing on screen tells what to enter in the field "pesquisar": its name is in aria-label, which only screen readers get.
+    Evidence: "pesquisar"
+    Patch:
+      - <input autocomplete="off" type="text" size="10" class="gsc-input" name="search" title="pesquisar" aria-label="pesquisar" id="gsc-i-id1" dir="ltr" spellcheck="false" style="width: 100%; padding: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; margin: 0px; height: auto; outline: none;">
+      + <label for="gsc-i-id1">pesquisar</label> <input autocomplete="off" type="text" size="10" class="gsc-input" name="search" title="pesquisar" aria-label="pesquisar" id="gsc-i-id1" dir="ltr" spellcheck="false" style="width: 100%; padding: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; margin: 0px; height: auto; outline: none;">
+    confidence high · 1/1 runs · evidence verified · id fabe9c11f7b9
+
+WCAG 4.1.2 (A) — Name, Role, Value
+  ✗ #goog_246052519 |> .videoAdUiIconV2
+    ARIA commands must have an accessible name
+    high · rule aria-command-name · id b5f0d462abc9
+  ✗ #goog_246052519 |> #dtujmw1i6d73 |> .ns-041ag-e-8
+    ARIA commands must have an accessible name
+    high · rule aria-command-name · id 6ba2f54c1931
+  ✗ #google_ads_iframe_\/50451226\/970x90_home_desktop_0 |> #abgc
+    ARIA hidden element must not be focusable or contain focusable elements
+    high · rule aria-hidden-focus · id a2ae678d96bb
+  ✗ #menuV2Sidebar > div > nav > div:nth-of-type(1) > button
+    ARIA attributes must conform to valid values
+    high · rule aria-valid-attr-value · id 8d0ec5b69c18
+  ✗ #menuV2Sidebar > div > nav > div:nth-of-type(2) > button
+    ARIA attributes must conform to valid values
+    high · rule aria-valid-attr-value · id a56433bf72f9
+  ✗ #menuV2Sidebar > div > nav > div:nth-of-type(3) > button
+    ARIA attributes must conform to valid values
+    high · rule aria-valid-attr-value · id 49592e5c570d
+  ✗ #menuV2Sidebar > div > nav > div:nth-of-type(5) > button
+    ARIA attributes must conform to valid values
+    high · rule aria-valid-attr-value · id 0812f0b57274
+  ✗ #menuV2Sidebar > div > nav > div:nth-of-type(6) > button
+    ARIA attributes must conform to valid values
+    high · rule aria-valid-attr-value · id 18522f3a1ece
+  ✗ #menuV2Sidebar > div > nav > div:nth-of-type(7) > button
+    ARIA attributes must conform to valid values
+    high · rule aria-valid-attr-value · id f4f087ee512c
+  ✗ #menuV2Sidebar > div > nav > div:nth-of-type(8) > button
+    ARIA attributes must conform to valid values
+    high · rule aria-valid-attr-value · id 781e3ee77da6
+  ✗ #menuV2Sidebar > div > nav > div:nth-of-type(9) > button
+    ARIA attributes must conform to valid values
+    high · rule aria-valid-attr-value · id 32d1e2b80451
+  ✗ #menuV2Sidebar > div > nav > div:nth-of-type(10) > button
+    ARIA attributes must conform to valid values
+    high · rule aria-valid-attr-value · id 8c41da6d5a98
+  ✗ #menuV2Sidebar > div > nav > div:nth-of-type(11) > button
+    ARIA attributes must conform to valid values
+    high · rule aria-valid-attr-value · id 127f7719d88e
+  ✗ #goog_246052519 |> #dtujmw1i6d73
+    Frames must have an accessible name
+    high · rule frame-title · id 9e52b5716e86
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.2.2 (A) — Captions (Prerecorded): 2 elements · video-caption
+    Check that captions are available for the element
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 11 elements · color-contrast
+    Element's background color could not be determined due to a background gradient
+  ? WCAG 1.4.11 (AA) — Non-text Contrast: 10 elements · rampa/icon-contrast
+    The contrast of the icon of this link could not be measured: its glyphs did not show in the pixels (covered by something, or drawn in a way that making the text transparent does not reach).
+  ? WCAG 4.1.2 (A) — Name, Role, Value: 2 elements · frame-title-unique
+    Element's title attribute is not unique
+
+2 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #goog_246052519 (https://imasdk.googleapis.com/js/core/bridge3.792.0_en.html#deid=%22%22&eventfe_experiment_ids=%5B%5D&fid=%22goog_246052519%22&genotype_experiment_data=%7B%22experimentStateProto%22%3A%22%5B%5B%5B45713128%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45848619%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45796605%2Cnull%2Cnull%2), #goog_246052519 |> html > body > div:nth-child(3) > iframe.
+97 image(s) were left without a capture, so no judgment looked at them: 5 outside the page (an off-canvas menu); 8 transparent where it sits; 84 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).
+The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 397 of 447 for 2.4.4, 59 of 109 for 2.4.6. The coverage lists them as not judged.
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+1 claim(s) from the model did not hold against the snapshot and were dropped.
+
+Model calls: 118 new, 0 from cache · 106.6k in / 11.3k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.3.5, 1.4.3, 1.4.4, 1.4.12, 2.1.1, 2.4.2, 2.4.4, 2.5.3, 2.5.8, 3.1.1, 3.1.2, 4.1.2
+  Checked by Rampa rules (partial):  1.1.1, 1.3.1, 1.4.3, 1.4.11, 2.4.2, 2.4.6, 2.5.3, 3.1.2, 3.3.2, 4.1.2
+  Judged with verified evidence:     1.1.1, 1.3.5, 2.4.4, 2.4.6, 3.1.1, 3.1.2, 3.3.2
+  Needs review only:                 1.2.2, 2.4.1
+  Not checked automatically:         36 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

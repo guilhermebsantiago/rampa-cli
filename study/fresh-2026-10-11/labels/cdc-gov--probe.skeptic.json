@@ -1,0 +1,96 @@
+{
+  "page": "https://www.cdc.gov/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "75ab34d1fd5d",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Hover state of the 12px Poppins Light (weight 300) 'Here's how you know' toggle in the USA-gov banner. Live computed styles: rest color #005ea2, hover color rgb(0,122,153) = #007a99, on the white body background (all ancestors transparent); #007a99 on #ffffff is 4.95:1, above 4.5:1. The probe's #59a8bd 'foreground' comes from screen pixels of a thin, anti-aliased font, and the Understanding document for 1.4.3 says explicitly to use the colors from the user agent or style sheets, not the text as rendered, because anti-aliasing makes thin fonts look fainter. Measured as WCAG specifies, the hover text passes; the finding applies a pixel-based rule that is stricter than the criterion."
+    },
+    {
+      "fingerprint": "e15ea679c5fc",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Hover state of the 12px Poppins Light (weight 300) 'Español' link in the USA-gov banner. Live computed styles: rest color #005ea2, hover color rgb(0,122,153) = #007a99, on the white body background (all ancestors transparent); #007a99 on #ffffff is 4.95:1, above 4.5:1. The probe's #67b0c2 'foreground' comes from screen pixels of a thin, anti-aliased font, and the Understanding document for 1.4.3 says explicitly to use the colors from the user agent or style sheets, not the text as rendered, because anti-aliasing makes thin fonts look fainter. Measured as WCAG specifies, the hover text passes; the finding applies a pixel-based rule that is stricter than the criterion."
+    },
+    {
+      "fingerprint": "8a31d62ef6ed",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Footer CDC logo link (an <a> wrapping only an <img> with alt 'Centers for Disease Control and Prevention'; there is no text). Live at 320x256 the anchor's inline box is x 0-336 because it includes the whitespace around the image, but the image itself is at x 18-318 (300px wide, max-width 300px), inside the 320px footer. A screenshot shows the whole logo, including 'U.S. CENTERS FOR DISEASE CONTROL AND PREVENTION', with nothing cut off. The 16px 'cut' is empty inline space in the link box clipped by the footer's overflow-x:hidden. No content is lost and nothing needs horizontal scrolling, so 1.4.10 is not failed. The probe measured the link box instead of what it shows."
+    },
+    {
+      "fingerprint": "70601d6a47e5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z index link 'A' (65x65 tile, gray #555c66 letter, no border or background). Live, on keyboard focus the only change is the author rule 'main a:focus-visible { outline-color: transparent; box-shadow: rgba(0,95,163,.5) 0 0 0 3px }': a 3px ring that blends to about #80afd1 on the white page, 2.34:1 against the white outside and the white inside of the tile; the text color does not change. I looked for a passing reason (a second indicator color, a background or text change, a user-agent default focus style) and found none. This matches the Understanding 1.4.11 failure example of an author-styled focus outline at 2.3:1 against white (Figure 43), so the indicator fails 3:1."
+    },
+    {
+      "fingerprint": "397bd71e5d47",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z index link 'B' (65x65 tile, gray #555c66 letter, no border or background). Live, on keyboard focus the only change is the author rule 'main a:focus-visible { outline-color: transparent; box-shadow: rgba(0,95,163,.5) 0 0 0 3px }': a 3px ring that blends to about #80afd1 on the white page, 2.34:1 against the white outside and the white inside of the tile; the text color does not change. I looked for a passing reason (a second indicator color, a background or text change, a user-agent default focus style) and found none. This matches the Understanding 1.4.11 failure example of an author-styled focus outline at 2.3:1 against white (Figure 43), so the indicator fails 3:1."
+    },
+    {
+      "fingerprint": "e25bfcb6d97b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z index link 'C' (65x65 tile, gray #555c66 letter, no border or background). Live, on keyboard focus the only change is the author rule 'main a:focus-visible { outline-color: transparent; box-shadow: rgba(0,95,163,.5) 0 0 0 3px }': a 3px ring that blends to about #80afd1 on the white page, 2.34:1 against the white outside and the white inside of the tile; the text color does not change. I looked for a passing reason (a second indicator color, a background or text change, a user-agent default focus style) and found none. This matches the Understanding 1.4.11 failure example of an author-styled focus outline at 2.3:1 against white (Figure 43), so the indicator fails 3:1."
+    },
+    {
+      "fingerprint": "ffd098256391",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z index link 'D' (65x65 tile, gray #555c66 letter, no border or background). Live, on keyboard focus the only change is the author rule 'main a:focus-visible { outline-color: transparent; box-shadow: rgba(0,95,163,.5) 0 0 0 3px }': a 3px ring that blends to about #80afd1 on the white page, 2.34:1 against the white outside and the white inside of the tile; the text color does not change. I looked for a passing reason (a second indicator color, a background or text change, a user-agent default focus style) and found none. This matches the Understanding 1.4.11 failure example of an author-styled focus outline at 2.3:1 against white (Figure 43), so the indicator fails 3:1."
+    },
+    {
+      "fingerprint": "c90705b8ea17",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z index link 'E' (65x65 tile, gray #555c66 letter, no border or background). Live, on keyboard focus the only change is the author rule 'main a:focus-visible { outline-color: transparent; box-shadow: rgba(0,95,163,.5) 0 0 0 3px }': a 3px ring that blends to about #80afd1 on the white page, 2.34:1 against the white outside and the white inside of the tile; the text color does not change. I looked for a passing reason (a second indicator color, a background or text change, a user-agent default focus style) and found none. This matches the Understanding 1.4.11 failure example of an author-styled focus outline at 2.3:1 against white (Figure 43), so the indicator fails 3:1."
+    },
+    {
+      "fingerprint": "f28485b49ab4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z index link 'F' (65x65 tile, gray #555c66 letter, no border or background). Live, on keyboard focus the only change is the author rule 'main a:focus-visible { outline-color: transparent; box-shadow: rgba(0,95,163,.5) 0 0 0 3px }': a 3px ring that blends to about #80afd1 on the white page, 2.34:1 against the white outside and the white inside of the tile; the text color does not change. I looked for a passing reason (a second indicator color, a background or text change, a user-agent default focus style) and found none. This matches the Understanding 1.4.11 failure example of an author-styled focus outline at 2.3:1 against white (Figure 43), so the indicator fails 3:1."
+    },
+    {
+      "fingerprint": "942e8a6fb329",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z index link 'G' (65x65 tile, gray #555c66 letter, no border or background). Live, on keyboard focus the only change is the author rule 'main a:focus-visible { outline-color: transparent; box-shadow: rgba(0,95,163,.5) 0 0 0 3px }': a 3px ring that blends to about #80afd1 on the white page, 2.34:1 against the white outside and the white inside of the tile; the text color does not change. I looked for a passing reason (a second indicator color, a background or text change, a user-agent default focus style) and found none. This matches the Understanding 1.4.11 failure example of an author-styled focus outline at 2.3:1 against white (Figure 43), so the indicator fails 3:1."
+    },
+    {
+      "fingerprint": "cc4d6d6c78cc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z index link 'H' (65x65 tile, gray #555c66 letter, no border or background). Live, on keyboard focus the only change is the author rule 'main a:focus-visible { outline-color: transparent; box-shadow: rgba(0,95,163,.5) 0 0 0 3px }': a 3px ring that blends to about #80afd1 on the white page, 2.34:1 against the white outside and the white inside of the tile; the text color does not change. I looked for a passing reason (a second indicator color, a background or text change, a user-agent default focus style) and found none. This matches the Understanding 1.4.11 failure example of an author-styled focus outline at 2.3:1 against white (Figure 43), so the indicator fails 3:1."
+    },
+    {
+      "fingerprint": "f795d0fc8846",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z index link 'I' (65x65 tile, gray #555c66 letter, no border or background). Live, on keyboard focus the only change is the author rule 'main a:focus-visible { outline-color: transparent; box-shadow: rgba(0,95,163,.5) 0 0 0 3px }': a 3px ring that blends to about #80afd1 on the white page, 2.34:1 against the white outside and the white inside of the tile; the text color does not change. I looked for a passing reason (a second indicator color, a background or text change, a user-agent default focus style) and found none. This matches the Understanding 1.4.11 failure example of an author-styled focus outline at 2.3:1 against white (Figure 43), so the indicator fails 3:1."
+    },
+    {
+      "fingerprint": "489e8a403332",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A-Z index link 'J' (65x65 tile, gray #555c66 letter, no border or background). Live, on keyboard focus the only change is the author rule 'main a:focus-visible { outline-color: transparent; box-shadow: rgba(0,95,163,.5) 0 0 0 3px }': a 3px ring that blends to about #80afd1 on the white page, 2.34:1 against the white outside and the white inside of the tile; the text color does not change. I looked for a passing reason (a second indicator color, a background or text change, a user-agent default focus style) and found none. This matches the Understanding 1.4.11 failure example of an author-styled focus outline at 2.3:1 against white (Figure 43), so the indicator fails 3:1."
+    },
+    {
+      "fingerprint": "4472f3536d38",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Featured Topics button 'Food Safety Tips for Dining Out' (47px tall). The probe's backward walk had focus on 'A' at scrollY 944; Shift+Tab then scrolls this button to the top edge (scrollY 931, y 0). I reproduced this live in headless Edge: the navbar 'navbar fixed-top navbar-on-scroll' (opaque #005ea2 background, 74px tall) slides in at top:0 when the page scrolls up, and 0 of 25 grid points on the focused button hit the button; the screenshot shows only the blue nav and white space below it, with no part of the button or its focus ring visible. There is no scroll-padding, and nothing the user opened. The focused control is entirely hidden by author content, which is the sticky-header case that 2.4.11 targets. It only happens when moving backward from that scroll position, but focus arriving that way is a normal way to reach the control."
+    },
+    {
+      "fingerprint": "0b1fa8e1a762",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Featured Topics button 'H5 Bird Flu: Current Situation' (47px tall). The probe's backward walk had focus on 'A' at scrollY 944; Shift+Tab to 'Food Safety Tips for Dining Out' scrolls that row to the top edge (scrollY 931), and the next Shift+Tab lands on this button in the same row at y 0. I reproduced this live in headless Edge: the navbar 'navbar fixed-top navbar-on-scroll' (opaque #005ea2 background, 74px tall) slides in at top:0 when the page scrolls up, and 0 of 25 grid points on the focused button hit the button; the screenshot shows only the blue nav and white space below it, with no part of the button or its focus ring visible. There is no scroll-padding, and nothing the user opened. The focused control is entirely hidden by author content, which is the sticky-header case that 2.4.11 targets. It only happens when moving backward from that scroll position, but focus arriving that way is a normal way to reach the control."
+    }
+  ]
+}

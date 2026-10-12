@@ -1,0 +1,187 @@
+
+https://www.cdc.gov/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.1.1 (A) — Non-text Content
+  ✗ #hero-carousel > div:nth-of-type(1) > div:nth-of-type(2) > img
+    The text alternative "Man in a blue shirt standing outdoors" describes something the image does not show.
+    Evidence: "Man in a blue shirt standing outdoors"
+    Patch:
+      - <img src="/homepage/images/banner/prostate-cancer.jpg" alt="Man in a blue shirt standing outdoors" class="img-fluid w-100" sizes="(max-width: 600px) 0, 1200px" srcset="/homepage/images/banner/prostate-cancer-mobile.jpg 600w,
+/homepage/images/banner/prostate-cancer.jpg 1200w">
+      + <img src="/homepage/images/banner/prostate-cancer.jpg" alt="A man looking at the camera, representing a person who may be screened for prostate cancer." class="img-fluid w-100" sizes="(max-width: 600px) 0, 1200px" srcset="/homepage/images/banner/prostate-cancer-mobile.jpg 600w,
+/homepage/images/banner/prostate-cancer.jpg 1200w">
+    confidence high · 1/1 runs · evidence verified · id 99bc00f5ec4b
+  ✗ html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > a:nth-of-type(2) > i
+    The text alternative "x icon" is all its link holds, and does not say where the link leads.
+    Evidence: "x icon"
+    confidence high · 1/1 runs · evidence verified · id a76a2f980d1c
+  ✗ html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(2) > a:nth-of-type(4) > i
+    The text alternative "rss icon" is all its link holds, and does not say where the link leads.
+    Evidence: "rss icon"
+    confidence high · 1/1 runs · evidence verified · id b06cf26cb5ca
+
+WCAG 1.4.3 (AA) — Contrast (Minimum)
+  ✗ html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(1) > span:nth-of-type(2) > a
+    When the pointer is over this control (hover), its text has a contrast of 3.71:1 at best with what is behind it, under the 4.5:1 WCAG 1.4.3 asks. Text must keep its contrast in every state a person puts it in; change the hover colors.
+    Evidence: "hover: <a> "Here's how you know"; changed: color #005ea2 → #007a99, -webkit-text-fill-color #005ea2 → #007a99; #59a8bd on #ffffff: 3.71:1 at best, 2.71:1 at worst · 12px, 300"
+    confidence medium · experimental · probe rule rampa/state-text-contrast · id 75ab34d1fd5d
+  ✗ html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a
+    When the pointer is over this control (hover), its text has a contrast of 4.01:1 at best with what is behind it, under the 4.5:1 WCAG 1.4.3 asks. Text must keep its contrast in every state a person puts it in; change the hover colors.
+    Evidence: "hover: <a> "Español"; changed: color #005ea2 → #007a99, -webkit-text-fill-color #005ea2 → #007a99; #67b0c2 on #ffffff: 4.01:1 at best, 2.45:1 at worst · 12px, 300"
+    confidence medium · experimental · probe rule rampa/state-text-contrast · id e15ea679c5fc
+
+WCAG 1.4.10 (AA) — Reflow
+  ✗ html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(1) > a
+    Text that is whole at 1280 px wide is cut off at 320 CSS px wide.
+    Evidence: "at 1280×1024 whole; at 320×256 16 px cut across by <footer> html > body > footer"
+    confidence high · experimental · probe rule rampa/reflow · id 8a31d62ef6ed
+
+WCAG 1.4.11 (AA) — Non-text Contrast
+  ✗ #content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(1) > a
+    When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×24: <a> "A" focused and blurred; 812 px of its indicator around it: #7fafd1 (778 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id 70601d6a47e5
+  ✗ #content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(2) > a
+    When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×25: <a> "B" focused and blurred; 812 px of its indicator around it: #7fafd1 (774 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id 397bd71e5d47
+  ✗ #content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(3) > a
+    When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×26: <a> "C" focused and blurred; 812 px of its indicator around it: #7fafd1 (776 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id e25bfcb6d97b
+  ✗ #content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(4) > a
+    When this element has keyboard focus, its focus indicator (#7eaed1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×27: <a> "D" focused and blurred; 812 px of its indicator around it: #7eaed1 (777 px) next to #fefeff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id ffd098256391
+  ✗ #content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(5) > a
+    When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×28: <a> "E" focused and blurred; 812 px of its indicator around it: #7fafd1 (778 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id c90705b8ea17
+  ✗ #content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(6) > a
+    When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×29: <a> "F" focused and blurred; 812 px of its indicator around it: #7fafd1 (772 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id f28485b49ab4
+  ✗ #content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(7) > a
+    When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×30: <a> "G" focused and blurred; 812 px of its indicator around it: #7fafd1 (772 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id 942e8a6fb329
+  ✗ #content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(8) > a
+    When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×31: <a> "H" focused and blurred; 812 px of its indicator around it: #7fafd1 (774 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id cc4d6d6c78cc
+  ✗ #content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(9) > a
+    When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×32: <a> "I" focused and blurred; 812 px of its indicator around it: #7fafd1 (772 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id f795d0fc8846
+  ✗ #content > div:nth-of-type(1) > div > div > section:nth-of-type(2) > div > div > div:nth-of-type(1) > ol > li:nth-of-type(10) > a
+    When this element has keyboard focus, its focus indicator (#7fafd1, around it) has a contrast of 2.35:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.
+    Evidence: "Tab ×33: <a> "J" focused and blurred; 812 px of its indicator around it: #7fafd1 (775 px) next to #ffffff (96%): 2.35:1; style sheet: outline-color #00000000, box-shadow #0060a380"
+    confidence high · experimental · probe rule rampa/focus-indicator-contrast · id 489e8a403332
+
+WCAG 2.4.4 (A) — Link Purpose (In Context)
+  ✗ #hero-carousel > div:nth-of-type(1) > div:nth-of-type(1) > div > div > div > div > a
+    The link text "Learn More " does not tell where the link goes, and nothing around it does.
+    Evidence: "Learn More "
+    Patch:
+      - <a href="/ebola/situation-summary/returning-travelers.html" class="btn btn-outline-light" tabindex="0">Learn More </a>
+      + <a href="/ebola/situation-summary/returning-travelers.html" class="btn btn-outline-light" tabindex="0">Learn more about Ebola situation summary for returning travelers</a>
+    confidence low · 1/1 runs · evidence verified · id 6eb191ee73cb
+  ✗ #hero-carousel > div:nth-of-type(2) > div > span:nth-of-type(1) > span:nth-of-type(2) > a
+    The link text "Ebola Situation Summary" does not match where the link leads: a page titled "Information for Travelers Returning from Ebola-Affected Areas | Ebola | CDC".
+    Evidence: "Ebola Situation Summary"
+    Patch:
+      - <a class="indicator-text" href="/ebola/situation-summary/returning-travelers.html">Ebola Situation Summary</a>
+      + <a class="indicator-text" href="/ebola/situation-summary/returning-travelers.html">Information for Travelers Returning from Ebola-Affected Areas</a>
+    confidence low · 1/1 runs · evidence verified · id cef725705a84
+  ✗ html > body > footer > footer > section > div > div > div:nth-of-type(2) > ul > li:nth-of-type(6) > a
+    The link text "Funding and Grants" does not match where the link leads: a page titled "Budget | Budget | CDC".
+    Evidence: "Funding and Grants"
+    Patch:
+      - <a href="https://www.cdc.gov/budget/">Funding and Grants</a>
+      + <a href="https://www.cdc.gov/budget/">CDC Budget and Funding</a>
+    confidence low · 1/1 runs · evidence verified · id 41e7f4fa5216
+
+WCAG 2.4.11 (AA) — Focus Not Obscured (Minimum)
+  ✗ #content > div:nth-of-type(1) > div > div > section:nth-of-type(1) > a:nth-of-type(6)
+    When this element receives keyboard focus, it is entirely hidden behind other content, so a keyboard user cannot see where focus is.
+    Evidence: "Shift+Tab ×61 in a 1280×800 window: <a> "Food Safety Tips for Dining Out" at y 0; 25 of 25 grid points hit <nav> "HEALTH TOPICS OUTBREAKS ABOUT CDC SEARCH" html > body > nav (position: fixed, 1280×74 px at y 0); painting it changed 0 px and hiding it 0 px; scroll-padding-top: 74px on html would keep focused elements clear of it"
+    confidence high · experimental · probe rule rampa/focus-obscured · id 4472f3536d38
+  ✗ #content > div:nth-of-type(1) > div > div > section:nth-of-type(1) > a:nth-of-type(5)
+    When this element receives keyboard focus, it is entirely hidden behind other content, so a keyboard user cannot see where focus is.
+    Evidence: "Shift+Tab ×62 in a 1280×800 window: <a> "H5 Bird Flu: Current Situation" at y 0; 25 of 25 grid points hit <nav> "HEALTH TOPICS OUTBREAKS ABOUT CDC SEARCH" html > body > nav (position: fixed, 1280×74 px at y 0); painting it changed 0 px and hiding it 0 px; scroll-padding-top: 74px on html would keep focused elements clear of it"
+    confidence high · experimental · probe rule rampa/focus-obscured · id 0b1fa8e1a762
+
+WCAG 3.1.2 (AA) — Language of Parts
+  ✗ html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a
+    "Español" is in Spanish, but it inherits the page's language (en-us): a screen reader mispronounces the language's name. Add lang="es" to the link.
+    Evidence: "Español"
+    Patch:
+      - <a href="https://www.cdc.gov/spanish/" class="">
+      + <a href="https://www.cdc.gov/spanish/" class="" lang="es">
+    confidence low · Rampa rule rampa/language-switcher-lang · id 6ed01b590230
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 9 elements · color-contrast
+    Element's background color could not be determined due to a background gradient
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 5 elements · rampa/pixel-contrast
+    axe-core could not decide the contrast of "Health Topics" (an image in the element), and the pixels could not either: what is behind it moves on its own (a video, an animation).
+  ? WCAG 1.4.4 (AA) — Resize Text: 4 elements · rampa/resize-text
+    Text shown at 1280×1024 is hidden at 200% zoom (640×512 CSS px), and no other text on the page at that size has the same words. Check that it can still be reached at 200%, for example through a menu.
+  ? WCAG 1.4.12 (AA) — Text Spacing: 1 element · rampa/text-spacing
+    With text spacing raised as a user would, this text overlaps other text that it did not overlap before.
+  ? WCAG 1.4.13 (AA) — Content on Hover or Focus: 1 element · rampa/hover-content
+    Content that appears on focus failed the persistent check in one of two tries. Check it by hand.
+  ? WCAG 2.4.1 (A) — Bypass Blocks: 2 elements · rampa/bypass-blocks
+    This skip link points to #headerSearch, but nothing on the page has that id or anchor name: it goes nowhere.
+  ? WCAG 2.4.7 (AA) — Focus Visible: 9 elements · rampa/focus-visible
+    The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.
+  ? WCAG 4.1.2 (A) — Name, Role, Value: 3 elements · aria-prohibited-attr
+    aria-label attribute is not well supported on "span" elements with no valid role attribute.
+  ? WCAG 4.1.2 (A) — Name, Role, Value: 1 element · duplicate-id-aria
+    Document has multiple elements referenced with ARIA with the same id attribute: cdc-desktop-search-toggle
+
+1 image(s) were left without a capture, so no judgment looked at them: 1 outside the page (an off-canvas menu). The snapshot says why for each (native.imageSkipped).
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+2 claim(s) from the model did not hold against the snapshot and were dropped.
+
+Model calls: 12 new, 31 from cache · 39.1k in / 4.1k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.4.3, 1.4.4, 1.4.12, 2.4.2, 2.4.4, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  1.1.1, 1.3.2, 1.4.3, 1.4.11, 2.4.2, 2.4.6, 3.1.1, 3.1.2, 4.1.2
+  Judged with verified evidence:     1.1.1, 2.4.4, 2.4.6
+  Probed (experimental):             1.2.1, 1.2.2, 1.2.3, 1.2.4, 1.2.5, 1.3.4, 1.4.1, 1.4.2, 1.4.3, 1.4.10, 1.4.11, 2.1.1, 2.1.2, 2.1.4, 2.4.11, 3.2.1
+    1.2.1   probe/media@2 (rampa/audio-video-only) · watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless): no failure found · 0 element(s) · no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.2.2   probe/media@2 (rampa/captions) · watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless): no failure found · 0 element(s) · no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.2.3   probe/media@2 (rampa/media-alternative) · watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless): no failure found · 0 element(s) · no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.2.4   probe/media@2 (rampa/live-captions) · watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless): no failure found · 0 element(s) · no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.2.5   probe/media@2 (rampa/audio-description) · watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless): no failure found · 0 element(s) · no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.3.4   probe/orientation@1 (rampa/orientation) · portrait and landscape at 1280×800 and 390×844 (phone) · chromium 155.0.4283.45 (headless): no failure found · 73 element(s) · 4 load(s) compared, upright and sideways, each loaded and then turned; the guard blocked 16 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.1   probe/color@1 (rampa/color-only-state) · current and selected items against their neighbours at 1280×800 · chromium 155.0.4283.45 (headless): no failure found · 2 element(s) · 2 current or selected item(s) found; 1 set apart by more than color; 1 look the same as the items next to them; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.1   probe/color@1 (rampa/color-only-required) · required fields against optional ones at 1280×800 · chromium 155.0.4283.45 (headless): not checked · 0 form(s) with required and optional fields; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.1   probe/color@1 (rampa/link-color-only) · links in text against the text around them, at rest, on hover and on focus at 1280×800 · chromium 155.0.4283.45 (headless): not checked · 0 link(s) in blocks of text; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.1   probe/color@1 (rampa/color-words) · sentences that name a color, against the hue of what they name at 1280×800 · chromium 155.0.4283.45 (headless): not checked · 0 sentence(s) that convey something by a color; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.2   probe/media@2 (rampa/audio-control) · watched on load, then played muted for 2.5 s · chromium 155.0.4283.45 (headless): no failure found · 0 element(s) · no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 3.8 s watch may be missed; the guard blocked 2 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.3   probe/states@1 (rampa/state-text-contrast) · text in hover and focus states at 1280×800 · chromium 155.0.4283.45 (headless): 2 failure(s) · 7 element(s) · 38 control(s) with text in 13 style(s); 10 hovered and 10 focused; 13 kept their colors; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.4   probe/layout@1 (rampa/resize-text) · 640×512 CSS px at device scale 2 (1280×1024 at 200%) · chromium 155.0.4283.45 (headless): 4 to review · 49 element(s) · 3 text box(es) gone at 640 px and not back at 1280 px: not counted (a timer or a carousel); the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.10  probe/layout@1 (rampa/reflow) · 320×256 CSS px from 1280×1024 · chromium 155.0.4283.45 (headless): 1 failure(s) · 49 element(s) · the page does not scroll sideways at 320 px; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.11  probe/keyboard@2 (rampa/focus-indicator-contrast) · focus indicators against the colors next to them, at 1280×800 · chromium 155.0.4283.45 (headless): 34 failure(s) · 83 element(s) · 24 more failure(s) not listed; 9 with the browser's own focus ring, which 1.4.11 exempts; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.11  probe/states@1 (rampa/state-indicator-contrast) · selected and current items with their marks on and off at 1280×800 · chromium 155.0.4283.45 (headless): no failure found · 2 element(s) · 2 selected, current, pressed or checked item(s) found, 2 captured; 2 looked the same with their marks taken off (the page shows the state another way, or not at all); the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.12  probe/layout@1 (rampa/text-spacing) · spacing overrides at 1280×1024 · chromium 155.0.4283.45 (headless): 1 to review · 58 element(s) · the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    1.4.13  probe/hover@1 (rampa/hover-content) · hover and focus on up to 30 triggers at 1280×800 · chromium 155.0.4283.45 (headless): 1 to review · 1 element(s) · 15 trigger(s) tried of 15 found (15 hovered, 14 focused); 1 showed content; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    2.1.1   probe/keyboard@2 (rampa/keyboard-reach) · keyboard walk at 1280×800 · chromium 155.0.4283.45 (headless): no failure found · 44 element(s) · the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    2.1.2   probe/keyboard@2 (rampa/keyboard-trap) · keyboard walk at 1280×800 · chromium 155.0.4283.45 (headless): no failure found · 84 element(s) · the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    2.1.4   probe/shortcuts@1 (rampa/character-key-shortcuts) · printable keys with focus on the body at 1280×800 · chromium 155.0.4283.45 (headless): no failure found · 0 element(s) · 94 printable key(s) pressed one at a time with focus on the page; the guard blocked 6 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    2.4.1   probe/keyboard@1 (rampa/bypass-blocks) · first 8 Tab stop(s), skip links pressed: 2 · chromium 155.0.4283.45 (headless): 2 to review · 1 element(s) · link “Skip to site content” → #content works (16 element(s) skipped); also: main landmark, heading “Featured Topics”; the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    2.4.7   probe/keyboard@2 (rampa/focus-visible) · focused and blurred captures at 1280×800 · chromium 155.0.4283.45 (headless): 9 to review · 83 element(s) · the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    2.4.11  probe/keyboard@2 (rampa/focus-obscured) · 5×5 hit grid at 1280×800, both directions · chromium 155.0.4283.45 (headless): 2 failure(s) · 84 element(s) · the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    2.4.11  probe/keyboard@2 (rampa/focus-obscured) · 5×5 hit grid at 390×844, both directions · chromium 155.0.4283.45 (headless): no failure found · 76 element(s) · the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+    3.2.1   probe/keyboard@2 (rampa/on-focus) · keyboard walk at 1280×800 · chromium 155.0.4283.45 (headless): no failure found · 84 element(s) · the guard blocked 4 request(s) to www.google-analytics.com, www.google.com; content that needed them may be missing
+  Needs review only:                 1.4.13, 2.4.1, 2.4.7
+  Not checked automatically:         24 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

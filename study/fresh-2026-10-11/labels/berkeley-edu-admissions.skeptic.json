@@ -1,0 +1,30 @@
+{
+  "page": "https://www.berkeley.edu/admissions/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "d731a71b3f06",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the desktop skip link 'Skip to main menu' (href #main-menu-item-1) in the skip-links nav. In the snapshot, and on the live page as well, #main-menu-item-1 is the 'About' toggle button, the first item of ul#menu-main, the site's main mega menu. A link that moves focus to the first item of the main menu is exactly a skip to the main menu. 'About' is just the label of that first menu item, not a separate destination, so the link text accurately describes its purpose. The suggested fix ('Skip to About section') would make the text less accurate. The model had the target and misread it."
+    },
+    {
+      "fingerprint": "7811c0b2ea9d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Visit' is the first link in the UC Berkeley site-wide footer utility list (Visit, Jobs, News, Events, Give), beside the UC Berkeley wordmark. It goes to visit.berkeley.edu, the campus visitor site. In a university's global footer, 'Visit' plainly means visiting the university, and that purpose is clear to users in general from the text and its list context. 2.4.4 does not require more explicit text here. The model's patch ('Visit Berkeley Study Abroad') shows it wrongly tied the footer to the nearby 'Study Abroad' card heading. The live page is unchanged."
+    },
+    {
+      "fingerprint": "6dd5c348b724",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Give' is in the same UC Berkeley site-wide footer utility list, and the identical link also appears in the top audience nav. It goes to give.berkeley.edu. On a university website, 'Give' in the global navigation and footer is the standard, widely understood label for donating to the university, so its purpose can be determined from the text and its context. The model's patch ('Donate to Study Abroad') shows it misread the footer as belonging to the Study Abroad card, which is wrong. This does not fail 2.4.4. The live page is unchanged."
+    },
+    {
+      "fingerprint": "64f52746004c",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Accessibility' is a link in the UC Berkeley global footer's legal/utility list, next to Privacy policy and Contact Us. It goes to dap.berkeley.edu's 'Report a Web Accessibility Issue' page (I checked the live title and h1). A footer link labelled 'Accessibility' that leads to the institution's accessibility help and reporting page is a common convention, and its purpose (accessibility information and support for this site) is clear from the text. 2.4.4 asks that the purpose be determinable, not that the text name the exact page. Asking for 'Report a web accessibility issue' is a stricter rule than the criterion. The live page is unchanged."
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "page": "https://www.unicamp.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "a5962cfd9c34",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header seal image is the only content of a link to https://60anos.unicamp.br/ (opens the 60-years site in a new tab); the link has no aria-label or title, so its name is the alt \"Selo comemorativo\". The image visibly reads \"60 anos\", and the alt carries neither that text nor the destination, so a screen-reader user hears only 'commemorative seal' with no hint of the 60-years site. I looked for a reason it passes (a name on the link, a nearby text label, or an alt naming the anniversary) and found none on the live page. A functional image's alt must describe the link's purpose (H30), so this fails 1.1.1 as the finding says."
+    },
+    {
+      "fingerprint": "6cbd1d19652c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the background image of the \"Diretorias Executivas\" cover tile. I downloaded the source photo (Placa-perri-DSC_0197.jpg): it shows the Unicamp campus entrance, with the UNICAMP signs and red flowers. The alt \"Imagem do campus\" is generic but accurate, so the claim that it 'describes something the image does not show' is false. At most, a cover background like this could be marked decorative, which is a different issue from the one reported."
+    },
+    {
+      "fingerprint": "ffe4f75f0d3e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the background image of the cover block behind the eight navigation tiles (Ingresso, Graduação, ...). I downloaded the full 1920x660 photo: it shows a tree-lined campus path with students walking, and no QR code plates are visible. The alt is a reused news caption about QR plates being attached to trees, plus a photo credit, so it describes an event the image does not show. If the image is informative, the alt is not equivalent. If it is decorative, which it is here, it should be alt=\"\", and a non-null misleading alt fails 1.1.1 too (F39). The suggested patch is wrong: it describes the HTML buttons, not the photo. That does not change the label."
+    },
+    {
+      "fingerprint": "8248dc004099",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This image is the cover of Jornal da Unicamp edition 751 (\"ED. 751\" is printed on it), shown in the print-edition viewer next to the link \"Acesse a íntegra da edição 751\" and a PDF download. The alt \"Capa da edição 751\" correctly identifies what the image is. The claim that it describes something the image does not show is false. A longer alt could list the cover's headlines, but the full edition is linked right there, and that is not what the finding claims."
+    },
+    {
+      "fingerprint": "997f7fa2786f",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This image is the only content of a link to https://www.unicamp.br/novasaude/. That page's title is \"Nova Saúde - Portal Unicamp\" and its h1 is \"Nova Saúde\". The alt \"Imagem aérea da área da saúde com o selo Nova Saúde Unicamp\" is wordy, but it contains \"Nova Saúde Unicamp\", the same words the banner shows sighted users and the name of the destination. A user can tell the link leads to Nova Saúde Unicamp, so the claim that the alt 'does not say where the link leads' does not hold. The alt could be tighter, but that is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "1abfa8851e75",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the newsletter e-mail field in the footer. Its placeholder \"E-mail\" is the only visible label (the browser takes the accessible name from the placeholder). The theme CSS sets the .wpcf7 ::placeholder color to var(--background-primary-color) = #b8b6b5, on the field's white background. That computes to 2.02:1, confirmed in the screenshot, for 14px normal-weight text that needs 4.5:1. Placeholder text is not covered by any 1.4.3 exception (inactive component, decoration, logo), and here it is the field's only identifying text, so this fails 1.4.3."
+    },
+    {
+      "fingerprint": "2d908c8b83e0",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the button-styled link \"Conteúdo digital\" to https://jornal.unicamp.br/noticias/, paired with \"Conteúdo do impresso\", which goes to the print editions. Sighted users see the \"Jornal da Unicamp\" masthead above them. In code, that masthead is a link whose only image has alt=\"\", and there is no heading or label for the section, so no programmatically determined context names the Jornal (the finding's 'nothing around it' holds programmatically). On the other hand, read with the print/digital pairing, the edition-751 cover, and the column of news items it introduces, the link's purpose (the digital news content) is reasonably clear. Competent auditors could split on this, and the real defect is arguably the empty masthead link, so I leave it uncertain."
+    },
+    {
+      "fingerprint": "a7d8ab2fa5c1",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "This news card link goes to the article \"HC celebra 41 anos e homenageia quem construiu sua história\". Its content is the image (long descriptive alt), then the headline \"HC celebra 41 anos e homenageia quem construiu sua história\", then the excerpt, so its full accessible name contains the article title. The 'link text' quoted in the finding is the snapshot's browser name, which is exactly 300 characters and stops mid-alt (\"...exibindo\"). The collector truncated it before the headline. The real link text matches the destination title, so 2.4.4 passes. The long alt that comes first is a verbosity issue, not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "fabe9c11f7b9",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the Google CSE search input in the header, captured in its collapsed state: the input is transparent and a magnifying-glass icon (a CSS ::before on .gsib_a) shows where it is. The theme's all.min.js adds a <label for=\"gsc-i-id1\">Buscar no site</label> after the input. When the box is clicked it gets .search-expand, and the CSS then displays that label as visible text above the field. The input also has title=\"pesquisar\". So there is a visible text label when the field is in use, and the search icon labels it before then. The snapshot did not include either cue (the label is display:none in the collapsed state, and the icon is a pseudo-element), so 'nothing on screen tells what to enter' is not a fair reading of 3.3.2."
+    }
+  ]
+}

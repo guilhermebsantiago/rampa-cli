@@ -1,0 +1,60 @@
+{
+  "page": "https://tools.usps.com/zip-code-lookup.htm",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "a3284cc11e9a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Hidden per-section skip link in the USPS mega menu (#navmailship, 'Skip Send Links', href #navtrackmanage). The snapshot and the live HTML show a chain of skip links: each one targets the skip link that starts the next menu section (Quick Tools -> Send -> Receive -> Shop -> Business -> International -> Help -> Search -> #endnav). Jumping to the start of the Receive section is exactly what skipping the Send links means, so the link text describes its purpose accurately. The model read 'Skip Send Links' as if it had to name its destination; there is no 2.4.4 failure."
+    },
+    {
+      "fingerprint": "fd0477559f73",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Skip link 'Skip Receive Links' (#navtrackmanage) targets #navpostalstore, the skip link at the start of the next (Shop) menu section. Landing just past the Receive links is what the text promises; it is a bypass link, not a 'go to' link, so the text matches its purpose. Confirmed in the snapshot and the live HTML. Not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "63e7e07faa51",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Skip link 'Skip Shop Links' (#navpostalstore) targets #navbusiness, the first element of the following Business menu section, so activating it skips the Shop links as its text says. The model wrongly expected the text to name the destination section. No 2.4.4 failure; the snapshot and live page agree."
+    },
+    {
+      "fingerprint": "136c220da518",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Skip link 'Skip Business Links' (#navbusiness) targets #navinternational, the start of the next (International) menu section. That is the end of the Business links, so the text 'Skip Business Links' accurately describes what the link does. Not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "b1a6f38c04b0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Skip link 'Skip International Links' (#navinternational) targets #navhelp, the skip link that begins the next (Help) menu section, so it bypasses the International links as its text says. The purpose is clear from the link text. Not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "dfd88fe460ce",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Skip link 'Skip Help Links' (#navhelp) targets #navsearch, which the snapshot shows is the 'Skip Search' link at the start of the search menu item that follows the Help section. Landing there means the Help links were skipped, as the text says. The link describes its purpose; not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "a5b6a30db855",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Text field in the Send mega menu with a visually hidden label 'Search USPS.com' and placeholder 'Search or Enter a Tracking Number' (same in the live HTML). 2.4.6 asks that labels describe the topic or purpose of the control; 'Search USPS.com' clearly says this is a site search box, and you enter search terms. A site search that also accepts tracking numbers does not require the label to list every kind of query it accepts, so the finding applies a stricter rule than 2.4.6. The field also has the placeholder as its visible text, but that is not a 2.4.6 issue."
+    },
+    {
+      "fingerprint": "a4f50ff2e70c",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The same site-search field in the Receive mega menu, labelled 'Search USPS.com' (visually hidden label), placeholder 'Search or Enter a Tracking Number'. The label describes the purpose of the field (searching usps.com), which is what 2.4.6 requires; demanding that it mention tracking numbers is stricter than the criterion. Not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "008aef1b6f37",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The same site-search field in the International mega menu, with the label 'Search USPS.com' and placeholder 'Search or Enter a Tracking Number'. 'Search USPS.com' describes the field's purpose adequately for 2.4.6; the label need not list every accepted input type. The live HTML is unchanged. Not a failure of this criterion."
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "page": "https://www.bl.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "793e0fb39037",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the 'All events' secondary button-link. I drove the live page (2026-10-11) with the cookie banner dismissed and focused it from the keyboard. In steady focus its text #28261b sits on #d4d0c3, which is 9.84:1. During the brief floating-focus flash it is still about 5.4:1. The probe's colours are those values seen through the cookie consent backdrop (#ccc-overlay, rgba(0,0,0,0.4)): #d4d0c3 x 0.6 = #7f7d75 and #28261b x 0.6 = #181710. So the probe measured the button behind an open modal cookie dialog. In that state the backdrop blocks the pointer and Tab is trapped inside the dialog, so no user can put the button into that focus state. In every state a user can reach, the text meets 1.4.3."
+    },
+    {
+      "fingerprint": "89e6cbfc2de8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Close cookie control' X button on the dark (#313147) cookie banner. The site uses the floating-focus library: on keyboard focus an author-styled div draws a 2px #5a5853 border (var(--color-text-tertiary)), 2px outside the button, and the native outline is suppressed (.floating-focused {outline-style:none}). I compared live screenshots before and after focus, after the helper flash had faded. The only change is 240 px of #5a5853 surrounded on both sides by #313147, which is 1.78:1. It is not a user-agent default indicator, it is the only thing that shows the focused state, and it is under the 3:1 that the 1.4.11 Understanding asks of focus indicators against adjacent colours."
+    },
+    {
+      "fingerprint": "026d91109a77",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'I accept' button on the dark cookie banner. In steady focus on the live page, the only change is the floating-focus ring: a 2px #5a5853 border with a 2px gap outside the button's white border. The ring touches only the banner background #313147, so it is 1.78:1. The button's own white border is unchanged between states and does not mark focus. A brief helper flash right after focus dims the button with a 30% grey wash, which is also low contrast and transient. The focused state is therefore not shown with 3:1 contrast, which fails 1.4.11 as reported."
+    },
+    {
+      "fingerprint": "9f6d54acba25",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'I do not accept' button on the dark cookie banner, and it behaves the same as 'I accept'. In steady keyboard focus on the live page, the only visual change is a 2px #5a5853 floating-focus ring 2px outside the button, on #313147, which is 1.78:1. The author-styled indicator has no part reaching 3:1 against its adjacent colours, so it is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "ddfb4dc26616",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'About this tool' link at the bottom of the dark cookie banner. Its left end sits under the cookie-preferences triangle icon. In steady focus on the live page, the indicator is the 2px #5a5853 floating-focus ring. Over the banner (#313147) it is 1.78:1, and its rows are partly anti-aliased to #46454d, which is lower still. Over the navy triangle (#000025) it is 2.88:1. Rampa's #1b1a33 colour and its 2.38:1 figure come from the transient helper wash, but the claim holds: no part of the indicator reaches 3:1, so it fails 1.4.11."
+    },
+    {
+      "fingerprint": "88b3b1d02a01",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 80x80 'Set cookie preferences' triangle button in the bottom-left corner, over the open cookie banner. In steady focus on the live page, the floating-focus ring is a 2px #5a5853 border at 2px offset. Only its top and right edges are on screen, and both lie on the banner's #313147 background, which is 1.78:1. The button and its icon do not change. With the banner open, which is the default for a new visitor and the state where this button is in the Tab cycle, the focus indicator fails the 3:1 of 1.4.11. With the banner closed, the same ring on the light page would pass."
+    },
+    {
+      "fingerprint": "7a94c86b72f4",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the description in the 'Treasures of the British Library' card. The whole card is a link to events.bl.uk/exhibitions/treasures-of-the-british-library. With the WCAG spacing values on the live page, the paragraph's 3-line clamp drops its 4th line ('...in our... [permanent exhibition.]'), as reported. The design clamps the same text at 1024, 900, 768, 600 and 320 px even without spacing. The 1.4.12 Understanding ('Use of ellipses') says truncation still meets the criterion when the ellipsis is in a section with a link and the linked page reveals the text. The linked page says the gallery 'displays some of the world's most exciting, beautiful and significant books, manuscripts...' and calls it 'our free permanent gallery', so no content is lost. Rampa never read the destination."
+    },
+    {
+      "fingerprint": "1985ed130a21",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the description in the 'All events' card. The whole card is a link to events.bl.uk. With the spacing values at 1280 px on the live page, the 3-line clamp cuts '...In London, Yorkshire and... [online.]', as reported. The same clamp truncates this text at several widths without spacing, so it is a teaser by design. Under the 1.4.12 Understanding's 'Use of ellipses' provision, ellipsis truncation in a linked section passes when the linked page reveals the content. The events page lists exhibitions, events and adult courses, offers a 'Where' filter of British Library London, West Yorkshire and Online, and lists online workshops. Rampa did not read the destination. The wording is not verbatim, but the substance of the truncated text is available."
+    }
+  ]
+}

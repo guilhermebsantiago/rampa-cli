@@ -1,0 +1,36 @@
+{
+  "page": "https://www.propublica.org/article/draftkings-sports-gambling-problem-vip-fanduel",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "7ab4896283db",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer newsletter sign-up input (type=email, name=email, a visually hidden label 'Email Address:', posts to signup.propublica.org). It asks for the user's own email address, which is an input purpose listed in WCAG 1.3.5. The snapshot and the live HTML fetched on 2026-10-11 both show no autocomplete attribute, and Chromium flagged the same thing. type=email only sets the data format and does not identify the purpose, and no ARIA or other mechanism does either. I looked for a reason it passes (for example, the address belonging to someone else, or autocomplete being added by script) and found none. Fails 1.3.5."
+    },
+    {
+      "fingerprint": "72877e66c607",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the email input in the bottom-panel newsletter CTA ('Get the Newsletter'), with type=email, name=email and placeholder you@example.com. It collects the user's own email address, but neither the snapshot nor the live HTML has autocomplete=email, and Chromium's form check flagged it. type=email does not identify the purpose under 1.3.5, the sufficient technique is H98 (autocomplete), and nothing else on the element supplies the purpose. The claim holds."
+    },
+    {
+      "fingerprint": "aedb799e09d0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is an in-article citation link. The live sentence reads 'Today, [nearly a quarter of all Americans], and half of men ages 18 to 49, say they have an active sportsbook account, according to the Siena Research Institute.' The link goes to the Siena Research Institute release on that statistic. 2.4.4 accepts link purpose that can be determined from the link text together with its programmatically determined context (the same sentence or paragraph, technique G53). Here the sentence names the source being cited, so the purpose is clear. The model had the paragraph text, including 'according to the Siena Research Institute', even though the collector moved the link text to the end of it, and it still judged wrongly."
+    },
+    {
+      "fingerprint": "b65b02010773",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a footer column h2 'Info' (styled uppercase) above the links About, Impact, Leadership, Staff, Partners, Awards, Events, Jobs and Fellowships. Its sibling headings are Coverage, Local, Contact and Support us. In that context 'Info' accurately names the group as information about the organization. 2.4.6 asks only that headings describe their topic or purpose, and the Understanding document says they can be short. A terse, conventional footer category label like this is not a 2.4.6 failure, and the claim that it 'says nothing about the content under it' is wrong. The model had the section's link text. The suggested replacement is a preference, not a WCAG requirement."
+    },
+    {
+      "fingerprint": "be87e276134b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The label 'Please enter your email address:' is a visually hidden label (class p-a11y) programmatically tied to the type=email newsletter input. It states exactly what to enter, an email address, so the claim that it 'does not say what to enter' is plainly wrong, and the suggested 'Email address' says the same thing. The label being visually hidden, with only the placeholder you@example.com showing, might be worth looking at under 3.3.2 or 2.5.3, but it is not a 2.4.6 failure of the label's descriptiveness."
+    }
+  ]
+}
