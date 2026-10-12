@@ -7,6 +7,7 @@ import type { CrawlSkip } from '../surfaces/crawl.ts'
 import type { Robots } from '../surfaces/robots.ts'
 import { type Level, type WcagTarget, compareCriteria, versionOf } from '../wcag.ts'
 import { mergeCoverage } from './coverage.ts'
+import { FAIL_ON, cannotVouch, failingFindings, failsPolicy } from './gate.ts'
 import type { JudgmentCache } from './cache.ts'
 import type { Confidence, Finding, Patch, Report, Usage } from './types.ts'
 import { normalizeForMatch, sha256 } from './util.ts'
@@ -278,16 +279,18 @@ export interface SiteReport {
 export function siteExitCode(sites: readonly SiteReport[], failOn: string): number {
   if (sites.length === 0 || sites.some((site) => site.pages.length === 0)) return 2
   const reports = sites.flatMap((site) => site.pages)
-  if (reports.some((report) => report.criteria.some((c) => c.errors > 0 && c.judged === 0))) return 2
-  if (failOn === 'never') return 0
-  const failing = reports.some(
-    (report) =>
-      report.findings.length > 0 ||
-      (failOn === 'any' && report.belowThreshold.length > 0) ||
-      (failOn === 'advisory' && (report.advisory?.results.length ?? 0) > 0),
-  )
+  // A page where the model failed on every candidate of a criterion, or judged nothing it was asked to.
+  if (reports.some(cannotVouch)) return 2
+  // The same policies as a page's check (core/gate.ts): none never fails, A and AA count only their levels.
+  const policy = FAIL_ON.find((choice) => choice === failOn) ?? 'confirmed'
+  const failing =
+    failingFindings(reports, policy).length > 0 || (policy === 'advisory' && reports.some((report) => (report.advisory?.results.length ?? 0) > 0))
   // Findings across pages count like a page's; needs review and findings beyond the target never do.
-  const across = sites.some((site) => (site.siteCriteria?.findings.length ?? 0) > 0 || (failOn === 'any' && (site.siteCriteria?.belowThreshold.length ?? 0) > 0))
+  const across = sites.some(
+    (site) =>
+      (site.siteCriteria?.findings ?? []).some((finding) => failsPolicy(finding, true, policy)) ||
+      (site.siteCriteria?.belowThreshold ?? []).some((finding) => failsPolicy(finding, false, policy)),
+  )
   return failing || across ? 1 : 0
 }
 

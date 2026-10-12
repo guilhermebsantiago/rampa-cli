@@ -21,7 +21,7 @@ import { DEFAULT_WCAG, type WcagVersion, parseWcagVersion } from '../wcag.ts'
  * what is not set falls back to rampa.config.*, then to the CLI's default.
  */
 export interface RampaOptions {
-  /** WCAG criteria to judge, such as ['1.1.1', '2.4.4'] or '1.1.1,2.4.4'. Default: all six. axe-core runs every WCAG A/AA rule of the target version either way. */
+  /** WCAG criteria to judge, such as ['1.1.1', '2.4.4'] or '1.1.1,2.4.4'. Default: DEFAULT_CRITERIA, the modules that run by default. axe-core runs every WCAG A/AA rule of the target version either way. */
   criteria?: readonly string[] | string | undefined
   /** `provider:model`, such as 'ollama:gemma4:12b', or a ModelProvider of your own. Default: RAMPA_MODEL, the config, then what this machine can run. */
   model?: string | ModelProvider | undefined

@@ -4,7 +4,8 @@ import { patternTitle } from '../advisory/coga.ts'
 import { beyondName } from '../advisory/label.ts'
 import { am } from '../advisory/messages.ts'
 import type { Advisory } from '../advisory/types.ts'
-import type { Confidence, Finding, Report, SourceRegion } from '../core/types.ts'
+import { type FailOn, cannotVouch, failsPolicy, meetsThreshold, nothingJudgedNote, unjudgedCandidates } from '../core/gate.ts'
+import type { Finding, Report, SourceRegion } from '../core/types.ts'
 import { sha256 } from '../core/util.ts'
 import { type Locale, t } from '../i18n.ts'
 import { type WcagVersion, successCriterion } from '../wcag.ts'
@@ -19,6 +20,7 @@ import {
   reviewGroups,
   reviewOnly,
   safeUrl,
+  thresholdLevel,
   understandingUrl,
   wcagVersion,
 } from './common.ts'
@@ -28,6 +30,10 @@ import {
  * success criterion; one result per finding, located in the source file of a local page
  * (with the patch as a fix) or at the URL and selector of a remote one. Every run states
  * its coverage, because a log without results must not read as a clean page.
+ *
+ * A result's level follows the run's gate (core/gate.ts), so code scanning fails a pull request on what fails
+ * `rampa check`: `error` for a finding that fails --fail-on under the run's --min-confidence, `note` for one below the
+ * threshold that does not, `warning` for any other finding reported (outside the --fail-on levels, or with --fail-on none).
  */
 
 export const SARIF_SCHEMA = 'https://json.schemastore.org/sarif-2.1.0.json'
@@ -39,6 +45,8 @@ export const FINGERPRINT_KEY = 'rampa/v1'
 export interface SarifOptions {
   /** Also report findings below the confidence threshold, as notes, and waived ones, as suppressed. */
   verbose?: boolean | undefined
+  /** The gate the levels follow; the report's own `failOn` (set by rampa check) when absent, else `confirmed`. */
+  failOn?: FailOn | undefined
 }
 
 interface Message {
@@ -124,6 +132,8 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
   const artifactIndex = new Map<string, number>()
   const results: SarifResult[] = []
   const notifications: Notification[] = []
+  // For each rule, whether each of its results came from an experimental method: the rule's maturity sums them up.
+  const ruleSources: boolean[][] = []
 
   const ruleFor = (finding: Finding): { id: string; index: number } => {
     const id = ruleIdOf(finding)
@@ -135,7 +145,11 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
     return { id, index }
   }
 
+  const policyOf = (report: Report): FailOn => options.failOn ?? report.failOn ?? 'confirmed'
   for (const report of reports) {
+    const policy = policyOf(report)
+    // Findings below the threshold are results with --verbose, and always when the gate counts them (--fail-on any).
+    const withBelow = Boolean(options.verbose) || report.belowThreshold.some((finding) => failsPolicy(finding, false, policy))
     const location = artifactLocationOf(report)
     const key = `${location.uriBaseId ?? ''}|${location.uri}`
     let index = artifactIndex.get(key)
@@ -146,10 +160,14 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
     const artifact: ArtifactLocation = { ...location, index }
     const entries: Array<[Finding, Kind]> = [
       ...report.findings.map((finding): [Finding, Kind] => [finding, 'confirmed']),
-      ...(options.verbose ? report.belowThreshold.map((finding): [Finding, Kind] => [finding, 'below-threshold']) : []),
+      ...(withBelow ? report.belowThreshold.map((finding): [Finding, Kind] => [finding, 'below-threshold']) : []),
       ...(options.verbose ? report.waived.map((finding): [Finding, Kind] => [finding, 'waived']) : []),
     ]
-    for (const [finding, kind] of entries) results.push(resultOf(finding, kind, report, artifact, ruleFor(finding)))
+    for (const [finding, kind] of entries) {
+      const rule = ruleFor(finding)
+      results.push(resultOf(finding, kind, report, artifact, rule, policy))
+      ruleSources[rule.index] = [...(ruleSources[rule.index] ?? []), Boolean(finding.experimental)]
+    }
     // Advisories of a --profile: their own rules, always at level note, so code scanning never reads them as failures.
     const advisories: Array<[Advisory, Kind]> = report.advisory
       ? [
@@ -171,14 +189,32 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
     const where = [{ physicalLocation: { artifactLocation: artifact } }]
     const note = { text: plainText(`${pageLabel(report)}: ${coverageStatement(report)}`) }
     notifications.push({ level: 'note', message: note, descriptor: { id: 'coverage' }, locations: where })
+    // Findings below the threshold that are not results are still counted, with the threshold, so the log never hides them.
+    if (!withBelow && report.belowThreshold.length > 0) {
+      const text = t(locale, 'belowThreshold', { count: report.belowThreshold.length, level: thresholdLevel(report) })
+      notifications.push({ level: 'note', message: { text: plainText(`${pageLabel(report)}: ${text}`) }, descriptor: { id: 'below-threshold' }, locations: where })
+    }
+    // Judgment asked for and nothing judged: rampa check exits 2, and the log says why.
+    const nothing = nothingJudgedNote(report)
+    if (nothing) notifications.push({ level: 'error', message: { text: plainText(`${pageLabel(report)}: ${nothing}`) }, descriptor: { id: 'nothing-judged' }, locations: where })
     for (const error of report.errors) {
       notifications.push({ level: 'warning', message: { text: plainText(`${pageLabel(report)}: ${error}`) }, descriptor: { id: 'judgment-error' }, locations: where })
     }
   }
+  // A rule whose every result is experimental says so, with a tag code scanning shows; one with both kinds is mixed.
+  for (const [index, sources] of ruleSources.entries()) {
+    const rule = rules[index]
+    if (!rule || !sources || sources.length === 0) continue
+    const experimental = sources.every(Boolean)
+    rule.properties.maturity = experimental ? 'experimental' : sources.some(Boolean) ? 'mixed' : 'stable'
+    rule.properties.experimental = experimental
+    if (experimental) rule.properties.tags.push('experimental')
+  }
 
   const engines = new Map(reports.filter((report) => report.engine.name !== 'none').map((report) => [report.engine.name, report.engine.version]))
   const relative = artifacts.some((artifact) => artifact.location.uriBaseId === SOURCE_ROOT)
-  const failed = reports.some((report) => report.criteria.some((criterion) => criterion.errors > 0 && criterion.judged === 0))
+  // The run could not vouch for itself (rampa check exits 2): the model failed on every candidate of a criterion, or judged nothing.
+  const failed = reports.some(cannotVouch)
   const ended = reports.map((report) => report.createdAt).sort().at(-1)
 
   return {
@@ -209,12 +245,19 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
         results,
         properties: {
           statement: `${t(locale, 'disclaimer')} ${t(locale, 'manualReview')}`,
+          // The gate the levels follow: results at `error` fail it; findings below minConfidence are notes, or only counted.
+          ...(reports[0]?.minConfidence ? { minConfidence: reports[0].minConfidence } : {}),
+          failOn: reports[0] ? policyOf(reports[0]) : (options.failOn ?? 'confirmed'),
           coverage: reports.map((report) => ({
             target: pageLabel(report),
             surface: report.surface,
             wcagTarget: report.wcagTarget ?? 'wcag21-aa',
             llm: report.llm,
             model: report.model,
+            ...(report.minConfidence ? { minConfidence: report.minConfidence } : {}),
+            // Counted whether or not they are results here (they are with --verbose, or when --fail-on any counts them).
+            belowThreshold: report.belowThreshold.length,
+            ...(unjudgedCandidates(report) !== undefined ? { notJudged: unjudgedCandidates(report) } : {}),
             checkedByEngine: report.coverage.engine,
             ...(report.coverage.rules?.length ? { checkedByRules: report.coverage.rules } : {}),
             judged: report.coverage.judged,
@@ -227,7 +270,7 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
               id: record.id,
               target: record.target,
               status: record.status,
-              methods: record.methods.map((m) => ({ kind: m.kind, id: m.id, ran: m.ran, applicable: m.applicable, failures: m.failures, review: m.review })),
+              methods: record.methods.map((m) => ({ kind: m.kind, id: m.id, ran: m.ran, maturity: m.maturity, applicable: m.applicable, failures: m.failures, review: m.review })),
             })),
             ...(report.advisory
               ? {
@@ -292,7 +335,7 @@ function ruleOf(finding: Finding, locale: Locale, version: WcagVersion): Rule {
   }
 }
 
-function resultOf(finding: Finding, kind: Kind, report: Report, artifact: ArtifactLocation, rule: { id: string; index: number }): SarifResult {
+function resultOf(finding: Finding, kind: Kind, report: Report, artifact: ArtifactLocation, rule: { id: string; index: number }, policy: FailOn): SarifResult {
   const locale = report.locale
   const parts = [finding.message]
   if (finding.evidence) parts.push(`${t(locale, 'evidence')}: "${finding.evidence}".`)
@@ -306,10 +349,11 @@ function resultOf(finding: Finding, kind: Kind, report: Report, artifact: Artifa
   const selector = finding.ref ?? finding.target
   if (selector) location.logicalLocations = [{ fullyQualifiedName: selector, kind: 'element' }]
 
+  const fails = kind !== 'waived' && failsPolicy(finding, kind === 'confirmed', policy)
   const result: SarifResult = {
     ruleId: rule.id,
     ruleIndex: rule.index,
-    level: kind === 'below-threshold' ? 'note' : levelOf(finding.confidence),
+    level: levelOf(finding, kind, fails, report),
     message: { text: plainText(parts.join(' ')) },
     locations: [location],
     partialFingerprints: { [FINGERPRINT_KEY]: stableFingerprint(finding, artifact.uri) },
@@ -317,6 +361,10 @@ function resultOf(finding: Finding, kind: Kind, report: Report, artifact: Artifa
       findingId: finding.fingerprint,
       source: finding.source,
       confidence: finding.confidence,
+      // The method's maturity: an experimental one reports below the default threshold until it passes the evaluation gate.
+      maturity: finding.experimental ? 'experimental' : 'stable',
+      experimental: Boolean(finding.experimental),
+      failsGate: fails,
       ...(finding.ruleId ? { engineRule: finding.ruleId } : {}),
       ...(safeUrl(finding.helpUrl) ? { engineHelpUri: safeUrl(finding.helpUrl) } : {}),
       ...(finding.agreement ? { agreement: finding.agreement } : {}),
@@ -342,9 +390,15 @@ function resultOf(finding: Finding, kind: Kind, report: Report, artifact: Artifa
   return result
 }
 
-/** How sure the finding is, as SARIF's severity: GitHub fails a pull request check on errors by default. */
-function levelOf(confidence: Confidence): 'error' | 'warning' | 'note' {
-  return confidence === 'high' ? 'error' : confidence === 'medium' ? 'warning' : 'note'
+/**
+ * The run's gate as SARIF's severity, since GitHub fails a pull request check on errors by default: `error` when the
+ * finding fails --fail-on, `note` when it is below the confidence threshold, `warning` for the other findings. A waived
+ * finding never fails the gate: it is a note or a warning by the threshold, and suppressed.
+ */
+function levelOf(finding: Finding, kind: Kind, fails: boolean, report: Report): 'error' | 'warning' | 'note' {
+  if (fails) return 'error'
+  const below = kind === 'below-threshold' || (kind === 'waived' && !meetsThreshold(finding, report.minConfidence ?? 'medium'))
+  return below ? 'note' : 'warning'
 }
 
 /**

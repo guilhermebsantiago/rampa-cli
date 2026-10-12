@@ -47,8 +47,11 @@ describe('check', () => {
 
   it('builds the same report as rampa check', { timeout: 30_000 }, async () => {
     const [api] = await check(recorded, replay)
-    const fromCli = JSON.parse(await cli(['check', recorded, '--offline', '--cache-dir', 'demo/recorded/cache', '-m', 'ollama:gemma4:12b', '--format', 'json']))
+    const { failOn, ...fromCli } = JSON.parse(await cli(['check', recorded, '--offline', '--cache-dir', 'demo/recorded/cache', '-m', 'ollama:gemma4:12b', '--format', 'json']))
     expect({ ...api, createdAt: '' }).toEqual({ ...fromCli, createdAt: '' })
+    // Only the CLI gates a run, so only its report records the --fail-on policy; both record the threshold.
+    expect(failOn).toBe('confirmed')
+    expect(api?.minConfidence).toBe('medium')
   })
 
   it('returns one report per target, in order, with criteria given as a list or a string', async () => {

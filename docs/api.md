@@ -144,7 +144,7 @@ The types are exported: `Report`, `Finding`, `Patch`, `CriterionSummary`, `Usage
 
 ## Pass or fail
 
-`rampa check` exits 1 when a report has findings and 2 when the model failed on every candidate of a criterion. From code, `assertRampa(reports, options)` applies the same rule and throws an error listing each finding; `formatFindings(reports, options)` returns that text without throwing. Both take `failOn: 'any'` (also fail on findings below the threshold) and `requireJudgment: true` (also fail when the judgment did not reach every candidate).
+`rampa check` exits 1 when a report has findings and 2 when the model failed on every candidate of a criterion, or judged none of the candidates that needed it ([exit codes](output-formats.md#exit-codes-and---fail-on)). From code, `assertRampa(reports, options)` applies the same rule to findings and to a model that failed on every candidate, leaves a run that judged nothing to `requireJudgment`, and throws an error listing each finding; `formatFindings(reports, options)` returns that text without throwing. Both take `failOn: 'any'` (also fail on findings below the threshold) and `requireJudgment: true` (also fail when the judgment did not reach every candidate).
 
 ```ts
 import { writeFile } from 'node:fs/promises'

@@ -6,11 +6,15 @@ import type { Locale } from '../i18n.ts'
 import type { A11ySnapshot, Reach, Surface } from '../snapshot/schema.ts'
 import type { Level, WcagTarget } from '../wcag.ts'
 import type { FastCoverage } from './fast.ts'
+import type { FailOn } from './gate.ts'
 import type { Timings } from './timings.ts'
 
 export type Confidence = 'low' | 'medium' | 'high'
 
 export const CONFIDENCE_RANK: Record<Confidence, number> = { low: 0, medium: 1, high: 2 }
+
+/** Whether a method has passed the evaluation gate (docs/plans/wcag-coverage.md, 4.9): experimental ones report below the default threshold. */
+export type Maturity = 'stable' | 'experimental'
 
 export function minConfidence(a: Confidence, b: Confidence): Confidence {
   return CONFIDENCE_RANK[a] <= CONFIDENCE_RANK[b] ? a : b
@@ -265,7 +269,11 @@ export interface Finding {
   locatedBy?: string | undefined
   /** Set for local pages, by `locateReport`. */
   location?: SourceLocation | undefined
-  /** A check that has not passed the evaluation gate yet: reported below the threshold unless --min-confidence low. */
+  /**
+   * The method behind the finding has not passed the evaluation gate yet: an experimental Rampa rule or axe-core rule
+   * (target-size), an experimental judgment module (core/maturity.ts), a probe rule, or a judgment over a probe's facts.
+   * Reported below the threshold unless --min-confidence low. Set from the method's maturity for every source.
+   */
   experimental?: boolean | undefined
   /** A WCAG 2.2-only criterion in a WCAG 2.1 report: shown, never counted toward the exit code. */
   beyondTarget?: boolean | undefined
@@ -289,7 +297,7 @@ export interface ProbeCoverage {
   unmatched: number
   /** Why the criterion was not checked, or what limits the result. */
   note?: string | undefined
-  maturity: 'experimental' | 'stable'
+  maturity: Maturity
   beyondTarget?: boolean | undefined
   /**
    * The probe rule lists facts for another method and decides nothing: the links probe gives 2.4.4's judgment where
@@ -350,7 +358,7 @@ export interface CoverageMethod {
   /** The rule can only pass or ask for review: it never reports a failure. */
   reviewOnly?: boolean | undefined
   /** Experimental methods report below the default confidence threshold until they pass the evaluation gate. */
-  maturity: 'stable' | 'experimental'
+  maturity: Maturity
   /** For a probe: the probe and its version (`probe/layout@1`), what it emulated, and why it did not check, if it did not. */
   probe?: { method: string; conditions: string; note?: string | undefined } | undefined
   /** For a Rampa rule: what limits its result, such as elements left out past a budget, in the report's language. */
@@ -438,6 +446,14 @@ export interface Report {
   llm: 'on' | 'off' | 'no-model'
   model?: string | undefined
   engine: { name: string; version: string }
+  /**
+   * The confidence threshold of the run (--min-confidence, `minConfidence`): `findings` holds what reaches it,
+   * `belowThreshold` the rest, experimental findings included unless it is `low`. Reports written before it existed
+   * do not say; their threshold was the default, `medium`, unless the run set another.
+   */
+  minConfidence?: Confidence | undefined
+  /** The --fail-on policy the run gated on, set by `rampa check`; absent from a report made from code. */
+  failOn?: FailOn | undefined
   findings: Finding[]
   belowThreshold: Finding[]
   /**

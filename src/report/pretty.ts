@@ -8,7 +8,7 @@ import { estimateCostUsd, subscriptionOf } from '../providers/models.ts'
 import { compareCriteria, criterionLabel, criteriaFor, versionOf } from '../wcag.ts'
 import { advisoryLines, cogaCoverage } from './advisory.ts'
 import type { Painter } from './color.ts'
-import { coverageRows, methodsText, plural, reviewGroups, statusText } from './common.ts'
+import { coverageRows, methodsText, plural, reviewGroups, statusText, thresholdLevel } from './common.ts'
 import { timingLines } from './timings.ts'
 
 export interface PrettyOptions {
@@ -33,22 +33,26 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   if (submitted) lines.push(p.bold(p.yellow(submitted)))
   lines.push('')
 
-  const findings = verbose ? [...report.findings, ...report.belowThreshold] : report.findings
-  if (findings.length === 0) {
+  if (report.findings.length === 0) {
     lines.push(p.green(noNewFindings(report) ?? t(locale, 'noFindings')))
     lines.push('')
   }
 
-  const byCriterion = new Map<string, Finding[]>()
-  for (const finding of findings) {
-    const list = byCriterion.get(finding.criterion) ?? []
-    list.push(finding)
-    byCriterion.set(finding.criterion, list)
+  const byCriterion = (findings: readonly Finding[], below?: { level: string }) => {
+    const groups = new Map<string, Finding[]>()
+    for (const finding of findings) groups.set(finding.criterion, [...(groups.get(finding.criterion) ?? []), finding])
+    for (const criterion of [...groups.keys()].sort(compareCriteria)) {
+      lines.push(p.bold(criterionLabel(criterion, locale)))
+      for (const finding of groups.get(criterion) ?? []) lines.push(...renderFinding(finding, locale, p, below))
+      lines.push('')
+    }
   }
-  for (const criterion of [...byCriterion.keys()].sort(compareCriteria)) {
-    lines.push(p.bold(criterionLabel(criterion, locale)))
-    for (const finding of byCriterion.get(criterion) ?? []) lines.push(...renderFinding(finding, locale, p))
-    lines.push('')
+  byCriterion(report.findings)
+  // --verbose: the findings below the threshold, under a heading of their own and each one marked, never as confirmed ones.
+  if (verbose && report.belowThreshold.length > 0) {
+    const level = thresholdLevel(report)
+    lines.push(p.bold(p.yellow(t(locale, 'belowThresholdTitle', { level }))), '')
+    byCriterion(report.belowThreshold, { level })
   }
   // Advisories of a --profile come after the WCAG findings, in a section of their own.
   lines.push(...advisoryLines(report, verbose, p))
@@ -145,9 +149,13 @@ export function usageLine(report: Report): string | undefined {
   return `${line} · ${cost < 0.0001 ? `< US$ ${decimal(0.0001, 4)}` : `≈ US$ ${decimal(cost, 4)}`}`
 }
 
-export function renderFinding(finding: Finding, locale: Locale, p: Painter): string[] {
+/**
+ * One finding: its element, message, evidence, patch, and a line with its confidence, method and id. `below` marks one
+ * below the confidence threshold (--verbose), with the threshold, so it never reads as a confirmed failure.
+ */
+export function renderFinding(finding: Finding, locale: Locale, p: Painter, below?: { level: string }): string[] {
   const lines: string[] = []
-  lines.push(`  ${p.redBold('✗')} ${finding.ref ?? finding.target ?? ''}`)
+  lines.push(`  ${below ? p.yellow('~') : p.redBold('✗')} ${finding.ref ?? finding.target ?? ''}`)
   lines.push(`    ${finding.message}`)
   if (finding.evidence) lines.push(`    ${t(locale, 'evidence')}: "${finding.evidence}"`)
   if (finding.patch?.before && finding.patch.after) {
@@ -157,23 +165,24 @@ export function renderFinding(finding: Finding, locale: Locale, p: Painter): str
   }
   // A screenshot has no tree: the element was placed by a model, and the reader should know.
   if (finding.locatedBy) lines.push(p.dim(`    ${t(locale, 'locatedBy', { model: finding.locatedBy })}${finding.html ? ` · ${finding.html}` : ''}`))
+  // Probe findings are always experimental; any other finding says so when its method is (Finding.experimental).
+  const experimental = finding.experimental || finding.source === 'probe' ? [t(locale, 'experimental')] : []
+  // The id is what a waiver names, so every finding prints it.
+  const tail = [...(below ? [t(locale, 'belowThresholdShort', { level: below.level })] : []), `id ${finding.fingerprint}`]
+  let parts: string[]
   if (finding.source === 'probe') {
-    const parts = [`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`, t(locale, 'experimental'), `${t(locale, 'probeRule')} ${finding.ruleId}`]
+    parts = [`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`, ...experimental, `${t(locale, 'probeRule')} ${finding.ruleId}`]
     if (finding.beyondTarget) parts.push(t(locale, 'probeBeyondTarget'))
-    parts.push(`id ${finding.fingerprint}`)
-    lines.push(p.dim(`    ${parts.join(' · ')}`))
   } else if (finding.source === 'engine') {
-    // The id is what a waiver names, so engine findings print it too.
-    lines.push(p.dim(`    ${t(locale, finding.confidence)} · ${t(locale, 'engineRule')} ${finding.ruleId} · id ${finding.fingerprint}`))
+    parts = [t(locale, finding.confidence), ...experimental, `${t(locale, 'engineRule')} ${finding.ruleId}`]
   } else if (finding.source === 'rule') {
-    lines.push(p.dim(`    ${t(locale, 'confidence')} ${t(locale, finding.confidence)} · ${t(locale, 'rampaRule')} ${finding.ruleId} · id ${finding.fingerprint}`))
+    parts = [`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`, ...experimental, `${t(locale, 'rampaRule')} ${finding.ruleId}`]
   } else {
-    const parts = [`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`]
+    parts = [`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`, ...experimental]
     if (finding.agreement) parts.push(`${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`)
     parts.push(t(locale, 'verified'))
-    parts.push(`id ${finding.fingerprint}`)
-    lines.push(p.dim(`    ${parts.join(' · ')}`))
   }
+  lines.push(p.dim(`    ${[...parts, ...tail].join(' · ')}`))
   return lines
 }
 
@@ -239,7 +248,10 @@ export function notesOf(report: Report, verbose: boolean): string[] {
   if (sum('cannotTell') > 0) notes.push(t(locale, 'cannotTell', { count: sum('cannotTell') }))
   if (sum('offlineMisses') > 0) notes.push(t(locale, 'offlineMisses', { count: sum('offlineMisses') }))
   if (sum('errors') > 0) notes.push(t(locale, 'judgmentErrors', { count: sum('errors'), error: report.errors[0] ?? '' }))
-  if (!verbose && report.belowThreshold.length > 0) notes.push(t(locale, 'belowThreshold', { count: report.belowThreshold.length }))
+  // Always counted, with the threshold: without --verbose they are left out, with it they are listed apart and marked.
+  if (report.belowThreshold.length > 0) {
+    notes.push(t(locale, verbose ? 'belowThresholdListed' : 'belowThreshold', { count: report.belowThreshold.length, level: thresholdLevel(report) }))
+  }
   const beyond = beyondTargetNote(report)
   if (beyond) notes.push(beyond)
   return notes

@@ -21,7 +21,20 @@ rampa check site/ --sarif rampa.sarif --markdown rampa.md --html rampa.html   # 
 | `--format <json\|sarif\|markdown\|html> -o <file>` | nothing | that format |
 | `--json <file>`, `--sarif <file>`, `--markdown <file>`, `--html <file>` | unchanged | one more file each |
 
-Folders for output files are created when missing. `--locale pt-BR` writes Markdown and HTML in Portuguese, and the messages in SARIF. `--verbose` shows the findings below the confidence threshold in the pretty, Markdown and HTML reports (marked as such) and in SARIF (as notes), and adds the waived findings to SARIF; JSON always has both lists, `belowThreshold` and `waived`.
+Folders for output files are created when missing. `--locale pt-BR` writes Markdown and HTML in Portuguese, and the messages in SARIF. JSON always has both lists, `belowThreshold` and `waived`.
+
+## The confidence threshold and experimental checks
+
+`--min-confidence` (default `medium`, or `minConfidence` in the config) splits the findings: those at or above it are confirmed, and the rest are below the threshold. A check that has not passed the evaluation gate is experimental, and its findings are below the threshold unless `--min-confidence low`. Every report records the threshold, and every format says how many findings are below it and what the threshold was:
+
+- **pretty:** a note such as "3 finding(s) below the confidence threshold (medium) are not listed; --verbose shows them." With `--verbose` they are listed after the confirmed findings, under the heading "Below the confidence threshold (medium): not confirmed failures; only --fail-on any counts them", each one marked `~` instead of `✗` and tagged "below the confidence threshold (medium)", and the note says they are listed.
+- **Markdown and HTML:** the same note; with `--verbose` each such finding is listed and tagged "below the confidence threshold (medium)".
+- **JSON:** `minConfidence` on the report, and `failOn`, the `--fail-on` policy the run gated on (set by `rampa check`).
+- **SARIF:** `minConfidence` and `failOn` in the run's properties, and each page's `belowThreshold` count in its coverage. Findings below the threshold are results (level `note`) with `--verbose`, and also without it when `--fail-on any` counts them; otherwise a `below-threshold` notification counts them.
+
+A finding is experimental (`experimental: true` in JSON) when the method behind it is, whatever its source: an experimental Rampa rule (all of them, for now), axe-core's `target-size`, an experimental judgment module (1.3.1, 1.3.2, 1.3.3, 2.5.3 and 3.3.1, asked for with `--criteria`, and 2.4.3 over the focus-order probe), a probe rule, or a judgment over a probe's facts. pretty, Markdown and HTML tag it "experimental" next to its confidence. The coverage says the same per method (`maturity` in JSON and SARIF, "experimental" after a method's counts), and the lines "Checked by Rampa rules" and "Judged with verified evidence" read "(partial, experimental)" and "(experimental)" when every method behind them is experimental, or list the experimental criteria apart ("3.1.1; experimental: 1.1.1, 2.4.2") when only some are.
+
+Each finding also says what found it: an axe-core rule ("rule image-alt (axe-core)"), a Rampa rule ("Rampa rule rampa/placeholder-alt"), a probe rule ("probe rule rampa/reflow"), or a model ("evidence verified", with the votes).
 
 ## Exit codes and `--fail-on`
 
@@ -29,7 +42,7 @@ Folders for output files are created when missing. `--locale pt-BR` writes Markd
 | --- | --- |
 | `0` | Nothing fails the `--fail-on` policy |
 | `1` | At least one finding fails the policy |
-| `2` | Rampa could not vouch for the run: a usage or configuration error, a page that did not load, or a model that failed on every candidate of a criterion |
+| `2` | Rampa could not vouch for the run: a usage or configuration error, a page that did not load, a model that failed on every candidate of a criterion, or judgment asked for and nothing judged |
 
 | `--fail-on` | Exits `1` when there is |
 | --- | --- |
@@ -41,7 +54,11 @@ Folders for output files are created when missing. `--locale pt-BR` writes Markd
 
 The levels are read in any case, so `--fail-on aa` works. Waived findings never count. With `A` or `AA`, a finding on a rule outside WCAG A/AA does not fail the run; with `confirmed` it does. What needs review never fails a run, and neither does a finding beyond the target (a WCAG 2.2 criterion in a `--wcag 2.1` run).
 
-A usage error, such as an unknown `--format`, exits `2`. Earlier versions exited `1` there, which CI could not tell apart from a failure on the page.
+A usage error, such as an unknown `--format`, exits `2`. Earlier versions exited `1` there, which CI could not tell apart from a failure on the page. So does an error while Rampa's modules load, such as a broken install.
+
+A config file is checked when it loads: a value Rampa cannot use (`"minConfidence": "hgih"`) or a key it does not know (`"failOn"`, which only the command line sets) exits `2` with a message that names the key and what it takes. Earlier versions ignored both, and an unknown threshold hid every finding, so the gate passed whatever the page had.
+
+**Nothing judged.** When judgment is on (no `--no-llm`), the page has candidates that need a model, and the model judged none of them, the run exits `2`, whatever `--fail-on` says: `--offline` with nothing in the cache, no model found, or `--time-limit` run out before the first answer. A note in the report and a line on stderr say how many candidates were left and why, and SARIF marks the run as not successful. Pass `--no-llm` to gate on the deterministic layer alone; a page with nothing to judge, and a run where the model judged some candidates and not others, exit as usual, with notes on what was left.
 
 ## Where a finding is in the source
 
@@ -59,9 +76,11 @@ A fix is made only when the file still says what the patch replaces: the attribu
 
 ## JSON
 
-The report as before: one object for one page, an array for several. Two optional fields are new.
+The report as before: one object for one page, an array for several, with these optional fields.
 
 - `sourceFile` on a report: the local file behind the target, relative as above.
+- `minConfidence` and `failOn` on a report: the threshold that split `findings` from `belowThreshold`, and the `--fail-on` policy of the run.
+- `experimental` on a finding: the method behind it has not passed the evaluation gate (see above).
 - `location` on a finding: `file`, `startLine`, `startColumn`, `endLine`, `endColumn` (1-based, end column exclusive, in UTF-16 code units as in SARIF), the source `snippet` when the region is 500 characters or less, and `fix` when the patch applies to the file: the `region` to replace, the `text` to put there, and the element `before` and `after`.
 
 ## SARIF
@@ -69,11 +88,12 @@ The report as before: one object for one page, an array for several. Two optiona
 [SARIF 2.1.0](https://docs.oasis-open.org/sarif/sarif/v2.1.0/sarif-v2.1.0.html), the format of GitHub code scanning and of IDE viewers such as the SARIF extension for VS Code. A test validates the output against the official OASIS schema.
 
 - **Rules.** One per WCAG success criterion, such as `WCAG-2.4.4` (`LinkPurposeInContext`), with its level in the description and the tags (`wcag-a`, `wcag-aa`), and `helpUri` pointing to W3C's Understanding page. A finding from an axe-core rule outside WCAG A/AA keeps the rule's own id.
-- **Results.** The message, the evidence and the finding id (the one waivers use), with brackets escaped as SARIF requires of plain text. The level follows the confidence: `error` for high, `warning` for medium, `note` for low and for findings below the threshold. GitHub fails a pull request check on `error` by default, so only high-confidence findings block there unless you change that setting; Rampa's own exit code follows `--fail-on`. Properties carry the source (engine or judgment), the confidence, the votes, the model, the axe-core rule and its help page, and the patch as text.
+- **Results.** The message, the evidence and the finding id (the one waivers use), with brackets escaped as SARIF requires of plain text. The level follows the run's gate, so code scanning blocks on what `rampa check` exits `1` for: `error` for a finding that fails `--fail-on` under the run's `--min-confidence`, `note` for one below the threshold that does not, and `warning` for any other finding reported (on a level `--fail-on A` or `AA` leaves out, or with `--fail-on none`). With the default `--fail-on confirmed`, every confirmed finding is an `error`, medium confidence included; earlier versions made medium a `warning` while the run still failed on it. A waived finding (with `--verbose`) is suppressed, at `note` or `warning` by the threshold. Properties carry the source (engine, rule, probe or judgment), the confidence, `maturity` (`stable` or `experimental`) and `experimental`, `failsGate`, the votes, the model, the rule and its help page, and the patch as text.
+- **Rules.** Besides its tags, a rule's properties say the `maturity` of its results in the log: `stable`, `experimental` (also added as an `experimental` tag), or `mixed` when both share the criterion.
 - **Locations.** For a local page, the file relative to `%SRCROOT%` (the repository root) with the line and columns of the element and its source as the snippet. For a remote page, the URL. Both carry a logical location: the CSS selector of the element.
 - **Fixes.** The patch as a replacement in the file, when it applies (see above).
 - **Fingerprints.** `partialFingerprints["rampa/v1"]` hashes the page, the criterion, the rule and the element's selector. It survives a model quoting different words and the element moving to another line, so code scanning keeps tracking one alert. A change in the structure around the element, such as a new sibling of the same tag before it, changes the selector, and code scanning then sees a new alert.
-- **Coverage.** Each page gets a `note` notification with its coverage statement, and `runs[0].properties.coverage` lists what the engine checked, what was judged, what needs review and what was not checked, with each criterion's status and the run's `wcagTarget`. What axe-core could not decide is counted there (`needsReview`), never as a result, since code scanning would show it as an alert. A log without results still says what nobody checked.
+- **Coverage.** Each page gets a `note` notification with its coverage statement, and `runs[0].properties.coverage` lists what the engine checked, what was judged, what needs review and what was not checked, with each criterion's status, each method's `maturity`, the page's `minConfidence` and `belowThreshold` count, and the run's `wcagTarget`. What axe-core could not decide is counted there (`needsReview`), never as a result, since code scanning would show it as an alert. A log without results still says what nobody checked. A page where judgment was asked for and nothing was judged gets an `error` notification (`nothing-judged`) and a `notJudged` count, and the invocation is not successful.
 - **Suppressions.** With `--verbose`, waived findings are included with an external, accepted suppression.
 
 GitHub code scanning shows results located in files of the repository. Results for remote pages are valid SARIF, but GitHub has no file to show them on; for a deployed site, read the Markdown or HTML report instead.
@@ -87,11 +107,11 @@ WCAG 2.4.4 (A) — examples/store/before.html:31
 The link text "Click here" does not tell where the link goes, and nothing around it does.
 - <a href="shipping.html">Click here</a>
 + <a href="shipping.html">View shipping information</a>
-Evidence: "Click here" · confidence high · 1/1 runs · id 1af8a73e209d
+Evidence: "Click here" · confidence high · 1/1 runs · evidence verified · id 1af8a73e209d
 ```
 
 - It starts with a hidden marker, `<!-- rampa-report -->`, so a bot can find its earlier comment and edit it instead of posting a new one.
-- A summary line counts the confirmed findings by level, then each page with findings gets one block per finding: the criterion and level (linked to W3C's Understanding page), `file:line` or the selector, the message, the patch as a `diff` against the source as written, the evidence, the confidence and the id.
+- A summary line counts the confirmed findings by level, then each page with findings gets one block per finding: the criterion and level (linked to W3C's Understanding page), `file:line` or the selector, the message, the patch as a `diff` against the source as written, the evidence, the confidence, "experimental" when it is, what found it and the id.
 - A page's findings past the fifth fold into a `<details>`. The report stays under 60,000 characters, below GitHub's limit for a comment: notes, coverage rows and pages without findings are listed up to 20 each, and findings that do not fit are counted and left to the SARIF, JSON and HTML reports.
 - Notes, the coverage of the run and the statement that the report does not declare the page accessible come at the end, then how to waive a false positive.
 - Text from the page is escaped: it cannot add Markdown or HTML, mention a person (`@name`) or reference an issue (`#12`, `GH-12`). An address in it still becomes a link, as GitHub does with any text.

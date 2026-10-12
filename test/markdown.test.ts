@@ -22,7 +22,7 @@ describe('Markdown report', () => {
         '- <a href="shipping.html">Click here</a>',
         '+ <a href="shipping.html">Shipping information</a>',
         '```',
-        'Evidence: "Click here" · confidence high · 1/1 runs · id `1af8a73e209d`',
+        'Evidence: "Click here" · confidence high · 1/1 runs · evidence verified · id `1af8a73e209d`',
       ].join('\n'),
     )
     // An engine finding shows the element and the rule instead of a diff.

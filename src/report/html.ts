@@ -22,6 +22,8 @@ import {
   statusText,
   safeUrl,
   shownFindings,
+  sourceLabel,
+  thresholdLevel,
   toolsLine,
   understandingUrl,
   wcagUrl,
@@ -189,15 +191,17 @@ function findingItem(finding: Finding, report: Report): string {
   }
 
   const meta: string[] = [`${e(t(locale, 'confidence'))} ${e(t(locale, finding.confidence))}`]
+  // Probe findings are always experimental; the others say so when their method is.
+  if (finding.experimental || finding.source === 'probe') meta.push(e(t(locale, 'experimental')))
   if (finding.agreement) meta.push(`${finding.agreement.votes}/${finding.agreement.total} ${e(t(locale, 'runs'))}`)
+  // What found it: a model with verified evidence, or a rule of axe-core, of Rampa or over a probe's facts.
   if (finding.source === 'judgment') meta.push(e(t(locale, 'verified')))
-  if (finding.source !== 'judgment' && finding.ruleId) {
-    const rule =
-      finding.source === 'rule' ? `${e(t(locale, 'rampaRule'))} ${e(finding.ruleId)}` : `${e(t(locale, 'engineRule'))} ${e(finding.ruleId)} (${e(report.engine.name)})`
+  else if (finding.ruleId) {
+    const rule = `${e(sourceLabel(finding.source, locale))} ${e(finding.ruleId)}${finding.source === 'engine' ? ` (${e(report.engine.name)})` : ''}`
     const help = safeUrl(finding.helpUrl)
     meta.push(help ? `<a href="${e(help)}">${rule}</a>` : rule)
   }
-  if (!report.findings.includes(finding)) meta.push(e(t(locale, 'belowThresholdShort')))
+  if (!report.findings.includes(finding)) meta.push(e(t(locale, 'belowThresholdShort', { level: thresholdLevel(report) })))
   meta.push(`id <code>${e(finding.fingerprint)}</code>`)
   out.push(`<p class="meta">${meta.join(' · ')}</p>`)
   out.push('</li>')

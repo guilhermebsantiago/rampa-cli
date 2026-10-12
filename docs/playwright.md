@@ -72,7 +72,7 @@ await expect(page).toPassRampa({ include: '#cart', minConfidence: 'high' })
 | `await expect(page).toPassRampa(options)` | a page, which it checks with `options`; or a report or an array of reports | a finding fails, or the judgment broke |
 | `expect(report).toHaveNoRampaFindings(options)` | a report or an array of reports | the same |
 
-They decide the way the CLI's exit code does. A finding at or above `minConfidence` fails (`failOn: 'any'` also fails the ones below it, like `--fail-on any`). A criterion where the model failed on every candidate fails too: the CLI exits 2 there, and a check that could not judge is not a pass. With `requireJudgment: true`, a run where the judgment did not reach every candidate fails as well: judgment off, no model found, an offline cache miss, or a model error.
+They decide the way the CLI's exit code does. A finding at or above `minConfidence` fails (`failOn: 'any'` also fails the ones below it, like `--fail-on any`). A criterion where the model failed on every candidate fails too: the CLI exits 2 there, and a check that could not judge is not a pass. The CLI also exits 2 when judgment was on and the model judged none of the candidates that needed it; the matchers leave that to `requireJudgment`. With `requireJudgment: true`, a run where the judgment did not reach every candidate fails as well: judgment off, no model found, an offline cache miss, or a model error.
 
 A failure lists each finding with its criterion, element, message, evidence and patch. This is a real one, from `ollama:gemma4:12b` on [`examples/store/before.html`](../examples/store/before.html):
 

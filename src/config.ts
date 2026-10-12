@@ -1,10 +1,13 @@
 import { access, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { z } from 'zod'
 import { WAIVERS_FILE, activeFingerprints, readWaivers, today } from './adoption/waivers.ts'
 import type { CogaSettings } from './advisory/check.ts'
+import { PROFILES } from './advisory/types.ts'
+import { CONFIDENCE_LEVELS } from './core/gate.ts'
 import type { Confidence } from './core/types.ts'
-import type { Reasoning } from './providers/ai-sdk.ts'
+import { REASONING_LEVELS, type Reasoning } from './providers/ai-sdk.ts'
 import { RampaError, errorMessage } from './core/util.ts'
 
 export interface RampaConfig {
@@ -57,6 +60,106 @@ export function defineConfig(config: RampaConfig): RampaConfig {
 
 export const FILES = ['rampa.config.ts', 'rampa.config.mts', 'rampa.config.js', 'rampa.config.mjs', 'rampa.config.json']
 
+const strings = z.array(z.string())
+const whole = (min: number) => z.number().int().min(min)
+
+/**
+ * What a config file may hold, checked when it loads: a value Rampa cannot use, or a key it does not know, stops the run
+ * with exit 2 instead of being ignored. An unknown `minConfidence` used to put every finding below the threshold, and a
+ * misspelled key did nothing, both silently, so a CI gate passed whatever the page had.
+ */
+const CONFIG_SCHEMA = z.strictObject({
+  targets: strings.optional(),
+  baseline: z.string().optional(),
+  waivers: z.string().optional(),
+  model: z.string().optional(),
+  // A comma-separated string, as --criteria takes it, is read as the list.
+  criteria: z.union([strings, z.string().transform((value) => value.split(',').map((id) => id.trim()))]).optional(),
+  // 2.2 written as a number is read as '2.2'.
+  wcag: z.preprocess((value) => (typeof value === 'number' ? String(value) : value), z.enum(['2.1', '2.2'])).optional(),
+  runs: whole(1).optional(),
+  locale: z
+    .enum(['en', 'pt-BR', 'pt-br', 'pt'])
+    .transform((value): 'en' | 'pt-BR' => (value === 'en' ? 'en' : 'pt-BR'))
+    .optional(),
+  minConfidence: z.enum(CONFIDENCE_LEVELS).optional(),
+  reasoning: z.enum(REASONING_LEVELS).optional(),
+  motion: z.boolean().optional(),
+  cacheDir: z.string().optional(),
+  concurrency: whole(1).optional(),
+  maxCandidates: whole(0).optional(),
+  timeLimit: z.number().positive().optional(),
+  fast: z.boolean().optional(),
+  batch: z.boolean().optional(),
+  // Checked again, with an example, when a crawl reads it (site/index.ts, pageSetsOf).
+  pageSets: z.record(z.string(), z.union([z.string(), strings])).optional(),
+  profiles: z.array(z.enum(PROFILES)).optional(),
+  coga: z
+    .strictObject({
+      abbreviations: z.strictObject({ known: strings.optional(), glossaryUrl: z.string().optional() }).optional(),
+      publicSector: z.boolean().optional(),
+    })
+    .optional(),
+})
+
+/** Settings a config file cannot hold, with where they go instead. */
+const ELSEWHERE: Record<string, string> = {
+  failOn: 'the gate is set with --fail-on on the command line, or the action input fail-on',
+  verbose: 'pass --verbose on the command line',
+  format: 'pass --format on the command line',
+}
+
+/**
+ * Checks a loaded config against what Rampa reads: a wrong value or an unknown key throws an `invalid-config` error that
+ * names the key and what it takes.
+ */
+export function validateConfig(value: unknown, file = 'the config'): RampaConfig {
+  const result = CONFIG_SCHEMA.safeParse(value)
+  if (result.success) return result.data as RampaConfig
+  throw new RampaError('invalid-config', `${file}: ${result.error.issues.map((issue) => describeIssue(issue, value)).join(' ')}`)
+}
+
+function describeIssue(issue: z.core.$ZodIssue, config: unknown): string {
+  const path = issue.path.map(String)
+  const key = path.join('.') || 'the config'
+  let at: unknown = config
+  for (const part of issue.path) at = at && typeof at === 'object' ? (at as Record<PropertyKey, unknown>)[part] : undefined
+  const got = JSON.stringify(at) ?? String(at)
+  switch (issue.code) {
+    case 'unrecognized_keys': {
+      const where = path.length === 0 ? 'a config' : `"${key}"`
+      return issue.keys
+        .map((name) => {
+          const hint = path.length === 0 ? ELSEWHERE[name] : undefined
+          return `unknown key "${[...path, name].join('.')}"${hint ? ` (${hint})` : ''}; the keys ${where} may hold are ${keysAt(path).join(', ')}.`
+        })
+        .join(' ')
+    }
+    case 'invalid_value':
+      return `${key} is ${got}; allowed values are ${issue.values.map(String).join(', ')}.`
+    case 'invalid_type': {
+      const expected = issue.expected === 'int' ? 'a whole number' : /^[aeiou]/.test(issue.expected) ? `an ${issue.expected}` : `a ${issue.expected}`
+      return `${key} is ${got}; it must be ${expected}.`
+    }
+    case 'too_small':
+      return `${key} is ${got}; it must be ${issue.inclusive ? 'at least' : 'above'} ${String(issue.minimum)}.`
+    default:
+      return `${key}: ${issue.message}.`
+  }
+}
+
+/** The keys of the object at a path of the schema: the top level's, or coga's. */
+function keysAt(path: readonly string[]): string[] {
+  const unwrap = (schema: z.ZodType): z.ZodType => (schema instanceof z.ZodOptional ? (schema.unwrap() as z.ZodType) : schema)
+  let schema: z.ZodType = CONFIG_SCHEMA
+  for (const part of path) {
+    const object = unwrap(schema)
+    schema = object instanceof z.ZodObject ? ((object.shape as Record<string, z.ZodType>)[part] ?? z.never()) : z.never()
+  }
+  const object = unwrap(schema)
+  return object instanceof z.ZodObject ? Object.keys(object.shape) : []
+}
+
 export async function loadConfig(cwd = process.cwd()): Promise<{ config: RampaConfig; path?: string }> {
   for (const file of FILES) {
     const path = join(cwd, file)
@@ -65,13 +168,14 @@ export async function loadConfig(cwd = process.cwd()): Promise<{ config: RampaCo
     } catch {
       continue
     }
+    let loaded: unknown
     try {
-      if (file.endsWith('.json')) return { config: JSON.parse(await readFile(path, 'utf8')) as RampaConfig, path }
-      const module = (await import(pathToFileURL(path).href)) as { default?: RampaConfig }
-      return { config: module.default ?? {}, path }
+      if (file.endsWith('.json')) loaded = JSON.parse(await readFile(path, 'utf8'))
+      else loaded = ((await import(pathToFileURL(path).href)) as { default?: unknown }).default ?? {}
     } catch (error) {
       throw new RampaError('invalid-config', `Could not load ${file}: ${errorMessage(error)}`)
     }
+    return { config: validateConfig(loaded, file), path }
   }
   return { config: {} }
 }
