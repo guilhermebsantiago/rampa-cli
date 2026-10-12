@@ -1,0 +1,18 @@
+{
+  "page": "https://tools.usps.com/zip-code-lookup.htm",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "8a86fe9f74d8",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the site-search text field in the collapsed Business mega-menu (input #global-header--search-track-business), inside a form with role=\"search\" that submits to usps.com/search, with a visually hidden label \"Search USPS.com\" and the placeholder \"Search or Enter a Tracking Number\". The snapshot and the live page (unchanged as of 2026-10-11) confirm this. 2.4.6 asks that a label describe the control's topic or purpose. \"Search USPS.com\" does that: it is a search box for this site, and what you type into a search box is a search term. Accepting tracking numbers as well is an extra feature that the placeholder mentions. WCAG does not require a label to list every kind of input it accepts. Asking for the label to say \"what to enter\" in full is stricter than 2.4.6."
+    },
+    {
+      "fingerprint": "59857b953aba",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header site-search field revealed by the Search (magnifier) menu item (input #global-header--search-track-search), inside a form with role=\"search\" and a submit button, with a visually hidden label \"Search USPS.com\" and the placeholder \"Search or Enter a Tracking Number\". It matches the live page as of 2026-10-11. The label describes the purpose of the field, searching USPS.com, which is all 2.4.6 asks of a label. The search being able to take a tracking number does not make \"Search USPS.com\" non-descriptive. Calling the label a failure because it does not name every accepted input applies a stricter rule than WCAG 2.4.6."
+    }
+  ]
+}

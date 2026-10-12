@@ -285,3 +285,115 @@ All paths are under `study/fresh-2026-10-11/`.
 - **Labels.** `scripts/packets.py` builds the evidence packets (`packets/<slug>.json` and `packets/<slug>--probe.json`); `judge-rubric.md`, `scripts/judge-prompt.txt` and `scripts/judge_prompt.py` give each judge's exact prompt; `labels/<packet>.auditor.json` and `.skeptic.json` hold both judges' labels and rationales; `scripts/check_labels.py` checks them against the packets.
 - **Numbers.** `python -I study/fresh-2026-10-11/scripts/analyze.py` rebuilds `data/findings.json` (one row per labelled finding, with both labels), `data/pages.json` and `data/summary.json`; `scripts/tables.py` prints the tables above, and `scripts/dump_fp.py` lists a split's false positives with the judges' rationales.
 - **Kept out of git.** The recordings (snapshots and engine results), screenshots, image crops and judgment caches, 178 MB. `data/recordings.json` has the size and SHA-256 of every recording file and screenshot. With a copy of `pages/<slug>/recording/`, the judgments can be run again offline: `rampa check pages/<slug>/recording/<name>.snapshot.json --model ollama:gemma4:12b --locale en --min-confidence low`, with `--offline` and the page's cache to read the same answers back.
+
+## After the 2.4.4/2.4.6 change
+
+After this study ran, 2.4.4 and 2.4.6 changed ([notes](notes-244-246.md), commits `d6ebe8a` and `ab2d4dc`): a model's fail on them is a finding only when a fact Rampa checks supports it (a generic text with no context of its own, a raw address, links that share a text and lead to different places, a numbered heading under no subject, a label several fields share); every other fail is the model's suggestion, reported in the report's `needsReview`, never as a finding, not even below the threshold; and when a criterion has more than 50 candidates, the cap judges first those a fact could ground. This section re-judges the study's saved snapshots with the code that includes the change and measures its effect on both halves.
+
+**The change was not tuned on either half of this study, so the test half measures it held out.** It was designed on the first study's dev split and the ACT test cases, its commits came before any label of this study existed, and its notes list this study as not used. This section does not read the test half's false positives for patterns either: it counts them and names the fact that made each one a finding.
+
+**In short.** Counting every finding (`--min-confidence low`, what `rampa eval` and `--verbose` count), **precision on the test pages rose from 0.14 to 0.38** (14 of 37 decided, 95% Wilson 0.24–0.54) **and on the dev pages from 0.26 to 0.48** (21 of 44, 0.34–0.62), because nearly all the 2.4.4 and 2.4.6 claims that sat below the threshold are now suggestions. **At the default threshold, test went from 0.35 to 0.38** (12 of 32, 0.23–0.55) **and dev from 0.42 to 0.49** (20 of 41, 0.34–0.64): intervals that overlap widely, so no measurable change. The 2.4.4 and 2.4.6 findings went from 97 (1 true positive, 86 false positives, 10 uncertain; 9 of them at the default threshold) to 13, all at the default threshold: **5 true positives and 8 false positives** (on test, 3 of 11: 0.27, 0.10–0.57). The one true failure the study had among them, a link named "0", is now a suggestion: lost as a finding, still shown for review. The 5 new true positives are links that share a text and lead to different places, which the study never judged because they were past the cap. The suggestions are as wrong as the claims they replace: of the 80 in the new run, 75 sit on a finding the study labelled, and 1 of those is a true failure.
+
+### Method
+
+- **Code and input.** `main` at `4fd54fc`, which includes the change, built with `pnpm install --frozen-lockfile` and `pnpm build`. The same 24 saved snapshots, checked against `data/recordings.json` (all 48 recording files matched their SHA-256); nothing was loaded live.
+- **Same flags,** plus `--concurrency 2` because the GPU was shared with a benchmark run (the number of parallel calls changes no prompt). Pages ran one at a time on 2026-10-11 from 21:51 to 22:48 (UTC−3), with Gemma 4 12B on Ollama 0.40.2 (same digest, `6114515d63c1`). No page reached the time limit and no call failed.
+- **The study's judgments reused.** Each page's judgment cache started as a copy of the study's: every prompt of the other six criteria was read back (354 answers, no new call). 2.4.4 and 2.4.6 have new versions (3 and 4), which are part of the cache key, so all their 1,578 judged candidates were asked again.
+- **Two runs.** *After, asked again* (`scripts/run-after.sh`) is what the code does today. *After, the study's answers replayed* (`scripts/run-replay.sh`) holds the model fixed: a model on a shared GPU does not always give the same answer twice, so the first run mixes the change with the model's variation. The replay patches a copy of the build back to the old versions (whose prompts are the same) and runs `--offline` with the study's cache; the 14 candidates with no answer there, which the new order brought into the cap, stay unjudged.
+- **Matching and labels.** Each finding was matched to a labelled finding of the study's run on the same page, by fingerprint, else by criterion, element and claim, and reused the study's two labels (`scripts/after.py match`); every matched finding kept the study's claim word for word. **9 findings matched nothing**, all in the run asked again: 2 on a dev page and 7 on three test pages. As in the study, each page with new findings got two independent Claude judges, an auditor and a skeptic (8 judges), with the same rubric, the same prompt (`scripts/judge_prompt.py`) and the same packet format (`packets/<slug>--after.json`; labels in `labels/<slug>--after.*.json`). **They gave the same label to all 9** (Cohen's kappa 1.00); on why the 4 false positives were wrong they agreed for one page and not the other.
+- **Suggestions** are the `needsReview` items that name a model, counted per page. Each is matched by criterion and element to a finding the study labelled, to count its label. They are not findings and are in no precision below.
+
+### Precision before and after
+
+The eight judged criteria; each cell is true positives / false positives / uncertain, then precision and its 95% Wilson interval.
+
+| Run | Dev, default threshold | Dev, all findings | Test, default threshold | Test, all findings |
+| --- | --- | --- | --- | --- |
+| Before (the study, `ebd4d07`) | 18 / 25 / 4: **0.42** (0.28–0.57) | 20 / 56 / 6: **0.26** (0.18–0.37) | 9 / 17 / 0: **0.35** (0.19–0.54) | 11 / 68 / 9: **0.14** (0.08–0.23) |
+| After, asked again (`4fd54fc`) | 20 / 21 / 4: **0.49** (0.34–0.64) | 21 / 23 / 4: **0.48** (0.34–0.62) | 12 / 20 / 0: **0.38** (0.23–0.55) | 14 / 23 / 1: **0.38** (0.24–0.54) |
+| After, the study's answers replayed | 18 / 21 / 4: **0.46** (0.32–0.61) | 19 / 23 / 4: **0.45** (0.31–0.60) | 9 / 17 / 0: **0.35** (0.19–0.54) | 11 / 20 / 1: **0.35** (0.21–0.53) |
+
+Both halves together, after: 0.44 at the default threshold (32 of 73, 0.33–0.55) and 0.43 with all findings (35 of 81, 0.33–0.54), against 0.39 and 0.20 before. 1.1.1, 1.3.5, 2.4.2, 3.1.2 and 3.3.2 are unchanged finding for finding (their answers came from the cache), and so are the experimental rules. Only 2.4.4 and 2.4.6 moved:
+
+| 2.4.4 and 2.4.6 | Dev, default threshold | Dev, all findings | Test, default threshold | Test, all findings |
+| --- | --- | --- | --- | --- |
+| Before | 0 / 4 / 0: **0.00** (0.00–0.49) | 1 / 33 / 2: **0.03** (0.01–0.15) | 0 / 5 / 0: **0.00** (0.00–0.43) | 0 / 53 / 8: **0.00** (0.00–0.07) |
+| After, asked again | 2 / 0 / 0: **1.00** (0.34–1.00) | 2 / 0 / 0: **1.00** (0.34–1.00) | 3 / 8 / 0: **0.27** (0.10–0.57) | 3 / 8 / 0: **0.27** (0.10–0.57) |
+| After, the study's answers replayed | – | – | 0 / 5 / 0: **0.00** (0.00–0.43) | 0 / 5 / 0: **0.00** (0.00–0.43) |
+
+By criterion, after asking again: on test, 2.4.4 3 / 4 / 0 (0.43, 0.16–0.75) and 2.4.6 0 / 4 / 0; on dev, 2.4.4 2 / 0 / 0 and no 2.4.6 finding. Every one of these findings carries the model's "high", so the default threshold and all findings are the same.
+
+Fewer findings reach a person: counting every judged finding, about 4 a page on dev and 3 on test, against about 7 before; at the default threshold, 45 on dev (47 before) and 32 on test (26 before). The suggestions add a median of 2 a page on dev and 3.5 on test.
+
+### What happened to the study's 2.4.4 and 2.4.6 findings
+
+The study's 97 labelled findings of these criteria, and what the run asked again did with each. In parentheses, their labels (TP / FP / uncertain).
+
+| Split | Criterion | The study's findings | Still a finding | Now a suggestion | Discarded by verification | The new call passed it | Past the cap now |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| dev | 2.4.4 | 20 (1 / 18 / 1) | – | 13 (1 TP, 12 FP) | 2 (1 FP, 1 unc.) | 1 (1 FP) | 4 (4 FP) |
+| dev | 2.4.6 | 16 (0 / 15 / 1) | – | 14 (13 FP, 1 unc.) | – | 2 (2 FP) | – |
+| test | 2.4.4 | 43 (0 / 40 / 3) | 2 (2 FP), default threshold | 36 (34 FP, 2 unc.) | 2 (1 FP, 1 unc.) | 2 (2 FP) | 1 (1 FP) |
+| test | 2.4.6 | 18 (0 / 13 / 5) | 2 (2 FP), default threshold | 12 (7 FP, 5 unc.) | 1 (1 FP) | 3 (3 FP) | – |
+
+With the study's answers replayed, the "discarded" and "passed" columns are empty: 87 of the 97 are suggestions, 5 are still findings (all false positives, on test) and 5 are past the cap. Those two columns are the model's own variation: of the 1,564 candidates both runs judged, the new call gave the study's verdict for 98.5% (12 fails became passes and 12 passes became fails).
+
+- **True failures kept or lost.** The study had one true positive among these findings: dev's martinsfontespaulista.com.br cart link named "0", below the threshold. In both runs it is now a suggestion: no checked fact grounds it ("0" is on no generic list), so it is lost as a finding but kept for review. No uncertain finding is still a finding.
+- **True failures gained.** The run asked again found 5 true positives, all of the "links that share a text and lead to different places" fact: dev's poder360.com.br "INSCREVA-SE" pair and test's tuasaude.com share links (Facebook, WhatsApp and Pinterest, each named only "compartilhe"). In the study these candidates were past the cap of 50 and never judged; the new order brought them in. On these pages the change found real failures through what it judges first, not by reading old answers differently.
+- **False positives still shown, test.** 8, all at "high": 2 links whose text is an address with a path (the study already showed them); 4 labels on one page grounded by the shared-label fact (2 were below the threshold in the study, whose third such finding the new call lost to verification; the other 2 are fields with the same label whose fail the study's verification had discarded); and 2 links on one page grounded by the shared-text fact, which the study never judged. The judges' reasons are in the labels and are not summarised here.
+- **False positives gone from the default threshold.** On test, 3 of the study's 5 shown 2.4.4 false positives (2 now suggestions, 1 past the cap). On dev, all 4 shown "Learn more" links on ikea.com are past the cap now: with a context of their own they are no longer judged first. With the answers held fixed, those 4 are all of dev's change at the default threshold (0.42 to 0.46).
+
+### Suggestions per page
+
+The run asked again, with the replay's count for comparison. "Labelled" counts the suggestions that sit on a finding the study labelled, by its label.
+
+| Split | Page | Suggestions (2.4.4 + 2.4.6) | Labelled: TP / FP / uncertain | Not labelled | Replay |
+| --- | --- | ---: | --- | ---: | ---: |
+| dev | berkeley.edu/admissions | 3 (3 + 0) | 0 / 3 / 0 | 0 | 4 |
+| dev | www.ce.gov.br | 0 | – | 0 | 0 |
+| dev | fiocruz.br | 1 (1 + 0) | 0 / 1 / 0 | 0 | 1 |
+| dev | ikea.com (listing) | 1 (1 + 0) | 0 / 1 / 0 | 0 | 1 |
+| dev | martinsfontespaulista.com.br (listing) | 1 (1 + 0) | 1 / 0 / 0 | 0 | 2 |
+| dev | medlineplus.gov/diabetes | 3 (1 + 2) | 0 / 2 / 0 | 1 | 2 |
+| dev | www.ons.gov.uk | 3 (3 + 0) | 0 / 3 / 0 | 0 | 3 |
+| dev | pinacoteca.org.br | 3 (2 + 1) | 0 / 2 / 0 | 1 | 2 |
+| dev | www.poder360.com.br | 9 (0 + 9) | 0 / 9 / 0 | 0 | 10 |
+| dev | propublica.org (article) | 2 (0 + 2) | 0 / 2 / 0 | 0 | 3 |
+| dev | rijksmuseum.nl (newsletter form) | 2 (1 + 1) | 0 / 1 / 1 | 0 | 2 |
+| dev | www.unicamp.br | 1 (1 + 0) | 0 / 1 / 0 | 0 | 2 |
+| test | apublica.org (article) | 12 (10 + 2) | 0 / 10 / 0 | 2 | 13 |
+| test | www.bl.uk | 3 (2 + 1) | 0 / 2 / 1 | 0 | 3 |
+| test | www.cdc.gov | 2 (2 + 0) | 0 / 1 / 1 | 0 | 3 |
+| test | chicorei.com | 4 (3 + 1) | 0 / 4 / 0 | 0 | 5 |
+| test | www.fuvest.br (information page) | 7 (3 + 4) | 0 / 5 / 2 | 0 | 8 |
+| test | metro.sp.gov.br/fale-conosco | 2 (1 + 1) | 0 / 1 / 1 | 0 | 3 |
+| test | senado.leg.br/falecomosenado | 7 (7 + 0) | 0 / 7 / 0 | 0 | 7 |
+| test | www.tcd.ie | 1 (1 + 0) | 0 / 1 / 0 | 0 | 1 |
+| test | theguardian.com/international | 4 (2 + 2) | 0 / 2 / 1 | 1 | 3 |
+| test | www.thomann.co.uk | 3 (1 + 2) | 0 / 2 / 1 | 0 | 3 |
+| test | tuasaude.com/dengue | 0 | – | 0 | 0 |
+| test | tools.usps.com (form) | 6 (6 + 0) | 0 / 6 / 0 | 0 | 6 |
+| **dev** | 12 pages | **29** (14 + 15), median 2, at most 9 | 1 / 25 / 1 | 2 | 32 |
+| **test** | 12 pages | **51** (38 + 13), median 3.5, at most 12 | 0 / 41 / 7 | 3 | 55 |
+
+The 5 suggestions not labelled sit on elements the study's run did not report (they come from the new call), and were not labelled: suggestions are not findings. As the notes expected, what moved to review is mostly the model's misreading: 1 true failure in the 67 decided.
+
+### Caveats of this re-measure
+
+- **Small and clustered.** The 13 findings of 2.4.4 and 2.4.6 sit on 5 pages and come in sets (a pair, a trio, two links, four labels); the 5 true positives are two link sets. The Wilson intervals treat findings as independent, and these are not.
+- **The change has three parts**: reclassifying fails, the facts that ground them, and the order of the cap. The new true positives come from the cap order; on a page with fewer than 50 link candidates the study would have judged them too. The replay shows the reclassification alone: it leaves test's default threshold where it was (9 of 26), though not with the same findings.
+- **One new run, on a shared GPU.** Its 2.4.4 and 2.4.6 answers differ from the study's on 1.5% of candidates, which moves a few findings either way. The replay is the measure without that variation, but it cannot judge candidates the study never asked.
+- **Labels reused by element.** A matched finding keeps the study's labels; every matched claim was the same word for word, so no label was carried to a different claim. A suggestion's label is that of the study's finding on the same element and criterion.
+- **Labels from Claude agents.** The 9 new labels come from two Claude judges, like the study's. Their full agreement is consistency, not accuracy, and every label still awaits review by a person.
+- **The test half has now been used twice.** No change was chosen from it, here or in the notes, but its numbers have been seen; the next held-out measurement should use fresh pages.
+- **Not measured here:** the ACT test cases (the notes measure them), other models, and the probe run, which was not repeated.
+
+### Data and reproduction
+
+All paths are under `study/fresh-2026-10-11/`; run from the repository root after `pnpm build`.
+
+- `bash scripts/run-after.sh` judges each snapshot again: `pages/<slug>/after-report.json`, `after-console.txt`, `run-after-judged.json`, `after-run-log.txt`.
+- `bash scripts/run-replay.sh` builds the patched copy in `.rampa/dist-replay` and reads each snapshot offline with the study's answers: `pages/<slug>/replay-report.json`, `replay-console.txt`, `replay-run-log.txt`.
+- `bash scripts/run-fates.sh after|replay` (`scripts/fates.ts`): every 2.4.4 and 2.4.6 candidate's fate, with the model's answer, in `data/after/fates/` and `data/after/fates-replay/`.
+- `python -I scripts/after.py match` matches findings to the study's labels (`data/after/matches.json`) and writes the packets of the unmatched ones; once the judges have labelled them, `python -I scripts/after.py analyze` writes `data/after/findings.json` and `data/after/summary.json` and prints the tables above.
+- **Kept out of git:** the two runs' judgment caches (`pages/<slug>/cache-after/`, `cache-replay/`) and the patched build.

@@ -1,0 +1,362 @@
+
+https://www.tuasaude.com/dengue/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.1.1 (A) — Non-text Content
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > svg
+    This image is hidden from screen readers (an svg with no name), but it conveys what the text around it does not say: "Logo naming the organizations: "TUA SAÚDE | REDE D'OR"".
+    Evidence: "Logo naming the organizations: "TUA SAÚDE | REDE D'OR""
+    Patch:
+      - <svg class="icon icon-logo-tuasaude-rdor ">
+      + <svg class="icon icon-logo-tuasaude-rdor " aria-label="Logotipos da Tua Saúde e Rede D'Or.">
+    confidence low · 1/1 runs · evidence verified · id 2f799605fa63
+
+WCAG 1.3.5 (AA) — Identify Input Purpose
+  ✗ #newsletter-footer > div:nth-of-type(2) > div:nth-of-type(1) > input:nth-of-type(1)
+    The field "Digite seu email" asks for the user's email address but does not identify that purpose: autocomplete="email" is missing. Chromium's own form check flags this field too.
+    Evidence: "Digite seu email"
+    Patch:
+      - <input name="email" required="" type="email" class="input" placeholder="Digite seu email">
+      + <input name="email" required="" type="email" class="input" placeholder="Digite seu email" autocomplete="email">
+    confidence high · 1/1 runs · evidence verified · id ec8856835c41
+
+WCAG 1.4.3 (AA) — Contrast (Minimum)
+  ✗ #header > div:nth-of-type(2) > div > ul > li:nth-of-type(1) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 0b77e963a459
+  ✗ #header > div:nth-of-type(2) > div > ul > li:nth-of-type(3) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 1c6fdb99bab1
+  ✗ #header > div:nth-of-type(2) > div > ul > li:nth-of-type(4) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 76b25f8b310b
+  ✗ #header > div:nth-of-type(3) > div > label > span:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id d380af88832e
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > ul > li:nth-of-type(1) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 61bc2ab63c99
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > ul > li:nth-of-type(2) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 74c7cf5fe2e5
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > ul > li:nth-of-type(3) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 86cdf97c16ad
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(2) > time
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 2143b6a2b2ce
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(3) > div > a > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 7a579a10c41d
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(3) > div > strong > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 023a1c9e04b3
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(3) > div > div
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 7c21c43d4771
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(3) > div > div > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 22e3c85f557f
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(3) > div > div > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id c54da6c48b51
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > div > ul > li:nth-of-type(1) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 6d823e04d49b
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > div > ul > li:nth-of-type(2) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id baf30a580301
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > div > ul > li:nth-of-type(3) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 4af0f713f519
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > div > ul > li:nth-of-type(4) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 9de25a54add9
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > div > ul > li:nth-of-type(5) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id ebb13b07b519
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(1) > span:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 47285675f783
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > p:nth-of-type(3) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 3ade003aab47
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > ul:nth-of-type(1) > li:nth-of-type(3) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 0e0b0a3a9dc6
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > div:nth-of-type(3) > div > div:nth-of-type(2) > a > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 3195fe198c2e
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > div:nth-of-type(3) > div > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id c39e6cff527c
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > p:nth-of-type(8) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id b1db82675b20
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(1) > div > button:nth-of-type(1)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 1598d810cddc
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(1) > div > button:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 78168ff4e7f4
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(2) > div > button:nth-of-type(1)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 3fdb19ac5b50
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(2) > div > button:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 8387d25a6b4c
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(3) > div > button:nth-of-type(1)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id ef84ec884755
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(3) > div > button:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 726abd3cecae
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(4) > div > button:nth-of-type(1)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 147e647d7860
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(4) > div > button:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 53c3b5551e53
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(5) > div > button:nth-of-type(1)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id b46636bf02ff
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(5) > div > button:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id dab5b11c3e0e
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(6) > div > button:nth-of-type(1)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 3101bb278142
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(6) > div > button:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 70cbe902fce1
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(7) > div > button:nth-of-type(1)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 87f661406593
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(7) > div > button:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 7474fae1b63c
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(8) > div > button:nth-of-type(1)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id ee50af2661fe
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(8) > div > button:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id b9d0ad4a9dda
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(9) > div > button:nth-of-type(1)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id b659abe3e6b5
+  ✗ #widgetForm-quiz-6acbf2f9e2b46 > ol > li:nth-of-type(9) > div > button:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 3263f148b10b
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(2) > span:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id f5999f0b79b1
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(3) > span:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 3c7a473950c3
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(4) > span:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 000969369d9a
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > p:nth-of-type(25) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 87cd95827d93
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(5) > span:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 01e7cb794b79
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > p:nth-of-type(27) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 2534c02f7f8d
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(6) > span:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id b4b0b4533324
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > p:nth-of-type(32) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 5f756aabd609
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(7) > span:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id ddc4b4a23b97
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > p:nth-of-type(36) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 17f0090443b8
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(8) > span:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 7bc296fcb15d
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(9) > span:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 1c070c0646a3
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > p:nth-of-type(45) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id a3b29357e7bc
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(10) > span:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id d52b09caa5ce
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(11) > span:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 6b012ac642f9
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(12) > span:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 63c0321774c2
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(1) > a:nth-of-type(13) > span:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id b532f73b7025
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 322d7385fd40
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > span:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id e2706f74d772
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(2) > div:nth-of-type(3) > form:nth-of-type(1) > div > button:nth-of-type(1)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 4985a0d38e76
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > div:nth-of-type(2) > div:nth-of-type(3) > form:nth-of-type(1) > div > button:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id b59603839249
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > aside > section:nth-of-type(1) > div > a > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 93f05f7b3ed6
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(1)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id a2399d988986
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(3)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 76d2774727c5
+  ✗ #newsletter-footer > div:nth-of-type(2) > div:nth-of-type(2)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 02989267ebfe
+  ✗ #footer > div:nth-of-type(1) > div > div > div:nth-of-type(5)
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 1027ef1d1238
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > div > ul > li:nth-of-type(6) > a
+    The text "Dúvidas comuns" has at most 3.23:1 contrast with what is behind it (#8f8f8f on #ffffff), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#8f8f8f on #ffffff · 3.23:1 at best, 3.23:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 479b559545f9
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(1) > a
+    The text "Infectologista São Paulo" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 68f1f5b19051
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(2) > a
+    The text "Infectologista Santo André" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 0caf467c7646
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(3) > a
+    The text "Infectologista Osasco" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 6d001f0b0820
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(4) > a
+    The text "Infectologista Guarulhos" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 796ecd3122c5
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(5) > a
+    The text "Infectologista São Bernardo do Campo" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id b91013476867
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(6) > a
+    The text "Infectologista Rio de Janeiro" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id cff2fcb405a8
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(1) > ul > li:nth-of-type(7) > a
+    The text "Infectologista Brasília" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id c747c16bb502
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(1) > a
+    The text "Infectologista SulAmérica" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 294d4ff2b693
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(2) > a
+    The text "Infectologista Bradesco" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 2d524b8c4ace
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(3) > a
+    The text "Infectologista Mediservice" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id d95c6a765510
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(4) > a
+    The text "Infectologista Porto Seguro" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id ed4992fd4a13
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(5) > a
+    The text "Infectologista Amil" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id acdc6a0f48e8
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(6) > a
+    The text "Infectologista Saúde Caixa" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id c582f0eb3d9b
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(6) > div > section > nav > div > div:nth-of-type(2) > ul > li:nth-of-type(7) > a
+    The text "Infectologista Saúde Petrobras" has at most 2.47:1 contrast with what is behind it (#36b1df on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst · 16px, 400"
+    confidence low · Rampa rule rampa/pixel-contrast · id 451036cf1cc9
+  ✗ #newsletter-footer > div:nth-of-type(2) > div:nth-of-type(1) > input:nth-of-type(1)
+    The placeholder "Digite seu email" has a contrast of 2.52:1 with the field (#a3a3a3 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#a3a3a3 on #ffffff · 2.52:1 at best, 2.52:1 at worst · 14px, 400"
+    confidence low · Rampa rule rampa/placeholder-contrast · id 2e8b92dffca0
+
+WCAG 1.4.11 (AA) — Non-text Contrast
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > ul > li:nth-of-type(2) > a
+    The icon of this link ("compartilhe") has at most 1.98:1 contrast with the pixels next to it (#ffffff on #25d366). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).
+    Evidence: "#ffffff on #25d366 · 1.98:1 at best, 1.98:1 at worst"
+    confidence low · Rampa rule rampa/icon-contrast · id 2b5d332732d4
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > button:nth-of-type(2)
+    The icon of this button ("Próximo item") has at most 2.47:1 contrast with the pixels next to it (#36b1df on #ffffff). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).
+    Evidence: "#36b1df on #ffffff · 2.47:1 at best, 2.47:1 at worst"
+    confidence low · Rampa rule rampa/icon-contrast · id 95c8ff8e4545
+
+WCAG 2.4.4 (A) — Link Purpose (In Context)
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > ul > li:nth-of-type(1) > a
+    The link text "compartilhe" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.
+    Evidence: "compartilhe"
+    Patch:
+      - <a class="blue" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.tuasaude.com%2Fdengue%2F" rel="nofollow" aria-label="compartilhe">
+      + <a class="blue" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.tuasaude.com%2Fdengue%2F" rel="nofollow" aria-label="Compartilhar no Facebook">
+    confidence high · 1/1 runs · evidence verified · id 619d7774beb3
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > ul > li:nth-of-type(2) > a
+    The link text "compartilhe" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.
+    Evidence: "compartilhe"
+    Patch:
+      - <a class="green" target="_blank" href="https://api.whatsapp.com/send?text=Dengue%3A+o+que+%C3%A9%2C+sintomas%2C+transmiss%C3%A3o+e+tratamento+%28com+teste+de+sintomas%29:+https%3A%2F%2Fwww.tuasaude.com%2Fdengue%2F" rel="nofollow" aria-label="compartilhe">
+      + <a class="green" target="_blank" href="https://api.whatsapp.com/send?text=Dengue%3A+o+que+%C3%A9%2C+sintomas%2C+transmiss%C3%A3o+e+tratamento+%28com+teste+de+sintomas%29:+https%3A%2F%2Fwww.tuasaude.com%2Fdengue%2F" rel="nofollow" aria-label="Compartilhar no WhatsApp">
+    confidence high · 1/1 runs · evidence verified · id c45d03e2742b
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > ul > li:nth-of-type(3) > a
+    The link text "compartilhe" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.
+    Evidence: "compartilhe"
+    Patch:
+      - <a class="red" target="_blank" href="https://www.pinterest.com/pin/create/button?url=https%3A%2F%2Fwww.tuasaude.com%2Fdengue%2F&amp;media=https%3A%2F%2Fimage.tuasaude.com%2Fmedia%2Farticle%2Fpc%2Fdw%2Fdengue_63752.jpg&amp;description=Dengue%3A+o+que+%C3%A9%2C+sintomas%2C+transmiss%C3%A3o+e+tratamento+%28com+teste+de+sintomas%29" rel="nofollow" aria-label="compartilhe">
+      + <a class="red" target="_blank" href="https://www.pinterest.com/pin/create/button?url=https%3A%2F%2Fwww.tuasaude.com%2Fdengue%2F&amp;media=https%3A%2F%2Fimage.tuasaude.com%2Fmedia%2Farticle%2Fpc%2Fdw%2Fdengue_63752.jpg&amp;description=Dengue%3A+o+que+%C3%A9%2C+sintomas%2C+transmiss%C3%A3o+e+tratamento+%28com+teste+de+sintomas%29" rel="nofollow" aria-label="Compartilhar no Pinterest">
+    confidence high · 1/1 runs · evidence verified · id 0814e7748827
+
+WCAG 2.5.8 (AA) — Target Size (Minimum)
+  ✗ html > body > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > main > article > header > div:nth-of-type(4) > button:nth-of-type(2)
+    All touch targets must be 24px large, or leave sufficient space
+    low · rule target-size · id bd5e755747a0
+
+WCAG 4.1.2 (A) — Name, Role, Value
+  ✗ #header > div:nth-of-type(3) > div > label
+    This element ("Busca IA do Tua Saúde") takes keyboard focus and listens to click, keydown, so it works as a control, but the browser exposes it as LabelText, with no control role: a screen reader does not announce it as a button or a link (F59). Use the native element (button, a) or give it the role of the control it is.
+    Evidence: "role LabelText · click, keydown · "Busca IA do Tua Saúde""
+    confidence low · Rampa rule rampa/custom-control · id a67691859109
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 6 elements · color-contrast
+    Element's background color could not be determined due to a background gradient
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 1 element · rampa/pixel-contrast
+    Part of the text "Encontre um Infectologista perto de você!" has enough contrast and part does not: from 2.45:1 to 15.23:1 against what is behind it (#ffffff on #8ca9c2…#16263d), where WCAG 1.4.3 asks for 4.5:1. Check the part over a gradient.
+  ? WCAG 2.5.4 (A) — Motion Actuation: 1 element · rampa/motion-actuation-scope
+    2.5.4 applies here: the page listens to the device's motion (deviceorientation (jsc.mgid.com/…/739767.js:203), deviceorientation (jsc.mgid.com/…/739767.js:203)). Check that whatever is done by moving or tilting the device can also be done with a control on the screen, and that responding to motion can be turned off to avoid accidental actuation, unless the motion is essential or goes through an accessibility-supported interface (WCAG 2.5.4). If the script only collects data (analytics, fraud checks) and nothing on the page responds to motion, 2.5.4 does not apply.
+
+45 image(s) were left without a capture, so no judgment looked at them: 25 cut off by the box that holds it; 20 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).
+The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 127 of 177 for 2.4.4. The coverage lists them as not judged.
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+3 claim(s) from the model did not hold against the snapshot and were dropped.
+
+Model calls: 90 new, 3 from cache · 87.1k in / 8.9k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.4.1, 1.4.3, 1.4.4, 1.4.12, 2.4.2, 2.4.4, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  1.1.1, 1.3.2, 1.4.3, 1.4.11, 2.4.2, 2.4.6, 3.1.1, 4.1.2
+  Judged with verified evidence:     1.1.1, 1.3.5, 2.4.2, 2.4.4, 2.4.6
+  Needs review only:                 2.4.1, 2.5.4, 3.3.2
+  Not checked automatically:         37 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

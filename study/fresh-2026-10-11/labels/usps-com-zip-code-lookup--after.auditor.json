@@ -1,0 +1,18 @@
+{
+  "page": "https://tools.usps.com/zip-code-lookup.htm",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "8a86fe9f74d8",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header search/track text input (#global-header--search-track-business) in the collapsed Business mega-menu, so it does not show in the screenshot. It sits in a role=search form that submits to usps.com/search/results.htm. Its programmatic label is a visually hidden <label for> reading \"Search USPS.com\", and when the menu is open the visible placeholder reads \"Search or Enter a Tracking Number\" (the snapshot and the live markup, fetched 2026-10-11, agree). SC 2.4.6 asks only that a label describe the field's topic or purpose, and the Understanding document says labels may be short. \"Search USPS.com\" says plainly that this is a site search box and what it searches. A tracking number is just one kind of search query, and the placeholder tells sighted users about it anyway. Requiring the label to list every accepted input asks for more than 2.4.6 does. The mismatch between the hidden name and the placeholder could at most be a 2.5.3 Label in Name question, and a weak one because placeholders are not usually treated as the visible label. It is not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "59857b953aba",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header search/track text input (#global-header--search-track-search) in the dropdown that opens from the magnifier icon. It is collapsed in the screenshot, where only the icon shows. It sits in a role=search form that submits to usps.com/search/results.htm. Its programmatic label is a visually hidden <label for> reading \"Search USPS.com\", and when the menu is open the visible placeholder reads \"Search or Enter a Tracking Number\" (the snapshot and the live markup, fetched 2026-10-11, agree). SC 2.4.6 asks only that a label describe the field's topic or purpose, and the Understanding document says labels may be short. \"Search USPS.com\" says plainly that this is a site search box and what it searches. A tracking number is just one kind of search query, and the placeholder tells sighted users about it anyway. Requiring the label to list every accepted input asks for more than 2.4.6 does. The mismatch between the hidden name and the placeholder could at most be a 2.5.3 Label in Name question, and a weak one because placeholders are not usually treated as the visible label. It is not a 2.4.6 failure."
+    }
+  ]
+}

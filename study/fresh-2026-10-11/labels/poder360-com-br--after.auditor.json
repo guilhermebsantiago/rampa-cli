@@ -1,0 +1,18 @@
+{
+  "page": "https://www.poder360.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "3416c2e7029c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the green 'INSCREVA-SE' button in the 'alertas grátis do Poder360' box. Its accessible name is just 'Inscreva-se', and it goes to the Poder360 WhatsApp channel. The blue button next to it has the same name and goes to Telegram (t.me/Poder360). I checked the snapshot and the live HTML, which has not changed: the link has no aria-label, aria-labelledby, title or hidden text. The only thing that tells it apart is the WhatsApp icon, a separate link (img alt 'WhatsApp') in a sibling div. The two only share a generic div wrapper, not a sentence, paragraph, list item, table cell or associated header. So the context is not programmatically determined in the sense of G53/H77/H78/H79/H81, and a user on this link (in a links list, or tabbing) hears only 'Inscreva-se' and has to move focus to find out which channel it is. Sighted users get that from the icon and the colour, but that does not satisfy 2.4.4. The message's 'nothing around this one tells it apart' overstates it a little, since the adjacent icon does, but the failure it describes is real. The suggested fix ('Inscreva-se no canal do WhatsApp') would resolve it."
+    },
+    {
+      "fingerprint": "2baf73060c39",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the blue 'INSCREVA-SE' button in the same alerts box. Its accessible name is 'Inscreva-se', and it goes to t.me/Poder360 (Telegram). The green button has the same name and goes to the WhatsApp channel. The snapshot and the live HTML, which has not changed, give the link no aria-label, title or visually hidden text. The Telegram icon is a separate link (img alt 'Telegram') in a sibling div, with no paragraph, list item, table cell or header relationship to the link. So the link's purpose (which channel you subscribe on) cannot be found from the link text plus programmatically determined context without moving focus to the previous link. Two identical link names lead to different destinations, which fails 2.4.4 as the finding says. The adjacent icon does give visual and reading-order context, so the message's wording is a bit strong, but most auditors would still flag this. The suggested fix ('Inscreva-se no Telegram') resolves it."
+    }
+  ]
+}

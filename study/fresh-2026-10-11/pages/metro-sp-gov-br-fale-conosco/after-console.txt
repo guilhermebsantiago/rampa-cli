@@ -1,0 +1,101 @@
+
+https://www.metro.sp.gov.br/fale-conosco/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.1.1 (A) — Non-text Content
+  ✗ #web-messenger-container |> #header > div:nth-of-type(1) > img
+    Images must have alternative text
+    high · rule image-alt · id f8c605b5ae71
+  ✗ #web-messenger-container |> #footer > div > label > img
+    Images must have alternative text
+    high · rule image-alt · id 955910dede20
+  ✗ #post-401 > div > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(1) > figure > img
+    This image is hidden from screen readers (alt=""), but it conveys what the text around it does not say: "Logo with the words 'METRÔ CONECTA'".
+    Evidence: "Logo with the words 'METRÔ CONECTA'"
+    Patch:
+      - <img decoding="async" width="185" height="69" src="/wp-content/uploads/2023/06/image.png" alt="" class="wp-image-13947">
+      + <img decoding="async" width="185" height="69" src="/wp-content/uploads/2023/06/image.png" alt="Logotipo do Metrô Conecta" class="wp-image-13947">
+    confidence low · 1/1 runs · evidence verified · id a96a1739ad0c
+
+WCAG 1.4.3 (AA) — Contrast (Minimum)
+  ✗ #main > nav > div > ol > li:nth-of-type(1) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id b0463d40bef5
+  ✗ #main > nav > div > ol > li:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 50be80a4fde6
+  ✗ #footer > div > div:nth-of-type(2) > nav > ul > li:nth-of-type(1) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 94642df6c8cb
+  ✗ #footer > div > div:nth-of-type(2) > nav > ul > li:nth-of-type(2) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 5ed5f90166dd
+  ✗ #footer > div > div:nth-of-type(2) > nav > ul > li:nth-of-type(3) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 2e242ab47306
+  ✗ #footer > div > div:nth-of-type(2) > nav > ul > li:nth-of-type(4) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id ed84298bd33c
+  ✗ #footer > div > div:nth-of-type(2) > nav > ul > li:nth-of-type(5) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 4b694171310f
+  ✗ #footer > div > div:nth-of-type(2) > nav > ul > li:nth-of-type(6) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id e0ef907e97c3
+  ✗ #footer > div > div:nth-of-type(2) > nav > ul > li:nth-of-type(7) > a
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 267de64f2881
+
+WCAG 2.4.4 (A) — Link Purpose (In Context)
+  ✗ #post-401 > div > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(2) > div > div:nth-of-type(1) > figure > a
+    Links must have discernible text
+    high · rule link-name · id ea7b5d3ebe36
+  ✗ #post-401 > div > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(2) > div > div:nth-of-type(2) > figure > a
+    Links must have discernible text
+    high · rule link-name · id ba190dc55d4d
+  ✗ #post-401 > div > div:nth-of-type(1) > ul:nth-of-type(8) > li > a:nth-of-type(2)
+    The link text "www.viaquatro.com.br/fale-conosco" is an address, not a purpose.
+    Evidence: "www.viaquatro.com.br/fale-conosco"
+    Patch:
+      - <a href="https://www.viaquatro.com.br/fale-conosco">www.viaquatro.com.br/fale-conosco</a>
+      + <a href="https://www.viaquatro.com.br/fale-conosco">Fale conosco</a>
+    confidence high · 1/1 runs · evidence verified · id 578feeff8b32
+  ✗ #post-401 > div > div:nth-of-type(1) > ul:nth-of-type(10) > li > a
+    The link text "www.viamobilidade.com.br/fale-conosco" is an address, not a purpose.
+    Evidence: "www.viamobilidade.com.br/fale-conosco"
+    Patch:
+      - <a href="https://www.viamobilidade.com.br/fale-conosco">www.viamobilidade.com.br/fale-conosco</a>
+      + <a href="https://www.viamobilidade.com.br/fale-conosco">Fale Conosco</a>
+    confidence high · 1/1 runs · evidence verified · id 63ed1ea69c7f
+
+WCAG 4.1.2 (A) — Name, Role, Value
+  ✗ #web-messenger-container
+    Frames must have an accessible name
+    high · rule frame-title · id 8848fae119f5
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.4.11 (AA) — Non-text Contrast: 6 elements · rampa/icon-contrast
+    The contrast of the icon of this link could not be measured: what is behind it changed between the two captures.
+  ? WCAG 2.4.4 (A) — Link Purpose (In Context): 1 element · judgment/2.4.4
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+  ? WCAG 2.4.6 (AA) — Headings and Labels: 1 element · judgment/2.4.6
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+  ? WCAG 2.5.8 (AA) — Target Size (Minimum): 1 element · target-size
+    Element size could not be accurately determined due to overflow content
+
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+2 claim(s) from the model did not hold against the snapshot and were dropped.
+
+Model calls: 58 new, 21 from cache · 72.6k in / 8.0k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.4.1, 1.4.3, 1.4.4, 1.4.12, 2.4.2, 2.4.4, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  1.1.1, 1.4.3, 1.4.11, 2.4.2, 2.4.6, 3.1.1, 4.1.2
+  Judged with verified evidence:     1.1.1, 1.3.5, 2.4.2, 2.4.4, 2.4.6
+  Needs review only:                 2.4.1, 3.3.2
+  Not checked automatically:         39 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.
