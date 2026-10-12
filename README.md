@@ -197,7 +197,7 @@ rampa check android:                                # the screen on a connected 
 | `rampa models` | Recommended models per criterion, and which are ready on this machine |
 | `rampa doctor` | Checks the environment |
 
-Exit codes: `0` no confirmed failure, `1` at least one confirmed failure (see `--fail-on`), `2` execution, configuration or usage error.
+Exit codes: `0` no confirmed failure, `1` at least one confirmed failure (see `--fail-on`), `2` the run could not check: an execution, configuration or usage error, or judgment asked for and nothing judged (no model, an empty `--offline` cache, the time limit); `--no-llm` runs the deterministic layer only. See [exit codes](docs/output-formats.md#exit-codes-and---fail-on).
 
 <details>
 <summary><b>All <code>check</code> options</b></summary>

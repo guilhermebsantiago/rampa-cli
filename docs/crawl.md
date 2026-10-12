@@ -175,7 +175,7 @@ A crawl also compares its pages with each other: 2.4.1 Bypass Blocks, titles tha
 
 ## Exit codes
 
-The same as a check: `0` when no page has a confirmed failure, `1` when one does (`--fail-on` applies as usual), and `2` when the run could not do its job: no page of a site could be checked, a sitemap you asked for could not be read, a flag was wrong, or the model failed on every candidate of a criterion.
+The same as a check: `0` when no page has a confirmed failure, `1` when one does (`--fail-on` applies as usual), and `2` when the run could not do its job: no page of a site could be checked, a sitemap you asked for could not be read, a flag was wrong, the model failed on every candidate of a criterion, or a page asked for judgment and the model judged none of its candidates.
 
 ## Limits
 
