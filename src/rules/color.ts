@@ -17,6 +17,12 @@ import { type ProbeRule, type ProbeRuleContext, type ProbeRuleResult, asArray, a
  *   indicator is needed whatever the contrast: a sentence that names a color ("fields in red are required").
  */
 
+/**
+ * The probe's versions these rules read. Version 1 compared a link with its block's own color; version 2 with the text
+ * around it (probes/color.ts, LinkFact.aroundText). Both read the same way; a version 1 record is read as it was.
+ */
+const COLOR_VERSIONS = ['1', '2'] as const
+
 /** A change of lightness this strong is a distinction of its own (Understanding 1.4.1; G183 for links). */
 export const LIGHTNESS = 3
 /** A swap of colors that changed fewer pixels than this showed no difference worth the name. */
@@ -153,7 +159,7 @@ export const colorStateRule: ProbeRule = {
   id: 'rampa/color-only-state',
   kind: 'color',
   variant: 'use-of-color',
-  versions: ['1'],
+  versions: COLOR_VERSIONS,
   criteria: ['1.4.1'],
   run(record: ProbeRecord, ctx: ProbeRuleContext): ProbeRuleResult {
     const data = colorData(record)
@@ -256,7 +262,7 @@ export const colorRequiredRule: ProbeRule = {
   id: 'rampa/color-only-required',
   kind: 'color',
   variant: 'use-of-color',
-  versions: ['1'],
+  versions: COLOR_VERSIONS,
   criteria: ['1.4.1'],
   run(record: ProbeRecord, ctx: ProbeRuleContext): ProbeRuleResult {
     const data = colorData(record)
@@ -316,17 +322,24 @@ const LINK_TEXT: Record<Locale, { fail: string; review: string }> = {
   },
 }
 
+/** The text a link was compared with, quoted, when the probe recorded it (version 2). */
+const aroundQuote = (link: LinkFact) => (typeof link.aroundText === 'string' && link.aroundText !== '' ? ` ("${link.aroundText}")` : '')
+
 /**
  * 1.4.1 (F73, G183): a link in a block of text that only color tells apart from the text around it, with less than
  * 3:1 between the two colors. axe-core's link-in-text-block checks the same at rest; an element it already failed is
  * left to it, and what it left undecided (a background image, a pseudo-element) is settled here. Links at 3:1 or
  * more that gain no cue on hover or focus go to review, once per page: G183's current text accepts them.
+ *
+ * "The text around it" is what the probe (version 2) reads: the visible text of the link's block that is in no link
+ * or control, in the style most of it has; a size, weight or underline that differs from that text is a cue. A block
+ * with no such text (a list of links, a menu) is not text a link sits in, so the rule does not apply to its links.
  */
 export const linkColorRule: ProbeRule = {
   id: 'rampa/link-color-only',
   kind: 'color',
   variant: 'use-of-color',
-  versions: ['1'],
+  versions: COLOR_VERSIONS,
   criteria: ['1.4.1'],
   run(record: ProbeRecord, ctx: ProbeRuleContext): ProbeRuleResult {
     const data = colorData(record)
@@ -377,8 +390,8 @@ export const linkColorRule: ProbeRule = {
             message: text.fail.replace('{contrast}', ratio(link.contrast)),
             evidence: say(
               ctx.locale,
-              `${nameOf(node, link.el)}: link ${link.color} against text ${link.around}, ${ratio(link.contrast)}; no underline, border, weight, style, icon or pseudo-element sets it apart at rest`,
-              `${nameOf(node, link.el)}: link ${link.color} contra texto ${link.around}, ${ratio(link.contrast)}; nenhum sublinhado, borda, peso, estilo, ícone ou pseudoelemento o distingue em repouso`,
+              `${nameOf(node, link.el)}: link ${link.color} against text ${link.around}${aroundQuote(link)}, ${ratio(link.contrast)}; no underline, border, weight, size, style, icon or pseudo-element sets it apart at rest`,
+              `${nameOf(node, link.el)}: link ${link.color} contra texto ${link.around}${aroundQuote(link)}, ${ratio(link.contrast)}; nenhum sublinhado, borda, peso, tamanho, estilo, ícone ou pseudoelemento o distingue em repouso`,
             ),
             confidence: 'high',
             subject: 'link',
@@ -476,7 +489,7 @@ export const colorWordsRule: ProbeRule = {
   id: 'rampa/color-words',
   kind: 'color',
   variant: 'use-of-color',
-  versions: ['1'],
+  versions: COLOR_VERSIONS,
   criteria: ['1.4.1'],
   run(record: ProbeRecord, ctx: ProbeRuleContext): ProbeRuleResult {
     const data = colorData(record)

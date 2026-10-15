@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Links in text, told apart by more than color, and links in no text</title>
+<style>
+  body { font: 16px Arial, sans-serif; margin: 1rem; background: #fff; color: #444; }
+  a { color: #006699; text-decoration: none; }
+  #menu { list-style: none; display: flex; gap: 1rem; padding: 0; }
+  /* A resource list (medlineplus.gov's): a 14 px title link, then its source in a 12 px, paler note. */
+  #resources li { font-size: 14px; color: #444; margin-bottom: .5rem; }
+  #resources .org { font-size: 12px; color: #666; }
+  #underlined a { text-decoration: underline; }
+</style>
+</head>
+<body>
+<!-- A list of links: no text around them, so no link in text. -->
+<nav aria-label="Main">
+  <ul id="menu"><li><a href="#home">Home</a></li><li><a href="#products">Products</a></li><li><a href="#about">About us</a></li><li><a href="#contact">Contact</a></li></ul>
+</nav>
+<main>
+  <h1>Diabetes</h1>
+  <ul id="resources">
+    <li><a href="#r1">Managing Diabetes</a> <span class="org">(National Institute of Diabetes and Digestive and Kidney Diseases)</span></li>
+    <li><a href="#r2">What is Diabetes?</a> <span class="org">(National Institute of Diabetes and Digestive and Kidney Diseases)</span></li>
+  </ul>
+  <!-- A row of links with separators: no text of its own. -->
+  <p id="row"><a href="#privacy">Privacy</a> | <a href="#terms">Terms</a> | <a href="#help">Help</a></p>
+  <p id="underlined">Read the <a href="#guide">care guide</a> before your next visit, and ask your doctor what it means for you.</p>
+</main>
+</body>
+</html>
