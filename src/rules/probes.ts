@@ -4,6 +4,7 @@ import type { Locale } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot, ProbeRecord } from '../snapshot/schema.ts'
 import { type TreeIndex, indexTree } from '../snapshot/tree.ts'
 import { DEFAULT_WCAG, type WcagVersion, beyondTarget, successCriterion } from '../wcag.ts'
+import type { Settlement } from './types.ts'
 
 /**
  * Rules over probe observations: pure functions of the snapshot, so a saved snapshot gives the
@@ -29,6 +30,11 @@ export interface ProbeRuleResult {
    * video-caption and no-autoplay-audio this way.
    */
   resolved?: Array<{ engineRule: string; ref: string }> | undefined
+  /**
+   * What each probe rule made of the elements it took over (`resolved`), set by `probeChecks`: core/check.ts takes
+   * axe-core's item to review off the report only where the report shows the rule's result instead.
+   */
+  settlements?: Settlement[] | undefined
 }
 
 export interface ProbeRule {
@@ -125,7 +131,11 @@ function probeResults(snapshot: A11ySnapshot, locale: Locale, rules: readonly Pr
   if (records.length === 0) return result
   const ctx: ProbeRuleContext = { snapshot, index: indexTree(snapshot.root), locale, ...(engine ? { engine } : {}) }
   for (const rule of rules) {
-    const record = records.find((r) => r.kind === rule.kind && (rule.variant === undefined || r.conditions.variant === rule.variant))
+    // A kind that did not run at all (it failed, or the page is not an HTML document) has one skipped record with no
+    // variant: every rule of the kind says it did not check its criteria.
+    const record = records.find(
+      (r) => r.kind === rule.kind && (rule.variant === undefined || r.conditions.variant === rule.variant || (r.status === 'skipped' && r.conditions.variant === undefined)),
+    )
     if (!record) continue
     const method = `probe/${record.kind}@${record.version}`
     if (record.status === 'skipped' || !rule.versions.includes(record.version)) {
@@ -153,6 +163,11 @@ function probeResults(snapshot: A11ySnapshot, locale: Locale, rules: readonly Pr
       result.findings.push(...out.findings)
       result.review.push(...out.review)
       if (out.resolved?.length) (result.resolved ??= []).push(...out.resolved)
+      for (const { engineRule, ref } of out.resolved ?? []) {
+        // Read before a model's answer takes a probe rule's item to review off the list (core/check.ts).
+        const outcome = out.review.some((f) => f.ref === ref) ? 'review' : out.findings.some((f) => f.ref === ref) ? 'fail' : 'pass'
+        ;(result.settlements ??= []).push({ engineRule, ref, rule: rule.id, criteria: rule.criteria, outcome, experimental: true })
+      }
       // A page that needed a blocked request (a POST for its data) may have rendered less on the probe's load.
       const blocked = guardNote(record, locale)
       result.coverage.push(...out.coverage.map((row) => (blocked ? { ...row, note: row.note ? `${row.note}; ${blocked}` : blocked } : row)))

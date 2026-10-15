@@ -313,7 +313,7 @@ Model ids and prices were checked on each provider's own pages on 2026-10-07, an
 
 ## How it works
 
-1. **Collect.** The target becomes a normalized accessibility snapshot: the accessibility tree with ARIA roles, names, languages, states and bounds, plus each image as rendered and the source markup.
+1. **Collect.** The target becomes a normalized accessibility snapshot: the accessibility tree with ARIA roles, names, languages, states and bounds, plus each image as rendered and the source markup. A URL that serves a standalone SVG document is checked too, by axe-core and the rules; an XML document the browser only shows as source is not, and the report says so ([API](docs/api.md)).
 2. **Deterministic engine.** axe-core runs on the page, and its violations go straight to the report.
 3. **Judgment.** Only the residue goes to the model: what the engine reported as incomplete, passed on syntax alone, or does not check at all. One prompt per criterion, minimal context, structured JSON output.
 4. **Verification.** The cited node must exist and the quoted text must be in it, or the claim is dropped and counted.

@@ -45,11 +45,17 @@ const ROWS = {
  * 0.1.0 release of the test cases the benchmark left out among the rules the row reports on (`--missing rampa`; the
  * ARIA rules and the SVG and XML examples). Its benchmark records, from commit 927cf63, were checked against a rerun
  * at the release: 855 of 856 pages gave the same record, and the other is a page that redirects to the live w3.org
- * home page, whose content had changed. So that row is 0.1.0. The Gemma row was not run again: no model is called here.
+ * home page, whose content had changed. Then a run at commit b09ef9d of the test cases two fixes after the release
+ * change: the 13 SVG and XML documents 0.1.0 could not check, and afw4f7's, where an experimental rule hid axe-core's
+ * items to review. A later file wins, so those records replace the earlier ones. The Gemma row was not run again: no
+ * model is called here.
  */
 const DEFAULT_RESULTS = join('results', '2026-10-11')
 const DEFAULTS = {
-  rampa: { raw: [join(DEFAULT_RESULTS, 'raw', 'rampa.jsonl'), join('act-report', 'records', 'rampa-0.1.0.jsonl')], revision: '0.1.0' },
+  rampa: {
+    raw: [join(DEFAULT_RESULTS, 'raw', 'rampa.jsonl'), join('act-report', 'records', 'rampa-0.1.0.jsonl'), join('act-report', 'records', 'rampa-b09ef9d.jsonl')],
+    revision: '0.1.0, with the SVG, XML and afw4f7 test cases run again at commit b09ef9d',
+  },
   'rampa-gemma': { raw: [join(DEFAULT_RESULTS, 'raw', 'rampa-gemma.jsonl')], revision: 'commit 927cf63, before the 0.1.0 release' },
 }
 

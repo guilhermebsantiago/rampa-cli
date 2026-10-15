@@ -189,6 +189,20 @@ describe('1.4.1 over recorded facts', () => {
     expect(byRule(settled, LINK)).toEqual([])
   })
 
+  it("keeps axe-core's undecided link-in-text-block at the default threshold, where the rule's finding is not shown", async () => {
+    const undecided: EngineResults = { engine: { name: 'axe-core', version: '4' }, rules: [{ ruleId: 'link-in-text-block', outcome: 'incomplete', criteria: ['1.4.1'], help: 'Links must be distinguishable', nodes: [{ ref: '#terms', target: '#terms', html: '<a>' }] }] }
+    const strict = await checkSnapshot(snapshotOf({ links: [link()] }), undecided, probeCheckOptions({ minConfidence: 'medium' }))
+    expect(byRule(strict, LINK)).toEqual([])
+    expect(strict.belowThreshold.filter((f) => f.ruleId === LINK).map((f) => f.ref)).toEqual(['#terms'])
+    const kept = (strict.needsReview ?? []).filter((r) => r.ruleId === 'link-in-text-block')
+    expect(kept.map((r) => r.ref)).toEqual(['#terms'])
+    expect(kept[0]?.evidence).toContain("Rampa's rampa/link-color-only measured it, below the confidence threshold:")
+    // At --min-confidence low the failure is shown, and it replaces axe-core's item.
+    const low = await check(snapshotOf({ links: [link()] }), undecided)
+    expect(byRule(low, LINK).map((f) => f.ref)).toEqual(['#terms'])
+    expect((low.needsReview ?? []).filter((r) => r.ruleId === 'link-in-text-block')).toEqual([])
+  })
+
   it('quotes the text a link was compared with when the probe recorded it, and reads a first-version record as it did', async () => {
     const quoted = await check(snapshotOf({ links: [link({ aroundText: 'Read our before you sign up' })] }))
     expect(byRule(quoted, LINK)[0]?.evidence).toBe('<a> "terms": link #2255aa against text #222222 ("Read our before you sign up"), 2.23:1; no underline, border, weight, size, style, icon or pseudo-element sets it apart at rest')

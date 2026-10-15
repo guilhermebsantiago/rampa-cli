@@ -327,7 +327,10 @@ export interface ReviewItem {
   html?: string | undefined
   /** Why the engine could not decide, in its own words. */
   message: string
-  /** What a Rampa rule read on the element, when the review is one of its hits; for a model's suggestion, the text it suggests. */
+  /**
+   * What a Rampa rule read on the element, when the review is one of its hits; for a model's suggestion, the text it
+   * suggests; for axe-core's item on an element a rule measured below the threshold (`RuleCheck.resolves`), what it measured.
+   */
   evidence?: string | undefined
   helpUrl?: string | undefined
   /** Set when the item is a model's suggestion (a judgment no checked fact supports, `Criterion.grounded`): the model. */

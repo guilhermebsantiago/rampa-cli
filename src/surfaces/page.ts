@@ -2,7 +2,7 @@ import { mkdir } from 'node:fs/promises'
 import { join } from 'node:path'
 import { type Stopwatch, timed } from '../core/timings.ts'
 import { RampaError, sha256 } from '../core/util.ts'
-import { AXE_REVIEW_RULES, axeLocale, axeSource, axeTags, engineFromAxe } from '../engine/axe.ts'
+import { AXE_REVIEW_RULES, axeLocale, axeSource, axeTags, emptyEngine, engineFromAxe } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
 import { resolverSource } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
@@ -15,7 +15,7 @@ import { captureContrast } from './contrast-capture.ts'
 import { type FrameDriver, runAxeInFrames } from './frames.ts'
 import { buildReach, closedShadowRoots } from './reach.ts'
 import { captureImageNodes } from './image-capture.ts'
-import { MAX_NODES, collectInPage } from './in-page.ts'
+import { MAX_NODES, collectInPage, documentKindInPage } from './in-page.ts'
 import { attachMotionFacts } from './motion.ts'
 import { collectPresentation } from './presentation.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
@@ -72,6 +72,16 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
   // Selectors are checked before any work, so a typo fails loudly instead of checking nothing.
   if (scope) assertSelectors(await driver.evaluate(resolveScopeInPage, { ...scope, refs: [] }), url)
 
+  // A page that is not an HTML document, as collectWeb reads it: an SVG document is checked without what is built for
+  // HTML (the reading presentation, contrast from pixels); an XML document shown as its source tree is not read.
+  const kind = await driver.evaluate(documentKindInPage, null)
+  const document = kind.kind === 'html' ? undefined : { kind: kind.kind === 'svg' ? ('svg' as const) : ('xml' as const), contentType: kind.contentType }
+  if (document?.kind === 'xml') {
+    const viewport = await driver.evaluate(() => ({ width: window.innerWidth, height: window.innerHeight, scale: window.devicePixelRatio }), null)
+    const root: A11yNode = { ref: ':root', role: 'document', states: [], native: {}, children: [] }
+    return { snapshot: { schemaVersion: 1, surface: 'web', target: url, document, viewport, root, collectedAt: new Date().toISOString(), collector: { name: 'rampa-web', version: VERSION } }, engine: emptyEngine() }
+  }
+
   await timed(watch, 'axe', async () => driver.run(await axeSource()))
   const raw = await timed(watch, 'collection', async () => {
     const read = await driver.evaluate(collectInPage, { maxNodes })
@@ -108,12 +118,13 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
     truncated: raw.beyondTruncated,
   })
   // Before captures scroll the page, as collectWeb measures it.
-  const presentation = options.presentation
-    ? await timed(watch, 'collection', () => collectPresentation({ evaluate: (fn, arg) => driver.evaluate(fn, arg), cdp }), 'presentation')
-    : undefined
+  const presentation =
+    options.presentation && !document
+      ? await timed(watch, 'collection', () => collectPresentation({ evaluate: (fn, arg) => driver.evaluate(fn, arg), cdp }), 'presentation')
+      : undefined
   if (scope) root = await timed(watch, 'collection', () => scopeRoot(driver, root, scope, { url, truncated: raw.truncated, maxNodes }))
   const engine = engineFromAxe(checked.axe)
-  const contrast = options.pixelContrast !== false
+  const contrast = options.pixelContrast !== false && !document
   const labels = labelTargets(root).length > 0
   if (options.captureImages || labels || contrast) {
     // Element screenshots scroll the page; the caller's test carries on from where it was.
@@ -143,6 +154,7 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
     schemaVersion: 1,
     surface: 'web',
     target: url,
+    ...(document ? { document } : {}),
     title: raw.title || undefined,
     locale: raw.lang,
     viewport: raw.viewport,

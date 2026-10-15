@@ -246,6 +246,49 @@ describe('the pixel rules in a check', () => {
     expect(report.coverage.rules).toContain('1.4.3')
   })
 
+  it("keeps axe-core's item to review at the default threshold, where the experimental rule's verdict is not shown (ACT afw4f7)", async () => {
+    const { snapshot, engine } = measuredPage({ '#fail': text(2.32, 1.45) })
+    const report = await checkSnapshot(snapshot, engine, options({ minConfidence: 'medium' }))
+    // The measured failure is below the threshold: not in the findings, only with --verbose.
+    expect(report.findings).toEqual([])
+    expect(report.belowThreshold.map((f) => `${f.ruleId} ${f.ref}`)).toEqual(['rampa/pixel-contrast #fail'])
+    // So the element is not lost: axe-core's item to review stays, with what the pixels measured.
+    const kept = (report.needsReview ?? []).find((item) => item.ref === '#fail')
+    expect(kept).toMatchObject({ ruleId: 'color-contrast', criterion: '1.4.3' })
+    expect(kept?.evidence).toBe(
+      'Rampa\'s rampa/pixel-contrast measured it, below the confidence threshold: The text "Text of #fail" has at most 2.32:1 contrast with what is behind it (#aaaaaa on #cccccc…#ffffff), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.',
+    )
+    expect((report.needsReview ?? []).map((item) => `${item.ruleId} ${item.ref}`)).toEqual(['color-contrast #fail', 'color-contrast #left-out'])
+    const record = report.coverage.criteria?.find((c) => c.id === '1.4.3')
+    expect(record?.status).toBe('needs-review')
+    expect(record?.methods.find((m) => m.id === 'color-contrast')).toMatchObject({ applicable: 2, review: 2 })
+  })
+
+  it('shows the failure instead of the item to review at --min-confidence low', async () => {
+    const { snapshot, engine } = measuredPage({ '#fail': text(2.32, 1.45) })
+    const report = await checkSnapshot(snapshot, engine, options({ minConfidence: 'low' }))
+    expect(report.findings.map((f) => `${f.ruleId} ${f.ref}`)).toEqual(['rampa/pixel-contrast #fail'])
+    expect((report.needsReview ?? []).map((item) => `${item.ruleId} ${item.ref}`)).toEqual(['color-contrast #left-out'])
+    expect(report.coverage.criteria?.find((c) => c.id === '1.4.3')?.status).toBe('failures')
+  })
+
+  it("takes axe-core's item away for a pass only at a threshold the experimental rule meets", async () => {
+    const { snapshot, engine } = measuredPage({ '#pass': text(15.9, 11.7, { foreground: '#222222' }) })
+    const strict = await checkSnapshot(snapshot, engine, options({ minConfidence: 'medium' }))
+    expect(strict.findings).toEqual([])
+    expect((strict.needsReview ?? []).map((item) => `${item.ruleId} ${item.ref}`)).toEqual(['color-contrast #pass', 'color-contrast #left-out'])
+    expect(strict.needsReview?.[0]?.evidence).toBe("Rampa's rampa/pixel-contrast measured it and found no failure, below the confidence threshold.")
+    const low = await checkSnapshot(snapshot, engine, options({ minConfidence: 'low' }))
+    expect((low.needsReview ?? []).map((item) => `${item.ruleId} ${item.ref}`)).toEqual(['color-contrast #left-out'])
+    expect(low.needsReview?.[0]?.evidence).toBeUndefined()
+  })
+
+  it("replaces axe-core's item with the rule's own item to review at any threshold", async () => {
+    const { snapshot, engine } = measuredPage({ '#mixed': text(7.46, 2.82, { foreground: '#555555' }) })
+    const report = await checkSnapshot(snapshot, engine, options({ minConfidence: 'medium' }))
+    expect((report.needsReview ?? []).map((item) => `${item.ruleId} ${item.ref}`)).toEqual(['color-contrast #left-out', 'rampa/pixel-contrast #mixed'])
+  })
+
   it('says it in Portuguese', async () => {
     const { snapshot, engine } = measuredPage({ '#fail': text(2.32, 1.45), '#mixed': text(7.46, 2.82) })
     const report = await checkSnapshot(snapshot, engine, options({ locale: 'pt-BR' }))

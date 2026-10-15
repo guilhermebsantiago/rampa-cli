@@ -4,10 +4,10 @@ Rampa's results on the W3C ACT test cases, in the format the [W3C ACT implementa
 
 In short:
 
-- **Reported:** Rampa 0.1.0 with no language model, `rampa check --no-llm`, at its default confidence threshold: [`bench/act-report/rampa.earl.json`](../bench/act-report/rampa.earl.json).
-- **Its consistency**, as act-tools (the code W3C runs) computes it: of the approved ACT rules, 19 consistent, 8 partial, 2 inconsistent and 8 not implemented; of the proposed rules, 4, 3, 7 and 36. axe-core 4.14.0's own report, scored the same way on the same day: 30, 0, 2 and 5; 5, 9, 4 and 32.
-- **All of it is axe-core.** Every rule that report gets consistent or partial comes from an axe-core rule that Rampa runs. Rampa's own rules are all experimental: at the default threshold they report only items to review. With Gemma 4 12B, Rampa's judgments make 2 more rules consistent and 4 partial, all on rules whose test cases Rampa's prompts were written against.
-- **Where Rampa is behind axe-core's own report,** it is mostly because Rampa cannot check a standalone SVG or XML document (7 approved rules partial instead of consistent, 5 proposed rules inconsistent instead of partial). It also runs fewer axe-core rules: no best-practice, deprecated or Level AAA rule, and only two experimental ones, for review. And in one case, an experimental Rampa rule hides what axe-core would have left for review (afw4f7, below).
+- **Reported:** Rampa 0.1.0 with no language model, `rampa check --no-llm`, at its default confidence threshold, with the 47 test cases two later fixes change, run again at commit `b09ef9d` ([below](#two-fixes-after-010-commit-b09ef9d)): [`bench/act-report/rampa.earl.json`](../bench/act-report/rampa.earl.json).
+- **Its consistency**, as act-tools (the code W3C runs) computes it: of the approved ACT rules, 27 consistent, 0 partial, 2 inconsistent and 8 not implemented; of the proposed rules, 4, 8, 2 and 36. axe-core 4.14.0's own report, scored the same way on the same day: 30, 0, 2 and 5; 5, 9, 4 and 32. Before the two fixes, Rampa's were 19, 8, 2 and 8; 4, 3, 7 and 36.
+- **All of it is axe-core.** Every rule that report gets consistent or partial comes from an axe-core rule that Rampa runs. Rampa's own rules are all experimental: at the default threshold they report only items to review. With Gemma 4 12B, Rampa's judgments make 2 more rules consistent and 4 partial, all on rules whose test cases Rampa's prompts were written against. That report was not regenerated (below).
+- **Where Rampa is behind axe-core's own report,** it is because Rampa runs fewer axe-core rules: no best-practice, deprecated or Level AAA rule, and only two experimental ones, for review. Of the approved rules axe-core's report makes consistent, that leaves 4 not implemented here: 2 Level AAA rules and 2 whose axe-core rule Rampa does not run. One approved rule goes the other way (8fc3b6), and one is inconsistent here where axe-core's report has no procedure for it (2t702h).
 
 ## How W3C takes implementation reports
 
@@ -62,6 +62,7 @@ Plain `rampa check`, with no model configured, looks for Ollama or a provider an
 - Its prompts were written while reading these test cases. Every rule its judgments decide is one of those, and the CG recommended against using the test cases that way (#107).
 - Reproducing it needs a local 12B model.
 - It is the benchmark run at commit `927cf63`, from before the 0.1.0 release. The judgment code changed after it (verification of quotes in passes), and it was not run again: no model is called for this report. It also lacks the supplementary test cases below: 126 examples of rules it reports on have no outcome.
+- It was not regenerated after the fixes of commit `b09ef9d` either. Its files are rebuilt from the same records and come out the same: afw4f7 is still partial there, and its SVG and XML examples are "not run".
 
 The format allows a second entry, as Alfa (automated and assisted) and UsableNet (auto and semi-auto) have. A full run of the model configuration at a release could become one later.
 
@@ -79,7 +80,7 @@ Rampa also changes a few axe-core results:
 
 - `bypass`, `video-caption`, `th-has-data-cells`, `no-autoplay-audio`, `form-field-multiple-labels` and `duplicate-id-aria` never fail in axe-core 4.14. Their undecided results are items to review in Rampa, so they are `cantTell` here, as in axe-core's own report.
 - `target-size` is reported below the threshold, as experimental. No ACT rule maps to it.
-- An experimental Rampa rule can take over elements that axe-core left undecided (`resolves` in [src/rules/types.ts](../src/rules/types.ts)). Its verdict is then below the threshold, and the item to review is gone. On afw4f7 (text contrast), axe-core left 3 failed examples undecided, which its own report counts as `cantTell`. `rampa/pixel-contrast` measured them and failed them, but below the threshold, so the default output shows nothing and they count as missed. That is why afw4f7 is partial here and consistent in axe-core's report. It is a fault in what the default output shows, not only in this report.
+- An experimental Rampa rule can take over elements that axe-core left undecided (`resolves` in [src/rules/types.ts](../src/rules/types.ts)). Since commit `b09ef9d`, axe-core's item to review leaves the report only when the report shows the rule's result instead ([rules](rules.md#how-rules-and-the-other-layers-interact)). An experimental rule's verdict is below the default threshold, so here axe-core's items stay. On afw4f7 (text contrast), axe-core leaves 3 failed examples undecided. `rampa/pixel-contrast` measures and fails them, below the threshold, and axe-core's items to review stay, so they are `cantTell`, as in axe-core's own report. In 0.1.0 the items were gone and the default output showed nothing ([below](#two-fixes-after-010-commit-b09ef9d)).
 
 ### Which test cases
 
@@ -87,8 +88,9 @@ Rampa also changes a few axe-core results:
 | --- | ---: | --- | --- |
 | The benchmark's: every HTML test case of the ACT rules that map to a WCAG 2.2 A/AA criterion for conformance, without the device motion rules | 856 | Commit `927cf63`; the same records at 0.1.0 (above) | [`bench/results/2026-10-11/raw/rampa.jsonl`](../bench/results/2026-10-11/raw/rampa.jsonl), [docs/benchmark.md](benchmark.md) |
 | Supplementary, run for this report: the test cases with no record among the rules a no-model Rampa procedure maps to (`build.mjs --missing rampa`). These are the ARIA rules with no WCAG criterion for conformance (674b10, 6a7281, 5f99a7, 4e8ab6, 5c01ea), the rules that axe-core's `bypass` maps to, and the SVG and XML examples of the benchmark's rules | 123: 110 HTML, 11 SVG, 2 XML | 0.1.0 (`2779b3f`) | [`bench/act-report/records/rampa-0.1.0.jsonl`](../bench/act-report/records/rampa-0.1.0.jsonl) |
+| Run again after two fixes: the 13 SVG and XML documents, which 0.1.0 could not check, and the 34 test cases of afw4f7. Their records replace the earlier ones (a later file wins) | 47 | Commit `b09ef9d` | [`bench/act-report/records/rampa-b09ef9d.jsonl`](../bench/act-report/records/rampa-b09ef9d.jsonl) |
 
-The 13 SVG and XML documents could not be checked. Rampa stops with an error when it adds its scripts to the page (`page.addScriptTag`), because it expects an HTML document. Their outcome is `untested`. Axe-core's own runner does not load `.svg`, `.xml` or `.js` examples at all: it reports them `inapplicable` (`inapplicableFileExtensions` in [act-reports-axe](https://github.com/dequelabs/act-reports-axe/blob/main/src/config.ts)).
+The fixes would change records elsewhere too, but no outcome of this report. The SVG and XML fix is meant to change only pages that are not HTML documents, and the benchmark has none. The other fix keeps axe-core's `color-contrast` items to review where `rampa/pixel-contrast` measured the text, and both rules map only to afw4f7 here (and to 09o5cg, which is Level AAA only). To check, a sample of 78 other HTML test cases (every twelfth record) was run at `b09ef9d` too, and not merged: 77 gave the same record, and the other only kept a `color-contrast` item to review, which no rule of that test case maps. Of afw4f7's 34 test cases, 28 gave the same record as before.
 
 Not reported:
 
@@ -96,6 +98,16 @@ Not reported:
 - Rules that no Rampa procedure maps to.
 
 Both count as untested on the W3C pages.
+
+### Two fixes after 0.1.0 (commit `b09ef9d`)
+
+Building this report found two faults in Rampa 0.1.0. Both are fixed at `b09ef9d` ([CHANGELOG](../CHANGELOG.md)), and the test cases they change were run again there.
+
+- **Standalone SVG and XML documents.** 13 test cases are SVG or XML documents. 0.1.0 stopped with an error on each when it added axe-core to the page (`page.addScriptTag` needs an HTML head, and a script element outside the HTML namespace never runs), so they were `untested`. Now axe-core is evaluated in the page, as it already was in frames, and Rampa reads the kind of document first:
+  - It checks an SVG document with axe-core and the rules that read the tree. Contrast from pixels, the reading presentation and the probes do not run on it, and the report says so. On the 11 SVG test cases, axe-core's HTML rules did not apply, and `avoid-inline-spacing` passed the `style` attributes. axe-core's `color-contrast` raised an error on 10 of them, which Rampa lists as an item to review under 1.4.3, a procedure mapped to none of these rules.
+  - It does not check an XML document that the browser shows as its source tree. The 2 XML test cases (`<math>` with no namespace, served as `application/xml`) are such documents. Chromium replaces the document with a viewer of its own, an XHTML page with no title and no `lang`; checking that viewer would fail `html-has-lang` on b5c3f8's inapplicable example, a false positive. The report says that nothing on the page was checked, and every criterion is "not checked".
+  - So all 13 now have outcomes: `passed` for every procedure mapped to them (see `passed` in the next section). axe-core's own runner reports them `inapplicable` without loading them (`inapplicableFileExtensions` in [act-reports-axe](https://github.com/dequelabs/act-reports-axe/blob/main/src/config.ts)). 7 approved rules go from partial to consistent (24afc2, 78fd32, 9e45ec, 2779a5, bf051a, b5c3f8, 6a7281), and 5 proposed rules from inconsistent to partial (cf77f2, 3e12e1, ye5d6e, 047fe0, b40fd1), as in axe-core's own report.
+- **Items to review that an experimental rule hid (afw4f7).** In 0.1.0 a rule that takes over axe-core's undecided results (`resolves`) removed axe-core's item to review whatever its own verdict. `rampa/pixel-contrast` failed afw4f7's three undecided failed examples below the default threshold, so the default output showed neither a failure nor an item to review, and they counted as missed. Now axe-core's item stays unless the report shows the rule's result instead, and its evidence says what the pixel rule measured. The three failed examples are `cantTell`, and afw4f7 goes from partial to consistent, as in axe-core's own report. Three of its passed and inapplicable examples, which the pixel rule passes below the threshold, are now `cantTell` too, which ACT allows. The same principle applies to every rule that takes over axe-core's results: the media, skip-link and link-color probe rules, which do not run in this configuration.
 
 ### From Rampa's results to ACT outcomes
 
@@ -110,6 +122,7 @@ For each test case, and for each procedure that implements the test case's rule:
 | The page could not be checked | `untested` |
 
 - **Passed or inapplicable.** Rampa's records do not tell "nothing applied" from "applied and passed". Both are `passed`, which ACT counts the same as `inapplicable` on passed and inapplicable examples (above). The expected outcome is never read to choose between them.
+- **A document Rampa does not read.** On an XML document the browser shows as its source tree, Rampa's report says that nothing was checked, and its record is empty, so it is `passed` like any page where nothing applied. Here that is the right outcome, not an error turned into a pass: the procedures mapped to the two XML test cases (`html-has-lang`, `aria-valid-attr-value`) apply to HTML pages and to HTML, SVG and MathML elements, and the document holds none. A page Rampa fails to check is still `untested`.
 - **Below the threshold.** A finding below the threshold is not reported by the configuration: `rampa check` lists it only with `--verbose`, and it never fails a build. It is therefore `passed`. The notes of each rule count those on failed examples.
 - **Status with no rule.** A criterion's needs-review or failure status in the report's coverage, recorded without the rule behind it, is left out. It cannot be tied to a procedure, and leaving it out can only lower consistency. In these results that never happened for a failure.
 - **Which procedures implement which rule.** This comes from Rampa's own metadata, as `rampa eval` scores: axe-core's `actIds` for axe-core rules, and the `act` lists of Rampa's rules and judged criteria. None of it is chosen from the results. A finding of a procedure that does not implement the rule (`aria-required-attr` on a form field example) is not an outcome of that rule. The notes still count every such finding under the rule's criteria, so nothing Rampa reported is hidden.
@@ -142,14 +155,16 @@ The test cases are the file W3C publishes, read at run time (`--testcases <file>
 
 After a new benchmark run:
 
-1. Point `DEFAULTS` in `build.mjs` at the new records.
+1. Point `DEFAULTS` in `build.mjs` at the new records, and drop the supplementary runs they make stale (`rampa-0.1.0.jsonl`, `rampa-b09ef9d.jsonl`).
 2. Run `node act-report/build.mjs --missing rampa <pages.json>`, then `node tools/rampa.mjs rampa --pages <pages.json> --out act-report/records/rampa-<version>.jsonl --meta act-report/records/rampa-<version>.meta.json --work .cache/act-supplement`.
 3. Build again.
+
+The run at `b09ef9d` used the same `tools/rampa.mjs` command on a list of the 13 SVG and XML test cases and afw4f7's 34, written from the test cases file. Its meta file names them.
 
 ## Results
 
 <!-- act:report:start -->
-<!-- Generated by bench/act-report/build.mjs --docs from rampa: results/2026-10-11/raw/rampa.jsonl + act-report/records/rampa-0.1.0.jsonl; rampa-gemma: results/2026-10-11/raw/rampa-gemma.jsonl (results folder results/2026-10-11); do not edit by hand. -->
+<!-- Generated by bench/act-report/build.mjs --docs from rampa: results/2026-10-11/raw/rampa.jsonl + act-report/records/rampa-0.1.0.jsonl + act-report/records/rampa-b09ef9d.jsonl; rampa-gemma: results/2026-10-11/raw/rampa-gemma.jsonl (results folder results/2026-10-11); do not edit by hand. -->
 
 Test cases: the published ACT file, 1211 test cases of 87 rules (SHA-256 `49051da603af`, read 2026-10-15). Consistency computed by act-tools at `9ee7046`, the commit W3C's update job pins. axe-core 4.14.0 inside Rampa. axe-core's own report read the same day from https://raw.githubusercontent.com/dequelabs/act-reports-axe/act-reports-axe/reports/axe-core.json.
 
@@ -157,7 +172,7 @@ Test cases: the published ACT file, 1211 test cases of 87 rules (SHA-256 `49051d
 
 | Implementation | Approved rules: consistent / partial / inconsistent / not implemented | Proposed rules: consistent / partial / inconsistent / not implemented |
 | --- | :---: | :---: |
-| Rampa, no model (`rampa check --no-llm`) | 19 / 8 / 2 / 8 | 4 / 3 / 7 / 36 |
+| Rampa, no model (`rampa check --no-llm`) | 27 / 0 / 2 / 8 | 4 / 8 / 2 / 36 |
 | Rampa with Gemma 4 12B (`rampa check --model ollama:gemma4:12b`); 126 examples of the rules it reports on were not run | 17 / 7 / 3 / 10 | 4 / 7 / 5 / 34 |
 | axe-core 4.14.0, its own report (all its rules, experimental ones included; every rule run) | 30 / 0 / 2 / 5 | 5 / 9 / 4 / 32 |
 
@@ -165,7 +180,7 @@ Test cases: the published ACT file, 1211 test cases of 87 rules (SHA-256 `49051d
 
 | Implementation | Consistent rules: by axe-core rules / by Rampa's own procedures / by both | Partial rules: by axe-core rules / by Rampa's own / by both |
 | --- | :---: | :---: |
-| Rampa, no model (`rampa check --no-llm`) | 23 / 0 / 0 | 11 / 0 / 0 |
+| Rampa, no model (`rampa check --no-llm`) | 31 / 0 / 0 | 8 / 0 / 0 |
 | Rampa with Gemma 4 12B (`rampa check --model ollama:gemma4:12b`) | 19 / 2 / 0 | 10 / 4 / 0 |
 
 ### Per ACT rule
@@ -193,21 +208,21 @@ Every rule the benchmark ran or a Rampa procedure maps to (65). "Not implemented
 | [b33eff](https://www.w3.org/WAI/standards-guidelines/act/rules/b33eff/) Orientation of the page is not restricted using CSS transforms ★ | 1.3.4 | approved | not implemented | not implemented | consistent | — |  |
 | [73f2c2](https://www.w3.org/WAI/standards-guidelines/act/rules/73f2c2/) `autocomplete` attribute has valid value ★ | 1.3.5 | approved | consistent | consistent | consistent | `autocomplete-valid (axe-core)` |  |
 | [80f0bf](https://www.w3.org/WAI/standards-guidelines/act/rules/80f0bf/) Audio or video element avoids automatically playing audio ★ | 1.4.2 | proposed | inconsistent | inconsistent | inconsistent | `no-autoplay-audio (axe-core)` |  |
-| [afw4f7](https://www.w3.org/WAI/standards-guidelines/act/rules/afw4f7/) Text has minimum contrast ★ | 1.4.3 | approved | partial | partial | consistent | `color-contrast (axe-core)` | No model: below-threshold findings on 3 failed examples, not reported; Gemma 4 12B: below-threshold findings on 3 failed examples, not reported |
+| [afw4f7](https://www.w3.org/WAI/standards-guidelines/act/rules/afw4f7/) Text has minimum contrast ★ | 1.4.3 | approved | consistent | partial | consistent | `color-contrast (axe-core)` | No model: below-threshold findings on 3 failed examples, not reported; Gemma 4 12B: below-threshold findings on 3 failed examples, not reported |
 | [b4f0c3](https://www.w3.org/WAI/standards-guidelines/act/rules/b4f0c3/) Meta viewport allows for zoom ★ | 1.4.4 | approved | consistent | consistent | consistent | `meta-viewport (axe-core)` | No model: below-threshold findings on 2 failed examples, not reported; Gemma 4 12B: below-threshold findings on 2 failed examples, not reported |
 | [59br37](https://www.w3.org/WAI/standards-guidelines/act/rules/59br37/) Zoomed text node is not clipped with CSS overflow ★ | 1.4.4 | proposed | not implemented | not implemented | not implemented | — |  |
 | [0va7u6](https://www.w3.org/WAI/standards-guidelines/act/rules/0va7u6/) HTML images contain no text ★ | 1.4.5 | approved | not implemented | not implemented | not implemented | — |  |
-| [24afc2](https://www.w3.org/WAI/standards-guidelines/act/rules/24afc2/) Important letter spacing in style attributes is wide enough | 1.4.12 | approved | partial | partial | consistent | `avoid-inline-spacing (axe-core)` | No model: 1 examples Rampa could not check (untested); Gemma 4 12B: 1 examples not run |
-| [78fd32](https://www.w3.org/WAI/standards-guidelines/act/rules/78fd32/) Important line height in style attributes is wide enough | 1.4.12 | approved | partial | partial | consistent | `avoid-inline-spacing (axe-core)` | No model: 1 examples Rampa could not check (untested); Gemma 4 12B: 1 examples not run |
-| [9e45ec](https://www.w3.org/WAI/standards-guidelines/act/rules/9e45ec/) Important word spacing in style attributes is wide enough | 1.4.12 | approved | partial | partial | consistent | `avoid-inline-spacing (axe-core)` | No model: 1 examples Rampa could not check (untested); Gemma 4 12B: 1 examples not run |
+| [24afc2](https://www.w3.org/WAI/standards-guidelines/act/rules/24afc2/) Important letter spacing in style attributes is wide enough | 1.4.12 | approved | consistent | partial | consistent | `avoid-inline-spacing (axe-core)` | Gemma 4 12B: 1 examples not run |
+| [78fd32](https://www.w3.org/WAI/standards-guidelines/act/rules/78fd32/) Important line height in style attributes is wide enough | 1.4.12 | approved | consistent | partial | consistent | `avoid-inline-spacing (axe-core)` | Gemma 4 12B: 1 examples not run |
+| [9e45ec](https://www.w3.org/WAI/standards-guidelines/act/rules/9e45ec/) Important word spacing in style attributes is wide enough | 1.4.12 | approved | consistent | partial | consistent | `avoid-inline-spacing (axe-core)` | Gemma 4 12B: 1 examples not run |
 | [akn7bn](https://www.w3.org/WAI/standards-guidelines/act/rules/akn7bn/) Iframe with interactive elements is not excluded from tab-order ★ | 2.1.1 | approved | inconsistent | inconsistent | inconsistent | `frame-focusable-content (axe-core)` |  |
 | [0ssw9k](https://www.w3.org/WAI/standards-guidelines/act/rules/0ssw9k/) Scrollable content can be reached with sequential focus navigation | 2.1.1 | approved | consistent | consistent | consistent | `scrollable-region-focusable (axe-core)` |  |
 | [80af7b](https://www.w3.org/WAI/standards-guidelines/act/rules/80af7b/) Focusable element has no keyboard trap ★ | 2.1.2 | proposed | not implemented | not implemented | not implemented | — |  |
 | [ffbc54](https://www.w3.org/WAI/standards-guidelines/act/rules/ffbc54/) No keyboard shortcut uses only printable characters ★ | 2.1.4 | proposed | not implemented | not implemented | not implemented | — |  |
 | [bc659a](https://www.w3.org/WAI/standards-guidelines/act/rules/bc659a/) Meta element has no refresh delay ★ | 2.2.1 | approved | consistent | consistent | consistent | `meta-refresh (axe-core)` |  |
 | [efbfc7](https://www.w3.org/WAI/standards-guidelines/act/rules/efbfc7/) Text content that changes automatically can be paused, stopped or hidden ★ | 2.2.2 | proposed | not implemented | not implemented | not implemented | — |  |
-| [cf77f2](https://www.w3.org/WAI/standards-guidelines/act/rules/cf77f2/) Bypass Blocks of Repeated Content ★ | 2.4.1 | proposed | inconsistent | inconsistent | partial | `bypass (axe-core)` | No model: 1 examples Rampa could not check (untested); Gemma 4 12B: 1 examples not run |
-| [2779a5](https://www.w3.org/WAI/standards-guidelines/act/rules/2779a5/) HTML page has non-empty title ★ | 2.4.2 | approved | partial | partial | consistent | `document-title (axe-core)` | No model: 1 examples Rampa could not check (untested); Gemma 4 12B: 1 examples not run |
+| [cf77f2](https://www.w3.org/WAI/standards-guidelines/act/rules/cf77f2/) Bypass Blocks of Repeated Content ★ | 2.4.1 | proposed | partial | inconsistent | partial | `bypass (axe-core)` | No model: partial through cannot-tell outcomes only: no failed example failed; Gemma 4 12B: 1 examples not run |
+| [2779a5](https://www.w3.org/WAI/standards-guidelines/act/rules/2779a5/) HTML page has non-empty title ★ | 2.4.2 | approved | consistent | partial | consistent | `document-title (axe-core)` | Gemma 4 12B: 1 examples not run |
 | [c4a8a4](https://www.w3.org/WAI/standards-guidelines/act/rules/c4a8a4/) HTML page title is descriptive ★ | 2.4.2 | approved | not implemented | inconsistent | not implemented | `rampa/judgment/2.4.2` | Gemma 4 12B: 1 examples not run; Gemma 4 12B: below-threshold findings on 2 failed examples, not reported |
 | [c487ae](https://www.w3.org/WAI/standards-guidelines/act/rules/c487ae/) Link has non-empty accessible name ★ | 2.4.4, 4.1.2 | approved | consistent | consistent | consistent | `link-name (axe-core)`, `area-alt (axe-core)` | No model: procedures not mapped to the rule failed 1 passed or inapplicable examples under its criteria (aria-hidden-focus (axe-core)); Gemma 4 12B: procedures not mapped to the rule failed 1 passed or inapplicable examples under its criteria (aria-hidden-focus (axe-core)) |
 | [5effbb](https://www.w3.org/WAI/standards-guidelines/act/rules/5effbb/) Link in context is descriptive ★ | 2.4.4 | proposed | not implemented | consistent | not implemented | `rampa/judgment/2.4.4` |  |
@@ -216,8 +231,8 @@ Every rule the benchmark ran or a Rampa procedure maps to (65). "Not implemented
 | [b49b2e](https://www.w3.org/WAI/standards-guidelines/act/rules/b49b2e/) Heading is descriptive ★ | 2.4.6 | proposed | not implemented | partial | not implemented | `rampa/judgment/2.4.6` | Gemma 4 12B: partial through cannot-tell outcomes only: no failed example failed |
 | [oj04fd](https://www.w3.org/WAI/standards-guidelines/act/rules/oj04fd/) Element in sequential focus order has visible focus ★ | 2.4.7 | approved | not implemented | not implemented | not implemented | — |  |
 | [2ee8b8](https://www.w3.org/WAI/standards-guidelines/act/rules/2ee8b8/) Visible label is part of accessible name ★ | 2.5.3 | proposed | consistent | consistent | consistent | `label-content-name-mismatch (axe-core)` |  |
-| [bf051a](https://www.w3.org/WAI/standards-guidelines/act/rules/bf051a/) HTML page `lang` attribute has valid language tag ★ | 3.1.1 | approved | partial | partial | consistent | `html-lang-valid (axe-core)` | No model: 1 examples Rampa could not check (untested); Gemma 4 12B: 1 examples not run |
-| [b5c3f8](https://www.w3.org/WAI/standards-guidelines/act/rules/b5c3f8/) HTML page has lang attribute ★ | 3.1.1 | approved | partial | partial | consistent | `html-has-lang (axe-core)` | No model: 2 examples Rampa could not check (untested); No model: procedures not mapped to the rule failed 1 failed examples under its criteria (html-lang-valid (axe-core)); Gemma 4 12B: 2 examples not run; Gemma 4 12B: procedures not mapped to the rule failed 1 failed examples under its criteria (html-lang-valid (axe-core)) |
+| [bf051a](https://www.w3.org/WAI/standards-guidelines/act/rules/bf051a/) HTML page `lang` attribute has valid language tag ★ | 3.1.1 | approved | consistent | partial | consistent | `html-lang-valid (axe-core)` | Gemma 4 12B: 1 examples not run |
+| [b5c3f8](https://www.w3.org/WAI/standards-guidelines/act/rules/b5c3f8/) HTML page has lang attribute ★ | 3.1.1 | approved | consistent | partial | consistent | `html-has-lang (axe-core)` | No model: procedures not mapped to the rule failed 1 failed examples under its criteria (html-lang-valid (axe-core)); Gemma 4 12B: 2 examples not run; Gemma 4 12B: procedures not mapped to the rule failed 1 failed examples under its criteria (html-lang-valid (axe-core)) |
 | [ucwvc8](https://www.w3.org/WAI/standards-guidelines/act/rules/ucwvc8/) HTML page language subtag matches default language ★ | 3.1.1 | proposed | not implemented | partial | not implemented | `rampa/judgment/3.1.1` | No model: procedures not mapped to the rule failed 4 passed or inapplicable examples under its criteria (html-has-lang (axe-core), html-lang-valid (axe-core)); Gemma 4 12B: 1 examples not run; Gemma 4 12B: procedures not mapped to the rule failed 4 passed or inapplicable examples under its criteria (html-has-lang (axe-core), html-lang-valid (axe-core)) |
 | [de46e4](https://www.w3.org/WAI/standards-guidelines/act/rules/de46e4/) Element with lang attribute has valid language tag ★ | 3.1.2 | approved | consistent | consistent | consistent | `valid-lang (axe-core)` |  |
 | [off6ek](https://www.w3.org/WAI/standards-guidelines/act/rules/off6ek/) HTML element language subtag matches language ★ | 3.1.2 | proposed | not implemented | partial | not implemented | `rampa/judgment/3.1.2` | Gemma 4 12B: 1 examples not run |
@@ -231,12 +246,12 @@ Every rule the benchmark ran or a Rampa procedure maps to (65). "Not implemented
 | [m6b1q3](https://www.w3.org/WAI/standards-guidelines/act/rules/m6b1q3/) Menuitem has non-empty accessible name ★ | 4.1.2 | approved | consistent | consistent | consistent | `button-name (axe-core)` |  |
 | [2t702h](https://www.w3.org/WAI/standards-guidelines/act/rules/2t702h/) Summary element has non-empty accessible name ★ | 4.1.2 | approved | inconsistent | inconsistent | not implemented | `rampa/widget-name` | No model: procedures not mapped to the rule failed 3 failed examples under its criteria (summary-name (axe-core)); Gemma 4 12B: procedures not mapped to the rule failed 3 failed examples under its criteria (summary-name (axe-core)) |
 | [5f99a7](https://www.w3.org/WAI/standards-guidelines/act/rules/5f99a7/) ARIA attribute is defined in WAI-ARIA | — | approved | consistent | not run | consistent | `aria-valid-attr (axe-core)` | Gemma 4 12B: 8 examples not run |
-| [6a7281](https://www.w3.org/WAI/standards-guidelines/act/rules/6a7281/) ARIA state or property has valid value | — | approved | partial | not run | consistent | `aria-valid-attr-value (axe-core)` | No model: 1 examples Rampa could not check (untested); Gemma 4 12B: 21 examples not run |
+| [6a7281](https://www.w3.org/WAI/standards-guidelines/act/rules/6a7281/) ARIA state or property has valid value | — | approved | consistent | not run | consistent | `aria-valid-attr-value (axe-core)` | Gemma 4 12B: 21 examples not run |
 | [5c01ea](https://www.w3.org/WAI/standards-guidelines/act/rules/5c01ea/) ARIA state or property is permitted | — | proposed | consistent | not run | consistent | `aria-allowed-attr (axe-core)` | Gemma 4 12B: 17 examples not run |
-| [3e12e1](https://www.w3.org/WAI/standards-guidelines/act/rules/3e12e1/) Block of repeated content is collapsible | — | proposed | inconsistent | not run | partial | `bypass (axe-core)` | No model: 1 examples Rampa could not check (untested); Gemma 4 12B: 8 examples not run |
-| [b40fd1](https://www.w3.org/WAI/standards-guidelines/act/rules/b40fd1/) Document has a landmark with non-repeated content | — | proposed | inconsistent | not run | partial | `bypass (axe-core)` | No model: 1 examples Rampa could not check (untested); Gemma 4 12B: 8 examples not run |
-| [ye5d6e](https://www.w3.org/WAI/standards-guidelines/act/rules/ye5d6e/) Document has an instrument to move focus to non-repeated content | — | proposed | inconsistent | not run | partial | `bypass (axe-core)` | No model: 1 examples Rampa could not check (untested); Gemma 4 12B: 12 examples not run |
-| [047fe0](https://www.w3.org/WAI/standards-guidelines/act/rules/047fe0/) Document has heading for non-repeated content | — | proposed | inconsistent | not run | partial | `bypass (axe-core)` | No model: 1 examples Rampa could not check (untested); Gemma 4 12B: 14 examples not run |
+| [3e12e1](https://www.w3.org/WAI/standards-guidelines/act/rules/3e12e1/) Block of repeated content is collapsible | — | proposed | partial | not run | partial | `bypass (axe-core)` | No model: partial through cannot-tell outcomes only: no failed example failed; Gemma 4 12B: 8 examples not run |
+| [b40fd1](https://www.w3.org/WAI/standards-guidelines/act/rules/b40fd1/) Document has a landmark with non-repeated content | — | proposed | partial | not run | partial | `bypass (axe-core)` | No model: partial through cannot-tell outcomes only: no failed example failed; Gemma 4 12B: 8 examples not run |
+| [ye5d6e](https://www.w3.org/WAI/standards-guidelines/act/rules/ye5d6e/) Document has an instrument to move focus to non-repeated content | — | proposed | partial | not run | partial | `bypass (axe-core)` | No model: partial through cannot-tell outcomes only: no failed example failed; Gemma 4 12B: 12 examples not run |
+| [047fe0](https://www.w3.org/WAI/standards-guidelines/act/rules/047fe0/) Document has heading for non-repeated content | — | proposed | partial | not run | partial | `bypass (axe-core)` | No model: partial through cannot-tell outcomes only: no failed example failed; Gemma 4 12B: 14 examples not run |
 | [4e8ab6](https://www.w3.org/WAI/standards-guidelines/act/rules/4e8ab6/) Element with role attribute has required states and properties | — | approved | consistent | not run | consistent | `aria-required-attr (axe-core)` | Gemma 4 12B: 16 examples not run |
 | [674b10](https://www.w3.org/WAI/standards-guidelines/act/rules/674b10/) Role attribute has valid value | — | approved | consistent | not run | consistent | `aria-roles (axe-core)` | Gemma 4 12B: 11 examples not run |
 
@@ -244,29 +259,16 @@ Every rule the benchmark ran or a Rampa procedure maps to (65). "Not implemented
 
 | ACT rule | Status | No model | axe-core 4.14.0, own report |
 | --- | --- | --- | --- |
-| [047fe0](https://www.w3.org/WAI/standards-guidelines/act/rules/047fe0/) Document has heading for non-repeated content | proposed | inconsistent | partial |
 | [09o5cg](https://www.w3.org/WAI/standards-guidelines/act/rules/09o5cg/) Text has enhanced contrast (Level AAA only) | approved | not implemented | consistent |
-| [24afc2](https://www.w3.org/WAI/standards-guidelines/act/rules/24afc2/) Important letter spacing in style attributes is wide enough | approved | partial | consistent |
-| [2779a5](https://www.w3.org/WAI/standards-guidelines/act/rules/2779a5/) HTML page has non-empty title | approved | partial | consistent |
 | [2eb176](https://www.w3.org/WAI/standards-guidelines/act/rules/2eb176/) Audio element content has transcript | proposed | not implemented | inconsistent |
 | [2t702h](https://www.w3.org/WAI/standards-guidelines/act/rules/2t702h/) Summary element has non-empty accessible name | approved | inconsistent | not implemented |
-| [3e12e1](https://www.w3.org/WAI/standards-guidelines/act/rules/3e12e1/) Block of repeated content is collapsible | proposed | inconsistent | partial |
 | [46ca7f](https://www.w3.org/WAI/standards-guidelines/act/rules/46ca7f/) Element marked as decorative is not exposed | approved | not implemented | consistent |
-| [6a7281](https://www.w3.org/WAI/standards-guidelines/act/rules/6a7281/) ARIA state or property has valid value | approved | partial | consistent |
-| [78fd32](https://www.w3.org/WAI/standards-guidelines/act/rules/78fd32/) Important line height in style attributes is wide enough | approved | partial | consistent |
 | [8fc3b6](https://www.w3.org/WAI/standards-guidelines/act/rules/8fc3b6/) Object element rendering non-text content has non-empty accessible name | approved | consistent | inconsistent |
-| [9e45ec](https://www.w3.org/WAI/standards-guidelines/act/rules/9e45ec/) Important word spacing in style attributes is wide enough | approved | partial | consistent |
 | [afb423](https://www.w3.org/WAI/standards-guidelines/act/rules/afb423/) Audio element content is media alternative for text | proposed | not implemented | inconsistent |
-| [afw4f7](https://www.w3.org/WAI/standards-guidelines/act/rules/afw4f7/) Text has minimum contrast | approved | partial | consistent |
 | [b20e66](https://www.w3.org/WAI/standards-guidelines/act/rules/b20e66/) Links with identical accessible names have equivalent purpose (Level AAA only) | proposed | not implemented | partial |
 | [b33eff](https://www.w3.org/WAI/standards-guidelines/act/rules/b33eff/) Orientation of the page is not restricted using CSS transforms | approved | not implemented | consistent |
-| [b40fd1](https://www.w3.org/WAI/standards-guidelines/act/rules/b40fd1/) Document has a landmark with non-repeated content | proposed | inconsistent | partial |
-| [b5c3f8](https://www.w3.org/WAI/standards-guidelines/act/rules/b5c3f8/) HTML page has lang attribute | approved | partial | consistent |
-| [bf051a](https://www.w3.org/WAI/standards-guidelines/act/rules/bf051a/) HTML page `lang` attribute has valid language tag | approved | partial | consistent |
 | [bisz58](https://www.w3.org/WAI/standards-guidelines/act/rules/bisz58/) Meta element has no refresh delay (no exception) (Level AAA only) | approved | not implemented | consistent |
-| [cf77f2](https://www.w3.org/WAI/standards-guidelines/act/rules/cf77f2/) Bypass Blocks of Repeated Content | proposed | inconsistent | partial |
 | [ffd0e9](https://www.w3.org/WAI/standards-guidelines/act/rules/ffd0e9/) Heading has non-empty accessible name | proposed | not implemented | consistent |
-| [ye5d6e](https://www.w3.org/WAI/standards-guidelines/act/rules/ye5d6e/) Document has an instrument to move focus to non-repeated content | proposed | inconsistent | partial |
 
 ### Rules not in the table
 
@@ -278,24 +280,24 @@ Rampa has no outcome for these; the W3C pages count them as untested.
 
 ### Reading the results
 
-- **Consistent and partial rules are axe-core's.** With no model: 23 consistent and 11 partial rules, every one from axe-core rules. With Gemma 4 12B, judgments make qt1vmo (image name describes the image, approved) and 5effbb (link in context, proposed) consistent. They make ucwvc8, off6ek, cc0f0a and b49b2e partial; b49b2e only through items to review. All six are ★ rules. The judgments are also inconsistent on c4a8a4 and e88epe, where no failed example fails: what they find there stays below the threshold. On fd3a94 they make 2 false positives.
+- **Consistent and partial rules are axe-core's.** With no model: 31 consistent and 8 partial rules, every one from axe-core rules. With Gemma 4 12B, judgments make qt1vmo (image name describes the image, approved) and 5effbb (link in context, proposed) consistent. They make ucwvc8, off6ek, cc0f0a and b49b2e partial; b49b2e only through items to review. All six are ★ rules. The judgments are also inconsistent on c4a8a4 and e88epe, where no failed example fails: what they find there stays below the threshold. On fd3a94 they make 2 false positives.
 - **Against axe-core's own report,** the section above lists every difference. They come from:
-  - SVG and XML documents Rampa cannot check: 24afc2, 78fd32, 9e45ec, 2779a5, bf051a, b5c3f8 and 6a7281 are partial, not consistent. cf77f2, 3e12e1, 047fe0, ye5d6e and b40fd1 are inconsistent, not partial, because an untested inapplicable example rules out partial by `cantTell`.
   - axe-core rules Rampa does not run: `css-orientation-lock` (experimental, b33eff), `presentation-role-conflict` and `empty-heading` (best practices, 46ca7f and ffd0e9), `audio-caption` (deprecated, 2eb176 and afb423).
   - Level AAA rules: 09o5cg, bisz58, b20e66.
-  - afw4f7, explained above.
   - 2t702h: Rampa's experimental `rampa/widget-name` maps to it and reports below the threshold. axe-core's `summary-name` fails the 3 failed examples but has no `actIds`, so axe-core's own report says not implemented.
   - 8fc3b6: in axe-core's own run, `object-alt` is inapplicable on every example, so that report is inconsistent there. In Rampa's run, the same rule fails all six failed examples.
+- **Before the fixes of `b09ef9d`,** 13 more rules differed: the 7 approved and 5 proposed rules of the SVG and XML documents, and afw4f7 ([above](#two-fixes-after-010-commit-b09ef9d)).
 - **Nothing here measures model judgments on real pages.** On real pages, Rampa's judged findings were right about 0.38 of the time at the default threshold ([fresh-page study](studies/real-pages-2026-10-fresh.md)). The ACT examples are small and were read while the prompts were written.
 
 ## Submission
 
 **Status: pending.** Nothing has been submitted: no issue, pull request or e-mail. To submit:
 
-1. Merge this branch into `main` and push, so that the report has its permanent address: `https://raw.githubusercontent.com/guilhermebsantiago/rampa-cli/main/bench/act-report/rampa.earl.json`. W3C downloads it again from there, so rebuild it after each release.
-2. Optionally, join the [ACT Rules Community Group](https://www.w3.org/community/act-r/), which the CG's own page asks for. It needs a W3C account and the CG's Contributor License Agreement. W3C's page does not mention it, and recent submissions did not either.
-3. Open an issue at https://github.com/w3c/wcag-act-rules/issues/new with the text below, or send the same text to group-act-rules@w3.org.
-4. Once W3C lists Rampa, add the ACT page's address to the Evaluation Tools List entry ([w3c-evaluation-tools-list.md](w3c-evaluation-tools-list.md)), and record the date and the issue here.
+1. Preferably, release a version with the fixes of `b09ef9d` and run the whole report at it, so that one version stands behind every outcome. As built now, the report is 0.1.0 with 47 test cases run at that commit, and its assertor says so.
+2. Merge this branch into `main` and push, so that the report has its permanent address: `https://raw.githubusercontent.com/guilhermebsantiago/rampa-cli/main/bench/act-report/rampa.earl.json`. W3C downloads it again from there, so rebuild it after each release.
+3. Optionally, join the [ACT Rules Community Group](https://www.w3.org/community/act-r/), which the CG's own page asks for. It needs a W3C account and the CG's Contributor License Agreement. W3C's page does not mention it, and recent submissions did not either.
+4. Open an issue at https://github.com/w3c/wcag-act-rules/issues/new with the text below, or send the same text to group-act-rules@w3.org.
+5. Once W3C lists Rampa, add the ACT page's address to the Evaluation Tools List entry ([w3c-evaluation-tools-list.md](w3c-evaluation-tools-list.md)), and record the date and the issue here.
 
 **Title:** New ACT Implementation Request: Rampa
 
@@ -313,9 +315,9 @@ EARL report: https://raw.githubusercontent.com/guilhermebsantiago/rampa-cli/main
 Before you list it, please note:
 
 - Rampa runs axe-core 4.14.0, and in this report every failed outcome comes from an axe-core rule. Procedures named "<rule> (axe-core)" are axe-core rules as Rampa runs and reports them; "rampa/..." procedures are Rampa's own rules, which are experimental and only report items to review at the default threshold. axe-core already has its own implementation on these pages. If the group would rather not list a tool that embeds another implementation (the question in #107), please say so and I will withdraw this request.
-- The report is Rampa 0.1.0 with no language model (`rampa check --no-llm`), at its default confidence threshold. Rampa's optional model judgments are not part of it: their prompts were written while reading these test cases.
-- Rampa does not test Level AAA, and it cannot check standalone SVG or XML documents, so those examples are untested.
-- How the report is built, how Rampa's results map to EARL outcomes, and the consistency act-tools computes from it (approved rules: 19 consistent, 8 partial, 2 inconsistent): https://github.com/guilhermebsantiago/rampa-cli/blob/main/docs/act-implementation.md
+- The report is Rampa 0.1.0 with no language model (`rampa check --no-llm`), at its default confidence threshold, with the SVG, XML and afw4f7 test cases run again after two fixes. Rampa's optional model judgments are not part of it: their prompts were written while reading these test cases.
+- Rampa does not test Level AAA. It checks standalone SVG documents with axe-core, and it does not check an XML document the browser shows as its source tree: its report says nothing was checked, and the outcome is passed, as for any page where nothing applied.
+- How the report is built, how Rampa's results map to EARL outcomes, and the consistency act-tools computes from it (approved rules: 27 consistent, 0 partial, 2 inconsistent): https://github.com/guilhermebsantiago/rampa-cli/blob/main/docs/act-implementation.md
 
 A proposed entry for act-implementations.yml:
 
@@ -332,8 +334,8 @@ A proposed entry for act-implementations.yml:
         Results of `rampa check --no-llm` (no language model) at the default confidence threshold.
         Rampa runs axe-core: procedures named "<rule> (axe-core)" are axe-core rules as Rampa runs
         and reports them; "rampa/..." procedures are Rampa's own rules, which are experimental and
-        report only items to review at this threshold. Standalone SVG and XML documents cannot be
-        checked and are untested.
+        report only items to review at this threshold. XML documents that the browser shows as their
+        source tree are not checked, and are passed as pages where nothing applies.
 ```
 
-The entry leaves out `version`: act-tools then takes it from the report's assertor (0.1.0), as W3C now prefers for axe-core ([#452](https://github.com/w3c/wcag-act-rules/issues/452)).
+The entry leaves out `version`: act-tools then takes it from the report's assertor, as W3C now prefers for axe-core ([#452](https://github.com/w3c/wcag-act-rules/issues/452)).
