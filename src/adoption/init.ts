@@ -8,6 +8,7 @@ import { errorMessage } from '../core/util.ts'
 import { DEFAULT_CRITERIA } from '../criteria/index.ts'
 import type { Locale } from '../i18n.ts'
 import { findProvider } from '../providers/registry.ts'
+import { VERSION } from '../version.ts'
 import { BASELINE_FILE } from './baseline.ts'
 import { WAIVERS_FILE } from './waivers.ts'
 
@@ -194,7 +195,7 @@ jobs:
       #     node-version: 24
       # - run: npm ci && npm run build
 
-      - uses: guilhermebsantiago/rampa-cli@main
+      - uses: guilhermebsantiago/rampa-cli@v${VERSION}
         with:
           targets: ${targets}
           # With baseline set in the Rampa config, only findings the baseline does not have fail the job.

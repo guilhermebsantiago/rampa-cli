@@ -17,6 +17,7 @@ import {
 } from '../src/adoption/init.ts'
 import { interview } from '../src/cli/commands/init.ts'
 import { loadConfig } from '../src/config.ts'
+import { VERSION } from '../src/version.ts'
 
 async function project(files: Record<string, string> = {}): Promise<string> {
   const dir = await mkdtemp(join(tmpdir(), 'rampa-init-'))
@@ -71,7 +72,7 @@ describe('rampa init', () => {
     ])
     expect(JSON.parse(await read(dir, '.rampa/waivers.json'))).toEqual([])
     expect(await read(dir, '.gitignore')).toBe(`# Rampa: local files. Commit .rampa/waivers.json and .rampa/baseline.json.\n${IGNORED.join('\n')}\n`)
-    expect(await read(dir, '.github/workflows/rampa.yml')).toContain('uses: guilhermebsantiago/rampa-cli@main')
+    expect(await read(dir, '.github/workflows/rampa.yml')).toContain(`uses: guilhermebsantiago/rampa-cli@v${VERSION}`)
   })
 
   it('replaces nothing that exists without --force, and never the waivers', async () => {
@@ -199,7 +200,7 @@ describe('rampa init', () => {
 describe('the workflow rampa init writes', () => {
   it('uses only inputs the Rampa action has, with the permissions they need', () => {
     const workflow = workflowSource(settings('ts', { targets: ['dist', 'http://localhost:4173/'], locale: 'pt-BR' }))
-    const step = workflow.slice(workflow.indexOf('rampa-cli@main'))
+    const step = workflow.slice(workflow.indexOf(`rampa-cli@v${VERSION}`))
     const inputs = [...step.matchAll(/^ {10}#? ?([a-z-]+): /gm)].map((match) => match[1])
     expect(inputs).toEqual(['targets', 'fail-on', 'model', 'criteria', 'locale', 'comment', 'sarif'])
     expect(workflow).toContain('targets: dist http://localhost:4173/')
