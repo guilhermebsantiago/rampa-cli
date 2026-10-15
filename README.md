@@ -260,7 +260,7 @@ API keys never go in this file: use environment variables or a local `.env`. `ra
 
 | Where | How | Guide |
 | --- | --- | --- |
-| GitHub Actions | `uses: guilhermebsantiago/rampa-cli@v0.1.0` (a release tag; `@main` moves with every merge): SARIF to code scanning and one sticky pull request comment, with each finding's patch | [docs/github-action.md](docs/github-action.md) |
+| GitHub Actions | `uses: guilhermebsantiago/rampa-cli@v0.1.1` (a release tag; `@main` moves with every merge): SARIF to code scanning and one sticky pull request comment, with each finding's patch | [docs/github-action.md](docs/github-action.md) |
 | Reports | SARIF, Markdown for pull requests, a single-file HTML report, JSON; `file:line` for local pages | [docs/output-formats.md](docs/output-formats.md) |
 | Pre-commit | the pre-commit framework, Husky, lint-staged or Lefthook, on staged `.html` files | [docs/pre-commit.md](docs/pre-commit.md) |
 | Playwright tests | `import { checkPage } from 'rampa-cli/playwright'` and `await expect(page).toPassRampa()`, scoped to a component if you like | [docs/playwright.md](docs/playwright.md) |

@@ -2,9 +2,9 @@
 
 The action runs `rampa check` in a workflow, uploads the SARIF report to code scanning, and keeps one comment on the pull request with the Markdown report, edited on every push. The job fails according to `fail-on`.
 
-The action installs the CLI from npm: `rampa-cli` at the version in the `package.json` of the action's ref, so `@v0.1.0` runs exactly the `rampa-cli` 0.1.0 that `npm install rampa-cli@0.1.0` gives, built and published by Rampa's release workflow. Only when that version is not on npm, as on a branch whose version was never released or in a fork that changed it, does the action build the CLI from its own checkout instead, and the job log says which of the two it did ([what the steps do](#what-the-steps-do)).
+The action installs the CLI from npm: `rampa-cli` at the version in the `package.json` of the action's ref, so `@v0.1.1` runs exactly the `rampa-cli` 0.1.1 that `npm install rampa-cli@0.1.1` gives, built and published by Rampa's release workflow. Only when that version is not on npm, as on a branch whose version was never released or in a fork that changed it, does the action build the CLI from its own checkout instead, and the job log says which of the two it did ([what the steps do](#what-the-steps-do)).
 
-**Pin a version.** The examples below use `guilhermebsantiago/rampa-cli@v0.1.0`, the release published to npm as `rampa-cli` 0.1.0. `@main` moves with every change merged into Rampa, so the same workflow could check differently from one run to the next. For the strictest pin, use the full commit SHA the tag points to, such as `uses: guilhermebsantiago/rampa-cli@<40-character SHA>`, and move it when you choose to.
+**Pin a version.** The examples below use `guilhermebsantiago/rampa-cli@v0.1.1`, the release published to npm as `rampa-cli` 0.1.1. `@main` moves with every change merged into Rampa, so the same workflow could check differently from one run to the next. For the strictest pin, use the full commit SHA the tag points to, such as `uses: guilhermebsantiago/rampa-cli@<40-character SHA>`, and move it when you choose to.
 
 ## A complete workflow
 
@@ -42,7 +42,7 @@ jobs:
 
       - name: Check accessibility
         id: rampa
-        uses: guilhermebsantiago/rampa-cli@v0.1.0
+        uses: guilhermebsantiago/rampa-cli@v0.1.1
         with:
           targets: site/
           fail-on: AA
@@ -74,7 +74,7 @@ A full check reads each page for several seconds before any model call (pixel co
       # ...
 
       - name: Check accessibility
-        uses: guilhermebsantiago/rampa-cli@v0.1.0
+        uses: guilhermebsantiago/rampa-cli@v0.1.1
         with:
           targets: site/
           fail-on: AA
