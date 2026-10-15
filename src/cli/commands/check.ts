@@ -164,6 +164,8 @@ interface CollectContext {
   wcag: WcagVersion
   /** --fast: the shorter wait after load, the fewer captures and no contrast from pixels. */
   fast: FastCollection | undefined
+  /** --profile cognitive: also measure how text and controls are presented (surfaces/presentation.ts). */
+  presentation: boolean
 }
 
 async function collect(target: Target, ctx: CollectContext, watch: Stopwatch | undefined): Promise<Collected> {
@@ -179,6 +181,7 @@ async function collect(target: Target, ctx: CollectContext, watch: Stopwatch | u
         browserOptions: ctx.browserOptions,
         wcag: ctx.wcag,
         probes: ctx.probes,
+        presentation: ctx.presentation,
         ...(ctx.submit ? { submit: ctx.submit } : {}),
         ...fastCollectOptions(ctx.fast),
       })
@@ -320,6 +323,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     adb: options.adb,
     wcag,
     fast: fast ? fastCollection(criteria) : undefined,
+    presentation: profiles.includes('cognitive'),
     browser: async (watch) => {
       // Probes compare pixels: the browser renders with a fixed color profile and no LCD text (and lets media autoplay for the media probe).
       browser ??= await timed(watch, 'browser-launch', () => launchBrowser(probes.length > 0 ? { args: probeLaunchArgs(probes) } : {}))

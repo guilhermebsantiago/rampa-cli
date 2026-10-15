@@ -21,6 +21,7 @@ import { blankContentInPage, captureImageNodes, hiddenImageTargets, imageTargets
 import { libraryFrameDriver, runAxeInFrames } from './frames.ts'
 import { attachMotionFacts } from './motion.ts'
 import { collectInPage } from './in-page.ts'
+import { collectPresentation } from './presentation.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
 import { buildReach, closedShadowRoots } from './reach.ts'
 import { SETTLE, type SettleOptions, settlePage, watchNetwork } from './settle.ts'
@@ -70,6 +71,11 @@ export interface WebCollectOptions {
   settle?: Partial<SettleOptions> | undefined
   /** Images and CSS backgrounds captured at most per page (IMAGE_LIMIT and BACKGROUND_LIMIT by default): --fast captures fewer. */
   imageCapture?: { limit?: number | undefined; backgrounds?: number | undefined; budgetMs?: number | undefined } | undefined
+  /**
+   * Measure how reading text and controls are presented (`snapshot.presentation`, surfaces/presentation.ts), which the
+   * cognitive profile reads; on only with `--profile cognitive`, so the default run does not pay for it.
+   */
+  presentation?: boolean | undefined
 }
 
 export interface Collected {
@@ -177,6 +183,20 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
 
     const root = raw.root as A11yNode
     const cdp = () => context.newCDPSession(page)
+    // Before any capture scrolls the page or hides its layers: the lines are measured as the page first shows them.
+    const presentation = options.presentation
+      ? await timed(
+          watch,
+          'collection',
+          () =>
+            collectPresentation({
+              // biome-ignore lint/suspicious/noExplicitAny: Playwright's evaluate infers its argument type from a generic it cannot see here
+              evaluate: <Arg, Result>(fn: (arg: Arg) => Result | Promise<Result>, arg: Arg) => page.evaluate(fn as (arg: any) => Result | Promise<Result>, arg),
+              cdp,
+            }),
+          'presentation',
+        )
+      : undefined
     const closed = await timed(watch, 'collection', async () => {
       await attachFormIssues(cdp, root)
       return closedShadowRoots(cdp)
@@ -230,6 +250,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       destinations: Object.keys(destinations).length > 0 ? destinations : undefined,
       ...(reach ? { reach } : {}),
       ...(raw.axTree ? { axTree: raw.axTree } : {}),
+      ...(presentation ? { presentation } : {}),
       collectedAt: new Date().toISOString(),
       collector: { name: 'rampa-web', version: VERSION },
     }

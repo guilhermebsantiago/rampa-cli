@@ -240,6 +240,100 @@ export const AxTreeSchema = z.object({
 })
 export type AxTree = z.infer<typeof AxTreeSchema>
 
+/**
+ * How the page sets its reading text and its controls, measured in the browser at the snapshot's viewport for the
+ * cognitive profile (surfaces/presentation.ts, docs/cognitive-profile.md): line length and spacing, alignment, capitals,
+ * italics and fonts of the blocks of reading text, the controls that show only an icon, and the links that open a new
+ * window. Facts, never verdicts: the advisory checks decide, so a saved snapshot is judged again offline. Recorded only
+ * with `--profile cognitive`; absent otherwise, and in snapshots recorded before Rampa measured it.
+ */
+export const TextBlockFactsSchema = z.object({
+  ref: z.string(),
+  tag: z.string(),
+  /** Characters of the block's shown text, white space collapsed, and its words. */
+  chars: z.number(),
+  words: z.number(),
+  /** The start of the text, up to 120 characters. */
+  sample: z.string(),
+  /** Lines the text is drawn on at this viewport. */
+  lines: z.number(),
+  /** Characters per line: the median of the lines before the last one (the last is usually short), and the longest line. */
+  charsPerLine: z.object({ median: z.number(), max: z.number() }),
+  /** Distance between the tops of consecutive lines, in px (median): the line height as drawn, `normal` included. Absent on one line. */
+  lineGap: z.number().optional(),
+  /** Font size of most of the text, in px. */
+  fontSize: z.number(),
+  /** The block's computed line-height: '24px', or 'normal'. */
+  lineHeight: z.string(),
+  /** The computed font-family of most of the text, as written in the CSS (up to 160 characters). */
+  family: z.string(),
+  /** The first family of that list the browser has, or the generic family (serif, cursive...) the list falls through to. */
+  font: z.string(),
+  /** The font the browser drew most of the glyphs with, read over CDP; only for blocks whose list names a decorative family. */
+  platformFont: z.string().optional(),
+  /** Computed text-align (start, left, right, center, justify, end...) and direction. */
+  align: z.string(),
+  direction: z.string(),
+  /** Most letters are of a right-to-left script (Arabic, Hebrew) or a CJK one. */
+  script: z.enum(['rtl', 'cjk']).optional(),
+  /** Letters, letters that have a case, those of them shown in capitals (after text-transform and small caps), and letters set in italic or oblique. */
+  letters: z.number(),
+  cased: z.number(),
+  upper: z.number(),
+  italic: z.number(),
+  /** What shows most of the capitals: the CSS (text-transform, small caps) or the text as typed. */
+  capsBy: z.enum(['text-transform', 'font-variant', 'text']).optional(),
+})
+export type TextBlockFacts = z.infer<typeof TextBlockFactsSchema>
+
+export const IconControlFactsSchema = z.object({
+  /** A link, button or other control with no words on screen. */
+  ref: z.string(),
+  /** What it shows instead: an svg, an image, an icon font, a CSS pseudo-element, a symbol character (×, ☰, ›) or a CSS background. */
+  icon: z.enum(['svg', 'img', 'icon-font', 'pseudo', 'symbol', 'background']),
+  /** The symbol shown, for icon `symbol`. */
+  glyph: z.string().optional(),
+  /** Classes, address or alt of the icon, up to 80 characters: what a logo or an icon set calls it. */
+  hint: z.string().optional(),
+  /** Its name as the collector computes it (aria-labelledby, aria-label, content with image alternatives, title); the browser's own name wins where it was read. */
+  name: z.string().optional(),
+})
+export type IconControlFacts = z.infer<typeof IconControlFactsSchema>
+
+export const NewWindowFactsSchema = z.object({
+  ref: z.string(),
+  /** target: a target attribute that opens a new browsing context; script: an inline handler that calls window.open. */
+  by: z.enum(['target', 'script']),
+  target: z.string().optional(),
+  /** The words the link shows (up to 200 characters). */
+  text: z.string(),
+  /** What assistive technology reads that does not show: aria-label, visually hidden text, the alternatives of its icons and images. */
+  hidden: z.string().optional(),
+  /** Its description: aria-describedby, aria-description, title. */
+  description: z.string().optional(),
+  /** An icon in or right after the link with no text alternative: its classes or address, up to 80 characters. */
+  icon: z.string().optional(),
+})
+export type NewWindowFacts = z.infer<typeof NewWindowFactsSchema>
+
+export const PresentationSchema = z.object({
+  /** What the collector measures; each check states the versions it reads. */
+  version: z.string(),
+  /** The viewport the lines were laid out in, in CSS px. */
+  viewport: z.object({ width: z.number(), height: z.number() }),
+  /** main: the blocks inside main or article; page: the page has neither, so the blocks outside navigation, header, footer and asides. */
+  scope: z.enum(['main', 'page']),
+  /** Blocks of reading text: paragraphs, list items, cells and text blocks whose text is not split among other blocks. */
+  blocks: z.array(TextBlockFactsSchema),
+  controls: z.array(IconControlFactsSchema),
+  links: z.array(NewWindowFactsSchema),
+  /** What was left out past the caps, per list. */
+  leftOut: z.object({ blocks: z.number(), controls: z.number(), links: z.number() }),
+  /** Time the measurement took in the browser, in milliseconds. */
+  ms: z.number(),
+})
+export type Presentation = z.infer<typeof PresentationSchema>
+
 export const A11ySnapshotSchema = z.object({
   schemaVersion: z.literal(1),
   surface: SurfaceSchema,
@@ -273,6 +367,8 @@ export const A11ySnapshotSchema = z.object({
    * `capture:<hash of the capture>` or `src:<address>`, with the number of other pages (1.4.5: a site's logo repeats).
    */
   siteImages: z.record(z.string(), z.number()).optional(),
+  /** How reading text and controls are presented, for the cognitive profile; recorded only with `--profile cognitive`. */
+  presentation: PresentationSchema.optional(),
   collectedAt: z.string(),
   collector: z.object({ name: z.string(), version: z.string() }),
 })

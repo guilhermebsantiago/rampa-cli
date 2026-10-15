@@ -41,6 +41,7 @@ export async function checkDriver(driver: PageDriver, options: CheckPageOptions 
     scope,
     wcag: settings.wcag,
     timings: watch,
+    presentation: settings.profiles?.includes('cognitive'),
     ...(fast ? { pixelContrast: fast.pixelContrast, imageLimit: fast.imageLimit } : {}),
   })
   if (!scope) return withTimings(await judge(collected, settings), watch)

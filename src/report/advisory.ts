@@ -1,6 +1,8 @@
+import type { AdvisoryCheck } from '../advisory/check.ts'
 import { COGA_PATTERNS, cogaPattern, patternTitle } from '../advisory/coga.ts'
-import { impactName } from '../advisory/label.ts'
-import { am, amPlural } from '../advisory/messages.ts'
+import { gaiaTitle } from '../advisory/guides.ts'
+import { guideName, guideTitle, impactName } from '../advisory/label.ts'
+import { ADVISORY_MESSAGES, type AdvisoryMessageKey, am, amPlural } from '../advisory/messages.ts'
 import { COGNITIVE_CHECKS } from '../advisory/profile.ts'
 import type { Advisory, AdvisorySection, TextMeasurement } from '../advisory/types.ts'
 import type { Report } from '../core/types.ts'
@@ -52,6 +54,30 @@ function beyondList(beyond: readonly Advisory[]): string {
     .join(', ')
 }
 
+/**
+ * The "beyond the target" lines: one per WCAG criterion. 3.1.4 lists the abbreviations; 1.4.8 counts the blocks measured
+ * against each thing it asks a mechanism for, with the caveat that the browser or the reader may provide it.
+ */
+function beyondLines(beyond: readonly Advisory[], locale: Locale): string[] {
+  const of = (id: string) => beyond.filter((advisory) => advisory.basis.framework === 'wcag' && advisory.basis.id === id)
+  const lines: string[] = []
+  const abbreviations = of('3.1.4')
+  if (abbreviations.length > 0) lines.push(amPlural(locale, 'beyondAbbrLine', abbreviations.length, { list: beyondList(abbreviations) }))
+  const visual = of('1.4.8')
+  if (visual.length > 0) {
+    const keys: Record<string, AdvisoryMessageKey> = { width: 'beyond148Width', justified: 'beyond148Justified', spacing: 'beyond148Spacing' }
+    const items = visual.map((advisory) =>
+      amPlural(locale, keys[String(advisory.facts?.aspect)] ?? 'beyond148Width', Number(advisory.facts?.blocks ?? 1), { limit: Number(advisory.facts?.limit ?? 80) }),
+    )
+    lines.push(am(locale, 'beyond148Line', { viewport: String(visual[0]?.facts?.viewport ?? ''), list: items.join(', '), caveat: am(locale, 'beyond148Caveat') }))
+  }
+  for (const advisory of beyond) {
+    if (advisory.basis.framework === 'wcag' && (advisory.basis.id === '3.1.4' || advisory.basis.id === '1.4.8')) continue
+    lines.push(`${advisory.label}: ${advisory.message}`)
+  }
+  return lines
+}
+
 function number(value: number, locale: Locale): string {
   return new Intl.NumberFormat(locale).format(value)
 }
@@ -100,7 +126,7 @@ export function advisoryLines(report: Report, verbose: boolean, p: Painter): str
   }
   if (beyond.length > 0) {
     lines.push('', p.bold(am(locale, 'beyondTitle')))
-    lines.push(`  ${p.cyanBold('◇')} ${amPlural(locale, 'beyondAbbrLine', beyond.length, { list: beyondList(beyond) })}`)
+    for (const line of beyondLines(beyond, locale)) lines.push(`  ${p.cyanBold('◇')} ${line}`)
   }
   for (const note of section.notes) lines.push(p.yellow(`  ${note}`))
   lines.push('')
@@ -167,16 +193,45 @@ function metricsLines(measurement: TextMeasurement, locale: Locale, p: Painter):
 
 // Coverage
 
-/** The checks that ran, in the order of their patterns (o3p01 before o4p03). */
-function screenedChecks(section: AdvisorySection) {
-  return COGNITIVE_CHECKS.filter((check) => section.checks.some((summary) => summary.check === check.id && summary.ran)).sort((a, b) => a.pattern.localeCompare(b.pattern))
+/** The part of its pattern or guide a check looks at: its own words (part_line-length), else its pattern's (part_o3p01). */
+function partOf(check: AdvisoryCheck, locale: Locale): string {
+  const keys = [`part_${check.id.replace(/^coga\//, '')}`, `part_${check.pattern ?? ''}`]
+  const key = keys.find((candidate) => candidate in ADVISORY_MESSAGES.en)
+  return key ? am(locale, key as AdvisoryMessageKey) : check.id
 }
 
-/** The screened patterns, each with the part of it the profile looks at. */
+function ranChecks(section: AdvisorySection): AdvisoryCheck[] {
+  return COGNITIVE_CHECKS.filter((check) => section.checks.some((summary) => summary.check === check.id && summary.ran))
+}
+
+/** The screened patterns, each once, in order (o3p01 before o4p03), with the checks that screened it. */
+function screenedPatterns(section: AdvisorySection): Array<{ pattern: string; checks: AdvisoryCheck[] }> {
+  const byPattern = new Map<string, AdvisoryCheck[]>()
+  for (const check of ranChecks(section)) {
+    if (check.pattern) byPattern.set(check.pattern, [...(byPattern.get(check.pattern) ?? []), check])
+  }
+  return [...byPattern].sort(([a], [b]) => a.localeCompare(b)).map(([pattern, checks]) => ({ pattern, checks }))
+}
+
+/** The screened patterns, each with the parts of it the profile looks at. */
 function screenedList(section: AdvisorySection, locale: Locale): string[] {
-  return screenedChecks(section).map(
-    (check) => `${check.pattern} ${patternTitle(check.pattern, locale)} (${am(locale, `part_${check.pattern as 'o3p01' | 'o4p03' | 'o4p06' | 'o4p08'}`)})`,
-  )
+  return screenedPatterns(section).map(({ pattern, checks }) => `${pattern} ${patternTitle(pattern, locale)} (${checks.map((check) => partOf(check, locale)).join(', ')})`)
+}
+
+/** The GAIA recommendations screened in part, each with the parts the checks that cite it look at. */
+function gaiaList(section: AdvisorySection, locale: Locale): string[] {
+  const ran = ranChecks(section)
+  return Object.entries(section.coverage.gaia ?? {})
+    .filter(([, status]) => status === 'screened')
+    .map(([id]) => {
+      const parts = ran.filter((check) => check.gaia?.includes(id)).map((check) => partOf(check, locale))
+      return `${id} ${gaiaTitle(id, locale)} (${parts.join(', ')})`
+    })
+}
+
+/** How a check is named in a list: its COGA pattern, else its first GAIA recommendation. */
+function checkTag(check: AdvisoryCheck): string {
+  return check.pattern ?? (check.gaia?.[0] ? `GAIA ${check.gaia[0]}` : check.id)
 }
 
 /** The profile's lines of the coverage block: what was screened in part, what did not run, what was not checked. */
@@ -186,12 +241,17 @@ export function cogaCoverage(report: Report, verbose: boolean): { title: string;
   if (!section) return report.surface === 'web' ? { off: am(locale, 'cogaOff') } : undefined
   const screened = screenedList(section, locale)
   const lines = [am(locale, 'cogaScreened', { count: screened.length, total: COGA_PATTERNS.length, list: screened.join(', ') || '—' })]
-  const notRun = section.checks
-    .filter((summary) => !summary.ran)
-    .map((summary) => {
-      const check = COGNITIVE_CHECKS.find((candidate) => candidate.id === summary.check)
-      return check ? `${check.pattern} ${patternTitle(check.pattern, locale)} (${summary.reason ?? '—'})` : summary.check
-    })
+  const gaia = gaiaList(section, locale)
+  if (gaia.length > 0) lines.push(am(locale, 'cogaGaia', { list: gaia.join(', ') }))
+  // Checks that did not run, grouped by why: a snapshot without presentation facts stops seven checks at once.
+  const byReason = new Map<string, string[]>()
+  for (const summary of section.checks.filter((candidate) => !candidate.ran)) {
+    const check = COGNITIVE_CHECKS.find((candidate) => candidate.id === summary.check)
+    const name = check ? `${checkTag(check)} ${partOf(check, locale)}` : summary.check
+    const reason = summary.reason ?? '—'
+    byReason.set(reason, [...(byReason.get(reason) ?? []), name])
+  }
+  const notRun = [...byReason].map(([reason, names]) => `${names.join(', ')} (${reason})`)
   if (notRun.length > 0) lines.push(am(locale, 'cogaNotRun', { list: notRun.join('; ') }))
   const notChecked = Object.entries(section.coverage.patterns).filter(([, status]) => status !== 'screened')
   lines.push(
@@ -199,7 +259,13 @@ export function cogaCoverage(report: Report, verbose: boolean): { title: string;
       ? am(locale, 'cogaNotCheckedList', { list: notChecked.map(([slug]) => `${slug.slice(0, 5)} ${patternTitle(slug.slice(0, 5), locale)}`).join(', ') })
       : am(locale, 'cogaNotChecked', { count: notChecked.length }),
   )
-  if (section.coverage.beyondTarget.length > 0) lines.push(am(locale, 'cogaBeyond'))
+  if (section.coverage.beyondTarget.length > 0) {
+    const beyond: string[] = []
+    if (section.coverage.beyondTarget.includes('3.1.4')) beyond.push(am(locale, 'beyondChecked314'))
+    if (section.coverage.beyondTarget.includes('1.4.8')) beyond.push(am(locale, 'beyondMeasured148'))
+    if (section.coverage.needsReview.includes('3.1.5')) beyond.push(am(locale, 'beyondReview315'))
+    lines.push(am(locale, 'cogaBeyondList', { list: beyond.join('; ') }))
+  }
   return { title: am(locale, 'cogaCoverageTitle'), lines }
 }
 
@@ -209,7 +275,7 @@ export function cogaClause(report: Report): string | undefined {
   if (!coverage) return undefined
   if ('off' in coverage) return coverage.off.replace(/\.$/, '')
   const section = report.advisory as AdvisorySection
-  const screened = screenedChecks(section).map((check) => check.pattern)
+  const screened = screenedPatterns(section).map(({ pattern }) => pattern)
   return am(report.locale, 'cogaStatement', { count: screened.length, total: COGA_PATTERNS.length, list: screened.join(', ') || '—' })
 }
 
@@ -254,7 +320,7 @@ export function advisoryMarkdown(reports: readonly Report[], verbose: boolean, b
     }
     const beyond = shown.filter((item) => item.kind === 'beyond-target')
     const context: string[] = []
-    if (beyond.length > 0) context.push(`◇ ${md.prose(amPlural(locale, 'beyondAbbrLine', beyond.length, { list: beyondList(beyond) }))} _(${md.prose(am(locale, 'beyondTitle'))})_`, '')
+    for (const line of beyondLines(beyond, locale)) context.push(`◇ ${md.prose(line)} _(${md.prose(am(locale, 'beyondTitle'))})_`, '')
     for (const measurement of section.textMetrics?.measurements ?? []) {
       const { title, lines } = metricsText(measurement, locale)
       context.push(`**${md.prose(title)}**`, '', ...lines.map((line) => `- ${md.prose(line)}`), '')
@@ -316,6 +382,9 @@ export function advisoryHtml(report: Report, index: number, verbose: boolean): s
         note ? `<a href="${e(note)}">${e(am(locale, 'noteLink'))}</a>` : '',
       ].filter(Boolean)
       out.push(`<p class="understanding">${links.join(' · ')}</p>`)
+    } else if (first.basis.framework === 'guide') {
+      const page = safeUrl(first.basis.url)
+      if (page) out.push(`<p class="understanding"><a href="${e(page)}">${e(`${guideName(first.basis)}: ${guideTitle(first.basis, locale)}`)}</a></p>`)
     }
     out.push(`<ol class="findings">${group.advisories.map((advisory) => advisoryItem(advisory, locale)).join('\n')}</ol>`)
     out.push('</div>')
@@ -323,7 +392,7 @@ export function advisoryHtml(report: Report, index: number, verbose: boolean): s
   const beyond = shown.filter((advisory) => advisory.kind === 'beyond-target')
   if (beyond.length > 0) {
     out.push(`<h4>${e(am(locale, 'beyondTitle'))}</h4>`)
-    out.push(`<p>◇ ${e(amPlural(locale, 'beyondAbbrLine', beyond.length, { list: beyondList(beyond) }))}</p>`)
+    for (const line of beyondLines(beyond, locale)) out.push(`<p>◇ ${e(line)}</p>`)
   }
   if (section.notes.length > 0) out.push(`<ul class="notes">${section.notes.map((note) => `<li>${e(note)}</li>`).join('')}</ul>`)
   for (const measurement of section.textMetrics?.measurements ?? []) {
