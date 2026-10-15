@@ -12,7 +12,7 @@ import type { ModelProvider } from '../src/providers/types.ts'
 import type { A11ySnapshot } from '../src/snapshot/schema.ts'
 import { fleschKincaidEn, fleschMartinsPt, martinsBand } from '../src/text/formulas.ts'
 import { icuVersion, sentences, words } from '../src/text/segment.ts'
-import { syllablesPt } from '../src/text/syllables.ts'
+import { syllablesEn, syllablesPt } from '../src/text/syllables.ts'
 import { node } from './helpers.ts'
 
 describe('coga/input-formats rules', () => {
@@ -150,6 +150,23 @@ describe('text measurements', () => {
     expect(entries.length).toBeGreaterThanOrEqual(190)
     const wrong = entries.filter(([word, count]) => syllablesPt(word) !== count)
     expect(wrong.length / entries.length).toBeLessThanOrEqual(0.05)
+  })
+
+  it('estimates English syllables by a heuristic that CMUdict agrees with on 85% of a word sample', () => {
+    // 943 words of 4 to 15 letters, with their CMUdict counts (scripts/syllables-en-sample.py). Measured on
+    // 2026-10-15: 806 exact (85.5%), 942 within one syllable, 2,142 syllables counted for CMUdict's 2,194.
+    const list = JSON.parse(readFileSync('test/fixtures/coga/syllables-en.json', 'utf8')) as { words: Record<string, number> }
+    const entries = Object.entries(list.words)
+    expect(entries.length).toBe(943)
+    const exact = entries.filter(([word, count]) => syllablesEn(word) === count).length
+    const withinOne = entries.filter(([word, count]) => Math.abs(syllablesEn(word) - count) <= 1).length
+    const counted = entries.reduce((sum, [word]) => sum + syllablesEn(word), 0)
+    const dictionary = entries.reduce((sum, [, count]) => sum + count, 0)
+    expect(exact / entries.length).toBeGreaterThanOrEqual(0.85)
+    expect(withinOne / entries.length).toBeGreaterThanOrEqual(0.99)
+    // It counts fewer syllables than the dictionary (a spoken -ed or -es is dropped), so Flesch Reading Ease reads a little easier.
+    expect(counted / dictionary).toBeGreaterThan(0.95)
+    expect(counted / dictionary).toBeLessThan(1)
   })
 
   it('computes the formulas and the Martins bands', () => {

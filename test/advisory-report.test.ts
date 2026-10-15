@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { z } from 'zod'
 import { recordBaseline } from '../src/adoption/baseline.ts'
-import { resolveProfiles } from '../src/advisory/profile.ts'
+import { COGNITIVE_CHECKS, resolveProfiles } from '../src/advisory/profile.ts'
 import { exitCode, failingAdvisories } from '../src/cli/exit-code.ts'
 import { memoryCache } from '../src/core/cache.ts'
 import { type CheckOptions, checkSnapshot, fingerprint } from '../src/core/check.ts'
@@ -11,6 +11,7 @@ import type { Locale } from '../src/i18n.ts'
 import { checkResult, checkText } from '../src/mcp/format.ts'
 import { paint } from '../src/report/color.ts'
 import { coverageStatement } from '../src/report/common.ts'
+import { formatReports } from '../src/report/formats.ts'
 import { renderHtml } from '../src/report/html.ts'
 import { renderMarkdown } from '../src/report/markdown.ts'
 import { renderReport } from '../src/report/pretty.ts'
@@ -214,12 +215,108 @@ describe('advisories in each report', () => {
     expect(run?.results.every((result) => result.level === 'note')).toBe(true)
     const rule = run?.tool.driver.rules.find((candidate) => candidate.id === 'coga/visible-labels')
     expect(rule?.defaultConfiguration.level).toBe('note')
-    expect(rule?.properties.tags).toEqual(['accessibility', 'coga', 'advisory', 'not-wcag'])
+    // The four checks are experimental: their rules say so with a tag, as the rules of experimental findings do.
+    expect(rule?.properties.tags).toEqual(['accessibility', 'coga', 'advisory', 'not-wcag', 'experimental'])
     expect(run?.tool.driver.rules.find((candidate) => candidate.id === 'wcag-aaa/3.1.4')?.properties.tags).toContain('beyond-target')
     expect(run?.results[0]?.message.text.startsWith('Advisory · COGA o4p08')).toBe(true)
     expect(run?.invocations[0]?.executionSuccessful).toBe(true)
     const result = sarifValidator.safeParse(log)
     if (!result.success) throw new Error(JSON.stringify(result.error.issues.slice(0, 5), null, 2))
+  })
+})
+
+describe('experimental advisories', () => {
+  const notice = 'These advisories come from W3C COGA guidance (and GAIA where cited) and are not WCAG requirements.'
+
+  /** The advisory section of the terminal report, up to the coverage block. */
+  const terminalSection = (report: Report) => {
+    const pretty = renderReport(report, plain)
+    return pretty.slice(pretty.indexOf('Advisories: cognitive accessibility'), pretty.indexOf('Coverage of this run'))
+  }
+
+  it('run with the profile, and every output marks them: one notice at the top, a tag on each advisory', async () => {
+    const report = await checkSnapshot(cadastroSnapshot(), engine, options())
+    const section = report.advisory
+    // Each advisory carries the maturity of the check that wrote it; the wave-1 checks are all experimental.
+    for (const advisory of section?.results ?? []) {
+      expect(advisory.maturity).toBe(section?.checks.find((check) => check.check === advisory.check)?.maturity)
+    }
+    const experimental = section?.results.filter((advisory) => advisory.kind === 'advisory' && advisory.maturity === 'experimental') ?? []
+    expect(experimental.map((advisory) => advisory.check)).toEqual(['coga/input-formats', 'coga/preselected-cost', 'coga/visible-labels', 'coga/abbreviations'])
+
+    const terminal = terminalSection(report)
+    expect(terminal.split(notice)).toHaveLength(2)
+    expect(terminal.indexOf(notice)).toBeLessThan(terminal.indexOf('◇'))
+    expect(terminal.match(/confidence \w+ · experimental · rule/g)).toHaveLength(experimental.length)
+    expect(terminal).toContain('◇ 3.1.4 Abbreviations: 1 abbreviation has no expanded form on this page: CEP · experimental')
+
+    const markdown = renderMarkdown([report])
+    expect(markdown.split(notice)).toHaveLength(2)
+    expect(markdown.indexOf(notice)).toBeLessThan(markdown.indexOf('**[Advisory · COGA'))
+    expect(markdown.match(/· experimental ·/g)).toHaveLength(experimental.length)
+
+    const html = renderHtml([report])
+    expect(html).toContain(`<p class="notes experimental-notice">${notice}`)
+    expect(html.match(/ · experimental · /g)).toHaveLength(experimental.length)
+
+    // JSON has the maturity on each result and on each check.
+    const json = JSON.parse(formatReports('json', [report], plain)) as Report
+    expect(json.advisory?.results.map((advisory) => advisory.maturity)).toEqual(section?.results.map((advisory) => advisory.maturity))
+    expect(json.advisory?.checks.map((check) => check.maturity)).toEqual(section?.checks.map((check) => check.maturity))
+    expect(json.advisory?.results.some((advisory) => advisory.maturity === 'experimental')).toBe(true)
+
+    const run = toSarif([report]).runs[0]
+    expect(run?.results.length).toBe(section?.results.length)
+    for (const result of run?.results ?? []) {
+      const advisory = section?.results.find((candidate) => candidate.fingerprint === result.properties.findingId)
+      expect(result.properties).toMatchObject({ maturity: advisory?.maturity, experimental: advisory?.maturity === 'experimental' })
+    }
+    const rule = run?.tool.driver.rules.find((candidate) => candidate.id === 'coga/visible-labels')
+    expect(rule?.properties).toMatchObject({ maturity: 'experimental', experimental: true })
+  })
+
+  it("take the tag from the check's maturity, so a stable check is never marked", async () => {
+    const formats = COGNITIVE_CHECKS.find((check) => check.id === 'coga/input-formats') as { maturity: 'stable' | 'experimental' }
+    const before = formats.maturity
+    formats.maturity = 'stable'
+    try {
+      const report = await checkSnapshot(cadastroSnapshot(), engine, options())
+      const stable = report.advisory?.results.find((advisory) => advisory.check === 'coga/input-formats')
+      expect(stable?.maturity).toBe('stable')
+      expect(report.advisory?.checks.find((check) => check.check === 'coga/input-formats')?.maturity).toBe('stable')
+      // The other checks are still experimental, so the notice stays; the stable advisory's facts line has no tag.
+      const terminal = terminalSection(report)
+      expect(terminal).toContain(notice)
+      expect(terminal.split('\n').find((line) => line.includes(`id ${stable?.fingerprint}`))).not.toContain('experimental')
+      const run = toSarif([report]).runs[0]
+      const rule = run?.tool.driver.rules.find((candidate) => candidate.id === 'coga/input-formats')
+      expect(rule?.properties).toMatchObject({ maturity: 'stable', experimental: false })
+      expect(rule?.properties.tags).not.toContain('experimental')
+      expect(run?.results.find((result) => result.ruleId === 'coga/input-formats')?.properties).toMatchObject({ maturity: 'stable', experimental: false })
+    } finally {
+      formats.maturity = before
+    }
+
+    // With every check stable, no output carries the notice or the tag.
+    const report = await checkSnapshot(cadastroSnapshot(), engine, options())
+    const section = report.advisory as NonNullable<Report['advisory']>
+    const promoted: Report = {
+      ...report,
+      advisory: { ...section, results: section.results.map((advisory) => ({ ...advisory, maturity: 'stable' })), checks: section.checks.map((check) => ({ ...check, maturity: 'stable' })) },
+    }
+    for (const text of [renderReport(promoted, plain), renderMarkdown([promoted]), renderHtml([promoted])]) {
+      expect(text).not.toContain(notice)
+      expect(text).not.toMatch(/· experimental/)
+    }
+    const sarif = toSarif([promoted]).runs[0]
+    expect(sarif?.tool.driver.rules.every((rule) => rule.properties.experimental === false)).toBe(true)
+  })
+
+  it('leave --fail-on advisory as it was: experimental advisories count, and nothing else changes', async () => {
+    const report = await checkSnapshot(cadastroSnapshot(), engine, options())
+    expect(report.advisory?.results.every((advisory) => advisory.maturity === 'experimental')).toBe(true)
+    expect(exitCode([report], 'advisory')).toBe(1)
+    expect(exitCode([report], 'confirmed')).toBe(0)
   })
 })
 

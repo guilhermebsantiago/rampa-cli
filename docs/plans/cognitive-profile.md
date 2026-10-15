@@ -1,6 +1,47 @@
 # Rampa cognitive accessibility profile (`--profile cognitive`): design plan
 
-Date: 2026-10-09. Status: design. The WCAG half of WI-12 (3.3.8, `--probe auth`) is built as B7 of the [coverage plan](wcag-coverage.md); `coga/paste-blocked` for sign-up fields is not.
+Date: 2026-10-09. Status (2026-10-15): wave 1 is built (merged on 2026-10-09), and all four of its checks are experimental: none has passed the gate in §4.2, because the evaluation tooling (WI-10) is not built. Of waves 2 and 3, only the WCAG halves shared with the [coverage plan](wcag-coverage.md) are built; no COGA check of those waves is. Where the code differs from the design below, the list that follows says so. Sources and their status are in Appendix B.
+
+**Built and not built, as of 2026-10-15.** The rest of this plan is the design as written on 2026-10-09.
+
+- **Advisory channel (WI-1): built.**
+  - Built: `report.advisory`, routing, `--profile`, the `profiles` and `coga` config keys, `--fail-on advisory`, and waivers.
+  - Where the code differs:
+    - the types are in `src/advisory/types.ts`, not `src/core/types.ts`;
+    - the checks are listed in `COGNITIVE_CHECKS` (`src/advisory/profile.ts`), not in a `registry.ts`;
+    - each check implements `AdvisoryCheck` (`src/advisory/check.ts`). `Criterion` was not split into a `Judgment` interface.
+  - Not built: `--advisory <id>`, and the `advisories: { include, exclude }` config key. Every check runs when the profile is on.
+- **Maturity: changed on 2026-10-15** (§2.7). Experimental checks run with the profile, with their own confidence, and every output marks their advisories.
+- **`--target wcag21-aa|wcag22-aa`: built differently.** It is `--wcag 2.1|2.2`, default 2.2, as A1 of the coverage plan, so it covers this plan's WI-9.
+- **Reports (WI-2): built for pretty, JSON, Markdown and pull request comments, HTML and SARIF.** Every one marks experimental advisories.
+  - Site report: built in part. It counts advisories per page; they are not grouped across pages.
+  - API: built. `check(targets, { profiles })` and `checkSnapshot(…, { profiles })` add `report.advisory`.
+  - Not built:
+    - the MCP `profile` argument. The MCP tools never run the profile;
+    - `toPassRampa({ advisories: true })`. `toPassRampa` ignores advisories;
+    - the GitHub Action `profile` input. `args: --profile cognitive`, or `profiles` in `rampa.config.*`, turn the profile on in the Action.
+  - The documentation is `docs/cognitive-profile.md`, not `docs/cognitive.md`.
+- **Collector facts (WI-3): built.**
+- **The four checks (WI-4, WI-5, WI-6, WI-8): built, experimental.**
+  - Each has pass and fail fixtures with JSON sidecars, as §4.3 asks.
+  - The curated abbreviation lists are in `src/advisory/abbreviations/lists.ts`, not `data/abbreviations/*.json`.
+- **Text measurements (WI-7): built, with four differences** (§3.3):
+  - English syllables come from a heuristic, not CMUdict;
+  - the Portuguese syllable list has 200 words, not 300;
+  - proper names and titles are not removed before the formulas;
+  - there is no script for the ordering checks on OneStopEnglish and PorSimples (§4.3).
+- **Evaluation (WI-10): not built.** None of these exists yet:
+  - `rampa eval --suite coga`;
+  - the COGA corruptors in `src/eval/pairs.ts`, and the `beforeLoad` hook;
+  - the annotation export and import.
+- **Wave 2:**
+  - WI-11, the probe stage, is built as A6 of the coverage plan (`--probe`, `snapshot.observations`).
+  - WI-12: 3.3.8 is built as B7 (`--probe auth`); `coga/paste-blocked` is not.
+  - WI-17: 3.3.1 and 3.3.3 from static error states are built as B8; the `coga/error-wording` advisory is not.
+  - WI-13 to WI-16, WI-18 and WI-19 are not built.
+- **Wave 3:**
+  - The WCAG criteria are built on the coverage plan: 3.2.2, 3.2.6, 3.3.7, and 2.2.1 with a probe.
+  - None of the COGA checks of the 1.4 table is built.
 
 This plan builds on the COGA research and critique for Objectives 1–8, WCAG 2.2 and plain language. It also draws on the Rampa source as of 2026-10-09 (`main` at 611cb63, before the crawl branch was merged).
 
@@ -321,10 +362,11 @@ JSON (one result):
 | HTML | A section with its own heading, after the findings; each advisory links to the COGA pattern page and its TR anchor. |
 | SARIF | Rules `coga/<check>` with `defaultConfiguration.level: 'note'` and `properties.tags: ['accessibility', 'coga', 'advisory', 'not-wcag']`. Beyond-target rules are tagged `wcag-aaa`. Results are always `note`. |
 | JSON | `report.advisory` (2.2). |
-| MCP (`check_page`) | New argument `profile: ['cognitive']`. A separate section, "Advisories (optional, not WCAG)". The summary counts advisories apart from findings. |
-| `toPassRampa` | Ignores advisories unless `{ advisories: true }` is passed. |
-| Site report | Advisories are grouped across pages like findings (shared-component signatures), in their own section. |
-| GitHub Action | `profile` input. |
+| MCP (`check_page`) | New argument `profile: ['cognitive']`. A separate section, "Advisories (optional, not WCAG)". The summary counts advisories apart from findings. *Status 2026-10-15: not built; the MCP tools never run the profile.* |
+| `toPassRampa` | Ignores advisories unless `{ advisories: true }` is passed. *Status 2026-10-15: it ignores advisories; the `advisories` option is not built.* |
+| Site report | Advisories are grouped across pages like findings (shared-component signatures), in their own section. *Status 2026-10-15: built in part; the site view counts advisories per page, and each page's JSON report lists them.* |
+| GitHub Action | `profile` input. *Status 2026-10-15: not built; `args: --profile cognitive` or `profiles` in the config turn the profile on.* |
+| Every format | *Added 2026-10-15:* an advisory from an experimental check is marked: a notice at the top of the section and a tag on each advisory (pretty, Markdown, HTML), `maturity` on each result (JSON), and `maturity` and `experimental` on results and rules (SARIF). See 2.7. |
 
 ### 2.6 Exit code, waivers, baseline, volume
 
@@ -342,6 +384,8 @@ JSON (one result):
 --fail-on advisory          also fail on confirmed advisories
 ```
 
+*Status 2026-10-15:* `--profile cognitive` and `--fail-on advisory` are built. `--advisory <id>` is not: the profile runs all its checks. `--target` is built as `--wcag 2.1|2.2` (default 2.2), on the coverage plan. In the configuration, `profiles` and `coga` are built; `advisories` and `target` are not (the version is `wcag`).
+
 `rampa.config.ts`:
 
 ```ts
@@ -356,11 +400,25 @@ export default defineConfig({
 })
 ```
 
-**Maturity.**
+**Maturity.** The design of 2026-10-09 said, in these words:
 
-- An **experimental** check runs only when named with `--advisory`, and its results are capped at low confidence, so they fall below the threshold by default.
-- A check becomes **stable**, and `--profile cognitive` turns it on, only after it passes its gate (section 4.2).
-- Each check has a `version`, which keys the cache and appears in coverage.
+> - An **experimental** check runs only when named with `--advisory`, and its results are capped at low confidence, so they fall below the threshold by default.
+> - A check becomes **stable**, and `--profile cognitive` turns it on, only after it passes its gate (section 4.2).
+
+**Superseded on 2026-10-15** by the author's decision to keep what the code had done since wave 1 shipped:
+
+- **Experimental checks run with the profile.** `--profile cognitive` runs every check, experimental or not. Their results keep the confidence each check gives them; none is capped at low.
+- **Every output marks them.**
+  - Each advisory carries its check's `maturity` (`Advisory.maturity`, copied from `AdvisoryCheck.maturity`).
+  - Pretty, Markdown and HTML open the advisory section with one notice, in English and Portuguese. The notice says these advisories come from W3C COGA guidance (and GAIA where cited), are not WCAG requirements, are experimental (not yet measured on real pages or reviewed by people), and need a person's judgment.
+  - The same three formats tag each advisory `experimental`.
+  - SARIF gives results and rules `maturity` and `experimental`, and tags an experimental check's rule `experimental`.
+  - JSON has `maturity` on each result and on each check.
+- **Derived, not hard-coded.** The tag and the notice come from the check's maturity, so a check that passes its gate and becomes `stable` stops being marked.
+- **The gate keeps one job.** Passing the gate (section 4.2) is what removes the experimental mark; it no longer decides whether the profile runs a check.
+- **`--fail-on advisory` is unchanged.** It counts confirmed advisories, experimental ones included.
+
+Each check has a `version`, which keys the cache and appears in coverage.
 
 ### 2.8 Coverage statements
 
@@ -435,9 +493,16 @@ Text measurements are **facts shown as context**. They never decide a finding, a
 - **Sentences** use `Intl.Segmenter` with per-language abbreviation suppression. Node 24.21 with ICU 78.3 splits "O Sr. Silva mora na Av. Paulista, nº 1.000." and "See e.g. Fig. 3… The U.S. Navy" into too many sentences (measured). The suppression lists cover Sr., Sra., Dr., Av., art., nº, p. ex., e.g., i.e., U.S., Mr., St. and a.m., with guards for decimals, dates and URLs. Every result records `process.versions.icu` and the list version, and a test fails if an ICU update changes the fixture counts.
 - **Words** use `Intl.Segmenter` with `isWordLike`.
 - **Syllables:**
-  - pt-BR uses a rule-based syllabifier: vowel groups with diphthong and hiatus rules. Hyphenation patterns are not syllables. It is tested on a hand-syllabified list of at least 300 words, with a target of at least 95% exact matches.
+  - pt-BR uses a rule-based syllabifier: vowel groups with diphthong and hiatus rules. Hyphenation patterns are not syllables. It is tested on a hand-syllabified list of at least 300 words, with a target of at least 95% exact matches. *Status 2026-10-15: the list has 200 words (`test/fixtures/coga/syllables-pt.json`), and the rules match all of them. Words whose split depends on stress or a prefix are left out of it on purpose.*
   - en uses CMUdict, downloaded at run time and hashed, with a heuristic fallback. Counts that come from the fallback are flagged.
-- **Input:** paragraph prose only, inside main or article, using the full block text (WI-3 removes the 1000-character cap there). Proper names and titles are removed with a capitalisation heuristic, as 3.1.5 allows. Each language that makes up at least 5% of the content gets its own result, as Understanding 3.1.5 asks.
+  - *Status 2026-10-15: no dictionary. English syllables are counted by the heuristic alone (`syllablesEn` in `src/text/syllables.ts`), and every formula result says so (`syllables: 'heuristic'`, and a line in the report).*
+    - **How it compares.** It was measured against CMUdict on a sample of 943 words of 4 to 15 letters: every 20th word of the Tatoeba word list in `src/rules/words/en.ts` that has one count in CMUdict (`test/fixtures/coga/syllables-en.json`, built by `scripts/syllables-en-sample.py` from CMUdict at commit `74790861f652`).
+      - The heuristic gives CMUdict's count for 806 of them (85.5%), and is within one syllable for 942.
+      - In all it counts 2.4% fewer syllables. It drops a spoken -ed or -es, and reads some vowel pairs as one.
+      - A test checks them.
+    - **What that does to the formulas.** At that rate (0.055 syllables per word), Flesch Reading Ease reads about 4.7 points easier and the Flesch–Kincaid grade about 0.65 lower than with the dictionary. Prose with many short words moves less.
+    - **Why the heuristic stays.** The formulas are context, never a verdict (3.1), and the report says how syllables were counted.
+- **Input:** paragraph prose only, inside main or article, using the full block text (WI-3 removes the 1000-character cap there). Proper names and titles are removed with a capitalisation heuristic, as 3.1.5 allows (*status 2026-10-15: not built; they are counted like other words*). Each language that makes up at least 5% of the content gets its own result, as Understanding 3.1.5 asks.
 
 ### 3.4 Display
 
@@ -556,6 +621,8 @@ Non-code, start now: ETH-1 (CEP submission), ANN-1 (annotation guide and corpus)
 
 ### Wave 1
 
+*Status 2026-10-15: WI-1 to WI-8 are built, WI-9 is built as A1 of the coverage plan, and WI-10 is not built. Where the code differs from the items below (file names, `--advisory`, the MCP and Action inputs, CMUdict), the list at the top of this plan says how.*
+
 **WI-1 `feat/advisory-channel` (M).** Core types, routing and the exit code. No renderer work beyond what keeps pretty output from crashing.
 
 - **Types and registry:**
@@ -605,7 +672,7 @@ Non-code, start now: ETH-1 (CEP submission), ANN-1 (annotation guide and corpus)
 **WI-7 `feat/text-metrics` (M).** Depends on WI-3.
 
 - `src/text/segment.ts` with suppression lists and the ICU version recorded.
-- `src/text/syllables-pt.ts` and `src/text/syllables-en.ts`, the latter with CMUdict downloaded at run time and hashed.
+- `src/text/syllables-pt.ts` and `src/text/syllables-en.ts`, the latter with CMUdict downloaded at run time and hashed. *Status 2026-10-15: built as one file, `src/text/syllables.ts`, with no CMUdict: English uses the heuristic (3.3).*
 - `src/text/formulas.ts`: FRE and FKGL for en, Martins for pt-BR, with the bands.
 - `report.advisory.textMetrics`, built whenever the profile is on, and the pretty and JSON output.
 - Tests: exact counts on the segmentation fixtures; the syllabifier against a hand-syllabified list of at least 300 words; a script for the ordering checks.
@@ -656,31 +723,175 @@ These follow the order of the table in 1.4: the form probe for test origins only
 
 ## Appendix A. Coverage of the 58 COGA patterns after wave 1
 
-Screened in part, 4 patterns:
+As of 2026-10-15, wave 1 screens 4 patterns in part:
 
-- o3p01 Use Clear Words (abbreviations only)
-- o4p03 Notify Users of Fees and Charges (pre-checked paid options only)
-- o4p06 Use Clear Visible Labels (placeholder-only labels only)
-- o4p08 Accept Different Input Formats (static attributes only; o4p07 for an example the field rejects)
+- o3p01 Use Clear Words (abbreviations only);
+- o4p03 Notify Users of Fees and Charges (pre-checked paid options only);
+- o4p06 Use Clear Visible Labels (placeholder-only labels only);
+- o4p08 Accept Different Input Formats (static attributes only; o4p07 for an example the field rejects).
 
-Not checked, 54 patterns, which need review and testing with people:
+The other 54 are not checked, and they need review and testing with people. The table lists all 58, with what wave 1 screens, what waves 2 and 3 plan (section 1.4), and how each pattern could be checked at all.
 
-- O1: o1p01, o1p02, o1p03, o1p04, o1p05, o1p06, o1p07
-- O2: o2p01, o2p02, o2p03, o2p04, o2p05, o2p06
-- O3: o3p02, o3p03, o3p04, o3p05, o3p06, o3p07, o3p08, o3p09, o3p10, o3p11, o3p12, o3p13
-- O4: o4p01, o4p02, o4p04, o4p05, o4p07, o4p09, o4p10, o4p11, o4p12
-- O5: o5p01, o5p02, o5p03, o5p04
-- O6: o6p01, o6p02, o6p03, o6p04, o6p05
-- O7: o7p01, o7p02, o7p03, o7p04, o7p05, o7p06, o7p07
-- O8: o8p01, o8p02, o8p03, o8p04
+**The checkability column** (added 2026-10-15) rates each pattern as a whole, from the research notes of that date:
+
+- **D**: deterministic, from the DOM or computed CSS;
+- **P**: a browser probe;
+- **J**: a model, with evidence a rule verifies;
+- **H**: only a person, or testing with users, can decide.
+
+`D+J` means both are needed, for different parts of the pattern. `D/P` means either one would do. The first letter is the main one.
+
+| Pattern | Section | Title | Wave 1 (built) | Planned in waves 2–3 | Checkability |
+|---|---|---|---|---|---|
+| o1p01 | §4.2.1 | Make the Purpose of Your Page Clear | not checked | W2 `coga/status-heading` (WI-15) | D+J |
+| o1p02 | §4.2.2 | Use a Familiar Hierarchy and Design | not checked | not checked, by design | P+H |
+| o1p03 | §4.2.3 | Use a Consistent Visual Design | not checked | W3 `coga/heading-fonts` (font family only) | D/P |
+| o1p04 | §4.2.4 | Make Each Step Clear | not checked | not checked, by design | D+J |
+| o1p05 | §4.2.5 | Clearly Identify Controls and Their Use | not checked | W3 `coga/link-style` | D |
+| o1p06 | §4.2.6 | Make the Relationship Clear Between Controls and the Content They Affect | not checked | not checked, by design | D+J |
+| o1p07 | §4.2.7 | Use Icons that Help the User | not checked | not checked, by design | J+H |
+| o2p01 | §4.3.1 | Make it Easy to Find the Most Important Tasks and Features | not checked | not checked, by design | J+P/H |
+| o2p02 | §4.3.2 | Make the Site Hierarchy Easy to Understand and Navigate | not checked | not checked, by design | P+J/H |
+| o2p03 | §4.3.3 | Use a Clear and Understandable Page Structure | not checked | W2 `coga/long-text` (WI-18) | D+J |
+| o2p04 | §4.3.4 | Make it easy to find the most important actions and information on the page | not checked | not checked, by design | P+J |
+| o2p05 | §4.3.5 | Break Media into Chunks | not checked | W3 `coga/media-chapters` | P |
+| o2p06 | §4.3.6 | Provide Search | not checked | not checked, by design | D+P |
+| o3p01 | §4.4.1 | Use Clear Words | screened in part: `coga/abbreviations` | W2 `coga/plain-words` (WI-16) | J+D |
+| o3p02 | §4.4.2 | Use a Simple Tense and Voice | not checked | not checked, by design | J |
+| o3p03 | §4.4.3 | Avoid Double Negatives or Nested Clauses | not checked | not checked, by design | J |
+| o3p04 | §4.4.4 | Use Literal Language | not checked | not checked, by design | J |
+| o3p05 | §4.4.5 | Keep Text Succinct | not checked | text measurements only (context, lists written as prose) | D+J |
+| o3p06 | §4.4.6 | Use Clear, Unambiguous Formatting and Punctuation | not checked | W3 `coga/ambiguous-dates` (English only) | D+J |
+| o3p07 | §4.4.7 | Include Symbols and Letters Necessary to Decipher the Words | not checked | not checked, by design | H |
+| o3p08 | §4.4.8 | Provide Summary of Long Documents and Media | not checked | W2 `coga/long-text` (WI-18) | D+J |
+| o3p09 | §4.4.9 | Separate Each Instruction | not checked | not checked, by design | J |
+| o3p10 | §4.4.10 | Use White Spacing | not checked | not checked, by design | D+P |
+| o3p11 | §4.4.11 | Ensure Foreground Content is not Obscured by Background | not checked | not checked, by design | P+D |
+| o3p12 | §4.4.12 | Explain Implied Content | not checked | not checked, by design | J |
+| o3p13 | §4.4.13 | Provide Alternatives for Numerical Concepts | not checked | not checked, by design | D+J |
+| o4p01 | §4.5.1 | Ensure Controls and Content Do Not Move Unexpectedly | not checked | W3 `coga/layout-shift` | P |
+| o4p02 | §4.5.2 | Let Users Go Back | not checked | not checked, by design | P |
+| o4p03 | §4.5.3 | Notify Users of Fees and Charges at the Start of a Task | screened in part: `coga/preselected-cost` | — | J/H |
+| o4p04 | §4.5.4 | Design Forms to Prevent Mistakes | not checked | W2 `coga/required-fields` (WI-14) | D+P |
+| o4p05 | §4.5.5 | Make it Easy to Undo Form Errors | not checked | not checked, by design | H |
+| o4p06 | §4.5.6 | Use Clear Visible Labels | screened in part: `coga/visible-labels` | — | D+P+J |
+| o4p07 | §4.5.7 | Use Clear Step-by-step Instructions | not checked (a related basis of `coga/input-formats`) | W3 `coga/rule-only-in-error` | D+J |
+| o4p08 | §4.5.8 | Accept different input formats | screened in part: `coga/input-formats` (static attributes) | W2 typing confirmation (WI-13) | P+D |
+| o4p09 | §4.5.9 | Avoid Data Loss and “Timeouts” | not checked | W3 2.2.1 with a clock probe | P+D+J |
+| o4p10 | §4.5.10 | Provide Feedback | not checked | W3 `coga/feedback` | P |
+| o4p11 | §4.5.11 | Help the user stay safe | not checked | not checked, by design | H |
+| o4p12 | §4.5.12 | Use Familiar Metrics and Units | not checked | not checked, by design | D+J |
+| o5p01 | §4.6.1 | Limit Interruptions | not checked | W2 `coga/permission-on-load` (WI-19); W3 `coga/interruptions` | P |
+| o5p02 | §4.6.2 | Make Short Critical Paths | not checked | not checked, by design | H |
+| o5p03 | §4.6.3 | Avoid Too Much Content | not checked | not checked, by design | D+J |
+| o5p04 | §4.6.4 | Provide Information So a User Can Complete and Prepare for a Task | not checked | not checked, by design | J |
+| o6p01 | §4.7.1 | Provide a Login that Does Not Rely on Memory or Other Cognitive Skills | not checked | W2 `coga/paste-blocked` (WI-12) | D+P |
+| o6p02 | §4.7.2 | Allow the User a Simple, Single Step, Login | not checked | not checked, by design | P/J |
+| o6p03 | §4.7.3 | Provide a Login Alternative with Less Words | not checked | not checked, by design | J |
+| o6p04 | §4.7.4 | Let Users Avoid Navigating Voice Menus | not checked | not checked, by design | H |
+| o6p05 | §4.7.5 | Do Not Rely on Users Calculations or Memorizing Information | not checked | not checked, by design | J/P/H |
+| o7p01 | §4.8.1 | Provide Human Help | not checked | W3 `coga/help-reachable` | D (crawl) |
+| o7p02 | §4.8.2 | Provide Alternative Content for Complex Information and Tasks | not checked | not checked, by design | D+J |
+| o7p03 | §4.8.3 | Clearly State the Results and Disadvantages of Actions, Options, and Selections | not checked (a related basis of `coga/preselected-cost`) | not checked, by design | H |
+| o7p04 | §4.8.4 | Provide Help for Forms and Non-standard Controls | not checked | W2 `coga/unexplained-disabled` (WI-14) | D+J |
+| o7p05 | §4.8.5 | Make It Easy to Find Help and Give Feedback | not checked | W3 `coga/help-reachable` | D |
+| o7p06 | §4.8.6 | Provide Help with Directions | not checked | not checked, by design | H |
+| o7p07 | §4.8.7 | Provide Reminders | not checked | W2 `coga/permission-on-load` (WI-19) | H |
+| o8p01 | §4.9.1 | Let Users Control When the Content Moves or Changes | not checked | not checked, by design | P |
+| o8p02 | §4.9.2 | Enable APIs and Extensions | not checked | W2 `coga/paste-blocked` (WI-12) | D+P |
+| o8p03 | §4.9.3 | Support Simplification | not checked | not checked, by design | H |
+| o8p04 | §4.9.4 | Support a Personalized and Familiar Interface | not checked | not checked, by design | D+P |
+
+**How the 58 split.**
+
+- **By main rating:**
+  - 24 lead with D and 13 with P, so 37 of 58 start from a fact a rule or a probe can measure;
+  - 12 lead with J;
+  - 9 are H alone: o3p07, o4p05, o4p11, o5p02, o6p04, o7p03, o7p06, o7p07 and o8p03.
+- **Rules and probes alone:** only 18 could be screened with no judgment at all, rated D or P alone.
+- **Judgment for some part:** 30 need a model for some part, and 15 need a person for some part.
+
+**How to read a rating.**
+
+- **It says what kind of evidence could decide a part of the pattern, not that Rampa should report it.** Section 1.5 keeps measurable patterns out for want of a threshold with ground truth: o3p10 and o3p11, white space and busy backgrounds.
+- **A rule can still decide a narrow slice of a J or H pattern.** o4p03 is J/H as a whole, yet its pre-checked paid options are a rule.
+- **No rating makes a pattern "met".** A check screens part of a pattern, as the wave-1 checks do.
 
 o4p07 and o7p03 appear in wave 1 only as related bases. They stay "not checked" because no sub-check of their own runs.
 
-Waves 2 and 3 add partial screening of o1p01, o1p03, o1p05, o2p03, o2p05, o3p05 (via measurements, context only), o3p06, o3p08, o4p01, o4p04, o4p07, o4p09, o4p10, o5p01, o6p01, o7p01, o7p04, o7p05, o7p07 and o8p02. These patterns stay "not checked" by design: o1p02, o1p04, o1p06, o1p07, o2p01, o2p02, o2p04, o2p06, o3p02, o3p03, o3p04, o3p07, o3p09–o3p13, o4p02, o4p05, o4p11, o4p12, o5p02–o5p04, o6p02–o6p05, o7p02, o7p03, o7p06, o8p01, o8p03 and o8p04. Some have research ideas in 1.4 and 1.5, and none ships without its own gate.
+The patterns marked "not checked, by design" stay so in waves 2 and 3. Some have research ideas in 1.4 and 1.5, and none ships without its own gate. Some of them are rated D or P, such as o8p01 and o3p10: the rating does not change the plan, and a pattern leaves that column only through a check with its own gate.
+
+### GAIA recommendations, rated the same way
+
+GAIA (Guia de Acessibilidade de Interfaces para Autismo, https://gaia.wiki.br/; Appendix B has its sources and caveats) has 28 recommendations. Each is rated on the same scale as the COGA patterns above.
+
+**The mapping is Rampa's, not GAIA's.** GAIA states no WCAG mapping. The table maps each recommendation to the closest COGA pattern and WCAG criterion, or "none" where there is none, and "in part" where the match covers only part of the recommendation. The names are GAIA's, in Portuguese. The ratings and the mapping were made on 2026-10-15 from the text of each recommendation.
+
+| GAIA | Name | COGA pattern | WCAG criterion | Checkability |
+|---|---|---|---|---|
+| G01 | Cores | o3p11 (in part) | 1.4.1 Use of Color (A); 1.4.3 Contrast (Minimum) (AA) | D+P+J |
+| G02 | Textos | o3p01; o3p04 | 3.1.3 Unusual Words, 3.1.4 Abbreviations, 3.1.5 Reading Level (AAA), in part | J+H; D for abbreviations |
+| G03 | Legibilidade | o3p10; o3p05; o2p03 | 1.4.8 Visual Presentation (AAA) | D+P |
+| G04 | Compatibilidade com mundo real | o1p07; o3p04 | none | H |
+| G05 | Customização visual | o8p04 | 1.4.4 Resize Text (AA), in part | H+P |
+| G06 | Customização informacional | o8p03; o8p04 | 1.4.2 Audio Control (A), in part | H+P |
+| G07 | Interfaces flexíveis | o8p03; o8p04 | none | H |
+| G08 | Modo de leitura | o8p03 | none | H |
+| G09 | Eliminar distrações | o5p01; o8p01 | 2.2.2 Pause, Stop, Hide (A); 1.4.2 Audio Control (A); 2.3.3 Animation from Interactions (AAA), in part | P+D+H |
+| G10 | Interface minimalista | o5p03; o5p02 | none | H |
+| G11 | Organização visual | o3p10 | none | P+H |
+| G12 | Forneça instruções | o4p07; o3p08 | 3.3.2 Labels or Instructions (A), in part | J+H |
+| G13 | Múltiplos formatos | o7p02 | none | J+H |
+| G14 | Equivalentes textuais | o1p07; o4p06 | 1.1.1 Non-text Content (A), in part | D+P+J |
+| G15 | Legendas | o7p02 | none | H |
+| G16 | Múltiplas mídias | o7p02 | none | H |
+| G17 | Ampliação de imagens | none | none | P+H |
+| G18 | Evite sons perturbadores | o5p01 | 1.4.2 Audio Control (A), in part | P+H |
+| G19 | Instruções de interação | o4p04; o4p07; o4p10; o7p04 | 3.3.1 Error Identification (A); 3.3.2 Labels or Instructions (A); 3.3.3 Error Suggestion (AA); 4.1.3 Status Messages (AA) | D+P+J |
+| G20 | Reverter ações | o4p02; o4p05 | 3.3.4 Error Prevention (Legal, Financial, Data) (AA), in part | P+H |
+| G21 | Número de tentativas | none | none | H |
+| G22 | Consistência | o1p03; o1p05 | 3.2.4 Consistent Identification (AA); 3.2.5 Change on Request (AAA) for links that open a new window | D+J |
+| G23 | Aparência clicável | o1p05 | 2.5.8 Target Size (Minimum) (AA), in part | D+P+J |
+| G24 | Feedback de interação | o4p10; o4p07 | 3.3.2 Labels or Instructions (A), in part | P+J |
+| G25 | Navegação simples | o2p02; o7p05 | 3.2.3 Consistent Navigation (AA); 2.4.5 Multiple Ways (AA); 3.2.6 Consistent Help (A); 2.4.8 Location (AAA) | D+J |
+| G26 | Evitar redirecionamentos | o4p09; o8p01 | 2.2.1 Timing Adjustable (A); 3.2.5 Change on Request (AAA) | D+P |
+| G27 | Confirmação de ações | o4p10 | 4.1.3 Status Messages (AA), in part | P+J/H |
+| G28 | Sensibilidade adequada | none | 2.5.2 Pointer Cancellation (A), in part | P+H |
+
+**How the 28 split.** By main rating:
+
+- 8 lead with D: G01, G03, G14, G19, G22, G23, G25 and G26;
+- 8 lead with P: G09, G11, G17, G18, G20, G24, G27 and G28;
+- 3 lead with J: G02, G12 and G13;
+- 9 are H: G04, G05, G06, G07, G08, G10, G15, G16 and G21.
+
+Most of the H ones ask a site to offer something, rather than to avoid a defect: customization, a reading mode, more media, more attempts. A checker can find a defect; whether an offer helps, only people can tell.
+
+Three recommendations match no COGA pattern: G17, G21 and G28. Ten match no WCAG criterion, even in part.
 
 ## Appendix B. Sources checked for this plan
 
 - W3C, *Making Content Usable for People with Cognitive and Learning Disabilities*, Working Group Note, 29 April 2021: https://www.w3.org/TR/coga-usable/. Quotes from §4.4.1, §4.4.5, §4.5.4.2, §4.5.6.3 and §6.8.2, checked in a local copy.
+  - *Its status, added 2026-10-15 and checked in a local copy of that date:*
+    - It is not normative: "Following this guidance is not required for conformance to WCAG".
+    - Its status section says: "It is inappropriate to cite this document as other than work in progress." This plan and Rampa's reports cite it as guidance, with the version each check was written against (`coga-usable 2021-04-29`), never as a requirement.
+    - §5.1, on testing: "automated testing often cannot assess if people with a cognitive or learning disability can use the content. It is vital for people with cognitive and learning disabilities that development teams do not rely solely on automated accessibility testing." This is one reason the profile reports advisories and never failures (docs/cognitive-profile.md, "Why advisories, not failures").
+- W3C, *Cognitive Accessibility User Research*, First Public Working Draft, 15 January 2015: https://www.w3.org/TR/coga-user-research/. It was never finished. Its status section says the same as the Note's: "It is inappropriate to cite this document as other than work in progress." It is background only; no check rests on it. *(Added 2026-10-15.)*
+- GAIA, *Guia de Acessibilidade de Interfaces para Autismo*: https://gaia.wiki.br/, 28 recommendations, G01 to G28 (read on 2026-10-15). *(Added 2026-10-15.)*
+  - **Sources.**
+    - Talita Cristina Pagani Britto, *GAIA: uma proposta de guia de recomendações de acessibilidade web com foco em aspectos do autismo*, master's dissertation, Universidade Federal de São Carlos, 2016, advised by Ednaldo Brigante Pizzolato: https://repositorio.ufscar.br/handle/20.500.14289/8683.
+    - Britto, T. C. P. and Pizzolato, E. B. (2018), "GAIA: uma proposta de um guia de recomendações de acessibilidade de interfaces Web com foco em aspectos do Autismo", *Revista Brasileira de Informática na Educação* 26(2), 102–123, doi:10.5753/RBIE.2018.26.02.102, https://doi.org/10.5753/RBIE.2018.26.02.102.
+  - **Caveats, to state whenever it is cited:**
+    - it targets autistic children and multitouch devices;
+    - it was piloted with 6 IT professionals, not with autistic users;
+    - 16 of its 28 recommendations cite WebAIM's WAVE cognitive checklist (counted on the site on 2026-10-15), so GAIA and WebAIM are related sources, not independent ones;
+    - it states no WCAG mapping. The mapping in Appendix A is Rampa's.
+  - **What it is.** GAIA is a set of recommendations, not a checker. Its `avaliador` repository is an unmodified fork of the W3C WCAG-EM Report Tool.
+  - **License.** The site's source code is under GPL-2.0, and the website states no license for its text: quote it briefly, and link it.
+- WebAIM, *Cognitive Disabilities* (https://webaim.org/articles/cognitive/) and *Evaluating Cognitive Web Accessibility* (https://webaim.org/articles/evaluatingcognitive/, last updated 5 August 2020), read on 2026-10-15. *(Added 2026-10-15.)*
+  - It has no autism-specific guidance. It sorts barriers by function: memory, problem-solving, attention, reading and verbal comprehension, math, and visual comprehension.
+  - On evaluation: "For the most part, cognitive web accessibility is one of those "you know it when you see it" things. Common sense, holistic evaluation, and user testing should predominantly guide cognitive web accessibility evaluation."
+- CMUdict, the Carnegie Mellon University Pronouncing Dictionary: https://github.com/cmusphinx/cmudict, commit `74790861f652`, under a BSD-style license. It gives the syllable counts of the English sample in 3.3 (`test/fixtures/coga/syllables-en.json`); NOTICE credits it and copies its license. *(Added 2026-10-15.)*
 - WAI Supplemental Guidance and the list of pattern slugs: https://www.w3.org/WAI/WCAG2/supplemental/ (fetched 2026-10-09). Pattern pages o4p06, o4p08, o4p03 and o7p03 under `https://www.w3.org/WAI/WCAG2/supplemental/patterns/` (fetched 2026-10-09).
 - WCAG 2.2: https://www.w3.org/TR/WCAG22/ (conformance note on AAA at `#cc1`).
 - Understanding 3.3.8 (updated 06 Sep 2026): https://www.w3.org/WAI/WCAG22/Understanding/accessible-authentication-minimum.html
