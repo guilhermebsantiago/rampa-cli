@@ -2,7 +2,7 @@
 
 The action runs `rampa check` in a workflow, uploads the SARIF report to code scanning, and keeps one comment on the pull request with the Markdown report, edited on every push. The job fails according to `fail-on`.
 
-The action builds the CLI from its own checkout, so the version that runs is the one the action's ref names: it sets up Node.js, then installs from the lockfile and builds with pnpm through corepack. That adds an install and a build to the job.
+The action installs the CLI from npm: `rampa-cli` at the version in the `package.json` of the action's ref, so `@v0.1.0` runs exactly the `rampa-cli` 0.1.0 that `npm install rampa-cli@0.1.0` gives, built and published by Rampa's release workflow. Only when that version is not on npm, as on a branch whose version was never released or in a fork that changed it, does the action build the CLI from its own checkout instead, and the job log says which of the two it did ([what the steps do](#what-the-steps-do)).
 
 **Pin a version.** The examples below use `guilhermebsantiago/rampa-cli@v0.1.0`, the release published to npm as `rampa-cli` 0.1.0. `@main` moves with every change merged into Rampa, so the same workflow could check differently from one run to the next. For the strictest pin, use the full commit SHA the tag points to, such as `uses: guilhermebsantiago/rampa-cli@<40-character SHA>`, and move it when you choose to.
 
@@ -103,7 +103,8 @@ A full check reads each page for several seconds before any model call (pixel co
 | `working-directory` | `.` | Where `rampa check` runs. Targets, `.rampa/waivers.json` and `.rampa/cache` are read from there |
 | `args` | | More options for `rampa check`, such as `--min-confidence high --runs 3`, or `--fast --changed` on pull requests ([above](#fast-checks-on-pull-requests)) |
 | `github-token` | `github.token` | Token for the comment |
-| `node-version` | `24` | Node.js for building and running Rampa (22.18 or later). Empty uses the Node.js already set up in the job |
+| `node-version` | `24` | Node.js for installing and running Rampa (22.18 or later). Empty uses the Node.js already set up in the job |
+| `from-source` | `false` | `true` builds Rampa from the action's checkout even when its version is on npm: to try changes on a branch, such as `@main` between releases, whose `package.json` still names the last release |
 
 ## Outputs
 
@@ -116,9 +117,13 @@ A full check reads each page for several seconds before any model call (pixel co
 ## What the steps do
 
 1. **Set up Node.js** with `actions/setup-node`, without its package cache, unless `node-version` is empty. Like any action that sets up Node.js, this changes the Node.js on the path for the steps after it in the job.
-2. **Build Rampa** in the action's own directory: `pnpm install --frozen-lockfile` and `pnpm build`, running the pnpm version that `package.json` pins through `corepack pnpm`. It does not run `corepack enable`, so `pnpm` stays as it was for the rest of your job. On a Node.js without corepack (25 and later), it uses the `pnpm` on the path.
+2. **Install Rampa.** It reads the version from the action's `package.json` and asks npm whether `rampa-cli` has it (`npm view rampa-cli@<version> version`).
+   - When it does, the step logs `Installing rampa-cli@<version> from npm.` and runs `npm install rampa-cli@<version>` into `$RUNNER_TEMP/rampa-cli/<version>`, with `--ignore-scripts`, since none of its dependencies needs an install script. Its dependencies resolve within the package's version ranges, as for anyone who installs it. A second use of the action in the same job reuses that install.
+   - When it does not, or `from-source` is `true`, the step leaves a notice in the log and the run's annotations, such as `Building Rampa 0.2.0 from the action's checkout: rampa-cli@0.2.0 is not on npm.`, then builds in the action's own directory: `pnpm install --frozen-lockfile` and `pnpm build`, running the pnpm version that `package.json` pins through `corepack pnpm`. It does not run `corepack enable`, so `pnpm` stays as it was for the rest of your job. On a Node.js without corepack (25 and later), it uses the `pnpm` on the path.
+
+   On `@main`, the version in `package.json` is the last release until the next one bumps it, so `@main` runs that release from npm while the action's own scripts come from `main`; set `from-source: true` to run `main`'s code. Either way, the npm registry the job's npm configuration names is the one asked and installed from.
 3. **Check accessibility**: `rampa check` with the inputs, writing JSON, Markdown, SARIF and HTML. This step never fails the job by itself, so the next steps still run.
-4. **Upload SARIF** with `github/codeql-action/upload-sarif@v4`. It is skipped on pull requests from forks: on `pull_request` the token cannot upload, and on `pull_request_target` the results would be filed under the base branch.
+4. **Upload SARIF** with `github/codeql-action/upload-sarif` v4, pinned by commit SHA like every action Rampa's action uses. It is skipped on pull requests from forks: on `pull_request` the token cannot upload, and on `pull_request_target` the results would be filed under the base branch.
 5. **Comment on the pull request**: finds the comment an earlier run posted by its hidden marker and edits it, or posts one. Outside a pull request it does nothing. When GitHub refuses (a fork's read-only token), it warns and the job goes on; the report is still in the job summary.
 6. **Result**: fails the job with Rampa's exit code.
 

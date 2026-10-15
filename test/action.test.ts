@@ -1,7 +1,7 @@
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { chmodSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { dirname, join } from 'node:path'
+import { delimiter, dirname, join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { countFindings, missingCredentials, modelArgs, outputLines, planCheck, splitArgs } from '../action/check.ts'
 import { DEFAULT_MARKER, type IssueComment, MAX_BODY, markerFor, pullRequestNumber, runComment, upsertComment, withMarker } from '../action/comment.ts'
@@ -328,4 +328,136 @@ describe('check step', () => {
     const sarif = JSON.parse(readFileSync(outputs.sarif as string, 'utf8')) as { runs: Array<{ results: unknown[] }> }
     expect(sarif.runs[0]?.results).toHaveLength(9)
   }, 60_000)
+})
+
+/** The script of a step of action.yml, found by its name, as the runner gets it. */
+function stepScript(name: string): string {
+  const lines = readFileSync('action.yml', 'utf8').split('\n')
+  const start = lines.findIndex((line) => line.trim() === `- name: ${name}`)
+  const run = lines.findIndex((line, index) => index > start && /^\s+run: \|$/.test(line))
+  if (start === -1 || run === -1) throw new Error(`action.yml has no step "${name}" with a run block`)
+  const indent = (lines[run + 1] ?? '').search(/\S/)
+  const body: string[] = []
+  for (const line of lines.slice(run + 1)) {
+    if (line.trim() !== '' && line.search(/\S/) < indent) break
+    body.push(line.slice(indent))
+  }
+  return body.join('\n')
+}
+
+const bash = spawnSync('bash', ['-c', 'echo ok'], { encoding: 'utf8' }).stdout === 'ok\n'
+
+/**
+ * Runs the Install Rampa step with npm and corepack replaced by scripts that log their
+ * arguments: `view` answers as the registry would for `registry` ('published', a 404, or a
+ * network error), `install` and `pnpm build` write the CLI where the real ones would.
+ */
+function installStep(options: { version: string; registry: 'published' | 'missing' | 'offline'; fromSource?: boolean; runnerTemp?: string }) {
+  const dir = mkdtempSync(join(tmpdir(), 'rampa-install-'))
+  const bin = join(dir, 'bin')
+  const actionPath = join(dir, 'action')
+  const runnerTemp = options.runnerTemp ?? join(dir, 'runner-temp')
+  mkdirSync(bin)
+  mkdirSync(actionPath)
+  mkdirSync(runnerTemp, { recursive: true })
+  writeFileSync(join(actionPath, 'package.json'), JSON.stringify({ name: 'rampa-cli', version: options.version }))
+  const log = join(dir, 'calls.log')
+  const output = join(dir, 'output.txt')
+  writeFileSync(output, '')
+  writeFileSync(
+    join(bin, 'npm'),
+    `#!/usr/bin/env bash
+echo "npm $*" >> "$FAKE_LOG"
+case "$1" in
+  view)
+    case "$FAKE_REGISTRY" in
+      published) echo "\${2#rampa-cli@}" ;;
+      missing) printf 'npm error code E404\nnpm error 404 No match found for version %s\n' "\${2#rampa-cli@}" >&2; exit 1 ;;
+      *) printf 'npm error code ECONNREFUSED\nnpm error errno ECONNREFUSED\n' >&2; exit 1 ;;
+    esac ;;
+  install)
+    while [ $# -gt 0 ]; do [ "$1" = --prefix ] && prefix=$2; shift; done
+    mkdir -p "$prefix/node_modules/rampa-cli/dist" && echo '// from npm' > "$prefix/node_modules/rampa-cli/dist/cli.mjs" ;;
+esac
+`,
+  )
+  writeFileSync(
+    join(bin, 'corepack'),
+    `#!/usr/bin/env bash
+echo "corepack $* in $(basename "$PWD")" >> "$FAKE_LOG"
+if [ "$2" = build ]; then mkdir -p dist && echo '// built' > dist/cli.mjs; fi
+`,
+  )
+  chmodSync(join(bin, 'npm'), 0o755)
+  chmodSync(join(bin, 'corepack'), 0o755)
+  const script = join(dir, 'install.sh')
+  writeFileSync(script, stepScript('Install Rampa'))
+  const env = {
+    ...process.env,
+    PATH: `${bin}${delimiter}${process.env.PATH ?? ''}`,
+    GITHUB_ACTION_PATH: actionPath,
+    GITHUB_OUTPUT: output,
+    RUNNER_TEMP: runnerTemp,
+    INPUT_FROM_SOURCE: options.fromSource ? 'true' : 'false',
+    FAKE_LOG: log,
+    FAKE_REGISTRY: options.registry,
+  }
+  // As the runner runs a step with shell: bash.
+  const run = spawnSync('bash', ['--noprofile', '--norc', '-eo', 'pipefail', script], { encoding: 'utf8', env })
+  return {
+    run,
+    actionPath,
+    runnerTemp,
+    calls: existsSync(log) ? readFileSync(log, 'utf8').trim().split('\n') : [],
+    outputs: readFileSync(output, 'utf8'),
+  }
+}
+
+describe.skipIf(!bash)('install step', () => {
+  it('installs the version its package.json names from npm, and reuses it within the job', () => {
+    const first = installStep({ version: '0.3.0', registry: 'published' })
+    expect(first.run.status).toBe(0)
+    expect(first.run.stdout).toContain('Installing rampa-cli@0.3.0 from npm.')
+    const cli = `${first.runnerTemp}/rampa-cli/0.3.0/node_modules/rampa-cli/dist/cli.mjs`
+    expect(first.outputs).toBe(`cli=${cli}\n`)
+    expect(first.calls).toEqual([
+      'npm view rampa-cli@0.3.0 version',
+      `npm install --prefix ${first.runnerTemp}/rampa-cli/0.3.0 --no-save --no-package-lock --no-audit --no-fund --ignore-scripts rampa-cli@0.3.0`,
+    ])
+
+    const second = installStep({ version: '0.3.0', registry: 'published', runnerTemp: first.runnerTemp })
+    expect(second.run.status).toBe(0)
+    expect(second.run.stdout).toContain('Rampa 0.3.0 from npm is already installed in this job.')
+    expect(second.calls).toEqual(['npm view rampa-cli@0.3.0 version'])
+    expect(second.outputs).toBe(`cli=${cli}\n`)
+  })
+
+  it('builds from its checkout, and says why, when the version is not on npm', () => {
+    const step = installStep({ version: '0.4.0-dev.1', registry: 'missing' })
+    expect(step.run.status).toBe(0)
+    expect(step.run.stdout).toContain("::notice::Building Rampa 0.4.0-dev.1 from the action's checkout: rampa-cli@0.4.0-dev.1 is not on npm.")
+    expect(step.calls).toEqual(['npm view rampa-cli@0.4.0-dev.1 version', 'corepack pnpm install --frozen-lockfile in action', 'corepack pnpm build in action'])
+    expect(step.outputs).toBe(`cli=${step.actionPath}/dist/cli.mjs\n`)
+  })
+
+  it('builds when npm cannot answer, with npm\'s error in the notice', () => {
+    const step = installStep({ version: '0.3.0', registry: 'offline' })
+    expect(step.run.status).toBe(0)
+    expect(step.run.stdout).toContain(
+      "::notice::Building Rampa 0.3.0 from the action's checkout: npm could not say whether rampa-cli@0.3.0 is on npm: npm error code ECONNREFUSED.",
+    )
+    expect(step.calls.slice(1)).toEqual(['corepack pnpm install --frozen-lockfile in action', 'corepack pnpm build in action'])
+  })
+
+  it('builds without asking npm when from-source is true', () => {
+    const step = installStep({ version: '0.3.0', registry: 'published', fromSource: true })
+    expect(step.run.status).toBe(0)
+    expect(step.run.stdout).toContain("::notice::Building Rampa 0.3.0 from the action's checkout: from-source is true.")
+    expect(step.calls).toEqual(['corepack pnpm install --frozen-lockfile in action', 'corepack pnpm build in action'])
+    expect(step.outputs).toBe(`cli=${step.actionPath}/dist/cli.mjs\n`)
+  })
+
+  it('hands the installed CLI to the check step', () => {
+    expect(readFileSync('action.yml', 'utf8')).toContain('RAMPA_CLI: ${{ steps.install.outputs.cli }}')
+  })
 })
