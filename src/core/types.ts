@@ -499,6 +499,12 @@ export interface Report {
      * could not check, and closed shadow roots. Absent when it read everything; the notes say the same in words.
      */
     reach?: Reach | undefined
+    /**
+     * Set when the collector cut the page's own document at its budget of elements (snapshot `truncated`): how many
+     * elements it read, and the criteria Rampa's rules or judgment checked on this page, only up to the cut. Absent
+     * when it read the whole page; the notes say the same in words.
+     */
+    truncated?: { elements: number; criteria: string[] } | undefined
     criteria?: CriterionCoverage[] | undefined
     /**
      * Set when the run used --fast (`fast: true`): what fast mode left out (probes, link following, OCR, contrast from

@@ -1,9 +1,10 @@
 import type { Finding } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
-import { NOISE_LIMIT, type FocusStop } from '../probes/focus.ts'
+import { cssContrast } from '../pixels/indicator.ts'
+import { type CaretFact, type FocusPixels, NOISE_LIMIT, type FocusStop } from '../probes/focus.ts'
 import { matchNode, nameOf } from '../probes/identity.ts'
 import type { PixelDiff } from '../probes/pixels.ts'
-import type { ProbeRecord } from '../snapshot/schema.ts'
+import type { A11yNode, ProbeRecord } from '../snapshot/schema.ts'
 import { stoppedEarly, walkOf } from './keyboard.ts'
 import { type ProbeRule, appPlatform, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
 
@@ -25,6 +26,51 @@ const VISIBLE_TEXT: Record<Locale, { none: string; removed: string; elsewhere: s
   },
 }
 
+/** Input types whose box takes typed text and shows a caret, as the probe reads them (probes/focus.ts, caretOf). */
+const TYPED = new Set(['', 'text', 'search', 'email', 'url', 'tel', 'password', 'number'])
+
+/** Whether the snapshot says an element takes typed text: a text-like input, a textarea, or editable content. */
+export function takesText(node: A11yNode): boolean {
+  if (node.states.includes('readonly') || node.states.includes('disabled')) return false
+  const tag = node.native.tag
+  if (tag === 'textarea') return true
+  if (tag === 'input') {
+    const type = (node.native.attributes as Record<string, unknown> | undefined)?.type
+    return TYPED.has(typeof type === 'string' ? type.trim().toLowerCase() : '')
+  }
+  // contenteditable: the snapshot keeps no such attribute, and the browser's tree marks the element editable.
+  const editable = node.ax?.props?.editable
+  return typeof editable === 'string' && editable !== ''
+}
+
+/**
+ * The text caret a focused element shows, which is a focus indicator of its own. WCAG's Understanding for 2.4.7, in
+ * its Examples: "When text fields receive focus, a vertical bar is displayed in the field, indicating that the user
+ * can insert text, OR all of the text is highlighted, indicating that the user can type over the text." The
+ * Understanding for 1.4.11 passes a text input whose other indicator is under 3:1 because "the cursor/caret which is
+ * displayed when the input receives focus does provide a sufficiently strong visual indication" (Figure 33, "Text
+ * input focus style"), and fails a custom caret under 3:1 against the field that is the only indication (Figure 44).
+ * Captures hide the caret, which blinks, so the probe reads it from the field's styles (probes/focus.ts).
+ *
+ * Returns the recorded caret; 'assumed' for a recording made before the probe read carets, of an element the snapshot
+ * says takes typed text (the browser's default caret, in the text color); undefined when there is none: a read-only
+ * field, anything that takes no text.
+ */
+export function caretOf(pixels: FocusPixels, node: A11yNode): CaretFact | 'assumed' | undefined {
+  if (pixels.caret === null) return undefined
+  if (pixels.caret && typeof pixels.caret.color === 'string') return pixels.caret
+  return takesText(node) ? 'assumed' : undefined
+}
+
+/** A caret that changes the field's pixels noticeably, as the pixel diff counts it: by 3:1, or by 48 in a color channel. */
+export function caretShows(caret: CaretFact): boolean {
+  if ((cssContrast(caret.color, caret.background) ?? 1) >= 3) return true
+  const channels = (hex: string) => [1, 3, 5].map((i) => Number.parseInt(hex.slice(i, i + 2), 16) || 0)
+  const a = channels(caret.color)
+  const b = channels(caret.background)
+  return a.some((v, i) => Math.abs(v - (b[i] ?? 0)) >= 48)
+}
+
 const changeText = (diff: PixelDiff, locale: Locale) =>
   say(
     locale,
@@ -37,7 +83,8 @@ const changeText = (diff: PixelDiff, locale: Locale) =>
  * visible. No pixel changed in the box or the viewport: failure, high (ACT oj04fd). Focus
  * removed on arrival (F55): failure, high. A change only away from the element, or a faint one
  * (fewer noticeably changed pixels than the element's perimeter): review. Anything else: no failure found,
- * never "passed". Noise over 10% of the region: cannot tell.
+ * never "passed". Noise over 10% of the region: cannot tell. A text field that shows its caret has a visible
+ * indicator whatever else its pixels do (caretOf): it is not reported, unless other content covers it.
  */
 export const focusVisibleRule: ProbeRule = {
   id: 'rampa/focus-visible',
@@ -56,6 +103,8 @@ export const focusVisibleRule: ProbeRule = {
     let unmatched = 0
     let applicable = 0
     let noisy = 0
+    let carets = 0
+    let assumed = 0
     const seen = new Set<string>()
     for (const stop of walk.forward as FocusStop[]) {
       if (!stop.el || seen.has(stop.el.ref)) continue
@@ -99,11 +148,22 @@ export const focusVisibleRule: ProbeRule = {
         continue
       }
       const region = say(ctx.locale, `${pixels.region.width}×${pixels.region.height} px around the element`, `${pixels.region.width}×${pixels.region.height} px em volta do elemento`)
+      // An element entirely under other content shows no change either: the cause is 2.4.11, and the indicator may exist.
+      const grid = stop.obscured
+      const covered = grid && grid.points > 0 && grid.covered === grid.points && grid.painted === 0 && grid.hidden === 0
+      // A text field's caret shows where focus is (Understanding 2.4.7), unless something covers the field.
+      const caret = app ? undefined : caretOf(pixels, node)
+      if (caret && !covered && (caret === 'assumed' || caretShows(caret))) {
+        carets++
+        if (caret === 'assumed') assumed++
+        continue
+      }
+      const caretText =
+        caret && caret !== 'assumed'
+          ? say(ctx.locale, `; its text caret, ${caret.color} on ${caret.background}, does not show`, `; o cursor de texto, ${caret.color} sobre ${caret.background}, não aparece`)
+          : ''
       if (verdict === 'none') {
         failures++
-        // An element entirely under other content shows no change either: the cause is 2.4.11, and the indicator may exist.
-        const grid = stop.obscured
-        const covered = grid && grid.points > 0 && grid.covered === grid.points && grid.painted === 0 && grid.hidden === 0
         if (findings.length < MAX_REPORTED) {
           findings.push(
             probeFinding({
@@ -119,8 +179,8 @@ export const focusVisibleRule: ProbeRule = {
                   )
                 : say(
                     ctx.locale,
-                    `${keys}: ${nameOf(node, stop.el)} focused and blurred; 0 px changed in the ${region}, 0 px in the ${pixels.viewport?.area ?? 0} px of the viewport (captured twice)${covered ? `; the element is entirely under ${grid.by?.ref ?? 'other content'} (see 2.4.11), so an indicator it has cannot show` : ''}`,
-                    `${keys}: ${nameOf(node, stop.el)} com e sem foco; 0 px mudaram nos ${region}, 0 px nos ${pixels.viewport?.area ?? 0} px da janela (capturado duas vezes)${covered ? `; o elemento está todo sob ${grid.by?.ref ?? 'outro conteúdo'} (veja 2.4.11), e um indicador que tenha não aparece` : ''}`,
+                    `${keys}: ${nameOf(node, stop.el)} focused and blurred; 0 px changed in the ${region}, 0 px in the ${pixels.viewport?.area ?? 0} px of the viewport (captured twice)${covered ? `; the element is entirely under ${grid.by?.ref ?? 'other content'} (see 2.4.11), so an indicator it has cannot show` : caretText}`,
+                    `${keys}: ${nameOf(node, stop.el)} com e sem foco; 0 px mudaram nos ${region}, 0 px nos ${pixels.viewport?.area ?? 0} px da janela (capturado duas vezes)${covered ? `; o elemento está todo sob ${grid.by?.ref ?? 'outro conteúdo'} (veja 2.4.11), e um indicador que tenha não aparece` : caretText}`,
                   ),
               confidence: covered ? 'medium' : 'high',
               subject: 'none',
@@ -136,6 +196,13 @@ export const focusVisibleRule: ProbeRule = {
     const hidden = failures - findings.length
     const notes = [
       moreNotListed(ctx.locale, hidden),
+      carets > 0
+        ? say(
+            ctx.locale,
+            `${carets} text field(s) whose focus shows only as the text caret, which the Understanding for 2.4.7 counts as a visible indicator: not reported${assumed > 0 ? ` (${assumed} recorded before Rampa read carets: the browser's default caret is assumed)` : ''}`,
+            `${carets} campo(s) de texto cujo foco aparece só como o cursor de texto, que o Understanding da 2.4.7 conta como indicador visível: não relatado(s)${assumed > 0 ? ` (${assumed} gravado(s) antes de o Rampa ler o cursor: supõe-se o cursor padrão do navegador)` : ''}`,
+          )
+        : '',
       noisy > 0 ? say(ctx.locale, `${noisy} stop(s) could not be judged: too many pixels move on their own`, `${noisy} parada(s) sem julgamento: pixels demais mudam sozinhos`) : '',
       walk.end.forward === 'cycled' ? '' : stoppedEarly(walk, ctx.locale),
     ].filter(Boolean)

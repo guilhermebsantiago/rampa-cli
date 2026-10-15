@@ -10,9 +10,14 @@ import { tryDecodePng } from '../src/pixels/png.ts'
 import { type PlaywrightPage, collectPage, playwrightDriver } from '../src/playwright.ts'
 import { installKit } from '../src/probes/kit.ts'
 import { type PuppeteerPage, puppeteerDriver } from '../src/puppeteer.ts'
+import { paint } from '../src/report/color.ts'
 import { coverageStatement } from '../src/report/common.ts'
+import { renderHtml } from '../src/report/html.ts'
+import { renderMarkdown } from '../src/report/markdown.ts'
+import { renderReport } from '../src/report/pretty.ts'
+import { toSarif } from '../src/report/sarif.ts'
 import { createLocator } from '../src/source/locate.ts'
-import { reachNotes, unreached } from '../src/snapshot/reach.ts'
+import { pageCut, reachNotes, truncationNote, unreached } from '../src/snapshot/reach.ts'
 import { resolveRefInPage, scopeOfRef } from '../src/snapshot/refs.ts'
 import { emptyEngine } from '../src/engine/axe.ts'
 import { runRuleChecks } from '../src/rules/index.ts'
@@ -53,6 +58,12 @@ beforeAll(async () => {
     if (path === '/late') {
       return void response.end(
         '<!doctype html><html lang="en"><head><title>Late</title></head><body><main><h1>Late</h1><p id="status">Loading</p></main><script>window.addEventListener("load", () => fetch("/data").then((r) => r.json()).then((data) => { const img = document.createElement("img"); img.src = data.src; img.width = 40; img.height = 40; document.querySelector("main").append(img); document.querySelector("#status").textContent = "Loaded" }))</script></body></html>',
+      )
+    }
+    // A long page of its own: sixty paragraphs, then an image with no text alternative past any small budget.
+    if (path === '/long') {
+      return void response.end(
+        `<!doctype html><html lang="en"><head><title>Long</title></head><body><main><h1>Long</h1>${'<p>A line of the listing.</p>'.repeat(60)}<img id="after" src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" width="40" height="40"></main></body></html>`,
       )
     }
     // A component with a hundred elements in its shadow root, before the page's own text.
@@ -179,6 +190,40 @@ describe.skipIf(!browser)('the snapshot past the top document', { timeout: 60_00
     expect(reachNotes(snapshot.reach, 'en')).toEqual([
       'The collector stopped reading shadow roots and frames at its limit of elements: what follows in them is not in the snapshot, so only axe-core checked it.',
     ])
+  })
+
+  it('says in every report format that a page cut at its budget of elements was checked only up to the cut', async () => {
+    if (!browser) return
+    const { snapshot, engine } = await collectWeb(browser, `${origin}/long`, { runAxe: true, locale: 'en', maxNodes: 40 })
+    expect(snapshot.truncated).toBe(true)
+    expect(snapshot.elementLimit).toBe(40)
+    expect(refsOf(snapshot)).not.toContain('#after')
+    const options = { criteria: [], llm: false, provider: undefined, runs: 1, cache: memoryCache(), offline: false, locale: 'en' as const, minConfidence: 'low' as const, concurrency: 1 }
+    const report = await checkSnapshot(snapshot, engine, options)
+    // axe-core read the whole page: the image past the cut is still found.
+    expect(report.findings.map((f) => `${f.ruleId} ${f.ref}`)).toContain('image-alt #after')
+    expect(report.coverage.truncated).toEqual({ elements: 40, criteria: report.coverage.rules ?? [] })
+    const note = report.notes?.[0] ?? ''
+    expect(note).toMatch(/^The page was cut at 40 elements, the collector's limit: what comes after them is not in the snapshot, so the checks that read the snapshot \(Rampa's rules and judged criteria\) did not run past that point\./)
+    expect(note).toMatch(/axe-core read the whole page\.$/)
+    const cut = 'The page was cut at 40 elements'
+    expect(renderReport(report, { verbose: false, paint: paint(false) })).toContain(cut)
+    expect(renderMarkdown([report])).toContain(cut)
+    expect(renderHtml([report])).toContain(cut)
+    expect(JSON.parse(JSON.stringify(report)).coverage.truncated.elements).toBe(40)
+    const run = toSarif([report]).runs[0]
+    const properties = run?.properties as { coverage: Array<{ truncated?: { elements: number; note: string } }> }
+    expect(properties.coverage[0]?.truncated).toMatchObject({ elements: 40, note: expect.stringContaining(cut) })
+    expect(JSON.stringify(run?.invocations)).toContain(cut)
+    const pt = await checkSnapshot(snapshot, engine, { ...options, locale: 'pt-BR' })
+    expect(pt.notes?.[0]).toMatch(/^A página foi cortada em 40 elementos, o limite do coletor: .*O axe-core leu a página inteira\.$/)
+    // The whole page within the budget: no note.
+    const whole = await collectWeb(browser, `${origin}/long`, { runAxe: false, locale: 'en' })
+    expect(whole.snapshot.truncated).toBeUndefined()
+    expect(whole.snapshot.elementLimit).toBeUndefined()
+    const full = await checkSnapshot(whole.snapshot, whole.engine, options)
+    expect(full.coverage.truncated).toBeUndefined()
+    expect((full.notes ?? []).some((n) => n.includes('was cut at'))).toBe(false)
   })
 
   it('records what it reached and what it could not', async () => {
@@ -322,6 +367,36 @@ describe('reach in the report, offline', () => {
     })
     expect(reach?.frames?.[0]).toMatchObject({ reason: 'loaded-late', engine: true })
     expect(reachNotes(reach, 'en')[0]).toMatch(/^1 frame\(s\) were checked by axe-core only: .*#video \(loaded-late, https:\/\/video\.example\/embed\/1\)\.$/)
+  })
+
+  it('counts where a snapshot recorded before the collector kept its limit was cut, and names the criteria the cut affects', async () => {
+    const elements = Array.from({ length: 6 }, (_, i) => node({ ref: `html > body > p:nth-of-type(${i + 1})`, role: 'paragraph', native: { tag: 'p' } }))
+    const shadow = node({ ref: 'html > body > x-card >>> span', native: { tag: 'span' } })
+    const body = node({ ref: 'html > body', native: { tag: 'body' }, children: [...elements, node({ ref: 'html > body > x-card', native: { tag: 'x-card' }, children: [shadow] })] })
+    const snapshot: A11ySnapshot = {
+      schemaVersion: 1,
+      surface: 'web',
+      target: 'https://example.com/',
+      title: 'Example',
+      viewport: { width: 1280, height: 800, scale: 1 },
+      root: node({ ref: 'html', native: { tag: 'html' }, children: [body] }),
+      truncated: true,
+      collectedAt: '2026-10-11T00:00:00.000Z',
+      collector: { name: 'rampa-web', version: '0.1.0' },
+    }
+    // html, body, six paragraphs and the host; the element in the shadow root has a budget of its own.
+    expect(pageCut(snapshot)).toBe(9)
+    expect(pageCut({ ...snapshot, elementLimit: 5000 })).toBe(5000)
+    expect(pageCut({ ...snapshot, truncated: undefined })).toBeUndefined()
+    expect(truncationNote({ elements: 5000, criteria: ['1.1.1', '2.4.6'] }, { probes: true }, 'en')).toBe(
+      "The page was cut at 5000 elements, the collector's limit: what comes after them is not in the snapshot, so the checks that read the snapshot (Rampa's rules and judged criteria) did not run past that point. Checked only up to the cut: 1.1.1, 2.4.6. What a probe found past the cut is not in the snapshot to point at, and is counted as unmatched.",
+    )
+    const report = await checkSnapshot(snapshot, emptyEngine(), { criteria: [], llm: false, provider: undefined, runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 1 })
+    expect(report.coverage.truncated?.elements).toBe(9)
+    // No engine ran: the note does not say one read the whole page.
+    expect(report.notes?.[0]).toMatch(/^The page was cut at 9 elements/)
+    expect(report.notes?.[0]).not.toContain('read the whole page')
+    expect(coverageStatement(report)).toContain('The page was cut at 9 elements')
   })
 
   it('keeps a snapshot with no frame and no shadow root as it always was', () => {

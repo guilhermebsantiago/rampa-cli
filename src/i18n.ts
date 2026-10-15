@@ -115,6 +115,10 @@ const messages = {
       'The page is a standalone SVG document ({contentType}), not an HTML page: axe-core and the Rampa rules that read the tree checked it, and the checks for HTML pages (title, language, landmarks, forms) found nothing to apply to. Text contrast was not measured from pixels, and probes do not run on it.',
     documentXml:
       'The page is an XML document ({contentType}) that the browser shows as its source tree, or in another vocabulary than HTML and SVG: Rampa checks HTML and SVG documents, so nothing on it was checked.',
+    pageTruncated: "The page was cut at {count} elements, the collector's limit: what comes after them is not in the snapshot, so the checks that read the snapshot (Rampa's rules and judged criteria) did not run past that point.",
+    pageTruncatedCriteria: 'Checked only up to the cut: {criteria}.',
+    pageTruncatedProbes: 'What a probe found past the cut is not in the snapshot to point at, and is counted as unmatched.',
+    pageTruncatedEngine: '{engine} read the whole page.',
     reachUnchecked: '{count} frame(s) were not checked at all, so whatever they hold was missed: {frames}.',
     reachNoEngine: 'axe-core did not run in {count} frame(s) whose content was collected: {frames}.',
     reachClosedShadow: '{count} closed shadow root(s) cannot be read by any script, so nothing inside them was checked (hosts: {hosts}).',
@@ -329,6 +333,10 @@ const messages = {
       'A página é um documento SVG independente ({contentType}), não uma página HTML: o axe-core e as regras do Rampa que leem a árvore o verificaram, e as verificações de páginas HTML (título, idioma, landmarks, formulários) não acharam a que se aplicar. O contraste do texto não foi medido nos pixels, e as sondas não rodam nele.',
     documentXml:
       'A página é um documento XML ({contentType}) que o navegador mostra como árvore do código, ou em outro vocabulário que não HTML nem SVG: o Rampa verifica documentos HTML e SVG, então nada nela foi verificado.',
+    pageTruncated: 'A página foi cortada em {count} elementos, o limite do coletor: o que vem depois deles não está no snapshot, então as verificações que leem o snapshot (as regras do Rampa e os critérios julgados) não rodaram dali em diante.',
+    pageTruncatedCriteria: 'Verificados só até o corte: {criteria}.',
+    pageTruncatedProbes: 'O que uma sonda encontrou depois do corte não está no snapshot para ser apontado, e é contado como sem correspondência.',
+    pageTruncatedEngine: 'O {engine} leu a página inteira.',
     reachUnchecked: '{count} frame(s) não foi(ram) verificado(s), e o que ele(s) contém ficou de fora: {frames}.',
     reachNoEngine: 'O axe-core não rodou em {count} frame(s) cujo conteúdo foi coletado: {frames}.',
     axSkipped: 'A árvore de acessibilidade do navegador não foi lida ({reason}): nomes e papéis são a aproximação do próprio Rampa, e as regras que leem a árvore do navegador não tiveram a que se aplicar.',

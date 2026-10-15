@@ -53,6 +53,8 @@ export interface NonTextContentContext {
   image: string
   /** Set when the image is the only content of a link or button: a functional image, named for what the control does. */
   functional?: FunctionalImage | undefined
+  /** The visible text of the link or button the image sits in, without the image, when it holds some. Not in the prompt. */
+  controlText?: string | undefined
   /** Set when the page hides the image from assistive technology: the question is then whether it carries information. */
   hidden?: HiddenImageFacts | undefined
 }
@@ -68,6 +70,12 @@ export interface FunctionalImage {
   destination?: string | undefined
   /** The visible text right next to the control, such as the caption of a quick-access tile. */
   nextTo?: string | undefined
+  /** The parts of the destination's title and heading that are not the site's own name: "nova saúde" of "Nova Saúde - Portal Unicamp". */
+  names?: string[] | undefined
+  /** The parts of the link's address that can name a place: another host's labels and the path's last segment. */
+  addressNames?: string[] | undefined
+  /** Words of this site's own name, which name no place on it: "portal", "unicamp". */
+  siteWords?: string[] | undefined
 }
 
 const SYSTEM = `You check exactly one WCAG 2.1 success criterion: 1.1.1 Non-text Content (Level A).
@@ -159,21 +167,78 @@ export function isLabelAlt(suggested: string): boolean {
   return words.length > 0 && words.every((word) => labels.has(word))
 }
 
-/** The suggestion adds no word to the current alternative: it only removes words or reorders them. */
-export function onlyRewords(suggested: string, current: string): boolean {
-  const words = altWords(suggested)
-  const currentWords = new Set(altWords(current))
-  return words.length > 0 && words.every((word) => currentWords.has(word))
-}
-
 /** Words that say what kind of picture it is, not what it stands for: left out when an alternative is matched with a link's purpose. */
 const KIND_WORDS = new Set(
   [...LABEL_WORDS, 'icons', 'ícones', 'icones', 'iconos', 'images', 'imagens', 'imagenes', 'imágenes', 'logo', 'logos', 'logotipo', 'logotype', 'logomarca', 'pictogram', 'pictograma'].flatMap(altWords),
 )
 const PURPOSE_STOPWORDS = new Set(['the', 'and', 'for', 'with', 'from', 'your', 'uma', 'com', 'para', 'por', 'dos', 'das', 'nos', 'nas', 'del', 'los', 'las'])
 
+/**
+ * Words a page glues to a name with no space between them, as in "Instagramlogo", "ANBIlogo" or
+ * "Ministry of Education, Culture and Sciencelogo" on the real-page study's dev pages: the kind of picture, or "link".
+ */
+const GLUED_SUFFIXES = ['logotipo', 'logomarca', 'logo', 'icone', 'icon', 'imagem', 'image', 'img', 'link', 'banner', 'foto', 'photo']
+const GLUED_PREFIXES = ['logo', 'icone', 'icon', 'img']
+/** The shortest name left once a glued word is split off: "blink" is not "b" and "link". */
+const GLUED_MIN = 3
+
+/**
+ * One word with a glued word split off ("instagramlogo" → "instagram", "logo"), or the word as it is. A word with a
+ * digit stays whole ("img2034" is a file name, not an image of "2034"), and so does a kind word itself ("logotipo").
+ * A real word that happens to end like one ("catálogo", "silicon") is split too. Every text compared is split the same
+ * way, so that only adds a fragment ("cata") no suggestion, title or address uses on its own.
+ */
+export function splitGlued(word: string): string[] {
+  if (KIND_WORDS.has(word) || /\d/.test(word)) return [word]
+  for (const suffix of GLUED_SUFFIXES) {
+    if (word.endsWith(suffix) && word.length - suffix.length >= GLUED_MIN) return [word.slice(0, -suffix.length), suffix]
+  }
+  for (const prefix of GLUED_PREFIXES) {
+    if (word.startsWith(prefix) && word.length - prefix.length >= GLUED_MIN) return [prefix, word.slice(prefix.length)]
+  }
+  return [word]
+}
+
+/** The words of a text, with each glued word split in two. */
+function tokens(text: string): string[] {
+  return altWords(text).flatMap(splitGlued)
+}
+
+/**
+ * The suggestion adds no word to the current alternative: it only removes words or reorders them. A word glued to
+ * the kind of picture counts as two, so "Instagram" only rewords "Instagramlogo".
+ */
+export function onlyRewords(suggested: string, current: string): boolean {
+  const words = altWords(suggested)
+  const currentWords = new Set([...altWords(current), ...tokens(current)])
+  return words.length > 0 && words.every((word) => currentWords.has(word))
+}
+
 function purposeWords(text: string): Set<string> {
-  return new Set(altWords(text).filter((word) => (word.length >= 3 || /\d/.test(word)) && !PURPOSE_STOPWORDS.has(word) && !KIND_WORDS.has(word)))
+  return new Set(tokens(text).filter((word) => (word.length >= 3 || /\d/.test(word)) && !PURPOSE_STOPWORDS.has(word) && !KIND_WORDS.has(word)))
+}
+
+/**
+ * Every word the current alternative names is still in the suggested one: "Lula" in "Lula com um selo de 16%",
+ * "Pinacoteca" in "Pinacoteca de São Paulo". A claim that the alternative names what the image does not show
+ * contradicts the model's own suggestion, which keeps naming it.
+ */
+export function keepsAlternative(suggested: string, current: string): boolean {
+  const named = [...purposeWords(current)]
+  const words = new Set([...altWords(suggested), ...tokens(suggested)])
+  return named.length > 0 && named.every((word) => words.has(word))
+}
+
+/**
+ * The alternative is the visible text of the link or button it sits in, or a run of words of it: redundant at worst
+ * (technique H2 would make it empty), not an image without its alternative. The pictograms of ce.gov.br's "Mais
+ * acessados" list, each named like the service its link shows in words, on the real-page study's dev split.
+ */
+export function repeatsText(alt: string, text: string | undefined): boolean {
+  if (!text || purposeWords(alt).size === 0) return false
+  const said = altWords(alt)
+  const words = altWords(text)
+  return words.some((_, start) => said.every((word, i) => words[start + i] === word))
 }
 
 /**
@@ -190,6 +255,204 @@ export function namesPurpose(alt: string, purposes: ReadonlyArray<string | undef
     if (words.size === 0) return false
     return [...said].every((word) => words.has(word)) || [...words].every((word) => said.has(word))
   })
+}
+
+/** Where a page title splits into names: "Nova Saúde - Portal Unicamp", "Agenda Fiocruz | Portal Fiocruz", "Castelo: Patrimônio da ciência". */
+const TITLE_PARTS = /\s+[-–—|·]\s+|\s*[|·]\s*|:\s+/
+
+function titleParts(text: string | undefined): string[] {
+  return (text ?? '')
+    .split(TITLE_PARTS)
+    .map((part) => normalizeForMatch(part))
+    .filter(Boolean)
+}
+
+/** Labels of a host that can name a place: not "www" or "m", not the top-level domain or a registry's second level. */
+const HOST_FILLER = new Set(['www', 'm', 'com', 'org', 'net', 'gov', 'edu', 'co', 'ac', 'leg', 'jus', 'mil', 'int'])
+
+function hostLabels(host: string): string[] {
+  return host
+    .toLowerCase()
+    .split('.')
+    .filter(Boolean)
+    .slice(0, -1)
+    .filter((label) => !HOST_FILLER.has(label))
+}
+
+function pageUrl(snapshot: A11ySnapshot): URL | undefined {
+  try {
+    return new URL(snapshot.target)
+  } catch {
+    return undefined
+  }
+}
+
+/** What names this site itself, and so no place on it: the labels of its host, the parts of its title, and title parts read at two addresses or more. */
+export interface SiteNames {
+  /** Normalized title parts: "portal unicamp". */
+  parts: Set<string>
+  /** Their words, and the host's labels: "portal", "unicamp". */
+  words: Set<string>
+}
+
+export function siteNames(snapshot: A11ySnapshot): SiteNames {
+  const parts = new Set(titleParts(snapshot.title))
+  const addresses = new Map<string, Set<string>>()
+  for (const [href, read] of Object.entries(snapshot.destinations ?? {})) {
+    if (read.kind !== 'page') continue
+    for (const part of new Set([...titleParts(read.title), ...titleParts(read.heading)])) {
+      addresses.set(part, (addresses.get(part) ?? new Set()).add(read.finalUrl ?? href))
+    }
+  }
+  for (const [part, at] of addresses) if (at.size >= 2) parts.add(part)
+  const own = pageUrl(snapshot)
+  const words = new Set([...[...parts].flatMap((part) => [...purposeWords(part)]), ...(own ? hostLabels(own.hostname) : [])])
+  return { parts, words }
+}
+
+/**
+ * The parts of a link's address that can name where it leads: the labels of a host that is not this page's own
+ * ("museudavida" of www.museudavida.fiocruz.br, read from fiocruz.br) and the last segment of its path
+ * ("anbi-information", "novasaude").
+ */
+export function addressNames(href: string, snapshot: A11ySnapshot): string[] {
+  const own = pageUrl(snapshot)
+  let url: URL
+  try {
+    url = new URL(href, own)
+  } catch {
+    return []
+  }
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') return []
+  const ownLabels = new Set(own ? hostLabels(own.hostname) : [])
+  const names = hostLabels(url.hostname).filter((label) => !ownLabels.has(label))
+  const last = url.pathname.split('/').filter(Boolean).pop()
+  if (last) {
+    try {
+      names.push(decodeURIComponent(last).replace(/\.(html?|php|aspx?|jsp)$/i, ''))
+    } catch {
+      names.push(last)
+    }
+  }
+  return names
+}
+
+/** The shortest glued address word matched with the alternative's words in a row ("60anos", "novasaude"). */
+const GLUED_ADDRESS_MIN = 5
+
+/**
+ * The alternative names a part of the link's address: it holds every word of it ("nova-saude"); the part is one word
+ * glued from several of the alternative's in a row ("museudavida" in "…do Museu da Vida…", "novasaude" in "…selo Nova
+ * Saúde Unicamp"); or the alternative's own words, the site's name aside, are all in it and at least half of its words
+ * ("ANBIlogo" and "anbi-information"). One word of a long slug is not enough: "Brasil" does not name
+ * "brasil-tem-recorde-de-chuva".
+ */
+export function namesAddress(alt: string, address: string, site: ReadonlySet<string> = new Set()): boolean {
+  const named = [...purposeWords(address)]
+  const said = tokens(alt)
+  if (named.some((word) => /\p{L}/u.test(word)) && named.every((word) => said.includes(word))) return true
+  const words = altWords(address)
+  const glued = words.length === 1 ? words[0] : undefined
+  if (glued && glued.length >= GLUED_ADDRESS_MIN) {
+    for (let start = 0; start < said.length; start++) {
+      let joined = said[start] ?? ''
+      for (let end = start + 1; end < said.length && joined.length < glued.length; end++) {
+        joined += said[end]
+        if (joined === glued) return true
+      }
+    }
+  }
+  const own = [...purposeWords(alt)].filter((word) => !site.has(word))
+  return own.length > 0 && own.every((word) => named.includes(word)) && own.length * 2 >= named.length
+}
+
+/**
+ * Services a share or follow link names, with the hosts they live at. An alternative that names one ("X", "Facebook",
+ * "You Tube") names where its link leads, as a pictogram of the service does for people who see it.
+ */
+const SERVICES = new Map<string, string[]>([
+  ['facebook', ['facebook.com', 'fb.com', 'fb.me']],
+  ['instagram', ['instagram.com']],
+  ['x', ['x.com', 'twitter.com']],
+  ['twitter', ['twitter.com', 'x.com']],
+  ['youtube', ['youtube.com', 'youtu.be']],
+  ['tiktok', ['tiktok.com']],
+  ['linkedin', ['linkedin.com']],
+  ['pinterest', ['pinterest.com', 'pin.it']],
+  ['whatsapp', ['whatsapp.com', 'wa.me']],
+  ['telegram', ['telegram.org', 'telegram.me', 't.me']],
+  ['threads', ['threads.net', 'threads.com']],
+  ['bluesky', ['bsky.app']],
+  ['reddit', ['reddit.com']],
+  ['tumblr', ['tumblr.com']],
+  ['flickr', ['flickr.com']],
+  ['vimeo', ['vimeo.com']],
+  ['spotify', ['spotify.com']],
+  ['soundcloud', ['soundcloud.com']],
+  ['github', ['github.com']],
+  ['discord', ['discord.com', 'discord.gg']],
+  ['twitch', ['twitch.tv']],
+  ['snapchat', ['snapchat.com']],
+])
+/** Words around a service's name in a share or follow link: "Share on X", "Siga-nos no Instagram", "Facebooklink". */
+const SERVICE_FILLER = new Set([
+  'share', 'compartilhar', 'compartilhe', 'compartir', 'follow', 'siga', 'sigam', 'nos', 'us', 'on', 'no', 'na', 'em', 'en', 'at', 'our', 'nosso', 'nossa',
+  'page', 'pagina', 'perfil', 'profile', 'channel', 'canal', 'link', 'the', 'da', 'do', 'de',
+])
+
+/** The longest text next to a link still read as its row of share or follow links. */
+const SERVICE_ROW_MAX = 200
+
+function serviceOf(text: string): string | undefined {
+  const key = tokens(text)
+    .filter((word) => !KIND_WORDS.has(word) && !SERVICE_FILLER.has(word))
+    .join('')
+  return SERVICES.has(key) ? key : undefined
+}
+
+/**
+ * The alternative of a link's only image names a service, and the link leads to it, or sits in a row of links to
+ * other services (the text next to it names two of them): medlineplus.gov's "X" between "Facebook" and "Pinterest"
+ * in its share row, on the real-page study's dev split. An "X" alone, as a close button's, names no service.
+ */
+export function namesService(alt: string, f: Pick<FunctionalImage, 'control' | 'href' | 'nextTo'>): boolean {
+  if (f.control !== 'link') return false
+  const service = serviceOf(alt)
+  if (!service) return false
+  let host: string | undefined
+  try {
+    host = f.href ? new URL(f.href).hostname.toLowerCase() : undefined
+  } catch {
+    host = undefined
+  }
+  const at = (domains: string[]): boolean => host !== undefined && domains.some((domain) => host === domain || host.endsWith(`.${domain}`))
+  // A link to a service's host names that service: "Facebook" on a link to instagram.com names the wrong one.
+  if ([...SERVICES.values()].some(at)) return at(SERVICES.get(service) ?? [])
+  // A link that runs a share script ("#") or leads elsewhere: only a short row of other services next to it says so.
+  if (!f.nextTo || f.nextTo.length > SERVICE_ROW_MAX) return false
+  const around = tokens(f.nextTo)
+  const others = new Set<string>()
+  for (let i = 0; i < around.length; i++) {
+    for (const word of [around[i], `${around[i]}${around[i + 1] ?? ''}`]) {
+      // A lone letter ("x") is not counted as a service next to it: "3 x 2" is not a share row.
+      if (word && word !== service && word.length >= 3 && SERVICES.has(word)) others.add(word)
+    }
+  }
+  return others.size >= 2
+}
+
+/**
+ * The alternative of a link's only image names its destination: a part of the destination's title or heading that is
+ * not the site's own name ("Nova Saúde" of "Nova Saúde - Portal Unicamp"), a part of the link's address, or a service.
+ */
+export function namesDestination(alt: string, f: FunctionalImage): boolean {
+  const said = new Set(tokens(alt))
+  const byName = (f.names ?? []).some((name) => {
+    const words = [...purposeWords(name)]
+    return words.some((word) => /\p{L}/u.test(word)) && words.every((word) => said.has(word))
+  })
+  const site = new Set(f.siteWords ?? [])
+  return byName || (f.addressNames ?? []).some((address) => namesAddress(alt, address, site)) || namesService(alt, f)
 }
 
 /** The longest text next to a functional image that is still read as its caption when matching its purpose. */
@@ -217,7 +480,7 @@ function onlyContent(control: A11yNode, image: A11yNode): boolean {
  * The image is a functional image when it is all its link or button holds, and the control takes its name
  * from it (no aria-label or aria-labelledby of its own): its alternative is then the control's name.
  */
-function functionalImage(control: A11yNode, image: A11yNode, index: TreeIndex, snapshot: A11ySnapshot): FunctionalImage | undefined {
+function functionalImage(control: A11yNode, image: A11yNode, index: TreeIndex, snapshot: A11ySnapshot, site: () => SiteNames): FunctionalImage | undefined {
   const attributes = attributesOf(control)
   const ownName = control !== image && Boolean(attributes['aria-label']?.trim() || attributes['aria-labelledby']?.trim())
   if (ownName || !onlyContent(control, image)) return undefined
@@ -233,6 +496,9 @@ function functionalImage(control: A11yNode, image: A11yNode, index: TreeIndex, s
   const href = control.role === 'link' ? attributes.href?.trim() || undefined : undefined
   const read = href ? snapshot.destinations?.[href] : undefined
   const destination = read?.kind === 'page' ? [read.title, read.heading].filter(Boolean).join(' · ') || undefined : undefined
+  // Facts for verification only, never in the prompt: what names the destination, and the site's own name.
+  const names = read?.kind === 'page' ? [...new Set([...titleParts(read.title), ...titleParts(read.heading)])].filter((part) => !site().parts.has(part)) : []
+  const addresses = href ? addressNames(href, snapshot) : []
   return {
     control: control.role === 'button' ? 'button' : 'link',
     // An image button's own title is the author's same words again, no evidence of what it does.
@@ -240,6 +506,8 @@ function functionalImage(control: A11yNode, image: A11yNode, index: TreeIndex, s
     href,
     destination,
     nextTo: nextTo ? truncate(nextTo, 300) : undefined,
+    ...(names.length ? { names } : {}),
+    ...(addresses.length ? { addressNames: addresses, siteWords: [...site().words].sort() } : {}),
   }
 }
 
@@ -265,8 +533,12 @@ export function looksLikePlaceholder(alt: string, src?: string): boolean {
   if (/\.(png|jpe?g|gif|webp|svg|avif|bmp)$/i.test(value)) return true
   if (/^(img|image|imagem|foto|photo|picture|pic|banner|icon|ícone|logo|graphic|untitled|placeholder|thumbnail)[\s_-]?\d*$/i.test(value)) return true
   if (/^[A-Z]{2,5}[_-]?\d{3,}$/i.test(value)) return true
+  // The file's own name is a placeholder only when it looks like a file name, with no space and a separator or a
+  // digit ("Tarja-Especiais-Site-Interna-1"): a file named in words gives its alternative no reason to be one. On the
+  // real-page study's dev split, poder360.com.br's photo of Lula, from "Lula.png", was called a file name for "Lula".
   const file = fileName(src)
-  return file !== undefined && normalizeForMatch(file.replace(/\.[a-z0-9]+$/i, '')) === normalizeForMatch(value)
+  if (file === undefined || /\s/.test(value) || !/[_\-\d]/.test(value)) return false
+  return normalizeForMatch(file.replace(/\.[a-z0-9]+$/i, '')) === normalizeForMatch(value)
 }
 
 export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutput> = {
@@ -293,6 +565,8 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
         .flatMap((rule) => rule.nodes.flatMap((node) => (node.ref ? [node.ref] : []))),
     )
     const candidates: Candidate<NonTextContentContext>[] = []
+    let site: SiteNames | undefined
+    const siteOnce = (): SiteNames => (site ??= siteNames(snapshot))
     for (const node of walkTree(snapshot.root)) {
       if (!isImageNode(node) || failedByEngine.has(node.ref)) continue
       if (node.states.includes('hidden') || node.states.includes('aria-hidden')) continue
@@ -318,7 +592,9 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
       }
       // An image button (input type="image") is its own control.
       const imageButton = node.native.tag === 'input' && attributesOf(node).type === 'image'
-      const functional = imageButton ? functionalImage(node, node, index, snapshot) : control ? functionalImage(control, node, index, snapshot) : undefined
+      const functional = imageButton ? functionalImage(node, node, index, snapshot, siteOnce) : control ? functionalImage(control, node, index, snapshot, siteOnce) : undefined
+      // What the control says in words besides this image, for an image that is not all it holds.
+      const controlText = control && !functional && !imageButton ? truncate(textWithout(control, node), 500) || undefined : undefined
       const attributes = (node.native.attributes ?? {}) as Record<string, string>
       // Native nodes have no markup; their source is the node as the platform's tools show it.
       const markup = typeof node.native.html === 'string' ? node.native.html.replace(/src="data:[^"]{40,}"/, 'src="data:…"') : typeof node.native.source === 'string' ? node.native.source : ''
@@ -334,6 +610,7 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
           nearbyText: nearbyText ? truncate(nearbyText, 300) : undefined,
           image: node.image,
           ...(functional ? { functional } : {}),
+          ...(controlText ? { controlText } : {}),
         },
       })
     }
@@ -404,18 +681,29 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
       // A functional image is named for what its control does: naming that is right, whatever the picture shows.
       // Told so, the model says the same claim as "missing_information" (it does not say where the link leads),
       // which an alternative that names the link's title, destination or caption refutes just as well.
+      const { alt, src, controlText } = candidate.context
       const f = candidate.context.functional
       const aboutPurpose = output.problem === 'wrong_content' || output.problem === 'missing_information'
+      // A file name, a placeholder or a generic word names nothing, so no fact below speaks for it ("img-1", "logo").
+      const words = !looksLikePlaceholder(alt, src) && !isGenericAlt(alt)
+      // An image that is not all its link or button holds, named like the text the control shows: redundant at worst.
+      if (aboutPurpose && words && repeatsText(alt, controlText)) {
+        return { ok: false, reason: 'the alternative repeats the visible text of the link or button it sits in' }
+      }
       // Only a caption counts as the text next to it: a paragraph holds the words of almost any short alternative.
       const caption = f?.nextTo && f.nextTo.length <= CAPTION_MAX ? f.nextTo : undefined
-      if (aboutPurpose && f && namesPurpose(candidate.context.alt, [f.title, f.destination, caption])) {
+      if (aboutPurpose && f && words && (namesPurpose(alt, [f.title, f.destination, caption]) || namesDestination(alt, f))) {
         return { ok: false, reason: `the alternative names the purpose of the ${f.control} it is the only content of` }
       }
       // A claim about the alternative's own text (a placeholder, a generic word) stands whatever the model suggests
       // in its place: a weak suggestion costs only the patch. Any other claim rests on what the model says the image
       // conveys, and a suggestion that is only a label or the same words again shows it did not see that.
-      const weak = output.problem === 'decorative' ? undefined : weakSuggestion(output.suggestedAlt, candidate.context.alt)
+      const weak = output.problem === 'decorative' ? undefined : weakSuggestion(output.suggestedAlt, alt)
       if (weak && !aboutOwnText(output.problem)) return { ok: false, reason: weak }
+      // "Names what the image does not show", with a suggestion that keeps naming it: the claim contradicts itself.
+      if (output.problem === 'wrong_content' && words && keepsAlternative(output.suggestedAlt, alt)) {
+        return { ok: false, reason: 'the suggested alternative keeps every word of the current one' }
+      }
     }
     return { ok: true }
   },

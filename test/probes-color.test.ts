@@ -189,6 +189,27 @@ describe('1.4.1 over recorded facts', () => {
     expect(byRule(settled, LINK)).toEqual([])
   })
 
+  it("keeps axe-core's undecided link-in-text-block at the default threshold, where the rule's finding is not shown", async () => {
+    const undecided: EngineResults = { engine: { name: 'axe-core', version: '4' }, rules: [{ ruleId: 'link-in-text-block', outcome: 'incomplete', criteria: ['1.4.1'], help: 'Links must be distinguishable', nodes: [{ ref: '#terms', target: '#terms', html: '<a>' }] }] }
+    const strict = await checkSnapshot(snapshotOf({ links: [link()] }), undecided, probeCheckOptions({ minConfidence: 'medium' }))
+    expect(byRule(strict, LINK)).toEqual([])
+    expect(strict.belowThreshold.filter((f) => f.ruleId === LINK).map((f) => f.ref)).toEqual(['#terms'])
+    const kept = (strict.needsReview ?? []).filter((r) => r.ruleId === 'link-in-text-block')
+    expect(kept.map((r) => r.ref)).toEqual(['#terms'])
+    expect(kept[0]?.evidence).toContain("Rampa's rampa/link-color-only measured it, below the confidence threshold:")
+    // At --min-confidence low the failure is shown, and it replaces axe-core's item.
+    const low = await check(snapshotOf({ links: [link()] }), undecided)
+    expect(byRule(low, LINK).map((f) => f.ref)).toEqual(['#terms'])
+    expect((low.needsReview ?? []).filter((r) => r.ruleId === 'link-in-text-block')).toEqual([])
+  })
+
+  it('quotes the text a link was compared with when the probe recorded it, and reads a first-version record as it did', async () => {
+    const quoted = await check(snapshotOf({ links: [link({ aroundText: 'Read our before you sign up' })] }))
+    expect(byRule(quoted, LINK)[0]?.evidence).toBe('<a> "terms": link #2255aa against text #222222 ("Read our before you sign up"), 2.23:1; no underline, border, weight, size, style, icon or pseudo-element sets it apart at rest')
+    const first = await check(snapshotOf({ links: [link()] }))
+    expect(byRule(first, LINK)[0]?.evidence).toBe('<a> "terms": link #2255aa against text #222222, 2.23:1; no underline, border, weight, size, style, icon or pseudo-element sets it apart at rest')
+  })
+
   it('leaves alone a link styled exactly like the text around it: nothing tells it apart, color included', async () => {
     const report = await check(snapshotOf({ links: [link({ color: '#ffffff', around: '#ffffff', contrast: 1 })], found: { states: 0, required: 0, links: 1, instructions: 0 } }))
     expect(byRule(report, LINK)).toEqual([])
@@ -265,7 +286,7 @@ describe.skipIf(!browser)('color probe (1.4.1)', { timeout: 120_000 }, () => {
     const { snapshot, engine } = await probed('color-fail.html')
     expect(A11ySnapshotSchema.safeParse(snapshot).success).toBe(true)
     const record = snapshot.observations?.probes.find((p) => p.kind === 'color')
-    expect(record).toMatchObject({ kind: 'color', version: '1', status: 'complete', conditions: { variant: 'use-of-color' } })
+    expect(record).toMatchObject({ kind: 'color', version: '2', status: 'complete', conditions: { variant: 'use-of-color' } })
     const report = await checkSnapshot(snapshot, engine, probeCheckOptions())
     expect(colorFindings(report).map((f) => `${f.ruleId} ${f.ref}`)).toEqual([
       `${STATE} html > body > main > nav > ul > li:nth-of-type(2) > a`,
@@ -310,13 +331,39 @@ describe.skipIf(!browser)('color probe (1.4.1)', { timeout: 120_000 }, () => {
     expect(reviewByRule(report, LINK).map((r) => r.ref)).toEqual(['#quiet > a'])
   })
 
+  it('compares a link with the text around it in its block: a paragraph\'s unstyled link fails, and so does one whose block is colored like it', async () => {
+    const { snapshot, engine } = await probed('color-links-fail.html')
+    const report = await checkSnapshot(snapshot, engine, probeCheckOptions())
+    const links = byRule(report, LINK)
+    expect(links.map((f) => f.ref)).toEqual(['#running > a', '#card > a'])
+    expect(links[0]?.evidence).toBe('<a> "care guide": link #006699 against text #444444 ("Read the before your next visit, and as…"), 1.56:1; no underline, border, weight, size, style, icon or pseudo-element sets it apart at rest')
+    // The card's own color is the link's; the words around the link are gray, and those are what it is compared with.
+    expect(dataOf(snapshot)?.links[1]).toMatchObject({ color: '#006699', around: '#444444', aroundText: 'Posted in, with notes about every study…' })
+  })
+
+  it('leaves out links with no text around them (a menu, a row of links), and counts a size apart from the text next to the link as a cue', async () => {
+    const { snapshot, engine } = await probed('color-links-pass.html')
+    const report = await checkSnapshot(snapshot, engine, probeCheckOptions())
+    expect(colorFindings(report)).toEqual([])
+    expect(reviewByRule(report, LINK)).toEqual([])
+    const data = dataOf(snapshot) as ColorData
+    // The menu's and the row's links are not in text; the resource titles are 14 px against a 12 px note, #666666.
+    expect(data.found.links).toBe(3)
+    expect(data.links.map((l) => `${l.el.ref} ${l.rest.join(',')} ${l.around}`)).toEqual([
+      '#resources > li:nth-of-type(1) > a font-size 14px #666666',
+      '#resources > li:nth-of-type(2) > a font-size 14px #666666',
+      '#underlined > a underline #444444',
+    ])
+    expect(data.links[0]?.aroundText).toBe('(National Institute of Diabetes and Dig…')
+  })
+
   it('stays below the default threshold and prints its coverage lines', async () => {
     const { snapshot, engine } = await probed('color-fail.html')
     const report = await checkSnapshot(snapshot, engine, probeCheckOptions({ minConfidence: 'medium' }))
     expect(colorFindings(report)).toEqual([])
     expect(report.belowThreshold.filter((f) => COLOR_RULES.includes(f.ruleId ?? ''))).toHaveLength(5)
     const text = renderReport(report, { verbose: true, paint: paint(false) })
-    expect(text).toMatch(/1\.4\.1 +probe\/color@1 \(rampa\/color-only-state\) · current and selected items against their neighbours at 1280×800/)
+    expect(text).toMatch(/1\.4\.1 +probe\/color@2 \(rampa\/color-only-state\) · current and selected items against their neighbours at 1280×800/)
   })
 
   it('replays a saved snapshot offline to the same findings', async () => {

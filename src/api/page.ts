@@ -18,7 +18,8 @@ export interface CheckPageOptions extends RampaOptions {
   screenshotDir?: string | undefined
   /**
    * Elements the collector reads before it stops, in the page's own document, and as many again in its shadow roots and
-   * frames; the snapshot records when it stopped (`truncated`, `reach.truncated`). Default 5000.
+   * frames; the snapshot records when it stopped (`truncated` with `elementLimit`, `reach.truncated`), and the report says
+   * what the cut left unchecked. Default 5000.
    */
   maxNodes?: number | undefined
 }

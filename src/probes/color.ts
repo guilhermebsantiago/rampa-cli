@@ -21,8 +21,9 @@ import { type ProbeOptions, openProbePage, skippedRecord } from './page.ts'
  * - **Required fields.** In a form with required and optional fields, the labels (and the fields) of the two
  *   kinds are compared the same way, after looking for text marks: an asterisk, "required", "(optional)".
  * - **Links in text.** Each link inside a block of text: what tells it apart from the text around it at rest
- *   (underline, border, weight, an icon), the luminance contrast of its color with the text's, and what changes
- *   when the pointer hovers it and when it takes focus.
+ *   (underline, border, weight, size, an icon), the luminance contrast of its color with the text's, and what changes
+ *   when the pointer hovers it and when it takes focus. The text around it is the block's own visible text outside
+ *   links and controls, in the style most of it has; a block with none (a list of links, a menu) holds no link in text.
  * - **Color words.** Sentences that refer to a color to convey something ("Fields in red are required", "Os campos
  *   em vermelho são obrigatórios") are quoted, with the hue of what they seem to name: the labels and fields, error
  *   messages, links or text on the page that have that hue, and whether those carry another mark.
@@ -31,7 +32,8 @@ import { type ProbeOptions, openProbePage, skippedRecord } from './page.ts'
  * screenshots and changes colors for a moment (put back right after each capture). It never clicks or types.
  */
 
-export const COLOR_VERSION = '1'
+/** 2: links are compared with the text around them in their block, not with the block's own color. */
+export const COLOR_VERSION = '2'
 /** Pixels around an element in its captures: outlines, shadows and indicators next to it fall inside. */
 export const HALO = 8
 const TIME_BUDGET_MS = 45_000
@@ -133,6 +135,12 @@ export interface LinkFact {
   color: string
   around: string
   contrast: number
+  /**
+   * The text it was compared with (version 2): the visible text of its block that is in no link or control, in the
+   * style most of that text has, cut to 40 characters. Version 1 compared with the block's own color, which may color
+   * no text at all (a list item whose only other text is a smaller, grayer note).
+   */
+  aroundText?: string | undefined
   /** What tells it apart from the text around it at rest, other than color: 'underline', 'border-bottom', 'icon'… */
   rest: string[]
   /** It paints its own background, which may tell it apart (with the contrast against the block's background). */
@@ -832,6 +840,53 @@ export function installColorKit(): void {
         .map((rule) => rule.id)
         .join(',')
     }
+    // Text that is not text around a link: other links, and controls, whose text is their name.
+    const NOT_AROUND = 'a[href], [role="link"], button, [role="button"], select, textarea, option'
+    const LINE = /underline|overline|line-through/
+    const ownBlock = (el: Element): Element | null => (BLOCK.test(getComputedStyle(el).display) ? el : blockOf(el))
+    /**
+     * The text around a link, which F73 compares it with: the visible text of the link's block that is in no link or
+     * control, grouped by how it looks (color, size, weight, style, family, a line under it). Text of a nested block is
+     * that block's. The group with the most characters is the text the link is compared with; `chars` counts them all.
+     * Comparing with the block's own color instead read the color of a list item whose only text is a smaller, grayer
+     * note (the fresh-page study's dev split, docs/studies/real-pages-2026-10-fresh.md).
+     */
+    const readAround = (block: Element): { el: Element; underlined: boolean; sample: string; chars: number } | undefined => {
+      const groups = new Map<string, { el: Element; underlined: boolean; text: string[]; chars: number }>()
+      let chars = 0
+      const walker = document.createTreeWalker(block, NodeFilter.SHOW_TEXT)
+      for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+        const value = (node.textContent ?? '').replace(/\s+/g, ' ')
+        const count = value.replace(/\s/g, '').length
+        const parent = node.parentElement
+        if (count === 0 || !parent) continue
+        const other = parent.closest(NOT_AROUND)
+        if (other && block.contains(other)) continue
+        if (ownBlock(parent) !== block) continue
+        let seen = true
+        let underlined = false
+        for (let el: Element | null = parent; el; el = el === block ? null : parentOf(el)) {
+          if (!kit.visible(el) || clippedAway(el)) seen = false
+          if (LINE.test(decoration(getComputedStyle(el)))) underlined = true
+        }
+        if (!seen) continue
+        const ts = getComputedStyle(parent)
+        const key = [hex(textColor(parent)), px(ts.fontSize), Number.parseInt(ts.fontWeight, 10) >= 600, ts.fontStyle, ts.fontFamily, underlined].join('|')
+        const group = groups.get(key) ?? { el: parent, underlined, text: [], chars: 0 }
+        group.chars += count
+        group.text.push(value)
+        groups.set(key, group)
+        chars += count
+      }
+      const main = [...groups.values()].sort((a, b) => b.chars - a.chars)[0]
+      return main ? { el: main.el, underlined: main.underlined, sample: main.text.join('').replace(/\s+/g, ' ').trim(), chars } : undefined
+    }
+    // Links share their block: it is read once.
+    const aroundOf = new Map<Element, ReturnType<typeof readAround>>()
+    const textAround = (block: Element) => {
+      if (!aroundOf.has(block)) aroundOf.set(block, readAround(block))
+      return aroundOf.get(block)
+    }
     let linksFound = 0
     for (const link of deepAll('a[href]')) {
       if (!shown(link) || (link.getAttribute('role') ?? 'link') !== 'link') continue
@@ -841,30 +896,40 @@ export function installColorKit(): void {
       if (!text) continue
       const block = blockOf(link)
       if (!block) continue
-      // In a block of text: the block holds text outside its links.
-      const blockText = visibleText(block)
-      const linkText = Array.from(block.querySelectorAll('a[href]')).map((a) => visibleText(a)).join('')
-      if (blockText.replace(/\s/g, '').length - linkText.replace(/\s/g, '').length < 20) continue
+      // In a block of text: the block holds text of its own, outside links and controls. A list of links, a menu or
+      // a row of buttons holds none, and is not text a link sits in.
+      const around = textAround(block)
+      if (!around || around.chars < 20) continue
       linksFound++
       if (links.length >= budget.maxLinks) continue
-      const bs = getComputedStyle(block)
+      const ts = getComputedStyle(around.el)
       const rest: string[] = []
       const deco = decoration(s)
-      if (deco !== 'none' && !/underline|overline|line-through/.test(decoration(bs))) rest.push(deco.split(' ')[0] ?? 'underline')
+      if (deco !== 'none' && !around.underlined) rest.push(deco.split(' ')[0] ?? 'underline')
       for (const side of SIDES) if (border(s, side) !== 'none') rest.push(`border-${side}`)
       if (outline(s) !== 'none') rest.push('outline')
       if (s.boxShadow && s.boxShadow !== 'none') rest.push('box-shadow')
-      if ((Number.parseInt(s.fontWeight, 10) >= 600) !== (Number.parseInt(bs.fontWeight, 10) >= 600)) rest.push(`font-weight ${s.fontWeight}`)
-      if (s.fontStyle !== bs.fontStyle) rest.push(`font-style ${s.fontStyle}`)
-      if (s.fontFamily !== bs.fontFamily) rest.push('font-family')
-      if (Math.abs(px(s.fontSize) - px(bs.fontSize)) >= 1) rest.push(`font-size ${px(s.fontSize)}px`)
-      if (s.textTransform !== bs.textTransform) rest.push(`text-transform ${s.textTransform}`)
+      // Weight, style, family, size and case as the text around it has them, not as its block declares them.
+      if ((Number.parseInt(s.fontWeight, 10) >= 600) !== (Number.parseInt(ts.fontWeight, 10) >= 600)) rest.push(`font-weight ${s.fontWeight}`)
+      if (s.fontStyle !== ts.fontStyle) rest.push(`font-style ${s.fontStyle}`)
+      if (s.fontFamily !== ts.fontFamily) rest.push('font-family')
+      if (Math.abs(px(s.fontSize) - px(ts.fontSize)) >= 1) rest.push(`font-size ${px(s.fontSize)}px`)
+      if (s.textTransform !== ts.textTransform) rest.push(`text-transform ${s.textTransform}`)
       if (s.backgroundImage !== 'none') rest.push('background-image')
       for (const pseudo of PSEUDOS) if (pseudoPaints(getComputedStyle(link, pseudo))) rest.push(pseudo)
       if (Array.from(link.querySelectorAll('svg, img')).some((i) => shown(i) && i.getBoundingClientRect().width >= 6)) rest.push('icon')
       const color = textColor(link)
-      const around = textColor(block)
-      const fact: LinkFact = { el: kit.describe(link), text: short(text), color: hex(color), around: hex(around), contrast: contrast(color, around), rest, group: 0 }
+      const aroundColor = textColor(around.el)
+      const fact: LinkFact = {
+        el: kit.describe(link),
+        text: short(text),
+        color: hex(color),
+        around: hex(aroundColor),
+        contrast: contrast(color, aroundColor),
+        aroundText: short(around.sample, 40),
+        rest,
+        group: 0,
+      }
       const own = rgba(s.backgroundColor)
       if (own[3] > 0) {
         const behind = backdrop(block)

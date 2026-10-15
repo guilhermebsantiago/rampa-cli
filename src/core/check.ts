@@ -11,7 +11,7 @@ import { RULE_CHECKS, type RuleCheck, type RuleStageResult, type Settlement, emp
 import { reviewLabelInName } from '../rules/label-in-name.ts'
 import { uncapturedImagesNote } from '../snapshot/image-skips.ts'
 import { axNotes, browserNamed } from '../snapshot/ax.ts'
-import { reachNotes, unreached } from '../snapshot/reach.ts'
+import { pageCut, reachNotes, truncationNote, unreached } from '../snapshot/reach.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { AXE_REVIEW_RULES, EXPERIMENTAL_RULES } from '../engine/axe.ts'
 import { criteriaCoverage, engineCoverage, reviewItems, reviewOnlyCriteria, ruleCoverage } from './coverage.ts'
@@ -504,8 +504,14 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   // Frames and closed shadow roots the collector could not read: said first, since they frame everything else.
   // Then images left without a capture, then candidates the model did not judge.
   // What the browser's own accessibility tree left out comes with them: the rules that read it saw less.
-  notes.unshift(...reachNotes(snapshot.reach, options.locale), ...axNotes(snapshot.axTree, options.locale), ...(uncaptured ? [uncaptured] : []))
-  // A page that is not an HTML document frames everything else: said first.
+  // A page cut at the collector's budget comes first: the checks that read the snapshot saw only its start.
+  const elements = pageCut(snapshot)
+  const truncated = elements !== undefined ? { elements, criteria: [...new Set([...ruleCovered, ...judged])].sort(compareCriteria) } : undefined
+  const cutNote = truncated
+    ? truncationNote(truncated, { engine: engine.engine.name !== 'none' ? engine.engine.name : undefined, probes: (snapshot.observations?.probes.length ?? 0) > 0 }, options.locale)
+    : undefined
+  notes.unshift(...(cutNote ? [cutNote] : []), ...reachNotes(snapshot.reach, options.locale), ...axNotes(snapshot.axTree, options.locale), ...(uncaptured ? [uncaptured] : []))
+  // A page that is not an HTML document frames everything else, a cut included: said before it.
   if (snapshot.document) notes.unshift(t(options.locale, snapshot.document.kind === 'svg' ? 'documentSvg' : 'documentXml', { contentType: snapshot.document.contentType }))
   const reach = unreached(snapshot.reach)
   // The form probe submitted forms, or listed what it would: every report says so at the top.
@@ -540,6 +546,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       ...(ruleCovered.length > 0 ? { rules: ruleCovered } : {}),
       ...(probe.coverage.length > 0 ? { probes: probe.coverage } : {}),
       ...(reach ? { reach } : {}),
+      ...(truncated ? { truncated } : {}),
       criteria: records,
       ...(options.fast ? { fast: options.fast } : {}),
     },

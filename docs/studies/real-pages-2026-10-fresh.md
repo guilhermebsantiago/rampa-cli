@@ -227,7 +227,7 @@ Same rubric, same two-judge method, same model; different pages and code.
 
 ## False positives, dev split only
 
-Every pattern below comes from dev pages, described from the two judges' rationales and checked against the snapshots and the model's cached answers. Test-split false positives were counted but not read for patterns, so that the test half can measure whatever is changed next. The suggestions are for future work on dev evidence only.
+Every pattern below comes from dev pages, described from the two judges' rationales and checked against the snapshots and the model's cached answers. Test-split false positives were counted but not read for patterns, so that the test half can measure whatever is changed next. The suggestions are for future work on dev evidence only. Items 1, 2, 4 and 5 were later fixed in 1.1.1's verification, on this dev split only: [notes-111-dev-fixes.md](notes-111-dev-fixes.md).
 
 ### What a user sees: the default threshold (25 false positives on dev)
 
@@ -263,6 +263,8 @@ Every pattern below comes from dev pages, described from the two judges' rationa
 ### A collector gap, not a finding
 
 The martinsfontespaulista.com.br listing has 2,446 links and 1,612 form fields, most of them checkboxes of its filter sidebar (456 are in the part the collector read). The collector stopped at its budget of 5,000 elements, which the snapshot records (`truncated: true`), before it reached the products: 2.4.4 found 16 link candidates on the page, and axe-core, which reads the whole page, reported 223 violations. The report does not say the page was cut short; it says so only for shadow roots and frames. A long listing is the kind of page the first study lost to time-outs, and it is still only partly checked, now silently.
+
+**Follow-up.** `rampa/link-color-only`, the text-field caret in `rampa/focus-visible` and `rampa/focus-indicator-contrast`, and this collector gap were then fixed from these dev patterns alone, with Rampa Lab's `rampa/placeholder-text` false positive; [the notes](notes-rules-dev-fixes.md) give what changed and its effect on the dev pages (the 12 false positives gone, no true positive lost). The test split was not used.
 
 ## Caveats
 

@@ -2,7 +2,7 @@ import { z } from 'zod'
 import type { EngineResults, Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
-import { reviewGroups, reviewOnly, thresholdLevel } from '../report/common.ts'
+import { reviewGroups, reviewOnly, thresholdLevel, truncationText } from '../report/common.ts'
 import { beyondTargetNote, displayTarget, usageLine } from '../report/pretty.ts'
 import { criteriaFor, criterionLabel, successCriterion, versionOf } from '../wcag.ts'
 
@@ -263,7 +263,9 @@ export function checkResult(report: Report, engine: EngineResults, maxFindings =
 
 function notesOf(report: Report, findings: AgentFinding[]): string[] {
   const locale = report.locale
-  const notes: string[] = []
+  // A page cut at the collector's budget first: everything else describes only its start.
+  const cut = truncationText(report)
+  const notes: string[] = cut ? [cut] : []
   const sum = (key: 'discarded' | 'cannotTell' | 'offlineMisses' | 'errors' | 'candidates') =>
     report.criteria.reduce((total, c) => total + c[key], 0)
   if (report.llm === 'off' && sum('candidates') > 0) {
