@@ -1,13 +1,16 @@
 import { describe, expect, it } from 'vitest'
 import { COGA_PATTERNS, cogaBasis } from '../src/advisory/coga.ts'
 import { advisoryLabel } from '../src/advisory/label.ts'
-import { ADVISORY_MESSAGES, ERROR_LABEL, FAILURE_WORDING } from '../src/advisory/messages.ts'
+import { ADVISORY_MESSAGES, ERROR_LABEL, FAILURE_WORDING, am } from '../src/advisory/messages.ts'
 import type { Advisory } from '../src/advisory/types.ts'
 import { memoryCache } from '../src/core/cache.ts'
 import { checkSnapshot } from '../src/core/check.ts'
 import type { Report } from '../src/core/types.ts'
 import { LOCALES, type Locale } from '../src/i18n.ts'
+import { advisoryLines } from '../src/report/advisory.ts'
 import { paint } from '../src/report/color.ts'
+import { renderHtml } from '../src/report/html.ts'
+import { renderMarkdown } from '../src/report/markdown.ts'
 import { renderReport } from '../src/report/pretty.ts'
 import { testDictionaries } from './coga-helpers.ts'
 import { cadastroSnapshot } from './coga-snapshot.ts'
@@ -89,6 +92,30 @@ describe('advisory wording', () => {
           if (advisory.basis.framework === 'coga') expect('level' in advisory.basis).toBe(false)
         }
         for (const note of report.advisory?.notes ?? []) expectNoFailureWording(note, `${locale} note`)
+      }
+    }
+  })
+
+  it('marks experimental advisories with a notice and a tag that use no failure wording, in every format and both languages', async () => {
+    for (const locale of LOCALES) {
+      const report = await reportIn(locale)
+      const notice = am(locale, 'experimentalNotice')
+      const tag = am(locale, 'experimentalTag')
+      const markdown = renderMarkdown([report])
+      const html = renderHtml([report])
+      const sections = {
+        terminal: advisoryLines(report, true, paint(false)).join('\n'),
+        markdown: markdown.slice(markdown.indexOf('<details>'), markdown.indexOf('</details>')),
+        html: html
+          .slice(html.indexOf('<section class="advisories"'), html.indexOf('</section>', html.indexOf('<section class="advisories"')))
+          .replace(/<[^>]+>/g, ' ')
+          .replaceAll('&quot;', '"')
+          .replaceAll('&#39;', "'"),
+      }
+      for (const [format, text] of Object.entries(sections)) {
+        expect({ format, notice: text.includes(notice) }).toEqual({ format, notice: true })
+        expect({ format, tag: text.includes(` · ${tag}`) }).toEqual({ format, tag: true })
+        expectNoFailureWording(text, `${locale} ${format} advisory section`)
       }
     }
   })

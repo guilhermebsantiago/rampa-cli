@@ -184,6 +184,8 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
         ruleIndex.set(id, index)
       }
       results.push(advisoryResultOf(advisory, kind, report, artifact, { id, index }))
+      // The rule's maturity sums up its advisories' as it does for findings: an experimental check's rule is tagged experimental.
+      ruleSources[index] = [...(ruleSources[index] ?? []), advisory.maturity === 'experimental']
     }
 
     const where = [{ physicalLocation: { artifactLocation: artifact } }]
@@ -495,6 +497,9 @@ function advisoryResultOf(advisory: Advisory, kind: Kind, report: Report, artifa
       advisory: true,
       kind: advisory.kind,
       check: advisory.check,
+      // The check's maturity: an experimental one runs with the profile but has not passed its evaluation gate yet.
+      maturity: advisory.maturity,
+      experimental: advisory.maturity === 'experimental',
       impact: advisory.impact,
       findingId: advisory.fingerprint,
       source: advisory.source,

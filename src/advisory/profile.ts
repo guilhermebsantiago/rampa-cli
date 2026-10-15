@@ -161,6 +161,8 @@ function toAdvisory(hit: AdvisoryHit, check: AdvisoryCheck, options: ProfileOpti
   return {
     fingerprint: fingerprint(check.id, hit.pageLevel ? undefined : hit.ref, hit.subject),
     check: check.id,
+    // From the check, so a check promoted to stable stops being marked experimental in every report.
+    maturity: check.maturity,
     kind: hit.kind,
     label: advisoryLabel(hit.basis, options.locale),
     basis: hit.basis,

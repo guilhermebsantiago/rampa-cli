@@ -14,7 +14,8 @@ import { escapeHtml as e, pageLabel, safeUrl } from './common.ts'
 /**
  * How advisories show in each report: a section of their own after the WCAG findings, grouped by check
  * and ordered by impact, with the fixed label on every group, and never the ✗ of a failure (◇ instead).
- * Then the text measurements, as context, and the profile's lines in the coverage.
+ * An advisory whose check is experimental carries the tag "experimental", and the section opens with one
+ * notice that says what that means. Then the text measurements, as context, and the profile's lines in the coverage.
  */
 
 /** Elements listed per check, and advisories per page, before the rest are counted (--verbose lists them all). */
@@ -44,6 +45,19 @@ export function shownAdvisories(section: AdvisorySection, verbose: boolean): Adv
   return verbose ? [...section.results, ...section.belowThreshold] : section.results
 }
 
+/**
+ * Whether an advisory comes from a check that has not passed its evaluation gate yet. It reads the maturity the
+ * runner copied from the check, never a list of check ids, so a check promoted to stable loses the tag everywhere.
+ */
+export function isExperimental(advisory: Pick<Advisory, 'maturity'>): boolean {
+  return advisory.maturity === 'experimental'
+}
+
+/** The one notice at the top of an advisory section, when anything it shows is experimental. */
+export function experimentalNotice(advisories: readonly Advisory[], locale: Locale): string | undefined {
+  return advisories.some(isExperimental) ? am(locale, 'experimentalNotice') : undefined
+}
+
 /** "CPF ×4, CEP ×2, RG": the abbreviations reported beyond the target, as one line. */
 function beyondList(beyond: readonly Advisory[]): string {
   return beyond
@@ -55,25 +69,28 @@ function beyondList(beyond: readonly Advisory[]): string {
 }
 
 /**
- * The "beyond the target" lines: one per WCAG criterion. 3.1.4 lists the abbreviations; 1.4.8 counts the blocks measured
- * against each thing it asks a mechanism for, with the caveat that the browser or the reader may provide it.
+ * The "beyond the target" lines: one per WCAG criterion, each tagged experimental when one of its advisories is. 3.1.4
+ * lists the abbreviations; 1.4.8 counts the blocks measured against each thing it asks a mechanism for, with the caveat
+ * that the browser or the reader may provide it.
  */
 function beyondLines(beyond: readonly Advisory[], locale: Locale): string[] {
+  const tagged = (line: string, advisories: readonly Advisory[]) => (advisories.some(isExperimental) ? `${line} · ${am(locale, 'experimentalTag')}` : line)
   const of = (id: string) => beyond.filter((advisory) => advisory.basis.framework === 'wcag' && advisory.basis.id === id)
   const lines: string[] = []
   const abbreviations = of('3.1.4')
-  if (abbreviations.length > 0) lines.push(amPlural(locale, 'beyondAbbrLine', abbreviations.length, { list: beyondList(abbreviations) }))
+  if (abbreviations.length > 0) lines.push(tagged(amPlural(locale, 'beyondAbbrLine', abbreviations.length, { list: beyondList(abbreviations) }), abbreviations))
   const visual = of('1.4.8')
   if (visual.length > 0) {
     const keys: Record<string, AdvisoryMessageKey> = { width: 'beyond148Width', justified: 'beyond148Justified', spacing: 'beyond148Spacing' }
     const items = visual.map((advisory) =>
       amPlural(locale, keys[String(advisory.facts?.aspect)] ?? 'beyond148Width', Number(advisory.facts?.blocks ?? 1), { limit: Number(advisory.facts?.limit ?? 80) }),
     )
-    lines.push(am(locale, 'beyond148Line', { viewport: String(visual[0]?.facts?.viewport ?? ''), list: items.join(', '), caveat: am(locale, 'beyond148Caveat') }))
+    const line = am(locale, 'beyond148Line', { viewport: String(visual[0]?.facts?.viewport ?? ''), list: items.join(', '), caveat: am(locale, 'beyond148Caveat') })
+    lines.push(tagged(line, visual))
   }
   for (const advisory of beyond) {
     if (advisory.basis.framework === 'wcag' && (advisory.basis.id === '3.1.4' || advisory.basis.id === '1.4.8')) continue
-    lines.push(`${advisory.label}: ${advisory.message}`)
+    lines.push(tagged(`${advisory.label}: ${advisory.message}`, [advisory]))
   }
   return lines
 }
@@ -87,7 +104,12 @@ function sourceText(advisory: Advisory, locale: Locale): string {
 }
 
 function metaParts(advisory: Advisory, locale: Locale): string[] {
-  const parts = [`${t(locale, 'confidence')} ${t(locale, advisory.confidence)}`, sourceText(advisory, locale), `id ${advisory.fingerprint}`]
+  const parts = [
+    `${t(locale, 'confidence')} ${t(locale, advisory.confidence)}`,
+    ...(isExperimental(advisory) ? [am(locale, 'experimentalTag')] : []),
+    sourceText(advisory, locale),
+    `id ${advisory.fingerprint}`,
+  ]
   for (const related of advisory.related ?? []) {
     if ('finding' in related) parts.push(am(locale, 'related', { criterion: related.criterion, id: related.finding }))
   }
@@ -104,6 +126,8 @@ export function advisoryLines(report: Report, verbose: boolean, p: Painter): str
   const shown = shownAdvisories(section, verbose)
   const advisories = shown.filter((advisory) => advisory.kind === 'advisory')
   const beyond = shown.filter((advisory) => advisory.kind === 'beyond-target')
+  const notice = experimentalNotice(shown, locale)
+  if (notice) lines.push(`  ${notice}`)
   if (advisories.length > 0) lines.push(p.dim(`  ${am(locale, 'impactLegend')}`))
   else if (beyond.length === 0) lines.push(`  ${am(locale, 'noAdvisories')}`)
   let listed = 0
@@ -141,6 +165,8 @@ export function siteAdvisoryLines(pages: readonly Report[], path: (url: string) 
   if (!first) return []
   const locale = first.locale
   const lines = [p.bold(am(locale, 'sectionTitle'))]
+  const notice = experimentalNotice(withProfile.flatMap((report) => report.advisory?.results ?? []), locale)
+  if (notice) lines.push(`  ${notice}`)
   const counted = withProfile.filter((report) => (report.advisory?.results.length ?? 0) > 0)
   if (counted.length === 0) lines.push(`  ${am(locale, 'noAdvisories')}`)
   for (const report of counted) lines.push(`  ${p.cyanBold('◇')} ${path(report.target)}  ${amPlural(locale, 'advisoryCount', report.advisory?.results.length ?? 0)}`)
@@ -302,6 +328,8 @@ export function advisoryMarkdown(reports: readonly Report[], verbose: boolean, b
   const locale = reports[0]?.locale ?? 'en'
   const total = withProfile.reduce((sum, report) => sum + shownAdvisories(report.advisory as AdvisorySection, verbose).length, 0)
   const head = ['<details>', `<summary>${am(locale, 'advisoriesSummary', { count: total })}</summary>`, '', `_${am(locale, 'sectionTitle')}. ${am(locale, 'impactLegend')}_`, '']
+  const notice = experimentalNotice(withProfile.flatMap((report) => shownAdvisories(report.advisory as AdvisorySection, verbose)), locale)
+  if (notice) head.push(md.prose(notice), '')
   const body: string[] = []
   let used = head.join('\n').length + 20
   let omitted = 0
@@ -365,6 +393,8 @@ export function advisoryHtml(report: Report, index: number, verbose: boolean): s
   const id = `advisories-${index + 1}`
   const shown = shownAdvisories(section, verbose)
   const out: string[] = [`<section class="advisories" aria-labelledby="${id}">`, `<h3 id="${id}">${e(am(locale, 'sectionTitle'))}</h3>`]
+  const notice = experimentalNotice(shown, locale)
+  if (notice) out.push(`<p class="notes experimental-notice">${e(notice)}</p>`)
   const advisories = shown.filter((advisory) => advisory.kind === 'advisory')
   if (advisories.length > 0) out.push(`<p class="notes">${e(am(locale, 'impactLegend'))}</p>`)
   else if (!shown.some((advisory) => advisory.kind === 'beyond-target')) out.push(`<p class="notes">${e(am(locale, 'noAdvisories'))}</p>`)
