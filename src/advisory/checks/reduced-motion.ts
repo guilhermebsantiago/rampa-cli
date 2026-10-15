@@ -235,6 +235,7 @@ export const reducedMotion: AdvisoryCheck = {
   version: '1',
   maturity: 'experimental',
   pattern: 'o8p01',
+  gaia: ['G09'],
   surfaces: ['web'],
   observes: true,
 

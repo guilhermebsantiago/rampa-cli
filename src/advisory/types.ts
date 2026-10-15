@@ -19,8 +19,8 @@ export type Impact = 'barrier' | 'hurdle' | 'suggestion'
 
 export const IMPACT_RANK: Record<Impact, number> = { barrier: 0, hurdle: 1, suggestion: 2 }
 
-/** The sentence of a COGA pattern a check screens: a Use or Avoid example, What to Do or How it Helps. */
-export type CogaStatement = 'use' | 'avoid' | 'what-to-do' | 'how-it-helps'
+/** The sentence of a COGA pattern a check screens: a Use or Avoid example, What to Do, How it Helps, More Details or Getting Started. */
+export type CogaStatement = 'use' | 'avoid' | 'what-to-do' | 'how-it-helps' | 'more-details' | 'getting-started'
 
 export type Basis =
   | {
@@ -47,10 +47,28 @@ export type Basis =
       outside: 'aaa' | 'wcag22'
       url: string
     }
+  | {
+      /**
+       * A published guide that is not W3C guidance, for the checks no COGA pattern covers: GAIA, the Brazilian guide
+       * for autistic people (Britto, 2016; src/advisory/guides.ts), or WebAIM's cognitive checklist.
+       */
+      framework: 'guide'
+      guide: 'gaia' | 'webaim'
+      /** G03 for GAIA; the checklist's section for WebAIM. */
+      id: string
+      url: string
+      /** The sentence screened, quoted from the guide in its own language. */
+      quote: string
+      /** The version read: 'gaia.wiki.br 2026-10-15'. */
+      source: string
+    }
 
 export interface Reference {
-  /** guide: a set of recommendations, such as GAIA (Guia de Acessibilidade de Interfaces para Autismo). */
-  kind: 'law' | 'standard' | 'guide'
+  /**
+   * guide: a set of recommendations, such as GAIA (Guia de Acessibilidade de Interfaces para Autismo) or WebAIM's
+   * cognitive checklist; technique: a WCAG technique, which is never a requirement.
+   */
+  kind: 'law' | 'standard' | 'guide' | 'technique'
   /** 'Lei 15.263/2025, art. 5º, VIII' */
   label: string
   url: string
@@ -134,8 +152,10 @@ export interface AdvisorySection {
   coverage: {
     /** Every COGA pattern by slug. Never "passed": screened means some sub-checks ran. */
     patterns: Record<string, PatternStatus>
-    /** WCAG criteria checked beyond the A/AA target, such as 3.1.4 (AAA). */
+    /** WCAG criteria checked beyond the A/AA target, such as 3.1.4 (AAA), or measured for one, such as 1.4.8 (AAA). */
     beyondTarget: string[]
+    /** The GAIA recommendations some check screens in part, by id (G03), as the patterns are: screened or not run. */
+    gaia?: Record<string, PatternStatus> | undefined
     /** Criteria tied to cognition that only a qualified reviewer can judge, such as 3.1.5 Reading Level. */
     needsReview: string[]
   }

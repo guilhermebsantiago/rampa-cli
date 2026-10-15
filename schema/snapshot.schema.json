@@ -515,6 +515,259 @@
         "type": "number"
       }
     },
+    "presentation": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "viewport": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "width",
+            "height"
+          ],
+          "additionalProperties": false
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "main",
+            "page"
+          ]
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string"
+              },
+              "tag": {
+                "type": "string"
+              },
+              "chars": {
+                "type": "number"
+              },
+              "words": {
+                "type": "number"
+              },
+              "sample": {
+                "type": "string"
+              },
+              "lines": {
+                "type": "number"
+              },
+              "charsPerLine": {
+                "type": "object",
+                "properties": {
+                  "median": {
+                    "type": "number"
+                  },
+                  "max": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "median",
+                  "max"
+                ],
+                "additionalProperties": false
+              },
+              "lineGap": {
+                "type": "number"
+              },
+              "fontSize": {
+                "type": "number"
+              },
+              "lineHeight": {
+                "type": "string"
+              },
+              "family": {
+                "type": "string"
+              },
+              "font": {
+                "type": "string"
+              },
+              "platformFont": {
+                "type": "string"
+              },
+              "align": {
+                "type": "string"
+              },
+              "direction": {
+                "type": "string"
+              },
+              "script": {
+                "type": "string",
+                "enum": [
+                  "rtl",
+                  "cjk"
+                ]
+              },
+              "letters": {
+                "type": "number"
+              },
+              "cased": {
+                "type": "number"
+              },
+              "upper": {
+                "type": "number"
+              },
+              "italic": {
+                "type": "number"
+              },
+              "capsBy": {
+                "type": "string",
+                "enum": [
+                  "text-transform",
+                  "font-variant",
+                  "text"
+                ]
+              }
+            },
+            "required": [
+              "ref",
+              "tag",
+              "chars",
+              "words",
+              "sample",
+              "lines",
+              "charsPerLine",
+              "fontSize",
+              "lineHeight",
+              "family",
+              "font",
+              "align",
+              "direction",
+              "letters",
+              "cased",
+              "upper",
+              "italic"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "controls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string",
+                "enum": [
+                  "svg",
+                  "img",
+                  "icon-font",
+                  "pseudo",
+                  "symbol",
+                  "background"
+                ]
+              },
+              "glyph": {
+                "type": "string"
+              },
+              "hint": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "ref",
+              "icon"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ref": {
+                "type": "string"
+              },
+              "by": {
+                "type": "string",
+                "enum": [
+                  "target",
+                  "script"
+                ]
+              },
+              "target": {
+                "type": "string"
+              },
+              "text": {
+                "type": "string"
+              },
+              "hidden": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "ref",
+              "by",
+              "text"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "leftOut": {
+          "type": "object",
+          "properties": {
+            "blocks": {
+              "type": "number"
+            },
+            "controls": {
+              "type": "number"
+            },
+            "links": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "blocks",
+            "controls",
+            "links"
+          ],
+          "additionalProperties": false
+        },
+        "ms": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "version",
+        "viewport",
+        "scope",
+        "blocks",
+        "controls",
+        "links",
+        "leftOut",
+        "ms"
+      ],
+      "additionalProperties": false
+    },
     "collectedAt": {
       "type": "string"
     },

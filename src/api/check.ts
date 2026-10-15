@@ -54,6 +54,7 @@ export async function check(targets: string | readonly string[], options: CheckT
           probes,
           ...(observeMs ? { observeMs } : {}),
           wcag: settings.wcag,
+          presentation: settings.profiles?.includes('cognitive'),
         })
       } else if (target.kind === 'snapshot') {
         // A recorded snapshot or an XCUITest export, read the way the CLI reads it.

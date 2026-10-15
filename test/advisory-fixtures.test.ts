@@ -7,6 +7,7 @@ import { COGNITIVE_CHECKS } from '../src/advisory/profile.ts'
 import type { Advisory } from '../src/advisory/types.ts'
 import type { A11yNode, A11ySnapshot } from '../src/snapshot/schema.ts'
 import { collectInPage } from '../src/surfaces/in-page.ts'
+import { collectPresentation } from '../src/surfaces/presentation.ts'
 import { launchBrowser } from '../src/surfaces/web.ts'
 import { profileOf } from './coga-helpers.ts'
 
@@ -21,13 +22,20 @@ import { profileOf } from './coga-helpers.ts'
  */
 
 const browser = await launchBrowser().catch(() => undefined)
-const tab = browser ? await (await browser.newContext()).newPage() : undefined
+const context = browser ? await browser.newContext() : undefined
+const tab = context ? await context.newPage() : undefined
 afterAll(async () => browser?.close(), 60_000)
 
 async function snapshotOf(url: string): Promise<A11ySnapshot> {
   if (!tab) throw new Error('no browser')
   await tab.goto(url)
   const raw = await tab.evaluate(collectInPage, { runAxe: false, axeTags: [], axeLocale: undefined, maxNodes: 5000 })
+  // What --profile cognitive measures besides the tree: how text and controls are presented, with the drawn font over CDP.
+  const presentation = await collectPresentation({
+    // biome-ignore lint/suspicious/noExplicitAny: Playwright's evaluate infers its argument type from a generic it cannot see here
+    evaluate: <Arg, Result>(fn: (arg: Arg) => Result | Promise<Result>, arg: Arg) => tab.evaluate(fn as (arg: any) => Result | Promise<Result>, arg),
+    cdp: () => tab.context().newCDPSession(tab),
+  })
   return {
     schemaVersion: 1,
     surface: 'web',
@@ -37,6 +45,7 @@ async function snapshotOf(url: string): Promise<A11ySnapshot> {
     viewport: raw.viewport,
     root: raw.root as A11yNode,
     truncated: raw.truncated,
+    presentation,
     collectedAt: new Date().toISOString(),
     collector: { name: 'test', version: '0' },
   }
@@ -49,6 +58,7 @@ interface Sidecar {
 }
 
 const ROOT = 'test/fixtures/coga'
+const PRESENTATION_CHECKS = ['line-length', 'text-alignment', 'line-height', 'text-emphasis', 'decorative-font', 'icon-only-control', 'new-window'].map((name) => `coga/${name}`)
 /** Checks that read the observation of the live page: their fixtures run in coga-observe.test.ts, which observes them. */
 const OBSERVED = new Set(COGNITIVE_CHECKS.filter((check) => check.observes).map((check) => check.id))
 const fixtures = readdirSync(ROOT, { withFileTypes: true })
@@ -86,6 +96,14 @@ describe.skipIf(!browser)('cognitive profile fixtures', { timeout: 30_000 }, () 
     }
   })
 
+  it('has fail and pass pages for each check of how text and controls are presented', () => {
+    const checks = ['line-length', 'text-alignment', 'line-height', 'text-emphasis', 'decorative-font', 'icon-only-control', 'new-window']
+    for (const check of checks.map((name) => `coga/${name}`)) {
+      expect(fixtures.filter((fixture) => fixture.check === check && fixture.kind === 'fail').length).toBeGreaterThanOrEqual(2)
+      expect(fixtures.filter((fixture) => fixture.check === check && fixture.kind === 'pass').length).toBeGreaterThanOrEqual(2)
+    }
+  })
+
   for (const fixture of fixtures) {
     it(`${fixture.check} ${fixture.kind}/${fixture.name}`, async () => {
       if (!browser) return
@@ -97,6 +115,12 @@ describe.skipIf(!browser)('cognitive profile fixtures', { timeout: 30_000 }, () 
       expect(section.checks.find((check) => check.check === fixture.check)?.ran).toBe(true)
       if (sidecar.notes !== undefined) expect(section.notes).toHaveLength(sidecar.notes)
       if (fixture.kind === 'fail') expect(own.length).toBeGreaterThan(0)
+      // A pass page of the presentation checks (a well-set article, short labels in capitals, a centered heading,
+      // buttons with words) must stay silent for all seven of them, not only for its own.
+      if (fixture.kind === 'pass' && PRESENTATION_CHECKS.includes(fixture.check)) {
+        const others = [...section.results, ...section.belowThreshold].filter((advisory) => PRESENTATION_CHECKS.includes(advisory.check))
+        expect(others.map((advisory) => `${advisory.check} ${advisory.ref}`)).toEqual([])
+      }
     })
   }
 })

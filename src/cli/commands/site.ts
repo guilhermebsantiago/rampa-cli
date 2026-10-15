@@ -199,6 +199,7 @@ async function checkSite(site: SiteStart, run: SiteRun): Promise<SiteReport> {
         captureImages: run.needsImages,
         browserOptions: run.browserOptions,
         wcag: run.check.wcag,
+        presentation: run.check.profiles?.includes('cognitive'),
         ...fastCollectOptions(run.fast),
         inspect: async (page, response) => {
           finalUrl = page.url()

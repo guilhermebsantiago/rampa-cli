@@ -164,6 +164,7 @@ export const interruptions: AdvisoryCheck = {
   version: '1',
   maturity: 'experimental',
   pattern: 'o5p01',
+  gaia: ['G09', 'G18'],
   surfaces: ['web'],
   observes: true,
 

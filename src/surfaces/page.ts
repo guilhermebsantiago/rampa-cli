@@ -17,6 +17,7 @@ import { buildReach, closedShadowRoots } from './reach.ts'
 import { captureImageNodes } from './image-capture.ts'
 import { collectInPage } from './in-page.ts'
 import { attachMotionFacts } from './motion.ts'
+import { collectPresentation } from './presentation.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
 import { type Scope, resolveScopeInPage, scopeTree } from './scope.ts'
 import type { Collected } from './web.ts'
@@ -54,6 +55,8 @@ export interface PageCollectOptions {
   timings?: Stopwatch | undefined
   /** Images captured at most (image-capture.ts's IMAGE_LIMIT by default); fast mode captures fewer. */
   imageLimit?: number | undefined
+  /** Measure how reading text and controls are presented, for the cognitive profile (surfaces/presentation.ts). */
+  presentation?: boolean | undefined
 }
 
 const MAX_NODES = 5000
@@ -106,6 +109,10 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
     closed,
     truncated: raw.beyondTruncated,
   })
+  // Before captures scroll the page, as collectWeb measures it.
+  const presentation = options.presentation
+    ? await timed(watch, 'collection', () => collectPresentation({ evaluate: (fn, arg) => driver.evaluate(fn, arg), cdp }), 'presentation')
+    : undefined
   if (scope) root = await timed(watch, 'collection', () => scopeRoot(driver, root, scope, { url, truncated: raw.truncated, maxNodes }))
   const engine = engineFromAxe(checked.axe)
   const contrast = options.pixelContrast !== false
@@ -146,6 +153,7 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
     truncated: raw.truncated || undefined,
     ...(reach ? { reach } : {}),
     ...(axTree ? { axTree } : {}),
+    ...(presentation ? { presentation } : {}),
     collectedAt: new Date().toISOString(),
     collector: { name: 'rampa-web', version: VERSION },
   }

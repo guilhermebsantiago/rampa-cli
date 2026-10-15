@@ -1,4 +1,4 @@
-import type { A11yNode, A11ySnapshot } from '../src/snapshot/schema.ts'
+import type { A11yNode, A11ySnapshot, TextBlockFacts } from '../src/snapshot/schema.ts'
 import { node } from './helpers.ts'
 
 const box = { x: 0, y: 0, width: 240, height: 24 }
@@ -86,5 +86,123 @@ export function cadastroSnapshot(target = 'https://servicos.exemplo.gov.br/cadas
         }),
       ],
     }),
+  }
+}
+
+const SAMPLE = 'O Cadastro Único reúne informações sobre as famílias de baixa renda que vivem no Brasil. Com ele, o governo conhece quem são essas…'
+
+/** The facts the collector records for a block of reading text, set here as a well-set paragraph unless overridden. */
+function block(ref: string, extra: Partial<TextBlockFacts> = {}): TextBlockFacts {
+  return {
+    ref,
+    tag: 'p',
+    chars: 380,
+    words: 60,
+    sample: SAMPLE,
+    lines: 6,
+    charsPerLine: { median: 66, max: 70 },
+    lineGap: 25.6,
+    fontSize: 16,
+    lineHeight: '25.6px',
+    family: 'Arial, sans-serif',
+    font: 'Arial',
+    align: 'start',
+    direction: 'ltr',
+    letters: 310,
+    cased: 310,
+    upper: 6,
+    italic: 0,
+    capsBy: 'text',
+    ...extra,
+  }
+}
+
+/**
+ * A page with one case of each check of how text and controls are presented, as the collector records it with
+ * --profile cognitive (snapshot.presentation): lines of 150 characters, a justified block, lines 1.05 apart, a passage in
+ * capitals, one in italics, one in Comic Sans, a row of social icons with names nobody sees, and footer links that open
+ * a new window. The well-set paragraph, the search button and the warned link must stay silent.
+ */
+export function presentationSnapshot(target = 'https://servicos.exemplo.gov.br/cadastro'): A11ySnapshot {
+  const p = (ref: string, text: string) => node({ ref, role: 'paragraph', text, bounds: { x: 0, y: 0, width: 480, height: 150 }, native: { tag: 'p' } })
+  const icon = (ref: string, name: string, extra: Record<string, string> = {}) =>
+    element(ref, 'a', { href: `https://${name.toLowerCase()}.com/prefeitura`, 'aria-label': name, ...extra }, { role: 'link', name })
+  const blocks = [
+    block('#bem-feito'),
+    block('#longo', { charsPerLine: { median: 150, max: 156 }, lines: 4 }),
+    block('#justificado', { align: 'justify' }),
+    block('#apertado', { lineGap: 16.8, lineHeight: '16.8px' }),
+    block('#maiusculas', { words: 22, lines: 3, upper: 300, capsBy: 'text-transform' }),
+    block('#italico', { italic: 310 }),
+    block('#comic', { family: '"Comic Sans MS", cursive', font: 'Comic Sans MS', platformFont: 'Comic Sans MS' }),
+  ]
+  return {
+    schemaVersion: 1,
+    surface: 'web',
+    target,
+    title: 'Cadastro',
+    locale: 'pt-BR',
+    viewport: { width: 1280, height: 720, scale: 1 },
+    collectedAt: '2026-10-15T00:00:00.000Z',
+    collector: { name: 'test', version: '0' },
+    root: node({
+      ref: 'html',
+      role: 'document',
+      lang: 'pt-BR',
+      native: { tag: 'html' },
+      children: [
+        node({
+          ref: 'html > body',
+          native: { tag: 'body' },
+          children: [
+            node({
+              ref: 'main',
+              role: 'main',
+              bounds: box,
+              native: { tag: 'main' },
+              children: [
+                node({ ref: 'article', role: 'article', bounds: box, native: { tag: 'article' }, children: blocks.map((fact) => p(fact.ref, SAMPLE)) }),
+                element('#buscar', 'button', { type: 'submit', 'aria-label': 'Buscar' }, { role: 'button', name: 'Buscar' }),
+              ],
+            }),
+            node({
+              ref: 'footer',
+              role: 'contentinfo',
+              bounds: box,
+              native: { tag: 'footer' },
+              children: [
+                node({
+                  ref: 'footer > ul',
+                  role: 'list',
+                  bounds: box,
+                  native: { tag: 'ul' },
+                  children: [icon('#facebook', 'Facebook'), icon('#instagram', 'Instagram'), icon('#youtube', 'YouTube')],
+                }),
+                element('#transparencia', 'a', { href: 'https://transparencia.exemplo.gov.br', target: '_blank' }, { role: 'link', name: 'Portal da Transparência', text: 'Portal da Transparência' }),
+                element('#ouvidoria', 'a', { href: 'https://ouvidoria.exemplo.gov.br', target: '_blank' }, { role: 'link', name: 'Ouvidoria (abre em nova aba)', text: 'Ouvidoria (abre em nova aba)' }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    }),
+    presentation: {
+      version: '1',
+      viewport: { width: 1280, height: 720 },
+      scope: 'main',
+      blocks,
+      controls: [
+        { ref: '#facebook', icon: 'svg', name: 'Facebook' },
+        { ref: '#instagram', icon: 'svg', name: 'Instagram' },
+        { ref: '#youtube', icon: 'svg', name: 'YouTube' },
+        { ref: '#buscar', icon: 'svg', name: 'Buscar' },
+      ],
+      links: [
+        { ref: '#transparencia', by: 'target', target: '_blank', text: 'Portal da Transparência' },
+        { ref: '#ouvidoria', by: 'target', target: '_blank', text: 'Ouvidoria (abre em nova aba)' },
+      ],
+      leftOut: { blocks: 0, controls: 0, links: 0 },
+      ms: 12,
+    },
   }
 }

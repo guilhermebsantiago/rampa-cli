@@ -7,13 +7,13 @@ import { memoryCache } from '../src/core/cache.ts'
 import { checkSnapshot } from '../src/core/check.ts'
 import type { Report } from '../src/core/types.ts'
 import { LOCALES, type Locale } from '../src/i18n.ts'
-import { advisoryLines } from '../src/report/advisory.ts'
+import { advisoryLines, cogaCoverage } from '../src/report/advisory.ts'
 import { paint } from '../src/report/color.ts'
 import { renderHtml } from '../src/report/html.ts'
 import { renderMarkdown } from '../src/report/markdown.ts'
 import { renderReport } from '../src/report/pretty.ts'
 import { testDictionaries } from './coga-helpers.ts'
-import { cadastroSnapshot } from './coga-snapshot.ts'
+import { cadastroSnapshot, presentationSnapshot } from './coga-snapshot.ts'
 
 /**
  * An advisory must never read as a WCAG failure (docs/plans/cognitive-profile.md §2.4): no "fail",
@@ -36,8 +36,8 @@ function expectNoFailureWording(text: string, where: string): void {
   expect({ where, match: ERROR_LABEL.exec(own)?.[0] }).toEqual({ where, match: undefined })
 }
 
-async function reportIn(locale: Locale, target?: string): Promise<Report> {
-  return checkSnapshot(cadastroSnapshot(target), { engine: { name: 'axe-core', version: 'test' }, rules: [] }, {
+async function reportIn(locale: Locale, target?: string, snapshot = cadastroSnapshot(target)): Promise<Report> {
+  return checkSnapshot(snapshot, { engine: { name: 'axe-core', version: 'test' }, rules: [] }, {
     criteria: [],
     llm: false,
     provider: undefined,
@@ -93,6 +93,25 @@ describe('advisory wording', () => {
         }
         for (const note of report.advisory?.notes ?? []) expectNoFailureWording(note, `${locale} note`)
       }
+    }
+  })
+
+  it('writes the legibility, icon and new-window advisories, and the 1.4.8 line, without failure wording', async () => {
+    for (const locale of LOCALES) {
+      const report = await reportIn(locale, undefined, presentationSnapshot())
+      const advisories: Advisory[] = [...(report.advisory?.results ?? []), ...(report.advisory?.belowThreshold ?? [])]
+      const checks = new Set(advisories.map((advisory) => advisory.check))
+      for (const check of ['line-length', 'text-alignment', 'line-height', 'text-emphasis', 'decorative-font', 'icon-only-control', 'new-window']) expect(checks).toContain(`coga/${check}`)
+      for (const advisory of advisories) {
+        expectNoFailureWording(advisory.message, `${locale} ${advisory.check} message`)
+        expectNoFailureWording(advisory.label, `${locale} ${advisory.check} label`)
+      }
+      // The beyond-target line and the coverage are built from templates too, with the measured values in.
+      const pretty = renderReport(report, { verbose: true, paint: paint(false) })
+      const beyond = pretty.slice(pretty.indexOf(am(locale, 'beyondTitle')))
+      expectNoFailureWording(beyond.slice(0, beyond.indexOf('\n\n')), `${locale} beyond the target`)
+      const coverage = cogaCoverage(report, true)
+      for (const line of coverage && 'lines' in coverage ? coverage.lines : []) expectNoFailureWording(line, `${locale} coverage`)
     }
   })
 

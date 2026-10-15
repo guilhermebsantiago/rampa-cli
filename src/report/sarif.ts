@@ -1,7 +1,7 @@
 import { isAbsolute } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { patternTitle } from '../advisory/coga.ts'
-import { beyondName } from '../advisory/label.ts'
+import { beyondName, guideName, guideTitle } from '../advisory/label.ts'
 import { am } from '../advisory/messages.ts'
 import type { Advisory } from '../advisory/types.ts'
 import { type FailOn, cannotVouch, failsPolicy, meetsThreshold, nothingJudgedNote, unjudgedCandidates } from '../core/gate.ts'
@@ -455,7 +455,9 @@ function advisoryRuleOf(advisory: Advisory, locale: Locale): Rule {
   const full =
     basis.framework === 'coga'
       ? am(locale, 'sarifAdvisoryRule', { pattern: basis.pattern, title: patternTitle(basis.pattern, locale) })
-      : am(locale, 'sarifBeyondRule', { version: basis.version, id: basis.id, name: beyondName(basis.id, locale), level: basis.level })
+      : basis.framework === 'guide'
+        ? am(locale, 'sarifGuideRule', { guide: guideName(basis), title: guideTitle(basis, locale) })
+        : am(locale, 'sarifBeyondRule', { version: basis.version, id: basis.id, name: beyondName(basis.id, locale), level: basis.level })
   const id = advisoryRuleId(advisory)
   return {
     id,
@@ -466,7 +468,12 @@ function advisoryRuleOf(advisory: Advisory, locale: Locale): Rule {
     helpUri: url,
     defaultConfiguration: { level: 'note' },
     properties: {
-      tags: basis.framework === 'coga' ? ['accessibility', 'coga', 'advisory', 'not-wcag'] : ['accessibility', 'wcag', `wcag-${basis.level.toLowerCase()}`, 'beyond-target'],
+      tags:
+        basis.framework === 'coga'
+          ? ['accessibility', 'coga', 'advisory', 'not-wcag']
+          : basis.framework === 'guide'
+            ? ['accessibility', basis.guide, 'advisory', 'not-wcag']
+            : ['accessibility', 'wcag', `wcag-${basis.level.toLowerCase()}`, 'beyond-target'],
     },
   }
 }

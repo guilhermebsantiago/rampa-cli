@@ -84,8 +84,10 @@ export interface AdvisoryCheck {
   /** Bump when the logic or a list changes. */
   version: string
   maturity: 'stable' | 'experimental'
-  /** The COGA pattern it screens in part, such as o4p06. */
-  pattern: string
+  /** The COGA pattern it screens in part, such as o4p06; none when no pattern covers it and another guide does. */
+  pattern?: string | undefined
+  /** The GAIA recommendations it screens in part, such as ['G03'] (src/advisory/guides.ts). */
+  gaia?: readonly string[] | undefined
   surfaces: readonly Surface[]
   /**
    * It reads what the cognitive observation recorded on the live page (probes/cognitive.ts) instead of the snapshot

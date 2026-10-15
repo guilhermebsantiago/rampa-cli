@@ -7,9 +7,12 @@ import type { ModelProvider } from '../providers/types.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import type { AdvisoryCheck, AdvisoryContext, AdvisoryHit, CogaSettings } from './check.ts'
 import { abbreviations } from './checks/abbreviations.ts'
+import { iconOnlyControl } from './checks/icon-only.ts'
 import { inputFormats } from './checks/input-formats.ts'
 import { interruptions } from './checks/interruptions.ts'
 import { layoutShift } from './checks/layout-shift.ts'
+import { decorativeFont, lineHeight, lineLength, textAlignment, textEmphasis } from './checks/legibility.ts'
+import { newWindow } from './checks/new-window.ts'
 import { pasteBlocked } from './checks/paste-blocked.ts'
 import { preselectedCost } from './checks/preselected-cost.ts'
 import { reducedMotion } from './checks/reduced-motion.ts'
@@ -27,10 +30,31 @@ import { type Advisory, type AdvisoryCheckSummary, type AdvisorySection, IMPACT_
  */
 
 /**
- * The checks, in the order reports list them within one impact: the wave-1 checks on the snapshot, then those that
- * read the observation of the live page (`observes`, probes/cognitive.ts).
+ * The checks, in the order reports list them within one impact: the wave-1 checks on the snapshot; then how text and
+ * controls are presented (legibility, icon-only controls, links that open a new window), which read the facts the
+ * collector measures with --profile cognitive (snapshot.presentation); then those that read the observation of the
+ * live page (`observes`, probes/cognitive.ts).
  */
-export const COGNITIVE_CHECKS: readonly AdvisoryCheck[] = [inputFormats, preselectedCost, visibleLabels, abbreviations, pasteBlocked, interruptions, reducedMotion, layoutShift]
+export const COGNITIVE_CHECKS: readonly AdvisoryCheck[] = [
+  inputFormats,
+  preselectedCost,
+  visibleLabels,
+  abbreviations,
+  iconOnlyControl,
+  newWindow,
+  lineLength,
+  textAlignment,
+  lineHeight,
+  textEmphasis,
+  decorativeFont,
+  pasteBlocked,
+  interruptions,
+  reducedMotion,
+  layoutShift,
+]
+
+/** The checks that measure what WCAG 1.4.8 Visual Presentation (AAA) asks a mechanism for: width, justification, line spacing. */
+const VISUAL_PRESENTATION_CHECKS: ReadonlySet<string> = new Set([lineLength.id, textAlignment.id, lineHeight.id])
 
 /** The profiles to run: the --profile flag, else the config's. A name Rampa does not know stops the run, like an unknown criterion. */
 export function resolveProfiles(flag: string | undefined, configured: readonly string[] | undefined): Profile[] {
@@ -121,8 +145,12 @@ export async function runProfiles(snapshot: A11ySnapshot, engine: EngineResults,
       checks,
       coverage: {
         patterns: patternCoverage(checks),
-        beyondTarget: checks.some((summary) => summary.check === abbreviations.id && summary.ran) ? ['3.1.4'] : [],
+        beyondTarget: [
+          ...(checks.some((summary) => summary.check === abbreviations.id && summary.ran) ? ['3.1.4'] : []),
+          ...(checks.some((summary) => VISUAL_PRESENTATION_CHECKS.has(summary.check) && summary.ran) ? ['1.4.8'] : []),
+        ],
         needsReview: ['3.1.5'],
+        gaia: gaiaCoverage(checks),
       },
       notes,
       errors,
@@ -161,6 +189,16 @@ function toAdvisory(hit: AdvisoryHit, check: AdvisoryCheck, options: ProfileOpti
     agreement: hit.agreement,
     model: hit.model,
   }
+}
+
+/** The GAIA recommendations the checks name: screened when one of their checks ran, else not run. */
+function gaiaCoverage(checks: readonly AdvisoryCheckSummary[]): Record<string, PatternStatus> {
+  const coverage: Record<string, PatternStatus> = {}
+  for (const check of COGNITIVE_CHECKS) {
+    const ran = checks.some((summary) => summary.check === check.id && summary.ran)
+    for (const id of check.gaia ?? []) coverage[id] = coverage[id] === 'screened' || ran ? 'screened' : 'not-run'
+  }
+  return Object.fromEntries(Object.entries(coverage).sort(([a], [b]) => a.localeCompare(b)))
 }
 
 /** Every pattern: screened when one of its checks ran, not run when its checks could not, otherwise not checked. */
