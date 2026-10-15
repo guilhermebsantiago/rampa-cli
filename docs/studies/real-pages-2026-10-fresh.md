@@ -227,7 +227,7 @@ Same rubric, same two-judge method, same model; different pages and code.
 
 ## False positives, dev split only
 
-Every pattern below comes from dev pages, described from the two judges' rationales and checked against the snapshots and the model's cached answers. Test-split false positives were counted but not read for patterns, so that the test half can measure whatever is changed next. The suggestions are for future work on dev evidence only.
+Every pattern below comes from dev pages, described from the two judges' rationales and checked against the snapshots and the model's cached answers. Test-split false positives were counted but not read for patterns, so that the test half can measure whatever is changed next. The suggestions are for future work on dev evidence only. Items 1, 2, 4 and 5 were later fixed in 1.1.1's verification, on this dev split only: [notes-111-dev-fixes.md](notes-111-dev-fixes.md).
 
 ### What a user sees: the default threshold (25 false positives on dev)
 
