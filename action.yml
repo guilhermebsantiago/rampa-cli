@@ -5,7 +5,9 @@ branding:
   icon: eye
   color: purple
 
-# Rampa is not on npm yet, so the action builds the CLI from its own checkout.
+# The action installs rampa-cli from npm at the version in its own package.json, so @v0.1.0
+# runs the published 0.1.0. It builds the CLI from its own checkout only when that version is
+# not on npm (an unreleased version on @main, or a fork) or when from-source asks for it.
 # Inputs reach the scripts through env, never through ${{ }} inside a script.
 
 inputs:
@@ -65,9 +67,16 @@ inputs:
     required: false
     default: ${{ github.token }}
   node-version:
-    description: Node.js version that builds and runs Rampa; 22.18 or later. Empty uses the Node.js already on the runner.
+    description: Node.js version that installs and runs Rampa; 22.18 or later. Empty uses the Node.js already on the runner.
     required: false
     default: '24'
+  from-source:
+    description: >-
+      Build Rampa from the action's checkout instead of installing it from npm, to try unreleased
+      changes on a branch whose package.json still names a published version. Without it, the
+      action builds only when that version is not on npm.
+    required: false
+    default: 'false'
 
 outputs:
   findings:
@@ -94,30 +103,61 @@ runs:
   steps:
     - name: Set up Node.js
       if: inputs.node-version != ''
-      uses: actions/setup-node@v5
+      uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
       with:
         node-version: ${{ inputs.node-version }}
         # The automatic cache would read the calling repository's package.json, not Rampa's.
         package-manager-cache: false
 
-    - name: Build Rampa
+    - name: Install Rampa
+      id: install
       shell: bash
-      working-directory: ${{ github.action_path }}
       env:
+        INPUT_FROM_SOURCE: ${{ inputs.from-source }}
         COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
         # With NODE_ENV=production in the job, pnpm would skip the build tools.
         NODE_ENV: development
-      # pnpm through corepack, at the version package.json pins, without the shims of
-      # `corepack enable`, which would change pnpm for the rest of the job.
       run: |
-        if command -v corepack >/dev/null 2>&1; then
-          pnpm() { corepack pnpm "$@"; }
-        elif ! command -v pnpm >/dev/null 2>&1; then
-          echo "::error::Building Rampa needs corepack (Node.js 24 or earlier) or pnpm on the path."
-          exit 1
+        version=$(cd "$GITHUB_ACTION_PATH" && node -p "require('./package.json').version")
+        package="rampa-cli@$version"
+        errors=$(mktemp)
+        if [ "$INPUT_FROM_SOURCE" = true ]; then
+          reason="from-source is true"
+        elif published=$(npm view "$package" version 2>"$errors") && [ "$published" = "$version" ]; then
+          reason=""
+        elif grep -q E404 "$errors"; then
+          reason="$package is not on npm"
+        else
+          reason="npm could not say whether $package is on npm: $(grep -m 1 'npm error' "$errors")"
         fi
-        pnpm install --frozen-lockfile
-        pnpm build
+
+        if [ -z "$reason" ]; then
+          # The published package, as `npm install rampa-cli@<version>` gives it. Its dependencies
+          # need no install scripts.
+          prefix="$RUNNER_TEMP/rampa-cli/$version"
+          cli="$prefix/node_modules/rampa-cli/dist/cli.mjs"
+          if [ -f "$cli" ]; then
+            echo "Rampa $version from npm is already installed in this job."
+          else
+            echo "Installing $package from npm."
+            npm install --prefix "$prefix" --no-save --no-package-lock --no-audit --no-fund --ignore-scripts "$package"
+          fi
+        else
+          echo "::notice::Building Rampa $version from the action's checkout: $reason."
+          # pnpm through corepack, at the version package.json pins, without the shims of
+          # `corepack enable`, which would change pnpm for the rest of the job.
+          if command -v corepack >/dev/null 2>&1; then
+            pnpm() { corepack pnpm "$@"; }
+          elif ! command -v pnpm >/dev/null 2>&1; then
+            echo "::error::Building Rampa needs corepack (Node.js 24 or earlier) or pnpm on the path."
+            exit 1
+          fi
+          cd "$GITHUB_ACTION_PATH"
+          pnpm install --frozen-lockfile
+          pnpm build
+          cli="$GITHUB_ACTION_PATH/dist/cli.mjs"
+        fi
+        echo "cli=$cli" >> "$GITHUB_OUTPUT"
 
     - name: Check accessibility
       id: check
@@ -131,7 +171,7 @@ runs:
         INPUT_LOCALE: ${{ inputs.locale }}
         INPUT_ARGS: ${{ inputs.args }}
         INPUT_SUMMARY: ${{ inputs.summary }}
-        RAMPA_CLI: ${{ github.action_path }}/dist/cli.mjs
+        RAMPA_CLI: ${{ steps.install.outputs.cli }}
       run: node "$GITHUB_ACTION_PATH/action/check.ts"
 
     # Skipped for pull requests from forks: on pull_request the token cannot upload, and on
@@ -140,7 +180,7 @@ runs:
       if: >-
         inputs.sarif == 'true' && steps.check.outputs.sarif != '' &&
         (github.event.pull_request == null || github.event.pull_request.head.repo.full_name == github.repository)
-      uses: github/codeql-action/upload-sarif@v4
+      uses: github/codeql-action/upload-sarif@24c54180a607b1449ed407dd24f251e4e9147c8d # v4.38.3
       continue-on-error: true
       with:
         sarif_file: ${{ steps.check.outputs.sarif }}
