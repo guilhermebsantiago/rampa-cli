@@ -10,6 +10,10 @@ const messages = {
     labelAdvisory: 'Advisory · COGA {pattern} {title} (not a WCAG requirement)',
     labelBeyond: 'Beyond the target: WCAG {version} {id} {name} (Level {level})',
     sectionTitle: 'Advisories: cognitive accessibility (W3C COGA guidance, not WCAG requirements)',
+    // Shown once at the top of the section, and as a tag on each advisory, when its check's maturity is experimental.
+    experimentalNotice:
+      "These advisories come from W3C COGA guidance (and GAIA where cited) and are not WCAG requirements. The ones marked experimental come from checks that have not yet been measured on real pages or reviewed by people, so each one needs a person's judgment.",
+    experimentalTag: 'experimental',
     beyondTitle: 'Beyond the target (WCAG 2.2 AAA; not part of the A/AA check)',
     impactLegend: 'Impact: barrier, may stop the task or cost money or data; hurdle, makes the task harder or more error-prone; suggestion, improves understanding.',
     impact_barrier: 'barrier',
@@ -210,6 +214,9 @@ const messages = {
     labelAdvisory: 'Recomendação · COGA {pattern} {title} (não é requisito da WCAG)',
     labelBeyond: 'Além do alvo: WCAG {version} {id} {name} (nível {level})',
     sectionTitle: 'Recomendações de acessibilidade cognitiva (orientação COGA do W3C, não são requisitos da WCAG)',
+    experimentalNotice:
+      'Estas recomendações vêm da orientação COGA do W3C (e do GAIA, quando citado) e não são requisitos da WCAG. As marcadas como experimentais vêm de verificações que ainda não foram medidas em páginas reais nem revisadas por pessoas, então cada uma precisa do julgamento de uma pessoa.',
+    experimentalTag: 'experimental',
     beyondTitle: 'Além do alvo (WCAG 2.2 AAA; fora da verificação A/AA)',
     impactLegend: 'Impacto: barreira, pode impedir a tarefa ou custar dinheiro ou dados; obstáculo, dificulta a tarefa ou leva a enganos; sugestão, melhora a compreensão.',
     impact_barrier: 'barreira',

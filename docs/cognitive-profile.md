@@ -8,6 +8,12 @@ The Note says it plainly: "Following this guidance is not required for conforman
 - never changes the exit code, unless you pass `--fail-on advisory`;
 - always carries a fixed label that says so: "Advisory · COGA o4p06 Use Clear Visible Labels (not a WCAG requirement)", or in Portuguese "Recomendação · COGA o4p06 Use rótulos claros e visíveis (não é requisito da WCAG)".
 
+**Every check is experimental so far, and every report says so.** A check stays experimental until it passes the evaluation the [plan](plans/cognitive-profile.md) sets (§4.2): it has fixtures, but it has not yet been measured on real pages or reviewed by people. Experimental checks run whenever the profile is on. In the terminal, Markdown and HTML reports, the advisory section opens with one notice, and each advisory from an experimental check carries the tag `experimental`; JSON and SARIF give each result its `maturity`. The notice reads:
+
+> These advisories come from W3C COGA guidance (and GAIA where cited) and are not WCAG requirements. The ones marked experimental come from checks that have not yet been measured on real pages or reviewed by people, so each one needs a person's judgment.
+
+In Portuguese: "Estas recomendações vêm da orientação COGA do W3C (e do GAIA, quando citado) e não são requisitos da WCAG. As marcadas como experimentais vêm de verificações que ainda não foram medidas em páginas reais nem revisadas por pessoas, então cada uma precisa do julgamento de uma pessoa." The tag comes from each check's maturity, so a check that passes its evaluation stops being marked. `--fail-on advisory` counts experimental advisories like any other.
+
 The WCAG A/AA check runs exactly as without the profile: same findings, same coverage, same exit code.
 
 ```sh
@@ -64,10 +70,11 @@ The profile works on web pages, in Portuguese and English. Android, iOS and imag
   Patch:
     - <input id="cep" name="cep" type="number" autocomplete="postal-code">
     + <input id="cep" name="cep" type="text" autocomplete="postal-code" inputmode="numeric">
-  confidence high · rule · id e3ae41a608ea
+  confidence high · experimental · rule · id e3ae41a608ea
 ```
 
 - **The label** comes from code, never from the check's text, and says what the advisory rests on.
+- **experimental** in the last line says the check that wrote the advisory has not passed its evaluation yet (see the notice at the top of this page). It comes from the check's maturity, `maturity` in the JSON and SARIF reports.
 - **Impact** says what the barrier does to the person, fixed per check and never chosen by a model. It is not a WCAG severity.
 
   | Impact | Means | Example |
@@ -91,7 +98,7 @@ Abbreviations more common than their full term (CPF, CEP, RG, ZIP, PIN; the list
 
 ```
 Beyond the target (WCAG 2.2 AAA; not part of the A/AA check)
-  ◇ 3.1.4 Abbreviations: 2 abbreviations have no expanded form on this page: CPF ×2, CEP
+  ◇ 3.1.4 Abbreviations: 2 abbreviations have no expanded form on this page: CPF ×2, CEP · experimental
 ```
 
 AAA is beyond the A/AA target of a run, and W3C does not recommend requiring it for whole sites.
@@ -101,8 +108,14 @@ AAA is beyond the A/AA target of a run, and W3C does not recommend requiring it 
 The profile also measures the paragraph prose of the page, inside `main` or `article` when the page has them. The numbers are **context, never a verdict**: no advisory, no level, no pass or fail rests on them.
 
 - Exact counts: words, sentences and paragraphs, the median and longest sentence (quoted), and lists written as prose (three or more items joined by commas, which COGA o3p05 asks to make a list). Sentences are split with `Intl.Segmenter`, without breaking after abbreviations such as "Sr.", "Av.", "e.g." or "U.S."; the ICU version is recorded with every result.
-- English: paragraphs over 50 words (COGA §4.4.5) and sentences over 25 words (WCAG technique G153), then Flesch Reading Ease and the Flesch–Kincaid grade, on 100 words of prose or more. English syllables are estimated by rule, and the report says so.
-- Portuguese: the Flesch adaptation of Martins, Ghiraldelo, Nunes and Oliveira Jr. (1996), with its four bands (100–75 very easy, 75–50 easy, 50–25 fairly difficult, 25–0 very difficult), on 100 words of prose or more. It was validated only as an ordering of textbook passages by school grade, and its authors say it measures "readability and not the comprehensibility": the report prints that caveat every time. No Portuguese grade level is computed. Syllables are counted by rule, with the hiatus convention schools teach (his-tó-ri-a).
+- English: paragraphs over 50 words (COGA §4.4.5) and sentences over 25 words (WCAG technique G153), then Flesch Reading Ease and the Flesch–Kincaid grade, on 100 words of prose or more. English syllables are counted by a heuristic, not by a pronouncing dictionary, and the report says so (`syllables: "heuristic"` in the JSON). The heuristic counts vowel groups, less a silent final e and the -es and -ed endings it takes to be silent.
+  - **How close it is.** It was compared with the CMU Pronouncing Dictionary on 943 words of 4 to 15 letters, sampled from Rampa's English word list (`test/fixtures/coga/syllables-en.json`, built by `scripts/syllables-en-sample.py`; a test checks these numbers):
+    - it gives the dictionary's count for 806 of them (85.5%);
+    - it is within one syllable for 942;
+    - it counts 2.4% fewer syllables in all. It counts too few in 94 words, more than half of them by dropping a spoken -ed or -es (crowded, blushes), most of the rest by reading two vowels as one (being, video). It counts too many in 43, mostly compounds with a silent e inside (timeline, lifelong).
+  - **What that does to the formulas.** Fewer syllables make Flesch Reading Ease read a little easier and the grade a little lower. At this sample's rate, 0.055 syllables fewer per word, that is about 4.7 points of reading ease and 0.65 of a grade. Running prose moves less: the sample has no words under four letters, which the heuristic counts as one syllable, and most are.
+  - **Context, not a verdict.** This is one more reason Flesch–Kincaid is shown as context: no advisory and no level rests on it.
+- Portuguese: the Flesch adaptation of Martins, Ghiraldelo, Nunes and Oliveira Jr. (1996), with its four bands (100–75 very easy, 75–50 easy, 50–25 fairly difficult, 25–0 very difficult), on 100 words of prose or more. It was validated only as an ordering of textbook passages by school grade, and its authors say it measures "readability and not the comprehensibility": the report prints that caveat every time. No Portuguese grade level is computed. Syllables are counted by rule, with the hiatus convention schools teach (his-tó-ri-a). The rules match a hand-counted list of 200 words (`test/fixtures/coga/syllables-pt.json`), which leaves out on purpose the words whose split depends on stress or a prefix.
 - Other languages: counts only.
 
 WCAG 3.1.5 Reading Level is listed in the coverage as needing a qualified reviewer, with these measurements attached for that reviewer.
@@ -129,11 +142,11 @@ These lines come after the WCAG coverage of the run (the coverage rows and each 
 
 | Output | Advisories |
 | --- | --- |
-| Terminal | Their own section after the WCAG findings, grouped by check and ordered by impact, at most 3 elements per check and 20 per page without `--verbose`; then the text measurements; then the profile's lines in the coverage. Marked ◇, never ✗. |
-| JSON | `report.advisory`: `results`, `belowThreshold`, `waived`, `checks` (what ran and why not), `coverage.patterns` (all 58, by slug), `notes`, `textMetrics`. `schemaVersion` stays 1: a reader that does not know `advisory` ignores it. |
-| Markdown | A collapsed section, "Advisories (not WCAG requirements)", counted apart from the findings. When a pull request comment must fit its size limit, advisories are dropped first. |
-| HTML | A section with its own heading after the findings; each group links to the COGA pattern page and its section of the W3C Note. |
-| SARIF | Rules `coga/<check>` (and `wcag-aaa/3.1.4` beyond the target) at level `note`, tagged `not-wcag`; every result is a `note`, whatever its confidence. |
+| Terminal | Their own section after the WCAG findings, grouped by check and ordered by impact, at most 3 elements per check and 20 per page without `--verbose`; then the text measurements; then the profile's lines in the coverage. Marked ◇, never ✗. The section opens with the experimental notice, and each advisory of an experimental check is tagged `experimental`, as is the beyond-target line. |
+| JSON | `report.advisory`: `results`, `belowThreshold`, `waived`, `checks` (what ran and why not, with each check's `maturity`), `coverage.patterns` (all 58, by slug), `notes`, `textMetrics`. Each result has the `maturity` of its check. `schemaVersion` stays 1: a reader that does not know `advisory` ignores it. |
+| Markdown | A collapsed section, "Advisories (not WCAG requirements)", counted apart from the findings, with the same notice and tags as the terminal. When a pull request comment must fit its size limit, advisories are dropped first. |
+| HTML | A section with its own heading after the findings, with the same notice and tags as the terminal; each group links to the COGA pattern page and its section of the W3C Note. |
+| SARIF | Rules `coga/<check>` (and `wcag-aaa/3.1.4` beyond the target) at level `note`, tagged `not-wcag`; every result is a `note`, whatever its confidence. Results and rules carry `maturity` and `experimental` in their properties, and an experimental check's rule is also tagged `experimental`. |
 | Exit code | Only `--fail-on advisory` counts them, together with the confirmed findings. |
 | Waivers | Same file and command as findings: `rampa waive <id>`. The `coga/` prefix keeps the ids apart. |
 | Baseline, `toPassRampa`, MCP | Unaffected: they read findings only. The MCP tools do not run the profile yet. |
@@ -149,7 +162,7 @@ To tell a word in capitals (ENTRAR) from an acronym (CPF), the abbreviation chec
 - **Not a reading-level verdict.** Formulas count word and sentence length; they do not measure whether people understand a text.
 - **Not a judgment of clarity or familiarity.** No check says a word is hard, a layout unfamiliar or a text "simple enough": those depend on the audience, and a model's opinion is not evidence.
 - **Not an overlay.** It reads the page and never clicks, types or submits.
-- **Not yet validated.** The four checks are marked `experimental` in `report.advisory.checks`: they have fixtures and corrupted-pair tests, but not yet the evaluation on real pages labelled by annotators that the plan requires before a check is called stable (docs/plans/cognitive-profile.md §4.2). Please report what looks wrong.
+- **Not yet validated.** The checks are marked `experimental`, in `report.advisory.checks`, on each result and in every output. Each has pass and fail fixtures (`test/fixtures/coga/<check>/`) with the results they must give. The rest of the gate the plan requires before a check is called stable (docs/plans/cognitive-profile.md §4.2) is not built yet: the corrupted pairs, and the evaluation on real pages labelled by annotators (work item WI-10). Please report what looks wrong.
 
 ## Known limits
 
@@ -161,7 +174,35 @@ To tell a word in capitals (ENTRAR) from an acronym (CPF), the abbreviation chec
 
 ## Sources
 
-- W3C, *Making Content Usable for People with Cognitive and Learning Disabilities*, Working Group Note, 29 April 2021: https://www.w3.org/TR/coga-usable/; pattern pages under https://www.w3.org/WAI/WCAG2/supplemental/patterns/.
+### The guidance the profile draws on
+
+None of these sources is a WCAG requirement, and none defines a conformance that a page could meet.
+
+- **W3C, *Making Content Usable for People with Cognitive and Learning Disabilities* (COGA Content Usable).** Working Group Note, 29 April 2021: https://www.w3.org/TR/coga-usable/.
+  - Its 58 design patterns are also published as WAI supplemental guidance (https://www.w3.org/WAI/WCAG2/supplemental/), with one page per pattern under https://www.w3.org/WAI/WCAG2/supplemental/patterns/.
+  - It is not normative. Its abstract says: "Following this guidance is not required for conformance to WCAG".
+  - Its status section says: "It is inappropriate to cite this document as other than work in progress." The task force is rewriting the patterns, so every advisory records the version it was written against (`coga-usable 2021-04-29`).
+- **W3C, *Cognitive Accessibility User Research*.** First Public Working Draft, 15 January 2015: https://www.w3.org/TR/coga-user-research/.
+  - It was never finished, and it too must not be cited "as other than work in progress".
+  - It is background for this profile: no check rests on it.
+- **GAIA, *Guia de Acessibilidade de Interfaces para Autismo*.** https://gaia.wiki.br/: 28 recommendations, G01 to G28. It is a guide, not a checker.
+  - It comes from Talita Cristina Pagani Britto's master's dissertation: *GAIA: uma proposta de guia de recomendações de acessibilidade web com foco em aspectos do autismo*, Universidade Federal de São Carlos (UFSCar), 2016, advised by Ednaldo Brigante Pizzolato, https://repositorio.ufscar.br/handle/20.500.14289/8683.
+  - It was published as Britto, T. C. P. and Pizzolato, E. B. (2018), "GAIA: uma proposta de um guia de recomendações de acessibilidade de interfaces Web com foco em aspectos do Autismo", *Revista Brasileira de Informática na Educação* 26(2), 102–123, doi:[10.5753/RBIE.2018.26.02.102](https://doi.org/10.5753/RBIE.2018.26.02.102).
+  - Read it with its limits:
+    - it is written for autistic children, and for multitouch devices;
+    - it was piloted with 6 IT professionals, not with autistic users;
+    - 16 of its 28 recommendations cite WebAIM's WAVE cognitive checklist, so GAIA and WebAIM are related sources, not independent ones;
+    - it gives no mapping to WCAG. Where the plan maps a GAIA recommendation to a WCAG criterion or a COGA pattern (its Appendix A), the mapping is Rampa's, not GAIA's.
+- **WebAIM's cognitive series.** *Cognitive Disabilities* (https://webaim.org/articles/cognitive/) and *Evaluating Cognitive Web Accessibility* (https://webaim.org/articles/evaluatingcognitive/).
+  - It has no guidance specific to autism. It sorts barriers by function rather than by diagnosis: memory, problem-solving, attention, reading and verbal comprehension, math, and visual comprehension.
+  - On evaluation it says: "For the most part, cognitive web accessibility is one of those "you know it when you see it" things. Common sense, holistic evaluation, and user testing should predominantly guide cognitive web accessibility evaluation."
+
+### Why advisories, not failures
+
+The sources themselves rule out a pass or fail. COGA Content Usable is outside WCAG conformance, and it warns against leaning on tools (§5.1): "automated testing often cannot assess if people with a cognitive or learning disability can use the content. It is vital for people with cognitive and learning disabilities that development teams do not rely solely on automated accessibility testing." WebAIM says that evaluation is mostly "you know it when you see it". So each check reports a fact anyone can recompute, such as a field's type, a pre-checked price or a label that is only a placeholder. It names the sentence of the pattern that fact touches, and leaves the judgment to a person. The coverage lists what was not screened, and the profile points to testing with people, including people with cognitive and learning disabilities (COGA §5).
+
+### Other references
+
 - WCAG 2.2 Understanding 3.1.4 Abbreviations: https://www.w3.org/WAI/WCAG22/Understanding/abbreviations.html; 3.1.5 Reading Level: https://www.w3.org/WAI/WCAG22/Understanding/reading-level.html; technique G153: https://www.w3.org/WAI/WCAG22/Techniques/general/G153.
 - HTML, the pattern attribute (compiled with the `v` flag): https://html.spec.whatwg.org/multipage/input.html#the-pattern-attribute.
 - GOV.UK Design System on number inputs: https://technology.blog.gov.uk/2020/02/24/why-the-gov-uk-design-system-team-changed-the-input-type-for-numbers/.
