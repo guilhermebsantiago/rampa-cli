@@ -12,7 +12,7 @@ The [Storybook test-runner](https://github.com/storybookjs/test-runner) opens ev
 
    ```ts
    import { type TestRunnerConfig, getStoryContext, waitForPageReady } from '@storybook/test-runner'
-   import { type CheckPageOptions, assertRampa, checkPage } from '@rampa/cli/playwright'
+   import { type CheckPageOptions, assertRampa, checkPage } from 'rampa-cli/playwright'
 
    const config: TestRunnerConfig = {
      async postVisit(page, context) {
@@ -106,7 +106,7 @@ The test-runner's hooks run inside Jest, so Rampa's matchers can extend Jest's `
 
 ```ts
 import { type TestRunnerConfig, waitForPageReady } from '@storybook/test-runner'
-import { type ToPassRampaOptions, rampaMatchers } from '@rampa/cli/playwright'
+import { type ToPassRampaOptions, rampaMatchers } from 'rampa-cli/playwright'
 
 declare global {
   namespace jest {
@@ -142,11 +142,11 @@ overrides:
 <a id="storybook-8-and-9"></a>**Storybook 9 and earlier.** The test-runner for Storybook 9 (0.23, on Jest 29) loads `.storybook/test-runner.ts` with Jest's own `require`, which cannot load ES modules, and fails with "Cannot use import statement outside a module" on Rampa's import. Node's require can load them (Node 22.12+), so load Rampa through it and keep the rest of the recipe. This was tested with Storybook 9.1.20; Storybook 8 was not tested.
 
 ```ts
-import type { CheckPageOptions } from '@rampa/cli/playwright'
+import type { CheckPageOptions } from 'rampa-cli/playwright'
 
 // Jest's require cannot load ES modules; Node's own require can.
 const nodeRequire = process.getBuiltinModule('node:module').createRequire(__filename)
-const { assertRampa, checkPage } = nodeRequire('@rampa/cli/playwright') as typeof import('@rampa/cli/playwright')
+const { assertRampa, checkPage } = nodeRequire('rampa-cli/playwright') as typeof import('rampa-cli/playwright')
 ```
 
 **The browser.** The test-runner launches Playwright's own Chromium, which `npx playwright install chromium` downloads. To use an installed Chrome or Edge instead, eject its Jest config (`test-storybook --eject`) and set the channel:

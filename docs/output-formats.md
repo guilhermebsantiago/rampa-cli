@@ -139,7 +139,7 @@ Rampa reads `fingerprint` and ignores the other fields, so `reason` is free. A w
 The formats are part of the package's API:
 
 ```ts
-import { checkSnapshot, locateReport, readPageSource, renderHtml, renderMarkdown, toSarif } from '@rampa/cli'
+import { checkSnapshot, locateReport, readPageSource, renderHtml, renderMarkdown, toSarif } from 'rampa-cli'
 
 const report = await checkSnapshot(snapshot, engine, options)
 const source = await readPageSource(snapshot.target, process.cwd())

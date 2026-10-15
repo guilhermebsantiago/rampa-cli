@@ -1,6 +1,6 @@
 # Rampa in Playwright tests
 
-`@rampa/cli/playwright` runs Rampa inside the Playwright tests a team already has, the way `@axe-core/playwright` runs axe-core. It checks the page your test opened, as it is at that moment: your login, storage state, route mocks and app state all apply. It runs axe-core, then the judgment layer with your model, and returns the same report `rampa check` builds. A check can cover the whole page or one component.
+`rampa-cli/playwright` runs Rampa inside the Playwright tests a team already has, the way `@axe-core/playwright` runs axe-core. It checks the page your test opened, as it is at that moment: your login, storage state, route mocks and app state all apply. It runs axe-core, then the judgment layer with your model, and returns the same report `rampa check` builds. A check can cover the whole page or one component.
 
 > [!IMPORTANT]
 > A passing test means Rampa found no confirmed failure in what it checked, not that the page is accessible. Every report lists what was checked, what was judged and what nobody checked.
@@ -32,7 +32,7 @@ Extend `test` and `expect` once, in a file your specs import:
 ```ts
 // tests/fixtures.ts
 import { test as base, expect as baseExpect } from '@playwright/test'
-import { type RampaFixtures, rampaFixtures, rampaMatchers } from '@rampa/cli/playwright'
+import { type RampaFixtures, rampaFixtures, rampaMatchers } from 'rampa-cli/playwright'
 
 export const test = base.extend<RampaFixtures>(rampaFixtures)
 export const expect = baseExpect.extend(rampaMatchers)
@@ -59,7 +59,7 @@ Rampa reads the page when you call it. It does not navigate, reload or wait for 
 Without the fixture, `checkPage(page, options)` returns the report, and `await expect(page).toPassRampa(options)` checks and asserts in one line:
 
 ```ts
-import { checkPage } from '@rampa/cli/playwright'
+import { checkPage } from 'rampa-cli/playwright'
 
 const report = await checkPage(page, { criteria: ['1.1.1', '2.4.4'] })
 await expect(page).toPassRampa({ include: '#cart', minConfidence: 'high' })
@@ -124,7 +124,7 @@ Defaults for every check come from the `rampaOptions` option, for the project or
 ```ts
 // playwright.config.ts
 import { defineConfig } from '@playwright/test'
-import type { RampaFixtures } from '@rampa/cli/playwright'
+import type { RampaFixtures } from 'rampa-cli/playwright'
 
 export default defineConfig<RampaFixtures>({
   use: { rampaOptions: { model: 'ollama:gemma4:12b', minConfidence: 'medium' } },
@@ -199,11 +199,11 @@ The assertion options, `failOn` and `requireJudgment`, are described under [Matc
 
 ## Puppeteer and other runners
 
-`@rampa/cli/puppeteer` has the same `checkPage` for a Puppeteer page. Everything but four calls into the browser is shared with `@rampa/cli/playwright`: the code that runs in the page, axe-core, scoping and judgment.
+`rampa-cli/puppeteer` has the same `checkPage` for a Puppeteer page. Everything but four calls into the browser is shared with `rampa-cli/playwright`: the code that runs in the page, axe-core, scoping and judgment.
 
 ```ts
 import puppeteer from 'puppeteer'
-import { assertRampa, checkPage } from '@rampa/cli/puppeteer'
+import { assertRampa, checkPage } from 'rampa-cli/puppeteer'
 
 const browser = await puppeteer.launch()
 const page = await browser.newPage()

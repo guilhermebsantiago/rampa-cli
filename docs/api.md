@@ -1,13 +1,13 @@
 # Rampa from code
 
-Everything `rampa check` does is available from code: `import { check } from '@rampa/cli'` takes the same targets and options and returns the same reports. For tests that already open a page, use [`@rampa/cli/playwright`](playwright.md) or `@rampa/cli/puppeteer` instead; for Storybook, see [docs/storybook.md](storybook.md).
+Everything `rampa check` does is available from code: `import { check } from 'rampa-cli'` takes the same targets and options and returns the same reports. For tests that already open a page, use [`rampa-cli/playwright`](playwright.md) or `rampa-cli/puppeteer` instead; for Storybook, see [docs/storybook.md](storybook.md).
 
 The package is ESM. It also loads with `require()` from CommonJS, on Node.js 22.12 or newer. Rampa is not on npm yet: [docs/playwright.md](playwright.md#setup) shows how to add it to a project from a clone.
 
 ## check
 
 ```ts
-import { check } from '@rampa/cli'
+import { check } from 'rampa-cli'
 
 const reports = await check(['https://example.com/pricing', 'dist/index.html'], {
   model: 'ollama:gemma4:12b',
@@ -148,7 +148,7 @@ The types are exported: `Report`, `Finding`, `Patch`, `CriterionSummary`, `Usage
 
 ```ts
 import { writeFile } from 'node:fs/promises'
-import { assertRampa, check } from '@rampa/cli'
+import { assertRampa, check } from 'rampa-cli'
 
 const reports = await check('dist', { minConfidence: 'high' })
 await writeFile('rampa-report.json', JSON.stringify(reports, null, 2))
@@ -193,7 +193,7 @@ Chromium gives every local file an origin of its own, so in a local `.html` page
 `model` also takes a `ModelProvider`: an `id`, which keys the cache, and a `judge` call that answers one structured request. It is how to put Rampa behind a gateway the built-in providers do not cover, or to test without a model:
 
 ```ts
-import type { ModelProvider } from '@rampa/cli'
+import type { ModelProvider } from 'rampa-cli'
 
 const model: ModelProvider = {
   id: 'my-gateway:vision-model',
@@ -209,4 +209,4 @@ Every claim it makes still goes through the criterion's verification: a quote th
 
 ## Building blocks
 
-The steps `check` chains are exported too, for tools that need one of them: `resolveTargets`, `launchBrowser` and `collectWeb` (a URL to a snapshot and axe-core results), `loadSnapshot`, `checkSnapshot` (a snapshot and engine results to a report), `resolveCriteria`, `createModelProvider`, `fileCache` and `memoryCache`. `@rampa/cli/playwright` and `@rampa/cli/puppeteer` export `collectPage`, which collects a page that is already open, with the driver each builds (`playwrightDriver`, `puppeteerDriver`).
+The steps `check` chains are exported too, for tools that need one of them: `resolveTargets`, `launchBrowser` and `collectWeb` (a URL to a snapshot and axe-core results), `loadSnapshot`, `checkSnapshot` (a snapshot and engine results to a report), `resolveCriteria`, `createModelProvider`, `fileCache` and `memoryCache`. `rampa-cli/playwright` and `rampa-cli/puppeteer` export `collectPage`, which collects a page that is already open, with the driver each builds (`playwrightDriver`, `puppeteerDriver`).

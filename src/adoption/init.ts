@@ -117,7 +117,7 @@ export function configSource(settings: InitSettings, options: { typed: boolean; 
   const lines = [
     '// Rampa settings for this project: https://github.com/guilhermebsantiago/rampa-cli/blob/main/docs/adoption.md',
     '// Command-line options win over this file. API keys never go here: use the environment or a .env file.',
-    ...(options.typed ? ["import { defineConfig } from '@rampa/cli'", ''] : []),
+    ...(options.typed ? ["import { defineConfig } from 'rampa-cli'", ''] : []),
     options.typed ? 'export default defineConfig({' : 'export default {',
     '  // What rampa check and rampa baseline check when you pass no targets: URLs, .html files, folders.',
     settings.targets.length > 0 ? `  targets: ${list(settings.targets)},` : "  // targets: ['dist', 'http://localhost:3000/'],",
