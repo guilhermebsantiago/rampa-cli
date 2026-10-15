@@ -30,7 +30,11 @@ async function snapshotOf(url: string): Promise<A11ySnapshot> {
   await tab.goto(url)
   const raw = await tab.evaluate(collectInPage, { runAxe: false, axeTags: [], axeLocale: undefined, maxNodes: 5000 })
   // What --profile cognitive measures besides the tree: how text and controls are presented, with the drawn font over CDP.
-  const presentation = await collectPresentation({ evaluate: (fn, arg) => tab.evaluate(fn, arg), cdp: () => tab.context().newCDPSession(tab) })
+  const presentation = await collectPresentation({
+    // biome-ignore lint/suspicious/noExplicitAny: Playwright's evaluate infers its argument type from a generic it cannot see here
+    evaluate: <Arg, Result>(fn: (arg: Arg) => Result | Promise<Result>, arg: Arg) => tab.evaluate(fn as (arg: any) => Result | Promise<Result>, arg),
+    cdp: () => tab.context().newCDPSession(tab),
+  })
   return {
     schemaVersion: 1,
     surface: 'web',
