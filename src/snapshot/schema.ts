@@ -334,11 +334,25 @@ export const PresentationSchema = z.object({
 })
 export type Presentation = z.infer<typeof PresentationSchema>
 
+/**
+ * A web page that is not an HTML document (XHTML is HTML here). svg: a standalone SVG document, which axe-core and the
+ * rules that read the tree check; xml: any other XML document, such as one the browser shows as its source tree
+ * because it has no style sheet, which Rampa does not check.
+ */
+export const DocumentKindSchema = z.object({
+  kind: z.enum(['svg', 'xml']),
+  /** The document's MIME type, as the browser read it: image/svg+xml, application/xml. */
+  contentType: z.string(),
+})
+export type DocumentKind = z.infer<typeof DocumentKindSchema>
+
 export const A11ySnapshotSchema = z.object({
   schemaVersion: z.literal(1),
   surface: SurfaceSchema,
   /** URL, Android package, iOS bundle id or file path. */
   target: z.string(),
+  /** Set when the page is not an HTML document: what the collector, the rules and the probes could read of it. */
+  document: DocumentKindSchema.optional(),
   title: z.string().optional(),
   /** Default language of the screen (html lang, app locale). */
   locale: z.string().optional(),

@@ -14,9 +14,9 @@ import { READING_ORDER_RULES } from './reading-order.ts'
 import { SCOPE_RULES } from './scope.ts'
 import { SEQUENCE_RULES } from './sequence.ts'
 import { STRUCTURE_RULES } from './structure.ts'
-import type { RuleCheck } from './types.ts'
+import type { RuleCheck, Settlement } from './types.ts'
 
-export type { Hit, RuleCheck, RuleContext, RuleRun } from './types.ts'
+export type { Hit, RuleCheck, RuleContext, RuleRun, Settlement } from './types.ts'
 
 /** Every Rampa rule, for every surface; each says where it applies. */
 export const RULE_CHECKS: readonly RuleCheck[] = [
@@ -67,11 +67,13 @@ export interface RuleStageResult {
    * the rule already decided, and a second finding on the same element would only repeat it.
    */
   decided: Map<string, Set<string>>
-  /**
-   * Elements whose undecided engine result a rule settled, by engine rule (`RuleCheck.resolves`): they leave
-   * axe-core's results to review and its coverage counts, because the rule reports them.
-   */
+  /** Elements whose undecided engine result a rule took over, by engine rule (`RuleCheck.resolves`). */
   resolved: Map<string, Set<string>>
+  /**
+   * What the rule made of each of them. core/check.ts takes axe-core's item to review off the report only where the
+   * report shows the rule's result instead (`settledResults`).
+   */
+  settlements: Settlement[]
 }
 
 /** The same key `fingerprint` in core/check.ts builds; kept here so the rules do not import the check loop. */
@@ -80,7 +82,7 @@ function fingerprint(criterion: string, ref: string | undefined, detail: string)
 }
 
 export function emptyRuleStage(): RuleStageResult {
-  return { findings: [], review: [], ran: [], decided: new Map(), resolved: new Map() }
+  return { findings: [], review: [], ran: [], decided: new Map(), resolved: new Map(), settlements: [] }
 }
 
 /**
@@ -122,7 +124,12 @@ export function runRuleChecks(snapshot: A11ySnapshot, engine: EngineResults, loc
       ...(rule.inventory ? { inventory: true } : {}),
     })
     for (const engineRule of rule.resolves ?? []) {
-      for (const ref of run.resolved ?? []) stage.resolved.set(engineRule, (stage.resolved.get(engineRule) ?? new Set()).add(ref))
+      for (const ref of run.resolved ?? []) {
+        stage.resolved.set(engineRule, (stage.resolved.get(engineRule) ?? new Set()).add(ref))
+        const own = run.hits.filter((hit) => hit.ref === ref)
+        const outcome = failedByAxe(rule, ref) ? 'engine' : own.some((hit) => hit.outcome === 'review') ? 'review' : own.length > 0 ? 'fail' : 'pass'
+        stage.settlements.push({ engineRule, ref, rule: rule.id, criteria: rule.criteria, outcome, experimental: rule.maturity === 'experimental' })
+      }
     }
     const criterion = rule.criteria[0] ?? 'best-practice'
     for (const hit of hits) {

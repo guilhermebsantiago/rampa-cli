@@ -48,6 +48,27 @@ export interface RuleRun {
   note?: string | undefined
 }
 
+/**
+ * An element whose undecided engine result ("incomplete") a rule or a probe rule took over (`RuleCheck.resolves`,
+ * `ProbeRuleResult.resolved`), and what the rule made of it. Whether axe-core's item to review leaves the report
+ * depends on it and on the confidence threshold (core/check.ts, `settledResults`): an item to review is only replaced
+ * by something the report shows.
+ */
+export interface Settlement {
+  engineRule: string
+  ref: string
+  /** The rule that took the element over, and the criteria it reports under. */
+  rule: string
+  criteria: readonly string[]
+  /**
+   * review: the rule's own item to review; fail: a finding of the rule, shown or not by the threshold; engine: axe-core
+   * already failed the element for the same criterion, so the rule left it; pass: the rule found nothing.
+   */
+  outcome: 'review' | 'fail' | 'engine' | 'pass'
+  /** The rule is experimental: its pass, like its findings, is below the default threshold. */
+  experimental: boolean
+}
+
 export interface RuleCheck {
   /** 'rampa/placeholder-alt'. The prefix keeps rule ids apart from axe-core's. */
   id: string
@@ -69,8 +90,11 @@ export interface RuleCheck {
   /** axe-core rules that report the same failure: an element axe already failed on them is left to axe. */
   engineRules: readonly string[]
   /**
-   * axe-core rules whose undecided results ("incomplete") the rule settles: an element the rule measured is
-   * no longer axe-core's to review; it is the rule's failure, its pass, or its own item to review.
+   * axe-core rules whose undecided results ("incomplete") the rule settles: an element the rule measured is the rule's
+   * failure, its pass, or its own item to review. axe-core's item to review leaves the report only for what the report
+   * then shows: the rule's own item to review, its failure at the threshold in effect, or its pass when the rule's
+   * confidence meets that threshold (a stable rule, or any rule at --min-confidence low). Otherwise the item stays,
+   * with what the rule measured as its evidence.
    */
   resolves?: readonly string[] | undefined
   /**

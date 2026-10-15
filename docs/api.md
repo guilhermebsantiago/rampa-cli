@@ -21,6 +21,8 @@ For web targets Rampa starts Chrome or Edge, as the CLI does (`RAMPA_BROWSER_CHA
 
 Web targets go through the same collector as the CLI, and a test holds `check` to it: on a recorded page with the same options, its report equals the JSON `rampa check --format json` prints, apart from the time it was created.
 
+A URL may also serve a standalone SVG document (`image/svg+xml`). axe-core and the Rampa rules that read the tree check it, and the snapshot says what it is (`document: { kind: 'svg', contentType }`). What is built for HTML pages does not run on it: the contrast measured from pixels, the reading presentation of `--profile cognitive`, and the probes. An XML document that the browser shows as its source tree (it has no style sheet), or one in another vocabulary than HTML and SVG, is not checked (`document.kind: 'xml'`): the page in the browser is the browser's view of the source, not the document. Both reports say so in a note, and every criterion of an XML document is "not checked". XHTML (`application/xhtml+xml`) is checked as HTML.
+
 ## Options
 
 The options are the [ones `checkPage` takes](playwright.md#options), minus `include`, `exclude` and `maxNodes`, plus `browser`. Each mirrors a `rampa check` flag:

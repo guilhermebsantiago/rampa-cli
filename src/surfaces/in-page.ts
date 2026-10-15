@@ -972,6 +972,21 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   }
 }
 
+/**
+ * What the document is: HTML (XHTML too), a standalone SVG document, or other XML. Chromium shows an XML document that
+ * has no style sheet as its source tree, in an XHTML page of its own that holds the document hidden: that page is the
+ * browser's, not the document, so it counts as XML.
+ */
+export function documentKindInPage(): { kind: 'html' | 'svg' | 'xml'; contentType: string } {
+  const contentType = document.contentType
+  const root = document.documentElement
+  if (!root) return { kind: 'html', contentType }
+  if (contentType !== 'text/html' && document.getElementById('webkit-xml-viewer-source-xml')) return { kind: 'xml', contentType }
+  if (root.namespaceURI === 'http://www.w3.org/1999/xhtml') return { kind: 'html', contentType }
+  if (root.namespaceURI === 'http://www.w3.org/2000/svg' && root.localName === 'svg') return { kind: 'svg', contentType }
+  return { kind: 'xml', contentType }
+}
+
 /** What axe-core's partial run in one frame hands back: its results, kept in the page for the top frame, and the frames it holds. */
 export interface InPagePartial {
   partial?: unknown

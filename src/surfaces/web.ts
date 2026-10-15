@@ -20,12 +20,13 @@ import { type ContrastCaptureOptions, captureContrast } from './contrast-capture
 import { blankContentInPage, captureImageNodes, hiddenImageTargets, imageTargets, isCapturableImage, restoreImageInPage } from './image-capture.ts'
 import { libraryFrameDriver, runAxeInFrames } from './frames.ts'
 import { attachMotionFacts } from './motion.ts'
-import { collectInPage } from './in-page.ts'
+import { collectInPage, documentKindInPage, type InPageResult } from './in-page.ts'
 import { collectPresentation } from './presentation.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
 import { buildReach, closedShadowRoots } from './reach.ts'
 import { SETTLE, type SettleOptions, settlePage, watchNetwork } from './settle.ts'
 import { type ProbeKind, runProbes } from '../probes/run.ts'
+import { skippedRecord } from '../probes/page.ts'
 import { scriptedAddresses } from '../probes/links.ts'
 
 export interface WebCollectOptions {
@@ -150,7 +151,13 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     if (options.inspect) await options.inspect(page, response)
     if (options.mutate) await options.mutate(page)
     const collect = async () => {
-      if (options.runAxe) await timed(watch, 'axe', async () => page.addScriptTag({ content: await axeSource() }))
+      const kind = await page.evaluate(documentKindInPage)
+      // An XML document the browser shows as its source tree: the page in the browser is its viewer, not the
+      // document, so nothing of it is read. The report says the page was not checked (core/check.ts).
+      if (kind.kind === 'xml') return { ...(await unreadDocument(page)), kind, axe: undefined, engineFrames: undefined, axTree: undefined }
+      // Evaluated, not added as a <script>: an SVG document has no head to add one to, and a script element outside
+      // the HTML namespace never runs. The other frames get axe-core the same way (frames.ts).
+      if (options.runAxe) await timed(watch, 'axe', async () => page.evaluate(await axeSource()))
       const tree = await timed(watch, 'collection', async () => {
         const read = await page.evaluate(collectInPage, { maxNodes: options.maxNodes ?? 5000 })
         await page.evaluate(resolverSource())
@@ -167,7 +174,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
             runAxeInFrames(libraryFrameDriver(page), { tags: axeTags(options.wcag), rules: AXE_REVIEW_RULES, locale: await axeLocale(options.locale) }, axeSource),
           )
         : undefined
-      return { ...tree, axe: checked?.axe, engineFrames: checked?.frames, axTree }
+      return { ...tree, kind, axe: checked?.axe, engineFrames: checked?.frames, axTree }
     }
     // A page that redirects at once (a 0 s refresh, in a meta element or a Refresh header) navigates while it is
     // being read. The redirect is recorded and the page it lands on is collected, instead of failing the target.
@@ -185,24 +192,31 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
 
     const root = raw.root as A11yNode
     const cdp = () => context.newCDPSession(page)
+    // A standalone SVG document is read and checked by axe-core and the rules; what is built for HTML (the reading
+    // presentation, contrast from pixels, the probes) is not run on it. An XML document is not read at all.
+    const html = raw.kind.kind === 'html'
+    const readable = raw.kind.kind !== 'xml'
     // Before any capture scrolls the page or hides its layers: the lines are measured as the page first shows them.
-    const presentation = options.presentation
-      ? await timed(
-          watch,
-          'collection',
-          () =>
-            collectPresentation({
-              // biome-ignore lint/suspicious/noExplicitAny: Playwright's evaluate infers its argument type from a generic it cannot see here
-              evaluate: <Arg, Result>(fn: (arg: Arg) => Result | Promise<Result>, arg: Arg) => page.evaluate(fn as (arg: any) => Result | Promise<Result>, arg),
-              cdp,
-            }),
-          'presentation',
-        )
+    const presentation =
+      options.presentation && html
+        ? await timed(
+            watch,
+            'collection',
+            () =>
+              collectPresentation({
+                // biome-ignore lint/suspicious/noExplicitAny: Playwright's evaluate infers its argument type from a generic it cannot see here
+                evaluate: <Arg, Result>(fn: (arg: Arg) => Result | Promise<Result>, arg: Arg) => page.evaluate(fn as (arg: any) => Result | Promise<Result>, arg),
+                cdp,
+              }),
+            'presentation',
+          )
+        : undefined
+    const closed = readable
+      ? await timed(watch, 'collection', async () => {
+          await attachFormIssues(cdp, root)
+          return closedShadowRoots(cdp)
+        })
       : undefined
-    const closed = await timed(watch, 'collection', async () => {
-      await attachFormIssues(cdp, root)
-      return closedShadowRoots(cdp)
-    })
     const reach = buildReach({
       frames: raw.frames,
       engineFrames: raw.engineFrames,
@@ -216,18 +230,22 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     if (refresh !== undefined) root.native.httpRefresh = refresh.slice(0, 500)
     // What was collected is the page the redirect led to; the snapshot keeps the address asked for, and says where it ended.
     if (response && page.url() !== loaded) root.native.redirectedTo = page.url()
-    if (options.captureImages) await timed(watch, 'image-capture', () => captureImages(page, root, options.imageCapture))
+    if (options.captureImages && readable) await timed(watch, 'image-capture', () => captureImages(page, root, options.imageCapture))
     // Whether each label 3.3.2 relies on shows its text, from two captures (label-visibility.ts); no model involved.
-    await timed(watch, 'label-visibility', () => measureLabelPixels(page, root))
+    if (readable) await timed(watch, 'label-visibility', () => measureLabelPixels(page, root))
     const engine = raw.axe ? engineFromAxe(raw.axe) : emptyEngine()
-    if (raw.axe && options.pixelContrast !== false) {
+    // The capture reads colors through an HTML canvas element, which an SVG document does not create: there, text
+    // contrast stays axe-core's.
+    if (raw.axe && html && options.pixelContrast !== false) {
       const settings = options.pixelContrast === true ? {} : options.pixelContrast
       await timed(watch, 'pixel-contrast', () => measureContrast(page, root, engine, settings))
     }
     // Relative links resolve against the document's base: the address after redirects, or its <base href>.
     const follow = options.followLinks
     const destinations =
-      follow && follow.policy !== 'none' ? await timed(watch, 'link-following', async () => followLinks(root, await page.evaluate(() => document.baseURI), follow)) : {}
+      follow && follow.policy !== 'none' && readable
+        ? await timed(watch, 'link-following', async () => followLinks(root, await page.evaluate(() => document.baseURI), follow))
+        : {}
 
     let screenshot: string | undefined
     if (options.screenshotDir) {
@@ -237,12 +255,13 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       await timed(watch, 'screenshot', () => page.screenshot({ path, fullPage: true }))
     }
     // Whether the page listens to the device's motion, for 2.5.4 (surfaces/motion.ts): last, as it reads the page's scripts.
-    await timed(watch, 'collection', () => attachMotionFacts(cdp, root))
+    if (readable) await timed(watch, 'collection', () => attachMotionFacts(cdp, root))
 
     const snapshot: A11ySnapshot = {
       schemaVersion: 1,
       surface: 'web',
       target: url,
+      ...(html ? {} : { document: { kind: raw.kind.kind === 'svg' ? 'svg' : 'xml', contentType: raw.kind.contentType } }),
       title: raw.title || undefined,
       locale: raw.lang,
       viewport: raw.viewport,
@@ -256,7 +275,10 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       collectedAt: new Date().toISOString(),
       collector: { name: 'rampa-web', version: VERSION },
     }
-    if (options.probes && options.probes.length > 0) {
+    if (options.probes && options.probes.length > 0 && !html) {
+      // The probes drive an HTML page (keys, focus, injected style sheets, media): on another document each is recorded as not run.
+      snapshot.observations = { probes: options.probes.map((kind) => skippedRecord(kind, '0', undefined, notHtmlReason(raw.kind.kind), 0)) }
+    } else if (options.probes && options.probes.length > 0) {
       const probeOptions = {
         browserOptions: options.browserOptions,
         timeoutMs: options.timeoutMs,
@@ -280,6 +302,20 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     network.stop()
     await timed(watch, 'teardown', () => context.close())
   }
+}
+
+/**
+ * What is collected of a document Rampa does not read (core/check.ts says so in the report): its root, with nothing
+ * under it. The page in the browser is not the document, as with an XML document shown as its source tree.
+ */
+async function unreadDocument(page: Page): Promise<InPageResult> {
+  const viewport = await page.evaluate(() => ({ width: window.innerWidth, height: window.innerHeight, scale: window.devicePixelRatio }))
+  return { title: '', lang: undefined, viewport, root: { ref: ':root', role: 'document', states: [], native: {}, children: [] }, truncated: false, frames: [], shadowRoots: 0, beyondTruncated: false }
+}
+
+/** Why the probes did not run on a page that is not an HTML document, for their records. */
+function notHtmlReason(kind: 'svg' | 'xml' | 'html'): string {
+  return kind === 'svg' ? 'not run: the page is a standalone SVG document, and the probes drive HTML pages' : 'not run: the page is an XML document Rampa does not read'
 }
 
 /** The errors Playwright raises when the page navigates while a script runs in it. */

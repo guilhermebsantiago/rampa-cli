@@ -109,6 +109,12 @@ const messages = {
     imageSkipLimit: 'over the limit of images captured per page',
     reachEngineOnly: "{count} frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: {frames}.",
     reachTruncated: 'The collector stopped reading shadow roots and frames at its limit of elements: what follows in them is not in the snapshot, so only axe-core checked it.',
+    settledBelow: "Rampa's {rule} measured it, below the confidence threshold: {message}",
+    settledPassBelow: "Rampa's {rule} measured it and found no failure, below the confidence threshold.",
+    documentSvg:
+      'The page is a standalone SVG document ({contentType}), not an HTML page: axe-core and the Rampa rules that read the tree checked it, and the checks for HTML pages (title, language, landmarks, forms) found nothing to apply to. Text contrast was not measured from pixels, and probes do not run on it.',
+    documentXml:
+      'The page is an XML document ({contentType}) that the browser shows as its source tree, or in another vocabulary than HTML and SVG: Rampa checks HTML and SVG documents, so nothing on it was checked.',
     reachUnchecked: '{count} frame(s) were not checked at all, so whatever they hold was missed: {frames}.',
     reachNoEngine: 'axe-core did not run in {count} frame(s) whose content was collected: {frames}.',
     reachClosedShadow: '{count} closed shadow root(s) cannot be read by any script, so nothing inside them was checked (hosts: {hosts}).',
@@ -317,6 +323,12 @@ const messages = {
     imageSkipLimit: 'além do limite de imagens capturadas por página',
     reachEngineOnly: '{count} frame(s) foi(ram) verificado(s) só pelo axe-core: o conteúdo não está no snapshot (outra origem, ou carregou depois que a página foi lida), então as regras do Rampa e os critérios julgados não o leram: {frames}.',
     reachTruncated: 'O coletor parou de ler shadow roots e frames no seu limite de elementos: o que vem depois neles não está no snapshot, então só o axe-core o verificou.',
+    settledBelow: 'O {rule} do Rampa o mediu, abaixo do limiar de confiança: {message}',
+    settledPassBelow: 'O {rule} do Rampa o mediu e não achou falha, abaixo do limiar de confiança.',
+    documentSvg:
+      'A página é um documento SVG independente ({contentType}), não uma página HTML: o axe-core e as regras do Rampa que leem a árvore o verificaram, e as verificações de páginas HTML (título, idioma, landmarks, formulários) não acharam a que se aplicar. O contraste do texto não foi medido nos pixels, e as sondas não rodam nele.',
+    documentXml:
+      'A página é um documento XML ({contentType}) que o navegador mostra como árvore do código, ou em outro vocabulário que não HTML nem SVG: o Rampa verifica documentos HTML e SVG, então nada nela foi verificado.',
     reachUnchecked: '{count} frame(s) não foi(ram) verificado(s), e o que ele(s) contém ficou de fora: {frames}.',
     reachNoEngine: 'O axe-core não rodou em {count} frame(s) cujo conteúdo foi coletado: {frames}.',
     axSkipped: 'A árvore de acessibilidade do navegador não foi lida ({reason}): nomes e papéis são a aproximação do próprio Rampa, e as regras que leem a árvore do navegador não tiveram a que se aplicar.',

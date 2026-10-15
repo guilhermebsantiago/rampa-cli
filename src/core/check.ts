@@ -7,7 +7,7 @@ import type { ModelProvider } from '../providers/types.ts'
 import { prepareProbeRules, probeChecks } from '../rules/probes.ts'
 import { PROBE_RULES } from '../rules/registry.ts'
 import { submissionSummary } from '../rules/submit.ts'
-import { RULE_CHECKS, type RuleCheck, type RuleStageResult, emptyRuleStage, runRuleChecks, withoutResolved } from '../rules/index.ts'
+import { RULE_CHECKS, type RuleCheck, type RuleStageResult, type Settlement, emptyRuleStage, runRuleChecks, withoutResolved } from '../rules/index.ts'
 import { reviewLabelInName } from '../rules/label-in-name.ts'
 import { uncapturedImagesNote } from '../snapshot/image-skips.ts'
 import { axNotes, browserNamed } from '../snapshot/ax.ts'
@@ -137,7 +137,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const threshold = assertConfidence(options.minConfidence)
   const watch = options.timings
   const ruleStart = performance.now()
-  const stage: RuleStageResult = options.rules === false ? emptyRuleStage() : runRuleChecks(snapshot, engine, options.locale, options.rules ?? RULE_CHECKS)
+  // An XML document the collector did not read (surfaces/web.ts): no rule and no judgment runs, and a note says so.
+  const unread = snapshot.document?.kind === 'xml'
+  const stage: RuleStageResult = options.rules === false || unread ? emptyRuleStage() : runRuleChecks(snapshot, engine, options.locale, options.rules ?? RULE_CHECKS)
   // Label-in-name failures that differ only by a hyphen or a shortened word go to review (src/rules/label-in-name.ts).
   const fromEngine = options.rules === false ? engineFindings(engine) : reviewLabelInName(engineFindings(engine), snapshot, options.locale)
   // Facts a probe recorded in the snapshot, turned into findings by rules: no browser, no model.
@@ -155,7 +157,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const signal = options.deadline === undefined ? undefined : AbortSignal.timeout(Math.max(0, options.deadline - Date.now()))
   // A probe that left a question for a model (2.1.4: is the way to a shortcut setting clearly labeled? 3.3.8: is this a
   // cognitive function test?) adds its judgment.
-  const criteria = [...options.criteria, ...probeJudgments(snapshot).filter((extra) => !options.criteria.some((given) => given.id === extra.id))]
+  const criteria = unread ? [] : [...options.criteria, ...probeJudgments(snapshot).filter((extra) => !options.criteria.some((given) => given.id === extra.id))]
   // Judgments that may only clear a probe rule's finding: what each decided, applied once every criterion has run.
   const clearing: Array<{ rule: string; criterion: string; ref: string; passed: boolean; evidence?: string | undefined; control?: string | undefined; votes: number; total: number; model?: string | undefined; note?: string | undefined }> = []
   // Judgments that decide a probe rule's items to review (4.1.3): which item each verified answer settled, and which
@@ -431,10 +433,14 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
 
   // 4.1.1 is never counted: WCAG 2.2 removed it, and under 2.1 it is satisfied by definition for HTML and XML.
   const all = new Set(criteriaFor(version).flatMap((sc) => (sc.removedIn ? [] : [sc.id])))
-  // What axe-core left undecided and a rule then settled (contrast measured from pixels, a video the media probe played)
-  // is the rule's to report, once.
-  const settled = new Map(stage.resolved)
-  for (const { engineRule, ref } of probe.resolved ?? []) settled.set(engineRule, new Set([...(settled.get(engineRule) ?? []), ref]))
+  // What axe-core left undecided and a rule then took over (contrast measured from pixels, a video the media probe
+  // played) leaves axe-core's items to review only where the report shows the rule's result instead.
+  const { settled, context } = settledResults([...stage.settlements, ...(probe.settlements ?? [])], {
+    shown: [...reported, ...beyond.filter(shown), ...waived],
+    below: [...belowThreshold, ...beyond.filter((f) => !shown(f))],
+    threshold,
+    locale: options.locale,
+  })
   const unsettled = withoutResolved(engine, settled)
   const engineCovered = engineCoverage(unsettled, version)
   // What a judged criterion decided without a model (the language identifier on 3.1.1 and 3.1.2) is checked by a rule, not judged.
@@ -445,7 +451,11 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const probed = [...new Set(probe.coverage.filter((row) => (row.status === 'failures' || row.status === 'no-failure-found') && all.has(row.criterion)).map((row) => row.criterion))]
   // What axe-core could not decide, and what Rampa's rules and probe rules sent to review: never a failure.
   const probeReview = probe.review.filter((f) => !options.waivers?.has(f.fingerprint)).map(reviewItemOf)
-  const review = [...reviewItems(unsettled), ...stage.review, ...probeReview, ...suggestions].sort((a, b) => compareCriteria(a.criterion, b.criterion))
+  const kept = reviewItems(unsettled).map((item) => {
+    const measured = context.get(`${item.ruleId}|${item.ref ?? item.target}`)
+    return measured ? { ...item, evidence: measured } : item
+  })
+  const review = [...kept, ...stage.review, ...probeReview, ...suggestions].sort((a, b) => compareCriteria(a.criterion, b.criterion))
   // Findings beyond the target still give their criterion its status, by the same threshold.
   const beyondShown = beyond.filter(shown)
   const beyondBelow = beyond.filter((f) => !shown(f))
@@ -495,6 +505,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   // Then images left without a capture, then candidates the model did not judge.
   // What the browser's own accessibility tree left out comes with them: the rules that read it saw less.
   notes.unshift(...reachNotes(snapshot.reach, options.locale), ...axNotes(snapshot.axTree, options.locale), ...(uncaptured ? [uncaptured] : []))
+  // A page that is not an HTML document frames everything else: said first.
+  if (snapshot.document) notes.unshift(t(options.locale, snapshot.document.kind === 'svg' ? 'documentSvg' : 'documentXml', { contentType: snapshot.document.contentType }))
   const reach = unreached(snapshot.reach)
   // The form probe submitted forms, or listed what it would: every report says so at the top.
   const submissions = submissionSummary(snapshot)
@@ -587,6 +599,37 @@ function notJudgedNotes(summaries: readonly CriterionSummary[], cap: number, loc
     .join(', ')
   if (batched) notes.push(t(locale, 'batchedNote', { list: batched }))
   return notes
+}
+
+/**
+ * Which undecided engine results the rules that took them over (`RuleCheck.resolves`, `ProbeRuleResult.resolved`) replace
+ * in the report, by engine rule: an element the rule sent to its own review, one axe-core failed itself, one whose
+ * failure the report shows (or a waiver covers), and one the rule passed at a confidence that meets the threshold. An
+ * experimental rule's verdict is below the default threshold, so there it never takes axe-core's item to review away:
+ * the item stays, and `context` holds what the rule measured, for its evidence, keyed `engine rule|ref`.
+ */
+export function settledResults(
+  settlements: readonly Settlement[],
+  report: { shown: readonly Finding[]; below: readonly Finding[]; threshold: Confidence; locale: Locale },
+): { settled: Map<string, Set<string>>; context: Map<string, string> } {
+  const settled = new Map<string, Set<string>>()
+  const context = new Map<string, string>()
+  for (const s of settlements) {
+    const about = (f: Finding) => f.ref === s.ref && (f.ruleId === s.rule || s.criteria.includes(f.criterion))
+    const decided =
+      s.outcome === 'review' ||
+      s.outcome === 'engine' ||
+      (s.outcome === 'fail' && report.shown.some(about)) ||
+      (s.outcome === 'pass' && meetsThreshold({ confidence: 'high', experimental: s.experimental }, report.threshold))
+    if (decided) {
+      settled.set(s.engineRule, (settled.get(s.engineRule) ?? new Set()).add(s.ref))
+      continue
+    }
+    const measured = s.outcome === 'fail' ? report.below.find((f) => f.ref === s.ref && f.ruleId === s.rule) : undefined
+    if (measured) context.set(`${s.engineRule}|${s.ref}`, t(report.locale, 'settledBelow', { rule: s.rule, message: measured.message }))
+    else if (s.outcome === 'pass') context.set(`${s.engineRule}|${s.ref}`, t(report.locale, 'settledPassBelow', { rule: s.rule }))
+  }
+  return { settled, context }
 }
 
 /** A probe rule's item to review, in the shape of the engine's and the rules' (core/coverage.ts): never a finding. */
