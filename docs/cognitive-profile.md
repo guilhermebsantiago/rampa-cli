@@ -58,6 +58,92 @@ What stays silent, on purpose:
 
 The profile works on web pages, in Portuguese and English. Android, iOS and images are not screened yet.
 
+## Checks that watch the live page: motion, interruptions, layout shifts and paste
+
+Four more checks need the page running, not only its snapshot. They come from observing the live page with no input, and they matter most for sensory load, which COGA's autistic persona describes (§6.2.2: "animations and videos that play automatically cause problems for Amy. Sometimes, the movement can be very distracting and the sounds alarming"), and for things that move or appear while a person works. Like every check of the profile they are advisories, from W3C COGA guidance and, where cited, GAIA, never WCAG failures, and all four are experimental.
+
+### When the page is watched
+
+- **The trigger.** With `--profile cognitive`, every URL and HTML file that `rampa check` loads gets the observation: the probe kind `cognitive` ([probes](probes.md#the-cognitive-observation---probe-cognitive-read-by---profile-cognitive)), added on top of any `--probe`. `check()` from code does the same. `--probe cognitive` records it without the profile, to save and replay later. It is never part of `--probe all`.
+- **What happens.** The page is loaded twice at the same time, in two fresh browser contexts: once with `prefers-reduced-motion: no-preference` (the run's other settings kept), and once with `reduce`. For a window after each load event, 8 s by default, nothing is clicked, typed, scrolled or focused. An init script, which runs before the page's own scripts, records what the page does by itself. At the end the paste test dispatches events on the page, with no request (below).
+- **No user activation.** Rampa reads the page over the DevTools protocol without a user gesture. Playwright's own `evaluate` would give the page user activation, and with it the right to start sound or ask for permissions. So a permission request or a sound recorded while `navigator.userActivation.hasBeenActive` is false came with no input at all. A `--wait-for` selector is the exception: waiting for it gives activation, and requests after that are not counted.
+- **The network guard** is armed once each load has fired, as for every probe. From then on nothing the page does in the window writes to a server: writes, beacons and sockets are blocked, navigations and new windows are answered locally, and `alert`, `confirm` and `prompt` are dismissed. Permission requests are recorded and answered as when a person closes the prompt, never granted. The images whose frames are read come from the bytes the browser already received; nothing is fetched again.
+- **Time.** `coga.observe` in the config sets the window in seconds, and `0` (or `false`) turns the observation off. `--fast` shortens the window to 3 s unless `coga.observe` sets it. A `--crawl` does not watch its pages yet, and neither does `checkPage` from the Playwright integration, which checks a page the test already drives. Their four checks say they did not run, and why.
+- **Replay.** The facts go into the snapshot (`observations.probes`, kind `cognitive`, variants `observe` and `reduce`), so `rampa check page.snapshot.json --profile cognitive` gives the same advisories offline, with no browser. A snapshot saved without the observation says in the coverage that these checks did not run: "the live page was not observed".
+
+```ts
+export default defineConfig({
+  profiles: ['cognitive'],
+  coga: { observe: 8 }, // seconds the live page is watched after it loads; 0 turns the observation off
+})
+```
+
+### The four checks
+
+| Check | Basis | What it reports | Impact |
+| --- | --- | --- | --- |
+| `coga/reduced-motion` | COGA o8p01 Let Users Control When the Content Moves or Changes; GAIA G09; WCAG 2.3.3 (AAA) beyond the target, as a note | Motion that keeps running with `prefers-reduced-motion: reduce`, the setting people make once in their operating system: CSS, script and SVG animations that repeat with no end or last more than 5 s; videos that play on their own and loop, stream live or last more than 5 s; animated GIF, APNG and WebP images; carousels that move to another slide on their own. Each says whether it ran the same way without the setting ("the page does not respond to the setting here") or only with it, with the animation's name, cycle and length, the video's loop and length, the image's format and loop count, or when the carousel moved | hurdle when it never stops and runs without the setting too; suggestion when it ends, or shows only with the setting |
+| `coga/interruptions` | COGA o5p01 Limit Interruptions (and o8p01 for pop-ups and new windows); GAIA G09, G18 for sound | With no input: a dialog that appears (`role=dialog` or `alertdialog`, an open `<dialog>`, `aria-modal`) when it is modal, covers a quarter of the window or floats over the page; a fixed or sticky layer over a quarter of the window or more with page content under it; a message that floats in after the load (a toast, a chat greeting, a slide-in offer); an `alert`, `confirm` or `prompt` box; a new window; a permission request (notifications, location, camera, microphone, clipboard); audio or video that starts with sound, or tries to and is stopped by the browser; a carousel that moves on its own. Each with when it appeared and a sample of its text | hurdle; suggestion for a floating message, a consent banner and a carousel |
+| `coga/layout-shift` | COGA o4p01 Ensure Controls and Content Do Not Move Unexpectedly | A layout shift with no input, during the load or the window, that scores 0.05 or more, or that moves a link or a control (or what holds one) by 24 px or more. Each with the element that moved most, its box before and after, how far and which way, the shift's score and its session's | hurdle when it moves links or controls; suggestion when it moves only text or images |
+| `coga/paste-blocked` | COGA o8p02 Enable APIs and Extensions; o6p01 for password and code fields | A text field (passwords and one-time codes included) that cancels a paste: a paste event, or the `beforeinput` of a paste, carrying a dummy value, cancelled with no field changed after it; a field that cancels copy; the page cancelling copy or the context menu on its text; `user-select: none` on half its text or more. With what the page said, when it answered with an alert box | barrier for a password or code field; hurdle otherwise; suggestion for the context menu |
+
+### Thresholds, and why
+
+- **5 s for motion.** An animation or a video that ends within 5 s is over before a person could stop it: the line WCAG 2.2.2 draws for moving content. One with no end, or longer, keeps running in front of the person. Color-only animations are left out: no movement and no blinking, and the setting is about motion. So are elements under 8×8 px (a dot) and hidden ones. An animated element inside another one that also moves is one motion (a spinner of three rings). One animation on several elements is one advisory that names the others (a row of cards that pulse alike).
+- **Carousels.** A carousel is found by its role or the class names sliders use (`carousel`, `swiper`, `slick`, `splide`, `glide`…), and it moves when the slides that show change. A change within the first second after the load event is the slider setting itself up, and is not counted. A carousel that keeps moving under reduced motion is reported once, by `coga/reduced-motion`. One that stops there is reported by `coga/interruptions`.
+- **A quarter of the window.** A layer that covers 25% of the window or more, with page content under it, covers the page: the same line the activate-class harness uses for a layer (docs/probes.md). A full-screen app shell has no content under it, and a sticky header or a sidebar is not over anything, so neither is reported. A dialog or layer must show in two samples, 300 ms apart, so a flash while the page builds itself does not count.
+- **Consent banners.** They are common, and often required by law (LGPD, GDPR). One that is modal or covers a quarter of the window is noted apart, at a lower impact. A small cookie bar is left out on purpose: it does not stop the task, and reporting every one would bury the rest.
+- **0.05 for a layout shift.** Google rates a page's Cumulative Layout Shift good up to 0.1, for its worst burst of shifts. One shift at 0.05 spends half of that alone: content that fills the window moved by 5% of its height, 40 px on an 800 px window. Smaller scores are mostly images and fonts settling by a few pixels, and would flood. Shifts are grouped in session windows, as CLS groups them (less than 1 s apart, at most 5 s), and one advisory goes to each.
+- **24 px for a control.** A score weighs the area that moved, so one button pushed aside scores next to nothing. Yet COGA's example is exactly that: "As the user is about to touch the phone number, it shifts down". 24 CSS px is the minimum target size of WCAG 2.5.8, so a control moved that far may leave a click aimed at it on something else. Shifts reported only this way are medium confidence.
+- **Paste.** A handler that cancels the paste in order to insert the value itself (trimmed, reformatted, spread across the boxes of a code) changes a field, so it is not reported. Neither is one that reads the clipboard instead of the event. Three fields or more that all cancel are one advisory: a script cancels every paste on the page. Rampa dispatched the events itself, as a real Ctrl+V would mean typing into the page, so paste and copy are medium confidence.
+- **Unselectable text.** At least half of the page's text blocks (paragraphs, list items, cells, headings), and 200 characters at least. `user-select: none` on buttons and menus alone is normal, and stays silent.
+- **At most 8 advisories per check and page**, those that matter most first. Layout shifts stop at 5 sessions, one per element.
+
+### What stays silent, on purpose
+
+The pass fixtures in `test/fixtures/coga/` hold one page for each of these:
+
+- **Reduced motion:** a short hover transition; a spinner, and a carousel, that stop under `reduce`; an entrance animation that ends; a color that pulses; a `<picture>` that swaps its GIF for a still image under `reduce`.
+- **Interruptions:** a page where nothing happens; a small cookie bar; a full-screen app shell; a `<dialog open>` in the flow of the page; a muted video; a permission asked only when a button is pressed.
+- **Layout shift:** content loaded into space kept for it; a shift of a few pixels; an element moved with `transform`, which moves nothing else; content added below everything else.
+- **Paste:** a plain form; a field that tidies what is pasted; a code in six boxes that a paste fills; a copy that adds a source line; text where only buttons and menus are unselectable.
+
+Sign-in fields overlap WCAG 3.3.8, which the authentication probe (`--probe auth`) checks with a real Ctrl+V. A field with a 3.3.8 finding in the same run is left to it, and a field where that real paste arrived is not reported. Either way, a note in the advisory section says so. A WCAG finding on the same element as an advisory is linked by its id, as for every advisory.
+
+### What it costs
+
+Measured on 2026-10-15 with Edge 155, headless, on the author's machine. Each figure is the wall time of `rampa check <target> --no-llm --timings`, without the profile, with it, and with it and `--fast`:
+
+| Target | Without the profile | With it | Added | With `--fast` | Added |
+| --- | --- | --- | --- | --- | --- |
+| `test/fixtures/coga/interruptions/fail/newsletter.html` | 2.1 s | 10.4 s | 8.3 s | 5.4 s | 3.3 s |
+| `test/fixtures/coga/reduced-motion/pass/respects.html` | 2.1 s | 10.4 s | 8.3 s | 5.5 s | 3.4 s |
+| `examples/cognitive/cadastro.html` | 2.5 s | 11.6 s | 9.1 s | 6.4 s | 3.9 s |
+| www.bbc.com/news | 6.2 s | 16.0 s | 9.8 s | 10.1 s | 3.9 s |
+| g1.globo.com | 11.8 s | 29.0 s | 17.2 s | 19.7 s | 7.9 s |
+
+The observation itself takes the page's own load time plus the window: about 8.2 s on a local file (3.2 s with `--fast`), and 9.3 s and 11.8 s on the two news pages, whose load events came late. The rest of the difference on real pages is the network: the same page loaded twice in a row is rarely as fast twice. Both loads run at the same time, so a page's load time counts once.
+
+### Limits
+
+- **One window, one load each.** A pop-up that comes after 8 s, or after a scroll, an exit intent or a second page view, is not seen. A carousel that moves every 8 s or more may not move in the window, nor one every 3 s or more with `--fast`. Timings vary from run to run, and so do layout shifts.
+- **Nothing is scrolled.** Lazy content below the fold stays a placeholder: a loading shimmer there keeps running and is reported, though a person who scrolls would see it replaced.
+- **Carousels are found by name.** A slider with no carousel role and no usual class name is not followed. The motion probe (`--probe motion`, WCAG 2.2.2) watches the pixels instead.
+- **Sound.** Audio is the `audio` and `video` elements, and `Audio()` objects a script plays. The Web Audio API is not watched, as pages use it to fingerprint browsers too. When the browser's autoplay policy stops a video before any sound is decoded, Rampa cannot tell whether it has a sound track: that advisory is low confidence, below the default threshold.
+- **Images.** At most 10 images on show, and only GIF, PNG and WebP responses are read. CSS background images are not read.
+- **The top document only.** Dialogs and layers inside frames are not seen.
+- **The paste test** dispatches events, not a real Ctrl+V: a page that checks `isTrusted`, or changes a field later on a timer, is not seen as cancelling. The authentication probe's real paste is the stronger evidence on sign-in pages.
+- **Not checked by these checks:** whether an interruption is an emergency, which COGA allows; whether a page offers its own way to pause, which COGA also accepts; and whether the content that moves is essential.
+
+### Sources for these checks
+
+- COGA, *Making Content Usable*, 29 April 2021: o8p01 (§4.9.1), Avoid "Content that changes without the user having control", and its "easily available" mechanism that "can be set one time with as a wide a scope as possible (such as using the standards of the Operating System (OS)…)"; o5p01 (§4.6.1), Avoid "Content that interrupts the user from completing their task" and "A pop up suggesting the user subscribers to the site. The pop up must be closed for the user to continue." (the Note's own wording); o4p01 (§4.5.1), Avoid "Controls and content that move without the user’s request"; o8p02 (§4.9.2), "sometimes a web site stops extensions and APIs from working. The result is that these users cannot use this web site."; o6p01 (§4.7.1), Avoid "Using a password and not allowing pasting into the field."; persona Amy, §6.2.2.
+- GAIA, Guia de Acessibilidade de Interfaces para Autismo (Britto, UFSCar, 2016; https://gaia.wiki.br/): G09 Eliminar distrações, "Caso você inclua elementos com animações, que brilham, piscam ou sons de fundo, ofereça formas de desabilitar ou esconder tais conteúdos" (https://gaia.wiki.br/engajamento/eliminar-distracoes); G18 Evite sons perturbadores (https://gaia.wiki.br/multimidia/evite-sons-perturbadores). GAIA targets autistic children on touch devices, was piloted with IT professionals rather than autistic users, and states no WCAG mapping.
+- Media Queries Level 5, `prefers-reduced-motion`: https://www.w3.org/TR/mediaqueries-5/#prefers-reduced-motion.
+- Layout Instability API: https://wicg.github.io/layout-instability/; Cumulative Layout Shift and its thresholds: https://web.dev/articles/cls.
+- WCAG 2.2 Understanding 2.2.2 Pause, Stop, Hide (the five seconds): https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html; 2.3.3 Animation from Interactions: https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html; 2.5.8 Target Size (Minimum): https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html.
+- HTML, user activation: https://html.spec.whatwg.org/multipage/interaction.html#tracking-user-activation.
+
 ## Reading an advisory
 
 ```

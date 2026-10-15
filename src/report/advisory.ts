@@ -1,6 +1,6 @@
 import { COGA_PATTERNS, cogaPattern, patternTitle } from '../advisory/coga.ts'
 import { impactName } from '../advisory/label.ts'
-import { am, amPlural } from '../advisory/messages.ts'
+import { type AdvisoryMessageKey, am, amPlural } from '../advisory/messages.ts'
 import { COGNITIVE_CHECKS } from '../advisory/profile.ts'
 import type { Advisory, AdvisorySection, TextMeasurement } from '../advisory/types.ts'
 import type { Report } from '../core/types.ts'
@@ -113,7 +113,8 @@ export function advisoryLines(report: Report, verbose: boolean, p: Painter): str
     const room = verbose ? group.advisories.length : Math.max(0, Math.min(PER_GROUP, PER_PAGE - listed))
     for (const advisory of group.advisories.slice(0, room)) {
       listed++
-      lines.push(`    ${p.gray(advisory.ref ?? '')}`)
+      // A page-level advisory (a permission asked on load) has no element to point at.
+      if (advisory.ref) lines.push(`    ${p.gray(advisory.ref)}`)
       lines.push(`    ${advisory.message}`)
       if (advisory.evidence) lines.push(`    ${t(locale, 'evidence')}: ${advisory.evidence}`)
       if (advisory.patch?.before && advisory.patch.after) {
@@ -204,7 +205,7 @@ function screenedChecks(section: AdvisorySection) {
 /** The screened patterns, each with the part of it the profile looks at. */
 function screenedList(section: AdvisorySection, locale: Locale): string[] {
   return screenedChecks(section).map(
-    (check) => `${check.pattern} ${patternTitle(check.pattern, locale)} (${am(locale, `part_${check.pattern as 'o3p01' | 'o4p03' | 'o4p06' | 'o4p08'}`)})`,
+    (check) => `${check.pattern} ${patternTitle(check.pattern, locale)} (${am(locale, `part_${check.pattern}` as AdvisoryMessageKey)})`,
   )
 }
 

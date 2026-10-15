@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sign up</title>
+<style>
+  body { font-family: sans-serif; margin: 0; padding: 16px; }
+  main { max-width: 900px; }
+
+</style>
+</head>
+<body>
+<main>
+<h1>Sign up</h1>
+<p>Our office answers questions about your application. Read the steps below before you start, and keep your documents at hand.</p>
+<form id="signup" action="#">
+  <p><label for="email">E-mail</label> <input id="email" type="email" autocomplete="email"></p>
+  <p><label for="again">Type your e-mail again</label> <input id="again" type="email"></p>
+</form>
+<p>More text about the service, with a <a href="#help">link to help</a> and a <button type="button">Next step</button> button.</p>
+</main>
+<script>
+  document.getElementById('again').addEventListener('paste', (event) => {
+    event.preventDefault()
+    alert('Pasting is not allowed: type your e-mail.')
+  })
+</script>
+</body>
+</html>

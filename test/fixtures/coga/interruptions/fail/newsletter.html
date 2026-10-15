@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Newsletter pop-up</title>
+<style>
+  body { font-family: sans-serif; margin: 0; padding: 16px; }
+  main { max-width: 900px; }
+  .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.5); display: none; }
+  .backdrop .box { background: #fff; width: 420px; margin: 120px auto; padding: 24px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Newsletter pop-up</h1>
+<p>Our office answers questions about your application. Read the steps below before you start, and keep your documents at hand.</p>
+<div class="backdrop" id="offer">
+  <div class="box" role="dialog" aria-modal="true" aria-labelledby="offer-title" id="offer-box">
+    <h2 id="offer-title">Subscribe to our newsletter</h2>
+    <p>Get the best deals every week in your inbox.</p>
+    <button type="button">Close</button>
+  </div>
+</div>
+<p>More text about the service, with a <a href="#help">link to help</a> and a <button type="button">Next step</button> button.</p>
+</main>
+<script>
+  addEventListener('load', () => setTimeout(() => { document.getElementById('offer').style.display = 'block' }, 600))
+</script>
+</body>
+</html>

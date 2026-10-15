@@ -8,6 +8,7 @@ import { loadRecorded, resolveTargets } from '../surfaces/targets.ts'
 import { type ProbeKind, probeLaunchArgs } from '../probes/run.ts'
 import { type Collected, collectWeb, launchBrowser } from '../surfaces/web.ts'
 import { fastCollectOptions } from '../core/fast.ts'
+import { observationWindow } from '../advisory/observed.ts'
 import { type RampaOptions, deadlineOf, fastFor, judge, resolveSettings } from './options.ts'
 
 export interface CheckTargetsOptions extends RampaOptions {
@@ -15,7 +16,7 @@ export interface CheckTargetsOptions extends RampaOptions {
   browser?: Browser | undefined
   /** Save a full-page screenshot of each web target in this directory, like --screenshots. */
   screenshotDir?: string | undefined
-  /** Probes to run on web targets after collection, like --probe: 'layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status', 'motion', 'form', 'pointer', 'parity', 'focus-order', 'gestures' (docs/probes.md). */
+  /** Probes to run on web targets after collection, like --probe: 'layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status', 'motion', 'form', 'pointer', 'parity', 'focus-order', 'gestures', 'cognitive' (docs/probes.md). With the cognitive profile, web targets get 'cognitive' on top. */
   probes?: readonly ProbeKind[] | undefined
 }
 
@@ -32,6 +33,9 @@ export async function check(targets: string | readonly string[], options: CheckT
   const root = (await repositoryRoot()) ?? process.cwd()
   let browser = options.browser
   let launched: Browser | undefined
+  // The cognitive profile watches each web page it loads (advisory/observed.ts), as rampa check does.
+  const observeMs = observationWindow(settings.profiles, settings.coga, Boolean(settings.fastCollection))
+  const probes: readonly ProbeKind[] | undefined = observeMs ? [...(options.probes ?? []).filter((kind) => kind !== 'cognitive'), 'cognitive'] : options.probes
   try {
     for (const target of resolved) {
       const deadline = deadlineOf(settings)
@@ -47,7 +51,8 @@ export async function check(targets: string | readonly string[], options: CheckT
           locale: settings.locale,
           screenshotDir: options.screenshotDir,
           captureImages: settings.captureImages,
-          probes: options.probes,
+          probes,
+          ...(observeMs ? { observeMs } : {}),
           wcag: settings.wcag,
         })
       } else if (target.kind === 'snapshot') {

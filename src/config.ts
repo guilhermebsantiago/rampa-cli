@@ -98,6 +98,8 @@ const CONFIG_SCHEMA = z.strictObject({
     .strictObject({
       abbreviations: z.strictObject({ known: strings.optional(), glossaryUrl: z.string().optional() }).optional(),
       publicSector: z.boolean().optional(),
+      // Seconds the live page is watched with no input; 0 or false turns the observation off.
+      observe: z.union([z.number().min(0).max(120), z.literal(false)]).optional(),
     })
     .optional(),
 })

@@ -57,6 +57,11 @@ export interface CogaSettings {
   publicSector?: boolean | undefined
   /** Where dictionaries come from; tests pass their own. Default: downloaded once into .rampa/dictionaries. */
   dictionaries?: DictionarySource | undefined
+  /**
+   * Seconds the live page is watched with no input, for the checks that observe it (motion, interruptions, layout
+   * shifts, paste): 8 by default, 3 with --fast; 0 or false turns the observation off.
+   */
+  observe?: number | false | undefined
 }
 
 export interface AdvisoryContext {
@@ -82,5 +87,10 @@ export interface AdvisoryCheck {
   /** The COGA pattern it screens in part, such as o4p06. */
   pattern: string
   surfaces: readonly Surface[]
+  /**
+   * It reads what the cognitive observation recorded on the live page (probes/cognitive.ts) instead of the snapshot
+   * alone: without that record it does not run, and says why.
+   */
+  observes?: boolean | undefined
   run(context: AdvisoryContext): CheckRun | Promise<CheckRun>
 }

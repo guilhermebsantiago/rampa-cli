@@ -49,7 +49,8 @@ export type Basis =
     }
 
 export interface Reference {
-  kind: 'law' | 'standard'
+  /** guide: a set of recommendations, such as GAIA (Guia de Acessibilidade de Interfaces para Autismo). */
+  kind: 'law' | 'standard' | 'guide'
   /** 'Lei 15.263/2025, art. 5º, VIII' */
   label: string
   url: string

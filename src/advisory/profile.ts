@@ -8,7 +8,11 @@ import type { A11ySnapshot } from '../snapshot/schema.ts'
 import type { AdvisoryCheck, AdvisoryContext, AdvisoryHit, CogaSettings } from './check.ts'
 import { abbreviations } from './checks/abbreviations.ts'
 import { inputFormats } from './checks/input-formats.ts'
+import { interruptions } from './checks/interruptions.ts'
+import { layoutShift } from './checks/layout-shift.ts'
+import { pasteBlocked } from './checks/paste-blocked.ts'
 import { preselectedCost } from './checks/preselected-cost.ts'
+import { reducedMotion } from './checks/reduced-motion.ts'
 import { visibleLabels } from './checks/visible-labels.ts'
 import { COGA_PATTERNS } from './coga.ts'
 import { advisoryLabel } from './label.ts'
@@ -22,8 +26,11 @@ import { type Advisory, type AdvisoryCheckSummary, type AdvisorySection, IMPACT_
  * toward WCAG coverage and never change the exit code unless `--fail-on advisory` asks for it.
  */
 
-/** The wave-1 checks, in the order reports list them within one impact. */
-export const COGNITIVE_CHECKS: readonly AdvisoryCheck[] = [inputFormats, preselectedCost, visibleLabels, abbreviations]
+/**
+ * The checks, in the order reports list them within one impact: the wave-1 checks on the snapshot, then those that
+ * read the observation of the live page (`observes`, probes/cognitive.ts).
+ */
+export const COGNITIVE_CHECKS: readonly AdvisoryCheck[] = [inputFormats, preselectedCost, visibleLabels, abbreviations, pasteBlocked, interruptions, reducedMotion, layoutShift]
 
 /** The profiles to run: the --profile flag, else the config's. A name Rampa does not know stops the run, like an unknown criterion. */
 export function resolveProfiles(flag: string | undefined, configured: readonly string[] | undefined): Profile[] {
