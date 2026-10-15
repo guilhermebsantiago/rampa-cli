@@ -68,6 +68,11 @@ export interface Advisory {
   fingerprint: string
   /** 'coga/visible-labels' */
   check: string
+  /**
+   * The maturity of the check that wrote it, copied from the check (AdvisoryCheckSummary.maturity). Every report
+   * marks an experimental one: it runs with the profile, but its check has not passed the evaluation gate yet.
+   */
+  maturity: 'stable' | 'experimental'
   /** advisory: COGA guidance. beyond-target: a WCAG criterion outside the run's A/AA target, such as 3.1.4 (AAA). */
   kind: 'advisory' | 'beyond-target'
   /**
@@ -104,6 +109,8 @@ export interface AdvisoryCheckSummary {
   /**
    * experimental until the check passes the evaluation gate in docs/plans/cognitive-profile.md §4.2
    * (fixtures, corrupted pairs, about 60 annotated real-page results with a Wilson lower bound ≥ 0.85).
+   * An experimental check still runs with the profile (decision of 2026-10-15, plan §2.7), and every report
+   * marks its advisories.
    */
   maturity: 'stable' | 'experimental'
   ran: boolean
