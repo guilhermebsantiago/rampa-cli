@@ -40,7 +40,7 @@ From code, `check(targets, { profiles: ['cognitive'] })` and `checkSnapshot(snap
 
 ## What is checked
 
-Four checks of forms and words, each tied to a sentence of a COGA pattern, and each screening only part of that pattern. Rules decide every fact; a model never decides whether something is a problem. Seven more, of how text and controls are presented, are in [Legibility, icons and new windows](#legibility-icons-and-new-windows).
+Four checks of forms and words, each tied to a sentence of a COGA pattern, and each screening only part of that pattern. Rules decide every fact; a model never decides whether something is a problem. Seven more, of how text and controls are presented, are in [Legibility, icons and new windows](#legibility-icons-and-new-windows), and four that watch the live page are in [Checks that watch the live page](#checks-that-watch-the-live-page-motion-interruptions-layout-shifts-and-paste).
 
 | Check | COGA pattern | What it looks for | Impact | Patch |
 | --- | --- | --- | --- | --- |
