@@ -10,6 +10,7 @@ import {
   blocksOf,
   capGroups,
   columnOf,
+  columnSubject,
   groupBy,
   isCjk,
   isLongBlock,
@@ -137,7 +138,7 @@ export const lineLength: AdvisoryCheck = {
         ref: first.node.ref,
         message,
         evidence: first.fact.sample,
-        subject: columnOf(page, first.node),
+        subject: columnSubject(page, first.node),
         facts: { ...groupFacts(group, viewport), charsPerLine: perLine, longestLine: max, limit },
         // Characters per line are counted from the width each line takes: a median within 3 of the limit could fall on either side.
         confidence: perLine > limit + 3 ? 'high' : 'medium',
@@ -213,7 +214,7 @@ export const textAlignment: AdvisoryCheck = {
         ref: first.node.ref,
         message,
         evidence: first.fact.sample,
-        subject: `${align}|${columnOf(page, first.node)}`,
+        subject: `${align}|${columnSubject(page, first.node)}`,
         facts: { ...groupFacts(group, viewport), textAlign: first.fact.align, direction: first.fact.direction },
         confidence: 'high',
       })
@@ -268,7 +269,7 @@ export const lineHeight: AdvisoryCheck = {
         ref: first.node.ref,
         message: `${am(locale, group.length === 1 ? 'lineHeightOne' : 'lineHeightMany', vars)} ${am(locale, 'lineHeightRecommend')}`,
         evidence: first.fact.sample,
-        subject: columnOf(page, first.node),
+        subject: columnSubject(page, first.node),
         facts: { ...groupFacts(group, viewport), lineGap: first.fact.lineGap ?? 0, fontSize: first.fact.fontSize, ratio, lineHeight: first.fact.lineHeight },
         confidence: 'high',
       })
@@ -325,7 +326,7 @@ export const textEmphasis: AdvisoryCheck = {
             ? `${am(locale, one ? 'capsOne' : 'capsMany', vars)} ${am(locale, 'capsRecommend')}`
             : `${am(locale, one ? 'italicOne' : 'italicMany', vars)} ${am(locale, 'italicRecommend')}`,
         evidence: first.fact.sample,
-        subject: `${style}|${columnOf(page, first.node)}`,
+        subject: `${style}|${columnSubject(page, first.node)}`,
         facts: {
           ...groupFacts(group, viewport),
           style,

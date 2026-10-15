@@ -57,6 +57,7 @@ interface Sidecar {
 }
 
 const ROOT = 'test/fixtures/coga'
+const PRESENTATION_CHECKS = ['line-length', 'text-alignment', 'line-height', 'text-emphasis', 'decorative-font', 'icon-only-control', 'new-window'].map((name) => `coga/${name}`)
 const fixtures = readdirSync(ROOT, { withFileTypes: true })
   .filter((entry) => entry.isDirectory())
   .flatMap((check) =>
@@ -111,6 +112,12 @@ describe.skipIf(!browser)('cognitive profile fixtures', { timeout: 30_000 }, () 
       expect(section.checks.find((check) => check.check === fixture.check)?.ran).toBe(true)
       if (sidecar.notes !== undefined) expect(section.notes).toHaveLength(sidecar.notes)
       if (fixture.kind === 'fail') expect(own.length).toBeGreaterThan(0)
+      // A pass page of the presentation checks (a well-set article, short labels in capitals, a centered heading,
+      // buttons with words) must stay silent for all seven of them, not only for its own.
+      if (fixture.kind === 'pass' && PRESENTATION_CHECKS.includes(fixture.check)) {
+        const others = [...section.results, ...section.belowThreshold].filter((advisory) => PRESENTATION_CHECKS.includes(advisory.check))
+        expect(others.map((advisory) => `${advisory.check} ${advisory.ref}`)).toEqual([])
+      }
     })
   }
 })

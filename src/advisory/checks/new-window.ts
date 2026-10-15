@@ -2,7 +2,9 @@ import type { A11yNode, NewWindowFacts } from '../../snapshot/schema.ts'
 import type { AdvisoryCheck, AdvisoryHit, CheckRun } from '../check.ts'
 import { G201, gaiaBasis } from '../guides.ts'
 import { am } from '../messages.ts'
-import { MAX_CONTROL_GROUPS, capGroups, groupBy, leftOutNote, nodeOf, notMeasured, presentationOf, quotedList, regionOf } from '../presentation.ts'
+import { type Page, ancestorsOf, tagOf } from '../page.ts'
+import { MAX_CONTROL_GROUPS, capGroups, groupBy, isRegion, leftOutNote, nodeOf, notMeasured, presentationOf, quotedList, regionOf } from '../presentation.ts'
+import { cleanName } from './icon-only.ts'
 
 /**
  * GAIA G22 Consistência (https://gaia.wiki.br/reconhecimento-e-previsibilidade/): "O alvo dos links deve ser sempre
@@ -25,7 +27,7 @@ export const NEW_WINDOW_WORDS =
   /\bnew (?:browser )?(?:tab|window)\b|\bopens?\s+(?:in|a|an)\b|\b(?:in|into) (?:a )?(?:new|separate|another) (?:tab|window)\b|\bexternal (?:tab|window)\b|\bpop-?up\b|\bnova (?:aba|janela|guia)\b|\babre(?:-se)? (?:em|numa|noutra|uma)\b|\boutra (?:aba|janela|guia)\b|\bjanela externa\b|\bnueva (?:pestaña|ventana)\b|\b(?:se )?abre en\b|\botra (?:pestaña|ventana)\b/iu
 
 /** Classes or addresses of icons that mean "external link" or "new window": an indication people who see it may get. */
-export const NEW_WINDOW_ICON = /external|new-?(?:window|tab)|open-?in-?new|launch|pop-?out|pop-?up|nova-?(?:janela|aba)|arrow-up-right|box-arrow|share-square/i
+export const NEW_WINDOW_ICON = /external|new[-_]?(?:window|tab)|open[-_]?in[-_]?new|launch|pop[-_]?out|pop[-_]?up|nova[-_]?(?:janela|aba)|arrow[-_]up[-_]right|box[-_]arrow|share[-_]square/i
 
 const G22 = gaiaBasis(
   'G22',
@@ -36,6 +38,17 @@ const G22 = gaiaBasis(
 export function saysNewWindow(fact: NewWindowFacts, node: A11yNode): boolean {
   const said = [fact.text, fact.hidden, fact.description, node.name, node.ax?.name, node.ax?.description].filter(Boolean).join(' ')
   return NEW_WINDOW_WORDS.test(said)
+}
+
+/**
+ * Where links that open a new window belong together: a navigation, header, footer, aside or form, else the main
+ * content or article they sit in, so a page's "Saiba mais" links make one result and not one per card.
+ */
+function linkRegionOf(page: Page, node: A11yNode): string {
+  const region = regionOf(page, node)
+  if (region && isRegion(region)) return region.ref
+  const main = ancestorsOf(page, node).find((ancestor) => tagOf(ancestor) === 'main' || ancestor.role === 'main' || tagOf(ancestor) === 'article')
+  return main?.ref ?? region?.ref ?? node.ref
 }
 
 interface Entry {
@@ -63,12 +76,14 @@ export const newWindow: AdvisoryCheck = {
       if (!node || node.ax?.ignored) continue
       candidates++
       if (saysNewWindow(fact, node)) continue
-      const name = (node.ax?.name ?? node.name ?? fact.text).replace(/\s+/g, ' ').trim() || (typeof node.native.attributes === 'object' ? String((node.native.attributes as Record<string, string>).href ?? '') : '')
+      const name = cleanName(node.ax?.name ?? node.name ?? fact.text)
+      // A link with no name is a WCAG failure (link-name) that axe-core reports; nothing here would name it either.
+      if (!name) continue
       entries.push({ fact, node, name, icon: fact.icon !== undefined && NEW_WINDOW_ICON.test(fact.icon) })
     }
     const notes: string[] = []
     const hits: AdvisoryHit[] = []
-    const groups = groupBy(entries, (entry) => `${regionOf(page, entry.node)?.ref ?? entry.node.ref}|${entry.icon}`)
+    const groups = groupBy(entries, (entry) => `${linkRegionOf(page, entry.node)}|${entry.icon}`)
     for (const group of capGroups(groups, MAX_CONTROL_GROUPS, 'coga/new-window', locale, notes)) {
       const first = group[0] as Entry
       const how = first.fact.by === 'target' ? am(locale, 'how_target', { target: first.fact.target ?? '_blank' }) : am(locale, 'how_script')
@@ -88,7 +103,7 @@ export const newWindow: AdvisoryCheck = {
         html: typeof first.node.native.html === 'string' ? first.node.native.html : undefined,
         message: parts.join(' '),
         evidence: typeof first.node.native.html === 'string' ? first.node.native.html : undefined,
-        subject: group.length === 1 ? first.name : `${regionOf(page, first.node)?.ref ?? first.node.ref}|${first.icon}`,
+        subject: group.length === 1 ? first.name : `${linkRegionOf(page, first.node)}|${first.icon}`,
         facts: {
           links: group.length,
           names: group.map((entry) => entry.name).join(' | '),

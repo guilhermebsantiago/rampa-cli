@@ -26,9 +26,12 @@ import { MAX_CONTROL_GROUPS, capGroups, groupBy, leftOutNote, nodeOf, notMeasure
  * its name shown right next to it (a visible label beside the icon) is not reported either.
  */
 
-/** Names of the exempt controls, in English, Portuguese and Spanish: what the control does, at the start of its name. */
+/**
+ * Names of the exempt controls, in English, Portuguese and Spanish, as a word of the name: "Buscar", "Show search menu",
+ * "Fechar aviso", "Página inicial". The name says what the control does; the picture cannot be checked without vision.
+ */
 export const EXEMPT_NAMES =
-  /^(?:close|dismiss|fechar|cerrar|search|buscar|pesquisar|procurar|busca|búsqueda|home|home page|homepage|início|inicio|página inicial|pagina inicial)(?:\s|$)/iu
+  /(?:^|\s)(?:close|dismiss|fechar|cerrar|search|busca|buscar|pesquisa|pesquisar|procurar|búsqueda|home|homepage|início|inicio|página inicial|pagina inicial)(?:\s|$)/iu
 
 const ROLES = new Set(['link', 'button', 'menuitem', 'tab'])
 const O4P06 = cogaBasis(
@@ -49,7 +52,15 @@ function normalize(text: string): string {
 
 /** The name assistive technology gets: the browser's, else what the presentation facts computed, else the collector's. */
 export function controlName(node: A11yNode, fact?: IconControlFacts): string {
-  return (node.ax?.name ?? fact?.name ?? node.name ?? '').replace(/\s+/g, ' ').trim()
+  return cleanName(node.ax?.name ?? fact?.name ?? node.name ?? '')
+}
+
+/** A name as people would read it: icon-font glyphs (private use characters) and extra spaces taken out. */
+export function cleanName(name: string): string {
+  return name
+    .replace(/[-\u{F0000}-\u{FFFFD}\u{100000}-\u{10FFFD}]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
 }
 
 /** Whether a name has words: two letters or a digit, not a lone glyph. */

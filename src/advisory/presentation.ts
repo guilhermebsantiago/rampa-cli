@@ -86,14 +86,28 @@ export function groupBy<T>(items: readonly T[], key: (item: T) => string): T[][]
   return [...groups.values()]
 }
 
-/** Blocks of one column: the same parent element, as the paragraphs of an article or the items of a list are. */
+/**
+ * Blocks of one column: the same left edge and width on the page, to 8 px, as the paragraphs of an article are even when
+ * each section wraps its own (Wikipedia's); the same parent element when the snapshot has no boxes.
+ */
 export function columnOf(page: Page, node: A11yNode): string {
+  const box = node.bounds
+  return box ? `${Math.round(box.x / 8)}|${Math.round(box.width / 8)}` : (parentOf(page, node)?.ref ?? node.ref)
+}
+
+/** What names a column in a fingerprint: the first block's parent element, which a change of layout does not move. */
+export function columnSubject(page: Page, node: A11yNode): string {
   return parentOf(page, node)?.ref ?? node.ref
 }
 
 const REGION_TAGS = new Set(['nav', 'header', 'footer', 'aside', 'form', 'menu'])
 const REGION_ROLES = new Set(['navigation', 'banner', 'contentinfo', 'complementary', 'form', 'search', 'toolbar', 'menubar', 'menu', 'tablist'])
 const LIST_TAGS = new Set(['ul', 'ol', 'dl', 'table'])
+
+/** A navigation, header, footer, aside, form, toolbar or menu: a part of the page whose controls belong together. */
+export function isRegion(node: A11yNode): boolean {
+  return REGION_TAGS.has(tagOf(node)) || REGION_ROLES.has(node.role)
+}
 
 /**
  * Where repeated controls belong together: the closest navigation, header, footer, aside, form, toolbar or menu, else
@@ -102,7 +116,7 @@ const LIST_TAGS = new Set(['ul', 'ol', 'dl', 'table'])
 export function regionOf(page: Page, node: A11yNode): A11yNode | undefined {
   const ancestors = ancestorsOf(page, node)
   return (
-    ancestors.find((ancestor) => REGION_TAGS.has(tagOf(ancestor)) || REGION_ROLES.has(ancestor.role)) ??
+    ancestors.find(isRegion) ??
     ancestors.find((ancestor) => LIST_TAGS.has(tagOf(ancestor))) ??
     ancestors[0]
   )
@@ -131,8 +145,13 @@ export function median(values: readonly number[]): number {
   return sorted.length % 2 === 1 ? (sorted[mid] as number) : ((sorted[mid - 1] as number) + (sorted[mid] as number)) / 2
 }
 
-/** Up to `max` names, quoted, and how many more. */
+/** Up to `max` names, quoted, each once with how many times it repeats, cut at 60 characters, and how many more. */
 export function quotedList(names: readonly string[], max = 6): string {
-  const shown = names.slice(0, max).map((name) => `"${name}"`)
-  return names.length > max ? `${shown.join(', ')}, +${names.length - max}` : shown.join(', ')
+  const counts = new Map<string, number>()
+  for (const name of names) {
+    const short = name.length > 60 ? `${name.slice(0, 59)}…` : name
+    counts.set(short, (counts.get(short) ?? 0) + 1)
+  }
+  const entries = [...counts].map(([name, count]) => (count > 1 ? `"${name}" ×${count}` : `"${name}"`))
+  return entries.length > max ? `${entries.slice(0, max).join(', ')}, +${entries.length - max}` : entries.join(', ')
 }
