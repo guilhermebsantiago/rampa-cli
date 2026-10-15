@@ -50,3 +50,7 @@ Environment: `BENCH_BROWSER_PATH` points at another Chromium-based browser than 
 | `scores.json`, `tables.md` | Everything the tables show |
 
 The saved pair pages and the proxied W3C files are in `.cache/` (not committed); the hashes in `pairs.json` say whether a rebuild changed a page.
+
+## ACT implementation report
+
+`act-report/build.mjs` turns the Rampa rows' records into the EARL report that the W3C ACT implementation pages read, one per configuration. With the ACT Rules Community Group's [act-tools](https://github.com/act-rules/act-tools), it also computes the consistency of each ACT rule as W3C does. It checks no page itself; `act-report/records/` holds the one supplementary run it needed. The method, the commands and the results are in [docs/act-implementation.md](../docs/act-implementation.md).
