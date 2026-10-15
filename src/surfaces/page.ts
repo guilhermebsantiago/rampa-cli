@@ -15,7 +15,7 @@ import { captureContrast } from './contrast-capture.ts'
 import { type FrameDriver, runAxeInFrames } from './frames.ts'
 import { buildReach, closedShadowRoots } from './reach.ts'
 import { captureImageNodes } from './image-capture.ts'
-import { collectInPage } from './in-page.ts'
+import { MAX_NODES, collectInPage } from './in-page.ts'
 import { attachMotionFacts } from './motion.ts'
 import { collectPresentation } from './presentation.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
@@ -58,8 +58,6 @@ export interface PageCollectOptions {
   /** Measure how reading text and controls are presented, for the cognitive profile (surfaces/presentation.ts). */
   presentation?: boolean | undefined
 }
-
-const MAX_NODES = 5000
 
 /**
  * Collects the page as it is now: no navigation and no new browser context, so the caller's
@@ -151,6 +149,7 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
     root,
     screenshot,
     truncated: raw.truncated || undefined,
+    ...(raw.truncated ? { elementLimit: maxNodes } : {}),
     ...(reach ? { reach } : {}),
     ...(axTree ? { axTree } : {}),
     ...(presentation ? { presentation } : {}),

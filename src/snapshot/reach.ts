@@ -1,5 +1,7 @@
 import { type Locale, t } from '../i18n.ts'
-import type { Reach } from './schema.ts'
+import { FRAME_SEPARATOR, SHADOW_SEPARATOR } from './refs.ts'
+import type { A11ySnapshot, Reach } from './schema.ts'
+import { walkTree } from './tree.ts'
 
 /**
  * What the collector could not read on a page, from the snapshot's `reach`, so a report says it instead of
@@ -62,4 +64,33 @@ export function reachNotes(reach: Reach | undefined, locale: Locale): string[] {
     notes.push(t(locale, 'reachClosedShadow', { count: closed, hosts: hosts.length > 0 ? hosts.join(', ') : '?' }))
   }
   return notes
+}
+
+/**
+ * The page's own document cut at the collector's budget of elements (`snapshot.truncated`): how many elements it read.
+ * A snapshot recorded before the collector kept its limit (`elementLimit`) gives the elements of the page's own
+ * document in its tree, which is the limit unless the run was scoped to a part of the page.
+ */
+export function pageCut(snapshot: Pick<A11ySnapshot, 'truncated' | 'elementLimit' | 'root'>): number | undefined {
+  if (!snapshot.truncated) return undefined
+  if (snapshot.elementLimit) return snapshot.elementLimit
+  let count = 0
+  for (const node of walkTree(snapshot.root)) if (!node.ref.includes(SHADOW_SEPARATOR) && !node.ref.includes(FRAME_SEPARATOR)) count++
+  return count
+}
+
+/**
+ * The report's note on a page cut at the collector's budget: where it was cut, that the checks that read the snapshot
+ * did not run past it (Rampa's rules and judged criteria, with the criteria they checked only up to the cut), that a
+ * probe's findings past it cannot be pointed at, and that the engine, which runs in the page, read all of it.
+ */
+export function truncationNote(cut: { elements: number; criteria: readonly string[] }, context: { engine?: string | undefined; probes: boolean }, locale: Locale): string {
+  return [
+    t(locale, 'pageTruncated', { count: cut.elements }),
+    cut.criteria.length > 0 ? t(locale, 'pageTruncatedCriteria', { criteria: cut.criteria.join(', ') }) : '',
+    context.probes ? t(locale, 'pageTruncatedProbes') : '',
+    context.engine ? t(locale, 'pageTruncatedEngine', { engine: context.engine }) : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
 }

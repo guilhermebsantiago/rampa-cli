@@ -20,7 +20,7 @@ import { type ContrastCaptureOptions, captureContrast } from './contrast-capture
 import { blankContentInPage, captureImageNodes, hiddenImageTargets, imageTargets, isCapturableImage, restoreImageInPage } from './image-capture.ts'
 import { libraryFrameDriver, runAxeInFrames } from './frames.ts'
 import { attachMotionFacts } from './motion.ts'
-import { collectInPage } from './in-page.ts'
+import { MAX_NODES, collectInPage } from './in-page.ts'
 import { collectPresentation } from './presentation.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
 import { buildReach, closedShadowRoots } from './reach.ts'
@@ -152,7 +152,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     const collect = async () => {
       if (options.runAxe) await timed(watch, 'axe', async () => page.addScriptTag({ content: await axeSource() }))
       const tree = await timed(watch, 'collection', async () => {
-        const read = await page.evaluate(collectInPage, { maxNodes: options.maxNodes ?? 5000 })
+        const read = await page.evaluate(collectInPage, { maxNodes: options.maxNodes ?? MAX_NODES })
         await page.evaluate(resolverSource())
         return read
       })
@@ -249,6 +249,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       root,
       screenshot,
       truncated: raw.truncated || undefined,
+      ...(raw.truncated ? { elementLimit: options.maxNodes ?? MAX_NODES } : {}),
       destinations: Object.keys(destinations).length > 0 ? destinations : undefined,
       ...(reach ? { reach } : {}),
       ...(raw.axTree ? { axTree: raw.axTree } : {}),

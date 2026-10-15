@@ -351,7 +351,13 @@ export const A11ySnapshotSchema = z.object({
       path: z.string(),
     })
     .optional(),
+  /**
+   * The collector stopped reading the page's own document at its budget of elements, so what comes after the cut is
+   * not in the snapshot (shadow roots and frames have a budget of their own: `reach.truncated`).
+   */
   truncated: z.boolean().optional(),
+  /** With `truncated`: the budget the collector reached, in elements of the page's own document. */
+  elementLimit: z.number().optional(),
   /** Where the page's links lead, keyed by the href as written, for the links Rampa followed. */
   destinations: z.record(z.string(), DestinationSchema).optional(),
   /** Facts recorded by probes (`--probe`), read by the probe rules; absent when no probe ran. */

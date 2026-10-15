@@ -75,6 +75,13 @@ export interface InPageOptions {
   maxNodes: number
 }
 
+/**
+ * The collector's budget of elements for the page's own document (and another of the same size for its shadow roots
+ * and frames). A page with more is cut there: the snapshot records `truncated` and `elementLimit`, and the report says
+ * that what comes after the cut was not checked by the checks that read the snapshot.
+ */
+export const MAX_NODES = 5000
+
 export async function collectInPage(options: InPageOptions): Promise<InPageResult> {
   const MAX_HTML = 600
   const READING_BLOCKS = new Set(['p', 'li', 'td', 'th', 'dt', 'dd', 'blockquote', 'figcaption', 'caption', 'label', 'legend', 'summary', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'])
