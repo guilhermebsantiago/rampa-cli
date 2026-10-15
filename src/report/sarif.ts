@@ -21,6 +21,7 @@ import {
   reviewOnly,
   safeUrl,
   thresholdLevel,
+  truncationText,
   understandingUrl,
   wcagVersion,
 } from './common.ts'
@@ -266,6 +267,8 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
             ...(report.coverage.probes ? { probed: probedCriteria(report) } : {}),
             needsReviewOnly: reviewOnly(report),
             notChecked: report.coverage.notChecked,
+            // The collector cut the page at its budget: the checks that read the snapshot saw only its start.
+            ...(report.coverage.truncated ? { truncated: { ...report.coverage.truncated, note: truncationText(report) } } : {}),
             // Undecided results are not SARIF results: code scanning would show them as alerts. They are counted here.
             needsReview: reviewGroups(report).map((group) => ({ criterion: group.criterion, ruleId: group.ruleId, count: group.items.length, reason: group.reason })),
             criteria: (report.coverage.criteria ?? []).map((record) => ({

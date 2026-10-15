@@ -2,7 +2,7 @@ import { reviewOnlyCriteria } from '../core/coverage.ts'
 import { fastLine } from '../core/fast.ts'
 import type { CoverageMethod, CoverageStatus, CriterionCoverage, Finding, Report, ReviewItem } from '../core/types.ts'
 import { type Locale, type MessageKey, t } from '../i18n.ts'
-import { reachNotes } from '../snapshot/reach.ts'
+import { reachNotes, truncationNote } from '../snapshot/reach.ts'
 import { type WcagVersion, compareCriteria, criteriaFor, successCriterion, versionOf } from '../wcag.ts'
 import { cogaClause } from './advisory.ts'
 import { displayTarget, usageLine } from './pretty.ts'
@@ -201,6 +201,13 @@ export function coverageRows(
   ]
 }
 
+/** The note on a page the collector cut at its budget of elements, as the report's notes give it; undefined when it read the whole page. */
+export function truncationText(report: Pick<Report, 'coverage' | 'engine' | 'locale'>): string | undefined {
+  const cut = report.coverage.truncated
+  if (!cut) return undefined
+  return truncationNote(cut, { engine: report.engine.name !== 'none' ? report.engine.name : undefined, probes: report.coverage.probes !== undefined }, report.locale)
+}
+
 /** One sentence: what was checked, judged and left unchecked on a page, and that it is not a verdict of accessibility. */
 export function coverageStatement(report: Report): string {
   const { locale } = report
@@ -208,9 +215,10 @@ export function coverageStatement(report: Report): string {
   // The cognitive profile's clause, after the WCAG coverage: what it screened, never a verdict.
   const coga = cogaClause(report)
   if (coga) parts.push(coga)
-  // What the collector could not read, such as frames of another origin and closed shadow roots.
+  // What the collector could not read: the end of a page cut at its budget, frames of another origin, closed shadow roots.
+  const cut = truncationText(report)
   const reach = reachNotes(report.coverage.reach, locale)
-  return `${parts.join('; ')}. ${[...reach, parsingNote(report)].join(' ')} ${t(locale, 'disclaimer')} ${t(locale, 'manualReview')}`
+  return `${parts.join('; ')}. ${[...(cut ? [cut] : []), ...reach, parsingNote(report)].join(' ')} ${t(locale, 'disclaimer')} ${t(locale, 'manualReview')}`
 }
 
 const STATUS_KEYS: Record<CoverageStatus, MessageKey> = {

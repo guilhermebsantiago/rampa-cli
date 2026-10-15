@@ -264,6 +264,8 @@ Every pattern below comes from dev pages, described from the two judges' rationa
 
 The martinsfontespaulista.com.br listing has 2,446 links and 1,612 form fields, most of them checkboxes of its filter sidebar (456 are in the part the collector read). The collector stopped at its budget of 5,000 elements, which the snapshot records (`truncated: true`), before it reached the products: 2.4.4 found 16 link candidates on the page, and axe-core, which reads the whole page, reported 223 violations. The report does not say the page was cut short; it says so only for shadow roots and frames. A long listing is the kind of page the first study lost to time-outs, and it is still only partly checked, now silently.
 
+**Follow-up.** `rampa/link-color-only`, the text-field caret in `rampa/focus-visible` and `rampa/focus-indicator-contrast`, and this collector gap were then fixed from these dev patterns alone, with Rampa Lab's `rampa/placeholder-text` false positive; [the notes](notes-rules-dev-fixes.md) give what changed and its effect on the dev pages (the 12 false positives gone, no true positive lost). The test split was not used.
+
 ## Caveats
 
 - **One run, a nondeterministic model.** Ollama ran at temperature 0, but the GPU was shared with other work and the prompts depend on what the collector saw when the page loaded. A second load of the same pages would not give exactly the same findings. The probe run is a second load, judged with the first load's cache where the prompts matched.

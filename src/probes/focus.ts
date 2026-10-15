@@ -16,6 +16,10 @@ import { type PixelDiff, diffImages, imageHash } from './pixels.ts'
  * 2.4.11: at every stop, a 5×5 elementFromPoint grid over the part of the element in the
  * viewport. When every point hits author content outside the element, two pixel checks
  * confirm: the element painted magenta, then hidden; neither may change a pixel.
+ *
+ * Captures hide the text caret, which blinks: two captures of one state would differ by it. A text field's caret
+ * is read from its styles instead (`caret`), since it shows where focus is: the Understanding for 2.4.7 gives it
+ * as an example of a visible indicator, and the Understanding for 1.4.11 accepts it when it has 3:1.
  */
 
 export const FOCUS_MARGIN = 32
@@ -37,6 +41,75 @@ export interface FocusPixels {
   skipped?: string | undefined
   /** The indicator's colors against the colors next to it, for 1.4.11 (rules/state-contrast.ts). */
   indicator?: FocusIndicator | undefined
+  /**
+   * The element takes typed text (a text-like input, a textarea, contenteditable): the caret it shows with focus.
+   * null when it shows none (read-only); absent for anything else, and in recordings made before Rampa read carets.
+   */
+  caret?: CaretFact | null | undefined
+}
+
+/** A text field's caret, read from its styles while it has focus (captures hide it: it blinks). */
+export interface CaretFact {
+  /** caret-color, or the text color when it is auto, composited on the field's background; #rrggbb. */
+  color: string
+  /** The background the caret is drawn on: the field's own, or the nearest one behind it, composited on white. */
+  background: string
+  /** The luminance contrast between the two. */
+  contrast: number
+}
+
+/**
+ * Runs in the page: the caret of the focused element when it takes typed text; null when it is read-only, undefined
+ * when it takes no text. Self-contained: serialized by the browser library.
+ */
+export function caretOf(): CaretFact | null | undefined {
+  const kit = (window as unknown as { __rampaKit: { deepActive(): Element | null } }).__rampaKit
+  const el = kit.deepActive()
+  if (!el) return undefined
+  // Input types whose box takes typed text and shows a caret; date, color and range pickers do not.
+  const TYPED = new Set(['text', 'search', 'email', 'url', 'tel', 'password', 'number'])
+  const field = el as HTMLInputElement | HTMLTextAreaElement
+  const isInput = el.localName === 'input'
+  const isTextarea = el.localName === 'textarea'
+  if (isInput && !TYPED.has((el as HTMLInputElement).type)) return undefined
+  if (!isInput && !isTextarea && !(el as HTMLElement).isContentEditable) return undefined
+  if ((isInput || isTextarea) && (field.readOnly || field.disabled)) return null
+  const canvas = document.createElement('canvas')
+  canvas.width = 1
+  canvas.height = 1
+  const context = canvas.getContext('2d', { willReadFrequently: true })
+  const rgba = (css: string): number[] => {
+    if (!context || !css) return [0, 0, 0, 0]
+    context.clearRect(0, 0, 1, 1)
+    context.fillStyle = 'rgba(0, 0, 0, 0)'
+    context.fillStyle = css
+    context.fillRect(0, 0, 1, 1)
+    const [r = 0, g = 0, b = 0, a = 0] = Array.from(context.getImageData(0, 0, 1, 1).data)
+    return [r, g, b, a / 255]
+  }
+  const over = (top: number[], bottom: number[]): number[] => {
+    const a = top[3] ?? 1
+    return [0, 1, 2].map((i) => (top[i] ?? 0) * a + (bottom[i] ?? 0) * (1 - a))
+  }
+  const layers: number[][] = []
+  for (let node: Element | null = el; node; node = node.parentElement ?? ((node.getRootNode() as ShadowRoot).host ?? null)) {
+    const c = rgba(getComputedStyle(node).backgroundColor)
+    if ((c[3] ?? 0) > 0) layers.push(c)
+    if ((c[3] ?? 0) >= 0.999) break
+  }
+  let background = [255, 255, 255]
+  for (const layer of layers.reverse()) background = over(layer, background)
+  const style = getComputedStyle(el)
+  const caretColor = style.caretColor && style.caretColor !== 'auto' ? style.caretColor : style.color
+  const color = over(rgba(caretColor), background)
+  const channel = (v: number) => {
+    const c = v / 255
+    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
+  }
+  const luminance = (c: number[]) => 0.2126 * channel(c[0] ?? 0) + 0.7152 * channel(c[1] ?? 0) + 0.0722 * channel(c[2] ?? 0)
+  const [high = 0, low = 0] = [luminance(color), luminance(background)].sort((a, b) => b - a)
+  const hex = (c: number[]) => `#${c.map((v) => Math.round(v).toString(16).padStart(2, '0')).join('')}`
+  return { color: hex(color), background: hex(background), contrast: Math.round(((high + 0.05) / (low + 0.05)) * 100) / 100 }
 }
 
 /** What the focus indicator is made of: the changed pixels' colors and neighbours, and the style that changed. */
@@ -340,6 +413,7 @@ export const forwardFocusHook: StopHook = async (page, keyStop) => {
   }
   const focusedPng = await capture(page, area.region)
   const focusedStyle = await page.evaluate(focusStyles, { blurred: false }).catch(() => null)
+  const caret = await page.evaluate(caretOf).catch(() => undefined)
   await obscuredCheck(page, stop, { clip: area.region, png: focusedPng })
   await page.evaluate(selfBlur)
   const blurredPng = await capture(page, area.region)
@@ -350,6 +424,7 @@ export const forwardFocusHook: StopHook = async (page, keyStop) => {
   const noise = decodePng(noisePng)
   const diff = diffImages(focused, blurred, noise)
   const pixels: FocusPixels = { region: area.region, box: area.box, diff, focused: imageHash(focusedPng), blurred: imageHash(blurredPng) }
+  if (caret !== undefined) pixels.caret = caret
   if (diff.changed > 0) pixels.indicator = focusIndicator(focused, blurred, noise, area, focusedStyle, blurredStyle)
   const back = await page.evaluate(selfRefocus)
   if (diff.changed === 0 && diff.masked / Math.max(1, diff.area) <= NOISE_LIMIT) {

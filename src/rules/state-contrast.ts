@@ -8,6 +8,7 @@ import { STATES_VARIANT, type IndicatorStateFact, type StatesData, type StyleCha
 import type { PixelContrastFact } from '../snapshot/pixel-contrast.ts'
 import type { ProbeRecord } from '../snapshot/schema.ts'
 import { contrastCall, isLargeText } from './contrast.ts'
+import { caretOf } from './focus.ts'
 import { walkOf } from './keyboard.ts'
 import { type ProbeRule, type ProbeRuleContext, type ProbeRuleResult, appPlatform, asArray, asRecord, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
 
@@ -124,7 +125,8 @@ const FOCUS_TEXT: Record<Locale, { fail: (colors: string, place: string, best: s
 /**
  * 1.4.11 for focus indicators, from the keyboard walk's focused and blurred captures. Not judged: the browser's own
  * ring (exempt), a change of background inside the component (out of scope), no change (2.4.7's to report), stops
- * recorded before Rampa measured indicators. Under 3:1 against every significant adjacent color: failure, unless no
+ * recorded before Rampa measured indicators, a text field whose caret has 3:1 against the field (the caret is the
+ * indicator, Figure 33; see caretOf in focus.ts). Under 3:1 against every significant adjacent color: failure, unless no
  * single color surrounds the indicator or the style sheet's color reaches 3:1 (review).
  */
 export const focusIndicatorRule: ProbeRule = {
@@ -169,14 +171,25 @@ export const focusIndicatorRule: ProbeRule = {
         unmatched++
         continue
       }
+      // A text field's caret is an indicator of its own: at 3:1 against the field it is enough (Understanding 1.4.11,
+      // Figure 33), under 3:1 it is not (Figure 44). A recording that did not read the caret says nothing of its color.
+      const caret = appPlatform(record) ? undefined : caretOf(pixels, node)
+      if (caret && caret !== 'assumed' && caret.contrast >= NON_TEXT) {
+        bump(tally, 'caret')
+        continue
+      }
       const keys = `Tab ×${stop.n}`
       const place = placeOf(change, ctx.locale)
       const styles = indicatorStyles(indicator)
       const css = cssBest(styles, change.colors)
+      const caretText =
+        caret && caret !== 'assumed'
+          ? say(ctx.locale, `; its text caret, ${caret.color} on ${caret.background}: ${ratio(caret.contrast, ctx.locale)}`, `; o cursor de texto, ${caret.color} sobre ${caret.background}: ${ratio(caret.contrast, ctx.locale)}`)
+          : ''
       const measured = say(
         ctx.locale,
-        `${keys}: ${nameOf(node, stop.el)} focused and blurred; ${change.judged} px of its indicator ${place}: ${colorsText(change.colors, ctx.locale)}`,
-        `${keys}: ${nameOf(node, stop.el)} com e sem foco; ${change.judged} px do indicador ${place}: ${colorsText(change.colors, ctx.locale)}`,
+        `${keys}: ${nameOf(node, stop.el)} focused and blurred; ${change.judged} px of its indicator ${place}: ${colorsText(change.colors, ctx.locale)}${caretText}`,
+        `${keys}: ${nameOf(node, stop.el)} com e sem foco; ${change.judged} px do indicador ${place}: ${colorsText(change.colors, ctx.locale)}${caretText}`,
       )
       const styleText = styles.length > 0 ? say(ctx.locale, `; style sheet: ${styles.map((s) => `${s.prop} ${s.value}`).join(', ')}`, `; folha de estilo: ${styles.map((s) => `${s.prop} ${s.value}`).join(', ')}`) : ''
       if (!change.colors.some((c) => c.adjacent.length > 0)) {
@@ -209,6 +222,13 @@ export const focusIndicatorRule: ProbeRule = {
       tally.browser ? say(ctx.locale, `${tally.browser} with the browser's own focus ring, which 1.4.11 exempts`, `${tally.browser} com o anel de foco do próprio navegador, que a 1.4.11 isenta`) : '',
       tally.fill
         ? say(ctx.locale, `${tally.fill} whose focus changes the background inside the component, which 1.4.11 leaves out of scope (Understanding, Figure 15)`, `${tally.fill} cujo foco muda o fundo dentro do componente, o que a 1.4.11 deixa fora do escopo (Understanding, Figura 15)`)
+        : '',
+      tally.caret
+        ? say(
+            ctx.locale,
+            `${tally.caret} text field(s) whose text caret has 3:1 or more against the field, which the Understanding for 1.4.11 accepts as the focus indicator (Figure 33)`,
+            `${tally.caret} campo(s) de texto cujo cursor de texto tem 3:1 ou mais contra o campo, que o Understanding da 1.4.11 aceita como indicador de foco (Figura 33)`,
+          )
         : '',
       tally.old
         ? appPlatform(record)

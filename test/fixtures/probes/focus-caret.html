@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Focus and the text caret</title>
+<style>
+  body { font: 16px Arial, sans-serif; margin: 1rem; background: #fff; color: #111; }
+  label { display: block; }
+  input, textarea, button, [contenteditable] { display: block; margin: 4px 0 12px; font: inherit; border: 1px solid #767676; padding: 4px; background: #fff; color: #111; appearance: none; }
+  a { color: #111; }
+  /* No focus style anywhere: what a field shows on focus is its caret. */
+  :focus { outline: none; }
+  #no-caret { caret-color: transparent; }
+  /* A faint ring under 3:1 (#cccccc on white, 1.6:1) and the default caret, #111111: 1.4.11 passes it (Figure 33). */
+  #faint-ring:focus { border-color: #cccccc; box-shadow: 0 0 0 2px #cccccc; }
+  /* The same faint ring and a pale custom caret, #00c7fd, under 3:1 against the field: 1.4.11 fails it (Figure 44). */
+  #pale-caret { caret-color: #00c7fd; }
+  #pale-caret:focus { border-color: #cccccc; box-shadow: 0 0 0 2px #cccccc; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Caret</h1>
+  <label for="search">Search</label>
+  <input id="search" type="search">
+  <label for="notes">Notes</label>
+  <textarea id="notes" rows="2"></textarea>
+  <div id="editor" contenteditable="true" role="textbox" aria-label="Editor">Write here</div>
+  <!-- No caret shows: a transparent caret, a read-only field. -->
+  <label for="no-caret">Code</label>
+  <input id="no-caret" type="text">
+  <label for="fixed">Fixed</label>
+  <input id="fixed" type="text" readonly>
+  <!-- Take no text: an input that is a button, and a button, with no focus style still fail. -->
+  <input id="go" type="submit" value="Go">
+  <button id="plain" type="button">Send</button>
+  <a id="more" href="#more">More fields</a>
+  <label for="faint-ring">Name</label>
+  <input id="faint-ring" type="text">
+  <label for="pale-caret">City</label>
+  <input id="pale-caret" type="text">
+</main>
+</body>
+</html>

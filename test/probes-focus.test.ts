@@ -3,8 +3,10 @@ import { checkSnapshot } from '../src/core/check.ts'
 import type { EngineResults, Report } from '../src/core/types.ts'
 import { exitCode } from '../src/cli/exit-code.ts'
 import type { RgbaImage } from '../src/pixels/png.ts'
+import type { FocusStop } from '../src/probes/focus.ts'
 import { diffImages } from '../src/probes/pixels.ts'
 import { DETERMINISM_ARGS } from '../src/probes/run.ts'
+import { asArray } from '../src/rules/probes.ts'
 import type { A11ySnapshot } from '../src/snapshot/schema.ts'
 import { collectWeb, launchBrowser } from '../src/surfaces/web.ts'
 import { byRule, fixture, probeCheckOptions, reviewByRule } from './probe-helpers.ts'
@@ -102,6 +104,41 @@ describe.skipIf(!browser)('focus visible and focus not obscured', { timeout: 120
     expect(beyond).toHaveLength(2)
     expect(beyond.every((f) => f.beyondTarget)).toBe(true)
     expect(exitCode([{ ...older, findings: [], belowThreshold: beyond }], 'any')).toBe(0)
+  })
+
+  it('counts the text caret as the focus indicator of a text field (Understanding 2.4.7), and still fails a button, a link, a non-text input, a read-only field and a hidden caret', async () => {
+    const { report, snapshot, engine } = await probedRun('focus-caret.html')
+    const visible = byRule(report, 'rampa/focus-visible')
+    expect(visible.map((f) => `${f.ref} ${f.confidence}`)).toEqual(['#no-caret high', '#fixed high', '#go high', '#plain high', '#more high'])
+    expect(visible[0]?.evidence).toMatch(/; its text caret, #ffffff on #ffffff, does not show$/)
+    expect(reviewByRule(report, 'rampa/focus-visible')).toEqual([])
+    expect(report.coverage.probes?.find((c) => c.rule === 'rampa/focus-visible')?.note).toContain(
+      '3 text field(s) whose focus shows only as the text caret, which the Understanding for 2.4.7 counts as a visible indicator: not reported',
+    )
+    // The caret as the probe read it: the text color by default, transparent made the field's own color, none when read-only.
+    const record = snapshot.observations?.probes.find((p) => p.kind === 'keyboard' && p.conditions?.variant === 'keyboard-walk')
+    const stops = (record?.data as { forward: FocusStop[] }).forward
+    const caret = (ref: string) => stops.find((stop) => stop.el?.ref === ref)?.focus?.caret
+    expect(caret('#search')).toEqual({ color: '#111111', background: '#ffffff', contrast: 18.88 })
+    expect(caret('#editor')).toMatchObject({ color: '#111111' })
+    expect(caret('#no-caret')).toMatchObject({ color: '#ffffff', contrast: 1 })
+    expect(caret('#fixed')).toBeNull()
+    expect(caret('#plain')).toBeUndefined()
+    // 1.4.11: a ring under 3:1 with the default caret passes (Figure 33); with a pale custom caret it fails (Figure 44).
+    const contrast = byRule(report, 'rampa/focus-indicator-contrast')
+    expect(contrast.map((f) => f.ref)).toEqual(['#pale-caret'])
+    expect(contrast[0]?.evidence).toContain('; its text caret, #00c7fd on #ffffff: 1.98:1')
+    expect(report.coverage.probes?.find((c) => c.rule === 'rampa/focus-indicator-contrast')?.note).toContain('1 text field(s) whose text caret has 3:1 or more against the field')
+    // A recording made before the probe read carets: text fields the snapshot names are taken to show the default caret.
+    const older = structuredClone(snapshot)
+    for (const probe of older.observations?.probes ?? []) {
+      for (const stop of asArray<FocusStop>((probe.data as { forward?: unknown }).forward)) delete stop.focus?.caret
+    }
+    const replayed = await checkSnapshot(older, engine, probeCheckOptions())
+    expect(byRule(replayed, 'rampa/focus-visible').map((f) => f.ref)).toEqual(['#fixed', '#go', '#plain', '#more'])
+    expect(replayed.coverage.probes?.find((c) => c.rule === 'rampa/focus-visible')?.note).toContain("(4 recorded before Rampa read carets: the browser's default caret is assumed)")
+    // Its color unknown, the caret clears no 1.4.11 finding.
+    expect(byRule(replayed, 'rampa/focus-indicator-contrast').map((f) => f.ref)).toEqual(['#faint-ring', '#pale-caret'])
   })
 
   it('finds nothing with a visible ring, a sticky header kept clear by scroll-padding, and a translucent bar', async () => {

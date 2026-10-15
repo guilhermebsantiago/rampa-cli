@@ -108,6 +108,10 @@ describe('rule helpers', () => {
     expect(placeholderText('Label', 'label')).toBe(false)
     expect(placeholderText('Field', 'label')).toBe(false)
     expect(placeholderText('Address line 2', 'label')).toBe(false)
+    // A template's instruction to put a label there; names a field can mean on purpose are not (Rampa Lab's "Your label" filter).
+    expect(placeholderText('Your label here', 'label')).toBe(true)
+    expect(placeholderText('Seu rótulo aqui', 'label')).toBe(true)
+    for (const label of ['Your label', 'Your label:', 'Field label', 'Label text', 'Seu rótulo', 'Texto do rótulo']) expect(placeholderText(label, 'label'), label).toBe(false)
   })
 
   it('tells a hyphen or a shortened word apart from a different label (2.5.3)', () => {
@@ -280,6 +284,7 @@ describe.skipIf(!browser)('rules on real pages', { timeout: 30_000 }, () => {
       'rampa/placeholder-text Add Your Heading Text Here',
       'rampa/placeholder-text Field 1',
       'rampa/placeholder-text Lorem ipsum dolor sit amet',
+      'rampa/placeholder-text Your label here',
     ])
     for (const finding of report.findings.filter((f) => f.source === 'rule')) expect(finding.evidence, finding.ruleId).toBeTruthy()
     // axe-core passes maximum-scale=no, which browsers read as 0; the rule is what reports it.
