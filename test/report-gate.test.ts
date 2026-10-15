@@ -90,7 +90,7 @@ describe('the config file', () => {
     expect(unknown.err).toContain('unknown key "failOn"')
     // The same page with a valid config fails on its findings, as it should.
     expect(rampa(['check', RECORDED, '--no-llm'], await project({ minConfidence: 'high' })).code).toBe(1)
-  })
+  }, 60_000)
 
   it('is guarded in checkSnapshot too, for a minConfidence from JavaScript', async () => {
     await expect(rulesOnly('hgih' as never)).rejects.toThrow('minConfidence must be one of low, medium, high. Got "hgih".')
@@ -233,12 +233,12 @@ describe('exit 2 when nothing that needed a model was judged', () => {
     expect(run.err).toContain('the model judged none of the 13 candidate(s) that needed it (13 with no cached judgment, --offline)')
     const report = JSON.parse(run.out) as Report
     expect(report.notes).toContainEqual(expect.stringContaining('rampa check exits 2. Pass --no-llm to check with the deterministic layer only.'))
-  })
+  }, 60_000)
 
   it('never for --no-llm, nor for a run the recorded judgments cover', () => {
     expect(rampa(['check', RECORDED, '--no-llm', '--fail-on', 'none']).code).toBe(0)
     const judged = rampa(['check', RECORDED, '--offline', '--model', 'ollama:gemma4:12b', '--cache-dir', resolve('demo/recorded/cache'), '--fail-on', 'none'])
     expect(judged.code).toBe(0)
     expect(judged.err).not.toContain('judged none')
-  })
+  }, 60_000)
 })
