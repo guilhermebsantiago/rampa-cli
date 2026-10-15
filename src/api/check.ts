@@ -16,7 +16,7 @@ export interface CheckTargetsOptions extends RampaOptions {
   browser?: Browser | undefined
   /** Save a full-page screenshot of each web target in this directory, like --screenshots. */
   screenshotDir?: string | undefined
-  /** Probes to run on web targets after collection, like --probe: 'layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status', 'motion', 'form', 'pointer', 'parity', 'focus-order', 'gestures' (docs/probes.md). */
+  /** Probes to run on web targets after collection, like --probe: 'layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status', 'motion', 'form', 'pointer', 'parity', 'focus-order', 'gestures', 'cognitive' (docs/probes.md). With the cognitive profile, web targets get 'cognitive' on top. */
   probes?: readonly ProbeKind[] | undefined
 }
 

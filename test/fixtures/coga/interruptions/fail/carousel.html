@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Carousel that stops with the setting</title>
+<style>
+  body { font-family: sans-serif; margin: 0; padding: 16px; }
+  main { max-width: 900px; }
+  .carousel { position: relative; width: 600px; height: 180px; overflow: hidden; background: #eef; }
+  .carousel .slide { position: absolute; inset: 0; padding: 24px; opacity: 0; }
+  .carousel .slide.active { opacity: 1; }
+</style>
+</head>
+<body>
+<main>
+<h1>Carousel that stops with the setting</h1>
+<p>Our office answers questions about your application. Read the steps below before you start, and keep your documents at hand.</p>
+<section class="carousel" id="news" aria-roledescription="carousel" aria-label="News">
+  <div class="slide active" aria-roledescription="slide">New office hours from Monday.</div>
+  <div class="slide" aria-roledescription="slide">Renew your card online.</div>
+  <div class="slide" aria-roledescription="slide">Holiday schedule for December.</div>
+</section>
+<p>More text about the service, with a <a href="#help">link to help</a> and a <button type="button">Next step</button> button.</p>
+</main>
+<script>
+  let shown = 0
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => {
+    const slides = document.querySelectorAll('#news .slide')
+    slides[shown].classList.remove('active')
+    shown = (shown + 1) % slides.length
+    slides[shown].classList.add('active')
+  }, 900)
+</script>
+</body>
+</html>

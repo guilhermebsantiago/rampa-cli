@@ -48,6 +48,8 @@ export interface Motion {
   /** same: it runs without the setting too; only-reduce: Rampa saw it only with the setting; unknown: no other load to compare. */
   without: 'same' | 'only-reduce' | 'unknown'
   animation?: { kind: string; names: string[]; durationMs: number; endMs: number; properties: string[] } | undefined
+  /** Other elements with the same animation: one advisory for a row of cards that pulse alike. */
+  others?: CogaElement[] | undefined
   video?: { loop: boolean; durationMs: number; muted: boolean } | undefined
   image?: { format: string; loops: number | null; src: string } | undefined
   carousel?: { changes: number[] } | undefined
@@ -72,14 +74,25 @@ function lasting(animation: CogaAnimation): boolean {
   return animation.visible && !animation.colorOnly && animation.box.width >= MIN_SIDE && animation.box.height >= MIN_SIDE && (animation.infinite || animation.endMs > LASTS_MS)
 }
 
+/** An animation, and the element of its nearest animated ancestor in the same inventory. */
+interface Entry {
+  animation: CogaAnimation
+  parent?: CogaElement | undefined
+}
+
 /** Both inventories of one load, one entry per element and animation, the later one first. */
-function animationsOf(data: CogaData): CogaAnimation[] {
-  const out: CogaAnimation[] = []
-  for (const item of [...data.animations.last, ...data.animations.first]) {
-    if (!out.some((known) => known.kind === item.kind && known.name === item.name && sameElement(known.el, item.el))) out.push(item)
+function animationsOf(data: CogaData): Entry[] {
+  const out: Entry[] = []
+  for (const list of [data.animations.last, data.animations.first]) {
+    for (const item of list) {
+      if (out.some((known) => known.animation.kind === item.kind && known.animation.name === item.name && sameElement(known.animation.el, item.el))) continue
+      out.push({ animation: item, parent: list[item.ancestor]?.el })
+    }
   }
   return out
 }
+
+const elementKey = (el: CogaElement) => el.ref ?? `${el.tag}|${el.label}`
 
 /**
  * The motion that keeps running with `prefers-reduced-motion: reduce`, compared with the load without it. Pure: the
@@ -96,30 +109,49 @@ export function reducedMotions(reduce: CogaData, observe: CogaData | undefined):
     motions.push({ kind: 'carousel', el: carousel.el, box: carousel.box, endless: true, without: compare(Boolean(other && observe && carouselMoves(other, observe).length > 0)), carousel: { changes: carouselMoves(carousel, reduce) } })
   }
 
-  const all = animationsOf(reduce)
-  const kept = all.filter((animation) => lasting(animation) && !inMoving(animation.carousel))
-  const before = observe ? animationsOf(observe) : []
-  // An element whose animated ancestor also keeps moving is part of it: a spinner of three rings is one motion.
-  const folded = new Map<CogaAnimation, CogaAnimation[]>()
-  for (const animation of kept) {
-    let top = animation
-    for (let guard = 0, up = all[top.ancestor]; up && guard < 20; guard++, up = all[up.ancestor]) if (kept.includes(up)) top = up
-    const group = folded.get(top) ?? []
-    if (top !== animation) group.push(animation)
-    folded.set(top, group)
+  const kept = animationsOf(reduce).filter((entry) => lasting(entry.animation) && !inMoving(entry.animation.carousel))
+  const before = observe ? animationsOf(observe).filter((entry) => lasting(entry.animation)) : []
+  // One motion per element, and an element whose animated ancestor also keeps moving is part of it: a spinner of
+  // three rings is one motion.
+  const byElement = new Map<string, Entry[]>()
+  for (const entry of kept) byElement.set(elementKey(entry.animation.el), [...(byElement.get(elementKey(entry.animation.el)) ?? []), entry])
+  const topOf = (key: string): string => {
+    let top = key
+    for (let guard = 0, parent = byElement.get(top)?.[0]?.parent; parent && guard < 20; guard++, parent = byElement.get(top)?.[0]?.parent) {
+      const up = elementKey(parent)
+      if (!byElement.has(up) || up === top) break
+      top = up
+    }
+    return top
   }
-  for (const [top, members] of folded) {
-    const names = [...new Set([top, ...members].map((animation) => animation.name).filter(Boolean))].slice(0, 3)
-    const endless = [top, ...members].some((animation) => animation.infinite)
-    const found = before.some((animation) => sameElement(animation.el, top.el) && (animation.name === top.name || names.includes(animation.name)) && lasting(animation))
-    motions.push({
+  const folded = new Map<string, Entry[]>()
+  for (const key of byElement.keys()) folded.set(topOf(key), [...(folded.get(topOf(key)) ?? []), ...(byElement.get(key) ?? [])])
+  const animated: Motion[] = []
+  for (const [key, entries] of folded) {
+    const own = byElement.get(key) ?? entries
+    const top = (own[0] ?? entries[0] as Entry).animation
+    const all = entries.map((entry) => entry.animation)
+    const names = [...new Set(all.map((animation) => animation.name).filter(Boolean))].slice(0, 3)
+    const endless = all.some((animation) => animation.infinite)
+    const found = before.some((entry) => sameElement(entry.animation.el, top.el) && names.includes(entry.animation.name))
+    animated.push({
       kind: 'animation',
       el: top.el,
       box: top.box,
       endless,
       without: compare(found),
-      animation: { kind: top.kind, names, durationMs: top.durationMs, endMs: endless ? -1 : Math.max(top.endMs, ...members.map((m) => m.endMs)), properties: top.properties },
+      animation: { kind: top.kind, names, durationMs: top.durationMs, endMs: endless ? -1 : Math.max(...all.map((animation) => animation.endMs)), properties: top.properties },
     })
+  }
+  // The same animation on several elements (a row of cards that pulse alike) is one motion, cited with the others.
+  const alike = new Map<string, Motion[]>()
+  for (const motion of animated) {
+    const key = `${motion.animation?.kind}|${[...(motion.animation?.names ?? [])].sort().join(',')}|${motion.endless}|${motion.without}`
+    alike.set(key, [...(alike.get(key) ?? []), motion])
+  }
+  for (const group of alike.values()) {
+    const [first, ...rest] = [...group].sort((a, b) => area(b.box) - area(a.box))
+    if (first) motions.push(rest.length > 0 ? { ...first, others: rest.map((motion) => motion.el) } : first)
   }
 
   for (const video of reduce.videos) {
@@ -179,12 +211,15 @@ function describeMotion(motion: Motion, reduce: CogaData, locale: Locale): strin
     return am(locale, 'rmImage', { setting, format: formatName(motion.image.format), loop: motion.image.loops === -1 ? am(locale, 'rmImageLoop') : '' })
   }
   const animation = motion.animation
-  const kind = am(locale, `rmKind_${animation?.kind === 'css-transition' || animation?.kind === 'script' || animation?.kind === 'smil' ? animation.kind : 'css-animation'}`)
+  const many = (animation?.names.length ?? 0) > 1
+  const family = animation?.kind === 'css-transition' || animation?.kind === 'script' || animation?.kind === 'smil' ? animation.kind : 'css-animation'
+  const kind = am(locale, many ? `rmKinds_${family}` : `rmKind_${family}`)
   const names = (animation?.names ?? []).map((name) => `"${name}"`).join(', ')
   const timing = motion.endless
-    ? am(locale, 'rmEndless', { duration: seconds(animation?.durationMs ?? 0, locale) })
-    : am(locale, 'rmLasts', { total: seconds(animation?.endMs ?? 0, locale) })
-  return am(locale, 'rmAnimation', { setting, kind, names, timing })
+    ? am(locale, many ? 'rmEndlessMany' : 'rmEndless', { duration: seconds(animation?.durationMs ?? 0, locale) })
+    : am(locale, many ? 'rmLastsMany' : 'rmLasts', { total: seconds(animation?.endMs ?? 0, locale) })
+  const others = motion.others?.length ? ` ${amPlural(locale, 'rmMore', motion.others.length)}` : ''
+  return `${am(locale, many ? 'rmAnimations' : 'rmAnimation', { setting, kind, names, timing })}${others}`
 }
 
 export const reducedMotion: AdvisoryCheck = {
@@ -218,6 +253,7 @@ export const reducedMotion: AdvisoryCheck = {
       if (motion.video) Object.assign(facts, { loop: motion.video.loop, durationMs: motion.video.durationMs, muted: motion.video.muted })
       if (motion.image) Object.assign(facts, { format: motion.image.format, loops: motion.image.loops ?? 'unknown', src: motion.image.src.slice(0, 200) })
       if (motion.carousel) Object.assign(facts, { moves: motion.carousel.changes.length, movesAtMs: motion.carousel.changes.join(', ') })
+      if (motion.others?.length) Object.assign(facts, { sameOn: motion.others.length, sameOnRefs: motion.others.map((el) => el.ref ?? el.tag).slice(0, 8).join(' | ') })
       const subject = motion.animation ? `animation:${motion.animation.names.join(',')}` : motion.image ? `image:${motion.image.src.split(/[?#]/)[0]?.split('/').pop() ?? ''}` : motion.kind
       return {
         kind: 'advisory',

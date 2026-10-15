@@ -86,8 +86,10 @@ export function layoutShifts(observe: CogaData): ShiftReport[] {
     const qualifying = session.filter((shift) => shift.score >= SHIFT_SCORE || controlMoved(shift))
     if (qualifying.length === 0) continue
     const sources = qualifying.flatMap((shift) => shift.sources.map((source) => ({ shift, source, move: moveOf(source) }))).filter((entry) => entry.move.distance > 0)
-    // The control that moved most, else whatever moved most.
-    const pick = [...sources].sort((a, b) => Number(b.source.interactive) - Number(a.source.interactive) || b.move.distance - a.move.distance)[0]
+    // The control that moved most, else whatever moved most; of equals, the one highest on the page, where the eye is.
+    const pick = [...sources].sort(
+      (a, b) => Number(b.source.interactive) - Number(a.source.interactive) || Math.round(b.move.distance) - Math.round(a.move.distance) || a.source.before.y - b.source.before.y,
+    )[0]
     if (!pick) continue
     const top = Math.max(...qualifying.map((shift) => shift.score))
     reports.push({

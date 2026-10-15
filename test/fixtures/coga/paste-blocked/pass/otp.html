@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A code in six boxes</title>
+<style>
+  body { font-family: sans-serif; margin: 0; padding: 16px; }
+  main { max-width: 900px; }
+
+</style>
+</head>
+<body>
+<main>
+<h1>A code in six boxes</h1>
+<p>Our office answers questions about your application. Read the steps below before you start, and keep your documents at hand.</p>
+<form action="#" id="otp">
+  <fieldset><legend>Code</legend>
+  <input id="d1" maxlength="1" inputmode="numeric" autocomplete="one-time-code"><input id="d2" maxlength="1" inputmode="numeric"><input id="d3" maxlength="1" inputmode="numeric"><input id="d4" maxlength="1" inputmode="numeric"><input id="d5" maxlength="1" inputmode="numeric"><input id="d6" maxlength="1" inputmode="numeric">
+  </fieldset>
+</form>
+<p>More text about the service, with a <a href="#help">link to help</a> and a <button type="button">Next step</button> button.</p>
+</main>
+<script>
+  for (const box of document.querySelectorAll('#otp input')) {
+    box.addEventListener('paste', (event) => {
+      event.preventDefault()
+      const digits = event.clipboardData.getData('text').replace(/\D/g, '').split('')
+      document.querySelectorAll('#otp input').forEach((field, i) => { field.value = digits[i] ?? '' })
+    })
+  }
+</script>
+</body>
+</html>
