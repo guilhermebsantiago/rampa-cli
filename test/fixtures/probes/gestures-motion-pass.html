@@ -39,7 +39,7 @@
     if (!a || a.x === null) return
     if (last && document.getElementById('shake').checked) {
       const now = Date.now()
-      if (Math.abs(a.x - last.x) > 15 && Math.abs(a.y - last.y) > 15 && now - lastShake > 1000) {
+      if (Math.abs(a.x - last.x) > 15 && Math.abs(a.y - last.y) > 15 && now - lastShake > 3000) {
         lastShake = now
         undo()
       }

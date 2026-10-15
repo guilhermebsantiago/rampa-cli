@@ -30,7 +30,7 @@
       const dx = Math.abs(a.x - last.x)
       const dy = Math.abs(a.y - last.y)
       const now = Date.now()
-      if (dx > 15 && dy > 15 && now - lastShake > 1000) {
+      if (dx > 15 && dy > 15 && now - lastShake > 3000) {
         lastShake = now
         const item = document.querySelector('#items li:last-child')
         if (item) {
