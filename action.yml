@@ -1,5 +1,5 @@
 name: Rampa accessibility check
-description: Check pages and HTML files against WCAG 2.1 A/AA with axe-core and verified LLM judgment, upload SARIF to code scanning and comment on pull requests.
+description: Check pages and HTML files against WCAG 2.2 A/AA with axe-core, its own rules and verified LLM judgment, upload SARIF to code scanning and comment on pull requests.
 author: Guilherme Santiago
 branding:
   icon: eye
@@ -15,7 +15,7 @@ inputs:
     description: URLs, .html files or folders to check, separated by spaces or new lines. Quote a path that has spaces.
     required: true
   criteria:
-    description: Criteria to judge, comma-separated, such as 1.1.1,2.4.4. Empty judges all six.
+    description: Criteria to judge, comma-separated, such as 1.1.1,2.4.4. Empty judges the eight default criteria.
     required: false
     default: ''
   model:
