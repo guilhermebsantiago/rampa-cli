@@ -47,7 +47,7 @@ Providers live in one table, `src/providers/registry.ts`: the prefix, the enviro
 
 ## Pull requests
 
-Keep them focused, include tests, and make sure `pnpm typecheck`, `pnpm test` and `pnpm build` pass.
+Keep them focused, include tests, and make sure `pnpm typecheck`, `pnpm test` and `pnpm build` pass. A change people will notice gets a line under **Unreleased** in [CHANGELOG.md](CHANGELOG.md); [RELEASING.md](RELEASING.md) says how a version is published.
 
 ## README media
 
