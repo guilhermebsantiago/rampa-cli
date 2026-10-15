@@ -47,7 +47,7 @@ export interface Motion {
   endless: boolean
   /** same: it runs without the setting too; only-reduce: Rampa saw it only with the setting; unknown: no other load to compare. */
   without: 'same' | 'only-reduce' | 'unknown'
-  animation?: { kind: string; names: string[]; durationMs: number; endMs: number; properties: string[] } | undefined
+  animation?: { kind: string; names: string[]; durationMs: number; iterations: number; endMs: number; properties: string[] } | undefined
   /** Other elements with the same animation: one advisory for a row of cards that pulse alike. */
   others?: CogaElement[] | undefined
   video?: { loop: boolean; durationMs: number; muted: boolean } | undefined
@@ -140,7 +140,14 @@ export function reducedMotions(reduce: CogaData, observe: CogaData | undefined):
       box: top.box,
       endless,
       without: compare(found),
-      animation: { kind: top.kind, names, durationMs: top.durationMs, endMs: endless ? -1 : Math.max(...all.map((animation) => animation.endMs)), properties: top.properties },
+      animation: {
+        kind: top.kind,
+        names,
+        durationMs: top.durationMs,
+        iterations: endless ? -1 : Math.max(...all.map((animation) => animation.iterations)),
+        endMs: endless ? -1 : Math.max(...all.map((animation) => animation.endMs)),
+        properties: top.properties,
+      },
     })
   }
   // The same animation on several elements (a row of cards that pulse alike) is one motion, cited with the others.
@@ -176,7 +183,8 @@ export function reducedMotions(reduce: CogaData, observe: CogaData | undefined):
       el: image.el,
       box: image.box,
       endless: image.loops === -1,
-      without: compare(other?.animated === true),
+      // An image whose bytes the other load could not read leaves the comparison open.
+      without: other && other.animated === null ? 'unknown' : compare(other?.animated === true),
       image: { format: image.format ?? 'image', loops: image.loops, src: image.src },
     })
   }
@@ -248,7 +256,14 @@ export const reducedMotion: AdvisoryCheck = {
         ...elementFacts(motion.el),
       }
       if (motion.animation) {
-        Object.assign(facts, { animationKind: motion.animation.kind, names: motion.animation.names.join(', '), cycleMs: motion.animation.durationMs, endMs: motion.animation.endMs, properties: motion.animation.properties.join(', ') })
+        Object.assign(facts, {
+          animationKind: motion.animation.kind,
+          names: motion.animation.names.join(', '),
+          cycleMs: motion.animation.durationMs,
+          iterations: motion.animation.iterations,
+          endMs: motion.animation.endMs,
+          properties: motion.animation.properties.join(', '),
+        })
       }
       if (motion.video) Object.assign(facts, { loop: motion.video.loop, durationMs: motion.video.durationMs, muted: motion.video.muted })
       if (motion.image) Object.assign(facts, { format: motion.image.format, loops: motion.image.loops ?? 'unknown', src: motion.image.src.slice(0, 200) })
@@ -275,7 +290,10 @@ export const reducedMotion: AdvisoryCheck = {
 }
 
 function evidenceOf(motion: Motion): string {
-  if (motion.animation) return `${motion.animation.kind} ${motion.animation.names.join(', ')}: ${motion.endless ? 'infinite' : `ends at ${motion.animation.endMs} ms`}, cycle ${motion.animation.durationMs} ms, ${motion.animation.properties.join(', ')}`
+  if (motion.animation) {
+    const runs = motion.endless ? 'infinite iterations' : `${motion.animation.iterations} iteration(s), ends at ${motion.animation.endMs} ms`
+    return `${motion.animation.kind} ${motion.animation.names.join(', ')}: ${runs}, cycle ${motion.animation.durationMs} ms, ${motion.animation.properties.join(', ')}`
+  }
   if (motion.video) return `<video${motion.video.loop ? ' loop' : ''}${motion.video.muted ? ' muted' : ''}> ${motion.video.durationMs === -1 ? 'live' : `${motion.video.durationMs} ms`}`
   if (motion.image) return `${motion.image.format}, ${motion.image.loops === -1 ? 'loops with no end' : motion.image.loops === null ? 'loop count unknown' : `plays ${motion.image.loops} time(s)`}: ${motion.image.src.slice(0, 120)}`
   if (motion.carousel) return `moved at ${motion.carousel.changes.map((ms) => `${ms} ms`).join(', ')} from the start of navigation`

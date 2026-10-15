@@ -44,6 +44,8 @@ export interface ShiftReport {
   /** The page's CLS as this load measured it: its worst session. */
   cls: number
   source: CogaShift['sources'][number]
+  /** The other elements the browser named for the same shift, with their boxes. */
+  others: CogaShift['sources']
   distance: number
   direction: 'down' | 'up' | 'left' | 'right'
   interactive: boolean
@@ -99,6 +101,7 @@ export function layoutShifts(observe: CogaData): ShiftReport[] {
       count: session.length,
       cls: Math.round(cls * 10000) / 10000,
       source: pick.source,
+      others: pick.shift.sources.filter((source) => source !== pick.source),
       distance: Math.round(pick.move.distance),
       direction: pick.move.direction,
       interactive: pick.source.interactive,
@@ -169,6 +172,9 @@ export const layoutShift: AdvisoryCheck = {
           interactive: report.interactive,
           reportedBy: report.by,
           ...elementFacts(report.source.el),
+          ...(report.others.length > 0
+            ? { otherSources: report.others.slice(0, 4).map((source) => `${source.el.ref ?? `<${source.el.tag}>`} ${rectText(source.before)} → ${rectText(source.after)}`).join(' | ') }
+            : {}),
         },
         confidence,
       } satisfies AdvisoryHit
