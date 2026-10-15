@@ -172,7 +172,16 @@ const PLACEHOLDER_HEADINGS = new Set([
 ])
 /** A label that is only one of these words and a number ("Field 1", "Campo 2"); the bare words can be real labels. */
 const NUMBERED_LABELS = new Set(['label', 'field', 'input', 'text field', 'campo', 'rótulo', 'etiqueta'])
-const PLACEHOLDER_LABELS = new Set(['field label', 'input label', 'label text', 'your label', 'label here', 'seu rótulo', 'texto do rótulo'])
+/**
+ * Labels that only a template writes: each tells someone to put a label there ("Label here", "Your label here").
+ * Names a page can mean on purpose are left out, because a field can be about a label: "Your label" filters
+ * findings by the label a reviewer gave them (Rampa Lab), "Field label" and "Label text" name the settings of a form
+ * builder, "Seu rótulo" and "Texto do rótulo" what a print shop prints on a product label.
+ */
+const PLACEHOLDER_LABELS = new Set([
+  'label here', 'your label here', 'field label here', 'label goes here', 'insert label here', 'enter label here',
+  'rótulo aqui', 'seu rótulo aqui', 'insira o rótulo aqui', 'etiqueta aquí', 'tu etiqueta aquí',
+])
 const FIELD_ROLES = new Set(['textbox', 'searchbox', 'combobox', 'listbox', 'spinbutton', 'slider', 'checkbox', 'radio'])
 
 /** "Field 1", "Add Your Heading Text Here", "Lorem ipsum dolor…": text a template ships with. */
