@@ -152,17 +152,14 @@ Suggested alternatives follow the language of the page, and the report follows `
 You need Node.js 22.12+, Chrome or Edge (or `npx playwright-core install chromium`), and a model: [Ollama](https://ollama.com) or LM Studio locally, or a key for any major provider (see [Models](#models)).
 
 ```sh
-git clone https://github.com/guilhermebsantiago/rampa-cli.git
-cd rampa-cli
-pnpm install
-pnpm build
+npm install --global rampa-cli              # or run it once: npx rampa-cli check <url>
 
 ollama pull gemma4:12b                       # local, free, and it has vision
-node dist/cli.mjs doctor                     # checks Node, browser, axe-core, models and keys
-node dist/cli.mjs check examples/store/before.html
+rampa doctor                                 # checks Node, browser, axe-core, models and keys
+rampa check https://example.com
 ```
 
-`pnpm link --global` puts `rampa` on your path. Rampa is not on npm yet; once it is, `pnpm dlx rampa-cli check <url>` will be enough.
+The package is [`rampa-cli`](https://www.npmjs.com/package/rampa-cli) on npm (the name `rampa` alone is too close to `ramda` for npm); the command it installs is `rampa`. To work on Rampa itself, clone this repository, then `pnpm install`, `pnpm build` and `node dist/cli.mjs check examples/store/before.html`.
 
 ## Usage
 
@@ -263,7 +260,7 @@ API keys never go in this file: use environment variables or a local `.env`. `ra
 
 | Where | How | Guide |
 | --- | --- | --- |
-| GitHub Actions | `uses: guilhermebsantiago/rampa-cli@main`, or a commit SHA, since `main` moves and there is no release tag yet: SARIF to code scanning and one sticky pull request comment, with each finding's patch | [docs/github-action.md](docs/github-action.md) |
+| GitHub Actions | `uses: guilhermebsantiago/rampa-cli@v0.1.0` (a release tag; `@main` moves with every merge): SARIF to code scanning and one sticky pull request comment, with each finding's patch | [docs/github-action.md](docs/github-action.md) |
 | Reports | SARIF, Markdown for pull requests, a single-file HTML report, JSON; `file:line` for local pages | [docs/output-formats.md](docs/output-formats.md) |
 | Pre-commit | the pre-commit framework, Husky, lint-staged or Lefthook, on staged `.html` files | [docs/pre-commit.md](docs/pre-commit.md) |
 | Playwright tests | `import { checkPage } from 'rampa-cli/playwright'` and `await expect(page).toPassRampa()`, scoped to a component if you like | [docs/playwright.md](docs/playwright.md) |
@@ -436,7 +433,7 @@ The [W3C ACT test cases](https://www.w3.org/WAI/standards-guidelines/act/rules/)
 - [x] `rampa eval` with ACT test cases, corrupted pairs and the verification ablation
 - [x] Local models and the major providers: OpenAI, Anthropic, Google, Azure, Bedrock, Vertex, Mistral, xAI, Groq, DeepSeek, Together, Fireworks, Cerebras, OpenRouter, Vercel AI Gateway
 - [ ] The evaluation table for each provider's recommended model
-- [ ] Publish on npm: `pnpm dlx rampa-cli`
+- [x] Publish on npm: [`rampa-cli`](https://www.npmjs.com/package/rampa-cli)
 - [x] MCP server, so coding agents can call `rampa check`
 - [x] WCAG 2.4.4 with the destination page fetched, so a link can be compared with where it really goes
 - [x] WCAG 1.3.5 identify input purpose, 3.3.2 labels or instructions, and 1.4.5 images of text on request

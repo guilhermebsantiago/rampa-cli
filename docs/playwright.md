@@ -17,12 +17,10 @@
 
 ## Setup
 
-Rampa needs Node.js 22.12 or newer. It is not on npm yet; until it is, build a package and add it to your project:
+Rampa needs Node.js 22.12 or newer:
 
 ```sh
-git clone https://github.com/guilhermebsantiago/rampa-cli.git
-cd rampa-cli && pnpm install && pnpm build && pnpm pack    # writes rampa-0.0.0.tgz
-cd ../your-project && pnpm add -D ../rampa-cli/rampa-0.0.0.tgz
+npm install --save-dev rampa-cli    # or: pnpm add -D rampa-cli
 ```
 
 `@playwright/test` is an optional peer dependency (1.40 or newer). Rampa never imports it and accepts a page from any Playwright version, so it does not pin yours.

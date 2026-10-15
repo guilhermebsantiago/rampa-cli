@@ -21,16 +21,7 @@ You need what `rampa check` needs:
 
 `rampa doctor` checks all three, and `rampa models` shows which model Rampa would pick.
 
-**Rampa is not on npm yet.** The snippets below use `npx -y rampa-cli mcp`, which works once it is published. Until then, build a clone and point your client at it:
-
-```sh
-git clone https://github.com/guilhermebsantiago/rampa-cli.git
-cd rampa-cli
-pnpm install
-pnpm build
-```
-
-Then, in every snippet, replace the command `npx` with `node` and the arguments `-y rampa mcp` with the absolute path of `dist/cli.mjs` followed by `mcp`:
+The snippets below run `npx -y rampa-cli mcp`, which downloads Rampa from npm the first time. To run a clone instead (to try a change), build it with `pnpm install` and `pnpm build`, then in every snippet replace the command `npx` with `node` and the arguments `-y rampa-cli mcp` with the absolute path of `dist/cli.mjs` followed by `mcp`:
 
 ```json
 "command": "node",

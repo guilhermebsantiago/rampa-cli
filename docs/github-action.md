@@ -2,9 +2,9 @@
 
 The action runs `rampa check` in a workflow, uploads the SARIF report to code scanning, and keeps one comment on the pull request with the Markdown report, edited on every push. The job fails according to `fail-on`.
 
-Rampa is not on npm yet, so the action builds the CLI from its own checkout: it sets up Node.js, then installs from the lockfile and builds with pnpm through corepack. That adds an install and a build to the job.
+The action builds the CLI from its own checkout, so the version that runs is the one the action's ref names: it sets up Node.js, then installs from the lockfile and builds with pnpm through corepack. That adds an install and a build to the job.
 
-**Pin a commit.** The examples below use `guilhermebsantiago/rampa-cli@main`, which moves with every change merged into Rampa, so the same workflow can check differently from one run to the next. There is no version tag yet; one will come with the npm release. Until then, for a stable job, pin the full commit SHA you tried, such as `uses: guilhermebsantiago/rampa-cli@<40-character SHA>`, and move it when you choose to.
+**Pin a version.** The examples below use `guilhermebsantiago/rampa-cli@v0.1.0`, the release published to npm as `rampa-cli` 0.1.0. `@main` moves with every change merged into Rampa, so the same workflow could check differently from one run to the next. For the strictest pin, use the full commit SHA the tag points to, such as `uses: guilhermebsantiago/rampa-cli@<40-character SHA>`, and move it when you choose to.
 
 ## A complete workflow
 
@@ -42,8 +42,7 @@ jobs:
 
       - name: Check accessibility
         id: rampa
-        # main moves with every merge and there is no version tag yet: pin a commit SHA once you have tried it.
-        uses: guilhermebsantiago/rampa-cli@main
+        uses: guilhermebsantiago/rampa-cli@v0.1.0
         with:
           targets: site/
           fail-on: AA
@@ -75,7 +74,7 @@ A full check reads each page for several seconds before any model call (pixel co
       # ...
 
       - name: Check accessibility
-        uses: guilhermebsantiago/rampa-cli@main
+        uses: guilhermebsantiago/rampa-cli@v0.1.0
         with:
           targets: site/
           fail-on: AA

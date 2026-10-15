@@ -2,7 +2,7 @@
 
 Everything `rampa check` does is available from code: `import { check } from 'rampa-cli'` takes the same targets and options and returns the same reports. For tests that already open a page, use [`rampa-cli/playwright`](playwright.md) or `rampa-cli/puppeteer` instead; for Storybook, see [docs/storybook.md](storybook.md).
 
-The package is ESM. It also loads with `require()` from CommonJS, on Node.js 22.12 or newer. Rampa is not on npm yet: [docs/playwright.md](playwright.md#setup) shows how to add it to a project from a clone.
+The package is ESM. It also loads with `require()` from CommonJS, on Node.js 22.12 or newer. Install it with `npm install --save-dev rampa-cli` (or `pnpm add -D rampa-cli`).
 
 ## check
 

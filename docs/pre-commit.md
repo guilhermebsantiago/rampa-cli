@@ -35,12 +35,10 @@ pre-commit sets aside the changes you did not stage, so the hook checks the file
 
 ## Without pre-commit
 
-The other hook managers run a command you choose, so `rampa` has to be on the path. Rampa is not on npm yet; until it is, build it once from a checkout and link it:
+The other hook managers run a command you choose, so `rampa` has to be on the path:
 
 ```sh
-git clone https://github.com/guilhermebsantiago/rampa-cli
-cd rampa-cli
-pnpm install && pnpm build && pnpm link --global
+npm install --global rampa-cli    # or as a dev dependency: npm install --save-dev rampa-cli, then npx rampa
 ```
 
 ### Husky
