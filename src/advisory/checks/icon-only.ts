@@ -58,7 +58,7 @@ export function controlName(node: A11yNode, fact?: IconControlFacts): string {
 /** A name as people would read it: icon-font glyphs (private use characters) and extra spaces taken out. */
 export function cleanName(name: string): string {
   return name
-    .replace(/[-\u{F0000}-\u{FFFFD}\u{100000}-\u{10FFFD}]/gu, ' ')
+    .replace(/[\uE000-\uF8FF\u{F0000}-\u{FFFFD}\u{100000}-\u{10FFFD}]/gu, ' ')
     .replace(/\s+/g, ' ')
     .trim()
 }

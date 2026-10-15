@@ -103,7 +103,7 @@ The facts stay within the collector's 5,000-element cap: they are read only for 
 | pt.wikipedia.org/wiki/Brasil | 5,000 (the cap) | 81 to 85 ms | 1.31 to 1.41 s | 41 KB on 2.37 MB (88 blocks, 8 controls) |
 | `test/fixtures/coga/presentation.html` | 37 | 14 to 19 ms | 0.3 s | 4 KB |
 
-On four other real pages (gov.br, GOV.UK, BBC, UFC), it took 11 to 71 ms.
+On five other real pages (gov.br, GOV.UK, BBC, g1 and UFC), it took 11 to 89 ms.
 
 ### `coga/line-length`
 

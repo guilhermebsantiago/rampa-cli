@@ -3,7 +3,6 @@ import type { AdvisoryCheck, AdvisoryHit, CheckRun } from '../check.ts'
 import { cogaBasis } from '../coga.ts'
 import { gaiaBasis, gaiaReference, webaimBasis, webaimReference } from '../guides.ts'
 import { am, amPlural } from '../messages.ts'
-import type { Page } from '../page.ts'
 import {
   type Block,
   MAX_GROUPS,
@@ -471,10 +470,4 @@ export const decorativeFont: AdvisoryCheck = {
     }
     return { ran: true, candidates: candidates.length, hits, notes }
   },
-}
-
-/** The checks' page, for tests: the blocks they read. */
-export function readBlocks(page: Page): Block[] {
-  const facts = presentationOf(page)
-  return facts ? blocksOf(page, facts) : []
 }

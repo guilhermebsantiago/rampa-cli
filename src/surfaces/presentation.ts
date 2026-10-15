@@ -113,7 +113,7 @@ export function presentationInPage(limits: PresentationLimits): InPagePresentati
   const OUTSIDE =
     'nav, header, footer, aside, [role="navigation"], [role="banner"], [role="contentinfo"], [role="complementary"], [role="menu"], [role="menubar"], [role="toolbar"], [role="tablist"], a, button, [role="button"], [role="link"], label, legend, summary, select, option, textarea, pre, code, kbd, samp, svg, math, h1, h2, h3, h4, h5, h6, [role="heading"], [contenteditable=""], [contenteditable="true"]'
   const MAINS = 'main, [role="main"], article'
-  const PUA = /^[\s-\u{F0000}-\u{FFFFD}\u{100000}-\u{10FFFD}]+$/u
+  const PUA = /^[\s\uE000-\uF8FF\u{F0000}-\u{FFFFD}\u{100000}-\u{10FFFD}]+$/u
   const SMALL_CAPS = new Set(['small-caps', 'all-small-caps', 'petite-caps', 'all-petite-caps', 'unicase', 'titling-caps'])
   const MIN_WORDS = 6
   const LONG_WORDS = 25
@@ -224,7 +224,7 @@ export function presentationInPage(limits: PresentationLimits): InPagePresentati
   const LETTER = /\p{L}/gu
   const UPPER = /\p{Lu}/gu
   const LOWER = /\p{Ll}/gu
-  const RTL = /[֐-ࣿיִ-﷿ﹰ-﻿]/gu
+  const RTL = /[\u0590-\u08FF\uFB1D-\uFDFF\uFE70-\uFEFF]/gu
   const CJK = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/gu
   const count = (text: string, pattern: RegExp): number => text.match(pattern)?.length ?? 0
 
