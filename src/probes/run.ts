@@ -2,6 +2,7 @@ import type { Browser } from 'playwright-core'
 import { RampaError, errorMessage } from '../core/util.ts'
 import type { ProbeRecord } from '../snapshot/schema.ts'
 import { authProbe } from './auth.ts'
+import { cognitiveProbe } from './cognitive.ts'
 import { colorProbe } from './color.ts'
 import { flashProbe } from './flash.ts'
 import { focusOrderProbe } from './focus-order.ts'
@@ -45,17 +46,20 @@ export const DETERMINISM_ARGS = ['--force-color-profile=srgb', '--disable-lcd-te
  */
 export const AUTOPLAY_ARGS = ['--autoplay-policy=no-user-gesture-required']
 
-/** The switches a browser for these probes starts with: none without probes. */
+/**
+ * The switches a browser for these probes starts with: none without probes. The cognitive observation needs none: it
+ * compares no pixels, and it must see the browser's own autoplay policy, which a visitor's browser applies.
+ */
 export function probeLaunchArgs(kinds: readonly ProbeKind[] | undefined): string[] {
-  if (!kinds || kinds.length === 0) return []
+  if (!kinds || kinds.every((kind) => kind === 'cognitive')) return []
   return kinds.includes('media') ? [...DETERMINISM_ARGS, ...AUTOPLAY_ARGS] : [...DETERMINISM_ARGS]
 }
 
 /**
- * `--probe layout,keyboard,hover,orientation,shortcuts,media,color,states,variants,auth,flash,links,input,toggles,status,motion,form,pointer,parity,focus-order,gestures`,
+ * `--probe layout,keyboard,hover,orientation,shortcuts,media,color,states,variants,auth,flash,links,input,toggles,status,motion,form,pointer,parity,focus-order,gestures,cognitive`,
  * `all` (every kind but the opt-in ones: variants, auth, flash, links, input, toggles, status, motion, form, pointer,
- * parity, focus-order, gestures), `interact` (the activate class: shortcuts, links, input, toggles, status, form, pointer,
- * parity, focus-order, gestures) or `none`.
+ * parity, focus-order, gestures, cognitive), `interact` (the activate class: shortcuts, links, input, toggles, status,
+ * form, pointer, parity, focus-order, gestures) or `none`.
  */
 export function parseProbeKinds(raw: string | undefined): ProbeKind[] {
   if (!raw) return []
@@ -78,7 +82,7 @@ export type ProbeStep = (browser: Browser, url: string, options: ProbeOptions) =
 
 /** Runs each requested kind in turn; a probe that fails is recorded as skipped and never fails the check. */
 export async function runProbes(browser: Browser, url: string, options: ProbeOptions): Promise<ProbeRecord[]> {
-  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe, shortcuts: shortcutsProbe, media: mediaProbe, color: colorProbe, states: statesProbe, variants: variantsProbe, auth: authProbe, flash: flashProbe, links: linksProbe, input: inputProbe, toggles: togglesProbe, status: statusProbe, motion: motionProbe, form: formAndSubmitProbes, pointer: pointerProbe, parity: parityProbe, 'focus-order': focusOrderProbe, gestures: gesturesProbe }
+  const steps: Partial<Record<ProbeKind, ProbeStep>> = { layout: layoutProbes, keyboard: keyboardProbe, hover: hoverProbe, orientation: orientationProbe, shortcuts: shortcutsProbe, media: mediaProbe, color: colorProbe, states: statesProbe, variants: variantsProbe, auth: authProbe, flash: flashProbe, links: linksProbe, input: inputProbe, toggles: togglesProbe, status: statusProbe, motion: motionProbe, form: formAndSubmitProbes, pointer: pointerProbe, parity: parityProbe, 'focus-order': focusOrderProbe, gestures: gesturesProbe, cognitive: cognitiveProbe }
   const records: ProbeRecord[] = []
   for (const kind of options.kinds) {
     const started = Date.now()

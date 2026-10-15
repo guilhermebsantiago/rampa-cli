@@ -8,6 +8,7 @@ import { loadRecorded, resolveTargets } from '../surfaces/targets.ts'
 import { type ProbeKind, probeLaunchArgs } from '../probes/run.ts'
 import { type Collected, collectWeb, launchBrowser } from '../surfaces/web.ts'
 import { fastCollectOptions } from '../core/fast.ts'
+import { observationWindow } from '../advisory/observed.ts'
 import { type RampaOptions, deadlineOf, fastFor, judge, resolveSettings } from './options.ts'
 
 export interface CheckTargetsOptions extends RampaOptions {
@@ -32,6 +33,9 @@ export async function check(targets: string | readonly string[], options: CheckT
   const root = (await repositoryRoot()) ?? process.cwd()
   let browser = options.browser
   let launched: Browser | undefined
+  // The cognitive profile watches each web page it loads (advisory/observed.ts), as rampa check does.
+  const observeMs = observationWindow(settings.profiles, settings.coga, Boolean(settings.fastCollection))
+  const probes: readonly ProbeKind[] | undefined = observeMs ? [...(options.probes ?? []).filter((kind) => kind !== 'cognitive'), 'cognitive'] : options.probes
   try {
     for (const target of resolved) {
       const deadline = deadlineOf(settings)
@@ -47,7 +51,8 @@ export async function check(targets: string | readonly string[], options: CheckT
           locale: settings.locale,
           screenshotDir: options.screenshotDir,
           captureImages: settings.captureImages,
-          probes: options.probes,
+          probes,
+          ...(observeMs ? { observeMs } : {}),
           wcag: settings.wcag,
         })
       } else if (target.kind === 'snapshot') {

@@ -1,11 +1,11 @@
-import type { Browser, BrowserContext, BrowserContextOptions, Page, Request } from 'playwright-core'
+import type { Browser, BrowserContext, BrowserContextOptions, CDPSession, Page, Request } from 'playwright-core'
 import { RampaError } from '../core/util.ts'
 import type { ProbeRecord } from '../snapshot/schema.ts'
 import { type BrowserOptions, contextOptions, openPage, prepareContext } from '../surfaces/browser-options.ts'
 import { type Guard, installGuard } from './guard.ts'
 import { installHooks, installKit, settleInPage } from './kit.ts'
 
-export const PROBE_KINDS = ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status', 'motion', 'form', 'pointer', 'parity', 'focus-order', 'gestures'] as const
+export const PROBE_KINDS = ['layout', 'keyboard', 'hover', 'orientation', 'shortcuts', 'media', 'color', 'states', 'variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status', 'motion', 'form', 'pointer', 'parity', 'focus-order', 'gestures', 'cognitive'] as const
 export type ProbeKind = (typeof PROBE_KINDS)[number]
 /**
  * Kinds that run only when named: `--probe all` leaves them out. The authentication probe types into the password
@@ -15,8 +15,10 @@ export type ProbeKind = (typeof PROBE_KINDS)[number]
  * change settings, type into fields, drag, swipe, pinch or move the device, which the plan keeps opt-in (wcag-coverage.md, 4.4). The state-variants probe loads other pages over the network
  * (the page's versions in other languages), which a catch-all should not do either. The motion probe (2.2.2, 2.2.1)
  * moves the page's time for minutes, up to 20 hours, and presses controls named to pause, stop or hide what moves.
+ * The cognitive observation (cognitive.ts) feeds only the advisories of `--profile cognitive`, which turns it on by
+ * itself: a WCAG run has no use for its facts.
  */
-export const OPT_IN_KINDS: readonly ProbeKind[] = ['variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status', 'motion', 'form', 'pointer', 'parity', 'focus-order', 'gestures']
+export const OPT_IN_KINDS: readonly ProbeKind[] = ['variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status', 'motion', 'form', 'pointer', 'parity', 'focus-order', 'gestures', 'cognitive']
 /**
  * `--probe interact`: the plan's name for the activate class, every probe that presses, clicks, changes a setting,
  * types into a field, drags, swipes, pinches or moves the device (wcag-coverage.md, 4.4). The shortcuts probe is one of them, and stays in `all` as it
@@ -39,6 +41,11 @@ export interface ProbeOptions {
   allowSubmit?: readonly string[] | undefined
   /** `--submit-dry-run`: the form probe lists what it would submit, and submits nothing. */
   submitDryRun?: boolean | undefined
+  /**
+   * How long the cognitive observation watches each load after its load event, in milliseconds (cognitive.ts): 8 s by
+   * default, 3 s with --fast, or `coga.observe` seconds from the config.
+   */
+  observeMs?: number | undefined
 }
 
 /** One loaded probe page, behind its guard, with the kit installed. */
@@ -126,6 +133,12 @@ export interface ProbePageOptions {
    * opens around the press (guard.ts). Such a page also blocks every other origin once it has loaded.
    */
   allowSubmit?: readonly string[] | undefined
+  /**
+   * Gives the page no user activation: the kit is installed over the DevTools protocol (`quietEvaluate`) instead of
+   * Playwright's evaluate, which runs every call as a user gesture, and the page is not waited on to settle. For the
+   * cognitive observation, which must see what a page does before anyone touches it (a permission prompt, sound).
+   */
+  quiet?: boolean | undefined
 }
 
 export async function openProbePage(browser: Browser, url: string, options: ProbeOptions, page: ProbePageOptions = {}): Promise<ProbePage> {
@@ -167,8 +180,9 @@ export async function openProbePage(browser: Browser, url: string, options: Prob
       if (!answered || !(await within(opened.evaluate(installKit).then(() => true), 5000, false))) {
         throw new RampaError('probe-page-busy', 'the page did not land: it kept navigating or computing for 15 s after it loaded')
       }
-    } else await opened.evaluate(installKit)
-    await opened.evaluate(settleInPage, { quietMs: 300, capMs: 3000 })
+    } else if (page.quiet) await quietEvaluate(opened, installKit)
+    else await opened.evaluate(installKit)
+    if (!page.quiet) await opened.evaluate(settleInPage, { quietMs: 300, capMs: 3000 })
     const viewport = settings.viewport ?? { width: 1280, height: 800 }
     return {
       page: opened,
@@ -188,6 +202,30 @@ export async function openProbePage(browser: Browser, url: string, options: Prob
     await context.close().catch(() => undefined)
     throw error
   }
+}
+
+const sessions = new WeakMap<Page, Promise<CDPSession>>()
+
+/**
+ * Runs `fn(arg)` in the page's main world over the DevTools protocol (Runtime.evaluate), as no person's gesture.
+ * Playwright's own evaluate runs every call with `userGesture: true`, which gives the page user activation: from then
+ * on `navigator.userActivation.hasBeenActive` is true, and the browser lets the page play sound or ask for permissions
+ * as if someone had clicked. `fn` must be self-contained, as for page.evaluate, and `arg` and the result must be JSON.
+ */
+export async function quietEvaluate<A, R>(page: Page, fn: (arg: A) => R | Promise<R>, arg?: A): Promise<R> {
+  let session = sessions.get(page)
+  if (!session) {
+    session = page.context().newCDPSession(page)
+    sessions.set(page, session)
+  }
+  const cdp = await session
+  const expression = `(${fn.toString()})(${arg === undefined ? '' : JSON.stringify(arg)})`
+  const answer = (await cdp.send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true, userGesture: false })) as {
+    result?: { value?: unknown }
+    exceptionDetails?: { text?: string; exception?: { description?: string } }
+  }
+  if (answer.exceptionDetails) throw new Error(answer.exceptionDetails.exception?.description?.split('\n')[0] ?? answer.exceptionDetails.text ?? 'evaluation threw')
+  return answer.result?.value as R
 }
 
 /** A probe that could not run still leaves a record, so the report can say what was not checked and why. */
