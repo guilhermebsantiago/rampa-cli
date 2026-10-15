@@ -9,9 +9,13 @@ import type { AdvisoryCheck, AdvisoryContext, AdvisoryHit, CogaSettings } from '
 import { abbreviations } from './checks/abbreviations.ts'
 import { iconOnlyControl } from './checks/icon-only.ts'
 import { inputFormats } from './checks/input-formats.ts'
+import { interruptions } from './checks/interruptions.ts'
+import { layoutShift } from './checks/layout-shift.ts'
 import { decorativeFont, lineHeight, lineLength, textAlignment, textEmphasis } from './checks/legibility.ts'
 import { newWindow } from './checks/new-window.ts'
+import { pasteBlocked } from './checks/paste-blocked.ts'
 import { preselectedCost } from './checks/preselected-cost.ts'
+import { reducedMotion } from './checks/reduced-motion.ts'
 import { visibleLabels } from './checks/visible-labels.ts'
 import { COGA_PATTERNS } from './coga.ts'
 import { advisoryLabel } from './label.ts'
@@ -26,9 +30,10 @@ import { type Advisory, type AdvisoryCheckSummary, type AdvisorySection, IMPACT_
  */
 
 /**
- * The checks, in the order reports list them within one impact: the wave-1 form and word checks, then how text and
+ * The checks, in the order reports list them within one impact: the wave-1 checks on the snapshot; then how text and
  * controls are presented (legibility, icon-only controls, links that open a new window), which read the facts the
- * collector measures with --profile cognitive (snapshot.presentation).
+ * collector measures with --profile cognitive (snapshot.presentation); then those that read the observation of the
+ * live page (`observes`, probes/cognitive.ts).
  */
 export const COGNITIVE_CHECKS: readonly AdvisoryCheck[] = [
   inputFormats,
@@ -42,6 +47,10 @@ export const COGNITIVE_CHECKS: readonly AdvisoryCheck[] = [
   lineHeight,
   textEmphasis,
   decorativeFont,
+  pasteBlocked,
+  interruptions,
+  reducedMotion,
+  layoutShift,
 ]
 
 /** The checks that measure what WCAG 1.4.8 Visual Presentation (AAA) asks a mechanism for: width, justification, line spacing. */

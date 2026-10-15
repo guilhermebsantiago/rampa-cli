@@ -48,6 +48,8 @@ export interface WebCollectOptions {
   inspect?: ((page: Page, response: Response | null) => Promise<void>) | undefined
   /** Probes to run after collection, each on its own fresh page behind the network guard (docs/probes.md). */
   probes?: readonly ProbeKind[] | undefined
+  /** How long the cognitive observation (probe `cognitive`, which --profile cognitive adds) watches the page, in milliseconds. */
+  observeMs?: number | undefined
   /**
    * The form probe's submissions (`--allow-submit`, `--submit-dry-run`; docs/probes.md, "Submitting forms"): the exact
    * origins where it may submit forms, or a dry run that lists what it would submit. Nothing is submitted without it.
@@ -260,6 +262,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
         timeoutMs: options.timeoutMs,
         ...(options.submit && options.submit.allowed.length > 0 ? { allowSubmit: options.submit.allowed } : {}),
         ...(options.submit?.dryRun ? { submitDryRun: true } : {}),
+        ...(options.observeMs ? { observeMs: options.observeMs } : {}),
       }
       // One kind at a time, in order, as runProbes runs them, so each kind's time is its own.
       const probes: ProbeRecord[] = []

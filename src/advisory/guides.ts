@@ -30,6 +30,7 @@ export const GAIA: Readonly<Record<string, GaiaRecommendation>> = {
   G03: { id: 'G03', title: { en: 'Legibility', 'pt-BR': 'Legibilidade' }, url: 'https://gaia.wiki.br/vocabulario-visual-e-textual/legibilidade' },
   G09: { id: 'G09', title: { en: 'Eliminate distractions', 'pt-BR': 'Eliminar distrações' }, url: 'https://gaia.wiki.br/engajamento/eliminar-distracoes' },
   G14: { id: 'G14', title: { en: 'Text equivalents', 'pt-BR': 'Equivalentes textuais' }, url: 'https://gaia.wiki.br/representacoes-redundantes/equivalentes-textuais' },
+  G18: { id: 'G18', title: { en: 'Avoid disturbing sounds', 'pt-BR': 'Evite sons perturbadores' }, url: 'https://gaia.wiki.br/multimidia/evite-sons-perturbadores' },
   // GAIA publishes G22 at its principle's address.
   G22: { id: 'G22', title: { en: 'Consistency', 'pt-BR': 'Consistência' }, url: 'https://gaia.wiki.br/reconhecimento-e-previsibilidade/' },
 }
@@ -58,11 +59,11 @@ export function webaimBasis(id: string, quote: string): Basis {
 /** A GAIA recommendation cited next to a COGA pattern. */
 export function gaiaReference(id: string): Reference {
   const recommendation = gaia(id)
-  return { kind: 'guideline', label: `GAIA ${id} ${recommendation.title['pt-BR']}`, url: recommendation.url }
+  return { kind: 'guide', label: `GAIA ${id} ${recommendation.title['pt-BR']}`, url: recommendation.url }
 }
 
 export function webaimReference(section: string): Reference {
-  return { kind: 'guideline', label: `WebAIM, Evaluating Cognitive Web Accessibility: ${section}`, url: WEBAIM_URL }
+  return { kind: 'guide', label: `WebAIM, Evaluating Cognitive Web Accessibility: ${section}`, url: WEBAIM_URL }
 }
 
 /** WCAG technique G201, Giving users advanced warning when opening a new window: advisory for 2.4.4, 2.4.6, 2.4.9 and 3.2.5. */

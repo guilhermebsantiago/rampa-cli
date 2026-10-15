@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A message that floats in</title>
+<style>
+  body { font-family: sans-serif; margin: 0; padding: 16px; }
+  main { max-width: 900px; }
+  .toast { position: fixed; right: 16px; bottom: 16px; width: 300px; background: #333; color: #fff; padding: 12px; display: none; }
+</style>
+</head>
+<body>
+<main>
+<h1>A message that floats in</h1>
+<p>Our office answers questions about your application. Read the steps below before you start, and keep your documents at hand.</p>
+<div id="toast" class="toast" role="status"></div>
+<p>More text about the service, with a <a href="#help">link to help</a> and a <button type="button">Next step</button> button.</p>
+</main>
+<script>
+  addEventListener('load', () => setTimeout(() => {
+    const toast = document.getElementById('toast')
+    toast.textContent = 'Maria from Recife just booked an appointment.'
+    toast.style.display = 'block'
+  }, 700))
+</script>
+</body>
+</html>

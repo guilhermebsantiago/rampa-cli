@@ -1,6 +1,6 @@
 # Rampa cognitive accessibility profile (`--profile cognitive`): design plan
 
-Date: 2026-10-09. Status (2026-10-15): wave 1 is built (merged on 2026-10-09), and all four of its checks are experimental: none has passed the gate in §4.2, because the evaluation tooling (WI-10) is not built. Of waves 2 and 3, only the WCAG halves shared with the [coverage plan](wcag-coverage.md) are built; no COGA check of those waves is. Where the code differs from the design below, the list that follows says so. Sources and their status are in Appendix B.
+Date: 2026-10-09. Status (2026-10-15): wave 1 is built (merged on 2026-10-09), and all four of its checks are experimental: none has passed the gate in §4.2, because the evaluation tooling (WI-10) is not built. Of waves 2 and 3, the WCAG halves shared with the [coverage plan](wcag-coverage.md) are built, and so are four COGA checks that observe the live page (`coga/reduced-motion`, `coga/interruptions`, `coga/layout-shift`, `coga/paste-blocked`), all experimental. Seven checks of how text and controls are presented are built too, outside the waves and experimental (`coga/line-length`, `coga/text-alignment`, `coga/line-height`, `coga/text-emphasis`, `coga/decorative-font`, `coga/icon-only-control`, `coga/new-window`). Where the code differs from the design below, the list that follows says so. Sources and their status are in Appendix B.
 
 **Built and not built, as of 2026-10-15.** The rest of this plan is the design as written on 2026-10-09.
 
@@ -22,6 +22,12 @@ Date: 2026-10-09. Status (2026-10-15): wave 1 is built (merged on 2026-10-09), a
     - the GitHub Action `profile` input. `args: --profile cognitive`, or `profiles` in `rampa.config.*`, turn the profile on in the Action.
   - The documentation is `docs/cognitive-profile.md`, not `docs/cognitive.md`.
 - **Collector facts (WI-3): built.**
+- **Checks that observe the live page: built on 2026-10-15, experimental.** A probe kind, `cognitive` (`src/probes/cognitive.ts`), loads the page twice at once, with `prefers-reduced-motion` off and on, watches it with no input for 8 s (3 s with `--fast`, `coga.observe` from the config), then dispatches the clipboard events. `--profile cognitive` turns it on for every web page Rampa loads, and its facts go into the snapshot, so a recording replays offline. Four checks read it, each with fail and pass fixtures:
+  - `coga/reduced-motion` (o8p01; GAIA G09; WCAG 2.3.3 AAA as a beyond-target note);
+  - `coga/interruptions` (o5p01; GAIA G09, G18), which includes WI-19's permission requests on load;
+  - `coga/layout-shift` (o4p01);
+  - `coga/paste-blocked` (o8p02, with o6p01 for password fields), the COGA half of WI-12. It dispatches synthetic events rather than a trusted paste, at medium confidence, and leaves a field with a 3.3.8 finding to that finding.
+  - Not observed: `--crawl` pages, and `checkPage` from the Playwright integration. docs/cognitive-profile.md has the thresholds, the cost and the limits.
 - **The four checks (WI-4, WI-5, WI-6, WI-8): built, experimental.**
   - Each has pass and fail fixtures with JSON sidecars, as §4.3 asks.
   - The curated abbreviation lists are in `src/advisory/abbreviations/lists.ts`, not `data/abbreviations/*.json`.
@@ -45,12 +51,13 @@ Date: 2026-10-09. Status (2026-10-15): wave 1 is built (merged on 2026-10-09), a
   - the annotation export and import.
 - **Wave 2:**
   - WI-11, the probe stage, is built as A6 of the coverage plan (`--probe`, `snapshot.observations`).
-  - WI-12: 3.3.8 is built as B7 (`--probe auth`); `coga/paste-blocked` is not.
+  - WI-12: 3.3.8 is built as B7 (`--probe auth`); `coga/paste-blocked` is built on the cognitive observation, with synthetic clipboard events (above).
   - WI-17: 3.3.1 and 3.3.3 from static error states are built as B8; the `coga/error-wording` advisory is not.
-  - WI-13 to WI-16, WI-18 and WI-19 are not built.
+  - WI-19 is built as part of `coga/interruptions`.
+  - WI-13 to WI-16 and WI-18 are not built.
 - **Wave 3:**
   - The WCAG criteria are built on the coverage plan: 3.2.2, 3.2.6, 3.3.7, and 2.2.1 with a probe.
-  - None of the COGA checks of the 1.4 table is built.
+  - Of the COGA checks of the 1.4 table, `coga/layout-shift` and `coga/interruptions` are built; the others are not.
 
 This plan builds on the COGA research and critique for Objectives 1–8, WCAG 2.2 and plain language. It also draws on the Rampa source as of 2026-10-09 (`main` at 611cb63, before the crawl branch was merged).
 
@@ -741,7 +748,14 @@ As of 2026-10-15, wave 1 and the presentation checks screen 6 patterns in part:
 - o4p08 Accept Different Input Formats (static attributes only; o4p07 for an example the field rejects);
 - o8p04 Support a Personalized and Familiar Interface (decorative fonts in reading text only; presentation checks).
 
-The other 52 are not checked, and they need review and testing with people. The table lists all 58, with what wave 1 screens, what waves 2 and 3 plan (section 1.4), and how each pattern could be checked at all.
+The checks that observe the live page, built on 2026-10-15, screen 4 more in part, when the page was observed:
+
+- o4p01 Ensure Controls and Content Do Not Move Unexpectedly (layout shifts with no input);
+- o5p01 Limit Interruptions (dialogs, layers, messages, alert boxes, windows, permission requests, sound and carousels with no input);
+- o8p01 Let Users Control When the Content Moves or Changes (motion that keeps running with reduced motion on);
+- o8p02 Enable APIs and Extensions (paste, copy, the context menu and text selection).
+
+The other 48 are not checked, and they need review and testing with people. The table lists all 58, with what wave 1 screens, what waves 2 and 3 plan (section 1.4), and how each pattern could be checked at all.
 
 **The checkability column** (added 2026-10-15) rates each pattern as a whole, from the research notes of that date:
 
@@ -780,7 +794,7 @@ The other 52 are not checked, and they need review and testing with people. The 
 | o3p11 | §4.4.11 | Ensure Foreground Content is not Obscured by Background | not checked | not checked, by design | P+D |
 | o3p12 | §4.4.12 | Explain Implied Content | not checked | not checked, by design | J |
 | o3p13 | §4.4.13 | Provide Alternatives for Numerical Concepts | not checked | not checked, by design | D+J |
-| o4p01 | §4.5.1 | Ensure Controls and Content Do Not Move Unexpectedly | not checked | W3 `coga/layout-shift` | P |
+| o4p01 | §4.5.1 | Ensure Controls and Content Do Not Move Unexpectedly | not checked; since 2026-10-15 screened in part: `coga/layout-shift` (observed) | W3 `coga/layout-shift`: built | P |
 | o4p02 | §4.5.2 | Let Users Go Back | not checked | not checked, by design | P |
 | o4p03 | §4.5.3 | Notify Users of Fees and Charges at the Start of a Task | screened in part: `coga/preselected-cost` | — | J/H |
 | o4p04 | §4.5.4 | Design Forms to Prevent Mistakes | not checked | W2 `coga/required-fields` (WI-14) | D+P |
@@ -792,11 +806,11 @@ The other 52 are not checked, and they need review and testing with people. The 
 | o4p10 | §4.5.10 | Provide Feedback | not checked | W3 `coga/feedback` | P |
 | o4p11 | §4.5.11 | Help the user stay safe | not checked | not checked, by design | H |
 | o4p12 | §4.5.12 | Use Familiar Metrics and Units | not checked | not checked, by design | D+J |
-| o5p01 | §4.6.1 | Limit Interruptions | not checked | W2 `coga/permission-on-load` (WI-19); W3 `coga/interruptions` | P |
+| o5p01 | §4.6.1 | Limit Interruptions | not checked; since 2026-10-15 screened in part: `coga/interruptions` (observed) | W2 `coga/permission-on-load` (WI-19) and W3 `coga/interruptions`: built as one check | P |
 | o5p02 | §4.6.2 | Make Short Critical Paths | not checked | not checked, by design | H |
 | o5p03 | §4.6.3 | Avoid Too Much Content | not checked | not checked, by design | D+J |
 | o5p04 | §4.6.4 | Provide Information So a User Can Complete and Prepare for a Task | not checked | not checked, by design | J |
-| o6p01 | §4.7.1 | Provide a Login that Does Not Rely on Memory or Other Cognitive Skills | not checked | W2 `coga/paste-blocked` (WI-12) | D+P |
+| o6p01 | §4.7.1 | Provide a Login that Does Not Rely on Memory or Other Cognitive Skills | not checked (since 2026-10-15, a related basis of `coga/paste-blocked` for password fields) | W2 `coga/paste-blocked` (WI-12): built, under o8p02 | D+P |
 | o6p02 | §4.7.2 | Allow the User a Simple, Single Step, Login | not checked | not checked, by design | P/J |
 | o6p03 | §4.7.3 | Provide a Login Alternative with Less Words | not checked | not checked, by design | J |
 | o6p04 | §4.7.4 | Let Users Avoid Navigating Voice Menus | not checked | not checked, by design | H |
@@ -808,8 +822,8 @@ The other 52 are not checked, and they need review and testing with people. The 
 | o7p05 | §4.8.5 | Make It Easy to Find Help and Give Feedback | not checked | W3 `coga/help-reachable` | D |
 | o7p06 | §4.8.6 | Provide Help with Directions | not checked | not checked, by design | H |
 | o7p07 | §4.8.7 | Provide Reminders | not checked | W2 `coga/permission-on-load` (WI-19) | H |
-| o8p01 | §4.9.1 | Let Users Control When the Content Moves or Changes | not checked | not checked, by design | P |
-| o8p02 | §4.9.2 | Enable APIs and Extensions | not checked | W2 `coga/paste-blocked` (WI-12) | D+P |
+| o8p01 | §4.9.1 | Let Users Control When the Content Moves or Changes | not checked; since 2026-10-15 screened in part: `coga/reduced-motion` (observed) | `coga/reduced-motion`, motion under `prefers-reduced-motion: reduce`: built | P |
+| o8p02 | §4.9.2 | Enable APIs and Extensions | not checked; since 2026-10-15 screened in part: `coga/paste-blocked` (observed) | W2 `coga/paste-blocked` (WI-12): built | D+P |
 | o8p03 | §4.9.3 | Support Simplification | not checked | not checked, by design | H |
 | o8p04 | §4.9.4 | Support a Personalized and Familiar Interface | screened in part: `coga/decorative-font` (2026-10-15) | — | D+P |
 
@@ -830,7 +844,7 @@ The other 52 are not checked, and they need review and testing with people. The 
 
 o4p07 and o7p03 appear in wave 1 only as related bases. They stay "not checked" because no sub-check of their own runs.
 
-The patterns marked "not checked, by design" stay so in waves 2 and 3. Some have research ideas in 1.4 and 1.5, and none ships without its own gate. Some of them are rated D or P, such as o8p01 and o3p10: the rating does not change the plan, and a pattern leaves that column only through a check with its own gate.
+The patterns marked "not checked, by design" stay so in waves 2 and 3. Some have research ideas in 1.4 and 1.5, and none ships without its own gate. Some of them are rated D or P, such as o3p10: the rating does not change the plan, and a pattern leaves that column only through a check with its own gate. o8p01 left it on 2026-10-15 with `coga/reduced-motion`, which reads one narrow fact (motion that keeps running when the operating system's reduce-motion setting is on), experimental like every check.
 
 ### GAIA recommendations, rated the same way
 
@@ -886,6 +900,10 @@ Three recommendations match no COGA pattern: G17, G21 and G28. Ten match no WCAG
 - G09 Eliminar distrações: decorative fonts ("fontes fantasia") in reading text only.
 - G14 Equivalentes textuais: controls that show only an icon, whose text equivalent is not on screen.
 - G22 Consistência: links that open a new window with no indication.
+- G09 Eliminar distrações, also: motion that keeps running with reduced motion on (`coga/reduced-motion`) and interruptions with no input (`coga/interruptions`).
+- G18 Evite sons perturbadores: sound that starts on load (`coga/interruptions`).
+
+The observed checks cite G09 and G18 each for the part named in its advisory.
 
 ## Appendix B. Sources checked for this plan
 

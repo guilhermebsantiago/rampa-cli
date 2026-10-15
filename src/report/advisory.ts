@@ -136,7 +136,8 @@ export function advisoryLines(report: Report, verbose: boolean, p: Painter): str
     const room = verbose ? group.advisories.length : Math.max(0, Math.min(PER_GROUP, PER_PAGE - listed))
     for (const advisory of group.advisories.slice(0, room)) {
       listed++
-      lines.push(`    ${p.gray(advisory.ref ?? '')}`)
+      // A page-level advisory (a permission asked on load) has no element to point at.
+      if (advisory.ref) lines.push(`    ${p.gray(advisory.ref)}`)
       lines.push(`    ${advisory.message}`)
       if (advisory.evidence) lines.push(`    ${t(locale, 'evidence')}: ${advisory.evidence}`)
       if (advisory.patch?.before && advisory.patch.after) {

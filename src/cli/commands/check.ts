@@ -2,6 +2,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
 import type { Browser } from 'playwright-core'
 import { prepareAdoption, targetsOrConfig } from '../../adoption/apply.ts'
+import { observationWindow } from '../../advisory/observed.ts'
 import { resolveProfiles } from '../../advisory/profile.ts'
 import { type JudgmentCache, fileCache } from '../../core/cache.ts'
 import { checkSnapshot, loweredCap } from '../../core/check.ts'
@@ -156,6 +157,11 @@ interface CollectContext {
   browserOptions: BrowserOptions | undefined
   /** Probe kinds to run on web pages and Android screens, or to read from an XCUITest export; empty runs none. */
   probes: ProbeKind[]
+  /**
+   * The cognitive profile's observation of the live page, in milliseconds (advisory/observed.ts): web pages Rampa loads
+   * get the `cognitive` probe on top of the others. Undefined without the profile, or with `coga.observe: 0`.
+   */
+  observeMs: number | undefined
   /** --allow-submit and --submit-dry-run, for the form probe on web pages. */
   submit: { allowed: string[]; dryRun: boolean } | undefined
   adb: AdbRunner | undefined
@@ -180,7 +186,8 @@ async function collect(target: Target, ctx: CollectContext, watch: Stopwatch | u
         followLinks: ctx.followLinks,
         browserOptions: ctx.browserOptions,
         wcag: ctx.wcag,
-        probes: ctx.probes,
+        probes: ctx.observeMs ? [...ctx.probes.filter((kind) => kind !== 'cognitive'), 'cognitive'] : ctx.probes,
+        ...(ctx.observeMs ? { observeMs: ctx.observeMs } : {}),
         presentation: ctx.presentation,
         ...(ctx.submit ? { submit: ctx.submit } : {}),
         ...fastCollectOptions(ctx.fast),
@@ -319,6 +326,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     followLinks: follow,
     browserOptions,
     probes,
+    observeMs: observationWindow(profiles, context.config.coga, fast) ?? (probes.includes('cognitive') ? observationWindow(['cognitive'], undefined, fast) : undefined),
     submit,
     adb: options.adb,
     wcag,

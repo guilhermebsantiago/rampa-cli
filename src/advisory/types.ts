@@ -64,8 +64,11 @@ export type Basis =
     }
 
 export interface Reference {
-  /** guideline: GAIA or WebAIM, cited next to a COGA pattern; technique: a WCAG technique, which is never a requirement. */
-  kind: 'law' | 'standard' | 'guideline' | 'technique'
+  /**
+   * guide: a set of recommendations, such as GAIA (Guia de Acessibilidade de Interfaces para Autismo) or WebAIM's
+   * cognitive checklist; technique: a WCAG technique, which is never a requirement.
+   */
+  kind: 'law' | 'standard' | 'guide' | 'technique'
   /** 'Lei 15.263/2025, art. 5º, VIII' */
   label: string
   url: string

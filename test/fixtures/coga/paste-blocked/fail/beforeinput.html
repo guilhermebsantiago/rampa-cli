@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A field that cancels the paste input</title>
+<style>
+  body { font-family: sans-serif; margin: 0; padding: 16px; }
+  main { max-width: 900px; }
+
+</style>
+</head>
+<body>
+<main>
+<h1>A field that cancels the paste input</h1>
+<p>Our office answers questions about your application. Read the steps below before you start, and keep your documents at hand.</p>
+<p><label for="code">Verification code</label> <input id="code" autocomplete="one-time-code" inputmode="numeric"></p>
+<p>More text about the service, with a <a href="#help">link to help</a> and a <button type="button">Next step</button> button.</p>
+</main>
+<script>
+  document.getElementById('code').addEventListener('beforeinput', (event) => {
+    if (event.inputType === 'insertFromPaste') event.preventDefault()
+  })
+</script>
+</body>
+</html>

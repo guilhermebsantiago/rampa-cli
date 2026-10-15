@@ -3,6 +3,7 @@ import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { afterAll, describe, expect, it } from 'vitest'
 import type { CogaSettings } from '../src/advisory/check.ts'
+import { COGNITIVE_CHECKS } from '../src/advisory/profile.ts'
 import type { Advisory } from '../src/advisory/types.ts'
 import type { A11yNode, A11ySnapshot } from '../src/snapshot/schema.ts'
 import { collectInPage } from '../src/surfaces/in-page.ts'
@@ -58,8 +59,10 @@ interface Sidecar {
 
 const ROOT = 'test/fixtures/coga'
 const PRESENTATION_CHECKS = ['line-length', 'text-alignment', 'line-height', 'text-emphasis', 'decorative-font', 'icon-only-control', 'new-window'].map((name) => `coga/${name}`)
+/** Checks that read the observation of the live page: their fixtures run in coga-observe.test.ts, which observes them. */
+const OBSERVED = new Set(COGNITIVE_CHECKS.filter((check) => check.observes).map((check) => check.id))
 const fixtures = readdirSync(ROOT, { withFileTypes: true })
-  .filter((entry) => entry.isDirectory())
+  .filter((entry) => entry.isDirectory() && !OBSERVED.has(`coga/${entry.name}`))
   .flatMap((check) =>
     ['fail', 'pass'].flatMap((kind) => {
       const folder = join(ROOT, check.name, kind)
