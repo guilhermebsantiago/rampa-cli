@@ -16,7 +16,8 @@ export const CONFIDENCE_LEVELS = ['low', 'medium', 'high'] as const satisfies re
  * - any: also the findings below it
  * - A: confirmed findings on Level A criteria
  * - AA: confirmed findings on Level A or AA criteria, what AA conformance needs
- * - advisory: confirmed findings, and also the confirmed advisories of a --profile; no other policy sees advisories
+ * - advisory: confirmed findings, and also the confirmed advisories of a --profile, except a model's suggestions to
+ *   review (Advisory.review), which never fail a run; no other policy sees advisories
  * - none (or never): never on findings
  * Waived findings never count.
  */

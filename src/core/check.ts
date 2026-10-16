@@ -18,7 +18,7 @@ import { criteriaCoverage, engineCoverage, reviewItems, reviewOnlyCriteria, rule
 import { VERSION } from '../version.ts'
 import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria, criteriaFor, successCriterion, wcagTarget } from '../wcag.ts'
 import type { JudgmentCache } from './cache.ts'
-import { type Sample, judgeCandidates } from './judge.ts'
+import { DEFAULT_MAX_CANDIDATES, type Sample, judgeCandidates } from './judge.ts'
 import type { FastCoverage } from './fast.ts'
 import { assertConfidence, meetsThreshold, nothingJudgedNote } from './gate.ts'
 import { judgmentMaturity } from './maturity.ts'
@@ -88,8 +88,8 @@ export interface CheckOptions {
   batch?: boolean | undefined
 }
 
-/** Candidates per criterion and page the model judges at most unless `maxCandidates` says otherwise. */
-export const DEFAULT_MAX_CANDIDATES = 50
+// Candidates per criterion and page the model judges at most unless `maxCandidates` says otherwise (core/judge.ts).
+export { DEFAULT_MAX_CANDIDATES }
 
 /** The cap when it is below the default one (fast mode's coverage line lists it); undefined for the default, a higher cap or none. */
 export function loweredCap(cap: number | undefined): number | undefined {
@@ -485,12 +485,16 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             profiles,
             locale: options.locale,
             findings: [...reported, ...belowThreshold],
+            review,
             llm: options.llm,
             provider: options.provider,
             offline: options.offline,
             cache: options.cache,
             runs: options.runs,
             concurrency: options.concurrency,
+            batch: options.batch,
+            maxCandidates: options.maxCandidates,
+            deadline: options.deadline,
             minConfidence: threshold,
             waivers: options.waivers,
             coga: options.coga,

@@ -471,12 +471,15 @@ function advisoryRuleOf(advisory: Advisory, locale: Locale): Rule {
     helpUri: url,
     defaultConfiguration: { level: 'note' },
     properties: {
-      tags:
-        basis.framework === 'coga'
+      tags: [
+        ...(basis.framework === 'coga'
           ? ['accessibility', 'coga', 'advisory', 'not-wcag']
           : basis.framework === 'guide'
             ? ['accessibility', basis.guide, 'advisory', 'not-wcag']
-            : ['accessibility', 'wcag', `wcag-${basis.level.toLowerCase()}`, 'beyond-target'],
+            : ['accessibility', 'wcag', `wcag-${basis.level.toLowerCase()}`, 'beyond-target']),
+        // A check a model decides: its results are suggestions to review, never part of the gate.
+        ...(advisory.review ? ['model-suggestion'] : []),
+      ],
     },
   }
 }
@@ -506,6 +509,7 @@ function advisoryResultOf(advisory: Advisory, kind: Kind, report: Report, artifa
       impact: advisory.impact,
       findingId: advisory.fingerprint,
       source: advisory.source,
+      ...(advisory.review ? { review: true } : {}),
       confidence: advisory.confidence,
       basis: advisory.basis,
       ...(advisory.model ? { model: advisory.model } : {}),

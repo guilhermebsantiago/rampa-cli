@@ -19,8 +19,8 @@ export type Impact = 'barrier' | 'hurdle' | 'suggestion'
 
 export const IMPACT_RANK: Record<Impact, number> = { barrier: 0, hurdle: 1, suggestion: 2 }
 
-/** The sentence of a COGA pattern a check screens: a Use or Avoid example, What to Do, How it Helps, More Details or Getting Started. */
-export type CogaStatement = 'use' | 'avoid' | 'what-to-do' | 'how-it-helps' | 'more-details' | 'getting-started'
+/** The sentence of a COGA pattern a check screens: its User Need, a Use or Avoid example, What to Do, How it Helps, More Details or Getting Started. */
+export type CogaStatement = 'user-need' | 'use' | 'avoid' | 'what-to-do' | 'how-it-helps' | 'more-details' | 'getting-started'
 
 export type Basis =
   | {
@@ -104,6 +104,13 @@ export interface Advisory {
   impact: Impact
   /** rule: deterministic code decided it. judgment: a model took part, as in a proposed expansion. */
   source: 'rule' | 'judgment'
+  /**
+   * A model's suggestion for a person to review, from a check a model decides (`AdvisoryCheck.review`): an idiom in a
+   * button, a long text with no summary, an error message that does not say how to fix the problem. Its quote is checked
+   * on the page, but the reading is the model's, so it never changes the exit code, not even under --fail-on advisory:
+   * as in the WCAG checks, a model's claim that no fact Rampa checks supports never fails a build.
+   */
+  review?: true | undefined
   ref?: string | undefined
   html?: string | undefined
   message: string
@@ -132,13 +139,19 @@ export interface AdvisoryCheckSummary {
    * marks its advisories.
    */
   maturity: 'stable' | 'experimental'
+  /** A model decides what it reports (AdvisoryCheck.review): its results are suggestions to review, and never change the exit code. */
+  review?: true | undefined
   ran: boolean
   /** Why it did not run, or what it could not cover: 'snapshot truncated', 'no dictionary for fr'. */
   reason?: string | undefined
   candidates: number
   results: number
-  /** The optional model step (abbreviations only): how many proposals were asked for, answered and errored. */
-  model?: { asked: number; answered: number; kept: number; errors: number } | undefined
+  /**
+   * The model's part: for the abbreviations, how many proposals were asked for, answered, kept and errored; for a check
+   * a model decides (`review`), how many texts were asked about, answered, kept as suggestions and errored, with those
+   * the quote check discarded and those left out by the cap or the time limit.
+   */
+  model?: { asked: number; answered: number; kept: number; errors: number; discarded?: number | undefined; notJudged?: number | undefined } | undefined
 }
 
 export type PatternStatus = 'screened' | 'not-run' | 'not-checked'

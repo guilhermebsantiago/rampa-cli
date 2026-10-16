@@ -1,5 +1,5 @@
 import type { JudgmentCache } from '../core/cache.ts'
-import type { Confidence, EngineResults, Finding, Patch, Usage } from '../core/types.ts'
+import type { Confidence, EngineResults, Finding, Patch, ReviewItem, Usage } from '../core/types.ts'
 import type { Locale } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import type { Surface } from '../snapshot/schema.ts'
@@ -14,6 +14,8 @@ export interface AdvisoryHit {
   related?: Related[] | undefined
   impact: Impact
   source: 'rule' | 'judgment'
+  /** A model's suggestion for a person to review (AdvisoryCheck.review): never counted by the exit code. */
+  review?: true | undefined
   ref?: string | undefined
   html?: string | undefined
   message: string
@@ -70,12 +72,20 @@ export interface AdvisoryContext {
   locale: Locale
   /** The run's WCAG findings, to link from an advisory on the same element instead of repeating them. */
   findings: readonly Finding[]
+  /** The run's WCAG items to review: a check a model decides leaves an element alone when one of them already asks the same. */
+  review?: readonly ReviewItem[] | undefined
   llm: boolean
   provider: ModelProvider | undefined
   offline: boolean
   cache: JudgmentCache
   runs: number
   concurrency: number
+  /** Batched judgment (--batch, on with --fast): the checks a model decides ask several texts in one call. */
+  batch?: boolean | undefined
+  /** The most texts one check asks the model about on a page (--max-candidates; 10 with --fast). */
+  maxCandidates?: number | undefined
+  /** When to stop asking the model, in milliseconds since the epoch (--time-limit). */
+  deadline?: number | undefined
   coga: CogaSettings
 }
 
@@ -94,5 +104,10 @@ export interface AdvisoryCheck {
    * alone: without that record it does not run, and says why.
    */
   observes?: boolean | undefined
+  /**
+   * A model decides what it reports, with a quote Rampa checks on the page: it runs only with a model, says why not
+   * otherwise, and its results are suggestions to review that never change the exit code (Advisory.review).
+   */
+  review?: boolean | undefined
   run(context: AdvisoryContext): CheckRun | Promise<CheckRun>
 }

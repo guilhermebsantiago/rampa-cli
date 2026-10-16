@@ -58,6 +58,31 @@ export interface CandidateJudgment<Ctx, Out extends JudgmentBase> {
   verification?: Verification | undefined
 }
 
+/**
+ * Candidates per criterion and page the model judges at most unless `maxCandidates` says otherwise; the checks of the
+ * cognitive profile that a model decides keep to it too (src/advisory/model.ts).
+ */
+export const DEFAULT_MAX_CANDIDATES = 50
+
+/**
+ * What judging needs of a criterion: its question, its answer schema and its verification. A WCAG criterion is one; so
+ * is an advisory check of the cognitive profile that a model decides (src/advisory/model.ts), which has no level.
+ */
+export type Judgment<Ctx, Out extends JudgmentBase> = Pick<
+  Criterion<Ctx, Out>,
+  'id' | 'version' | 'schema' | 'schemaFor' | 'decide' | 'prompt' | 'batch' | 'judgmentKey' | 'settle' | 'verify'
+>
+
+/**
+ * The name of the answer schema sent with the request: `wcag_1_4_5_judgment`, `coga_literal-language_judgment`. Only
+ * letters, digits, `_` and `-`, at most 64 characters, as the OpenAI response format requires. It is not part of the
+ * cache key.
+ */
+export function schemaNameOf(id: string): string {
+  const name = id.startsWith('coga/') ? `coga_${id.slice('coga/'.length)}` : `wcag_${id}`
+  return `${name.replace(/[^A-Za-z0-9_-]/g, '_').slice(0, 64 - '_judgment'.length)}_judgment`
+}
+
 const OFFLINE_MISS = 'offline-miss'
 const TIME_UP = 'time limit reached'
 
@@ -74,13 +99,13 @@ interface Ask<Ctx, Out extends JudgmentBase> {
 }
 
 export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
-  criterion: Criterion<Ctx, Out>,
+  criterion: Judgment<Ctx, Out>,
   snapshot: A11ySnapshot,
   candidates: Candidate<Ctx>[],
   options: JudgeOptions,
 ): Promise<CandidateJudgment<Ctx, Out>[]> {
   const schemaJsons = new Map<z.ZodType<Out>, string>()
-  const schemaName = `wcag_${criterion.id.replaceAll('.', '_')}_judgment`
+  const schemaName = schemaNameOf(criterion.id)
   const asks = candidates.map((candidate): Ask<Ctx, Out> => {
     const schema = criterion.schemaFor?.(candidate) ?? criterion.schema
     let schemaJson = schemaJsons.get(schema)
@@ -103,7 +128,7 @@ export async function judgeCandidates<Ctx, Out extends JudgmentBase>(
 }
 
 /** The samples of one candidate asked on its own: from the cache, a call another candidate has under way, or a call. */
-async function askAlone<Ctx, Out extends JudgmentBase>(criterion: Criterion<Ctx, Out>, ask: Ask<Ctx, Out>, schemaName: string, options: JudgeOptions): Promise<Sample<Out>[]> {
+async function askAlone<Ctx, Out extends JudgmentBase>(criterion: Judgment<Ctx, Out>, ask: Ask<Ctx, Out>, schemaName: string, options: JudgeOptions): Promise<Sample<Out>[]> {
   const { candidate, prompt, schema, schemaJson } = ask
   const samples: Sample<Out>[] = []
   if (!prompt) return samples
@@ -221,7 +246,7 @@ async function askAlone<Ctx, Out extends JudgmentBase>(criterion: Criterion<Ctx,
  * samples of the candidates the batches answered; the rest are asked alone.
  */
 async function judgeInBatches<Ctx, Out extends JudgmentBase>(
-  criterion: Criterion<Ctx, Out>,
+  criterion: Judgment<Ctx, Out>,
   asks: readonly Ask<Ctx, Out>[],
   schemaName: string,
   options: JudgeOptions,
@@ -251,7 +276,7 @@ async function judgeInBatches<Ctx, Out extends JudgmentBase>(
  * answer is not in the cache of an offline run.
  */
 async function askBatch<Ctx, Out extends JudgmentBase>(
-  criterion: Criterion<Ctx, Out>,
+  criterion: Judgment<Ctx, Out>,
   batch: readonly Ask<Ctx, Out>[],
   schemaName: string,
   options: JudgeOptions,
@@ -328,7 +353,7 @@ async function askBatch<Ctx, Out extends JudgmentBase>(
 }
 
 /** The vote over a candidate's samples, then the criterion's verification of the answer that won. */
-function conclude<Ctx, Out extends JudgmentBase>(criterion: Criterion<Ctx, Out>, snapshot: A11ySnapshot, candidate: Candidate<Ctx>, samples: Sample<Out>[]): CandidateJudgment<Ctx, Out> {
+function conclude<Ctx, Out extends JudgmentBase>(criterion: Judgment<Ctx, Out>, snapshot: A11ySnapshot, candidate: Candidate<Ctx>, samples: Sample<Out>[]): CandidateJudgment<Ctx, Out> {
   // A vote the time limit cut short is no vote: the candidate counts as not judged, whatever samples it has.
   if (samples.some((s) => s.error === TIME_UP)) return { candidate, samples, status: 'not-judged', votes: 0, total: 0 }
 
