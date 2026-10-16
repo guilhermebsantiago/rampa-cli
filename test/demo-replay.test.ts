@@ -5,6 +5,7 @@ import { fileCache } from '../src/core/cache.ts'
 import { checkSnapshot } from '../src/core/check.ts'
 import { DEFAULT_CRITERIA, resolveCriteria } from '../src/criteria/index.ts'
 import { emptyEngine } from '../src/engine/axe.ts'
+import { compareRuns, loadRun } from '../src/eval/compare.ts'
 import { providerIdentity } from '../src/providers/ai-sdk.ts'
 import { loadEngineFor, loadSnapshot } from '../src/surfaces/targets.ts'
 
@@ -38,4 +39,19 @@ describe('the recorded demo', () => {
       expect(report.usage.cachedCalls).toBeGreaterThan(0)
     })
   }
+})
+
+// The demo's evaluation step, offline: the eval's pages are W3C's, read in a browser, so the demo cache cannot replay
+// them; the step reads a recorded run with rampa compare instead (demo/README.md).
+describe('the recorded evaluation', () => {
+  it('reads back with rampa compare, with the judgments the model made', async () => {
+    const run = await loadRun(join(dir, 'eval', 'ollama-gemma4-12b'))
+    expect(run.hasSummary).toBe(true)
+    expect(run.summary.model).toBe('ollama:gemma4:12b')
+    const judged = run.records.filter((record) => record.candidates > 0)
+    expect(judged.length).toBeGreaterThan(0)
+    // The model answered: a run replayed from a cache that held none of its prompts shows 0 calls and 0 from the cache.
+    expect(judged.reduce((total, record) => total + record.usage.calls + record.usage.cachedCalls, 0)).toBeGreaterThan(0)
+    expect(compareRuns([run]).criteria.map((c) => c.criterion)).toEqual(['2.4.2', '2.4.4', '2.4.6', '3.1.1', '3.1.2'])
+  })
 })

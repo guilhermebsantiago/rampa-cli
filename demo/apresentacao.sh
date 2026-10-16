@@ -106,14 +106,17 @@ passo "Mesma análise, sem navegador" \
   "rampa check $REC/examples-store-before.snapshot.json $GRAVADO" "rampa check $REC/examples-store-before.snapshot.json $GRAVADO"
 
 if [ "$MODO" = offline ]; then
-  # 1.1.1 judges image crops, which differ from one browser build to another; the text criteria replay anywhere.
-  AVAL="rampa eval --criteria 2.4.2,2.4.4,2.4.6,3.1.1,3.1.2 $GRAVADO"
+  # The demo cache holds the recorded pages' judgments, not the ACT pages': rampa eval loads those from w3.org in a
+  # browser, and their prompts change with each criterion's version and with what the pages link to. Offline, the step
+  # reads a recorded run instead, with no browser, no model and no network. To record it again:
+  #   rampa eval --criteria 2.4.2,2.4.4,2.4.6,3.1.1,3.1.2 --model ollama:gemma4:12b --out-dir demo/recorded/eval
+  AVAL="rampa compare $REC/eval/ollama-gemma4-12b"
+  FALA_AVAL="Casos ACT do W3C para cinco critérios, e pares corrompidos: o axe dá o mesmo veredito ao íntegro e ao corrompido; o Rampa separa. Aqui, uma avaliação gravada com o Gemma 4 12B; ao vivo, precisa de internet."
 else
   AVAL="rampa eval --model $MODELO"
+  FALA_AVAL="Casos ACT do W3C para os critérios julgados, e pares corrompidos: o axe dá o mesmo veredito ao íntegro e ao corrompido; o Rampa separa. Precisa de internet."
 fi
-passo "Avaliação contra o gabarito do W3C" \
-  "Casos ACT do W3C para os seis critérios, e pares corrompidos: o axe dá o mesmo veredito ao íntegro e ao corrompido; o Rampa separa. Precisa de internet." \
-  "rampa eval" "$AVAL"
+passo "Avaliação contra o gabarito do W3C" "$FALA_AVAL" "rampa eval" "$AVAL"
 
 passo "A verificação, provada por teste" \
   "Uma alegação com trecho inventado nunca chega ao relatório. Os testes mostram cada forma de rejeição." \
