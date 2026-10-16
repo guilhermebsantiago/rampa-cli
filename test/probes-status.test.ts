@@ -166,7 +166,8 @@ describe('4.1.3 over recorded messages', () => {
     const [candidate] = statusMessages.candidates(snapshot, { engine: { name: 'none', version: '0' }, rules: [] })
     if (!candidate) throw new Error('no candidate')
     expect(statusMessages.prompt(candidate, snapshot).system).toMatch(/- "pass": .*Copy the text that appeared, all of it, exactly as it is, into evidence/)
-    const schema = z.toJSONSchema(StatusJudgment) as { properties: { evidence: { description: string } } }
+    // What the model is sent: the schema as JSON, descriptions included.
+    const schema = z.toJSONSchema(StatusJudgment) as unknown as { properties: { evidence: { description: string } } }
     expect(schema.properties.evidence.description).toContain('on a pass, the text that appeared, all of it, copied exactly')
     expect(schema.properties.evidence.description).not.toContain('empty otherwise')
     // Version 1 asked for empty evidence on a pass; the version is part of the cache key, so none of its answers is reused.
