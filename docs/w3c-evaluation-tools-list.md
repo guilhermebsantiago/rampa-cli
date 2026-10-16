@@ -1,6 +1,6 @@
 # W3C Web Accessibility Evaluation Tools List: Rampa's entry
 
-Answers for the W3C [Web Accessibility Evaluation Tools List](https://www.w3.org/WAI/test-evaluate/tools/list/), field by field, ready to paste into its form. **Nothing has been submitted.** The ACT implementation report is a separate submission: see [act-implementation.md](act-implementation.md).
+Answers for the W3C [Web Accessibility Evaluation Tools List](https://www.w3.org/WAI/test-evaluate/tools/list/), field by field, ready to paste into its form. **Submitted on 2026-10-16** through the form, as [w3c/wai-evaluation-tools-list#1377](https://github.com/w3c/wai-evaluation-tools-list/pull/1377), with the contact address guilhermebscontact@gmail.com; the list's maintainers review and merge it. The ACT implementation report is a separate submission: see [act-implementation.md](act-implementation.md).
 
 ## How a tool gets listed
 
@@ -27,7 +27,7 @@ Field labels are the form's own. "Leave empty" and "leave unchecked" are deliber
 | Tool name (Required) | `Rampa` | README, package `rampa-cli` |
 | Web address (URL) (Required) | `https://rampa.guilhermebs.com.br` | CITATION.cff `url`; the site links the repository and has a Portuguese version at `/pt/` |
 | Vendor / organization (Required) | `Guilherme Santiago` | CITATION.cff author, LICENSE copyright. There is no organization behind Rampa; **to confirm before submitting** |
-| Email address (Required) | **The author chooses.** | It is published in the GitHub pull request. Rampa's repository lists no contact address (SECURITY.md uses GitHub's private reports), so pick one meant to be public |
+| Email address (Required) | `guilhermebscontact@gmail.com` | Chosen by the author, public in the GitHub pull request; it is also the npm maintainer address |
 | Release date (Required) | `2026-10-15` | The current version, 0.1.1: rampa-cli 0.1.1 on npm (2026-10-15T23:56Z, published by the release workflow with provenance) and the GitHub release v0.1.1 (2026-10-15T23:55Z). The first release, 0.1.0, came out the same day (npm 21:06Z, GitHub 21:08Z) |
 | Accessibility statement (URL) | Leave empty | Neither the site nor the CLI has an accessibility statement, and this entry should not suggest one |
 | ACT Rules (URL) | Leave empty for now | Fill it in, or send it by e-mail later, once W3C lists Rampa's ACT implementation: `https://www.w3.org/WAI/standards-guidelines/act/implementations/<key>/`, where the key is the one W3C picks (proposed: `rampa`) |
@@ -67,7 +67,7 @@ Field labels are the form's own. "Leave empty" and "leave unchecked" are deliber
 >
 > Limits: Rampa's own rules, every probe, the site-wide criteria, target size (2.5.8) and the cognitive accessibility advisories are experimental. They report below the default threshold, and do not fail a build, until enough of their findings have been reviewed by a person. Model judgments make mistakes: on fresh real pages, 0.38 of the judged findings at the default threshold were correct, by labels that two AI agents wrote and a person has not yet reviewed. Each report says what was checked, what was judged and what a person must review; Rampa never reports that a page is accessible or conforms. Reading Android screens and iOS XCUITest exports exists but has not been tried on real devices, so mobile applications are not listed.
 >
-> An ACT implementation report for Rampa (EARL) is prepared for w3c/wcag-act-rules; if W3C lists it, the ACT Rules URL will follow by e-mail.
+> An ACT implementation report for Rampa (EARL, rampa-cli 0.1.1 with no model) was submitted as https://github.com/w3c/wcag-act-rules/issues/457; if W3C lists it, the ACT Rules URL will follow by e-mail.
 
 | Field | Answer |
 | --- | --- |
