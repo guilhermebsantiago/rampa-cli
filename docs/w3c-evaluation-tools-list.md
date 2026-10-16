@@ -28,7 +28,7 @@ Field labels are the form's own. "Leave empty" and "leave unchecked" are deliber
 | Web address (URL) (Required) | `https://rampa.guilhermebs.com.br` | CITATION.cff `url`; the site links the repository and has a Portuguese version at `/pt/` |
 | Vendor / organization (Required) | `Guilherme Santiago` | CITATION.cff author, LICENSE copyright. There is no organization behind Rampa; **to confirm before submitting** |
 | Email address (Required) | **The author chooses.** | It is published in the GitHub pull request. Rampa's repository lists no contact address (SECURITY.md uses GitHub's private reports), so pick one meant to be public |
-| Release date (Required) | `2026-10-15` | rampa-cli 0.1.0 on npm (2026-10-15T21:06Z) and the GitHub release v0.1.0 (2026-10-15T21:08Z), the first release |
+| Release date (Required) | `2026-10-15` | The current version, 0.1.1: rampa-cli 0.1.1 on npm (2026-10-15T23:56Z, published by the release workflow with provenance) and the GitHub release v0.1.1 (2026-10-15T23:55Z). The first release, 0.1.0, came out the same day (npm 21:06Z, GitHub 21:08Z) |
 | Accessibility statement (URL) | Leave empty | Neither the site nor the CLI has an accessibility statement, and this entry should not suggest one |
 | ACT Rules (URL) | Leave empty for now | Fill it in, or send it by e-mail later, once W3C lists Rampa's ACT implementation: `https://www.w3.org/WAI/standards-guidelines/act/implementations/<key>/`, where the key is the one W3C picks (proposed: `rampa`) |
 
@@ -42,7 +42,7 @@ Field labels are the form's own. "Leave empty" and "leave unchecked" are deliber
 | --- | --- | --- |
 | Purpose (Required) | Automated testing | Manual testing: Rampa lists items a person has to review, but gives no step-by-step manual procedure. Simulated user experience: Rampa does not simulate users |
 | Product evaluated (Required) | Website | Mobile application: `rampa check android:` and XCUITest exports exist, but `rampa check android:` has not been run on a real device and the iOS Swift helper has never been compiled ([android.md](android.md#status), [ios.md](ios.md#status)). Source code: Rampa checks pages as a browser renders them, local `.html` files included, not source code. Document, Other: no |
-| File type | HTML / XHTML | CSS, PDF, EPUB, Office, ODF, SMIL, Markdown: Rampa reads none of these as files. It does measure rendered colors and layout, but that is HTML as rendered |
+| File type | HTML / XHTML | CSS, PDF, EPUB, Office, ODF, SMIL, Markdown: Rampa reads none of these as files. It does measure rendered colors and layout, but that is HTML as rendered. The form has no SVG option; since 0.1.1 Rampa also checks a standalone SVG document at a URL, with axe-core and the rules that read the tree ([api.md](api.md)) |
 | Scope (Required) | Single page/screen; Component (checks scoped to a component in Playwright tests and Storybook stories: [playwright.md](playwright.md), [storybook.md](storybook.md)); Sample of pages/screens (`--crawl`, `--sitemap`, 10 pages by default: [crawl.md](crawl.md)); Restricted or password protected pages (`--storage-state`, `--header`, `--cookie`: [browser-options.md](browser-options.md)) | Entire website / software / product: a crawl is bounded by `--max-pages` and is not a full-site audit |
 | Standards | WCAG 2.2; WCAG 2.1 (`--wcag 2.1`) | WCAG 2.0: not offered as a target. EPUB: no |
 | Assists by | Generating reports of evaluation results (terminal, JSON, SARIF, Markdown, single-file HTML: [output-formats.md](output-formats.md)) | Displaying information within web pages: Rampa is not an overlay or an extension. Creating an accessibility score: it gives none. Providing step-by-step evaluation guidance: no |
@@ -76,5 +76,5 @@ Field labels are the form's own. "Leave empty" and "leave unchecked" are deliber
 ## Before submitting
 
 - Confirm the vendor name and choose the e-mail address.
-- Re-read the description and the comments against the README of the version that is current then; the numbers above are from 2026-10-15.
+- Re-read the description and the comments against the README of the version that is current then; the answers above are for 0.1.1, and the numbers in them are from 2026-10-15.
 - Submit the ACT report first if you want the ACT URL in the first submission; otherwise submit the tool now and send the URL to group-wai-list-eval-tools@w3.org later.

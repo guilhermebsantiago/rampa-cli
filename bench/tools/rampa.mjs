@@ -1,6 +1,7 @@
 // Rampa, run as a user runs it: this repository's dist/cli.mjs (`pnpm build` at the root), `rampa check` on a chunk
 // of URLs at a time with --format json, one process per chunk.
 //   node tools/rampa.mjs <tool> --pages <pages.json> --out <tool.jsonl> --meta <tool.meta.json> --work <dir> [--workers 2]
+//     [--cli <path>/node_modules/rampa-cli/dist/cli.mjs]   another build, such as a release installed from npm
 // The time of a page is the gap between the createdAt of its report and the one before it (collection, axe-core,
 // rules, judgments and probes); the first page of each chunk also pays for starting Node and the browser, so it is
 // marked cold and left out of the per-page times.
@@ -12,7 +13,7 @@ import { ROOT, TRANSIENT_ERROR, addHit, arg, browserPath, readJson, resumeRecord
 import { TOOLS } from '../lib/tools.mjs'
 
 const CHUNK = 20
-const CLI = join(ROOT, 'dist', 'cli.mjs')
+const CLI = typeof arg('cli') === 'string' ? resolve(String(arg('cli'))) : join(ROOT, 'dist', 'cli.mjs')
 
 const id = process.argv[2]
 const spec = TOOLS[id]
@@ -129,12 +130,15 @@ async function runChunk(chunk, retried = false) {
   await appendFile(out, `${lines.join('\n')}\n`, 'utf8')
 }
 
-const version = JSON.parse(await readFile(join(ROOT, 'package.json'), 'utf8')).version
+// The version of the package the CLI belongs to: this repository's, or the installed release's.
+const pkg = JSON.parse(await readFile(join(dirname(CLI), '..', 'package.json'), 'utf8'))
+const version = pkg.version
+const source = typeof arg('cli') === 'string' ? `${pkg.name}@${version} as installed, dist/cli.mjs` : 'dist/cli.mjs'
 // Claims are read from the reports; a resumed run keeps what the earlier part recorded.
 const segment = await startSegment(arg('meta'))
 if (todo.length === 0) process.exit(0)
 const before = segment.previous.claimed ?? []
-const meta = { tool: id, label: spec.label, versions: { rampa: `${version} (dist/cli.mjs)`, args: spec.args.join(' '), browser: `the same Microsoft Edge, through RAMPA_BROWSER_PATH` }, workers, chunk: CHUNK }
+const meta = { tool: id, label: spec.label, versions: { rampa: `${version} (${source})`, args: spec.args.join(' '), browser: `the same Microsoft Edge, through RAMPA_BROWSER_PATH` }, workers, chunk: CHUNK }
 await writeJson(arg('meta'), { ...meta, claimed: before, segments: segment.segments })
 
 const chunks = []
