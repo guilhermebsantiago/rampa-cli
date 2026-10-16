@@ -5,7 +5,7 @@
 The Note says it plainly: "Following this guidance is not required for conformance to WCAG". So the profile's results are a class of their own, called **advisories**. An advisory:
 
 - is never a WCAG failure, and never counts toward WCAG coverage;
-- never changes the exit code, unless you pass `--fail-on advisory`;
+- never changes the exit code, unless you pass `--fail-on advisory`; and a model's suggestion to review, from the [checks a model decides](#checks-a-model-decides-literal-language-summaries-and-error-messages), never does, not even then;
 - always carries a fixed label that says so: "Advisory · COGA o4p06 Use Clear Visible Labels (not a WCAG requirement)", or in Portuguese "Recomendação · COGA o4p06 Use rótulos claros e visíveis (não é requisito da WCAG)".
 
 **Every check is experimental so far, and every report says so.** A check stays experimental until it passes the evaluation the [plan](plans/cognitive-profile.md) sets (§4.2): it has fixtures, but it has not yet been measured on real pages or reviewed by people. Experimental checks run whenever the profile is on. In the terminal, Markdown and HTML reports, the advisory section opens with one notice, and each advisory from an experimental check carries the tag `experimental`; JSON and SARIF give each result its `maturity`. The notice reads:
@@ -40,7 +40,7 @@ From code, `check(targets, { profiles: ['cognitive'] })` and `checkSnapshot(snap
 
 ## What is checked
 
-Four checks of forms and words, each tied to a sentence of a COGA pattern, and each screening only part of that pattern. Rules decide every fact; a model never decides whether something is a problem. Seven more, of how text and controls are presented, are in [Legibility, icons and new windows](#legibility-icons-and-new-windows), and four that watch the live page are in [Checks that watch the live page](#checks-that-watch-the-live-page-motion-interruptions-layout-shifts-and-paste).
+Four checks of forms and words, each tied to a sentence of a COGA pattern, and each screening only part of that pattern. Rules decide every fact; a model never decides whether something is a problem. Seven more, of how text and controls are presented, are in [Legibility, icons and new windows](#legibility-icons-and-new-windows), and four that watch the live page are in [Checks that watch the live page](#checks-that-watch-the-live-page-motion-interruptions-layout-shifts-and-paste). Rules decide those too. The three in [Checks a model decides](#checks-a-model-decides-literal-language-summaries-and-error-messages) are the exception: a model reads the words, and what it says is reported only as a suggestion to review.
 
 | Check | COGA pattern | What it looks for | Impact | Patch |
 | --- | --- | --- | --- | --- |
@@ -317,6 +317,100 @@ The observation itself takes the page's own load time plus the window: about 8.2
 - WCAG 2.2 Understanding 2.2.2 Pause, Stop, Hide (the five seconds): https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html; 2.3.3 Animation from Interactions: https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html; 2.5.8 Target Size (Minimum): https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html.
 - HTML, user activation: https://html.spec.whatwg.org/multipage/interaction.html#tracking-user-activation.
 
+## Checks a model decides: literal language, summaries and error messages
+
+Three more checks ask a model about wording, which no rule can read: idioms in interface text, a summary at the start of long text, and error messages that do not say how to put the problem right. They are experimental, web only, and read Portuguese and English, with messages in both. **Nobody has measured them on real pages**: the only numbers below are from their fixtures, small pages written for them.
+
+- **When they run.** Only with `--profile cognitive` **and** a model. Otherwise each says it did not run, and why, in `report.advisory.checks` and in the coverage: "this check needs a model, and --no-llm turned the model off", or "this check needs a model, and none was set: --model or RAMPA_MODEL". Their patterns are then "not run". An `--offline` run replays them from the cache.
+- **Every claim quotes the page.** The model must copy the text it judged, and Rampa checks the copy the way it checks the WCAG criteria's quotes (`verifyQuote` and `verifyListedQuote` in `src/criteria/shared.ts`): the text itself, at most trimmed. A claim whose quote is not on the page is discarded, and the check's summary counts it (`model.discarded`). Page text goes into the prompt through the helpers that escape it (`tagged`, `dataBlock`), so a page cannot end its own block.
+- **A suggestion, never a failure.** Each result is an advisory of impact `suggestion`, from a `judgment`, at medium confidence (the quote is checked; the reading is the model's), with `review: true`. It is never a WCAG failure, and **it never changes the exit code, not even under `--fail-on advisory`**. This is a choice, and it differs from the profile's rule advisories: a rule advisory of impact `suggestion` (an abbreviation in a paragraph, a consent banner) does count under `--fail-on advisory`, because a rule checked its fact. These three rest on a model's reading that no rule checks, so they follow what Rampa already does with such readings on the WCAG side: since 2.4.4 and 2.4.6 changed (docs/studies/notes-244-246.md), a model's fail that no checked fact supports is a suggestion to review, and it never fails a build. Their model errors never make the run exit with 2 either. Each one is shown with the model that made it: "a model's suggestion to review (ollama:gemma4:12b), its quote checked on the page; it never changes the exit code".
+- **Five per page at most**, per check; a note counts the rest.
+
+| Check | Rests on | What is read | What the model is asked | Prompt |
+| --- | --- | --- | --- | --- |
+| `coga/literal-language` | COGA o3p04 Use Literal Language; GAIA G02 Textos | Headings, labels and legends, buttons, links and navigation, instructions next to form fields, and error and status messages. Never body prose | Does this text use an idiom, a metaphor, a simile, sarcasm or a joke that a person who takes words literally could misread? If so, which words, and what do they mean, said plainly? | `literal-1` |
+| `coga/long-text-summary` | COGA o3p08 Provide Summary of Long Documents and Media | The longest article (or the main content) when its paragraphs hold more than 300 words: its first paragraphs and list items, with the headings that come later | Does the start of the text give a short summary of what follows? | `summary-1` |
+| `coga/error-wording` | COGA o4p04 Design Forms to Prevent Mistakes, with the User Need of o4p07; related to WCAG 3.3.3 | The error messages Rampa already finds: those of fields in an error state (the ones `rampa/error-without-text` and `rampa/error-suggestion` read), those the 3.3.1 judgment reads, and those that showed after `--probe form` typed an invalid value | Does this message tell the person how to put the problem right, in plain words? If not, what would a clearer one say? | `wording-1` |
+
+Each check's `version` holds its prompt's version (`1+literal-1`), and the version keys the cache, so a changed prompt is asked again.
+
+### `coga/literal-language`
+
+**What it rests on.** COGA o3p04, What to Do: "Do not use metaphors and similes unless you include an explanation." How it Helps: "Many people do not understand non-literal content. For example, an autistic person may not understand jokes and similes." Getting Started says where to look first, and the check looks only there: "Start by putting clear literal text on headings, labels, navigational elements, instructions, error messages, and any content that may affect the user’s rights or wellbeing." GAIA G02 says people with autism "podem ter dificuldade em compreender textos com metáforas, coloquialismo e expressões não literais" (https://gaia.wiki.br/vocabulario-visual-e-textual/textos).
+
+**What it reports.** The expression, the kind (idiom, metaphor, simile, sarcasm or joke), and what it means said plainly. That meaning is the suggestion: write it instead, or, as COGA's How it Helps proposes, add "a simple language term in brackets next to any non-literal text".
+
+```
+◇ Advisory · COGA o3p04 Use Literal Language (not a WCAG requirement) · suggestion
+  html > body > main > form > button
+  "Bata o martelo" in this button is an idiom, which a person who takes words literally may not understand:
+  "Bata o martelo e garanta sua vaga". Suggestion to review, from ollama:gemma4:12b: it means "Tome uma
+  decisão final". Write that, or add it in brackets after the expression. …
+  confidence medium · experimental · a model's suggestion to review (ollama:gemma4:12b), its quote checked
+  on the page; it never changes the exit code · id ea93d2c03b91
+```
+
+**What the rules check.** The text must be quoted as the page has it; the expression must be words of that text, three letters at least; a meaning must be given, other than the expression itself; and the expression must not be plain interface language.
+
+**Plain interface words.** Words and phrases that are literal to anyone who uses the web, even where they began as figures of speech: "sign in", "shopping cart", "add to cart", "home page", "menu", "window", "folder"; "entrar", "carrinho de compras", "página inicial", "fale conosco", "esqueci minha senha" (`PLAIN_PHRASES` in `src/advisory/checks/literal-language.ts`: 112 in English, 119 in Portuguese). They work three ways: a text made only of one is never asked about; the prompt lists them and tells the model never to report them; and a claim on one, or on part of one the text holds ("cart" in "Add to cart"), is discarded.
+
+**Stays silent.** Paragraphs, list items and other body prose, even with an idiom in them. Texts of one word, texts over 300 characters, and texts in languages other than Portuguese and English (a note names those). A text the page repeats is asked about once.
+
+### `coga/long-text-summary`
+
+**What it rests on.** COGA o3p08, What to Do: "Provide a brief summary for a long document and media." Avoid: "Long texts, documents, or media without summaries." The threshold is COGA's own, from More Details: "In pieces of content with less than 300 words, headings can act as a summary."
+
+**The trigger is a rule.** The [text measurements](#text-measurements) count the words of paragraph prose. They are grouped by the article each paragraph sits in, or by the main content when there is no article, and the check reads the largest group only when it has **more than 300 words**. A list of short news items, each under 300 words, is not one long text, however many words it holds in all.
+
+**What the model reads.** The page title, the main heading, the start of the text (its first paragraphs, list items and headings, up to about 150 words or 5 items), and up to 8 headings that come later, so it can tell whether the start says what follows. A heading near the start that says it is a summary ("Summary", "In brief", "Key points", "Resumo", "Em resumo", "Em síntese", "Principais pontos"), or an element with `role="doc-abstract"`, answers the question without a model. "Sumário" is not on the list: in Brazilian documents it is the table of contents.
+
+**What it reports.** When the answer is no, the model must quote the first sentence it read, which must be one of the first three sentences of the text; the advisory quotes that sentence from the page and suggests a brief summary at the start: "A high level outline in a few sentences or bullet points is most effective" (How it Helps).
+
+**Stays silent.** Pages of 300 words of paragraphs or fewer; a start with a summary heading; a start the model reads as a summary. Whether a summary is good enough is not asked: that needs people (plan §1.5).
+
+### `coga/error-wording`
+
+**What it rests on.** COGA o4p04, How it Helps: "Error messages may be confusing." More Details: "Only correct errors if the correction is reliable. Otherwise, if suggestions for corrections are known, give the suggestions to the user." The User Need of o4p07: "I need clear labels, step-by-step instructions and clear error messages, so I know exactly what to do." COGA's persona Tal is an example of a message that does not help: "it announces that the username or password are incorrect. Tal is not sure which one is wrong" (§6.9.1).
+
+**What the model is told.** The message, the field's label and type, what its markup accepts (`required`, `minlength="8"`, a `pattern`), and the hints tied to it. A message tells the person how to put it right when it says, in everyday words, what is wrong or what to enter: "O CEP tem 8 números", "Enter an email address in the correct format, like name@example.com". It does not when it only says that something is wrong ("Invalid input", "Campo inválido"), gives only a code ("Erro 0x13"), or uses technical words ("Validation error: value does not match ^\d{5}$").
+
+**What it reports.** The message, quoted, and a clearer wording the model proposes. The wording is left out, and the advisory says so, when it states a limit the page does not give: a number of characters, digits or years, or a number after "at least", "up to", "pelo menos", "no máximo" and the like, that is not in the message, the label, the hints or the field's markup. An example value ("por exemplo 25/12/1990") is not a limit and is kept. Nothing else checks the wording: a suggestion can still be vague ("Digite o CEP corretamente."), so it is for a person to review.
+
+**Never a duplicate of WCAG.** A message is left alone when its field, or the message itself, has a WCAG 3.3.3 finding or item to review in the same run, or when the message has a 3.3.1 finding (the 3.3.1 judgment reports on the message, and says when it does not describe the error); a note counts them. 3.3.3 asks for a suggestion when the page knows the correction; this check asks only whether the words are plain, so it never claims a WCAG failure.
+
+### The model and the judge
+
+The three checks use the judge the WCAG criteria use (`src/core/judge.ts`), through `src/advisory/model.ts`:
+
+- **Model.** Whatever `--model` or `RAMPA_MODEL` names; the fixtures were run with Ollama `gemma4:12b` (`--model ollama:gemma4:12b --concurrency 2`).
+- **Cache.** Answers are cached under the check's id and version, the model and its settings, and the prompt, like the criteria's; `--offline` reads them back.
+- **`--runs`.** Votes as for the criteria: the majority answer, or none on a tie.
+- **`--concurrency`.** Questions asked at a time.
+- **`--max-candidates`.** The most texts one check asks about on a page: 50 by default, the most important first (headings, then labels, buttons, instructions, messages, navigation and other links). A note counts the rest.
+- **`--batch`, and `--fast`.** With `--batch`, or with `--fast`, which turns batching on and lowers the cap to 10, literal language asks up to 8 texts in one call and error wording up to 5. The summary is one question per page either way. On the fixtures, batched runs gave the same results as single questions.
+- **`--time-limit`.** Questions not asked by then are counted in a note.
+- **What it costs.** On the fixtures, with `gemma4:12b` on the author's machine at concurrency 2, a page of 2 to 6 interface texts took 4 to 12 s with one question per text, and 2.5 to 4.4 s batched; a page with one summary or error message to ask about took 2.7 to 8.5 s. A real page has far more interface text: literal language alone may ask up to 50 questions on it (10 with `--fast`), which these timings do not measure.
+
+### On the fixtures
+
+Each check has fail and pass pages in `test/fixtures/coga/<check>/{fail,pass}/`, in Portuguese and English, with a sidecar of what a correct reading reports. `node scripts/coga-model-fixtures.ts` runs them against a model and counts the pages where the check reported exactly the sidecar's results, nothing on a pass page; `--no-llm` lists what each check would ask. Run on 2026-10-15 with Ollama `gemma4:12b`, one judgment per question, concurrency 2, with and without `--batch`:
+
+| Check | Fixtures right | Fail pages | Pass pages |
+| --- | --- | --- | --- |
+| `coga/literal-language` | 11 of 11 | 6 of 6: "Bata o martelo e garanta sua vaga", "Get the ball rolling", "Vamos nessa?", "Precisa de uma mãozinha?", "This part is a piece of cake: …", "Hold your horses! …" | 5 of 5: plain sign-up and shop pages, "Carrinho de compras" and "Lista de desejos" menus, an idiom in body prose, plain instructions |
+| `coga/long-text-summary` | 7 of 8 | 2 of 3: a story start and a history start; **missed** the start of a public notice ("Edital"), whose legal preamble the model read as a summary | 5 of 5: an "Em resumo" heading (no model asked), two lead paragraphs, a page under 300 words, a list of short news items |
+| `coga/error-wording` | 8 of 8 | 4 of 4: "Campo inválido", "Invalid input", "Erro 0x13", a message with a regular expression | 4 of 4: clear messages in each language |
+
+These pages are tiny and were written for the checks by their author: the numbers say the checks work as designed on clear cases, not how precise they are. On real pages they are **not measured**: no real page has been run, labelled or reviewed for them, and the evaluation the plan requires before a check leaves experimental (§4.2) has not been done for any of the three. The model's suggested meanings and wordings were not judged for quality.
+
+### Limits
+
+- **A model's reading.** Whether a text is an idiom, a start a summary, or a message plain is the model's judgment; the rules check only that it quotes the page, names words of the text, and invents no limit. A larger or smaller model will read differently.
+- **The plan kept idioms out** (plan §1.5: "Idioms, sarcasm or implied meaning the model finds without a lexicon match"), for the risk of false positives. They are reported here only where COGA says to start, as suggestions that never gate, and still unmeasured.
+- **Error messages Rampa finds.** Only messages already on the page (a server-rendered error, a page a test drove into an error state) or shown after `--probe form` typed into a field. Errors that need a submission are not seen.
+- **Only Portuguese and English.**
+- **With `--crawl`** they run on each page as on a single page, with the same cap per page. A crawl runs no probe, so messages that show only after typing are not read there.
+
 ## Reading an advisory
 
 ```
@@ -347,7 +441,7 @@ The observation itself takes the page's own load time plus the window: about 8.2
 - **Patches are suggestions.** The words on a page belong to whoever writes them; an expansion of an abbreviation is proposed only when the page itself or Rampa's list attests it.
 - **Related**: a WCAG finding on the same element is linked by its id, never repeated.
 
-### The model's one step
+### The abbreviation check's model step
 
 With a model (the default when one is available, or `--model`), and only for an abbreviation that neither the page nor the list expands, a model proposes what it stands for. The proposal is kept only when the initials of its words spell the abbreviation, and it is shown as "Suggestion to confirm", with the model's name and no patch. The model never decides whether an abbreviation is explained or whether people know it. Syllable acronyms (DETRAN, PRONATEC, REDESIM) never pass the initials check, so they never get a proposal. With `--no-llm` the step is skipped and the rest runs as usual.
 
@@ -402,11 +496,11 @@ These lines come after the WCAG coverage of the run (the coverage rows and each 
 | Output | Advisories |
 | --- | --- |
 | Terminal | Their own section after the WCAG findings, grouped by check and ordered by impact, at most 3 elements per check and 20 per page without `--verbose`; then the text measurements; then the profile's lines in the coverage. Marked ◇, never ✗. The section opens with the experimental notice, and each advisory of an experimental check is tagged `experimental`, as is the beyond-target line. |
-| JSON | `report.advisory`: `results`, `belowThreshold`, `waived`, `checks` (what ran and why not, with each check's `maturity`), `coverage.patterns` (all 58, by slug), `coverage.gaia` (the GAIA recommendations the checks cite), `notes`, `textMetrics`. Each result has the `maturity` of its check. `schemaVersion` stays 1: a reader that does not know `advisory` ignores it. |
+| JSON | `report.advisory`: `results`, `belowThreshold`, `waived`, `checks` (what ran and why not, with each check's `maturity`), `coverage.patterns` (all 58, by slug), `coverage.gaia` (the GAIA recommendations the checks cite), `notes`, `textMetrics`. Each result has the `maturity` of its check, and a model's suggestion to review has `review: true`, as has its check's summary, with what the model was asked, answered and what verification discarded (`model`). `schemaVersion` stays 1: a reader that does not know `advisory` ignores it. |
 | Markdown | A collapsed section, "Advisories (not WCAG requirements)", counted apart from the findings, with the same notice and tags as the terminal. When a pull request comment must fit its size limit, advisories are dropped first. |
 | HTML | A section with its own heading after the findings, with the same notice and tags as the terminal; each group links to the COGA pattern page and its section of the W3C Note. |
-| SARIF | Rules `coga/<check>` (and `wcag-aaa/3.1.4` and `wcag-aaa/1.4.8` beyond the target) at level `note`, tagged `not-wcag`, and `coga`, `gaia` or `webaim` after what the advisory rests on; every result is a `note`, whatever its confidence. Results and rules carry `maturity` and `experimental` in their properties, and an experimental check's rule is also tagged `experimental`. |
-| Exit code | Only `--fail-on advisory` counts them, together with the confirmed findings. |
+| SARIF | Rules `coga/<check>` (and `wcag-aaa/3.1.4` and `wcag-aaa/1.4.8` beyond the target) at level `note`, tagged `not-wcag`, and `coga`, `gaia` or `webaim` after what the advisory rests on; every result is a `note`, whatever its confidence. Results and rules carry `maturity` and `experimental` in their properties, and an experimental check's rule is also tagged `experimental`. A model's suggestion has `review: true` and its rule the tag `model-suggestion`. |
+| Exit code | Only `--fail-on advisory` counts them, together with the confirmed findings, and never a model's suggestion to review (`review: true`). |
 | Waivers | Same file and command as findings: `rampa waive <id>`. The `coga/` prefix keeps the ids apart. |
 | Baseline, `toPassRampa`, MCP | Unaffected: they read findings only. The MCP tools do not run the profile yet. |
 | `--crawl` | Each page's JSON report has its advisories; the site view counts them per page. |
@@ -419,9 +513,9 @@ To tell a word in capitals (ENTRAR) from an acronym (CPF), the abbreviation chec
 
 - **Not COGA conformance.** There is none. A few of the 58 patterns are screened, each only in part (the coverage lines name them); the rest needs review and testing with people.
 - **Not a reading-level verdict.** Formulas count word and sentence length; they do not measure whether people understand a text.
-- **Not a judgment of clarity or familiarity.** No check says a word is hard, a layout unfamiliar or a text "simple enough": those depend on the audience, and a model's opinion is not evidence.
+- **Not a judgment of clarity or familiarity.** No check says a word is hard, a layout unfamiliar or a text "simple enough": those depend on the audience, and a model's opinion is not evidence. The three checks a model decides ask a model whether a text is literal, a start a summary, a message plain; what it says is a suggestion for a person, never a fact Rampa states and never a reason to fail a run.
 - **Not an overlay.** It reads the page and never clicks, types or submits.
-- **Not yet validated.** The checks are marked `experimental`, in `report.advisory.checks`, on each result and in every output. Each has pass and fail fixtures (`test/fixtures/coga/<check>/`) with the results they must give. The rest of the gate the plan requires before a check is called stable (docs/plans/cognitive-profile.md §4.2) is not built yet: the corrupted pairs, and the evaluation on real pages labelled by annotators (work item WI-10). Please report what looks wrong.
+- **Not yet validated.** The checks are marked `experimental`, in `report.advisory.checks`, on each result and in every output. Each has pass and fail fixtures (`test/fixtures/coga/<check>/`) with the results they must give; those of the checks a model decides are run against a model by `scripts/coga-model-fixtures.ts`. The rest of the gate the plan requires before a check is called stable (docs/plans/cognitive-profile.md §4.2) is not built yet: the corrupted pairs, and the evaluation on real pages labelled by annotators (work item WI-10). Please report what looks wrong.
 
 ## Known limits
 
@@ -469,6 +563,9 @@ The sources themselves rule out a pass or fail. COGA Content Usable is outside W
 - Martins, Ghiraldelo, Nunes and Oliveira Jr. (1996), Readability Formulas Applied to Textbooks in Brazilian Portuguese, Notas do ICMSC-USP nº 28: https://repositorio.usp.br/item/000906089.
 - Kincaid et al. (1975): https://apps.dtic.mil/sti/pdfs/ADA006655.pdf.
 - Lei nº 15.263/2025, art. 5º, VIII: https://www.planalto.gov.br/ccivil_03/_Ato2023-2026/2025/Lei/L15263.htm.
+- COGA o3p04 Use Literal Language: https://www.w3.org/WAI/WCAG2/supplemental/patterns/o3p04-literal-language/; o3p08 Provide Summary of Long Documents and Media: https://www.w3.org/WAI/WCAG2/supplemental/patterns/o3p08-summary-provided/; o4p04 Design Forms to Prevent Mistakes: https://www.w3.org/WAI/WCAG2/supplemental/patterns/o4p04-supportive-forms/; o4p07 Use Clear Step-by-step Instructions: https://www.w3.org/WAI/WCAG2/supplemental/patterns/o4p07-step-instructions/. Quotes checked against a local copy of the Note on 2026-10-15.
+- GAIA G02 Textos: https://gaia.wiki.br/vocabulario-visual-e-textual/textos.
+- WCAG 2.2 Understanding 3.3.3 Error Suggestion: https://www.w3.org/WAI/WCAG22/Understanding/error-suggestion.html.
 - WCAG 2.2 Understanding 1.4.8 Visual Presentation: https://www.w3.org/WAI/WCAG22/Understanding/visual-presentation.html; technique G201, Giving users advanced warning when opening a new window: https://www.w3.org/WAI/WCAG22/Techniques/general/G201.
 - GAIA G03 Legibilidade: https://gaia.wiki.br/vocabulario-visual-e-textual/legibilidade; G09 Eliminar distrações: https://gaia.wiki.br/engajamento/eliminar-distracoes; G14 Equivalentes textuais: https://gaia.wiki.br/representacoes-redundantes/equivalentes-textuais; G22 Consistência: https://gaia.wiki.br/reconhecimento-e-previsibilidade/.
 - Harley, A. (2014), Icon Usability, Nielsen Norman Group: https://www.nngroup.com/articles/icon-usability/.

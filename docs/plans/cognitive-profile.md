@@ -1,6 +1,6 @@
 # Rampa cognitive accessibility profile (`--profile cognitive`): design plan
 
-Date: 2026-10-09. Status (2026-10-15): wave 1 is built (merged on 2026-10-09), and all four of its checks are experimental: none has passed the gate in §4.2, because the evaluation tooling (WI-10) is not built. Of waves 2 and 3, the WCAG halves shared with the [coverage plan](wcag-coverage.md) are built, and so are four COGA checks that observe the live page (`coga/reduced-motion`, `coga/interruptions`, `coga/layout-shift`, `coga/paste-blocked`), all experimental. Seven checks of how text and controls are presented are built too, outside the waves and experimental (`coga/line-length`, `coga/text-alignment`, `coga/line-height`, `coga/text-emphasis`, `coga/decorative-font`, `coga/icon-only-control`, `coga/new-window`). Where the code differs from the design below, the list that follows says so. Sources and their status are in Appendix B.
+Date: 2026-10-09. Status (2026-10-15): wave 1 is built (merged on 2026-10-09), and all four of its checks are experimental: none has passed the gate in §4.2, because the evaluation tooling (WI-10) is not built. Of waves 2 and 3, the WCAG halves shared with the [coverage plan](wcag-coverage.md) are built, and so are four COGA checks that observe the live page (`coga/reduced-motion`, `coga/interruptions`, `coga/layout-shift`, `coga/paste-blocked`), all experimental. Seven checks of how text and controls are presented are built too, outside the waves and experimental (`coga/line-length`, `coga/text-alignment`, `coga/line-height`, `coga/text-emphasis`, `coga/decorative-font`, `coga/icon-only-control`, `coga/new-window`). So are three checks a model decides, experimental and unmeasured on real pages, whose results are suggestions to review that never change the exit code (`coga/literal-language`, `coga/long-text-summary`, `coga/error-wording`). Where the code differs from the design below, the list that follows says so. Sources and their status are in Appendix B.
 
 **Built and not built, as of 2026-10-15.** The rest of this plan is the design as written on 2026-10-09.
 
@@ -40,6 +40,12 @@ Date: 2026-10-09. Status (2026-10-15): wave 1 is built (merged on 2026-10-09), a
   - The thresholds, groups, caps and exemptions are in `docs/cognitive-profile.md`, "Legibility, icons and new windows". Each check has pass and fail fixtures, and every pass page must stay silent for all seven. A snapshot with the facts replays offline with the same advisories.
   - An advisory may now rest on a guide that is not W3C's: a `guide` basis (GAIA or WebAIM), labelled "Advisory · GAIA G22 Consistency (not a WCAG requirement)". `coverage.gaia` lists the GAIA recommendations screened.
   - `text-metrics.ts` is unchanged: it still measures `<p>` prose only.
+- **Checks a model decides: built on 2026-10-15, experimental** (branch `feat/coga-model`; not in the 2026-10-09 design, and against §1.5 for idioms, below). They run only with `--profile cognitive` and a model, and say why not otherwise. Each asks the model one question per text through the judge the criteria use (cache, votes, `--batch` and `--fast`, `--concurrency`, `--max-candidates`, `--time-limit`), and every claim must quote the page and pass the criteria's quote check:
+  - `coga/literal-language` (o3p04; GAIA G02): idioms, metaphors, similes, sarcasm and jokes in headings, labels, buttons, links, navigation, instructions next to fields, and error and status messages, never body prose; the model names the expression and says what it means. A list of plain interface phrases ("sign in", "carrinho de compras") is never asked about, is sent with the prompt, and voids a claim.
+  - `coga/long-text-summary` (o3p08): a rule triggers it, more than 300 words of paragraphs in one article or main content, from the text measurements; the model is asked whether the start gives a short summary, and quotes the first sentence when it does not. A heading such as "Resumo" decides without a model.
+  - `coga/error-wording` (o4p04, with the User Need of o4p07): the error messages Rampa already finds (B8's fields in an error state, the 3.3.1 candidates, the form probe's), asked whether they say how to put the problem right in plain words, with a clearer wording that may state no limit the page does not give. A message whose field has a 3.3.3 result, or that has a 3.3.1 judgment, is left to it.
+  - **Suggestions, never failures.** Impact `suggestion`, confidence medium, `review: true` on the result and the check. Unlike the rule advisories, they never count under `--fail-on advisory`, and their model errors never make the run exit with 2: a model's reading that no rule checks is treated as the 2.4.4 and 2.4.6 suggestions are.
+  - Fixtures in Portuguese and English for each, run against Ollama `gemma4:12b` by `scripts/coga-model-fixtures.ts` on 2026-10-15: 11 of 11, 7 of 8 and 8 of 8 right. Not measured on real pages; none has been through the gate in §4.2. docs/cognitive-profile.md has the details and the limits.
 - **Text measurements (WI-7): built, with four differences** (§3.3):
   - English syllables come from a heuristic, not CMUdict;
   - the Portuguese syllable list has 200 words, not 300;
@@ -52,9 +58,10 @@ Date: 2026-10-09. Status (2026-10-15): wave 1 is built (merged on 2026-10-09), a
 - **Wave 2:**
   - WI-11, the probe stage, is built as A6 of the coverage plan (`--probe`, `snapshot.observations`).
   - WI-12: 3.3.8 is built as B7 (`--probe auth`); `coga/paste-blocked` is built on the cognitive observation, with synthetic clipboard events (above).
-  - WI-17: 3.3.1 and 3.3.3 from static error states are built as B8; the `coga/error-wording` advisory is not.
+  - WI-17: 3.3.1 and 3.3.3 from static error states are built as B8; the `coga/error-wording` advisory is built on 2026-10-15 as a check a model decides (above), on the messages B8 and the form probe find.
+  - WI-18: built in part on 2026-10-15 as `coga/long-text-summary`, the summary half of o3p08 (above). The prose run with no heading, its topic-change sentences and 2.4.10 (AAA) are not built.
   - WI-19 is built as part of `coga/interruptions`.
-  - WI-13 to WI-16 and WI-18 are not built.
+  - WI-13 to WI-16 are not built: `coga/plain-words` among them.
 - **Wave 3:**
   - The WCAG criteria are built on the coverage plan: 3.2.2, 3.2.6, 3.3.7, and 2.2.1 with a probe.
   - Of the COGA checks of the 1.4 table, `coga/layout-shift` and `coga/interruptions` are built; the others are not.
@@ -116,6 +123,8 @@ The plumbing comes first and carries the risk the user named: an advisory must n
   - answer a yes/no question about a crop.
   
   It never judges familiarity, clarity for an audience, or "simple enough". This follows the project lesson that Gemma echoed self-check fields while deterministic facts in the context held up.
+
+  *Since 2026-10-15, three checks go further* (`coga/literal-language`, `coga/long-text-summary`, `coga/error-wording`): the model classifies a quoted text (literal or not, a summary or not, plain or not) and proposes a meaning or a wording. Because that is a reading no rule can check, what they report is a suggestion to review, never a fact Rampa states and never a reason to fail a run; the rules check only the quote, that the expression is words of the text, the plain-phrase list, and that a wording states no limit the page does not give.
 - **Absence claims need the whole page.** A check refuses to claim absence when `snapshot.truncated` is set (the 5000-node cap), or when it would have to read text beyond the collector's caps (`readingText` stops at 1000 characters, names at 300). Work item WI-3 raises those caps.
 
 ### 1.2 How checks were selected
@@ -173,10 +182,10 @@ In axe-core 4.14.0, `meta-refresh-no-exceptions` fires only for delays over 20 h
 | 2 | `coga/required-fields` | o4p04, What to Do: "Clearly indicating required fields" | `required` and `aria-required` kept by the collector (WI-3) | Only forms with 3 or more fields. A pass when any "(opcional)" marker or form-level note exists. One result per form. An asterisk with no programmatic `required` is a 1.3.1 candidate, not an advisory. |
 | 2 | `coga/unexplained-disabled` | WCAG 3 draft "Disabled controls explained"; o7p04 | none | A disabled submit with no quoted explanation nearby or in `aria-describedby`. The model judges only the quoted nearby text. One result per form. |
 | 2 | `coga/status-heading` | o1p01 Avoid: a page heading "Service not available"; "The user has to remember what the service relates to." | model | The model is called only when the main heading matches a status word list in EN and pt-BR (indisponível, erro, algo deu errado, 404…). The subject must be copied verbatim from the title or breadcrumb. The suggested heading must contain it. The site root is skipped. Generic headings stay with 2.4.6. |
-| 2 | `coga/error-wording` with WCAG 3.3.1 and 3.3.3 | 3.3.1 (A), 3.3.3 (AA), ACT 36b590 (proposed); o4p04 user need "clear error messages" | model; static error states only | Errors already present in the snapshot (`aria-invalid`, `aria-errormessage` targets, `role=alert`, server-rendered errors) and the ACT fixtures. A generic message on an identified field passes 3.3.1, as Understanding says. Internal codes and jargon are advisory only. |
+| 2 | `coga/error-wording` with WCAG 3.3.1 and 3.3.3 | 3.3.1 (A), 3.3.3 (AA), ACT 36b590 (proposed); o4p04 user need "clear error messages" | model; static error states only | Errors already present in the snapshot (`aria-invalid`, `aria-errormessage` targets, `role=alert`, server-rendered errors) and the ACT fixtures. A generic message on an identified field passes 3.3.1, as Understanding says. Internal codes and jargon are advisory only. *Built 2026-10-15 as a check a model decides. The "clear error messages" User Need is o4p06's and o4p07's, not o4p04's: the check rests on o4p04's How it Helps ("Error messages may be confusing.") and cites o4p07's User Need.* |
 | 2 | `coga/plain-words` | o3p01; Lei 15.263 art. 5º IV and XIV ("evitar o uso de substantivos no lugar de verbos") | curated list | A curated list of substitutions (efetuar → fazer, efetivar → confirmar) and support-verb nominalisations ("efetuar o pagamento" → "pagar"), in button, link and field names and in instructions. The model writes the rewrite, and a rule checks it is shorter or uses the verb. Never a word-frequency verdict. |
 | 2 | `coga/permission-on-load` | o5p01 Limit Interruptions; o7p07 Provide Reminders | init-script hook (WI-11) | `Notification.requestPermission`, geolocation or push subscribe called before any user activation. The hook must be read before Rampa's first `page.evaluate`, which itself gives the page user activation (measured). |
-| 2 | `coga/long-text` with 2.4.10 (AAA) | o2p03, o3p08 ("In pieces of content with less than 300 words, headings can act as a summary"); WCAG 2.4.10 | full block text (WI-3); model | A prose run of more than 300 words with no heading and no summary marker. Reference lists, link directories, `dl`, tables, code and legal-act numbering are excluded. The model must cite at least 2 topic-change sentences, verified as substrings. One result per run, at low confidence until calibrated. |
+| 2 | `coga/long-text` with 2.4.10 (AAA) | o2p03, o3p08 ("In pieces of content with less than 300 words, headings can act as a summary"); WCAG 2.4.10 | full block text (WI-3); model | A prose run of more than 300 words with no heading and no summary marker. Reference lists, link directories, `dl`, tables, code and legal-act numbering are excluded. The model must cite at least 2 topic-change sentences, verified as substrings. One result per run, at low confidence until calibrated. *The summary half is built 2026-10-15 as `coga/long-text-summary`, at medium confidence as a suggestion that never gates; the run with no heading and 2.4.10 are not.* |
 | 3 | WCAG 3.3.7, and 3.3.1/3.3.3 with real submission; `coga/rule-only-in-error` (o4p07); `coga/feedback` (o4p10) | | form probe, only on allowlisted test origins (`--allow-submit=<origin>`) | Never on production. |
 | 3 | WCAG 3.2.6 Consistent Help; `coga/help-reachable` (o7p05, o7p01) | | crawl merged; site-level stage | Pages are grouped by template, because the Understanding page says checkout pages without the shared navigation are not part of the set. Help is matched by destination, not by name. |
 | 3 | WCAG 3.2.2 (select navigates on change); `coga/layout-shift` (o4p01); `coga/interruptions` (o5p01); WCAG 2.2.1 with a clock probe (o4p09); `coga/media-chapters` (o2p05); `coga/link-style` (o1p05); `coga/heading-fonts` (o1p03, font family only); `coga/ambiguous-dates` (o3p06, English pages only) | | probes, computed style | Each ships `experimental` first. |
@@ -190,13 +199,13 @@ In axe-core 4.14.0, `meta-refresh-no-exceptions` fires only for delays over 20 h
 | Whether menu categories are logical or menu terms familiar | o2p02 | Needs tree testing with users. A model's opinion is not evidence. |
 | Reading level as pass or fail, or "simple enough" | 3.1.5, o3p01–o3p05 | Understanding 3.1.5: the working group "could not find a way to test whether this had been achieved" (updated 28 June 2026). Martins et al. (1996): formulas measure "readability and not the comprehensibility". 3.1.5 is listed as "needs a qualified reviewer". |
 | Rare words judged by word frequency alone | o3p01 part B, 3.1.3 | wordfreq is frozen at about 2021 data (https://github.com/rspeer/wordfreq/blob/master/SUNSET.md). A Zipf cut-off flags Pix (2.70) and anexar (2.97), and misses COGA's own example "mode" (4.63). |
-| Idioms, sarcasm or implied meaning the model finds without a lexicon match | o3p04, o3p12 | High false-positive risk, and agreement across runs does not remove the model's bias. Lexicon matches in instructions may come later. |
+| Idioms, sarcasm or implied meaning the model finds without a lexicon match | o3p04, o3p12 | High false-positive risk, and agreement across runs does not remove the model's bias. Lexicon matches in instructions may come later. *Changed 2026-10-15 at the author's request: `coga/literal-language` asks a model about idioms, metaphors, sarcasm and jokes, only in the interface text o3p04's Getting Started names, with a list of plain interface phrases it must never claim, and reports suggestions to review that never gate. The risk stands: it is unmeasured on real pages. Implied meaning (o3p12) stays out.* |
 | Icon familiarity, icon clutter, "important instructions without icons" | o1p07 | No gold standard; the result depends on the audience. *`coga/icon-only-control` (2026-10-15) does not judge an icon: it reports a control with no words on screen, under o4p06, and exempts search, home and close by name.* |
 | Default advisories for "only a password sign-in" or "identifier-first sign-in" | o6p02, o6p03 | One design decision would produce three advisories, and identifier-first is the norm at gov.br and the big identity providers. Reported as facts in a sign-in options inventory at most. |
 | Whether optional steps are necessary; fees across a checkout on production | o5p02, o4p03 flow | Business context. Only user-scripted flows on test environments, never a heuristic crawl that buys things. |
 | Voice menus | o6p04 | A web checker cannot call a phone line. |
 | Wayfinding directions | o7p06 | GPS and indoor navigation apps. |
-| Whether help, a summary or instructions are "sufficient" or "clear enough" | o7p02, o7p04, o3p08 | Presence only, with quotes. Sufficiency needs people. |
+| Whether help, a summary or instructions are "sufficient" or "clear enough" | o7p02, o7p04, o3p08 | Presence only, with quotes. Sufficiency needs people. *`coga/long-text-summary` (2026-10-15) asks only whether a summary is there; `coga/error-wording` asks whether a message says how to put the problem right, as a suggestion to review.* |
 | Busy backgrounds, white-space density, style consistency beyond font family | o3p10, o3p11, o1p03 | Thresholds without ground truth. 1.4.8 asks for a *mechanism*, so a computed line height below 1.5 is never a 1.4.8 failure. *Since 2026-10-15, three narrow parts of o3p10 are screened with the thresholds the sources give: lines over 80 characters, justified or right-aligned text, and lines closer than 1.2 times the font size. Line spacing from 1.2 to 1.5 is reported only as a measured fact beyond the target, never as a 1.4.8 failure. Density and busy backgrounds stay out.* |
 | Simple tense and voice in general prose | o3p02 | Detecting the Portuguese passive is unreliable. Lei 15.263 says "preferencialmente". |
 | Personalisation and simplification semantics | o8p03, o8p04 | The WAI-Adapt spec now defines only `adapt-symbol`. *One Avoid example of o8p04, "a cartoon font or gothic", is screened since 2026-10-15 by `coga/decorative-font`; the rest of o8p04 stays out.* |
@@ -755,7 +764,13 @@ The checks that observe the live page, built on 2026-10-15, screen 4 more in par
 - o8p01 Let Users Control When the Content Moves or Changes (motion that keeps running with reduced motion on);
 - o8p02 Enable APIs and Extensions (paste, copy, the context menu and text selection).
 
-The other 48 are not checked, and they need review and testing with people. The table lists all 58, with what wave 1 screens, what waves 2 and 3 plan (section 1.4), and how each pattern could be checked at all.
+Three checks a model decides, built on 2026-10-15, screen 3 more in part, only when a model runs:
+
+- o3p04 Use Literal Language (idioms, metaphors, sarcasm and jokes in interface text);
+- o3p08 Provide Summary of Long Documents and Media (a summary at the start of text over 300 words);
+- o4p04 Design Forms to Prevent Mistakes (whether the error messages Rampa finds say how to put the problem right).
+
+The other 45 are not checked, and they need review and testing with people. The table lists all 58, with what wave 1 screens, what waves 2 and 3 plan (section 1.4), and how each pattern could be checked at all.
 
 **The checkability column** (added 2026-10-15) rates each pattern as a whole, from the research notes of that date:
 
@@ -784,11 +799,11 @@ The other 48 are not checked, and they need review and testing with people. The 
 | o3p01 | §4.4.1 | Use Clear Words | screened in part: `coga/abbreviations` | W2 `coga/plain-words` (WI-16) | J+D |
 | o3p02 | §4.4.2 | Use a Simple Tense and Voice | not checked | not checked, by design | J |
 | o3p03 | §4.4.3 | Avoid Double Negatives or Nested Clauses | not checked | not checked, by design | J |
-| o3p04 | §4.4.4 | Use Literal Language | not checked | not checked, by design | J |
+| o3p04 | §4.4.4 | Use Literal Language | not checked; since 2026-10-15 screened in part, with a model: `coga/literal-language` (suggestions) | not checked, by design (§1.5, changed 2026-10-15) | J |
 | o3p05 | §4.4.5 | Keep Text Succinct | not checked | text measurements only (context, lists written as prose) | D+J |
 | o3p06 | §4.4.6 | Use Clear, Unambiguous Formatting and Punctuation | not checked | W3 `coga/ambiguous-dates` (English only) | D+J |
 | o3p07 | §4.4.7 | Include Symbols and Letters Necessary to Decipher the Words | not checked | not checked, by design | H |
-| o3p08 | §4.4.8 | Provide Summary of Long Documents and Media | not checked | W2 `coga/long-text` (WI-18) | D+J |
+| o3p08 | §4.4.8 | Provide Summary of Long Documents and Media | not checked; since 2026-10-15 screened in part, with a model: `coga/long-text-summary` (suggestions) | W2 `coga/long-text` (WI-18): the summary half built | D+J |
 | o3p09 | §4.4.9 | Separate Each Instruction | not checked | not checked, by design | J |
 | o3p10 | §4.4.10 | Use White Spacing | screened in part: `coga/line-length`, `coga/text-alignment`, `coga/line-height` (2026-10-15) | — | D+P |
 | o3p11 | §4.4.11 | Ensure Foreground Content is not Obscured by Background | not checked | not checked, by design | P+D |
@@ -797,10 +812,10 @@ The other 48 are not checked, and they need review and testing with people. The 
 | o4p01 | §4.5.1 | Ensure Controls and Content Do Not Move Unexpectedly | not checked; since 2026-10-15 screened in part: `coga/layout-shift` (observed) | W3 `coga/layout-shift`: built | P |
 | o4p02 | §4.5.2 | Let Users Go Back | not checked | not checked, by design | P |
 | o4p03 | §4.5.3 | Notify Users of Fees and Charges at the Start of a Task | screened in part: `coga/preselected-cost` | — | J/H |
-| o4p04 | §4.5.4 | Design Forms to Prevent Mistakes | not checked | W2 `coga/required-fields` (WI-14) | D+P |
+| o4p04 | §4.5.4 | Design Forms to Prevent Mistakes | not checked; since 2026-10-15 screened in part, with a model: `coga/error-wording` (suggestions) | W2 `coga/required-fields` (WI-14); `coga/error-wording` (WI-17): built | D+P |
 | o4p05 | §4.5.5 | Make it Easy to Undo Form Errors | not checked | not checked, by design | H |
 | o4p06 | §4.5.6 | Use Clear Visible Labels | screened in part: `coga/visible-labels`, `coga/icon-only-control` (2026-10-15) | — | D+P+J |
-| o4p07 | §4.5.7 | Use Clear Step-by-step Instructions | not checked (a related basis of `coga/input-formats`) | W3 `coga/rule-only-in-error` | D+J |
+| o4p07 | §4.5.7 | Use Clear Step-by-step Instructions | not checked (a related basis of `coga/input-formats`, and since 2026-10-15 of `coga/error-wording`) | W3 `coga/rule-only-in-error` | D+J |
 | o4p08 | §4.5.8 | Accept different input formats | screened in part: `coga/input-formats` (static attributes) | W2 typing confirmation (WI-13) | P+D |
 | o4p09 | §4.5.9 | Avoid Data Loss and “Timeouts” | not checked | W3 2.2.1 with a clock probe | P+D+J |
 | o4p10 | §4.5.10 | Provide Feedback | not checked | W3 `coga/feedback` | P |
@@ -855,7 +870,7 @@ GAIA (Guia de Acessibilidade de Interfaces para Autismo, https://gaia.wiki.br/; 
 | GAIA | Name | COGA pattern | WCAG criterion | Checkability |
 |---|---|---|---|---|
 | G01 | Cores | o3p11 (in part) | 1.4.1 Use of Color (A); 1.4.3 Contrast (Minimum) (AA) | D+P+J |
-| G02 | Textos | o3p01; o3p04 | 3.1.3 Unusual Words, 3.1.4 Abbreviations, 3.1.5 Reading Level (AAA), in part | J+H; D for abbreviations |
+| G02 | Textos | o3p01; o3p04 | 3.1.3 Unusual Words, 3.1.4 Abbreviations, 3.1.5 Reading Level (AAA), in part | J+H; D for abbreviations; screened in part with a model since 2026-10-15 (`coga/literal-language`) |
 | G03 | Legibilidade | o3p10; o3p05; o2p03 | 1.4.8 Visual Presentation (AAA) | D+P |
 | G04 | Compatibilidade com mundo real | o1p07; o3p04 | none | H |
 | G05 | Customização visual | o8p04 | 1.4.4 Resize Text (AA), in part | H+P |
@@ -900,6 +915,7 @@ Three recommendations match no COGA pattern: G17, G21 and G28. Ten match no WCAG
 - G09 Eliminar distrações: decorative fonts ("fontes fantasia") in reading text only.
 - G14 Equivalentes textuais: controls that show only an icon, whose text equivalent is not on screen.
 - G22 Consistência: links that open a new window with no indication.
+- G02 Textos, with a model only: metaphors and non-literal text in interface text (`coga/literal-language`, 2026-10-15). Its abbreviations, jargon and spelling are not cited.
 - G09 Eliminar distrações, also: motion that keeps running with reduced motion on (`coga/reduced-motion`) and interruptions with no input (`coga/interruptions`).
 - G18 Evite sons perturbadores: sound that starts on load (`coga/interruptions`).
 

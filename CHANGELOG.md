@@ -4,6 +4,8 @@ Changes to `rampa-cli`, newest first. Each released version has a `## [x.y.z] - 
 
 ## Unreleased
 
+- **Three checks of the cognitive profile that a model decides**, experimental and run only with `--profile cognitive` and a model: `coga/literal-language` (COGA o3p04, GAIA G02) asks about idioms, metaphors, sarcasm and jokes in headings, labels, buttons, links, instructions next to fields and error and status messages, never body prose, and gives what they mean; `coga/long-text-summary` (o3p08) asks whether text of more than 300 words starts with a short summary; `coga/error-wording` (o4p04) asks whether the error messages Rampa finds say how to put the problem right, and proposes a clearer one. Every claim must quote the page and pass the criteria's quote check, plain interface words such as "sign in" and "carrinho de compras" are never claimed, and a message with a WCAG 3.3.1 or 3.3.3 result is left to it. What they report is a suggestion to review: it never changes the exit code, not even under `--fail-on advisory`. With `--no-llm` or no model each says it did not run, and why. On their fixtures, Gemma 4 12B got 11 of 11, 7 of 8 and 8 of 8 right; they are not measured on real pages ([docs](docs/cognitive-profile.md#checks-a-model-decides-literal-language-summaries-and-error-messages)).
+
 ## [0.1.1] - 2026-10-15
 
 Fixes found by the W3C ACT implementation report and by the dev half of the fresh-page study. Only the dev half was used to choose them; the held-out half has to be measured again on new pages.
