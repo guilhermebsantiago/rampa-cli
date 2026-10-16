@@ -5,6 +5,7 @@ Changes to `rampa-cli`, newest first. Each released version has a `## [x.y.z] - 
 ## Unreleased
 
 - **A 4.1.3 pass clears its item to review again.** The status-message judgment (`judgment/4.1.3@2`, with `--probe status`) now asks the model to copy, on a pass, the text that appeared. Its prompt asked for empty evidence on a pass, and verification discards a pass that quotes nothing, so nearly every pass left its item for a person. The verification rule is unchanged; the version bump re-asks cached 4.1.3 judgments once.
+- **Refs escape tag names.** A tag name the HTML parser takes whole but a selector misreads, such as `<x-a.b>` (`.` reads as a class) or `<foo:bar>` (`:` reads as a pseudo-class), is escaped the way ids already were: `x-a\.b`, `foo\:bar`. Before, the ref of such an element, or of anything inside it, named another element or none, so what finds an element by its ref (image and contrast captures, the probes) could miss it. The collector, the probe kit and the browser-tree reader build the same refs, and refs of ordinary tags are unchanged.
 
 ## [0.1.1] - 2026-10-15
 
