@@ -2,7 +2,7 @@
 
 Runs Rampa and other free, local accessibility checkers on the same pages, in the same browser, and scores them the same way: the W3C ACT test cases of every ACT rule that maps to a WCAG 2.2 A/AA criterion, and Rampa's corrupted pairs. The method, the tables and the caveats are in [docs/benchmark.md](../docs/benchmark.md).
 
-This folder is its own pnpm project with its own lockfile: none of these tools is a dependency of Rampa. Rampa itself runs from this repository's `dist/cli.mjs`.
+This folder is its own pnpm project with its own lockfile: none of these tools is a dependency of Rampa. Rampa itself runs from this repository's `dist/cli.mjs`, or from an installed release with `tools/rampa.mjs --cli`.
 
 ## Run it
 
@@ -53,4 +53,4 @@ The saved pair pages and the proxied W3C files are in `.cache/` (not committed);
 
 ## ACT implementation report
 
-`act-report/build.mjs` turns the Rampa rows' records into the EARL report that the W3C ACT implementation pages read, one per configuration. With the ACT Rules Community Group's [act-tools](https://github.com/act-rules/act-tools), it also computes the consistency of each ACT rule as W3C does. It checks no page itself; `act-report/records/` holds the one supplementary run it needed. The method, the commands and the results are in [docs/act-implementation.md](../docs/act-implementation.md).
+`act-report/build.mjs` turns the Rampa rows' records into the EARL report that the W3C ACT implementation pages read, one per configuration. With the ACT Rules Community Group's [act-tools](https://github.com/act-rules/act-tools), it also computes the consistency of each ACT rule as W3C does. It checks no page itself. The no-model report reads `act-report/records/rampa-0.1.1.jsonl`, a run of the released rampa-cli 0.1.1 installed from npm (`tools/rampa.mjs --cli <its dist/cli.mjs>`); the earlier runs in that folder are kept for history. The method, the commands and the results are in [docs/act-implementation.md](../docs/act-implementation.md).

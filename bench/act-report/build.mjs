@@ -41,21 +41,16 @@ const ROWS = {
 }
 
 /**
- * The records and the version of each row's report, for the 2026-10-11 results. The no-model row adds a run at the
- * 0.1.0 release of the test cases the benchmark left out among the rules the row reports on (`--missing rampa`; the
- * ARIA rules and the SVG and XML examples). Its benchmark records, from commit 927cf63, were checked against a rerun
- * at the release: 855 of 856 pages gave the same record, and the other is a page that redirects to the live w3.org
- * home page, whose content had changed. Then a run at commit b09ef9d of the test cases two fixes after the release
- * change: the 13 SVG and XML documents 0.1.0 could not check, and afw4f7's, where an experimental rule hid axe-core's
- * items to review. A later file wins, so those records replace the earlier ones. The Gemma row was not run again: no
- * model is called here.
+ * The records and the version of each row's report. The no-model row is one run of the released rampa-cli 0.1.1,
+ * installed from npm (`tools/rampa.mjs --cli`), on every test case the 2026-10-11 benchmark ran and on the ones it left
+ * out among the rules the row reports on (`--missing rampa`): records/rampa-0.1.1.jsonl. The earlier records of that
+ * row (the benchmark's at 927cf63, records/rampa-0.1.0.jsonl and records/rampa-b09ef9d.jsonl) stay in git, out of the
+ * build. The Gemma row is still the benchmark's run at 927cf63: no model is called here. The results folder still
+ * gives the benchmark's cases, which mark the rules Rampa may have been tuned on.
  */
 const DEFAULT_RESULTS = join('results', '2026-10-11')
 const DEFAULTS = {
-  rampa: {
-    raw: [join(DEFAULT_RESULTS, 'raw', 'rampa.jsonl'), join('act-report', 'records', 'rampa-0.1.0.jsonl'), join('act-report', 'records', 'rampa-b09ef9d.jsonl')],
-    revision: '0.1.0, with the SVG, XML and afw4f7 test cases run again at commit b09ef9d',
-  },
+  rampa: { raw: [join('act-report', 'records', 'rampa-0.1.1.jsonl')], revision: '0.1.1' },
   'rampa-gemma': { raw: [join(DEFAULT_RESULTS, 'raw', 'rampa-gemma.jsonl')], revision: 'commit 927cf63, before the 0.1.0 release' },
 }
 
