@@ -2,9 +2,10 @@ import { mkdtemp, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { afterAll, describe, expect, it } from 'vitest'
+import { z } from 'zod'
 import { checkSnapshot } from '../src/core/check.ts'
 import type { Report } from '../src/core/types.ts'
-import { statusJudgments, statusMessages } from '../src/criteria/status-messages.ts'
+import { StatusJudgment, statusJudgments, statusMessages } from '../src/criteria/status-messages.ts'
 import { emptyEngine } from '../src/engine/axe.ts'
 import type { JudgeRequest, ModelProvider } from '../src/providers/types.ts'
 import { DETERMINISM_ARGS, parseProbeKinds } from '../src/probes/run.ts'
@@ -158,6 +159,20 @@ describe('4.1.3 over recorded messages', () => {
     expect(statusJudgments(statusSnapshot([trigger('#copy', 'Copy', 'control', [message('Saved', { ax: { role: 'status', live: 'polite' } })])]))).toEqual([])
     const off = await checkSnapshot(snapshot, emptyEngine(), probeCheckOptions())
     expect(off.criteria.find((c) => c.criterion === '4.1.3')).toMatchObject({ candidates: 2, judged: 0 })
+  })
+
+  it('asks a pass to copy the text that appeared, the quote a pass needs to settle the item', () => {
+    const snapshot = statusSnapshot([copied])
+    const [candidate] = statusMessages.candidates(snapshot, { engine: { name: 'none', version: '0' }, rules: [] })
+    if (!candidate) throw new Error('no candidate')
+    expect(statusMessages.prompt(candidate, snapshot).system).toMatch(/- "pass": .*Copy the text that appeared, all of it, exactly as it is, into evidence/)
+    const schema = z.toJSONSchema(StatusJudgment) as { properties: { evidence: { description: string } } }
+    expect(schema.properties.evidence.description).toContain('on a pass, the text that appeared, all of it, copied exactly')
+    expect(schema.properties.evidence.description).not.toContain('empty otherwise')
+    // Version 1 asked for empty evidence on a pass; the version is part of the cache key, so none of its answers is reused.
+    expect(statusMessages.version).toBe('2')
+    // The answer the prompt asks for is one the verification takes.
+    expect(statusMessages.verify({ verdict: 'pass', evidence: candidate.context.text, confidence: 'high' }, candidate, snapshot)).toEqual({ ok: true })
   })
 
   it('turns a status message the model quotes into a finding, with role="status" on its own element, and clears what it quotes as content', async () => {

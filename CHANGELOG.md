@@ -4,6 +4,8 @@ Changes to `rampa-cli`, newest first. Each released version has a `## [x.y.z] - 
 
 ## Unreleased
 
+- **A 4.1.3 pass clears its item to review again.** The status-message judgment (`judgment/4.1.3@2`, with `--probe status`) now asks the model to copy, on a pass, the text that appeared. Its prompt asked for empty evidence on a pass, and verification discards a pass that quotes nothing, so nearly every pass left its item for a person. The verification rule is unchanged; the version bump re-asks cached 4.1.3 judgments once.
+
 ## [0.1.1] - 2026-10-15
 
 Fixes found by the W3C ACT implementation report and by the dev half of the fresh-page study. Only the dev half was used to choose them; the held-out half has to be measured again on new pages.
