@@ -27,6 +27,7 @@ export interface GaiaRecommendation {
 
 /** The recommendations the checks cite. */
 export const GAIA: Readonly<Record<string, GaiaRecommendation>> = {
+  G02: { id: 'G02', title: { en: 'Texts', 'pt-BR': 'Textos' }, url: 'https://gaia.wiki.br/vocabulario-visual-e-textual/textos' },
   G03: { id: 'G03', title: { en: 'Legibility', 'pt-BR': 'Legibilidade' }, url: 'https://gaia.wiki.br/vocabulario-visual-e-textual/legibilidade' },
   G09: { id: 'G09', title: { en: 'Eliminate distractions', 'pt-BR': 'Eliminar distrações' }, url: 'https://gaia.wiki.br/engajamento/eliminar-distracoes' },
   G14: { id: 'G14', title: { en: 'Text equivalents', 'pt-BR': 'Equivalentes textuais' }, url: 'https://gaia.wiki.br/representacoes-redundantes/equivalentes-textuais' },

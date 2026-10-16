@@ -48,7 +48,7 @@ describe.skipIf(!browser)('presentation facts in a real browser', { timeout: 60_
     live.snapshot.locale = undefined
     live.snapshot.root.lang = undefined
     const section = await profileOf(live.snapshot)
-    const presentationChecks = section.checks.filter((check) => check.check.match(/line-|text-|decorative|icon-only|new-window/))
+    const presentationChecks = section.checks.filter((check) => /^coga\/(line-length|text-alignment|line-height|text-emphasis|decorative-font|icon-only-control|new-window)$/.test(check.check))
     expect(presentationChecks.every((check) => check.ran)).toBe(true)
     const expected = [...section.results, ...section.belowThreshold].map(key).sort()
     expect(expected.filter((entry) => entry.startsWith('coga/new-window')).length).toBe(1)

@@ -1,17 +1,20 @@
 import type { JudgmentCache } from '../core/cache.ts'
 import { fingerprint } from '../core/check.ts'
-import { CONFIDENCE_RANK, type Confidence, type EngineResults, type Finding, type Usage } from '../core/types.ts'
+import { CONFIDENCE_RANK, type Confidence, type EngineResults, type Finding, type ReviewItem, type Usage } from '../core/types.ts'
 import { RampaError, errorMessage } from '../core/util.ts'
 import type { Locale } from '../i18n.ts'
 import type { ModelProvider } from '../providers/types.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import type { AdvisoryCheck, AdvisoryContext, AdvisoryHit, CogaSettings } from './check.ts'
 import { abbreviations } from './checks/abbreviations.ts'
+import { errorWording } from './checks/error-wording.ts'
 import { iconOnlyControl } from './checks/icon-only.ts'
 import { inputFormats } from './checks/input-formats.ts'
 import { interruptions } from './checks/interruptions.ts'
 import { layoutShift } from './checks/layout-shift.ts'
 import { decorativeFont, lineHeight, lineLength, textAlignment, textEmphasis } from './checks/legibility.ts'
+import { literalLanguage } from './checks/literal-language.ts'
+import { longTextSummary } from './checks/long-text-summary.ts'
 import { newWindow } from './checks/new-window.ts'
 import { pasteBlocked } from './checks/paste-blocked.ts'
 import { preselectedCost } from './checks/preselected-cost.ts'
@@ -33,7 +36,8 @@ import { type Advisory, type AdvisoryCheckSummary, type AdvisorySection, IMPACT_
  * The checks, in the order reports list them within one impact: the wave-1 checks on the snapshot; then how text and
  * controls are presented (legibility, icon-only controls, links that open a new window), which read the facts the
  * collector measures with --profile cognitive (snapshot.presentation); then those that read the observation of the
- * live page (`observes`, probes/cognitive.ts).
+ * live page (`observes`, probes/cognitive.ts); then those a model decides (`review`), which run only with a model and
+ * report suggestions to review.
  */
 export const COGNITIVE_CHECKS: readonly AdvisoryCheck[] = [
   inputFormats,
@@ -51,6 +55,9 @@ export const COGNITIVE_CHECKS: readonly AdvisoryCheck[] = [
   interruptions,
   reducedMotion,
   layoutShift,
+  literalLanguage,
+  errorWording,
+  longTextSummary,
 ]
 
 /** The checks that measure what WCAG 1.4.8 Visual Presentation (AAA) asks a mechanism for: width, justification, line spacing. */
@@ -70,12 +77,20 @@ export interface ProfileOptions {
   locale: Locale
   /** The run's WCAG findings: an advisory on the same element links them. */
   findings: readonly Finding[]
+  /** The run's WCAG items to review: a check a model decides does not repeat one on the same element. */
+  review?: readonly ReviewItem[] | undefined
   llm: boolean
   provider: ModelProvider | undefined
   offline: boolean
   cache: JudgmentCache
   runs: number
   concurrency: number
+  /** Batched judgment (--batch, on with --fast), for the checks a model decides. */
+  batch?: boolean | undefined
+  /** The most texts one check asks the model about on a page (--max-candidates); the default cap when absent. */
+  maxCandidates?: number | undefined
+  /** When to stop asking the model (--time-limit), in milliseconds since the epoch. */
+  deadline?: number | undefined
   minConfidence: Confidence
   waivers?: ReadonlySet<string> | undefined
   coga?: CogaSettings | undefined
@@ -89,12 +104,16 @@ export async function runProfiles(snapshot: A11ySnapshot, engine: EngineResults,
     engine,
     locale: options.locale,
     findings: options.findings,
+    review: options.review,
     llm: options.llm,
     provider: options.provider,
     offline: options.offline,
     cache: options.cache,
     runs: options.runs,
     concurrency: options.concurrency,
+    batch: options.batch,
+    maxCandidates: options.maxCandidates,
+    deadline: options.deadline,
     coga: options.coga ?? {},
   }
   const checks: AdvisoryCheckSummary[] = []
@@ -104,7 +123,15 @@ export async function runProfiles(snapshot: A11ySnapshot, engine: EngineResults,
   const positionOf = new Map(page.ordered.map((node, index) => [node.ref, index]))
 
   for (const [order, check] of COGNITIVE_CHECKS.entries()) {
-    const summary: AdvisoryCheckSummary = { check: check.id, version: check.version, maturity: check.maturity, ran: false, candidates: 0, results: 0 }
+    const summary: AdvisoryCheckSummary = {
+      check: check.id,
+      version: check.version,
+      maturity: check.maturity,
+      ...(check.review ? { review: true as const } : {}),
+      ran: false,
+      candidates: 0,
+      results: 0,
+    }
     checks.push(summary)
     if (!check.surfaces.includes(snapshot.surface)) {
       summary.reason = `not on ${snapshot.surface}`
@@ -178,6 +205,8 @@ function toAdvisory(hit: AdvisoryHit, check: AdvisoryCheck, options: ProfileOpti
     related: related.length > 0 ? related : undefined,
     impact: hit.impact,
     source: hit.source,
+    // A check a model decides marks every result, whatever the hit says: its suggestions never change the exit code.
+    ...(hit.review || check.review ? { review: true as const } : {}),
     ref: hit.ref,
     html: hit.html,
     message: hit.message,

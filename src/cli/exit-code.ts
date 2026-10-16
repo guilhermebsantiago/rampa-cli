@@ -13,9 +13,13 @@ export function parseFailOn(value: string): FailOn {
   return policy
 }
 
-/** Advisories that fail the run: only under --fail-on advisory, and only confirmed ones (never waived or below the threshold). */
+/**
+ * Advisories that fail the run: only under --fail-on advisory, and only confirmed ones (never waived or below the
+ * threshold). A model's suggestion to review (Advisory.review: an idiom, a missing summary, an error message's wording)
+ * never does, as a model's claim that no fact Rampa checks supports never fails a build.
+ */
 export function failingAdvisories(reports: readonly Report[], policy: FailOn): Advisory[] {
-  return policy === 'advisory' ? reports.flatMap((report) => report.advisory?.results ?? []) : []
+  return policy === 'advisory' ? reports.flatMap((report) => report.advisory?.results ?? []).filter((advisory) => !advisory.review) : []
 }
 
 /**
@@ -26,7 +30,8 @@ export function failingAdvisories(reports: readonly Report[], policy: FailOn): A
  */
 export function exitCode(reports: readonly Report[], policy: FailOn): 0 | 1 | 2 {
   if (reports.some(cannotVouch)) return 2
-  // The model step of an advisory check matters only when advisories can fail the run.
-  if (policy === 'advisory' && reports.some((report) => report.advisory?.checks.some((check) => (check.model?.errors ?? 0) > 0 && check.model?.answered === 0))) return 2
+  // The model step of an advisory check matters only when advisories can fail the run, and a check whose results are
+  // suggestions to review (`review`) never can.
+  if (policy === 'advisory' && reports.some((report) => report.advisory?.checks.some((check) => !check.review && (check.model?.errors ?? 0) > 0 && check.model?.answered === 0))) return 2
   return failingFindings(reports, policy).length + failingAdvisories(reports, policy).length > 0 ? 1 : 0
 }

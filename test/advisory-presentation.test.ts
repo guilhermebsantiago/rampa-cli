@@ -82,8 +82,9 @@ describe('the presentation checks on a recorded page', () => {
     // Three social icons in one footer are one result, naming each.
     expect(own.find((advisory) => advisory.check === 'coga/icon-only-control')?.facts).toMatchObject({ controls: 3, names: 'Facebook | Instagram | YouTube', icon: 'svg' })
     expect(section.coverage.beyondTarget).toEqual(['3.1.4', '1.4.8'])
-    // G18 is cited by coga/interruptions, which reads an observation of the live page this snapshot does not have.
-    expect(section.coverage.gaia).toEqual({ G03: 'screened', G09: 'screened', G14: 'screened', G18: 'not-run', G22: 'screened' })
+    // G18 is cited by coga/interruptions, which reads an observation of the live page this snapshot does not have, and G02
+    // by coga/literal-language, which needs a model.
+    expect(section.coverage.gaia).toEqual({ G02: 'not-run', G03: 'screened', G09: 'screened', G14: 'screened', G18: 'not-run', G22: 'screened' })
     expect(section.coverage.patterns['o3p10-whitespace']).toBe('screened')
     expect(section.coverage.patterns['o8p04-interface']).toBe('screened')
   })
@@ -111,7 +112,7 @@ describe('the presentation checks on a recorded page', () => {
     const old = await profileOf(cadastroSnapshot())
     for (const check of PRESENTATION_CHECKS) expect(old.checks.find((summary) => summary.check === check)).toMatchObject({ ran: false, reason: NO_PRESENTATION })
     expect(old.coverage.beyondTarget).toEqual(['3.1.4'])
-    expect(old.coverage.gaia).toEqual({ G03: 'not-run', G09: 'not-run', G14: 'not-run', G18: 'not-run', G22: 'not-run' })
+    expect(old.coverage.gaia).toEqual({ G02: 'not-run', G03: 'not-run', G09: 'not-run', G14: 'not-run', G18: 'not-run', G22: 'not-run' })
     const future = presentationSnapshot()
     if (future.presentation) future.presentation.version = '9'
     const section = await profileOf(future)

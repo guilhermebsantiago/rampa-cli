@@ -284,7 +284,8 @@ export function siteExitCode(sites: readonly SiteReport[], failOn: string): numb
   // The same policies as a page's check (core/gate.ts): none never fails, A and AA count only their levels.
   const policy = FAIL_ON.find((choice) => choice === failOn) ?? 'confirmed'
   const failing =
-    failingFindings(reports, policy).length > 0 || (policy === 'advisory' && reports.some((report) => (report.advisory?.results.length ?? 0) > 0))
+    // A model's suggestion to review (Advisory.review) never fails a crawl, as it never fails a check.
+    failingFindings(reports, policy).length > 0 || (policy === 'advisory' && reports.some((report) => (report.advisory?.results ?? []).some((advisory) => !advisory.review)))
   // Findings across pages count like a page's; needs review and findings beyond the target never do.
   const across = sites.some(
     (site) =>

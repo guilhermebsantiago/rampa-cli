@@ -3,6 +3,10 @@ import { join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { afterAll, describe, expect, it } from 'vitest'
 import type { CogaSettings } from '../src/advisory/check.ts'
+import { wordingCandidates } from '../src/advisory/checks/error-wording.ts'
+import { literalCandidates } from '../src/advisory/checks/literal-language.ts'
+import { summaryCandidate } from '../src/advisory/checks/long-text-summary.ts'
+import { readPage } from '../src/advisory/page.ts'
 import { COGNITIVE_CHECKS } from '../src/advisory/profile.ts'
 import type { Advisory } from '../src/advisory/types.ts'
 import type { A11yNode, A11ySnapshot } from '../src/snapshot/schema.ts'
@@ -61,8 +65,13 @@ const ROOT = 'test/fixtures/coga'
 const PRESENTATION_CHECKS = ['line-length', 'text-alignment', 'line-height', 'text-emphasis', 'decorative-font', 'icon-only-control', 'new-window'].map((name) => `coga/${name}`)
 /** Checks that read the observation of the live page: their fixtures run in coga-observe.test.ts, which observes them. */
 const OBSERVED = new Set(COGNITIVE_CHECKS.filter((check) => check.observes).map((check) => check.id))
+/**
+ * Checks a model decides: without one they do not run, so their fixtures are read below for what the check would ask,
+ * and against a real model by scripts/coga-model-fixtures.ts.
+ */
+const MODEL = new Set(COGNITIVE_CHECKS.filter((check) => check.review).map((check) => check.id))
 const fixtures = readdirSync(ROOT, { withFileTypes: true })
-  .filter((entry) => entry.isDirectory() && !OBSERVED.has(`coga/${entry.name}`))
+  .filter((entry) => entry.isDirectory() && !OBSERVED.has(`coga/${entry.name}`) && !MODEL.has(`coga/${entry.name}`))
   .flatMap((check) =>
     ['fail', 'pass'].flatMap((kind) => {
       const folder = join(ROOT, check.name, kind)
@@ -120,6 +129,65 @@ describe.skipIf(!browser)('cognitive profile fixtures', { timeout: 30_000 }, () 
       if (fixture.kind === 'pass' && PRESENTATION_CHECKS.includes(fixture.check)) {
         const others = [...section.results, ...section.belowThreshold].filter((advisory) => PRESENTATION_CHECKS.includes(advisory.check))
         expect(others.map((advisory) => `${advisory.check} ${advisory.ref}`)).toEqual([])
+      }
+    })
+  }
+})
+
+interface ModelSidecar {
+  results: Array<Record<string, string>>
+  /** Texts of the page the check must never ask about: body prose, for coga/literal-language. */
+  notAsked?: string[]
+  /** coga/long-text-summary: the page is under the threshold, or a list of short texts, so nothing is asked. */
+  noCandidate?: boolean
+  /** coga/long-text-summary: a heading at the start says it is a summary, so no model is asked. */
+  decided?: boolean
+}
+
+const modelFixtures = [...MODEL].flatMap((check) =>
+  ['fail', 'pass'].flatMap((kind) => {
+    const folder = join(ROOT, check.replace(/^coga\//, ''), kind)
+    return readdirSync(folder)
+      .filter((file) => file.endsWith('.html'))
+      .map((file) => ({ check, kind, name: file.replace(/\.html$/, ''), path: join(folder, file) }))
+  }),
+)
+
+describe.skipIf(!browser)('fixtures of the checks a model decides, without a model', { timeout: 30_000 }, () => {
+  it('has fail and pass pages for each of them, in Portuguese and English', () => {
+    for (const check of MODEL) {
+      expect(modelFixtures.filter((fixture) => fixture.check === check && fixture.kind === 'fail').length).toBeGreaterThanOrEqual(3)
+      expect(modelFixtures.filter((fixture) => fixture.check === check && fixture.kind === 'pass').length).toBeGreaterThanOrEqual(4)
+    }
+  })
+
+  for (const fixture of modelFixtures) {
+    it(`${fixture.check} ${fixture.kind}/${fixture.name}: asks about what the sidecar names, and does not run without a model`, async () => {
+      if (!browser) return
+      const sidecar = JSON.parse(readFileSync(fixture.path.replace(/\.html$/, '.json'), 'utf8')) as ModelSidecar
+      const snapshot = await snapshotOf(pathToFileURL(resolve(fixture.path)).href)
+      const section = await profileOf(snapshot)
+      expect(section.checks.find((check) => check.check === fixture.check)).toMatchObject({ ran: false, review: true, reason: 'this check needs a model, and --no-llm turned the model off' })
+      expect([...section.results, ...section.belowThreshold].filter((advisory) => advisory.check === fixture.check)).toEqual([])
+      const page = readPage(snapshot)
+      if (fixture.check === 'coga/literal-language') {
+        const asked = literalCandidates(page).candidates.map((candidate) => candidate.context.text)
+        for (const result of sidecar.results) expect(asked).toContain(result.subject)
+        for (const text of sidecar.notAsked ?? []) expect(asked).not.toContain(text)
+      } else if (fixture.check === 'coga/long-text-summary') {
+        const { candidate, words } = summaryCandidate(page)
+        if (sidecar.noCandidate) {
+          expect(candidate).toBeUndefined()
+          expect(words).toBeLessThanOrEqual(300)
+        } else {
+          expect(words).toBeGreaterThan(300)
+          expect(Boolean(candidate?.context.marked)).toBe(Boolean(sidecar.decided))
+          for (const result of sidecar.results) expect(candidate?.ref).toBe(result.ref)
+        }
+      } else {
+        const asked = wordingCandidates(page).map((candidate) => candidate.context.text)
+        for (const result of sidecar.results) expect(asked).toContain(result.subject)
+        expect(asked.length).toBeGreaterThan(0)
       }
     })
   }

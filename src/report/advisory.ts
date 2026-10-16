@@ -100,6 +100,8 @@ function number(value: number, locale: Locale): string {
 }
 
 function sourceText(advisory: Advisory, locale: Locale): string {
+  // A model's suggestion to review says whose it is, and that it never changes the exit code.
+  if (advisory.review) return am(locale, 'sourceSuggestion', { model: advisory.model ?? 'model' })
   return am(locale, advisory.source === 'judgment' ? 'sourceJudgment' : 'sourceRule')
 }
 
