@@ -74,6 +74,12 @@ beforeAll(async () => {
     }
     // A page that never stops changing: a clock that ticks every 100 ms.
     if (path === '/busy') return void response.end('<!doctype html><html lang="en"><head><title>Busy</title></head><body><main><h1>Busy</h1><p id="tick">0</p></main><script>let n = 0; setInterval(() => { document.querySelector("#tick").textContent = String(++n) }, 100)</script></body></html>')
+    // Tag names the HTML parser takes whole and a selector misreads: `.` reads as a class, `:` as a pseudo-class.
+    if (path === '/odd-tags') {
+      return void response.end(
+        '<!doctype html><html lang="en"><head><title>Odd tags</title></head><body><main><h1>Odd tags</h1><x-a.b><button>One</button></x-a.b><x-a.b><button>Two</button></x-a.b><foo:bar><a href="#top">Top</a></foo:bar><x-card.v2></x-card.v2></main><script>document.querySelector("main").lastElementChild.attachShadow({ mode: "open" }).innerHTML = "<foo:bar><button>Inside</button></foo:bar>"</script></body></html>',
+      )
+    }
     // A lazy frame far below the fold: the browser has not loaded it when the page is read.
     if (path === '/lazy') return void response.end('<!doctype html><html lang="en"><head><title>Lazy</title></head><body><h1>Lazy</h1><div style="height:20000px"></div><iframe id="later" title="Later" loading="lazy" src="/widget.html"></iframe></body></html>')
     response.end(readFileSync('test/fixtures/reach/page.html', 'utf8').replace('{{REMOTE}}', `http://localhost:${port}/widget.html`))
@@ -295,6 +301,33 @@ describe.skipIf(!browser)('the snapshot past the top document', { timeout: 60_00
       expect(mismatches).toEqual([])
       expect(refs.length).toBeGreaterThan(30)
     })
+  })
+
+  it('escapes a tag name with `.` or `:` in a ref, the same in the collector, the probe kit and the browser tree', async () => {
+    if (!browser) return
+    const odd = ['html > body > main > x-a\\.b:nth-of-type(1) > button', 'html > body > main > x-a\\.b:nth-of-type(2) > button', 'html > body > main > foo\\:bar > a', 'html > body > main > x-card\\.v2 >>> foo\\:bar > button']
+    await onPage('/odd-tags', async (page) => {
+      const { snapshot } = await collectPage(playwrightDriver(page), { locale: 'en' })
+      await page.evaluate(installKit)
+      const refs = refsOf(snapshot)
+      expect(refs).toEqual(expect.arrayContaining([...odd, 'html > body > main > h1']))
+      const found = await page.evaluate(
+        ({ refs, resolver }) => {
+          const resolve = new Function(`return (${resolver})`)() as (ref: string) => Element | null
+          const w = window as unknown as { __rampaNodes: Map<string, Element>; __rampaKit: { cssPath(el: Element): string; resolve(ref: string): Element | null } }
+          return refs.map((ref) => {
+            const el = w.__rampaNodes.get(ref)
+            return `${ref}: ${el && resolve(ref) === el && w.__rampaKit.resolve(ref) === el && w.__rampaKit.cssPath(el) === ref ? (el.textContent ?? '') : 'mismatch'}`
+          })
+        },
+        { refs: odd, resolver: resolveRefInPage.toString() },
+      )
+      expect(found).toEqual(odd.map((ref, i) => `${ref}: ${['One', 'Two', 'Top', 'Inside'][i]}`))
+    })
+    // The browser tree's refs, built out of the page from the DOM over CDP, meet the collector's: each node gets its facts.
+    const { snapshot } = await collectWeb(browser, `${origin}/odd-tags`, { runAxe: false, locale: 'en', pixelContrast: false })
+    const byRef = new Map([...walkTree(snapshot.root)].map((n) => [n.ref, n]))
+    expect(odd.map((ref) => byRef.get(ref)?.ax?.role)).toEqual(['button', 'button', 'link', 'button'])
   })
 
   it('collects the same snapshot and engine results from a test’s own Playwright page as rampa check', async () => {

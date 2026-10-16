@@ -69,7 +69,8 @@ export function installKit(): void {
       const tag = current.localName
       const siblings = parent ? parent.children : (current.parentNode as ParentNode | null)?.children
       const sameTag = siblings ? Array.from(siblings).filter((child) => child.localName === tag) : [current]
-      parts.unshift(sameTag.length > 1 ? `${tag}:nth-of-type(${sameTag.indexOf(current) + 1})` : tag)
+      const step = CSS.escape(tag)
+      parts.unshift(sameTag.length > 1 ? `${step}:nth-of-type(${sameTag.indexOf(current) + 1})` : step)
       if (!parent) break
       current = parent
     }

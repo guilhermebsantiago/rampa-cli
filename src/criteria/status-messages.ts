@@ -27,7 +27,9 @@ export const StatusJudgment = z.strictObject({
   verdict: z
     .enum(['pass', 'fail', 'cannot_tell'])
     .describe('fail: the text is a status message (a result, a wait, progress or an error); pass: it is content shown for its own sake; cannot_tell: not enough to decide'),
-  evidence: z.string().describe('On a fail, the words that make it a status message, copied exactly from the text; empty otherwise'),
+  evidence: z
+    .string()
+    .describe('On a fail, the words that make it a status message, copied exactly from the text; on a pass, the text that appeared, all of it, copied exactly; empty on cannot_tell'),
   confidence: z.enum(['low', 'medium', 'high']),
 })
 export type StatusJudgment = z.infer<typeof StatusJudgment>
@@ -62,8 +64,8 @@ The text was not there before the action: it is the page's reaction to it. Read 
 
 Decide one thing: is this text a status message?
 - "fail": it is a status message: it tells the person the result or the success of what was done ("Link copied", "3 items in your list", "Saved", "12 results found", "No results", "Sorted by price"), that the page is busy or waiting ("Loading…", "Searching…"), the progress of a process ("2 of 5 files uploaded"), or that there is an error or a problem ("Enter a valid e-mail address", "This field is required"). A sentence that tells the person what to fix, appearing after a field was left, is an error message, even when it reads like an instruction ("Enter your name"). Copy the words that make it a status message, exactly as they are in the text, into evidence.
-- "pass": it is not a status message: content the action showed for its own sake, such as a panel, a menu or an answer that opened, the search results themselves, more items of a list, new form fields, a tooltip or a label.
-- "cannot_tell": the text is not enough to decide.
+- "pass": it is not a status message: content the action showed for its own sake, such as a panel, a menu or an answer that opened, the search results themselves, more items of a list, new form fields, a tooltip or a label. Copy the text that appeared, all of it, exactly as it is, into evidence: it shows what you judged.
+- "cannot_tell": the text is not enough to decide. Leave evidence empty.
 Reply only with JSON that matches the schema.`
 
 const short = (text: string, n: number) => (text.length > n ? `${text.slice(0, n - 1)}…` : text)
@@ -71,7 +73,7 @@ const short = (text: string, n: number) => (text.length > n ? `${text.slice(0, n
 export const statusMessages: Criterion<StatusContext, StatusJudgment> & { settles: string } = {
   id: '4.1.3',
   level: 'AA',
-  version: '1',
+  version: '2',
   act: [],
   surfaces: ['web'],
   needs: {},

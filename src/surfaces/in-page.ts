@@ -125,7 +125,9 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
       // At the top of a shadow root the siblings are the root's own children.
       const siblings = parent ? parent.children : (current.parentNode as ParentNode | null)?.children
       const sameTag = siblings ? Array.from(siblings).filter((child) => child.localName === tag) : [current]
-      parts.unshift(sameTag.length > 1 ? `${tag}:nth-of-type(${sameTag.indexOf(current) + 1})` : tag)
+      // Escaped like an id: a parsed tag name may hold `.` or `:` (`<x-a.b>`, `<foo:bar>`), which a selector reads as a class or a pseudo-class.
+      const step = CSS.escape(tag)
+      parts.unshift(sameTag.length > 1 ? `${step}:nth-of-type(${sameTag.indexOf(current) + 1})` : step)
       if (!parent) break
       current = parent
     }

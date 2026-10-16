@@ -8,7 +8,8 @@
  * They nest, as in `iframe:nth-of-type(2) |> my-card >>> button`. Each part is a chain of compounds, parent
  * `>` child, scoped to its own document or shadow root: in a document it starts at a unique `#id` or at
  * `html`, in a shadow root at one of the root's own children. Neither separator can occur inside a part,
- * because ids are escaped with CSS.escape, which escapes spaces, `>` and `|`.
+ * because ids and tag names are escaped with CSS.escape, which escapes spaces, `>` and `|` (and the `.` or `:` a
+ * parsed tag name may hold, as in `<x-a.b>` or `<foo:bar>`, which a selector would read as a class or a pseudo-class).
  *
  * The collector (surfaces/in-page.ts) and the probe kit (probes/kit.ts) build refs this way; a test holds
  * them to the same strings. Every place that finds an element by its ref goes through `resolveRefInPage`,

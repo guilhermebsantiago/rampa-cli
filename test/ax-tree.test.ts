@@ -67,6 +67,26 @@ describe('refs from the DOM tree, as the collector builds them', () => {
     expect(cssEscape('-2x')).toBe('-\\32 x')
     expect(cssEscape('a b>c|d')).toBe('a\\ b\\>c\\|d')
     expect(cssEscape('café')).toBe('café')
+    expect(cssEscape('x-a.b')).toBe('x-a\\.b')
+    expect(cssEscape('foo:bar')).toBe('foo\\:bar')
+  })
+
+  it('escapes tag names a selector would misread, and leaves ordinary ones as they were', () => {
+    const one = el('x-a.b')
+    const two = el('x-a.b')
+    const link = el('a')
+    const prefixed = el('foo:bar', {}, [link])
+    const custom = el('my-card')
+    const object = el('foreignObject')
+    const svg = el('svg', {}, [object])
+    const body = el('body', {}, [one, two, prefixed, custom, svg])
+    const { elements } = domElements({ nodeType: 9, backendNodeId: backend++, children: [el('html', {}, [body])] })
+    const refOf = (n: CdpDomNode) => elements.get(n.backendNodeId)?.ref
+    expect(refOf(one)).toBe('html > body > x-a\\.b:nth-of-type(1)')
+    expect(refOf(two)).toBe('html > body > x-a\\.b:nth-of-type(2)')
+    expect(refOf(link)).toBe('html > body > foo\\:bar > a')
+    expect(refOf(custom)).toBe('html > body > my-card')
+    expect(refOf(object)).toBe('html > body > svg > foreignObject')
   })
 
   it('anchors at unique ids, counts same tags, and crosses open shadow roots and frames only', () => {

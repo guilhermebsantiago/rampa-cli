@@ -4,6 +4,11 @@ Changes to `rampa-cli`, newest first. Each released version has a `## [x.y.z] - 
 
 ## Unreleased
 
+- **A 4.1.3 pass clears its item to review again.** The status-message judgment (`judgment/4.1.3@2`, with `--probe status`) now asks the model to copy, on a pass, the text that appeared. Its prompt asked for empty evidence on a pass, and verification discards a pass that quotes nothing, so nearly every pass left its item for a person. The verification rule is unchanged; the version bump re-asks cached 4.1.3 judgments once.
+- **Refs escape tag names.** A tag name the HTML parser takes whole but a selector misreads, such as `<x-a.b>` (`.` reads as a class) or `<foo:bar>` (`:` reads as a pseudo-class), is escaped the way ids already were: `x-a\.b`, `foo\:bar`. Before, the ref of such an element, or of anything inside it, named another element or none, so what finds an element by its ref (image and contrast captures, the probes) could miss it. The collector, the probe kit and the browser-tree reader build the same refs, and refs of ordinary tags are unchanged.
+- **The demo's offline evaluation step shows real numbers.** `MODO=offline bash demo/apresentacao.sh` ran `rampa eval --offline --cache-dir demo/recorded/cache`, which found none of its judgments: that cache holds the recorded pages' judgments, and its ACT entries were from older prompts. It now reads an evaluation recorded with Gemma 4 12B, `rampa compare demo/recorded/eval/ollama-gemma4-12b`, with no browser, model or network ([demo/README.md](demo/README.md)).
+- [docs/benchmark.md](docs/benchmark.md)'s generated text no longer says that findings below the threshold include judgments of link texts and headings: since the 2.4.4/2.4.6 change, a model's fail on those that no checked fact supports is a suggestion, which neither reading counts. The tables were scored again from the same results, and no number changed. `bench/run.mjs --score-only` now keeps the run's version, machine and count of tuned rules, and reads the folder's pairs without the pair pages.
+
 ## [0.1.1] - 2026-10-15
 
 Fixes found by the W3C ACT implementation report and by the dev half of the fresh-page study. Only the dev half was used to choose them; the held-out half has to be measured again on new pages.

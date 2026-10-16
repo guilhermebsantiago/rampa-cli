@@ -70,7 +70,7 @@ export const TOOLS = {
     runner: 'rampa',
     args: ['--model', 'ollama:gemma4:12b'],
     failure: 'findings at or above the default confidence threshold (what fails `rampa check`)',
-    review: 'findings below the threshold (experimental checks, judgments of ordinary titles, links and headings) and items it sends to review',
+    review: 'findings below the threshold (experimental checks, judgments of ordinary page titles) and items it sends to review, among them the suggestions of the model on link texts, headings and labels',
     mapping: 'the criterion of each finding',
   },
   'rampa-probes': {

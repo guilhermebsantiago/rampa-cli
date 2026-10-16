@@ -76,7 +76,7 @@ export interface DomElement {
   attributes: Record<string, string>
 }
 
-/** CSS.escape, as the collector escapes ids (https://drafts.csswg.org/cssom/#serialize-an-identifier). */
+/** CSS.escape, as the collector escapes ids and tag names (https://drafts.csswg.org/cssom/#serialize-an-identifier). */
 export function cssEscape(value: string): string {
   let result = ''
   const first = value.charCodeAt(0)
@@ -150,7 +150,8 @@ export function domElements(root: CdpDomNode): {
       if (ids && id !== '' && ids.get(id) === 1) path = `#${cssEscape(id)}`
       else {
         const same = siblings.filter((sibling) => (sibling.localName ?? (sibling.nodeName ?? '').toLowerCase()) === tag)
-        const step = same.length > 1 ? `${tag}:nth-of-type(${same.indexOf(el) + 1})` : tag
+        const escaped = cssEscape(tag)
+        const step = same.length > 1 ? `${escaped}:nth-of-type(${same.indexOf(el) + 1})` : escaped
         path = parentPath === undefined ? step : `${parentPath} > ${step}`
       }
       const ref = `${prefix}${path}`
