@@ -55,7 +55,9 @@ if (limit !== undefined) {
     return n < limit
   })
 }
-const home = await homeRules(cases.rules.map((rule) => rule.ruleId))
+// The rules Rampa was tuned on are counted in its source at the commit its rows ran at: scoring alone keeps the folder's count.
+const recordedHome = arg('score-only') && existsSync(join(out, 'cases.json')) ? (await readJson(join(out, 'cases.json'))).home : undefined
+const home = recordedHome ?? (await homeRules(cases.rules.map((rule) => rule.ruleId)))
 // Where the file sits on this machine stays out of the results.
 const { path: _path, ...actFile } = cases.dataset
 await writeJson(join(out, 'cases.json'), {
@@ -76,7 +78,8 @@ const origin = server?.origin ?? `http://127.0.0.1:${port}`
 let pairs
 const pairsFile = join(out, 'pairs.json')
 const pairDir = join(CACHE, 'pairs', runName)
-if (existsSync(pairsFile) && existsSync(pairDir)) {
+// Scoring alone needs only the folder's pairs.json, not the pair pages this machine built (a fresh clone has none).
+if (existsSync(pairsFile) && (existsSync(pairDir) || arg('score-only'))) {
   pairs = await readJson(pairsFile)
   for (const [key, file] of pairs.served) served.set(key, join(pairDir, file))
 } else if (!arg('score-only')) {
@@ -230,22 +233,40 @@ async function ollamaInfo() {
     return previous.ollama
   }
 }
-/** Scoring alone runs no tool, so the run keeps the date and commit its rows ran at, and records what scored them. */
+/**
+ * Scoring alone runs no tool, so the run keeps what its rows ran at and on (date, commit, version, machine, browser,
+ * Ollama, pages at a time), and records what scored them.
+ */
 const rescored = Boolean(arg('score-only') && previous.rampaCommit)
+const ranOn = rescored
+  ? previous
+  : {
+      date: today,
+      rampaCommit: git('rev-parse', '--short', 'HEAD'),
+      rampaDirty: Boolean(git('status', '--porcelain', '--', 'src')),
+      rampaVersion: ev.VERSION,
+      node: process.version,
+      os: `${type()} ${release()}`,
+      cpu: `${cpus()[0]?.model.trim()} (${cpus().length} threads)`,
+      memoryGb: Math.round(totalmem() / 2 ** 30),
+      browser: browserPath(),
+      ollama: await ollamaInfo(),
+      workers,
+    }
 const runInfo = {
-  date: rescored ? previous.date : today,
-  rampaCommit: rescored ? previous.rampaCommit : git('rev-parse', '--short', 'HEAD'),
-  rampaDirty: rescored ? previous.rampaDirty : Boolean(git('status', '--porcelain', '--', 'src')),
+  date: ranOn.date,
+  rampaCommit: ranOn.rampaCommit,
+  rampaDirty: ranOn.rampaDirty,
   ...(rescored ? { scoredAt: git('rev-parse', '--short', 'HEAD') } : {}),
-  rampaVersion: ev.VERSION,
-  node: process.version,
-  os: `${type()} ${release()}`,
-  cpu: `${cpus()[0]?.model.trim()} (${cpus().length} threads)`,
-  memoryGb: Math.round(totalmem() / 2 ** 30),
-  browser: browserPath(),
-  ollama: await ollamaInfo(),
+  rampaVersion: ranOn.rampaVersion ?? ev.VERSION,
+  node: ranOn.node,
+  os: ranOn.os,
+  cpu: ranOn.cpu,
+  memoryGb: ranOn.memoryGb,
+  browser: ranOn.browser,
+  ollama: ranOn.ollama,
   act: actFile,
-  workers,
+  workers: ranOn.workers ?? workers,
   limit: limit ?? null,
   runs: [...(previous.runs ?? []), ...(runLog.length ? [{ at: new Date().toISOString(), rows: runLog }] : [])],
 }

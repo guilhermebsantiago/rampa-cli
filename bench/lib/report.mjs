@@ -325,7 +325,7 @@ export function renderSummary({ scores, cases, pairs, run }) {
   }
   lines.push(
     '',
-    'Failures only, as each tool defines them: what fails its run by default. The rows in italics read the same Rampa runs as `rampa eval` does, also counting findings below the default confidence threshold (judgments of ordinary titles, link texts and headings, and experimental checks such as every probe), which `rampa check` lists only with --verbose. Review items, and the scores if they counted, are in the results below. Every tool is scored on every criterion. Read the caveats before quoting a number: Rampa was tuned on these test cases, and the pairs are its own design.',
+    'Failures only, as each tool defines them: what fails its run by default. The rows in italics read the same Rampa runs as `rampa eval` does, also counting findings below the default confidence threshold (judgments of ordinary page titles under 2.4.2, and experimental checks such as every probe), which `rampa check` lists only with --verbose. A fail the model gives a link text (2.4.4) or a heading or label (2.4.6) with no fact Rampa checks behind it is a suggestion for a person, which neither reading counts. Review items, and the scores if they counted, are in the results below. Every tool is scored on every criterion. Read the caveats before quoting a number: Rampa was tuned on these test cases, and the pairs are its own design.',
   )
   return `${lines.join('\n')}\n`
 }
