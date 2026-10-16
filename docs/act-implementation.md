@@ -1,6 +1,6 @@
 # ACT implementation report
 
-Rampa's results on the W3C ACT test cases, in the format the [W3C ACT implementation pages](https://www.w3.org/WAI/standards-guidelines/act/implementations/) read, with the consistency those pages would compute from it. **Status: prepared, not submitted.** The steps that remain are in [Submission](#submission). The entry for the W3C Evaluation Tools List is in [w3c-evaluation-tools-list.md](w3c-evaluation-tools-list.md).
+Rampa's results on the W3C ACT test cases, in the format the [W3C ACT implementation pages](https://www.w3.org/WAI/standards-guidelines/act/implementations/) read, with the consistency those pages would compute from it. **Status: submitted on 2026-10-16 as [w3c/wcag-act-rules#457](https://github.com/w3c/wcag-act-rules/issues/457)**, waiting for W3C staff. How it was submitted is in [Submission](#submission). The entry for the W3C Evaluation Tools List is in [w3c-evaluation-tools-list.md](w3c-evaluation-tools-list.md).
 
 In short:
 
@@ -305,7 +305,7 @@ Rampa has no outcome for these; the W3C pages count them as untested.
 
 ## Submission
 
-**Status: pending.** Nothing has been submitted: no issue, pull request or e-mail. To submit:
+**Status: submitted.** The issue [w3c/wcag-act-rules#457](https://github.com/w3c/wcag-act-rules/issues/457) was opened on 2026-10-16 with the title and body below, for rampa-cli 0.1.1. W3C staff answer in that issue and add the entry in a pull request with a preview. To submit a later version, or to submit again:
 
 1. Merge `docs/act-0.1.1` into `main` and push. The report then has its permanent address, `https://raw.githubusercontent.com/guilhermebsantiago/rampa-cli/main/bench/act-report/rampa.earl.json`, which W3C downloads again, so rebuild it after each release. The tag `v0.1.1` has no copy of this report (it was built after the release), so the issue also gives the address of the commit that added it, `26e0c24`; that address works once the commit is on GitHub.
 2. Optionally, join the [ACT Rules Community Group](https://www.w3.org/community/act-r/), which the CG's own page asks for. It needs a W3C account and the CG's Contributor License Agreement. W3C's page does not mention it, and recent submissions did not either.
