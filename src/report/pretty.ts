@@ -34,7 +34,8 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   lines.push('')
 
   if (report.findings.length === 0) {
-    lines.push(p.green(noNewFindings(report) ?? t(locale, 'noFindings')))
+    // A page the site replaced with a bot check was not checked at all: "no failures" would read as a pass.
+    lines.push(report.blocked ? p.bold(p.yellow(t(locale, 'blockedHeadline'))) : p.green(noNewFindings(report) ?? t(locale, 'noFindings')))
     lines.push('')
   }
 

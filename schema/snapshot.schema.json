@@ -42,6 +42,48 @@
       ],
       "additionalProperties": false
     },
+    "blocked": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "challenge",
+            "refused"
+          ]
+        },
+        "vendor": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "string",
+          "enum": [
+            "header",
+            "mark",
+            "title",
+            "status"
+          ]
+        },
+        "detail": {
+          "type": "string"
+        },
+        "status": {
+          "type": "number"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "evidence",
+        "detail"
+      ],
+      "additionalProperties": false
+    },
+    "httpStatus": {
+      "type": "number"
+    },
     "title": {
       "type": "string"
     },
@@ -442,8 +484,14 @@
         "unsettledAfterMs": {
           "type": "number"
         },
+        "loadTimedOutMs": {
+          "type": "number"
+        },
         "truncated": {
           "type": "boolean"
+        },
+        "masked": {
+          "type": "number"
         }
       },
       "additionalProperties": false

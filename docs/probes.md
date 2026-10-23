@@ -42,7 +42,7 @@ rampa check android: --probe keyboard,layout,orientation   # an Android screen o
 rampa check sign-in-orientation.json                        # an XCUITest export with probe steps: orientation, text size (app screens, below)
 ```
 
-Why off: each probe loads the page again, and the keyboard walk takes screenshots at every Tab stop, so a probed page costs seconds to tens of seconds more than an unprobed one. The plan ([wcag-coverage.md](plans/wcag-coverage.md), 4.6) makes each kind a default only after it passes the evaluation gate and its cost is measured on real pages. `--probe` works with `rampa check` on URLs and HTML files, on Android screens (`android:`) and on XCUITest exports ([app screens](#app-screens-android-and-ios)); it does not run with `--crawl` yet.
+Why off: each probe loads the page again, and the keyboard walk takes screenshots at every Tab stop, so a probed page costs seconds to minutes more than an unprobed one. Each kind stops at its own time budget (the keyboard walk and hover at 120 s, orientation and shortcuts at 90 s), so `--probe all` ends, but on heavy pages it takes minutes: on the 37 home pages of the [robustness study](studies/robustness-2026-10-23.md) it checked, the median was 250 s and 9 took more than 5 minutes, and two news portals ran past the study's budget of 6. The plan ([wcag-coverage.md](plans/wcag-coverage.md), 4.6) makes each kind a default only after it passes the evaluation gate and its cost is measured on real pages. `--probe` works with `rampa check` on URLs and HTML files, on Android screens (`android:`) and on XCUITest exports ([app screens](#app-screens-android-and-ios)); it does not run with `--crawl` yet.
 
 ## What a probe may do
 

@@ -378,7 +378,8 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
       // What the collector could not see first, then what the check left out: images without a capture, and
       // candidates the model did not judge (past the cap or the time limit).
       const notes = [...collected.notes, ...(report.notes ?? []), ...rulesNotes(collected.engine, context.locale)]
-      if (collected.snapshot.surface === 'web') notes.push(singlePageNote(context.locale))
+      // A page the site replaced with a bot check was not checked at all, so what a single page leaves out does not apply.
+      if (collected.snapshot.surface === 'web' && !collected.snapshot.blocked) notes.push(singlePageNote(context.locale))
       if (changedNote?.note) notes.push(changedNote.note)
       if (notes.length > 0) report.notes = notes
       if (collected.usage) {
@@ -424,6 +425,8 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
   for (const report of reports) {
     const nothing = nothingJudgedNote(report)
     if (nothing) process.stderr.write(`rampa: ${displayTarget(report.target)}: ${nothing}\n`)
+    // A page the site replaced with a bot check or a refusal exits 2 too: nothing on it was checked.
+    if (report.blocked) process.stderr.write(`rampa: ${displayTarget(report.target)}: ${t(report.locale, 'blockedStderr')}\n`)
   }
   return exitCode(reports, options.failOn)
 }

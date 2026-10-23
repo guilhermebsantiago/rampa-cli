@@ -31,8 +31,9 @@ import type { Basis, Reference } from '../types.ts'
  * Rules decide, in four steps:
  * 1. Candidates: tokens of 2–8 characters with at least two capitals and no run of three lowercase
  *    letters (CPF, NIS, CNPJs), and the curated names that break that shape (CadÚnico). Left out: words
- *    written in capitals (ENTRAR, which the dictionary knows), Roman numerals, state codes, currencies and
- *    units next to a number, file formats, text in code or addresses, and the project's own list.
+ *    written in capitals (ENTRAR, which the dictionary knows), names in camel case (TikTok, AirTag), Roman
+ *    numerals, state codes, currencies and units next to a number, file formats, text in code or addresses,
+ *    and the project's own list.
  * 2. Explained when an occurrence has <abbr title>, a <dfn>, a glossary link, or its full term next to it
  *    (Schwartz and Hearst, 2003), in brackets or after a dash, in either order. Explained only later on
  *    the page is reported as "not at first use".
@@ -44,7 +45,7 @@ import type { Basis, Reference } from '../types.ts'
  * Only Portuguese and English are read: the languages with a dictionary and a curated list.
  */
 
-const VERSION = `1+lists-${LISTS_VERSION}`
+const VERSION = `2+lists-${LISTS_VERSION}`
 const TOKEN = /[\p{L}\p{N}]+/gu
 /** Addresses, e-mail addresses and domain names, blanked before tokens are read. */
 const ADDRESSES = /\b(?:https?:\/\/|www\.)\S+|\S+@\S+\.\S+|\b[\w-]+(?:\.[\w-]+)*\.(?:gov|com|org|net|edu|br|uk|io|mil|int)(?:\.[a-z]{2})?\b\S*/giu
@@ -330,6 +331,9 @@ function candidateKey(token: string, family: Family): string | undefined {
   const length = [...token].length
   if (length < 2 || length > 8 || !/^\p{Lu}/u.test(token)) return undefined
   if ((token.match(/\p{Lu}/gu)?.length ?? 0) < 2 || /\p{Ll}{3}/u.test(token)) return undefined
+  // A name in camel case, each part a capital and lowercase letters (TikTok, AirTag, DevCon, VaiVem): a brand, not an
+  // abbreviation. A mixed abbreviation ends in capitals (PhD, DoD), and the curated names (CadÚnico) are listed above.
+  if (/^(?:\p{Lu}\p{Ll}+){2,}$/u.test(token)) return undefined
   return /^(\p{Lu}[\p{Lu}\p{N}]+)s$/u.exec(token)?.[1] ?? token
 }
 

@@ -128,7 +128,8 @@ function pageSection(report: Report, index: number, several: boolean, verbose: b
   // With one page, the header already counts the findings.
   const counts = countLevels(report.findings)
   if (several || counts.total === 0) {
-    const lead = counts.total > 0 ? `${plural(locale, 'confirmedCount', counts.total)}: ${levelBreakdown(counts, locale, wcagVersion(report))}.` : t(locale, 'noFindings')
+    const lead =
+      counts.total > 0 ? `${plural(locale, 'confirmedCount', counts.total)}: ${levelBreakdown(counts, locale, wcagVersion(report))}.` : t(locale, report.blocked ? 'blockedHeadline' : 'noFindings')
     out.push(`<p class="page-lead">${e(lead)}</p>`)
   }
 

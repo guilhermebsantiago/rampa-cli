@@ -89,6 +89,8 @@ node -e "console.log(Object.keys(require('playwright-core').devices).join('\n'))
 
 By default Rampa collects the page once the `load` event fires and the page has settled: after load, and after any `--wait-for` step, it waits until no request for content (a frame's document, a script, a style sheet, a fetch or an XHR) has been in flight and the DOM has not changed (no mutation, no layout shift) for 300 ms, at most 3 s. Data a framework fetches right after load is drawn by then, and a page that never stops changing (a clock, a poll) costs 3 s, and its snapshot records it as `reach.unsettledAfterMs`. `checkPage` in your own tests collects the page as it is, without this wait: your test decides when the page is ready.
 
+A page that replaces its document after load (an interstitial that sets a cookie and reloads, a script that redirects) is collected once the new document has loaded and settled, not while it is still being parsed. When the browser cannot load a page because the network dropped or the connection was cut (`net::ERR_NETWORK_CHANGED`, `ERR_CONNECTION_RESET`, `ERR_NAME_NOT_RESOLVED` and the like), Rampa tries once more after 2 s; if that fails too, the error says in words what the browser's code means.
+
 Pages that render later still need more:
 
 | `--wait-for` | Waits for |
@@ -101,7 +103,7 @@ Pages that render later still need more:
 
 Repeat the flag to combine: the load state comes first (give at most one), then each selector or pause in the order given. `--wait-for networkidle --wait-for "#results"` waits for the network to settle and then for the results.
 
-`--timeout` limits the navigation and each wait, in milliseconds (30000 by default). A page that does not load in time, or a selector that never shows up, stops the check of that page with a message naming the limit. A single check ends with exit code 2; during a crawl, the page is listed under "Not checked" with the message, and the crawl goes on.
+`--timeout` limits the navigation and each wait, in milliseconds (30000 by default). A page that does not load in time, or a selector that never shows up, stops the check of that page with a message naming the limit. One exception: when the page's document has arrived and been parsed but its `load` event has not fired by then (an ad's frame or a widget's request that never finishes, as on busy news sites), Rampa reads the page as it is, and a note in the report says that what was still loading may be missing (`reach.loadTimedOutMs` in the snapshot). With `--wait-for networkidle` or `domcontentloaded` the limit stops the check as before. A single check ends with exit code 2; during a crawl, the page is listed under "Not checked" with the message, and the crawl goes on.
 
 ## What the report records
 

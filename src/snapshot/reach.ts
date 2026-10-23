@@ -22,11 +22,13 @@ export function unreached(reach: Reach | undefined): Reach | undefined {
     (frame) => !BY_DESIGN.has(frame.reason ?? '') && (!frame.collected || (frame.engine === false && !BY_DESIGN.has(frame.engineReason ?? ''))),
   )
   const closed = reach.shadowRoots?.closed ?? 0
-  if (frames.length === 0 && closed === 0 && !reach.truncated) return undefined
+  if (frames.length === 0 && closed === 0 && !reach.truncated && !reach.masked && reach.loadTimedOutMs === undefined) return undefined
   return {
     ...(frames.length > 0 ? { frames } : {}),
     ...(closed > 0 && reach.shadowRoots ? { shadowRoots: reach.shadowRoots } : {}),
     ...(reach.truncated ? { truncated: true } : {}),
+    ...(reach.masked ? { masked: reach.masked } : {}),
+    ...(reach.loadTimedOutMs !== undefined ? { loadTimedOutMs: reach.loadTimedOutMs } : {}),
   }
 }
 
@@ -46,6 +48,8 @@ export function reachNotes(reach: Reach | undefined, locale: Locale): string[] {
   const gaps = unreached(reach)
   if (!gaps) return []
   const notes: string[] = []
+  // A page read before its load event fired frames everything else: said first.
+  if (gaps.loadTimedOutMs !== undefined) notes.push(t(locale, 'reachLoadTimedOut', { ms: gaps.loadTimedOutMs }))
   const frames = gaps.frames ?? []
   // axe-core may run in a frame that has not loaded, on its blank document: that checks nothing.
   const engineOnly = frames.filter((frame) => !frame.collected && frame.engine === true && frame.reason !== 'not-loaded')
@@ -58,6 +62,7 @@ export function reachNotes(reach: Reach | undefined, locale: Locale): string[] {
   }
   if (noEngine.length > 0) notes.push(t(locale, 'reachNoEngine', { count: noEngine.length, frames: listed(noEngine, (frame) => frame.engineReason) }))
   if (gaps.truncated) notes.push(t(locale, 'reachTruncated'))
+  if (gaps.masked) notes.push(t(locale, 'reachMasked', { count: gaps.masked }))
   const closed = gaps.shadowRoots?.closed ?? 0
   if (closed > 0) {
     const hosts = gaps.shadowRoots?.closedHosts ?? []

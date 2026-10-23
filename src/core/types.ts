@@ -3,7 +3,7 @@ import type { AdvisorySection } from '../advisory/types.ts'
 import type { BaselineComparison } from '../adoption/baseline.ts'
 import type { Waiver } from '../adoption/waivers.ts'
 import type { Locale } from '../i18n.ts'
-import type { A11ySnapshot, Reach, Surface } from '../snapshot/schema.ts'
+import type { A11ySnapshot, Blocked, Reach, Surface } from '../snapshot/schema.ts'
 import type { Level, WcagTarget } from '../wcag.ts'
 import type { FastCoverage } from './fast.ts'
 import type { FailOn } from './gate.ts'
@@ -59,6 +59,8 @@ export interface EngineRuleResult {
 export interface EngineResults {
   engine: { name: string; version: string }
   rules: EngineRuleResult[]
+  /** Set when the engine stopped with an error on the page, so none of its rules ran: the engine and its message. */
+  error?: string | undefined
 }
 
 // Judgment layer
@@ -518,6 +520,13 @@ export interface Report {
   errors: string[]
   /** What the collector or the rules could not see or decide, in the report's language. */
   notes?: string[] | undefined
+  /**
+   * Set when the site sent a bot check or a refusal in place of the page (snapshot `blocked`, surfaces/bot-check.ts):
+   * nothing was checked, the notes say what the site sent, and rampa check exits 2.
+   */
+  blocked?: Blocked | undefined
+  /** The HTTP status of the page checked, when it was an error (400 or more): the report is about the error page that came with it. */
+  httpStatus?: number | undefined
   /**
    * Set when the form probe was allowed to submit forms (`--allow-submit`) or listed what it would submit
    * (`--submit-dry-run`), from its record, so a saved run replays it too: the origins named, the requests the guard
