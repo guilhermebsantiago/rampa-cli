@@ -259,17 +259,100 @@ export function headersFor(url: string, sites: readonly URL[], options: BrowserO
   return options.headers
 }
 
+/** Whether the page's document has been parsed (readyState interactive or complete), with a moment to answer. */
+async function parsed(page: Page): Promise<boolean> {
+  const state = await Promise.race([page.evaluate(() => document.readyState).catch(() => 'loading'), new Promise<string>((resolve) => setTimeout(() => resolve('loading'), 2000))])
+  return state === 'interactive' || state === 'complete'
+}
+
+/** Network errors a second try often gets past: the network dropped or changed for a moment, or the connection was cut. */
+const TRANSIENT =
+  /^ERR_(NETWORK_CHANGED|INTERNET_DISCONNECTED|NETWORK_IO_SUSPENDED|ADDRESS_UNREACHABLE|NAME_NOT_RESOLVED|CONNECTION_RESET|CONNECTION_CLOSED|CONNECTION_ABORTED|SOCKET_NOT_CONNECTED|EMPTY_RESPONSE|TIMED_OUT|HTTP2_PROTOCOL_ERROR|QUIC_PROTOCOL_ERROR)$/
+
+/** What the browser's network error codes mean, for the message of a page that could not be loaded. */
+const NET_ERRORS: Array<[RegExp, string]> = [
+  [/NAME_NOT_RESOLVED/, 'its host name did not resolve: check the address and the network'],
+  [/INTERNET_DISCONNECTED|NETWORK_CHANGED|NETWORK_IO_SUSPENDED|ADDRESS_UNREACHABLE/, 'the network was down or changed while it loaded'],
+  [/CONNECTION_REFUSED/, 'nothing answered at that address'],
+  [/CONNECTION_RESET|CONNECTION_CLOSED|CONNECTION_ABORTED|SOCKET_NOT_CONNECTED|EMPTY_RESPONSE/, 'the connection was cut before the page arrived'],
+  [/HTTP2_PROTOCOL_ERROR|QUIC_PROTOCOL_ERROR/, 'the server broke the connection off, as some bot protection does with automated browsers'],
+  [/HTTP_RESPONSE_CODE_FAILURE/, 'the server answered with an HTTP error{status} and an empty page, as some bot protection does with automated browsers'],
+  [/CERT_|SSL_/, "the site's certificate or its TLS setup was not accepted"],
+  [/TOO_MANY_REDIRECTS/, 'the address redirects in a loop'],
+  [/TIMED_OUT/, 'the connection timed out'],
+  [/ABORTED/, 'the navigation was cancelled before the page arrived: the address may download a file instead of showing a page, or the server broke it off'],
+]
+
+/**
+ * Pages whose load event had not fired when the timeout ran out, though their document had arrived and been parsed:
+ * openPage hands them over as they are, and the collector says so (`reach.loadTimedOutMs`).
+ */
+const lateLoads = new WeakMap<Page, number>()
+
+/** The timeout a page ran out of before its load event fired, when openPage handed it over as it was; undefined otherwise. */
+export function loadedLate(page: Page): number | undefined {
+  return lateLoads.get(page)
+}
+
 /** Navigates, then waits for each element or pause from --wait-for, in order. */
 export async function openPage(page: Page, url: string, options: BrowserOptions = {}, timeoutMs?: number): Promise<Response | null> {
   const timeout = options.timeoutMs ?? timeoutMs ?? DEFAULT_TIMEOUT_MS
   const waitUntil = options.waitUntil ?? 'load'
-  let response: Response | null
+  let response: Response | null = null
+  // The status of the document's response, for a navigation the browser fails on an HTTP error with an empty body,
+  // and the response itself, for a page whose load event never comes.
+  let status: number | undefined
+  let arrived: Response | undefined
+  const seen = (answer: Response) => {
+    try {
+      if (!answer.request().isNavigationRequest() || answer.frame() !== page.mainFrame()) return
+      status = answer.status()
+      if (status < 300 || status >= 400) arrived = answer
+    } catch {
+      // A service worker's response has no frame.
+    }
+  }
+  page.on('response', seen)
   try {
-    response = await page.goto(url, { waitUntil, timeout })
-  } catch (error) {
-    if (!(error instanceof errors.TimeoutError)) throw error
-    const hint = waitUntil === 'networkidle' ? 'Raise --timeout, or wait for load instead of networkidle.' : 'Raise --timeout.'
-    throw new RampaError('page-timeout', `${url} did not reach ${waitUntil} within ${timeout} ms. ${hint}`)
+    let first: string | undefined
+    for (;;) {
+      // Only this try's document counts: an earlier try's may have arrived before its connection was cut.
+      arrived = undefined
+      try {
+        response = await page.goto(url, { waitUntil, timeout })
+        break
+      } catch (error) {
+        if (error instanceof errors.TimeoutError) {
+          // The document arrived and was parsed, but its load event waits on something that never finishes (an ad's
+          // frame, a widget's request), as on busy news sites: the page is read as it is, and the report says so.
+          // Not with networkidle or domcontentloaded, which were asked for.
+          if (waitUntil === 'load' && arrived && (await parsed(page))) {
+            lateLoads.set(page, timeout)
+            response = arrived
+            break
+          }
+          const hint = waitUntil === 'networkidle' ? 'Raise --timeout, or wait for load instead of networkidle.' : 'Raise --timeout.'
+          throw new RampaError('page-timeout', `${url} did not reach ${waitUntil} within ${timeout} ms. ${hint}`)
+        }
+        // The browser's own error, such as net::ERR_NAME_NOT_RESOLVED: said in words, without the browser library's call log.
+        const code = /net::(ERR_[A-Z0-9_]+)/.exec(errorMessage(error))?.[1]
+        if (!code) throw error
+        // Once more after a moment for a network that dropped or a connection that was cut: a flaky network is not the page.
+        if (first === undefined && TRANSIENT.test(code)) {
+          first = code
+          await new Promise((resolve) => setTimeout(resolve, 2000))
+          continue
+        }
+        // The second try's error says what went wrong (a server that answers with an empty 403 once the network is back),
+        // unless it only says the navigation was cancelled (ERR_ABORTED after a connection cut off): then the first does.
+        const cause = first !== undefined && /ABORTED/.test(code) ? first : code
+        const meaning = (NET_ERRORS.find(([pattern]) => pattern.test(cause))?.[1] ?? 'the browser could not load it').replace('{status}', status ? ` (${status})` : '')
+        const codes = first === undefined ? `net::${code}` : first === code ? `net::${code}, on a second try too` : `net::${first}, then net::${code} on a second try`
+        throw new RampaError('page-unreachable', `${url} could not be loaded (${codes}): ${meaning}.`)
+      }
+    }
+  } finally {
+    page.off('response', seen)
   }
   for (const step of options.waitFor ?? []) {
     if ('ms' in step) {

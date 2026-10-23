@@ -8,18 +8,19 @@ import { RampaError, errorMessage, sha256 } from '../core/util.ts'
 import { AXE_REVIEW_RULES, axeLocale, axeSource, axeTags, emptyEngine, engineFromAxe } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
 import { type HandleFrame, elementForRef, isQualifiedRef, resolverSource } from '../snapshot/refs.ts'
-import type { A11yNode, A11ySnapshot, ProbeRecord } from '../snapshot/schema.ts'
+import type { A11yNode, A11ySnapshot, Blocked, ProbeRecord } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
 import type { WcagVersion } from '../wcag.ts'
 import { walkTree } from '../snapshot/tree.ts'
 import { type FollowOptions, followLinks, readDestinations } from './destinations.ts'
-import { type BrowserOptions, contextOptions, openPage, prepareContext } from './browser-options.ts'
+import { type BrowserOptions, contextOptions, loadedLate, openPage, prepareContext } from './browser-options.ts'
 import { type AxLimits, attachAxTree, axLimits } from './ax-tree.ts'
 import { attachFormIssues } from './form-issues.ts'
 import { type ContrastCaptureOptions, captureContrast } from './contrast-capture.ts'
 import { blankContentInPage, captureImageNodes, hiddenImageTargets, imageTargets, isCapturableImage, restoreImageInPage } from './image-capture.ts'
 import { libraryFrameDriver, runAxeInFrames } from './frames.ts'
 import { attachMotionFacts } from './motion.ts'
+import { SHORT, blockedFactsInPage, blockedPage } from './bot-check.ts'
 import { MAX_NODES, collectInPage, documentKindInPage, type InPageResult } from './in-page.ts'
 import { collectPresentation } from './presentation.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
@@ -139,6 +140,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
   })
   // Watched from before navigation, so a request still in flight at load holds the wait after it.
   const network = watchNetwork(page)
+  const documents = watchDocuments(page)
   try {
     const response = await timed(watch, 'navigation', async () => {
       await prepareContext(context, url, options.browserOptions)
@@ -148,13 +150,30 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     if (options.requireOk && status >= 400) throw new RampaError('http-error', `HTTP ${status} at ${url}`)
     // Content drawn after load (data a framework fetches, a widget that mounts) is collected too.
     let settled = await timed(watch, 'settle', () => settlePage(page, network, settle))
+    // A page that replaced its document while it settled (a bot check's interstitial that reloads, a script that
+    // redirects) is read once the new document has loaded and settled, not half parsed.
+    const landing = Math.min(options.timeoutMs ?? 30_000, 15_000)
+    // Loaded as the navigation waited for it: the load event, or the DOM parsed with --wait-for domcontentloaded.
+    const ready = (state: string) => state === 'complete' || (state === 'interactive' && options.browserOptions?.waitUntil === 'domcontentloaded')
+    for (let seen = documents.count(), round = 0; round < 3; round++) {
+      if (ready(await readyState(page)) && documents.count() === seen) break
+      seen = documents.count()
+      await timed(watch, 'navigation', () => documentLoaded(page, landing, ready))
+      settled = await timed(watch, 'settle', () => settlePage(page, network, settle))
+    }
     if (options.inspect) await options.inspect(page, response)
     if (options.mutate) await options.mutate(page)
     const collect = async () => {
       const kind = await page.evaluate(documentKindInPage)
       // An XML document the browser shows as its source tree: the page in the browser is its viewer, not the
       // document, so nothing of it is read. The report says the page was not checked (core/check.ts).
-      if (kind.kind === 'xml') return { ...(await unreadDocument(page)), kind, axe: undefined, engineFrames: undefined, axTree: undefined }
+      if (kind.kind === 'xml') return { ...(await unreadDocument(page)), kind, blocked: undefined, axe: undefined, engineFrames: undefined, axTree: undefined, engineError: undefined }
+      // A bot check or a refusal in place of the page is the vendor's page, not the site's: it is not read either,
+      // and the report says what the site sent instead (surfaces/bot-check.ts). Only a server sends one: a local file
+      // is read whatever its title says.
+      const served = /^https?:/i.test(page.url())
+      const blocked = kind.kind === 'html' && served ? blockedPage(await page.evaluate(blockedFactsInPage, SHORT.elements), responseFacts(documents.last() ?? response)) : undefined
+      if (blocked) return { ...(await unreadDocument(page)), kind, blocked, axe: undefined, engineFrames: undefined, axTree: undefined, engineError: undefined }
       // Evaluated, not added as a <script>: an SVG document has no head to add one to, and a script element outside
       // the HTML namespace never runs. The other frames get axe-core the same way (frames.ts).
       if (options.runAxe) await timed(watch, 'axe', async () => page.evaluate(await axeSource()))
@@ -168,24 +187,31 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
         options.axTree === false
           ? undefined
           : await timed(watch, 'ax-tree', () => attachAxTree(() => context.newCDPSession(page), tree.root as A11yNode, axLimits(options.axTree)))
-      // After the tree: the engine's results are mapped to the refs the collector gave their elements.
+      // After the tree: the engine's results are mapped to the refs the collector gave their elements. An engine that
+      // stops with an error on the page (axe-core reading an element a script masked) leaves the rest of the check
+      // standing: its rules did not run, and the report says so.
+      let engineError: string | undefined
       const checked = options.runAxe
         ? await timed(watch, 'axe', async () =>
             runAxeInFrames(libraryFrameDriver(page), { tags: axeTags(options.wcag), rules: AXE_REVIEW_RULES, locale: await axeLocale(options.locale) }, axeSource),
-          )
+          ).catch((error: unknown) => {
+            if (navigatedAway(error)) throw error
+            engineError = errorMessage(error).split('\n')[0]?.replace(/^page\.evaluate: /, '').slice(0, 300)
+            return undefined
+          })
         : undefined
-      return { ...tree, kind, axe: checked?.axe, engineFrames: checked?.frames, axTree }
+      return { ...tree, kind, blocked: undefined as Blocked | undefined, axe: checked?.axe, engineFrames: checked?.frames, axTree, engineError }
     }
     // A page that redirects at once (a 0 s refresh, in a meta element or a Refresh header) navigates while it is
-    // being read. The redirect is recorded and the page it lands on is collected, instead of failing the target.
+    // being read. The redirect is recorded and the page it lands on is collected, instead of failing the target. The
+    // page it lands on may have the same address (a reload): what is awaited is that its document has loaded.
     const loaded = response?.url() ?? url
     let raw: Awaited<ReturnType<typeof collect>>
     try {
       raw = await collect()
     } catch (error) {
       if (!navigatedAway(error)) throw error
-      const timeout = Math.min(options.timeoutMs ?? 30_000, 10_000)
-      await timed(watch, 'navigation', () => page.waitForURL((address) => address.href !== loaded, { waitUntil: 'load', timeout }).catch(() => undefined))
+      await timed(watch, 'navigation', () => documentLoaded(page, Math.min(options.timeoutMs ?? 30_000, 10_000), ready))
       settled = await timed(watch, 'settle', () => settlePage(page, network, settle))
       raw = await collect()
     }
@@ -194,8 +220,9 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     const cdp = () => context.newCDPSession(page)
     // A standalone SVG document is read and checked by axe-core and the rules; what is built for HTML (the reading
     // presentation, contrast from pixels, the probes) is not run on it. An XML document is not read at all.
-    const html = raw.kind.kind === 'html'
-    const readable = raw.kind.kind !== 'xml'
+    const blocked = raw.blocked
+    const html = raw.kind.kind === 'html' && !blocked
+    const readable = raw.kind.kind !== 'xml' && !blocked
     // Before any capture scrolls the page or hides its layers: the lines are measured as the page first shows them.
     const presentation =
       options.presentation && html
@@ -224,6 +251,8 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       closed,
       unsettledAfterMs: settled.settled ? undefined : settle.capMs,
       truncated: raw.beyondTruncated,
+      masked: raw.masked,
+      loadTimedOutMs: loadedLate(page),
     })
     // Response headers are facts the rules read: a Refresh header works like <meta http-equiv="refresh">, out of axe-core's sight.
     const refresh = response?.headers().refresh
@@ -233,7 +262,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     if (options.captureImages && readable) await timed(watch, 'image-capture', () => captureImages(page, root, options.imageCapture))
     // Whether each label 3.3.2 relies on shows its text, from two captures (label-visibility.ts); no model involved.
     if (readable) await timed(watch, 'label-visibility', () => measureLabelPixels(page, root))
-    const engine = raw.axe ? engineFromAxe(raw.axe) : emptyEngine()
+    const engine: EngineResults = raw.axe ? engineFromAxe(raw.axe) : { ...emptyEngine(), ...(raw.engineError ? { error: `axe-core: ${raw.engineError}` } : {}) }
     // The capture reads colors through an HTML canvas element, which an SVG document does not create: there, text
     // contrast stays axe-core's.
     if (raw.axe && html && options.pixelContrast !== false) {
@@ -257,11 +286,15 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     // Whether the page listens to the device's motion, for 2.5.4 (surfaces/motion.ts): last, as it reads the page's scripts.
     if (readable) await timed(watch, 'collection', () => attachMotionFacts(cdp, root))
 
+    // The status of the document read: an error page is checked as the page that came, and the report says with which status.
+    const documentStatus = (documents.last() ?? response)?.status() ?? 0
     const snapshot: A11ySnapshot = {
       schemaVersion: 1,
       surface: 'web',
       target: url,
-      ...(html ? {} : { document: { kind: raw.kind.kind === 'svg' ? 'svg' : 'xml', contentType: raw.kind.contentType } }),
+      ...(raw.kind.kind === 'html' ? {} : { document: { kind: raw.kind.kind === 'svg' ? 'svg' : 'xml', contentType: raw.kind.contentType } }),
+      ...(blocked ? { blocked } : {}),
+      ...(documentStatus >= 400 ? { httpStatus: documentStatus } : {}),
       title: raw.title || undefined,
       locale: raw.lang,
       viewport: raw.viewport,
@@ -278,7 +311,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     }
     if (options.probes && options.probes.length > 0 && !html) {
       // The probes drive an HTML page (keys, focus, injected style sheets, media): on another document each is recorded as not run.
-      snapshot.observations = { probes: options.probes.map((kind) => skippedRecord(kind, '0', undefined, notHtmlReason(raw.kind.kind), 0)) }
+      snapshot.observations = { probes: options.probes.map((kind) => skippedRecord(kind, '0', undefined, blocked ? BLOCKED_REASON : notHtmlReason(raw.kind.kind), 0)) }
     } else if (options.probes && options.probes.length > 0) {
       const probeOptions = {
         browserOptions: options.browserOptions,
@@ -301,8 +334,51 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     return { snapshot, engine }
   } finally {
     network.stop()
+    documents.stop()
     await timed(watch, 'teardown', () => context.close())
   }
+}
+
+/** The document's readyState, or `navigating` while a new document replaces it. */
+async function readyState(page: Page): Promise<string> {
+  return page.evaluate(() => document.readyState).catch(() => 'navigating')
+}
+
+/** Waits until the page's document is `ready`, through any navigation that replaces it meanwhile; at most `ms`. */
+async function documentLoaded(page: Page, ms: number, ready: (state: string) => boolean): Promise<void> {
+  const deadline = Date.now() + ms
+  while (!ready(await readyState(page)) && Date.now() < deadline) await new Promise((resolve) => setTimeout(resolve, 100))
+}
+
+/** The probes' record on a page the site replaced with a bot check or a refusal. */
+const BLOCKED_REASON = 'not run: the site sent a bot check or a refusal in place of the page'
+
+/**
+ * The responses that brought the main frame a new document (redirects aside), counted from before navigation: the
+ * last one is the document the page shows, and a count that grows after load means the page replaced itself.
+ */
+function watchDocuments(page: Page): { count(): number; last(): Response | undefined; stop(): void } {
+  let count = 0
+  let last: Response | undefined
+  const seen = (response: Response) => {
+    try {
+      if (!response.request().isNavigationRequest() || response.frame() !== page.mainFrame()) return
+    } catch {
+      // A service worker's response has no frame.
+      return
+    }
+    const status = response.status()
+    if (status >= 300 && status < 400) return
+    count++
+    last = response
+  }
+  page.on('response', seen)
+  return { count: () => count, last: () => last, stop: () => page.off('response', seen) }
+}
+
+/** The status and headers bot-check detection reads; undefined for a document that came with no response (about:blank, a data: address). */
+function responseFacts(response: Response | null | undefined): { status: number; headers: Record<string, string> } | undefined {
+  return response ? { status: response.status(), headers: response.headers() } : undefined
 }
 
 /**

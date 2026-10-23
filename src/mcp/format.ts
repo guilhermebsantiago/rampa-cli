@@ -293,7 +293,7 @@ export function checkText(report: Report, result: CheckResult): string {
   if (report.model) meta.push(`${t(locale, 'model')}: ${report.model}`)
   lines.push(meta.join(' · '), '')
 
-  if (result.findings.length === 0) lines.push(t(locale, 'noFindings'))
+  if (result.findings.length === 0) lines.push(t(locale, report.blocked ? 'blockedHeadline' : 'noFindings'))
   else {
     lines.push(
       t(locale, 'agentFindings', {

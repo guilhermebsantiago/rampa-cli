@@ -211,10 +211,20 @@ export const ReachSchema = z.object({
   /** The page was still changing (network or DOM) when the wait after load reached its cap, in milliseconds. */
   unsettledAfterMs: z.number().optional(),
   /**
+   * The page's load event had not fired when the timeout (--timeout) ran out, in milliseconds, though its document had
+   * arrived and been parsed: it was read as it was then, so what was still loading may be missing.
+   */
+  loadTimedOutMs: z.number().optional(),
+  /**
    * Shadow roots and frames have a budget of elements of their own, next to the page's (`truncated`): the
    * collector stopped at it, so what follows in them is not in the snapshot.
    */
   truncated: z.boolean().optional(),
+  /**
+   * Elements a page script had made unreadable, by giving them DOM properties of their own that read as nothing (a
+   * bot check hides its frame so): left out of the tree with what they hold.
+   */
+  masked: z.number().optional(),
 })
 export type Reach = z.infer<typeof ReachSchema>
 
@@ -346,6 +356,26 @@ export const DocumentKindSchema = z.object({
 })
 export type DocumentKind = z.infer<typeof DocumentKindSchema>
 
+/**
+ * A page the site sent in place of the one asked for, which the collector did not read (surfaces/bot-check.ts):
+ * a bot check (a challenge page, a captcha), or an HTTP refusal with a short page.
+ */
+export const BlockedSchema = z.object({
+  /** challenge: a bot check; refused: an HTTP refusal (403, 429) with a short page in its place. */
+  kind: z.enum(['challenge', 'refused']),
+  /** The bot protection whose marks the page or the response bears: Cloudflare, Akamai, DataDome, HUMAN (PerimeterX), Imperva... */
+  vendor: z.string().optional(),
+  /** What gave it away: a response header, a vendor's mark on the page, the page's title, or the HTTP status of a short page. */
+  evidence: z.enum(['header', 'mark', 'title', 'status']),
+  /** The header, the mark, the title or the status, as found. */
+  detail: z.string(),
+  /** The HTTP status of the page's document. */
+  status: z.number().optional(),
+  /** The title of the page the site sent. */
+  title: z.string().optional(),
+})
+export type Blocked = z.infer<typeof BlockedSchema>
+
 export const A11ySnapshotSchema = z.object({
   schemaVersion: z.literal(1),
   surface: SurfaceSchema,
@@ -353,6 +383,10 @@ export const A11ySnapshotSchema = z.object({
   target: z.string(),
   /** Set when the page is not an HTML document: what the collector, the rules and the probes could read of it. */
   document: DocumentKindSchema.optional(),
+  /** Set when the site sent a bot check or a refusal in place of the page: nothing of it was read, and the report says so. */
+  blocked: BlockedSchema.optional(),
+  /** The HTTP status of the page's document, when it was an error (400 or more): the page checked is the error page that came with it. */
+  httpStatus: z.number().optional(),
   title: z.string().optional(),
   /** Default language of the screen (html lang, app locale). */
   locale: z.string().optional(),

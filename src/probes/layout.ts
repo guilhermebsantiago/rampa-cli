@@ -564,14 +564,23 @@ export interface SpacingApplied {
  */
 export function applyTextSpacing(options: { wordSpacing: boolean }): number {
   let count = 0
+  // The browser's own inline style, read with its own getter: a custom element may define a `style` of its own, which
+  // hides it (YouTube's yt-attributed-string gives a symbol there).
+  const htmlStyle = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'style')?.get
+  const svgStyle = Object.getOwnPropertyDescriptor(SVGElement.prototype, 'style')?.get
+  const inline = (el: HTMLElement | SVGElement): CSSStyleDeclaration | undefined => {
+    const declared = (el instanceof SVGElement ? svgStyle : htmlStyle)?.call(el) as CSSStyleDeclaration | undefined
+    return declared && typeof declared.setProperty === 'function' ? declared : undefined
+  }
   const style = (scope: Document | ShadowRoot) => {
     for (const el of Array.from(scope.querySelectorAll('*'))) {
       if (!(el instanceof HTMLElement) && !(el instanceof SVGElement)) continue
-      const target = el as HTMLElement
-      target.style.setProperty('line-height', '1.5', 'important')
-      target.style.setProperty('letter-spacing', '0.12em', 'important')
-      if (options.wordSpacing) target.style.setProperty('word-spacing', '0.16em', 'important')
-      if (el.localName === 'p') target.style.setProperty('margin-bottom', '2em', 'important')
+      const declaration = inline(el)
+      if (!declaration) continue
+      declaration.setProperty('line-height', '1.5', 'important')
+      declaration.setProperty('letter-spacing', '0.12em', 'important')
+      if (options.wordSpacing) declaration.setProperty('word-spacing', '0.16em', 'important')
+      if (el.localName === 'p') declaration.setProperty('margin-bottom', '2em', 'important')
       count++
       if (el.shadowRoot) style(el.shadowRoot)
     }

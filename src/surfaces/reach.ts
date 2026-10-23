@@ -21,6 +21,10 @@ export interface ReachInput {
   unsettledAfterMs?: number | undefined
   /** The budget of elements for shadow roots and frames ran out. */
   truncated?: boolean | undefined
+  /** Elements whose DOM properties a page script had masked, left out of the tree. */
+  masked?: number | undefined
+  /** The timeout the page ran out of before its load event fired; it was read as it was. */
+  loadTimedOutMs?: number | undefined
 }
 
 /** Undefined when the page has no frame and no shadow root, and settled in time: the snapshot stays as it always was. */
@@ -51,6 +55,8 @@ export function buildReach(input: ReachInput): Reach | undefined {
       : {}),
     ...(input.unsettledAfterMs !== undefined ? { unsettledAfterMs: input.unsettledAfterMs } : {}),
     ...(input.truncated ? { truncated: true } : {}),
+    ...(input.masked ? { masked: input.masked } : {}),
+    ...(input.loadTimedOutMs !== undefined ? { loadTimedOutMs: input.loadTimedOutMs } : {}),
   }
   return Object.keys(reach).length > 0 ? reach : undefined
 }

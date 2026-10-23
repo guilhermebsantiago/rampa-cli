@@ -69,6 +69,11 @@ export interface InPageResult {
   shadowRoots: number
   /** Elements of shadow roots and frames, which have a budget of their own (maxNodes), were left out past it. */
   beyondTruncated: boolean
+  /**
+   * Elements a page script had given DOM properties of their own that hide what they are (a bot check's frame reads
+   * as undefined everywhere): left out of the tree with what they hold, and counted here.
+   */
+  masked?: number | undefined
 }
 
 export interface InPageOptions {
@@ -100,11 +105,17 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   let shadowRoots = 0
   let beyond = 0
   let beyondTruncated = false
+  let masked = 0
   const frames: InPageFrame[] = []
 
   const escapeId = (value: string): string => CSS.escape(value)
-  const isDocument = (node: Node): node is Document => node.nodeType === 9
-  const isShadowRoot = (node: Node): node is ShadowRoot => node.nodeType === 11 && 'host' in node
+  // Null-safe: an element whose getRootNode() a page script replaced may give nothing back.
+  const isDocument = (node: Node | null | undefined): node is Document => node?.nodeType === 9
+  const isShadowRoot = (node: Node | null | undefined): node is ShadowRoot => node?.nodeType === 11 && 'host' in node
+  // A page script can shadow an element's DOM properties with its own, so that reading them gives nothing: a bot check
+  // hides its frame so from automated browsers, and every property, getRootNode() and localName included, reads as
+  // undefined. No page renames an element, so a name that is not a string marks it.
+  const isMasked = (el: Element): boolean => typeof el.localName !== 'string' || typeof el.nodeType !== 'number'
   // An id anchors a ref only in a document (the page's or a frame's), as in the probe kit: a shadow root's chain starts at its own children.
   const hasUniqueId = (el: Element): boolean => {
     if (el.id === '') return false
@@ -885,6 +896,10 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   }
 
   const build = (el: Element): InPageNode | undefined => {
+    if (isMasked(el)) {
+      masked++
+      return undefined
+    }
     if (SKIP.has(el.localName)) return undefined
     // The page's own document has the budget it always had; shadow roots and frames have one of their own, so a
     // page of web components (an icon set, a code editor) cannot crowd the page's own content out.
@@ -964,10 +979,19 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
   if (body) root.native.bodyLook = body
   // Left on the page so the collector can map nodes it learns about over CDP (Chromium's form issues) and the
   // engine's results to refs, and find the element of a ref again (image captures, scoping).
-  const page = window as unknown as { __rampaRefs?: Map<Element, string>; __rampaNodes?: Map<string, Element>; __rampaRefOf?: (el: Element) => string }
+  const page = window as unknown as { __rampaRefs?: Map<Element, string>; __rampaNodes?: Map<string, Element>; __rampaRefOf?: (el: Element) => string | undefined }
   page.__rampaRefs = refs
   page.__rampaNodes = new Map(Array.from(refs, ([el, ref]) => [ref, el]))
-  page.__rampaRefOf = (el: Element) => refs.get(el) ?? cssPath(el)
+  // An element the tree left out (masked, or inside one) may have no path to give: it then has no ref.
+  page.__rampaRefOf = (el: Element) => {
+    const known = refs.get(el)
+    if (known !== undefined) return known
+    try {
+      return isMasked(el) ? undefined : cssPath(el)
+    } catch {
+      return undefined
+    }
+  }
 
   return {
     title: document.title,
@@ -978,6 +1002,7 @@ export async function collectInPage(options: InPageOptions): Promise<InPageResul
     frames,
     shadowRoots,
     beyondTruncated,
+    ...(masked > 0 ? { masked } : {}),
   }
 }
 

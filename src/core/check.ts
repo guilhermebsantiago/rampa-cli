@@ -11,6 +11,7 @@ import { RULE_CHECKS, type RuleCheck, type RuleStageResult, type Settlement, emp
 import { reviewLabelInName } from '../rules/label-in-name.ts'
 import { uncapturedImagesNote } from '../snapshot/image-skips.ts'
 import { axNotes, browserNamed } from '../snapshot/ax.ts'
+import { blockedNote, httpErrorNote } from '../snapshot/blocked.ts'
 import { pageCut, reachNotes, truncationNote, unreached } from '../snapshot/reach.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { AXE_REVIEW_RULES, EXPERIMENTAL_RULES } from '../engine/axe.ts'
@@ -137,8 +138,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const threshold = assertConfidence(options.minConfidence)
   const watch = options.timings
   const ruleStart = performance.now()
-  // An XML document the collector did not read (surfaces/web.ts): no rule and no judgment runs, and a note says so.
-  const unread = snapshot.document?.kind === 'xml'
+  // An XML document the collector did not read, or a bot check the site sent in place of the page (surfaces/web.ts):
+  // no rule and no judgment runs, and a note says so.
+  const unread = snapshot.document?.kind === 'xml' || snapshot.blocked !== undefined
   const stage: RuleStageResult = options.rules === false || unread ? emptyRuleStage() : runRuleChecks(snapshot, engine, options.locale, options.rules ?? RULE_CHECKS)
   // Label-in-name failures that differ only by a hyphen or a shortened word go to review (src/rules/label-in-name.ts).
   const fromEngine = options.rules === false ? engineFindings(engine) : reviewLabelInName(engineFindings(engine), snapshot, options.locale)
@@ -517,6 +519,12 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   notes.unshift(...(cutNote ? [cutNote] : []), ...reachNotes(snapshot.reach, options.locale), ...axNotes(snapshot.axTree, options.locale), ...(uncaptured ? [uncaptured] : []))
   // A page that is not an HTML document frames everything else, a cut included: said before it.
   if (snapshot.document) notes.unshift(t(options.locale, snapshot.document.kind === 'svg' ? 'documentSvg' : 'documentXml', { contentType: snapshot.document.contentType }))
+  // An engine that stopped with an error on the page checked nothing: said with the gaps of what was read.
+  if (engine.error) notes.unshift(t(options.locale, 'engineFailed', { error: engine.error }))
+  // What the site sent instead of the page comes before everything: a bot check or a refusal, which was not read, or
+  // an error page, which was checked as the page that came.
+  if (snapshot.blocked) notes.unshift(blockedNote(snapshot.blocked, options.locale))
+  else if (snapshot.httpStatus) notes.unshift(httpErrorNote(snapshot.httpStatus, options.locale))
   const reach = unreached(snapshot.reach)
   // The form probe submitted forms, or listed what it would: every report says so at the top.
   const submissions = submissionSummary(snapshot)
@@ -558,6 +566,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     usage,
     errors,
     ...(notes.length > 0 ? { notes } : {}),
+    ...(snapshot.blocked ? { blocked: snapshot.blocked } : {}),
+    ...(snapshot.httpStatus ? { httpStatus: snapshot.httpStatus } : {}),
     ...(submissions ? { submissions } : {}),
     ...(advisory ? { advisory: advisory.section } : {}),
   }

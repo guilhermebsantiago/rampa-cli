@@ -67,6 +67,9 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
     head.push(
       `**${plural(locale, 'confirmedCount', confirmed.length)}** ${plural(locale, 'onPages', reports.length, { version })}: ${levelBreakdown(counts, locale, version)}.`,
     )
+  } else if (reports.length === 1 && reports[0]?.blocked) {
+    // A page the site replaced with a bot check was not checked at all: "no failures" would read as a pass.
+    head.push(`**${t(locale, 'blockedHeadline')}**`)
   } else {
     head.push(`**${plural(locale, 'noFindingsPages', reports.length)}**`)
   }

@@ -121,6 +121,12 @@ export async function runProfiles(snapshot: A11ySnapshot, engine: EngineResults,
   const notes: string[] = []
   const errors: string[] = []
   const positionOf = new Map(page.ordered.map((node, index) => [node.ref, index]))
+  // A page the collector did not read (a bot check the site sent in its place, an XML document) has nothing to screen.
+  const unread = snapshot.blocked
+    ? 'not run: the site sent a bot check or a refusal in place of the page'
+    : snapshot.document?.kind === 'xml'
+      ? 'not run: the page is an XML document Rampa does not read'
+      : undefined
 
   for (const [order, check] of COGNITIVE_CHECKS.entries()) {
     const summary: AdvisoryCheckSummary = {
@@ -135,6 +141,10 @@ export async function runProfiles(snapshot: A11ySnapshot, engine: EngineResults,
     checks.push(summary)
     if (!check.surfaces.includes(snapshot.surface)) {
       summary.reason = `not on ${snapshot.surface}`
+      continue
+    }
+    if (unread) {
+      summary.reason = unread
       continue
     }
     try {
