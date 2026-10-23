@@ -13,6 +13,7 @@ import type { A11ySnapshot } from '../src/snapshot/schema.ts'
 import { fleschKincaidEn, fleschMartinsPt, martinsBand } from '../src/text/formulas.ts'
 import { icuVersion, sentences, words } from '../src/text/segment.ts'
 import { syllablesEn, syllablesPt } from '../src/text/syllables.ts'
+import { profileOf } from './coga-helpers.ts'
 import { node } from './helpers.ts'
 
 describe('coga/input-formats rules', () => {
@@ -81,6 +82,31 @@ describe('coga/abbreviations rules', () => {
     expect(definitionsIn('NIS', 'O NIS (Número de Identificação Social) tem 11 dígitos.').map((d) => d.expansion)).toEqual(['Número de Identificação Social'])
     expect(definitionsIn('NIS', 'NIS – Número de Identificação Social: informe.').map((d) => d.expansion)).toEqual(['Número de Identificação Social'])
     expect(definitionsIn('NIS', 'Informe o NIS (obrigatório).')).toEqual([])
+  })
+
+  it('reads names in camel case as names, not abbreviations (robustness study, 2026-10-23)', async () => {
+    const text = 'Siga a CAIXA no TikTok. O AirTag e o VaiVem estão na DevCon. Informe o NIS e o seu PhD.'
+    const snapshot: A11ySnapshot = {
+      schemaVersion: 1,
+      surface: 'web',
+      target: 'https://www.exemplo.com.br/',
+      title: 'Início',
+      locale: 'pt-BR',
+      viewport: { width: 1280, height: 800, scale: 1 },
+      collectedAt: '2026-10-23T00:00:00.000Z',
+      collector: { name: 'test', version: '0' },
+      root: node({
+        ref: 'html',
+        role: 'document',
+        lang: 'pt-BR',
+        native: { tag: 'html' },
+        children: [node({ ref: 'main > p', role: 'paragraph', text, native: { tag: 'p', html: '<p>' } })],
+      }),
+    }
+    const section = await profileOf(snapshot)
+    const flagged = section.results.filter((advisory) => advisory.check === 'coga/abbreviations').map((advisory) => advisory.subject)
+    expect(flagged).toEqual(expect.arrayContaining(['NIS', 'PhD']))
+    for (const name of ['TikTok', 'AirTag', 'VaiVem', 'DevCon']) expect(flagged).not.toContain(name)
   })
 
   it('keeps an expansion only when the initials of its words spell the token', () => {
