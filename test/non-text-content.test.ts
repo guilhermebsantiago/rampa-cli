@@ -564,6 +564,62 @@ describe('1.1.1 facts that refute a claim', () => {
     }
   })
 
+  describe("the model's description of the image, in the alternative's language", () => {
+    // unicamp.br's newspaper cover, alt="Capa da edição 751", and fiocruz.br's bulletin graphic, alt="Boletim InfoGripe",
+    // on the fresh-page study's dev split: true short alternatives the model called "names what the image does not show".
+    const covers = page([picture('#capa', 'Capa da edição 751', 'capa-751.jpg'), picture('#boletim', 'Boletim InfoGripe', 'infocapa_12.jpg'), picture('#lula', 'Lula e Bolsonaro', 'debate.jpg')])
+    const claim = (evidence: string, imageShows: string, suggestedAlt: string) => ({ ...fail(evidence, 'wrong_content', suggestedAlt), imageShows })
+    const reason = "the model's description of the image keeps every word of the current alternative"
+
+    it('asks for the description in the language of the alternative, as the suggestion is', () => {
+      const prompt = nonTextContent.prompt(candidateOf(covers, '#capa'), covers)
+      expect(prompt.user).toContain('Write imageShows and suggestedAlt in: Brazilian Portuguese (pt-BR)')
+      expect(prompt.system).toContain('Describe what the image shows in imageShows, in one short sentence in the requested language')
+      expect(prompt.system).not.toContain('English sentence')
+      expect(nonTextContent.version).toBe('5')
+    })
+
+    it('drops "names what the image does not show" when the description names every word of the alternative', () => {
+      const capa = claim('Capa da edição 751', 'A capa da edição 751 do Jornal da Unicamp, com a foto de Orides Fontela.', 'Capa do Jornal da Unicamp com a foto de Orides Fontela')
+      expect(nonTextContent.verify(capa, candidateOf(covers, '#capa'), covers)).toEqual({ ok: false, reason })
+      // The description and the suggestion together: "boletim" in one, "InfoGripe" in the other.
+      const boletim = claim('Boletim InfoGripe', 'Um mapa do Brasil com o logotipo do InfoGripe.', 'Mapa do Brasil do boletim epidemiológico')
+      expect(nonTextContent.verify(boletim, candidateOf(covers, '#boletim'), covers)).toEqual({ ok: false, reason })
+      expect(keepsAlternative(['Um mapa do Brasil com o logotipo do InfoGripe.', 'Mapa do Brasil do boletim'], 'Boletim InfoGripe')).toBe(true)
+    })
+
+    it('meets a name or a number in a description written in English, and no Portuguese word', () => {
+      // A name reads the same in any language; "boletim" does not meet "bulletin", so the claim stays.
+      expect(keepsAlternative(['A map of Brazil with the InfoGripe logo.'], 'InfoGripe')).toBe(true)
+      const english = claim('Boletim InfoGripe', 'A map of Brazil with the InfoGripe bulletin logo.', 'Mapa do Brasil com regiões coloridas')
+      expect(nonTextContent.verify(english, candidateOf(covers, '#boletim'), covers)).toEqual({ ok: true })
+    })
+
+    it('keeps a claim whose description names something else, or only part of what the alternative names', () => {
+      expect(nonTextContent.verify(claim('Capa da edição 751', 'A capa da edição 750 do Jornal da Unicamp.', 'Capa da edição 750'), candidateOf(covers, '#capa'), covers)).toEqual({ ok: true })
+      expect(nonTextContent.verify(claim('Lula e Bolsonaro', 'Lula sorrindo em um palanque.', 'Lula sorrindo em um palanque'), candidateOf(covers, '#lula'), covers)).toEqual({ ok: true })
+      expect(nonTextContent.verify(claim('Lula e Bolsonaro', 'Jair Bolsonaro discursando.', 'Jair Bolsonaro discursando'), candidateOf(covers, '#lula'), covers)).toEqual({ ok: true })
+    })
+
+    it('never speaks for a placeholder, a file name or "logo" alone, whatever the description repeats', () => {
+      for (const [alt, src] of [
+        ['img-1', 'img-1.png'],
+        ['image.png', 'image.png'],
+        ['logo', 'logo.svg'],
+      ] as const) {
+        const snapshot = page([picture('#p', alt, src)])
+        for (const problem of ['wrong_content', 'filename_or_placeholder'] as const) {
+          expect(nonTextContent.verify({ ...fail(alt, problem, `${alt} cachorro`), imageShows: `${alt}: um cachorro marrom` }, candidateOf(snapshot, '#p'), snapshot)).toEqual({ ok: true })
+        }
+      }
+    })
+
+    it('leaves the other claims alone: "leaves out what the image conveys" stands even when the description repeats the alternative', () => {
+      const missing = { ...fail('Capa da edição 751', 'missing_information', 'Capa da edição 751 com Orides Fontela e a manchete sobre sua poesia'), imageShows: 'A capa da edição 751 com Orides Fontela.' }
+      expect(nonTextContent.verify(missing, candidateOf(covers, '#capa'), covers)).toEqual({ ok: true })
+    })
+  })
+
   it('still keeps a claim that the alternative names the wrong thing', () => {
     const snapshot = page([anchor('#a', { href: '/gatos' }, [picture('#p', 'Cachorro na praia', 'praia.jpg')]), node({ ref: '#t', text: 'Adote um gato' })])
     expect(nonTextContent.verify(fail('Cachorro na praia', 'wrong_content', 'Gato dormindo no sofá'), candidateOf(snapshot, '#p'), snapshot)).toEqual({ ok: true })
