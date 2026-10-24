@@ -1,0 +1,36 @@
+
+rampa eval · WCAG 2.4.2, 2.4.4, 2.4.6, 3.1.1, 3.1.2 · model ollama:gemma4:12b · 1 run(s) · verification on · ACT 49051da6 · links followed: same-origin
+
+                                  baseline (axe-core)       rampa (axe-core + judgment)
+set                            n      P     R    F1            P     R    F1
+ACT 2779a5 (syntax)           12   1.00  1.00  1.00         0.50  1.00  0.67
+ACT c4a8a4 (semantic)          6    —    0.00   —           1.00  1.00  1.00
+pairs (intact + corrupted)     6    —    0.00   —           1.00  1.00  1.00
+ACT c487ae (syntax)           28   1.00  1.00  1.00         1.00  1.00  1.00
+ACT 5effbb (semantic)         18    —    0.00   —           1.00  0.83  0.91
+ACT fd3a94 (semantic)         24    —    0.00   —           0.78  0.88  0.82
+pairs (intact + corrupted)    34    —    0.00   —           1.00  0.95  0.98
+ACT cc0f0a (semantic)         16    —    0.00   —            —    0.00   —  
+ACT b49b2e (semantic)         12    —    0.00   —            —    0.00   —  
+pairs (intact + corrupted)    18    —    0.00   —           1.00  0.56  0.71
+ACT bf051a (syntax)            6   1.00  1.00  1.00         1.00  1.00  1.00
+ACT b5c3f8 (syntax)            5   1.00  1.00  1.00         1.00  1.00  1.00
+ACT ucwvc8 (semantic)         14    —    0.00   —           1.00  1.00  1.00
+pairs (intact + corrupted)     8    —    0.00   —           1.00  1.00  1.00
+ACT de46e4 (syntax)           19   1.00  1.00  1.00         1.00  1.00  1.00
+ACT off6ek (semantic)         13    —    0.00   —           1.00  1.00  1.00
+pairs (intact + corrupted)    15    —    0.00   —           1.00  0.60  0.75
+
+Pair discrimination (title-generic): baseline 0/3 · rampa 3/3
+Pair discrimination (link-generic): baseline 0/11 · rampa 11/11
+Pair discrimination (link-mismatch): baseline 0/10 · rampa 9/10
+Pair discrimination (heading-generic): baseline 0/9 · rampa 5/9
+Pair discrimination (html-lang-swap): baseline 0/4 · rampa 4/4
+Pair discrimination (lang-swap): baseline 0/5 · rampa 5/5
+Pair discrimination (lang-drop): baseline 0/5 · rampa 1/5
+
+Judgment: 212 candidates · 3 discarded by verification · 0 cannot tell · 30 model suggestions, for review (no page fails on them)
+Model calls: 152 new, 57 from cache · 158.5k in / 17.4k out tokens · local model, no API cost
+Wall time: 280.2 s
+Results: C:\Users\guilh\dev\rampa-cli\.claude\worktrees\precision-probe\study\notes-precision-probe\data\evals\demo-eval\2026-10-24T03-29-31-ollama-gemma4-12b
+

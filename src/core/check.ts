@@ -19,6 +19,7 @@ import { criteriaCoverage, engineCoverage, reviewItems, reviewOnlyCriteria, rule
 import { VERSION } from '../version.ts'
 import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria, criteriaFor, successCriterion, wcagTarget } from '../wcag.ts'
 import type { JudgmentCache } from './cache.ts'
+import { type Confirmation, confirmClaim, describeAnswers } from './confirm.ts'
 import { DEFAULT_MAX_CANDIDATES, type Sample, judgeCandidates } from './judge.ts'
 import type { FastCoverage } from './fast.ts'
 import { assertConfidence, meetsThreshold, nothingJudgedNote } from './gate.ts'
@@ -59,6 +60,11 @@ export interface CheckOptions {
    * verification are kept as findings instead of discarded. Never use it in CI.
    */
   verify?: boolean | undefined
+  /**
+   * The second pass over claims that rest on the model's reading (`Criterion.confirm`, core/confirm.ts): on by default;
+   * false (`--no-confirm`) reports such a claim as a finding without it, for the evaluation's ablation.
+   */
+  confirm?: boolean | undefined
   /** Advisory profiles to run on top of the WCAG check, such as ['cognitive']: their results go to report.advisory, never to findings. */
   profiles?: readonly Profile[] | undefined
   /** Settings of the cognitive profile (`coga` in rampa.config.*). */
@@ -212,7 +218,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       deadline: options.deadline,
       batch: options.batch,
     })
-    watch?.criterion(criterionTiming(criterion.id, started, prepareMs, candidates.length, judgments))
+    // The second pass's calls over this criterion's claims, counted in its timing with the judgments'.
+    const passUsage = { calls: 0, cachedCalls: 0 }
     const inBatches = judgments.filter((judgment) => judgment.samples.some((sample) => sample.batch))
     if (inBatches.length > 0) {
       const calls = inBatches.reduce((sum, judgment) => sum + judgment.samples.filter((sample) => sample.batch && !sample.batch.shared).length, 0)
@@ -300,6 +307,22 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
           }
           const output = judgment.representative
           if (!output) continue
+          // A page read without its stylesheets (reach.stylesheets.unstyled): what is visible around an element, and what
+          // is hidden, is not what people see, so a fail that rests on it is the model's suggestion.
+          if (judgment.status === 'failed' && options.verify !== false && snapshot.reach?.stylesheets?.unstyled) {
+            summary.suggested = (summary.suggested ?? 0) + 1
+            const suggested = criterion.patch?.(output, judgment.candidate, view)?.to
+            suggestions.push({
+              criterion: criterion.id,
+              level: criterion.level,
+              ruleId: `judgment/${criterion.id}`,
+              ref: judgment.candidate.ref,
+              message: criterion.message(output, judgment.candidate, options.locale),
+              evidence: [suggested ? t(options.locale, 'suggestedText', { text: suggested }) : undefined, t(options.locale, 'unstyledSuggestion')].filter(Boolean).join(' · '),
+              model: options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId,
+            })
+            continue
+          }
           // A fail that rests on the model's reading alone is its suggestion, not a finding (the ablation keeps it as one).
           if (judgment.status === 'failed' && options.verify !== false && criterion.grounded && !criterion.grounded(output, judgment.candidate, view)) {
             summary.suggested = (summary.suggested ?? 0) + 1
@@ -314,6 +337,43 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
               model: options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId,
             })
             continue
+          }
+          // A fail that rests on the model's reading of the element is asked again, one word at a time, three ways: it is a
+          // finding only when every framing confirms it (core/confirm.ts); otherwise it is the model's suggestion, with
+          // what the second pass answered.
+          let confirmation: Confirmation | undefined
+          const framings = judgment.status === 'failed' && options.confirm !== false && criterion.confirm ? criterion.confirm(output, judgment.candidate, view) : undefined
+          if (framings && framings.length > 0) {
+            confirmation = await confirmClaim(criterion, framings, { provider: options.provider, cache: options.cache, offline: options.offline, signal, deadline: options.deadline })
+            for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) usage[key] += confirmation.usage[key]
+            passUsage.calls += confirmation.usage.calls
+            passUsage.cachedCalls += confirmation.usage.cachedCalls
+            if (confirmation.outcome === 'offline-miss') summary.offlineMisses++
+            if (confirmation.outcome === 'error' && confirmation.error && !errors.includes(confirmation.error)) errors.push(confirmation.error)
+            if (confirmation.outcome !== 'confirmed') {
+              summary.suggested = (summary.suggested ?? 0) + 1
+              summary.unconfirmed = (summary.unconfirmed ?? 0) + 1
+              const suggested = criterion.patch?.(output, judgment.candidate, view)?.to
+              const why =
+                confirmation.outcome === 'denied'
+                  ? t(options.locale, 'unconfirmedClaim', { answers: describeAnswers(confirmation.answers) })
+                  : confirmation.outcome === 'unavailable'
+                    ? t(options.locale, 'confirmUnavailable')
+                    : confirmation.outcome === 'offline-miss'
+                      ? t(options.locale, 'confirmOffline')
+                      : t(options.locale, 'confirmFailed', { error: confirmation.error ?? '' })
+              suggestions.push({
+                criterion: criterion.id,
+                level: criterion.level,
+                ruleId: `judgment/${criterion.id}`,
+                ref: judgment.candidate.ref,
+                message: criterion.message(output, judgment.candidate, options.locale),
+                evidence: [suggested ? t(options.locale, 'suggestedText', { text: suggested }) : undefined, why].filter(Boolean).join(' · '),
+                model: options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId,
+              })
+              continue
+            }
+            summary.confirmed = (summary.confirmed ?? 0) + 1
           }
           if (judgment.status === 'failed') summary.failed++
           // A judgment that may only clear never makes a finding: its fail keeps the probe's, with the answer as evidence.
@@ -353,6 +413,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             confidence,
             // A judgment the criterion made without a model names no model; its message says what decided it.
             agreement: decided ? undefined : { votes: judgment.votes, total: judgment.total },
+            ...(confirmation ? { confirmation: { framings: confirmation.answers.length, ...(confirmation.minProbability === undefined ? {} : { minProbability: confirmation.minProbability }) } } : {}),
             model: decided ? undefined : (options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId),
             // An experimental module, or a judgment over a probe's facts, which is as experimental as the probe.
             ...(judgmentMaturity(criterion) === 'experimental' ? { experimental: true } : {}),
@@ -363,6 +424,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
         }
       }
     }
+    // The criterion's time and calls, the second pass's included: it is asked within the criterion's run.
+    const timing = criterionTiming(criterion.id, started, prepareMs, candidates.length, judgments)
+    watch?.criterion({ ...timing, calls: timing.calls + passUsage.calls, cachedCalls: timing.cachedCalls + passUsage.cachedCalls })
   }
 
   for (const decision of clearing) {

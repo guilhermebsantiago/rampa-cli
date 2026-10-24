@@ -105,6 +105,18 @@ export interface Patch {
   after?: string | undefined
 }
 
+/** One framing of a second pass over a claim: a one-word question about the same element (core/confirm.ts). */
+export interface ConfirmFraming {
+  /** Names the framing in the cache key and the report: 'rules', 'claim', 'reversed'. */
+  id: string
+  system: string
+  user: string
+  images?: PromptImage[] | undefined
+  /** The words that confirm the claim (a fail), and the words that deny it, in lower case. */
+  fail: readonly string[]
+  pass: readonly string[]
+}
+
 /**
  * One module per WCAG success criterion. A criterion never sees the DOM: it
  * reads the normalized snapshot plus the engine results, and owns its prompt,
@@ -157,6 +169,16 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
    * person to decide, and never fails a build. Absent: every verified fail is a finding.
    */
   grounded?(output: Out, candidate: Candidate<Ctx>, snapshot: A11ySnapshot): boolean
+  /**
+   * A second pass over a verified fail that rests on the model's reading (core/confirm.ts): one-word questions about
+   * the same element, each framed differently. The fail is a finding only when every framing answers with a word
+   * that confirms it and, where the provider reports token probabilities, the lowest probability of such a word is
+   * at least CONFIRM_MIN_PROBABILITY; otherwise it is the model's suggestion, in needsReview. Undefined for a
+   * candidate, or absent: no second pass, the fail is a finding (when `grounded` allows).
+   */
+  confirm?(output: Out, candidate: Candidate<Ctx>, snapshot: A11ySnapshot): ConfirmFraming[] | undefined
+  /** Bump when a framing's wording changes: part of the cache key of the second pass's answers. */
+  confirmVersion?: string | undefined
   /** The candidates the model judges first when a page has more than the cap allows; those without a confidenceCap when absent. */
   judgeFirst?(candidate: Candidate<Ctx>): boolean
   prompt(candidate: Candidate<Ctx>, snapshot: A11ySnapshot): Prompt
@@ -270,6 +292,11 @@ export interface Finding {
   patch?: Patch | undefined
   confidence: Confidence
   agreement?: { votes: number; total: number } | undefined
+  /**
+   * A second pass confirmed the claim (`Criterion.confirm`, core/confirm.ts): how many framings answered, and the lowest
+   * probability of a confirming word among them where the provider reports token probabilities.
+   */
+  confirmation?: { framings: number; minProbability?: number | undefined } | undefined
   ruleId?: string | undefined
   helpUrl?: string | undefined
   html?: string | undefined
@@ -423,6 +450,9 @@ export interface CriterionSummary {
    * needsReview, not as findings, and not counted in `failed`. Absent when none.
    */
   suggested?: number | undefined
+  /** Verified fails a second pass confirmed (`Criterion.confirm`), and those it did not, which are counted in `suggested` too. Absent when none. */
+  confirmed?: number | undefined
+  unconfirmed?: number | undefined
   /**
    * Candidates the model never judged because the criterion reached its cap on this page (`--max-candidates`):
    * the ones further down the page, after those with a generic text. Absent when none.

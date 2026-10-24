@@ -68,6 +68,10 @@ A config file is checked when it loads: a value Rampa cannot use (`"minConfidenc
 
 **An engine that stops.** If axe-core stops with an error on a page (it did on an element whose properties a page script had masked), the rest of the check still runs, the engine's rules count as not run, and a note gives the error; the engine results record it as `error`.
 
+**A page read without its stylesheets.** When the stylesheets a page links did not apply (a request that failed or was refused, a sheet with no rules), the page is loaded once more. If none of them, or none of the page's own, applies even then, the snapshot records it (`reach.stylesheets`, with `unstyled: true` and `retried: true`), the first note says so, every judgment that rests on what is visible is listed as the model's suggestion instead of a finding, and contrast and label visibility are not measured from pixels. An unstyled page is not what people see: www.ufpe.br's theme CSS did not apply once in the third real-page study, a hidden type-ahead list of 1,628 links became visible, and 50 "ambiguous link" findings followed. A stylesheet that failed on a page otherwise styled is recorded too (`reach.stylesheets.failed`), with a note and no other effect.
+
+**A layer over the viewport.** A consent banner's backdrop or a dialog that lies over most of the viewport (on top at seven or more of nine points sampled, out of the flow or hosting a shadow root, holding little of the page's text) is recorded (`reach.overlay`) and hidden while images, labels and contrast are captured, so the pixels measured are the page's own: www.ed.ac.uk's consent backdrop, in a closed shadow root, had dimmed every pixel the contrast rules measured.
+
 ## Where a finding is in the source
 
 For a local page (an `.html` file, a folder of them, or a snapshot recorded from one), each finding gets the file and the line and columns of its element, and its patch becomes an edit of the file. Paths are relative to the repository root (the closest folder with `.git`), or to the working directory outside a repository, so they match what GitHub shows.

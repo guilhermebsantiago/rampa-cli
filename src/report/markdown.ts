@@ -170,8 +170,13 @@ function findingBlock(finding: Finding, report: Report): string {
   if (finding.experimental || finding.source === 'probe') meta.push(t(locale, 'experimental'))
   if (finding.agreement) meta.push(`${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`)
   // What found it: a model with verified evidence, or a rule of axe-core, of Rampa or over a probe's facts.
-  if (finding.source === 'judgment') meta.push(t(locale, 'verified'))
-  else if (finding.ruleId) {
+  if (finding.source === 'judgment') {
+    meta.push(t(locale, 'verified'))
+    if (finding.confirmation) {
+      const probability = finding.confirmation.minProbability === undefined ? '' : t(locale, 'confirmedProbability', { value: finding.confirmation.minProbability.toFixed(2) })
+      meta.push(t(locale, 'confirmedBy', { framings: finding.confirmation.framings, probability }))
+    }
+  } else if (finding.ruleId) {
     const help = safeUrl(finding.helpUrl)
     // In angle brackets, a ) in the address cannot end the link early.
     const rule = help ? `[${prose(finding.ruleId)}](<${help}>)` : code(finding.ruleId)

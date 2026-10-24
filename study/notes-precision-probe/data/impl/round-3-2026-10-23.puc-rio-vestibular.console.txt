@@ -1,0 +1,52 @@
+
+https://www.puc-rio.br/vestibular/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.1.1 (A) — Non-text Content
+  ✗ #VG-topo > div:nth-of-type(2) > div > div > div:nth-of-type(1) > a > img
+    The text alternative "Imagem de alunos no Campus da PUC-Rio" describes something the image does not show.
+    Evidence: "Imagem de alunos no Campus da PUC-Rio"
+    Patch:
+      - <img src="https://www.puc-rio.br/vestibular/imagens/banner-bolsa-belkiss.jpg" alt="Imagem de alunos no Campus da PUC-Rio">
+      + <img src="https://www.puc-rio.br/vestibular/imagens/banner-bolsa-belkiss.jpg" alt="Estudante sorridente em destaque no banner da Bolsa Belkiss e Carlos Infante de Castro">
+    confidence high · 1/1 runs · evidence verified · confirmed by a second pass (3 framings, P(fail) ≥ 1.00) · id 2389ec6d37e0
+
+WCAG 1.4.3 (AA) — Contrast (Minimum)
+  ✗ #VestGeral > footer > div > div > div:nth-of-type(1) > h5
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id ea5bc57719f4
+  ✗ #VestGeral > footer > div > div > div:nth-of-type(1) > a > span:nth-of-type(1) > strong
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 84621ab1262a
+  ✗ #VestGeral > footer > div > div > div:nth-of-type(2) > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id efbf69ec62f8
+
+WCAG 4.1.2 (A) — Name, Role, Value
+  ✗ #VestGeral > header > iframe |> #puc_cabecalho_buscaindice > select
+    Select element must have an accessible name
+    high · rule select-name · id 1f3c4be42f01
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.1.1 (A) — Non-text Content: 2 elements · judgment/1.1.1
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 1 element · rampa/pixel-contrast
+    Part of the text "Bolsa Belkiss e Carlos Infante de Castro" has enough contrast and part does not: from 1.99:1 to 18.27:1 against what is behind it (#f5f5f0 on #b6afa4…#070906), where WCAG 1.4.3 asks for 3:1 for large text. Check the part over a gradient.
+
+1 image(s) were left without a capture, so no judgment looked at them: 1 cut off by the box that holds it. The snapshot says why for each (native.imageSkipped).
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+6 claim(s) from the model did not hold against the snapshot and were dropped.
+
+Model calls: 9 new, 41 from cache · 41.5k in / 4.0k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.4.3, 1.4.4, 1.4.12, 2.4.2, 2.4.4, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  3.1.1; experimental: 1.1.1, 1.3.2, 1.4.3, 2.4.2, 2.4.6, 4.1.2
+  Judged with verified evidence:     1.1.1, 1.3.5, 2.4.2, 2.4.4, 2.4.6
+  Needs review only:                 2.4.1, 3.3.2
+  Not checked automatically:         40 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

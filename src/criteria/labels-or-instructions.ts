@@ -80,6 +80,46 @@ export interface LabelsOrInstructionsContext {
   isInput: boolean
   id: string | undefined
   language: string
+  /**
+   * The field was not on screen when the page was read: off screen, beyond the viewport, or inside a box squeezed to
+   * nothing (a header search that opens on a click, a slide-out menu). What labels it shows only once it opens, so a
+   * "nothing on screen" claim is the model's suggestion, not a finding. For verification only.
+   */
+  collapsed?: boolean | undefined
+  /**
+   * A search field: a searchbox, a search input, a field in a search landmark, or one named for searching. The
+   * Understanding document for 3.3.2 accepts a magnifying-glass button as its label, which the snapshot does not
+   * always show (an icon drawn by CSS), so a "nothing on screen" claim on it is a suggestion. For verification only.
+   */
+  search?: boolean | undefined
+}
+
+const SEARCH_NAMES = /^(search|busca|buscar|pesquisa|pesquisar|procurar|búsqueda|busqueda)\b/i
+
+/** Whether a field was not on screen when the page was read (`LabelsOrInstructionsContext.collapsed`). */
+function collapsedField(node: A11yNode, index: ReturnType<typeof indexTree>, snapshot: A11ySnapshot): boolean {
+  if (node.states.includes('offscreen')) return true
+  const viewport = snapshot.viewport
+  if (node.bounds && viewport && (node.bounds.x >= viewport.width || node.bounds.y + node.bounds.height <= 0 || node.bounds.x + node.bounds.width <= 0)) return true
+  for (let ref = index.get(node.ref)?.parentRef; ref !== undefined; ref = index.get(ref)?.parentRef) {
+    const parent = index.get(ref)?.node
+    if (!parent) break
+    if (parent.states.includes('offscreen')) return true
+    if (parent.bounds && (parent.bounds.width <= 1 || parent.bounds.height <= 1)) return true
+  }
+  return false
+}
+
+/** Whether a field is a search field (`LabelsOrInstructionsContext.search`). */
+function searchField(node: A11yNode, index: ReturnType<typeof indexTree>, name: string, placeholder: string | undefined): boolean {
+  if (node.role === 'searchbox' || attributesOf(node).type?.toLowerCase() === 'search') return true
+  if (SEARCH_NAMES.test(name) || (placeholder !== undefined && SEARCH_NAMES.test(placeholder))) return true
+  for (let ref = index.get(node.ref)?.parentRef; ref !== undefined; ref = index.get(ref)?.parentRef) {
+    const parent = index.get(ref)?.node
+    if (!parent) break
+    if (parent.role === 'search') return true
+  }
+  return false
 }
 
 const SYSTEM = `You check exactly one WCAG 2.1 success criterion: 3.3.2 Labels or Instructions (Level A).
@@ -142,6 +182,10 @@ export const labelsOrInstructions: Criterion<LabelsOrInstructionsContext, Labels
   schema: LabelsOrInstructionsJudgment,
   // Option groups and dates are new: below the default threshold until they pass the evaluation gate.
   confidenceCap: (candidate) => (candidate.context.kind ? 'low' : undefined),
+  // A "nothing on screen" claim on a field that was not on screen when the page was read, or on a search field, is the
+  // model's suggestion: on the real-page studies' pages every such finding was a header search box collapsed to an icon
+  // or inside a closed menu, with a visible label once opened (study/notes-precision-probe).
+  grounded: (_output, candidate) => !candidate.context.collapsed && !candidate.context.search,
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<LabelsOrInstructionsContext>[] {
     const index = indexTree(snapshot.root)
@@ -209,6 +253,8 @@ export const labelsOrInstructions: Criterion<LabelsOrInstructionsContext, Labels
           isInput: node.native.tag === 'input',
           id: attributes.id,
           language: inheritedLang(index, node.ref, snapshot.locale) ?? node.lang ?? 'en',
+          ...(collapsedField(node, index, snapshot) ? { collapsed: true } : {}),
+          ...(searchField(node, index, name, placeholder) ? { search: true } : {}),
         },
       })
     }

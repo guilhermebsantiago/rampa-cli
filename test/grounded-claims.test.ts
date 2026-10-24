@@ -69,6 +69,9 @@ describe('generic texts Rampa recognises without a model', () => {
     expect(groundedLink('generic', { ...alone, name: 'Clique aqui', context: 'Clique aqui para mais informações sobre a Ouvidoria da EBC.' })).toBe(false)
     expect(groundedLink('generic', { ...alone, name: 'Download', headers: 'Books' })).toBe(false)
     expect(groundedLink('url_or_filename', { ...alone, name: 'report.pdf' })).toBe(true)
+    // A raw address with a sentence of its own has a context that can say where it leads (cnj.jus.br, in the third real-page study).
+    expect(groundedLink('url_or_filename', { ...alone, name: 'www.cnj.jus.br/comopeticionar', context: 'conforme orientações previstas na página www.cnj.jus.br/comopeticionar.' })).toBe(false)
+    expect(groundedLink('url_or_filename', { ...alone, name: 'https://example.org/r?id=7', description: 'The report of 2026' })).toBe(false)
     expect(groundedLink('mismatch', { ...alone, name: 'Pricing' })).toBe(false)
     expect(groundedLink('ambiguous', { ...alone, name: 'Download', sameText: { links: 2, places: 2, apart: false } })).toBe(true)
     expect(groundedLink('ambiguous', { ...alone, name: 'Download', sameText: { links: 2, places: 2, apart: true } })).toBe(false)
@@ -100,7 +103,9 @@ describe('generic texts Rampa recognises without a model', () => {
     expect(saysNothing({ kind: 'heading', text: 'Example 3', series: ['Example 1', 'Example 3'], outline: ['Functional Images'] })).toBe(false)
     expect(saysNothing({ kind: 'heading', text: '2026 Annual report', series: ['2025 Annual report', '2026 Annual report'], outline: [] })).toBe(false)
     expect(saysNothing({ kind: 'heading', text: 'DESTAQUE', series: undefined, outline: ['Serviços para você'] })).toBe(false)
-    expect(saysNothing({ kind: 'label', text: 'Name:', sharedUnsorted: true })).toBe(true)
+    // A label several fields share no longer grounds a finding: on the real-page studies' pages all six such findings were
+    // wrong (four "Search USPS.com" fields in four menu panels), so only a label that names nothing is a fact.
+    expect(saysNothing({ kind: 'label', text: 'Name:', sharedUnsorted: true })).toBe(false)
     expect(saysNothing({ kind: 'label', text: 'Name:', sharedUnsorted: undefined })).toBe(false)
     expect(saysNothing({ kind: 'label', text: 'Field 2' })).toBe(true)
   })

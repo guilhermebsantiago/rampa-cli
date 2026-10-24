@@ -2,6 +2,7 @@ import { mkdir, open, readFile, stat, writeFile } from 'node:fs/promises'
 import { isIP } from 'node:net'
 import { dirname, extname, isAbsolute, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { fetch as undiciFetch } from 'undici'
 import { errorMessage, mapLimit, sha256, truncate } from '../core/util.ts'
 import { refInFrame } from '../snapshot/refs.ts'
 import { type A11yNode, type Destination, DestinationSchema } from '../snapshot/schema.ts'
@@ -26,9 +27,20 @@ export interface FollowLimits {
   maxRedirects: number
   /** Addresses read at the same time. */
   concurrency: number
+  /** Addresses of one origin read at the same time, and the least time between two requests to it (kcl.ac.uk rate-limited a page's 40 links read four at a time). */
+  perOrigin: number
+  gapMs: number
 }
 
-export const FOLLOW_LIMITS: FollowLimits = { maxLinks: 40, timeoutMs: 8000, maxBytes: 512 * 1024, maxRedirects: 5, concurrency: 4 }
+export const FOLLOW_LIMITS: FollowLimits = { maxLinks: 40, timeoutMs: 8000, maxBytes: 512 * 1024, maxRedirects: 5, concurrency: 4, perOrigin: 2, gapMs: 250 }
+
+/**
+ * The HTTP client that reads where links lead: the `undici` package, not the undici Node bundles. Node 24's bundled
+ * undici 7 crashes the process with `assert(!this.paused)` when a server ends the connection while a response body is
+ * paused under backpressure (undici issue #5360, fixed in undici 8.4.1 and not in the 7.x line); kcl.ac.uk did so on
+ * every load in the third real-page study (docs/studies/notes-precision-probe.md).
+ */
+export const siteFetch: typeof fetch = undiciFetch as unknown as typeof fetch
 
 /** Says who is asking and why, so a site owner who sees it in a log can find out. */
 export const USER_AGENT = `Rampa/${VERSION} (+https://github.com/guilhermebsantiago/rampa-cli; reads where a link leads for a WCAG 2.4.4 check)`
@@ -63,7 +75,8 @@ export async function readDestinations(hrefs: readonly string[], base: string, o
   const limits = { ...FOLLOW_LIMITS, ...options.limits }
   const cache = options.cache ?? destinationCache()
   const roots = options.roots ?? defaultRoots(page)
-  const read = options.fetch ?? fetch
+  const read = options.fetch ?? siteFetch
+  const pace = originPacer(limits)
 
   const found: Record<string, Destination> = {}
   const queue: Array<{ href: string; url: URL }> = []
@@ -86,13 +99,36 @@ export async function readDestinations(hrefs: readonly string[], base: string, o
 
   const paused = cache.paused ?? new Set<string>()
   const destinations = await mapLimit(queue, limits.concurrency, ({ url }) =>
-    cache.read(url.href, () => (url.protocol === 'file:' ? readFileDestination(url, limits) : readWebDestination(url, page, limits, read, paused))),
+    cache.read(url.href, () => (url.protocol === 'file:' ? readFileDestination(url, limits) : pace(url.origin, () => readWebDestination(url, page, limits, read, paused)))),
   )
   queue.forEach(({ href }, i) => {
     const destination = destinations[i]
     if (destination) found[href] = destination
   })
   return found
+}
+
+/**
+ * Keeps the requests to one origin to `perOrigin` at a time, started at least `gapMs` apart, so a page's links are read
+ * at a pace a site's rate limiter accepts. Addresses of other origins are not held back by it.
+ */
+function originPacer(limits: Pick<FollowLimits, 'perOrigin' | 'gapMs'>): <T>(origin: string, load: () => Promise<T>) => Promise<T> {
+  const origins = new Map<string, { running: number; lastStart: number; waiting: Array<() => void> }>()
+  const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
+  return async (origin, load) => {
+    const state = origins.get(origin) ?? { running: 0, lastStart: Number.NEGATIVE_INFINITY, waiting: [] }
+    origins.set(origin, state)
+    while (state.running >= Math.max(1, limits.perOrigin)) await new Promise<void>((resolve) => state.waiting.push(resolve))
+    state.running++
+    for (let wait = state.lastStart + limits.gapMs - Date.now(); wait > 0; wait = state.lastStart + limits.gapMs - Date.now()) await sleep(wait)
+    state.lastStart = Date.now()
+    try {
+      return await load()
+    } finally {
+      state.running--
+      state.waiting.shift()?.()
+    }
+  }
 }
 
 export interface DestinationCache {

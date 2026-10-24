@@ -176,6 +176,36 @@ describe('followLinks', () => {
     expect(calls).toHaveLength(1)
   })
 
+  it('paces the requests to one origin: at most perOrigin at a time, gapMs apart, while another origin is not held back', async () => {
+    const starts: Array<{ origin: string; at: number }> = []
+    let running = 0
+    let mostRunning = 0
+    const fetch = (async (input: string | URL | Request) => {
+      const url = new URL(String(input))
+      starts.push({ origin: url.origin, at: Date.now() })
+      running++
+      mostRunning = Math.max(mostRunning, running)
+      await new Promise((resolve) => setTimeout(resolve, 20))
+      running--
+      return new Response(html(url.pathname), { headers: { 'content-type': 'text/html' } })
+    }) as typeof globalThis.fetch
+    const links = ['/a', '/b', '/c', '/d', '/e', '/f'].map((path, i) => link(`l${i}`, `Link ${i}`, path))
+    const found = await followLinks(page(...links, link('x', 'Elsewhere', 'https://other.test/page')), base, { policy: 'all', fetch, limits: { concurrency: 8, perOrigin: 2, gapMs: 40 } })
+    expect(Object.keys(found)).toHaveLength(7)
+    const sameOrigin = starts.filter((s) => s.origin === 'https://shop.test').map((s) => s.at).sort((a, b) => a - b)
+    expect(sameOrigin).toHaveLength(6)
+    for (let i = 1; i < sameOrigin.length; i++) expect((sameOrigin[i] ?? 0) - (sameOrigin[i - 1] ?? 0)).toBeGreaterThanOrEqual(35)
+    // Two of shop.test at most, plus the one request to other.test, which the pacing of shop.test never delays.
+    expect(mostRunning).toBeLessThanOrEqual(3)
+    expect(starts.find((s) => s.origin === 'https://other.test')?.at).toBeLessThan((sameOrigin[0] ?? 0) + 40)
+  })
+
+  it('reads the web through the undici package, not the fetch Node bundles', async () => {
+    const { siteFetch } = await import('../src/surfaces/destinations.ts')
+    expect(siteFetch).not.toBe(globalThis.fetch)
+    expect(typeof siteFetch).toBe('function')
+  })
+
   it('reads at most maxLinks addresses, the content before the menus', async () => {
     const { fetch, calls } = stubFetch({})
     const nav = node({ ref: 'nav', role: 'navigation', children: [link('n1', 'Home', '/'), link('n2', 'Blog', '/blog')] })

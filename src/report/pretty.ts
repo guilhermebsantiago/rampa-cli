@@ -182,6 +182,10 @@ export function renderFinding(finding: Finding, locale: Locale, p: Painter, belo
     parts = [`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`, ...experimental]
     if (finding.agreement) parts.push(`${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`)
     parts.push(t(locale, 'verified'))
+    if (finding.confirmation) {
+      const probability = finding.confirmation.minProbability === undefined ? '' : t(locale, 'confirmedProbability', { value: finding.confirmation.minProbability.toFixed(2) })
+      parts.push(t(locale, 'confirmedBy', { framings: finding.confirmation.framings, probability }))
+    }
   }
   lines.push(p.dim(`    ${[...parts, ...tail].join(' · ')}`))
   return lines

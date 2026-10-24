@@ -1,0 +1,67 @@
+
+https://my.clevelandclinic.org/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.1.1 (A) — Non-text Content
+  ✗ html > body > header > div:nth-of-type(1) > div > div > div:nth-of-type(1) > section > div:nth-of-type(2) > img:nth-of-type(2)
+    The text alternative "Gray gradient" names an image that is decorative.
+    Evidence: "Gray gradient"
+    Patch:
+      - <img data-identity="single-line-nav-fade-right" alt="Gray gradient" loading="lazy" width="32" height="40" decoding="async" data-nimg="1" class="absolute right-0 top-0 z-[2]" style="color:transparent" srcset="/_next/static/media/gray-gradient-right-32.dd7ce4e5.svg?w=32&amp;q=75 1x, /_next/static/media/gray-gradient-right-32.dd7ce4e5.svg?w=64&amp;q=75 2x" src="/_next/static/media/gray-gradient-right-32.dd7ce4e5.svg?w=64&amp;q=75">
+      + <img data-identity="single-line-nav-fade-right" alt="" loading="lazy" width="32" height="40" decoding="async" data-nimg="1" class="absolute right-0 top-0 z-[2]" style="color:transparent" srcset="/_next/static/media/gray-gradient-right-32.dd7ce4e5.svg?w=32&amp;q=75 1x, /_next/static/media/gray-gradient-right-32.dd7ce4e5.svg?w=64&amp;q=75 2x" src="/_next/static/media/gray-gradient-right-32.dd7ce4e5.svg?w=64&amp;q=75">
+    confidence high · 1/1 runs · evidence verified · id 4f190c666f9f
+  ✗ html > body > header > div:nth-of-type(1) > div > div > div:nth-of-type(2) > section > div:nth-of-type(2) > img:nth-of-type(1)
+    The text alternative "Gray gradient" names an image that is decorative.
+    Evidence: "Gray gradient"
+    Patch:
+      - <img data-identity="single-line-nav-fade-left" alt="Gray gradient" loading="lazy" width="16" height="40" decoding="async" data-nimg="1" class="absolute left-0 top-0 z-[2]" style="color:transparent" srcset="/_next/static/media/gray-gradient-left-16.59910877.svg?w=16&amp;q=75 1x, /_next/static/media/gray-gradient-left-16.59910877.svg?w=32&amp;q=75 2x" src="/_next/static/media/gray-gradient-left-16.59910877.svg?w=32&amp;q=75">
+      + <img data-identity="single-line-nav-fade-left" alt="" loading="lazy" width="16" height="40" decoding="async" data-nimg="1" class="absolute left-0 top-0 z-[2]" style="color:transparent" srcset="/_next/static/media/gray-gradient-left-16.59910877.svg?w=16&amp;q=75 1x, /_next/static/media/gray-gradient-left-16.59910877.svg?w=32&amp;q=75 2x" src="/_next/static/media/gray-gradient-left-16.59910877.svg?w=32&amp;q=75">
+    confidence high · 1/1 runs · evidence verified · id f6bf9bdff3ce
+  ✗ html > body > header > div:nth-of-type(1) > div > div > div:nth-of-type(2) > section > div:nth-of-type(2) > img:nth-of-type(2)
+    The text alternative "Gray gradient" names an image that is decorative.
+    Evidence: "Gray gradient"
+    Patch:
+      - <img data-identity="single-line-nav-fade-right" alt="Gray gradient" loading="lazy" width="32" height="40" decoding="async" data-nimg="1" class="absolute right-0 top-0 z-[2]" style="color:transparent" srcset="/_next/static/media/gray-gradient-right-32.dd7ce4e5.svg?w=32&amp;q=75 1x, /_next/static/media/gray-gradient-right-32.dd7ce4e5.svg?w=64&amp;q=75 2x" src="/_next/static/media/gray-gradient-right-32.dd7ce4e5.svg?w=64&amp;q=75">
+      + <img data-identity="single-line-nav-fade-right" alt="" loading="lazy" width="32" height="40" decoding="async" data-nimg="1" class="absolute right-0 top-0 z-[2]" style="color:transparent" srcset="/_next/static/media/gray-gradient-right-32.dd7ce4e5.svg?w=32&amp;q=75 1x, /_next/static/media/gray-gradient-right-32.dd7ce4e5.svg?w=64&amp;q=75 2x" src="/_next/static/media/gray-gradient-right-32.dd7ce4e5.svg?w=64&amp;q=75">
+    confidence high · 1/1 runs · evidence verified · id 6fc21beedef8
+  ✗ #callsToActionObject-3 > article:nth-of-type(1) > img
+    The text alternative "get care icon" describes something the image does not show.
+    Evidence: "get care icon"
+    confidence high · 1/1 runs · evidence verified · confirmed by a second pass (3 framings, P(fail) ≥ 0.96) · id 8beea1377050
+
+WCAG 2.5.3 (A) — Label in Name
+  ✗ html > body > header > div:nth-of-type(3) > div > button:nth-of-type(1)
+    Elements must have their visible text as part of their accessible name
+    high · rule label-content-name-mismatch · id c663b3ad4f95
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.1.1 (A) — Non-text Content: 2 elements · judgment/1.1.1
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+  ? WCAG 1.2.2 (A) — Captions (Prerecorded): 1 element · video-caption
+    Check that captions are available for the element
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 4 elements · rampa/pixel-contrast
+    axe-core could not decide the contrast of "We’re here when you need us — for every care in the world." (a gradient), and the pixels could not either: what is behind it moves on its own (a video, an animation).
+  ? WCAG 1.4.11 (AA) — Non-text Contrast: 3 elements · rampa/icon-contrast
+    The icon of this button ("Close notification button") has a contrast from 4.88:1 to 4.88:1 with the pixels next to it (#ffffff on #0076ba); WCAG 1.4.11 asks for 3:1 where the icon must be seen: check it by eye.
+  ? WCAG 2.4.6 (AA) — Headings and Labels: 2 elements · judgment/2.4.6
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+
+1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #Microsoft_Omnichannel_LCWidget_Chat_Iframe_Window (https://oc-cdn-ocprod.azureedge.net/livechatwidget/v2public/htmls/chatv2.html?data-app-id=cb30e344-c0a8-4f14-9d6c-f73e5cd00ae8&data-org-id=ae29c25f-ef18-4541-9c21-4ce5c6c1c633&data-org-url=https://m-ae29c25f-ef18-4541-9c21-4ce5c6c1c633.us.omnichannelengagementhub.com&hostname=my.clevelandclinic.org&).
+9 image(s) were left without a capture, so no judgment looked at them: 1 transparent where it sits; 1 blank in its capture; 7 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).
+The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 33 of 83 for 2.4.4. The coverage lists them as not judged.
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+10 claim(s) from the model did not hold against the snapshot and were dropped.
+
+Model calls: 9 new, 95 from cache · 94.1k in / 7.9k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.4.1, 1.4.3, 1.4.4, 2.4.2, 2.4.4, 2.5.3, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  3.1.1; experimental: 1.1.1, 1.3.2, 1.4.11, 2.4.2, 2.4.6, 4.1.2
+  Judged with verified evidence:     1.1.1, 2.4.2, 2.4.4, 2.4.6
+  Needs review only:                 1.2.2, 2.4.1
+  Not checked automatically:         39 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

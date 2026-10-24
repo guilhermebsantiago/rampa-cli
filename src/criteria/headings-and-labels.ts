@@ -413,7 +413,11 @@ export function namesSeriesSubject(parent: string, heading: string): boolean {
  */
 export function saysNothing(c: Pick<HeadingsAndLabelsContext, 'kind' | 'text' | 'series' | 'outline' | 'sharedUnsorted'>): boolean {
   if (genericHeadingOrLabel(c.text, c.kind)) return true
-  if (c.kind === 'label') return c.sharedUnsorted === true
+  // A label several fields share grounded 6 findings on the real-page studies' pages and every one was wrong (four
+  // "Search USPS.com" fields in four menu panels; study/notes-precision-probe): the fields sat in panels the snapshot
+  // could not tell apart, and the label named their purpose. Only a label that names nothing is a fact (ACT cc0f0a's
+  // shared-label case, Failed Example 4, becomes a suggestion).
+  if (c.kind === 'label') return false
   const stem = seriesStem(c.text)
   const parent = c.outline?.at(-1)
   return c.series !== undefined && stem !== undefined && /^(\p{L}+\s*)?#$/u.test(stem) && !(parent && namesSeriesSubject(parent, c.text))

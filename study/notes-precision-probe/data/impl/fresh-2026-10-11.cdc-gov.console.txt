@@ -1,0 +1,42 @@
+
+https://www.cdc.gov/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 3.1.2 (AA) — Language of Parts
+  ✗ html > body > header:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > a
+    "Español" is in Spanish, but it inherits the page's language (en-us): a screen reader mispronounces the language's name. Add lang="es" to the link.
+    Evidence: "Español"
+    Patch:
+      - <a href="https://www.cdc.gov/spanish/" class="">
+      + <a href="https://www.cdc.gov/spanish/" class="" lang="es">
+    confidence low · experimental · Rampa rule rampa/language-switcher-lang · id 6ed01b590230
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.1.1 (A) — Non-text Content: 1 element · judgment/1.1.1
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 9 elements · color-contrast
+    Element's background color could not be determined due to a background gradient
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 3 elements · rampa/pixel-contrast
+    axe-core could not decide the contrast of "Ebola Situation Summary" (a pseudo-element), and the pixels could not either: it is not shown.
+  ? WCAG 4.1.2 (A) — Name, Role, Value: 3 elements · aria-prohibited-attr
+    aria-label attribute is not well supported on "span" elements with no valid role attribute.
+  ? WCAG 4.1.2 (A) — Name, Role, Value: 1 element · duplicate-id-aria
+    Document has multiple elements referenced with ARIA with the same id attribute: cdc-desktop-search-toggle
+
+1 image(s) were left without a capture, so no judgment looked at them: 1 outside the page (an off-canvas menu). The snapshot says why for each (native.imageSkipped).
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+3 claim(s) from the model did not hold against the snapshot and were dropped.
+
+Model calls: 16 new, 0 from cache · 12.4k in / 1.1k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.4.3, 1.4.4, 1.4.12, 2.4.2, 2.4.4, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  2.4.2, 3.1.1; experimental: 1.1.1, 1.3.2, 1.4.3, 1.4.11, 2.4.6, 3.1.2, 4.1.2
+  Judged with verified evidence:     1.1.1
+  Needs review only:                 2.4.1
+  Not checked automatically:         40 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

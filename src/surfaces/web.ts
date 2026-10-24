@@ -141,6 +141,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
   // Watched from before navigation, so a request still in flight at load holds the wait after it.
   const network = watchNetwork(page)
   const documents = watchDocuments(page)
+  const stylesheetRequests = watchStylesheets(page)
   try {
     const response = await timed(watch, 'navigation', async () => {
       await prepareContext(context, url, options.browserOptions)
@@ -161,6 +162,23 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       await timed(watch, 'navigation', () => documentLoaded(page, landing, ready))
       settled = await timed(watch, 'settle', () => settlePage(page, network, settle))
     }
+    // A page whose own stylesheets did not apply is not the page people see (www.ufpe.br's hidden type-ahead list became
+    // 1,628 visible links in the third real-page study): it is loaded once more, and if it is still unstyled the snapshot
+    // says so, judgments that rest on what is visible become suggestions, and nothing is measured from pixels.
+    let stylesheets = await stylesheetFacts(page, stylesheetRequests.failed())
+    if (stylesheets?.unstyled) {
+      try {
+        await timed(watch, 'navigation', async () => {
+          await page.reload({ timeout: options.timeoutMs ?? 30_000, waitUntil: 'load' })
+          settled = await settlePage(page, network, settle)
+        })
+        stylesheets = { ...((await stylesheetFacts(page, stylesheetRequests.failed())) ?? { linked: 0, applied: 0, failed: [] }), retried: true }
+      } catch (error) {
+        if (navigatedAway(error)) throw error
+        stylesheets = { ...stylesheets, retried: true }
+      }
+    }
+    const unstyled = stylesheets?.unstyled === true
     if (options.inspect) await options.inspect(page, response)
     if (options.mutate) await options.mutate(page)
     const collect = async () => {
@@ -223,6 +241,9 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     const blocked = raw.blocked
     const html = raw.kind.kind === 'html' && !blocked
     const readable = raw.kind.kind !== 'xml' && !blocked
+    // A layer over the viewport (a consent backdrop in a closed shadow root, a welcome dialog) paints over every capture
+    // of what lies under it: found by what sits on top at nine points of the viewport, and hidden with the fixed layers.
+    const overlay = html ? await page.evaluate(detectOverlayInPage).catch(() => undefined) : undefined
     // Before any capture scrolls the page or hides its layers: the lines are measured as the page first shows them.
     const presentation =
       options.presentation && html
@@ -244,7 +265,7 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
           return closedShadowRoots(cdp)
         })
       : undefined
-    const reach = buildReach({
+    const built = buildReach({
       frames: raw.frames,
       engineFrames: raw.engineFrames,
       shadowRoots: raw.shadowRoots,
@@ -254,6 +275,8 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
       masked: raw.masked,
       loadTimedOutMs: loadedLate(page),
     })
+    const recordSheets = stylesheets && (stylesheets.failed.length > 0 || stylesheets.retried)
+    const reach = built || recordSheets || overlay ? { ...built, ...(recordSheets ? { stylesheets } : {}), ...(overlay ? { overlay: { ...overlay, hidden: true } } : {}) } : undefined
     // Response headers are facts the rules read: a Refresh header works like <meta http-equiv="refresh">, out of axe-core's sight.
     const refresh = response?.headers().refresh
     if (refresh !== undefined) root.native.httpRefresh = refresh.slice(0, 500)
@@ -261,11 +284,12 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     if (response && page.url() !== loaded) root.native.redirectedTo = page.url()
     if (options.captureImages && readable) await timed(watch, 'image-capture', () => captureImages(page, root, options.imageCapture))
     // Whether each label 3.3.2 relies on shows its text, from two captures (label-visibility.ts); no model involved.
-    if (readable) await timed(watch, 'label-visibility', () => measureLabelPixels(page, root))
+    // On a page read without its stylesheets, pixels show the browser's defaults, not the page: nothing is measured.
+    if (readable && !unstyled) await timed(watch, 'label-visibility', () => measureLabelPixels(page, root))
     const engine: EngineResults = raw.axe ? engineFromAxe(raw.axe) : { ...emptyEngine(), ...(raw.engineError ? { error: `axe-core: ${raw.engineError}` } : {}) }
     // The capture reads colors through an HTML canvas element, which an SVG document does not create: there, text
     // contrast stays axe-core's.
-    if (raw.axe && html && options.pixelContrast !== false) {
+    if (raw.axe && html && options.pixelContrast !== false && !unstyled) {
       const settings = options.pixelContrast === true ? {} : options.pixelContrast
       await timed(watch, 'pixel-contrast', () => measureContrast(page, root, engine, settings))
     }
@@ -335,8 +359,145 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
   } finally {
     network.stop()
     documents.stop()
+    stylesheetRequests.stop()
     await timed(watch, 'teardown', () => context.close())
   }
+}
+
+/** Stylesheet requests that failed or were refused, from before navigation, keyed by address: the reason a sheet did not apply. */
+function watchStylesheets(page: Page): { failed(): Map<string, string>; stop(): void } {
+  const failed = new Map<string, string>()
+  const onFailed = (request: import('playwright-core').Request) => {
+    // After an HTTP error the browser also reports the request as aborted: the status is the reason worth keeping.
+    if (request.resourceType() === 'stylesheet' && !failed.has(request.url())) failed.set(request.url(), request.failure()?.errorText ?? 'request failed')
+  }
+  const onResponse = (response: Response) => {
+    try {
+      if (response.request().resourceType() === 'stylesheet' && response.status() >= 400) failed.set(response.url(), `HTTP ${response.status()}`)
+    } catch {
+      // A service worker's response has no request.
+    }
+  }
+  page.on('requestfailed', onFailed)
+  page.on('response', onResponse)
+  return {
+    failed: () => failed,
+    stop: () => {
+      page.off('requestfailed', onFailed)
+      page.off('response', onResponse)
+    },
+  }
+}
+
+type StylesheetFacts = NonNullable<NonNullable<A11ySnapshot['reach']>['stylesheets']>
+
+/** The page's linked stylesheets and which of them did not apply; undefined for a document with none, or one that cannot be asked. */
+async function stylesheetFacts(page: Page, requests: Map<string, string>): Promise<StylesheetFacts | undefined> {
+  const facts = await page.evaluate(stylesheetFactsInPage).catch(() => undefined)
+  if (!facts || facts.linked === 0) return undefined
+  const failed = facts.failed.map((sheet) => ({ href: sheet.href, reason: requests.get(sheet.href) ?? sheet.reason }))
+  const unstyled = facts.applied === 0 || (facts.own.linked > 0 && facts.own.failed === facts.own.linked)
+  return { linked: facts.linked, applied: facts.applied, failed, ...(unstyled ? { unstyled: true } : {}) }
+}
+
+/**
+ * In the page: every linked stylesheet that applies to the screen, whether it loaded (`sheet` is null when the request
+ * failed or was refused) and holds rules (a sheet of another origin cannot be read and counts as applied).
+ */
+export function stylesheetFactsInPage(): { linked: number; applied: number; failed: Array<{ href: string; reason: string }>; own: { linked: number; failed: number } } {
+  const links = Array.from(document.querySelectorAll<HTMLLinkElement>('link[rel~="stylesheet"]')).filter((link) => {
+    if (!link.href || link.disabled) return false
+    const media = link.media.trim()
+    return media === '' || media === 'all' || media === 'screen' || matchMedia(media).matches
+  })
+  const failed: Array<{ href: string; reason: string }> = []
+  let applied = 0
+  const own = { linked: 0, failed: 0 }
+  for (const link of links) {
+    let mine = false
+    try {
+      mine = new URL(link.href).origin === location.origin
+    } catch {
+      mine = false
+    }
+    if (mine) own.linked++
+    const sheet = link.sheet
+    if (!sheet) {
+      failed.push({ href: link.href.slice(0, 300), reason: 'not loaded' })
+      if (mine) own.failed++
+      continue
+    }
+    let rules: number | undefined
+    try {
+      rules = sheet.cssRules.length
+    } catch {
+      rules = undefined
+    }
+    if (rules === 0) {
+      failed.push({ href: link.href.slice(0, 300), reason: 'no rules' })
+      if (mine) own.failed++
+      continue
+    }
+    applied++
+  }
+  return { linked: links.length, applied, failed, own }
+}
+
+/**
+ * In the page: the element on top at nine points of the viewport, when one element is on top at seven or more of them
+ * and holds little of the page's text: a backdrop or a dialog over the page, not the page's own content. A closed
+ * shadow root's content is reported as its host, which is in the page's document and can be hidden. The element is
+ * marked, so `markLayers` hides it with the fixed layers while captures are taken.
+ */
+export function detectOverlayInPage(): { ref?: string | undefined; selector: string; coverage: number } | undefined {
+  const width = window.innerWidth
+  const height = window.innerHeight
+  const points: Array<[number, number]> = []
+  for (const fx of [0.1, 0.5, 0.9]) for (const fy of [0.1, 0.5, 0.9]) points.push([width * fx, height * fy])
+  const counts = new Map<Element, number>()
+  for (const [x, y] of points) {
+    let element: Element | null = document.elementFromPoint(x, y)
+    while (element && element.getRootNode() !== document) {
+      const root = element.getRootNode() as Document | ShadowRoot
+      element = 'host' in root ? root.host : null
+    }
+    if (!element || element === document.documentElement || element === document.body) continue
+    counts.set(element, (counts.get(element) ?? 0) + 1)
+  }
+  let top: Element | undefined
+  let hits = 0
+  for (const [element, count] of counts) {
+    if (count > hits) {
+      top = element
+      hits = count
+    }
+  }
+  if (!top || hits < 7) return undefined
+  // The page's own content wrapper covers the viewport too. A layer over the page is out of the flow (fixed or absolute),
+  // or hosts a shadow root, or is a box far smaller than what it covers (an inline host whose shadow content is fixed);
+  // and it holds little of the page's text.
+  const { position } = getComputedStyle(top)
+  const rect = top.getBoundingClientRect()
+  const ownBox = (Math.min(rect.width, width) * Math.min(rect.height, height)) / (width * height)
+  const outOfFlow = position === 'fixed' || position === 'absolute' || Boolean(top.shadowRoot) || ownBox < 0.5
+  if (!outOfFlow) return undefined
+  const text = (top.textContent ?? '').trim().length
+  const bodyText = (document.body.textContent ?? '').trim().length
+  if (bodyText > 0 && text / bodyText > 0.5) return undefined
+  if (top.matches('main, [role="main"], article') || top.querySelector('main, [role="main"]')) return undefined
+  top.setAttribute('data-rampa-overlay', '')
+  const nodes = (window as unknown as { __rampaNodes?: Map<string, Element> }).__rampaNodes
+  let ref: string | undefined
+  if (nodes) {
+    for (const [key, element] of nodes) {
+      if (element === top) {
+        ref = key
+        break
+      }
+    }
+  }
+  const selector = `${top.tagName.toLowerCase()}${top.id ? `#${top.id}` : ''}`
+  return { ...(ref ? { ref } : {}), selector, coverage: Math.round((hits / points.length) * 100) / 100 }
 }
 
 /** The document's readyState, or `navigating` while a new document replaces it. */
@@ -523,7 +684,9 @@ async function markLayers(page: Page): Promise<number> {
     let count = 0
     for (const el of Array.from(document.querySelectorAll<HTMLElement>('body *'))) {
       const { position } = getComputedStyle(el)
-      if (position !== 'fixed' && position !== 'sticky') continue
+      // A layer found over the viewport (detectOverlayInPage) counts whatever its position: a closed shadow root's
+      // backdrop is fixed inside the root, where this query cannot see it, and its host is what can be hidden.
+      if (position !== 'fixed' && position !== 'sticky' && !el.hasAttribute('data-rampa-overlay')) continue
       el.setAttribute('data-rampa-layer', el.style.getPropertyValue('visibility'))
       count++
     }

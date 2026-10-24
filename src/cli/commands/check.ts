@@ -59,6 +59,8 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   failOn: FailOn
   minConfidence: Confidence
   offline?: boolean
+  /** The second pass over claims that rest on the model's reading (core/confirm.ts); --no-confirm turns it off. */
+  confirm?: boolean
   screenshots?: boolean
   cacheDir: string
   concurrency: string
@@ -354,6 +356,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
         runs,
         cache,
         offline: Boolean(options.offline),
+        confirm: options.confirm !== false,
         locale: context.locale,
         minConfidence: options.minConfidence,
         concurrency,
