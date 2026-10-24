@@ -1,0 +1,54 @@
+{
+  "page": "https://www.pbs.org/newshour/show/doj-monitoring-plans-and-dhs-voter-checks-raise-concerns-of-election-interference",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "24c9a3b0d9b3",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the thumbnail of the Oct 22 full-episode card (a still of a hand holding an 'Election Security' seal). It sits inside a link to the full-episode page together with a 'Watch' play label, so the link is announced as 'Watch fullepisode'. Next to it are the visible text 'Watch the Full Episode' and a title link 'PBS NewsHour from Oct 22, 2026' to the same page. This is a functional image in a link. Its alt only needs to convey the link's purpose, or could be empty because the text around it already does. 'fullepisode' is a sloppy string taken from the file name, but it says what the thumbnail stands for, and it does not describe anything the image is not. The still itself is illustrative, not information the user needs. Replacing the image with its alt loses no function or information, so this is not the 1.1.1 failure claimed; at most it is a quality issue. The live page still has the same markup."
+    },
+    {
+      "fingerprint": "09ecd3f5b241",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image is a Press Pass promo banner, an image of text: 'Stand with free and independent journalism. Join Press Pass. A new supporter program from PBS News. Issue my Press Pass'. It is the only content of a link to /newshour/presspass/, and the link has no other name. Its alt 'Web ad - adjusted (1)' is the media-library or file name (Web-ad-adjusted-1.png), so the link is announced as 'Web ad - adjusted (1)'. That gives neither the banner's text nor where the link leads. This is a text alternative that is not an alternative (F30), and the H30 requirement that a link-only image describe the link's function is not met, so it is a real 1.1.1 failure; it also affects 2.4.4. The live page still has the same alt."
+    },
+    {
+      "fingerprint": "c08f567095bc",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The image is the 'Viewers Like You' logo in the footer's 'Support for News Hour Provided By' list. The other logos in the list (BNSF Railway, Consumer Cellular, Raymond James) also use the funder's name as alt. This alt reproduces the logo's text exactly. The link redirects to pbs.org/donate/ (I checked this; Rampa had not read it), and a sighted user cannot tell that from the logo either, so screen-reader users get the same information as sighted users. 1.1.1 asks for a text alternative that serves the same purpose as the image, not one that states a destination the image itself does not show. Naming the destination ('donate') is advice from the WAI tutorial, and link purpose falls under 2.4.4, whose context and 'ambiguous to users in general' provisions apply here. The checker applied a stricter rule than 1.1.1 requires."
+    },
+    {
+      "fingerprint": "f3fa165c7dd2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the visible sign-up field in the sidebar's 'Educate your inbox' box (input type=email name=email). It asks for the user's own email address to subscribe them to the politics newsletter, so it collects information about the user, and 'email' is one of the listed Input Purposes. The field has autocomplete=\"off\" and no valid purpose token, so its purpose is not programmatically determinable. The 1.3.5 Understanding document says type=\"email\" does not identify the purpose, and that purposes must stay determinable even when an author turns autofill off. H98 is not met, so this is a real 1.3.5 failure. The live HTML is unchanged."
+    },
+    {
+      "fingerprint": "d2cb80f4548f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer field 'Subscribe to Here's the Deal with Lisa Desjardins' (input type=email name=email, rendered and focusable). It asks for the user's own email address for a newsletter sign-up, which is an Input Purpose ('email') about the user. It has autocomplete=\"off\" and no purpose token, and type=\"email\" alone does not identify the purpose according to the Understanding document. It fails 1.3.5 in the same way as the sidebar field. The live HTML is unchanged."
+    },
+    {
+      "fingerprint": "703e30213ea4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Watch the Full Episode' is the visible label above the title on the full-episode card. It is set at 12px, weight 400, in #7e97ad (the live CSS has .card-episode-lg__meta {font-size:12px; color:#7e97ad}) on the white card. In the screenshot the darkest glyph pixels are exactly #7e97ad on #ffffff, which is 3.04:1, below the 4.5:1 that normal-size text needs. The element partly over it is the play pill, which slides out of the thumbnail on hover; it does not change these colours. The text is meaningful content, not incidental or a logo, so this is a real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "75b419dab775",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Related' h2 heading in the article's aside is set at 16px, weight 500, in #7f84a7 on white (the live CSS has .video__aside-header {font-size:16px; color:#7f84a7; font-weight:500}). In the screenshot the glyph pixels are #7f84a7 on #ffffff, which is 3.65:1. At 16px and weight 500 this is not large text, so 4.5:1 applies. The heading is real content, and nothing visible covers it in the screenshot. This is a real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "b5d53f241456",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The sidebar newsletter field shows the placeholder 'Enter your email address' as its only visible label; the label element's own text is visually hidden. The placeholder renders in the browser default #757575 at 13px, weight 400, on the field's background #f0f1f8 (the live CSS has .subscribe__box input {background-color:#f0f1f8; font-size:13px}). In the screenshot the darkest glyph pixels are #757575 on #f0f1f8, which is 4.09:1, below 4.5:1. Visible placeholder text is text, none of the 1.4.3 exceptions covers it, and here it is the only visible cue for the field. This is a real 1.4.3 failure."
+    }
+  ]
+}

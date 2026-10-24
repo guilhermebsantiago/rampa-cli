@@ -1,0 +1,246 @@
+{
+  "page": "https://www.hcor.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "0e86362afb8c",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Owl-carousel 'previous' button of the Hcor explica carousel (class owl-prev disabled: clicking it does nothing at the first slide, but it stays focusable and looks active). On the live page (headless Edge, 1280x800) the only change on keyboard focus is transform: scale(1.08); outline stays none and no colour changes. The reported indicator, #e9f2ec next to #e9f2ec at 1.00:1, is an artefact. Those are pixels inside the button that changed only because the arrow glyph moved when it scaled, not an indicator. Measured properly, the enlarged pale band is #e9f2ec on white (about 1.14:1) and the arrow is #64b483 on #e9f2ec (2.19:1). The button is also functionally inactive, and 1.4.11 exempts inactive components. Whether a size change alone is a focus indicator that 1.4.11 measures is contested: the Understanding document says 1.4.11 does not directly compare the focused and unfocused states of a control, while a strict reading treats the enlarged band as an indicator outside the component that must reach 3:1 with the background. Competent auditors would disagree, so neither label is safe."
+    },
+    {
+      "fingerprint": "1e140d895e61",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Owl-carousel 'next' button of the Hcor explica carousel. On the live page (headless Edge, 1280x800) the only change on keyboard focus is transform: scale(1.08); outline stays none and no colour changes. The reported #e9f2ec-next-to-#e9f2ec 1.00:1 indicator is an artefact of the arrow glyph moving inside the box. Still, nothing that signals focus reaches 3:1: the enlarged pale band is about 1.14:1 on white and the arrow is 2.19:1 on the button. Whether a size change alone is a focus indicator that 1.4.11 measures is contested: the Understanding document says 1.4.11 does not directly compare the focused and unfocused states of a control, while a strict reading treats the enlarged band as an indicator outside the component that must reach 3:1 with the background. Competent auditors would disagree, so neither label is safe."
+    },
+    {
+      "fingerprint": "e77c6b8251cd",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Owl-carousel 'previous' button of the Unidades carousel (owl-prev disabled: inactive at the first slide, though focusable and not styled as disabled). On the live page (headless Edge, 1280x800) the only change on keyboard focus is transform: scale(1.08); outline stays none and no colour changes. The probe's measurement, a #ffeae0 band next to white at 1.16:1, matches the enlarged pale edge. The arrow (#ef9e76 on #ffeae0) is 1.84:1. The 1.4.11 exemption for inactive components may apply. Whether a size change alone is a focus indicator that 1.4.11 measures is contested: the Understanding document says 1.4.11 does not directly compare the focused and unfocused states of a control, while a strict reading treats the enlarged band as an indicator outside the component that must reach 3:1 with the background. Competent auditors would disagree, so neither label is safe."
+    },
+    {
+      "fingerprint": "31957d572b0c",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Owl-carousel 'next' button of the Unidades carousel. On the live page (headless Edge, 1280x800) the only change on keyboard focus is transform: scale(1.08); outline stays none and no colour changes. The probe reported 4495 changed pixels 'around it', mostly white next to white. That is far more than the about 180 px a 1.08 scale changes in my replay, so its measured region likely picked up an unrelated change. The real indicator, a pale #ffeae0 band on white (1.16:1) with a 1.84:1 arrow, is below 3:1. Whether a size change alone is a focus indicator that 1.4.11 measures is contested: the Understanding document says 1.4.11 does not directly compare the focused and unfocused states of a control, while a strict reading treats the enlarged band as an indicator outside the component that must reach 3:1 with the background. Competent auditors would disagree, so neither label is safe."
+    },
+    {
+      "fingerprint": "38a1e641c3ba",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Footer telephone button '(11) 3053-6611'. On the live page, keyboard focus changes only opacity from 1 to 0.95 (outline-style stays none). The whole button shifts imperceptibly in colour (#6ac0d5 to about #66bad0, the white text slightly dimmer). The probe treated the button's own text pixels as an 'indicator' and compared them with the button fill. The Understanding document for 1.4.11 says a change of colour within the component is not in scope of non-text contrast (Figure 15), and the focused button keeps its contrast with the dark footer. The real defect is that focus is effectively invisible, a 2.4.7 Focus Visible failure (and 1.4.1), not 1.4.11."
+    },
+    {
+      "fingerprint": "b56106018593",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer Facebook icon link (40x40 #4367b2 square with a white 'f' on the #194f7f footer). On the live page, focus only scales it by 1.1 (outline none). The probe correctly measured the new #4367b2 band against the #194f7f background at 1.55:1. However, the enlarged white glyph contrasts 5.5:1 with the icon fill, and an indicator inside the component may contrast with the colours inside it. The Understanding document also says 1.4.11 does not compare focused and unfocused states. Whether a scale-only change fails 1.4.11, rather than being a weak but visible 2.4.7 indicator, is something auditors would dispute."
+    },
+    {
+      "fingerprint": "1272d675c956",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer LinkedIn icon link (#0077b5 square, white glyph, on #194f7f). On the live page, focus only applies transform: scale(1.1). The band of icon colour against the footer measures 1.75:1, as the probe says. The white glyph, also enlarged, contrasts about 4.8:1 with the fill, and 1.4.11 does not compare the focused and unfocused states. Whether this scale-only indicator fails 1.4.11 is open to reasonable disagreement."
+    },
+    {
+      "fingerprint": "cb4fcc4cf62e",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer YouTube icon link (red square, white play glyph, on #194f7f). On the live page, focus only scales it by 1.1 (outline none). The red band against the footer measures about 2.1:1, under 3:1 as reported. The enlarged white glyph contrasts about 4:1 with the red fill, and the Understanding document says 1.4.11 does not compare focused and unfocused states. It is unclear whether a pure size change counts as a failing focus indicator under 1.4.11."
+    },
+    {
+      "fingerprint": "5310d8fde916",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header menu item 'Agendamentos' (the <li>, whose :hover opens the submenu of 13 links, 440x373 px). On the live page (1280x800), hovering the trigger sets the submenu <ul> to display:flex, absolutely positioned over the page content below the header. Pressing Escape with the pointer still on the trigger leaves it shown. The page has no Escape handler for the menu, and the only key handler in the theme scripts closes the mobile side nav. It is CSS hover only (focus does not open it), and the only way to close it is to move the pointer away. The Understanding document for 1.4.13 lists sub-menus explicitly. The content obscures other content and is not an error message, so the dismissible exception does not apply."
+    },
+    {
+      "fingerprint": "c5987c0d4aa4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link 'Agendamentos' in the main menu bar, the hover trigger for its submenu. On the live page (1280x800), hovering the trigger sets the submenu <ul> to display:flex, absolutely positioned over the page content below the header. Pressing Escape with the pointer still on the trigger leaves it shown. The page has no Escape handler for the menu, and the only key handler in the theme scripts closes the mobile side nav. It is CSS hover only (focus does not open it), and the only way to close it is to move the pointer away. The Understanding document for 1.4.13 lists sub-menus explicitly. The content obscures other content and is not an error message, so the dismissible exception does not apply."
+    },
+    {
+      "fingerprint": "90961f082583",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header menu item 'Especialidades' (<li>, opens a 440x392 px submenu over the Serviços cards). On the live page (1280x800), hovering the trigger sets the submenu <ul> to display:flex, absolutely positioned over the page content below the header. Pressing Escape with the pointer still on the trigger leaves it shown. The page has no Escape handler for the menu, and the only key handler in the theme scripts closes the mobile side nav. It is CSS hover only (focus does not open it), and the only way to close it is to move the pointer away. The Understanding document for 1.4.13 lists sub-menus explicitly. The content obscures other content and is not an error message, so the dismissible exception does not apply."
+    },
+    {
+      "fingerprint": "07ea1be6fece",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link 'Especialidades' in the main menu bar, the hover trigger for its submenu. On the live page (1280x800), hovering the trigger sets the submenu <ul> to display:flex, absolutely positioned over the page content below the header. Pressing Escape with the pointer still on the trigger leaves it shown. The page has no Escape handler for the menu, and the only key handler in the theme scripts closes the mobile side nav. It is CSS hover only (focus does not open it), and the only way to close it is to move the pointer away. The Understanding document for 1.4.13 lists sub-menus explicitly. The content obscures other content and is not an error message, so the dismissible exception does not apply."
+    },
+    {
+      "fingerprint": "8d27b69da98d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header menu item 'Unidades' (<li>, opens a 220x118 px submenu with Unidades/Visitas). On the live page (1280x800), hovering the trigger sets the submenu <ul> to display:flex, absolutely positioned over the page content below the header. Pressing Escape with the pointer still on the trigger leaves it shown. The page has no Escape handler for the menu, and the only key handler in the theme scripts closes the mobile side nav. It is CSS hover only (focus does not open it), and the only way to close it is to move the pointer away. The Understanding document for 1.4.13 lists sub-menus explicitly. The content obscures other content and is not an error message, so the dismissible exception does not apply."
+    },
+    {
+      "fingerprint": "060ca94d748e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link 'Unidades' (href javascript:;) in the main menu bar, the hover trigger for its submenu. On the live page (1280x800), hovering the trigger sets the submenu <ul> to display:flex, absolutely positioned over the page content below the header. Pressing Escape with the pointer still on the trigger leaves it shown. The page has no Escape handler for the menu, and the only key handler in the theme scripts closes the mobile side nav. It is CSS hover only (focus does not open it), and the only way to close it is to move the pointer away. The Understanding document for 1.4.13 lists sub-menus explicitly. The content obscures other content and is not an error message, so the dismissible exception does not apply."
+    },
+    {
+      "fingerprint": "b1fc48c9aa58",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header menu item 'Serviços' (<li>, opens a 220x255 px submenu). On the live page (1280x800), hovering the trigger sets the submenu <ul> to display:flex, absolutely positioned over the page content below the header. Pressing Escape with the pointer still on the trigger leaves it shown. The page has no Escape handler for the menu, and the only key handler in the theme scripts closes the mobile side nav. It is CSS hover only (focus does not open it), and the only way to close it is to move the pointer away. The Understanding document for 1.4.13 lists sub-menus explicitly. The content obscures other content and is not an error message, so the dismissible exception does not apply."
+    },
+    {
+      "fingerprint": "c32d3147abba",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link 'Serviços' in the main menu bar, the hover trigger for its submenu. On the live page (1280x800), hovering the trigger sets the submenu <ul> to display:flex, absolutely positioned over the page content below the header. Pressing Escape with the pointer still on the trigger leaves it shown. The page has no Escape handler for the menu, and the only key handler in the theme scripts closes the mobile side nav. It is CSS hover only (focus does not open it), and the only way to close it is to move the pointer away. The Understanding document for 1.4.13 lists sub-menus explicitly. The content obscures other content and is not an error message, so the dismissible exception does not apply."
+    },
+    {
+      "fingerprint": "24cb4c550069",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header menu item 'Sobre o Hcor' (<li>, opens a 660x393 px three-column submenu). On the live page (1280x800), hovering the trigger sets the submenu <ul> to display:flex, absolutely positioned over the page content below the header. Pressing Escape with the pointer still on the trigger leaves it shown. The page has no Escape handler for the menu, and the only key handler in the theme scripts closes the mobile side nav. It is CSS hover only (focus does not open it), and the only way to close it is to move the pointer away. The Understanding document for 1.4.13 lists sub-menus explicitly. The content obscures other content and is not an error message, so the dismissible exception does not apply."
+    },
+    {
+      "fingerprint": "b7203c2e99a8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link 'Sobre o Hcor' (href javascript:;) in the main menu bar, the hover trigger for its submenu. On the live page (1280x800), hovering the trigger sets the submenu <ul> to display:flex, absolutely positioned over the page content below the header. Pressing Escape with the pointer still on the trigger leaves it shown. The page has no Escape handler for the menu, and the only key handler in the theme scripts closes the mobile side nav. It is CSS hover only (focus does not open it), and the only way to close it is to move the pointer away. The Understanding document for 1.4.13 lists sub-menus explicitly. The content obscures other content and is not an error message, so the dismissible exception does not apply."
+    },
+    {
+      "fingerprint": "5e13adb36239",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The finding says pressing 'I' with focus on the body changes the page. I replayed it on the live page at 1280x800 and 320x256 with a listener on keydown, keypress and keyup. 'I', 'i' and Shift+I reach the body unhandled (defaultPrevented false), scroll does not move, and repeated presses changed 0 px. When pixels did change, they changed equally on no-key control waits and on other letters: the hero carousel autoplay, the animated floating 'Faça seu agendamento' button and the top banner region. The only document key listeners come from Bootstrap's delegated handlers and the theme's Escape handler for the mobile side nav. No single-character shortcut exists, so the probe attributed a periodic animation to the key press."
+    },
+    {
+      "fingerprint": "f5945051dbd3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Hero banner carousel 'previous' button (owl-prev with a chevron icon). On the live page, focus (matches :focus-visible) changes no style on the button or its icon: outline-style none, no shadow, background, colour or transform change. The probe saw 0 px change in the whole viewport, captured twice. My diff only differed where the slide itself had rotated. No visible focus indicator, a 2.4.7 failure."
+    },
+    {
+      "fingerprint": "438bed697b1a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Hero banner carousel 'next' button (owl-next). On the live page, focus changes nothing (outline none, no other style change), and my focused-vs-blurred pixel diff was 0 px, as the probe recorded. No visible focus indicator, a 2.4.7 failure."
+    },
+    {
+      "fingerprint": "e31e43035d84",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link 'Oncologia' in the Serviços carousel. On the live page, keyboard focus gives the link the browser's default outline (auto 1px), but the link is inline inside figure.image, which has overflow:hidden and the same size. The outline is clipped, and a pixel diff of the area around the link between focused and blurred states was 0 px. No other style changes on focus. A keyboard user sees no focus indicator on this stop, which fails 2.4.7. It is a separate focus stop from the heading link and 'Saiba mais' button of the same card, so their indicators do not help."
+    },
+    {
+      "fingerprint": "01468177ca08",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link 'Cardiologia' in the Serviços carousel. On the live page, keyboard focus gives the link the browser's default outline (auto 1px), but the link is inline inside figure.image, which has overflow:hidden and the same size. The outline is clipped, and a pixel diff of the area around the link between focused and blurred states was 0 px. No other style changes on focus. A keyboard user sees no focus indicator on this stop, which fails 2.4.7. It is a separate focus stop from the heading link and 'Saiba mais' button of the same card, so their indicators do not help."
+    },
+    {
+      "fingerprint": "56db05ab80d7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link 'Medicina Diagnóstica' in the Serviços carousel. On the live page, keyboard focus gives the link the browser's default outline (auto 1px), but the link is inline inside figure.image, which has overflow:hidden and the same size. The outline is clipped, and a pixel diff of the area around the link between focused and blurred states was 0 px. No other style changes on focus. A keyboard user sees no focus indicator on this stop, which fails 2.4.7. It is a separate focus stop from the heading link and 'Saiba mais' button of the same card, so their indicators do not help."
+    },
+    {
+      "fingerprint": "ff71bd65a715",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link of the Hcor explica card 'Avanços na área do câncer ginecológico e na saúde da mulher'. On the live page, keyboard focus gives the link the browser's default outline (auto 1px), but the link is inline inside figure.image, which has overflow:hidden and the same size. The outline is clipped, and a pixel diff of the area around the link between focused and blurred states was 0 px. No other style changes on focus. A keyboard user sees no focus indicator on this stop, which fails 2.4.7. It is a separate focus stop from the heading link and 'Saiba mais' button of the same card, so their indicators do not help."
+    },
+    {
+      "fingerprint": "35913e498e1c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link of the Hcor explica card 'Câncer de Ovário'. On the live page, keyboard focus gives the link the browser's default outline (auto 1px), but the link is inline inside figure.image, which has overflow:hidden and the same size. The outline is clipped, and a pixel diff of the area around the link between focused and blurred states was 0 px. No other style changes on focus. A keyboard user sees no focus indicator on this stop, which fails 2.4.7. It is a separate focus stop from the heading link and 'Saiba mais' button of the same card, so their indicators do not help."
+    },
+    {
+      "fingerprint": "962762dca0eb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link of the Hcor explica card 'Síncope: sintomas e fatores de risco' (third slide). On the live page, keyboard focus gives the link the browser's default outline (auto 1px), but the link is inline inside figure.image, which has overflow:hidden and the same size. The outline is clipped, and a pixel diff of the area around the link between focused and blurred states was 0 px. No other style changes on focus. A keyboard user sees no focus indicator on this stop, which fails 2.4.7. It is a separate focus stop from the heading link and 'Saiba mais' button of the same card, so their indicators do not help. I checked it after bringing the slide into view."
+    },
+    {
+      "fingerprint": "4c1afefe037d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link of the Hcor explica card 'Aprenda a fazer bife de alcatra à parmegiana' (fifth slide). On the live page, keyboard focus gives the link the browser's default outline (auto 1px), but the link is inline inside figure.image, which has overflow:hidden and the same size. The outline is clipped, and a pixel diff of the area around the link between focused and blurred states was 0 px. No other style changes on focus. A keyboard user sees no focus indicator on this stop, which fails 2.4.7. It is a separate focus stop from the heading link and 'Saiba mais' button of the same card, so their indicators do not help. I checked it after bringing the slide into view."
+    },
+    {
+      "fingerprint": "bd474a7ae3f6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link of the Hcor explica card 'Saiba como se prevenir do câncer de cabeça e pescoço' (sixth slide). On the live page, keyboard focus gives the link the browser's default outline (auto 1px), but the link is inline inside figure.image, which has overflow:hidden and the same size. The outline is clipped, and a pixel diff of the area around the link between focused and blurred states was 0 px. No other style changes on focus. A keyboard user sees no focus indicator on this stop, which fails 2.4.7. It is a separate focus stop from the heading link and 'Saiba mais' button of the same card, so their indicators do not help. I checked it after bringing the slide into view."
+    },
+    {
+      "fingerprint": "cda7162b9a13",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Heading link 'Instituto de Pesquisa' in the Unidades carousel. Shift+Tab walk at 1280x800 (step 25, as in the probe). I replayed the walk on the live page: the header (warning banner, top bar and menu bar) becomes position: fixed once the page scrolls and covers the top of the viewport, and html has no scroll-padding-top. After Shift+Tab ×25 the link sits at y 72-128 in the viewport, while the fixed header covers y 0-189. Every grid point inside the focused element hit the header's opaque children, so the element is entirely hidden. This is the sticky-header failure F110. The banner is not content the user opened, so the Understanding note about content opened by the user does not apply. The probe's 'painting/hiding changed 0 px' comes from the header element itself having 0 px height and does not undo the geometry."
+    },
+    {
+      "fingerprint": "7a100e506cca",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Heading link 'Saiba como se prevenir do câncer de cabeça e pescoço' in the Hcor explica carousel. Shift+Tab walk at 1280x800 (step 60, as in the probe). I replayed the walk on the live page: the header (warning banner, top bar and menu bar) becomes position: fixed once the page scrolls and covers the top of the viewport, and html has no scroll-padding-top. After Shift+Tab ×60 the link sits at y 1-57, while the fixed header covers y 0-189. Every grid point inside the focused element hit the header's opaque children, so the element is entirely hidden. This is the sticky-header failure F110. The banner is not content the user opened, so the Understanding note about content opened by the user does not apply. The probe's 'painting/hiding changed 0 px' comes from the header element itself having 0 px height and does not undo the geometry."
+    },
+    {
+      "fingerprint": "8561feb8f269",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link 'Ver todas as matérias' of the Hcor explica section. Shift+Tab walk at 1280x800 (step 83, as in the probe). I replayed the walk on the live page: the header (warning banner, top bar and menu bar) becomes position: fixed once the page scrolls and covers the top of the viewport, and html has no scroll-padding-top. After Shift+Tab ×83 the link sits at y 75-106, while the fixed header covers y 0-189. Every grid point inside the focused element hit the header's opaque children, so the element is entirely hidden. This is the sticky-header failure F110. The banner is not content the user opened, so the Understanding note about content opened by the user does not apply. The probe's 'painting/hiding changed 0 px' comes from the header element itself having 0 px height and does not undo the geometry."
+    },
+    {
+      "fingerprint": "618796ba9fe5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link 'Cardiologia' in the Serviços carousel, 390x844 Tab walk (step 127). Tab walk at 390x844. I replayed the walk on the live page: the header (warning banner, top bar and menu bar) becomes position: fixed once the page scrolls and covers the top of the viewport, and html has no scroll-padding-top. The mobile fixed header (scam banner, phone/search bar and logo bar) covers about y 0-282 of the 844 px viewport. The link settles at y 18-218, and it is in the next slide, so only a 25 px sliver is even on screen. Every grid point inside the focused element hit the header's opaque children, so the element is entirely hidden. This is the sticky-header failure F110. The banner is not content the user opened, so the Understanding note about content opened by the user does not apply. The probe's 'painting/hiding changed 0 px' comes from the header element itself having 0 px height and does not undo the geometry. This one depends on pace, because html uses scroll-behavior: smooth and the header switches from static to fixed while scrolling. With 0.25-1.5 s between Tab presses, my replay left this element visible (y about 419-654). With quick presses, 0.05 s apart, the page settled after 2.5 s at scrollY 1021 with the element exactly where the probe saw it, under the header. Quick tabbing is ordinary keyboard use, and the settled state leaves the focused element entirely hidden."
+    },
+    {
+      "fingerprint": "4fe97ea42bf8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link 'Medicina Diagnóstica' in the Serviços carousel, 390x844 Tab walk (step 130). Tab walk at 390x844. I replayed the walk on the live page: the header (warning banner, top bar and menu bar) becomes position: fixed once the page scrolls and covers the top of the viewport, and html has no scroll-padding-top. The mobile fixed header covers about y 0-282. The link settles at y 18-218. Every grid point inside the focused element hit the header's opaque children, so the element is entirely hidden. This is the sticky-header failure F110. The banner is not content the user opened, so the Understanding note about content opened by the user does not apply. The probe's 'painting/hiding changed 0 px' comes from the header element itself having 0 px height and does not undo the geometry. This one depends on pace, because html uses scroll-behavior: smooth and the header switches from static to fixed while scrolling. With 0.25-1.5 s between Tab presses, my replay left this element visible (y about 419-654). With quick presses, 0.05 s apart, the page settled after 2.5 s at scrollY 1021 with the element exactly where the probe saw it, under the header. Quick tabbing is ordinary keyboard use, and the settled state leaves the focused element entirely hidden."
+    },
+    {
+      "fingerprint": "f4ba46057f3b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Heading link 'Medicina Diagnóstica' in the Serviços carousel, 390x844 Tab walk (step 131). Tab walk at 390x844. I replayed the walk on the live page: the header (warning banner, top bar and menu bar) becomes position: fixed once the page scrolls and covers the top of the viewport, and html has no scroll-padding-top. The mobile fixed header covers about y 0-282. The link settles at y 253-275. Every grid point inside the focused element hit the header's opaque children, so the element is entirely hidden. This is the sticky-header failure F110. The banner is not content the user opened, so the Understanding note about content opened by the user does not apply. The probe's 'painting/hiding changed 0 px' comes from the header element itself having 0 px height and does not undo the geometry. This one depends on pace, because html uses scroll-behavior: smooth and the header switches from static to fixed while scrolling. With 0.25-1.5 s between Tab presses, my replay left this element visible (y about 419-654). With quick presses, 0.05 s apart, the page settled after 2.5 s at scrollY 1021 with the element exactly where the probe saw it, under the header. Quick tabbing is ordinary keyboard use, and the settled state leaves the focused element entirely hidden."
+    },
+    {
+      "fingerprint": "eefb2701f241",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link 'Câncer de Ovário' (second Hcor explica slide), 390x844 Tab walk (step 145). Tab walk at 390x844 (reproduced at every pace I tried). I replayed the walk on the live page: the header (warning banner, top bar and menu bar) becomes position: fixed once the page scrolls and covers the top of the viewport, and html has no scroll-padding-top. The link lands at y 0-200 and x 365, so only a sliver is on screen, under the mobile header (about y 0-282). My screenshot shows only the header there. Every grid point inside the focused element hit the header's opaque children, so the element is entirely hidden. This is the sticky-header failure F110. The banner is not content the user opened, so the Understanding note about content opened by the user does not apply. The probe's 'painting/hiding changed 0 px' comes from the header element itself having 0 px height and does not undo the geometry."
+    },
+    {
+      "fingerprint": "4745ddb55e09",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Category link 'Oncologia' on the 'Câncer de Ovário' card, 390x844 Tab walk (step 146). Tab walk at 390x844 (reproduced). I replayed the walk on the live page: the header (warning banner, top bar and menu bar) becomes position: fixed once the page scrolls and covers the top of the viewport, and html has no scroll-padding-top. The link lands at y 164-190, under the mobile header (about y 0-282). My screenshot shows only the header there. Every grid point inside the focused element hit the header's opaque children, so the element is entirely hidden. This is the sticky-header failure F110. The banner is not content the user opened, so the Understanding note about content opened by the user does not apply. The probe's 'painting/hiding changed 0 px' comes from the header element itself having 0 px height and does not undo the geometry."
+    },
+    {
+      "fingerprint": "577e755c9c53",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Heading link 'Câncer de Ovário', 390x844 Tab walk (step 147). Tab walk at 390x844 (reproduced). I replayed the walk on the live page: the header (warning banner, top bar and menu bar) becomes position: fixed once the page scrolls and covers the top of the viewport, and html has no scroll-padding-top. The link lands at y 235-257, under the mobile header (about y 0-282). My screenshot shows only the header there. Every grid point inside the focused element hit the header's opaque children, so the element is entirely hidden. This is the sticky-header failure F110. The banner is not content the user opened, so the Understanding note about content opened by the user does not apply. The probe's 'painting/hiding changed 0 px' comes from the header element itself having 0 px height and does not undo the geometry."
+    },
+    {
+      "fingerprint": "a286e036ebc1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link 'Síncope: sintomas e fatores de risco' (third Hcor explica slide), 390x844 Tab walk (step 149). Tab walk at 390x844 (reproduced). I replayed the walk on the live page: the header (warning banner, top bar and menu bar) becomes position: fixed once the page scrolls and covers the top of the viewport, and html has no scroll-padding-top. The link lands at y 0-200 and x 304, mostly off screen to the right, and the visible part is under the mobile header (about y 0-282). Every grid point inside the focused element hit the header's opaque children, so the element is entirely hidden. This is the sticky-header failure F110. The banner is not content the user opened, so the Understanding note about content opened by the user does not apply. The probe's 'painting/hiding changed 0 px' comes from the header element itself having 0 px height and does not undo the geometry."
+    },
+    {
+      "fingerprint": "19adaab0cdbc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Category link 'Outras' on the Síncope card, 390x844 Tab walk (step 150). Tab walk at 390x844 (reproduced). I replayed the walk on the live page: the header (warning banner, top bar and menu bar) becomes position: fixed once the page scrolls and covers the top of the viewport, and html has no scroll-padding-top. The link lands at y 164-190, under the mobile header (about y 0-282). Every grid point inside the focused element hit the header's opaque children, so the element is entirely hidden. This is the sticky-header failure F110. The banner is not content the user opened, so the Understanding note about content opened by the user does not apply. The probe's 'painting/hiding changed 0 px' comes from the header element itself having 0 px height and does not undo the geometry."
+    }
+  ]
+}

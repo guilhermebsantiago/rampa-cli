@@ -1,0 +1,102 @@
+{
+  "page": "https://www.irishtimes.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "85ffd6b93312",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the homepage masthead, an image of the words \"THE IRISH TIMES\" (I checked the crop and the screenshot). It is not in a link and is not hidden, and its alt is \"Masthead logo\". That alt names what kind of image it is but not what it says, so a screen reader user hears \"Masthead logo\" and never the publication's name. Strictly, the image does show a masthead logo, so the finding's wording (\"describes something the image does not show\") is a little off. The real defect is that the alt is generic and does not convey the logo's text (alt=\"The Irish Times\" would). If the masthead were treated as decorative, a non-empty alt would instead fail F39. Either way 1.1.1 fails. The live page still has the same alt."
+    },
+    {
+      "fingerprint": "e14852f9ca0e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is an image of the word \"ePaper\" at the top of the ePaper promo block (checked in the crop and the screenshot). Its alt is \"logo\". In the snapshot it is the only element in that block that says what the block is: the ePaper link next to it has no text. \"logo\" is a placeholder that does not convey the image's text or purpose, which is F30 (text alternatives that are not alternatives), so 1.1.1 fails. The live page still serves the same alt=\"logo\"."
+    },
+    {
+      "fingerprint": "57ee7c3867b9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"LIVE UPDATES\" kicker link above the lead story: 12px, weight 400, uppercase. I sampled the screenshot (the rendered layout is about 44px higher than the snapshot bounds, because the links bar is not painted there). The text's solid pixels are #979797 on a #ffffff background, which is 2.92:1. That is below the 4.5:1 that 1.4.3 requires for normal-size text. The red dot is a separate pseudo-element and does not change the text's contrast. This is a functional section link, not incidental text or a logotype, so 1.4.3 fails."
+    },
+    {
+      "fingerprint": "123342923fa5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"OPINION\" section kicker link above the Australia story: 12px, weight 400. The screenshot rows of this kicker have #979797 as their darkest pixel, on white #ffffff, which gives 2.92:1, below 4.5:1. It is a meaningful link label, not incidental text, so 1.4.3 fails."
+    },
+    {
+      "fingerprint": "8c5326dc1a14",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"EUROPE\" section kicker link above the Ukraine drone-war story: 12px, weight 400. Sampling the screenshot gives #979797 text on #ffffff, 2.92:1, below 4.5:1. It is a real link label, so 1.4.3 fails."
+    },
+    {
+      "fingerprint": "2f77c994c151",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"COURTS\" section kicker link above the \"State withdraws charges\" story: 12px, weight 400. Sampling the screenshot gives #979797 text on #ffffff, 2.92:1, below 4.5:1, so 1.4.3 fails."
+    },
+    {
+      "fingerprint": "445af57844fa",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"RESTAURANTS\" kicker link in the Highlights row: 12px, weight 400, centered above the headline. Sampling the screenshot gives #979797 text on #ffffff, 2.92:1, below 4.5:1, so 1.4.3 fails."
+    },
+    {
+      "fingerprint": "eadf10e43262",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"MUSIC\" kicker link in the Highlights row: 12px, weight 400. Sampling the screenshot gives #979797 text on #ffffff, 2.92:1, below 4.5:1, so 1.4.3 fails."
+    },
+    {
+      "fingerprint": "3c748782e516",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"US\" kicker link in the Highlights row, above the \"Trump country\" story: 12px, weight 400. The snapshot records no browser name for it, but it is visible in the screenshot and its glyph rows sample as #979797 on #ffffff. That is 2.92:1, below 4.5:1, so 1.4.3 fails."
+    },
+    {
+      "fingerprint": "e3c2aa56cb62",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"OPINION\" kicker link in More Top Stories, above \"Shouty phone calls on buses\": 12px, weight 400. Sampling the screenshot gives #979797 text on #ffffff, 2.92:1, below 4.5:1, so 1.4.3 fails."
+    },
+    {
+      "fingerprint": "42a6a63f7cf5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"COURTS\" kicker link in More Top Stories, above the non-jury trial story: 12px, weight 400. Sampling the screenshot gives #979797 text on #ffffff, 2.92:1, below 4.5:1, so 1.4.3 fails."
+    },
+    {
+      "fingerprint": "9939b6831cb5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"POLITICS\" kicker link above the champagne levies story: 12px, weight 400. Sampling the screenshot gives #979797 text on #ffffff, 2.92:1, below 4.5:1, so 1.4.3 fails."
+    },
+    {
+      "fingerprint": "27a809d00786",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"IRELAND\" kicker link above the Carrigaline crash story: 12px, weight 400. Sampling the screenshot gives #979797 text on #ffffff, 2.92:1, below 4.5:1, so 1.4.3 fails."
+    },
+    {
+      "fingerprint": "e063d832306a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"EUROPE\" kicker link above the Paris drive-by shooting story: 12px, weight 400. Sampling the screenshot gives #979797 text on #ffffff, 2.92:1, below 4.5:1, so 1.4.3 fails."
+    },
+    {
+      "fingerprint": "c46abee7e7c2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"IRELAND\" kicker link above the New York horse-drawn carriages story: 12px, weight 400. Sampling the screenshot gives #979797 text on #ffffff, 2.92:1, below 4.5:1, so 1.4.3 fails."
+    },
+    {
+      "fingerprint": "b35d84e50914",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the live-blog timeline entry link (\"1 hour ago / The storm set to hit Ireland's west coast...\"). The <a> wraps an <article> that holds the time and paragraph. In the snapshot, Chrome's accessibility tree gives the link role link and name \"\": Chromium does not take a name from the contents of an article descendant, and the link has no aria-label or title. So when a screen reader user tabs to this focusable link, or lists the links, it is announced only as \"link\", and its name is not programmatically determinable in the engine the page was tested in. That fails 4.1.2, and 2.4.4 as well. Some auditors might call this a browser quirk, since AccName 1.2 recursion would include the text. But the name the platform actually exposes is empty, and the fix is trivial. The live page has changed since the run: it no longer shows the live-blog lead, so I judged from the snapshot."
+    }
+  ]
+}

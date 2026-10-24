@@ -1,0 +1,192 @@
+{
+  "page": "https://museudoipiranga.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "8725e5a7d3b3",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the Elementor hero background video: a YouTube iframe (controls=0, role=presentation) inside div.elementor-background-video-container. On the live page both the iframe and that container have pointer-events: none, so a mouse user cannot interact with it either; there is no functionality here that only a pointer can reach, which is what 2.1.1 is about (a missing pause control would be a 2.2.2 question, not this one). The 'never reached' claim also does not hold: in my own headless Edge Tab walk at 1280x800 focus entered the iframe twice (YouTube's caption window and its 'Mostrar controles do player' button). The probe's network guard blocked YouTube's player requests (youtubei/v1/player) and its screenshot shows a blank hero, so the frame had nothing focusable in the probe run: an artefact of the probe environment."
+    },
+    {
+      "fingerprint": "2668e9d84c81",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header logo link (a.elementor-clickable wrapping the logo image, href to the home page). I looked for a reason it could pass: the site CSS gives it outline: 3px solid black on focus, but the anchor is display: inline around block children, so the outline is not painted. With the welcome modal removed from the live page, Tab-focusing versus blurring the logo changed 0 px within 20 px of it, and a screenshot of it focused shows no ring, underline or other change. This is not caused by the modal (it fails without it), and the accessibility toolbar offers no focus-highlight mode, so no mode of operation shows its focus: 2.4.7 fails."
+    },
+    {
+      "fingerprint": "7ba5de3cfa4a",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The 'O Museu' submenu toggle (div.hfe-has-submenu-container, role=button) in the main menu. When Rampa tabbed to it, the welcome popup (#premium-modal-cbfd80b, a Premium Addons modal that opens by itself on page load and does not take or trap focus) was lying over it. The 0 px change comes from the popup's opaque white panel (290-990 x 75-725 px at 1280x800) covering the element, as the finding's own evidence says. With the popup removed on the live page, focusing it produces a visible black outline (2px solid, about 720 px changed around it; confirmed in a screenshot), so a mode where the indicator is visible exists and 2.4.7 is met. Hiding the focused element behind author content is the 2.4.11 failure, reported separately for the same elements; reporting it again under 2.4.7 applies the wrong criterion."
+    },
+    {
+      "fingerprint": "072333a5d1e7",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The 'O Museu' menu link (a.hfe-menu-item, href=#). When Rampa tabbed to it, the welcome popup (#premium-modal-cbfd80b, a Premium Addons modal that opens by itself on page load and does not take or trap focus) was lying over it. The 0 px change comes from the popup's opaque white panel (290-990 x 75-725 px at 1280x800) covering the element, as the finding's own evidence says. With the popup removed on the live page, focusing it produces a visible black outline (3px solid, about 2,100 px changed around it), so a mode where the indicator is visible exists and 2.4.7 is met. Hiding the focused element behind author content is the 2.4.11 failure, reported separately for the same elements; reporting it again under 2.4.7 applies the wrong criterion."
+    },
+    {
+      "fingerprint": "98f4bbddaccf",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The 'Visite' main-menu link. When Rampa tabbed to it, the welcome popup (#premium-modal-cbfd80b, a Premium Addons modal that opens by itself on page load and does not take or trap focus) was lying over it. The 0 px change comes from the popup's opaque white panel (290-990 x 75-725 px at 1280x800) covering the element, as the finding's own evidence says. With the popup removed on the live page, focusing it produces a visible black outline (3px solid, about 1,500 px changed around it), so a mode where the indicator is visible exists and 2.4.7 is met. Hiding the focused element behind author content is the 2.4.11 failure, reported separately for the same elements; reporting it again under 2.4.7 applies the wrong criterion."
+    },
+    {
+      "fingerprint": "6784de7a2b95",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The 'Exposições' main-menu link. When Rampa tabbed to it, the welcome popup (#premium-modal-cbfd80b, a Premium Addons modal that opens by itself on page load and does not take or trap focus) was lying over it. The 0 px change comes from the popup's opaque white panel (290-990 x 75-725 px at 1280x800) covering the element, as the finding's own evidence says. With the popup removed on the live page, focusing it produces a visible black outline (3px solid, about 2,500 px changed around it), so a mode where the indicator is visible exists and 2.4.7 is met. Hiding the focused element behind author content is the 2.4.11 failure, reported separately for the same elements; reporting it again under 2.4.7 applies the wrong criterion."
+    },
+    {
+      "fingerprint": "d7c71b2b0b4c",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The 'Programação' main-menu link. When Rampa tabbed to it, the welcome popup (#premium-modal-cbfd80b, a Premium Addons modal that opens by itself on page load and does not take or trap focus) was lying over it. The 0 px change comes from the popup's opaque white panel (290-990 x 75-725 px at 1280x800) covering the element, as the finding's own evidence says. With the popup removed on the live page, focusing it produces a visible black outline (3px solid, about 3,000 px changed around it), so a mode where the indicator is visible exists and 2.4.7 is met. Hiding the focused element behind author content is the 2.4.11 failure, reported separately for the same elements; reporting it again under 2.4.7 applies the wrong criterion."
+    },
+    {
+      "fingerprint": "abb7625bab09",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The 'Acervo' submenu toggle (div.hfe-has-submenu-container, role=button). When Rampa tabbed to it, the welcome popup (#premium-modal-cbfd80b, a Premium Addons modal that opens by itself on page load and does not take or trap focus) was lying over it. The 0 px change comes from the popup's opaque white panel (290-990 x 75-725 px at 1280x800) covering the element, as the finding's own evidence says. With the popup removed on the live page, focusing it produces a visible black outline (2px solid, about 700 px changed around it), so a mode where the indicator is visible exists and 2.4.7 is met. Hiding the focused element behind author content is the 2.4.11 failure, reported separately for the same elements; reporting it again under 2.4.7 applies the wrong criterion."
+    },
+    {
+      "fingerprint": "fdd19269a7b9",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The 'Acervo' menu link (a.hfe-menu-item). When Rampa tabbed to it, the welcome popup (#premium-modal-cbfd80b, a Premium Addons modal that opens by itself on page load and does not take or trap focus) was lying over it. The 0 px change comes from the popup's opaque white panel (290-990 x 75-725 px at 1280x800) covering the element, as the finding's own evidence says. With the popup removed on the live page, focusing it produces a visible black outline (3px solid, about 1,900 px changed around it), so a mode where the indicator is visible exists and 2.4.7 is met. Hiding the focused element behind author content is the 2.4.11 failure, reported separately for the same elements; reporting it again under 2.4.7 applies the wrong criterion."
+    },
+    {
+      "fingerprint": "3bb04a46309f",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The 'Imprensa' link in the footer menu. When Rampa tabbed to it, the welcome popup (#premium-modal-cbfd80b, a Premium Addons modal that opens by itself on page load and does not take or trap focus) was lying over it. The 0 px change comes from the popup's opaque white panel (290-990 x 75-725 px at 1280x800) covering the element, as the finding's own evidence says. With the popup removed on the live page, focusing it produces a visible black outline (3px solid, about 3,400 px changed around it), so a mode where the indicator is visible exists and 2.4.7 is met. Hiding the focused element behind author content is the 2.4.11 failure, reported separately for the same elements; reporting it again under 2.4.7 applies the wrong criterion."
+    },
+    {
+      "fingerprint": "b810c43a39fe",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The 'Transparência' link in the footer menu. When Rampa tabbed to it, the welcome popup (#premium-modal-cbfd80b, a Premium Addons modal that opens by itself on page load and does not take or trap focus) was lying over it. The 0 px change comes from the popup's opaque white panel (290-990 x 75-725 px at 1280x800) covering the element, as the finding's own evidence says. With the popup removed on the live page, focusing it produces a visible black outline (3px solid, about 3,700 px changed around it), so a mode where the indicator is visible exists and 2.4.7 is met. Hiding the focused element behind author content is the 2.4.11 failure, reported separately for the same elements; reporting it again under 2.4.7 applies the wrong criterion."
+    },
+    {
+      "fingerprint": "b40a47a59f56",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'O Museu' submenu toggle (div role=button) in the main menu, focused at Tab 15. The obscurer is the welcome popup #premium-modal-cbfd80b (role=dialog, no aria-modal). Its page settings say trigger=pageload, delay 3, so it opens without any user action. It never takes focus (its close button is about the 30th Tab stop) and does not close when focus moves behind it. I checked whether the element could still show through: the backdrop is rgba(0,0,0,0.5), but the element at 369-484 x 87-141 sits under the opaque white panel (rgb(255,255,255), 290-990 x 75-725 px at 1280x800). Every point I tested hit the panel, and the probe found that painting the element changed 0 px. The Note 2 exception covers only content the user opened. The Understanding document says content that appears without user initiation must not keep the focused item from being visible, and that a dialog-like overlay which neither takes focus nor constrains it is at risk. Nothing makes this pass, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "75b991650016",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'O Museu' main-menu link, focused at Tab 16. The obscurer is the welcome popup #premium-modal-cbfd80b (role=dialog, no aria-modal). Its page settings say trigger=pageload, delay 3, so it opens without any user action. It never takes focus (its close button is about the 30th Tab stop) and does not close when focus moves behind it. I checked whether the element could still show through: the backdrop is rgba(0,0,0,0.5), but the element at 369-484 x 87-141 sits under the opaque white panel (rgb(255,255,255), 290-990 x 75-725 px at 1280x800). Every point I tested hit the panel, and the probe found that painting the element changed 0 px. The Note 2 exception covers only content the user opened. The Understanding document says content that appears without user initiation must not keep the focused item from being visible, and that a dialog-like overlay which neither takes focus nor constrains it is at risk. Nothing makes this pass, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "f729c5b3dfa2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Visite' main-menu link, focused at Tab 17. The obscurer is the welcome popup #premium-modal-cbfd80b (role=dialog, no aria-modal). Its page settings say trigger=pageload, delay 3, so it opens without any user action. It never takes focus (its close button is about the 30th Tab stop) and does not close when focus moves behind it. I checked whether the element could still show through: the backdrop is rgba(0,0,0,0.5), but the element at 492-571 x 87-141 sits under the opaque white panel (rgb(255,255,255), 290-990 x 75-725 px at 1280x800). Every point I tested hit the panel, and the probe found that painting the element changed 0 px. The Note 2 exception covers only content the user opened. The Understanding document says content that appears without user initiation must not keep the focused item from being visible, and that a dialog-like overlay which neither takes focus nor constrains it is at risk. Nothing makes this pass, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "11a77df8136b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Exposições' main-menu link, focused at Tab 18. The obscurer is the welcome popup #premium-modal-cbfd80b (role=dialog, no aria-modal). Its page settings say trigger=pageload, delay 3, so it opens without any user action. It never takes focus (its close button is about the 30th Tab stop) and does not close when focus moves behind it. I checked whether the element could still show through: the backdrop is rgba(0,0,0,0.5), but the element at 580-699 x 87-141 sits under the opaque white panel (rgb(255,255,255), 290-990 x 75-725 px at 1280x800). Every point I tested hit the panel, and the probe found that painting the element changed 0 px. The Note 2 exception covers only content the user opened. The Understanding document says content that appears without user initiation must not keep the focused item from being visible, and that a dialog-like overlay which neither takes focus nor constrains it is at risk. Nothing makes this pass, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "4b0891c730fa",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Programação' main-menu link, focused at Tab 19. The obscurer is the welcome popup #premium-modal-cbfd80b (role=dialog, no aria-modal). Its page settings say trigger=pageload, delay 3, so it opens without any user action. It never takes focus (its close button is about the 30th Tab stop) and does not close when focus moves behind it. I checked whether the element could still show through: the backdrop is rgba(0,0,0,0.5), but the element at 707-845 x 87-141 sits under the opaque white panel (rgb(255,255,255), 290-990 x 75-725 px at 1280x800). Every point I tested hit the panel, and the probe found that painting the element changed 0 px. The Note 2 exception covers only content the user opened. The Understanding document says content that appears without user initiation must not keep the focused item from being visible, and that a dialog-like overlay which neither takes focus nor constrains it is at risk. Nothing makes this pass, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "aefe3d4f0629",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Acervo' submenu toggle (div role=button), focused at Tab 20. The obscurer is the welcome popup #premium-modal-cbfd80b (role=dialog, no aria-modal). Its page settings say trigger=pageload, delay 3, so it opens without any user action. It never takes focus (its close button is about the 30th Tab stop) and does not close when focus moves behind it. I checked whether the element could still show through: the backdrop is rgba(0,0,0,0.5), but the element at 853-960 x 87-141 sits under the opaque white panel (rgb(255,255,255), 290-990 x 75-725 px at 1280x800). Every point I tested hit the panel, and the probe found that painting the element changed 0 px. The Note 2 exception covers only content the user opened. The Understanding document says content that appears without user initiation must not keep the focused item from being visible, and that a dialog-like overlay which neither takes focus nor constrains it is at risk. Nothing makes this pass, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "179859aa2646",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Acervo' main-menu link, focused at Tab 21. The obscurer is the welcome popup #premium-modal-cbfd80b (role=dialog, no aria-modal). Its page settings say trigger=pageload, delay 3, so it opens without any user action. It never takes focus (its close button is about the 30th Tab stop) and does not close when focus moves behind it. I checked whether the element could still show through: the backdrop is rgba(0,0,0,0.5), but the element at 853-960 x 87-141 sits under the opaque white panel (rgb(255,255,255), 290-990 x 75-725 px at 1280x800). Every point I tested hit the panel, and the probe found that painting the element changed 0 px. The Note 2 exception covers only content the user opened. The Understanding document says content that appears without user initiation must not keep the focused item from being visible, and that a dialog-like overlay which neither takes focus nor constrains it is at risk. Nothing makes this pass, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "c69e61ecef15",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The hero button link 'ADQUIRA SEU INGRESSO', focused at Tab 26. The obscurer is the welcome popup #premium-modal-cbfd80b (role=dialog, no aria-modal). Its page settings say trigger=pageload, delay 3, so it opens without any user action. It never takes focus (its close button is about the 30th Tab stop) and does not close when focus moves behind it. I checked whether the element could still show through: the backdrop is rgba(0,0,0,0.5), but the element at 516-764 x 601-639 sits under the opaque white panel (rgb(255,255,255), 290-990 x 75-725 px at 1280x800). Every point I tested hit the panel, and the probe found that painting the element changed 0 px. The Note 2 exception covers only content the user opened. The Understanding document says content that appears without user initiation must not keep the focused item from being visible, and that a dialog-like overlay which neither takes focus nor constrains it is at risk. Nothing makes this pass, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "69b002eb884a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The hero button link 'PRÉ AGENDAMENTO DE GRUPOS', focused at Tab 27. The obscurer is the welcome popup #premium-modal-cbfd80b (role=dialog, no aria-modal). Its page settings say trigger=pageload, delay 3, so it opens without any user action. It never takes focus (its close button is about the 30th Tab stop) and does not close when focus moves behind it. I checked whether the element could still show through: the backdrop is rgba(0,0,0,0.5), but the element at 500-780 x 659-697 sits under the opaque white panel (rgb(255,255,255), 290-990 x 75-725 px at 1280x800). Every point I tested hit the panel, and the probe found that painting the element changed 0 px. The Note 2 exception covers only content the user opened. The Understanding document says content that appears without user initiation must not keep the focused item from being visible, and that a dialog-like overlay which neither takes focus nor constrains it is at risk. Nothing makes this pass, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "2b1fe69f4d9e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The page's own 'VENHA NOS VISITAR' button link, not the one inside the popup. It was focused at Tab 33 and scrolled to y 381. The obscurer is the welcome popup #premium-modal-cbfd80b (role=dialog, no aria-modal). Its page settings say trigger=pageload, delay 3, so it opens without any user action. It never takes focus (its close button is about the 30th Tab stop) and does not close when focus moves behind it. I checked whether the element could still show through: the backdrop is rgba(0,0,0,0.5), but the element at 440-636 x 381-419 sits under the opaque white panel (rgb(255,255,255), 290-990 x 75-725 px at 1280x800). Every point I tested hit the panel, and the probe found that painting the element changed 0 px. The Note 2 exception covers only content the user opened. The Understanding document says content that appears without user initiation must not keep the focused item from being visible, and that a dialog-like overlay which neither takes focus nor constrains it is at risk. Nothing makes this pass, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "d59e074713eb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The language-switcher flag link (href /en/, image alt 'Alterar o idioma para English') at 390x844, focused at Tab 14 and sitting at y 233. On the live page, merely tabbing onto the accessibility-toolbar toggle (Tab 2, focus alone, no activation) adds pojo-a11y-toolbar-open. The toolbar's opaque white panel (x 211-390, y 100-443) then stays open, and Escape does not close it. Every point I tested on the focused flag hit the toolbar, and focus versus blur changed 0 px around it. I looked for the user-opened exception and found it does not hold: the toolbar was not actively disclosed, and it cannot be dismissed without moving focus. The auto-opened welcome popup's opaque panel (x 0-390, y 75-769) also covers the same spot. The element is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "bc4c1b3c51eb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'política de privacidade' link in the newsletter form's consent text, focused at Tab 30. At 390x844 the auto-opened welcome popup #premium-modal-cbfd80b (trigger=pageload, takes no focus, does not trap it, does not close on focus loss) has an opaque white panel spanning x 0-390, y 75-769, the full width. The element, at y 534-572 (x 45-258 in my run), lies inside it. In my own live 390x844 walk with the popup open, every point I tested on the focused element hit the panel and focus versus blur changed 0 px; the probe also saw painting it change 0 px. The popup was not opened by the user, so Note 2 does not apply. Nothing makes the element visible while focused, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "eb8c128364fb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer Lei Rouanet logo link (empty-alt image, link to gov.br), focused at Tab 37. At 390x844 the auto-opened welcome popup #premium-modal-cbfd80b (trigger=pageload, takes no focus, does not trap it, does not close on focus loss) has an opaque white panel spanning x 0-390, y 75-769, the full width. The element, at y 394-450 (x 95-295 in my run), lies inside it. In my own live 390x844 walk with the popup open, every point I tested on the focused element hit the panel and focus versus blur changed 0 px; the probe also saw painting it change 0 px. The popup was not opened by the user, so Note 2 does not apply. Nothing makes the element visible while focused, so 2.4.11 fails. The open accessibility toolbar also covers part of it."
+    },
+    {
+      "fingerprint": "291c07c26227",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer Shell sponsor logo link, focused at Tab 38. At 390x844 the auto-opened welcome popup #premium-modal-cbfd80b (trigger=pageload, takes no focus, does not trap it, does not close on focus loss) has an opaque white panel spanning x 0-390, y 75-769, the full width. The element, at y 576-656 (x 95-295 in my run), lies inside it. In my own live 390x844 walk with the popup open, every point I tested on the focused element hit the panel and focus versus blur changed 0 px; the probe also saw painting it change 0 px. The popup was not opened by the user, so Note 2 does not apply. Nothing makes the element visible while focused, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "d4f9a3b0649c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer Vale sponsor logo link, focused at Tab 39. At 390x844 the auto-opened welcome popup #premium-modal-cbfd80b (trigger=pageload, takes no focus, does not trap it, does not close on focus loss) has an opaque white panel spanning x 0-390, y 75-769, the full width. The element, at y 676-756 (x 95-295 in my run), lies inside it. In my own live 390x844 walk with the popup open, every point I tested on the focused element hit the panel and focus versus blur changed 0 px; the probe also saw painting it change 0 px. The popup was not opened by the user, so Note 2 does not apply. Nothing makes the element visible while focused, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "f7a00c79b75f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer Itaú sponsor logo link (empty-alt image), focused at Tab 40. At 390x844 the auto-opened welcome popup #premium-modal-cbfd80b (trigger=pageload, takes no focus, does not trap it, does not close on focus loss) has an opaque white panel spanning x 0-390, y 75-769, the full width. The element, at y 376-467 (x 95-295 in my run), lies inside it. In my own live 390x844 walk with the popup open, every point I tested on the focused element hit the panel and focus versus blur changed 0 px; the probe also saw painting it change 0 px. The popup was not opened by the user, so Note 2 does not apply. Nothing makes the element visible while focused, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "3c2e831d0373",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer B3 sponsor logo link (empty-alt image), focused at Tab 41. At 390x844 the auto-opened welcome popup #premium-modal-cbfd80b (trigger=pageload, takes no focus, does not trap it, does not close on focus loss) has an opaque white panel spanning x 0-390, y 75-769, the full width. The element, at y 613-693 (x 95-295 in my run), lies inside it. In my own live 390x844 walk with the popup open, every point I tested on the focused element hit the panel and focus versus blur changed 0 px; the probe also saw painting it change 0 px. The popup was not opened by the user, so Note 2 does not apply. Nothing makes the element visible while focused, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "42ee1a719c4b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer Caterpillar sponsor logo link, focused at Tab 43. At 390x844 the auto-opened welcome popup #premium-modal-cbfd80b (trigger=pageload, takes no focus, does not trap it, does not close on focus loss) has an opaque white panel spanning x 0-390, y 75-769, the full width. The element, at y 382-462 (200 px wide, within the 390 px panel), lies inside it. In my own live 390x844 walk with the popup open, every point I tested on the focused element hit the panel and focus versus blur changed 0 px; the probe also saw painting it change 0 px. The popup was not opened by the user, so Note 2 does not apply. Nothing makes the element visible while focused, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "0bedff1ad772",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer Comgás sponsor logo link (empty-alt image), focused at Tab 44. At 390x844 the auto-opened welcome popup #premium-modal-cbfd80b (trigger=pageload, takes no focus, does not trap it, does not close on focus loss) has an opaque white panel spanning x 0-390, y 75-769, the full width. The element, at y 482-562 (200 px wide, within the 390 px panel), lies inside it. In my own live 390x844 walk with the popup open, every point I tested on the focused element hit the panel and focus versus blur changed 0 px; the probe also saw painting it change 0 px. The popup was not opened by the user, so Note 2 does not apply. Nothing makes the element visible while focused, so 2.4.11 fails."
+    },
+    {
+      "fingerprint": "aa61e4116593",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer Goodyear sponsor logo link (empty-alt image), focused at Tab 45. At 390x844 the auto-opened welcome popup #premium-modal-cbfd80b (trigger=pageload, takes no focus, does not trap it, does not close on focus loss) has an opaque white panel spanning x 0-390, y 75-769, the full width. The element, at y 582-662 (200 px wide, within the 390 px panel), lies inside it. In my own live 390x844 walk with the popup open, every point I tested on the focused element hit the panel and focus versus blur changed 0 px; the probe also saw painting it change 0 px. The popup was not opened by the user, so Note 2 does not apply. Nothing makes the element visible while focused, so 2.4.11 fails."
+    }
+  ]
+}

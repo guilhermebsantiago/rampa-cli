@@ -1,0 +1,30 @@
+{
+  "page": "https://www.itaucultural.org.br/contato",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "bcf97702a191",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the header logo (a picture whose desktop source is the full \\C ItaúCultural wordmark) and it is the only content of a link to \"/\". Its alt is \"Logo IC Cultural\", which becomes the link's whole accessible name. That matches the live page. The finding's factual claim holds: the name describes the image as a logo and never says \"home\". WAI's functional-images tutorial recommends \"Example.com homepage\" rather than \"Example.com logo\", and H30 says a link's only image should describe the link's function, so a strict auditor would fail it. The counter-argument is concrete, though. The alt names the organisation, a header logo linking to the site's home page is a universal convention, and a sighted user gets no more from the image than that, so the alt can be read as serving the equivalent purpose. WCAG's normative text and documented 1.1.1 failures (F30, F38, F65 and so on) do not cover this case. Competent auditors split on this exact pattern (many would call it best practice, or a 2.4.4 matter), so I cannot settle it either way."
+    },
+    {
+      "fingerprint": "b1cfaddf7c17",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 1280x450 banner img inside the \"Ocupação em vídeos\" promo. Its picture source with no media query serves ocupacaoConteudoDesk.png, a black field covered with orange names of artists honoured in the series. The heading, paragraph and \"Saber mais\" link are real HTML laid over it. The img has alt=\"image banner\" and the accessibility tree exposes it as an image with that name, with no aria-hidden or presentation role. The live markup is unchanged. I looked for a way it could pass and found none. If the image is informative (it names the honourees), \"image banner\" is placeholder text that is not an alternative (F30). If it is treated as decorative backdrop, a non-null alt keeps it from being ignored by assistive technology (F38). Either way 1.1.1 fails, and the finding's claim that the alt is a generic non-description names that failure. In the decorative reading the right fix would be alt=\"\" rather than a longer description."
+    },
+    {
+      "fingerprint": "c6578adfdd46",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the fixed WhatsApp floating link. The CSS gives .floating-button a background of #61ce70, the SVG path has fill #fff, and the screenshot pixels confirm #ffffff on #61ce70, so the measured 1.99:1 is right. The graphic, though, is the WhatsApp brand logo: the speech bubble with a phone, white on green. Understanding 1.4.11 exempts logos and logotypes under the essential exception. It says that when a logo is the only visible content of a user interface component, the exemption normatively carries over to that component, and a higher-contrast variant is only a recommended practice. The author-choice caveat applies when a logo that normally has enough contrast is presented with less. That is not the case here: WhatsApp's approved pairings (white on #25D366, or green on white) measure 1.98:1, the same as this button, so the low contrast comes from the brand design, not from the site's slightly different green. The rule applied G207's icon requirement without the logo exception. The link does have a real problem, since it has no accessible name (2.4.4/4.1.2, F89), but that is a different criterion."
+    },
+    {
+      "fingerprint": "5aa684372267",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "#searchDesk is the header search field. On desktop its form.accessibility-search is collapsed (width:0, right:-30%, overflow:hidden) and only opens to 600px with .active, when the user clicks the magnifier toggle in the header. When Rampa collected the page, the form, label and input all sat beyond the 1280px viewport (x 1302 to 1462). The crop the model saw is blank white, and the test that made the label text transparent compared pixels that were never on screen. In the open state the label is still hidden behind the input (position:absolute; z-index:-1). However, the input's CSS paints a magnifying-glass icon (bloom.svg) at its left edge, and the user reached the field through a magnifier button. Understanding 3.3.2 names exactly this case: a global header search field paired with a loupe icon, which serves as its visible label and needs no instructions. It also says images can serve as labels. So something on screen does tell the user what the field is for, and the claim that nothing does is an artefact of collecting the field while it was collapsed off-screen. The field is focusable while invisible, which is a focus-visibility concern (2.4.7), not 3.3.2."
+    }
+  ]
+}

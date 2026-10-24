@@ -1,0 +1,60 @@
+{
+  "page": "https://shop.pimoroni.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "f8d51ea0ebbd",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the PIMORONI wordmark SVG (role=img, aria-label=\"Pimoroni\"). It is the only rendered content of the header logo link to \"/\", and on this page that link points back to the page itself. The text alternative matches the wordmark's text and names the site the link goes to. WCAG 1.1.1 does not require a linked logo's alternative to add \"home\": the WAI tutorial's \"W3C home\" is advisory, and no failure technique covers this. The link also has title=\"Back to the home page\", which Chrome exposes as its accessible description (the snapshot's ax data shows it), so the destination is announced anyway. Requiring the alt text itself to state the destination is stricter than the criterion."
+    },
+    {
+      "fingerprint": "239a602c277d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the product photo in the first 'Just landed' card (the Sonoff AirGuard sensor). The snapshot shows alt=\"Default Title\", and Chrome puts it into the card link's name (\"Default Title New Sonoff AirGuard...\"). That is Shopify's placeholder variant title: the live theme script still builds the alt from the variant title. It does not describe the photo, and it is not the empty alt that would let assistive technology skip an image that repeats the product name. Placeholder text used as a text alternative is the documented failure F30. I looked for a reason it could pass: it is not a collector artefact, and treating the image as decorative does not help, because the junk name is still announced. None held up."
+    },
+    {
+      "fingerprint": "7d513a53a83d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the product photo in the second 'Just landed' card (the Sonoff Gen2 radiator valve). It has alt=\"Default Title\", which Chrome exposes as the image's name and as the start of the link's name (\"Default Title New Sonoff Gen2 Zigbee Thermostatic Radiator Valve\"). The text is Shopify's placeholder variant title, inserted by the theme's tile template. It neither describes the image nor lets assistive technology ignore it, which is failure F30 (placeholder text as a text alternative). No technique or context makes it pass."
+    },
+    {
+      "fingerprint": "04b8e7c7475f",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the back-layer 'halloween-skyline' SVG inside div.halloween-scene aria-hidden=\"true\". It sits at z-index -1 with pointer-events:none, and the page's own CSS describes it as a knocked-back scene of hills and a graveyard behind the header. The SVG holds one path and no text. Its crop is the whole 1280x158 header box, so it shows the logo, search box and department links painted over it, and the finding attributes those to the SVG. Those elements are exposed to assistive technology themselves (the logo link 'Pimoroni', the department navigation). This is pure decoration, and hiding it is what 1.1.1 asks."
+    },
+    {
+      "fingerprint": "73d0dfa70911",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the 'halloween-patch' SVG (a scarecrow and pumpkins drawn in rects, ellipses and polygons, with no text) in the aria-hidden Halloween scene behind the header. Its crop includes the cart link drawn on top of it, and the finding credits that link's text \"Your cart is empty\" to the SVG. That text belongs to #cart_link, an exposed link whose accessible name is \"Your cart is empty\", so nothing is lost by hiding the drawing. The drawing is decoration and is correctly hidden."
+    },
+    {
+      "fingerprint": "93c3ec7cda80",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the 'lit' layer of the Halloween skyline: one rect giving a faint lantern glow, with no text, inside div.halloween-scene aria-hidden=\"true\" behind the header contents. The crop of its full-width box shows the logo and department navigation painted above it, and the finding reads those as the image's content. The logo link and the navigation links are accessible in their own right. The SVG itself carries no information, so hiding it is correct under 1.1.1."
+    },
+    {
+      "fingerprint": "f5f26d857826",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the 'lit' 'halloween-patch' SVG (three polygons forming glowing jack-o'-lantern faces, with no text) in the aria-hidden Halloween scene. The finding's claim that \"the button says 'Your cart is empty'\" describes the cart link visible in the crop, not this drawing. That link (#cart_link) is exposed with that name. The SVG is decoration and is correctly hidden from assistive technology."
+    },
+    {
+      "fingerprint": "7732a4215f15",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The field is the footer newsletter input (type=email, id mce-EMAIL, placeholder \"Enter your e-mail address\"). It asks for the visitor's own e-mail address in order to subscribe them, so it collects information about the user. Neither the snapshot nor the live HTML has an autocomplete attribute on the input or its Mailchimp form. The Understanding document for 1.3.5 says type=\"email\" does not identify whether the address is the user's own, and H98 (autocomplete=\"email\") is the means of doing so. I found no technique that makes the field pass. I could not check the message's remark about Chromium's form check, but it does not change the verdict."
+    },
+    {
+      "fingerprint": "d0dfc512f154",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link 'Pimoroni' sits in the header's department navigation (Raspberry Pi, Pico, Pimoroni, Adafruit, Breakouts...) and goes to /collections/pimoroni. That page is titled 'Pimoroni Products' and its heading is 'Pimoroni'. The other link with the same name is the logo link to the home page, which also carries the description 'Back to the home page'. This link's text names its destination, just as its sibling brand link 'Adafruit' does, so its purpose can be determined. The Understanding document for 2.4.4 calls different text for different destinations a best practice, not a requirement, so the shared name alone is not a failure of 2.4.4."
+    }
+  ]
+}

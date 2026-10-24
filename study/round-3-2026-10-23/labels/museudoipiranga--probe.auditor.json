@@ -1,0 +1,192 @@
+{
+  "page": "https://museudoipiranga.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "8725e5a7d3b3",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Elementor background-video iframe (YouTube embed, controls=0, role=presentation) behind the hero. Live, the iframe and its .elementor-background-video-container have pointer-events: none, so mouse users cannot operate anything in it either. It has no controls and offers no function, so 2.1.1 has nothing to require keyboard access for. The rule treated a decorative frame as a 'native control'. An autoplaying 30 s video with no pause control may be a 2.2.2 issue, but that is not what this finding claims."
+    },
+    {
+      "fingerprint": "2668e9d84c81",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header logo link (an inline <a> wrapping the block-level logo image, 330x126 at 10,55). Checked live in headless Edge with the welcome modal closed: reaching the link with a real Tab gives :focus-visible and a computed 3px outline, but the outline is drawn on the empty inline fragments. 0 px of the header region changed between focused and unfocused. The probe also recorded 0 px changed. No other element on the page shows focus for it, so this keyboard-operable link has no visible focus indicator: 2.4.7 fails."
+    },
+    {
+      "fingerprint": "7ba5de3cfa4a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'O Museu' submenu container (div role=button, tabindex 0) in the main nav at 369,87 in a 1280x800 window. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. Live in headless Edge with the modal open, focusing this element changed 0 px in its area because it sits entirely under the opaque dialog box; with the modal closed the same element shows a black outline focus indicator (it is not missing in the CSS). So the cause is obscuring, not missing styling, but the finding names that cause, and the 2.4.11 Understanding says a fully obscured focus indicator would likely fail 2.4.7 as well; in the state a keyboard user meets on load no indicator is visible."
+    },
+    {
+      "fingerprint": "072333a5d1e7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'O Museu' nav link at 369,87 in a 1280x800 window. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. Live in headless Edge with the modal open, focusing this element changed 0 px in its area because it sits entirely under the opaque dialog box; with the modal closed the same element shows a black outline focus indicator (it is not missing in the CSS). So the cause is obscuring, not missing styling, but the finding names that cause, and the 2.4.11 Understanding says a fully obscured focus indicator would likely fail 2.4.7 as well; in the state a keyboard user meets on load no indicator is visible."
+    },
+    {
+      "fingerprint": "98f4bbddaccf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Visite' nav link at 492,87 in a 1280x800 window. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. Live in headless Edge with the modal open, focusing this element changed 0 px in its area because it sits entirely under the opaque dialog box; with the modal closed the same element shows a black outline focus indicator (it is not missing in the CSS). So the cause is obscuring, not missing styling, but the finding names that cause, and the 2.4.11 Understanding says a fully obscured focus indicator would likely fail 2.4.7 as well; in the state a keyboard user meets on load no indicator is visible."
+    },
+    {
+      "fingerprint": "6784de7a2b95",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Exposições' nav link at 580,87 in a 1280x800 window. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. Live in headless Edge with the modal open, focusing this element changed 0 px in its area because it sits entirely under the opaque dialog box; with the modal closed the same element shows a black outline focus indicator (it is not missing in the CSS). So the cause is obscuring, not missing styling, but the finding names that cause, and the 2.4.11 Understanding says a fully obscured focus indicator would likely fail 2.4.7 as well; in the state a keyboard user meets on load no indicator is visible."
+    },
+    {
+      "fingerprint": "d7c71b2b0b4c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Programação' nav link at 707,87 in a 1280x800 window. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. Live in headless Edge with the modal open, focusing this element changed 0 px in its area because it sits entirely under the opaque dialog box; with the modal closed the same element shows a black outline focus indicator (it is not missing in the CSS). So the cause is obscuring, not missing styling, but the finding names that cause, and the 2.4.11 Understanding says a fully obscured focus indicator would likely fail 2.4.7 as well; in the state a keyboard user meets on load no indicator is visible."
+    },
+    {
+      "fingerprint": "abb7625bab09",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Acervo' submenu container (div role=button, tabindex 0) in the main nav at 853,87 in a 1280x800 window. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. Live in headless Edge with the modal open, focusing this element changed 0 px in its area because it sits entirely under the opaque dialog box; with the modal closed the same element shows a black outline focus indicator (it is not missing in the CSS). So the cause is obscuring, not missing styling, but the finding names that cause, and the 2.4.11 Understanding says a fully obscured focus indicator would likely fail 2.4.7 as well; in the state a keyboard user meets on load no indicator is visible."
+    },
+    {
+      "fingerprint": "fdd19269a7b9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Acervo' nav link at 853,87 in a 1280x800 window. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. Live in headless Edge with the modal open, focusing this element changed 0 px in its area because it sits entirely under the opaque dialog box; with the modal closed the same element shows a black outline focus indicator (it is not missing in the CSS). So the cause is obscuring, not missing styling, but the finding names that cause, and the 2.4.11 Understanding says a fully obscured focus indicator would likely fail 2.4.7 as well; in the state a keyboard user meets on load no indicator is visible."
+    },
+    {
+      "fingerprint": "3bb04a46309f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer 'Imprensa' link which the 1280 walk focused at viewport 436,330 (396x54). The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. Live in headless Edge with the modal open, focusing this element changed 0 px in its area because it sits entirely under the opaque dialog box; with the modal closed the same element shows a black outline focus indicator (it is not missing in the CSS). So the cause is obscuring, not missing styling, but the finding names that cause, and the 2.4.11 Understanding says a fully obscured focus indicator would likely fail 2.4.7 as well; in the state a keyboard user meets on load no indicator is visible."
+    },
+    {
+      "fingerprint": "b810c43a39fe",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer 'Transparência' link which the 1280 walk focused at viewport 436,384 (396x54). The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. Live in headless Edge with the modal open, focusing this element changed 0 px in its area because it sits entirely under the opaque dialog box; with the modal closed the same element shows a black outline focus indicator (it is not missing in the CSS). So the cause is obscuring, not missing styling, but the finding names that cause, and the 2.4.11 Understanding says a fully obscured focus indicator would likely fail 2.4.7 as well; in the state a keyboard user meets on load no indicator is visible."
+    },
+    {
+      "fingerprint": "b40a47a59f56",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'O Museu' submenu container (div role=button) in the nav, focused in the 1280x800 walk at 369-484 x 87-141, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "75b991650016",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'O Museu' nav link, focused in the 1280x800 walk at 369-484 x 87-141, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "f729c5b3dfa2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Visite' nav link, focused in the 1280x800 walk at 492-571 x 87-141, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "11a77df8136b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Exposições' nav link, focused in the 1280x800 walk at 580-699 x 87-141, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "4b0891c730fa",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Programação' nav link, focused in the 1280x800 walk at 707-845 x 87-141, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "aefe3d4f0629",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Acervo' submenu container (div role=button) in the nav, focused in the 1280x800 walk at 853-960 x 87-141, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "179859aa2646",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Acervo' nav link, focused in the 1280x800 walk at 853-960 x 87-141, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "c69e61ecef15",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the hero 'Adquira seu ingresso' button link, focused in the 1280x800 walk at 516-764 x 601-639, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "69b002eb884a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the hero 'Pré agendamento de grupos' button link, focused in the 1280x800 walk at 500-780 x 659-697, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "2b1fe69f4d9e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the page's own 'Venha nos visitar' button link (not the modal's), focused in the 1280x800 walk at viewport 440-636 x 381-419 (scroll 1647), right under the modal's own 'Venha nos visitar' button, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "d59e074713eb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header language link (US flag, /en/). In the 390x844 walk it was focused at 229-279 x 233-266, before the modal had opened. Checked live: the Pojo accessibility toolbar slides open as soon as its 'Abrir a barra de ferramentas' toggle merely gets Tab focus, then stays open after focus leaves. Its opaque white panel (x 210-390, y 100-443) covers the flag link completely, and Escape does not close it. The user never actively opened the panel, so the Note 2 exception does not cleanly apply, and the focused link is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "bc4c1b3c51eb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter's 'política de privacidade' link, focused in the 390x844 walk after the modal had appeared mid-walk at viewport 45-258 x 534-572, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "eb8c128364fb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer Lei Rouanet logo link, focused in the 390x844 walk at viewport 95-295 x 394-450, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "291c07c26227",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer Shell sponsor logo link, focused in the 390x844 walk at viewport 95-295 x 576-656, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "d4f9a3b0649c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer Vale sponsor logo link, focused in the 390x844 walk at viewport 95-295 x 676-756, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "f7a00c79b75f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer Itaú sponsor logo link, focused in the 390x844 walk at viewport 95-295 x 376-467, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "3c2e831d0373",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer B3 sponsor logo link, focused in the 390x844 walk at viewport 95-295 x 613-693, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "42ee1a719c4b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer Caterpillar sponsor logo link, focused in the 390x844 walk at viewport 95-295 x 382-462, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "0bedff1ad772",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer Comgás sponsor logo link, focused in the 390x844 walk at viewport 95-295 x 482-562, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "aa61e4116593",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer Goodyear sponsor logo link, focused in the 390x844 walk at viewport 95-295 x 582-662, which lies wholly inside the opaque dialog box, not just under the see-through backdrop. The welcome modal (#premium-modal-cbfd80b, 'Bem vindo ao museu') opens by itself a few seconds after load, does not take or contain focus (activeElement stays on body, Tab goes to the page behind it, Escape only works with focus inside it), and its white dialog box is opaque (rgb(255,255,255), 700x650 at x 290-990, y 75-725 in a 1280x800 window; 390x694 at y 75-769 in a 390x844 window) over a semi-transparent rgba(0,0,0,.5) backdrop. The modal is not opened by the user, so Note 2 does not apply, and the Understanding names an overlay that lets focus exit into the content behind it as the failing case. Checked live: with the modal open the element's centre hit-tests to the dialog and its focus ring does not show. The focused component is entirely hidden by author content: 2.4.11 fails."
+    }
+  ]
+}

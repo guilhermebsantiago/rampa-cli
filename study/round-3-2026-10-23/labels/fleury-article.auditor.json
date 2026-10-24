@@ -1,0 +1,30 @@
+{
+  "page": "https://www.fleury.com.br/noticias/a-sua-saude-mental-importa",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "9a4e5cf858a9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the visible desktop footer logo: an img with alt=\"Logo\" that is the only content of a link to \"/\", so the link's computed name is \"Logo\". The image shows the brand wordmark \"fleury\" with the \"100 anos\" mark. \"Logo\" names the kind of image, not its content, in the same way as the \"image\" and \"picture\" examples in F30. It does not say whose logo it is or that the link goes to the home page, which 1.1.1 requires for a control. The header logo (alt \"Fleury\") and the hidden mobile footer (alt \"Logo da Fleury\") show the authors could do this properly. The live page still has alt=\"Logo\" on this image."
+    },
+    {
+      "fingerprint": "abffa738d47b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the App Store badge image (it reads \"Baixar em App Store\") that is the only content of a link to the Fleury Pacientes app on apps.apple.com. It sits next to the Google Play badge, under the visible text \"Aplicativos Fleury\". Its alt, \"App Store Badge\", does name the destination (the App Store) and tells it apart from the Google Play link. The image itself names no app, so the alternative carries about the same information and serves the same purpose. The extra word \"Badge\" and the missing \"Baixar em\" make the alt worse than \"Baixar na App Store\", but that is a wording problem, not a 1.1.1 failure. The claim that it does not say where the link leads does not hold, and the checker had the href and the surrounding text."
+    },
+    {
+      "fingerprint": "e1765d005f18",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Política de Cookies\" link in the OneTrust cookie banner, which is visible when the page loads. The snapshot records its CSS colour as #ed0f69 on the banner's #ffffff background, at 13px bold. I sampled the screenshot pixels and the glyphs are #ed0f69 on pure white, which gives 4.31:1. 13px bold is well under the large-text threshold (14pt bold, about 18.7px), so 4.5:1 applies and the link fails. None of the exceptions (incidental text, logotype) apply. The live OneTrust configuration that GTM loads on www.fleury.com.br (domain script 0191d62a) still sets BannerLinksTextColor #ed0f69 on BackgroundColor #FFFFFF."
+    },
+    {
+      "fingerprint": "1ac30bdcb657",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the desktop header search field. Its placeholder \"Digite aqui...\" is 16px regular text. The site's Tailwind v4 preflight sets ::placeholder to color-mix(currentcolor 50%, transparent), which over the field's white background gives about #848484. The screenshot pixels of the placeholder glyphs are #848484 on #ffffff, which is 3.74:1, below 4.5:1. The Understanding document for 1.4.3 says outright that the criterion covers placeholder text. The field is active, so the inactive-component exception does not apply. The live CSS is unchanged."
+    }
+  ]
+}

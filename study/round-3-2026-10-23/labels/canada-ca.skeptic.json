@@ -1,0 +1,12 @@
+{
+  "page": "https://www.canada.ca/en.html",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "6b86ff64df8e",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The finding is about the document title of the Canada.ca home page. The snapshot and the live page (fetched 2026-10-23, unchanged) both have the title \"Home - Canada.ca\". The page's h1 is \"Canada.ca\", its tagline is \"The official website of the Government of Canada\", and the page is the site's home portal to government services. So the title says exactly what the page is: the home page of the Canada.ca site. That meets 2.4.2. The Understanding document's own example titles a landing page with just the site name (\"ARIA Authoring Practices Guide | APG | WAI | W3C\"), and G88 example 4 titles a front page \"National News, Front Page\". None of F25's failure conditions applies: it is not a default or placeholder title, a filename, or empty, and it is not one template title reused on every page, since inner pages have their own titles (\"Jobs - Canada.ca\", \"Taxes - Canada.ca\", \"About government - Canada.ca\"). The checker had the title, the h1 and the page text, and still judged that the title says nothing about the page. That is a wrong judgment, and in effect it asks for more than WCAG requires."
+    }
+  ]
+}

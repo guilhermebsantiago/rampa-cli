@@ -1,0 +1,42 @@
+{
+  "page": "https://www.hcor.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "38c348a1cde8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the image on the 'Alerta de Golpe' hero carousel slide. It is the active owl-item, not a clone, and not inside a link. The crop the model saw shows a banner reading 'Alerta de segurança: Evite golpes.', an exclamation-mark bubble, and a warning that Hcor does not phone patients to ask for advance payments. The site header and the quick-access cards overlap the crop, but the banner is plainly visible. 'Alerta de Golpe' (scam alert) names exactly what the image shows, so the claim that the alternative describes something the image does not show is wrong. An auditor might separately find the alt too short for an image of text, since it leaves out the warning sentence (the page's top bar carries a similar warning as real text), but that is a different claim from the one reported."
+    },
+    {
+      "fingerprint": "a58ed3d635a1",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the image that is the only content of the 'Portal do Paciente' carousel slide link, so its alt 'Banner FAQ - Portal do Paciente' is the link's whole name, as the finding says. The link goes to /imprensa/noticias/informacoes-gerais-para-o-atendimento-no-portal-do-paciente/. I opened that page live, after the run: its title is 'FAQ - Hcor', its heading is 'FAQ', and it lists 15 questions about the Portal do Paciente and the Hcor app. So the alternative does say where the link leads, to an FAQ on the Patient Portal. The leading word 'Banner' is redundant but is not a 1.1.1 failure. Rampa never read the destination, so it could not see that the name matches it."
+    },
+    {
+      "fingerprint": "ac021b6a6eb8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the copy of the 'Alerta de Golpe' scam-alert banner image that the carousel clones for looping (an owl-item marked cloned, not aria-hidden). It has the same alt as the original, and the model saw the same crop. The image shows 'Alerta de segurança: Evite golpes.' and a warning about scam calls, so 'Alerta de Golpe' describes what the image shows, and the mismatch the finding reports does not exist. A concern that the alt leaves out the banner's warning sentence would be a different claim, and the text warning bar at the top of the page partly covers it."
+    },
+    {
+      "fingerprint": "0cf23efe5a25",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Oncologia' category link (12px, weight 600) on the white pill over the image of the first 'Hcor explica' card. The live stylesheet confirms the colours: .card .category sets a #FFF background at 12px/600, and .ctx-green .card .category sets the text to #51AB74. The screenshot pixels show #51ab74 glyphs on #ffffff. That is 2.83:1, below the 4.5:1 that text needs when it is not large. It is visible, active text, not incidental and not a logotype. The page has no contrast toggle (G174) and no other alternative version, so the finding is a real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "115e2aa37910",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the green 'Saiba mais' button link in the first 'Hcor explica' card. In the live CSS, .button-default sets color #FFF !important at 14px, weight 600, and .button-default.-green sets the background to #51AB74. The screenshot shows white glyphs on #51ab74. 2.83:1 is below the 4.5:1 required for 14px semibold text, which is not large-scale. No exception and no contrast-switching control applies, so the finding is a real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "685aa94657ce",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the same 'Oncologia' category label on the second 'Hcor explica' card ('Câncer de Ovário'), a separate element that is visible in the screenshot. The CSS (#51AB74 on #FFF, 12px/600) and the screenshot pixels (#51ab74 on #ffffff) agree on 2.83:1, under 4.5:1. No large-text, incidental or alternate-version exception applies, so the finding is a real 1.4.3 failure."
+    }
+  ]
+}

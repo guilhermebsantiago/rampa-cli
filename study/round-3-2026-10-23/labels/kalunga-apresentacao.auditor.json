@@ -1,0 +1,30 @@
+{
+  "page": "https://www.kalunga.com.br/depto/apresentacao/17",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "9b43f3e8de6e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the header search field (#txtBuscaProd). Its placeholder, \"Digite aqui o que você procura\", is styled by the site's own rule .form-control::placeholder{color:#aaa} on a white field, at 15px and weight 400. I checked the live CSS and it is unchanged. The darkest glyph pixels in the screenshot are #aaaaaa on #ffffff, which gives 2.32:1, far below the 4.5:1 that normal-size text needs. Placeholder text is visible text and is not incidental. Here it is also the only visible text that says what the field is for, because the label is hidden. The W3C WAI forms tutorial treats placeholder text as subject to the minimum contrast requirement. This is a real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "2bc608725479",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the icon-only search button (#btnPesquisa, aria-label \"Buscar\"). All it shows is a magnifier SVG with fill #fff on the .btn-orange-ka background #ff8400. I checked the live CSS and sampled the screenshot: the pixels are #ffffff on #ff8400, which gives 2.46:1, and hover keeps the same colours. The magnifier is the only visual sign of what the button does, so it is a graphical object required for understanding. G207, including its example of a white icon inside a coloured shape, measures the icon against that adjacent colour and asks for 3:1. The orange box stands out against the black header at about 8.5:1, but that does not make the icon itself perceivable. This is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "ced2f4badf38",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Comprar Agora\" link in carousel slide 3 (an li with role=tabpanel named \"3 of 21\", inside a ul with role=presentation). Its onclick, Comprar('629951'), adds product 629951 to the basket, and its href goes to that product's page. The other visible slide has an identical \"Comprar Agora\" link for a different product (608683). The hidden slides are aria-hidden, so these two are the only ones exposed, which matches the message. The product name is just above the link, in a separate name-and-price link in the same slide. So the link is told apart visually and in reading order, but not by programmatically determined link context. The name is not in the same sentence, paragraph or table cell. role=tabpanel replaces the li's list-item semantics, and the link's nearest block container holds only the link. The slide's name says nothing about the product, and there is no aria-label, aria-labelledby or aria-describedby. Both checks of F63's test procedure fail. The live page has the same markup. The message goes too far in saying that nothing around the link tells it apart, since the card does visually, but the 2.4.4 failure it names holds."
+    },
+    {
+      "fingerprint": "3a4032df19ae",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Comprar Agora\" link in carousel slide 4 (an li with role=tabpanel named \"4 of 21\", inside a ul with role=presentation). Its onclick, Comprar('608683'), adds product 608683 to the basket, and its href goes to that product's page. The other visible slide has an identical \"Comprar Agora\" link for a different product (629951). The hidden slides are aria-hidden, so these two are the only ones exposed, which matches the message. The product name is just above the link, in a separate name-and-price link in the same slide. So the link is told apart visually and in reading order, but not by programmatically determined link context. The name is not in the same sentence, paragraph or table cell. role=tabpanel replaces the li's list-item semantics, and the link's nearest block container holds only the link. The slide's name says nothing about the product, and there is no aria-label, aria-labelledby or aria-describedby. Both checks of F63's test procedure fail. The live page has the same markup. The message goes too far in saying that nothing around the link tells it apart, since the card does visually, but the 2.4.4 failure it names holds."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "page": "https://www.itaucultural.org.br/contato",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "bcf97702a191",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the site logo in the header (it shows the mark and the word 'ItaúCultural'). It is the only content of a link to '/' and has alt 'Logo IC Cultural'. The live page is unchanged. When a linked site logo has a text alternative that names the organization, that is the usual, accepted pattern for a home link. Sighted users get the same cue: a logo that, by convention, leads home. So the alternative serves the equivalent purpose, and no documented 1.1.1 failure applies (not F30, F39 or F89). Adding 'página inicial', as in the WAI tutorial's 'W3C home', is best practice, not a 1.1.1 requirement. The alt has other flaws: the extra word 'Logo', and 'IC Cultural' where the logo reads 'Itaú Cultural'. The finding does not claim either one, and the alt still identifies the organization."
+    },
+    {
+      "fingerprint": "b1cfaddf7c17",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 1280x450 banner image of the 'Ocupação em vídeos' promo. Its desktop source is ocupacaoConteudoDesk.png: a black field with a collage of the names of artists honored by the Ocupação series. The heading, paragraph and 'Saber mais' link over it are HTML text, not part of the image. Its alt is 'image banner', in the snapshot and on the live page. Screen readers announce that alt, but it conveys nothing. If the image is treated as decorative, it should have alt=\"\", and a non-null alt like 'image' is failure F39. If it is treated as informative, the alt must convey its content, and placeholder text is failure F30. Either way, 'image banner' fails 1.1.1, so the finding's claim holds."
+    },
+    {
+      "fingerprint": "c6578adfdd46",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the fixed floating link to wa.me: a 56 px circle in #61ce70 holding a white WhatsApp glyph, with no text. It also has no accessible name, which is a separate 4.1.2/2.4.4 issue. The measurement is right: the site CSS confirms white on #61ce70, which is 1.99:1. But the glyph is the WhatsApp brand logo, shown in the brand's own white-on-green presentation. Understanding 1.4.11 exempts logos under the essential exception. It also says the exemption normatively carries over to a control whose only visible content is the logo; using a higher-contrast variant is only a recommendation. The site's green is not WhatsApp's #25D366, but #25D366 with white gives the same 1.98:1. So the low contrast comes from the brand palette, not from an author choice that would void the exemption. This is a best-practice concern, not a 1.4.11 failure: the rule applied G207's icon test without the logo exception."
+    },
+    {
+      "fingerprint": "5aa684372267",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the desktop header search input (#searchDesk). At capture it sat in a collapsed form (width 0, overflow hidden, right -30%) past the 1280 px viewport edge, which is why the crop the model saw is blank. The site's live JS and CSS, which match the snapshot, show what happens when the user clicks the header magnifier icon. The form gets the class 'active' and widens to a 600 px white field, and the input takes focus. The field shows a 40 px magnifier icon at its left (a background image, bloom.svg) and a close X at its right. The 'Buscar' label is indeed hidden behind the input (z-index -1), and there is no placeholder. But Understanding 3.3.2 describes this exact case: a global search field in the header whose loupe icon serves as its visible label. It also says image labels meet the criterion. So the field has a label whenever it is shown. The checker never saw the field open. A keyboard user can tab into the hidden, collapsed input, but that is a focus-visibility issue (2.4.7), not a 3.3.2 failure."
+    }
+  ]
+}

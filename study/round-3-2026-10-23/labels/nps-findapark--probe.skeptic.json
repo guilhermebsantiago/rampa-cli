@@ -1,0 +1,84 @@
+{
+  "page": "https://www.nps.gov/findapark/index.htm",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "aa1fff8e22fc",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Result card link (African American Civil War Memorial). In the live page (2026-10-23, headless Edge, Tab walk matching the probe's order) the focused card gets outline 4px solid #2491ff at offset 0, a 5 px lift and a changed box-shadow (0 3px 15px rgba(0,0,0,.2)). The card sits on a white page: pixels a little away from the card are #ffffff, and #2491ff against #ffffff is 3.20:1. The greys right next to the outline (#eaeaea to #f6f6f6, 2.66 to 2.96:1) are the card's own soft drop shadow fading to white over about 14 px. The Understanding document for 1.4.11 says that a 3D drop shadow is subsumed into the color closest to it in brightness, which here is the white background, and that an outer indicator needs to contrast with the background the component is on. Measured that way, the indicator passes 3:1, so the rule applied a stricter measurement than the criterion. The finding is marginal at best: some auditors who pick the shadow pixel would fail it."
+    },
+    {
+      "fingerprint": "085a1c94d14f",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Result card link (Alaska Public Lands). In the live page (2026-10-23, headless Edge, Tab walk matching the probe's order) the focused card gets outline 4px solid #2491ff at offset 0, a 5 px lift and a changed box-shadow (0 3px 15px rgba(0,0,0,.2)). The card sits on a white page: pixels a little away from the card are #ffffff, and #2491ff against #ffffff is 3.20:1. The greys right next to the outline (#eaeaea to #f6f6f6, 2.66 to 2.96:1) are the card's own soft drop shadow fading to white over about 14 px. The Understanding document for 1.4.11 says that a 3D drop shadow is subsumed into the color closest to it in brightness, which here is the white background, and that an outer indicator needs to contrast with the background the component is on. Measured that way, the indicator passes 3:1, so the rule applied a stricter measurement than the criterion. The probe also counted the changed shadow pixels (#efefef) as part of the indicator, which they are not."
+    },
+    {
+      "fingerprint": "3a2cc1d9a232",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Result card link (Alcatraz Island). In the live page (2026-10-23, headless Edge, Tab walk matching the probe's order) the focused card gets outline 4px solid #2491ff at offset 0, a 5 px lift and a changed box-shadow (0 3px 15px rgba(0,0,0,.2)). The card sits on a white page: pixels a little away from the card are #ffffff, and #2491ff against #ffffff is 3.20:1. The greys right next to the outline (#eaeaea to #f6f6f6, 2.66 to 2.96:1) are the card's own soft drop shadow fading to white over about 14 px. The Understanding document for 1.4.11 says that a 3D drop shadow is subsumed into the color closest to it in brightness, which here is the white background, and that an outer indicator needs to contrast with the background the component is on. Measured that way, the indicator passes 3:1, so the rule applied a stricter measurement than the criterion. The probe also counted the changed shadow pixels (#efefef) as part of the indicator, which they are not."
+    },
+    {
+      "fingerprint": "891cbbc4cb6a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Bootstrap btn-link 'Back to top' in the results pagination. Live, focus removes the outline (outline none) and adds only box-shadow 0 0 0 4px rgba(49,132,253,.5), which renders as #98c1fe on the white background, both inside and outside the ring (transparent button background). That is 1.84:1. The text stays #005ea2 with no underline change, and the 1260 changed pixels are the ring. The style is author-supplied, so the user-agent exemption does not apply. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "7ff98b630434",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Bootstrap btn-link 'View all' next to 'Back to top'. It gets the same author focus style: no outline, only a 4px rgba(49,132,253,.5) ring that renders #98c1fe on white (1.84:1) on both sides. There is no other change of state (no underline, color unchanged). Fails 1.4.11."
+    },
+    {
+      "fingerprint": "353d0b99ef24",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Touchpoints' link in the feedback form's grey banner strip ('An official form of the United States government. Provided by Touchpoints'). Live, focus adds the author's 4px #2491ff outline at offset 0. A pixel map shows that the outline sits on the strip's #f0f0f0 background on all sides, inside and out, apart from one row touching white at the top and the #e5e5e5 border line at the bottom. #2491ff against #f0f0f0 is 2.81:1. The strip is a real background, not a shadow, so the indicator fails 3:1 against the background the link is on."
+    },
+    {
+      "fingerprint": "8c3e0b10d538",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Search or ask anything' label in the header's DOI search and chat launcher pill. I reproduced it live at 1280x1024 by injecting the 1.4.12 metrics (line-height 1.5, letter-spacing 0.12em, word-spacing 0.16em, 2em after paragraphs). The span is white-space nowrap with text-overflow clip, inside a 220px fixed-width button whose .abd-popover wrapper has overflow hidden. The label grows from 161 to 215 px and is cut at 1264 px, so it reads 'Search or ask anythi'. Text truncated by a fixed-size, clipped container is the documented failure F104. The button's accessible name does not change what sighted users lose."
+    },
+    {
+      "fingerprint": "1348d36dc1a5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'List' view radio, which is visually hidden (class visuallyhidden, 1x1 px with overflow hidden). Live, Tab lands on it (step 13, as in the probe). Its own 4px #2491ff outline is clipped to nothing, and the visible label 'List' gets no focus style: its computed outline, box-shadow, color and decoration are unchanged. Screenshots of the focused and blurred states differ by 0 pixels across the whole viewport. There is no visible focus indicator, so it fails 2.4.7."
+    },
+    {
+      "fingerprint": "f5227431f521",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Entrance Passes' content promo tile link. Live, it gets outline 4px #2491ff on focus, but the <a> fills its parent .ContentPromo, which has overflow hidden, so the outline is clipped entirely. Nothing else changes (the underline is the same in both states). Screenshots of the focused and blurred states differ by 0 pixels in the viewport. It fails 2.4.7, a case of F78 (an outline made non-visible)."
+    },
+    {
+      "fingerprint": "46857372c7c2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Things to Do / Events' content promo tile link. As with the other promos, its 4px focus outline is clipped by the parent .ContentPromo, which has overflow hidden, and nothing else changes. Live, the focused and blurred screenshots differ by 0 pixels. There is no visible focus indicator, so it fails 2.4.7."
+    },
+    {
+      "fingerprint": "5dda8e3701d1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Visit Parks Free! / Fee-Free Days' content promo tile link. Its focus outline is clipped by the parent .ContentPromo (overflow hidden), and there is no other visual change. Live, the focused and blurred screenshots differ by 0 pixels. It fails 2.4.7."
+    },
+    {
+      "fingerprint": "e888d0b8c085",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Ready, set, go! / Travel Tips' content promo tile link. Its focus outline is clipped by the parent .ContentPromo (overflow hidden), and there is no other visual change. Live, the focused and blurred screenshots differ by 0 pixels. It fails 2.4.7."
+    },
+    {
+      "fingerprint": "fac693e52fa1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer NPS / Department of the Interior logo link. It is an inline <a> wrapping a display:block image, so its line-box fragments are 0x0 and the 4px #2491ff outline it gets on focus paints nothing visible. Live, the focused and blurred screenshots of the area and of the whole viewport differ by 0 pixels, and a visual check shows no ring on the black footer. There is no visible focus indicator, so it fails 2.4.7."
+    }
+  ]
+}

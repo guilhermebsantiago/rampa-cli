@@ -1,0 +1,48 @@
+{
+  "page": "https://www.travessa.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "f5e8f4a235cb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer image cartoes.jpg sits under the address paragraph. The screenshot shows a strip of accepted payment methods (Visa, Mastercard, Elo, Amex, Diners, Aura, Hipercard, Discover, JCB, Hiper, Pix), and no nearby text lists them, so the image is informative. Chrome exposes it as an image named \"Image\" (name from alt), so a screen reader reads a placeholder that describes nothing (F30). If it were treated as decorative, a non-null alt like \"Image\" would still fail (F39). The live HTML still has alt=\"Image\"."
+    },
+    {
+      "fingerprint": "f63a4ac72bdc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the text input with the placeholder \"Nome\" in the newsletter sign-up (\"Receba nossas novidades e sugestões\"). It collects the subscriber's own name, a purpose on the WCAG Input Purposes list. Neither the snapshot nor the live HTML has an autocomplete attribute, and the ASP.NET name \"wctnewsletter1$txtnome\" is not a programmatic purpose. H98 is not met and the purpose cannot be determined, so the field fails 1.3.5. That would hold even if \"given-name\" were the better token than \"name\"."
+    },
+    {
+      "fingerprint": "c75ceba9643e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the type=\"email\" input with the placeholder \"E-mail\" in the same newsletter form. It collects the user's own email address and has no autocomplete attribute, in the snapshot or in the live HTML. Understanding 1.3.5 says type=\"email\" only marks the field as an email address, not as the user's own, so it does not meet the criterion. Without autocomplete=\"email\" the purpose cannot be determined programmatically, and the field fails."
+    },
+    {
+      "fingerprint": "75f8c4fbb793",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The placeholder \"Nome\" is the field's only visible label. The site's bootstrap-iso.css sets the placeholder color to rgba(0,0,0,0.2) with !important, and the field has an inline white background. In the screenshot the glyph pixels are #cccccc on #ffffff, 1.61:1. The captcha field's default #757575 placeholder measures about 4.6:1, which shows this color is the author's choice. Understanding 1.4.3 says the criterion covers placeholder text, and 16px regular text needs 4.5:1, so this fails."
+    },
+    {
+      "fingerprint": "8dcebc9a636c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The placeholder \"E-mail\" is the email field's only visible label. It uses the same rule, rgba(0,0,0,0.2) !important from bootstrap-iso.css, on the inline white background. The screenshot shows #cccccc glyph pixels on #ffffff, 1.61:1. Understanding 1.4.3 says placeholder text is covered, and 16px regular text needs 4.5:1, so the finding is a real failure. The live page has the same markup."
+    },
+    {
+      "fingerprint": "e79573b9f6dc",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the fixed floating link to wa.me: a 56px #25d366 disc holding the white FontAwesome WhatsApp glyph. The 1.98:1 figure is right, and the disc against the white page is also about 2:1. But the glyph is the WhatsApp logo shown in WhatsApp's own colors, the white mark on WhatsApp green of its app icon. Understanding 1.4.11 lists logos under the essential exception. It also says that when a logo is the only content of a control, the exemption \"carries over\" to that control normatively, and that a higher-contrast variant is only a recommended practice. The low contrast comes from the brand, not from an author dimming a logo that normally has good contrast. So this is not a 1.4.11 failure, and the G207 icon rule was applied to a brand logo. The control's focus indicator would still be in scope, but this finding is not about it."
+    },
+    {
+      "fingerprint": "a821637815d6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The magnifying glass beside the header search field is <a class=\"icon busca-bar\" onclick=\"clickBuscaRefinada();\">. Its icon is a CSS background image, and it has no text, aria-label, title or href. Chrome's accessibility tree (CDP) exposes it as a link, because Chrome maps anchors with click listeners to link, and its name is empty. A screen reader announces only \"link\" for a control that runs the search. A UI component with no name fails 4.1.2, as the finding says. The live HTML is unchanged. With no href or tabindex it is probably not in the tab order either, which is a separate 2.1.1 concern."
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "page": "https://shop.pimoroni.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "f8d51ea0ebbd",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the PIMORONI wordmark (svg role=\"img\" aria-label=\"Pimoroni\"), the only content of the header link to \"/\". The text alternative matches the wordmark word for word, and a logo that links to the site's home page is a convention users know, so \"Pimoroni\" gives screen reader users what sighted users get. The link also has title=\"Back to the home page\", which Chrome exposes as its accessible description (the snapshot's CDP node has name \"Pimoroni\" and description \"Back to the home page\"), so the destination is available programmatically. Adding \"home\" to the alt is best practice from the WAI images tutorial, not a 1.1.1 requirement, and no documented failure covers a home logo link whose alt is the organisation's name. The live page has the same markup."
+    },
+    {
+      "fingerprint": "239a602c277d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the product photo of the Sonoff AirGuard e-ink sensor in the first 'Just landed' card. Its alt is \"Default Title\", Shopify's placeholder title for a product's only variant; the tile script on the live page still builds the alt from the variant title (alt=\"${hit.title}\"). That text describes nothing in the image, and it is announced: the browser's accessible name for the card link is \"Default Title New Sonoff AirGuard E-Ink Zigbee Temperature and Humidity Sensor\". The photo could have been given alt=\"\" because the product name sits next to it in the link, but a placeholder or programming reference used as the alternative is documented failure F30, so 1.1.1 fails as the finding says."
+    },
+    {
+      "fingerprint": "7d513a53a83d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the product photo of the Sonoff Gen2 Zigbee radiator valve in the second 'Just landed' card, with alt=\"Default Title\", Shopify's placeholder variant title, which the live page's tile script still uses as the alt. The text says nothing about the image, and screen readers announce it as part of the link name \"Default Title New Sonoff Gen2 Zigbee Thermostatic Radiator Valve\". It is neither an equivalent nor an empty alt that assistive technology can skip. It matches F30 (placeholder or programming reference as the text alternative), so 1.1.1 fails."
+    },
+    {
+      "fingerprint": "04b8e7c7475f",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the back layer of the header's seasonal Halloween scene (div.halloween-scene aria-hidden=\"true\"): an svg.halloween-skyline whose only shape is a faint hill silhouette along the bottom of the header. It is pure decoration, so hiding it from assistive technology meets 1.1.1. The crop is the svg's bounding box, which covers the whole header, so it shows the real logo, search field and department links, which other elements draw and which are all exposed (the logo as an img named \"Pimoroni\", the departments as links). The 'logo and navigation menu' the finding credits to this image is that page content, not anything the image conveys."
+    },
+    {
+      "fingerprint": "73d0dfa70911",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the front-layer svg.halloween-patch in the aria-hidden Halloween scene: silhouettes of a scarecrow and pumpkins at the right edge of the header. It is decoration and is correctly hidden. \"Your cart is empty\" is not in the image. It is the visible text and accessible name of the cart link (#cart_link), which lies inside the svg's bounding box, so the crop picked it up. Hiding the image hides no information, so 1.1.1 is not failed."
+    },
+    {
+      "fingerprint": "93c3ec7cda80",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the 'lit' layer svg.halloween-skyline in the aria-hidden Halloween scene. It draws one 7 px glowing square, a lantern by the graveyard silhouette near 'Raspberry Pi'. It is decorative and correctly hidden. The crop is the full-header bounding box, so it shows the logo and the department navigation, which are separate elements exposed to screen readers. The image itself conveys none of the content the finding names, so this is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "f5f26d857826",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the 'lit' svg.halloween-patch in the aria-hidden Halloween scene. It draws the glowing eyes and mouth of a jack-o'-lantern beside 'Merchandise'. It is decorative and correctly hidden. There is no button in this image: \"Your cart is empty\" is the cart link's own text, which sits inside the svg's bounding box and is exposed as the link's accessible name. Nothing the image shows is lost to screen reader users, so 1.1.1 is not failed."
+    },
+    {
+      "fingerprint": "7732a4215f15",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter field (#mce-EMAIL, type=\"email\", name=\"EMAIL\"). The text beside it offers news 'delivered directly to your inbox', so it asks for the user's own address, which is information about the user, and 'email' is one of the listed input purposes. The field has no autocomplete attribute, both in the snapshot and on the live page today. type=\"email\" gives only the data type, which the Understanding document says does not identify the purpose. Chrome's autofill check (FormInputAssignedAutocompleteValueToIdOrNameAttributeError) flags the field too. Without autocomplete=\"email\" (H98), 1.3.5 fails."
+    },
+    {
+      "fingerprint": "d0dfc512f154",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'Pimoroni' link in the header's department navigation, between 'Pico' and 'Adafruit'. It leads to /collections/pimoroni, whose heading is 'Pimoroni' (Pimoroni's own products), so its text names its destination the same way its brand siblings do. The other link named \"Pimoroni\" is the logo, which leads home and carries the accessible description 'Back to the home page'; it is not in the department navigation. Understanding 2.4.4 calls different text for different destinations a best practice. ACT rule fd3a94 covers only links that share a programmatically determined context, which these two do not, and the general rule for identical names maps to 2.4.9 (AAA). 2.4.4 is met."
+    }
+  ]
+}

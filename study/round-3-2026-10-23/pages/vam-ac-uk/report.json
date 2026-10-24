@@ -1,0 +1,2765 @@
+{
+  "schemaVersion": 1,
+  "rampaVersion": "0.1.1",
+  "createdAt": "2026-10-23T16:05:55.625Z",
+  "target": "https://www.vam.ac.uk/",
+  "surface": "web",
+  "wcagTarget": "wcag22-aa",
+  "locale": "en",
+  "llm": "on",
+  "model": "ollama:gemma4:12b",
+  "engine": {
+    "name": "axe-core",
+    "version": "4.14.0"
+  },
+  "minConfidence": "low",
+  "findings": [
+    {
+      "fingerprint": "f7a050142d6f",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(2) > section > div > img",
+      "message": "The text alternative \"map\" describes something the image does not show.",
+      "evidence": "map",
+      "subject": "map",
+      "patch": {
+        "ref": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(2) > section > div > img",
+        "kind": "set-attribute",
+        "attribute": "aria-label",
+        "from": "map",
+        "to": "Vintage architectural floor plan of a building layout with gardens and rooms"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "def485891822",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(6) > div > div:nth-of-type(1) > div:nth-of-type(3) > img",
+      "message": "The text alternative \"Shop at V&A South Kensington\" describes something the image does not show.",
+      "evidence": "Shop at V&A South Kensington",
+      "subject": "Shop at V&A South Kensington",
+      "patch": {
+        "ref": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(6) > div > div:nth-of-type(1) > div:nth-of-type(3) > img",
+        "kind": "set-attribute",
+        "attribute": "aria-label",
+        "from": "Shop at V&A South Kensington",
+        "to": "Interior of the V&A flower shop featuring large floral arrangements and displays."
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "35e1887487eb",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(4) > div > div > svg",
+      "message": "This image is hidden from screen readers (an svg with no name), but it conveys what the text around it does not say: \"Buttons for 'Show purposes' and 'Accept all'\".",
+      "evidence": "Buttons for 'Show purposes' and 'Accept all'",
+      "subject": "hidden svg",
+      "patch": {
+        "ref": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(4) > div > div > svg",
+        "kind": "set-attribute",
+        "attribute": "aria-label",
+        "from": "",
+        "to": "Cookie consent banner with options to show purposes or accept all cookies.",
+        "before": "<svg>",
+        "after": "<svg aria-label=\"Cookie consent banner with options to show purposes or accept all cookies.\">"
+      },
+      "confidence": "low",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "28bc4c8f962d",
+      "criterion": "2.4.6",
+      "level": "AA",
+      "source": "judgment",
+      "ref": "#signup > div:nth-of-type(1) > input:nth-of-type(8)",
+      "message": "The label \"name@example.com\" does not say what to enter.",
+      "evidence": "name@example.com",
+      "subject": "name@example.com",
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "e396fd423f64",
+      "criterion": "2.4.6",
+      "level": "AA",
+      "source": "judgment",
+      "ref": "#signup-footer > div > div:nth-of-type(2) > div:nth-of-type(1) > input:nth-of-type(8)",
+      "message": "The label \"name@example.com\" does not say what to enter.",
+      "evidence": "name@example.com",
+      "subject": "name@example.com",
+      "patch": {
+        "ref": "#signup-footer > div > div:nth-of-type(2) > div:nth-of-type(1) > input:nth-of-type(8)",
+        "kind": "set-attribute",
+        "attribute": "placeholder",
+        "from": "name@example.com",
+        "to": "Email address",
+        "before": "<input aria-invalid=\"false\" type=\"text\" placeholder=\"name@example.com\" name=\"Email\" class=\"js-emailValidation b-newsletter__form-fields-field b-newsletter__form-fields-field--footer\" aria-label=\"Enter your email address\" autocomplete=\"email\">",
+        "after": "<input aria-invalid=\"false\" type=\"text\" placeholder=\"Email address\" name=\"Email\" class=\"js-emailValidation b-newsletter__form-fields-field b-newsletter__form-fields-field--footer\" aria-label=\"Enter your email address\" autocomplete=\"email\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "a9629b7cb7dc",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(1) > figure > a",
+      "target": "[\"a[href=\\\"/shop/172493p.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/172493p.html\" aria-label=\"Buy Schiaparelli: Fashion Becomes Art exhibition book for From £25\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Schiaparelli: Fashion Becomes Art exhibition book\">"
+    },
+    {
+      "fingerprint": "a61b6f0ea07f",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(2) > figure > a",
+      "target": "[\"a[href=\\\"/shop/171299.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/171299.html\" aria-label=\"Buy Schiaparelli: Fashion Becomes Art tote bag for £10\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Schiaparelli: Fashion Becomes Art tote bag\">"
+    },
+    {
+      "fingerprint": "23776f405fbd",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(3) > figure > a",
+      "target": "[\"a[href=\\\"/shop/171485.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/171485.html\" aria-label=\"Buy Pansy kimono jacket for £50\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Pansy kimono jacket\">"
+    },
+    {
+      "fingerprint": "bb943ca8578a",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(4) > figure > a",
+      "target": "[\"a[href=\\\"/shop/171693.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/171693.html\" aria-label=\"Buy V&A 2027 pocket diary for £6.99\" data-tracking=\"promobox-shopproducts\" data-product_name=\"V&A 2027 pocket diary\">"
+    },
+    {
+      "fingerprint": "d8cab33803d8",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(5) > figure > a",
+      "target": "[\"a[href=\\\"/shop/166811.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/166811.html\" aria-label=\"Buy Oranges of the Morris room trinket box for £20\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Oranges of the Morris room trinket box\">"
+    },
+    {
+      "fingerprint": "8a3d5c3d5679",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(6) > figure > a",
+      "target": "[\"a[href=\\\"/shop/172867.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/172867.html\" aria-label=\"Buy Acorn and squirrel locket necklace for £40\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Acorn and squirrel locket necklace\">"
+    },
+    {
+      "fingerprint": "8f757dec4092",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(7) > figure > a",
+      "target": "[\"a[href=\\\"/shop/172557.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/172557.html\" aria-label=\"Buy Velvet embroidered heart jewellery box by Fable England for £50\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Velvet embroidered heart jewellery box by Fable England\">"
+    },
+    {
+      "fingerprint": "8f76945778f4",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(8) > figure > a",
+      "target": "[\"a[href=\\\"/shop/171565.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/171565.html\" aria-label=\"Buy Amazonite earrings by Carousel Jewels for £215\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Amazonite earrings by Carousel Jewels\">"
+    },
+    {
+      "fingerprint": "5a9799cdddb5",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(9) > figure > a",
+      "target": "[\"a[href=\\\"/shop/167720.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/167720.html\" aria-label=\"Buy Blue enamel petal pendant necklace by Mirabelle for £45\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Blue enamel petal pendant necklace by Mirabelle\">"
+    },
+    {
+      "fingerprint": "e0285d89c5a8",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(10) > figure > a",
+      "target": "[\"a[href=\\\"/shop/168904.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/168904.html\" aria-label=\"Buy Eye miniature pin badge for £5\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Eye miniature pin badge\">"
+    },
+    {
+      "fingerprint": "afce2cb27e9c",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(11) > figure > a",
+      "target": "[\"a[href=\\\"/shop/173336.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/173336.html\" aria-label=\"Buy Apple blossom earrings by Fable England for £38\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Apple blossom earrings by Fable England\">"
+    },
+    {
+      "fingerprint": "e97d788de16e",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(12) > figure > a",
+      "target": "[\"a[href=\\\"/shop/171484.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/171484.html\" aria-label=\"Buy Pansy scarf for £36\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Pansy scarf\">"
+    },
+    {
+      "fingerprint": "eee34796772d",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(13) > figure > a",
+      "target": "[\"a[href=\\\"/shop/173084.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/173084.html\" aria-label=\"Buy Pink blossom floral window necklace by Joli for £150\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Pink blossom floral window necklace by Joli\">"
+    },
+    {
+      "fingerprint": "351fb4a6aeda",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(14) > figure > a",
+      "target": "[\"a[href=\\\"/shop/173086.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/173086.html\" aria-label=\"Buy Amethyst floral window necklace by Joli for £155\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Amethyst floral window necklace by Joli\">"
+    },
+    {
+      "fingerprint": "759974fab50c",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(15) > figure > a",
+      "target": "[\"a[href=\\\"/shop/170174p.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/170174p.html\" aria-label=\"Buy David Bowie “HEROES” photoshoot t-shirt for £35\" data-tracking=\"promobox-shopproducts\" data-product_name=\"David Bowie “HEROES” photoshoot t-shirt\">"
+    },
+    {
+      "fingerprint": "373945e6927b",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(16) > figure > a",
+      "target": "[\"a[href=\\\"/shop/2007BM2484.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/2007BM2484.html\" aria-label=\"Buy Balmain, Dior and Patou garden party dresses, fashion illustration for From £15\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Balmain, Dior and Patou garden party dresses, fashion illustration\">"
+    },
+    {
+      "fingerprint": "ec0bf3b6b8c5",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(17) > figure > a",
+      "target": "[\"a[href=\\\"/shop/171527.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/171527.html\" aria-label=\"Buy Schiaparelli: Fashion Becomes Art embroidered tote bag for £35\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Schiaparelli: Fashion Becomes Art embroidered tote bag\">"
+    },
+    {
+      "fingerprint": "eb8247388169",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(18) > figure > a",
+      "target": "[\"a[href=\\\"/shop/172108.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/172108.html\" aria-label=\"Buy Tea Time charm earrings by Pindex Studio for £100\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Tea Time charm earrings by Pindex Studio\">"
+    },
+    {
+      "fingerprint": "2e228801ceff",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(19) > figure > a",
+      "target": "[\"a[href=\\\"/shop/164641.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/164641.html\" aria-label=\"Buy Patchwork denim tote bag by The Revival for £55\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Patchwork denim tote bag by The Revival\">"
+    },
+    {
+      "fingerprint": "71eaf7f1957f",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(20) > figure > a",
+      "target": "[\"a[href=\\\"/shop/166813.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/166813.html\" aria-label=\"Buy Oranges of the Morris room 6 x 4\" frame for £25\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Oranges of the Morris room 6 x 4\" frame\">"
+    },
+    {
+      "fingerprint": "ef24160e8e4d",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(21) > figure > a",
+      "target": "[\"a[href=\\\"/shop/2006BF3990.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/2006BF3990.html\" aria-label=\"Buy Pomegranates, Lemons, Oranges and Stag Beetle from Horti Itzeinensis for From £15\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Pomegranates, Lemons, Oranges and Stag Beetle from Horti Itzeinensis\">"
+    },
+    {
+      "fingerprint": "b90040d65c1f",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(22) > figure > a",
+      "target": "[\"a[href=\\\"/shop/166812.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/166812.html\" aria-label=\"Buy Oranges of the Morris room rectangular box for £20\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Oranges of the Morris room rectangular box\">"
+    },
+    {
+      "fingerprint": "d2bca46671af",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(23) > figure > a",
+      "target": "[\"a[href=\\\"/shop/171590p.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/171590p.html\" aria-label=\"Buy Zodiac necklaces by Azga for £35\" data-tracking=\"promobox-shopproducts\" data-product_name=\"Zodiac necklaces by Azga\">"
+    },
+    {
+      "fingerprint": "55221a1c5381",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(24) > figure > a",
+      "target": "[\"a[href=\\\"/shop/171694.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/171694.html\" aria-label=\"Buy V&A 2027 desk diary for £10.99\" data-tracking=\"promobox-shopproducts\" data-product_name=\"V&A 2027 desk diary\">"
+    },
+    {
+      "fingerprint": "8a80bf3e9654",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(25) > figure > a",
+      "target": "[\"a[href=\\\"/shop/172074.html\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/shop/172074.html\" aria-label=\"Buy The Music is Black: A British Story exhibition book for £20\" data-tracking=\"promobox-shopproducts\" data-product_name=\"The Music is Black: A British Story exhibition book\">"
+    },
+    {
+      "fingerprint": "6d62fc3c9096",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#onetrust-policy-text > a",
+      "target": "[\".ot-cookie-policy-link\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a class=\"ot-cookie-policy-link\" href=\"https://www.vam.ac.uk/info/cookie-policy\" aria-label=\"More information about your privacy, opens in a new tab\" rel=\"noopener noreferrer\" target=\"_blank\">Cookie Policy</a>"
+    }
+  ],
+  "belowThreshold": [],
+  "waived": [],
+  "discarded": [
+    {
+      "criterion": "1.1.1",
+      "ref": "#venues > div:nth-of-type(2) > a > div > h3 > svg",
+      "reason": "the suggested alternative keeps every word of the current one",
+      "output": {
+        "verdict": "fail",
+        "evidence": "V&A East",
+        "problem": "wrong_content",
+        "imageShows": "A close-up of the V&A East building facade with the text 'V&A East' overlaid.",
+        "suggestedAlt": "V&A East building facade",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(5) > section > ul > li:nth-of-type(2) > div > a > div:nth-of-type(1) > img",
+      "reason": "the alternative repeats the visible text of the link or button it sits in",
+      "output": {
+        "verdict": "fail",
+        "evidence": "Tiles",
+        "problem": "wrong_content",
+        "imageShows": "A pattern of blue and orange floral and bird motifs on a white background.",
+        "suggestedAlt": "Blue and orange floral and bird pattern on white tiles",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(5) > section > ul > li:nth-of-type(4) > div > a > div:nth-of-type(1) > img",
+      "reason": "the alternative repeats the visible text of the link or button it sits in",
+      "output": {
+        "verdict": "fail",
+        "evidence": "William De Morgan",
+        "problem": "wrong_content",
+        "imageShows": "A stylized illustration of a blue and white sailing ship on waves, featuring a dragon-like prow.",
+        "suggestedAlt": "Stylized illustration of a blue and white sailing ship with a dragon prow",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "#main-content > div:nth-of-type(1) > div:nth-of-type(1) > img",
+      "reason": "the text around the image already says what it conveys",
+      "output": {
+        "imageShows": "A large banner image featuring a historical painting of people in traditional attire, overlaid with text about an exhibition.",
+        "textInImage": "V&A Visit us What's on Collections Learn Join & Support Shop Become a Member Constantinople to Istanbul: One City, Two Empires A major UK-first exhibition exploring 1,600 years of extraordinary art and design. V&A South Kensington Find out more",
+        "verdict": "fail",
+        "evidence": "Constantinople to Istanbul: One City, Two Empires",
+        "suggestedAlt": "Historical painting of people in traditional attire for the Constantinople to Istanbul exhibition.",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "#vam_body > div:nth-of-type(1) > footer > div:nth-of-type(3) > div:nth-of-type(3) > svg",
+      "reason": "the suggested alternative repeats the text around the image",
+      "output": {
+        "imageShows": "The Victoria and Albert Museum logo consisting of the letters V&A.",
+        "textInImage": "V&A",
+        "verdict": "fail",
+        "evidence": "The logo names the organization: \"V&A\"",
+        "suggestedAlt": "Victoria and Albert Museum logo",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "2.4.6",
+      "ref": "#main-content > div:nth-of-type(1) > h1",
+      "reason": "evidence too short to be a quote",
+      "output": {
+        "named": "The family of art, design and performance museums",
+        "verdict": "fail",
+        "evidence": "T…",
+        "problem": "generic",
+        "suggestedText": "The V&A family of museums",
+        "confidence": "high"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "criterion": "1.1.1",
+      "applicable": true,
+      "candidates": 16,
+      "judged": 16,
+      "failed": 3,
+      "passed": 8,
+      "cannotTell": 0,
+      "discarded": 5,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "1.3.5",
+      "applicable": true,
+      "candidates": 2,
+      "judged": 2,
+      "failed": 0,
+      "passed": 2,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.2",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.4",
+      "applicable": true,
+      "candidates": 109,
+      "judged": 50,
+      "failed": 0,
+      "passed": 47,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "capped": 59,
+      "suggested": 3
+    },
+    {
+      "criterion": "2.4.6",
+      "applicable": true,
+      "candidates": 39,
+      "judged": 39,
+      "failed": 2,
+      "passed": 36,
+      "cannotTell": 0,
+      "discarded": 1,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "3.1.1",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "decided": 1
+    },
+    {
+      "criterion": "3.1.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "3.3.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    }
+  ],
+  "coverage": {
+    "engine": [
+      "1.1.1",
+      "1.3.1",
+      "1.3.5",
+      "1.4.1",
+      "1.4.3",
+      "1.4.4",
+      "1.4.12",
+      "2.1.1",
+      "2.4.2",
+      "2.4.4",
+      "2.5.3",
+      "2.5.8",
+      "3.1.1",
+      "4.1.2"
+    ],
+    "judged": [
+      "1.1.1",
+      "1.3.5",
+      "2.4.2",
+      "2.4.4",
+      "2.4.6"
+    ],
+    "notChecked": [
+      "1.2.1",
+      "1.2.2",
+      "1.2.3",
+      "1.2.4",
+      "1.2.5",
+      "1.3.3",
+      "1.3.4",
+      "1.4.2",
+      "1.4.5",
+      "1.4.10",
+      "1.4.13",
+      "2.1.2",
+      "2.1.4",
+      "2.2.1",
+      "2.2.2",
+      "2.3.1",
+      "2.4.3",
+      "2.4.5",
+      "2.4.7",
+      "2.4.11",
+      "2.5.1",
+      "2.5.2",
+      "2.5.4",
+      "2.5.7",
+      "3.1.2",
+      "3.2.1",
+      "3.2.2",
+      "3.2.3",
+      "3.2.4",
+      "3.2.6",
+      "3.3.1",
+      "3.3.3",
+      "3.3.4",
+      "3.3.7",
+      "3.3.8",
+      "4.1.3"
+    ],
+    "rules": [
+      "1.1.1",
+      "1.3.2",
+      "1.4.3",
+      "1.4.11",
+      "2.4.2",
+      "2.4.6",
+      "3.1.1",
+      "4.1.2"
+    ],
+    "criteria": [
+      {
+        "id": "1.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "image-alt",
+            "ran": true,
+            "applicable": 46,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "svg-img-alt",
+            "ran": true,
+            "applicable": 5,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-meter-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-progressbar-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "object-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "role-img-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-alt",
+            "ran": true,
+            "applicable": 34,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.1.1@4",
+            "ran": true,
+            "applicable": 16,
+            "failures": 3,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Equivalence for complex and contextual images; decorative or not; long descriptions; CAPTCHA usability"
+      },
+      {
+        "id": "1.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a transcript is equivalent; decorative video-only; labeled media alternatives"
+      },
+      {
+        "id": "1.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "video-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Accuracy, completeness, synchronization, speakers; players Rampa cannot read"
+      },
+      {
+        "id": "1.2.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether visual information matters, and whether the description or alternative is adequate"
+      },
+      {
+        "id": "1.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Everything about live captions"
+      },
+      {
+        "id": "1.2.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Quality of the description; pauses; importance of the visuals"
+      },
+      {
+        "id": "1.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "list",
+            "ran": true,
+            "applicable": 32,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "listitem",
+            "ran": true,
+            "applicable": 113,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-children",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-parent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "definition-list",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "dlitem",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "table-fake-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-has-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-headers-attr",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "th-has-data-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/table-header-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/presentational-table",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/orphan-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Whether formatting carries meaning; complex tables; charts and maps; structure \"available in text\""
+      },
+      {
+        "id": "1.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/css-reading-order",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "note": "1 group(s) CSS reordered with no relationship verified to break: left to the 1.3.2 judgment (--criteria 1.3.2)"
+          }
+        ],
+        "manual": "Whether an order matters; magazine and dashboard layouts; bidirectional text"
+      },
+      {
+        "id": "1.3.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Instructions in images and media; references that depend on context"
+      },
+      {
+        "id": "1.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential orientation; real devices with the rotation lock; native apps"
+      },
+      {
+        "id": "1.3.5",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "autocomplete-valid",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.3.5@2",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whose data a field collects in ambiguous contexts; whether autofill works"
+      },
+      {
+        "id": "1.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-in-text-block",
+            "ran": true,
+            "applicable": 3,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Charts, maps, color-coded tables; whether a difference carries meaning"
+      },
+      {
+        "id": "1.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "no-autoplay-audio",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Audio started by other interactions; games; cross-origin media; keyboard access to the control"
+      },
+      {
+        "id": "1.4.3",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "color-contrast",
+            "ran": true,
+            "applicable": 248,
+            "failures": 0,
+            "review": 53,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/pixel-contrast",
+            "ran": true,
+            "applicable": 20,
+            "failures": 0,
+            "review": 4,
+            "maturity": "experimental",
+            "note": "53 not measured, past the limit of 20 per page"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-contrast",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Text over photos and video; text in images; logotypes"
+      },
+      {
+        "id": "1.4.4",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-viewport",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/meta-viewport",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Lost functionality in complex widgets; acceptable truncation; real mobile browsers"
+      },
+      {
+        "id": "1.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential presentation; customizable images; infographics"
+      },
+      {
+        "id": "1.4.10",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Lost functionality at 320 CSS px; content that scrolls horizontally; whether the two-dimensional exception applies"
+      },
+      {
+        "id": "1.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/icon-contrast",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Graphs and charts; whether a graphic is required; hover and active states; gradients"
+      },
+      {
+        "id": "1.4.12",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "avoid-inline-spacing",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Text clipped or overlapping with the spacing applied; scripts where a metric does not apply; text in canvas and images"
+      },
+      {
+        "id": "1.4.13",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Content shown on hover or focus: dismissible, hoverable, persistent; touch; content that moves"
+      },
+      {
+        "id": "2.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "scrollable-region-focusable",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-focusable-content",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "server-side-image-map",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Operating everything with the keyboard; states behind login; drag and drop; canvas; speech and switch input"
+      },
+      {
+        "id": "2.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Moving through the whole page with the keyboard; traps after interactions; plug-ins; screen-reader modes"
+      },
+      {
+        "id": "2.1.4",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Settings on other pages or behind login, and whether they work; shortcuts in frames; keyboard layouts and IMEs; speech input"
+      },
+      {
+        "id": "2.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-refresh",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/refresh-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Server-side time-outs; flows behind login; the exceptions"
+      },
+      {
+        "id": "2.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "blink",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "marquee",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Motion after an interaction or further down the page; whether a control is easy to find and works from the keyboard; essential motion; reliance on reduced motion"
+      },
+      {
+        "id": "2.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Flashing content, live and user-generated content; certification-grade sign-off"
+      },
+      {
+        "id": "2.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "bypass",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a block is substantial; whether skip links work; single-page-app views"
+      },
+      {
+        "id": "2.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "document-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/default-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.2@3",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a title fits the domain and audience"
+      },
+      {
+        "id": "2.4.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether the focus order preserves meaning; dialogs and menus"
+      },
+      {
+        "id": "2.4.4",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 110,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.4@3",
+            "ran": true,
+            "applicable": 109,
+            "failures": 0,
+            "review": 3,
+            "suggestions": 3,
+            "notJudged": 59,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "The \"ambiguous to users in general\" exception; destinations behind login"
+      },
+      {
+        "id": "2.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Defining the set of pages; the process exception"
+      },
+      {
+        "id": "2.4.6",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-text",
+            "ran": true,
+            "applicable": 33,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.6@4",
+            "ran": true,
+            "applicable": 39,
+            "failures": 2,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a heading or label fits the domain and audience"
+      },
+      {
+        "id": "2.4.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether every focused element shows it; faint indicators; forced colors"
+      },
+      {
+        "id": "2.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Focused elements hidden by sticky headers, banners or dialogs; content the user opened or can move"
+      },
+      {
+        "id": "2.5.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential gestures; alternatives elsewhere on the page or in another view; gestures the probe does not make (rotation, longer paths); real touch hardware"
+      },
+      {
+        "id": "2.5.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Actions on the down-event; undo in drag and drop; touch"
+      },
+      {
+        "id": "2.5.3",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "label-content-name-mismatch",
+            "ran": true,
+            "applicable": 27,
+            "failures": 26,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/field-label-in-name",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 1,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Label versus nearby instruction; symbols and numbers; testing with speech input"
+      },
+      {
+        "id": "2.5.4",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Camera and body gestures; real sensors; essential motion; settings on other pages; motion after a tap or a permission"
+      },
+      {
+        "id": "2.5.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Dragging and its single-pointer alternatives; essential dragging; canvas editors"
+      },
+      {
+        "id": "2.5.8",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "target-size",
+            "ran": true,
+            "applicable": 116,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Essential or legally required presentation; equivalent targets; canvas and SVG maps"
+      },
+      {
+        "id": "3.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "html-has-lang",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-lang-valid",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-xml-lang-mismatch",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-id",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.1@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Balanced bilingual pages; dialects"
+      },
+      {
+        "id": "3.1.2",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "valid-lang",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-switcher-lang",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.2@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Unmarked passages; single words; proper names; loanwords"
+      },
+      {
+        "id": "3.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when an element receives focus; states after interaction"
+      },
+      {
+        "id": "3.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when a setting changes, and whether notice is adequate; custom widgets"
+      },
+      {
+        "id": "3.2.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Navigation order across the set of pages; personalization; pages behind login"
+      },
+      {
+        "id": "3.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "What counts as the same function; icons in context"
+      },
+      {
+        "id": "3.2.6",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Help mechanisms and their order across the set of pages; help that is not a link"
+      },
+      {
+        "id": "3.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Error messages after input; errors the server finds; wording"
+      },
+      {
+        "id": "3.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "form-field-multiple-labels",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/no-visible-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.3.2@1",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether instructions are enough; icons as labels"
+      },
+      {
+        "id": "3.3.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a suggestion is correct; server-side errors; the security exception"
+      },
+      {
+        "id": "3.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Reversal, checking or confirmation of submissions: almost all of it"
+      },
+      {
+        "id": "3.3.7",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Information asked again in a process; third-party steps; the exceptions"
+      },
+      {
+        "id": "3.3.8",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Cognitive function tests in sign-in and recovery; CAPTCHA escalations; later steps that need an account"
+      },
+      {
+        "id": "4.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-prohibited-attr",
+            "ran": true,
+            "applicable": 54,
+            "failures": 0,
+            "review": 5,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-allowed-attr",
+            "ran": true,
+            "applicable": 54,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-conditional-attr",
+            "ran": true,
+            "applicable": 54,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-deprecated-role",
+            "ran": true,
+            "applicable": 12,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-focus",
+            "ran": true,
+            "applicable": 19,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-attr",
+            "ran": true,
+            "applicable": 12,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-roles",
+            "ran": true,
+            "applicable": 12,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr-value",
+            "ran": true,
+            "applicable": 54,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr",
+            "ran": true,
+            "applicable": 54,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "button-name",
+            "ran": true,
+            "applicable": 9,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "duplicate-id-aria",
+            "ran": true,
+            "applicable": 57,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-button-name",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "label",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 110,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "nested-interactive",
+            "ran": true,
+            "applicable": 50,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-braille-equivalent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-command-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-input-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tab-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-toggle-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tooltip-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title-unique",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "select-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "summary-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/duplicate-id-reference",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/widget-name",
+            "ran": true,
+            "applicable": 123,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/custom-control",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Roles for custom widgets; values set by assistive technology; what is actually announced"
+      },
+      {
+        "id": "4.1.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/live-regions",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "note": "1 live region(s): #signup-footer > div > div:nth-of-type(1) > p (paragraph, polite, \"Receive updates from the V&A family of …\"). Whether status messages reach them only shows with the page in use",
+            "inventory": true
+          }
+        ],
+        "manual": "Whether status messages are announced in screen readers"
+      }
+    ]
+  },
+  "needsReview": [
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(5) > figure > a > figcaption > p:nth-of-type(2)",
+      "target": "[\"a[href=\\\"/shop/166811.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Oranges of the Morris room trinket box\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(5) > figure > a > figcaption > p:nth-of-type(3) > span",
+      "target": "[\"a[href=\\\"/shop/166811.html\\\"] > figcaption > .b-shop-product-card__description > span[content=\\\"£20\\\"][itemprop=\\\"price\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£20\">£20</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(6) > figure > a > figcaption > p:nth-of-type(1) > b",
+      "target": "[\"a[href=\\\"/shop/172867.html\\\"] > figcaption > .b-shop-product-card__label > b\"]",
+      "html": "<b>V&amp;A EXCLUSIVE</b>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(6) > figure > a > figcaption > p:nth-of-type(2)",
+      "target": "[\"a[href=\\\"/shop/172867.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Acorn and squirrel locket necklace\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(6) > figure > a > figcaption > p:nth-of-type(3) > span",
+      "target": "[\"span[content=\\\"£40\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£40\">£40</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(7) > figure > a > figcaption > p:nth-of-type(1)",
+      "target": "[\"a[href=\\\"/shop/172557.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Velvet embroidered heart jewellery box by Fable England\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(7) > figure > a > figcaption > p:nth-of-type(2) > span",
+      "target": "[\"a[href=\\\"/shop/172557.html\\\"] > figcaption > .b-shop-product-card__description > span[content=\\\"£50\\\"][itemprop=\\\"price\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£50\">£50</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(8) > figure > a > figcaption > p:nth-of-type(1)",
+      "target": "[\"a[href=\\\"/shop/171565.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Amazonite earrings by Carousel Jewels\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(8) > figure > a > figcaption > p:nth-of-type(2) > span",
+      "target": "[\"span[content=\\\"£215\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£215\">£215</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(9) > figure > a > figcaption > p:nth-of-type(1)",
+      "target": "[\"a[href=\\\"/shop/167720.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Blue enamel petal pendant necklace by Mirabelle\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(9) > figure > a > figcaption > p:nth-of-type(2) > span",
+      "target": "[\"span[content=\\\"£45\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£45\">£45</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(10) > figure > a > figcaption > p:nth-of-type(1) > b",
+      "target": "[\"a[href=\\\"/shop/168904.html\\\"] > figcaption > .b-shop-product-card__label > b\"]",
+      "html": "<b>V&amp;A EXCLUSIVE</b>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(10) > figure > a > figcaption > p:nth-of-type(2)",
+      "target": "[\"a[href=\\\"/shop/168904.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Eye miniature pin badge\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(10) > figure > a > figcaption > p:nth-of-type(3) > span",
+      "target": "[\"span[content=\\\"£5\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£5\">£5</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(11) > figure > a > figcaption > p:nth-of-type(1)",
+      "target": "[\"a[href=\\\"/shop/173336.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Apple blossom earrings by Fable England\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(11) > figure > a > figcaption > p:nth-of-type(2) > span",
+      "target": "[\"span[content=\\\"£38\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£38\">£38</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(12) > figure > a > figcaption > p:nth-of-type(1)",
+      "target": "[\"a[href=\\\"/shop/171484.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Pansy scarf\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(12) > figure > a > figcaption > p:nth-of-type(2) > span",
+      "target": "[\"span[content=\\\"£36\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£36\">£36</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(13) > figure > a > figcaption > p:nth-of-type(1)",
+      "target": "[\"a[href=\\\"/shop/173084.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Pink blossom floral window necklace by Joli\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(13) > figure > a > figcaption > p:nth-of-type(2) > span",
+      "target": "[\"span[content=\\\"£150\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£150\">£150</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(14) > figure > a > figcaption > p:nth-of-type(1)",
+      "target": "[\"a[href=\\\"/shop/173086.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Amethyst floral window necklace by Joli\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(14) > figure > a > figcaption > p:nth-of-type(2) > span",
+      "target": "[\"span[content=\\\"£155\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£155\">£155</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(15) > figure > a > figcaption > p:nth-of-type(1) > b",
+      "target": "[\"a[href=\\\"/shop/170174p.html\\\"] > figcaption > .b-shop-product-card__label > b\"]",
+      "html": "<b>V&amp;A EXCLUSIVE</b>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(15) > figure > a > figcaption > p:nth-of-type(2)",
+      "target": "[\"a[href=\\\"/shop/170174p.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  David Bowie “HEROES” photoshoot t-shirt\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(15) > figure > a > figcaption > p:nth-of-type(3) > span",
+      "target": "[\"a[href=\\\"/shop/170174p.html\\\"] > figcaption > .b-shop-product-card__description > span[content=\\\"£35\\\"][itemprop=\\\"price\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£35\">£35</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(16) > figure > a > figcaption > p:nth-of-type(1) > b",
+      "target": "[\"a[href=\\\"/shop/2007BM2484.html\\\"] > figcaption > .b-shop-product-card__label > b\"]",
+      "html": "<b>CUSTOM PRINT</b>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(16) > figure > a > figcaption > p:nth-of-type(2)",
+      "target": "[\"a[href=\\\"/shop/2007BM2484.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Balmain, Dior and Patou garden party dresses, fashion illustration\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(16) > figure > a > figcaption > p:nth-of-type(3) > span",
+      "target": "[\"a[href=\\\"/shop/2007BM2484.html\\\"] > figcaption > .b-shop-product-card__description > span[content=\\\"From £15\\\"][itemprop=\\\"price\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"From £15\">From £15</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(17) > figure > a > figcaption > p:nth-of-type(1) > b",
+      "target": "[\"a[href=\\\"/shop/171527.html\\\"] > figcaption > .b-shop-product-card__label > b\"]",
+      "html": "<b>V&amp;A EXCLUSIVE</b>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(17) > figure > a > figcaption > p:nth-of-type(2)",
+      "target": "[\"a[href=\\\"/shop/171527.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Schiaparelli: Fashion Becomes Art embroidered tote bag\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(17) > figure > a > figcaption > p:nth-of-type(3) > span",
+      "target": "[\"a[href=\\\"/shop/171527.html\\\"] > figcaption > .b-shop-product-card__description > span[content=\\\"£35\\\"][itemprop=\\\"price\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£35\">£35</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(18) > figure > a > figcaption > p:nth-of-type(1) > b",
+      "target": "[\"a[href=\\\"/shop/172108.html\\\"] > figcaption > .b-shop-product-card__label > b\"]",
+      "html": "<b>V&amp;A EXCLUSIVE</b>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(18) > figure > a > figcaption > p:nth-of-type(2)",
+      "target": "[\"a[href=\\\"/shop/172108.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Tea Time charm earrings by Pindex Studio\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(18) > figure > a > figcaption > p:nth-of-type(3) > span",
+      "target": "[\"span[content=\\\"£100\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£100\">£100</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(19) > figure > a > figcaption > p:nth-of-type(1) > b",
+      "target": "[\"a[href=\\\"/shop/164641.html\\\"] > figcaption > .b-shop-product-card__label > b\"]",
+      "html": "<b>V&amp;A EXCLUSIVE</b>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(19) > figure > a > figcaption > p:nth-of-type(2)",
+      "target": "[\"a[href=\\\"/shop/164641.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Patchwork denim tote bag by The Revival\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(19) > figure > a > figcaption > p:nth-of-type(3) > span",
+      "target": "[\"span[content=\\\"£55\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£55\">£55</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(20) > figure > a > figcaption > p:nth-of-type(1) > b",
+      "target": "[\"a[href=\\\"/shop/166813.html\\\"] > figcaption > .b-shop-product-card__label > b\"]",
+      "html": "<b>V&amp;A EXCLUSIVE</b>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(20) > figure > a > figcaption > p:nth-of-type(2)",
+      "target": "[\"a[href=\\\"/shop/166813.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Oranges of the Morris room 6 x 4\" frame\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(20) > figure > a > figcaption > p:nth-of-type(3) > span",
+      "target": "[\"span[content=\\\"£25\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£25\">£25</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(21) > figure > a > figcaption > p:nth-of-type(1) > b",
+      "target": "[\"a[href=\\\"/shop/2006BF3990.html\\\"] > figcaption > .b-shop-product-card__label > b\"]",
+      "html": "<b>CUSTOM PRINT</b>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(21) > figure > a > figcaption > p:nth-of-type(2)",
+      "target": "[\"a[href=\\\"/shop/2006BF3990.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Pomegranates, Lemons, Oranges and Stag Beetle from Horti Itzeinensis\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(21) > figure > a > figcaption > p:nth-of-type(3) > span",
+      "target": "[\"a[href=\\\"/shop/2006BF3990.html\\\"] > figcaption > .b-shop-product-card__description > span[content=\\\"From £15\\\"][itemprop=\\\"price\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"From £15\">From £15</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(22) > figure > a > figcaption > p:nth-of-type(1) > b",
+      "target": "[\"a[href=\\\"/shop/166812.html\\\"] > figcaption > .b-shop-product-card__label > b\"]",
+      "html": "<b>V&amp;A EXCLUSIVE</b>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(22) > figure > a > figcaption > p:nth-of-type(2)",
+      "target": "[\"a[href=\\\"/shop/166812.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Oranges of the Morris room rectangular box\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(22) > figure > a > figcaption > p:nth-of-type(3) > span",
+      "target": "[\"a[href=\\\"/shop/166812.html\\\"] > figcaption > .b-shop-product-card__description > span[content=\\\"£20\\\"][itemprop=\\\"price\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£20\">£20</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(23) > figure > a > figcaption > p:nth-of-type(1)",
+      "target": "[\"a[href=\\\"/shop/171590p.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  Zodiac necklaces by Azga\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(23) > figure > a > figcaption > p:nth-of-type(2) > span",
+      "target": "[\"a[href=\\\"/shop/171590p.html\\\"] > figcaption > .b-shop-product-card__description > span[content=\\\"£35\\\"][itemprop=\\\"price\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£35\">£35</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(24) > figure > a > figcaption > p:nth-of-type(1)",
+      "target": "[\"a[href=\\\"/shop/171694.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  V&amp;A 2027 desk diary\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(24) > figure > a > figcaption > p:nth-of-type(2) > span",
+      "target": "[\"span[content=\\\"£10.99\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£10.99\">£10.99</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(25) > figure > a > figcaption > p:nth-of-type(1) > b",
+      "target": "[\"a[href=\\\"/shop/172074.html\\\"] > figcaption > .b-shop-product-card__label > b\"]",
+      "html": "<b>V&amp;A PUBLICATION</b>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(25) > figure > a > figcaption > p:nth-of-type(2)",
+      "target": "[\"a[href=\\\"/shop/172074.html\\\"] > figcaption > .b-shop-product-card__title\"]",
+      "html": "<p class=\"b-shop-product-card__title\">\n                  The Music is Black: A British Story exhibition book\n                </p>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#shop > div > div:nth-of-type(1) > div > div:nth-of-type(25) > figure > a > figcaption > p:nth-of-type(3) > span",
+      "target": "[\"a[href=\\\"/shop/172074.html\\\"] > figcaption > .b-shop-product-card__description > span[content=\\\"£20\\\"][itemprop=\\\"price\\\"]\"]",
+      "html": "<span itemprop=\"price\" content=\"£20\">£20</span>",
+      "message": "Element's background color could not be determined because it's partially obscured by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#venues > div:nth-of-type(1) > a > div > div",
+      "target": "#venues > div:nth-of-type(1) > a > div > div",
+      "html": "<div class=\"b-venue-card__subtitle\">",
+      "message": "Part of the text \"South Kensington, London\" has enough contrast and part does not: from 4.00:1 to 8.18:1 against what is behind it (#ffffff on #708192…#41515f), where WCAG 1.4.3 asks for 4.5:1. Check the part over a pseudo-element.",
+      "evidence": "#ffffff on #586b80; #708192…#41515f · 8.18:1 at best, 4.00:1 at worst · 14px, 400",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#venues > div:nth-of-type(2) > a > div > div",
+      "target": "#venues > div:nth-of-type(2) > a > div > div",
+      "html": "<div class=\"b-venue-card__subtitle\">",
+      "message": "Part of the text \"Queen Elizabeth Park, London\" has enough contrast and part does not: from 3.57:1 to 17.77:1 against what is behind it (#ffffff on #8b8780…#16181c), where WCAG 1.4.3 asks for 4.5:1. Check the part over a pseudo-element.",
+      "evidence": "#ffffff on #77736b; #8b8780…#16181c · 17.77:1 at best, 3.57:1 at worst · 14px, 400",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#venues > div:nth-of-type(5) > a > div > div",
+      "target": "#venues > div:nth-of-type(5) > a > div > div",
+      "html": "<div class=\"b-venue-card__subtitle\">",
+      "message": "Part of the text \"Barlaston, Stoke-on-Trent\" has enough contrast and part does not: from 2.40:1 to 5.64:1 against what is behind it (#ffffff on #a7a7a9…#66676d), where WCAG 1.4.3 asks for 4.5:1. Check the part over a pseudo-element.",
+      "evidence": "#ffffff on #807f83; #a7a7a9…#66676d · 5.64:1 at best, 2.40:1 at worst · 14px, 400",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(2) > section > a > p",
+      "target": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(2) > section > a > p",
+      "html": "<p class=\"news__description\">",
+      "message": "Part of the text \"Due to planned industrial action on 29 & 30 October 2026, V…\" has enough contrast and part does not: from 2.19:1 to 7.76:1 against what is behind it (#505354 on #888888…#ffffff), where WCAG 1.4.3 asks for 4.5:1. Check the part over a gradient.",
+      "evidence": "#505354 on #ffffff; #888888…#ffffff · 7.76:1 at best, 2.19:1 at worst · 17px, 400",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#vam_nav > div:nth-of-type(2) > ul > li:nth-of-type(1) > a",
+      "message": "The link text \"Visit us\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Visit our location\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#vam_nav > div:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+      "message": "The link text \"Learn\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Learning Resources\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#main-content > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(2) > a",
+      "message": "The link text \"Find out more\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Find out more about the Constantinople to Istanbul exhibition\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.5.3",
+      "level": "A",
+      "ruleId": "rampa/field-label-in-name",
+      "ref": "#signup-footer > div > div:nth-of-type(2) > div:nth-of-type(1) > input:nth-of-type(8)",
+      "target": "#signup-footer > div > div:nth-of-type(2) > div:nth-of-type(1) > input:nth-of-type(8)",
+      "html": "<input aria-invalid=\"false\" type=\"text\" placeholder=\"name@example.com\" name=\"Email\" class=\"js-emailValidation b-newsletter__form-fields-field b-newsletter__form-fields-field--footer\" aria-label=\"Enter your email address\" autocomplete=\"email\">",
+      "message": "The field shows only its placeholder, \"name@example.com\", and is named \"Enter your email address\" (aria-label): needs review. If the placeholder is the label people see, people using speech input say it, and the field does not answer to it.",
+      "evidence": "\"name@example.com\" / \"Enter your email address\"",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "aria-prohibited-attr",
+      "ref": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(5) > section > ul > li:nth-of-type(1) > div",
+      "target": "[\"div[aria-label=\\\"Wedgwood\\\"]\"]",
+      "html": "<div class=\"b-collection-card\" aria-label=\"Wedgwood\">",
+      "message": "aria-label attribute is not well supported on \"div\" elements with no valid role attribute.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "aria-prohibited-attr",
+      "ref": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(5) > section > ul > li:nth-of-type(2) > div",
+      "target": "[\"div[aria-label=\\\"Tiles\\\"]\"]",
+      "html": "<div class=\"b-collection-card\" aria-label=\"Tiles\">",
+      "message": "aria-label attribute is not well supported on \"div\" elements with no valid role attribute.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "aria-prohibited-attr",
+      "ref": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(5) > section > ul > li:nth-of-type(3) > div",
+      "target": "[\"div[aria-label=\\\"Stained glass\\\"]\"]",
+      "html": "<div class=\"b-collection-card\" aria-label=\"Stained glass\">",
+      "message": "aria-label attribute is not well supported on \"div\" elements with no valid role attribute.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "aria-prohibited-attr",
+      "ref": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(5) > section > ul > li:nth-of-type(4) > div",
+      "target": "[\"div[aria-label=\\\"William De Morgan\\\"]\"]",
+      "html": "<div class=\"b-collection-card\" aria-label=\"William De Morgan\">",
+      "message": "aria-label attribute is not well supported on \"div\" elements with no valid role attribute.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "aria-prohibited-attr",
+      "ref": "#main-content > div:nth-of-type(2) > div > div:nth-of-type(6) > div",
+      "target": "[\".b-list-promo\"]",
+      "html": "<div class=\"b-list-promo\" aria-label=\"Promotion: Experience more as a V&A Member today\">",
+      "message": "aria-label attribute is not well supported on \"div\" elements with no valid role attribute.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI"
+    }
+  ],
+  "usage": {
+    "calls": 107,
+    "cachedCalls": 1,
+    "inputTokens": 99938,
+    "outputTokens": 10022,
+    "latencyMs": 478398
+  },
+  "errors": [],
+  "notes": [
+    "1 image(s) were left without a capture, so no judgment looked at them: 1 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+    "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 59 of 109 for 2.4.4. The coverage lists them as not judged.",
+    "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+  ],
+  "failOn": "confirmed"
+}

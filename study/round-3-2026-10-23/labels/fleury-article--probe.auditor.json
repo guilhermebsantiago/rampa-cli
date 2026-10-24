@@ -1,0 +1,72 @@
+{
+  "page": "https://www.fleury.com.br/noticias/a-sua-saude-mental-importa",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "89f737aed063",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header logo link (img alt 'Fleury', href '/'). On the live page (2026-10-23, 1280x800, after dismissing the cookie banner) its computed focus style is 'outline: auto 1px' with an author-set outline-color of oklab(0.708 / 0.5) (the site's global 'outline-ring/50'), which renders as a thin #cfcfcf ring on the white header. Comparing the focused and blurred pixels, that ring (about 740 px) is the only change, and #cfcfcf against #ffffff is 1.56:1. Because the author changed the indicator's color, the user-agent exception does not apply, and per the 1.4.11 Understanding (Figure 43) an author-styled focus indicator needs 3:1 against adjacent colors. This fails as reported."
+    },
+    {
+      "fingerprint": "3439323f9be1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Notícias' select trigger (role combobox) in the header search bar. When focused its only indicator is a 3 px box-shadow ring in ring/50 (#a1a1a1 at 50%), which renders as #cfcfcf on white; outline is none and the button has no border. Where the ring overlaps the search box's existing #c8c8c8 border it darkens it only slightly (to #b4b4b4). I checked this on the live page by diffing focused and blurred pixels: the ring against the white surround is 1.56:1, under the 3:1 that 1.4.11 asks of an author-styled focus indicator. This fails as reported."
+    },
+    {
+      "fingerprint": "e6537f0ecf9a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Para você' menu trigger button in the white main-nav bar. On the live page focus adds only the author-recolored 'outline: auto' ring in ring/50, which renders #cfcfcf on #ffffff. The pixel diff shows nothing else changes: text color, background and decoration stay the same. 1.56:1 is under 3:1, and the indicator is author-styled, so the user-agent exception does not apply. This fails 1.4.11."
+    },
+    {
+      "fingerprint": "bfc30f7fdedb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Para médicos' menu trigger button in the main nav. It has the same focus treatment as its siblings: on the live page the only change on focus is a thin #cfcfcf ring (the author's outline-ring/50 color on outline-style auto) against the white nav bar, 1.56:1. No other visual cue changes. An author-modified focus indicator under 3:1 against adjacent colors fails 1.4.11."
+    },
+    {
+      "fingerprint": "5131df48aaf9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Unidades' link in the main nav. I enlarged the live focused/blurred crops and diffed them: the only indicator is a light gray #cfcfcf rounded ring on #ffffff, 1.56:1, and the text and background are unchanged. The ring color comes from the author's global outline-color (ring/50), so it is not the exempt browser default. This fails 1.4.11 as reported."
+    },
+    {
+      "fingerprint": "d1687c622878",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Convênios' link in the main nav. On the live page it shows the same author-recolored focus ring as its siblings: #cfcfcf around the link on a white background, 1.56:1, with no other state change. That is under the 3:1 1.4.11 requires of an author-styled focus indicator against adjacent colors, so it is a real failure."
+    },
+    {
+      "fingerprint": "8e3c5142ee0f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Notícias' link in the main nav. On the live page its focused state differs from the blurred state only by a #cfcfcf ring on white (computed 'outline: auto 1px' with author outline-color oklab(0.708 / 0.5)). That is 1.56:1, under 3:1, and the author-modified indicator is not covered by the user-agent exception. This fails 1.4.11."
+    },
+    {
+      "fingerprint": "57580ba0c136",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Institucional' menu trigger button in the main nav. On the live page it has the same indicator as the other nav items: only a #cfcfcf ring (the author's ring/50 outline color) against the white bar, 1.56:1, with no change of text, background or underline. An author-styled focus indicator below 3:1 fails 1.4.11 as reported."
+    },
+    {
+      "fingerprint": "720b571d23d5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The breadcrumb link 'Notícias' on the #f5f5f5 breadcrumb band. On the live page focus draws the author-recolored auto outline as a #cacaca ring with a white edge; nothing else changes (text stays rgb(104,114,125), no underline). The ring parts give #cacaca vs #f5f5f5 1.50:1, #ffffff vs #f5f5f5 1.09:1 and #ffffff vs #cacaca 1.64:1, so neither part reaches 3:1 against what it touches. Since the indicator is author-styled, this fails 1.4.11."
+    },
+    {
+      "fingerprint": "14b19e48c728",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Conheça o infoKids' link in the light gray (#f5f5f5) 'Outras publicações' sidebar card. Its hover:underline does not apply on focus. On the live page focus adds only the author-recolored ring, a #cfcfcf/#cacaca band with a white edge against #f5f5f5, and the best contrast of any part is about 1.56:1. That is under the 3:1 1.4.11 requires of an author-styled focus indicator, so this is a real failure."
+    },
+    {
+      "fingerprint": "897cde0ac407",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 'FoundationOne®...' sidebar link at 390x844, reported as entirely hidden behind the OneTrust cookie banner. The probe's own record shows a race on load. The walk began about 3.9 s after load, before the banner appeared. At Tab 9 the banner was still sliding in: the recorded banner y of 548 is mid-animation, and its resting y is 452. On the very next step, focus was inside the banner, and the walk then reports a focus trap in the banner. I reproduced this live. Tabbing right after load, the link is first fully visible. The banner then slides over it for under a second, after which OneTrust moves focus onto the banner. With the banner showing, Tab, Shift+Tab and ArrowDown then Tab all keep focus inside the banner, behind a dark page filter, and Escape closes it. Per the 2.4.11 Understanding, making the banner modal so the user must dismiss it before navigating the page is a way to pass. A keyboard user is never left with focus on a hidden page element: the moment caught here is a brief animation race, after which focus goes to visible banner controls. The rule had this trap data in the same walk and still reported a failure."
+    }
+  ]
+}

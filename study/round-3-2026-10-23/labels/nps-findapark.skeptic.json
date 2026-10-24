@@ -1,0 +1,66 @@
+{
+  "page": "https://www.nps.gov/findapark/index.htm",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "c59c7b9ad348",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the photo at the top of the Abraham Lincoln Birthplace result card. It sits inside the card's link, next to the visible h3 'Abraham Lincoln Birthplace', 'National Historical Park' and 'Kentucky'. The crop matches the screenshot at the element's bounds and shows a white neoclassical memorial building among trees. The park's own homepage (checked live on 2026-10-23) uses this exact file as its banner, with og:image:alt 'Memorial building with stairs leading up', so this is the Memorial Building at the birthplace site. The page script builds the alt as park name + ' banner image' when no alt is stored. That text correctly identifies the picture as this park's banner and claims nothing the image fails to show. The alt is generic and repeats the link text, which is a quality point (a null alt or a short description would be better), but it is not the mismatch the finding reports."
+    },
+    {
+      "fingerprint": "cb989611db27",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the photo in the Acadia National Park result card link, which also holds the visible name, designation, state and an image credit. The crop shows pink granite in the foreground above Frenchman Bay and the Porcupine Islands, the view from Cadillac Mountain. Acadia's homepage uses the same banner file and describes it that way. 'Acadia banner image' correctly identifies the image as Acadia's banner, so the alt and the picture do not disagree. The alt is terse and repeats the link text, but the claim that it describes something the image does not show is wrong."
+    },
+    {
+      "fingerprint": "113f8086c65e",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the photo in the Adams National Historical Park result card link. The crop shows two colonial wooden houses, the Adams birthplaces, and the park homepage uses this same banner file ('Two two-story wooden houses sit side-by-side'). 'Adams' is the park's name, shown in the h3 under the photo, and the alt says only that the image is that park's banner, which is true. The image contradicts nothing in the alt, so the claimed mismatch does not hold."
+    },
+    {
+      "fingerprint": "4c2107619a64",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the photo in the African American Civil War Memorial result card link. The crop shows the bronze 'Spirit of Freedom' sculpture of uniformed soldiers with rifles, which is the memorial itself. The file is the memorial's own homepage banner. 'African American Civil War Memorial banner image' names exactly what the photo shows, so the alt does not describe anything the image fails to show."
+    },
+    {
+      "fingerprint": "aa2ee11a2279",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the photo in the African Burial Ground National Monument result card link. The crop shows a crowd of students in front of the monument's dark granite wall with the heart-shaped Sankofa symbol. The monument's homepage uses this same banner ('Students observe libation ceremony'). 'African Burial Ground banner image' correctly identifies the place and the image's role. It leaves out the people, but leaving something out is not what the finding claims, and nothing the alt says is absent from the image."
+    },
+    {
+      "fingerprint": "e02ed7e9ef86",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the photo in the Agate Fossil Beds National Monument result card link. The crop shows two painted tipis with the grassy fossil hills behind them, and the monument's homepage uses the same banner file ('two painted tipis with fossil hills in the background'). 'Agate Fossil Beds banner image' identifies the site correctly and claims no content the image lacks, so the finding is wrong."
+    },
+    {
+      "fingerprint": "ec68f8528629",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the photo in the Alagnak Wild River result card link. The crop shows salmon swimming underwater, and the same file is the Alagnak homepage banner ('underwater photo of salmon swimming in river'). The alt says only that this is Alagnak's banner image, which is true. It does not mention the salmon, but it describes nothing the image fails to show, so the reported mismatch does not exist."
+    },
+    {
+      "fingerprint": "a07fca37af49",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the photo in the Ala Kahakai National Historic Trail result card link. The crop shows an aerial view of a trail crossing a lava field on the Hawaiian coast, and the trail's homepage uses this same banner ('Aerial view of trail through lava, next to the ocean'). 'Ala Kahakai banner image' names the trail the photo shows, so the alt is accurate and the finding is a false positive."
+    },
+    {
+      "fingerprint": "e6a874e64f34",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the photo in the Alaska Public Lands Center result card link. The crop shows Denali above spruce and tundra, with a row of land-agency emblems (an NPS arrowhead and others, including the USGS logo) at the top right. The center's homepage uses this banner file ('Snowy mountain in background, tundra trees in foreground with logos of land agencies'). 'Alaska Public Lands banner image' correctly identifies the banner and claims nothing the image lacks. One could argue that the alt leaves out the partner-agency logos, but that would be a claim that the alt is incomplete, not the mismatch this finding makes, and the card's link text already names the center."
+    },
+    {
+      "fingerprint": "a7f103bac882",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the photo in the Alcatraz Island result card link. The crop shows Alcatraz Island with its lighthouse and cellhouse across San Francisco Bay, and it is the same file as the Alcatraz homepage banner ('A wide view of Alcatraz Island, seen from the San Francisco Bay'). 'Alcatraz Island banner image' names exactly what is shown, so the claim that the alt describes something the image does not show is wrong."
+    }
+  ]
+}

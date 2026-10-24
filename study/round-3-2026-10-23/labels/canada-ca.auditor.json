@@ -1,0 +1,12 @@
+{
+  "page": "https://www.canada.ca/en.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "6b86ff64df8e",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The finding is about the document title of the Canada.ca English home page. The title is \"Home - Canada.ca\" in the snapshot, and still was on the live page when I checked it on 2026-10-23. The page is the site's landing page. The screenshot shows the H1 \"Canada.ca\" with the tagline \"The official website of the Government of Canada\", then \"Most requested\" tasks, \"Services and information\" and \"Your government\". A title made of \"Home\" plus the site name states exactly that purpose. It also tells this page apart from the rest of the site, whose pages are titled \"<topic> - Canada.ca\" (\"Jobs - Canada.ca\", \"Benefits - Canada.ca\" and so on, in the destinations Rampa read). The only other destination with the same title is the basic-HTML version of this same page (?wbdisable=true). The title is not empty, placeholder text, a filename or a title shared by every page, so F25 does not apply, and it passes G88's checks (relevant to the content, identifies the page). The 2.4.2 Understanding document's own landing-page example is titled with the site's name. The page meets 2.4.2. Rampa had the title, URL, H1 and page content and judged wrongly that the title says nothing about the page, in effect asking a home page's title for more than the criterion requires."
+    }
+  ]
+}

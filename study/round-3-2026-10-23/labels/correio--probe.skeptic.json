@@ -1,0 +1,168 @@
+{
+  "page": "https://www.correiobraziliense.com.br/politica/2026/10/7526242-real-time-flavio-bolsonaro-tem-52-e-lula-48-a-dois-dias-do-2-turno.html",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "63ddefcd3a3e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is a 'Saiba Mais' related-article link. Its category label 'POLÍTICA' is a strong element at 9.6 px, bold and uppercase, and inherits the link colour. I checked live: the rule '.read-more ul li a:hover { color: #00cc99 }' turns the label from #0077b6 (about 4.9:1) to #00cc99 on the white card, which is 2.08:1 (I recomputed it). It is small text, so it needs 4.5:1. The 1.4.3 Understanding says text shown while hovered must also have sufficient contrast. I found no exemption: the label is not incidental or a logo, and nothing changes behind it on hover. The title span stays #333 and passes, so the failure is the label, which is what the evidence measures."
+    },
+    {
+      "fingerprint": "7b1d0445dc1f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the title span of a 'Saiba Mais' card ('Quando os resultados da eleição serão anunciados e como acompanhá-los?'). I reproduced it live at 1280x1024: the cards sit in div.slick-slider, which has a fixed height of 280px and overflow hidden. The span has line-height 16px (1.0). With the WCAG 1.4.12 spacing values, the title grows from 3 lines (49 px) to 4 lines (97 px), and the slider clips the bottom line. In the screenshot the last words, 'acompanhá-los?', disappear. The text was whole before the change. This is loss of content under the spacing values the criterion requires, and nothing in the page lets the user see the clipped line. I found no artefact."
+    },
+    {
+      "fingerprint": "92572b37a1b1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the title span of a 'Saiba Mais' card ('Campanha de Lula pede que TSE requisite dados de Flávio Bolsonaro'). I reproduced it live at 1280x1024: the cards sit in div.slick-slider, which has a fixed height of 280px and overflow hidden. The span has line-height 16px (1.0). With the WCAG 1.4.12 spacing values, the title grows from 3 lines (49 px) to 4 lines (97 px), and the slider clips the bottom line. In the screenshot the last words, 'Bolsonaro', disappear. The text was whole before the change. This is loss of content under the spacing values the criterion requires, and nothing in the page lets the user see the clipped line. I found no artefact."
+    },
+    {
+      "fingerprint": "61743798caa6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Siga o canal do Correio Braziliense no WhatsApp' link. At Tab 17 in the 1280x800 walk it sat at viewport y 713-799, entirely under the anchor-ad footer (690-800). The covering element is div.publicidade-ancorads, the site's sticky anchor-ad footer (position fixed, z-index 9999, opaque white background, 1280x110 at the bottom of the 800 px viewport; checked live). Its close control is a plain div, so a keyboard user cannot dismiss it. I checked live that the element itself keeps the browser's default focus ring (outline auto, :focus-visible matches), and that the ring shows when the element is not covered. So the indicator exists but is fully hidden. That overlaps the 2.4.11 finding for the same Tab step. Still, the 2.4.11 Understanding says that 'if the focus indicator is fully obscured, it would likely fail 2.4.7 Focus Visible'. The probe measured 0 px of change in the whole viewport, so the indicator was entirely invisible. The claim of no visible indicator, read fairly, still names a 2.4.7 failure."
+    },
+    {
+      "fingerprint": "477de3bc92c5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the in-text link 'pesquisa do Real Time Big Data'. At Tab 24 it sat at y 591-614, x 145-416, inside the cookie banner's 128-1152 x 584-680 box. The covering element is the cookieconsent banner (div.cc-window, role dialog but not modal, position fixed, opaque white, 1024x96 at y 584; checked live). Focus moves behind it, it does not close on Escape or on loss of focus, and its own button comes last in the Tab order. I checked live that the element itself keeps the browser's default focus ring (outline auto, :focus-visible matches), and that the ring shows when the element is not covered. So the indicator exists but is fully hidden. That overlaps the 2.4.11 finding for the same Tab step. Still, the 2.4.11 Understanding says that 'if the focus indicator is fully obscured, it would likely fail 2.4.7 Focus Visible'. The probe measured 0 px of change in the whole viewport, so the indicator was entirely invisible. The claim of no visible indicator, read fairly, still names a 2.4.7 failure."
+    },
+    {
+      "fingerprint": "921b8b80bac2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the author link 'Correio Braziliense'. At Tab 34 it sat at y 644-667, x 176-337, inside the cookie banner. The covering element is the cookieconsent banner (div.cc-window, role dialog but not modal, position fixed, opaque white, 1024x96 at y 584; checked live). Focus moves behind it, it does not close on Escape or on loss of focus, and its own button comes last in the Tab order. I checked live that the element itself keeps the browser's default focus ring (outline auto, :focus-visible matches), and that the ring shows when the element is not covered. So the indicator exists but is fully hidden. That overlaps the 2.4.11 finding for the same Tab step. Still, the 2.4.11 Understanding says that 'if the focus indicator is fully obscured, it would likely fail 2.4.7 Focus Visible'. The probe measured 0 px of change in the whole viewport, so the indicator was entirely invisible. The claim of no visible indicator, read fairly, still names a 2.4.7 failure."
+    },
+    {
+      "fingerprint": "39f059d06862",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the tag link 'eleições'. At Tab 35 it sat at y 763-800, entirely under the anchor-ad footer. My own live walk had these tag links focused under the cookie banner, also with 0 px of change. The covering element is div.publicidade-ancorads, the site's sticky anchor-ad footer (position fixed, z-index 9999, opaque white background, 1280x110 at the bottom of the 800 px viewport; checked live). Its close control is a plain div, so a keyboard user cannot dismiss it. I checked live that the element itself keeps the browser's default focus ring (outline auto, :focus-visible matches), and that the ring shows when the element is not covered. So the indicator exists but is fully hidden. That overlaps the 2.4.11 finding for the same Tab step. Still, the 2.4.11 Understanding says that 'if the focus indicator is fully obscured, it would likely fail 2.4.7 Focus Visible'. The probe measured 0 px of change in the whole viewport, so the indicator was entirely invisible. The claim of no visible indicator, read fairly, still names a 2.4.7 failure."
+    },
+    {
+      "fingerprint": "1e8361b1b262",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the tag link 'eleições2026'. At Tab 36 it sat at y 763-800, entirely under the anchor-ad footer. My own live walk had these tag links focused under the cookie banner, also with 0 px of change. The covering element is div.publicidade-ancorads, the site's sticky anchor-ad footer (position fixed, z-index 9999, opaque white background, 1280x110 at the bottom of the 800 px viewport; checked live). Its close control is a plain div, so a keyboard user cannot dismiss it. I checked live that the element itself keeps the browser's default focus ring (outline auto, :focus-visible matches), and that the ring shows when the element is not covered. So the indicator exists but is fully hidden. That overlaps the 2.4.11 finding for the same Tab step. Still, the 2.4.11 Understanding says that 'if the focus indicator is fully obscured, it would likely fail 2.4.7 Focus Visible'. The probe measured 0 px of change in the whole viewport, so the indicator was entirely invisible. The claim of no visible indicator, read fairly, still names a 2.4.7 failure."
+    },
+    {
+      "fingerprint": "ce1ad1d609fb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the tag link 'flávio bolsonaro'. At Tab 37 it sat at y 763-800, entirely under the anchor-ad footer. My own live walk had these tag links focused under the cookie banner, also with 0 px of change. The covering element is div.publicidade-ancorads, the site's sticky anchor-ad footer (position fixed, z-index 9999, opaque white background, 1280x110 at the bottom of the 800 px viewport; checked live). Its close control is a plain div, so a keyboard user cannot dismiss it. I checked live that the element itself keeps the browser's default focus ring (outline auto, :focus-visible matches), and that the ring shows when the element is not covered. So the indicator exists but is fully hidden. That overlaps the 2.4.11 finding for the same Tab step. Still, the 2.4.11 Understanding says that 'if the focus indicator is fully obscured, it would likely fail 2.4.7 Focus Visible'. The probe measured 0 px of change in the whole viewport, so the indicator was entirely invisible. The claim of no visible indicator, read fairly, still names a 2.4.7 failure."
+    },
+    {
+      "fingerprint": "4f7e83773d36",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the sidebar 'MAIS LIDAS' heading link (href '#'). At Tab 42 it sat at y 724-751, x 852-1152, under the full-width anchor-ad footer. The covering element is div.publicidade-ancorads, the site's sticky anchor-ad footer (position fixed, z-index 9999, opaque white background, 1280x110 at the bottom of the 800 px viewport; checked live). Its close control is a plain div, so a keyboard user cannot dismiss it. I checked live that the element itself keeps the browser's default focus ring (outline auto, :focus-visible matches), and that the ring shows when the element is not covered. So the indicator exists but is fully hidden. That overlaps the 2.4.11 finding for the same Tab step. Still, the 2.4.11 Understanding says that 'if the focus indicator is fully obscured, it would likely fail 2.4.7 Focus Visible'. The probe measured 0 px of change in the whole viewport, so the indicator was entirely invisible. The claim of no visible indicator, read fairly, still names a 2.4.7 failure."
+    },
+    {
+      "fingerprint": "3fb87b2be306",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "This is the cookie banner's 'Prosseguir' button (a role=button, aria-label 'allow cookies'). It is not covered by anything. I reached it live with a real Tab key press and it shows a visible focus indicator. The cookieconsent rule '.cc-highlight .cc-btn:first-child:focus { text-decoration: underline }' underlines 'Prosseguir', and the default outline (auto, :focus-visible true) draws a ring. That is about 900-1000 px of change in the button's box, and the screenshot shows both. The library CSS that does this is generic and unlikely to have changed since the run. The probe's 0 px reading must come from its capture (for example the banner or button state at Tab 95, deep in the page), not from a missing indicator."
+    },
+    {
+      "fingerprint": "393fb42cd1ea",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the 'Siga o canal do Correio Braziliense no WhatsApp' link at Tab 17, 1280x800, viewport y 713-799 (86 px tall). All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is div.publicidade-ancorads, the site's sticky anchor-ad footer (position fixed, z-index 9999, opaque white background, 1280x110 at the bottom of the 800 px viewport; checked live). Its close control is a plain div, so a keyboard user cannot dismiss it. Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "d683b7e728b4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the in-text link 'pesquisa espontânea' at Tab 20, 1280x800, y 750-773. All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is div.publicidade-ancorads, the site's sticky anchor-ad footer (position fixed, z-index 9999, opaque white background, 1280x110 at the bottom of the 800 px viewport; checked live). Its close control is a plain div, so a keyboard user cannot dismiss it. Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "5c5b1b9f8a95",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the in-text link 'pesquisa do Real Time Big Data' at Tab 24, 1280x800, y 591-614 and x 145-416, inside the banner's 128-1152 x 584-680 box. All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is the cookieconsent banner (div.cc-window, role dialog but not modal, position fixed, opaque white, 1024x96 at y 584; checked live). Focus moves behind it, it does not close on Escape or on loss of focus, and its own button comes last in the Tab order. Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "aa773a59fc79",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the author link 'Correio Braziliense' at Tab 34, 1280x800, y 644-667 and x 176-337, inside the banner box. All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is the cookieconsent banner (div.cc-window, role dialog but not modal, position fixed, opaque white, 1024x96 at y 584; checked live). Focus moves behind it, it does not close on Escape or on loss of focus, and its own button comes last in the Tab order. Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "666c8b2c8ec6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the tag link 'eleições' at Tab 35, 1280x800, y 763-800. All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is div.publicidade-ancorads, the site's sticky anchor-ad footer (position fixed, z-index 9999, opaque white background, 1280x110 at the bottom of the 800 px viewport; checked live). Its close control is a plain div, so a keyboard user cannot dismiss it. Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "d192fdae0551",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the tag link 'eleições2026' at Tab 36, 1280x800, y 763-800. All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is div.publicidade-ancorads, the site's sticky anchor-ad footer (position fixed, z-index 9999, opaque white background, 1280x110 at the bottom of the 800 px viewport; checked live). Its close control is a plain div, so a keyboard user cannot dismiss it. Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "34606bf7dcd1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the tag link 'flávio bolsonaro' at Tab 37, 1280x800, y 763-800. All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is div.publicidade-ancorads, the site's sticky anchor-ad footer (position fixed, z-index 9999, opaque white background, 1280x110 at the bottom of the 800 px viewport; checked live). Its close control is a plain div, so a keyboard user cannot dismiss it. Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "b266e9658e31",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the tag link 'lula' at Tab 38, 1280x800, y 763-800. All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is div.publicidade-ancorads, the site's sticky anchor-ad footer (position fixed, z-index 9999, opaque white background, 1280x110 at the bottom of the 800 px viewport; checked live). Its close control is a plain div, so a keyboard user cannot dismiss it. Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "8f85b51ae7e4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the sidebar 'MAIS LIDAS' link at Tab 42, 1280x800, y 724-751. All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is div.publicidade-ancorads, the site's sticky anchor-ad footer (position fixed, z-index 9999, opaque white background, 1280x110 at the bottom of the 800 px viewport; checked live). Its close control is a plain div, so a keyboard user cannot dismiss it. Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "0d5a8c2fdb3e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the 'Facebook' share link at Tab 28, 390x844, y 699-724. At this width the share bar is a row (live x 56-86), inside the banner's x 39-351; the WhatsApp icon at x 16 sticks out and was rightly not reported. All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is the cookieconsent banner (div.cc-window, not modal, position fixed, opaque white; live at 390x844 it spans x 39-351, y 462-764). Focus moves behind it, and it does not close on Escape or on loss of focus. Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "2c8abaf2fa94",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the 'Twitter' share link at Tab 29, 390x844, y 699-724 (live x 96-126), inside the banner. All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is the cookieconsent banner (div.cc-window, not modal, position fixed, opaque white; live at 390x844 it spans x 39-351, y 462-764). Focus moves behind it, and it does not close on Escape or on loss of focus. Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "88a83334ee93",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the 'Google Discover' share link at Tab 30, 390x844, y 688-713 (live x 136-162), inside the banner. All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is the cookieconsent banner (div.cc-window, not modal, position fixed, opaque white; live at 390x844 it spans x 39-351, y 462-764). Focus moves behind it, and it does not close on Escape or on loss of focus. Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "0fb153091553",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the author-avatar link (image, empty alt) at Tab 31, 390x844, starting at y 756, under the anchor footer (734-844). All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is div.publicidade-ancorads, the site's sticky anchor-ad footer (position fixed, z-index 9999, opaque white background, full width and 110 px tall at the bottom of the 844 px viewport; checked live). Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "0ad82da3c77b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the tag link 'eleições2026' at Tab 34, 390x844, y 528-567 (live x 114-248), inside the banner. The 'eleições' tag at x 16 sticks out and was rightly not reported. All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is the cookieconsent banner (div.cc-window, not modal, position fixed, opaque white; live at 390x844 it spans x 39-351, y 462-764). Focus moves behind it, and it does not close on Escape or on loss of focus. Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "e4cd867075f4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the tag link 'lula' at Tab 36, 390x844, y 580-619 (live x 185-230), inside the banner. All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is the cookieconsent banner (div.cc-window, not modal, position fixed, opaque white; live at 390x844 it spans x 39-351, y 462-764). Focus moves behind it, and it does not close on Escape or on loss of focus. Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    },
+    {
+      "fingerprint": "e6428692bcff",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The focused element is the sidebar 'Últimas Notícias' link at Tab 40, 390x844, y 804-831, under the anchor footer (734-844). All 25 grid points hit the overlay, and the probe saw that painting or hiding the element changed no pixel, so it was entirely hidden, not partly. The covering element is div.publicidade-ancorads, the site's sticky anchor-ad footer (position fixed, z-index 9999, opaque white background, full width and 110 px tall at the bottom of the 844 px viewport; checked live). Chromium does not scroll an element that already sits inside the viewport, so it stays under the overlay. The 2.4.11 Understanding names sticky footers, sticky notifications and non-modal banners as content that fails when they entirely obscure the focused component (F110). The escape hatches it lists (user-opened content revealed by Escape or scrolling, a modal banner, scroll-padding, a translucent overlay) do not apply here. My own Tab walk on the live page reproduced the same pattern: the tag links and others landed under these overlays with 0 px of change, and hiding the overlays revealed them."
+    }
+  ]
+}

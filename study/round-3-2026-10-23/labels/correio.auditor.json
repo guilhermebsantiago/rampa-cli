@@ -1,0 +1,114 @@
+{
+  "page": "https://www.correiobraziliense.com.br/politica/2026/10/7526242-real-time-flavio-bolsonaro-tem-52-e-lula-48-a-dois-dias-do-2-turno.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "68b885bcad09",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "This is the article's lead photo (img.cb-article-destaque). Its alt is 'Flávio Bolsonaro e Lula em disputa acirrada pela Presidência - (crédito: Charles Vieira e Ricardo Stuckert)', the same text as the visible caption. In the full-page screenshot the photo is a side-by-side composite: Flávio Bolsonaro on the left (smiling, dark jacket) and Lula on the right (straw hat, red shirt). So the alt names exactly who is shown. The race framing and the photo credit are ordinary news context, not a description of something absent. The crop the model judged was not a faithful view of the image: a sticky 'Multi Family Office' ad covers its top third, hiding Flávio's face, and the in-image INFLEET ad covers its bottom. The alt is unchanged on the live page. This is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "c17bf43edd88",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the first link of a Taboola sponsored card (La Galerie / Cyrela). The link is a.item-thumbnail-href: focusable, with no title and no aria-hidden. Its only content is span role=img aria-label='Image for Taboola Advertising Unit', so the snapshot's AX name for the link is that boilerplate. When an image is the only content of a link, its text alternative has to convey the link's purpose (H30, G94/G95). This generic label describes neither the picture nor the destination. The separate text link to the same href next to it does not repair this link: the two are not combined (H2), and an empty alt would leave an empty link (F89). The 1.1.1 failure is as reported; 2.4.4 is affected too."
+    },
+    {
+      "fingerprint": "3dff7cdff1f0",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the thumbnail link of the Taboola 'Cartão Sicredi Mastercard Black' card (href sicredi.com.br/site/cartoes/...). The structure is the same as the other Taboola cards. The link is focusable, has no title and is not hidden, and its only content is span role=img aria-label='Image for Taboola Advertising Unit', so that boilerplate is its whole accessible name. A functional image that is the only content of a link must describe where the link goes. This one describes neither the card image nor the destination, and the adjacent separate text link does not change what this link announces. The 1.1.1 failure is as reported."
+    },
+    {
+      "fingerprint": "f47cde44214b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the thumbnail link of the Taboola 'Previdência Sicredi' card (href sicredi.com.br/site/previdencia). It is a focusable a.item-thumbnail-href whose sole content is span role=img aria-label='Image for Taboola Advertising Unit', with no title and no aria-hidden, so screen reader users hear 'Image for Taboola Advertising Unit, link'. As the only content of the link, the image's text alternative should convey the destination. It conveys nothing about either the image or the destination. The redundant adjacent text link to the same URL is a separate link and does not fix this one. The 1.1.1 failure is as reported."
+    },
+    {
+      "fingerprint": "80ec6a9bd92e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the thumbnail link of the Taboola card 'La Galerie: Residencial que é obra-prima em Moema' (href cyrela.com.br/landingpage/...). It is focusable, has no title and is not aria-hidden, and its only content is the role=img span labelled 'Image for Taboola Advertising Unit', which becomes the link's whole accessible name. A functional image that is all its link holds must say what the link does. This label is generic boilerplate that does neither. The 1.1.1 failure is as reported."
+    },
+    {
+      "fingerprint": "4bb77555330a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the thumbnail link of the Taboola card 'Plumber's Plea: Stop Scouring Your Toilet...' (Top Gadget Insider, href topgadgetinsider.com/fuugu-en-x). It is a focusable a.item-thumbnail-href, with no title and not hidden, containing only span role=img aria-label='Image for Taboola Advertising Unit', so that text is the link's accessible name. The image alternative of an image-only link must describe the link's purpose. This placeholder-like label describes neither the photo nor the destination, and the separate adjacent text link does not fix it. The 1.1.1 failure is as reported."
+    },
+    {
+      "fingerprint": "1a3d359aad81",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the thumbnail link of the Taboola card 'What Plumbers Don't Tell You: The 1-Spoon Trick...' (Top Gadget Insider). It has the same structure as the other cards: a focusable image-only link whose accessible name comes from span role=img aria-label='Image for Taboola Advertising Unit', with no title or other text. A functional image that is the only content of a link has to describe where the link leads. This one does not, and the adjacent duplicate text link is a separate link. The 1.1.1 failure is as reported."
+    },
+    {
+      "fingerprint": "d762f185c150",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the header link 'WhatsApp' (aria-label WhatsApp). Its only content is the WhatsApp logo: a disc in WhatsApp's brand green #25D366 with a white glyph, shown with the other social logos in their own brand colours (screenshot). The measured contrast of about 1.98:1 is real. However, the Understanding document for 1.4.11 exempts logos under the essential exception ('the brand logo of an organization or product... is generally presented in the brand's specific colors; it is therefore exempt'). It also states that this exemption normatively carries over to a user interface component whose only visible content is the logo. The low contrast comes from WhatsApp's own brand colour, not from an author choice to dim a logo that normally contrasts, so the carve-out for author choice does not apply. Recommending a higher-contrast variant is a best practice; this is not a 1.4.11 failure."
+    },
+    {
+      "fingerprint": "54079af7cc9d",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the 'WhatsApp' share link in the article's left share bar (wa.me share URL, aria-label WhatsApp). It shows the same WhatsApp brand logo: a #25D366 green disc with a white glyph, next to the Facebook, X and Google Discover logos in their brand colours. The contrast is indeed below 3:1. But 1.4.11's Understanding document exempts logos as essential presentations, and says the exemption normatively carries over when the logo is the only visible content of a control. The colour is the brand's own, not a dimmed author variant, so this is not a 1.4.11 failure (adding a higher-contrast variant would only be a best practice)."
+    },
+    {
+      "fingerprint": "eabc86fd4f38",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the footer link 'WhatsApp' (aria-label WhatsApp). Its only content is the outlined WhatsApp glyph in green (about #65D072 measured), in a row of outlined brand logos in their own colours: Facebook blue, Instagram, YouTube red, Threads (screenshot). It is the WhatsApp logo. 1.4.11's Understanding document exempts logos under the essential exception, and the exemption carries over to a control whose only content is the logo. The brand's normal green-on-white presentation is itself below 3:1, so this is not a case of a normally contrasting logo dimmed by author choice. This is not a 1.4.11 failure; a contrasting variant would be a best practice."
+    },
+    {
+      "fingerprint": "3888160413c8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'SAIBA MAIS' is a non-focusable div role=link nested inside the real anchor of the Google in-image ad. That anchor's accessible name is 'INFLEET Monitore por Vídeo SAIBA MAIS', and the whole ad goes to a single destination (infleet.com.br video telemetry). The advertiser name and headline sit in the same anchor, directly before the call to action, so the context is part of the very link users reach and activate, and that link's name describes its purpose. The claim that nothing around it tells where it goes is wrong, and the packet gave the model that ancestor link. Nesting role=link inside a link is a 4.1.2/1.3.1 coding problem, not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "a9cba76b73ff",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "'Leia Mais' is Taboola's article expander, a[href=#] in div.tbl-read-more-box inside article#digital. The article is visibly clipped: it has class tbl-forkorts-article-active, and its box is 765px tall while the content is 3353px. The button sits at the cut-off in the screenshot. It does not navigate; it reveals the rest of the article. So 'does not tell where the link goes' misreads it, and sighted users get its purpose from the truncated text just above. Programmatically, though, its only context is the enclosing article, not a sentence, paragraph or list item. Screen reader users, for whom the text was never hidden, meet a bare 'Leia Mais' after the tags. Competent auditors would split between passing it (a single 'read more' within the article it expands) and failing 2.4.4. The clearer defect is 4.1.2: a link used as a disclosure button with no expanded state."
+    },
+    {
+      "fingerprint": "61b7e73b9bfe",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the footer link 'Capa' in the Correio Braziliense column, href https://www.correiobraziliense.com.br/. Rampa read the destination: it is the site's home page. 'Capa' is the site's own word for its front page, so this link's text alone describes its purpose. Two other footer 'Capa' links do lead elsewhere: the Impresso one to impresso.correioweb.com.br and the Revista Encontro one to sites.correioweb.com.br/encontro/. That makes those links' text inadequate, not this one's. Understanding 2.4.4 lists different text for different destinations as a best practice, not a requirement. This one passes."
+    },
+    {
+      "fingerprint": "f4ceac047d46",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the footer link 'Direito e Justiça' in the Correio Braziliense section list, href /direito-e-justica. Rampa read it: it is the 'Direito e Justiça' section page. The text names the destination exactly, and the side-menu link 'Direito e justiça' goes to the same page. The only differing one is the Impresso column's 'Direito e Justiça', which goes to the print-edition supplement. That is a problem with that link's text, not with this one. Identical text for different destinations is a best practice in Understanding 2.4.4, so this link does not fail 2.4.4."
+    },
+    {
+      "fingerprint": "e4b98c8dc5f0",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer link 'Capa' under the visual 'Impresso' label, href http://impresso.correioweb.com.br/, title 'Capa'. On the live page that address is the separate print-edition site, with stale content. On this site 'Capa' reads as the Correio Braziliense home page, which is where the first footer 'Capa' goes, and a third 'Capa' goes to Revista Encontro. The list item holds only the word. 'Impresso' is a separate link placed before the ul: it is styled like a heading but is not one, and it is outside the list item. So no programmatically determined link context sets this link apart; WCAG 2.2 defines that context as text in the same sentence, paragraph, list item or table cell. The 2.4.4 failure is as reported."
+    },
+    {
+      "fingerprint": "a5341722135e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer link 'Direito e Justiça' under the visual 'Impresso' label, href impresso.correioweb.com.br/suplementos/direito-e-justica/capa_direitoejustica/. On the live page it redirects to the print edition's restricted-access page. The same text in the footer section list and in the side menu leads to the free web section /direito-e-justica. Only the visual 'Impresso' group label marks this one as the print-edition supplement, and that label is a separate link, not a heading, and not in the link's list item. Nothing in the link text or its programmatic context tells a user that this one leads to the print edition's subscriber area. The 2.4.4 failure is as reported."
+    },
+    {
+      "fingerprint": "a92289cf13ec",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer link 'Úlimas notícias' (sic) in the 'Imóvel' column, href //correiobraziliense.lugarcerto.com.br/noticias/noticias/, the real-estate portal's news. The Vrum column has an identical link to vrum.com.br/noticias/, and the site has its own 'Últimas Notícias' links. On a news site the text reads as that site's latest news. The real-estate destination is shown only by the 'Imóvel' column label, which is a separate link outside the list, not a heading, and not in the link's list item. Sibling items such as 'Ache seu imóvel' sit in other list items, which is not the link context WCAG 2.2 defines. The 2.4.4 failure is as reported."
+    },
+    {
+      "fingerprint": "f3a1050778c9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer link 'Úlimas notícias' (sic) in the 'Vrum' column, href //www.vrum.com.br/noticias/, the vehicle portal's news. Its text is identical to the Lugar Certo column's link, which leads to a different external site. Only the visual 'Vrum' column label distinguishes it, and that label is a separate link before the list, not a heading, and not in the link's list item. Its list item and title attribute hold just 'Úlimas notícias', so neither the text nor programmatically determined context gives its purpose. The 2.4.4 failure is as reported."
+    }
+  ]
+}

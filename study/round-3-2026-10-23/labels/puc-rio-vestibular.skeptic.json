@@ -1,0 +1,24 @@
+{
+  "page": "https://www.puc-rio.br/vestibular/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "2389ec6d37e0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the photo in the first slide of the top carousel (banner-bolsa-belkiss.jpg). It sits inside a link whose visible caption, real HTML text, reads 'Bolsa Belkiss e Carlos Infante de Castro'. I looked at the crop the model saw and at the full source file. It shows a smiling young woman with a backpack strap, looking at her phone on an outdoor walkway, with other young people blurred behind her. 'Imagem de alunos no Campus da PUC-Rio' is a generic but fair description of that: students outdoors in a campus-like setting. The file's EXIF credits a stock agency (peopleimages.com), so the PUC-Rio location is not literally true. But nothing in the pixels contradicts it, and a sighted user gets the same impression from the photo. So the alternative still serves the purpose of this mood photo, and the link's purpose comes from the visible caption. The claim that the alt describes something the image does not show does not hold. At most, a redundant 'Imagem de' prefix and a non-empty alt on a supplementary photo are best-practice points. The live page still has the same markup."
+    },
+    {
+      "fingerprint": "611fa8901954",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the photo in the second carousel slide (img_bolsa_nova.png). It sits inside the link 'Bolsa de Conhecimento e Transformação Social', whose caption is HTML text. The crop is right for this slide, though the slide was off-screen in the main screenshot. Both the crop and the source file show two smiling young women sharing a laptop on a bench outdoors, under trees. 'Imagem de alunos no Campus da PUC-Rio' describes that fairly: students in a campus-like setting. The exact location cannot be confirmed from the pixels, and it looks like a stock photo. That does not make the alternative a wrong description of what the image shows, or deprive users of anything a sighted user gets from this mood photo. The link's purpose is carried by the caption. This is not a 1.1.1 failure as the finding claims. The live page is unchanged."
+    },
+    {
+      "fingerprint": "3e7f40daae21",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Archdiocese seal in the footer iframe. It is the only content of a link to https://arqrio.org.br, and that link has the title 'Site da Arquidiocese de São Sebastião do Rio de Janeiro'. The alt 'Selo da Arquidiocese de São Sebastião do Rio de Janeiro' names exactly the organization whose site the link opens: the destination's own page title is 'Arquidiocese de São Sebastião do Rio de Janeiro'. So it does say where the link leads, and a sighted user infers the same thing from the seal. The browser's accessibility tree also exposes the link's title as its description, which spells out 'Site da ...'. Wording the alt as 'Site da ...' instead of 'Selo da ...' is the WAI tutorial's best practice, not a 1.1.1 requirement. H30 asks that the alternative describe the link's purpose, and naming the destination organization does that. The finding applies a stricter rule than WCAG. The live footer markup is unchanged."
+    }
+  ]
+}

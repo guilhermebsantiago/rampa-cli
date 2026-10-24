@@ -1,0 +1,120 @@
+{
+  "page": "https://www.pbs.org/newshour/show/doj-monitoring-plans-and-dhs-voter-checks-raise-concerns-of-election-interference",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "1b7d86e52abf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Menu button in the PBS News nav bar (label text 'Menu'). I checked the live page at 1280x800: on hover the label's computed color changes from #ffffff to rgb(248,48,54) (#f83036). The nav background is #181c36 (sampled from the probe screenshot), and the contrast is 4.35:1. The text is 14px at weight 600, below the large-text threshold of about 18.5px bold, so 4.5:1 applies. The Understanding document for 1.4.3 says the criterion covers text shown while a pointer hovers over an object or while it has keyboard focus. No other cue raises the contrast (the background does not change), so I found no reason the claim fails."
+    },
+    {
+      "fingerprint": "78c2b6c4ea7c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Full Episodes' nav link; Podcasts and Newsletters behave the same. I checked the live page at 1280x800: on hover the label's computed color changes from #ffffff to rgb(248,48,54) (#f83036). The nav background is #181c36 (sampled from the probe screenshot), and the contrast is 4.35:1. The text is 14px at weight 600, below the large-text threshold of about 18.5px bold, so 4.5:1 applies. The Understanding document for 1.4.3 says the criterion covers text shown while a pointer hovers over an object or while it has keyboard focus. No other cue raises the contrast (the background does not change), so I found no reason the claim fails."
+    },
+    {
+      "fingerprint": "d384310f7943",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Full Episodes' nav link in its focus state. I reached it live with Tab: with :focus-visible the text turns red (#f83036, briefly rgb(248,55,61) mid-transition) on the #181c36 nav, about 4.35:1, at 14px weight 600 (not large text). A white focus ring is added, but it does not change the text's own contrast. The Understanding document for 1.4.3 says the criterion covers text while a component has keyboard focus. The claim holds."
+    },
+    {
+      "fingerprint": "4ec276e8abe4",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The first page dot of 'The Latest' carousel (5x5 px li, aria-current=step, class is-selected). The probe's colors (#444055 next to #444156) are dark, but this section has a light background (#f1f8fc). The probe took them while the Press Pass popup's dark, blurred backdrop covered the viewport, and the blur smeared the 5 px dot into its surroundings. In the page's own state (probe screenshot pixels), the selected dot is solid #f83036 and the unselected dot is grey #d6dfe8. Red on #f1f8fc is 3.58:1, which meets 1.4.11's 3:1, so the state indicator passes. The 1.01:1 figure is a measurement artefact."
+    },
+    {
+      "fingerprint": "25f9e01db48e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The PBS header Search button. I confirmed live at 1280x800 that hovering it shows the .search_menu panel (675x136 at x 573, y 47) over the Full Episodes, Podcasts and Newsletters nav links. Esc, pressed with focus on the body and the pointer still, leaves the panel open, and it closes only when the pointer leaves. Nothing else dismisses it, and it covers other content, so the dismissible condition of 1.4.13 fails as stated."
+    },
+    {
+      "fingerprint": "fef51035b15a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header 'Sign in' wrapper div. Hovering it shows the .sign_in_additional_information panel (340x136 at x 863, y 51.5), which covers the Full Episodes, Podcasts and Newsletters nav links. I checked live: Esc without moving the pointer or focus leaves the panel shown. It obscures content and has no dismissal mechanism, so 1.4.13 dismissible fails."
+    },
+    {
+      "fingerprint": "36b153485d47",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header 'Sign in' hover panel. I checked live: moving the pointer down from the trigger, slowly in 4 px steps or in one jump, makes the panel disappear (display:none) as soon as the pointer reaches its top edge at y 52, about 12 px below the trigger. A user cannot move the pointer over the added content to read it under magnification, which fails the hoverable condition (F95). No user-agent exception applies."
+    },
+    {
+      "fingerprint": "db6298b7c5c1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The wrapper div around the header Search button. Hovering it opens the same .search_menu panel as hovering the button, and the panel covers the nav links. I checked live that Esc does not close it and it goes away only when the pointer leaves. This is the same failure as the Search button finding, reported on the wrapper, and the claim is accurate."
+    },
+    {
+      "fingerprint": "20d219424a5d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The tag link department of homeland security. At 390x844 the Press Pass promo popup (body > div:nth-of-type(2), no role=dialog or aria-modal) opens once the page is scrolled, without the user opening it. It moves focus to its close button when it appears, but it does not keep focus inside it, does not close with Esc and stays open when focus leaves. Its opaque card covers roughly x 15-375, y 113-731. I replayed the Tab walk live: this element gets focus at the same viewport position the probe recorded, and it is under the opaque card, not just the dimmed backdrop. The probe found that painting or hiding the element changed 0 px, so it is entirely hidden. The Understanding document for 2.4.11 says an overlay that does not constrain focus fails when it entirely covers a focused component. The user-opened-content note does not apply here. The suggested scroll-padding fix is not the right remedy, but the claim itself holds."
+    },
+    {
+      "fingerprint": "1ea7721ac3fe",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The tag link election interference. At 390x844 the Press Pass promo popup (body > div:nth-of-type(2), no role=dialog or aria-modal) opens once the page is scrolled, without the user opening it. It moves focus to its close button when it appears, but it does not keep focus inside it, does not close with Esc and stays open when focus leaves. Its opaque card covers roughly x 15-375, y 113-731. I replayed the Tab walk live: this element gets focus at the same viewport position the probe recorded, and it is under the opaque card, not just the dimmed backdrop. The probe found that painting or hiding the element changed 0 px, so it is entirely hidden. The Understanding document for 2.4.11 says an overlay that does not constrain focus fails when it entirely covers a focused component. The user-opened-content note does not apply here. The suggested scroll-padding fix is not the right remedy, but the claim itself holds."
+    },
+    {
+      "fingerprint": "c64546a66a1c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The tag link election security. At 390x844 the Press Pass promo popup (body > div:nth-of-type(2), no role=dialog or aria-modal) opens once the page is scrolled, without the user opening it. It moves focus to its close button when it appears, but it does not keep focus inside it, does not close with Esc and stays open when focus leaves. Its opaque card covers roughly x 15-375, y 113-731. I replayed the Tab walk live: this element gets focus at the same viewport position the probe recorded, and it is under the opaque card, not just the dimmed backdrop. The probe found that painting or hiding the element changed 0 px, so it is entirely hidden. The Understanding document for 2.4.11 says an overlay that does not constrain focus fails when it entirely covers a focused component. The user-opened-content note does not apply here. The suggested scroll-padding fix is not the right remedy, but the claim itself holds."
+    },
+    {
+      "fingerprint": "89471664a0cb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The tag link vote 2026. At 390x844 the Press Pass promo popup (body > div:nth-of-type(2), no role=dialog or aria-modal) opens once the page is scrolled, without the user opening it. It moves focus to its close button when it appears, but it does not keep focus inside it, does not close with Esc and stays open when focus leaves. Its opaque card covers roughly x 15-375, y 113-731. I replayed the Tab walk live: this element gets focus at the same viewport position the probe recorded, and it is under the opaque card, not just the dimmed backdrop. The probe found that painting or hiding the element changed 0 px, so it is entirely hidden. The Understanding document for 2.4.11 says an overlay that does not constrain focus fails when it entirely covers a focused component. The user-opened-content note does not apply here. The suggested scroll-padding fix is not the right remedy, but the claim itself holds."
+    },
+    {
+      "fingerprint": "b832941e97df",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The author bio link Liz Landers. At 390x844 the Press Pass promo popup (body > div:nth-of-type(2), no role=dialog or aria-modal) opens once the page is scrolled, without the user opening it. It moves focus to its close button when it appears, but it does not keep focus inside it, does not close with Esc and stays open when focus leaves. Its opaque card covers roughly x 15-375, y 113-731. I replayed the Tab walk live: this element gets focus at the same viewport position the probe recorded, and it is under the opaque card, not just the dimmed backdrop. The probe found that painting or hiding the element changed 0 px, so it is entirely hidden. The Understanding document for 2.4.11 says an overlay that does not constrain focus fails when it entirely covers a focused component. The user-opened-content note does not apply here. The suggested scroll-padding fix is not the right remedy, but the claim itself holds."
+    },
+    {
+      "fingerprint": "e18b57d4afa3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The author bio link Doug Adams. At 390x844 the Press Pass promo popup (body > div:nth-of-type(2), no role=dialog or aria-modal) opens once the page is scrolled, without the user opening it. It moves focus to its close button when it appears, but it does not keep focus inside it, does not close with Esc and stays open when focus leaves. Its opaque card covers roughly x 15-375, y 113-731. I replayed the Tab walk live: this element gets focus at the same viewport position the probe recorded, and it is under the opaque card, not just the dimmed backdrop. The probe found that painting or hiding the element changed 0 px, so it is entirely hidden. The Understanding document for 2.4.11 says an overlay that does not constrain focus fails when it entirely covers a focused component. The user-opened-content note does not apply here. The suggested scroll-padding fix is not the right remedy, but the claim itself holds."
+    },
+    {
+      "fingerprint": "a700ffd2ba62",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Politics' category link in The Latest carousel. At 390x844 the Press Pass promo popup (body > div:nth-of-type(2), no role=dialog or aria-modal) opens once the page is scrolled, without the user opening it. It moves focus to its close button when it appears, but it does not keep focus inside it, does not close with Esc and stays open when focus leaves. Its opaque card covers roughly x 15-375, y 113-731. I replayed the Tab walk live: this element gets focus at the same viewport position the probe recorded, and it is under the opaque card, not just the dimmed backdrop. The probe found that painting or hiding the element changed 0 px, so it is entirely hidden. The Understanding document for 2.4.11 says an overlay that does not constrain focus fails when it entirely covers a focused component. The user-opened-content note does not apply here. The suggested scroll-padding fix is not the right remedy, but the claim itself holds."
+    },
+    {
+      "fingerprint": "d5ef47b098a5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image link of a card in The Latest carousel. At 390x844 the Press Pass promo popup (body > div:nth-of-type(2), no role=dialog or aria-modal) opens once the page is scrolled, without the user opening it. It moves focus to its close button when it appears, but it does not keep focus inside it, does not close with Esc and stays open when focus leaves. Its opaque card covers roughly x 15-375, y 113-731. I replayed the Tab walk live: this element gets focus at the same viewport position the probe recorded, and it is under the opaque card, not just the dimmed backdrop. The probe found that painting or hiding the element changed 0 px, so it is entirely hidden. The Understanding document for 2.4.11 says an overlay that does not constrain focus fails when it entirely covers a focused component. The user-opened-content note does not apply here. The suggested scroll-padding fix is not the right remedy, but the claim itself holds."
+    },
+    {
+      "fingerprint": "1d1711023372",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Politics' category link in The Latest carousel. At 390x844 the Press Pass promo popup (body > div:nth-of-type(2), no role=dialog or aria-modal) opens once the page is scrolled, without the user opening it. It moves focus to its close button when it appears, but it does not keep focus inside it, does not close with Esc and stays open when focus leaves. Its opaque card covers roughly x 15-375, y 113-731. I replayed the Tab walk live: this element gets focus at the same viewport position the probe recorded, and it is under the opaque card, not just the dimmed backdrop. The probe found that painting or hiding the element changed 0 px, so it is entirely hidden. The Understanding document for 2.4.11 says an overlay that does not constrain focus fails when it entirely covers a focused component. The user-opened-content note does not apply here. The suggested scroll-padding fix is not the right remedy, but the claim itself holds."
+    },
+    {
+      "fingerprint": "64aef805b440",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Nation' category link in The Latest carousel. At 390x844 the Press Pass promo popup (body > div:nth-of-type(2), no role=dialog or aria-modal) opens once the page is scrolled, without the user opening it. It moves focus to its close button when it appears, but it does not keep focus inside it, does not close with Esc and stays open when focus leaves. Its opaque card covers roughly x 15-375, y 113-731. I replayed the Tab walk live: this element gets focus at the same viewport position the probe recorded, and it is under the opaque card, not just the dimmed backdrop. The probe found that painting or hiding the element changed 0 px, so it is entirely hidden. The Understanding document for 2.4.11 says an overlay that does not constrain focus fails when it entirely covers a focused component. The user-opened-content note does not apply here. The suggested scroll-padding fix is not the right remedy, but the claim itself holds."
+    },
+    {
+      "fingerprint": "3912301ea37e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header Search button (aria-haspopup, aria-expanded). I checked live at 1280x800: Tab from Sign in lands on #search_input, not the button, and focusing the button by script also moves focus to the input and opens the panel. Nothing is activated. The Understanding document for 3.2.1 names 'focus is changed to another component when that component receives focus' as a change of context on focus. Tabbing forward, the button can never keep focus, so the claim holds."
+    }
+  ]
+}

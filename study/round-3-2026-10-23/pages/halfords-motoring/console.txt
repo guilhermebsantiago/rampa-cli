@@ -1,0 +1,63 @@
+
+https://www.halfords.com/motoring/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.1.1 (A) — Non-text Content
+  ✗ #content > footer > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > picture > img
+    The text alternative "american-express" repeats the image's file name: a screen reader reads it in place of the image. Describe what the image conveys, or use alt="" if it is decorative.
+    Evidence: "alt="american-express""
+    confidence low · experimental · Rampa rule rampa/placeholder-alt · id cc86ad061ae4
+
+WCAG 1.3.5 (AA) — Identify Input Purpose
+  ✗ #newsletter
+    The field "Email address" asks for the user's email address, but autocomplete="off" does not identify that purpose.
+    Evidence: "Email address"
+    Patch:
+      - <input class="css-cpt18j" id="newsletter" name="newsletter" type="email" data-testid="input-form-input" data-clearable="false" data-loading="false" autocomplete="off" aria-invalid="false" placeholder="Email address" data-has-value="false" aria-disabled="false" value="">
+      + <input class="css-cpt18j" id="newsletter" name="newsletter" type="email" data-testid="input-form-input" data-clearable="false" data-loading="false" autocomplete="email" aria-invalid="false" placeholder="Email address" data-has-value="false" aria-disabled="false" value="">
+    confidence high · 1/1 runs · evidence verified · id 9cd411503213
+
+WCAG 1.4.3 (AA) — Contrast (Minimum)
+  ✗ #onetrust-reject-all-handler
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id c82c7ef451a3
+
+WCAG 1.4.11 (AA) — Non-text Contrast
+  ✗ #main > div:nth-of-type(1) > section > div > div:nth-of-type(2) > div:nth-of-type(1) > nav > button
+    The icon of this button ("Expand breadcrumb navigation") has at most 2.65:1 contrast with the pixels next to it (#ff9718 on #666666). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).
+    Evidence: "#ff9718 on #666666 · 2.65:1 at best, 2.65:1 at worst"
+    confidence low · experimental · Rampa rule rampa/icon-contrast · id 07a1617f2080
+
+WCAG 4.1.2 (A) — Name, Role, Value
+  ✗ #search-suggestions
+    The browser exposes this element as a searchbox but computes no name for it: a screen reader announces only "searchbox", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).
+    Evidence: "role searchbox · name """
+    confidence low · experimental · Rampa rule rampa/widget-name · id 8334e0a228a8
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 2.4.4 (A) — Link Purpose (In Context): 1 element · judgment/2.4.4
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+  ? WCAG 2.4.6 (AA) — Headings and Labels: 1 element · judgment/2.4.6
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+  ? WCAG 2.5.4 (A) — Motion Actuation: 1 element · rampa/motion-actuation-scope
+    2.5.4 applies here: the page listens to the device's motion (deviceorientation (www.halfords.com/…/motoring:331), deviceorientation (www.halfords.com/…/motoring:331), deviceorientation (www.halfords.com/…/motoring:331), deviceorientation (www.halfords.com/…/motoring:331), addEventListener("deviceorientation") (www.halfords.com/…/main.js)). Check that whatever is done by moving or tilting the device can also be done with a control on the screen, and that responding to motion can be turned off to avoid accidental actuation, unless the motion is essential or goes through an accessibility-supported interface (WCAG 2.5.4). If the script only collects data (analytics, fraud checks) and nothing on the page responds to motion, 2.5.4 does not apply.
+
+The page was cut at 5000 elements, the collector's limit: what comes after them is not in the snapshot, so the checks that read the snapshot (Rampa's rules and judged criteria) did not run past that point. Checked only up to the cut: 1.1.1, 1.3.2, 1.3.5, 1.4.3, 1.4.4, 1.4.11, 2.4.2, 2.4.4, 2.4.6, 3.1.1, 4.1.2. axe-core read the whole page.
+20 image(s) were left without a capture, so no judgment looked at them: 20 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).
+The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 67 of 117 for 2.4.4. The coverage lists them as not judged.
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+1 claim(s) from the model did not hold against the snapshot and were dropped.
+
+Model calls: 66 new, 0 from cache · 64.4k in / 5.8k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.3.5, 1.4.3, 1.4.4, 1.4.12, 2.1.1, 2.4.2, 2.4.4, 2.5.3, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  3.1.1; experimental: 1.1.1, 1.3.2, 1.4.3, 1.4.4, 1.4.11, 2.4.2, 2.4.6, 4.1.2
+  Judged with verified evidence:     1.1.1, 1.3.5, 2.4.2, 2.4.4, 2.4.6
+  Needs review only:                 2.4.1, 2.5.4, 3.3.2
+  Not checked automatically:         36 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

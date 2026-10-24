@@ -1,0 +1,120 @@
+{
+  "page": "https://www.pbs.org/newshour/show/doj-monitoring-plans-and-dhs-voter-checks-raise-concerns-of-election-interference",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "1b7d86e52abf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Menu' button in the PBS News nav bar. Live in headless Edge, hovering it changes its text from #ffffff to #f83036 (computed style, label span included). The text sits on the nav__elements background rgb(24,28,54) #181c36 and is 14px at weight 600, so it is not large text. I computed #f83036 on #181c36 at 4.35:1, under the 4.5:1 minimum. The hover state shows text a pointer user actually reads, so 1.4.3 applies, and it fails as reported."
+    },
+    {
+      "fingerprint": "78c2b6c4ea7c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Full Episodes' nav link (Podcasts and Newsletters behave the same way). Live, hover changes the link text from white to #f83036 on the #181c36 nav background. The text is 14px/600, not large. I computed the contrast at 4.35:1, below 4.5:1, so the hovered text fails 1.4.3 as reported."
+    },
+    {
+      "fingerprint": "d384310f7943",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The same 'Full Episodes' link in its focus state. Live, both a scripted focus and a real Tab from the Menu button turn the text #f83036 on #181c36 at 14px/600 (the focus ring is added but the text colour stays). That is 4.35:1 against the 4.5:1 needed, so a keyboard user reads under-contrast text while it is focused. A real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "4ec276e8abe4",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Flickity page dot 1 (li.dot.is-selected, aria-current=step) of 'The Latest' carousel. Live, and in the page screenshot, the selected dot is red rgb(248,48,54) on the section background rgb(241,248,252), about 3.6:1, which is above the 3:1 of 1.4.11. The probe's colours (#444055 next to #444156) are what the dots look like under the dark, blurred backdrop of the Press Pass funding popup. That popup covers the whole 1280 viewport once the page is scrolled to the carousel, and my live check reproduced it. So the probe measured the overlay, not the indicator. (The light grey unselected dot has low contrast, but that is a different claim.)"
+    },
+    {
+      "fingerprint": "25f9e01db48e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header Search button. Live, hovering it shows the .search_menu panel (675x136 at x 573, y 47). The panel covers the 'Full Episodes', 'Podcasts' and 'Newsletters' links and part of the headline. With the pointer still on it and focus on the body, Esc leaves it open; it only goes when the pointer leaves. It obscures other content, it is not an input error, and nothing dismisses it without moving the pointer or focus (a click moves focus into the input). So it fails the dismissible condition of 1.4.13."
+    },
+    {
+      "fingerprint": "fef51035b15a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Sign in' header wrapper (div.sign_in_header_content). Live, hovering shows the .sign_in_additional_information tooltip (340x136 at x 863, y 52, 'Sign in to keep track of what you watch...'), which covers the nav links 'Podcasts' and 'Newsletters' and the 'Live' badge. Pressing Esc while it shows leaves it displayed. It obscures content and cannot be dismissed without moving the pointer or focus, which fails the dismissible condition of 1.4.13."
+    },
+    {
+      "fingerprint": "36b153485d47",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The same Sign in tooltip. Live, I moved the pointer down from the Sign in button in 2 px steps. The tooltip stays while the pointer is over the wrapper (to about y 51) and switches to display:none at y 52, the tooltip's own top edge, where elementFromPoint returns the nav behind it. A direct jump into the tooltip also hides it within 50 ms. Content shown on hover disappears when the pointer moves onto it. That is F95 and fails the hoverable condition of 1.4.13."
+    },
+    {
+      "fingerprint": "db6298b7c5c1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The wrapper div.search_header_content around the Search button, which carries the hover listener. It is the same issue as the Search button finding, reported for the container. Live, hovering opens the 675x136 search panel over the nav links and headline, Esc does not close it, and it closes only when the pointer leaves. The claim is accurate and is a real 1.4.13 dismissible failure (a duplicate of the same defect)."
+    },
+    {
+      "fingerprint": "20d219424a5d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844, scrolling (here caused by Tab) brings up the Press Pass funding popup (body > div.popup, position fixed, a 73% dark backdrop over the whole viewport with an opaque panel about x 15-375, y 113-730). It appears without user action, has no dialog role or aria-modal, does not take focus, does not trap focus, and Esc does not close it (checked live). Tab keeps moving through the page behind it. I re-ran the walk live in headless Edge: when the Go Deeper tag link 'department of homeland security' has focus it sits at x 223, y 401, 123x43, inside the opaque panel. The probe saw the same thing: the popup was hit at all 25 grid points, and painting the element changed 0 px. Understanding 2.4.11 says content that appears without user initiation must not entirely hide the focused item, and a dialog-like overlay that neither takes nor constrains focus fails. The focused element is entirely hidden, so this fails as reported."
+    },
+    {
+      "fingerprint": "1ea7721ac3fe",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844, scrolling (here caused by Tab) brings up the Press Pass funding popup (body > div.popup, position fixed, a 73% dark backdrop over the whole viewport with an opaque panel about x 15-375, y 113-730). It appears without user action, has no dialog role or aria-modal, does not take focus, does not trap focus, and Esc does not close it (checked live). Tab keeps moving through the page behind it. I re-ran the walk live in headless Edge: when the tag link 'election interference' has focus it sits at x 223, y 485, 135x23, inside the opaque panel. The probe saw the same thing: the popup was hit at all 25 grid points, and painting the element changed 0 px. Understanding 2.4.11 says content that appears without user initiation must not entirely hide the focused item, and a dialog-like overlay that neither takes nor constrains focus fails. The focused element is entirely hidden, so this fails as reported."
+    },
+    {
+      "fingerprint": "c64546a66a1c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844, scrolling (here caused by Tab) brings up the Press Pass funding popup (body > div.popup, position fixed, a 73% dark backdrop over the whole viewport with an opaque panel about x 15-375, y 113-730). It appears without user action, has no dialog role or aria-modal, does not take focus, does not trap focus, and Esc does not close it (checked live). Tab keeps moving through the page behind it. I re-ran the walk live in headless Edge: when the tag link 'election security' has focus it sits at x 223, y 517, 111x23, inside the opaque panel. The probe saw the same thing: the popup was hit at all 25 grid points, and painting the element changed 0 px. Understanding 2.4.11 says content that appears without user initiation must not entirely hide the focused item, and a dialog-like overlay that neither takes nor constrains focus fails. The focused element is entirely hidden, so this fails as reported."
+    },
+    {
+      "fingerprint": "89471664a0cb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844, scrolling (here caused by Tab) brings up the Press Pass funding popup (body > div.popup, position fixed, a 73% dark backdrop over the whole viewport with an opaque panel about x 15-375, y 113-730). It appears without user action, has no dialog role or aria-modal, does not take focus, does not trap focus, and Esc does not close it (checked live). Tab keeps moving through the page behind it. I re-ran the walk live in headless Edge: when the tag link 'vote 2026' has focus it sits at x 223, y 548, 74x23, inside the opaque panel. The probe saw the same thing: the popup was hit at all 25 grid points, and painting the element changed 0 px. Understanding 2.4.11 says content that appears without user initiation must not entirely hide the focused item, and a dialog-like overlay that neither takes nor constrains focus fails. The focused element is entirely hidden, so this fails as reported."
+    },
+    {
+      "fingerprint": "b832941e97df",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844, scrolling (here caused by Tab) brings up the Press Pass funding popup (body > div.popup, position fixed, a 73% dark backdrop over the whole viewport with an opaque panel about x 15-375, y 113-730). It appears without user action, has no dialog role or aria-modal, does not take focus, does not trap focus, and Esc does not close it (checked live). Tab keeps moving through the page behind it. I re-ran the walk live in headless Edge: when the 'Liz Landers' link in the author box at the end of the article has focus it sits at x 137, y 393, 72x18, inside the opaque panel. The probe saw the same thing: the popup was hit at all 25 grid points, and painting the element changed 0 px. Understanding 2.4.11 says content that appears without user initiation must not entirely hide the focused item, and a dialog-like overlay that neither takes nor constrains focus fails. The focused element is entirely hidden, so this fails as reported."
+    },
+    {
+      "fingerprint": "e18b57d4afa3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844, scrolling (here caused by Tab) brings up the Press Pass funding popup (body > div.popup, position fixed, a 73% dark backdrop over the whole viewport with an opaque panel about x 15-375, y 113-730). It appears without user action, has no dialog role or aria-modal, does not take focus, does not trap focus, and Esc does not close it (checked live). Tab keeps moving through the page behind it. I re-ran the walk live in headless Edge: when the 'Doug Adams' link in the author box at the end of the article has focus it sits at x 137, y 671, 81x18, inside the opaque panel. The probe saw the same thing: the popup was hit at all 25 grid points, and painting the element changed 0 px. Understanding 2.4.11 says content that appears without user initiation must not entirely hide the focused item, and a dialog-like overlay that neither takes nor constrains focus fails. The focused element is entirely hidden, so this fails as reported."
+    },
+    {
+      "fingerprint": "a700ffd2ba62",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844, scrolling (here caused by Tab) brings up the Press Pass funding popup (body > div.popup, position fixed, a 73% dark backdrop over the whole viewport with an opaque panel about x 15-375, y 113-730). It appears without user action, has no dialog role or aria-modal, does not take focus, does not trap focus, and Esc does not close it (checked live). Tab keeps moving through the page behind it. I re-ran the walk live in headless Edge: when the 'Politics' category link on The Latest card 2 has focus it sits at x 220, y 611, 39x15 (probe and live), inside the opaque panel. The probe saw the same thing: the popup was hit at all 25 grid points, and painting the element changed 0 px. Understanding 2.4.11 says content that appears without user initiation must not entirely hide the focused item, and a dialog-like overlay that neither takes nor constrains focus fails. The focused element is entirely hidden, so this fails as reported."
+    },
+    {
+      "fingerprint": "d5ef47b098a5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844, scrolling (here caused by Tab) brings up the Press Pass funding popup (body > div.popup, position fixed, a 73% dark backdrop over the whole viewport with an opaque panel about x 15-375, y 113-730). It appears without user action, has no dialog role or aria-modal, does not take focus, does not trap focus, and Esc does not close it (checked live). Tab keeps moving through the page behind it. I re-ran the walk live in headless Edge: when the image link of The Latest card 3 has focus it sits at x 105-285, y 457-597 (probe and live), inside the opaque panel. The probe saw the same thing: the popup was hit at all 25 grid points, and painting the element changed 0 px. Understanding 2.4.11 says content that appears without user initiation must not entirely hide the focused item, and a dialog-like overlay that neither takes nor constrains focus fails. The focused element is entirely hidden, so this fails as reported."
+    },
+    {
+      "fingerprint": "1d1711023372",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844, scrolling (here caused by Tab) brings up the Press Pass funding popup (body > div.popup, position fixed, a 73% dark backdrop over the whole viewport with an opaque panel about x 15-375, y 113-730). It appears without user action, has no dialog role or aria-modal, does not take focus, does not trap focus, and Esc does not close it (checked live). Tab keeps moving through the page behind it. I re-ran the walk live in headless Edge: when the 'Politics' category link on The Latest card 3 has focus it sits at x 105, y 611, 39x15, inside the opaque panel. The probe saw the same thing: the popup was hit at all 25 grid points, and painting the element changed 0 px. Understanding 2.4.11 says content that appears without user initiation must not entirely hide the focused item, and a dialog-like overlay that neither takes nor constrains focus fails. The focused element is entirely hidden, so this fails as reported."
+    },
+    {
+      "fingerprint": "64aef805b440",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844, scrolling (here caused by Tab) brings up the Press Pass funding popup (body > div.popup, position fixed, a 73% dark backdrop over the whole viewport with an opaque panel about x 15-375, y 113-730). It appears without user action, has no dialog role or aria-modal, does not take focus, does not trap focus, and Esc does not close it (checked live). Tab keeps moving through the page behind it. I re-ran the walk live in headless Edge: when the 'Nation' category link on The Latest card 4 has focus it sits at x 305, y 611, 36x15, inside the opaque panel. The probe saw the same thing: the popup was hit at all 25 grid points, and painting the element changed 0 px. Understanding 2.4.11 says content that appears without user initiation must not entirely hide the focused item, and a dialog-like overlay that neither takes nor constrains focus fails. The focused element is entirely hidden, so this fails as reported."
+    },
+    {
+      "fingerprint": "3912301ea37e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header Search button. I logged the focus events live in headless Edge. A Tab from 'Sign in' fires focus on button.search_btn, and in the same millisecond blur on it and focus on input#search_input, while the search menu opens (aria-expanded=true). So the button's focus handler moves focus to another control without any activation. Understanding 3.2.1 lists 'focus is changed to another component when that component receives focus' as a change of context on focus, so this fails 3.2.1 as reported."
+    }
+  ]
+}

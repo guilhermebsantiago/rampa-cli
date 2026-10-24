@@ -1,0 +1,12 @@
+{
+  "page": "https://www.cancerresearchuk.org/about-cancer/acute-lymphoblastic-leukaemia-all",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "a119648f61d7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 144x144 header icon above the H1 (a navy circle with three white-and-magenta cells, file CRUK-Medical-icon-ALL-Myeloma-CLL), with alt=\".\" and no aria-hidden, role=presentation or other hiding on it or its ancestors. The live page on 2026-10-23 still serves the same markup. I looked for a reason it could pass and found none. If the icon is decorative (likely, since it is a generic icon shared across blood cancer pages and adds nothing to the heading), WCAG needs a null alt so assistive technology can ignore it. A non-null \".\" keeps it exposed as an image named \".\", which is failure F39 (and F38). If it is informative, \".\" is a placeholder that conveys nothing, which is failure F30. The message's wording (\"describes something the image does not show\") is loose, since \".\" describes nothing at all. Read fairly, though, its claim that \".\" is not a valid text alternative for this image is a real 1.1.1 failure either way."
+    }
+  ]
+}
