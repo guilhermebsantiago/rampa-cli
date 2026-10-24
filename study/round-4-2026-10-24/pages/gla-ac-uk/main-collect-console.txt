@@ -1,0 +1,41 @@
+
+https://www.gla.ac.uk/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 3.3.2 (A) — Labels or Instructions
+  ✗ #q
+    Nothing on screen says what to enter in this field: its name is in the title attribute, shown only as a tooltip ("course keyword"), and no text, button or legend sits near it.
+    Evidence: "<input id="q" title="course keyword" name="query" type="text" autocomplete="off">"
+    Patch:
+      - <input id="q" title="course keyword" name="query" type="text" autocomplete="off">
+      + <label for="q">course keyword</label> <input id="q" title="course keyword" name="query" type="text" autocomplete="off">
+    confidence low · experimental · Rampa rule rampa/no-visible-label · id 89f2f81a8b21
+  ✗ #surname
+    Nothing on screen says what to enter in this field: its name is in aria-label, which only screen readers get ("surname"), and no text, button or legend sits near it.
+    Evidence: "<input id="surname" aria-label="surname" type="text" name="surname">"
+    Patch:
+      - <input id="surname" aria-label="surname" type="text" name="surname">
+      + <label for="surname">surname</label> <input id="surname" aria-label="surname" type="text" name="surname">
+    confidence low · experimental · Rampa rule rampa/no-visible-label · id 19775f600611
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 1 element · color-contrast
+    Element has no value; test color contrast with a value entered
+
+The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 95 of 145 for 2.4.4. The coverage lists them as not judged.
+Judgment was asked for, but the model judged none of the 212 candidate(s) that needed it (117 with no cached judgment, --offline): nothing was judged, so rampa check exits 2. Pass --no-llm to check with the deterministic layer only.
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+117 candidate(s) had no cached judgment (--offline).
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.3.5, 1.4.1, 1.4.3, 1.4.4, 1.4.12, 2.4.2, 2.4.4, 2.5.3, 2.5.8, 3.1.1, 3.1.2, 4.1.2
+  Checked by Rampa rules (partial):  3.1.1; experimental: 1.1.1, 1.3.2, 1.4.3, 1.4.11, 2.4.2, 2.4.6, 2.5.3, 3.3.2, 4.1.2
+  Judged with verified evidence:     —
+  Needs review only:                 2.4.1
+  Not checked automatically:         36 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.
+rampa: https://www.gla.ac.uk/: Judgment was asked for, but the model judged none of the 212 candidate(s) that needed it (117 with no cached judgment, --offline): nothing was judged, so rampa check exits 2. Pass --no-llm to check with the deterministic layer only.

@@ -1,4 +1,5 @@
-"""Numbers of the third real-page study: the second study's analyze.py, with the second study as the comparison.
+"""Numbers of the fourth real-page study: the third study's analyze.py, on the main run's rows, with the second and
+third studies as the comparison (the ablation, the suggestion sample and the other round-4 measures: scripts/extras.py).
 
 Inputs (relative to study/round-4-2026-10-24):
   data/pages-input.json                     the pages, their split and the probe subset (scripts/split.py)
@@ -131,6 +132,11 @@ def main():
     if missing:
         print(f"warning: {len(missing)} findings have no labels yet: {', '.join(missing[:8])}", file=sys.stderr)
 
+    # The fourth study's packets also hold the --no-confirm run's extra claims and the drawn suggestions (origin);
+    # the study's precision is the main run's, so the tables below read the main rows, and scripts/extras.py the rest.
+    all_rows = findings
+    findings = [f for f in all_rows if f.get("origin", "main") == "main"]
+
     judged = [f for f in findings if f["group"] == "judged"]
     experimental = [f for f in findings if f["group"] == "experimental"]
     probes = [f for f in findings if f["group"] == "probe"]
@@ -241,7 +247,8 @@ def main():
                 for k in ("candidates", "judged", "failed", "capped"):
                     agg[k] += c.get(k) or 0
 
-    labelled = [f for f in findings if f["labelled"]]
+    # Agreement over every item the judges labelled, whatever its origin: they could not tell them apart.
+    labelled = [f for f in all_rows if f["labelled"]]
     pairs = lambda rows: [(f["auditor"]["label"], f["skeptic"]["label"]) for f in rows]
     both_fp = [f for f in labelled if f["auditor"]["label"] == f["skeptic"]["label"] == "false_positive"]
     causes_seen = sorted({f["auditor"]["cause"] for f in both_fp} | {f["skeptic"]["cause"] for f in both_fp})
@@ -265,6 +272,7 @@ def main():
     # The second study, same rubric: its own run (ebd4d07), and its judged criteria re-judged after the
     # 2.4.4/2.4.6 change (4fd54fc, "After the 2.4.4/2.4.6 change", asked again). Its experimental rules and
     # probes were not re-run after that change, so their numbers are the study's own.
+    s3 = read_json(os.path.join(STUDY, "round-3-2026-10-23", "data", "summary.json"))
     s2 = read_json(os.path.join(STUDY, "fresh-2026-10-11", "data", "summary.json"))
     s2after = read_json(os.path.join(STUDY, "fresh-2026-10-11", "data", "after", "summary.json"))
     comparison = {
@@ -273,6 +281,9 @@ def main():
         "study2After": {s: {"judgedDefault": s2after["precision"]["after"][s]["default"], "judgedAll": s2after["precision"]["after"][s]["all"]}
                         for s in SPLITS},
         "study2Agreement": {k: s2["agreement"].get(k) for k in ("all", "dev", "test", "judged", "experimental", "probe")},
+        "study3": {s: {k: s3["precision"][s][k] for k in ("judgedDefault", "judgedAll", "experimentalAll", "probesAll", "everythingDefault", "everythingAll")}
+                   for s in SPLITS},
+        "study3Agreement": {k: s3["agreement"].get(k) for k in ("all", "dev", "test", "judged", "experimental", "probe")},
     }
 
     seconds = [e["secondsTotal"] for e in pages if e.get("judged")]
@@ -306,10 +317,10 @@ def main():
     }
 
     out_rows = []
-    for f in findings:
+    for f in all_rows:
         out_rows.append({k: f.get(k) for k in ("slug", "split", "run", "packet", "key", "fingerprint", "criterion", "level", "source", "ruleId", "kind", "group",
                                                 "experimental", "shown", "confidence", "ref", "subject", "message", "evidence", "patch", "html",
-                                                "auditor", "skeptic", "agreed", "final", "finalCause")})
+                                                "auditor", "skeptic", "agreed", "final", "finalCause", "origin", "confirmation", "suggestionEvidence")})
     write_json(os.path.join(HERE, "data", "findings.json"), out_rows)
     write_json(os.path.join(HERE, "data", "pages.json"), pages)
     write_json(os.path.join(HERE, "data", "summary.json"), summary)

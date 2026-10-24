@@ -1,0 +1,3160 @@
+{
+  "schemaVersion": 1,
+  "rampaVersion": "0.1.1",
+  "createdAt": "2026-10-24T05:14:28.049Z",
+  "target": "https://www.toolstation.com/plumbing/c15",
+  "surface": "web",
+  "wcagTarget": "wcag22-aa",
+  "locale": "en",
+  "llm": "on",
+  "model": "ollama:gemma4:12b",
+  "engine": {
+    "name": "axe-core",
+    "version": "4.14.0"
+  },
+  "minConfidence": "low",
+  "findings": [
+    {
+      "fingerprint": "5362db2b427e",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "engine",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div > ol > li:nth-of-type(1) > a > svg",
+      "target": "[\".\\\\!h-4\"]",
+      "message": "<svg> elements with an img or image role must have alternative text",
+      "confidence": "high",
+      "ruleId": "svg-img-alt",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/svg-img-alt?application=axeAPI",
+      "html": "<svg class=\"icon icon--md !h-4 !w-4 mb-[2px]\" style=\"width:24px;height:24px;\" aria-hidden=\"false\" focusable=\"false\" role=\"img\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 576 512\" data-v-4a543015=\"\">"
+    },
+    {
+      "fingerprint": "b2dc0a5fc4d1",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div > ol > li:nth-of-type(1) > a",
+      "target": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div > ol > li:nth-of-type(1) > a",
+      "message": "The icon of this link has at most 2.52:1 contrast with the pixels next to it (#999999 on #f1f1f1). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+      "evidence": "#999999 on #f1f1f1 · 2.52:1 at best, 2.52:1 at worst",
+      "subject": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div > ol > li:nth-of-type(1) > a",
+      "confidence": "low",
+      "ruleId": "rampa/icon-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+      "html": "<a href=\"/\" class=\"hover:text-black-default mr-2 ml-2\">",
+      "experimental": true
+    },
+    {
+      "fingerprint": "e4a0de7814c9",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(1) > div > div > ol > li:nth-of-type(1) > a",
+      "target": "[\".hover\\\\:text-black-default\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"/\" class=\"hover:text-black-default mr-2 ml-2\">"
+    },
+    {
+      "fingerprint": "8a32aea14b0b",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+      "message": "The link text \"Adhesives & Sealants\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Adhesives & Sealants",
+      "subject": "Adhesives & Sealants",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+        "kind": "set-text",
+        "from": "Adhesives & Sealants",
+        "to": "Adhesives & Sealants deals",
+        "before": "<a href=\"/deals/adhesives-sealants/c1517\">Adhesives &amp; Sealants</a>",
+        "after": "<a href=\"/deals/adhesives-sealants/c1517\">Adhesives &amp; Sealants deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "3aefe47ba1f2",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(3) > a",
+      "message": "The link text \"Automotive\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Automotive",
+      "subject": "Automotive",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(3) > a",
+        "kind": "set-text",
+        "from": "Automotive",
+        "to": "Automotive deals",
+        "before": "<a href=\"/deals/automotive/c1518\">Automotive</a>",
+        "after": "<a href=\"/deals/automotive/c1518\">Automotive deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "9204d0666777",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(4) > a",
+      "message": "The link text \"Bathrooms\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Bathrooms",
+      "subject": "Bathrooms",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(4) > a",
+        "kind": "set-text",
+        "from": "Bathrooms",
+        "to": "Bathroom deals",
+        "before": "<a href=\"/deals/bathrooms/c1519\">Bathrooms</a>",
+        "after": "<a href=\"/deals/bathrooms/c1519\">Bathroom deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "aeb01a647156",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(5) > a",
+      "message": "The link text \"Central Heating Supplies\" is shared by 3 links that lead to 2 different places, and nothing around this one tells it apart.",
+      "evidence": "Central Heating Supplies",
+      "subject": "Central Heating Supplies",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(5) > a",
+        "kind": "set-text",
+        "from": "Central Heating Supplies",
+        "to": "Central Heating Supplies (Deals)",
+        "before": "<a href=\"/deals/central-heating-supplies/c1521\">Central Heating Supplies</a>",
+        "after": "<a href=\"/deals/central-heating-supplies/c1521\">Central Heating Supplies (Deals)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "90e3e74df28f",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(6) > a",
+      "message": "The link text \"Cleaning & Pest Control\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Cleaning & Pest Control",
+      "subject": "Cleaning & Pest Control",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(6) > a",
+        "kind": "set-text",
+        "from": "Cleaning & Pest Control",
+        "to": "Cleaning & Pest Control deals",
+        "before": "<a href=\"/deals/cleaning-pest-control/c1522\">Cleaning &amp; Pest Control</a>",
+        "after": "<a href=\"/deals/cleaning-pest-control/c1522\">Cleaning &amp; Pest Control deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "0df7393ddd3e",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(7) > a",
+      "message": "The link text \"Construction & Insulation\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Construction & Insulation",
+      "subject": "Construction & Insulation",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(7) > a",
+        "kind": "set-text",
+        "from": "Construction & Insulation",
+        "to": "Construction & Insulation deals",
+        "before": "<a href=\"/deals/construction-insulation/c1520\">Construction &amp; Insulation</a>",
+        "after": "<a href=\"/deals/construction-insulation/c1520\">Construction &amp; Insulation deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "1cd98d947201",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(9) > a",
+      "message": "The link text \"Hand Tools\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Hand Tools",
+      "subject": "Hand Tools",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(9) > a",
+        "kind": "set-text",
+        "from": "Hand Tools",
+        "to": "Hand Tools deals",
+        "before": "<a href=\"/deals/hand-tools/c1524\">Hand Tools</a>",
+        "after": "<a href=\"/deals/hand-tools/c1524\">Hand Tools deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "627f48e35ed1",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(10) > a",
+      "message": "The link text \"Ironmongery\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Ironmongery",
+      "subject": "Ironmongery",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(10) > a",
+        "kind": "set-text",
+        "from": "Ironmongery",
+        "to": "Ironmongery deals",
+        "before": "<a href=\"/deals/ironmongery/c1525\">Ironmongery</a>",
+        "after": "<a href=\"/deals/ironmongery/c1525\">Ironmongery deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "6780482ae3f7",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(11) > a",
+      "message": "The link text \"Kitchens\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Kitchens",
+      "subject": "Kitchens",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(11) > a",
+        "kind": "set-text",
+        "from": "Kitchens",
+        "to": "Kitchens deals",
+        "before": "<a href=\"/deals/kitchens/c1526\">Kitchens</a>",
+        "after": "<a href=\"/deals/kitchens/c1526\">Kitchens deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "e175d3a55368",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(12) > a",
+      "message": "The link text \"Ladders & Storage\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Ladders & Storage",
+      "subject": "Ladders & Storage",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(12) > a",
+        "kind": "set-text",
+        "from": "Ladders & Storage",
+        "to": "Ladders & Storage deals",
+        "before": "<a href=\"/deals/ladders-storage/c1527\">Ladders &amp; Storage</a>",
+        "after": "<a href=\"/deals/ladders-storage/c1527\">Ladders &amp; Storage deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "fe7b7d3d651c",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(13) > a",
+      "message": "The link text \"Landscaping\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Landscaping",
+      "subject": "Landscaping",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(13) > a",
+        "kind": "set-text",
+        "from": "Landscaping",
+        "to": "Landscaping deals",
+        "before": "<a href=\"/deals/landscaping/c1528\">Landscaping</a>",
+        "after": "<a href=\"/deals/landscaping/c1528\">Landscaping deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "886a1124476d",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(14) > a",
+      "message": "The link text \"Lighting\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Lighting",
+      "subject": "Lighting",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(14) > a",
+        "kind": "set-text",
+        "from": "Lighting",
+        "to": "Lighting deals",
+        "before": "<a href=\"/deals/lighting/c1529\">Lighting</a>",
+        "after": "<a href=\"/deals/lighting/c1529\">Lighting deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "9df7251e8028",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(15) > a",
+      "message": "The link text \"Painting & Decorating\" is shared by 3 links that lead to 2 different places, and nothing around this one tells it apart.",
+      "evidence": "Painting & Decorating",
+      "subject": "Painting & Decorating",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(15) > a",
+        "kind": "set-text",
+        "from": "Painting & Decorating",
+        "to": "Painting & Decorating deals",
+        "before": "<a href=\"/deals/painting-decorating/c1530\">Painting &amp; Decorating</a>",
+        "after": "<a href=\"/deals/painting-decorating/c1530\">Painting &amp; Decorating deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "04b098fccfac",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(16) > a",
+      "message": "The link text \"Plumbing\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Plumbing",
+      "subject": "Plumbing",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(16) > a",
+        "kind": "set-text",
+        "from": "Plumbing",
+        "to": "Plumbing deals",
+        "before": "<a href=\"/deals/plumbing/c1531\">Plumbing</a>",
+        "after": "<a href=\"/deals/plumbing/c1531\">Plumbing deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "5a5f55487691",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(17) > a",
+      "message": "The link text \"Power Tools\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Power Tools",
+      "subject": "Power Tools",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(17) > a",
+        "kind": "set-text",
+        "from": "Power Tools",
+        "to": "Power Tools deals",
+        "before": "<a href=\"/deals/power-tools/c1532\">Power Tools</a>",
+        "after": "<a href=\"/deals/power-tools/c1532\">Power Tools deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "28e0ff1cb493",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(18) > a",
+      "message": "The link text \"Power Tool Accessories\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Power Tool Accessories",
+      "subject": "Power Tool Accessories",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(18) > a",
+        "kind": "set-text",
+        "from": "Power Tool Accessories",
+        "to": "Power Tool Accessories deals",
+        "before": "<a href=\"/deals/power-tool-accessories/c1533\">Power Tool Accessories</a>",
+        "after": "<a href=\"/deals/power-tool-accessories/c1533\">Power Tool Accessories deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "0b170b0a83b0",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(19) > a",
+      "message": "The link text \"Security\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Security",
+      "subject": "Security",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(19) > a",
+        "kind": "set-text",
+        "from": "Security",
+        "to": "Security Deals",
+        "before": "<a href=\"/deals/security/c1534\">Security</a>",
+        "after": "<a href=\"/deals/security/c1534\">Security Deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "fbd36e7830dd",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(20) > a",
+      "message": "The link text \"Screws & Fixings\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Screws & Fixings",
+      "subject": "Screws & Fixings",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(20) > a",
+        "kind": "set-text",
+        "from": "Screws & Fixings",
+        "to": "Screws & Fixings deals",
+        "before": "<a href=\"/deals/screws-fixings/c1535\">Screws &amp; Fixings</a>",
+        "after": "<a href=\"/deals/screws-fixings/c1535\">Screws &amp; Fixings deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "e5e7cbb920d1",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(21) > a",
+      "message": "The link text \"Smart Home\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+      "evidence": "Smart Home",
+      "subject": "Smart Home",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(21) > a",
+        "kind": "set-text",
+        "from": "Smart Home",
+        "to": "Smart Home deals",
+        "before": "<a href=\"/deals/smart-home/c1536\">Smart Home</a>",
+        "after": "<a href=\"/deals/smart-home/c1536\">Smart Home deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "1f1ae2b64ce9",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(22) > a",
+      "message": "The link text \"Ventilation & Heating\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+      "evidence": "Ventilation & Heating",
+      "subject": "Ventilation & Heating",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(22) > a",
+        "kind": "set-text",
+        "from": "Ventilation & Heating",
+        "to": "Ventilation & Heating deals",
+        "before": "<a href=\"/deals/ventilation-heating/c1537\">Ventilation &amp; Heating</a>",
+        "after": "<a href=\"/deals/ventilation-heating/c1537\">Ventilation &amp; Heating deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "59049f6f9219",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(23) > a",
+      "message": "The link text \"Workwear & Safety\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Workwear & Safety",
+      "subject": "Workwear & Safety",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(23) > a",
+        "kind": "set-text",
+        "from": "Workwear & Safety",
+        "to": "Workwear & Safety deals",
+        "before": "<a href=\"/deals/workwear-safety/c1538\">Workwear &amp; Safety</a>",
+        "after": "<a href=\"/deals/workwear-safety/c1538\">Workwear &amp; Safety deals</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "f9e62387de6a",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(2) > a",
+      "message": "The link text \"Adhesives & Sealants\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Adhesives & Sealants",
+      "subject": "Adhesives & Sealants",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(2) > a",
+        "kind": "set-text",
+        "from": "Adhesives & Sealants",
+        "to": "Adhesives & Sealants (Category C13)",
+        "before": "<a href=\"/adhesives-sealants/c13\">Adhesives &amp; Sealants</a>",
+        "after": "<a href=\"/adhesives-sealants/c13\">Adhesives &amp; Sealants (Category C13)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "212ff2986700",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(3) > a",
+      "message": "The link text \"Automotive\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Automotive",
+      "subject": "Automotive",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(3) > a",
+        "kind": "set-text",
+        "from": "Automotive",
+        "to": "Automotive Department",
+        "before": "<a href=\"/automotive/c16\">Automotive</a>",
+        "after": "<a href=\"/automotive/c16\">Automotive Department</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "c5eced50dfdc",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(4) > a",
+      "message": "The link text \"Bathrooms\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Bathrooms",
+      "subject": "Bathrooms",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(4) > a",
+        "kind": "set-text",
+        "from": "Bathrooms",
+        "to": "Bathrooms (C733)",
+        "before": "<a href=\"/bathrooms/c733\">Bathrooms</a>",
+        "after": "<a href=\"/bathrooms/c733\">Bathrooms (C733)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "6237e8d70b52",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(5) > a",
+      "message": "The link text \"Central Heating Supplies\" is shared by 3 links that lead to 2 different places, and nothing around this one tells it apart.",
+      "evidence": "Central Heating Supplies",
+      "subject": "Central Heating Supplies",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(5) > a",
+        "kind": "set-text",
+        "from": "Central Heating Supplies",
+        "to": "Central Heating Supplies (Category C22)",
+        "before": "<a href=\"/central-heating-supplies/c22\">Central Heating Supplies</a>",
+        "after": "<a href=\"/central-heating-supplies/c22\">Central Heating Supplies (Category C22)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "a3d21ab6ef31",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(6) > a",
+      "message": "The link text \"Cleaning & Pest Control\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Cleaning & Pest Control",
+      "subject": "Cleaning & Pest Control",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(6) > a",
+        "kind": "set-text",
+        "from": "Cleaning & Pest Control",
+        "to": "Cleaning & Pest Control (C25)",
+        "before": "<a href=\"/cleaning-pest-control/c25\">Cleaning &amp; Pest Control</a>",
+        "after": "<a href=\"/cleaning-pest-control/c25\">Cleaning &amp; Pest Control (C25)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "8f1b78f672ea",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(7) > a",
+      "message": "The link text \"Construction & Insulation\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Construction & Insulation",
+      "subject": "Construction & Insulation",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(7) > a",
+        "kind": "set-text",
+        "from": "Construction & Insulation",
+        "to": "Construction & Insulation (Department C20)",
+        "before": "<a href=\"/construction-insulation/c20\">Construction &amp; Insulation</a>",
+        "after": "<a href=\"/construction-insulation/c20\">Construction &amp; Insulation (Department C20)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "c8e85478e98f",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(9) > a",
+      "message": "The link text \"Hand Tools\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Hand Tools",
+      "subject": "Hand Tools",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(9) > a",
+        "kind": "set-text",
+        "from": "Hand Tools",
+        "to": "Hand Tools (Category)",
+        "before": "<a href=\"/hand-tools/c6\">Hand Tools</a>",
+        "after": "<a href=\"/hand-tools/c6\">Hand Tools (Category)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "43c7c65e1d9a",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(10) > a",
+      "message": "The link text \"Ironmongery\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Ironmongery",
+      "subject": "Ironmongery",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(10) > a",
+        "kind": "set-text",
+        "from": "Ironmongery",
+        "to": "Ironmongery (Department C7)",
+        "before": "<a href=\"/ironmongery/c7\">Ironmongery</a>",
+        "after": "<a href=\"/ironmongery/c7\">Ironmongery (Department C7)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "7d0210184fb8",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(11) > a",
+      "message": "The link text \"Kitchens\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Kitchens",
+      "subject": "Kitchens",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(11) > a",
+        "kind": "set-text",
+        "from": "Kitchens",
+        "to": "Kitchens (C734)",
+        "before": "<a href=\"/kitchens/c734\">Kitchens</a>",
+        "after": "<a href=\"/kitchens/c734\">Kitchens (C734)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "6776c61db1fa",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(12) > a",
+      "message": "The link text \"Ladders & Storage\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Ladders & Storage",
+      "subject": "Ladders & Storage",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(12) > a",
+        "kind": "set-text",
+        "from": "Ladders & Storage",
+        "to": "Ladders & Storage (Home & Garden)",
+        "before": "<a href=\"/ladders-storage/c3\">Ladders &amp; Storage</a>",
+        "after": "<a href=\"/ladders-storage/c3\">Ladders &amp; Storage (Home &amp; Garden)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "4dfb0370b395",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(13) > a",
+      "message": "The link text \"Landscaping\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Landscaping",
+      "subject": "Landscaping",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(13) > a",
+        "kind": "set-text",
+        "from": "Landscaping",
+        "to": "Landscaping Services",
+        "before": "<a href=\"/landscaping/c1\">Landscaping</a>",
+        "after": "<a href=\"/landscaping/c1\">Landscaping Services</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "eb60e9fe9ee6",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(14) > a",
+      "message": "The link text \"Lighting\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Lighting",
+      "subject": "Lighting",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(14) > a",
+        "kind": "set-text",
+        "from": "Lighting",
+        "to": "Lighting products",
+        "before": "<a href=\"/lighting/c21\">Lighting</a>",
+        "after": "<a href=\"/lighting/c21\">Lighting products</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "39971c1d1767",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(15) > a",
+      "message": "The link text \"Painting & Decorating\" is shared by 3 links that lead to 2 different places, and nothing around this one tells it apart.",
+      "evidence": "Painting & Decorating",
+      "subject": "Painting & Decorating",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(15) > a",
+        "kind": "set-text",
+        "from": "Painting & Decorating",
+        "to": "Painting & Decorating (Department)",
+        "before": "<a href=\"/painting-decorating/c8\">Painting &amp; Decorating</a>",
+        "after": "<a href=\"/painting-decorating/c8\">Painting &amp; Decorating (Department)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "eff3d491cb02",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(16) > a",
+      "message": "The link text \"Plumbing\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Plumbing",
+      "subject": "Plumbing",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(16) > a",
+        "kind": "set-text",
+        "from": "Plumbing",
+        "to": "Plumbing Services",
+        "before": "<a href=\"/plumbing/c15\">Plumbing</a>",
+        "after": "<a href=\"/plumbing/c15\">Plumbing Services</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "a22f06b1ca55",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(17) > a",
+      "message": "The link text \"Power Tool Accessories\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Power Tool Accessories",
+      "subject": "Power Tool Accessories",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(17) > a",
+        "kind": "set-text",
+        "from": "Power Tool Accessories",
+        "to": "Power Tool Accessories (Category)",
+        "before": "<a href=\"/power-tool-accessories/c11\">Power Tool Accessories</a>",
+        "after": "<a href=\"/power-tool-accessories/c11\">Power Tool Accessories (Category)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "e713ec521ac5",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(18) > a",
+      "message": "The link text \"Power Tools\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Power Tools",
+      "subject": "Power Tools",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(18) > a",
+        "kind": "set-text",
+        "from": "Power Tools",
+        "to": "Power Tools (Department)",
+        "before": "<a href=\"/power-tools/c5\">Power Tools</a>",
+        "after": "<a href=\"/power-tools/c5\">Power Tools (Department)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "fce22fce7afd",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(19) > a",
+      "message": "The link text \"Security\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Security",
+      "subject": "Security",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(19) > a",
+        "kind": "set-text",
+        "from": "Security",
+        "to": "Security Department",
+        "before": "<a href=\"/security/c14\">Security</a>",
+        "after": "<a href=\"/security/c14\">Security Department</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "5843b6c792d0",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(20) > a",
+      "message": "The link text \"Screws & Fixings\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Screws & Fixings",
+      "subject": "Screws & Fixings",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(20) > a",
+        "kind": "set-text",
+        "from": "Screws & Fixings",
+        "to": "Screws & Fixings (Category)",
+        "before": "<a href=\"/screws-fixings/c12\">Screws &amp; Fixings</a>",
+        "after": "<a href=\"/screws-fixings/c12\">Screws &amp; Fixings (Category)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "1ba435a3bb8c",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(21) > a",
+      "message": "The link text \"Smart Home\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+      "evidence": "Smart Home",
+      "subject": "Smart Home",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(21) > a",
+        "kind": "set-text",
+        "from": "Smart Home",
+        "to": "Smart Home Department",
+        "before": "<a href=\"/smart-home/c1480\">Smart Home</a>",
+        "after": "<a href=\"/smart-home/c1480\">Smart Home Department</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "55cc38d149b7",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(23) > a",
+      "message": "The link text \"Workwear & Safety\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "<link>Workwear & Safety</link>",
+      "subject": "Workwear & Safety",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(23) > a",
+        "kind": "set-text",
+        "from": "Workwear & Safety",
+        "to": "Workwear & Safety (Department)",
+        "before": "<a href=\"/workwear-safety/c10\">Workwear &amp; Safety</a>",
+        "after": "<a href=\"/workwear-safety/c10\">Workwear &amp; Safety (Department)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "94ea689eba3e",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(2) > a",
+      "message": "The link text \"Adhesives & Sealants\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Adhesives & Sealants",
+      "subject": "Adhesives & Sealants",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(2) > a",
+        "kind": "set-text",
+        "from": "Adhesives & Sealants",
+        "to": "Adhesives & Sealants (Sale & Clearance)",
+        "before": "<a href=\"/sale-clearance/adhesives-sealants/c173\">Adhesives &amp; Sealants</a>",
+        "after": "<a href=\"/sale-clearance/adhesives-sealants/c173\">Adhesives &amp; Sealants (Sale &amp; Clearance)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "a6f805cf0a5a",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(3) > a",
+      "message": "The link text \"Automotive\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Automotive",
+      "subject": "Automotive",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(3) > a",
+        "kind": "set-text",
+        "from": "Automotive",
+        "to": "Automotive clearance",
+        "before": "<a href=\"/sale-clearance/automotive/c570\">Automotive</a>",
+        "after": "<a href=\"/sale-clearance/automotive/c570\">Automotive clearance</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "a7eecfae6418",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(4) > a",
+      "message": "The link text \"Bathrooms\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Bathrooms",
+      "subject": "Bathrooms",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(4) > a",
+        "kind": "set-text",
+        "from": "Bathrooms",
+        "to": "Bathrooms - Sale & Clearance",
+        "before": "<a href=\"/sale-clearance/bathrooms/c925\">Bathrooms</a>",
+        "after": "<a href=\"/sale-clearance/bathrooms/c925\">Bathrooms - Sale &amp; Clearance</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "e0db9e591199",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(6) > a",
+      "message": "The link text \"Cleaning & Pest Control\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Cleaning & Pest Control",
+      "subject": "Cleaning & Pest Control",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(6) > a",
+        "kind": "set-text",
+        "from": "Cleaning & Pest Control",
+        "to": "Cleaning & Pest Control (Sale & Clearance)",
+        "before": "<a href=\"/sale-clearance/cleaning-pest-control/c434\">Cleaning &amp; Pest Control</a>",
+        "after": "<a href=\"/sale-clearance/cleaning-pest-control/c434\">Cleaning &amp; Pest Control (Sale &amp; Clearance)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "a8689ae27779",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(7) > a",
+      "message": "The link text \"Construction & Insulation\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Construction & Insulation",
+      "subject": "Construction & Insulation",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(7) > a",
+        "kind": "set-text",
+        "from": "Construction & Insulation",
+        "to": "Construction & Insulation (Sale & Clearance)",
+        "before": "<a href=\"/sale-clearance/construction-insulation/c208\">Construction &amp; Insulation</a>",
+        "after": "<a href=\"/sale-clearance/construction-insulation/c208\">Construction &amp; Insulation (Sale &amp; Clearance)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "651da416ce45",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(9) > a",
+      "message": "The link text \"Hand Tools\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Hand Tools",
+      "subject": "Hand Tools",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(9) > a",
+        "kind": "set-text",
+        "from": "Hand Tools",
+        "to": "Hand Tools (Sale & Clearance)",
+        "before": "<a href=\"/sale-clearance/hand-tools/c171\">Hand Tools</a>",
+        "after": "<a href=\"/sale-clearance/hand-tools/c171\">Hand Tools (Sale &amp; Clearance)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "f434ecb9ed0d",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(10) > a",
+      "message": "The link text \"Ironmongery\" is shared by 4 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Ironmongery",
+      "subject": "Ironmongery",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(10) > a",
+        "kind": "set-text",
+        "from": "Ironmongery",
+        "to": "Ironmongery Sale & Clearance",
+        "before": "<a href=\"/sale-clearance/ironmongery/c174\">Ironmongery</a>",
+        "after": "<a href=\"/sale-clearance/ironmongery/c174\">Ironmongery Sale &amp; Clearance</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "9f643ec9acc9",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(11) > a",
+      "message": "The link text \"Kitchens\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Kitchens",
+      "subject": "Kitchens",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(11) > a",
+        "kind": "set-text",
+        "from": "Kitchens",
+        "to": "Kitchens - Sale & Clearance",
+        "before": "<a href=\"/sale-clearance/kitchens/c1401\">Kitchens</a>",
+        "after": "<a href=\"/sale-clearance/kitchens/c1401\">Kitchens - Sale &amp; Clearance</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "cf880aeb2cc7",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(12) > a",
+      "message": "The link text \"Ladders & Storage\" is shared by 3 links that lead to 3 different places, and nothing around this one tells it apart.",
+      "evidence": "Ladders & Storage",
+      "subject": "Ladders & Storage",
+      "patch": {
+        "ref": "#__nuxt > div > div:nth-of-type(1) > footer > nav > ul > li:nth-of-type(24) > ul > li:nth-of-type(12) > a",
+        "kind": "set-text",
+        "from": "Ladders & Storage",
+        "to": "Ladders & Storage (Sale & Clearance)",
+        "before": "<a href=\"/sale-clearance/ladders-storage/c569\">Ladders &amp; Storage</a>",
+        "after": "<a href=\"/sale-clearance/ladders-storage/c569\">Ladders &amp; Storage (Sale &amp; Clearance)</a>"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "10d2b2d2729f",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#usp-banner > div > div > div > div > div:nth-of-type(3) > div > div > iframe |> #profile-link",
+      "target": "[\"iframe[loading=\\\"auto\\\"]\",\"#profile-link\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a id=\"profile-link\" target=\"_blank\" aria-describedby=\"screen-reader-only-rating screen-reader-only-instruction\" href=\"https://www.trustpilot.com/review/www.toolstation.com?utm_medium=trustbox&utm_source=MicroStar\" aria-label=\"Trustpilot reviews\">"
+    },
+    {
+      "fingerprint": "01838392b738",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > div:nth-of-type(3) > div > p > a",
+      "target": "[\".font-regular\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"/paypal-credit\" rel=\"noopener noreferrer\" target=\"_blank\" class=\"underline font-regular\" aria-label=\"Learn more about PayPal Credit\"><span class=\"sr-only\">Learn more about PayPal Credit</span> More info</a>"
+    },
+    {
+      "fingerprint": "6d62fc3c9096",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#onetrust-policy-text > a",
+      "target": "[\".ot-cookie-policy-link\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a class=\"ot-cookie-policy-link\" href=\"https://www.toolstation.com/content/cookies\" aria-label=\"More information about your privacy, opens in a new tab\" rel=\"noopener\" target=\"_blank\">Cookie Policy.</a>"
+    },
+    {
+      "fingerprint": "ab1dbd169d29",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(18) > div > div > div > div > div:nth-of-type(2) > button:nth-of-type(2)",
+      "target": "[\"button[aria-label=\\\"Go to slide 2\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<button data-v-619f133c=\"\" class=\"carousel-dot-button\" aria-label=\"Go to slide 2\" aria-disabled=\"false\"><span data-v-619f133c=\"\" class=\"carousel-dot-icon\"></span></button>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "062793a9c955",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(18) > div > div > div > div > div:nth-of-type(2) > button:nth-of-type(3)",
+      "target": "[\"button[aria-label=\\\"Go to slide 3\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<button data-v-619f133c=\"\" class=\"carousel-dot-button\" aria-label=\"Go to slide 3\" aria-disabled=\"false\"><span data-v-619f133c=\"\" class=\"carousel-dot-icon\"></span></button>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "a3a604c94073",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(18) > div > div > div > div > div:nth-of-type(2) > button:nth-of-type(4)",
+      "target": "[\"button[aria-label=\\\"Go to slide 4\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<button data-v-619f133c=\"\" class=\"carousel-dot-button\" aria-label=\"Go to slide 4\" aria-disabled=\"false\"><span data-v-619f133c=\"\" class=\"carousel-dot-icon\"></span></button>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "7759327fdc6c",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(18) > div > div > div > div > div:nth-of-type(2) > button:nth-of-type(5)",
+      "target": "[\"button[aria-label=\\\"Go to slide 5\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<button data-v-619f133c=\"\" class=\"carousel-dot-button\" aria-label=\"Go to slide 5\" aria-disabled=\"false\"><span data-v-619f133c=\"\" class=\"carousel-dot-icon\"></span></button>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "c9d73e431d63",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "rule",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > header > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div > ul > li:nth-of-type(1)",
+      "target": "#__nuxt > div > div:nth-of-type(1) > header > div:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div > ul > li:nth-of-type(1)",
+      "message": "This element (\"Shop All\") takes keyboard focus and listens to click, keydown, so it works as a control, but the browser exposes it as listitem, with no control role: a screen reader does not announce it as a button or a link (F59). Use the native element (button, a) or give it the role of the control it is.",
+      "evidence": "role listitem · click, keydown · \"Shop All\"",
+      "subject": "listitem click,keydown",
+      "confidence": "low",
+      "ruleId": "rampa/custom-control",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F59",
+      "html": "<li class=\"bg-blue-headerLight flex items-center justify-center gap-2 ease-in-out duration-100 cursor-pointer px-2 hover:bg-blue-headerDark focus:bg-blue-headerDark focus:outline-2 focus:outline-yellow\">",
+      "experimental": true
+    }
+  ],
+  "belowThreshold": [],
+  "waived": [],
+  "discarded": [
+    {
+      "criterion": "1.1.1",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > header > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > a > img",
+      "reason": "the alternative is a logo that leads to the site's home page",
+      "output": {
+        "verdict": "fail",
+        "evidence": "Toolstation logo",
+        "problem": "missing_information",
+        "imageShows": "The Toolstation logo featuring blue and red text inside a yellow and blue oval border.",
+        "suggestedAlt": "Toolstation home",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "#usp-banner > div > div > div > div > div:nth-of-type(1) > div > a > img",
+      "reason": "the alternative repeats the visible text of the link or button it sits in",
+      "output": {
+        "verdict": "fail",
+        "evidence": "5% OFF +",
+        "problem": "wrong_content",
+        "imageShows": "The TS Club logo featuring the letters 'TS' in blue and red inside a white circle, followed by the word 'CLUB' in white, all on a blue background with a yellow border.",
+        "suggestedAlt": "TS Club logo",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "#usp-banner > div > div > div > div > div:nth-of-type(2) > div > a > img",
+      "reason": "the alternative repeats the visible text of the link or button it sits in",
+      "output": {
+        "verdict": "fail",
+        "evidence": "FREE DELIVERY",
+        "problem": "wrong_content",
+        "imageShows": "A blue icon of a delivery truck.",
+        "suggestedAlt": "Delivery truck icon",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "#usp-banner > div > div > div > div > div:nth-of-type(4) > div > a > img",
+      "reason": "the alternative repeats the visible text of the link or button it sits in",
+      "output": {
+        "verdict": "fail",
+        "evidence": "CLICK & COLLECT",
+        "problem": "wrong_content",
+        "imageShows": "A blue icon of a storefront with an awning.",
+        "suggestedAlt": "Storefront icon",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "#usp-banner > div > div > div > div > div:nth-of-type(5) > div > a > img",
+      "reason": "the alternative repeats the visible text of the link or button it sits in",
+      "output": {
+        "verdict": "fail",
+        "evidence": "FAST TRACK via app",
+        "problem": "wrong_content",
+        "imageShows": "A blue stylized delivery van with motion lines indicating speed.",
+        "suggestedAlt": "Fast delivery van icon",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div:nth-of-type(1) > div > a > picture > img",
+      "reason": "the alternative names the purpose of the link it is the only content of",
+      "output": {
+        "verdict": "fail",
+        "evidence": "-plumbing-c15-ts-image",
+        "problem": "missing_information",
+        "imageShows": "A promotional banner showing a Redring water heater with text saying 'SAVE 20% ON SELECTED WATER HEATERS'.",
+        "suggestedAlt": "Save 20% on selected water heaters",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div > a > picture > img",
+      "reason": "the alternative names the purpose of the link it is the only content of",
+      "output": {
+        "verdict": "fail",
+        "evidence": "-plumbing-c15-ts-image",
+        "problem": "missing_information",
+        "imageShows": "A promotional banner for a 'Buy 10 Save 10%' offer on plastic solvent weld, featuring white PVC plumbing fittings.",
+        "suggestedAlt": "Bulk savings on plastic solvent weld: Buy 10 save 10%",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div > a:nth-of-type(1) > div > div > img",
+      "reason": "the alternative repeats the visible text of the link or button it sits in",
+      "output": {
+        "verdict": "fail",
+        "evidence": "Compression Waste",
+        "problem": "wrong_content",
+        "imageShows": "A white plastic compression waste pipe fitting with a blue seal.",
+        "suggestedAlt": "Compression waste pipe fitting",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div > a:nth-of-type(2) > div > div > img",
+      "reason": "the alternative repeats the visible text of the link or button it sits in",
+      "output": {
+        "verdict": "fail",
+        "evidence": "Solvent Weld Waste",
+        "problem": "wrong_content",
+        "imageShows": "A white PVC solvent weld elbow pipe fitting.",
+        "suggestedAlt": "White PVC solvent weld elbow pipe fitting",
+        "confidence": "high"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "criterion": "1.1.1",
+      "applicable": true,
+      "candidates": 13,
+      "judged": 13,
+      "failed": 0,
+      "passed": 4,
+      "cannotTell": 0,
+      "discarded": 9,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "1.3.5",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.2",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.4",
+      "applicable": true,
+      "candidates": 477,
+      "judged": 50,
+      "failed": 50,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "capped": 427
+    },
+    {
+      "criterion": "2.4.6",
+      "applicable": true,
+      "candidates": 25,
+      "judged": 25,
+      "failed": 0,
+      "passed": 25,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "3.1.1",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "decided": 1
+    },
+    {
+      "criterion": "3.1.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "3.3.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    }
+  ],
+  "coverage": {
+    "engine": [
+      "1.1.1",
+      "1.3.1",
+      "1.3.5",
+      "1.4.1",
+      "1.4.3",
+      "1.4.4",
+      "1.4.12",
+      "2.4.2",
+      "2.4.4",
+      "2.5.3",
+      "2.5.8",
+      "3.1.1",
+      "4.1.2"
+    ],
+    "judged": [
+      "1.1.1",
+      "1.3.5",
+      "2.4.2",
+      "2.4.4",
+      "2.4.6"
+    ],
+    "notChecked": [
+      "1.2.1",
+      "1.2.2",
+      "1.2.3",
+      "1.2.4",
+      "1.2.5",
+      "1.3.3",
+      "1.3.4",
+      "1.4.2",
+      "1.4.5",
+      "1.4.10",
+      "1.4.13",
+      "2.1.1",
+      "2.1.2",
+      "2.1.4",
+      "2.2.1",
+      "2.2.2",
+      "2.3.1",
+      "2.4.3",
+      "2.4.5",
+      "2.4.7",
+      "2.4.11",
+      "2.5.1",
+      "2.5.2",
+      "2.5.4",
+      "2.5.7",
+      "3.1.2",
+      "3.2.1",
+      "3.2.2",
+      "3.2.3",
+      "3.2.4",
+      "3.2.6",
+      "3.3.1",
+      "3.3.3",
+      "3.3.4",
+      "3.3.7",
+      "3.3.8",
+      "4.1.3"
+    ],
+    "rules": [
+      "1.1.1",
+      "1.3.2",
+      "1.4.3",
+      "1.4.11",
+      "2.4.2",
+      "2.4.6",
+      "3.1.1",
+      "4.1.2"
+    ],
+    "reach": {
+      "frames": [
+        {
+          "ref": "#usp-banner > div > div > div > div > div:nth-of-type(3) > div > div > iframe",
+          "url": "https://widget.trustpilot.com/trustboxes/5419b732fbfb950b10de65e5/index.html?templateId=5419b732fbfb950b10de65e5&businessunitId=47e3cf0e0000640005022d0a#locale=en&styleHeight=20px&theme=light",
+          "collected": false,
+          "reason": "cross-origin",
+          "engine": true
+        }
+      ],
+      "overlay": {
+        "ref": "#onetrust-consent-sdk > div:nth-of-type(1)",
+        "selector": "div",
+        "coverage": 0.89,
+        "hidden": true
+      }
+    },
+    "criteria": [
+      {
+        "id": "1.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "svg-img-alt",
+            "ran": true,
+            "applicable": 1,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "image-alt",
+            "ran": true,
+            "applicable": 71,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-meter-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-progressbar-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "object-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "role-img-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-alt",
+            "ran": true,
+            "applicable": 71,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.1.1@5",
+            "ran": true,
+            "applicable": 13,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Equivalence for complex and contextual images; decorative or not; long descriptions; CAPTCHA usability"
+      },
+      {
+        "id": "1.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a transcript is equivalent; decorative video-only; labeled media alternatives"
+      },
+      {
+        "id": "1.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "video-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Accuracy, completeness, synchronization, speakers; players Rampa cannot read"
+      },
+      {
+        "id": "1.2.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether visual information matters, and whether the description or alternative is adequate"
+      },
+      {
+        "id": "1.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Everything about live captions"
+      },
+      {
+        "id": "1.2.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Quality of the description; pauses; importance of the visuals"
+      },
+      {
+        "id": "1.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "list",
+            "ran": true,
+            "applicable": 45,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "listitem",
+            "ran": true,
+            "applicable": 200,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-children",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-parent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "definition-list",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "dlitem",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "table-fake-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-has-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-headers-attr",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "th-has-data-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/table-header-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/presentational-table",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/orphan-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Whether formatting carries meaning; complex tables; charts and maps; structure \"available in text\""
+      },
+      {
+        "id": "1.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/css-reading-order",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "note": "1 group(s) CSS reordered with no relationship verified to break: left to the 1.3.2 judgment (--criteria 1.3.2)"
+          }
+        ],
+        "manual": "Whether an order matters; magazine and dashboard layouts; bidirectional text"
+      },
+      {
+        "id": "1.3.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Instructions in images and media; references that depend on context"
+      },
+      {
+        "id": "1.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential orientation; real devices with the rotation lock; native apps"
+      },
+      {
+        "id": "1.3.5",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "autocomplete-valid",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.3.5@2",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whose data a field collects in ambiguous contexts; whether autofill works"
+      },
+      {
+        "id": "1.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-in-text-block",
+            "ran": true,
+            "applicable": 8,
+            "failures": 0,
+            "review": 6,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Charts, maps, color-coded tables; whether a difference carries meaning"
+      },
+      {
+        "id": "1.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "no-autoplay-audio",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Audio started by other interactions; games; cross-origin media; keyboard access to the control"
+      },
+      {
+        "id": "1.4.3",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "color-contrast",
+            "ran": true,
+            "applicable": 160,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/pixel-contrast",
+            "ran": true,
+            "applicable": 13,
+            "failures": 0,
+            "review": 5,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Text over photos and video; text in images; logotypes"
+      },
+      {
+        "id": "1.4.4",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-viewport",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/meta-viewport",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Lost functionality in complex widgets; acceptable truncation; real mobile browsers"
+      },
+      {
+        "id": "1.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential presentation; customizable images; infographics"
+      },
+      {
+        "id": "1.4.10",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Lost functionality at 320 CSS px; content that scrolls horizontally; whether the two-dimensional exception applies"
+      },
+      {
+        "id": "1.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/icon-contrast",
+            "ran": true,
+            "applicable": 16,
+            "failures": 1,
+            "review": 1,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Graphs and charts; whether a graphic is required; hover and active states; gradients"
+      },
+      {
+        "id": "1.4.12",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "avoid-inline-spacing",
+            "ran": true,
+            "applicable": 194,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Text clipped or overlapping with the spacing applied; scripts where a metric does not apply; text in canvas and images"
+      },
+      {
+        "id": "1.4.13",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Content shown on hover or focus: dismissible, hoverable, persistent; touch; content that moves"
+      },
+      {
+        "id": "2.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "frame-focusable-content",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "scrollable-region-focusable",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "server-side-image-map",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Operating everything with the keyboard; states behind login; drag and drop; canvas; speech and switch input"
+      },
+      {
+        "id": "2.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Moving through the whole page with the keyboard; traps after interactions; plug-ins; screen-reader modes"
+      },
+      {
+        "id": "2.1.4",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Settings on other pages or behind login, and whether they work; shortcuts in frames; keyboard layouts and IMEs; speech input"
+      },
+      {
+        "id": "2.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-refresh",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/refresh-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Server-side time-outs; flows behind login; the exceptions"
+      },
+      {
+        "id": "2.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "blink",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "marquee",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Motion after an interaction or further down the page; whether a control is easy to find and works from the keyboard; essential motion; reliance on reduced motion"
+      },
+      {
+        "id": "2.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Flashing content, live and user-generated content; certification-grade sign-off"
+      },
+      {
+        "id": "2.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "bypass",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a block is substantial; whether skip links work; single-page-app views"
+      },
+      {
+        "id": "2.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "document-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/default-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.2@3",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a title fits the domain and audience"
+      },
+      {
+        "id": "2.4.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether the focus order preserves meaning; dialogs and menus"
+      },
+      {
+        "id": "2.4.4",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 201,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.4@3",
+            "ran": true,
+            "applicable": 477,
+            "failures": 50,
+            "review": 0,
+            "notJudged": 427,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "The \"ambiguous to users in general\" exception; destinations behind login"
+      },
+      {
+        "id": "2.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Defining the set of pages; the process exception"
+      },
+      {
+        "id": "2.4.6",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-text",
+            "ran": true,
+            "applicable": 24,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.6@4",
+            "ran": true,
+            "applicable": 25,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a heading or label fits the domain and audience"
+      },
+      {
+        "id": "2.4.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether every focused element shows it; faint indicators; forced colors"
+      },
+      {
+        "id": "2.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Focused elements hidden by sticky headers, banners or dialogs; content the user opened or can move"
+      },
+      {
+        "id": "2.5.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential gestures; alternatives elsewhere on the page or in another view; gestures the probe does not make (rotation, longer paths); real touch hardware"
+      },
+      {
+        "id": "2.5.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Actions on the down-event; undo in drag and drop; touch"
+      },
+      {
+        "id": "2.5.3",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "label-content-name-mismatch",
+            "ran": true,
+            "applicable": 4,
+            "failures": 3,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/field-label-in-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Label versus nearby instruction; symbols and numbers; testing with speech input"
+      },
+      {
+        "id": "2.5.4",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Camera and body gestures; real sensors; essential motion; settings on other pages; motion after a tap or a permission"
+      },
+      {
+        "id": "2.5.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Dragging and its single-pointer alternatives; essential dragging; canvas editors"
+      },
+      {
+        "id": "2.5.8",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "target-size",
+            "ran": true,
+            "applicable": 204,
+            "failures": 4,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Essential or legally required presentation; equivalent targets; canvas and SVG maps"
+      },
+      {
+        "id": "3.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "html-has-lang",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-lang-valid",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-xml-lang-mismatch",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-id",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.1@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Balanced bilingual pages; dialects"
+      },
+      {
+        "id": "3.1.2",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "valid-lang",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-switcher-lang",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.2@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Unmarked passages; single words; proper names; loanwords"
+      },
+      {
+        "id": "3.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when an element receives focus; states after interaction"
+      },
+      {
+        "id": "3.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when a setting changes, and whether notice is adequate; custom widgets"
+      },
+      {
+        "id": "3.2.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Navigation order across the set of pages; personalization; pages behind login"
+      },
+      {
+        "id": "3.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "What counts as the same function; icons in context"
+      },
+      {
+        "id": "3.2.6",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Help mechanisms and their order across the set of pages; help that is not a link"
+      },
+      {
+        "id": "3.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Error messages after input; errors the server finds; wording"
+      },
+      {
+        "id": "3.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "form-field-multiple-labels",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/no-visible-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.3.2@1",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether instructions are enough; icons as labels"
+      },
+      {
+        "id": "3.3.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a suggestion is correct; server-side errors; the security exception"
+      },
+      {
+        "id": "3.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Reversal, checking or confirmation of submissions: almost all of it"
+      },
+      {
+        "id": "3.3.7",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Information asked again in a process; third-party steps; the exceptions"
+      },
+      {
+        "id": "3.3.8",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Cognitive function tests in sign-in and recovery; CAPTCHA escalations; later steps that need an account"
+      },
+      {
+        "id": "4.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 201,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-allowed-attr",
+            "ran": true,
+            "applicable": 41,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-command-name",
+            "ran": true,
+            "applicable": 10,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-conditional-attr",
+            "ran": true,
+            "applicable": 41,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-deprecated-role",
+            "ran": true,
+            "applicable": 14,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-focus",
+            "ran": true,
+            "applicable": 25,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-prohibited-attr",
+            "ran": true,
+            "applicable": 41,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-attr",
+            "ran": true,
+            "applicable": 14,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-roles",
+            "ran": true,
+            "applicable": 14,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr-value",
+            "ran": true,
+            "applicable": 41,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr",
+            "ran": true,
+            "applicable": 41,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "button-name",
+            "ran": true,
+            "applicable": 25,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "duplicate-id-aria",
+            "ran": true,
+            "applicable": 18,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title-unique",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "label",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "nested-interactive",
+            "ran": true,
+            "applicable": 107,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-braille-equivalent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-input-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tab-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-toggle-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tooltip-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-button-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "select-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "summary-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/duplicate-id-reference",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/widget-name",
+            "ran": true,
+            "applicable": 518,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/custom-control",
+            "ran": true,
+            "applicable": 2,
+            "failures": 1,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Roles for custom widgets; values set by assistive technology; what is actually announced"
+      },
+      {
+        "id": "4.1.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether status messages are announced in screen readers"
+      }
+    ]
+  },
+  "needsReview": [
+    {
+      "criterion": "1.4.1",
+      "level": "A",
+      "ruleId": "link-in-text-block",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(19) > div > div > div > div > span > p:nth-of-type(2) > a:nth-of-type(1)",
+      "target": "[\"p:nth-child(3) > a:nth-child(1)\"]",
+      "html": "<a href=\"https://www.toolstation.com/plumbing/toilet-fittings/c902\"><strong>toilet cistern parts</strong></a>",
+      "message": "Element's contrast ratio could not be determined because of element overlap",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.1",
+      "level": "A",
+      "ruleId": "link-in-text-block",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(19) > div > div > div > div > span > p:nth-of-type(2) > a:nth-of-type(2)",
+      "target": "[\"p:nth-child(3) > a:nth-child(2)\"]",
+      "html": "<a href=\"https://www.toolstation.com/plumbing/flush-valves/c989\"><strong>flush valves</strong></a>",
+      "message": "Element's contrast ratio could not be determined because of element overlap",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.1",
+      "level": "A",
+      "ruleId": "link-in-text-block",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(19) > div > div > div > div > span > p:nth-of-type(5) > a",
+      "target": "[\"p:nth-child(7) > a\"]",
+      "html": "<a href=\"https://www.toolstation.com/plumbing/pipe/c964\"><strong>pipes</strong></a>",
+      "message": "Element's contrast ratio could not be determined because of element overlap",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.1",
+      "level": "A",
+      "ruleId": "link-in-text-block",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(19) > div > div > div > div > span > p:nth-of-type(10) > a:nth-of-type(1)",
+      "target": "[\"p:nth-child(13) > a:nth-child(1)\"]",
+      "html": "<a href=\"https://www.toolstation.com/plumbing/compression-fittings/c978\"><strong>compression fittings</strong></a>",
+      "message": "Element's contrast ratio could not be determined because of element overlap",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.1",
+      "level": "A",
+      "ruleId": "link-in-text-block",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(19) > div > div > div > div > span > p:nth-of-type(10) > a:nth-of-type(2)",
+      "target": "[\"p:nth-child(13) > a:nth-child(2)\"]",
+      "html": "<a href=\"https://www.toolstation.com/plumbing/push-fit-fittings/c968\"><strong>push-fit fittings</strong></a>",
+      "message": "Element's contrast ratio could not be determined because of element overlap",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.1",
+      "level": "A",
+      "ruleId": "link-in-text-block",
+      "ref": "#main-content > div:nth-of-type(4) > div > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(19) > div > div > div > div > span > p:nth-of-type(13) > a",
+      "target": "[\"p:nth-child(17) > a\"]",
+      "html": "<a href=\"https://www.toolstation.com/plumbing/waste-fittings/c708\"><strong>waste fittings</strong></a>",
+      "message": "Element's contrast ratio could not be determined because of element overlap",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(1) > button > p",
+      "target": "#__nuxt > div > div:nth-of-type(1) > footer > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(1) > button > p",
+      "html": "<p class=\"font-semibold text-size-4 text-left\">",
+      "message": "axe-core could not decide the contrast of \"Buying From Us\" (a gradient), and the pixels could not either: what is behind it changed between the two captures.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > button > p",
+      "target": "#__nuxt > div > div:nth-of-type(1) > footer > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > button > p",
+      "html": "<p class=\"font-semibold text-size-4 text-left\">",
+      "message": "axe-core could not decide the contrast of \"Company Information & Policies\" (a gradient), and the pixels could not either: it moved between the two captures.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > button > p",
+      "target": "#__nuxt > div > div:nth-of-type(1) > footer > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > button > p",
+      "html": "<p class=\"font-semibold text-size-4 text-left\">",
+      "message": "axe-core could not decide the contrast of \"Trade Account\" (a gradient), and the pixels could not either: it moved between the two captures.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(3)",
+      "target": "#__nuxt > div > div:nth-of-type(1) > footer > div:nth-of-type(1) > div:nth-of-type(2) > div > div > div > ul > li:nth-of-type(3)",
+      "html": "<li>",
+      "message": "axe-core could not decide the contrast of \"VAT number: GB 408 556 737.\" (a gradient), and the pixels could not either: what is behind it changed between the two captures.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#__nuxt > div > div:nth-of-type(1) > footer > div:nth-of-type(1) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(2) > a > span",
+      "target": "#__nuxt > div > div:nth-of-type(1) > footer > div:nth-of-type(1) > div:nth-of-type(2) > div > div > ul > li:nth-of-type(2) > a > span",
+      "html": "<span>",
+      "message": "axe-core could not decide the contrast of \"Cookies\" (a gradient), and the pixels could not either: it moved between the two captures.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#social-links > a:nth-of-type(5)",
+      "target": "#social-links > a:nth-of-type(5)",
+      "html": "<a href=\"https://www.instagram.com/toolstation_uk\" aria-label=\"instagram\" class=\"social-rounded-links\" target=\"_blank\" rel=\"nofollow noopener\">",
+      "message": "The contrast of the icon of this link (\"instagram\") could not be measured: what is behind it changed between the two captures.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    }
+  ],
+  "usage": {
+    "calls": 90,
+    "cachedCalls": 0,
+    "inputTokens": 78723,
+    "outputTokens": 8228,
+    "latencyMs": 262819
+  },
+  "errors": [],
+  "notes": [
+    "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+    "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #usp-banner > div > div > div > div > div:nth-of-type(3) > div > div > iframe (https://widget.trustpilot.com/trustboxes/5419b732fbfb950b10de65e5/index.html?templateId=5419b732fbfb950b10de65e5&businessunitId=47e3cf0e0000640005022d0a#locale=en&styleHeight=20px&theme=light).",
+    "62 image(s) were left without a capture, so no judgment looked at them: 62 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+    "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 427 of 477 for 2.4.4. The coverage lists them as not judged.",
+    "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+  ],
+  "failOn": "confirmed"
+}

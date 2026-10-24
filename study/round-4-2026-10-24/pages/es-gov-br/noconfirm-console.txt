@@ -1,0 +1,48 @@
+
+https://www.es.gov.br/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.3.1 (A) — Info and Relationships
+  ✗ #dynamicNav
+    <ul> and <ol> must only directly contain <li>, <script> or <template> elements
+    high · rule list · id de94016b01b5
+
+WCAG 2.5.3 (A) — Label in Name
+  ✗ #customMenuToggle
+    Elements must have their visible text as part of their accessible name
+    high · rule label-content-name-mismatch · id 24da77a74b8e
+
+WCAG 3.1.1 (A) — Language of Page
+  ✗ html
+    The page is marked lang="en", but most of its text is in Portuguese (pt). Read by the language identifier from 868 letters of text, with no model asked.
+    Evidence: "Governo ES Ir para a página de acesso à Informação pública Acesso à Informação Ir para o portal da"
+    Patch:
+      - <html lang="en" dir="ltr" style="--gov-h: 0px; --head-h: 48px; --stack-h: 48px; height: 100%;">
+      + <html lang="pt" dir="ltr" style="--gov-h: 0px; --head-h: 48px; --stack-h: 48px; height: 100%;">
+    confidence high · evidence verified · id 2d955abda9b5
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 2.4.4 (A) — Link Purpose (In Context): 1 element · judgment/2.4.4
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+  ? WCAG 2.4.6 (AA) — Headings and Labels: 2 elements · judgment/2.4.6
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+  ? WCAG 4.1.2 (A) — Name, Role, Value: 1 element · aria-prohibited-attr
+    aria-label attribute is not well supported on "div" elements with no valid role attribute.
+
+1 of the page's 18 stylesheet(s) had not applied when it was read (https://www.es.gov.br/AutarquiaTheme/css/fonts.css?v=UtQ3xfNEexioJPW-7q-lhAmtwevP2dBQyz4lab1toPY (no rules)): the page was read with the styles it had, which may differ from what people see.
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+3 claim(s) from the model did not hold against the snapshot and were dropped.
+
+Model calls: 0 new, 19 from cache · 16.1k in / 1.8k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.4.3, 1.4.4, 1.4.12, 2.1.1, 2.4.2, 2.4.4, 2.5.3, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  3.1.1; experimental: 1.1.1, 1.4.3, 1.4.11, 2.4.2, 2.4.6, 4.1.2
+  Judged with verified evidence:     1.1.1, 2.4.2, 2.4.4, 2.4.6
+  Needs review only:                 2.4.1
+  Not checked automatically:         40 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

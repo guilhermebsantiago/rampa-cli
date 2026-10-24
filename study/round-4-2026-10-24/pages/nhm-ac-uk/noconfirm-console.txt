@@ -1,0 +1,58 @@
+
+https://www.nhm.ac.uk/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.1.1 (A) — Non-text Content
+  ✗ #spotlight-tile > div > div:nth-of-type(2) > figure > picture > img
+    This image is hidden from screen readers (inside aria-hidden="true"), but it conveys what the text around it does not say: "The image shows a 'Dig a Dinosaur Skeleton' kit.".
+    Evidence: "The image shows a 'Dig a Dinosaur Skeleton' kit."
+    confidence low · 1/1 runs · evidence verified · id 7e4deccc67e8
+
+WCAG 1.3.5 (AA) — Identify Input Purpose
+  ✗ #_R_lpqbamH1_
+    The field "First name *" asks for the user's first name but does not identify that purpose: autocomplete="given-name" is missing.
+    Evidence: "First name *"
+    Patch:
+      - <input id="_R_lpqbamH1_" class="themed-input" data-input-is-valid="true" data-icon-position="false" type="text" required="" aria-errormessage="_R_lpqbam_" aria-invalid="false" placeholder="First name" name="firstname">
+      + <input id="_R_lpqbamH1_" class="themed-input" data-input-is-valid="true" data-icon-position="false" type="text" required="" aria-errormessage="_R_lpqbam_" aria-invalid="false" placeholder="First name" name="firstname" autocomplete="given-name">
+    confidence high · 1/1 runs · evidence verified · id 6ea6a395b057
+  ✗ #_R_tpqbamH1_
+    The field "Last name *" asks for the user's last name but does not identify that purpose: autocomplete="family-name" is missing.
+    Evidence: "Last name *"
+    Patch:
+      - <input id="_R_tpqbamH1_" class="themed-input" data-input-is-valid="true" data-icon-position="false" type="text" required="" aria-errormessage="_R_tpqbam_" aria-invalid="false" placeholder="Last name" name="lastname">
+      + <input id="_R_tpqbamH1_" class="themed-input" data-input-is-valid="true" data-icon-position="false" type="text" required="" aria-errormessage="_R_tpqbam_" aria-invalid="false" placeholder="Last name" name="lastname" autocomplete="family-name">
+    confidence high · 1/1 runs · evidence verified · id 36afd0a0138f
+  ✗ #_R_15pqbamH1_
+    The field "Email address *" asks for the user's email address but does not identify that purpose: autocomplete="email" is missing. Chromium's own form check flags this field too.
+    Evidence: "Email address *"
+    Patch:
+      - <input id="_R_15pqbamH1_" class="themed-input" data-input-is-valid="true" data-icon-position="false" type="email" required="" aria-errormessage="_R_15pqbam_" aria-invalid="false" placeholder="Email address" name="email">
+      + <input id="_R_15pqbamH1_" class="themed-input" data-input-is-valid="true" data-icon-position="false" type="email" required="" aria-errormessage="_R_15pqbam_" aria-invalid="false" placeholder="Email address" name="email" autocomplete="email">
+    confidence high · 1/1 runs · evidence verified · id 6c8ec400e583
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.4.11 (AA) — Non-text Contrast: 1 element · rampa/icon-contrast
+    The contrast of the icon of this button ("Open search panel") could not be measured: most of it lies outside the page.
+  ? WCAG 2.4.4 (A) — Link Purpose (In Context): 2 elements · judgment/2.4.4
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+  ? WCAG 2.4.6 (AA) — Headings and Labels: 1 element · judgment/2.4.6
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+
+The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 39 of 89 for 2.4.4. The coverage lists them as not judged.
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+2 claim(s) from the model did not hold against the snapshot and were dropped.
+
+Model calls: 0 new, 90 from cache · 84.8k in / 7.2k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.4.1, 1.4.3, 1.4.4, 1.4.12, 2.4.2, 2.4.4, 2.5.3, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  2.4.2, 3.1.1; experimental: 1.1.1, 1.3.2, 1.4.3, 1.4.11, 2.4.6, 4.1.2
+  Judged with verified evidence:     1.1.1, 1.3.5, 2.4.4, 2.4.6
+  Needs review only:                 2.4.1, 3.3.2
+  Not checked automatically:         37 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

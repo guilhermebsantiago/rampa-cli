@@ -1,4 +1,4 @@
-"""Print the Markdown tables of docs/studies/real-pages-2026-10-round3.md from data/summary.json and data/pages.json.
+"""Print the Markdown tables of docs/studies/real-pages-2026-10-round4.md from data/summary.json and data/pages.json.
 The second study's tables.py, with a last section: the comparison with the second study.
 Run: python -I study/round-4-2026-10-24/scripts/tables.py"""
 
@@ -81,39 +81,41 @@ def main():
     print("sensitivity:", json.dumps(s["sensitivity"], indent=1))
 
     C = s["comparison"]
-    print("\n### Against the second study, judged criteria (TP / FP / uncertain: precision, 95% Wilson)\n")
+    print("\n### Against the second and third studies, judged criteria (TP / FP / uncertain: precision, 95% Wilson)\n")
     print("| Run | Dev, default | Dev, all findings | Test, default | Test, all findings |")
     print("| --- | --- | --- | --- | --- |")
     runs = (("Second study (`ebd4d07`)", C["study2"]), ("Second study after the 2.4.4/2.4.6 change (`4fd54fc`)", C["study2After"]),
-            ("This study (`d23cfb5`)", P))
+            ("Third study (`d23cfb5`)", C["study3"]), ("This study (`6e0947a`)", P))
     for title, src in runs:
         row = [cell(by_key(src[sp][t]).get("all")) for sp in ("dev", "test") for t in ("judgedDefault", "judgedAll")]
         print(f"| {title} | " + " | ".join(row) + " |")
     for sp in ("dev", "test"):
-        print(f"\n#### {sp}, by criterion: the second study after the change, then this study\n")
-        print("| Criterion | Before, default | Now, default | Before, all findings | Now, all findings |")
-        print("| --- | --- | --- | --- | --- |")
+        print(f"\n#### {sp}, by criterion: the second study after the change, the third study, then this study\n")
+        print("| Criterion | Second after, default | Third, default | Now, default | Third, all findings | Now, all findings |")
+        print("| --- | --- | --- | --- | --- | --- |")
         for k in NAMES:
             if k == "all":
                 continue
-            row = [cell(by_key(src[sp][t]).get(k)) for t in ("judgedDefault", "judgedAll") for src in (C["study2After"], P)]
+            pairs = (("judgedDefault", C["study2After"]), ("judgedDefault", C["study3"]), ("judgedDefault", P), ("judgedAll", C["study3"]), ("judgedAll", P))
+            row = [cell(by_key(src[sp][t]).get(k)) for t, src in pairs]
             if any(r != "–" for r in row):
                 print(f"| {NAMES[k]} | " + " | ".join(row) + " |")
     for group, title in (("experimentalAll", "Experimental rules and judgments"), ("probesAll", "Probes")):
-        print(f"\n#### {title}: the second study, then this study\n")
-        print("| Check | Second study, dev | This study, dev | Second study, test | This study, test |")
+        print(f"\n#### {title}: the third study, then this study\n")
+        print("| Check | Third study, dev | This study, dev | Third study, test | This study, test |")
         print("| --- | --- | --- | --- | --- |")
         keys = []
-        for src in (C["study2"], P):
+        for src in (C["study3"], P):
             for sp in ("dev", "test", "all"):
                 for r in src[sp][group]:
                     if r["key"] not in keys:
                         keys.append(r["key"])
         keys = [k for k in keys if k != "all"] + ["all"]
         for k in keys:
-            row = [cell(by_key(src[sp][group]).get(k)) for sp in ("dev", "test") for src in (C["study2"], P)]
+            row = [cell(by_key(src[sp][group]).get(k)) for sp in ("dev", "test") for src in (C["study3"], P)]
             print(f"| {k if k != 'all' else '**All**'} | " + " | ".join(row) + " |")
     print("\nsecond study's agreement:", json.dumps(C["study2Agreement"]))
+    print("third study's agreement:", json.dumps(C["study3Agreement"]))
 
 
 if __name__ == "__main__":
