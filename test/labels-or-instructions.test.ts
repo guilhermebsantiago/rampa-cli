@@ -147,6 +147,59 @@ describe('3.3.2 candidates', () => {
   })
 })
 
+describe('3.3.2 fields that were not on screen, and search fields', () => {
+  /** A header whose search box is collapsed to an icon, a slide-out menu's field, a search landmark's field, and a plain field with a hidden name. */
+  function header(): A11ySnapshot {
+    const field = (ref: string, name: string, attributes: Record<string, string>, extra: Partial<A11yNode> = {}) => input(ref, name, { 'aria-label': name, ...attributes }, extra)
+    return {
+      ...store(),
+      root: node({
+        ref: 'html',
+        role: 'document',
+        lang: 'en',
+        children: [
+          node({
+            ref: 'body',
+            native: { tag: 'body' },
+            children: [
+              // Beyond the right edge of a 1280 px viewport, in a form squeezed to no width: itaucultural.org.br's header search.
+              node({ ref: '#collapsed', role: 'form', native: { tag: 'form' }, bounds: { x: 1382, y: 734, width: 0, height: 70 }, children: [field('#collapsed > input', 'Search', { id: 'searchDesk' }, { bounds: { x: 1302, y: 734, width: 160, height: 70 } })] }),
+              // Inside a closed slide-out menu, off screen: poder360.com.br's.
+              field('#menu > input', 'Find a story', { id: 'menu-q' }, { bounds: { x: 772, y: -1077, width: 432, height: 24 }, states: ['offscreen', 'focusable'] }),
+              // A search landmark's field on screen, named by aria-label: the Understanding document accepts its magnifier.
+              node({ ref: '#site-search', role: 'search', native: { tag: 'div' }, bounds: box, children: [field('#site-search > input', 'Keywords', { id: 'kw' })] }),
+              // A field whose name nobody sees, on screen, not a search: still a finding.
+              field('#phone', 'Telephone', { id: 'phone', type: 'tel' }),
+            ],
+          }),
+        ],
+      }),
+    }
+  }
+
+  it('records that a field was collapsed, off screen or a search field, and leaves such a claim to review', () => {
+    const snapshot = header()
+    const candidates = labelsOrInstructions.candidates(snapshot, engine)
+    const by = Object.fromEntries(candidates.map((c) => [c.ref, c.context]))
+    expect(by['#collapsed > input']).toMatchObject({ collapsed: true, search: true })
+    expect(by['#menu > input']).toMatchObject({ collapsed: true })
+    expect(by['#menu > input']?.search).toBeUndefined()
+    expect(by['#site-search > input']).toMatchObject({ search: true })
+    expect(by['#site-search > input']?.collapsed).toBeUndefined()
+    expect(by['#phone']?.collapsed).toBeUndefined()
+    expect(by['#phone']?.search).toBeUndefined()
+    const fail: LabelsOrInstructionsJudgment = { shown: '', rule: '', verdict: 'fail', evidence: 'x', problem: 'no_visible_label', confidence: 'high' }
+    for (const ref of ['#collapsed > input', '#menu > input', '#site-search > input']) {
+      const candidate = candidates.find((c) => c.ref === ref)
+      if (!candidate) throw new Error(`no candidate ${ref}`)
+      expect(labelsOrInstructions.grounded?.(fail, candidate, snapshot), ref).toBe(false)
+    }
+    const phone = candidates.find((c) => c.ref === '#phone')
+    if (!phone) throw new Error('no candidate #phone')
+    expect(labelsOrInstructions.grounded?.(fail, phone, snapshot)).toBe(true)
+  })
+})
+
 describe('3.3.2 verification', () => {
   it('keeps a field with nothing on screen to name it', () => {
     expect(labelsOrInstructions.verify(hiddenFail, candidate('#news'), store())).toEqual({ ok: true })

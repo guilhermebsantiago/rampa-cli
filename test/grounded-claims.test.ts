@@ -69,6 +69,9 @@ describe('generic texts Rampa recognises without a model', () => {
     expect(groundedLink('generic', { ...alone, name: 'Clique aqui', context: 'Clique aqui para mais informações sobre a Ouvidoria da EBC.' })).toBe(false)
     expect(groundedLink('generic', { ...alone, name: 'Download', headers: 'Books' })).toBe(false)
     expect(groundedLink('url_or_filename', { ...alone, name: 'report.pdf' })).toBe(true)
+    // A raw address with a sentence of its own has a context that can say where it leads (cnj.jus.br, in the third real-page study).
+    expect(groundedLink('url_or_filename', { ...alone, name: 'www.cnj.jus.br/comopeticionar', context: 'conforme orientações previstas na página www.cnj.jus.br/comopeticionar.' })).toBe(false)
+    expect(groundedLink('url_or_filename', { ...alone, name: 'https://example.org/r?id=7', description: 'The report of 2026' })).toBe(false)
     expect(groundedLink('mismatch', { ...alone, name: 'Pricing' })).toBe(false)
     expect(groundedLink('ambiguous', { ...alone, name: 'Download', sameText: { links: 2, places: 2, apart: false } })).toBe(true)
     expect(groundedLink('ambiguous', { ...alone, name: 'Download', sameText: { links: 2, places: 2, apart: true } })).toBe(false)

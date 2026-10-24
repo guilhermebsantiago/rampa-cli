@@ -36,6 +36,7 @@ interface RampaOptions {
   minConfidence?: 'low' | 'medium' | 'high'   // --min-confidence
   reasoning?: Reasoning                // --reasoning
   offline?: boolean                    // --offline
+  confirm?: boolean                    // --no-confirm when false: skip the second pass over 1.1.1 claims that rest on the model's reading
   waivers?: Iterable<string> | string  // waiver ids, or a file; .rampa/waivers.json by default
   locale?: 'en' | 'pt-BR'              // --locale
   cacheDir?: string                    // --cache-dir
