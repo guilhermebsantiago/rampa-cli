@@ -1,0 +1,37 @@
+
+https://www.hospitalmoinhos.org.br/institucional
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.4.3 (AA) — Contrast (Minimum)
+  ✗ html > body > app-root > div > app-home > div > app-footer > app-floating-buttons > a > span
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 638c932dd539
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 1 element · color-contrast
+    Element content is too short to determine if it is actual text content
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 2 elements · rampa/placeholder-contrast
+    The contrast of the placeholder "html > body > app-root > div > app-home > div > app-footer …" could not be measured: most of it lies outside the page.
+  ? WCAG 1.4.11 (AA) — Non-text Contrast: 19 elements · rampa/icon-contrast
+    The contrast of the icon of this button ("Português") could not be measured: what is behind it changed between the two captures.
+  ? WCAG 2.4.1 (A) — Bypass Blocks: 1 element · bypass
+    No valid skip link found; Page does not have a heading; Page does not have a landmark region
+  ? WCAG 4.1.2 (A) — Name, Role, Value: 4 elements · aria-hidden-focus
+    Check that focusable elements are not tabbable in the current state
+
+32 image(s) were left without a capture, so no judgment looked at them: 15 outside the page (an off-canvas menu); 1 transparent where it sits; 16 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+
+Model calls: 0 new, 2 from cache · 1.1k in / 0.1k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.4.3, 1.4.4, 1.4.12, 2.4.2, 2.4.4, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  3.1.2; experimental: 1.1.1, 1.4.3, 1.4.11, 2.4.2, 4.1.2
+  Judged with verified evidence:     2.4.2, 3.1.1
+  Needs review only:                 2.4.1
+  Not checked automatically:         42 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

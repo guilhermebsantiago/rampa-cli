@@ -1,0 +1,108 @@
+{
+  "page": "https://www.tst.jus.br/ouvidoria",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "se2f8aaca6f8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the top-bar control that shrinks the text. It is a javascript:void(0) link with aria-label=\"A-\", which overrides the image's good alt \"Ícone - Diminuir Letra\". The accessible name is just \"A-\". NVDA with default punctuation speaks it as \"A\", and nothing in its list item or the list gives the purpose programmatically. Sighted users get the visual A-/A+ convention; screen-reader users get a cryptic name. So the purpose (decrease font size) cannot be determined from the link text or its context. Borderline: some auditors would accept A-/A+ as a convention."
+    },
+    {
+      "fingerprint": "c806a6932643",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The award seal in the header. The crop and screenshot clearly show \"2025 Prêmio CNJ de Qualidade Prata\" (the file name is also 18_enpj_selos_2025_prata), but the alt says \"Prêmio CNJ de Qualidade 2024. Prata!\". The text alternative gives the wrong year, so it does not serve the purpose the image serves. The live page still has the same alt."
+    },
+    {
+      "fingerprint": "1e9043d4068e",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "An envelope icon inside the newsletter link. The link has aria-label=\"Acessar NEWSLETTER\", so the image alt does not even feed the link's name. The alt describes the image's function (it leads to the Newsletter sign-up page for TST news emails). For a functional image that is what 1.1.1 asks for, not a description of the envelope. The alt is wordy but correct, so this is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "711b19e3f5de",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The icon link to /satisfacao-do-usuario wraps a CKEditor leftover <span role=\"region\" aria-label=\" Imagem widget\">. Per accname, that aria-label replaces the inner img alt, and Chrome's computed link name is \"Imagem widget\". Four such links on the page go to four different places. The link is alone in its own <p>, and the card title is in a sibling paragraph, which is not programmatically determined link context (F63). Its purpose cannot be determined, so it fails 2.4.4. The live page is unchanged."
+    },
+    {
+      "fingerprint": "bf4a4a4d1fd3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The icon link to /o-que-e-a-ouvidoria has the accessible name \"Imagem widget\", taken from an inner span role=region aria-label left by the CMS editor, which overrides the img alt \"O que é a Ouvidoria?\". It is alone in its paragraph, and the same meaningless name is used by four links to different pages. The adjacent title link is a separate paragraph, not programmatic link context. Fails 2.4.4."
+    },
+    {
+      "fingerprint": "f39cdf18b179",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Faça uma denúncia\" leads to /denuncia-discriminacao-racial. Three other identical \"Faça uma denúncia\" links go to other report forms. Each sits alone in <p class=\"desc\">. The card title \"Denúncia Discriminação Racial\" is a separate paragraph (a link in <strong>, not a heading), so it is not programmatically determined link context. This is the pattern documented in F63 example 1. Fails 2.4.4."
+    },
+    {
+      "fingerprint": "fa98dc089cf4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The icon link to /ouvidoria-do-tst has the computed name \"Imagem widget\", from the inner span role=region aria-label left by the CMS, which overrides the img alt \"Ouvidoria do tst\". The same name is used by four links to four destinations, and the link is alone in its paragraph with no programmatic context that tells it apart. Fails 2.4.4."
+    },
+    {
+      "fingerprint": "1c3047a233e6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Faça uma denúncia\" leads to /denuncia-atos-de-corrupcao. It is one of four identical link texts with different destinations, and it sits alone in its own paragraph. The card title \"Denúncia Atos de Corrupção\" is only in a sibling paragraph, which is not programmatically determined link context (F63). Fails 2.4.4."
+    },
+    {
+      "fingerprint": "s38a7245c17e",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The top-bar information icon link has aria-label \"SIC\" and goes to the \"Serviços de Informação ao Cidadão (SIC)\" page. The link text is the official acronym of exactly that destination, a standard term on Brazilian government sites. It does tell where the link goes. Not expanding an abbreviation is a 3.1.4 (AAA) matter, not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "7d17601b83e1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The visible link text \"Español\" in the language switcher is Spanish, has no lang attribute and inherits pt-BR. A change of language is clearly intended here, and the Understanding document's own language-link example marks each name with lang. So the visible text fails 3.1.2. Caveat: the link's aria-label \"Link traduzir para Espanhol\" is Portuguese and is what screen readers speak, so the mispronunciation the message describes mostly does not occur. The fix belongs on a span around the visible text, not on the link, or the Portuguese label would be mismarked. The mismatch between visible text and name is a separate 2.5.3 issue."
+    },
+    {
+      "fingerprint": "3cef15f458d9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop shows the Instagram logo, and the alt \"Instragram\" names Instagram, only misspelled. The image is inside a link whose aria-label \"Acessar Instagram\" provides the name anyway. The alt does not describe something the image does not show. A typo that screen readers pronounce almost the same is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "s6921ade14c5",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Como a unidade trabalha\" is the description line of the \"O que é a Ouvidoria?\" card and leads to that page. The destination page explains what the Ouvidoria is, how submissions are handled (protocol numbers, routing, answers), its attributions and its limits, which is how the unit works. The link text matches its destination, so the mismatch claim is wrong. Rampa had the destination title."
+    },
+    {
+      "fingerprint": "ab956e7c9b4f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The visible link text \"English\" in the language switcher is English, has no lang attribute and inherits pt-BR. Language links in their own language are the Understanding document's example for marking lang, so the visible text fails 3.1.2. Caveat: the Portuguese aria-label \"Link traduzir para Inglês\" is what screen readers announce, so the stated mispronunciation mostly does not happen. lang=\"en\" should go on the visible text, not on the whole link with its Portuguese label. The visible-text versus name mismatch is a separate 2.5.3 issue."
+    },
+    {
+      "fingerprint": "79ca0bd55fb7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop shows the \"A+\" glyph that increases text size, and the alt \"Ícone - Aumentar Letra\" (icon, increase text) describes exactly that function. The link's aria-label \"A+\" overrides it for the link name anyway. The alt is accurate for a functional image, so this is not a 1.1.1 failure. The weak name \"A+\" is a link-purpose issue, not this one."
+    },
+    {
+      "fingerprint": "0ba5ee0fcb78",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Faça uma denúncia\" leads to /denuncia-assedio-eleitoral. It is one of four identical link texts going to four report forms, and it sits alone in <p class=\"desc\">. The card title \"Denúncia Assédio Eleitoral\" is a sibling paragraph, not a heading, list item or same paragraph, so it is not programmatically determined link context (F63). Fails 2.4.4."
+    },
+    {
+      "fingerprint": "2febe252c9a8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Faça uma denúncia\" leads to /denuncia-assedio-moral-ou-sexual. Four links share this text with different destinations. The only distinguishing text, the card title \"Denúncia Assédio Moral ou Sexual\", is in a separate paragraph, which is not programmatically determined link context (F63 example 1). Fails 2.4.4."
+    },
+    {
+      "fingerprint": "400659b7483c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The icon link to the Carta de Serviços à Cidadania page has the accessible name \"Imagem widget\", from a leftover CKEditor span role=region aria-label that overrides the img alt. The name is meaningless and shared by four links to different pages, and the link is alone in its paragraph with no programmatic context. Fails 2.4.4. The live page is unchanged."
+    }
+  ]
+}

@@ -1,0 +1,621 @@
+{
+  "seed": 20261024,
+  "perSplit": 20,
+  "perPage": 3,
+  "pages": {
+    "es-gov-br": {
+      "split": "dev",
+      "suggestions": 3,
+      "secondPass": 0,
+      "pool": 3
+    },
+    "tst-ouvidoria": {
+      "split": "test",
+      "suggestions": 12,
+      "secondPass": 4,
+      "pool": 8
+    },
+    "ufpr-br": {
+      "split": "test",
+      "suggestions": 1,
+      "secondPass": 0,
+      "pool": 1
+    },
+    "mackenzie-vestibular": {
+      "split": "dev",
+      "suggestions": 0,
+      "secondPass": 0,
+      "pool": 0
+    },
+    "r7-com": {
+      "split": "test",
+      "suggestions": 11,
+      "secondPass": 1,
+      "pool": 10
+    },
+    "infomoney-article": {
+      "split": "dev",
+      "suggestions": 1,
+      "secondPass": 0,
+      "pool": 1
+    },
+    "tramontina": {
+      "split": "test",
+      "suggestions": 0,
+      "secondPass": 0,
+      "pool": 0
+    },
+    "cobasi-cachorro": {
+      "split": "dev",
+      "suggestions": 3,
+      "secondPass": 1,
+      "pool": 2
+    },
+    "hospitalmoinhos": {
+      "split": "dev",
+      "suggestions": 0,
+      "secondPass": 0,
+      "pool": 0
+    },
+    "dasa-article": {
+      "split": "test",
+      "suggestions": 2,
+      "secondPass": 0,
+      "pool": 2
+    },
+    "museudoamanha": {
+      "split": "test",
+      "suggestions": 3,
+      "secondPass": 0,
+      "pool": 3
+    },
+    "osesp-contato": {
+      "split": "dev",
+      "suggestions": 4,
+      "secondPass": 0,
+      "pool": 4
+    },
+    "gov-scot": {
+      "split": "dev",
+      "suggestions": 2,
+      "secondPass": 0,
+      "pool": 2
+    },
+    "fueleconomy-findacar": {
+      "split": "test",
+      "suggestions": 18,
+      "secondPass": 5,
+      "pool": 13
+    },
+    "gla-ac-uk": {
+      "split": "test",
+      "suggestions": 4,
+      "secondPass": 0,
+      "pool": 4
+    },
+    "leeds-undergraduate": {
+      "split": "dev",
+      "suggestions": 2,
+      "secondPass": 0,
+      "pool": 2
+    },
+    "thejournal-ie": {
+      "split": "test",
+      "suggestions": 4,
+      "secondPass": 0,
+      "pool": 4
+    },
+    "conversation": {
+      "split": "dev",
+      "suggestions": 6,
+      "secondPass": 1,
+      "pool": 5
+    },
+    "thepihut": {
+      "split": "test",
+      "suggestions": 0,
+      "secondPass": 0,
+      "pool": 0
+    },
+    "toolstation-plumbing": {
+      "split": "dev",
+      "suggestions": 0,
+      "secondPass": 0,
+      "pool": 0
+    },
+    "mdanderson": {
+      "split": "test",
+      "suggestions": 2,
+      "secondPass": 0,
+      "pool": 2
+    },
+    "bhf-article": {
+      "split": "dev",
+      "suggestions": 5,
+      "secondPass": 2,
+      "pool": 3
+    },
+    "nhm-ac-uk": {
+      "split": "test",
+      "suggestions": 3,
+      "secondPass": 0,
+      "pool": 3
+    },
+    "nls-contact": {
+      "split": "dev",
+      "suggestions": 0,
+      "secondPass": 0,
+      "pool": 0
+    }
+  },
+  "sample": [
+    {
+      "slug": "conversation",
+      "index": 4,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#article > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > p:nth-of-type(9) > a:nth-of-type(2)",
+      "message": "The link text \"within three months\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"prazo de três meses para revisão judicial\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "bhf-article",
+      "index": 2,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "html > body > main > section:nth-of-type(2) > div > div > div:nth-of-type(1) > section:nth-of-type(1) > p:nth-of-type(3) > a:nth-of-type(2)",
+      "message": "The link text \"stroke\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Stroke - causes, symptoms and treatment\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "conversation",
+      "index": 3,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#article > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > p:nth-of-type(9) > a:nth-of-type(1)",
+      "message": "The link text \"the approval shows\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"leia sobre a aprovação do campo de gás Jackdaw\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "osesp-contato",
+      "index": 1,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#govMenuToggle",
+      "message": "The label \"Abrir/Fechar\" does not say what to enter.",
+      "evidence": "The model suggests: \"Abrir ou fechar o menu\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "conversation",
+      "index": 1,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#article > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > p:nth-of-type(4) > a:nth-of-type(2)",
+      "message": "The link text \"at the time\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"leitura da decisão judicial sobre projetos de combustíveis fósseis no Reino Unido\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "cobasi-cachorro",
+      "index": 1,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#__next > div > div:nth-of-type(6) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > h2",
+      "message": "The heading \"Sobre nós\" names a different topic than the content under it.",
+      "evidence": "The model suggests: \"Informações sobre a empresa\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "infomoney-article",
+      "index": 0,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#siteHeader > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(1) > nav > ul:nth-of-type(5) > li:nth-of-type(3) > a",
+      "message": "The link text \"Aprenda\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Aprenda sobre nossos serviços\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "leeds-undergraduate",
+      "index": 1,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#global-masthead__search-field",
+      "message": "The label \"Search leeds.ac.uk\" does not say what to enter.",
+      "evidence": "The model suggests: \"Search the website\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "bhf-article",
+      "index": 4,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "html > body > main > section:nth-of-type(2) > div > div > div:nth-of-type(1) > section:nth-of-type(1) > p:nth-of-type(9) > a",
+      "message": "The link text \"sugar\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"6 things you didn't know about sugar\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "leeds-undergraduate",
+      "index": 0,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "html > body > div:nth-of-type(5) > div:nth-of-type(2) > nav > ol > li:nth-of-type(1) > a",
+      "message": "The link text \"Study\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"University of Leeds\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "bhf-article",
+      "index": 3,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "html > body > main > section:nth-of-type(2) > div > div > div:nth-of-type(1) > section:nth-of-type(1) > p:nth-of-type(8) > a",
+      "message": "The link text \"salt\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Watch: Why is too much salt bad for you?\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "osesp-contato",
+      "index": 2,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#email",
+      "message": "The label \"ex.: nome@email.com\" does not say what to enter.",
+      "evidence": "The model suggests: \"E-mail\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "gov-scot",
+      "index": 0,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#site-search",
+      "message": "The label \"Search\" does not say what to enter.",
+      "evidence": "The model suggests: \"Search site content\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "gov-scot",
+      "index": 1,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#main-content > div:nth-of-type(1) > div > h1",
+      "message": "The heading \"The Scottish Government\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Programme for Government\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "es-gov-br",
+      "index": 1,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#page-top > div:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > h3",
+      "message": "The heading \"Governo ES\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Governo do Estado do Espírito Santo\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "osesp-contato",
+      "index": 0,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "html > body > footer > section > div > div:nth-of-type(3) > a",
+      "message": "The link text \"SIC\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Acesse o portal SIC\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "es-gov-br",
+      "index": 0,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#dynamicNav > li:nth-of-type(6) > ul > li:nth-of-type(3) > a",
+      "message": "The link text \"A=\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Reset text size\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "es-gov-br",
+      "index": 2,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#page-top > div:nth-of-type(1) > div:nth-of-type(5) > div > div > div:nth-of-type(3) > div > h3",
+      "message": "The heading \"Governo ES\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Informações do Governo do Espírito Santo\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "cobasi-cachorro",
+      "index": 2,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#__next > div > div:nth-of-type(6) > div > div:nth-of-type(1) > div > div:nth-of-type(3) > h2",
+      "message": "The heading \"Mundo Cobasi\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Programas e Serviços Cobasi\"",
+      "model": "ollama:gemma4:12b",
+      "split": "dev"
+    },
+    {
+      "slug": "thejournal-ie",
+      "index": 1,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#poll-7202682-0",
+      "message": "The label \"It was right to remove the ad\" does not say what to enter.",
+      "evidence": "The model suggests: \"Do you agree with the removal of the ad?\" · The page was read without its stylesheets, so what is visible around this element may not be what people see: the claim stays a suggestion.",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "fueleconomy-findacar",
+      "index": 9,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#main-content > div:nth-of-type(3) > div:nth-of-type(2) > div > div:nth-of-type(3) > a",
+      "message": "The link text \"Hatchback Hatchbacks\" does not match where the link leads: a page titled \"Fuel Economy of New Hatchbacks\".",
+      "evidence": "The model suggests: \"Fuel Economy of New Hatchbacks\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "gla-ac-uk",
+      "index": 2,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#footerNav > div:nth-of-type(2) > h2",
+      "message": "The heading \"University of Glasgow\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Contact Information\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "fueleconomy-findacar",
+      "index": 5,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "html > body > nav > div > div > div:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+      "message": "The link text \"Save Money & Fuel\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"View Save Money & Fuel options\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "r7-com",
+      "index": 3,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(1) > div > div > div > div > article > div:nth-of-type(1) > a",
+      "message": "The link text \"VOTE!\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Vote no Poder da Chama Vermelha em 'A Fazenda'\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "fueleconomy-findacar",
+      "index": 17,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#mnuYear1",
+      "message": "The label \"From:\" does not say what to enter.",
+      "evidence": "The model suggests: \"Select Year\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "museudoamanha",
+      "index": 1,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#\\32 728 > div:nth-of-type(4) > h4",
+      "message": "The heading \"É parte de\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Espaço aberto e gratuito\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "tst-ouvidoria",
+      "index": 4,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#sic > a",
+      "message": "The link text \"SIC\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Serviço de Informação ao Cidadão (SIC)\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "r7-com",
+      "index": 5,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > a > div > div > h2",
+      "message": "The heading \"Política\" names a different topic than the content under it.",
+      "evidence": "The model suggests: \"Notícias de Política\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "dasa-article",
+      "index": 1,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "html > body > div:nth-of-type(4) > div > section:nth-of-type(4) > div > div > div > div:nth-of-type(1) > div > h4",
+      "message": "The heading \"Tópicos\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Tópicos do artigo\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "nhm-ac-uk",
+      "index": 1,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#__next > div > footer > section > div:nth-of-type(2) > ul:nth-of-type(1) > li:nth-of-type(5) > a",
+      "message": "The link text \"Access\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Accessibility at South Kensington\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "nhm-ac-uk",
+      "index": 2,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#promo-banner-container > div > div > div:nth-of-type(4) > div > div > h2",
+      "message": "The heading \"Come curious, leave inspired\" says nothing about the content under it.",
+      "evidence": null,
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "mdanderson",
+      "index": 1,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#patients_family_carouselitem_only_possible_h > div:nth-of-type(2) > h3",
+      "message": "The heading \"Only Possible Here\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Transforming bold ideas into real impact\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "r7-com",
+      "index": 7,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(4) > div > a > div > div > h2",
+      "message": "The heading \"Patricia Lages\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Biografia de Patricia Lages\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "thejournal-ie",
+      "index": 0,
+      "criterion": "1.1.1",
+      "level": "A",
+      "ruleId": "judgment/1.1.1",
+      "ref": "html > body > div:nth-of-type(6) > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > svg",
+      "message": "This image is hidden from screen readers (an svg with no name), but it conveys what the text around it does not say: \"The logo and the words 'Making sense of today'\".",
+      "evidence": "The model suggests: \"Journal logo and slogan: Making sense of today\" · The page was read without its stylesheets, so what is visible around this element may not be what people see: the claim stays a suggestion.",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "tst-ouvidoria",
+      "index": 10,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#portlet_com_liferay_journal_content_web_portlet_JournalContentPortlet_INSTANCE_u0NlPRjXh6gA > div > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(11) > div > p:nth-of-type(4) > a",
+      "message": "The link text \"Como a unidade trabalha\" does not match where the link leads: a page titled \"O que é a Ouvidoria? - TST\".",
+      "evidence": "The model suggests: \"O que é a Ouvidoria?\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "gla-ac-uk",
+      "index": 1,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#footerContact > div:nth-of-type(3) > h2",
+      "message": "The heading \"EXPLORE\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Explore the University\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "gla-ac-uk",
+      "index": 3,
+      "criterion": "3.3.2",
+      "level": "A",
+      "ruleId": "judgment/3.3.2",
+      "ref": "#surname",
+      "message": "Nothing on screen tells what to enter in the field \"surname\": its name is in aria-label, which only screen readers get.",
+      "evidence": "The model suggests: \"surname\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "tst-ouvidoria",
+      "index": 5,
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#reduz_fonte > a",
+      "message": "The link text \"A-\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Acessar Ouvidoria\"",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    },
+    {
+      "slug": "thejournal-ie",
+      "index": 2,
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#poll-7202682-1",
+      "message": "The label \"I don't think the ad should have been removed\" does not say what to enter.",
+      "evidence": "The model suggests: \"Keep the ad\" · The page was read without its stylesheets, so what is visible around this element may not be what people see: the claim stays a suggestion.",
+      "model": "ollama:gemma4:12b",
+      "split": "test"
+    }
+  ]
+}

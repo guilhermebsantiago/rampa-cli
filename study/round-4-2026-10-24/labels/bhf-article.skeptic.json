@@ -1,0 +1,36 @@
+{
+  "page": "https://www.bhf.org.uk/informationsupport/heart-matters-magazine/nutrition/eat-well-on-a-budget",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s5ea171332fc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An inline link 'stroke' in the sentence 'helping to reduce your risk of long-term health issues like a heart attack or stroke', pointing to /informationsupport/conditions/stroke, whose page is titled 'Stroke - causes, symptoms and treatment'. The link text names the topic of the destination and the enclosing sentence (programmatically determined context) makes clear it leads to information about stroke as a health condition. That meets 2.4.4 (G53, G91); the claim that nothing around it tells where it goes is wrong. Live HTML matches the snapshot."
+    },
+    {
+      "fingerprint": "s016acdaf9e6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An inline link 'salt' in 'Most of us in the UK eat too much salt, and over time, this contributes to high blood pressure...', leading to the BHF page 'Watch: Why is too much salt bad for you?'. The link text plus its sentence tells a user it leads to information on salt intake and its harm, which is what the destination is. 2.4.4 does not require the link text to say the page includes a video or to repeat the destination's title; the purpose is determinable from the text and its sentence context (G53). Live HTML matches the snapshot."
+    },
+    {
+      "fingerprint": "e4feb8479ae0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A 52x52 thumbnail in the 'Related links' sidebar, inside a link whose visible text is 'Video: How to eat more veg without even noticing', alt 'A pot of chicken curry with red chillis and star anise on the side'. I downloaded the source image (curry-620x400.jpg): it shows exactly a clay pot of chicken curry with a side dish of red chillis, star anise and garlic. Even the thumbnail crop the model saw shows the curry pot with chilli slices and the edge of the side dish of red chillis. The alt describes what the image shows, so the claim fails. At most the alt is redundant inside a link that has its own text, and the curry image matches the veg article only loosely, but neither is the failure claimed."
+    },
+    {
+      "fingerprint": "770b6809ca24",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The desktop masthead logo image (/assets/img/BHF-logo-desktop.svg), alt 'BHF logo', inside the home link with aria-label 'BHF home page'. The crop shows the British Heart Foundation heart mark and wordmark, which is the BHF logo, so the alt does not describe anything absent. The link's aria-label overrides the image's alt for the link name anyway, so its purpose is conveyed. No 1.1.1 failure of the kind claimed."
+    },
+    {
+      "fingerprint": "s44fb503b5c1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An inline link 'sugar' in 'We're also mostly eating too much sugar, which can lead to putting on weight...', leading to '6 things you didn't know about sugar'. The link text and its sentence make clear it leads to more information about sugar, which is what the destination is. Purpose is determinable from the link text with its programmatically determined context (G53, G91), so 2.4.4 is met; the finding's claim that nothing around it helps is wrong. Live HTML matches the snapshot."
+    }
+  ]
+}

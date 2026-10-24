@@ -1,0 +1,18 @@
+{
+  "page": "https://www.gov.scot/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s7c06e5f1a5b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the site-wide search input in the header (type=search, inside a form with role search), labelled by a visually hidden <label for=site-search> reading 'Search', with placeholder 'Search' and an adjacent 'Search' submit button with a magnifier icon. 2.4.6 only requires a label to describe the topic or purpose of the input, and Understanding 2.4.6 says labels can be short. 'Search' on a site search box states its purpose, and anyone will understand they should type search terms. Requiring the label to spell out what to enter goes beyond what the criterion asks. Whether a visually hidden label meets 2.5.3 or 3.3.2 is a separate question, and the visible placeholder and button cover it here."
+    },
+    {
+      "fingerprint": "s3ef2a472a3c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the single h1 of the gov.scot home page, 'The Scottish Government'. On an organisation's home page, an h1 that names the organisation describes the page's topic, which is what 2.4.6 asks a top-level heading to do. The content under it is all about the Scottish Government: featured items (Programme for Government, Bank holidays, Cost of living support), the First Minister, 'How government works', news, and follow links, each under its own h2 or h3. The heading is not vague or misleading, so it does not fail 2.4.6. The checker had this content and still misjudged it."
+    }
+  ]
+}

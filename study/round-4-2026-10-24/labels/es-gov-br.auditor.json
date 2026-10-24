@@ -1,0 +1,30 @@
+{
+  "page": "https://www.es.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "se6ebc4b3cc8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the h3 'Governo ES' in the right column of the footer (a div named 'Órgão'). It wraps a link to the home page and shows the site and agency name, which the screenshot confirms. The text names the organisation that the footer column is about, so it does describe its topic, and 2.4.6 asks only that a heading be descriptive. The checker had the ancestors and nearby headings and still judged it non-descriptive. The real weakness is structural: the site name is marked up as a heading four times, with nothing under it and no h1 on the page. That is a 1.3.1 or best-practice concern, not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "2d955abda9b5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The snapshot's html element has lang=\"en\", but all the page text is Portuguese (menus, titles, address, cookie notice). I checked the live server. It picks the lang attribute from the Accept-Language header: requests with en or en-US get <html lang=\"en\"> with the same untranslated Portuguese content, while pt-BR gets lang=\"pt-BR\". So a visitor whose browser asks for English, as Rampa's en-locale browser did, is served a page whose declared default language is wrong. Screen readers and other assistive tech would then read the Portuguese with English rules. The page's default human language is not correctly programmatically determinable for those users, so this fails 3.1.1. Visitors whose browser requests Portuguese do not see the problem."
+    },
+    {
+      "fingerprint": "s24bddf9f533",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'A=' text-size control in the top accessibility bar (a link with href=javascript:void(0)). It has title=\"Retornar ao tamanho original do texto\", which Chrome exposes as the link's accessible description; the snapshot's ax data shows it. Supplementing link text with a title (H33) is a listed sufficient technique for 2.4.4. Its list also holds the 'Acessibilidade', 'Aplicar contraste', 'A+' and 'A-' controls, which together make up the familiar font-size group. So the claim that nothing around it tells its purpose is wrong, and the title attribute was in the packet. Using a link for what is really a button is a 4.1.2 role issue, not a 2.4.4 failure. The live HTML is unchanged."
+    },
+    {
+      "fingerprint": "s6166946b9f2",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the visible site-title h3 'Governo ES' at the top left of the header banner. It links to the home page and sits beside the state coat of arms. The banner's topic is the site and the state government itself, and 'Governo ES' names exactly that, so the heading is descriptive under 2.4.6. The checker had the ancestor context showing it is the site branding. Marking the site name as an h3 (repeated in the hidden sticky header, the menu and the footer, with no h1) is at most a 1.3.1 or best-practice heading-structure concern, not a failure of 2.4.6."
+    }
+  ]
+}

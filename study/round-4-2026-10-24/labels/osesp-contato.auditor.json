@@ -1,0 +1,78 @@
+{
+  "page": "https://osesp.art.br/osesp/pt/fale-conosco",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sc493700e598",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the visually hidden checkbox (width 0, height 0, opacity 0) that toggles the gov.br social-links bar; at 1280 px its visible label (a kebab icon labelled 'Abrir menu') is display:none, so 'Abrir/Fechar' is only an aria-label exposed to assistive technology. WCAG 2.2 defines a label as presented to all users and separates it from a hidden name, so 2.4.6 does not reach this name, and the message ('does not say what to enter') does not fit a checkbox. The vague name is a best-practice issue, and an invisible focusable control may matter for 2.4.7, but this is not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "3d94aa4a9080",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header language switcher link 'Español' (href /osesp/es) has no lang attribute, and the page is lang=pt-BR. The live HTML checked today is unchanged. The Understanding document for 3.1.2 gives 'Alternative language links' as its example of language of parts: each language name, written in its own language, needs a lang attribute. Spanish is not the vernacular of the surrounding Portuguese text, so this fails 3.1.2."
+    },
+    {
+      "fingerprint": "s7f9c754e893",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'SIC' is one of the standard São Paulo government footer links (Ouvidoria / Transparência / SIC). It goes to sic.sp.gov.br, the 'Serviço Estadual de Informações ao Cidadão', which is the service the link text names. The text identifies its destination by the name that service uses everywhere. Not knowing what the acronym stands for is an abbreviation-expansion matter (3.1.4, AAA), not ambiguous link purpose, so this does not fail 2.4.4."
+    },
+    {
+      "fingerprint": "d6ec756229d9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Nome field's placeholder 'ex.: João da Silva Gomes' is 14px normal italic text. The site CSS sets it to currentColor (measured #222325 on the label) at opacity 0.6 on a white field, which gives about #7a7b7c, roughly 4.3:1; the darkest anti-aliased pixels in the screenshot reach only 3.84:1. That is below the 4.5:1 that 1.4.3 requires. Placeholder text in an enabled field is not incidental, so it fails. The colours the finding quotes (#f0f0f0) look like a sampling artefact, but the claim that the placeholder is below 4.5:1 holds."
+    },
+    {
+      "fingerprint": "f19e9cee742a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header language switcher link 'English' (href /osesp/en) has no lang attribute and inherits pt-BR. The live HTML checked today is unchanged. This is the 'Alternative language links' example in Understanding 3.1.2: the English language name in a Portuguese page has to be marked lang=en. It fails 3.1.2."
+    },
+    {
+      "fingerprint": "2ec749673643",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This bottom-bar 'Ouvidoria' link points to ouvidoria.sp.gov.br/Portal/Default.aspx. That page (title 'Ouvidoria', checked live today) immediately runs window.location = 'https://fala.sp.gov.br/', which is the target of the other 'Ouvidoria' link in the footer nav. Both links therefore reach the same state ombudsman service (Fala SP) and have the same purpose. Same text for the same purpose is not ambiguous, so this does not fail 2.4.4. Rampa never read the destinations."
+    },
+    {
+      "fingerprint": "s530306d3451",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The email field has a visible <label for='email'>E-mail</label> (also aria-label 'E-mail'), shown above it in the screenshot. 'ex.: nome@email.com' is only the placeholder example, not the label. 'E-mail' plainly says what to enter, so 2.4.6 passes; the model mistook the placeholder for the label."
+    },
+    {
+      "fingerprint": "a9e213e59f43",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This footer-nav 'Ouvidoria' link goes to fala.sp.gov.br. The other 'Ouvidoria' link (ouvidoria.sp.gov.br/Portal/Default.aspx) redirects there by script, checked live today. The two links do not lead to different places: both are the São Paulo state ombudsman. Identical text for links with the same purpose does not fail 2.4.4. Rampa had not read either destination."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The contact form's email field (type=email, label 'E-mail') asks for the user's own email address and has no autocomplete attribute, in the snapshot and in the live HTML today. Only the phone field carries one. Under 1.3.5 a field collecting a listed user-information purpose must expose it programmatically (H98: autocomplete='email'); type=email alone is not the input-purpose mechanism. It fails 1.3.5."
+    },
+    {
+      "fingerprint": "321f23b46bcf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The image under 'Patrocínio Máster' in the footer is the Motiva sponsor logo (the crop shows the 'motiva' wordmark), with alt='Patrocinador' ('Sponsor'). The alt gives only a generic role and not the logo's content, so a screen reader user cannot tell who the sponsor is: the text alternative is not equivalent and fails 1.1.1. Its parent <a> has no href, so the image is not functional. The live HTML today renders another sponsor's logo in this slot with the same generic alt."
+    },
+    {
+      "fingerprint": "3632db9dd1b8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Nome' field (error text 'Informe seu nome completo') asks for the user's own full name and has no autocomplete attribute, in the snapshot and in the live HTML today. Name is one of the input purposes listed for 1.3.5, so without autocomplete='name' (H98) the purpose is not programmatically determinable. It fails 1.3.5."
+    },
+    {
+      "fingerprint": "3d3b50ee20c0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page title 'Fale conosco' ('Contact us') matches the h1 'Fale Conosco' and the content, which is the Fundação Osesp contact form and contact details. It describes the page's topic and purpose. WCAG 2.4.2 does not require the site name in the title; that is advisory. The claim that it 'says nothing about this page' is wrong."
+    }
+  ]
+}

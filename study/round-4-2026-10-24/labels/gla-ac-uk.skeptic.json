@@ -1,0 +1,36 @@
+{
+  "page": "https://www.gla.ac.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sc4b1f6fb87b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The Staff A-Z surname text box (#surname) has no visible label element, but it sits inside a tile with the visible heading 'Staff A-Z' right above it. A visible 'search' submit button is directly adjacent, and a visible paragraph just below says \"Searching for 'Ma' will find all surnames beginning with Ma...\". The screenshot and snapshot both show this. Visible instructions that say to enter a surname are provided, and an adjacent button is itself a sufficient technique (G167), so 3.3.2 is met. The ancestor text the model was given contained these instructions."
+    },
+    {
+      "fingerprint": "703688da82c0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The course keyword box (#q) has no label element or placeholder, and its accessible name comes from title. But it is the only text box in a tile whose visible heading 'STUDY SEARCH' sits directly above it. A 'level of study' dropdown and a submit button ('show all' at run time, 'search' in the served HTML) follow it. Under WCAG's definition, a label is visible text presented to identify a component, and the heading identifies this as a study/course search box, at least as clearly as the adjacent 'Search' button that G167 accepts. So the claim that nothing on screen says what to enter does not hold. Some auditors would want a field-level label, so this is borderline, but I do not see a clear 3.3.2 failure. The heading was among the context the model was given."
+    },
+    {
+      "fingerprint": "19775f600611",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the same #surname field as the judgment finding. The rule's claim that 'no text, button or legend sits near it' is wrong: the snapshot puts the visible 'search' submit button (#staffsearchsubmit) directly to its right, at the same y, with no gap (x=304 against the field's 112+192). The 'Staff A-Z' heading and the paragraph about how surname searching works sit directly above and below it in the same form tile. Visible instructions and an adjacent button (G167) satisfy 3.3.2. The rule had this data in the snapshot and decided wrongly."
+    },
+    {
+      "fingerprint": "s4d6ff719492",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This footer h2 'University of Glasgow' (with 'of' in em) heads a block with the university's postal address (Glasgow, G12 8QQ, Scotland), phone number, and 'Contact us' and 'Maps and travel' links. A heading that names the organisation over its contact details accurately describes what follows; it is the usual pattern for a contact card. 2.4.6 asks only that headings describe their topic or purpose, which this one does. No failure."
+    },
+    {
+      "fingerprint": "s32d614dcb28",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This footer h2 'EXPLORE' links to /explore/ and heads a list of that section's pages: Meet World Changing Glasgow, City of Glasgow, Visit us, Maps and travel, News, Events, Schools, Colleges, Library and others. It matches the site's top-level navigation section 'Explore' and sits beside the parallel headings STUDY, RESEARCH and CONNECT. As the name of the site section whose links follow, it describes the content's topic and purpose. Wanting a more detailed heading is stricter than 2.4.6 requires."
+    }
+  ]
+}

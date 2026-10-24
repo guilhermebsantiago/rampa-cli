@@ -1,0 +1,78 @@
+{
+  "page": "https://osesp.art.br/osesp/pt/fale-conosco",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sc493700e598",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the gov.sp header's menu toggle checkbox (#govMenuToggle). At the 1280 px viewport Rampa used, the site's CSS makes it 0x0 with opacity 0, and its <label> (a three-dot icon) is display:none at 577 px and wider, so no label is shown to anyone. \"Abrir/Fechar\" is only an aria-label, so it is an accessible name that only assistive technology exposes. WCAG's definition of label says a label is presented to all users, while a name may be hidden and exposed only to AT. So 2.4.6, which is about headings and labels, does not cover this aria-label. The name is vague, but no A/AA criterion requires an accessible name to be descriptive here (4.1.2 only requires that one exists). The message's \"does not say what to enter\" also does not fit a checkbox that toggles a menu."
+    },
+    {
+      "fingerprint": "3d94aa4a9080",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header language switcher's link \"Español\" (/osesp/es) sits on a page with lang=\"pt-BR\", and neither the link nor any ancestor has lang=\"es\" (checked in the snapshot and on the live page, which is unchanged). The link names the language in that language, so the change of language is clearly intended, and the single-word exception does not apply. The Understanding document for 3.1.2 uses this exact pattern (\"Alternative language links\", each marked with lang) as its example. It is not a proper name or a Portuguese vernacular word (Portuguese says \"espanhol\")."
+    },
+    {
+      "fingerprint": "s7f9c754e893",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "\"SIC\" is the gov.sp footer link to http://www.sic.sp.gov.br/. That site's title is \"Serviço Estadual de Informações ao Cidadão\" and its heading is \"SIC.SP\", so the link text is the destination's own official name, the access-to-information service that Brazilian government sites must link to. It sits next to \"Ouvidoria\" and \"Transparência\" in the same strip. The link text identifies where the link goes. What a user may not know is what the acronym stands for, and expanding abbreviations is 3.1.4 Abbreviations (AAA), not 2.4.4. Rampa did not read the destination."
+    },
+    {
+      "fingerprint": "d6ec756229d9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The placeholder \"ex.: João da Silva Gomes\" in the Nome field is 14 px italic text. It is real hint text, not incidental. The site's CSS sets ::placeholder to the field's text colour, the body colour hsl(220,4%,14%) (about #222325, the same as the darkest pixel of the \"Nome\" label), with opacity 0.6. On the white field that gives about #7a7b7c, roughly 4.25:1. The darkest rendered pixel in the screenshot is #828283 (3.84:1). Either way it is below 4.5:1, so it fails 1.4.3. The finding's colours (#f0f0f0 foreground) and its 3.66:1 figure are not accurate, a sampling artefact, but its claim that the placeholder text is below 4.5:1 holds."
+    },
+    {
+      "fingerprint": "f19e9cee742a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header language switcher's link \"English\" (/osesp/en) sits on a page with lang=\"pt-BR\", with no lang=\"en\" on the link or any ancestor (snapshot and live page agree). It is the language's name in its own language, a deliberate change of language, and the exact \"Alternative language links\" example in the Understanding document for 3.1.2. Portuguese uses \"inglês\", so \"English\" is not a vernacular word in the surrounding text, and no exception applies."
+    },
+    {
+      "fingerprint": "2ec749673643",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the gov.sp footer link \"Ouvidoria\" to https://www.ouvidoria.sp.gov.br/Portal/Default.aspx. The other \"Ouvidoria\" link, in the Osesp footer nav, goes to https://fala.sp.gov.br/. Rampa did not read either destination. The old Ouvidoria portal now shows a notice that the state's ombudsman network has moved to Fala.SP, then runs window.location = \"https://fala.sp.gov.br/\". So both links reach the same ombudsman service and have the same purpose, and the shared text describes that purpose correctly. Nothing here fails 2.4.4."
+    },
+    {
+      "fingerprint": "s530306d3451",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The E-mail field has a visible <label for=\"email\">E-mail</label> and aria-label=\"E-mail\". Its accessible name, \"E-mail\", was in the element data Rampa had. The finding treats the placeholder \"ex.: nome@email.com\" as the label. The real label, \"E-mail\", says exactly what to enter, and the placeholder, an example address, does too. This does not fail 2.4.6."
+    },
+    {
+      "fingerprint": "a9e213e59f43",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the Osesp footer nav link \"Ouvidoria\" to https://fala.sp.gov.br/ (Fala.SP, the São Paulo state ombudsman platform). The other \"Ouvidoria\" link (gov.sp footer) goes to ouvidoria.sp.gov.br/Portal/Default.aspx, which now shows a notice and redirects by script to https://fala.sp.gov.br/. Rampa never read either destination. Both links lead to the same ombudsman service, so the identical text does not mislead, and \"Ouvidoria\" alone states the purpose. Nothing here fails 2.4.4."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the contact form's E-mail field (type=email, required), asking for the sender's own address so the foundation can reply (\"O prazo para retorno é de 7 dias úteis\"). That is user information with an \"email\" input purpose. The snapshot and the live HTML show no autocomplete attribute on the field. The Understanding document for 1.3.5 says type=\"email\" does not identify the purpose (it could be someone else's address), so it does not satisfy the criterion. No other technique identifies the purpose here, so it fails 1.3.5."
+    },
+    {
+      "fingerprint": "321f23b46bcf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This image sits under \"Patrocínio Máster\" in the footer. The crop and the screenshot show the Motiva logo, and its alt is the generic \"Patrocinador\". The live page's template gives every sponsor image that same alt (the server-rendered image is now a different sponsor's logo, still with alt \"Patrocinador\"). The alt repeats the role the nearby heading already states and leaves out the one thing the logo conveys, which sponsor it is. That is placeholder-like text that is not an equivalent (close to F30). The finding's wording, that the alt describes something not shown, is loose, but read fairly it says the alt does not match the image, and that is a real 1.1.1 failure."
+    },
+    {
+      "fingerprint": "3632db9dd1b8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the contact form's Nome field, asking for the sender's full name (\"Informe seu nome completo\"). That is user information with a \"name\" input purpose. The snapshot and the live HTML show no autocomplete on the input or the form (only the phone field has one, and its value is invalid). The field is HTML, which supports autocomplete, and nothing else identifies its purpose, so it fails 1.3.5 as reported."
+    },
+    {
+      "fingerprint": "3d3b50ee20c0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page title is \"Fale conosco\" (\"Contact us\"), the page's h1 is \"Fale Conosco\", and the page is the contact form. The title states the page's purpose exactly. 2.4.2 requires a title that describes the topic or purpose. Adding the site name (G127) is a sufficient technique, not a requirement. The claim that the title \"says nothing about this page\" is wrong."
+    }
+  ]
+}

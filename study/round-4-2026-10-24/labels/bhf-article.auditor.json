@@ -1,0 +1,36 @@
+{
+  "page": "https://www.bhf.org.uk/informationsupport/heart-matters-magazine/nutrition/eat-well-on-a-budget",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s5ea171332fc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is an inline link, \"stroke\", in the sentence \"helping to reduce your risk of long-term health issues like a heart attack or stroke\". It goes to the BHF condition page \"Stroke - causes, symptoms and treatment\". On a heart-health charity's article, a link on a condition's name inside its sentence clearly leads to information about that condition, and the link text plus its sentence (programmatically determined context) give that purpose. 2.4.4 does not require link text to describe the destination in more detail than that. Passes."
+    },
+    {
+      "fingerprint": "s016acdaf9e6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is an inline link, \"salt\", in \"Most of us in the UK eat too much salt, and over time, this contributes to high blood pressure...\". It goes to the BHF article \"Watch: Why is too much salt bad for you?\". From the link text and its sentence, the purpose (more information on salt and why too much of it is harmful) can be determined, and that matches the destination. That the destination includes a video is not something 2.4.4 requires the link to say. Passes."
+    },
+    {
+      "fingerprint": "e4feb8479ae0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a 52x52 thumbnail in the Related links sidebar, inside a link whose text is \"Video: How to eat more veg without even noticing\". I fetched the source image (curry-620x400.jpg). It shows exactly what the alt says: a pot of chicken curry, with red chillis and star anise in a dish beside it. The thumbnail is a tiny, centre-cropped rendering, so the side dish is barely visible in the crop the model saw, but the alt still accurately describes the image. The claim that the alt describes something the image does not show is wrong. (The image could arguably be decorative next to the link text, but that is not the failure claimed here.)"
+    },
+    {
+      "fingerprint": "770b6809ca24",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the desktop masthead logo image (BHF-logo-desktop.svg) inside the home link, which has aria-label=\"BHF home page\". The crop shows the British Heart Foundation heart mark with the words \"British Heart Foundation\", which is the BHF logo, so the alt \"BHF logo\" describes what is shown. The link's aria-label overrides the image's alt for the link's accessible name anyway, and the link's purpose is conveyed. Not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "s44fb503b5c1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is an inline link, \"sugar\", in \"We're also mostly eating too much sugar, which can lead to putting on weight. So check the label...\". It goes to the BHF article \"6 things you didn't know about sugar\". The link text in its sentence shows the link leads to more information on sugar, which matches the destination. 2.4.4 is met through link text together with programmatically determined context. Passes."
+    }
+  ]
+}

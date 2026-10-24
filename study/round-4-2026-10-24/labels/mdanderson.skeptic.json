@@ -1,0 +1,36 @@
+{
+  "page": "https://www.mdanderson.org/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "94395165dfb3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Cancer-type search field. The live CSS sets .search-wrapper .search-field to background-color #d0d0ce and its ::placeholder to color #605d5d at opacity 1, 18px, normal weight. My own pixel read of the screenshot gave the same pair: the darkest glyph pixels are #605d5d on #d0d0ce, which is 4.22:1. 18px at normal weight is not large text, so 4.5:1 applies. Placeholder text is visible text that carries the field's instruction, and none of the 1.4.3 exceptions (inactive control, incidental, decoration, logotype) covers it. I found no technique or state that makes it pass."
+    },
+    {
+      "fingerprint": "d6362497758f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Clinical-trials search field. It uses the same CSS as the first field: #605d5d placeholder on a #d0d0ce field at 18px. The lightblue variant adds text-transform: capitalize, which is why the screenshot shows 'Search Clinical Trials' while the attribute says 'Search clinical trials'. The rendered pixels measure #605d5d on #d0d0ce, 4.22:1, below the 4.5:1 that normal-size text needs. The difference in capitalisation between the quoted subject and the rendered text does not change the measurement."
+    },
+    {
+      "fingerprint": "9b90b5e38776",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the background picture of the 'Together, we're ending cancer' banner (div.headline-bg-image). At a 1280 px viewport the picture's <source> serves the real image. It shows abstract purple, red and gray shapes that carry no information, and the heading, paragraph and link next to it carry all the content. That makes it pure decoration, so 1.1.1 requires it to be ignorable by assistive technology. Its alt is a non-empty description, so screen readers announce it, which is documented failure F39. The snapshot's crop was shifted about 150 px upward but still showed the image correctly, and I found no reason to treat the shapes as meaningful, such as a logo or text."
+    },
+    {
+      "fingerprint": "82c157909736",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "I decoded the image's data URI from the live page. It is a plain red badge with a pointed, chevron-cut bottom, a pennant or shield shape, and has no text in it. The '37 Years' the model saw in the crop is HTML text (div.badge-text) placed over the image. 'shield' is a fair description of that shape, so the claim that the alt describes something the image does not show is wrong. The image is really a decorative backdrop, and alt='' would be better than 'shield' (an F39-type issue), but that is not the finding's claim."
+    },
+    {
+      "fingerprint": "s1f703d76189",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The h3 sits inside a highlights carousel card, and the card links to onlypossiblehere.mdanderson.org. The text under it reads 'Support our effort to transform bold ideas into real impact'. 'Only Possible Here' is the proper name of UT MD Anderson's fundraising campaign: the destination's title is 'Only Possible Here, The Campaign to End Cancer', and the same homepage labels another link 'Visit the Only Possible Here website'. So the heading names its topic, as terse as the sibling card titles ('Neuropathy', 'Anal cancer'). 2.4.6 does not require headings to be long. Rampa never read the destination."
+    }
+  ]
+}

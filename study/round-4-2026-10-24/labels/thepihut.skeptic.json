@@ -1,0 +1,30 @@
+{
+  "page": "https://thepihut.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "152f9e19d747",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The M5Stack collection header's description paragraph: white (#fff, from CSS) 16px regular Lato on the section's blue gradient. I sampled the screenshot inside its bounds myself: the darkest background pixel behind the text is #158ccf, about 3.69:1 against white, and most of it is around #1fa0e8 (2.9:1). Even the section's flat CSS base colour, rgb(1,130,205), gives only about 4.14:1. I looked for a reason it might pass. The theme CSS gives this text no text-shadow or halo, the text is normal size (it needs 4.5:1), the page offers no high-contrast alternative, and the live page (fetched later on 2026-10-24) still sets the same colours. Nothing I found makes it pass, so it fails 1.4.3."
+    },
+    {
+      "fingerprint": "a4c565de7ddb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Raspberry Pi Kits' promo-block heading (h4): white 16px bold text placed directly over the green part of the block's PNG image. The theme's overlay opacity is 0, so no scrim darkens the image. 16px bold is below the 14pt (18.66px) bold large-text threshold, and even the 18px size used at some viewports would be, so it needs 4.5:1. My own pixel sample of its bounds puts the darkest green behind it at #63961f, about 3.55:1, and the typical value lower, near 3.0 to 3.3:1. There is no text-shadow in theme.css and no alternative version. Its best-case contrast is below 4.5:1, so it fails 1.4.3."
+    },
+    {
+      "fingerprint": "ed19f5b054e2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Arduino collection header's description paragraph: white 16px regular text on a teal gradient. My screenshot sample within its bounds gives #029ba4 as the darkest background, about 3.37:1, and the most common value #01b2bc, about 2.59:1. The section's flat CSS base colour, rgb(0,135,143), would still give only about 4.3:1. There is no text-shadow, the text is not large, and the live page still uses the same colours. I found no technique or collector artefact that would make it pass, so it fails 1.4.3."
+    },
+    {
+      "fingerprint": "596ac744d636",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Maker Products collection header's description paragraph: white 16px regular text on a green gradient. The section's CSS base colour, rgb(119,171,45), is itself only about 2.6:1 against white. In my screenshot sample the darkest background pixel inside the text bounds is #659921, about 3.42:1. There is no text-shadow or halo in the theme CSS, the text is normal size, and the live page still uses the same styling. It is well below 4.5:1, so it fails 1.4.3."
+    }
+  ]
+}

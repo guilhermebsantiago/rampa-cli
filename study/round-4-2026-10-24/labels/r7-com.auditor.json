@@ -1,0 +1,42 @@
+{
+  "page": "https://www.r7.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sb611ebbfa3f",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h2 \"Patricia Lages\" is the title of one card in the home page's BLOGS carousel: the blogger's photo, her name as the blog title, then the title of her latest post (\"Interromper a fala de colegas de trabalho pode prejudicar sua imagem\"). The screenshot shows the same pattern for every card: Política, Poetizando, Dr. Piterson Gomes, Rafael Ferraz. In a list of blogs, the blog's or columnist's name is what the card is about, so the heading describes its topic. Nothing here fails 2.4.6. The model had the 'Blogs' ancestor text and the post title, and still judged wrongly."
+    },
+    {
+      "fingerprint": "9b92bf30bab8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Programação completa\" is the link in the Record TV schedule box, styled as a button. The snapshot's pixel data gives foreground #f0f2f3 (from CSS) on a solid #218ee1 fill: the 'gradient' is two single-colour layers. I sampled the screenshot inside the element's bounds and got the same colours, (33,142,225) for the fill and (240,242,243) for the text, which works out to about 3.1:1. Even pure white on that blue would only reach about 3.5:1. The text is 16px at weight 500, so it is not large text and needs 4.5:1. It fails 1.4.3 as reported."
+    },
+    {
+      "fingerprint": "sfea969696d6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"VOTE!\" is the red tag on the A Fazenda poll bar. It links to the poll page and has title=\"Qual deve ser o Poder da Chama Vermelha em 'A Fazenda'?\". Chrome exposes that text as the link's accessible description, and the snapshot confirms it. H33, supplementing link text with the title attribute, is listed as a sufficient technique for 2.4.4 in WCAG 2.2. The same article element also holds the h3 with that same poll question, right next to the link, and 'VOTE!' already says the purpose is to vote in a poll. The claim that nothing around the link tells where it goes is wrong, and the model had the title attribute in the HTML. This passes 2.4.4. The live page still has the same markup."
+    },
+    {
+      "fingerprint": "3ed7bc149efd",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The poll thumbnail is the only content of a link to the poll page. Its alt is \"Alt para imagem\" ('alt for image'), a CMS placeholder that is still on the live page. Placeholder text used as a text alternative is documented failure F30, and for a linked image the text alternative should state the link's purpose, which this one does not. Chrome names the link from its title attribute, because the image sits inside a figure. Even so, the image's own alternative stays exposed to screen readers reading the page and in other browsers, so the image still lacks a text alternative that serves the equivalent purpose. The finding's claim holds: it fails 1.1.1."
+    },
+    {
+      "fingerprint": "s7ec703c92b9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Política\" is the h2 of the first card in the BLOGS carousel, the R7 Planalto blog, subtitled \"Direto de Brasília\". The content under it is \"A dois dias das eleições, TSE tem quase mil processos a mais do que em 2022\", a story about the electoral court and the elections, which is plainly politics. The heading names the right topic, so it does not fail 2.4.6. The model misread content that clearly matches the heading."
+    },
+    {
+      "fingerprint": "11fe4798718a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The photo of Eduardo Bolsonaro is the only content of a link to the story \"Eduardo Bolsonaro pede que Flávio deixe o país se perder as eleições para Lula\". Its alt is \"Eduardo Bolsonaro disse que jamais teve objetivo interferir em qualquer processo brasileiro\". That is the photo caption from the CMS: the destination article uses the same text as its lead-image alt and og:image:alt. Chrome computes the link's accessible name from this alt, and the real headline (the title attribute) comes through only as a description. So the link is announced as if it led to a different statement, and the alt neither states the link's function nor describes the photo. For a functional image that does not serve the equivalent purpose, so it fails 1.1.1. Some auditors would file this under 2.4.4 instead, or excuse it because the headline link next to it goes to the same place, but the image alternative is misleading as it stands. This story was no longer on the live home page when I checked."
+    }
+  ]
+}

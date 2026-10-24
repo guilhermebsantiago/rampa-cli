@@ -1,0 +1,42 @@
+{
+  "page": "https://www.r7.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sb611ebbfa3f",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h2 \"Patricia Lages\" is the blog/columnist name on a card in the \"Blogs\" carousel (screenshot shows her photo, the name in blue, then the post title \"Interromper a fala de colegas de trabalho pode prejudicar sua imagem\"). Under it is a post from her blog. In a row of blog cards the blog name is exactly what tells the user which blog the card is from, so the heading does describe its section. Putting the post title in the h2 would be better structure, but that is not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "9b92bf30bab8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Programação completa\" button-style link in the Record schedule widget, with 16px weight-500 text, so not large text. In its default state the background is a solid #218ee1: the CSS gradient is a transparent overlay over one color, and that is why axe gave up. I sampled the screenshot pixels in the element's bounds and the background is #218ee1 (7348 px), with text #f0f2f3 (from CSS). That is 3.11:1, and pure white would still only reach 3.49:1, below 4.5:1. Hover adds a dark overlay but does not fix the default state. I found no technique or exception that would make it pass."
+    },
+    {
+      "fingerprint": "sfea969696d6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The \"VOTE!\" badge link has title=\"Qual deve ser o Poder da Chama Vermelha em 'A Fazenda'?\", which Chrome exposes as its accessible description (ax.description in the snapshot). H33, supplementing link text with the title attribute, is listed as a sufficient technique for 2.4.4 in the WCAG 2.2 Understanding document. The same article card also shows the poll question as an adjacent heading link to the same poll URL. So the claim that nothing around it tells where it goes is wrong: the purpose (vote in that poll) can be determined."
+    },
+    {
+      "fingerprint": "3ed7bc149efd",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The poll thumbnail (a woman in a red hat, A Fazenda) has alt=\"Alt para imagem\" (\"alt for image\"), which is CMS placeholder text and not an alternative: failure F30 of 1.1.1. It is the only content of a link to the poll. Chrome happens to name that link from its title, because it skips the figure wrapper, but the img is still exposed as \"Alt para imagem\". Browsers that take the name from the content would give the link that placeholder name. Either way the text alternative serves neither the image's purpose nor the link's, so the claim stands."
+    },
+    {
+      "fingerprint": "s7ec703c92b9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h2 \"Política\" is the name of the R7 Planalto blog card (subtitle \"Direto de Brasília\"). The post under it is \"A dois dias das eleições, TSE tem quase mil processos a mais do que em 2022\", about the electoral court and elections, which is politics. The heading names the topic of its content correctly, so this does not fail 2.4.6."
+    },
+    {
+      "fingerprint": "11fe4798718a",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The thumbnail is the only content of a link to the article \"Eduardo Bolsonaro pede que Flávio deixe o país se perder as eleições para Lula\". Its alt is a stale caption kept in the photo library (it is also the og:image:alt on the destination page): \"Eduardo Bolsonaro disse que jamais teve objetivo interferir em qualquer processo brasileiro\". Chrome uses that alt as the link name. The alt names the article's subject but describes a different statement, which points toward failing H30. Against that, the link's title gives the exact headline as its accessible description, and an adjacent heading link in the same card goes to the same URL. The alt does identify who is pictured. Competent auditors could treat this as a misleading functional alt (1.1.1) or as an adequate but imperfect one, so I cannot settle it."
+    }
+  ]
+}

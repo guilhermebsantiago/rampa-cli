@@ -1,0 +1,36 @@
+{
+  "page": "https://www.gla.ac.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sc4b1f6fb87b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The Staff A-Z surname text field has only aria-label=\"surname\", but it is not unlabelled on screen. The screenshot shows the heading \"Staff A-Z\" right above it, a \"search\" submit button right next to it (G167, an adjacent button that labels the field's purpose, is a sufficient technique for 3.3.2), and visible text right under it: \"Searching for 'Ma' will find all surnames beginning with Ma...\", which says plainly that you type a surname. That text was in the ancestor context the model had. The claim that nothing on screen says what to enter is wrong. The live page has the same markup."
+    },
+    {
+      "fingerprint": "703688da82c0",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The course finder text field (#q) has no label element and its name comes from title=\"course keyword\". But the visible heading \"STUDY SEARCH\" sits directly above it as the title of a small search widget, with a \"level of study\" dropdown and a submit button below. In that context, it is visible on screen that the empty box is where you type what you want to study. 3.3.2 (Level A) asks only that labels or instructions be provided, not a dedicated label element per field. A field-specific visible label would be better practice, and some auditors would still flag it, but it is not clearly a 3.3.2 failure. The live HTML matches; there the button's value is \"search\" (the snapshot showed \"show all\")."
+    },
+    {
+      "fingerprint": "19775f600611",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the same Staff A-Z surname field, flagged by the no-visible-label rule. The rule says no text, button or legend sits near it, but the snapshot itself has the adjacent submit button (#staffsearchsubmit, visible text \"search\") in the same form, the \"Staff A-Z\" heading above, and a visible paragraph below about searching surnames. Together they tell the user to enter a surname (G167 plus visible instructions), so 3.3.2 is met. The rule had this data and decided wrongly."
+    },
+    {
+      "fingerprint": "s4d6ff719492",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This footer h2 \"University of Glasgow\" heads a block with the University's postal address, phone number, Contact us and Maps and travel. The heading names the organisation those contact details belong to, which is the topic of the block. That is a common and understandable pattern, and 2.4.6 only requires headings to describe the topic or purpose, not to be the best possible wording (\"Contact\" might be clearer, but that is not required). Not a failure. The live footer is unchanged."
+    },
+    {
+      "fingerprint": "s32d614dcb28",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"EXPLORE\" is a footer column heading that links to /explore/. It matches the site's global navigation sections (Study, Research, Explore, Connect), and the column lists that section's pages (City of Glasgow, Visit us, Maps and travel, News, Events, Library, and so on). Like its siblings STUDY, RESEARCH and CONNECT, it names the site section the links belong to, so it describes their topic and purpose in this navigation context. 2.4.6 does not require a heading to summarise every item under it. Not a failure. The live footer is unchanged."
+    }
+  ]
+}

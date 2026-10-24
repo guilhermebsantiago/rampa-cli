@@ -1,0 +1,3335 @@
+{
+  "schemaVersion": 1,
+  "rampaVersion": "0.1.1",
+  "createdAt": "2026-10-24T04:47:40.326Z",
+  "target": "https://www.r7.com/",
+  "surface": "web",
+  "wcagTarget": "wcag22-aa",
+  "locale": "en",
+  "llm": "on",
+  "model": "ollama:gemma4:12b",
+  "engine": {
+    "name": "axe-core",
+    "version": "4.14.0"
+  },
+  "minConfidence": "low",
+  "findings": [
+    {
+      "fingerprint": "97b67c74a6b1",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(6) > div > div:nth-of-type(2) > div:nth-of-type(1) > a > img",
+      "target": "[\".weather-logo > .lg\\\\:weather-self-stretch.weather-bg-neutral-high-400[href$=\\\"tempo.r7.com\\\"] > .weather-block[height=\\\"23\\\"][width=\\\"100\\\"]\"]",
+      "message": "Images must have alternative text",
+      "confidence": "high",
+      "ruleId": "image-alt",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/image-alt?application=axeAPI",
+      "html": "<img class=\"weather-block\" height=\"23\" width=\"100\" loading=\"lazy\" src=\"https://cloudfront-us-east-1.images.arcpublishing.com/newr7/CBFLZYG625CK3GL2S5YOMTBBSY.jpg\">"
+    },
+    {
+      "fingerprint": "3ed7bc149efd",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(1) > div > div > div > div > article > div:nth-of-type(2) > a > figure > img",
+      "message": "The text alternative \"Alt para imagem\" is all its link holds, and does not say where the link leads.",
+      "evidence": "Alt para imagem",
+      "subject": "Alt para imagem",
+      "patch": {
+        "ref": "#fusion-app > main > div > div > div:nth-of-type(1) > div > div > div > div > article > div:nth-of-type(2) > a > figure > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "Alt para imagem",
+        "to": "Qual deve ser o Poder da Chama Vermelha em 'A Fazenda'?",
+        "before": "<img alt=\"Alt para imagem\" class=\"card-w-full card-object-cover card-h-full\" loading=\"lazy\" src=\"https://cloudfront-us-east-1.images.arcpublishing.com/newr7/6KBCLZ7SCJETJGPYFPSDSXRLGA.png\">",
+        "after": "<img alt=\"Qual deve ser o Poder da Chama Vermelha em 'A Fazenda'?\" class=\"card-w-full card-object-cover card-h-full\" loading=\"lazy\" src=\"https://cloudfront-us-east-1.images.arcpublishing.com/newr7/6KBCLZ7SCJETJGPYFPSDSXRLGA.png\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "confirmation": {
+        "framings": 3,
+        "minProbability": 0.999906604504734
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "4a0c6c90ab43",
+      "criterion": "1.3.1",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > ul",
+      "target": "[\".base-mr-sm\"]",
+      "message": "<ul> and <ol> must only directly contain <li>, <script> or <template> elements",
+      "confidence": "high",
+      "ruleId": "list",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/list?application=axeAPI",
+      "html": "<ul class=\"base-mr-sm base-hidden lg:base-flex base-h-full base-items-center base-gap-quark\" aria-label=\"Redes sociais para compartilhar\">"
+    },
+    {
+      "fingerprint": "605e8754ca96",
+      "criterion": "1.3.1",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > ul > div > div > li",
+      "target": "[\".base-inline-block[aria-describedby=\\\"tooltip\\\"] > li\"]",
+      "message": "<li> elements must be contained in a <ul> or <ol>",
+      "confidence": "high",
+      "ruleId": "listitem",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/listitem?application=axeAPI",
+      "html": "<li>"
+    },
+    {
+      "fingerprint": "0b87e64a3113",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > button:nth-of-type(1) > span",
+      "target": "[\".header-gap-\\\\[1px\\\\] > span\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span>MENU</span>"
+    },
+    {
+      "fingerprint": "fcf601b5dd41",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > nav:nth-of-type(2) > ul > li:nth-of-type(1) > a",
+      "target": "[\".header-font-normal.hover\\\\:after\\\\:header-border-b-\\\\[3px\\\\][title=\\\"Brasília\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"header-h-full header...\" href=\"https://noticias.r7....\" title=\"Brasília\">"
+    },
+    {
+      "fingerprint": "51c1777eff77",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > nav:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+      "target": "[\"a[title=\\\"Eleições\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"header-h-full header...\" href=\"https://noticias.r7....\" title=\"Eleições\">"
+    },
+    {
+      "fingerprint": "8c1ae356735e",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > nav:nth-of-type(2) > ul > li:nth-of-type(3) > a",
+      "target": "[\".header-font-normal[href$=\\\"entretenimento.r7.com/\\\"][title=\\\"Entretenimento\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"header-h-full header...\" href=\"https://entretenimen...\" title=\"Entretenimento\">"
+    },
+    {
+      "fingerprint": "b8f64c21b4a6",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > nav:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+      "target": "[\".header-font-normal[href$=\\\"esportes.r7.com/\\\"][title=\\\"Esportes\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"header-h-full header...\" href=\"https://esportes.r7....\" title=\"Esportes\">"
+    },
+    {
+      "fingerprint": "4f645cc061b6",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > nav:nth-of-type(2) > ul > li:nth-of-type(5) > a",
+      "target": "[\".header-font-normal.hover\\\\:after\\\\:header-border-b-\\\\[3px\\\\][title=\\\"JR 24H\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"header-h-full header...\" href=\"https://noticias.r7....\" title=\"JR 24H\">"
+    },
+    {
+      "fingerprint": "f9fcafc6111d",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > nav:nth-of-type(2) > ul > li:nth-of-type(6) > a",
+      "target": "[\".header-font-normal[title=\\\"Record\\\"][href$=\\\"record.r7.com/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"header-h-full header...\" href=\"https://record.r7.co...\" title=\"Record\">"
+    },
+    {
+      "fingerprint": "a504a02cafc8",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > nav:nth-of-type(2) > ul > li:nth-of-type(7) > a",
+      "target": "[\".header-font-normal.hover\\\\:after\\\\:header-border-b-\\\\[3px\\\\][title=\\\"A Fazenda 18\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"header-h-full header...\" href=\"https://record.r7.co...\" title=\"A Fazenda 18\">"
+    },
+    {
+      "fingerprint": "c567d1647a04",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > header > div:nth-of-type(2) > div > div:nth-of-type(2) > p > span",
+      "target": "[\".push-web-notification__section-name\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"push-web-notification__section-name\">R7</span>"
+    },
+    {
+      "fingerprint": "d6e1493f82ab",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > header > div:nth-of-type(2) > div > button",
+      "target": "[\".push-web-notification__button\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button data-testid=\"button\" class=\"base-inline-flex bas...\" type=\"button\">"
+    },
+    {
+      "fingerprint": "baa3efc96620",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(1) > div > div > div > div > article > div:nth-of-type(1) > a",
+      "target": "[\".breaking-news-bar:nth-child(1) > .breaking-news-bar__wrapper-single.swiper.swiper-initialized > .swiper-wrapper > .swiper-slide-active.swiper-slide-next[data-swiper-slide-index=\\\"0\\\"] > .card-bg-breakingNews-urgent.md\\\\:card-rounded-tl-md.card-rounded-tl-none > .card-h-xl.card-overflow-visible.card-items-center > .md\\\\:card-animate-breakingNews-urgent-glowing.\\\\!card-bg-\\\\[\\\\#e03939\\\\].card-rounded-b-none > a[rel=\\\"noopener\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://record.r7.com/a-fazenda/a-fazenda-18/enquetes/qual-deve-ser-o-poder-da-chama-vermelha-em-a-fazenda-23102026/\" rel=\"noopener\" target=\"_blank\" title=\"Qual deve ser o Poder da Chama Vermelha em 'A Fazenda'?\">VOTE!</a>"
+    },
+    {
+      "fingerprint": "454b3d281e35",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(6) > div > div:nth-of-type(2) > div:nth-of-type(5) > a",
+      "target": "[\".weather-forecast-link > .weather-text-brand-primary-500.lg\\\\:weather-w-giant.lg\\\\:weather-self-stretch\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"weather-text-brand-primary-500 lg:weather-grow lg:weather-w-giant weather-bg-neutral-high-400 weather-justify-center weather-items-center lg:weather-self-stretch weather-flex\" href=\"https://r7.com/tempo/sp/sao-paulo\" title=\"Ir para previsão completa da cidade de São Paulo - SP\">"
+    },
+    {
+      "fingerprint": "8b0c7c462356",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > a > div > div > h2",
+      "target": "[\"h2[title=\\\"Política\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<h2 class=\"bloggers-highlights__title\" title=\"Política\">Política</h2>"
+    },
+    {
+      "fingerprint": "a4bd6e51db04",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > a > div > div > h2",
+      "target": "[\"h2[title=\\\"Poetizando\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<h2 class=\"bloggers-highlights__title\" title=\"Poetizando\">Poetizando</h2>"
+    },
+    {
+      "fingerprint": "82ed46ee7351",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(3) > div > a > div > div > h2",
+      "target": "[\"h2[title=\\\" Dr. Piterson Gomes\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<h2 class=\"bloggers-highlights__title\" title=\" Dr. Piterson Gomes\"> Dr. Piterson Gomes</h2>"
+    },
+    {
+      "fingerprint": "7bc6857162de",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(4) > div > a > div > div > h2",
+      "target": "[\"h2[title=\\\"Patricia Lages\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<h2 class=\"bloggers-highlights__title\" title=\"Patricia Lages\">Patricia Lages</h2>"
+    },
+    {
+      "fingerprint": "7aafd224ed42",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > a > div > div > h2",
+      "target": "[\"h2[title=\\\" Rafael Ferraz\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<h2 class=\"bloggers-highlights__title\" title=\" Rafael Ferraz\"> Rafael Ferraz</h2>"
+    },
+    {
+      "fingerprint": "85267d9748ee",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(10) > div > div:nth-of-type(3) > div > div > div:nth-of-type(2) > article > h5 > a",
+      "target": "[\"h5 > a[data-tb-shadow-region-link=\\\"1\\\"][rel=\\\"noopener\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://portalpopmais.com.br/carlos-alberto-de-nobrega-recebe-alta-apos-internacao-e-cirurgia-no-coracao/\" rel=\"noopener\" target=\"_blank\" title=\"Aos 90 anos, Carlos Alberto de Nóbrega recebe alta após internação e cirurgia no coração\" data-tb-shadow-region-link=\"1\">"
+    },
+    {
+      "fingerprint": "aca0b06a7616",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(10) > div > div:nth-of-type(3) > div > div > div:nth-of-type(3) > article > h6 > a",
+      "target": "[\"article[data-tb-owning-region-index=\\\"9\\\"] > h6 > a[data-tb-shadow-region-link=\\\"1\\\"][target=\\\"_self\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://entretenimento.r7.com/prisma/fabiola-reipert/bolo-de-r-250-mil-da-festa-da-filha-de-virginia-e-detonado-parece-calcinhas-no-varal-23102026/\" target=\"_self\" title=\"Bolo de R$ 250 mil da festa da filha de Virginia é detonado: 'Calcinhas'\" data-tb-shadow-region-link=\"1\">"
+    },
+    {
+      "fingerprint": "f02d5d858d1e",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(10) > div > div:nth-of-type(3) > div > div > div:nth-of-type(4) > article > h6 > a",
+      "target": "[\"article[data-tb-owning-region-index=\\\"10\\\"] > h6 > a[data-tb-shadow-region-link=\\\"1\\\"][target=\\\"_self\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://entretenimento.r7.com/famosos-e-tv/rayane-figliuzzi-se-manifesta-em-meio-a-crise-com-belo-nao-esta-sendo-facil-23102026/\" target=\"_self\" title=\"Rayane Figliuzzi se manifesta em meio à crise com Belo: ‘Não está sendo fácil’\n\" data-tb-shadow-region-link=\"1\">"
+    },
+    {
+      "fingerprint": "b5c9c33310c9",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(10) > div > div:nth-of-type(3) > div > div > div:nth-of-type(5) > article > h6 > a",
+      "target": "[\"h6 > a[data-tb-shadow-region-link=\\\"1\\\"][rel=\\\"noopener\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://www.estrelan...\" rel=\"noopener\" target=\"_blank\" title=\"Deolane Bezerra desc...\" data-tb-shadow-regio...=\"1\">"
+    },
+    {
+      "fingerprint": "f59862f327cf",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(18) > div > div > div > div > ol > li:nth-of-type(1) > a > div:nth-of-type(1) > span:nth-of-type(1)",
+      "target": "[\".tv-bg-feedback-warning-400\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"tv-bg-feedback-warning-400 tv-uppercase tv-text-neutral-high-400 tv-py-quark tv-px-nano tv-font-bold tv-rounded-md tv-transition-all tv-relative tv-mr-quark tv-flex-shrink-0  tv-text-little\">No ar</span>"
+    },
+    {
+      "fingerprint": "fb50c9b6d5d4",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(18) > div > div > div > div > ol > li:nth-of-type(3) > a > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div > span:nth-of-type(2)",
+      "target": "[\".base-bg-agerating-10anos-500\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span title=\"Não recomendado para...\" class=\"base-min-w-[26px] ba...\">"
+    },
+    {
+      "fingerprint": "c765ffcff8be",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(23) > div > div > div > div > article > div:nth-of-type(1) > a",
+      "target": "[\".md\\\\:card-animate-breakingNews-urgent-glowing.\\\\!card-bg-\\\\[\\\\#e03939\\\\].card-rounded-b-none > a[href$=\\\"whatsapp\\\"][rel=\\\"noopener\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"http://r7.com/whatsapp\" rel=\"noopener\" target=\"_blank\" title=\"Entre no canal do R7 no WhatsApp e receba as principais notícias na hora\">Fique por Dentro</a>"
+    },
+    {
+      "fingerprint": "1422f306731b",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(24) > div > div:nth-of-type(1) > div > div > div:nth-of-type(2) > article > h5 > a",
+      "target": "[\"div[data-tb-region=\\\"Vertical temático - 3 colunas\\\"][data-tb-shadow-region=\\\"Vertical temático - 3 colunas\\\"]:nth-child(24) > .lg\\\\:layout-grid.layout-grid-cols-24.xl\\\\:layout-gap-xs > .md\\\\:layout-col-span-8.layout-col-span-24:nth-child(1) > .card-bg-neutral-high-500.card-p-xxxs.card-h-full > .vertical-theme-chain__wrapper > div:nth-child(2) > .card-gap-nano.card-flex-col[data-tb-region-item=\\\"true\\\"] > h5 > a[target=\\\"_self\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://entretenimento.r7.com/musica/exposicao-reune-figurinos-iconicos-de-freddie-mercury-que-completaria-80-anos-em-2026-23102026/\" target=\"_self\" title=\"Exposição reúne figurinos icônicos de Freddie Mercury, que completaria 80 anos em 2026\n\">"
+    },
+    {
+      "fingerprint": "a5ebacb94458",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(24) > div > div:nth-of-type(1) > div > div > div:nth-of-type(3) > article > h6 > a",
+      "target": "[\"div[data-tb-region=\\\"Vertical temático - 3 colunas\\\"][data-tb-shadow-region=\\\"Vertical temático - 3 colunas\\\"]:nth-child(24) > .lg\\\\:layout-grid.layout-grid-cols-24.xl\\\\:layout-gap-xs > .md\\\\:layout-col-span-8.layout-col-span-24:nth-child(1) > .card-bg-neutral-high-500.card-p-xxxs.card-h-full > .vertical-theme-chain__wrapper > div:nth-child(3) > .lg\\\\:card-flex-row.card-flex-row.card-gap-nano > h6 > a[target=\\\"_self\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://noticias.r7.com/portal-edicase/petiscos-italianos-3-receitas-faceis-para-fazer-em-casa-23102026/\" target=\"_self\" title=\"Petiscos italianos: aprenda três  receitas fáceis para fazer em casa\n\">Petiscos italianos: aprenda três  receitas fáceis para fazer em casa\n</a>"
+    },
+    {
+      "fingerprint": "07e28441c7ab",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(24) > div > div:nth-of-type(1) > div > div > div:nth-of-type(4) > article > h6 > a",
+      "target": "[\"div:nth-child(5) > .lg\\\\:card-flex-row.card-flex-row.card-gap-nano > h6 > a[rel=\\\"noopener\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://www.noticiasaominuto.com.br/lifestyle/2420372/treinar-cedo-demais-quando-a-busca-por-performance-vira-risco-a-saude\" rel=\"noopener\" target=\"_blank\" title=\"Treinar muito cedo pode ser ruim? Saiba quando a busca por performance vira risco  \">"
+    },
+    {
+      "fingerprint": "54d6e4aa5fd0",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(24) > div > div:nth-of-type(1) > div > div > div:nth-of-type(5) > article > h6 > a",
+      "target": "[\".md\\\\:layout-col-span-8.layout-col-span-24:nth-child(1) > .card-bg-neutral-high-500.card-p-xxxs.card-h-full > .vertical-theme-chain__wrapper > div:nth-child(7) > .lg\\\\:card-flex-row.card-flex-row.card-gap-nano > h6 > a[rel=\\\"noopener\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://www.folhavitoria.com.br/beleza/adeus-frizz-4-mascaras-e-tratamentos-para-deixar-o-cabelo-alinhado-sem-chapinha/\" rel=\"noopener\" target=\"_blank\" title=\"Chega de frizz! Conheça tratamentos para deixar o cabelo alinhado \">"
+    },
+    {
+      "fingerprint": "20cd79a8646e",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(24) > div > div:nth-of-type(3) > div > div > div:nth-of-type(2) > article > h5 > a",
+      "target": "[\".md\\\\:layout-col-span-8.layout-col-span-24:nth-child(3) > .card-bg-neutral-high-500.card-p-xxxs.card-h-full > .vertical-theme-chain__wrapper > div:nth-child(2) > .card-gap-nano.card-flex-col[data-tb-region-item=\\\"true\\\"] > h5 > a[target=\\\"_self\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://record.r7.com/tudo-de-record/record-realiza-cobertura-especial-e-multiplataforma-para-o-segundo-turno-das-eleicoes-2026-21102026/\" target=\"_self\" title=\"RECORD realiza cobertura especial e multiplataforma para o 2º turno das eleições\">"
+    },
+    {
+      "fingerprint": "b08870b3208b",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(24) > div > div:nth-of-type(3) > div > div > div:nth-of-type(3) > article > h6 > a",
+      "target": "[\"div[data-tb-region=\\\"Vertical temático - 3 colunas\\\"][data-tb-shadow-region=\\\"Vertical temático - 3 colunas\\\"]:nth-child(24) > .lg\\\\:layout-grid.layout-grid-cols-24.xl\\\\:layout-gap-xs > .md\\\\:layout-col-span-8.layout-col-span-24:nth-child(3) > .card-bg-neutral-high-500.card-p-xxxs.card-h-full > .vertical-theme-chain__wrapper > div:nth-child(3) > .lg\\\\:card-flex-row.card-flex-row.card-gap-nano > h6 > a[target=\\\"_self\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://record.r7.com/domingo-espetacular/novidades/domingo-espetacular-mobiliza-equipe-em-todo-o-pais-para-acompanhar-o-segundo-turno-das-eleicoes-2026-23102026/\" target=\"_self\" title=\"'Domingo Espetacular' mobiliza equipe em todo o país para o segundo turno \">"
+    },
+    {
+      "fingerprint": "30170762848d",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(24) > div > div:nth-of-type(3) > div > div > div:nth-of-type(4) > article > h6 > a",
+      "target": "[\"div[data-tb-region=\\\"Vertical temático - 3 colunas\\\"][data-tb-shadow-region=\\\"Vertical temático - 3 colunas\\\"]:nth-child(24) > .lg\\\\:layout-grid.layout-grid-cols-24.xl\\\\:layout-gap-xs > .md\\\\:layout-col-span-8.layout-col-span-24:nth-child(3) > .card-bg-neutral-high-500.card-p-xxxs.card-h-full > .vertical-theme-chain__wrapper > div:nth-child(5) > .lg\\\\:card-flex-row.card-flex-row.card-gap-nano > h6 > a[target=\\\"_self\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://entretenimento.r7.com/prisma/fabiola-reipert/video/fabiola-reipert-passaia-e-diogenes-lucca-tentam-imitar-o-gingado-de-gretchen-23102026/\" target=\"_self\" title=\"Fabíola Reipert, Passaia e Diógenes tentam imitar o gingado de Gretchen\n\">"
+    },
+    {
+      "fingerprint": "1275829c8d08",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(24) > div > div:nth-of-type(3) > div > div > div:nth-of-type(5) > article > h6 > a",
+      "target": "[\".md\\\\:layout-col-span-8.layout-col-span-24:nth-child(3) > .card-bg-neutral-high-500.card-p-xxxs.card-h-full > .vertical-theme-chain__wrapper > div:nth-child(7) > .lg\\\\:card-flex-row.card-flex-row.card-gap-nano > h6 > a[target=\\\"_self\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://noticias.r7.com/record-news/um-dos-dias-mais-dificeis-da-minha-carreira-diz-o-ex-jogador-kleber-gladiador-sobre-conflito-marcante-em-campo-23102026/\" target=\"_self\" title=\"'Cosme Rímoli Entrevista': Kléber Gladiador relembra polêmicas e conflitos\">"
+    },
+    {
+      "fingerprint": "5d7ba7c520e0",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(25) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > article > div:nth-of-type(1) > a",
+      "target": "[\".swiper-slide-active.swiper-slide[data-swiper-slide-index=\\\"0\\\"] > .card-bg-breakingNews-now.card-border-hairline.card-border-\\\\[\\\\#bababa\\\\] > .card-h-xl.card-overflow-visible.card-items-center > .\\\\!-card-left-\\\\[1px\\\\].\\\\!-card-top-\\\\[1px\\\\].card-text-\\\\[\\\\#e03939\\\\] > a[rel=\\\"noopener\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://www.google.com/preferences/source?q=noticias.r7.com\" rel=\"noopener\" target=\"_blank\" title=\"Adicione o R7.com como sua fonte preferencial no Google\">SIGA</a>"
+    },
+    {
+      "fingerprint": "5bb7a797f29e",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(26) > div > div > div > div > article > div:nth-of-type(1) > a",
+      "target": "[\".breaking-news-bar:nth-child(26) > .breaking-news-bar__wrapper-single.swiper.swiper-initialized > .swiper-wrapper > .swiper-slide-active.swiper-slide-next[data-swiper-slide-index=\\\"0\\\"] > .card-bg-breakingNews-live.md\\\\:card-px-xxs.md\\\\:card-overflow-hidden > .card-h-xl.card-overflow-visible.card-items-center > .before\\\\:card-inline-block.before\\\\:card-align-middle.before\\\\:card-w-nano > a[rel=\\\"noopener\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://noticias.r7.com/record-news/ao-vivo/\" rel=\"noopener\" target=\"_blank\" title=\"Veja ao vivo, na RECORD NEWS, as principais notícias do dia\">ao vivo</a>"
+    },
+    {
+      "fingerprint": "2d2a5ed92418",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(27) > section > ul > li:nth-of-type(1) > a > span > h4",
+      "target": "[\"li:nth-child(1) > .card-w-\\\\[141px\\\\].card-block[rel=\\\"noreferrer\\\"] > .before\\\\:card-text-transparent.delivery\\\\:before\\\\:card-bg-\\\\[linear-gradient\\\\(180deg\\\\,_\\\\#c6c1c1\\\\,_\\\\#e7e7e7\\\\)\\\\].contrast\\\\:before\\\\:card-text-light-low-500 > .card-z-\\\\[1\\\\]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<h4 data-tb-title=\"true\" class=\"card-font-primary card-font-semibold xovem:!card-text-dark-high-400 card-text-[var(--custom-color,theme(\"colors.neutral-low-500\"))] contrast:card-text-neutral-low-500 card-mb-xxxs card-text-xxs card-relative card-z-[1]\" style=\"--custom-color: #ff1e63;\">"
+    },
+    {
+      "fingerprint": "d0122da66d65",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(27) > section > ul > li:nth-of-type(2) > a > span > h4",
+      "target": "[\"li:nth-child(2) > .card-w-\\\\[141px\\\\].card-block[rel=\\\"noreferrer\\\"] > .before\\\\:card-text-transparent.delivery\\\\:before\\\\:card-bg-\\\\[linear-gradient\\\\(180deg\\\\,_\\\\#c6c1c1\\\\,_\\\\#e7e7e7\\\\)\\\\].contrast\\\\:before\\\\:card-text-light-low-500 > .card-z-\\\\[1\\\\]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<h4 data-tb-title=\"true\" class=\"card-font-primary card-font-semibold xovem:!card-text-dark-high-400 card-text-[var(--custom-color,theme(\"colors.neutral-low-500\"))] contrast:card-text-neutral-low-500 card-mb-xxxs card-text-xxs card-relative card-z-[1]\" style=\"--custom-color: #ff1e63;\">"
+    },
+    {
+      "fingerprint": "dcf1e313ace0",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(27) > section > ul > li:nth-of-type(3) > a > span > h4",
+      "target": "[\"li:nth-child(3) > .card-w-\\\\[141px\\\\].card-block[rel=\\\"noreferrer\\\"] > .before\\\\:card-text-transparent.delivery\\\\:before\\\\:card-bg-\\\\[linear-gradient\\\\(180deg\\\\,_\\\\#c6c1c1\\\\,_\\\\#e7e7e7\\\\)\\\\].contrast\\\\:before\\\\:card-text-light-low-500 > .card-z-\\\\[1\\\\]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<h4 data-tb-title=\"true\" class=\"card-font-primary card-font-semibold xovem:!card-text-dark-high-400 card-text-[var(--custom-color,theme(\"colors.neutral-low-500\"))] contrast:card-text-neutral-low-500 card-mb-xxxs card-text-xxs card-relative card-z-[1]\" style=\"--custom-color: #ff1e63;\">"
+    },
+    {
+      "fingerprint": "011fbd082d78",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(27) > section > ul > li:nth-of-type(4) > a > span > h4",
+      "target": "[\"li:nth-child(4) > .card-w-\\\\[141px\\\\].card-block[rel=\\\"noreferrer\\\"] > .before\\\\:card-text-transparent.delivery\\\\:before\\\\:card-bg-\\\\[linear-gradient\\\\(180deg\\\\,_\\\\#c6c1c1\\\\,_\\\\#e7e7e7\\\\)\\\\].contrast\\\\:before\\\\:card-text-light-low-500 > .card-z-\\\\[1\\\\]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<h4 data-tb-title=\"true\" class=\"card-font-primary card-font-semibold xovem:!card-text-dark-high-400 card-text-[var(--custom-color,theme(\"colors.neutral-low-500\"))] contrast:card-text-neutral-low-500 card-mb-xxxs card-text-xxs card-relative card-z-[1]\" style=\"--custom-color: #ff1e63;\">"
+    },
+    {
+      "fingerprint": "13a3a5808022",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(27) > section > ul > li:nth-of-type(5) > a > span > h4",
+      "target": "[\"li:nth-child(5) > .card-w-\\\\[141px\\\\].card-block[rel=\\\"noreferrer\\\"] > .before\\\\:card-text-transparent.delivery\\\\:before\\\\:card-bg-\\\\[linear-gradient\\\\(180deg\\\\,_\\\\#c6c1c1\\\\,_\\\\#e7e7e7\\\\)\\\\].contrast\\\\:before\\\\:card-text-light-low-500 > .card-z-\\\\[1\\\\]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<h4 data-tb-title=\"true\" class=\"card-font-primary card-font-semibold xovem:!card-text-dark-high-400 card-text-[var(--custom-color,theme(\"colors.neutral-low-500\"))] contrast:card-text-neutral-low-500 card-mb-xxxs card-text-xxs card-relative card-z-[1]\" style=\"--custom-color: #ff1e63;\">"
+    },
+    {
+      "fingerprint": "4c3bdc13010b",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(27) > section > ul > li:nth-of-type(6) > a > span > h4",
+      "target": "[\"li:nth-child(6) > .card-w-\\\\[141px\\\\].card-block[rel=\\\"noreferrer\\\"] > .before\\\\:card-text-transparent.delivery\\\\:before\\\\:card-bg-\\\\[linear-gradient\\\\(180deg\\\\,_\\\\#c6c1c1\\\\,_\\\\#e7e7e7\\\\)\\\\].contrast\\\\:before\\\\:card-text-light-low-500 > .card-z-\\\\[1\\\\]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<h4 data-tb-title=\"true\" class=\"card-font-primary card-font-semibold xovem:!card-text-dark-high-400 card-text-[var(--custom-color,theme(\"colors.neutral-low-500\"))] contrast:card-text-neutral-low-500 card-mb-xxxs card-text-xxs card-relative card-z-[1]\" style=\"--custom-color: #ff1e63;\">"
+    },
+    {
+      "fingerprint": "e83bd6070014",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(27) > section > ul > li:nth-of-type(7) > a > span > h4",
+      "target": "[\"li:nth-child(7) > .card-w-\\\\[141px\\\\].card-block[rel=\\\"noreferrer\\\"] > .before\\\\:card-text-transparent.delivery\\\\:before\\\\:card-bg-\\\\[linear-gradient\\\\(180deg\\\\,_\\\\#c6c1c1\\\\,_\\\\#e7e7e7\\\\)\\\\].contrast\\\\:before\\\\:card-text-light-low-500 > .card-z-\\\\[1\\\\]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<h4 data-tb-title=\"true\" class=\"card-font-primary card-font-semibold xovem:!card-text-dark-high-400 card-text-[var(--custom-color,theme(\"colors.neutral-low-500\"))] contrast:card-text-neutral-low-500 card-mb-xxxs card-text-xxs card-relative card-z-[1]\" style=\"--custom-color: #ff1e63;\">"
+    },
+    {
+      "fingerprint": "5976c0779f4a",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(30) > div > div > div > div > div > div > div > article > div:nth-of-type(1) > a",
+      "target": "[\".before\\\\:card-inline-block.before\\\\:card-align-middle.before\\\\:card-w-nano > a[target=\\\"_self\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://noticias.r7.com/concursos/\" target=\"_self\" title=\"Acompanhe os processos seletivos com inscrições abertas pelo país\">FIQUE DE OLHO</a>"
+    },
+    {
+      "fingerprint": "74d30b7f52bc",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(33) > div > div > div > div > article > div:nth-of-type(1) > a",
+      "target": "[\".breaking-news-bar:nth-child(33) > .breaking-news-bar__wrapper-single.swiper.swiper-initialized > .swiper-wrapper > .swiper-slide-active.swiper-slide-next[data-swiper-slide-index=\\\"0\\\"] > .card-bg-breakingNews-live.md\\\\:card-px-xxs.md\\\\:card-overflow-hidden > .card-h-xl.card-overflow-visible.card-items-center > .before\\\\:card-inline-block.before\\\\:card-align-middle.before\\\\:card-w-nano > a[rel=\\\"noopener\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a href=\"https://whatsapp.com/channel/0029VbAneRL9WtC8oDqxZG0T\" rel=\"noopener\" target=\"_blank\" title=\"Receba cupons, ofertas e conteúdos exclusivos do R7 direto no seu WhatsApp\">Novidades</a>"
+    },
+    {
+      "fingerprint": "f820423433d4",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(34) > a > span",
+      "target": "[\"a[title=\\\"Ir para The Love School\\\"] > .sheading-text-xl.md\\\\:sheading-text-xxl.sheading-font-light\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span role=\"presentation\" class=\"sheading-text-xl md:sheading-text-xxl sheading-font-light sheading-break-keep sheading-whitespace-nowrap sheading-text-[var(--color,theme(colors.editorial-color))] jarvics:sheading-text-neutral-high-400 xovem:sheading-text-dark-high-400 undefined\">"
+    },
+    {
+      "fingerprint": "0a856c2bd383",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > ul > li:nth-of-type(1) > button",
+      "target": "[\".active.tab[type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" class=\"active tab\">"
+    },
+    {
+      "fingerprint": "e5345b85d664",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > div > button",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__btn-container > .b-ultimas__btn[type=\\\"button\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button type=\"button\" class=\"b-ultimas__btn\" aria-busy=\"false\" style=\"background-color: rgb(33, 142, 225);\">Veja mais Notícias</button>"
+    },
+    {
+      "fingerprint": "a6e3b7f02295",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#internal_trc_1332270565 > div:nth-of-type(1) > a:nth-of-type(2) > span > span:nth-of-type(2) > span",
+      "target": "[\"a[title=\\\"Máquina de Cartões Sicredi\\\"] > .video-label-box-cta.video-label-box-cta-non-ie.video-label-box > .video-branding-flex-cta-item.branding[slot=\\\"branding\\\"] > .tbl-data-field\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"tbl-data-field\" style=\"display:inline\">Sicredi</span>"
+    },
+    {
+      "fingerprint": "3d24557134e9",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#internal_trc_1332270565 > div:nth-of-type(3) > a:nth-of-type(2) > span > span:nth-of-type(2) > span",
+      "target": "[\".videoCube_3_child > .non-feed-cta-item.video-cta-style[rel=\\\"nofollow noopener sponsored\\\"] > .video-label-box-cta.video-label-box-cta-non-ie.video-label-box > .video-branding-flex-cta-item.branding[slot=\\\"branding\\\"] > .tbl-data-field\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"tbl-data-field\" style=\"display:inline\">Sicredi</span>"
+    },
+    {
+      "fingerprint": "b0a22529109b",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > footer > div > div > div:nth-of-type(1) > p > span",
+      "target": "[\".footer-text-center > span\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span>Todos os direitos reservados - 2009-2026 - Rádio e Televisão Record S.A</span>"
+    },
+    {
+      "fingerprint": "68dcf3ff9246",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > footer > div > div > div:nth-of-type(2) > ul:nth-of-type(1) > li:nth-of-type(1) > a",
+      "target": "[\".footer-text-little[href$=\\\"recordtv.gupy.io\\\"][title=\\\"Carreira\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"footer-text-neutral-high-400 footer-uppercase footer-text-little hover:footer-underline\" href=\"https://recordtv.gupy.io\" title=\"Carreira\">Carreira</a>"
+    },
+    {
+      "fingerprint": "6f6ddb8f1f98",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > footer > div > div > div:nth-of-type(2) > ul:nth-of-type(1) > li:nth-of-type(2) > a",
+      "target": "[\"a[title=\\\"Fale Conosco\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"footer-text-neutral-high-400 footer-uppercase footer-text-little hover:footer-underline\" href=\"http://recordtv.r7.com/cite/\" title=\"Fale Conosco\">Fale Conosco</a>"
+    },
+    {
+      "fingerprint": "ecc5733b9e59",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > footer > div > div > div:nth-of-type(2) > ul:nth-of-type(1) > li:nth-of-type(3) > a",
+      "target": "[\".footer-text-little.footer-text-neutral-high-400[title=\\\"Privacidade\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"footer-text-neutral-high-400 footer-uppercase footer-text-little hover:footer-underline\" href=\"https://www.r7.com/privacidade/\" title=\"Privacidade\">Privacidade</a>"
+    },
+    {
+      "fingerprint": "320a0de3e553",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > footer > div > div > div:nth-of-type(2) > ul:nth-of-type(1) > li:nth-of-type(4) > a",
+      "target": "[\"a[title=\\\"Termos e Condições de Uso\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"footer-text-neutral-high-400 footer-uppercase footer-text-little hover:footer-underline\" href=\"https://www.r7.com/termos-e-condicoes/\" title=\"Termos e Condições de Uso\">Termos e Condições de Uso</a>"
+    },
+    {
+      "fingerprint": "9cc5917f05ab",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > div:nth-of-type(4) > div > p > a",
+      "target": "[\".base-ml-quark\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"base-ml-quark base-underline base-text-brand-primary-500\" href=\"https://www.r7.com/termos/privacidade\" rel=\"noreferrer\" target=\"_blank\">Aviso de Privacidade</a>"
+    },
+    {
+      "fingerprint": "faa9ac22fc3f",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > div:nth-of-type(4) > div > button",
+      "target": "[\".base-mt-xxxs\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button data-testid=\"button\" class=\"base-inline-flex bas...\" type=\"button\">"
+    },
+    {
+      "fingerprint": "9b92bf30bab8",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(18) > div > div > div > div > div > a",
+      "target": "#fusion-app > main > div > div > div:nth-of-type(18) > div > div > div > div > div > a",
+      "message": "The text \"Programação completa\" has at most 3.11:1 contrast with what is behind it (#f0f2f3 on #218ee1…#208ee0), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#f0f2f3 on #218ee1; #218ee1…#208ee0 · 3.11:1 at best, 3.11:1 at worst · 16px, 500",
+      "subject": "Programação completa",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a class=\"base-inline-flex base-items-center base-box-border base-cursor-pointer base-border-hairline base-rounded-md base-text-center base-leading-6 base-font-medium base-transition-all base-gap-nano base-text\" href=\"https://record.r7.com/programacao/?grade=6984bda5cf79d1aef51e606e\">",
+      "experimental": true
+    },
+    {
+      "fingerprint": "7afe61ce71ed",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > a",
+      "target": "[\"#google_ads_iframe_\\\\/7542\\\\/r7home\\\\/home_0\",\".ns-bdrz0-e-2\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a class=\"ns-bdrz0-e-2\" data-asoch-targets=\"ad0,imageClk\" href=\"https://www.googlead...\" on=\"tap:asoch-exit-api-0...\" target=\"_blank\">"
+    },
+    {
+      "fingerprint": "9e7e07170a4d",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > a:nth-of-type(1)",
+      "target": "[\"#google_ads_iframe_\\\\/7542\\\\/r7home\\\\/home_0\",\".ns-bdrz0-e-23\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a class=\"ns-bdrz0-e-23 bar-cl...\" data-asoch-targets=\"ad0,btnClk\" dir=\"auto\" href=\"https://www.googlead...\" on=\"tap:asoch-exit-api-0...\" target=\"_blank\">"
+    },
+    {
+      "fingerprint": "b15cd217bb39",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > a:nth-of-type(2)",
+      "target": "[\"#google_ads_iframe_\\\\/7542\\\\/r7home\\\\/home_0\",\".ns-bdrz0-e-29\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a class=\"ns-bdrz0-e-29\" data-asoch-targets=\"ad0,btnClk\" dir=\"auto\" href=\"https://www.googlead...\" on=\"tap:asoch-exit-api-0...\" target=\"_blank\">"
+    },
+    {
+      "fingerprint": "c7a563a239cb",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(6) > div > div:nth-of-type(2) > div:nth-of-type(1) > a",
+      "target": "[\".weather-logo > .lg\\\\:weather-self-stretch.weather-bg-neutral-high-400[href$=\\\"tempo.r7.com\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a class=\"weather-bg-neutral-high-400 lg:weather-self-stretch weather-flex weather-justify-center weather-items-center lg:weather-grow\" href=\"https://tempo.r7.com\" rel=\"noreferrer\" target=\"_blank\">"
+    },
+    {
+      "fingerprint": "10acec965b24",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(1) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"0\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://noticias.r7.com/brasilia/idp-passa-a-ser-reconhecido-como-universidade-em-brasilia-23102026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "8fad47575de5",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(2) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".b-ultimas__item[data-observerid=\\\"1\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[rel=\\\"noreferrer\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://rtiesporte.com.br/bragantino-tres-baixas-duvida-gol-palmeiras/\" rel=\"noreferrer\" target=\"_blank\">"
+    },
+    {
+      "fingerprint": "7292de4a20ae",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(3) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"2\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://esportes.r7.com/futebol/escalacoes/escale-o-seu-time-atletico-mineiro-r7-esportes-03052026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "efeeb0eb4846",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(4) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"3\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://esportes.r7.com/tudo-de-esportes/otavio-salienta-ano-transformador-e-agradece-apoio-no-cruzeiro-24102026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "d976f9391282",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(5) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"4\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://esportes.r7.com/futebol/escalacoes/escale-o-seu-time-fluminense-r7-esportes-30042026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "b23e847affe2",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(6) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".b-ultimas__item[data-observerid=\\\"5\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[rel=\\\"noreferrer\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://seucreditodigital.com.br/inss-prova-de-vida-pendente-regularizar/\" rel=\"noreferrer\" target=\"_blank\">"
+    },
+    {
+      "fingerprint": "34b2b3fd6bd7",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(7) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"6\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://esportes.r7.com/tudo-de-esportes/marcelo-hermes-descreve-derrota-nos-acrescimos-e-projeta-recuperacao-do-criciuma-24102026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "cd2471c047bf",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(8) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"7\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://esportes.r7.com/tudo-de-esportes/patrick-de-paula-salienta-luta-do-elenco-e-maturidade-apos-vitoria-24102026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "cc48bd18885b",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(9) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"8\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://record.r7.com/a-fazenda/a-fazenda-18/peoes-esconderam-comida-pela-sede-afazenda-shorts-24102026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "ed57a11f5e35",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(10) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"9\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://esportes.r7.com/futebol/escalacoes/escale-o-seu-time-cruzeiro-r7-esportes-23042026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "dcd367c28dbf",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(11) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".b-ultimas__item[data-observerid=\\\"10\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[rel=\\\"noreferrer\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://www.bandab.com.br/obituario/obituario-de-curitiba-veja-a-lista-de-falecimentos-e-sepultamentos-deste-sabado-24-10/\" rel=\"noreferrer\" target=\"_blank\">"
+    },
+    {
+      "fingerprint": "3233cdc9eea6",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(12) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".b-ultimas__item[data-observerid=\\\"11\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[rel=\\\"noreferrer\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://www.bandab.com.br/obituario/obituario-de-londrina-veja-a-lista-de-falecimentos-e-sepultamentos-deste-sabado-24-10/\" rel=\"noreferrer\" target=\"_blank\">"
+    },
+    {
+      "fingerprint": "f6f4472ecaf1",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(13) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"12\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://entretenimento.r7.com/prisma/melhor-nao-ler/tem-gente-a-quem-voce-pode-dar-o-peixe-mas-jamais-ensinar-a-pescar-24102026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "8b8f92d415c4",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(14) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"13\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://noticias.r7.com/prisma/mundo-agro/festival-aposta-na-diversidade-de-vinhos-para-atrair-novos-consumidores-24102026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "1e1fadea71c6",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(15) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"14\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://entretenimento.r7.com/vivaavida/prisma/dose-de-cafeina/cafe-no-ceara-tradicao-de-200-anos-esconde-sabores-surpreendentes-na-serra-24102026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "d070b9cbaa6a",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(16) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"15\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://entretenimento.r7.com/vivaavida/prisma/rafael-ferraz/pain-au-chocolat-tem-sabor-que-se-torna-cheiro-para-o-corpo-24102026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "1598f0496743",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(17) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"16\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://entretenimento.r7.com/vivaavida/patricia-lages/interromper-a-fala-de-colegas-de-trabalho-pode-prejudicar-sua-imagem-profissional-24102026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "178c816102cf",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(18) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".b-ultimas__item[data-observerid=\\\"17\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[rel=\\\"noreferrer\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://www.meutimao.com.br/noticias-do-corinthians/542685/corinthians-enfrenta-o-independiente-del-valle-pelas-quartas-de-final-da-libertadores-feminina\" rel=\"noreferrer\" target=\"_blank\">"
+    },
+    {
+      "fingerprint": "1449a2d841ca",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(19) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"18\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://noticias.r7.com/prisma/dr-piterson-gomes/morador-cortou-a-corda-usada-pelos-pintores-na-fachada-isso-e-gravissimo-24102026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "ba478d9650e5",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(39) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > section > article:nth-of-type(20) > div:nth-of-type(2) > div > figure > a",
+      "target": "[\".active.tab-content > .b-ultimas.c-stack[data-style-direction=\\\"vertical\\\"] > .b-ultimas__items > .b-ultimas__item[data-observerid=\\\"19\\\"] > .b-ultimas__item-content > .b-ultimas__item-content-img > figure > a[target=\\\"_self\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://noticias.r7.com/prisma/poetizando/roubaram-a-paz-e-a-seguranca-de-dentro-dos-carros-em-sao-paulo-24102026/\" target=\"_self\">"
+    },
+    {
+      "fingerprint": "bb13e7ada214",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#trc_wrapper_214647875 > div:nth-of-type(3) > div:nth-of-type(1) > a:nth-of-type(1)",
+      "target": "[\"#trc_wrapper_214647875 > .trc-widget-footer > .link-attribution.logoDiv > .trc_desktop_attribution_link.trc_attribution_position_bottom[rel=\\\"nofollow sponsored noopener\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"https://popup.tabool...\" rel=\"nofollow sponsored n...\" target=\"_blank\" aria-label=\"About Taboola recomm...\" class=\"trc_desktop_attribut...\">"
+    },
+    {
+      "fingerprint": "a029040ec58e",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#trc_wrapper_7258569529 > div:nth-of-type(3) > div:nth-of-type(1) > a:nth-of-type(1)",
+      "target": "[\"#trc_wrapper_7258569529 > .trc-widget-footer > .link-attribution.logoDiv > .trc_desktop_attribution_link.trc_attribution_position_bottom[rel=\\\"nofollow sponsored noopener\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"https://popup.tabool...\" rel=\"nofollow sponsored n...\" target=\"_blank\" aria-label=\"About Taboola recomm...\" class=\"trc_desktop_attribut...\">"
+    },
+    {
+      "fingerprint": "3141692deafc",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#trc_wrapper_3476597278 > div:nth-of-type(3) > div:nth-of-type(1) > a:nth-of-type(1)",
+      "target": "[\"#trc_wrapper_3476597278 > .trc-widget-footer > .link-attribution.logoDiv > .trc_desktop_attribution_link.trc_attribution_position_bottom[rel=\\\"nofollow sponsored noopener\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"https://popup.tabool...\" rel=\"nofollow sponsored n...\" target=\"_blank\" aria-label=\"About Taboola recomm...\" class=\"trc_desktop_attribut...\">"
+    },
+    {
+      "fingerprint": "b2aabeed85cd",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#trc_header_1332270565 > div > div:nth-of-type(2) > a:nth-of-type(1)",
+      "target": "[\".attribution-disclosure-link-hybrid.link-disclosure.logoDiv > .trc_attribution_position_top.trc_desktop_disclosure_link[rel=\\\"nofollow sponsored noopener\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"https://popup.tabool...\" rel=\"nofollow sponsored n...\" target=\"_blank\" aria-label=\"Sponsored: learn abo...\" class=\"trc_desktop_disclosu...\">"
+    },
+    {
+      "fingerprint": "5f01ab901e11",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#trc_wrapper_1332270565 > div:nth-of-type(3) > div > a:nth-of-type(1)",
+      "target": "[\"#trc_wrapper_1332270565 > .trc-widget-footer > .link-attribution.logoDiv > .trc_desktop_attribution_link.trc_attribution_position_bottom[rel=\\\"nofollow sponsored noopener\\\"]\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a href=\"https://popup.tabool...\" rel=\"nofollow sponsored n...\" target=\"_blank\" aria-label=\"About Taboola recomm...\" class=\"trc_desktop_attribut...\">"
+    },
+    {
+      "fingerprint": "9ff73f1c25ca",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(2) > button:nth-of-type(2)",
+      "target": "[\".next.control-button[aria-label=\\\"Próximo\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<button class=\"control-button next \" type=\"button\" aria-label=\"Próximo\">",
+      "experimental": true
+    },
+    {
+      "fingerprint": "f8e511105fda",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#\\/menusidebarsecoes-esportes",
+      "target": "[\"#\\\\/menusidebarsecoes-esportes\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<button type=\"button\" aria-expanded=\"false\" class=\"md:footer-mb-xxs foo...\" aria-controls=\"/menusidebarsecoes-e...\" id=\"/menusidebarsecoes-e...\">",
+      "experimental": true
+    },
+    {
+      "fingerprint": "591f30903012",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#\\/institucional",
+      "target": "[\"#\\\\/institucional\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<button type=\"button\" aria-expanded=\"false\" class=\"md:footer-mb-xxs foo...\" aria-controls=\"/institucional-conta...\" id=\"/institucional\">",
+      "experimental": true
+    },
+    {
+      "fingerprint": "a83ca2c7c109",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #abgc",
+      "target": "[\"#google_ads_iframe_\\\\/7542\\\\/r7home\\\\/home_0\",\"#abgc\"]",
+      "message": "ARIA hidden element must not be focusable or contain focusable elements",
+      "confidence": "high",
+      "ruleId": "aria-hidden-focus",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-hidden-focus?application=axeAPI",
+      "html": "<div aria-hidden=\"true\" class=\"abgc abgf pen\" dir=\"ltr\" id=\"abgc\">"
+    },
+    {
+      "fingerprint": "f687f8cc958d",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > header > div:nth-of-type(2) > div > div:nth-of-type(1) > button",
+      "target": "[\".card-border-\\\\[\\\\#A7A7A7\\\\]\"]",
+      "message": "Buttons must have discernible text",
+      "confidence": "high",
+      "ruleId": "button-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI",
+      "html": "<button class=\"card-rounded-circular card-border-[#A7A7A7] card-border-[3px] card-border-solid card-bg-transparent card-cursor-pointer\">"
+    },
+    {
+      "fingerprint": "afd6331d506b",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > div > div > button",
+      "target": "[\".base-inline-block[aria-describedby=\\\"tooltip\\\"] > .card-items-center\"]",
+      "message": "Buttons must have discernible text",
+      "confidence": "high",
+      "ruleId": "button-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI",
+      "html": "<button class=\"card-flex card-items-center\">"
+    },
+    {
+      "fingerprint": "2fbe12ff11cf",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#\\/menusidebarsecoes-esportes",
+      "target": "[\"#\\\\/menusidebarsecoes-esportes\"]",
+      "message": "Interactive controls must not be nested",
+      "confidence": "high",
+      "ruleId": "nested-interactive",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/nested-interactive?application=axeAPI",
+      "html": "<button type=\"button\" aria-expanded=\"false\" class=\"md:footer-mb-xxs foo...\" aria-controls=\"/menusidebarsecoes-e...\" id=\"/menusidebarsecoes-e...\">"
+    },
+    {
+      "fingerprint": "c1d3361d8b6f",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#\\/menusidebarsecoes-entretenimento",
+      "target": "[\"#\\\\/menusidebarsecoes-entretenimento\"]",
+      "message": "Interactive controls must not be nested",
+      "confidence": "high",
+      "ruleId": "nested-interactive",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/nested-interactive?application=axeAPI",
+      "html": "<button type=\"button\" aria-expanded=\"false\" class=\"md:footer-mb-xxs foo...\" aria-controls=\"/menusidebarsecoes-e...\" id=\"/menusidebarsecoes-e...\">"
+    },
+    {
+      "fingerprint": "acec85b61da9",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#\\/menusidebarsecoes-jr24h",
+      "target": "[\"#\\\\/menusidebarsecoes-jr24h\"]",
+      "message": "Interactive controls must not be nested",
+      "confidence": "high",
+      "ruleId": "nested-interactive",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/nested-interactive?application=axeAPI",
+      "html": "<button type=\"button\" aria-expanded=\"false\" class=\"md:footer-mb-xxs foo...\" aria-controls=\"/menusidebarsecoes-j...\" id=\"/menusidebarsecoes-j...\">"
+    },
+    {
+      "fingerprint": "c401a62be4b2",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#\\/menusidebarsecoes-record",
+      "target": "[\"#\\\\/menusidebarsecoes-record\"]",
+      "message": "Interactive controls must not be nested",
+      "confidence": "high",
+      "ruleId": "nested-interactive",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/nested-interactive?application=axeAPI",
+      "html": "<button type=\"button\" aria-expanded=\"false\" class=\"md:footer-mb-xxs foo...\" aria-controls=\"/menusidebarsecoes-r...\" id=\"/menusidebarsecoes-r...\">"
+    },
+    {
+      "fingerprint": "a5ea8b358600",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#\\/institucional",
+      "target": "[\"#\\\\/institucional\"]",
+      "message": "Interactive controls must not be nested",
+      "confidence": "high",
+      "ruleId": "nested-interactive",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/nested-interactive?application=axeAPI",
+      "html": "<button type=\"button\" aria-expanded=\"false\" class=\"md:footer-mb-xxs foo...\" aria-controls=\"/institucional-conta...\" id=\"/institucional\">"
+    }
+  ],
+  "belowThreshold": [],
+  "waived": [],
+  "discarded": [
+    {
+      "criterion": "1.1.1",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > div:nth-of-type(1) > a > img",
+      "reason": "the alternative names the purpose of the link it is the only content of",
+      "output": {
+        "verdict": "fail",
+        "evidence": "Logo R7.com",
+        "problem": "missing_information",
+        "imageShows": "O logotipo da R7 em azul e branco dentro de um balão de fala.",
+        "suggestedAlt": "Portal R7",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > a > div > img",
+      "reason": "the alternative repeats the visible text of the link or button it sits in",
+      "output": {
+        "verdict": "fail",
+        "evidence": "Política",
+        "problem": "wrong_content",
+        "imageShows": "Um selo circular azul com o logotipo da R7 e a palavra PLANALTO.",
+        "suggestedAlt": "Logotipo R7 Planalto",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "1.1.1",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(2) > div > a > div > img",
+      "reason": "the alternative repeats the visible text of the link or button it sits in",
+      "output": {
+        "verdict": "fail",
+        "evidence": "Poetizando",
+        "problem": "wrong_content",
+        "imageShows": "Um retrato em close-up de uma mulher com cabelos castanhos e olhos escuros.",
+        "suggestedAlt": "Retrato de Paloma Poeta",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "2.4.4",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > nav:nth-of-type(2) > ul > li:nth-of-type(5) > a",
+      "reason": "mismatch without a known destination",
+      "output": {
+        "promises": "The link text 'JR 24H' in a navigation menu suggests a link to a specific section, brand, or news category related to 'JR 24H'.",
+        "leadsTo": "https://noticias.r7.com/",
+        "verdict": "fail",
+        "evidence": "<link>JR 24H</link>",
+        "problem": "mismatch",
+        "suggestedText": "R7.com",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "2.4.6",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(8) > div > a > div > div > h2",
+      "reason": "suggested text equals the current one",
+      "output": {
+        "named": "Melhor Não Ler",
+        "verdict": "fail",
+        "evidence": "Melhor Não Ler",
+        "problem": "mismatch",
+        "suggestedText": "Melhor Não Ler",
+        "confidence": "high"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "criterion": "1.1.1",
+      "applicable": true,
+      "candidates": 11,
+      "judged": 11,
+      "failed": 1,
+      "passed": 6,
+      "cannotTell": 0,
+      "discarded": 3,
+      "errors": 0,
+      "offlineMisses": 0,
+      "confirmed": 1,
+      "suggested": 1,
+      "unconfirmed": 1
+    },
+    {
+      "criterion": "1.3.5",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.2",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "decided": 1
+    },
+    {
+      "criterion": "2.4.4",
+      "applicable": true,
+      "candidates": 237,
+      "judged": 50,
+      "failed": 0,
+      "passed": 45,
+      "cannotTell": 0,
+      "discarded": 1,
+      "errors": 0,
+      "offlineMisses": 0,
+      "capped": 187,
+      "suggested": 4
+    },
+    {
+      "criterion": "2.4.6",
+      "applicable": true,
+      "candidates": 15,
+      "judged": 15,
+      "failed": 0,
+      "passed": 8,
+      "cannotTell": 0,
+      "discarded": 1,
+      "errors": 0,
+      "offlineMisses": 0,
+      "suggested": 6
+    },
+    {
+      "criterion": "3.1.1",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "decided": 1
+    },
+    {
+      "criterion": "3.1.2",
+      "applicable": true,
+      "candidates": 2,
+      "judged": 2,
+      "failed": 0,
+      "passed": 2,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "decided": 1
+    },
+    {
+      "criterion": "3.3.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    }
+  ],
+  "coverage": {
+    "engine": [
+      "1.1.1",
+      "1.3.1",
+      "1.4.1",
+      "1.4.3",
+      "1.4.4",
+      "1.4.12",
+      "2.4.2",
+      "2.4.4",
+      "2.5.3",
+      "2.5.8",
+      "3.1.1",
+      "3.1.2",
+      "4.1.2"
+    ],
+    "judged": [
+      "1.1.1",
+      "1.3.5",
+      "2.4.4",
+      "2.4.6",
+      "3.1.2"
+    ],
+    "notChecked": [
+      "1.2.1",
+      "1.2.2",
+      "1.2.3",
+      "1.2.4",
+      "1.2.5",
+      "1.3.2",
+      "1.3.3",
+      "1.3.4",
+      "1.4.2",
+      "1.4.5",
+      "1.4.10",
+      "1.4.13",
+      "2.1.1",
+      "2.1.2",
+      "2.1.4",
+      "2.2.1",
+      "2.2.2",
+      "2.3.1",
+      "2.4.3",
+      "2.4.5",
+      "2.4.7",
+      "2.4.11",
+      "2.5.1",
+      "2.5.2",
+      "2.5.4",
+      "2.5.7",
+      "3.2.1",
+      "3.2.2",
+      "3.2.3",
+      "3.2.4",
+      "3.2.6",
+      "3.3.1",
+      "3.3.3",
+      "3.3.4",
+      "3.3.7",
+      "3.3.8",
+      "4.1.3"
+    ],
+    "rules": [
+      "1.1.1",
+      "1.4.3",
+      "1.4.11",
+      "2.4.2",
+      "2.4.6",
+      "3.1.1",
+      "3.1.2",
+      "4.1.2"
+    ],
+    "truncated": {
+      "elements": 5000,
+      "criteria": [
+        "1.1.1",
+        "1.3.5",
+        "1.4.3",
+        "1.4.11",
+        "2.4.2",
+        "2.4.4",
+        "2.4.6",
+        "3.1.1",
+        "3.1.2",
+        "4.1.2"
+      ]
+    },
+    "criteria": [
+      {
+        "id": "1.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "image-alt",
+            "ran": true,
+            "applicable": 184,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "role-img-alt",
+            "ran": true,
+            "applicable": 8,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-meter-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-progressbar-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "object-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "svg-img-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-alt",
+            "ran": true,
+            "applicable": 87,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.1.1@5",
+            "ran": true,
+            "applicable": 11,
+            "failures": 1,
+            "review": 1,
+            "suggestions": 1,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Equivalence for complex and contextual images; decorative or not; long descriptions; CAPTCHA usability"
+      },
+      {
+        "id": "1.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a transcript is equivalent; decorative video-only; labeled media alternatives"
+      },
+      {
+        "id": "1.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "video-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Accuracy, completeness, synchronization, speakers; players Rampa cannot read"
+      },
+      {
+        "id": "1.2.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether visual information matters, and whether the description or alternative is adequate"
+      },
+      {
+        "id": "1.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Everything about live captions"
+      },
+      {
+        "id": "1.2.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Quality of the description; pauses; importance of the visuals"
+      },
+      {
+        "id": "1.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "list",
+            "ran": true,
+            "applicable": 14,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "listitem",
+            "ran": true,
+            "applicable": 138,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-children",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-parent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "definition-list",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "dlitem",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "table-fake-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-has-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-headers-attr",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "th-has-data-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/table-header-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/presentational-table",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/orphan-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Whether formatting carries meaning; complex tables; charts and maps; structure \"available in text\""
+      },
+      {
+        "id": "1.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether an order matters; magazine and dashboard layouts; bidirectional text"
+      },
+      {
+        "id": "1.3.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Instructions in images and media; references that depend on context"
+      },
+      {
+        "id": "1.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential orientation; real devices with the rotation lock; native apps"
+      },
+      {
+        "id": "1.3.5",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "autocomplete-valid",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.3.5@2",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whose data a field collects in ambiguous contexts; whether autofill works"
+      },
+      {
+        "id": "1.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-in-text-block",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Charts, maps, color-coded tables; whether a difference carries meaning"
+      },
+      {
+        "id": "1.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "no-autoplay-audio",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Audio started by other interactions; games; cross-origin media; keyboard access to the control"
+      },
+      {
+        "id": "1.4.3",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "color-contrast",
+            "ran": true,
+            "applicable": 256,
+            "failures": 55,
+            "review": 1,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/pixel-contrast",
+            "ran": true,
+            "applicable": 12,
+            "failures": 1,
+            "review": 6,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Text over photos and video; text in images; logotypes"
+      },
+      {
+        "id": "1.4.4",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-viewport",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/meta-viewport",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Lost functionality in complex widgets; acceptable truncation; real mobile browsers"
+      },
+      {
+        "id": "1.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential presentation; customizable images; infographics"
+      },
+      {
+        "id": "1.4.10",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Lost functionality at 320 CSS px; content that scrolls horizontally; whether the two-dimensional exception applies"
+      },
+      {
+        "id": "1.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/icon-contrast",
+            "ran": true,
+            "applicable": 20,
+            "failures": 0,
+            "review": 11,
+            "maturity": "experimental",
+            "note": "6 not measured, past the limit of 20 per page"
+          }
+        ],
+        "manual": "Graphs and charts; whether a graphic is required; hover and active states; gradients"
+      },
+      {
+        "id": "1.4.12",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "avoid-inline-spacing",
+            "ran": true,
+            "applicable": 91,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Text clipped or overlapping with the spacing applied; scripts where a metric does not apply; text in canvas and images"
+      },
+      {
+        "id": "1.4.13",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Content shown on hover or focus: dismissible, hoverable, persistent; touch; content that moves"
+      },
+      {
+        "id": "2.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "frame-focusable-content",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "scrollable-region-focusable",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "server-side-image-map",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Operating everything with the keyboard; states behind login; drag and drop; canvas; speech and switch input"
+      },
+      {
+        "id": "2.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Moving through the whole page with the keyboard; traps after interactions; plug-ins; screen-reader modes"
+      },
+      {
+        "id": "2.1.4",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Settings on other pages or behind login, and whether they work; shortcuts in frames; keyboard layouts and IMEs; speech input"
+      },
+      {
+        "id": "2.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-refresh",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/refresh-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Server-side time-outs; flows behind login; the exceptions"
+      },
+      {
+        "id": "2.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "blink",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "marquee",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Motion after an interaction or further down the page; whether a control is easy to find and works from the keyboard; essential motion; reliance on reduced motion"
+      },
+      {
+        "id": "2.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Flashing content, live and user-generated content; certification-grade sign-off"
+      },
+      {
+        "id": "2.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "bypass",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a block is substantial; whether skip links work; single-page-app views"
+      },
+      {
+        "id": "2.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "document-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/default-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/home-page-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.2@3",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a title fits the domain and audience"
+      },
+      {
+        "id": "2.4.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether the focus order preserves meaning; dialogs and menus"
+      },
+      {
+        "id": "2.4.4",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 224,
+            "failures": 24,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.4@3",
+            "ran": true,
+            "applicable": 237,
+            "failures": 0,
+            "review": 4,
+            "suggestions": 4,
+            "notJudged": 187,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "The \"ambiguous to users in general\" exception; destinations behind login"
+      },
+      {
+        "id": "2.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Defining the set of pages; the process exception"
+      },
+      {
+        "id": "2.4.6",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-text",
+            "ran": true,
+            "applicable": 139,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.6@4",
+            "ran": true,
+            "applicable": 15,
+            "failures": 0,
+            "review": 6,
+            "suggestions": 6,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a heading or label fits the domain and audience"
+      },
+      {
+        "id": "2.4.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether every focused element shows it; faint indicators; forced colors"
+      },
+      {
+        "id": "2.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Focused elements hidden by sticky headers, banners or dialogs; content the user opened or can move"
+      },
+      {
+        "id": "2.5.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential gestures; alternatives elsewhere on the page or in another view; gestures the probe does not make (rotation, longer paths); real touch hardware"
+      },
+      {
+        "id": "2.5.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Actions on the down-event; undo in drag and drop; touch"
+      },
+      {
+        "id": "2.5.3",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "label-content-name-mismatch",
+            "ran": true,
+            "applicable": 8,
+            "failures": 5,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/field-label-in-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Label versus nearby instruction; symbols and numbers; testing with speech input"
+      },
+      {
+        "id": "2.5.4",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Camera and body gestures; real sensors; essential motion; settings on other pages; motion after a tap or a permission"
+      },
+      {
+        "id": "2.5.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Dragging and its single-pointer alternatives; essential dragging; canvas editors"
+      },
+      {
+        "id": "2.5.8",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "target-size",
+            "ran": true,
+            "applicable": 203,
+            "failures": 3,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Essential or legally required presentation; equivalent targets; canvas and SVG maps"
+      },
+      {
+        "id": "3.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "html-has-lang",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-lang-valid",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-xml-lang-mismatch",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-id",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.1@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Balanced bilingual pages; dialects"
+      },
+      {
+        "id": "3.1.2",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "valid-lang",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-switcher-lang",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-id",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.2@2",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Unmarked passages; single words; proper names; loanwords"
+      },
+      {
+        "id": "3.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when an element receives focus; states after interaction"
+      },
+      {
+        "id": "3.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when a setting changes, and whether notice is adequate; custom widgets"
+      },
+      {
+        "id": "3.2.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Navigation order across the set of pages; personalization; pages behind login"
+      },
+      {
+        "id": "3.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "What counts as the same function; icons in context"
+      },
+      {
+        "id": "3.2.6",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Help mechanisms and their order across the set of pages; help that is not a link"
+      },
+      {
+        "id": "3.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Error messages after input; errors the server finds; wording"
+      },
+      {
+        "id": "3.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "form-field-multiple-labels",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/no-visible-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.3.2@1",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether instructions are enough; icons as labels"
+      },
+      {
+        "id": "3.3.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a suggestion is correct; server-side errors; the security exception"
+      },
+      {
+        "id": "3.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Reversal, checking or confirmation of submissions: almost all of it"
+      },
+      {
+        "id": "3.3.7",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Information asked again in a process; third-party steps; the exceptions"
+      },
+      {
+        "id": "3.3.8",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Cognitive function tests in sign-in and recovery; CAPTCHA escalations; later steps that need an account"
+      },
+      {
+        "id": "4.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-hidden-focus",
+            "ran": true,
+            "applicable": 201,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "button-name",
+            "ran": true,
+            "applicable": 23,
+            "failures": 2,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 224,
+            "failures": 24,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "nested-interactive",
+            "ran": true,
+            "applicable": 154,
+            "failures": 5,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-prohibited-attr",
+            "ran": true,
+            "applicable": 59,
+            "failures": 0,
+            "review": 1,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr-value",
+            "ran": true,
+            "applicable": 59,
+            "failures": 0,
+            "review": 3,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "duplicate-id-aria",
+            "ran": true,
+            "applicable": 19,
+            "failures": 0,
+            "review": 1,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-allowed-attr",
+            "ran": true,
+            "applicable": 59,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-command-name",
+            "ran": true,
+            "applicable": 12,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-conditional-attr",
+            "ran": true,
+            "applicable": 59,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-deprecated-role",
+            "ran": true,
+            "applicable": 39,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-attr",
+            "ran": true,
+            "applicable": 39,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-roles",
+            "ran": true,
+            "applicable": 39,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr",
+            "ran": true,
+            "applicable": 59,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title-unique",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "select-name",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-braille-equivalent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-input-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tab-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-toggle-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tooltip-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-button-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "summary-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/duplicate-id-reference",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/widget-name",
+            "ran": true,
+            "applicable": 376,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/custom-control",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/disclosure-state",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Roles for custom widgets; values set by assistive technology; what is actually announced"
+      },
+      {
+        "id": "4.1.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/live-regions",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "note": "2 live region(s): #fusion-app > header > div:nth-of-type(2) > div (dialog, polite, \"Fique à Frente! R7 Receba as notícias e…\"); #fusion-app > main > div > div > div:nth-of-type(29) > div > div:nth-of-type(3) > div > div > div:nth-of-type(1) > span (generic, polite, \"‌\"). Whether status messages reach them only shows with the page in use",
+            "inventory": true
+          }
+        ],
+        "manual": "Whether status messages are announced in screen readers"
+      }
+    ]
+  },
+  "needsReview": [
+    {
+      "criterion": "1.1.1",
+      "level": "A",
+      "ruleId": "judgment/1.1.1",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(3) > div > div:nth-of-type(1) > div > article:nth-of-type(2) > div > figure > a > img",
+      "message": "The text alternative \"Eduardo Bolsonaro disse que jamais teve objetivo interferir em qualquer processo brasileiro\" is all its link holds, and does not say where the link leads.",
+      "evidence": "The model suggests: \"Eduardo Bolsonaro pede que Flávio deixe o país se perder as eleições para Lula\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.17), claim: yes (1.00), reversed: no (0.98))",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#internal_trc_1332270565 > div:nth-of-type(5) > a:nth-of-type(2) > span > span:nth-of-type(2) > span",
+      "target": "[\".videoCube_5_child > .item-label-href[rel=\\\"nofollow noopener sponsored\\\"][target=\\\"_blank\\\"] > .video-label-box.trc-main-label > .branding[slot=\\\"branding\\\"][role=\\\"link\\\"] > .tbl-data-field\"]",
+      "html": "<span class=\"tbl-data-field\" style=\"display:inline\">Fuugu</span>",
+      "message": "Element's background color could not be determined because it is overlapped by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div > a",
+      "target": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(2) > div > a",
+      "html": "<a class=\"ns-bdrz0-e-12\" href=\"https://www.googleadservices.com/pagead/aclk?sa=L&amp;ai=CToycYDTcat2-Np3_5OUPkdDr6AS9vaqpigGKucTGsBbXr67rokoQASCq16kgYM2Y4IDoAqAB-ZXS40PIAQngAgCoAwHIAwqqBJ8CT9DVdo1BcKFXJ3yc_DDG1_FgH5Bprlaxy6Kr9cVoNmJRMspSWB7VkhLIslQoWhChsJlFiu4nMwftYxycVyWb11Hb3HAoMfOPLXgcietJ5kBffM91lO02zhIo2Rz2JeyXZBF2XI7IplhqRatplHnz8hjvgxDBUnL5P3dJk_xFO4xWzicy6cmgL2oZKs-EzRXzOcdRsYazAZ4Xvh_ub6S1DiSwzzXAEgUhdDLATgamKz7wmnY94RgfcgEGzjjXtejwWVhC_IUNAWvvK6CsPfAamVIUhc4iRoMlsewzcrDwFJmK9VxlSKbaa1AL-_1zxXNtwiqjWl-JU1j6anH6pelfuJ9dOh2m3CTAMtrV1F3NyBLwJdiHb4fOopmbizixqA_ABLS3nIWLBuAEAYgFyq2BxlqgBi6AB_nNosMeqAenzLECqAemvhuoB8zOsQKoB_PRG6gHltgbqAeqm7ECqAf-6LECqAeOzhuoB5PYG6gH8OAbqAfulrECqAf-nrECqAevvrECqAef4bECqAem67ECqAfVyRuoB9m2sQKoB5oGqAf_nrECqAffn7ECqAf4wrECqAf7wrEC2AcA0ggyCIBhEAEYHTIIioKAgICAgAg6D4BAgMCAgICAqIACqIOAGEi9_cE6WOGI7PHo0ZcDYAGxCVOFWp5AIcRWgAoDmAsByAsBgAwBogwQKg4KDI7fsQKV4rECme6xAqoNAkJSyA0B4g0TCLSz7PHo0ZcDFZ0_uQYdEegaTeoNEwihgu3x6NGXAxWdP7kGHRHoGk3wDQKIDv___________wHYEwzQFQHKFgIKAPgWAYAXAbIXEBgBKgoxNTY5OTY4NzA3UAa6FwI4AaoYFwkAAAAA2HISQRIKMTU2OTk2ODcwNxgBshgJEgKxaRguIgEA0BgBwhkCCAE&amp;ae=1&amp;gclid=EAIaIQobChMI3e7t8ejRlwMVnT-5Bh0R6BpNEAEYASAAEgID7_D_BwE&amp;num=1&amp;cid=CAQSswIAQM4h3Otx4N70hWV8SDv49o0_5shSJrJf9o982o4q7lqMyNJNJQbCZbp9nm3JmQMYnGyQLAekuyvRu6D6V54ksKxdejEdpN0NF5g4BTM1MWVkaBGxuXmUz92OPq7B7izGXtQMuk94cOPjI_BFII3uM1FOhrpMk_Zzi9Cp1sdUD8QqAJgI1UpDzF4GQpq243ghh7F6IEVkYEet_AOydtQhbxlIEbKraAsW_wpiwxqU7XG-SiEljX4lITE_hs75XaGmoj1dQejvwobwMQ4B4IDmkaRuAl3ObvbmWViQzea04IviplMUgd6stDPIo940vPmVta2tfIfLBbJTreW97PidiLLWRtZU148nUDOYQtsev7Bus94nr9nFi2kkR1rrldliJMHIopHoU9rGORhGqjbFCspsGAE&amp;sig=AOD64_3m3Eb56PPleT3v7UGMnxE5Ih5UTg&amp;rf=4&amp;nb=0&amp;adurl=https://iqcenter.com/pt/start/iq%3Futm_source%3Dgoogle%26utm_medium%3Ddisplay%26utm_id%3D24306013898%26utm_content%3D209122171828%26utm_term%3D%26network%3Dd%26matchtype%3D%26device%3Dc%26gaid%3DBR-PT-D-IQ%26fx%3D%26gad_source%3D5%26gad_campaignid%3D24306013898%26gclid%3DEAIaIQobChMI3e7t8ejRlwMVnT-5Bh0R6BpNEAEYASAAEgID7_D_BwE\">",
+      "message": "Part of the text \"Teste de QI de 5 minutos\" has enough contrast and part does not: from 1.41:1 to 19.08:1 against what is behind it (#d9d9d9 on #ffffff), where WCAG 1.4.3 asks for 3:1 for large text. Check the part over an element over or under it.",
+      "evidence": "#d9d9d9 on #ffffff · 19.08:1 at best, 1.41:1 at worst · 30px, 500",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(4) > div > a > span:nth-of-type(1)",
+      "target": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(4) > div > a > span:nth-of-type(1)",
+      "html": "<span class=\"ns-bdrz0-e-17\">",
+      "message": "axe-core could not decide the contrast of \"Teste de QI gratuito com\" (an element over or under it), and the pixels could not either: its glyphs did not show in the pixels (covered by something, or drawn in a way that making the text transparent does not reach).",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(4) > div > a > span:nth-of-type(2)",
+      "target": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(4) > div > a > span:nth-of-type(2)",
+      "html": "<span class=\"ns-bdrz0-e-18 keyword-highlight\">",
+      "message": "axe-core could not decide the contrast of \"resultados instantâneos\" (an element over or under it), and the pixels could not either: its glyphs did not show in the pixels (covered by something, or drawn in a way that making the text transparent does not reach).",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(4) > div > a > span:nth-of-type(3)",
+      "target": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > div:nth-of-type(4) > div > a > span:nth-of-type(3)",
+      "html": "<span class=\"ns-bdrz0-e-19\">",
+      "message": "axe-core could not decide the contrast of \". Veja sua pontuação\" (an element over or under it), and the pixels could not either: its glyphs did not show in the pixels (covered by something, or drawn in a way that making the text transparent does not reach).",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(1) > a",
+      "target": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(1) > a",
+      "html": "<a class=\"ns-bdrz0-e-25\" href=\"https://www.googleadservices.com/pagead/aclk?sa=L&amp;ai=CToycYDTcat2-Np3_5OUPkdDr6AS9vaqpigGKucTGsBbXr67rokoQASCq16kgYM2Y4IDoAqAB-ZXS40PIAQngAgCoAwHIAwqqBJ8CT9DVdo1BcKFXJ3yc_DDG1_FgH5Bprlaxy6Kr9cVoNmJRMspSWB7VkhLIslQoWhChsJlFiu4nMwftYxycVyWb11Hb3HAoMfOPLXgcietJ5kBffM91lO02zhIo2Rz2JeyXZBF2XI7IplhqRatplHnz8hjvgxDBUnL5P3dJk_xFO4xWzicy6cmgL2oZKs-EzRXzOcdRsYazAZ4Xvh_ub6S1DiSwzzXAEgUhdDLATgamKz7wmnY94RgfcgEGzjjXtejwWVhC_IUNAWvvK6CsPfAamVIUhc4iRoMlsewzcrDwFJmK9VxlSKbaa1AL-_1zxXNtwiqjWl-JU1j6anH6pelfuJ9dOh2m3CTAMtrV1F3NyBLwJdiHb4fOopmbizixqA_ABLS3nIWLBuAEAYgFyq2BxlqgBi6AB_nNosMeqAenzLECqAemvhuoB8zOsQKoB_PRG6gHltgbqAeqm7ECqAf-6LECqAeOzhuoB5PYG6gH8OAbqAfulrECqAf-nrECqAevvrECqAef4bECqAem67ECqAfVyRuoB9m2sQKoB5oGqAf_nrECqAffn7ECqAf4wrECqAf7wrEC2AcA0ggyCIBhEAEYHTIIioKAgICAgAg6D4BAgMCAgICAqIACqIOAGEi9_cE6WOGI7PHo0ZcDYAGxCVOFWp5AIcRWgAoDmAsByAsBgAwBogwQKg4KDI7fsQKV4rECme6xAqoNAkJSyA0B4g0TCLSz7PHo0ZcDFZ0_uQYdEegaTeoNEwihgu3x6NGXAxWdP7kGHRHoGk3wDQKIDv___________wHYEwzQFQHKFgIKAPgWAYAXAbIXEBgBKgoxNTY5OTY4NzA3UAa6FwI4AaoYFwkAAAAA2HISQRIKMTU2OTk2ODcwNxgBshgJEgKxaRguIgEA0BgBwhkCCAE&amp;ae=1&amp;gclid=EAIaIQobChMI3e7t8ejRlwMVnT-5Bh0R6BpNEAEYASAAEgID7_D_BwE&amp;num=1&amp;cid=CAQSswIAQM4h3Otx4N70hWV8SDv49o0_5shSJrJf9o982o4q7lqMyNJNJQbCZbp9nm3JmQMYnGyQLAekuyvRu6D6V54ksKxdejEdpN0NF5g4BTM1MWVkaBGxuXmUz92OPq7B7izGXtQMuk94cOPjI_BFII3uM1FOhrpMk_Zzi9Cp1sdUD8QqAJgI1UpDzF4GQpq243ghh7F6IEVkYEet_AOydtQhbxlIEbKraAsW_wpiwxqU7XG-SiEljX4lITE_hs75XaGmoj1dQejvwobwMQ4B4IDmkaRuAl3ObvbmWViQzea04IviplMUgd6stDPIo940vPmVta2tfIfLBbJTreW97PidiLLWRtZU148nUDOYQtsev7Bus94nr9nFi2kkR1rrldliJMHIopHoU9rGORhGqjbFCspsGAE&amp;sig=AOD64_3m3Eb56PPleT3v7UGMnxE5Ih5UTg&amp;rf=4&amp;nb=1&amp;adurl=https://iqcenter.com/pt/start/iq%3Futm_source%3Dgoogle%26utm_medium%3Ddisplay%26utm_id%3D24306013898%26utm_content%3D209122171828%26utm_term%3D%26network%3Dd%26matchtype%3D%26device%3Dc%26gaid%3DBR-PT-D-IQ%26fx%3D%26gad_source%3D5%26gad_campaignid%3D24306013898%26gclid%3DEAIaIQobChMI3e7t8ejRlwMVnT-5Bh0R6BpNEAEYASAAEgID7_D_BwE\">",
+      "message": "axe-core could not decide the contrast of \"IQ Center\" (an element over or under it), and the pixels could not either: its glyphs did not show in the pixels (covered by something, or drawn in a way that making the text transparent does not reach).",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "rampa/pixel-contrast",
+      "ref": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(3) > a",
+      "target": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(3) > a",
+      "html": "<a class=\"ns-bdrz0-e-28\" href=\"https://www.googleadservices.com/pagead/aclk?sa=L&amp;ai=CToycYDTcat2-Np3_5OUPkdDr6AS9vaqpigGKucTGsBbXr67rokoQASCq16kgYM2Y4IDoAqAB-ZXS40PIAQngAgCoAwHIAwqqBJ8CT9DVdo1BcKFXJ3yc_DDG1_FgH5Bprlaxy6Kr9cVoNmJRMspSWB7VkhLIslQoWhChsJlFiu4nMwftYxycVyWb11Hb3HAoMfOPLXgcietJ5kBffM91lO02zhIo2Rz2JeyXZBF2XI7IplhqRatplHnz8hjvgxDBUnL5P3dJk_xFO4xWzicy6cmgL2oZKs-EzRXzOcdRsYazAZ4Xvh_ub6S1DiSwzzXAEgUhdDLATgamKz7wmnY94RgfcgEGzjjXtejwWVhC_IUNAWvvK6CsPfAamVIUhc4iRoMlsewzcrDwFJmK9VxlSKbaa1AL-_1zxXNtwiqjWl-JU1j6anH6pelfuJ9dOh2m3CTAMtrV1F3NyBLwJdiHb4fOopmbizixqA_ABLS3nIWLBuAEAYgFyq2BxlqgBi6AB_nNosMeqAenzLECqAemvhuoB8zOsQKoB_PRG6gHltgbqAeqm7ECqAf-6LECqAeOzhuoB5PYG6gH8OAbqAfulrECqAf-nrECqAevvrECqAef4bECqAem67ECqAfVyRuoB9m2sQKoB5oGqAf_nrECqAffn7ECqAf4wrECqAf7wrEC2AcA0ggyCIBhEAEYHTIIioKAgICAgAg6D4BAgMCAgICAqIACqIOAGEi9_cE6WOGI7PHo0ZcDYAGxCVOFWp5AIcRWgAoDmAsByAsBgAwBogwQKg4KDI7fsQKV4rECme6xAqoNAkJSyA0B4g0TCLSz7PHo0ZcDFZ0_uQYdEegaTeoNEwihgu3x6NGXAxWdP7kGHRHoGk3wDQKIDv___________wHYEwzQFQHKFgIKAPgWAYAXAbIXEBgBKgoxNTY5OTY4NzA3UAa6FwI4AaoYFwkAAAAA2HISQRIKMTU2OTk2ODcwNxgBshgJEgKxaRguIgEA0BgBwhkCCAE&amp;ae=1&amp;gclid=EAIaIQobChMI3e7t8ejRlwMVnT-5Bh0R6BpNEAEYASAAEgID7_D_BwE&amp;num=1&amp;cid=CAQSswIAQM4h3Otx4N70hWV8SDv49o0_5shSJrJf9o982o4q7lqMyNJNJQbCZbp9nm3JmQMYnGyQLAekuyvRu6D6V54ksKxdejEdpN0NF5g4BTM1MWVkaBGxuXmUz92OPq7B7izGXtQMuk94cOPjI_BFII3uM1FOhrpMk_Zzi9Cp1sdUD8QqAJgI1UpDzF4GQpq243ghh7F6IEVkYEet_AOydtQhbxlIEbKraAsW_wpiwxqU7XG-SiEljX4lITE_hs75XaGmoj1dQejvwobwMQ4B4IDmkaRuAl3ObvbmWViQzea04IviplMUgd6stDPIo940vPmVta2tfIfLBbJTreW97PidiLLWRtZU148nUDOYQtsev7Bus94nr9nFi2kkR1rrldliJMHIopHoU9rGORhGqjbFCspsGAE&amp;sig=AOD64_3m3Eb56PPleT3v7UGMnxE5Ih5UTg&amp;rf=4&amp;nb=8&amp;adurl=https://iqcenter.com/pt/start/iq%3Futm_source%3Dgoogle%26utm_medium%3Ddisplay%26utm_id%3D24306013898%26utm_content%3D209122171828%26utm_term%3D%26network%3Dd%26matchtype%3D%26device%3Dc%26gaid%3DBR-PT-D-IQ%26fx%3D%26gad_source%3D5%26gad_campaignid%3D24306013898%26gclid%3DEAIaIQobChMI3e7t8ejRlwMVnT-5Bh0R6BpNEAEYASAAEgID7_D_BwE\">",
+      "message": "axe-core could not decide the contrast of \"Visit Site\" (an element over or under it), and the pixels could not either: its glyphs did not show in the pixels (covered by something, or drawn in a way that making the text transparent does not reach).",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#_r_4_ > div > div:nth-of-type(3) > a",
+      "target": "#_r_4_ > div > div:nth-of-type(3) > a",
+      "html": "<a href=\"https://esportes.r7.com/futebol/times/bahia/\" target=\"_self\" title=\"Bahia\">",
+      "message": "The icon of this link (\"Bahia\") has a contrast from 1.02:1 to 7.90:1 with the pixels next to it (#fcfdfc on #ffffff); WCAG 1.4.11 asks for 3:1 where the icon must be seen: check it by eye.",
+      "evidence": "#fcfdfc on #ffffff · 7.90:1 at best, 1.02:1 at worst",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#_r_4_ > div > div:nth-of-type(5) > a",
+      "target": "#_r_4_ > div > div:nth-of-type(5) > a",
+      "html": "<a href=\"https://esportes.r7.com/futebol/times/chapecoense/\" target=\"_self\" title=\"Chapecoense\">",
+      "message": "The icon of this link (\"Chapecoense\") has a contrast from 1.03:1 to 4.94:1 with the pixels next to it (#fcfcfc on #ffffff); WCAG 1.4.11 asks for 3:1 where the icon must be seen: check it by eye.",
+      "evidence": "#fcfcfc on #ffffff · 4.94:1 at best, 1.03:1 at worst",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#_r_4_ > div > div:nth-of-type(6) > a",
+      "target": "#_r_4_ > div > div:nth-of-type(6) > a",
+      "html": "<a href=\"https://esportes.r7.com/futebol/times/corinthians/\" target=\"_self\" title=\"Corinthians\">",
+      "message": "The icon of this link (\"Corinthians\") has a contrast from 1.03:1 to 18.23:1 with the pixels next to it (#fcfcfc on #ffffff); WCAG 1.4.11 asks for 3:1 where the icon must be seen: check it by eye.",
+      "evidence": "#fcfcfc on #ffffff · 18.23:1 at best, 1.03:1 at worst",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#_r_4_ > div > div:nth-of-type(7) > a",
+      "target": "#_r_4_ > div > div:nth-of-type(7) > a",
+      "html": "<a href=\"https://esportes.r7.com/futebol/times/coritiba/\" target=\"_self\" title=\"Coritiba\">",
+      "message": "The icon of this link (\"Coritiba\") has a contrast from 8.84:1 to 9.87:1 with the pixels next to it (#00544d on #ffffff); WCAG 1.4.11 asks for 3:1 where the icon must be seen: check it by eye.",
+      "evidence": "#00544d on #ffffff · 9.87:1 at best, 8.84:1 at worst",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#_r_4_ > div > div:nth-of-type(10) > a",
+      "target": "#_r_4_ > div > div:nth-of-type(10) > a",
+      "html": "<a href=\"https://esportes.r7.com/futebol/times/fluminense/\" target=\"_self\" title=\"Fluminense\">",
+      "message": "The icon of this link (\"Fluminense\") has a contrast from 6.88:1 to 8.72:1 with the pixels next to it (#006840 on #ffffff); WCAG 1.4.11 asks for 3:1 where the icon must be seen: check it by eye.",
+      "evidence": "#006840 on #ffffff · 8.72:1 at best, 6.88:1 at worst",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#_r_4_ > div > div:nth-of-type(11) > a",
+      "target": "#_r_4_ > div > div:nth-of-type(11) > a",
+      "html": "<a href=\"https://esportes.r7.com/futebol/times/gremio/\" target=\"_self\" title=\"Grêmio\">",
+      "message": "The icon of this link (\"Grêmio\") has a contrast from 17.34:1 to 19.73:1 with the pixels next to it (#1f1919 on #ffffff); WCAG 1.4.11 asks for 3:1 where the icon must be seen: check it by eye.",
+      "evidence": "#1f1919 on #ffffff · 19.73:1 at best, 17.34:1 at worst",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#_r_4_ > div > div:nth-of-type(12) > a",
+      "target": "#_r_4_ > div > div:nth-of-type(12) > a",
+      "html": "<a href=\"https://esportes.r7.com/futebol/times/internacional/\" target=\"_self\" title=\"Internacional\">",
+      "message": "The icon of this link (\"Internacional\") has a contrast from 1.03:1 to 5.29:1 with the pixels next to it (#fcfcfc on #ffffff); WCAG 1.4.11 asks for 3:1 where the icon must be seen: check it by eye.",
+      "evidence": "#fcfcfc on #ffffff · 5.29:1 at best, 1.03:1 at worst",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#_r_4_ > div > div:nth-of-type(13) > a",
+      "target": "#_r_4_ > div > div:nth-of-type(13) > a",
+      "html": "<a href=\"https://esportes.r7.com/futebol/times/mirassol/\" target=\"_self\" title=\"Mirassol\">",
+      "message": "The icon of this link (\"Mirassol\") has a contrast from 3.36:1 to 7.64:1 with the pixels next to it (#7c9623 on #ffffff); WCAG 1.4.11 asks for 3:1 where the icon must be seen: check it by eye.",
+      "evidence": "#7c9623 on #ffffff · 7.64:1 at best, 3.36:1 at worst",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#_r_4_ > div > div:nth-of-type(14) > a",
+      "target": "#_r_4_ > div > div:nth-of-type(14) > a",
+      "html": "<a href=\"https://esportes.r7.com/futebol/times/palmeiras/\" target=\"_self\" title=\"Palmeiras\">",
+      "message": "The icon of this link (\"Palmeiras\") has a contrast from 1.03:1 to 9.85:1 with the pixels next to it (#fbfbfb on #ffffff); WCAG 1.4.11 asks for 3:1 where the icon must be seen: check it by eye.",
+      "evidence": "#fbfbfb on #ffffff · 9.85:1 at best, 1.03:1 at worst",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#_r_4_ > div > div:nth-of-type(15) > a",
+      "target": "#_r_4_ > div > div:nth-of-type(15) > a",
+      "html": "<a href=\"https://esportes.r7.com/futebol/times/bragantino/\" target=\"_self\" title=\"RB Bragantino\">",
+      "message": "The icon of this link (\"RB Bragantino\") has a contrast from 1.06:1 to 11.22:1 with the pixels next to it (#f8f8f7 on #ffffff); WCAG 1.4.11 asks for 3:1 where the icon must be seen: check it by eye.",
+      "evidence": "#f8f8f7 on #ffffff · 11.22:1 at best, 1.06:1 at worst",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "#_r_4_ > div > div:nth-of-type(16) > a",
+      "target": "#_r_4_ > div > div:nth-of-type(16) > a",
+      "html": "<a href=\"https://esportes.r7.com/futebol/times/remo/\" target=\"_self\" title=\"Remo\">",
+      "message": "The icon of this link (\"Remo\") has a contrast from 18.42:1 to 19.03:1 with the pixels next to it (#10141d on #ffffff); WCAG 1.4.11 asks for 3:1 where the icon must be seen: check it by eye.",
+      "evidence": "#10141d on #ffffff · 19.03:1 at best, 18.42:1 at worst",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > div:nth-of-type(3) > a",
+      "message": "The link text \"Login\" does not match where the link leads: a page titled \"R7\".",
+      "evidence": "The model suggests: \"Entrar na conta R7\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(3) > a",
+      "message": "The link text \"Visit Site\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Visite o site do IQ Center\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(1) > div > div > div > div > article > div:nth-of-type(1) > a",
+      "message": "The link text \"VOTE!\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Vote no Poder da Chama Vermelha em 'A Fazenda'\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > a",
+      "message": "The link text \"COMPARTILHE\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Compartilhar esta notícia\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > a > div > div > h2",
+      "message": "The heading \"Política\" names a different topic than the content under it.",
+      "evidence": "The model suggests: \"Notícias de Política\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(3) > div > a > div > div > h2",
+      "message": "The heading \"Dr. Piterson Gomes\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Coluna de Dr. Piterson Gomes\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(4) > div > a > div > div > h2",
+      "message": "The heading \"Patricia Lages\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Biografia de Patricia Lages\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > a > div > div > h2",
+      "message": "The heading \"Rafael Ferraz\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Rafael Ferraz - Biografia\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > a > div > div > h2",
+      "message": "The heading \"Dose de Cafeína\" names a different topic than the content under it.",
+      "evidence": "The model suggests: \"Lilian Trigolo Café no Ceará\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#guide",
+      "message": "The label \"Programação:\" does not say what to enter.",
+      "evidence": "The model suggests: \"Escolha o horário da programação\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "aria-prohibited-attr",
+      "ref": "#fusion-app > main > div > div > div:nth-of-type(18) > div > div > div",
+      "target": "[\"div[aria-label=\\\"Grade de programação\\\"]\"]",
+      "html": "<div class=\"tv-flex tv-flex-col\" aria-label=\"Grade de programação\" data-testid=\"tv-guide\">",
+      "message": "aria-label attribute is not well supported on \"div\" elements with no valid role attribute.",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "aria-valid-attr-value",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > div:nth-of-type(1) > a > img",
+      "target": "[\"img[aria-labelledby=\\\"logo-r7com\\\"]\"]",
+      "html": "<img aria-labelledby=\"logo-r7com\" class=\"header-h-full header-logo-color\" alt=\"Logo R7.com\" width=\"40\" height=\"36\" src=\"https://static.themebuilder.aws.arc.pub/newr7/1706095623373.svg\">",
+      "message": "ARIA attribute element ID does not exist on the page: aria-labelledby=\"logo-r7com\"",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "aria-valid-attr-value",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > div:nth-of-type(2) > a > img",
+      "target": "[\".header-logo-color[aria-labelledby=\\\"logo-recordplus\\\"][alt=\\\"RecordPlus\\\"]\"]",
+      "html": "<img aria-labelledby=\"logo-recordplus\" alt=\"RecordPlus\" width=\"110\" class=\"header-logo-color\" src=\"https://static.themebuilder.aws.arc.pub/newr7/1755135270706.svg\">",
+      "message": "ARIA attribute element ID does not exist on the page: aria-labelledby=\"logo-recordplus\"",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "aria-valid-attr-value",
+      "ref": "#guide",
+      "target": "[\"#guide\"]",
+      "html": "<select aria-label=\"Programação:\" data-testid=\"tv-guide-select\" class=\"form-cursor-pointer ...\" name=\"guide\" id=\"guide\" aria-describedby=\"guide-description\">",
+      "message": "ARIA attribute element ID does not exist on the page: aria-describedby=\"guide-description\"",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "duplicate-id-aria",
+      "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > ul > div > span",
+      "target": "[\".base-top-\\\\[calc\\\\(100\\\\%_\\\\+_10px\\\\)\\\\]\"]",
+      "html": "<span role=\"tooltip\" id=\"tooltip\" aria-hidden=\"true\" class=\"base-w-max base-text...\">",
+      "message": "Document has multiple elements referenced with ARIA with the same id attribute: tooltip",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/duplicate-id-aria?application=axeAPI"
+    }
+  ],
+  "usage": {
+    "calls": 84,
+    "cachedCalls": 0,
+    "inputTokens": 87651,
+    "outputTokens": 10780,
+    "latencyMs": 311198
+  },
+  "errors": [],
+  "notes": [
+    "The page was cut at 5000 elements, the collector's limit: what comes after them is not in the snapshot, so the checks that read the snapshot (Rampa's rules and judged criteria) did not run past that point. Checked only up to the cut: 1.1.1, 1.3.5, 1.4.3, 1.4.11, 2.4.2, 2.4.4, 2.4.6, 3.1.1, 3.1.2, 4.1.2. axe-core read the whole page.",
+    "164 image(s) were left without a capture, so no judgment looked at them: 164 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+    "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 187 of 237 for 2.4.4. The coverage lists them as not judged.",
+    "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+  ],
+  "failOn": "confirmed"
+}

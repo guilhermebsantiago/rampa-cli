@@ -1,0 +1,18 @@
+{
+  "page": "https://ufpr.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "e538cc5805aa",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the Boletim UFPR logo image (it shows 'B. boletim ufpr'), the only content of a link in the UFPRTV section. The link goes to https://www.youtube.com/@universidade_federal_do_parana. The alt 'Logo Boletim UFPR' names Boletim UFPR, which is what the image shows and what the link offers. The live YouTube channel's description lists 'Boletim UFPR' among its programmes, so the alt does say where the link leads. A screen reader user gets the same information a sighted user gets from the logo, which satisfies 1.1.1's equivalent-purpose requirement for a functional image. The word 'Logo' is redundant, but that is a best-practice point and not a failure. The checker had the alt, the crop and the href, and judged wrongly. The live page was unchanged when I checked it."
+    },
+    {
+      "fingerprint": "4733c7d9a87f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a link to https://participa.ufpr.br/. Its only content is an image banner that visibly reads 'UFPR participa', with alt 'Logo UFPR'. A sibling link just above it, to the Sustainable Development policy page, is a banner reading 'Sustainable Development Goals / Desenvolvimento Sustentável' and has the same alt 'Logo UFPR'. Both are bare anchors in a div: no list item, sentence, table cell or relevant heading gives programmatic context, and the nearest preceding heading is 'UFPRTV', which is unrelated. So screen reader users hear two links named 'Logo UFPR' that lead to different places, and neither name says what the link is for. Visually each banner is clear, so the 'ambiguous to users in general' exception does not apply. This fails 2.4.4 as the finding says (and the inaccurate alt also fails 1.1.1). The live page still has the same markup."
+    }
+  ]
+}

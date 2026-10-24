@@ -1,0 +1,30 @@
+{
+  "page": "https://www.es.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "se6ebc4b3cc8",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the footer wordmark: an h3 holding a home link 'Governo ES', inside a div labelled aria-label='Órgão' next to the government's name, address and social links. The text is the name of the body responsible for the site, which is exactly what this footer block is about, so it describes its topic and purpose. SC 2.4.6 asks only that headings which exist be descriptive. It does not require a heading to introduce a block of content below it. Marking a wordmark up as h3, or the page having no real section headings, is at most a 1.3.1 or best-practice issue, not a 2.4.6 failure. Same markup on the live page today."
+    },
+    {
+      "fingerprint": "2d955abda9b5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Rampa's snapshot has <html lang=\"en\"> and the page text is plainly Portuguese (menu, notices, footer address, link titles). I checked whether this was a collector artefact. With curl on 2026-10-24, the server (Orchard Core/Kestrel) sets lang from Accept-Language: it sends lang=\"pt-BR\" for a pt-BR or empty header, but lang=\"en\" for 'en' or 'en-US', and the content stays Portuguese. Rampa's English-locale browser therefore got what every English-locale visitor gets. That is a real version of the page whose programmatically determined default language (en) is not the language of its content (pt), so assistive technology would read Portuguese with English rules. The pt-BR version passes. The finding is a real 3.1.1 failure for the version served to English-preferring browsers."
+    },
+    {
+      "fingerprint": "s24bddf9f533",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'A=' text-size reset control in the header accessibility toolbar: an <a href=\"javascript:void(0)\"> with title=\"Retornar ao tamanho original do texto\" ('return text to its original size'), between 'Aplicar contraste', 'A+' and 'A-'. The packet gave the checker that title. H33 (supplementing link text with the title attribute) is a listed sufficient technique for 2.4.4 in the WCAG 2.2 Understanding document, and the title states the control's purpose exactly. Browsers expose it as the accessible description. The link also sits in a nested list under the accessibility tools item (H81 context). So the claim that 'nothing around it' tells its purpose does not hold. A scripted anchor acting as a button could raise a 4.1.2 role question, but that is not 2.4.4. Same markup on the live page today."
+    },
+    {
+      "fingerprint": "s6166946b9f2",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the site-title heading in the page banner: an h3 holding a home link 'Governo ES' (title 'Ir para a Página Inicial'). It matches the page title 'Governo ES' and appears beside the state coat of arms. On this homepage, everything after it (the menu, then a notice banner that is an image link) belongs to the Governo ES site the heading names. A banner heading that names the site describes its topic and purpose, a common pattern, and no 2.4.6 failure technique covers it. The real weaknesses are no h1, the site name repeated as several h3s, and no headings in the main content. Those are 1.3.1, 2.4.1 or best-practice matters, not this heading's text failing 2.4.6. Same markup on the live page today."
+    }
+  ]
+}

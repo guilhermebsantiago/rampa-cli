@@ -1,0 +1,103 @@
+
+https://www.mdanderson.org/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.1.1 (A) — Non-text Content
+  ✗ #patients_family_carouselitem_neuropathy > div:nth-of-type(1) > picture > img
+    Images must have alternative text
+    high · rule image-alt · id 7b3b4e8a4b38
+  ✗ #patients_family_carouselitem_diagnosed_at_25 > div:nth-of-type(1) > picture > img
+    Images must have alternative text
+    high · rule image-alt · id 88041f4c1ff4
+  ✗ #patients_family_carouselitem_anal_cancer > div:nth-of-type(1) > picture > img
+    Images must have alternative text
+    high · rule image-alt · id 0c697644a5b8
+  ✗ #patients_family_carouselitem_immunotherapy_p > div:nth-of-type(1) > picture > img
+    Images must have alternative text
+    high · rule image-alt · id 8862285313c5
+  ✗ #patients_family_carouselitem_only_possible_h > div:nth-of-type(1) > picture > img
+    Images must have alternative text
+    high · rule image-alt · id ee0179e8f152
+  ✗ #patients_family_carouselitem_thyroid_nodules > div:nth-of-type(1) > picture > img
+    Images must have alternative text
+    high · rule image-alt · id ad9e758ddda3
+  ✗ #skip > div:nth-of-type(1) > section:nth-of-type(5) > div > div:nth-of-type(1) > div > div > div:nth-of-type(1) > img
+    The text alternative "shield" describes something the image does not show.
+    Evidence: "shield"
+    confidence high · 1/1 runs · evidence verified · confirmed by a second pass (3 framings, P(fail) ≥ 1.00) · id 82c157909736
+  ✗ #skip > div:nth-of-type(1) > section:nth-of-type(10) > div > div > div:nth-of-type(1) > picture > img
+    The text alternative "Purple, red and gray geometric shapes on purple background" names an image that is decorative.
+    Evidence: "Purple, red and gray geometric shapes on purple background"
+    Patch:
+      - <img srcset="/etc.clientlibs/mda/clientlibs/mda-web/clientlib-site/resources/images/xspacer.png.pagespeed.ic.xbwfuRSs6V.webp 2x, /etc.clientlibs/mda/clientlibs/mda-web/clientlib-site/resources/images/xspacer.png.pagespeed.ic.xbwfuRSs6V.webp 1x" alt="Purple, red and gray geometric shapes on purple background">
+      + <img srcset="/etc.clientlibs/mda/clientlibs/mda-web/clientlib-site/resources/images/xspacer.png.pagespeed.ic.xbwfuRSs6V.webp 2x, /etc.clientlibs/mda/clientlibs/mda-web/clientlib-site/resources/images/xspacer.png.pagespeed.ic.xbwfuRSs6V.webp 1x" alt="">
+    confidence high · 1/1 runs · evidence verified · id 9b90b5e38776
+
+WCAG 1.3.1 (A) — Info and Relationships
+  ✗ #skip > section > footer > div:nth-of-type(2) > div:nth-of-type(1) > li
+    <li> elements must be contained in a <ul> or <ol>
+    high · rule listitem · id 2f83cafba0dd
+
+WCAG 1.4.3 (AA) — Contrast (Minimum)
+  ✗ #search-cancer-types-field
+    The placeholder "Search by type of cancer or condition" has a contrast of 4.22:1 with the field (#605d5d on #d0d0ce). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#605d5d on #d0d0ce · 4.22:1 at best, 4.22:1 at worst · 18px, 400"
+    confidence low · experimental · Rampa rule rampa/placeholder-contrast · id 94395165dfb3
+  ✗ #search-clinical-trials-field
+    The placeholder "Search clinical trials" has a contrast of 4.22:1 with the field (#605d5d on #d0d0ce). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#605d5d on #d0d0ce · 4.22:1 at best, 4.22:1 at worst · 18px, 300"
+    confidence low · experimental · Rampa rule rampa/placeholder-contrast · id d6362497758f
+
+WCAG 2.5.3 (A) — Label in Name
+  ✗ #skip > div:nth-of-type(1) > section:nth-of-type(1) > div > div > div > div > div > div > div:nth-of-type(2) > div > div > div:nth-of-type(2) > a
+    Elements must have their visible text as part of their accessible name
+    high · rule label-content-name-mismatch · id 9af33bbe6038
+  ✗ #patients_family_carouselitem_top_cancer_hosp
+    Elements must have their visible text as part of their accessible name
+    high · rule label-content-name-mismatch · id 404eb71d2b95
+  ✗ #skip > div:nth-of-type(1) > section:nth-of-type(10) > div > div > div:nth-of-type(2) > div > a
+    Elements must have their visible text as part of their accessible name
+    high · rule label-content-name-mismatch · id a13b7c258f3c
+
+WCAG 4.1.2 (A) — Name, Role, Value
+  ✗ #search-results
+    ARIA input fields must have an accessible name
+    high · rule aria-input-field-name · id 8138426f3f17
+  ✗ #skip > div:nth-of-type(1) > section:nth-of-type(4) > div > div:nth-of-type(1) > div:nth-of-type(1) > div > div > div:nth-of-type(2) > ul
+    ARIA input fields must have an accessible name
+    high · rule aria-input-field-name · id a1d1f8a79626
+  ✗ #skip > div:nth-of-type(1) > section:nth-of-type(4) > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(2) > ul
+    ARIA input fields must have an accessible name
+    high · rule aria-input-field-name · id 2710f8c9d0e6
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.3.1 (A) — Info and Relationships: 3 elements · aria-required-children
+    Expecting ARIA children role to be added: group, option
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 2 elements · color-contrast
+    Element has no value; test color contrast with a value entered
+  ? WCAG 1.4.11 (AA) — Non-text Contrast: 1 element · rampa/icon-contrast
+    The contrast of the icon of this button ("Next") could not be measured: it is not shown.
+  ? WCAG 2.4.6 (AA) — Headings and Labels: 2 elements · judgment/2.4.6
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+  ? WCAG 2.5.4 (A) — Motion Actuation: 1 element · rampa/motion-actuation-scope
+    2.5.4 may apply here: the page's scripts use the device's motion, perhaps after a tap (addEventListener("deviceorientation") (www.mdanderson.org/…/external.min.js), addEventListener("deviceorientation") (www.mdanderson.org/…/external.min.js)). Check that whatever is done by moving or tilting the device can also be done with a control on the screen, and that responding to motion can be turned off to avoid accidental actuation, unless the motion is essential or goes through an accessibility-supported interface (WCAG 2.5.4). If the script only collects data (analytics, fraud checks) and nothing on the page responds to motion, 2.5.4 does not apply.
+  ? WCAG 3.3.4 (AA) — Error Prevention (Legal, Financial, Data): 1 element · rampa/error-prevention-scope
+    3.3.4 applies here: a control that buys, pays or transfers: “Donate Today”. Check that the submission can be reversed, that the data entered is checked for input errors and can be corrected, or that a step lets the person review, confirm and correct it before it is final (WCAG 3.3.4). Rampa submits nothing, so it cannot tell. Not seen on this page: a confirmation checkbox, a review step or a way to reverse it; a later step may have one.
+
+The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 34 of 84 for 2.4.4. The coverage lists them as not judged.
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+6 claim(s) from the model did not hold against the snapshot and were dropped.
+
+Model calls: 98 new, 0 from cache · 90.2k in / 8.0k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.3.5, 1.4.3, 1.4.4, 1.4.12, 2.4.2, 2.4.4, 2.5.3, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  3.1.1; experimental: 1.1.1, 1.4.3, 1.4.11, 2.4.2, 2.4.6, 4.1.2
+  Judged with verified evidence:     1.1.1, 1.3.5, 2.4.2, 2.4.4, 2.4.6
+  Needs review only:                 2.4.1, 2.5.4, 3.3.2, 3.3.4
+  Not checked automatically:         37 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

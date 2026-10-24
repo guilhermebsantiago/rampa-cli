@@ -1,0 +1,12 @@
+{
+  "page": "https://www.tramontina.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "55054e3a7076",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search form's submit button (aria-label 'Enviar busca'). It has no border, background or text: the only thing that shows it is a magnifying-glass icon font glyph, 24x24 at about (848,84), inside the right end of the search field. I sampled the screenshot pixels there: the darkest icon pixels are #b3b3b3 on a #ffffff field, 2.10:1, and the live global.css still sets '.tr-header .searchBar .icon-search{color:#b3b3b3}', so the page has not changed. The button is not disabled, so the inactive exception does not apply. The icon is the visual information needed to identify this control, and 2.10:1 is below the 3:1 that 1.4.11 requires. Being able to submit with Enter does not exempt the button that is shown."
+    }
+  ]
+}

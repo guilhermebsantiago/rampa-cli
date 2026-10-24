@@ -1,0 +1,108 @@
+{
+  "page": "https://www.tst.jus.br/ouvidoria",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "se2f8aaca6f8",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the font-size decrease control in the top bar: a javascript:void(0) link with aria-label=\"A-\" that overrides its image's descriptive alt \"Ícone - Diminuir Letra\". The screenshot shows a small \"A-\" glyph beside \"A+\". Arguments against the finding: the name matches the visible label exactly, and the A-/A+ text-size convention is widely understood, especially with A+ next to it. Arguments for it: a screen reader announces only \"A-\" (or just \"A\", since some speech settings drop the hyphen), which does not say it shrinks the text. WCAG does not settle whether a conventional symbolic label is enough, so competent auditors would disagree."
+    },
+    {
+      "fingerprint": "c806a6932643",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the CNJ quality-prize seal in the header. The crop at the collected 1280 px viewport, and the img src (\"18_enpj_selos_2025_prata\"), show a seal printed \"2025 Prêmio CNJ de Qualidade Prata\", but the alt says \"Prêmio CNJ de Qualidade 2024. Prata!\". The <picture> serves a 2024 seal file only at viewports of 1000 px or less (the source srcset 18+ENPJ_selos_2024_Prata.png), so at desktop width the alt gives a year the image does not show. The edition year is the main fact on the seal, so blind users get different information from sighted users, and the text alternative is not equivalent. The live page is unchanged. The award name and level are right, which makes the failure minor, but it is real."
+    },
+    {
+      "fingerprint": "1e9043d4068e",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The image is a white envelope icon, the only content of the /newsletter link. For a functional image, the text alternative should say what the link does, not describe how it looks (H30, G94), and \"Botão que leva até a pagina Newletter, para preencher caso queira receber emails das noticias do tst\" does that. It is wordy and calls the link a button, but it is not inaccurate. Also, the link has aria-label \"Acessar NEWSLETTER\", which overrides the alt as the announced name. Judging the alt as a visual description applies the wrong test for a functional image."
+    },
+    {
+      "fingerprint": "711b19e3f5de",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link wraps a CKEditor span with role=\"region\" and aria-label=\" Imagem widget\" around the image, so the aria-label replaces the image's alt (\"Satisfação do Usuário\") and Chrome's accessibility tree names the link \"Imagem widget\" (nameFrom: contents). Cards 11, 12, 13 and 15 each have such a link, to 4 different pages, so the count of 4 is right. The card title and description that would tell it apart are separate links in sibling <p> elements inside a generic div, with no heading. WCAG's F63 (Example 1) describes this exact pattern as a failure: the context sits in an adjacent paragraph, not in the link's own sentence, paragraph, list item or table cell, and no heading (H80) or aria-labelledby supplies it. Sighted users see the icon and title, so the exception for links ambiguous to everyone does not apply. Having redundant descriptive links to the same destination does not exempt this one. I found no reason that holds up against the finding. (Destination: Satisfação do Usuário.)"
+    },
+    {
+      "fingerprint": "bf4a4a4d1fd3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link wraps a CKEditor span with role=\"region\" and aria-label=\" Imagem widget\" around the image, so the aria-label replaces the image's alt (\"O que é a Ouvidoria?\") and Chrome's accessibility tree names the link \"Imagem widget\" (nameFrom: contents). Cards 11, 12, 13 and 15 each have such a link, to 4 different pages, so the count of 4 is right. The card title and description that would tell it apart are separate links in sibling <p> elements inside a generic div, with no heading. WCAG's F63 (Example 1) describes this exact pattern as a failure: the context sits in an adjacent paragraph, not in the link's own sentence, paragraph, list item or table cell, and no heading (H80) or aria-labelledby supplies it. Sighted users see the icon and title, so the exception for links ambiguous to everyone does not apply. Having redundant descriptive links to the same destination does not exempt this one. I found no reason that holds up against the finding. (Destination: O que é a Ouvidoria?.)"
+    },
+    {
+      "fingerprint": "f39cdf18b179",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card \"Denúncia Discriminação Racial\": the link text \"Faça uma denúncia\" is in its own <p class=\"desc\">. The cards for Assédio Moral ou Sexual, Discriminação Racial, Assédio Eleitoral and Atos de Corrupção each have the same text, to 4 different forms, so the count is right. The title \"Denúncia Discriminação Racial\" is a separate link in a sibling paragraph (a <strong> inside <a>, not a heading), and the wrapper is a generic div. WCAG's F63 (Example 1) describes this exact pattern as a failure: the context sits in an adjacent paragraph, not in the link's own sentence, paragraph, list item or table cell, and no heading (H80) or aria-labelledby supplies it. A user tabbing or using a links list hears \"Faça uma denúncia\" four times without knowing which form each one opens. No technique I checked (H77, H78, H80, H81, ARIA7, ARIA8) applies, so the finding holds."
+    },
+    {
+      "fingerprint": "fa98dc089cf4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link wraps a CKEditor span with role=\"region\" and aria-label=\" Imagem widget\" around the image, so the aria-label replaces the image's alt (\"Ouvidoria do tst\") and Chrome's accessibility tree names the link \"Imagem widget\" (nameFrom: contents). Cards 11, 12, 13 and 15 each have such a link, to 4 different pages, so the count of 4 is right. The card title and description that would tell it apart are separate links in sibling <p> elements inside a generic div, with no heading. WCAG's F63 (Example 1) describes this exact pattern as a failure: the context sits in an adjacent paragraph, not in the link's own sentence, paragraph, list item or table cell, and no heading (H80) or aria-labelledby supplies it. Sighted users see the icon and title, so the exception for links ambiguous to everyone does not apply. Having redundant descriptive links to the same destination does not exempt this one. I found no reason that holds up against the finding. (Destination: Ouvidoria do TST.)"
+    },
+    {
+      "fingerprint": "1c3047a233e6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card \"Denúncia Atos de Corrupção\": the link text \"Faça uma denúncia\" is in its own <p class=\"desc\">. The cards for Assédio Moral ou Sexual, Discriminação Racial, Assédio Eleitoral and Atos de Corrupção each have the same text, to 4 different forms, so the count is right. The title \"Denúncia Atos de Corrupção\" is a separate link in a sibling paragraph (a <strong> inside <a>, not a heading), and the wrapper is a generic div. WCAG's F63 (Example 1) describes this exact pattern as a failure: the context sits in an adjacent paragraph, not in the link's own sentence, paragraph, list item or table cell, and no heading (H80) or aria-labelledby supplies it. A user tabbing or using a links list hears \"Faça uma denúncia\" four times without knowing which form each one opens. No technique I checked (H77, H78, H80, H81, ARIA7, ARIA8) applies, so the finding holds."
+    },
+    {
+      "fingerprint": "s38a7245c17e",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the yellow information icon in the top bar. Its link has aria-label \"SIC\" and goes to \"Serviços de Informação ao Cidadão (SIC)\". \"SIC\" is the official name of that destination, the standard acronym for the information-access service that Brazil's Access to Information Law (Lei 12.527/2011) requires, so the link text does name where it goes. The same page also spells it out, in the card \"Serviço de Informação ao Cidadão (SIC)\". Criterion 2.4.4 does not require abbreviations to be expanded; that is 3.1.4, at level AAA. A longer name would help, but reading the acronym as an undescriptive link applies a stricter rule than 2.4.4 does."
+    },
+    {
+      "fingerprint": "7d17601b83e1",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the \"Español\" item in the language switcher, a javascript:void(0) link whose visible text is \"Español\" with no lang attribute; nothing up to <html lang=\"pt-BR\"> sets one. Understanding 3.1.2's example expects language names in a switcher to carry lang, which supports the finding. However, the link has aria-label=\"Link traduzir para Espanhol\", in Portuguese, so the name screen readers announce is in the page's language. The mispronunciation the finding describes does not happen, and adding lang=\"es\" to the link, as it suggests, would make the Portuguese label be read with Spanish rules. Only non-assistive-technology read-aloud tools would meet the unmarked visible word, and pt-BR speech pronounces \"Español\" close to right. A mismatch between the visible text and the name could also be a 2.5.3 (Label in Name) issue. Auditors would disagree on whether this fails 3.1.2."
+    },
+    {
+      "fingerprint": "3cef15f458d9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop shows the white Instagram logo on a teal circle. The alt \"Instragram\" is a misspelling of \"Instagram\", but it names exactly what the image shows. It is not a description of something absent, and the typo does not change the meaning. In any case, the parent link has aria-label \"Acessar Instagram\", which overrides the alt as the announced name. The model had the crop and judged wrongly."
+    },
+    {
+      "fingerprint": "s6921ade14c5",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the description link \"Como a unidade trabalha\" (\"how the unit works\") on the \"O que é a Ouvidoria?\" card; it goes to /o-que-e-a-ouvidoria. Rampa compared the text only to the destination's title. The destination page itself has a section headed \"Como a Ouvidoria trabalha?\" and explains how the office receives, logs, routes and answers submissions. So the link text matches what the link leads to, and the card title \"O que é a Ouvidoria?\" also names the destination. Criterion 2.4.4 does not require link text to repeat the page title."
+    },
+    {
+      "fingerprint": "ab956e7c9b4f",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the \"English\" item in the language switcher, a javascript:void(0) link whose visible text is \"English\" with no lang attribute; nothing up to <html lang=\"pt-BR\"> sets one. Understanding 3.1.2's example expects language names in a switcher to carry lang, which supports the finding. However, the link has aria-label=\"Link traduzir para Inglês\", in Portuguese, so the name screen readers announce is in the page's language. The mispronunciation the finding describes does not happen, and adding lang=\"en\" to the link, as it suggests, would make the Portuguese label be read with English rules. Only non-assistive-technology read-aloud tools would meet the unmarked visible word. A mismatch between the visible text and the name could also be a 2.5.3 (Label in Name) issue. Auditors would disagree on whether this fails 3.1.2."
+    },
+    {
+      "fingerprint": "79ca0bd55fb7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop shows the white glyph \"A+\", the font-size increase icon in the top bar. The alt \"Ícone - Aumentar Letra\" (\"icon - increase text\") is accurate: it says what the icon is and what it does, which is what a functional image needs. It describes nothing the image lacks. The parent link's aria-label \"A+\" overrides the alt as the announced name anyway. The model had the crop and judged wrongly."
+    },
+    {
+      "fingerprint": "0ba5ee0fcb78",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card \"Denúncia Assédio Eleitoral\": the link text \"Faça uma denúncia\" is in its own <p class=\"desc\">. The cards for Assédio Moral ou Sexual, Discriminação Racial, Assédio Eleitoral and Atos de Corrupção each have the same text, to 4 different forms, so the count is right. The title \"Denúncia Assédio Eleitoral\" is a separate link in a sibling paragraph (a <strong> inside <a>, not a heading), and the wrapper is a generic div. WCAG's F63 (Example 1) describes this exact pattern as a failure: the context sits in an adjacent paragraph, not in the link's own sentence, paragraph, list item or table cell, and no heading (H80) or aria-labelledby supplies it. A user tabbing or using a links list hears \"Faça uma denúncia\" four times without knowing which form each one opens. No technique I checked (H77, H78, H80, H81, ARIA7, ARIA8) applies, so the finding holds."
+    },
+    {
+      "fingerprint": "2febe252c9a8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card \"Denúncia Assédio Moral ou Sexual\": the link text \"Faça uma denúncia\" is in its own <p class=\"desc\">. The cards for Assédio Moral ou Sexual, Discriminação Racial, Assédio Eleitoral and Atos de Corrupção each have the same text, to 4 different forms, so the count is right. The title \"Denúncia Assédio Moral ou Sexual\" is a separate link in a sibling paragraph (a <strong> inside <a>, not a heading), and the wrapper is a generic div. WCAG's F63 (Example 1) describes this exact pattern as a failure: the context sits in an adjacent paragraph, not in the link's own sentence, paragraph, list item or table cell, and no heading (H80) or aria-labelledby supplies it. A user tabbing or using a links list hears \"Faça uma denúncia\" four times without knowing which form each one opens. No technique I checked (H77, H78, H80, H81, ARIA7, ARIA8) applies, so the finding holds."
+    },
+    {
+      "fingerprint": "400659b7483c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link wraps a CKEditor span with role=\"region\" and aria-label=\" Imagem widget\" around the image, so the aria-label replaces the image's alt (\"Carta de Serviços à Cidadania\") and Chrome's accessibility tree names the link \"Imagem widget\" (nameFrom: contents). Cards 11, 12, 13 and 15 each have such a link, to 4 different pages, so the count of 4 is right. The card title and description that would tell it apart are separate links in sibling <p> elements inside a generic div, with no heading. WCAG's F63 (Example 1) describes this exact pattern as a failure: the context sits in an adjacent paragraph, not in the link's own sentence, paragraph, list item or table cell, and no heading (H80) or aria-labelledby supplies it. Sighted users see the icon and title, so the exception for links ambiguous to everyone does not apply. Having redundant descriptive links to the same destination does not exempt this one. I found no reason that holds up against the finding. (Destination: Carta de Serviços à Cidadania.)"
+    }
+  ]
+}

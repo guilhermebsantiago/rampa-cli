@@ -1,0 +1,84 @@
+{
+  "page": "https://theconversation.com/the-jackdaw-gasfield-passed-the-legal-test-for-north-sea-drilling-rosebank-will-find-it-much-harder-295029",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "9847a644d982",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the third paragraph of the article body (\"How a government elected on a promise...\"), and it is entirely in English. I looked for a technique that would make it pass. The snapshot records a lang attribute only on html (pt-BR) and on the consent widget #didomi-host (en). The live HTML (Brazil edition) also has no lang anywhere except <html lang=\"pt-BR\">. So the paragraph inherits pt-BR, and a screen reader would read English text with Portuguese rules. One objection is that English is the page's most-used language, so 3.1.1 (the html lang is wrong) is also implicated. That does not rescue the passage: its human language still cannot be programmatically determined correctly, which is what 3.1.2 requires."
+    },
+    {
+      "fingerprint": "ff66bd957281",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the seventh paragraph of the article (\"That is exactly what the Finch ruling allows...\"), entirely in English. Neither the snapshot nor the live page has a lang attribute on the paragraph or on any ancestor other than <html lang=\"pt-BR\">, so its programmatically determined language is pt-BR, which is wrong. No proper-name or vernacular exception applies to a whole paragraph. 3.1.1 is also arguably failed, since English is the most-used language on the page, but this passage's language is still misidentified, so the 3.1.2 claim holds."
+    },
+    {
+      "fingerprint": "37a5f7b56646",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the Creative Commons logo in the republish panel. I checked the crop, a screenshot crop and the SVG file itself: it shows the \"cc creative commons\" wordmark, without the BY and ND licence icons. The alt \"CC BY ND\" therefore says more than is drawn, but it names exactly what the logo is there to signal: the article is under a Creative Commons BY-ND licence, which the panel text confirms. 1.1.1 asks for a text alternative that serves the equivalent purpose, not a literal description of the pixels. Here the purpose (identifying the CC licence) is served and the extra detail is accurate. Requiring the alt to describe only what is visible is stricter than WCAG."
+    },
+    {
+      "fingerprint": "ccdfc616fb3b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the second paragraph of the article (\"Coverage of the decision to approve the Jackdaw gas field...\"), entirely in English. The only lang attributes in the snapshot are pt-BR on html and en on the consent widget, and the live page matches. So this English passage is exposed as pt-BR, a real failure to identify its language. 3.1.1 is arguably also failed, because English dominates the page, but that does not make the passage's language correctly determinable."
+    },
+    {
+      "fingerprint": "a86d9dbda65d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the article's inline photo. The crop the model saw (and the page screenshot) shows a grey-haired woman speaking into a microphone, with an orange \"DON'T DRILL HORSE HILL\" banner held up behind her. The alt \"Woman with microphone, 'don't drill horse hill' sign in background\" describes exactly that. The image loaded and the crop is correct, so the claim that the alt describes something the image does not show is simply wrong."
+    },
+    {
+      "fingerprint": "e4ceed10a721",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the sixth paragraph of the article (\"The decision document shows those rules at work...\"), all English. Neither the snapshot nor the live HTML has a lang attribute other than <html lang=\"pt-BR\"> (plus the unrelated consent widget), so the passage is programmatically read as Portuguese. The claim is accurate. 3.1.1 may also be cited because English is the page's main language, but the passage-level misidentification stands."
+    },
+    {
+      "fingerprint": "8247868d21cc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the fourth paragraph of the article (\"That process was transformed by a dispute over a modest oil site at Horse Hill...\"), entirely in English. I found no lang attribute on the paragraph or on its article and body ancestors in either the snapshot or the live page, so it inherits pt-BR. No exception covers a whole English paragraph. 3.1.1 is arguably also failed, but the passage's language is misidentified, which is the 3.1.2 failure the finding names."
+    },
+    {
+      "fingerprint": "sd4c8c2389e0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is an inline citation link in the sentence \"Any challenge would most likely return to the Court of Session, where applications for judicial review normally must be made within three months.\" It points to legislation.gov.uk, section 89 of the Courts Reform (Scotland) Act 2014, which sets the judicial review time limit. The enclosing sentence, which is programmatically determined link context, makes clear that the link is the source for the three-month time limit, and the destination is consistent with that. The finding's statement that nothing around the link tells its purpose is wrong. This is a normal in-prose citation that passes 2.4.4 under technique G53."
+    },
+    {
+      "fingerprint": "3ea3f918e78e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the tenth paragraph of the article (\"Rosebank, about 80 miles (130km) north west of Shetland...\"), entirely in English. The snapshot and the live HTML have no lang attribute on it or on any ancestor except html, which is pt-BR. So the passage's language is wrongly determined as Portuguese. The other judge could attribute this to 3.1.1, since English is the most-used language, but the passage still fails to have its language programmatically determinable, as the finding says."
+    },
+    {
+      "fingerprint": "da59eb19811c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the eleventh paragraph of the article (\"This goes to the heart of the legal reasoning...\"), all English. There is no lang markup on the paragraph or its containers in the snapshot or on the live page, only <html lang=\"pt-BR\">. A screen reader would therefore treat it as Portuguese. I found no technique or exception that makes it pass. 3.1.1 is arguably also implicated, but that does not undo the passage-level failure."
+    },
+    {
+      "fingerprint": "s1d11bbe47d1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the link \"at the time\" in the sentence \"As The Conversation reported at the time, the ruling's effects were always likely to reach well beyond Surrey.\" The sentence context makes the purpose clear: The Conversation's own report on the Supreme Court ruling when it was issued. Rampa read the destination, and its title (\"Landmark court ruling will have huge implications for new fossil fuel projects in UK\") matches. The link text together with its sentence context satisfies 2.4.4 (G53), so the claim that nothing around the link tells where it goes is wrong."
+    },
+    {
+      "fingerprint": "s8b0803831c4",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the link \"the approval shows\" in the sentence \"Greenpeace says the approval shows the 'grip fossil fuel lobbyists still hold over energy policy'...\". In context it is clearly the source of the Greenpeace reaction to the Jackdaw approval. I fetched the destination: a Scotsman article titled \"Jackdaw field approved by UK government to 'begin gas supply this winter'\", which carries that Greenpeace quote. The link text together with its enclosing sentence lets a reader determine its purpose, as 2.4.4 allows (G53), so the claim that nothing around the link explains it does not hold."
+    },
+    {
+      "fingerprint": "6b74da974f53",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the ninth paragraph of the article (\"Greenpeace says the approval shows...\"), entirely in English. The snapshot records lang only on html (pt-BR) and on the consent widget, and the live HTML confirms there is no lang on the article or its paragraphs. So the passage is programmatically identified as Portuguese, which is wrong. 3.1.1 can also be argued because English dominates the page, but the passage-level 3.1.2 failure the finding describes is real."
+    }
+  ]
+}

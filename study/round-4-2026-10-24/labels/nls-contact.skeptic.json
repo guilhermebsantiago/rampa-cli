@@ -1,0 +1,12 @@
+{
+  "page": "https://www.nls.uk/contact/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "02f05b3ac3f9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The finding is about the document title \"Contact us | National Library of Scotland\". In the snapshot and the screenshot, the main region's h1 is \"Contact us\", and the content below it is all contact channels: Online enquiries (Ask a question, Leave a comment, Make a complaint), Phone us and Write to us. The title names that topic and the site, which is what 2.4.2 asks for (G88/G127). The only other h1 is the cookie consent banner (\"Your choice regarding cookies on this site\"), which is overlay chrome and not the page's topic. The checker was given the h1 list with \"Contact us\" in it and still judged a mismatch, probably misled by the cookie banner and navigation text that open the content excerpt. So this is a model error, not a failure."
+    }
+  ]
+}
