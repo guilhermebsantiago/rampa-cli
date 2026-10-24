@@ -1,0 +1,78 @@
+{
+  "page": "https://www.fueleconomy.gov/feg/findacar.shtml",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "68a9f08123d7",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The image is a thumbnail photo of a 2025 Lexus UX 300h (a hybrid SUV) inside the 'Hybrid' category link of the Browse New Cars grid. The crop and screenshot show the right image. In this context the photo stands for the hybrid category, and alt 'Hybrids' says what it represents and what the link is for. Being a hybrid is not something you can see in a photo, but that does not make the text alternative wrong. Because the visible link text says the same thing, the alt could have been empty, but that redundancy is not a 1.1.1 failure. The checker required the alt to describe only visible features, which is stricter than 1.1.1."
+    },
+    {
+      "fingerprint": "s154b5dce9f9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'Save Money & Fuel' toggle in the main navigation (href=javascript:void(0), data-toggle=dropdown). It goes nowhere: it opens the Save Money & Fuel menu, and the menu's links (Gas Mileage Tips, Tax Incentives, Gasoline Prices, Cost Calculators...) are in the same list item. That parent list item was in the context the checker had. The link text names the menu it opens, so its purpose is clear from the text and its context, and 2.4.4 is met. Exposing a menu button as a link without aria-expanded may be a 4.1.2 issue, but it is not this criterion."
+    },
+    {
+      "fingerprint": "66d304ce097d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Español' link in the header mini-menu, which goes to the Spanish version of the site. The page is lang='en'. Neither the link nor any of its ancestors sets lang='es', in the snapshot or on the live page today. The 3.1.2 Understanding document gives alternative-language links like this as an example: the language name should be marked with its own lang so assistive technology pronounces it correctly. None of the exceptions applies, so this is a real 3.1.2 failure."
+    },
+    {
+      "fingerprint": "f839af633563",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is a photo of a red 2024 Fiat 500e, a small car, in the 'Small Cars' category link. The crop matches the screenshot. Alt 'Small car' is accurate and serves the image's purpose in the link. The image clearly shows what the alt says, so the claim is simply wrong. At most the alt repeats the link text, which is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "c831c4970876",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is a photo of an orange 2024 Chevrolet Corvette Z06, a sports car, in the 'Sporty Cars' category link. Alt 'Sporty car' describes what is shown and what the link is for. The image does show what the alt says, so it is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "sbaf82434ca8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'Hatchbacks' category link. It contains a car photo with alt 'Hatchback' and the visible text 'Hatchbacks', so its computed name is 'Hatchback Hatchbacks'. It goes to 'Fuel Economy of New Hatchbacks', which is exactly what the link text says. The repeated word is a little verbose, but the purpose is clear from the link text, so 2.4.4 is met."
+    },
+    {
+      "fingerprint": "c197ab60a512",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The image is a photo of a Honda Clarity Fuel Cell (file 2017_Honda_Clarity_FCX_NoBG.jpg) in the 'Fuel Cell' category link. Alt 'Fuel Cell Vehicles' is accurate: it is a fuel cell vehicle, and the photo stands for the category the link leads to ('New Fuel Cell Vehicles'). A fuel cell drivetrain cannot be seen from outside, but 1.1.1 asks the alternative to serve the image's purpose, and this one does. Not a failure."
+    },
+    {
+      "fingerprint": "7c5922be8a5d",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is <a id=\"content\"></a>, an empty anchor without href at the top of #main-content that marks a fragment target; the live page still has it. CDP reports it with role link, likely because a script (for example the DAP analytics) attaches click listeners to every anchor. The snapshot's own role is generic. It has no href, no tabindex and no size, and the CDP properties do not say it is focusable. Users cannot see or operate it, so it is not a user interface component and 4.1.2 does not require it to have a name. Common link-name checks also apply only to a[href] or role=link."
+    },
+    {
+      "fingerprint": "aad2770e7f62",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is a photo of a 2024 Mercedes EQS 450 sedan, a luxury car, in the 'Luxury Cars' category link. Alt 'Luxury car' is accurate and serves the purpose of the link image. The image does show what the alt says, so it is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "a063e4e6a5a5",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The image is a photo of a 2025 Buick Envista in the 'Flex-Fuel' category link, which goes to 'New Flex-fuel Vehicles'. The photo represents that category, and alt 'Flexible-Fuel' gives that purpose. Fuel capability cannot be seen in a photo, but 1.1.1 asks the alternative to serve the image's purpose, not to list visible features. At most the alt repeats the link text, which is not a failure."
+    },
+    {
+      "fingerprint": "a9dd241b4fd5",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is <a id=\"top\"></a>, an empty anchor without href that marks a 'top' fragment target, next to <a id=\"content\">. CDP exposes it as a link, probably because of a script click listener, but the snapshot's role is generic. It has no href, no size and no content, and is not focusable. Users cannot see or operate it, so it is not a user interface component that needs a name under 4.1.2."
+    },
+    {
+      "fingerprint": "sde2b2e0d551",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the first year select under 'Browse by Model'. Its visible label is 'From:', and it sits next to 'To: (optional)', with 'Select Make' and 'Select Model' below. The select shows model years (2026 is selected, options run from 2027 to 1984). Together the From/To pair and the year values make the purpose clear: the start of a model-year range in a common Year/Make/Model picker. A screen reader announces 'From:, combo box, 2026'. Adding 'Year' would make the label better, but WCAG lets short labels pass when context makes them clear, so this does not fail 2.4.6. The live page markup is unchanged."
+    }
+  ]
+}

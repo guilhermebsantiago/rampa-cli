@@ -1,0 +1,18 @@
+{
+  "page": "https://www.leeds.ac.uk/undergraduate",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s157ee4f6567",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the first item of the breadcrumb trail \"Study > Undergraduate\". It sits in an ordered list inside <nav aria-label=\"Breadcrumb\">, both in the snapshot and on the live page. That breadcrumb structure is programmatically determined link context. It tells the user that \"Study\" is the parent section of this page, and the link takes them up to it. That mirrors the \"Study\" menu in the site's main navigation, which has no landing page of its own. \"Study\" names a section, unlike a generic \"click here\" or \"more\", so the claim that nothing around the link tells where it goes does not hold. The href goes to the University homepage, which Rampa read, rather than to a dedicated Study page. That is an odd choice of information architecture, but WCAG lists no documented 2.4.4 failure for it, and following the link still moves the user up a level as the breadcrumb implies. Rampa was given the breadcrumb ancestors and judged that there was no context anyway."
+    },
+    {
+      "fingerprint": "s42b40e941a0",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the site-wide search input in the masthead. It has a real <label for=\"global-masthead__search-field\"> reading \"Search leeds.ac.uk\", which is visually hidden but present in both the snapshot and the live HTML, plus a matching visible placeholder. Its submit button is named \"Search all leeds.ac.uk\". SC 2.4.6 only asks that a label describe the topic or purpose of the control. \"Search leeds.ac.uk\" states its purpose plainly: search this website, and a search box takes search terms. Requiring the label to also say what to enter is a stricter rule than 2.4.6 sets. The placeholder looks like the only visible label, which might raise a 3.3.2 question, but that is not what this finding claims."
+    }
+  ]
+}

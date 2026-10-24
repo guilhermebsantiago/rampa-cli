@@ -1,0 +1,36 @@
+{
+  "page": "https://www.thejournal.ie/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "037550f69012",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the 'Gaeilge' item in the top navigation, next to 'Best of the Box', 'Irish News', 'FactCheck', 'Voices' and 'Investigates'. The rule treats it as a language switcher, but it is not one. It leads to /gaeilge/news/, a topic section whose page is itself lang=\"en\" and mixes English and Irish articles about the language and the Gaeltacht. It is not an Irish version of the site, so the Understanding document's 'alternative language links' example does not apply. What is left is one Irish word used as a section name on an Irish English-language news site. Understanding 3.1.2 says single words should be treated as part of the surrounding language unless a change of language is clearly intended, and it exempts proper names and words that are part of the vernacular. In Hiberno-English 'Gaeilge' is everyday vocabulary, like 'Gaeltacht', 'Taoiseach' or 'Dáil', which nobody would expect to mark with lang=\"ga\". Some auditors would still want lang=\"ga\" because English TTS mispronounces it, but that asks for more than the criterion does. The live markup (checked 2026-10-24) still has no lang on the link."
+    },
+    {
+      "fingerprint": "s6e57b7e1690",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the second radio button of 'The Daily Poll'. Its label element (label for=) gives it the name 'I don't think the ad should have been removed'. The native input sits off-screen and a custom circle is drawn in its place. In the screenshot, the poll question 'What do you think of the grandparents' consent ad and the decision to remove it?' appears directly above the options. A radio button's label has to describe the choice it stands for, and this one does exactly that. Under 2.4.6 a label must describe its topic or purpose. It does not have to restate the question or give instructions about 'what to enter'. That framing fits text inputs, not answer options. Grouping the options with fieldset/legend would at most be a 1.3.1 question, not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "sefd4613b270",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer logo: an inline svg of 267x48 drawn entirely with paths, a 'J' monogram followed by the slogan 'Making sense of today'. Both the snapshot and the live HTML (checked 2026-10-24) show no title, no aria-label, no role=\"img\" and no aria-hidden, and it is not inside a link. As a skeptic I looked for a reason to treat it as decoration. The brand itself is identified elsewhere (page title, '© 2026 Journal Media Ltd'), but the slogan appears nowhere as text on the page, so a screen-reader user cannot get it in any form. A logo that contains text is meaningful non-text content, not pure decoration, so 1.1.1 needs a text alternative such as 'The Journal: Making sense of today'. Unnamed svgs go unannounced, so the content is lost. The finding's claim holds."
+    },
+    {
+      "fingerprint": "d70f5c3d6883",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the 'Gaeilge' link in the footer 'Sections' list (Voices, FactCheck, Investigates, Gaeilge, Quizzes, ...), pointing to /gaeilge/news/. The reasoning is the same as for the header link. It is a section name, not a language switcher: the destination page is lang=\"en\" and bilingual, not an Irish version of the site. 'Gaeilge' is a single Irish word in common Hiberno-English use, on an Irish English-language site. Understanding 3.1.2 treats single words as part of the surrounding language unless a language change is clearly intended, and it exempts proper names and vernacular words, so the criterion does not require lang=\"ga\" here. Auditors could argue for it on pronunciation grounds, but that is stricter than WCAG. The live markup is unchanged."
+    },
+    {
+      "fingerprint": "s4a22c99b795",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the first radio button of 'The Daily Poll'. Its label element gives it the name 'It was right to remove the ad', and the visible poll question ('What do you think of the grandparents' consent ad and the decision to remove it?') is directly above the options in the screenshot. The label states clearly which answer the radio stands for, which is what 2.4.6 asks of a label. Asking a radio option's label to say 'what to enter' imposes a text-input expectation that the criterion does not have. At most, the missing fieldset/legend grouping would be a 1.3.1 matter, not this criterion."
+    }
+  ]
+}

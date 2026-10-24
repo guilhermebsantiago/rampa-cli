@@ -1,0 +1,18 @@
+{
+  "page": "https://www.leeds.ac.uk/undergraduate",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s157ee4f6567",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the first link of the breadcrumb trail 'Study > Undergraduate', inside a nav landmark named 'Breadcrumb' (aria-label) and an ordered list; the screenshot and the live page (unchanged since the run) show the same trail. Under 2.4.4 the purpose may come from the link text together with its programmatically determined context, and here that context says 'Study' is the parent level of the current Undergraduate page in the site hierarchy, which is what a breadcrumb link is for. The checker had the ancestor nav named Breadcrumb and still claimed nothing around the link explains it. The link goes to the University homepage, because the Study section has no landing page of its own (/study returns 404 and Study in the main nav is a menu button). That homepage is mostly about study: course search, scholarships, a virtual experience, student stories. So the label points to an odd parent page, which is a minor navigation quirk, not ambiguous or misleading link text that fails 2.4.4."
+    },
+    {
+      "fingerprint": "s42b40e941a0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the masthead search input (type=search). It has a real label element, 'Search leeds.ac.uk', tied to it with for/id (visually hidden), and the same text as placeholder, next to a submit button named 'Search all leeds.ac.uk'. Visually it shows 'Search leeds.ac.uk' with a magnifier icon. 2.4.6 only requires labels to describe the topic or purpose. 'Search leeds.ac.uk' tells the user that the field takes search terms and that it searches this website, which is the standard and adequate label for a site search box. Nothing here fails 2.4.6."
+    }
+  ]
+}

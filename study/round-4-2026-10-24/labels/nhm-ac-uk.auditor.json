@@ -1,0 +1,42 @@
+{
+  "page": "https://www.nhm.ac.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "7e4deccc67e8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is a lifestyle photo of assorted shop products (books, mug, toys, a 'Dig a Dinosaur Skeleton' box) in the 'Nature-inspired gifts for all ages' promo tile. It has alt=\"\" inside an aria-hidden wrapper, and the live HTML is the same. The tile's heading, its paragraph ('Browse fashion, homeware and prints alongside puzzles and toys in our online shop...') and the 'Shop the collection' link already carry its message. The image only illustrates that text. The one kit is an incidental item in a mood shot, not information the tile is trying to convey. Treating the image as decorative is acceptable under the W3C decorative-image guidance and technique H67 (an image that only illustrates adjacent text), so this is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "6c8ec400e583",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the required 'Email address' field in the 'Your inbox just got wilder' newsletter sign-up form. It collects the user's own email address, which is the 'email' input purpose in WCAG 2.2 section 7. Both the snapshot and the live HTML (fetched 2026-10-24) show type=\"email\" name=\"email\" and no autocomplete attribute on the input or the form. type=\"email\" sets the data format but does not expose the input purpose that 1.3.5 requires (sufficient technique H98). The field fails 1.3.5, as the finding says."
+    },
+    {
+      "fingerprint": "6ea6a395b057",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the required 'First name' field of the same newsletter sign-up form, and it collects the user's own given name, which is the 'given-name' input purpose. The snapshot and the live HTML show type=\"text\" name=\"firstname\" with no autocomplete attribute, so nothing makes the purpose programmatically determinable. This fails 1.3.5 as reported."
+    },
+    {
+      "fingerprint": "s2113a336913",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This h2 is the homepage hero banner's heading. The section under it lists the opening hours ('Open every day, 10:00–17:50') and 'Skip the queue with any ticket or membership', with links to 'Exhibitions and events' and 'Get free entry ticket'. 'Come curious, leave inspired' is a tagline, but it does state the section's purpose: an invitation to come and visit the museum, which is exactly what the visiting information and ticket links support. 2.4.6 asks that headings describe their topic or purpose, not that they be literal or exhaustive. A slogan heading that fits its content is not a failure, and the claim that it 'says nothing about the content under it' is too strict."
+    },
+    {
+      "fingerprint": "s83fdb2504d1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This 'Access' link is in the footer and leads to 'Accessibility at South Kensington'. It sits in a ul whose first item is the h2 'Visit', followed by 'Visit', 'What's on', 'Galleries and Museum map', 'Access'. The Understanding document for 2.4.4 counts text in the same list as programmatically determined link context. 'Access' under the 'Visit' heading is the common museum label for visitor accessibility information, and that matches the destination. The finding's claim that nothing around the link tells where it goes is wrong (the ancestor text it was given includes the 'Visit' list), so 2.4.4 passes. The live page has the same markup."
+    },
+    {
+      "fingerprint": "36afd0a0138f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the required 'Last name' field of the newsletter sign-up form, and it collects the user's own family name, which is the 'family-name' input purpose. The snapshot and the live HTML show type=\"text\" name=\"lastname\" with no autocomplete attribute on the input or the form, so the purpose is not programmatically determinable. This fails 1.3.5 as reported."
+    }
+  ]
+}

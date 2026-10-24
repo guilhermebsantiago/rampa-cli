@@ -1,0 +1,36 @@
+{
+  "page": "https://www.cobasi.com.br/c/cachorro",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sdcf84f14056",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Sobre nós\" (About us) is the h2 of a footer column. I checked the screenshot and the snapshot: the links under it are Quem somos, Nossas lojas, Eventos, Diversidade e Inclusão, Campanhas Sociais, Venda Responsável, Trabalhe conosco, Seja um fornecedor, Expansão, Transparência, Realize sua denúncia and Relações com Investidores. All of these are company or institutional pages, which is exactly what \"About us\" names. The heading matches the topic of its content, so 2.4.6 is met. The model had this content in the ancestor text and judged it wrongly."
+    },
+    {
+      "fingerprint": "7dd5e629dd19",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "This is the header search combobox, with 12px placeholder text on white. The site's CSS sets no ::placeholder color for this input (class body-text-sm inside .select_root .input_wrapper; the only placeholder color rules are for .input-field and .textarea-field), so the browser default applies. I loaded the site's two stylesheets with the same DOM structure in headless Chromium (Edge 155). The computed ::placeholder color is rgb(117,117,117), #757575, which is 4.61:1 on #ffffff and passes 4.5:1. Rampa took the color from pixels. The #e9b687 it names is a subpixel anti-aliasing fringe; the screenshot's text area also holds #9dcfff fringes. Its best figure, 3.96:1, is the darkest anti-aliased pixel (#7e8082) of thin 12px strokes, which never reach the true color. The measurement is an artefact, not the rendered text color."
+    },
+    {
+      "fingerprint": "891bc223255d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the left hero image, Dog_Full-….svg, with alt \"Ilustração SVG demonstrativa cachorro\" (demonstrative SVG illustration, dog). The crop and the page screenshot both clearly show a stylised navy dog with leaves and plants. The alt therefore does not describe something the image fails to show. The image is arguably decorative and would be better with alt=\"\" (an F39-style issue under 1.1.1), but that is a different claim from the one reported. Read fairly, the finding's claim is wrong."
+    },
+    {
+      "fingerprint": "0500f3f77953",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the right hero image, an inline data-URI SVG of 164x196, with the same alt \"Ilustração SVG demonstrativa cachorro\" (dog illustration). I decoded the live SVG, whose prefix matches the snapshot's, and rendered it at 3x. It shows only two stylised trees, a leaf, an orange dot and a small navy petal. There is no dog. The text alternative states content the image does not contain, so it does not serve the equivalent purpose. If the image is decorative, a non-null misleading alt is the documented failure F39. Either way 1.1.1 fails, and I found no technique or context that rescues it: it is a separate img that screen readers announce on its own."
+    },
+    {
+      "fingerprint": "saae2e49deb5",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Mundo Cobasi\" (Cobasi world) is the h2 of a footer column. The links under it are Amigo Cobasi, Amigo Cobasi Plus, Compra Programada, Cobasi Já, Cobasi Cuida and Retirar na Loja: the retailer's own branded programs and services. The heading labels that group as Cobasi's own ecosystem, so it does say something about the content, and the finding's claim that it says nothing is not supported. 2.4.6 asks that headings describe topic or purpose, not that they be exhaustive. A short branded group label above self-descriptive links meets that bar, and it is not a generic label like \"More\" or \"Section 1\"."
+    }
+  ]
+}

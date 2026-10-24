@@ -1,0 +1,42 @@
+{
+  "page": "https://www.infomoney.com.br/politica/lula-e-flavio-fazem-promessas-sobre-dividas-seguranca-e-saude-no-ultimo-debate/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "2bd0481fb8cd",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "\"Veja mais\" is the heading of the fourth footer column (over Fazer login, Quem somos, Política de privacidade and the rest), coded as <a href=\"#\"> with no script; the live HTML is the same and the sublist is always shown. Its context is the list it labels, so it reads as a group label, but as a link it leads nowhere (\"#\"), and its generic text does not say what activating it does. Some auditors would fail 2.4.4 because the purpose of this no-op \"see more\" link cannot be determined. Others would say the real defect is a heading coded as a dead link (1.3.1, 4.1.2) rather than unclear link text. Competent auditors would split."
+    },
+    {
+      "fingerprint": "c3a1e3c102e4",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the round author photo in the author-bio card at the end of the article. It sits next to the linked name \"Marina Verenicz\" and the beat \"Política | Brasil | Mundo\". The crop shows a portrait of a woman, which is exactly an author avatar, so \"Autor avatar\" does not describe something the image does not show. The alt is generic and the name is right beside it, so alt=\"\" or the author's name would be better, but the photo's information is not lost. The claimed mismatch is wrong, and the image does not fail 1.1.1."
+    },
+    {
+      "fingerprint": "s9202dca03e7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Aprenda\" is a category item in the closed off-canvas header menu. Its <li data-has-children=\"true\"> holds an <a href=\"#\"> with a right chevron, followed by a submenu (Conteúdos, Cursos, Ebooks, Planilhas, Guias...) that is visually hidden but exposed to screen readers. Its purpose is to open the \"Aprenda\" (Learn) section of the menu. The text names that section, and the enclosing list item gives the sub-items as context, so the purpose is clear and 2.4.4 passes. Coding a submenu toggle as a link with href=\"#\" and no expanded state is a 4.1.2 concern, not unclear link text."
+    },
+    {
+      "fingerprint": "f931403c6b19",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the cover image of the embedded InfoMoney web story (amp-story iframe): a photo of Flávio Bolsonaro and Lula behind the title \"Lula x Flávio: tudo sobre o 2º turno das eleições presidenciais\". Its alt=\"flavio-lula-vertical\" is the file name stem of flavio-lula-vertical.jpg, and the live story still has it. A file name used as the text alternative is documented failure F30. If the photo is informative, the alt is not a proper equivalent. If it is decorative beside the title, it should have alt=\"\" so screen readers skip it instead of reading the file name. Either way it fails 1.1.1."
+    },
+    {
+      "fingerprint": "77e98feb6090",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the small white InfoMoney logo in the corner of the web story page. Its alt=\"Logo_Infomoney_Branco_transparente\" is exactly the file name of Logo_Infomoney_Branco_transparente.png, and the live story repeats it on every page. Screen readers announce the file name, \"white transparent\" included, instead of a real alternative such as \"InfoMoney\" (or alt=\"\" if the mark is decorative). That is the F30 failure (a file name as the text alternative), so it fails 1.1.1 as the rule says."
+    },
+    {
+      "fingerprint": "7a144b663fc2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the in-article call-to-action banner: an image of text reading \"PLANILHA DE GASTOS\" with the InfoMoney logo and a spreadsheet illustration. It has alt=\"\", and the only text in the box is the button \"Baixe agora (e de graça)!\". The heading container above it is empty and the image is not inside the link. The live HTML is the same. The image is the only place that says what is being offered, a spending spreadsheet, so a screen-reader user hears \"download now (free)\" without knowing what it is. Marking this informative image as decorative fails 1.1.1."
+    }
+  ]
+}

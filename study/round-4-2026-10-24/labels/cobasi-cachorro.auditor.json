@@ -1,0 +1,36 @@
+{
+  "page": "https://www.cobasi.com.br/c/cachorro",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sdcf84f14056",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the h2 'Sobre nós' (About us) heading the first footer column. The screenshot and the snapshot show the links under it: Quem somos, Nossas lojas, Eventos, Diversidade e Inclusão, Campanhas Sociais, Venda Responsável, Trabalhe conosco, Seja um fornecedor, Expansão, Transparência, Realize sua denúncia, Relações com Investidores. All of these are company or institutional pages, which is exactly what 'About us' promises. The heading names its topic, so 2.4.6 is met. The model had this list in its context and still judged it wrong."
+    },
+    {
+      "fingerprint": "7dd5e629dd19",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "This is the header search combobox, whose placeholder is 12px text at weight 400. The site's stylesheets set no placeholder color for this input (the rule '.select_root .input_wrapper input' sets only color:#555 for typed text), so the browser default applies. On the live page, Chromium's getComputedStyle(input,'::placeholder') returns rgb(117,117,117) (#757575) at opacity 1, on a white (#ffffff) input background. That is 4.61:1, which passes the 4.5:1 that 1.4.3 requires. The reported foreground #e9b687 is a colored subpixel anti-aliasing fringe. Its own ratio on white is about 1.8:1, which is the finding's 'worst' value. The 'best' value of 3.96:1 comes from anti-aliased grey pixels such as #7e8082, which in this screenshot never reach the full stroke color at 12px. The 1.4.3 Understanding document lets contrast be evaluated with anti-aliasing turned off, so the measurement came from the wrong data. The live page could differ from the run, but the darkest grey pixels in the run's screenshot fit #757575 rendered small."
+    },
+    {
+      "fingerprint": "891bc223255d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the left banner illustration (Dog_Full-….svg) beside the h1 'Cachorro: produtos em promoção'. The crop and the screenshot clearly show a stylized navy dog peeking out among leaves and plants, and the file name is Dog_Full. The alt 'Ilustração SVG demonstrativa cachorro' (illustration of a dog) therefore matches what the image shows, and the claim that it describes something absent is wrong. The image is arguably decorative and could take alt=\"\" (F38). That is a different issue from the one reported, and with an accurate alt it is a judgment call."
+    },
+    {
+      "fingerprint": "0500f3f77953",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the right banner illustration, an inline base64 SVG of 164x196 px, and the packet crop shows all of it. Decoding the SVG and viewing the crop and the screenshot show a teal oak-leaf shape, a green tree, an orange dot, a leaf and a small navy fragment. There is no dog. Its alt nevertheless repeats 'Ilustração SVG demonstrativa cachorro' (illustration of a dog), copied from the left image. The text alternative describes content the image does not contain, so it does not serve the image's purpose. And because the image is purely decorative, a non-empty, inaccurate alt also stops assistive technology from ignoring it (F38, H67). That fails 1.1.1, as the finding says."
+    },
+    {
+      "fingerprint": "saae2e49deb5",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the h2 'Mundo Cobasi' (Cobasi world) heading a footer column. The links under it are Amigo Cobasi, Amigo Cobasi Plus, Compra Programada, Cobasi Já, Cobasi Cuida and Retirar na Loja, all of them Cobasi's own customer programs and services. 'Mundo Cobasi' is a branded but clear label for that group, and it sits among peer headings such as Sobre nós, Dúvidas, Serviços Pet and Especiais. It tells the user what the column holds, which is enough for 2.4.6. The criterion does not ask headings to be exhaustive or free of brand names."
+    }
+  ]
+}

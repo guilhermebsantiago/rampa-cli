@@ -1,0 +1,78 @@
+{
+  "page": "https://www.fueleconomy.gov/feg/findacar.shtml",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "68a9f08123d7",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Thumbnail photo (a 2025 Lexus UX 300h, a hybrid) inside the 'Browse New Cars' tile link whose visible text is 'Hybrid'. The photo is there to stand for the category the link opens, and the alt 'Hybrids' says that, which is an equivalent purpose for an image in a link. No photo can show a drivetrain, so asking the alt to describe only what is visible is stricter than 1.1.1. At most the alt repeats the link text, which is advisory, not a failure."
+    },
+    {
+      "fingerprint": "s154b5dce9f9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Top navigation 'Save Money & Fuel' is a Bootstrap dropdown toggle (href javascript:void(0), data-toggle=dropdown). It opens the 'Save Money & Fuel' submenu, and the submenu items (Gas Mileage Tips, Tax Incentives, Gasoline Prices, Cost Calculators) sit in the same list item, so its purpose is clear from its text and its menu context, which the model was given. It is a section menu trigger, not a vague link. Any problem with it being a link rather than a button with expanded state is a 4.1.2 matter, not 2.4.4."
+    },
+    {
+      "fingerprint": "66d304ce097d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header mini-menu link 'Español' to /feg/esIndex.shtml. The live HTML still has <a href=\"/feg/esIndex.shtml\">Espa&ntilde;ol</a>, with no lang on the link or on its li/ul/nav ancestors, and the page is html lang=\"en\". A language name written in that language is not a proper name or English vernacular. The 3.1.2 Understanding document's examples (alternative language links, and the 'Español' span example) say such links need lang. I found no technique that makes it pass."
+    },
+    {
+      "fingerprint": "f839af633563",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Thumbnail of a red Fiat 500e, clearly a small car, in the 'Small Cars' tile link. The alt 'Small car' matches what the image shows and why it is there, a category example. The crop the model saw shows exactly that, so the claim that the image does not show what the alt says is simply wrong."
+    },
+    {
+      "fingerprint": "c831c4970876",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Thumbnail of an orange Chevrolet Corvette Z06 in the 'Sporty Cars' tile link. The alt 'Sporty car' accurately describes a sports car photo and its role as a category example. The crop the model saw clearly shows a sports car, so the claim is wrong."
+    },
+    {
+      "fingerprint": "sbaf82434ca8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 'Hatchbacks' tile link (image alt 'Hatchback' plus text 'Hatchbacks') leads to PowerSearch with mclass=Hatchbacks, a page titled 'Fuel Economy of New Hatchbacks'. The link text matches its destination exactly. The repeated word in the computed name is redundant but does not hide the purpose, so there is no 2.4.4 failure."
+    },
+    {
+      "fingerprint": "c197ab60a512",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Thumbnail of a 2017 Honda Clarity Fuel Cell (the file is named so) in the 'Fuel Cell' tile link. The alt 'Fuel Cell Vehicles' names the category the photo stands for, which is an equivalent purpose for an illustrative image in a category link. A photo cannot show a fuel cell powertrain, and 1.1.1 does not require the alt to list only visible features. At worst it repeats the link text, which is advisory only."
+    },
+    {
+      "fingerprint": "7c5922be8a5d",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "<a id=\"content\"></a> is an empty in-page target for the skip link. It has no href and no tabindex, so it is not focusable (the snapshot's 'focusable' state is not backed by the CDP data), and it has no content and no bounds. Chrome reports role link for it probably only because page scripts (federated analytics or similar) attach click listeners to anchors. Under HTML-AAM an anchor without href is generic, and users never perceive it as a control, so it is not a user interface component under 4.1.2. ACT's link-name rule and axe both leave out href-less anchors like this."
+    },
+    {
+      "fingerprint": "aad2770e7f62",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Thumbnail of a grey Mercedes EQS 450 sedan in the 'Luxury Cars' tile link, which leads to luxury and upscale sedans. The alt 'Luxury car' is an accurate description of a luxury sedan photo and of its role as a category example. The crop clearly shows such a car."
+    },
+    {
+      "fingerprint": "a063e4e6a5a5",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Thumbnail of a 2025 Buick Envista in the 'Flex-Fuel' tile link. The live flex-fuel results list a 'Buick Envista FFV', so the car shown is a flex-fuel model. The alt 'Flexible-Fuel' names the category the photo illustrates, which is the image's purpose in this link. Fuel capability is not visible in any photo, and asking the alt to describe only visible features is stricter than 1.1.1."
+    },
+    {
+      "fingerprint": "a9dd241b4fd5",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "<a id=\"top\"></a> is an empty 'top' target anchor. It has no href and no tabindex, so it cannot be focused or operated, and it has no content or size. Chrome's 'link' role for it probably comes from script click listeners on anchors, not from its semantics: HTML-AAM maps an href-less a to generic. It is not a user interface component, so 4.1.2's name requirement does not apply. ACT's link-name rule and axe would not apply either."
+    },
+    {
+      "fingerprint": "sde2b2e0d551",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Year select #mnuYear1 under 'Browse by Model', labelled with a real <label for> 'From:'. It is paired with 'To: (optional)', and its options are model years 2027 to 1984. On screen it reads 'From: 2026', and a screen reader announces 'From:, combo box, 2026'. Nothing has to be typed in. The label and its control together give an appropriate cue for a model-year range, and 2.4.6 lets labels be short. 'Model year from' would be clearer, but the label is accurate, not undescriptive."
+    }
+  ]
+}

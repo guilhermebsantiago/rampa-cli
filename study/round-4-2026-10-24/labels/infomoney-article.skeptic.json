@@ -1,0 +1,42 @@
+{
+  "page": "https://www.infomoney.com.br/politica/lula-e-flavio-fazem-promessas-sobre-dividas-seguranca-e-saude-no-ultimo-debate/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "2bd0481fb8cd",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Veja mais\" is the heading of the fourth footer column, coded as <a href=\"#\"> like the other three column heads (InfoMoney, Aprenda, Multimídia). The screenshot and the live HTML show it as a column title. Its list item also holds the links it heads (Fazer login, Quem somos, Política de privacidade, Política de cookies, Preferências de Cookies, Fale conosco). That list item is programmatically determined link context, so the claim that nothing around it says what it is for does not hold, and the model had that context in the ancestors. The real defect is a visual heading coded as a dead href=\"#\" link rather than a heading. That is a 1.3.1 (and arguably 4.1.2) problem, and the descriptive column heads have it too, not an ambiguous-link-text failure of 2.4.4."
+    },
+    {
+      "fingerprint": "c3a1e3c102e4",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the author-box photo (src Marina.jpg), a round portrait of a woman, placed right next to the visible author name \"Marina Verenicz\" and her beats. The alt \"Autor avatar\" says what the image is: the author's profile picture. So the claim that it describes something the image does not show is wrong. At most the alt is generic, or could be empty because the name sits beside it. No information is lost, because the name is adjacent text, so this does not fail 1.1.1."
+    },
+    {
+      "fingerprint": "s9202dca03e7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Aprenda\" is a top-level category in the off-canvas header menu. It is an <a href=\"#\"> with a chevron icon that opens a submenu, and in the same list item that submenu holds its links: Conteúdos, Cursos, Ebooks, Planilhas, Guias, Podcast, Perfis and Vídeos (sr-only while collapsed, so screen readers get them). The link text names the section it opens, as the other category names in the menu do, and its list-item context lists what is inside. Its purpose can therefore be determined, and the model had that list-item text. The real issue is a disclosure toggle exposed as a link with no expanded state. That falls under 4.1.2, not 2.4.4."
+    },
+    {
+      "fingerprint": "f931403c6b19",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the cover photo of the embedded InfoMoney web story (the iframe, cover page aria-hidden=false), showing Flávio Bolsonaro and Lula behind the overlaid real-text title \"Lula x Flávio: tudo sobre o 2º turno das eleições presidenciais\". The alt \"flavio-lula-vertical\" is the file's base name, and the live story still has it. F30 fails filenames only when they are \"not valid text alternatives in their own right\". This slug does name the two people shown, and the image is largely illustrative next to a title that names them. Against that, \"vertical\" and the slug form are file artefacts, not a written alternative. Auditors would split on whether it serves the equivalent purpose, so I cannot call it a clear failure or a clear pass."
+    },
+    {
+      "fingerprint": "77e98feb6090",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the small white InfoMoney logo in the corner of the embedded web story's cover page (visible, aria-hidden=false), and the live story uses the same alt on seven pages. The alt \"Logo_Infomoney_Branco_transparente\" is the file name, but it reads as \"Logo Infomoney branco transparente\". That says it is the InfoMoney logo, which is all the logo conveys and is the alt W3C recommends for a logo (the organisation's name). The extra words are accurate, if noisy. F30 fails only filenames that are not valid text alternatives in their own right. The rule flags any alt equal to the file name, which is stricter than 1.1.1: information is not lost here. Changing it to \"InfoMoney\" would be better practice, not the fix for a failure."
+    },
+    {
+      "fingerprint": "7a144b663fc2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the mid-article promo box (section.im-cta). Its banner image shows \"InfoMoney PLANILHA DE GASTOS\" over a spreadsheet illustration, and its only other content is the link \"Baixe agora (e de graça)!\" to the planilha-de-gastos sign-up page. The snapshot and the live HTML both give the image alt=\"\". The box has no heading or other text, and the paragraph before it is unrelated article text. So the image is the only place the offer is named, and a screen reader user hears only \"Baixe agora (e de graça)!\" without knowing what is offered. The URL slug is not a text alternative. The image is informative (it contains text), so marking it decorative fails 1.1.1, as the finding says."
+    }
+  ]
+}

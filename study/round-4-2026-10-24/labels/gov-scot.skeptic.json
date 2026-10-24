@@ -1,0 +1,18 @@
+{
+  "page": "https://www.gov.scot/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s7c06e5f1a5b",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the site-wide search input in the header, inside a form with role=search, labelled by a visually hidden <label for=site-search>Search</label>, with placeholder 'Search' and a magnifier submit button also named 'Search' (same on the live page today). 2.4.6 asks only that a label describe the topic or purpose of the control. 'Search' in a header search form states its purpose (search this site), and that is how site search is conventionally labelled (G131). WCAG does not require the label to spell out what to type, such as 'keywords'. Demanding that is a stricter rule than the criterion sets."
+    },
+    {
+      "fingerprint": "s3ef2a472a3c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h1 of the gov.scot home page. It names the organisation whose home page this is, matching the document title 'The Scottish Government - gov.scot'. Everything under it is about that government: Programme for Government, bank holidays, cost of living support, then Publications, Consultations, Topics, News, Statistics and research and About government sections, each with its own descriptive h2. A home page h1 that names the organisation describes the page's topic, which is what 2.4.6 asks. It does not have to summarise the hero block below it. The live page still has the same h1. The checker had this context and judged it wrongly."
+    }
+  ]
+}

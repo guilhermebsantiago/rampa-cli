@@ -1,0 +1,12 @@
+{
+  "page": "https://www.tramontina.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "55054e3a7076",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search submit button (aria-label \"Enviar busca\"). It has no text, border or background, so the magnifier glyph (i.icon-search.tr-search__desktop, 24x24 at x 848, y 84) is the only visual sign that the button exists. I looked for reasons it could pass. Collector artefact: I cropped the screenshot and counted its pixels, and the glyph's solid pixels are exactly #b3b3b3 on #ffffff (2.10:1). The live global.css still has `.tr-header .searchBar .icon-search{color:#b3b3b3}`, so the claim holds as of today. Inactive exception: the button is not disabled, and the grey is a fixed style, not a disabled state. Context cue: the input's 2px border is #e6e6e6 (about 1.26:1), so it does not make up for the faint glyph, and its position inside the field does not stand in for perceiving the glyph. G174: I found no contrast-toggle control. The snapshot only holds hidden asw colour-blindness SVG filters, and the live HTML loads no accessibility widget. Redundancy: pressing Enter also submits the form, but 1.4.11 has no exemption for redundant controls. With none of these holding up, the icon falls short of the 3:1 that 1.4.11 and G207 ask for an icon that is all a control shows."
+    }
+  ]
+}

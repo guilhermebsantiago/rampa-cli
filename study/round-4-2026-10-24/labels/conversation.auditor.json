@@ -1,0 +1,84 @@
+{
+  "page": "https://theconversation.com/the-jackdaw-gasfield-passed-the-legal-test-for-north-sea-drilling-rosebank-will-find-it-much-harder-295029",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "9847a644d982",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the third body paragraph of an English article shown in The Conversation's Brazil edition. The snapshot shows the html element with lang=\"pt-BR\". The article and its articleBody container have no lang attribute, and the only other lang on the page is on the hidden consent host. The raw HTML I fetched live on 2026-10-24 is the same. So this English passage is identified as pt-BR, which fails the H58 test and 3.1.2. One could argue the page's default language is English, since the article is most of the text, and call this a 3.1.1 failure instead. Either way, this passage's language is identified wrongly, so the finding stands."
+    },
+    {
+      "fingerprint": "ff66bd957281",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is an English body paragraph (\"That is exactly what the Finch ruling allows...\") inside the article. The page declares html lang=\"pt-BR\", and no ancestor of the paragraph sets lang=\"en\", in the snapshot or in the live HTML. A screen reader would read it with Portuguese rules, so its language is not correctly identified: a 3.1.2 failure as reported. A 3.1.1 framing, with English as the page default, is also possible, but the passage is identified wrongly either way."
+    },
+    {
+      "fingerprint": "37a5f7b56646",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the Creative Commons logo in the republish panel. Both the crop and the SVG source show the \"cc creative commons\" wordmark, with no BY or ND icons. The alt \"CC BY ND\" names Creative Commons and the article's actual licence, CC BY-ND. It is true that the image does not show \"BY ND\", but 1.1.1 asks for a text alternative that serves the same purpose, not a literal description. Here the purpose is to show the content is under a Creative Commons licence, which the alt conveys accurately, and the text next to it says \"licença Creative Commons\". The extra licence detail is true and misleads no one, so this is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "ccdfc616fb3b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the second body paragraph (\"Coverage of the decision to approve the Jackdaw gas field...\"), entirely in English. The document language is pt-BR (html lang), and neither the article nor its body container sets lang=\"en\", in the snapshot or in the live HTML. So the passage's language is identified as Portuguese, which fails 3.1.2 as reported. A 3.1.1 framing is also possible but does not change that the passage is identified wrongly."
+    },
+    {
+      "fingerprint": "a86d9dbda65d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the figure image of Sarah Finch outside the Supreme Court. The crop clearly shows a grey-haired woman speaking into a microphone, with an orange \"DON'T DRILL HORSE HILL\" banner behind her. The alt \"Woman with microphone, 'don't drill horse hill' sign in background\" describes the image accurately. The model had the crop and judged it wrongly."
+    },
+    {
+      "fingerprint": "e4ceed10a721",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is an English body paragraph (\"The decision document shows those rules at work...\") in an article whose html lang is pt-BR. No lang=\"en\" is set on it or any ancestor, in the snapshot or in the live HTML. So the passage's language is identified as pt-BR, which fails 3.1.2 as reported. The 3.1.1 alternative framing does not remove the failure."
+    },
+    {
+      "fingerprint": "8247868d21cc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is an English body paragraph about the Horse Hill / Finch case. The page is declared pt-BR, and the article has no lang=\"en\", as the snapshot and the current live HTML both show. So the English passage is identified as Portuguese, which fails 3.1.2 as reported."
+    },
+    {
+      "fingerprint": "sd4c8c2389e0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is an inline citation link in the sentence \"Any challenge would most likely return to the Court of Session, where applications for judicial review normally must be made within three months.\" It goes to legislation.gov.uk's notes on section 89 of the Court of Session Act 2014, the time limit for judicial review. The enclosing sentence is programmatically determined link context. It makes the purpose clear: the source for the three-month time limit. That meets 2.4.4 at Level A (G53). The claim that nothing around the link explains it is wrong: the packet held the paragraph."
+    },
+    {
+      "fingerprint": "3ea3f918e78e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is an English body paragraph about Rosebank's size and emissions. The page's html lang is pt-BR, and neither the article nor this paragraph sets lang=\"en\", in the snapshot or in the live HTML. So the passage's language is identified as Portuguese, which fails 3.1.2 as reported."
+    },
+    {
+      "fingerprint": "da59eb19811c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is an English body paragraph (\"This goes to the heart of the legal reasoning...\") inside the pt-BR-declared page, with no lang=\"en\" on it or its ancestors, in the snapshot or in the live HTML. So the passage's language is identified as Portuguese, which fails 3.1.2 as reported."
+    },
+    {
+      "fingerprint": "s1d11bbe47d1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link \"at the time\" sits in the sentence \"As The Conversation reported at the time, the ruling's effects were always likely to reach well beyond Surrey.\" It goes to The Conversation's 2024 article \"Landmark court ruling will have huge implications for new fossil fuel projects in UK\", and Rampa read that destination. The enclosing sentence tells the user the link is The Conversation's earlier report on the Finch ruling, which is exactly where it goes. The purpose is clear from the link text plus its sentence context, so 2.4.4 passes."
+    },
+    {
+      "fingerprint": "s8b0803831c4",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link \"the approval shows\" sits in the sentence \"Greenpeace says the approval shows the 'grip fossil fuel lobbyists still hold over energy policy'\". It goes to a Scotsman report, which I fetched live, on the Jackdaw approval that quotes Greenpeace UK saying this. In context, the link is the source of the Greenpeace statement, which is a normal inline citation whose purpose the enclosing sentence makes clear. The link text alone is weak, but 2.4.4 accepts link text together with its sentence context, and the packet included that paragraph."
+    },
+    {
+      "fingerprint": "6b74da974f53",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is an English body paragraph (\"Greenpeace says the approval shows...\") in the article. The html element declares pt-BR, and nothing between it and this paragraph sets lang=\"en\", in the snapshot or in the live HTML. So the passage's language is identified as Portuguese, which fails 3.1.2 as reported. One could frame it as 3.1.1, with English as the page default, but the passage is identified wrongly either way."
+    }
+  ]
+}

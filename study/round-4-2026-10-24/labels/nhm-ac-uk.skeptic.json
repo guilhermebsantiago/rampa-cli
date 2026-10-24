@@ -1,0 +1,42 @@
+{
+  "page": "https://www.nhm.ac.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "7e4deccc67e8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The img (alt=\"\") sits in a div with aria-hidden=\"true\" inside the shop promo tile. That tile's heading says \"Nature-inspired gifts for all ages\", its paragraph says \"Browse fashion, homeware and prints alongside puzzles and toys in our online shop\", and its link says \"Shop the collection\". The crop is a styled product photo: a mug, books, a dinosaur model, a dig kit, a puzzle cube and cards on a desk. It illustrates the range of gifts that the adjacent text already names. The one dig-kit box is incidental, not information the tile relies on. Hiding an illustrative image whose message the adjacent text already gives is an accepted way to pass 1.1.1 (H67, decorative or redundant image). The model treated a visible product detail as information that needed a text alternative."
+    },
+    {
+      "fingerprint": "6c8ec400e583",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the newsletter sign-up field (\"Your inbox just got wilder\"), and it collects the user's own email address. The snapshot HTML and the live server HTML (rechecked 2026-10-24) both show <input type=\"email\" name=\"email\"> with no autocomplete attribute. type=\"email\" only constrains the format and is not a sufficient technique for 1.3.5. HTML supports autocomplete=\"email\" (H98), so the input purpose is not programmatically determined. Nothing exempts it: it is the user's own data, not someone else's."
+    },
+    {
+      "fingerprint": "6ea6a395b057",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The First name field of the same newsletter sign-up collects the user's own given name. The snapshot and live HTML show <input type=\"text\" name=\"firstname\"> with no autocomplete. A name attribute is not a programmatic purpose under 1.3.5. Since HTML supports autocomplete=\"given-name\" and it is missing, the field fails as the finding says. I found no technique or context that makes it pass."
+    },
+    {
+      "fingerprint": "s2113a336913",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the visible hero banner's h2 (the other copies are hidden variants). Under it are \"Open every day, 10:00–17:50\", \"Skip the queue with any ticket or membership\" and two calls to action, \"Exhibitions and events\" and \"Get free entry ticket\". The heading is a tagline, but it is an invitation to come to the museum (\"Come curious\"), and the content is visiting information for doing that. So it describes the block's purpose, which 2.4.6 accepts as well as a topic. The finding asks the heading to name the content literally, which is stricter than the criterion. A tagline that matches the banner's purpose is not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "s83fdb2504d1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a footer link, \"Access\", in a list whose first item is the h2 \"Visit\". The list's items are \"Visit\", \"What's on\", \"Galleries and Museum map\" and \"Access\". The link goes to \"Accessibility at South Kensington\". 2.4.4 allows the purpose to come from link text together with programmatically determined context, and H80 (link text plus the preceding heading) is a sufficient technique. Under \"Visit\", \"Access\" reads as access or accessibility information for visitors, the usual meaning on UK museum sites. Any leftover ambiguity is the same for every user. The finding's claim that nothing around the link explains it is wrong: the heading is in the packet's nearby headings."
+    },
+    {
+      "fingerprint": "36afd0a0138f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The Last name field of the newsletter sign-up collects the user's own family name. The snapshot and live HTML show <input type=\"text\" name=\"lastname\"> with no autocomplete attribute. HTML supports autocomplete=\"family-name\" (H98), so the purpose is not programmatically determined and the field fails 1.3.5. I found no mitigating technique."
+    }
+  ]
+}

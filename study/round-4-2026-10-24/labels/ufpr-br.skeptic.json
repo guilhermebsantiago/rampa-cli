@@ -1,0 +1,18 @@
+{
+  "page": "https://ufpr.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "e538cc5805aa",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Boletim UFPR logo (headphones over a 'B.', with 'boletim ufpr' under it) and it is the only content of a link in the UFPR TV media strip, next to the UFPR TV and Web-Radio logos. The snapshot and the live HTML both show the link going to the UFPR YouTube channel (@universidade_federal_do_parana). Boletim UFPR is UFPR TV's news bulletin and its episodes are posted on that channel. The alt 'Logo Boletim UFPR' names the outlet the link stands for, which is all the image shows sighted users and is the function H30 asks the alt to give. The word 'Logo' is redundant but not a failure. 1.1.1 asks for an equivalent alternative, and it does not require the alt to name the host platform or the URL. A sighted user learns no more about the destination than a screen-reader user does. The finding applies a stricter rule than the criterion has."
+    },
+    {
+      "fingerprint": "4733c7d9a87f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The link goes to https://participa.ufpr.br/. Its only content is an image whose visible text reads 'UFPR participa', but its alt is 'Logo UFPR'. The link just before it, to the sustainability policy page (visible text 'Sustainable Development Goals / Desenvolvimento Sustentável'), also has the alt 'Logo UFPR'. I confirmed both on the live page. There is no title, aria-label or aria-describedby. Both links sit in a bare div, with no sentence, list item, table cell or relevant heading as context; the nearest heading, 'UFPRTV', belongs to the media strip above. So 'Logo UFPR' does not tell the purpose (it suggests a link to the UFPR home page), and nothing tells the two links apart. Sighted users see the 'participa' text, so the ambiguity exception does not apply. I found no sufficient technique that the link meets, so this is a real 2.4.4 failure as reported."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "page": "https://www.mdanderson.org/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "94395165dfb3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Search Cancer Types' search input, whose only visible label is its placeholder (the <label> is visually hidden). Sampling the screenshot gives placeholder glyphs #605d5d on field #d0d0ce, 4.22:1, and the live CSS sets .search-wrapper .search-field::placeholder to color #605d5d, opacity 1, 18px regular, which is not large text. Placeholder text that carries the field's label is text under 1.4.3, so it falls short of 4.5:1."
+    },
+    {
+      "fingerprint": "d6362497758f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Search Clinical Trials' search input, styled like the first one, with the visible label carried only by the placeholder (the <label> is visually hidden). Screenshot pixels show #605d5d text on #d0d0ce (4.22:1), and the live CSS confirms #605d5d at 18px, light or regular weight, so it is not large text. That is below the 4.5:1 that 1.4.3 requires."
+    },
+    {
+      "fingerprint": "9b90b5e38776",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the background picture of the 'Together, we're ending cancer' headline module (class headline-bg-image). The screenshot shows only abstract purple, red and gray circles and quarter-circles behind the heading, text and link. They add no information and have no function, so the image is pure decoration. 1.1.1 says decoration must be implemented so assistive technology can ignore it, but the img carries a non-empty alt that screen readers will announce. Using alt=\"\" or a CSS background fixes it. This is a low-severity failure, and audits routinely log it under 1.1.1."
+    },
+    {
+      "fingerprint": "82c157909736",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is a red pennant- or shield-shaped badge. Decoding its data URI shows a red shape with a pointed bottom, and the HTML text '37 Years' is laid over it. 'shield' is a fair word for what the image shows, so the claim that the alt names something not shown is wrong. The real problem is a different 1.1.1 issue: the image is decorative backing for text and should have alt=\"\"."
+    },
+    {
+      "fingerprint": "s1f703d76189",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This h3 is the title of a 'UT MD Anderson Highlights' carousel card linking to onlypossiblehere.mdanderson.org, with the body 'Support our effort to transform bold ideas into real impact'. 'Only Possible Here' is the proper name of MD Anderson's fundraising campaign: the destination's title is 'Only Possible Here, The Campaign to End Cancer'. A heading that names the campaign the card is about describes its topic, the way the sibling cards' short titles do, so 2.4.6 is met. Rampa never read the destination, so it did not know the heading was a campaign name."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "page": "https://www.thejournal.ie/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "037550f69012",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Gaeilge' link in the top navigation. It goes to /gaeilge/news/, the site's Irish-language section, where many articles are in Irish. The page is lang=\"en\", and neither the link nor its parents set lang=\"ga\". I checked the snapshot and the live HTML and both match. All the other sections have English names, so naming this one in Irish is a deliberate change of language. That is the 'Alternative language links' example in the Understanding document for 3.1.2. An English speech synthesizer will not say the word the Irish way. Some could argue that 'Gaeilge' is part of Irish-English vernacular, but the Understanding document's own example and pronunciation test point to a failure."
+    },
+    {
+      "fingerprint": "s6e57b7e1690",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a radio button in The Daily Poll, with the visible label 'I don't think the ad should have been removed'. The label is a <label for> that names the choice. Right above the choices, the visible question reads 'What do you think of the grandparents' consent ad and the decision to remove it?'. For a radio button, the label's job under 2.4.6 is to describe the option, and this one does. The claim that it 'does not say what to enter' uses a text-field test that does not fit a radio choice. The missing fieldset/legend around the group would be a 1.3.1 question at most, not a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "sefd4613b270",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer brand SVG: the 'J' mark plus the tagline 'Making sense of today', all drawn as paths. In the live HTML it has no role, title, aria-label or aria-labelledby, and it is not inside a link. Chrome exposes it as an image with no name. The tagline appears nowhere else on the page as text, and no nearby text gives the brand name, so this informative image of text has no text alternative. That is a 1.1.1 failure. The finding says the SVG is 'hidden from screen readers'. In fact it is exposed as an unnamed image, but the main claim, informative content with no text alternative, is right."
+    },
+    {
+      "fingerprint": "d70f5c3d6883",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Gaeilge' link in the footer's 'Sections' list (/gaeilge/news/). The page is lang=\"en\", and the live HTML has no lang attribute on the link or its parents. The other section names are English. This one uses the Irish name for the Irish-language section, a deliberate change of language like the alternative-language-links example in Understanding 3.1.2. An English synthesizer will mispronounce it. The vernacular exception could be argued for Irish English, but I do not think it applies to a label chosen on purpose to mark Irish-language content."
+    },
+    {
+      "fingerprint": "s4a22c99b795",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a radio button in The Daily Poll, with the visible label 'It was right to remove the ad', set through <label for>. The visible poll question above the choices gives the topic, and the label clearly says what selecting this option means. That meets 2.4.6, which asks that labels describe topic or purpose. The finding's 'does not say what to enter' does not apply to a radio choice. Any grouping problem (no fieldset/legend) would belong to 1.3.1, not this criterion."
+    }
+  ]
+}

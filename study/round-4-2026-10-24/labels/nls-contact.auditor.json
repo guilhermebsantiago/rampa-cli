@@ -1,0 +1,12 @@
+{
+  "page": "https://www.nls.uk/contact/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "02f05b3ac3f9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The finding claims the document title \"Contact us | National Library of Scotland\" names a different topic than the page. The snapshot's main region opens with the h1 \"Contact us\", followed by \"Online enquiries\" (Ask a question, Leave a comment, Make a complaint), \"Phone us\" with switchboard numbers and \"Write to us\" with postal addresses, and the screenshot shows the same. The live page still has the same title. The title names both the page's topic and the site, which is exactly what 2.4.2 requires, so the page passes. The page h1 list Rampa had included \"Contact us\". The model was probably misled by the cookie banner's h1 (\"Your choice regarding cookies on this site\") and the navigation that come first in the content text, but that is overlay and site chrome, not the page's topic."
+    }
+  ]
+}

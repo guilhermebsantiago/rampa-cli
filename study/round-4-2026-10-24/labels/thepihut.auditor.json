@@ -1,0 +1,30 @@
+{
+  "page": "https://thepihut.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "152f9e19d747",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "White 16px regular paragraph text in the 'NEW! M5Stack Products' header, on the section's CSS gradient var(--gradient-m5stack), linear-gradient(90deg, rgb(31,160,232) 7% to rgb(1,100,158) 100%); the live page still uses that gradient, and the theme CSS adds no text-shadow. Sampling the screenshot behind the text gives #1fa0e8 at the left (2.90:1 against white) up to about #158cd0 at the right end of the text (3.69:1). The text is not large, so 4.5:1 applies and it fails along its whole width."
+    },
+    {
+      "fingerprint": "a4c565de7ddb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h4 'Raspberry Pi Kits' in the first promo card is white 16px bold text, which is below the 18.66px bold threshold for large text, so it needs 4.5:1. The card's background is var(--gradient-maker), rgb(118,173,45) 7% to rgb(74,120,13) 90%, and the product image sits in the lower right, away from the heading. The screenshot behind the heading measures #75ac2c to #649720, 2.73:1 to 3.51:1 against white, with no text-shadow in the theme CSS. This is a real 1.4.3 failure, and the live page is unchanged."
+    },
+    {
+      "fingerprint": "ed19f5b054e2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "White 16px regular paragraph text in the 'NEW! Arduino Products' header, on var(--gradient-arduino), linear-gradient(90deg, rgb(1,178,188) 7% to rgb(5,118,124) 90%); the live page is unchanged. Pixels behind the text run from #01b2bc (2.59:1 against white) to about #029ca5 (3.33:1). The theme CSS has no text-shadow or other contrast aid, so normal-size text is below 4.5:1 throughout and fails 1.4.3."
+    },
+    {
+      "fingerprint": "596ac744d636",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "White 16px regular paragraph text in the 'New! Maker Products' header, on var(--gradient-maker), rgb(118,173,45) 7% to rgb(74,120,13) 90%; this is still the case on the live page. The screenshot behind the text measures #76ad2d (2.70:1 against white) to about #669921 (3.42:1). The text has no shadow or outline, so it is under the 4.5:1 that normal text needs, a real 1.4.3 failure."
+    }
+  ]
+}
