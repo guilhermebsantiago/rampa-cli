@@ -16,7 +16,8 @@ import {
   subtreeText,
   verifyQuote,
 } from './shared.ts'
-import { addressText, genericLinkText } from './generic-text.ts'
+import { addressText, genericLinkText, kindOnlyLinkText, namesFileFormat, namesOnlyFileKind } from './generic-text.ts'
+import { initialsMatch } from '../advisory/abbreviations/long-form.ts'
 import { type LinkOutcome, activationText, scriptedDestination, scriptedOutcomes } from '../probes/links.ts'
 
 /**
@@ -33,9 +34,11 @@ import { type LinkOutcome, activationText, scriptedDestination, scriptedOutcomes
  * fd3a94 (links with the same name and context serve an equivalent purpose).
  *
  * A fail is a finding only when a fact Rampa checks itself supports it (`grounded`): a generic text such as "Read more"
- * with nothing around it, a raw address, or links that share the text and lead elsewhere from the same context. Any other fail, such as "the
- * text names something else than where it leads" or "this specific text says nothing", is the model's suggestion for a
- * person to review: on real pages those readings were almost all wrong (docs/studies/notes-244-246.md).
+ * with nothing around it, a text that names only a file's format or its download with nothing around it that says
+ * which document, a raw address, links that share the text and lead elsewhere from the same context, or a link to a
+ * part of this page that its text names nothing of. Any other fail, such as "the text names something else than where
+ * it leads" on another page, or "this specific text says nothing", is the model's suggestion for a person to review:
+ * on real pages those readings were almost all wrong (docs/studies/notes-244-246.md, notes-remaining-errors.md).
  *
  * The normative text in the prompt is quoted from WCAG 2.1
  * (https://www.w3.org/TR/WCAG21/), Copyright © W3C, under the W3C Document License.
@@ -94,6 +97,41 @@ export interface LinkPurposeContext {
   language: string
   /** A scripted link the links probe clicked: what that did (where it went, what it opened). */
   activation?: Pick<LinkOutcome, 'kind' | 'url' | 'opened' | 'message'> | undefined
+  /**
+   * For a link that is all its table cell holds, in a row with no header cell: the text of the row's other cells. A
+   * person sees it beside the link, but it is not the link's programmatically determined context (a row header, H63,
+   * would make it so). For verification only, never in the prompt.
+   */
+  rowSubject?: string | undefined
+  /**
+   * The link is all its list item holds, in a list of two links or more that do not all name only a file's kind: a menu,
+   * whose items name the sections of a site. For verification only.
+   */
+  menu?: boolean | undefined
+  /**
+   * The link sits in the site's navigation, header or footer, however deep: `landmark` is only the closest landmark,
+   * and a `<section>` inside a `<header>` is a region. For verification only.
+   */
+  chrome?: boolean | undefined
+  /** For a link to a part of this page: that part's id, role and text, and the words of the site's own name. For verification only. */
+  part?: SamePagePart | undefined
+}
+
+/** The part of the page a same-page link points to, as verification reads it. */
+export interface SamePagePart {
+  id: string
+  role: string
+  /** Its text; for a heading, its name and the section it opens, up to the next heading of its level or higher. Longer than the prompt's. */
+  text: string
+  /** A heading's name. */
+  name?: string | undefined
+  /**
+   * The part is a region or a control a link jumps to, not a subject: a landmark, a control or a form field, a part
+   * inside the site's navigation, header, footer, search or a form, or one that holds a landmark or a form field.
+   */
+  region?: boolean | undefined
+  /** Words of the site's own name (its host's labels, its title's words), which name no part of it. */
+  siteWords: string[]
 }
 
 const LANDMARK_ROLES = new Set(['navigation', 'banner', 'contentinfo', 'complementary', 'search', 'form', 'region'])
@@ -156,10 +194,11 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
     const index = indexTree(snapshot.root)
     const failed = failedByEngine(engine, ENGINE_RULES)
     const base = baseOf(snapshot)
+    // The first element with an id, as a browser finds it (`getElementById`, a "#part" link): CMS templates repeat ids.
     const byId = new Map<string, A11yNode>()
     for (const node of walkTree(snapshot.root)) {
       const id = attributesOf(node).id
-      if (id) byId.set(id, node)
+      if (id && !byId.has(id)) byId.set(id, node)
     }
     const textOfIds = (ids: string | undefined) =>
       (ids ?? '')
@@ -207,6 +246,9 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
     }
 
     const candidates: Candidate<LinkPurposeContext>[] = []
+    const lists = new Map<string, boolean>()
+    const sections = new Map<string, string>()
+    const siteWords = siteWordsOf(snapshot)
     for (const link of links) {
       const { node, name, attributes } = link
       if (failed.has(node.ref)) continue
@@ -218,6 +260,9 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
       const activation = scripted.get(node.ref)
       const destination = linkDestination(snapshot, attributes.href, activation)
       const fragment = activation?.kind === 'fragment' ? activation.fragment : samePageFragment(attributes.href, base, destination)
+      const partNode = fragment ? byId.get(fragment) : undefined
+      const rowSubject = rowSubjectOf(index, node)
+      const menu = inMenu(index, node, lists)
       candidates.push({
         ref: node.ref,
         context: {
@@ -238,6 +283,21 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
           language: inheritedLang(index, node.ref, snapshot.locale) ?? node.lang ?? 'en',
           ...(activation && activationText(activation)
             ? { activation: { kind: activation.kind, url: activation.url, ...(activation.opened ? { opened: activation.opened } : {}), ...(activation.message ? { message: activation.message } : {}) } }
+            : {}),
+          ...(rowSubject ? { rowSubject } : {}),
+          ...(menu ? { menu } : {}),
+          ...(inSiteChrome(index, node) ? { chrome: true } : {}),
+          ...(fragment && partNode
+            ? {
+                part: {
+                  id: fragment,
+                  role: partNode.role,
+                  text: partText(snapshot.root, partNode, sections),
+                  ...(partNode.role === 'heading' && partNode.name ? { name: partNode.name } : {}),
+                  ...(structuralPart(index, partNode) ? { region: true } : {}),
+                  siteWords,
+                },
+              }
             : {}),
         },
       })
@@ -348,24 +408,303 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
   },
 }
 
+/** What `groundedLink` reads of a candidate. */
+export type LinkFacts = Pick<LinkPurposeContext, 'name' | 'sameText' | 'context' | 'headers' | 'description'> &
+  Partial<Pick<LinkPurposeContext, 'heading' | 'landmark' | 'rowSubject' | 'menu' | 'chrome' | 'target' | 'part'>>
+
 /**
- * Whether a fail rests on a fact Rampa checked: a generic text (F84's "click here") with no programmatically determined
- * context of its own to complete it (no sentence, paragraph, list item or cell, header cells or description), a raw
- * address or file name, or other links with the same text that lead elsewhere from the same context (ACT fd3a94;
- * `verify` already asks for that fact). Whether a context completes a generic text is the model's reading, and so is a
- * mismatch with the destination: a title read at an address is no proof of what the text promises. On real pages
- * every such claim was wrong ("Clique aqui" in "Clique aqui para mais informações sobre a Ouvidoria da EBC.").
+ * Whether a fail rests on a fact Rampa checked:
+ * - a generic text (F84's "click here") with no programmatically determined context of its own to complete it (no
+ *   sentence, paragraph, list item or cell, header cells or description);
+ * - a text that names only a file's format ("HTML", "EPUB", "Download PDF", generic-text.ts) and nothing in its
+ *   context that could say which document: no sentence, list item or cell text, no description, no heading above it,
+ *   outside the site's own header, menus and footer; or one that names only its download ("Download") in a table row
+ *   whose header cells, if any, do not name the row's own subject, which sits in a data cell beside it (F63: the
+ *   context is in content that is not the link's programmatically determined context);
+ * - a raw address or file name;
+ * - other links with the same text that lead elsewhere from the same context (ACT fd3a94; `verify` already asks for
+ *   that fact);
+ * - a mismatch with a part of this page that the page names (its id and its text share a word), when no word of the
+ *   link's text or context is among that part's names (`namesNoPartOf`).
+ * Whether a context completes a generic text is the model's reading, and so is a mismatch with another page: a title
+ * read at an address is a summary, and a broader page that holds what the text names is no mismatch. On real pages
+ * every such claim was wrong ("Clique aqui" in "Clique aqui para mais informações sobre a Ouvidoria da EBC.", the
+ * privacy notice behind "Declaração de Cookies").
  */
-export function groundedLink(problem: (typeof LINK_PROBLEMS)[number], c: Pick<LinkPurposeContext, 'name' | 'sameText' | 'context' | 'headers' | 'description'>): boolean {
-  if (problem === 'generic') return genericLinkText(c.name) && !c.context && !c.headers && !c.description
+export function groundedLink(problem: (typeof LINK_PROBLEMS)[number], c: LinkFacts): boolean {
+  if (problem === 'generic') return (genericLinkText(c.name) && !c.context && !c.headers && !c.description) || kindOnlyUncompleted(c)
   if (problem === 'url_or_filename') return addressText(c.name)
   if (problem === 'ambiguous') return Boolean(c.sameText && c.sameText.places > 1 && !c.sameText.apart)
+  if (problem === 'mismatch') return namesNoPartOf(c)
   return false
 }
 
-/** A link a fail could be a finding about: its text is generic or an address, or it shares its text with links that lead elsewhere. */
-function groundable(c: Pick<LinkPurposeContext, 'name' | 'sameText' | 'context' | 'headers' | 'description'>): boolean {
-  return groundedLink('generic', c) || addressText(c.name) || groundedLink('ambiguous', c)
+/** Landmarks of the site's own chrome: in its menus, header and footer the site is the subject, and "Download" names its download page. */
+const SITE_CHROME = /^(navigation|banner|contentinfo)\b/
+
+/**
+ * A text that names only what kind of file it gets, with nothing in its programmatically determined context that says
+ * which document: ACT 5effbb's "HTML", "EPUB" and "Plain text" under a paragraph styled as the book's title (Failed
+ * Example 5), and its "Download" in a table row whose book title is a data cell, not a row header (Failed Example 6).
+ * A "Download" with no format is read only in such a row: elsewhere it names an action or a site's download page, as
+ * debian.org's did in its menu, and only the model's reading would say otherwise.
+ */
+export function kindOnlyUncompleted(c: LinkFacts): boolean {
+  if (!kindOnlyLinkText(c.name) || c.context || c.description || c.heading || c.menu || c.chrome) return false
+  if (c.landmark && SITE_CHROME.test(c.landmark)) return false
+  if (c.rowSubject) return true
+  return !c.headers && namesFileFormat(c.name)
+}
+
+/** The link sits in the site's navigation, header or footer, at any depth: a `<section>` in a `<header>` is still the header. */
+function inSiteChrome(index: TreeIndex, node: A11yNode): boolean {
+  for (let ref = index.get(node.ref)?.parentRef; ref !== undefined; ref = index.get(ref)?.parentRef) {
+    const role = index.get(ref)?.node.role
+    if (role === 'navigation' || role === 'banner' || role === 'contentinfo') return true
+  }
+  return false
+}
+
+/** A part's text this long is read for its names; the prompt shows less. */
+const PART_TEXT = 2000
+/** Roles of a part that a skip or "back to top" link leads to: the link names the region, not its subject. */
+const REGION_ROLES = new Set(['document', 'main', 'navigation', 'banner', 'contentinfo', 'search', 'complementary', 'form', 'region', 'application'])
+/** Controls and fields a link can point to (a skip link to a menu's first button, to the search field): their name is the control's, not a subject. */
+const CONTROL_ROLES = new Set(['button', 'link', 'textbox', 'searchbox', 'combobox', 'listbox', 'option', 'menu', 'menubar', 'menuitem', 'tab', 'tablist', 'checkbox', 'radio', 'slider', 'spinbutton', 'switch'])
+/** Landmarks a part inside them belongs to: the site's chrome, its search and its forms (not main, where a table of contents leads). */
+const AROUND_PART = new Set(['navigation', 'banner', 'contentinfo', 'search', 'form'])
+/** What a part that wraps a region or a control holds: a skip link to a wrapper around the menu or the search field. */
+const HELD_BY_PART = new Set(['navigation', 'banner', 'contentinfo', 'search', 'form', 'main', 'textbox', 'searchbox', 'combobox', 'listbox'])
+/** Words an id is made of that name no subject, only how a page is built (English, Portuguese and Spanish, without accents). */
+const ID_FILLER = new Set([
+  'block', 'blocks', 'view', 'views', 'field', 'wrapper', 'container', 'inner', 'outer', 'item', 'items', 'section', 'anchor', 'skip', 'top', 'bottom', 'div', 'page', 'main', 'content',
+  'nav', 'navigation', 'menu', 'header', 'footer', 'search', 'sidebar', 'carousel', 'slider',
+  'conteudo', 'principal', 'topo', 'inicio', 'rodape', 'cabecalho', 'busca', 'pesquisa', 'navegacao', 'carrossel',
+  'contenido', 'buscador', 'cabecera', 'pie', 'navegacion',
+])
+/**
+ * A link text that says where in the page to move, not what is there: a skip link ("Skip to main menu", "Ir para a
+ * busca"), "Back to top", "Voltar", a carousel's arrows ("Próximo", "Anterior"), a heading's permalink; or that
+ * answers a widget ("Sim", "Não"). Read without accents and punctuation.
+ */
+const MOVES_WITHIN =
+  /^(skip|jump|go|back|return|scroll|ir|pular|saltar|voltar|volver|retornar|regresar)\b|^(top|topo|inicio|next|previous|prev|proximo|proxima|anterior|siguiente|seguinte|permalink|anchor|yes|no|sim|nao|si)$/
+const PART_STOPWORDS = new Set(['the', 'and', 'for', 'with', 'from', 'this', 'that', 'our', 'your', 'you', 'are', 'its', 'into', 'all', 'uma', 'com', 'para', 'por', 'dos', 'das', 'nos', 'nas', 'que', 'del', 'los', 'las'])
+
+function folded(text: string): string {
+  return normalizeForMatch(text).normalize('NFD').replace(/\p{M}/gu, '')
+}
+
+/** The words of a text that carry a meaning: three letters or more, without accents, common short words left out. */
+function meaningWords(text: string | undefined): string[] {
+  return folded(text ?? '')
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter((word) => /\p{L}{3}/u.test(word) && !PART_STOPWORDS.has(word))
+}
+
+/** The words of an id: "opening-hours", "openingHours" and "opening_hours_2" are "opening" and "hours". */
+function idWords(id: string): string[] {
+  return meaningWords(id.replace(/([\p{Ll}\p{N}])(\p{Lu})/gu, '$1 $2').replace(/[\d_.:-]+/g, ' ')).filter((word) => !ID_FILLER.has(word))
+}
+
+/** The same word, or one that begins the other with four letters or more: "hour" and "hours", "language" and "languages". */
+function sameWord(a: string, b: string): boolean {
+  if (a === b) return true
+  const [short, long] = a.length <= b.length ? [a, b] : [b, a]
+  return short.length >= 4 && long.startsWith(short)
+}
+
+/** Words that may be one word's forms: they begin with the same four letters or more, as "specs" and "specifications". */
+function relatedWord(a: string, b: string): boolean {
+  let common = 0
+  while (common < a.length && common < b.length && a[common] === b[common]) common++
+  return a === b || common >= 4
+}
+
+/**
+ * A link to a part of this page that the page names, while the link names nothing of it: the part's id and its text
+ * share a word that is not the site's own name ("#hours" over "Opening hours: Monday to Friday"), and no word of the
+ * link's text, its context, its heading, its header cells or its description is among the id's or the part's words. A
+ * heading's part is the section it opens, not its name alone. A table of contents entry that points to another section
+ * fails this way. Left out, because they name a region or a control, not a subject: links whose text moves within the
+ * page (skip links, "back to top", a carousel's arrows), and links to a landmark, a control or a form field, to a part
+ * of the site's chrome, its search or a form, or to a part that holds one of these. So is a link whose capitals the
+ * initials of the part's name or id spell ("FAQ" and "Frequently asked questions"). The link's text must say something
+ * of its own: a generic text, an address or a number is another question. What the fact cannot tell is a synonym or a
+ * translation ("Contato" and "Fale conosco"): those still rest on the model's reading.
+ */
+export function namesNoPartOf(c: LinkFacts): boolean {
+  const part = c.part
+  if (!part || c.target === undefined || part.region || REGION_ROLES.has(part.role)) return false
+  if (genericLinkText(c.name) || addressText(c.name) || meaningWords(c.name).length === 0) return false
+  if (MOVES_WITHIN.test(plainText(c.name)) || abbreviates(c.name, part)) return false
+  const site = new Set(part.siteWords)
+  const partWords = meaningWords(part.text)
+  const fromId = idWords(part.id).filter((word) => !site.has(word))
+  if (!fromId.some((word) => partWords.some((other) => sameWord(word, other)))) return false
+  const names = [...fromId, ...partWords]
+  const promised = [c.name, c.context, c.heading, c.headers, c.description].flatMap(meaningWords)
+  // Read loosely on purpose: a word of the link that may be a form of one of the part's names keeps the claim a reading.
+  return !promised.some((word) => names.some((name) => relatedWord(word, name)))
+}
+
+/** A text in lowercase, without accents and with punctuation as spaces: "« Próximo »" is "proximo". */
+function plainText(text: string): string {
+  return folded(text).replace(/[^\p{L}\p{N}]+/gu, ' ').trim()
+}
+
+/** A word of the link in capitals ("FAQ", "GDP") that the initials of the heading's name or of the id's words spell. */
+function abbreviates(name: string, part: SamePagePart): boolean {
+  const tokens = name.split(/[^\p{L}\p{N}]+/u).filter((token) => /^\p{Lu}[\p{Lu}\p{N}]{1,7}s?$/u.test(token))
+  if (tokens.length === 0) return false
+  const expansions = [part.name, part.id.replace(/([\p{Ll}\p{N}])(\p{Lu})/gu, '$1 $2').replace(/[_.:-]+/g, ' ')].filter((text): text is string => Boolean(text))
+  return tokens.some((token) => expansions.some((expansion) => initialsMatch(token, expansion)))
+}
+
+/** What verification reads of a part: a heading's section (its name, then what follows up to the next heading of its level or higher), or any other part's text. */
+function partText(root: A11yNode, part: A11yNode, sections: Map<string, string>): string {
+  if (part.role !== 'heading') return truncate(subtreeText(part), PART_TEXT)
+  const known = sections.get(part.ref)
+  if (known !== undefined) return known
+  const level = headingLevel(part)
+  const parts: string[] = []
+  let length = 0
+  let state: 'before' | 'in' | 'done' = 'before'
+  const visit = (node: A11yNode): void => {
+    if (state === 'done' || isHidden(node)) return
+    if (node === part) {
+      const own = part.name?.trim() || subtreeText(part)
+      parts.push(own)
+      length += own.length
+      state = 'in'
+      return
+    }
+    if (state === 'in') {
+      if (node.role === 'heading' && headingLevel(node) <= level) {
+        state = 'done'
+        return
+      }
+      const own = [node.text, node.role === 'img' ? node.name : undefined].filter(Boolean).join(' ')
+      if (own) {
+        parts.push(own)
+        length += own.length
+        if (length >= PART_TEXT) {
+          state = 'done'
+          return
+        }
+      }
+    }
+    for (const child of node.children) visit(child)
+  }
+  visit(root)
+  const text = truncate(parts.join(' ').replace(/\s+/g, ' ').trim(), PART_TEXT)
+  sections.set(part.ref, text)
+  return text
+}
+
+/** Whether a part is a region or a control rather than a subject (`SamePagePart.region`). */
+function structuralPart(index: TreeIndex, part: A11yNode): boolean {
+  if (REGION_ROLES.has(part.role) || CONTROL_ROLES.has(part.role)) return true
+  for (let ref = index.get(part.ref)?.parentRef; ref !== undefined; ref = index.get(ref)?.parentRef) {
+    const role = index.get(ref)?.node.role
+    if (role && AROUND_PART.has(role)) return true
+  }
+  const holds = (node: A11yNode): boolean => node.children.some((child) => HELD_BY_PART.has(child.role) || holds(child))
+  return holds(part)
+}
+
+/** The words of the site's own name: its host's labels and its title's words. */
+function siteWordsOf(snapshot: A11ySnapshot): string[] {
+  let host: string[] = []
+  try {
+    host = new URL(snapshot.target).hostname.split('.').filter((label) => label.length >= 3 && !['www', 'com', 'org', 'net', 'gov', 'edu'].includes(label))
+  } catch {
+    host = []
+  }
+  return [...new Set([...host.flatMap(meaningWords), ...meaningWords(snapshot.title)])].sort()
+}
+
+/**
+ * For a link that is all its table cell holds: the text of the other data cells of its row, when no cell of the row is
+ * a header cell. ACT 5effbb's Failed Example 6 is "Ulysses | Download | 1.61MB" under a header "Books": the title is in
+ * the row, but not in the link's context.
+ */
+function rowSubjectOf(index: TreeIndex, node: A11yNode): string | undefined {
+  let cell: A11yNode | undefined
+  let row: A11yNode | undefined
+  for (let ref = index.get(node.ref)?.parentRef; ref !== undefined; ref = index.get(ref)?.parentRef) {
+    const current = index.get(ref)?.node
+    if (!current) break
+    if (!cell) {
+      if (HEADER_ROLES.has(current.role)) return undefined
+      if (CELL_ROLES.has(current.role)) cell = current
+    } else if (current.role === 'row') {
+      row = current
+      break
+    } else if (TABLE_ROLES.has(current.role)) break
+  }
+  if (!cell || !row || /[\p{L}\p{N}]/u.test(textOutsideLinks(cell))) return undefined
+  if (row.children.some((child) => HEADER_ROLES.has(child.role))) return undefined
+  // A size or a format beside the link ("1.61MB", "PDF") is no subject; a name is, unless a header cell names it too.
+  const named = new Set((cellHeaders(index, node) ?? '').split(' | ').flatMap(meaningWords))
+  const others = row.children
+    .filter((child) => child !== cell && CELL_ROLES.has(child.role))
+    .map((child) => subtreeText(child))
+    .filter((text) => !namesOnlyFileKind(text) && meaningWords(text).some((word) => !named.has(word)))
+  return others.length > 0 ? truncate(others.join(' | '), 200) : undefined
+}
+
+/** The first link in a subtree, with its name. */
+function firstLink(node: A11yNode): A11yNode | undefined {
+  if (node.role === 'link' && node.name?.trim()) return node
+  for (const child of node.children) {
+    const found = firstLink(child)
+    if (found) return found
+  }
+  return undefined
+}
+
+/**
+ * The link is all its list item holds, and the list holds two such links or more that do not all name only a file's
+ * kind: a menu, as a site's header or a category carousel is, where each item names a section. A list of one document's
+ * formats ("HTML", "EPUB", "Plain text") is no menu.
+ */
+function inMenu(index: TreeIndex, node: A11yNode, lists: Map<string, boolean>): boolean {
+  let ref = index.get(node.ref)?.parentRef
+  let item: A11yNode | undefined
+  for (let depth = 0; ref !== undefined && depth < 3; depth++) {
+    const parent = index.get(ref)
+    if (!parent) break
+    if (parent.node.role === 'listitem') {
+      item = parent.node
+      break
+    }
+    ref = parent.parentRef
+  }
+  if (!item || /[\p{L}\p{N}]/u.test(textOutsideLinks(item))) return false
+  const listRef = index.get(item.ref)?.parentRef
+  const list = listRef === undefined ? undefined : index.get(listRef)?.node
+  if (!list || list.role !== 'list') return false
+  // Read once per list: a listing of hundreds of links asks the same question of each.
+  let menu = lists.get(list.ref)
+  if (menu === undefined) {
+    const names = list.children
+      .filter((child) => child.role === 'listitem' && !/[\p{L}\p{N}]/u.test(textOutsideLinks(child)))
+      .map((child) => firstLink(child)?.name?.trim())
+      .filter((name): name is string => Boolean(name))
+    menu = names.length >= 2 && !names.every((name) => kindOnlyLinkText(name))
+    lists.set(list.ref, menu)
+  }
+  return menu
+}
+
+/**
+ * A link a fail could be a finding about: its text is generic, names only a file's kind with nothing around it, or is an
+ * address, it shares its text with links that lead elsewhere, or it leads to a part of this page that the page names
+ * and the link does not (`namesNoPartOf`).
+ */
+function groundable(c: LinkFacts): boolean {
+  return groundedLink('generic', c) || addressText(c.name) || groundedLink('ambiguous', c) || groundedLink('mismatch', c)
 }
 
 /** What a page or a file at the link's address is, in one line for the prompt. */

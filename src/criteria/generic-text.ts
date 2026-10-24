@@ -11,8 +11,11 @@ import { defaultTitle, placeholderText } from '../rules/content.ts'
  *
  * - 2.4.4: a claim that a link says nothing is a finding only when its text is one of these and the link has no
  *   context of its own (sentence, paragraph, list item, cell, header cells, description) that could complete it
- *   (`Criterion.grounded` in link-purpose.ts). 2.4.6: a claim that a heading or label says nothing is a finding only
- *   when its text is one of these, or another fact shows it names nothing (headings-and-labels.ts, `saysNothing`).
+ *   (`Criterion.grounded` in link-purpose.ts), or when it names only a file's format ("HTML") and nothing in its context
+ *   says which document, or only its download ("Download") in a table row whose document is a data cell
+ *   (`kindOnlyLinkText`). 2.4.6: a claim that a heading or label says nothing is a
+ *   finding only when its text is one of these, or another fact shows it names nothing (headings-and-labels.ts,
+ *   `saysNothing`).
  *   Any other claim is the model's suggestion, in the report's needsReview, never a failure.
  * - 2.4.2: a judgment about a title on these lists keeps its confidence, and one about any other title is reported at
  *   low confidence, below the default threshold.
@@ -52,6 +55,60 @@ function followOnly(text: string): boolean {
   const words = normalize(text).split(/[\s,'’-]+/).filter(Boolean)
   if (words.length < 2 || words.length > 6) return false
   return words.every((word) => FOLLOW_VERBS.has(word) || POINTERS.has(word) || FILLERS.has(word)) && words.some((word) => FOLLOW_VERBS.has(word)) && words.some((word) => POINTERS.has(word))
+}
+
+/**
+ * The words of a link text that names only what kind of file it gets, never which document: a format ("HTML", "EPUB",
+ * "Plain text", "PDF"), the act of getting it ("Download", "Baixar"), a size, and filler. WCAG's own examples of a
+ * context completing a link are of this kind ("PDF" and "DOCX" in a list under a report's name; ACT 5effbb's "HTML",
+ * "EPUB" and "Plain text" under a book's title, and its "Download" in the book's table row). Unlike "Click here", such a
+ * text says what happens, so it is not on the generic list: what it leaves out is which document, and only its
+ * context can say that (link-purpose.ts, `groundedLink`).
+ */
+const FILE_FORMATS = new Set([
+  'html', 'htm', 'pdf', 'epub', 'mobi', 'azw', 'txt', 'rtf', 'doc', 'docx', 'odt', 'xls', 'xlsx', 'ods', 'csv', 'ppt', 'pptx', 'odp',
+  'zip', 'rar', '7z', 'mp3', 'mp4', 'ogg', 'wav', 'webm', 'json', 'xml', 'kml', 'gpx',
+])
+/** Two-word formats, matched as one: "Plain text", "Texto simples". */
+const FILE_FORMAT_PHRASES = ['plain text', 'texto simples', 'texto plano', 'texto sem formatação', 'texto sin formato']
+const FETCH_WORDS = new Set(['download', 'downloads', 'baixar', 'baixe', 'descargar', 'descarga', 'descargue'])
+const FILE_FILLERS = new Set([
+  'version', 'versão', 'versao', 'versión', 'format', 'formato', 'file', 'arquivo', 'archivo', 'document', 'documento', 'the', 'a', 'an', 'in', 'as',
+  'o', 'em', 'no', 'na', 'do', 'da', 'de', 'el', 'en', 'del', 'fazer', 'faça', 'faca', 'kb', 'mb', 'gb', 'bytes',
+])
+
+/** A size: a number with its unit, "1.61MB", "2 MB", "1,2 GB", "200k". */
+const FILE_SIZE = /\b\d+(?:[.,]\d+)?\s?(?:[kmgt]i?b|bytes?|[km])\b/g
+
+/**
+ * The words of a text, without sizes ("1.61MB", "2 MB") and with two-word formats read as one. A token with no letter
+ * or digit is left out: an icon font's glyph before "Baixar PDF" is no word. A number with no unit stays a word: a
+ * year or an edition ("2024 (PDF)", "751 PDF") says which document.
+ */
+function fileWords(name: string): string[] {
+  let text = normalize(name).replace(FILE_SIZE, ' ').replace(/[()[\],;:|/·–—-]+/g, ' ')
+  for (const phrase of FILE_FORMAT_PHRASES) text = ` ${text} `.replace(` ${phrase} `, ' txt ').trim()
+  return text.split(/\s+/).filter((word) => /[\p{L}\p{N}]/u.test(word))
+}
+
+const isFormat = (word: string) => FILE_FORMATS.has(word.replace(/^\./, ''))
+const fileWord = (word: string) => isFormat(word) || FETCH_WORDS.has(word) || FILE_FILLERS.has(word)
+
+/** A link text made only of a file's format, the act of getting it, its size and filler: "HTML", "Download PDF", "EPUB (1.2 MB)". */
+export function kindOnlyLinkText(name: string): boolean {
+  const words = fileWords(name)
+  if (words.length === 0 || words.length > 5) return false
+  return words.every(fileWord) && words.some((word) => isFormat(word) || FETCH_WORDS.has(word))
+}
+
+/** A text that names a file format ("HTML", "Download PDF"), not only the act of getting a file ("Download"). */
+export function namesFileFormat(name: string): boolean {
+  return fileWords(name).some(isFormat)
+}
+
+/** A text that says nothing but a file's kind or size, or nothing at all: "1.61MB", "PDF", "". */
+export function namesOnlyFileKind(text: string): boolean {
+  return fileWords(text).every(fileWord)
 }
 
 /** A raw address or a file name shown as the link text. */

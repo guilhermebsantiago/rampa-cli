@@ -33,7 +33,7 @@ export const NonTextContentJudgment = z.strictObject({
     .describe('pass: the text alternative serves the same purpose as the image here; fail: it does not; cannot_tell: the image cannot be read'),
   evidence: z.string().describe('The current text alternative, copied exactly'),
   problem: z.enum(PROBLEMS).describe('What is wrong with the current text alternative, or none'),
-  imageShows: z.string().describe('What the image shows, in one short sentence'),
+  imageShows: z.string().describe('What the image shows, in one short sentence in the requested language'),
   suggestedAlt: z.string().describe('A better text alternative in the requested language, under 125 characters; empty when the image is decorative'),
   confidence: z.enum(['low', 'medium', 'high']),
 })
@@ -89,8 +89,8 @@ Decide whether the current text alternative serves the same purpose as the image
 - "cannot_tell" when the image is blank, unreadable, or its purpose cannot be inferred.
 Copy the current text alternative exactly into evidence.
 Set problem to what is wrong, or "none" on a pass. Use "decorative" only if the image adds nothing and should be ignored by screen readers.
-Describe what the image shows in imageShows, in one short English sentence.
-Write suggestedAlt in the requested language: what the image conveys in this context, under 125 characters, without "image of" or "picture of". Leave it empty only for decorative images.
+Describe what the image shows in imageShows, in one short sentence in the requested language, the language of the text alternative.
+Write suggestedAlt in the requested language too: what the image conveys in this context, under 125 characters, without "image of" or "picture of". Leave it empty only for decorative images.
 Reply only with JSON that matches the schema.`
 
 /**
@@ -219,13 +219,17 @@ function purposeWords(text: string): Set<string> {
 }
 
 /**
- * Every word the current alternative names is still in the suggested one: "Lula" in "Lula com um selo de 16%",
- * "Pinacoteca" in "Pinacoteca de São Paulo". A claim that the alternative names what the image does not show
- * contradicts the model's own suggestion, which keeps naming it.
+ * Every word the current alternative names is still in the model's own answer, its suggestion or its description of
+ * the image: "Lula" in "Lula com um selo de 16%", "Pinacoteca" in "Pinacoteca de São Paulo", "Boletim InfoGripe" in
+ * "Mapa do Brasil com estados coloridos indicando dados do Boletim InfoGripe". A claim that the alternative names what
+ * the image does not show contradicts an answer that keeps naming it. Both are asked in the alternative's language,
+ * so its words can meet them; a name or a number ("InfoGripe", "751") reads the same in any language, so it meets
+ * them even when a model writes its description in English anyway.
  */
-export function keepsAlternative(suggested: string, current: string): boolean {
+export function keepsAlternative(answer: string | ReadonlyArray<string>, current: string): boolean {
   const named = [...purposeWords(current)]
-  const words = new Set([...altWords(suggested), ...tokens(suggested)])
+  const texts = typeof answer === 'string' ? [answer] : answer
+  const words = new Set(texts.flatMap((text) => [...altWords(text), ...tokens(text)]))
   return named.length > 0 && named.every((word) => words.has(word))
 }
 
@@ -544,7 +548,8 @@ export function looksLikePlaceholder(alt: string, src?: string): boolean {
 export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutput> = {
   id: '1.1.1',
   level: 'A',
-  version: '4',
+  // 5: imageShows is written in the alternative's language, as suggestedAlt is, so the two can be compared with it.
+  version: '5',
   act: ['23a2a8', 'qt1vmo', 'e88epe'],
   surfaces: ['web', 'android', 'ios', 'windows', 'macos', 'image'],
   needs: { vision: true },
@@ -646,7 +651,7 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
     const f = c.functional
     const user = [
       `Surface: ${snapshot.surface}`,
-      `Write suggestedAlt in: ${languageName(c.language, 'en')} (${c.language})`,
+      `Write imageShows and suggestedAlt in: ${languageName(c.language, 'en')} (${c.language})`,
       `Current text alternative: "${c.alt}"`,
       c.src ? `Image file name: ${c.src}` : undefined,
       f ? functionalGuidance(f.control) : c.actionText ? `The image is inside a link or button named: "${c.actionText}"` : undefined,
@@ -703,6 +708,11 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
       // "Names what the image does not show", with a suggestion that keeps naming it: the claim contradicts itself.
       if (output.problem === 'wrong_content' && words && keepsAlternative(output.suggestedAlt, alt)) {
         return { ok: false, reason: 'the suggested alternative keeps every word of the current one' }
+      }
+      // The same with the model's description of the image, written in the alternative's language since version 5:
+      // the model says the image shows every word the alternative names.
+      if (output.problem === 'wrong_content' && words && keepsAlternative([output.imageShows, output.suggestedAlt], alt)) {
+        return { ok: false, reason: "the model's description of the image keeps every word of the current alternative" }
       }
     }
     return { ok: true }
