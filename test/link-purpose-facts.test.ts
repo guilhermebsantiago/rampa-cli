@@ -57,6 +57,9 @@ describe('a link text that names only what kind of file it gets', () => {
     for (const name of ['Workshop', 'Tables', 'Download Debian', 'Getting Debian', 'Word', 'HTML Demo: <a>', 'Annual report 2025 (PDF)', '1.61MB', '']) {
       expect(kindOnlyLinkText(name), name).toBe(false)
     }
+    // A size has a unit; a number without one, a year or an edition, says which document.
+    for (const name of ['ZIP 1,2 GB', 'Download (1.61MB)', 'PDF 200k']) expect(kindOnlyLinkText(name), name).toBe(true)
+    for (const name of ['2024 (PDF)', '751 PDF', 'PDF 2']) expect(kindOnlyLinkText(name), name).toBe(false)
     // An icon font's glyph before the words (unicamp.br's "Baixar PDF" link, as the browser names it) is no word.
     expect(kindOnlyLinkText('\uf019 Baixar PDF')).toBe(true)
     expect(kindOnlyLinkText('\uf019')).toBe(false)
@@ -85,6 +88,35 @@ describe('a link text that names only what kind of file it gets', () => {
     const menu = ul('menu', li('m1', link('#about', 'About Debian', '/intro/about')), li('m2', link('#download', 'Download', '/download')), li('m3', link('#news', 'News', '/News/')))
     expect(facts(page([menu])).map((c) => c.menu)).toEqual([true, true, true])
     expect(generic(page([menu]))).toEqual([false, false, false])
+  })
+
+  it("leaves the site's header to the model however deep the link sits: a section in a header is still the header", () => {
+    // The collector reads every <section> as a region, so the closest landmark of these links is "region".
+    const header = (...links: A11yNode[]) =>
+      node({ ref: 'header', role: 'banner', native: { tag: 'header' }, children: [node({ ref: 'cta', role: 'region', native: { tag: 'section' }, children: links })] })
+    const snapshot = page([header(link('#dl', 'Download', '/download'), link('#pdf', 'PDF', '/manual.pdf')), h2('h', 'The project')])
+    expect(facts(snapshot).map((c) => [c.landmark, c.chrome])).toEqual([['region', true], ['region', true]])
+    expect(generic(snapshot)).toEqual([false, false])
+  })
+
+  it('leaves a "Download" with no format to the model outside a table row: it names an action or a download page', () => {
+    // A top bar of plain links before the first heading, in no landmark and no list.
+    const bar = node({ ref: 'bar', native: { tag: 'div' }, children: [link('#dl', 'Downloads', '/downloads'), link('#c', 'Contato', '/contato')] })
+    expect(generic(page([bar, h2('h', 'Prefeitura')]))).toEqual([false, false])
+    expect(generic(page([p('p1', link('#dl', 'Download', '/u.htm'))]))).toEqual([false])
+    expect(generic(page([p('p1', link('#dl', 'Baixar', '/u.htm'))]))).toEqual([false])
+    // With a format, the same link names only the file's kind.
+    expect(generic(page([p('p1', link('#dl', 'Download PDF', '/u.pdf'))]))).toEqual([true])
+  })
+
+  it('grounds a "Baixar" whose document is a data cell of its row, on a Portuguese page', () => {
+    const editais = table(
+      row('r1', spanning(cell('h', 'columnheader', text('ht', 'Editais')))),
+      row('r2', at(0, cell('c1', 'cell', text('e', 'Edital 12/2026 de bolsas'))), at(1, cell('c2', 'cell', link('#dl', 'Baixar', '/edital-12.pdf'))), at(2, cell('c3', 'cell', text('s', '350 KB')))),
+    )
+    const [baixar] = facts(page([editais], 'https://www.prefeitura.example.br/editais'))
+    expect(baixar).toMatchObject({ headers: 'Editais', rowSubject: 'Edital 12/2026 de bolsas' })
+    expect(groundedLink('generic', baixar!)).toBe(true)
   })
 
   it('grounds a "Download" whose book is a data cell of its row, not a row header (ACT 5effbb Failed Example 6)', () => {
@@ -145,6 +177,75 @@ describe('a link to a part of this page that its text names nothing of', () => {
     for (const [name, href, target] of cases) {
       expect(mismatch(page([link('#a', name, href), target], 'https://www.health.example/')), name).toEqual([false])
     }
+  })
+
+  it('leaves skip links to the model whatever their target holds: a menu item, the search field, a wrapper, the footer', () => {
+    const gov = 'https://www.servicos.example.gov.br/'
+    const nav = (...children: A11yNode[]) => node({ ref: 'nav', role: 'navigation', native: { tag: 'nav' }, children })
+    const button = (ref: string, id: string, name: string) => node({ ref, role: 'button', name, native: { tag: 'button', attributes: { id } }, children: [text(`${ref}-t`, name)] })
+    const cases: Array<[string, A11yNode[]]> = [
+      // berkeley.edu's dev shape ("Skip to main menu" to the menu's first button, "About"), with an id that names the item.
+      ['berkeley', [link('#s', 'Skip to main menu', '#about'), nav(ul('m', li('m1', button('#about', 'about', 'About'))))]],
+      ['menu link', [link('#s', 'Go to the menu', '#about'), nav(ul('m', li('m1', node({ ref: '#about', role: 'link', name: 'About us', native: { tag: 'a', attributes: { id: 'about', href: '/about' } }, children: [text('a', 'About us')] }))))]],
+      // gov.br's "Ir para a busca" to a wrapper around the search field.
+      ['search', [link('#s', 'Ir para a busca', '#portal-searchbox'), node({ ref: '#box', native: { tag: 'div', attributes: { id: 'portal-searchbox' } }, children: [text('l', 'Pesquisar no portal'), node({ ref: '#q', role: 'searchbox', native: { tag: 'input' } })] })]],
+      ['wrapper', [link('#s', 'Navegação', '#portal-mainnav'), node({ ref: '#w', native: { tag: 'div', attributes: { id: 'portal-mainnav' } }, children: [nav(ul('m', li('m1', link('#n1', 'Portal', '/')), li('m2', link('#n2', 'Notícias', '/noticias'))))] })]],
+      ['footer', [link('#s', 'Ir para o rodapé', '#portal-footer'), part('#f', 'generic', 'portal-footer', 'Portal da Transparência · Ouvidoria')]],
+      ['top', [part('#t', 'generic', 'topo', 'Topo: Portal de Serviços'), link('#s', 'Voltar ao topo', '#topo')]],
+    ]
+    for (const [label, children] of cases) expect(mismatch(page(children, gov)).filter(Boolean), label).toEqual([])
+  })
+
+  it("leaves a carousel's arrows, a reply and a permalink to the model", () => {
+    const slides = part('#c', 'generic', 'carouselNoticias', 'Notícias: Governo anuncia novo programa de saúde')
+    expect(mismatch(page([slides, link('#n', 'Próximo »', '#carouselNoticias'), link('#p', 'Anterior', '#carouselNoticias')]))).toEqual([false, false])
+    const thanks = part('#o', 'generic', 'obrigado', 'Obrigado pela avaliação!')
+    expect(mismatch(page([p('q', text('q1', 'Esta página foi útil?'), link('#y', 'Sim', '#obrigado'), link('#no', 'Não', '#obrigado')), thanks]))).toEqual([false, false])
+    const configuration = node({ ref: '#config', role: 'heading', name: 'Configuration', native: { tag: 'h2', attributes: { id: 'configuration' } }, children: [text('c', 'Configuration')] })
+    expect(mismatch(page([link('#pl', 'Permalink', '#configuration'), configuration]))).toEqual([false])
+  })
+
+  it('leaves to the model a link to a part that holds a form field, such as a feedback form', () => {
+    const form = node({ ref: '#fb', native: { tag: 'div', attributes: { id: 'feedback' } }, children: [text('f', 'Feedback: tell us what to improve'), node({ ref: '#ta', role: 'textbox', native: { tag: 'textarea' } })] })
+    expect(mismatch(page([p('q', text('q1', 'Was this page useful?'), link('#r', 'Report a problem', '#feedback')), form]))).toEqual([false])
+  })
+
+  it("reads a heading's section, not its name alone, and an abbreviation its initials spell", () => {
+    const h = (ref: string, id: string, name: string) => node({ ref, role: 'heading', name, native: { tag: 'h2', attributes: { id } }, children: [text(`${ref}-t`, name)] })
+    // "GDP" in the section the heading opens.
+    const gdp = page([p('i', text('i1', 'Quarterly'), link('#g', 'GDP', '#gross-domestic-product'), text('i2', 'figures are revised.')), h('#gdp', 'gross-domestic-product', 'Gross Domestic Product'), p('s', text('s1', 'Quarterly GDP grew by 0.3%.')), h('#inf', 'inflation', 'Inflation')])
+    expect(facts(gdp)[0]?.part?.text).toBe('Gross Domestic Product Quarterly GDP grew by 0.3%.')
+    expect(mismatch(gdp)).toEqual([false])
+    // "FAQ" for "Frequently asked questions", with nothing in the section that says FAQ.
+    expect(mismatch(page([ul('toc', li('t1', link('#f', 'FAQ', '#faq-section'))), h('#q', 'faq-section', 'Frequently asked questions'), p('a', text('a1', 'How do I apply?'))]))).toEqual([false])
+    // A table of contents entry pointing to a section whose text names the entry is no mismatch either.
+    expect(mismatch(page([ul('toc', li('t1', link('#i', 'Installation', '#configuration'))), h('#c', 'configuration', 'Configuration'), p('c1', text('c1t', 'After installation, set the options.'))]))).toEqual([false])
+    // The section ends at the next heading of its level: what follows it is another section.
+    expect(mismatch(page([ul('toc', li('t1', link('#i', 'Installation', '#configuration'))), h('#c', 'configuration', 'Configuration'), h('#n', 'installation', 'Installation'), p('n1', text('n1t', 'Run the installer.'))]))).toEqual([true])
+  })
+
+  it('reads the first element with an id, as a browser goes to it, when a template repeats the id', () => {
+    const first = part('#d1', 'generic', 'destaques', 'Destaques da semana: museu reabre')
+    const second = part('#d2', 'generic', 'destaques', 'Portal')
+    const [c] = facts(page([link('#a', 'Destaques', '#destaques'), first, second]))
+    expect(c?.target).toBe('Destaques da semana: museu reabre')
+    expect(c?.part?.text).toBe('Destaques da semana: museu reabre')
+    expect(groundedLink('mismatch', c!)).toBe(false)
+  })
+
+  it('still grounds a Portuguese table of contents entry pointing to another section, and pins what it cannot tell', () => {
+    const h = (ref: string, id: string, name: string) => node({ ref, role: 'heading', name, native: { tag: 'h2', attributes: { id } }, children: [text(`${ref}-t`, name)] })
+    const gov = 'https://www.servicos.example.gov.br/'
+    expect(mismatch(page([ul('toc', li('t1', link('#i', 'Documentos necessários', '#horarios'))), h('#h', 'horarios', 'Horários de atendimento'), p('h1', text('h1t', 'Segunda a sexta, das 8h às 17h.'))], gov))).toEqual([true])
+    // A synonym or a translation shares no word with the part, so the fact holds and only the model's verdict decides:
+    // "Contato" for "Fale conosco" is a limit of the fact (docs/criteria.md), not a mismatch.
+    expect(mismatch(page([ul('toc', li('t1', link('#c', 'Contato', '#fale-conosco'))), h('#f', 'fale-conosco', 'Fale conosco'), p('f1', text('f1t', 'Telefone 0800 000 0000.'))], gov))).toEqual([true])
+  })
+
+  it('never reads a hash route as a part of the page: no element has the id "/products"', () => {
+    const app = node({ ref: '#app', native: { tag: 'div', attributes: { id: 'app' } }, children: [ul('m', li('m1', link('#p', 'Produtos', '#/products')), li('m2', link('#c', 'Carrinho', '#!/cart')))] })
+    expect(facts(page([app])).map((c) => c.part)).toEqual([undefined, undefined])
+    expect(mismatch(page([app]))).toEqual([false, false])
   })
 
   it('never grounds a mismatch with another page, whose title is a summary ("Declaração de Cookies" and a privacy notice)', () => {

@@ -11,8 +11,9 @@ import { defaultTitle, placeholderText } from '../rules/content.ts'
  *
  * - 2.4.4: a claim that a link says nothing is a finding only when its text is one of these and the link has no
  *   context of its own (sentence, paragraph, list item, cell, header cells, description) that could complete it
- *   (`Criterion.grounded` in link-purpose.ts), or when it names only a file's kind ("HTML", "Download") and nothing in
- *   its context says which document (`kindOnlyLinkText`). 2.4.6: a claim that a heading or label says nothing is a
+ *   (`Criterion.grounded` in link-purpose.ts), or when it names only a file's format ("HTML") and nothing in its context
+ *   says which document, or only its download ("Download") in a table row whose document is a data cell
+ *   (`kindOnlyLinkText`). 2.4.6: a claim that a heading or label says nothing is a
  *   finding only when its text is one of these, or another fact shows it names nothing (headings-and-labels.ts,
  *   `saysNothing`).
  *   Any other claim is the model's suggestion, in the report's needsReview, never a failure.
@@ -73,17 +74,21 @@ const FILE_FORMAT_PHRASES = ['plain text', 'texto simples', 'texto plano', 'text
 const FETCH_WORDS = new Set(['download', 'downloads', 'baixar', 'baixe', 'descargar', 'descarga', 'descargue'])
 const FILE_FILLERS = new Set([
   'version', 'versão', 'versao', 'versión', 'format', 'formato', 'file', 'arquivo', 'archivo', 'document', 'documento', 'the', 'a', 'an', 'in', 'as',
-  'o', 'em', 'no', 'na', 'do', 'da', 'de', 'el', 'en', 'del', 'fazer', 'faça', 'faca', 'kb', 'mb', 'gb', 'bytes', 'k', 'm',
+  'o', 'em', 'no', 'na', 'do', 'da', 'de', 'el', 'en', 'del', 'fazer', 'faça', 'faca', 'kb', 'mb', 'gb', 'bytes',
 ])
+
+/** A size: a number with its unit, "1.61MB", "2 MB", "1,2 GB", "200k". */
+const FILE_SIZE = /\b\d+(?:[.,]\d+)?\s?(?:[kmgt]i?b|bytes?|[km])\b/g
 
 /**
  * The words of a text, without sizes ("1.61MB", "2 MB") and with two-word formats read as one. A token with no letter
- * or digit is left out: an icon font's glyph before "Baixar PDF" is no word.
+ * or digit is left out: an icon font's glyph before "Baixar PDF" is no word. A number with no unit stays a word: a
+ * year or an edition ("2024 (PDF)", "751 PDF") says which document.
  */
 function fileWords(name: string): string[] {
-  let text = normalize(name).replace(/[()[\],;:|/·–—-]+/g, ' ')
+  let text = normalize(name).replace(FILE_SIZE, ' ').replace(/[()[\],;:|/·–—-]+/g, ' ')
   for (const phrase of FILE_FORMAT_PHRASES) text = ` ${text} `.replace(` ${phrase} `, ' txt ').trim()
-  return text.split(/\s+/).filter((word) => /[\p{L}\p{N}]/u.test(word) && !/^\d+([.,]\d+)?(kb|mb|gb)?$/.test(word))
+  return text.split(/\s+/).filter((word) => /[\p{L}\p{N}]/u.test(word))
 }
 
 const isFormat = (word: string) => FILE_FORMATS.has(word.replace(/^\./, ''))
@@ -94,6 +99,11 @@ export function kindOnlyLinkText(name: string): boolean {
   const words = fileWords(name)
   if (words.length === 0 || words.length > 5) return false
   return words.every(fileWord) && words.some((word) => isFormat(word) || FETCH_WORDS.has(word))
+}
+
+/** A text that names a file format ("HTML", "Download PDF"), not only the act of getting a file ("Download"). */
+export function namesFileFormat(name: string): boolean {
+  return fileWords(name).some(isFormat)
 }
 
 /** A text that says nothing but a file's kind or size, or nothing at all: "1.61MB", "PDF", "". */
