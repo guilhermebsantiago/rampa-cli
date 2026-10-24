@@ -1,0 +1,114 @@
+{
+  "page": "https://www.cnj.jus.br/ouvidoria-cnj/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "07710eb4dd17",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 24px Brazilian flag inside the GTranslate language link <a title=\"Portuguese\"><img alt=\"pt\"> <span>PT</span></a> in the top bar (Chrome link name 'pt PT'). In a language switcher the flag is a functional image that stands for the Portuguese language, and 'pt' names exactly that. The visible text 'PT' and the title 'Portuguese' say the same thing. 1.1.1 asks for an alternative that serves the same purpose, not a description of the flag's appearance, so the alt does not describe anything the image fails to show. At worst it repeats the adjacent text, which is a best-practice point (H2), not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "5a489ce4c6ca",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the UK flag inside the GTranslate link <a title=\"English\"><img alt=\"en\"> <span>EN</span></a> in the top bar. The flag is a functional image standing for the English language, and 'en' is the English language code, matching the visible 'EN' and the title 'English'. The alternative serves the image's purpose (choose English). Not mentioning a flag or the UK is correct for a functional image, so this is no 1.1.1 failure. The redundancy with the adjacent text is only a best-practice point."
+    },
+    {
+      "fingerprint": "f4ed4c9dcd08",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the Spanish flag inside the GTranslate link <a title=\"Spanish\"><img alt=\"es\"> <span>ES</span></a> in the top bar. The flag stands for the Spanish language, and 'es' is its code, matching the visible 'ES' and the title. The alt serves the purpose of the image in the language switcher and does not claim anything the image does not show. No 1.1.1 failure."
+    },
+    {
+      "fingerprint": "e63beb5ad291",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 851x251 banner at the top of the content column (not a link). The crop and the screenshot show a dark green banner with white lettering 'Ouvidoria CNJ' and 'Cada vez mais próxima do cidadão', speech-bubble icons and the Poder Judiciário and CNJ marks. The alt 'banner web da ouvidoria do cnj. Fundo verde com letras brancas' is accurate: it is the Ouvidoria CNJ web banner, with a green background and white letters. Nothing it describes is missing from the image, so the claim is wrong. Separately, the alt leaves out the slogan in this image of text. An auditor could raise that as an incomplete alternative under 1.1.1, but that is not the reason the finding gives."
+    },
+    {
+      "fingerprint": "e0cf6908eed0",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the icon on the Rybená 'Voz' (text-to-speech) button in the fixed left sidebar (x 5, y 370): a speaking head with sound waves, the only visible part of the button. Its alt is 'Botão Rybená LIBRAS', copied from the sign-language button. The live rybena.js still gives all three button images this alt. The image shows nothing to do with LIBRAS (sign language). Chrome builds the button's name from its contents as 'Botão Rybená LIBRAS Voz', so screen reader users are told it is the LIBRAS button. An alternative that names the wrong function does not serve the same purpose as the image, so this fails 1.1.1 as reported."
+    },
+    {
+      "fingerprint": "4ae46ced8f30",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the crossed-out eye icon on the Rybená '+ Acessibilidade' (vision tools) button at x 5, y 420; its text label is hidden until hover. The alt is again 'Botão Rybená LIBRAS', the sign-language button's alt (confirmed in the live rybena.js). Chrome names the button 'Botão Rybená LIBRAS + Acessibilidade'. The image is a vision/accessibility symbol, not LIBRAS, so the alternative misidentifies it and does not serve the same purpose. This fails 1.1.1 as the finding says."
+    },
+    {
+      "fingerprint": "9864f1b69697",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the text of the first link, 'Acesso à informação', in the white 'Saiba mais' sidebar box, at 16px and weight 400. The theme sets a{color:#2ca7df}, which is still in the live page's CSS. I sampled the screenshot pixels: #2ca7df text on #ffffff, 2.73:1, and the sibling links measure the same. The fixed Rybená sidebar overlaps the link box by a few pixels, which is why axe could not decide, but it does not cover the text. Normal-size text needs 4.5:1. The page offers no high-contrast switch (its contrast stylesheet is commented out), so this fails 1.4.3."
+    },
+    {
+      "fingerprint": "5ae543adc1a8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the OneTrust cookie-banner paragraph, fixed at the bottom of the viewport when the page loads, at 13px and weight 400. Its CSS colour is #92829d on the white banner. The darkest text pixels in the screenshot are exactly #92829d on #ffffff, 3.56:1. That is below the 4.5:1 that 1.4.3 requires for normal text. Third-party content shown on the page is in scope, and no exception (incidental or logotype) applies."
+    },
+    {
+      "fingerprint": "23089c99c2e3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Instagram link in the light-blue top bar. It shows only the Font Awesome glyph, and its '.' text is hidden. The glyph is white (#ffffff from CSS) on the bar's #2ca7df, which I confirmed from the screenshot pixels: 2.73:1. The icon is the only visual information that identifies the link, so 1.4.11 requires 3:1 against the adjacent colour (G207). The logo exemption in the Understanding document does not apply: the low contrast comes from the author's choice of a white glyph on the site's own light blue, not from a brand-mandated presentation. Fails."
+    },
+    {
+      "fingerprint": "185bb50e9fd3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the YouTube icon-only link in the top bar: a white rounded rectangle whose play triangle is cut out to the bar colour. The snapshot and the screenshot pixels both give #ffffff on #2ca7df, 2.73:1. The glyph is all that identifies the control, so it needs 3:1 under 1.4.11 (G207). The white-on-light-blue presentation is the site's choice, not YouTube's brand colours, so the logo exemption does not cover it. Fails."
+    },
+    {
+      "fingerprint": "b489cc070025",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the LinkedIn icon-only link in the top bar: a white 'in' square on the bar's #2ca7df, 2.73:1 (CSS colours confirmed in the screenshot). With no visible text, the glyph is the visual information needed to identify the link, and 1.4.11 asks for 3:1. The monochrome white rendering on light blue is an author choice, so the logo exemption does not apply. Fails."
+    },
+    {
+      "fingerprint": "bb3b4818f60e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the X (Twitter) icon-only link in the top bar: a white X glyph on #2ca7df, 2.73:1, measured from CSS and confirmed in the screenshot. The glyph is the only visible identification of the control, so 1.4.11 requires 3:1 (G207). The logo exemption does not cover an author-chosen white-on-light-blue presentation. Fails. (This link also has no accessible name at all, a separate 2.4.4/4.1.2 issue.)"
+    },
+    {
+      "fingerprint": "6eb58672ea6a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Facebook icon-only link in the top bar: a white circle 'f' glyph on the bar's #2ca7df, 2.73:1, the same in CSS and in the screenshot pixels. The icon is all the link shows, so it must reach 3:1 against the adjacent colour under 1.4.11. The site chose white on its own light blue rather than Facebook's brand colours, so the presentation is not essential and is not exempt. Fails."
+    },
+    {
+      "fingerprint": "a512ced3f2b9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Flickr icon-only link in the top bar: a white square glyph with dots cut out, on #2ca7df, 2.73:1, confirmed in the screenshot. The glyph is the only visual identification of the link, so 1.4.11 requires 3:1 (G207). The low-contrast monochrome presentation is the author's choice, not a brand requirement. Fails."
+    },
+    {
+      "fingerprint": "670625251a48",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the h3 link 'Registre sua manifestação' of the green Destaques card, which goes to the general Ouvidoria form (index.jsf). The next card has an h3 link and an icon link with the same name that go to index.jsf?canalAtendimento=D, which the live form shows as the 'Ouvidoria Nacional da Mulher' channel. Sighted users tell the two cards apart only by their SVG icons ('Ouvidoria Nacional de Justiça' vs 'Ouvidoria Nacional da Mulher'). Those icons are drawn as paths with no text alternative, and the icon links carry aria-label 'Registre sua manifestação'. So the two links have the same text and identical programmatic context (the h3 and the card), but their destinations are not equivalent. The ACT rule for 2.4.4 (fd3a94) counts identical names in identical contexts as a failure. The claim holds."
+    },
+    {
+      "fingerprint": "6c6bda74093a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the icon link of the purple Destaques card. It has tabindex=-1, but it is in the accessibility tree and reachable in browse mode and link lists. It carries aria-label 'Registre sua manifestação' and goes to index.jsf?canalAtendimento=D, the Ouvidoria Nacional da Mulher form (checked on the live form). Its visible content is an SVG reading 'Ouvidoria Nacional da Mulher / Formulário Eletrônico'. The aria-label replaces that with a name shared by four other links, three of which go to the general form. Nothing programmatic conveys that this link is the women's ombudsman channel, so its purpose cannot be determined, as the finding says. This fails 2.4.4, and the name mismatch is also a 2.5.3 issue."
+    },
+    {
+      "fingerprint": "6c5ed5660ec2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the h3 link 'Registre sua manifestação' of the purple card, which goes to the Ouvidoria Nacional da Mulher form (canalAtendimento=D; the live form shows that heading). It has the same text as the general-form links in the sidebar and in the green card, and its context (h3, card) is identical to theirs. The only distinguishing information is the 'Ouvidoria Nacional da Mulher' text drawn inside the card's SVG icon, which has no text alternative. A screen reader user cannot tell that this link is the women's channel, while sighted users can, so this fails 2.4.4 as reported (ACT rule fd3a94)."
+    },
+    {
+      "fingerprint": "7b2b87f43692",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link text is the URL 'www.cnj.jus.br/comopeticionar.' at the end of the sentence 'As demandas que sejam da competência do Plenário ou da Corregedoria Nacional de Justiça devem ser promovidas e encaminhadas de acordo com o Regimento Interno do CNJ, conforme orientações previstas na página …'. That enclosing sentence is programmatically determined context (G53), and it states the purpose: the page with guidance on filing such demands. The link does lead to 'Como acionar o CNJ', and the URL ('como peticionar', how to petition) is meaningful too. 2.4.4 does not forbid a URL as link text when the context gives the purpose, so this passes. The finding applies a stricter 'an address is not a purpose' rule."
+    }
+  ]
+}

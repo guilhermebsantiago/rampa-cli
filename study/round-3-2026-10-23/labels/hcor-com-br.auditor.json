@@ -1,0 +1,42 @@
+{
+  "page": "https://www.hcor.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "38c348a1cde8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the active (not cloned) slide of the home-page Owl carousel: an unlinked banner image with alt \"Alerta de Golpe\" (scam alert). The crop Rampa used shows a banner whose own text reads \"Alerta de segurança: Evite golpes.\", with a warning icon and the sentence that Hcor does not phone to ask for advance payments for medicines, treatment changes or inpatient procedures. The alt names exactly what the image shows, so the claim that it describes something the image does not show is wrong. The alt is arguably incomplete, because it leaves out the warning sentence (the header's text bar \"AVISO – GOLPE\" gives a similar but not identical notice). That would be a different 1.1.1 claim, about the alt not carrying the same information, not the one reported. The live markup is unchanged."
+    },
+    {
+      "fingerprint": "a58ed3d635a1",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The image is the only content of a carousel link to /imprensa/noticias/informacoes-gerais-para-o-atendimento-no-portal-do-paciente/, so the link's name is \"Banner FAQ - Portal do Paciente\". I opened that destination on the live site: its title is \"FAQ - Hcor\", its h1 is \"FAQ\", and every h2 is a question about the Portal do Paciente. The alt does say where the link leads (the Patient Portal FAQ). The leading word \"Banner\" is redundant, but it does not hide what the link does, so the functional-image part of 1.1.1 (H30: the alt gives the link's purpose) is met. Rampa never read the destination, which is the context that would have confirmed the match."
+    },
+    {
+      "fingerprint": "ac021b6a6eb8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the same banner image with the same alt \"Alerta de Golpe\" as the active slide. It sits in an Owl Carousel \"owl-item cloned\" copy, which is not aria-hidden, so it is exposed, but it holds the same content. The crop shows \"Alerta de segurança: Evite golpes.\" and the warning sentence, and \"Alerta de Golpe\" accurately names that subject, so the claim that the alt describes something the image does not show is wrong. If the alt fails 1.1.1 at all, it is because it leaves out the warning sentence, which is a different claim from the one reported."
+    },
+    {
+      "fingerprint": "0cf23efe5a25",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Oncologia\" category link pill on the first, visible \"Hcor explica\" card. The live CSS has .card .category {background:#FFF; font-size:12px; font-weight:600} and .ctx-green .card .category {color:#51AB74}. I sampled the screenshot and found #51ab74 glyph pixels on #ffffff, a ratio of 2.83:1. At 12px and weight 600 it is not large text, so 4.5:1 applies. It is an active link, neither incidental nor a logotype, so it fails 1.4.3."
+    },
+    {
+      "fingerprint": "115e2aa37910",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Saiba mais\" button link (button-default -green) on the first \"Hcor explica\" card. It has white text at 14px, weight 600, on a green fill: the screenshot shows #ffffff glyphs on #51ab74, and the theme CSS sets .-green to background #4fab74. Both give about 2.83:1. Bold text at 14px is under the 18.66px large-text threshold, so 4.5:1 applies. This is the default state and no exception covers it, so it fails 1.4.3."
+    },
+    {
+      "fingerprint": "685aa94657ce",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the same \"Oncologia\" category link pill, here on the second visible \"Hcor explica\" card (\"Câncer de Ovário\", owl-item active). It has the same CSS: 12px, weight 600, #51AB74 on a white pill. The screenshot pixels are #51ab74 on #ffffff, 2.83:1, against the 4.5:1 needed for normal-size text, so it fails 1.4.3."
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "page": "https://www.travessa.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "f5e8f4a235cb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer image cartoes.jpg. The screenshot shows it rendered as a row of payment brand logos (Visa, Mastercard, Elo, Amex, Diners, Aura, Hipercard, Discover, JCB, Hiper, Pix), and no text on the page lists the accepted payment methods. Its alt is \"Image\", which is the same in the live HTML and is what the accessibility tree exposes as its name. Placeholder text like \"image\" is a documented 1.1.1 failure (F30). Even if the image were treated as decorative, a non-null alt such as \"image\" still fails (F39). The snapshot's null bounds and skipped image analysis are collector gaps that do not matter here, because the alt is in the DOM and the image is visibly rendered. No way for it to pass holds up."
+    },
+    {
+      "fingerprint": "f63a4ac72bdc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Nome\" field of the newsletter sign-up (\"Receba nossas novidades e sugestões\"), labelled only by its placeholder. It collects the subscriber's own name. Neither the snapshot (taken after scripts ran) nor the live HTML gives it an autocomplete attribute, and nothing else identifies its purpose. A name is a listed input purpose and HTML supports autocomplete, so the purpose is not programmatically determinable. Its validator accepts one or more words, so name (or given-name) would be the right token; either way the missing purpose is the real 1.3.5 failure the finding describes. I found no context or technique that makes it pass."
+    },
+    {
+      "fingerprint": "c75ceba9643e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"E-mail\" field of the same newsletter sign-up. It collects the subscriber's own email address and has type=email but no autocomplete attribute, in both the snapshot and the live HTML. The only candidate for a pass is the type attribute, and the Understanding document for 1.3.5 rules it out: it says type=email indicates an email address but does not clarify whether it is the user's own or someone else's. Email is a listed input purpose and HTML supports autocomplete, so the field fails 1.3.5 as reported."
+    },
+    {
+      "fingerprint": "75f8c4fbb793",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter \"Nome\" field has no visible label, only its placeholder, which the CSS colours rgba(0,0,0,0.2) on a white field. I measured the screenshot myself: the darkest placeholder pixels are #cccccc on #ffffff, 1.61:1, at 16px weight 400, so the 4.5:1 threshold applies. The Understanding document for 1.4.3 says the criterion covers placeholder text. The field is enabled, so the inactive-component exception does not apply, and the placeholder is not a logotype or decoration. The measurement is confirmed and no exception holds, so this is a real failure."
+    },
+    {
+      "fingerprint": "8dcebc9a636c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter \"E-mail\" field is labelled only by its placeholder, which is rgba(0,0,0,0.2) on white. In the screenshot its darkest placeholder pixels are #cccccc on #ffffff, 1.61:1, at 16px weight 400, so 4.5:1 is required. Understanding 1.4.3 states that the criterion applies to placeholder text. The field is active, and none of the incidental or logotype exceptions fit. The pixel measurement matches the reported values, so the failure is real."
+    },
+    {
+      "fingerprint": "e79573b9f6dc",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the floating WhatsApp link: the Font Awesome WhatsApp brand glyph, in white on a #25d366 circle. The screenshot confirms 1.98:1 between glyph and circle, so the measurement is right. But the icon is the WhatsApp logo in WhatsApp's own brand colours (#25D366 green with white), and WhatsApp's brand guidelines say not to modify the colours of its logos. The Understanding document for 1.4.11 exempts logos from contrast requirements. For logos that act as links or other controls, it calls a higher-contrast variant only a best practice. It denies the exemption only when the author lowers a logo's normal contrast, which is not the case here, since the WhatsApp mark's normal presentation has this contrast. So the claim that 1.4.11 requires 3:1 here applies a stricter rule than WCAG's documented interpretation. An auditor reading only the normative UI-component clause might still fail it, but the WCAG guidance supports a pass."
+    },
+    {
+      "fingerprint": "a821637815d6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the magnifier icon next to the header search box. It is an <a> with no href, text, title or ARIA attributes, drawn with a CSS background image, and its onclick (clickBuscaRefinada) runs the site search. The live HTML is unchanged. Chrome's accessibility tree, captured through CDP in the snapshot, exposes it as a link with no name, so the finding's claim is accurate. It is a scripted user interface control with no programmatically determined name, which F68 documents as a 4.1.2 failure, and nothing on the page supplies a name. Without an href or tabindex it is probably not keyboard reachable either, but that is a separate 2.1.1 issue and does not affect this one."
+    }
+  ]
+}

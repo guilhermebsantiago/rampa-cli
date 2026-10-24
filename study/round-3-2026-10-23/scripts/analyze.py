@@ -203,6 +203,9 @@ def main():
                 "engineFindingsDefault": sum(1 for f in all_f if f["source"] == "engine" and levels.get(f.get("confidence"), 0) >= 1 and not f.get("experimental")),
                 "discarded": len(report.get("discarded", [])),
                 "needsReview": len(report.get("needsReview", [])),
+                # A model's fail that no checked fact supports is a suggestion to review, not a finding (the
+                # 2.4.4/2.4.6 change); counted as the second study's after.py did, never labelled.
+                "suggestions": dict(Counter(n.get("criterion") for n in report.get("needsReview", []) if n.get("model"))),
                 "criteria": {c["criterion"]: {k: c.get(k) for k in ("candidates", "judged", "failed", "passed", "cannotTell", "discarded", "capped", "timedOut", "offlineMisses", "decided", "errors")}
                              for c in report["criteria"]},
                 "notes": report.get("notes"),
@@ -297,6 +300,8 @@ def main():
         "time": {"medianTotal": median(seconds), "minTotal": min(seconds) if seconds else None, "maxTotal": max(seconds) if seconds else None,
                  "medianJudged": median(judge_seconds), "medianCollect": median(collect_seconds)},
         "comparison": comparison,
+        "suggestions": {s: dict(sum((Counter(e["judged"]["suggestions"]) for e in pages if e.get("judged") and (s == "all" or e["split"] == s)), Counter()))
+                        for s in SPLITS},
         "missingLabels": missing,
     }
 

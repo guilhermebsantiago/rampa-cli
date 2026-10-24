@@ -1,0 +1,30 @@
+{
+  "page": "https://www.fleury.com.br/noticias/a-sua-saude-mental-importa",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "9a4e5cf858a9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Fleury logo image (the word 'fleury' and the '100 anos' mark). It is the only content of the visible desktop footer's link to the home page (/). The link has no aria-label, title or hidden text, so its accessible name is just 'Logo' (snapshot: name from contents). I looked for a reason it could pass and found none. The image is functional, so it cannot be decorative. 'Logo' is neither the brand name nor the destination; it is a generic word of the same kind as F30's 'image' or 'picture'. Putting 'Logo' in place of the image loses both the information (Fleury) and the function (go to the home page), which is F30's test, so 1.1.1 fails. The finding's 'file name or a placeholder' holds on the placeholder side. The hidden mobile footer uses alt 'Logo da Fleury', which does not help the visible one, and the live page still serves alt='Logo' in this footer."
+    },
+    {
+      "fingerprint": "abffa738d47b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Baixar em App Store' badge. It is the only content of a footer link to the Fleury Pacientes app on apps.apple.com, and it sits under the visible text 'Aplicativos Fleury'. The finding says its alt does not say where the link leads, but 'App Store Badge' does name the destination: the App Store. The image itself shows only 'Baixar em' and 'App Store', with no app name, so the alternative carries the image's essential information and its function (a link to the App Store). It could replace the image without loss, which is what 1.1.1 and F30's test ask. The extra word 'Badge', the dropped 'Baixar em' and the English wording on a pt-BR page are quality issues, not a 1.1.1 failure. Whether the link's purpose is clear without naming the app is a 2.4.4 question, not this criterion's ('Aplicativos Fleury' is a sibling paragraph, not a heading or the enclosing paragraph). The model had the alt, the crop and the href and misjudged them. The live page still has this alt."
+    },
+    {
+      "fingerprint": "e1765d005f18",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Política de Cookies' link in the OneTrust cookie banner. It is 13px bold, which is normal-size text, so it needs 4.5:1. The snapshot took the colour #ed0f69 from CSS and found white behind the text. I measured the page screenshot myself: the solid core of the glyphs and of the underline is exactly #ed0f69 on #ffffff, which is 4.31:1. So the colour is not an anti-aliasing artefact or a banner caught fading in, and the dark overlay lies behind the banner, not over it. I looked for an exemption and found none: the link is active and visible, it is not a logotype, the Understanding document says brand colours are not exempt, and the page has no contrast switcher. The banner is third-party, but it is content on this page, in colours the site configured. It fails 1.4.3 as reported. I did not re-check the banner's styling on the live page."
+    },
+    {
+      "fingerprint": "1ac30bdcb657",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field. Its only label is its placeholder 'Digite aqui...', at 16px regular weight. The site's Tailwind preflight sets ::placeholder to color-mix(in oklab, currentcolor 50%, transparent), and the field adds no placeholder colour of its own (I checked the live CSS). That gives rgba(10,10,10,0.5). The text pixels in the screenshot are #848484 on #ffffff, which is 3.74:1, below 4.5:1. The Understanding document for 1.4.3 says the criterion applies to placeholder text. The field is active, so no incidental-text exception applies, and I found no contrast switcher on the page. It fails 1.4.3 as reported, and the live page still has the same field and CSS."
+    }
+  ]
+}

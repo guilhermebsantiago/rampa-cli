@@ -1,0 +1,3886 @@
+{
+  "schemaVersion": 1,
+  "rampaVersion": "0.1.1",
+  "createdAt": "2026-10-23T22:54:01.012Z",
+  "target": "https://www.irishtimes.com/",
+  "surface": "web",
+  "wcagTarget": "wcag22-aa",
+  "locale": "en",
+  "llm": "on",
+  "model": "ollama:gemma4:12b",
+  "engine": {
+    "name": "axe-core",
+    "version": "4.14.0"
+  },
+  "minConfidence": "low",
+  "findings": [
+    {
+      "fingerprint": "f011d609c332",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fw-desktop |> img",
+      "target": "[\"#fw-desktop\",\"img\"]",
+      "message": "Images must have alternative text",
+      "confidence": "high",
+      "ruleId": "image-alt",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/image-alt?application=axeAPI",
+      "html": "<img src=\"/v4/icons/simple-white/40/n300.png\">"
+    },
+    {
+      "fingerprint": "8dfa136e6aca",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "engine",
+      "ref": "#webpush-custom-prompt-image",
+      "target": "[\"#webpush-custom-prompt-image\"]",
+      "message": "Images must have alternative text",
+      "confidence": "high",
+      "ruleId": "image-alt",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/image-alt?application=axeAPI",
+      "html": "<img id=\"webpush-custom-prompt-image\" src=\"https://s3.xtremepush.com/application/web_icon_large_5969_6023f373525da.png\">"
+    },
+    {
+      "fingerprint": "df1a5a246c32",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#lazy_42504 > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > img",
+      "message": "The text alternative \"Masthead logo\" describes something the image does not show.",
+      "evidence": "Masthead logo",
+      "subject": "Masthead logo",
+      "patch": {
+        "ref": "#lazy_42504 > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "Masthead logo",
+        "to": "The Irish Times",
+        "before": "<img alt=\"Masthead logo\" src=\"https://www.irishtimes.com/resizer/v2/FO3U7ME5KVDFTPPEGAYUTN3ZBM.png?auth=604c6927d24a9a19e210c816dc4cb18c75b0b68d4287209d45e53c5aebe5b66f&amp;width=718&amp;height=58\">",
+        "after": "<img alt=\"The Irish Times\" src=\"https://www.irishtimes.com/resizer/v2/FO3U7ME5KVDFTPPEGAYUTN3ZBM.png?auth=604c6927d24a9a19e210c816dc4cb18c75b0b68d4287209d45e53c5aebe5b66f&amp;width=718&amp;height=58\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "78509b577bb5",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "#lazy_86556 > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > img",
+      "message": "The text alternative \"logo\" is a file name or a placeholder.",
+      "evidence": "logo",
+      "subject": "logo",
+      "patch": {
+        "ref": "#lazy_86556 > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "logo",
+        "to": "ePaper",
+        "before": "<img class=\"logo\" src=\"https://cloudfront-eu-central-1.images.arcpublishing.com/sandbox.irishtimes/NBZTERI3LJCBNBYCBPDZJLZMV4.png\" alt=\"logo\">",
+        "after": "<img class=\"logo\" src=\"https://cloudfront-eu-central-1.images.arcpublishing.com/sandbox.irishtimes/NBZTERI3LJCBNBYCBPDZJLZMV4.png\" alt=\"ePaper\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "aeca5f2012df",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_63005 > div > div > div:nth-of-type(3) > div > article:nth-of-type(1) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".b-flex-promo-card__top-hide.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"soccer/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/sport/soccer/\">Soccer</a>"
+    },
+    {
+      "fingerprint": "2271c82f4852",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_63005 > div > div > div:nth-of-type(3) > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"ireland/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/ireland/\">Ireland</a>"
+    },
+    {
+      "fingerprint": "785683569bbd",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_63005 > div > div > div:nth-of-type(3) > div > article:nth-of-type(3) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".b-flex-promo-card__top-hide.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"crime-law/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/crime-law/\">Crime &amp; Law</a>"
+    },
+    {
+      "fingerprint": "00ee5b1c8961",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_63005 > div > div > div:nth-of-type(3) > div > article:nth-of-type(4) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"environment/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/environment/\">Weather</a>"
+    },
+    {
+      "fingerprint": "df281e0d7def",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_29221 > div > div > div:nth-of-type(1) > div > div > div > div > div > div > div > div > span > a",
+      "target": "[\".b-lead-flex--layout-70.b-lead-flex > .b-lead-flex__content--top.b-lead-flex__content > .b-lead-flex__featured-story > div > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"crime-law/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/crime-law/\">Crime &amp; Law</a>"
+    },
+    {
+      "fingerprint": "2af9f5c4f2b6",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_29221 > div > div > div:nth-of-type(3) > div > div > div > div > div > div > div > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"courts/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/crime-law/courts/\">Courts</a>"
+    },
+    {
+      "fingerprint": "101752509ad7",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_68478 > div > div > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"us/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/world/us/\">US</a>"
+    },
+    {
+      "fingerprint": "ba0241f834f1",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_41701 > div > div > div:nth-of-type(1) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".b-flex-chain__grid-container__222222.gap-divider.has-divider > .grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(1) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--mobile.c-it-border__bottom > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"rugby/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/sport/rugby/\">The Counter Ruck</a>"
+    },
+    {
+      "fingerprint": "6fddff5980d1",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_41701 > div > div > div:nth-of-type(4) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(4) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > article > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"education/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/ireland/education/\">Education</a>"
+    },
+    {
+      "fingerprint": "e1c64e810d1b",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_41701 > div > div > div:nth-of-type(6) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(6) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > article > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"business/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/business/\">Business</a>"
+    },
+    {
+      "fingerprint": "e14334deeaf6",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_90808 > div > div > div:nth-of-type(3) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".b-flex-promo-card__image-square-desktop-top.b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"your-wellness/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/health/your-wellness/\">Your Wellness</a>"
+    },
+    {
+      "fingerprint": "3538cbb93322",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_90808 > div > div > div:nth-of-type(4) > div > article > div > div > div:nth-of-type(1) > div > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"the-womens-podcast/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/podcasts/the-womens-podcast/\">The Women's Podcast</a>"
+    },
+    {
+      "fingerprint": "fb9e22851163",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_64923 > div > div > div > div > div > div > div > div > div:nth-of-type(1) > div > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"athletics/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/sport/athletics/\">Athletics</a>"
+    },
+    {
+      "fingerprint": "401969a8569b",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(3) > div:nth-of-type(1) > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"an-irish-diary/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/opinion/an-irish-diary/\">An Irish Diary</a>"
+    },
+    {
+      "fingerprint": "d886a9630f78",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(3) > div:nth-of-type(2) > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"letters/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/opinion/letters/\">Letters</a>"
+    },
+    {
+      "fingerprint": "a65ce7e0fbd4",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(3) > div:nth-of-type(3) > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"editorials/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/opinion/editorials/\">Editorials</a>"
+    },
+    {
+      "fingerprint": "8d9f8a634633",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_65288 > div > div > div:nth-of-type(3) > div > article:nth-of-type(1) > div > div > div:nth-of-type(1) > div > span:nth-of-type(2) > a",
+      "target": "[\".grid-column-span-3.grid-item[data-style-direction=\\\"vertical\\\"]:nth-child(3) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--desktop.c-it-border--tablet.c-it-border--mobile > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"people/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/life-style/people/\">People</a>"
+    },
+    {
+      "fingerprint": "32cf7de55216",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_65288 > div > div > div:nth-of-type(3) > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\"article:nth-child(2) > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"people/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/life-style/people/\">People</a>"
+    },
+    {
+      "fingerprint": "b3f20f40dd54",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_49216 > div > div > div > div > div > div > div > div > div:nth-of-type(1) > div > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"video/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/video/\">Video</a>"
+    },
+    {
+      "fingerprint": "205dc62c3dec",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_38714 > div > div > div:nth-of-type(3) > div > article:nth-of-type(1) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-column-span-3.grid-item[data-style-direction=\\\"vertical\\\"]:nth-child(3) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--desktop.c-it-border--tablet.c-it-border--mobile > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"music/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/culture/music/\">Music</a>"
+    },
+    {
+      "fingerprint": "7d7bf0fa8146",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_38714 > div > div > div:nth-of-type(3) > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\"article:nth-child(2) > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"film/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/culture/film/\">Film</a>"
+    },
+    {
+      "fingerprint": "884f880ff59f",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_42417 > div > div > div:nth-of-type(1) > div > article > div > div > div:nth-of-type(1) > div > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"inside-politics/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/podcasts/inside-politics/\">Inside Politics Podcast</a>"
+    },
+    {
+      "fingerprint": "1da184d23ee1",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_42417 > div > div > div:nth-of-type(2) > div > article > div > div > div:nth-of-type(1) > div > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"the-counter-ruck/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/podcasts/the-counter-ruck/\">The Counter Ruck Podcast</a>"
+    },
+    {
+      "fingerprint": "f31aba1f1d51",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_42417 > div > div > div:nth-of-type(3) > div > article > div > div > div:nth-of-type(1) > div > div > span > a",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(3) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > article > .b-flex-promo-card__image-square-mobile-top.b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .c-audio-overline[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"in-the-news/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/podcasts/in-the-news/\">In the News Podcast</a>"
+    },
+    {
+      "fingerprint": "12460f5cd0a0",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_42417 > div > div > div:nth-of-type(4) > div > article > div > div > div:nth-of-type(1) > div > div > span > a",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(4) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > article > .b-flex-promo-card__image-square-mobile-top.b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .c-audio-overline[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"in-the-news/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/podcasts/in-the-news/\">In the News Podcast</a>"
+    },
+    {
+      "fingerprint": "fefce587a697",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_850 > div > div > div:nth-of-type(3) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"europe/\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/world/europe/\">Europe</a>"
+    },
+    {
+      "fingerprint": "12394da27e30",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#lazy_63005 > div > div > div:nth-of-type(1) > div > div > div > div > div > div:nth-of-type(1) > div > div > span > a",
+      "target": "#lazy_63005 > div > div > div:nth-of-type(1) > div > div > div > div > div > div:nth-of-type(1) > div > div > span > a",
+      "message": "The text \"Crime & Law\" has at most 2.92:1 contrast with what is behind it (#979797 on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#979797 on #ffffff · 2.92:1 at best, 2.92:1 at worst · 12px, 400",
+      "subject": "Crime & Law",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a class=\"c-link false\" href=\"/crime-law/\">",
+      "experimental": true
+    },
+    {
+      "fingerprint": "e6412a1f2b3f",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#lazy_63005 > div > div > div:nth-of-type(2) > div > article:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > span > a",
+      "target": "#lazy_63005 > div > div > div:nth-of-type(2) > div > article:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > span > a",
+      "message": "The text \"Music\" has at most 2.92:1 contrast with what is behind it (#979797 on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#979797 on #ffffff · 2.92:1 at best, 2.92:1 at worst · 12px, 400",
+      "subject": "Music",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a class=\"c-link false\" href=\"/culture/music/\">",
+      "experimental": true
+    },
+    {
+      "fingerprint": "dc9a9f8740d8",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#lazy_86556 > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > a",
+      "target": "[\".grid-column-span-4.grid-item[data-style-direction=\\\"vertical\\\"]:nth-child(2) > div:nth-child(2) > .epaper1-bg > .epaper1-link[target=\\\"_blank\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://www.irishtimes.com/epaper\" class=\"epaper1-link\" target=\"_blank\">\n<div class=\"epaper1 ePaperBox\"></div>\n      <div class=\"tablet ePaperBox\"></div>\n    </a>"
+    },
+    {
+      "fingerprint": "2c74de2f2e19",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "#lazy_78964 > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > a",
+      "target": "[\".b-flex-chain__grid-container__444.gap-divider.has-divider > .grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(2) > div:nth-child(2) > .epaper1-bg > .epaper1-link[target=\\\"_blank\\\"]\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a href=\"https://www.irishtimes.com/epaper\" class=\"epaper1-link\" target=\"_blank\">\n<div class=\"epaper1 ePaperBox\"></div>\n      <div class=\"tablet ePaperBox\"></div>\n    </a>"
+    },
+    {
+      "fingerprint": "6d62fc3c9096",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#onetrust-policy-text > a",
+      "target": "[\".ot-cookie-policy-link\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a class=\"ot-cookie-policy-link\" href=\"https://www.irishtimes.com/policy-and-terms/cookie-policy\" aria-label=\"More information about your privacy, opens in a new tab\" rel=\"noopener noreferrer\" target=\"_blank\">Cookie Policy</a>"
+    },
+    {
+      "fingerprint": "ef54e9494356",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_63005 > div > div > div:nth-of-type(2) > div > article:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\"div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"music/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/culture/music/\">Music</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "fb6ed68b4c3f",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_63005 > div > div > div:nth-of-type(3) > div > article:nth-of-type(1) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".b-flex-promo-card__top-hide.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"soccer/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/sport/soccer/\">Soccer</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "0a0617d1aa41",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_29221 > div > div > div:nth-of-type(2) > div > div > div > div > div > div > div > div > span > a",
+      "target": "[\".b-lead-flex__featured-story > div > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"europe/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/world/europe/\">Europe</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "f61d9e1b05a3",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_29221 > div > div > div:nth-of-type(3) > div > div > div > div > div > div > div > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"courts/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/crime-law/courts/\">Courts</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "dd452471d453",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_68478 > div > div > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(1) > div > div > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"us/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/world/us/\">US</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "b5725d7d0c63",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_41701 > div > div > div:nth-of-type(1) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".b-flex-chain__grid-container__222222.gap-divider.has-divider > .grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(1) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--mobile.c-it-border__bottom > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"rugby/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/sport/rugby/\">The Counter Ruck</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "19ea57210f6d",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_41701 > div > div > div:nth-of-type(3) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(3) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > article > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"rugby/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/sport/rugby/\">Rugby</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "4692e5e77634",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_90808 > div > div > div:nth-of-type(1) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"residential/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/property/residential/\">Residential</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "70224cde8ef3",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_90808 > div > div > div:nth-of-type(2) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-column-span-4.grid-item[data-style-direction=\\\"vertical\\\"]:nth-child(2) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > article > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"film/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/culture/film/\">Film</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "6ac126a7429e",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_90808 > div > div > div:nth-of-type(3) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".b-flex-promo-card__image-square-desktop-top.b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"your-wellness/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/health/your-wellness/\">Your Wellness</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "f8b254e9aa27",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_64923 > div > div > div > div > div > div > div > div > div:nth-of-type(1) > div > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"athletics/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/sport/athletics/\">Athletics</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "a7e7bf4df6f8",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(3) > div:nth-of-type(1) > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"an-irish-diary/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/opinion/an-irish-diary/\">An Irish Diary</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "429fef460d8f",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(3) > div:nth-of-type(2) > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"letters/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/opinion/letters/\">Letters</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "fd1561be5444",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(3) > div:nth-of-type(3) > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"editorials/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/opinion/editorials/\">Editorials</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "f80fb5da5391",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_54490 > div > div > div:nth-of-type(2) > div > article:nth-of-type(1) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".b-flex-promo-card__left-hide.b-flex-promo-card__image-square-mobile-left.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"rugby/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/sport/rugby/\">Rugby</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "6fbd1179ca90",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_54490 > div > div > div:nth-of-type(2) > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\"article:nth-child(2) > .b-flex-promo-card__left-hide.b-flex-promo-card__image-square-mobile-left.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"soccer/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/sport/soccer/\">Soccer</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "0b1846154bd2",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_54490 > div > div > div:nth-of-type(2) > div > article:nth-of-type(4) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".b-flex-promo-card__left-hide.b-flex-promo-card__image-square-mobile-left.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"europe/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/world/europe/\">Europe</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "d810ceb603c2",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_54490 > div > div > div:nth-of-type(2) > div > article:nth-of-type(5) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".c-it-border--tablet.c-it-border__bottom > .b-flex-promo-card__left-hide.b-flex-promo-card__image-square-mobile-left.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"soccer/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/sport/soccer/\">Soccer</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "c13685da4fcd",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_65288 > div > div > div:nth-of-type(1) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".c-it-border--tablet.c-it-border--mobile.c-it-border__bottom > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"your-wellness/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/health/your-wellness/\">Your Wellness</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "8e1f3d7a5f5a",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_65288 > div > div > div:nth-of-type(2) > div > article:nth-of-type(1) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-column-span-3.grid-item[data-style-direction=\\\"vertical\\\"]:nth-child(2) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--desktop.c-it-border--tablet.c-it-border--mobile > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"people/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/life-style/people/\">People</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "aff113a81719",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_65288 > div > div > div:nth-of-type(2) > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false[rel=\\\"noreferrer\\\"][target=\\\"_blank\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"https://www.irishtimes.com/tags/beauty/\" rel=\"noreferrer\" target=\"_blank\">Beauty<span class=\"visually-hidden\">Opens in new window</span></a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "309bae5e484a",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_65288 > div > div > div:nth-of-type(3) > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\"article:nth-child(2) > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"people/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/life-style/people/\">People</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "6fdb78ac18d0",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_38714 > div > div > div:nth-of-type(1) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-column-span-6.grid-item[data-style-direction=\\\"vertical\\\"] > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--tablet.c-it-border--mobile.c-it-border__bottom > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"music/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/culture/music/\">Music</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "538ee80bdacc",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_38714 > div > div > div:nth-of-type(2) > div > article:nth-of-type(1) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-column-span-3.grid-item[data-style-direction=\\\"vertical\\\"]:nth-child(2) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--desktop.c-it-border--tablet.c-it-border--mobile > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"music/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/culture/music/\">Music</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "156910401d08",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_38714 > div > div > div:nth-of-type(2) > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"books/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/culture/books/\">Books</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "d9ae32a917fd",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_38714 > div > div > div:nth-of-type(3) > div > article:nth-of-type(1) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-column-span-3.grid-item[data-style-direction=\\\"vertical\\\"]:nth-child(3) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--desktop.c-it-border--tablet.c-it-border--mobile > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"music/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/culture/music/\">Music</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "5a57242fddf3",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_38714 > div > div > div:nth-of-type(3) > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\"article:nth-child(2) > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"film/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/culture/film/\">Film</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "ab75d634780b",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_42417 > div > div > div:nth-of-type(1) > div > article > div > div > div:nth-of-type(1) > div > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"inside-politics/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/podcasts/inside-politics/\">Inside Politics Podcast</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "a1d27722ad07",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_42417 > div > div > div:nth-of-type(2) > div > article > div > div > div:nth-of-type(1) > div > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"the-counter-ruck/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/podcasts/the-counter-ruck/\">The Counter Ruck Podcast</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "4e24c78ede8d",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_42417 > div > div > div:nth-of-type(3) > div > article > div > div > div:nth-of-type(1) > div > div > span > a",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(3) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > article > .b-flex-promo-card__image-square-mobile-top.b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .c-audio-overline[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"in-the-news/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/podcasts/in-the-news/\">In the News Podcast</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "e5ec03009434",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_42417 > div > div > div:nth-of-type(4) > div > article > div > div > div:nth-of-type(1) > div > div > span > a",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(4) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > article > .b-flex-promo-card__image-square-mobile-top.b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .c-audio-overline[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"in-the-news/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/podcasts/in-the-news/\">In the News Podcast</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "8cef91078888",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_850 > div > div > div:nth-of-type(1) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".c-it-border--tablet.c-it-border--mobile.c-it-border__bottom > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"rugby/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/sport/rugby/\">Rugby</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "4474de05a3db",
+      "criterion": "2.5.8",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#lazy_850 > div > div > div:nth-of-type(3) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"europe/\\\"]\"]",
+      "message": "All touch targets must be 24px large, or leave sufficient space",
+      "confidence": "low",
+      "ruleId": "target-size",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+      "html": "<a class=\"c-link false\" href=\"/world/europe/\">Europe</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "61474a9a2972",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#fw-desktop",
+      "target": "[\"#fw-desktop\"]",
+      "message": "Frames must have an accessible name",
+      "confidence": "high",
+      "ruleId": "frame-title",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/frame-title?application=axeAPI",
+      "html": "<iframe scrolling=\"no\" id=\"fw-desktop\" data-src=\"https://lw.foreca.ne...\" style=\"width: 85px; height:...\" src=\"https://lw.foreca.ne...\">"
+    },
+    {
+      "fingerprint": "151b430c6b94",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#lazy_78964 > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > iframe",
+      "target": "[\"iframe[width=\\\"100%\\\"]\"]",
+      "message": "Frames must have an accessible name",
+      "confidence": "high",
+      "ruleId": "frame-title",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/frame-title?application=axeAPI",
+      "html": "<iframe src=\"https://www.recruitireland.com/embed/search/jobs \" width=\"100%\" height=\"380px\" frameborder=\"0\" loading=\"lazy\" style=\"min-width: 300px; max-width: 450px; display: block\">\n    </iframe>"
+    },
+    {
+      "fingerprint": "5694a1b85e79",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "#webpush-subscription-iframe",
+      "target": "[\"#webpush-subscription-iframe\"]",
+      "message": "Frames must have an accessible name",
+      "confidence": "high",
+      "ruleId": "frame-title",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/frame-title?application=axeAPI",
+      "html": "<iframe src=\"https://www.irishtimes.com/frame.html?id=8246509627&amp;key=onbHVyj_Gv1ordEotGcUHJeLxoAboYws\" id=\"webpush-subscription-iframe\" style=\"width: 0px; height: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none;\"></iframe>"
+    }
+  ],
+  "belowThreshold": [],
+  "waived": [],
+  "discarded": [
+    {
+      "criterion": "2.4.4",
+      "ref": "#lazy_42504 > div > div > div > div:nth-of-type(2) > nav > a:nth-of-type(2)",
+      "reason": "no other link with this text leads elsewhere from the same context",
+      "output": {
+        "promises": "A page for Ireland news.",
+        "leadsTo": "a page titled 'Ireland News | National Updates, Societal Issues, Irish Current Affairs | The Irish Times'",
+        "verdict": "fail",
+        "evidence": "IRELAND",
+        "problem": "ambiguous",
+        "suggestedText": "Ireland News",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "2.4.4",
+      "ref": "#lazy_63005 > div > div > div:nth-of-type(1) > div > div > div > div > div > div:nth-of-type(1) > div > div > span > a",
+      "reason": "no other link with this text leads elsewhere from the same context",
+      "output": {
+        "promises": "A section or page about Crime & Law news.",
+        "leadsTo": "A page titled 'Crime & Law News | Legal Affairs & Ireland Crime Coverage | The Irish Times'",
+        "verdict": "fail",
+        "evidence": "CRIME & LAW",
+        "problem": "ambiguous",
+        "suggestedText": "Crime & Law News",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "2.4.4",
+      "ref": "#lazy_63005 > div > div > div:nth-of-type(2) > div > article:nth-of-type(1) > div:nth-of-type(1) > div > div:nth-of-type(1) > div > span > a",
+      "reason": "no other link with this text leads elsewhere from the same context",
+      "output": {
+        "promises": "A page about music news and features.",
+        "leadsTo": "a page titled 'Music News & Features | Irish & International Scene | The Irish Times'",
+        "verdict": "fail",
+        "evidence": "MUSIC",
+        "problem": "ambiguous",
+        "suggestedText": "Music News & Features",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "2.4.4",
+      "ref": "#lazy_63005 > div > div > div:nth-of-type(3) > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > a",
+      "reason": "no other link with this text leads elsewhere from the same context",
+      "output": {
+        "promises": "A page related to Ireland news or information.",
+        "leadsTo": "A page titled 'Ireland News | National Updates, Societal Issues, Irish Current Affairs | The Irish Times'",
+        "verdict": "fail",
+        "evidence": "IRELAND",
+        "problem": "ambiguous",
+        "suggestedText": "Ireland News",
+        "confidence": "high"
+      }
+    },
+    {
+      "criterion": "2.4.4",
+      "ref": "#lazy_29221 > div > div > div:nth-of-type(1) > div > div > div > div > div > div > div > div > span > a",
+      "reason": "no other link with this text leads elsewhere from the same context",
+      "output": {
+        "promises": "A page about Crime & Law news.",
+        "leadsTo": "a page titled 'Crime & Law News | Legal Affairs & Ireland Crime Coverage | The Irish Times'",
+        "verdict": "fail",
+        "evidence": "CRIME & LAW",
+        "problem": "ambiguous",
+        "suggestedText": "Crime & Law News",
+        "confidence": "high"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "criterion": "1.1.1",
+      "applicable": true,
+      "candidates": 2,
+      "judged": 2,
+      "failed": 2,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "1.3.5",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.2",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.4",
+      "applicable": true,
+      "candidates": 324,
+      "judged": 50,
+      "failed": 0,
+      "passed": 43,
+      "cannotTell": 0,
+      "discarded": 5,
+      "errors": 0,
+      "offlineMisses": 0,
+      "capped": 274,
+      "suggested": 2
+    },
+    {
+      "criterion": "2.4.6",
+      "applicable": true,
+      "candidates": 62,
+      "judged": 50,
+      "failed": 0,
+      "passed": 48,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "capped": 12,
+      "suggested": 2
+    },
+    {
+      "criterion": "3.1.1",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "decided": 1
+    },
+    {
+      "criterion": "3.1.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "3.3.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    }
+  ],
+  "coverage": {
+    "engine": [
+      "1.1.1",
+      "1.3.1",
+      "1.4.1",
+      "1.4.3",
+      "1.4.4",
+      "1.4.12",
+      "2.1.1",
+      "2.4.2",
+      "2.4.4",
+      "2.5.3",
+      "2.5.8",
+      "3.1.1",
+      "4.1.2"
+    ],
+    "judged": [
+      "1.1.1",
+      "2.4.2",
+      "2.4.4",
+      "2.4.6"
+    ],
+    "notChecked": [
+      "1.3.2",
+      "1.3.3",
+      "1.3.5",
+      "1.4.5",
+      "2.2.1",
+      "2.2.2",
+      "2.3.1",
+      "2.4.3",
+      "2.4.5",
+      "2.5.1",
+      "2.5.2",
+      "2.5.4",
+      "2.5.7",
+      "3.1.2",
+      "3.2.2",
+      "3.2.3",
+      "3.2.4",
+      "3.2.6",
+      "3.3.1",
+      "3.3.3",
+      "3.3.4",
+      "3.3.7",
+      "3.3.8",
+      "4.1.3"
+    ],
+    "rules": [
+      "1.1.1",
+      "1.4.3",
+      "2.4.2",
+      "2.4.6",
+      "3.1.1",
+      "4.1.2"
+    ],
+    "probes": [
+      {
+        "criterion": "1.4.4",
+        "method": "probe/layout@1",
+        "rule": "rampa/resize-text",
+        "conditions": "640×512 CSS px at device scale 2 (1280×1024 at 200%) · chromium 155.0.4283.62 (headless)",
+        "status": "needs-review",
+        "applicable": 628,
+        "failures": 0,
+        "review": 1,
+        "unmatched": 6,
+        "maturity": "experimental",
+        "note": "the guard blocked 3 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com; content that needed them may be missing"
+      },
+      {
+        "criterion": "1.4.10",
+        "method": "probe/layout@1",
+        "rule": "rampa/reflow",
+        "conditions": "320×256 CSS px from 1280×1024 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 628,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing"
+      },
+      {
+        "criterion": "1.4.12",
+        "method": "probe/layout@1",
+        "rule": "rampa/text-spacing",
+        "conditions": "spacing overrides at 1280×1024 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 655,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 4 request(s) to api.xtremepush.com, www.irishtimes.com, pagead2.googlesyndication.com, …; content that needed them may be missing"
+      },
+      {
+        "criterion": "1.4.13",
+        "method": "probe/hover@1",
+        "rule": "rampa/hover-content",
+        "conditions": "hover and focus on up to 30 triggers at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "5 trigger(s) tried of 22 found (5 hovered, 5 focused); 0 showed content; 17 more of a kind already tried five times not tried; the guard blocked 3 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.3.4",
+        "method": "probe/orientation@1",
+        "rule": "rampa/orientation",
+        "conditions": "portrait and landscape at 1280×800 and 390×844 (phone) · chromium 155.0.4283.62 (headless)",
+        "status": "needs-review",
+        "applicable": 413,
+        "failures": 0,
+        "review": 1,
+        "unmatched": 0,
+        "note": "3 load(s) compared, upright and sideways, each loaded and then turned; 1 load(s) could not be measured; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "2.1.1",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/keyboard-reach",
+        "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "not-checked",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "the walk did not go round the page (forward: trap, backward: not-run), so what it missed is unknown; the guard blocked 4 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "2.1.2",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/keyboard-trap",
+        "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 4,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "focus cycled through 4 element(s) and left with Escape, then Tab; the guard blocked 4 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "3.2.1",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/on-focus",
+        "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 4,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "the walk stopped early (trap); the guard blocked 4 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "2.4.1",
+        "method": "probe/keyboard@1",
+        "rule": "rampa/bypass-blocks",
+        "conditions": "first 4 Tab stop(s), skip links pressed: 0 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 1,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "also: main landmark, heading “Tributes paid to musician Dónal Lunny after his death aged …”; the guard blocked 4 request(s) to api.xtremepush.com, www.irishtimes.com, pagead2.googlesyndication.com, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "2.1.4",
+        "method": "probe/shortcuts@1",
+        "rule": "rampa/character-key-shortcuts",
+        "conditions": "printable keys with focus on the body at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "94 printable key(s) pressed one at a time with focus on the page; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.1",
+        "method": "probe/media@2",
+        "rule": "rampa/audio-video-only",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.7 s watch may be missed; 2 other frame(s) of another origin not read; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.2",
+        "method": "probe/media@2",
+        "rule": "rampa/captions",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.7 s watch may be missed; 2 other frame(s) of another origin not read; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.3",
+        "method": "probe/media@2",
+        "rule": "rampa/media-alternative",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.7 s watch may be missed; 2 other frame(s) of another origin not read; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.4",
+        "method": "probe/media@2",
+        "rule": "rampa/live-captions",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.7 s watch may be missed; 2 other frame(s) of another origin not read; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.5",
+        "method": "probe/media@2",
+        "rule": "rampa/audio-description",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.7 s watch may be missed; 2 other frame(s) of another origin not read; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.2",
+        "method": "probe/media@2",
+        "rule": "rampa/audio-control",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.7 s watch may be missed; 2 other frame(s) of another origin not read; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.1",
+        "method": "probe/color@2",
+        "rule": "rampa/color-only-state",
+        "conditions": "current and selected items against their neighbours at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "not-checked",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "0 current or selected item(s) found; the guard blocked 4 request(s) to www.irishtimes.com, cloudflareinsights.com, api.xtremepush.com, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.1",
+        "method": "probe/color@2",
+        "rule": "rampa/color-only-required",
+        "conditions": "required fields against optional ones at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "not-checked",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "0 form(s) with required and optional fields; the guard blocked 4 request(s) to www.irishtimes.com, cloudflareinsights.com, api.xtremepush.com, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.1",
+        "method": "probe/color@2",
+        "rule": "rampa/link-color-only",
+        "conditions": "links in text against the text around them, at rest, on hover and on focus at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "not-checked",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "0 link(s) in blocks of text; the guard blocked 4 request(s) to www.irishtimes.com, cloudflareinsights.com, api.xtremepush.com, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.1",
+        "method": "probe/color@2",
+        "rule": "rampa/color-words",
+        "conditions": "sentences that name a color, against the hue of what they name at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "not-checked",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "0 sentence(s) that convey something by a color; the guard blocked 4 request(s) to www.irishtimes.com, cloudflareinsights.com, api.xtremepush.com, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "2.4.7",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/focus-visible",
+        "conditions": "focused and blurred captures at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 4,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "the walk stopped early (trap); the guard blocked 4 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "2.4.11",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/focus-obscured",
+        "conditions": "5×5 hit grid at 1280×800, both directions · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 4,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 4 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com, …; content that needed them may be missing"
+      },
+      {
+        "criterion": "2.4.11",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/focus-obscured",
+        "conditions": "5×5 hit grid at 390×844, both directions · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 4,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, 88aa3a6b00fed83a4ea4ec794f82bb6f.safeframe.googlesyndication.com; content that needed them may be missing"
+      },
+      {
+        "criterion": "1.4.11",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/focus-indicator-contrast",
+        "conditions": "focus indicators against the colors next to them, at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 4,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 4 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com, …; content that needed them may be missing"
+      },
+      {
+        "criterion": "1.4.3",
+        "method": "probe/states@1",
+        "rule": "rampa/state-text-contrast",
+        "conditions": "text in hover and focus states at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "80 control(s) with text in 13 style(s); 10 hovered and 10 focused; 20 kept their colors; the guard blocked 3 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.11",
+        "method": "probe/states@1",
+        "rule": "rampa/state-indicator-contrast",
+        "conditions": "selected and current items with their marks on and off at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "not-checked",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "0 selected, current, pressed or checked item(s) found, 0 captured; the guard blocked 3 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com; content that needed them may be missing",
+        "maturity": "experimental"
+      }
+    ],
+    "reach": {
+      "frames": [
+        {
+          "ref": "#fw-desktop",
+          "url": "https://lw.foreca.net/v4/en/site/irishtimes/widget/?name=Dublin&id=102964574",
+          "collected": false,
+          "reason": "cross-origin",
+          "engine": true
+        },
+        {
+          "ref": "#lazy_78964 > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > iframe",
+          "url": "https://www.recruitireland.com/embed/search/jobs",
+          "collected": false,
+          "reason": "cross-origin",
+          "engine": true
+        }
+      ]
+    },
+    "criteria": [
+      {
+        "id": "1.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "image-alt",
+            "ran": true,
+            "applicable": 12,
+            "failures": 2,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-meter-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-progressbar-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "object-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "role-img-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "svg-img-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-alt",
+            "ran": true,
+            "applicable": 8,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.1.1@4",
+            "ran": true,
+            "applicable": 2,
+            "failures": 2,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Equivalence for complex and contextual images; decorative or not; long descriptions; CAPTCHA usability"
+      },
+      {
+        "id": "1.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/audio-video-only",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.7 s watch may be missed; 2 other frame(s) of another origin not read; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Whether a transcript is equivalent; decorative video-only; labeled media alternatives"
+      },
+      {
+        "id": "1.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "video-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/captions",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.7 s watch may be missed; 2 other frame(s) of another origin not read; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Accuracy, completeness, synchronization, speakers; players Rampa cannot read"
+      },
+      {
+        "id": "1.2.3",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/media-alternative",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.7 s watch may be missed; 2 other frame(s) of another origin not read; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Whether visual information matters, and whether the description or alternative is adequate"
+      },
+      {
+        "id": "1.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/live-captions",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.7 s watch may be missed; 2 other frame(s) of another origin not read; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Everything about live captions"
+      },
+      {
+        "id": "1.2.5",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/audio-description",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.7 s watch may be missed; 2 other frame(s) of another origin not read; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Quality of the description; pauses; importance of the visuals"
+      },
+      {
+        "id": "1.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "list",
+            "ran": true,
+            "applicable": 5,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "listitem",
+            "ran": true,
+            "applicable": 61,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-children",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-parent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "definition-list",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "dlitem",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "table-fake-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-has-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-headers-attr",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "th-has-data-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/table-header-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/presentational-table",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/orphan-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Whether formatting carries meaning; complex tables; charts and maps; structure \"available in text\""
+      },
+      {
+        "id": "1.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether an order matters; magazine and dashboard layouts; bidirectional text"
+      },
+      {
+        "id": "1.3.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Instructions in images and media; references that depend on context"
+      },
+      {
+        "id": "1.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/orientation",
+            "ran": true,
+            "applicable": 413,
+            "failures": 0,
+            "review": 1,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/orientation@1",
+              "conditions": "portrait and landscape at 1280×800 and 390×844 (phone) · chromium 155.0.4283.62 (headless)",
+              "note": "3 load(s) compared, upright and sideways, each loaded and then turned; 1 load(s) could not be measured; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Essential orientation; real devices with the rotation lock; native apps"
+      },
+      {
+        "id": "1.3.5",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "autocomplete-valid",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.3.5@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whose data a field collects in ambiguous contexts; whether autofill works"
+      },
+      {
+        "id": "1.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-in-text-block",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/color-only-state",
+            "ran": false,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/color@2",
+              "conditions": "current and selected items against their neighbours at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "0 current or selected item(s) found; the guard blocked 4 request(s) to www.irishtimes.com, cloudflareinsights.com, api.xtremepush.com, …; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/color-only-required",
+            "ran": false,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/color@2",
+              "conditions": "required fields against optional ones at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "0 form(s) with required and optional fields; the guard blocked 4 request(s) to www.irishtimes.com, cloudflareinsights.com, api.xtremepush.com, …; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/link-color-only",
+            "ran": false,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/color@2",
+              "conditions": "links in text against the text around them, at rest, on hover and on focus at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "0 link(s) in blocks of text; the guard blocked 4 request(s) to www.irishtimes.com, cloudflareinsights.com, api.xtremepush.com, …; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/color-words",
+            "ran": false,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/color@2",
+              "conditions": "sentences that name a color, against the hue of what they name at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "0 sentence(s) that convey something by a color; the guard blocked 4 request(s) to www.irishtimes.com, cloudflareinsights.com, api.xtremepush.com, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Charts, maps, color-coded tables; whether a difference carries meaning"
+      },
+      {
+        "id": "1.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "no-autoplay-audio",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/audio-control",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.7 s watch may be missed; 2 other frame(s) of another origin not read; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Audio started by other interactions; games; cross-origin media; keyboard access to the control"
+      },
+      {
+        "id": "1.4.3",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "color-contrast",
+            "ran": true,
+            "applicable": 277,
+            "failures": 26,
+            "review": 51,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/pixel-contrast",
+            "ran": true,
+            "applicable": 5,
+            "failures": 2,
+            "review": 0,
+            "maturity": "experimental",
+            "note": "50 not measured: the page's time budget ran out"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/state-text-contrast",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/states@1",
+              "conditions": "text in hover and focus states at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "80 control(s) with text in 13 style(s); 10 hovered and 10 focused; 20 kept their colors; the guard blocked 3 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Text over photos and video; text in images; logotypes"
+      },
+      {
+        "id": "1.4.4",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-viewport",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/meta-viewport",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/resize-text",
+            "ran": true,
+            "applicable": 628,
+            "failures": 0,
+            "review": 1,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/layout@1",
+              "conditions": "640×512 CSS px at device scale 2 (1280×1024 at 200%) · chromium 155.0.4283.62 (headless)",
+              "note": "the guard blocked 3 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Lost functionality in complex widgets; acceptable truncation; real mobile browsers"
+      },
+      {
+        "id": "1.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential presentation; customizable images; infographics"
+      },
+      {
+        "id": "1.4.10",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/reflow",
+            "ran": true,
+            "applicable": 628,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/layout@1",
+              "conditions": "320×256 CSS px from 1280×1024 · chromium 155.0.4283.62 (headless)",
+              "note": "the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Lost functionality at 320 CSS px; content that scrolls horizontally; whether the two-dimensional exception applies"
+      },
+      {
+        "id": "1.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/focus-indicator-contrast",
+            "ran": true,
+            "applicable": 4,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "focus indicators against the colors next to them, at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "the guard blocked 4 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com, …; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/state-indicator-contrast",
+            "ran": false,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/states@1",
+              "conditions": "selected and current items with their marks on and off at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "0 selected, current, pressed or checked item(s) found, 0 captured; the guard blocked 3 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Graphs and charts; whether a graphic is required; hover and active states; gradients"
+      },
+      {
+        "id": "1.4.12",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "avoid-inline-spacing",
+            "ran": true,
+            "applicable": 158,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/text-spacing",
+            "ran": true,
+            "applicable": 655,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/layout@1",
+              "conditions": "spacing overrides at 1280×1024 · chromium 155.0.4283.62 (headless)",
+              "note": "the guard blocked 4 request(s) to api.xtremepush.com, www.irishtimes.com, pagead2.googlesyndication.com, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Text clipped or overlapping with the spacing applied; scripts where a metric does not apply; text in canvas and images"
+      },
+      {
+        "id": "1.4.13",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/hover-content",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/hover@1",
+              "conditions": "hover and focus on up to 30 triggers at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "5 trigger(s) tried of 22 found (5 hovered, 5 focused); 0 showed content; 17 more of a kind already tried five times not tried; the guard blocked 3 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Content shown on hover or focus: dismissible, hoverable, persistent; touch; content that moves"
+      },
+      {
+        "id": "2.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "scrollable-region-focusable",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-focusable-content",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "server-side-image-map",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/keyboard-reach",
+            "ran": false,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "the walk did not go round the page (forward: trap, backward: not-run), so what it missed is unknown; the guard blocked 4 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Operating everything with the keyboard; states behind login; drag and drop; canvas; speech and switch input"
+      },
+      {
+        "id": "2.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/keyboard-trap",
+            "ran": true,
+            "applicable": 4,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "focus cycled through 4 element(s) and left with Escape, then Tab; the guard blocked 4 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Moving through the whole page with the keyboard; traps after interactions; plug-ins; screen-reader modes"
+      },
+      {
+        "id": "2.1.4",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/character-key-shortcuts",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/shortcuts@1",
+              "conditions": "printable keys with focus on the body at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "94 printable key(s) pressed one at a time with focus on the page; the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, cloudflareinsights.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Settings on other pages or behind login, and whether they work; shortcuts in frames; keyboard layouts and IMEs; speech input"
+      },
+      {
+        "id": "2.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-refresh",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/refresh-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Server-side time-outs; flows behind login; the exceptions"
+      },
+      {
+        "id": "2.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "blink",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "marquee",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Motion after an interaction or further down the page; whether a control is easy to find and works from the keyboard; essential motion; reliance on reduced motion"
+      },
+      {
+        "id": "2.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Flashing content, live and user-generated content; certification-grade sign-off"
+      },
+      {
+        "id": "2.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "bypass",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/bypass-blocks",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@1",
+              "conditions": "first 4 Tab stop(s), skip links pressed: 0 · chromium 155.0.4283.62 (headless)",
+              "note": "also: main landmark, heading “Tributes paid to musician Dónal Lunny after his death aged …”; the guard blocked 4 request(s) to api.xtremepush.com, www.irishtimes.com, pagead2.googlesyndication.com, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Whether a block is substantial; whether skip links work; single-page-app views"
+      },
+      {
+        "id": "2.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "document-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/default-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.2@3",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a title fits the domain and audience"
+      },
+      {
+        "id": "2.4.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether the focus order preserves meaning; dialogs and menus"
+      },
+      {
+        "id": "2.4.4",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 202,
+            "failures": 2,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.4@3",
+            "ran": true,
+            "applicable": 324,
+            "failures": 0,
+            "review": 2,
+            "suggestions": 2,
+            "notJudged": 274,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "The \"ambiguous to users in general\" exception; destinations behind login"
+      },
+      {
+        "id": "2.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Defining the set of pages; the process exception"
+      },
+      {
+        "id": "2.4.6",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-text",
+            "ran": true,
+            "applicable": 205,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.6@4",
+            "ran": true,
+            "applicable": 62,
+            "failures": 0,
+            "review": 2,
+            "suggestions": 2,
+            "notJudged": 12,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a heading or label fits the domain and audience"
+      },
+      {
+        "id": "2.4.7",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/focus-visible",
+            "ran": true,
+            "applicable": 4,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "focused and blurred captures at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "the walk stopped early (trap); the guard blocked 4 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Whether every focused element shows it; faint indicators; forced colors"
+      },
+      {
+        "id": "2.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/focus-obscured",
+            "ran": true,
+            "applicable": 4,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "5×5 hit grid at 1280×800, both directions · chromium 155.0.4283.62 (headless)",
+              "note": "the guard blocked 4 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com, …; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/focus-obscured",
+            "ran": true,
+            "applicable": 4,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "5×5 hit grid at 390×844, both directions · chromium 155.0.4283.62 (headless)",
+              "note": "the guard blocked 3 request(s) to api.xtremepush.com, www.irishtimes.com, 88aa3a6b00fed83a4ea4ec794f82bb6f.safeframe.googlesyndication.com; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Focused elements hidden by sticky headers, banners or dialogs; content the user opened or can move"
+      },
+      {
+        "id": "2.5.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential gestures; alternatives elsewhere on the page or in another view; gestures the probe does not make (rotation, longer paths); real touch hardware"
+      },
+      {
+        "id": "2.5.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Actions on the down-event; undo in drag and drop; touch"
+      },
+      {
+        "id": "2.5.3",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "label-content-name-mismatch",
+            "ran": true,
+            "applicable": 3,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/field-label-in-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Label versus nearby instruction; symbols and numbers; testing with speech input"
+      },
+      {
+        "id": "2.5.4",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Camera and body gestures; real sensors; essential motion; settings on other pages; motion after a tap or a permission"
+      },
+      {
+        "id": "2.5.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Dragging and its single-pointer alternatives; essential dragging; canvas editors"
+      },
+      {
+        "id": "2.5.8",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "target-size",
+            "ran": true,
+            "applicable": 247,
+            "failures": 33,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Essential or legally required presentation; equivalent targets; canvas and SVG maps"
+      },
+      {
+        "id": "3.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "html-has-lang",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-lang-valid",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-xml-lang-mismatch",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-id",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.1@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Balanced bilingual pages; dialects"
+      },
+      {
+        "id": "3.1.2",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "valid-lang",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-switcher-lang",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.2@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Unmarked passages; single words; proper names; loanwords"
+      },
+      {
+        "id": "3.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/on-focus",
+            "ran": true,
+            "applicable": 4,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "the walk stopped early (trap); the guard blocked 4 request(s) to api.xtremepush.com, cloudflareinsights.com, www.irishtimes.com, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Changes of context when an element receives focus; states after interaction"
+      },
+      {
+        "id": "3.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when a setting changes, and whether notice is adequate; custom widgets"
+      },
+      {
+        "id": "3.2.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Navigation order across the set of pages; personalization; pages behind login"
+      },
+      {
+        "id": "3.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "What counts as the same function; icons in context"
+      },
+      {
+        "id": "3.2.6",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Help mechanisms and their order across the set of pages; help that is not a link"
+      },
+      {
+        "id": "3.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Error messages after input; errors the server finds; wording"
+      },
+      {
+        "id": "3.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "form-field-multiple-labels",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/no-visible-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.3.2@1",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether instructions are enough; icons as labels"
+      },
+      {
+        "id": "3.3.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a suggestion is correct; server-side errors; the security exception"
+      },
+      {
+        "id": "3.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Reversal, checking or confirmation of submissions: almost all of it"
+      },
+      {
+        "id": "3.3.7",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Information asked again in a process; third-party steps; the exceptions"
+      },
+      {
+        "id": "3.3.8",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Cognitive function tests in sign-in and recovery; CAPTCHA escalations; later steps that need an account"
+      },
+      {
+        "id": "4.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "frame-title",
+            "ran": true,
+            "applicable": 3,
+            "failures": 3,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 202,
+            "failures": 2,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-allowed-attr",
+            "ran": true,
+            "applicable": 43,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-conditional-attr",
+            "ran": true,
+            "applicable": 43,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-deprecated-role",
+            "ran": true,
+            "applicable": 3,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-focus",
+            "ran": true,
+            "applicable": 200,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-prohibited-attr",
+            "ran": true,
+            "applicable": 43,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-attr",
+            "ran": true,
+            "applicable": 3,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-roles",
+            "ran": true,
+            "applicable": 3,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr-value",
+            "ran": true,
+            "applicable": 43,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr",
+            "ran": true,
+            "applicable": 43,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "button-name",
+            "ran": true,
+            "applicable": 47,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "duplicate-id-aria",
+            "ran": true,
+            "applicable": 73,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "label",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "nested-interactive",
+            "ran": true,
+            "applicable": 93,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-braille-equivalent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-command-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-input-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tab-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-toggle-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tooltip-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title-unique",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-button-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "select-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "summary-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/duplicate-id-reference",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/widget-name",
+            "ran": true,
+            "applicable": 372,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/custom-control",
+            "ran": true,
+            "applicable": 6,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/disclosure-state",
+            "ran": true,
+            "applicable": 22,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Roles for custom widgets; values set by assistive technology; what is actually announced"
+      },
+      {
+        "id": "4.1.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether status messages are announced in screen readers"
+      }
+    ]
+  },
+  "needsReview": [
+    {
+      "criterion": "1.3.4",
+      "level": "AA",
+      "ruleId": "rampa/orientation",
+      "ref": "html > body",
+      "target": "html > body",
+      "message": "In landscape orientation, most of the text the page shows in portrait is gone, with no message saying why. Check whether the page restricts its display to portrait orientation (WCAG 1.3.4).",
+      "evidence": "at 844×390 (landscape), 1180 character(s) of text a reader can see, against 14452 at 390×844 (portrait); a fixed layer covers 100% of the window; seen in 3 comparison(s) at 390×844 (phone)"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#fw-desktop |> .foreca-node-temp",
+      "target": "[\"#fw-desktop\",\".foreca-node-temp\"]",
+      "html": "<div class=\"foreca-node-temp\">6°</div>",
+      "message": "Element has a 1:1 contrast ratio with the background",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_63005 > div > div > div:nth-of-type(2) > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".c-it-border--tablet.c-it-border__bottom:nth-child(2) > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"education/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/ireland/education/\">Education</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_29221 > div > div > div:nth-of-type(2) > div > div > div > div > div > div > div > div > span > a",
+      "target": "[\".b-lead-flex__featured-story > div > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"europe/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/world/europe/\">Europe</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_68478 > div > div > div:nth-of-type(1) > div > div > div > div > div > div > div > div > span > a",
+      "target": "[\".b-lead-flex__featured-story > div > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"business/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/business/\">Business</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_68478 > div > div > div:nth-of-type(2) > div > div > div > div > div > div > div > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"sport/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/sport/\">Sport</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_41701 > div > div > div:nth-of-type(2) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"opinion/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/opinion/\">Opinion</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_41701 > div > div > div:nth-of-type(3) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(3) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > article > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"rugby/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/sport/rugby/\">Rugby</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_41701 > div > div > div:nth-of-type(5) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(5) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > article > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"business/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/business/\">Business</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_90808 > div > div > div:nth-of-type(1) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"residential/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/property/residential/\">Residential</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_90808 > div > div > div:nth-of-type(2) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-column-span-4.grid-item[data-style-direction=\\\"vertical\\\"]:nth-child(2) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > article > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"film/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/culture/film/\">Film</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(1) > div > article:nth-of-type(1) > div > div > div > div > span > span:nth-of-type(1)",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(1) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--desktop.c-it-border--tablet.c-it-border--mobile:nth-child(1) > .b-flex-promo-card__left.b-flex-promo-card > .b-flex-promo-card__text > .b-flex-promo-card__text-no-overline > .b-flex-promo-card__metadata > .c-it-byline.c-it-byline--list > span:nth-child(1)\"]",
+      "html": "<span>By </span>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(1) > div > article:nth-of-type(1) > div > div > div > div > span > span:nth-of-type(2) > a",
+      "target": "[\"a[href$=\\\"justine-mccarthy/\\\"]\"]",
+      "html": "<a href=\"/author/justine-mccarthy/\">Justine McCarthy</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(1) > div > article:nth-of-type(2) > div > div > div > div > span > span:nth-of-type(1)",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(1) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--desktop.c-it-border--tablet.c-it-border--mobile:nth-child(2) > .b-flex-promo-card__left.b-flex-promo-card > .b-flex-promo-card__text > .b-flex-promo-card__text-no-overline > .b-flex-promo-card__metadata > .c-it-byline.c-it-byline--list > span:nth-child(1)\"]",
+      "html": "<span>By </span>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(1) > div > article:nth-of-type(2) > div > div > div > div > span > span:nth-of-type(2)",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(1) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--desktop.c-it-border--tablet.c-it-border--mobile:nth-child(2) > .b-flex-promo-card__left.b-flex-promo-card > .b-flex-promo-card__text > .b-flex-promo-card__text-no-overline > .b-flex-promo-card__metadata > .c-it-byline.c-it-byline--list > span:nth-child(2)\"]",
+      "html": "<span>Billy Cantwell</span>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(1) > div > article:nth-of-type(3) > div > div > div > div > span > span:nth-of-type(1)",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(1) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--tablet.c-it-border--mobile.c-it-border__bottom:nth-child(3) > .b-flex-promo-card__left.b-flex-promo-card > .b-flex-promo-card__text > .b-flex-promo-card__text-no-overline > .b-flex-promo-card__metadata > .c-it-byline.c-it-byline--list > span:nth-child(1)\"]",
+      "html": "<span>By </span>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(1) > div > article:nth-of-type(3) > div > div > div > div > span > span:nth-of-type(2) > a",
+      "target": "[\"a[href$=\\\"diarmaid-ferriter/\\\"]\"]",
+      "html": "<a href=\"/author/diarmaid-ferriter/\">Diarmaid Ferriter</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(2) > div > article:nth-of-type(1) > div > div > div > div > span > span:nth-of-type(1)",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(2) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--desktop.c-it-border--tablet.c-it-border--mobile:nth-child(1) > .b-flex-promo-card__left.b-flex-promo-card > .b-flex-promo-card__text > .b-flex-promo-card__text-no-overline > .b-flex-promo-card__metadata > .c-it-byline.c-it-byline--list > span:nth-child(1)\"]",
+      "html": "<span>By </span>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(2) > div > article:nth-of-type(1) > div > div > div > div > span > span:nth-of-type(2) > a",
+      "target": "[\"a[href$=\\\"newton-emerson/\\\"]\"]",
+      "html": "<a href=\"/author/newton-emerson/\">Newton Emerson</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(2) > div > article:nth-of-type(2) > div > div > div > div > span > span:nth-of-type(1)",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(2) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--desktop.c-it-border--tablet.c-it-border--mobile:nth-child(2) > .b-flex-promo-card__left.b-flex-promo-card > .b-flex-promo-card__text > .b-flex-promo-card__text-no-overline > .b-flex-promo-card__metadata > .c-it-byline.c-it-byline--list > span:nth-child(1)\"]",
+      "html": "<span>By </span>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(2) > div > article:nth-of-type(2) > div > div > div > div > span > span:nth-of-type(2) > a",
+      "target": "[\"a[href$=\\\"finn-mcredmond/\\\"]\"]",
+      "html": "<a href=\"/author/finn-mcredmond/\">Finn McRedmond</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(2) > div > article:nth-of-type(3) > div > div > div > div > span > span:nth-of-type(1)",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(2) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--tablet.c-it-border--mobile.c-it-border__bottom:nth-child(3) > .b-flex-promo-card__left.b-flex-promo-card > .b-flex-promo-card__text > .b-flex-promo-card__text-no-overline > .b-flex-promo-card__metadata > .c-it-byline.c-it-byline--list > span:nth-child(1)\"]",
+      "html": "<span>By </span>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_91598 > div > div > div:nth-of-type(2) > div > article:nth-of-type(3) > div > div > div > div > span > span:nth-of-type(2)",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(2) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--tablet.c-it-border--mobile.c-it-border__bottom:nth-child(3) > .b-flex-promo-card__left.b-flex-promo-card > .b-flex-promo-card__text > .b-flex-promo-card__text-no-overline > .b-flex-promo-card__metadata > .c-it-byline.c-it-byline--list > span:nth-child(2)\"]",
+      "html": "<span>Eoin Drea</span>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_54490 > div > div > div:nth-of-type(2) > div > article:nth-of-type(1) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".b-flex-promo-card__left-hide.b-flex-promo-card__image-square-mobile-left.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"rugby/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/sport/rugby/\">Rugby</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_54490 > div > div > div:nth-of-type(2) > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\"article:nth-child(2) > .b-flex-promo-card__left-hide.b-flex-promo-card__image-square-mobile-left.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"soccer/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/sport/soccer/\">Soccer</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_54490 > div > div > div:nth-of-type(2) > div > article:nth-of-type(3) > div > div > div:nth-of-type(1) > div > span:nth-of-type(2) > a",
+      "target": "[\"article:nth-child(3) > .b-flex-promo-card__left-hide.b-flex-promo-card__image-square-mobile-left.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"soccer/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/sport/soccer/\">Soccer</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_54490 > div > div > div:nth-of-type(2) > div > article:nth-of-type(4) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".b-flex-promo-card__left-hide.b-flex-promo-card__image-square-mobile-left.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"europe/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/world/europe/\">Europe</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_54490 > div > div > div:nth-of-type(2) > div > article:nth-of-type(5) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".c-it-border--tablet.c-it-border__bottom > .b-flex-promo-card__left-hide.b-flex-promo-card__image-square-mobile-left.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"soccer/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/sport/soccer/\">Soccer</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_65288 > div > div > div:nth-of-type(1) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".c-it-border--tablet.c-it-border--mobile.c-it-border__bottom > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"your-wellness/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/health/your-wellness/\">Your Wellness</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_65288 > div > div > div:nth-of-type(2) > div > article:nth-of-type(1) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-column-span-3.grid-item[data-style-direction=\\\"vertical\\\"]:nth-child(2) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--desktop.c-it-border--tablet.c-it-border--mobile > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"people/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/life-style/people/\">People</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_65288 > div > div > div:nth-of-type(2) > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false[rel=\\\"noreferrer\\\"][target=\\\"_blank\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"https://www.irishtimes.com/tags/beauty/\" rel=\"noreferrer\" target=\"_blank\">Beauty<span class=\"visually-hidden\">Opens in new window</span></a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_38714 > div > div > div:nth-of-type(1) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-column-span-6.grid-item[data-style-direction=\\\"vertical\\\"] > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--tablet.c-it-border--mobile.c-it-border__bottom > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"music/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/culture/music/\">Music</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_38714 > div > div > div:nth-of-type(2) > div > article:nth-of-type(1) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".grid-column-span-3.grid-item[data-style-direction=\\\"vertical\\\"]:nth-child(2) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--desktop.c-it-border--tablet.c-it-border--mobile > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-justification=\\\"center\\\"][data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"music/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/culture/music/\">Music</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_38714 > div > div > div:nth-of-type(2) > div > article:nth-of-type(2) > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".false.c-link[href$=\\\"books/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/culture/books/\">Books</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_850 > div > div > div:nth-of-type(1) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".c-it-border--tablet.c-it-border--mobile.c-it-border__bottom > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"rugby/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/sport/rugby/\">Rugby</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_850 > div > div > div:nth-of-type(1) > div > article > div > div > div:nth-of-type(2) > div > span > span:nth-of-type(1)",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(1) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--tablet.c-it-border--mobile.c-it-border__bottom > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-flex-promo-card__text-no-overline > .b-flex-promo-card__metadata > .c-it-byline.c-it-byline--list > span:nth-child(1)\"]",
+      "html": "<span>By </span>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_850 > div > div > div:nth-of-type(1) > div > article > div > div > div:nth-of-type(2) > div > span > span:nth-of-type(2) > a",
+      "target": "[\"a[href$=\\\"conor-murray/\\\"]\"]",
+      "html": "<a href=\"/author/conor-murray/\">Conor Murray</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_850 > div > div > div:nth-of-type(2) > div > article > div > div > div:nth-of-type(1) > div > span > a",
+      "target": "[\".b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-it-overline-block--subtle.b-it-overline-block.c-grid > div[data-style-alignment=\\\"center\\\"][data-style-direction=\\\"horizontal\\\"][data-style-justification=\\\"start\\\"] > .b-it-overline-block__text[data-style-wrap=\\\"wrap\\\"][data-style-justification=\\\"center\\\"] > .false.c-link[href$=\\\"crime-law/\\\"]\"]",
+      "html": "<a class=\"c-link false\" href=\"/crime-law/\">Crime &amp; Law</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_850 > div > div > div:nth-of-type(2) > div > article > div > div > div:nth-of-type(2) > div > span > span:nth-of-type(1)",
+      "target": "[\".grid-item[data-style-direction=\\\"vertical\\\"][data-style-alignment=\\\"unset\\\"]:nth-child(2) > .b-flex-promo-list-block.do-not-show-on-print[data-style-direction=\\\"vertical\\\"] > .c-it-border--tablet.c-it-border--mobile.c-it-border__bottom > .b-flex-promo-card__top.b-flex-promo-card > .b-flex-promo-card__text > .b-flex-promo-card__text-no-overline > .b-flex-promo-card__metadata > .c-it-byline.c-it-byline--list > span:nth-child(1)\"]",
+      "html": "<span>By </span>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#lazy_850 > div > div > div:nth-of-type(2) > div > article > div > div > div:nth-of-type(2) > div > span > span:nth-of-type(2) > a",
+      "target": "[\"a[href$=\\\"colm-keena/\\\"]\"]",
+      "html": "<a href=\"/author/colm-keena/\">Colm Keena</a>",
+      "message": "Element's background color could not be determined due to a pseudo element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#onetrust-policy-title",
+      "target": "[\"#onetrust-policy-title\"]",
+      "html": "<h2 id=\"onetrust-policy-title\">We value your privacy</h2>",
+      "message": "Element's background color could not be determined because it is overlapped by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#onetrust-policy-text",
+      "target": "[\"#onetrust-policy-text\"]",
+      "html": "<div id=\"onetrust-policy-text\">",
+      "message": "Element's background color could not be determined because it is overlapped by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#onetrust-policy-text > span",
+      "target": "[\".ot-tcf2-vendor-count\"]",
+      "html": "<span class=\"ot-tcf2-vendor-count ot-text-bold\">82</span>",
+      "message": "Element's background color could not be determined because it is overlapped by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#onetrust-policy-text > a",
+      "target": "[\".ot-cookie-policy-link\"]",
+      "html": "<a class=\"ot-cookie-policy-link\" href=\"https://www.irishtimes.com/policy-and-terms/cookie-policy\" aria-label=\"More information about your privacy, opens in a new tab\" rel=\"noopener noreferrer\" target=\"_blank\">Cookie Policy</a>",
+      "message": "Element's background color could not be determined because it is overlapped by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#onetrust-policy > span",
+      "target": "[\".ot-b-addl-desc\"]",
+      "html": "<span class=\"ot-b-addl-desc\">Certain vendors, once consent is provided by you to the storage of information on your device and/or to the access of information already stored on your device, use legitimate interest to further process your personal data.</span>",
+      "message": "Element's background color could not be determined because it is overlapped by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#onetrust-policy > div:nth-of-type(2) > h3",
+      "target": "[\".ot-dpd-title\"]",
+      "html": "<h3 class=\"ot-dpd-title\">We and our partners collect and use data</h3>",
+      "message": "Element's background color could not be determined because it is overlapped by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#onetrust-policy > div:nth-of-type(2) > div > p",
+      "target": "[\".ot-dpd-desc\"]",
+      "html": "<p class=\"ot-dpd-desc\">",
+      "message": "Element's background color could not be determined because it is overlapped by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#onetrust-policy > div:nth-of-type(2) > div > p > button",
+      "target": "[\".onetrust-vendors-list-handler\"]",
+      "html": "<button class=\"ot-link-btn onetrust-vendors-list-handler\">\n        List of Partners (vendors)\n        </button>",
+      "message": "Element's background color could not be determined because it is overlapped by another element",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#webpush-custom-prompt-title",
+      "target": "[\"#webpush-custom-prompt-title\"]",
+      "html": "<div id=\"webpush-custom-prompt-title\">The Irish Times would like to send you push notifications.</div>",
+      "message": "Element's background color could not be determined because it partially overlaps other elements",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#webpush-custom-prompt-text",
+      "target": "[\"#webpush-custom-prompt-text\"]",
+      "html": "<div id=\"webpush-custom-prompt-text\">Website notifications can be changed in browser notifications preferences.</div>",
+      "message": "Element's background color could not be determined because it partially overlaps other elements",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#webpush-custom-prompt-button1",
+      "target": "[\"#webpush-custom-prompt-button1\"]",
+      "html": "<div id=\"webpush-custom-prompt-button1\">Don't Allow</div>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.3",
+      "level": "AA",
+      "ruleId": "color-contrast",
+      "ref": "#webpush-custom-prompt-button2",
+      "target": "[\"#webpush-custom-prompt-button2\"]",
+      "html": "<div id=\"webpush-custom-prompt-button2\">Allow</div>",
+      "message": "Element's background color could not be determined due to a background gradient",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI"
+    },
+    {
+      "criterion": "1.4.4",
+      "level": "AA",
+      "ruleId": "rampa/resize-text",
+      "ref": "#main-nav > div:nth-of-type(1) > nav",
+      "target": "#main-nav > div:nth-of-type(1) > nav",
+      "message": "Text shown at 1280×1024 is hidden at 200% zoom (640×512 CSS px), and no other text on the page at that size has the same words. Check that it can still be reached at 200%, for example through a menu.",
+      "evidence": "at 1280×1024 shown; at 640×512 CSS px display: none (<nav> #main-nav > div:nth-of-type(1) > nav): 1 text box(es), such as \"ePaper\"; shown again back at 1280×1024"
+    },
+    {
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#lazy_63005 > div > div > div:nth-of-type(3) > div > article:nth-of-type(4) > div > div > div:nth-of-type(1) > div > span > a",
+      "message": "The link text \"WEATHER\" does not match where the link leads: a page titled \"Environment News & Analysis | Climate, Wildlife & Sustainability | The Irish Ti…\".",
+      "evidence": "The model suggests: \"Environment News & Analysis\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.4",
+      "level": "A",
+      "ruleId": "judgment/2.4.4",
+      "ref": "#lazy_29221 > div > div > div:nth-of-type(3) > div > div > div > div > div > div > div > div > span > a",
+      "message": "The link text \"COURTS\" does not tell where the link goes, and nothing around it does.",
+      "evidence": "The model suggests: \"Courts News\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#main > div:nth-of-type(1) > a:nth-of-type(13) > h2",
+      "message": "The heading \"DON'T MISS\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"More Stories\"",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "#main > div:nth-of-type(3) > a:nth-of-type(2) > h2",
+      "message": "The heading \"SUBSCRIBER ONLY\" says nothing about the content under it.",
+      "evidence": "The model suggests: \"Subscriber Content\"",
+      "model": "ollama:gemma4:12b"
+    }
+  ],
+  "usage": {
+    "calls": 83,
+    "cachedCalls": 20,
+    "inputTokens": 95718,
+    "outputTokens": 8266,
+    "latencyMs": 250441
+  },
+  "errors": [],
+  "notes": [
+    "2 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #fw-desktop (https://lw.foreca.net/v4/en/site/irishtimes/widget/?name=Dublin&id=102964574), #lazy_78964 > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > iframe (https://www.recruitireland.com/embed/search/jobs).",
+    "76 image(s) were left without a capture, so no judgment looked at them: 76 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+    "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 274 of 324 for 2.4.4, 12 of 62 for 2.4.6. The coverage lists them as not judged.",
+    "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+  ],
+  "failOn": "confirmed"
+}

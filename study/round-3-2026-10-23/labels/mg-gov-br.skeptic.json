@@ -1,0 +1,18 @@
+{
+  "page": "https://www.mg.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "3ac5557b06cd",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 36x36 icon img (alt=\"boletim\") inside the 'Boletim Escolar Digital' service link in the 'Serviços em destaque' carousel. The model's crop, the screenshot at the element's bounds and the live source file (a 480x557 WebP with the same filename) all show a red line icon of a sheet with an 'A+' grade, ruled lines and a folded corner: a school report card. 'Boletim' is Portuguese for a report or bulletin ('boletim escolar' = report card), so the text alternative names exactly what the image shows and the claimed mismatch does not exist. The alt is redundant with the visible heading in the same link (alt=\"\" per H2 would be cleaner), but an accurate, redundant alternative is not a 1.1.1 failure, and it is not what the finding claims. The crop was the right image, so the model misjudged with the context it had."
+    },
+    {
+      "fingerprint": "f3e4faa1b5a2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is slick's icon-only 'Next' arrow (40x40; its 'Next' text is font-size 0 and transparent) on the partner-logo carousel. Live CSS, fetched the same day as the run, draws it as a 40px fontello circle-chevron glyph via '.paragraph--type--d-p-carousel .field--name-field-d-p-cs-item-reference .slick-arrow::before{color:#000;opacity:.2}', which renders #cccccc. The screenshot confirms a #ccc disc with a white chevron cut-out on a white page, so both disc vs page and chevron vs disc are 1.61:1. Nothing that identifies the control reaches 3:1 (G207; the Understanding text covers any visual information needed to identify that a control is present). I looked for reasons it might pass and none held up. It is not inactive: the slick init has infinite:true and there is no slick-disabled or aria-disabled. It is author-styled, not a user-agent default. Hover only raises opacity to .3 (about 2.1:1), and the same specific rule overrides slick's :focus opacity:1. The page's contrast switcher (G174) does not help: every theme uses '.theme__X *', which never matches ::before, so the glyph stays #000 at 20%, which in the hivis theme means black on black. One nuance: the carousel autoplays (autoplay:true, every 3 s), and in the full-page screenshot the UAI logo's red text touches a 6px arc of the disc, so 'at most 1.61:1' is not literally true in every frame. That contact comes from moving slide content and does not make the control identifiable, and the chevron against the disc stays at 1.61:1 in every frame."
+    }
+  ]
+}

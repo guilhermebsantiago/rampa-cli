@@ -1,0 +1,66 @@
+{
+  "page": "https://my.clevelandclinic.org/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "4f190c666f9f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A purely presentational fade overlay (data-identity='single-line-nav-fade-right', a 32x40 gray gradient SVG) at the edge of the header's utility bar; the screenshot shows it only softens the bar's edge and conveys no information. I looked for a reason it would pass: no aria-hidden or role=presentation on it or its ancestors, and the browser's accessibility tree exposes it as an image named 'Gray gradient' (nameFrom alt). The live page still has alt='Gray gradient'. A decorative image with a non-null alt that screen readers announce is documented failure F39 (and F38), so the claim holds."
+    },
+    {
+      "fingerprint": "f6bf9bdff3ce",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A purely presentational fade overlay (data-identity='single-line-nav-fade-left', a 16x40 gray gradient SVG) at the edge of the header's utility bar; the screenshot shows it only softens the bar's edge and conveys no information. I looked for a reason it would pass: no aria-hidden or role=presentation on it or its ancestors, and the browser's accessibility tree exposes it as an image named 'Gray gradient' (nameFrom alt). The live page still has alt='Gray gradient'. A decorative image with a non-null alt that screen readers announce is documented failure F39 (and F38), so the claim holds."
+    },
+    {
+      "fingerprint": "6fc21beedef8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A purely presentational fade overlay (data-identity='single-line-nav-fade-right', a 32x40 gray gradient SVG) at the edge of the header's utility bar; the screenshot shows it only softens the bar's edge and conveys no information. I looked for a reason it would pass: no aria-hidden or role=presentation on it or its ancestors, and the browser's accessibility tree exposes it as an image named 'Gray gradient' (nameFrom alt). The live page still has alt='Gray gradient'. A decorative image with a non-null alt that screen readers announce is documented failure F39 (and F38), so the claim holds."
+    },
+    {
+      "fingerprint": "5660a108bc88",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The header logo is the only content of a link to the site home (https://my.clevelandclinic.org/), and the link's computed name is 'Cleveland Clinic logo'. The alt names the organisation, so it identifies the destination, and a site-name logo linking home is a convention users widely understand. 'Cleveland Clinic home' would be better practice, and the word 'logo' is redundant, but WCAG 1.1.1 (H30) only asks that the alt convey the link's purpose; no documented failure covers a logo alt that gives the site name. Treating this as a failure applies a stricter best-practice rule than the criterion."
+    },
+    {
+      "fingerprint": "7058b55c7c22",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop shows an awareness ribbon with a medical cross, the standard symbol for cancer, and it sits beside the 'Cancer' card heading. The alt 'cancer icon' gives the icon's meaning in context, which is what a text alternative should do. It does not describe something absent. The alt is at most redundant with the heading, which is not the failure claimed."
+    },
+    {
+      "fingerprint": "3b8fa0739ffd",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop shows a line-drawn stomach and GI tract (the asset is named icon-Gastroenterology) on the Digestive Care card. 'stomach icon' describes what the image literally shows, so the claim that the alt describes something not shown is wrong."
+    },
+    {
+      "fingerprint": "ed66a86dcb05",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop shows a line-drawn anatomical heart (asset icon-CardiacCare) on the Heart Care card. 'heart icon' matches the image exactly, so there is no mismatch."
+    },
+    {
+      "fingerprint": "4ff0f4bca1d0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop shows a plain medical cross (asset icon-Primary-Care) beside the 'Primary Care' heading. A medical cross is a common symbol for general or primary care, and the alt names what the icon stands for in context. WCAG asks for text alternatives that serve the image's purpose, not a literal description, so this is not a mismatch. At worst it repeats the heading, which is not the failure claimed."
+    },
+    {
+      "fingerprint": "2e9443e3caf8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The crop shows a woman sitting on a couch looking at her phone, with care-type bubbles around her. The alt describes exactly what the photo shows, so the claim is wrong. The bubble text (Emergency Care, Virtual Visits, Express Care, Primary Care) is left out of the alt, but the adjacent paragraph gives the same options, and that is not the failure reported."
+    },
+    {
+      "fingerprint": "8beea1377050",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A decorative checkmark-in-a-box icon (asset icon-appointments) above the 'Get Care' heading of a call-to-action card. The alt 'get care icon' labels the icon by the section it illustrates, not by its look. That is a valid way to state an icon's purpose. It does not claim to show anything the image lacks. An empty alt would be cleaner because the heading repeats it, but redundancy is not the mismatch the finding reports."
+    }
+  ]
+}

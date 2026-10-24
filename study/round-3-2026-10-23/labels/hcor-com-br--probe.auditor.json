@@ -1,0 +1,246 @@
+{
+  "page": "https://www.hcor.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "0e86362afb8c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "I drove the live page in headless Edge at 1280x800 and tabbed to this owl-carousel arrow in the 'Hcor explica' section. The site removes the outline (computed outline: none) and the only focus cue is the rule '.carousel .owl-prev/.owl-next:focus {transform: scale(1.08)}': the pale #e9f2ec button grows by about 1.5 px a side on a white section, about 1.13:1, and its green chevron is about 2.5:1 against the button. Nothing that marks the focused state reaches 3:1, so the indicator fails 1.4.11 (F78 lists 1.4.11 for styling that leaves the focus indicator effectively invisible). The owl 'disabled' class on the prev button is not exposed or styled as inactive, and the button stays in the tab order, so the inactive exception does not apply. Rampa's 'next to #e9f2ec' is a loose way to name the neighbouring colour, but the conclusion holds."
+    },
+    {
+      "fingerprint": "1e140d895e61",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "I drove the live page in headless Edge at 1280x800 and tabbed to this owl-carousel arrow in the 'Hcor explica' section. The site removes the outline (computed outline: none) and the only focus cue is the rule '.carousel .owl-prev/.owl-next:focus {transform: scale(1.08)}': the pale #e9f2ec button grows by about 1.5 px a side on a white section, about 1.13:1, and its green chevron is about 2.5:1 against the button. Nothing that marks the focused state reaches 3:1, so the indicator fails 1.4.11 (F78 lists 1.4.11 for styling that leaves the focus indicator effectively invisible). The owl 'disabled' class on the prev button is not exposed or styled as inactive, and the button stays in the tab order, so the inactive exception does not apply. Rampa's 'next to #e9f2ec' is a loose way to name the neighbouring colour, but the conclusion holds."
+    },
+    {
+      "fingerprint": "e77c6b8251cd",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 1280x800 on the live page, this owl arrow in the 'Unidades' carousel has its outline removed, and on focus it only scales by 1.08. That is a #ffeae0 button growing on white (1.16:1), with an orange chevron of about 2:1 against the button. The focused state has no visual cue of 3:1, so it fails 1.4.11 (F78). The owl 'disabled' class is not exposed or styled as inactive, and the control is still focusable, so the inactive exception does not apply."
+    },
+    {
+      "fingerprint": "31957d572b0c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 1280x800 on the live page, this owl arrow in the 'Unidades' carousel has its outline removed, and on focus it only scales by 1.08. That is a #ffeae0 button growing on white (1.16:1), with an orange chevron of about 2:1 against the button. The focused state has no visual cue of 3:1, so it fails 1.4.11 (F78). Rampa's 'around it' pixels picked up the floating WhatsApp 'Faça seu agendamento' popup, which animates near this button. That measurement is noisy, but the real indicator has the same 1.16:1 it reports, so the claim holds."
+    },
+    {
+      "fingerprint": "38a1e641c3ba",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer phone button '(11) 3053-6611'. On the live page its focus outline is removed (outline: none), and the only change on focus is '.button-default:focus {opacity: .95}', which moves the button from #6ac0d5 to about #66bad0 on the dark footer. A side-by-side crop of the focused and blurred states shows them nearly identical. Focus is therefore marked by an effectively invisible change, well under 3:1. That is the F78 pattern, which WCAG lists as a failure of 1.4.11 (and of 2.4.7)."
+    },
+    {
+      "fingerprint": "b56106018593",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is a footer social icon link. The site removes its outline, and the focus cue is only '.footer .social a:focus {transform: scale(1.1)}', so the Facebook #4367b2 tile grows by about 2 px a side on the #194f7f footer. I confirmed that on the live page with crops of the focused and blurred states. The growing edge has about 1.55:1 against the footer, and the glyph's own growth is about 1 px. The focus indicator does not reach 3:1 against the adjacent colour, so it fails 1.4.11 (F78), as reported."
+    },
+    {
+      "fingerprint": "1272d675c956",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is a footer social icon link. The site removes its outline, and the focus cue is only '.footer .social a:focus {transform: scale(1.1)}', so the LinkedIn #0077b5 tile grows by about 2 px a side on the #194f7f footer. I confirmed that on the live page with crops of the focused and blurred states. The growing edge has about 1.75:1 against the footer, and the glyph's own growth is about 1 px. The focus indicator does not reach 3:1 against the adjacent colour, so it fails 1.4.11 (F78), as reported."
+    },
+    {
+      "fingerprint": "cb4fcc4cf62e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is a footer social icon link. The site removes its outline, and the focus cue is only '.footer .social a:focus {transform: scale(1.1)}', so the YouTube #ff0000 tile grows by about 2 px a side on the #194f7f footer. I confirmed that on the live page with crops of the focused and blurred states. The growing edge has about 2.13:1 against the footer, and the glyph's own growth is about 1 px. The focus indicator does not reach 3:1 against the adjacent colour, so it fails 1.4.11 (F78), as reported."
+    },
+    {
+      "fingerprint": "5310d8fde916",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Agendamentos' top-level menu item (li) in the desktop mega-menu. On the live page at 1280x800, hovering it shows the CSS-hover submenu (.menu-bar-item:hover > .menu-bar-subitems), which covers the hero banner and the quick-access boxes. Pressing Esc without moving the pointer leaves it shown, because the only keyup handler acts on .js-sidenav-active. No other mechanism dismisses it. The 1.4.13 Understanding names sub-menus as covered content, and the obscuring exemption does not apply, so the dismissible requirement fails as reported."
+    },
+    {
+      "fingerprint": "c5987c0d4aa4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Agendamentos' top-level link in the desktop mega-menu. On the live page at 1280x800, hovering it shows the CSS-hover submenu (.menu-bar-item:hover > .menu-bar-subitems), which covers the hero banner and the quick-access boxes. Pressing Esc without moving the pointer leaves it shown, because the only keyup handler acts on .js-sidenav-active. No other mechanism dismisses it. The 1.4.13 Understanding names sub-menus as covered content, and the obscuring exemption does not apply, so the dismissible requirement fails as reported."
+    },
+    {
+      "fingerprint": "90961f082583",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Especialidades' top-level menu item (li) in the desktop mega-menu. On the live page at 1280x800, hovering it shows the CSS-hover submenu (.menu-bar-item:hover > .menu-bar-subitems), which covers the hero banner and the quick-access boxes. Pressing Esc without moving the pointer leaves it shown, because the only keyup handler acts on .js-sidenav-active. No other mechanism dismisses it. The 1.4.13 Understanding names sub-menus as covered content, and the obscuring exemption does not apply, so the dismissible requirement fails as reported."
+    },
+    {
+      "fingerprint": "07ea1be6fece",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Especialidades' top-level link in the desktop mega-menu. On the live page at 1280x800, hovering it shows the CSS-hover submenu (.menu-bar-item:hover > .menu-bar-subitems), which covers the hero banner and the quick-access boxes. Pressing Esc without moving the pointer leaves it shown, because the only keyup handler acts on .js-sidenav-active. No other mechanism dismisses it. The 1.4.13 Understanding names sub-menus as covered content, and the obscuring exemption does not apply, so the dismissible requirement fails as reported."
+    },
+    {
+      "fingerprint": "8d27b69da98d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Unidades' top-level menu item (li) in the desktop mega-menu. On the live page at 1280x800, hovering it shows the CSS-hover submenu (.menu-bar-item:hover > .menu-bar-subitems), which covers the hero banner and the quick-access boxes. Pressing Esc without moving the pointer leaves it shown, because the only keyup handler acts on .js-sidenav-active. No other mechanism dismisses it. The 1.4.13 Understanding names sub-menus as covered content, and the obscuring exemption does not apply, so the dismissible requirement fails as reported."
+    },
+    {
+      "fingerprint": "060ca94d748e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Unidades' top-level link in the desktop mega-menu. On the live page at 1280x800, hovering it shows the CSS-hover submenu (.menu-bar-item:hover > .menu-bar-subitems), which covers the hero banner and the quick-access boxes. Pressing Esc without moving the pointer leaves it shown, because the only keyup handler acts on .js-sidenav-active. No other mechanism dismisses it. The 1.4.13 Understanding names sub-menus as covered content, and the obscuring exemption does not apply, so the dismissible requirement fails as reported."
+    },
+    {
+      "fingerprint": "b1fc48c9aa58",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Serviços' top-level menu item (li) in the desktop mega-menu. On the live page at 1280x800, hovering it shows the CSS-hover submenu (.menu-bar-item:hover > .menu-bar-subitems), which covers the hero banner and the quick-access boxes. Pressing Esc without moving the pointer leaves it shown, because the only keyup handler acts on .js-sidenav-active. No other mechanism dismisses it. The 1.4.13 Understanding names sub-menus as covered content, and the obscuring exemption does not apply, so the dismissible requirement fails as reported."
+    },
+    {
+      "fingerprint": "c32d3147abba",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Serviços' top-level link in the desktop mega-menu. On the live page at 1280x800, hovering it shows the CSS-hover submenu (.menu-bar-item:hover > .menu-bar-subitems), which covers the hero banner and the quick-access boxes. Pressing Esc without moving the pointer leaves it shown, because the only keyup handler acts on .js-sidenav-active. No other mechanism dismisses it. The 1.4.13 Understanding names sub-menus as covered content, and the obscuring exemption does not apply, so the dismissible requirement fails as reported."
+    },
+    {
+      "fingerprint": "24cb4c550069",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Sobre o Hcor' top-level menu item (li) in the desktop mega-menu. On the live page at 1280x800, hovering it shows the CSS-hover submenu (.menu-bar-item:hover > .menu-bar-subitems), which covers the hero banner and the quick-access boxes. Pressing Esc without moving the pointer leaves it shown, because the only keyup handler acts on .js-sidenav-active. No other mechanism dismisses it. The 1.4.13 Understanding names sub-menus as covered content, and the obscuring exemption does not apply, so the dismissible requirement fails as reported."
+    },
+    {
+      "fingerprint": "b7203c2e99a8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Sobre o Hcor' top-level link in the desktop mega-menu. On the live page at 1280x800, hovering it shows the CSS-hover submenu (.menu-bar-item:hover > .menu-bar-subitems), which covers the hero banner and the quick-access boxes. Pressing Esc without moving the pointer leaves it shown, because the only keyup handler acts on .js-sidenav-active. No other mechanism dismisses it. The 1.4.13 Understanding names sub-menus as covered content, and the obscuring exemption does not apply, so the dismissible requirement fails as reported."
+    },
+    {
+      "fingerprint": "5e13adb36239",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The claim is that pressing 'I' with focus on the body changes the page. I listed the live page's key listeners over CDP: there are only Bootstrap's delegated dropdown keydown/keyup handlers and a jQuery body keyup that reacts to Esc (keyCode 27). Nothing handles 'I'. In repeated trials, screen changes came at random with 'I', 'i', Shift+I and other letters alike. They match the hero carousel's autoplay (the region 13,151 to 1267,714) and the animated WhatsApp popup, not the key press. The probe credited an autoplay change to the key. There is no single-character shortcut, so 2.1.4 does not fail."
+    },
+    {
+      "fingerprint": "f5945051dbd3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is an owl arrow on the hero carousel (owl-prev with an icon span). In the live page at 1280x800 and 390x844, its computed outline is none on focus, with no box-shadow, background or transform change. Crops of the focused and blurred states are identical, apart from the slide behind it changing on autoplay. A keyboard user gets no visible focus indicator, so 2.4.7 fails, as reported (F78)."
+    },
+    {
+      "fingerprint": "438bed697b1a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is an owl arrow on the hero carousel (owl-next with an icon span). In the live page at 1280x800 and 390x844, its computed outline is none on focus, with no box-shadow, background or transform change. Crops of the focused and blurred states are identical, apart from the slide behind it changing on autoplay. A keyboard user gets no visible focus indicator, so 2.4.7 fails, as reported (F78)."
+    },
+    {
+      "fingerprint": "e31e43035d84",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the image link of the 'Oncologia' card (Serviços carousel). On the live page the link does get the default 'outline: auto' on focus, but the figure clips it with rounded overflow, and nothing else changes. Crops of the focused and blurred states, taken from a real Tab walk at 1280x800, differ by 0 px. The card was fully in view when I checked. There is no visible focus indicator, so 2.4.7 fails."
+    },
+    {
+      "fingerprint": "01468177ca08",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the image link of the 'Cardiologia' card (Serviços carousel). On the live page the link does get the default 'outline: auto' on focus, but the figure clips it with rounded overflow, and nothing else changes. Crops of the focused and blurred states, taken from a real Tab walk at 1280x800, differ by 0 px. The same markup and CSS as the Oncologia card, where the card was fully in view and showed no change. There is no visible focus indicator, so 2.4.7 fails."
+    },
+    {
+      "fingerprint": "56db05ab80d7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the image link of the 'Medicina Diagnóstica' card (Serviços carousel). On the live page the link does get the default 'outline: auto' on focus, but the figure clips it with rounded overflow, and nothing else changes. Crops of the focused and blurred states, taken from a real Tab walk at 1280x800, differ by 0 px. The same markup and CSS as the Oncologia card, where the card was fully in view and showed no change. There is no visible focus indicator, so 2.4.7 fails."
+    },
+    {
+      "fingerprint": "ff71bd65a715",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the image link of the 'Avanços na área do câncer ginecológico' card (Hcor explica carousel). On the live page the link does get the default 'outline: auto' on focus, but the figure clips it with rounded overflow, and nothing else changes. Crops of the focused and blurred states, taken from a real Tab walk at 1280x800, differ by 0 px. There is no visible focus indicator, so 2.4.7 fails."
+    },
+    {
+      "fingerprint": "35913e498e1c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the image link of the 'Câncer de Ovário' card (Hcor explica carousel). On the live page the link does get the default 'outline: auto' on focus, but the figure clips it with rounded overflow, and nothing else changes. Crops of the focused and blurred states, taken from a real Tab walk at 1280x800, differ by 0 px. There is no visible focus indicator, so 2.4.7 fails."
+    },
+    {
+      "fingerprint": "962762dca0eb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the image link of the 'Síncope: sintomas e fatores de risco' card in the 'Hcor explica' carousel, on a slide that is off-screen until focus reaches it. It uses the same markup and CSS as the other cards: the default outline is clipped by the figure, and crops of the focused and blurred states differ by 0 px on the live page. Rampa saw 0 px change anywhere in the viewport. Either way no focus indicator is visible, so 2.4.7 fails, as reported."
+    },
+    {
+      "fingerprint": "4c1afefe037d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the image link of the 'Aprenda a fazer bife de alcatra à parmegiana' card in the 'Hcor explica' carousel, on a slide that is off-screen until focus reaches it. It uses the same markup and CSS as the other cards: the default outline is clipped by the figure, and crops of the focused and blurred states differ by 0 px on the live page. Rampa saw 0 px change anywhere in the viewport. Either way no focus indicator is visible, so 2.4.7 fails, as reported."
+    },
+    {
+      "fingerprint": "bd474a7ae3f6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the image link of the 'Saiba como se prevenir do câncer de cabeça e pescoço' card in the 'Hcor explica' carousel, on a slide that is off-screen until focus reaches it. It uses the same markup and CSS as the other cards: the default outline is clipped by the figure, and crops of the focused and blurred states differ by 0 px on the live page. Rampa saw 0 px change anywhere in the viewport. Either way no focus indicator is visible, so 2.4.7 fails, as reported."
+    },
+    {
+      "fingerprint": "cda7162b9a13",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Once the page scrolls past 130 px it adds body.js-menu-fixed, and the header becomes position: fixed with height 0. Its children (the red 'AVISO – GOLPE' bar, nav-top and the menu bar) still paint over roughly the top 190 px of a 1280x800 viewport. Rampa's '1280x0 px' size and '0 px changed when painting or hiding it' are artefacts of measuring that 0-height box, but the covering is real. I reproduced the Shift+Tab walk on the live page. 'Instituto de Pesquisa' was scrolled to y 72 (56 px tall), and 0 of 25 grid points reached it: it sat entirely under the fixed header, which is F110. The warning bar can be closed, but a dismissible banner still fails, and the nav part alone would also cover it. True positive."
+    },
+    {
+      "fingerprint": "7a100e506cca",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Once the page scrolls past 130 px it adds body.js-menu-fixed, and the header becomes position: fixed with height 0. Its children (the red 'AVISO – GOLPE' bar, nav-top and the menu bar) still paint over roughly the top 190 px of a 1280x800 viewport. Rampa's '1280x0 px' size and '0 px changed when painting or hiding it' are artefacts of measuring that 0-height box, but the covering is real. In my Shift+Tab reproduction on the live page, the title link 'Saiba como se prevenir do câncer de cabeça e pescoço' came to y 1 (56 px tall), with 0 of 25 points visible, entirely behind the fixed warning bar and header. This is F110: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "8561feb8f269",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Once the page scrolls past 130 px it adds body.js-menu-fixed, and the header becomes position: fixed with height 0. Its children (the red 'AVISO – GOLPE' bar, nav-top and the menu bar) still paint over roughly the top 190 px of a 1280x800 viewport. Rampa's '1280x0 px' size and '0 px changed when painting or hiding it' are artefacts of measuring that 0-height box, but the covering is real. In my Shift+Tab reproduction on the live page, 'Ver todas as matérias' landed at y 75 (31 px tall), with 0 of 25 points visible, entirely under the fixed header, as the viewport screenshot shows. This is F110: 2.4.11 fails."
+    },
+    {
+      "fingerprint": "618796ba9fe5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844 the fixed header (warning bar 0 to 167, nav-top to 207, menu bar to 282) covers the top 282 px of the viewport. Elements the browser scrolls into that band are hidden, because browsers do not account for a fixed header and the page has no scroll-padding. Rampa recorded this Cardiologia image link (200 px tall at this width) at y 18, which lies entirely inside the 282 px header, with every grid point on the header. My own walks placed it lower on that visit (the carousel and lazy-loaded images shift the layout), but the mechanism is the same F110 failure I reproduced on its neighbours. I accept the recorded instance."
+    },
+    {
+      "fingerprint": "4fe97ea42bf8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844 the fixed header (warning bar 0 to 167, nav-top to 207, menu bar to 282) covers the top 282 px of the viewport. Elements the browser scrolls into that band are hidden, because browsers do not account for a fixed header and the page has no scroll-padding. Rampa recorded this Medicina Diagnóstica image link (200 px tall) at y 18, entirely inside the 282 px header, with all grid points on it. My walks did not land it at exactly that spot, but the F110 mechanism is confirmed for the same carousel, so I accept the recorded instance."
+    },
+    {
+      "fingerprint": "f4ba46057f3b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844 the fixed header (warning bar 0 to 167, nav-top to 207, menu bar to 282) covers the top 282 px of the viewport. Elements the browser scrolls into that band are hidden, because browsers do not account for a fixed header and the page has no scroll-padding. Rampa recorded the 'Medicina Diagnóstica' title link (22 px tall) at y 253, so it spans 253 to 275, entirely within the header band that ends at 282. My walks reached it at other positions, but the recorded instance is consistent with the measured header, so 2.4.11 fails (F110)."
+    },
+    {
+      "fingerprint": "eefb2701f241",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844 the fixed header (warning bar 0 to 167, nav-top to 207, menu bar to 282) covers the top 282 px of the viewport. Elements the browser scrolls into that band are hidden, because browsers do not account for a fixed header and the page has no scroll-padding. I reproduced it on the live page: at Tab 145 the 'Câncer de Ovário' image link was at y 0 (200 px tall), with 0 of 25 points visible, entirely under the warning bar and header. True positive."
+    },
+    {
+      "fingerprint": "4745ddb55e09",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844 the fixed header (warning bar 0 to 167, nav-top to 207, menu bar to 282) covers the top 282 px of the viewport. Elements the browser scrolls into that band are hidden, because browsers do not account for a fixed header and the page has no scroll-padding. I reproduced it: at Tab 146 the 'Oncologia' category link was at y 164 (26 px tall), with 0 of 25 points visible, under the nav-top and menu bar, as the screenshot shows. True positive."
+    },
+    {
+      "fingerprint": "577e755c9c53",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844 the fixed header (warning bar 0 to 167, nav-top to 207, menu bar to 282) covers the top 282 px of the viewport. Elements the browser scrolls into that band are hidden, because browsers do not account for a fixed header and the page has no scroll-padding. I reproduced it: at Tab 147 the 'Câncer de Ovário' title link was at y 235 (22 px tall), with 0 of 25 points visible, behind the logo and menu bar of the fixed header. True positive."
+    },
+    {
+      "fingerprint": "a286e036ebc1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844 the fixed header (warning bar 0 to 167, nav-top to 207, menu bar to 282) covers the top 282 px of the viewport. Elements the browser scrolls into that band are hidden, because browsers do not account for a fixed header and the page has no scroll-padding. I reproduced it: at Tab 149 the 'Síncope' image link was at y 0 (200 px tall), with 0 of 25 points visible, entirely under the fixed header. True positive."
+    },
+    {
+      "fingerprint": "19adaab0cdbc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "At 390x844 the fixed header (warning bar 0 to 167, nav-top to 207, menu bar to 282) covers the top 282 px of the viewport. Elements the browser scrolls into that band are hidden, because browsers do not account for a fixed header and the page has no scroll-padding. I reproduced it: at Tab 150 the 'Outras' category link was at y 164 (26 px tall), with 0 of 25 points visible, entirely behind the fixed header. True positive."
+    }
+  ]
+}

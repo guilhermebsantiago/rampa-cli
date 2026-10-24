@@ -1,0 +1,66 @@
+{
+  "page": "https://my.clevelandclinic.org/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "4f190c666f9f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a 32px gradient SVG (data-identity 'single-line-nav-fade-right') laid over the edge of the horizontally scrolling utility nav at the top of the header, a purely visual fade with no information. The snapshot's CDP tree exposes it as role image with name 'Gray gradient' from its alt, no role=presentation and no aria-hidden ancestor, and the live HTML still carries alt=\"Gray gradient\". A decorative image that is not implemented so AT can ignore it fails 1.1.1 (documented failure F38: decorative img with non-null alt and no presentation role); screen readers announce 'Gray gradient, image' inside the nav. Should be alt=\"\". This one sits at the right edge of the Locations list."
+    },
+    {
+      "fingerprint": "f6bf9bdff3ce",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a 16px gradient SVG (data-identity 'single-line-nav-fade-left') laid over the edge of the horizontally scrolling utility nav at the top of the header, a purely visual fade with no information. The snapshot's CDP tree exposes it as role image with name 'Gray gradient' from its alt, no role=presentation and no aria-hidden ancestor, and the live HTML still carries alt=\"Gray gradient\". A decorative image that is not implemented so AT can ignore it fails 1.1.1 (documented failure F38: decorative img with non-null alt and no presentation role); screen readers announce 'Gray gradient, image' inside the nav. Should be alt=\"\". This one sits at the left edge of the phone/MyChart/Careers list."
+    },
+    {
+      "fingerprint": "6fc21beedef8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a 32px gradient SVG (data-identity 'single-line-nav-fade-right') laid over the edge of the horizontally scrolling utility nav at the top of the header, a purely visual fade with no information. The snapshot's CDP tree exposes it as role image with name 'Gray gradient' from its alt, no role=presentation and no aria-hidden ancestor, and the live HTML still carries alt=\"Gray gradient\". A decorative image that is not implemented so AT can ignore it fails 1.1.1 (documented failure F38: decorative img with non-null alt and no presentation role); screen readers announce 'Gray gradient, image' inside the nav. Should be alt=\"\". This one sits at the right edge of the phone/MyChart/Careers list."
+    },
+    {
+      "fingerprint": "5660a108bc88",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The header logo image is the only content of the link to https://my.clevelandclinic.org/ (the home page); the link's computed name is 'Cleveland Clinic logo'. The alt identifies the organization, which is the conventional and widely accepted text alternative for a site logo linking home: users understand a banner logo link named for the site goes to its home page. 'Cleveland Clinic home' (without the word 'logo') would be better practice, but naming the site rather than literally saying 'home' is not a failure of 1.1.1 (nor of 2.4.4, given the banner context)."
+    },
+    {
+      "fingerprint": "7058b55c7c22",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 38px icon above the 'Cancer' card heading in Featured Services is an awareness ribbon with a medical plus sign (file icon-ribbon-with-medical-cross), the standard cancer symbol. 'cancer icon' accurately conveys what it represents, so the claim that the alt describes something the image does not show is wrong. At most the icon is redundant with the adjacent h2 'Cancer' and could be alt=\"\", but that is not the claim and redundant alt is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "3b8fa0739ffd",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The icon above the 'Digestive Care' heading is a line drawing of a stomach (file icon-Gastroenterology), as both the crop and the screenshot show. 'stomach icon' matches the image exactly; the claim of a mismatch is wrong. Redundancy with the heading is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "ed66a86dcb05",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The icon above the 'Heart Care' heading is a line drawing of an anatomical heart (file icon-CardiacCare). 'heart icon' describes it correctly; the finding's claim that the alt describes something not shown is wrong."
+    },
+    {
+      "fingerprint": "4ff0f4bca1d0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The icon above the 'Primary Care' heading is an outlined medical cross (file icon-Primary-Care). The alt 'primary care icon' conveys what the symbol stands for in this card, which is a valid equivalent: 1.1.1 asks for the same purpose, not a literal description of the shape. It is not a mismatch; at most the icon is decorative and redundant with the heading, which is not what the finding claims."
+    },
+    {
+      "fingerprint": "2e9443e3caf8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The large image in the 'Not Sure Where To Go for Care?' panel shows a woman sitting on a couch looking at her phone, with bubbles reading Emergency Care, Virtual Visits, Express Care and Primary Care. The alt 'Person sitting on a couch looking at their mobile phone.' describes exactly what the photo shows, so the claim is false. The bubble text is not in the alt, but the adjacent paragraph lists the same options (virtual visits, primary care, Express Care, the ER), so nothing essential is lost."
+    },
+    {
+      "fingerprint": "8beea1377050",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 60px icon above the 'Get Care' card heading is a check mark in a box inside a circle (file icon-appointments). Its alt 'get care icon' names what the icon stands for in that card; a text alternative may convey meaning rather than appearance, so this is not a mismatch failure. It is redundant with the h2 'Get Care' and alt=\"\" would be cleaner, but that is a best-practice point, not the failure the finding claims."
+    }
+  ]
+}

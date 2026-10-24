@@ -1,0 +1,30 @@
+{
+  "page": "https://www.kalunga.com.br/depto/apresentacao/17",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "9b43f3e8de6e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field #txtBuscaProd. Its placeholder \"Digite aqui o que você procura\" is the only visible text on the field, which has no visible label. I checked whether the measurement could be an artefact or a default colour. The site's own CSS sets .form-control{font-size:15px} and .form-control::placeholder{color:#aaa} (overriding Bootstrap's darker default), and the screenshot's glyph cores are exactly #aaaaaa on #ffffff, which is 2.32:1. The 1.4.3 Understanding document says the criterion applies to placeholder text. At 15px and weight 400 the text is not large, so 4.5:1 applies, and 2.32:1 would fail even the 3:1 large-text threshold. None of the exceptions applies (the field is active, the text is not decorative and is not a logo). The live page still has the same CSS."
+    },
+    {
+      "fingerprint": "2bc608725479",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is #btnPesquisa, the search submit button. It has no visible text: its aria-label and title are \"Buscar\", and a white SVG magnifier (.componentheader__icon--white{fill:#fff}) sits on .btn-orange-ka, whose background is #ff8400 (also #ff8400 on hover). The screenshot pixels confirm #ffffff on #ff8400, which is 2.46:1. I looked for a reason it could pass. The orange box contrasts about 8.5:1 with the black header, so the control's presence is visible, but the magnifier is the only thing that shows what the button does. The 1.4.11 Understanding document counts a stand-alone icon with no text as a graphical object, and its Figure 17 measures a white icon against its orange shape, needing 3:1. Its allowance for position or context concerns showing that something is a button, not the icon that labels it, and the title tooltip appears only on hover. The icon falls short of 3:1 against the only colour next to it."
+    },
+    {
+      "fingerprint": "ced2f4badf38",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Comprar Agora\" link in carousel slide 3. Its href goes to the page of product 629951 (plastic laminating pouches), and its onclick Comprar('629951') adds that product to the basket. Slide 4 has an identical link for another product, and at snapshot time these were the only two such links not aria-hidden, so they share one text with different purposes. I looked for programmatically determined context that would name the product. The link sits alone in div.d-block. The product name is a <p> inside a separate link before it. The link has no aria-label, aria-labelledby, aria-describedby or title, and no heading names the product (the preceding heading is the h1 \"Apresentação\", and H80 is only advisory in WCAG 2.2). The card's li is not usable as list-item context: Splide gives it role=tabpanel with aria-label \"3 of 21\" and makes the ul role=presentation, and H77 also requires the li to be the nearest block-level ancestor, which it is not. This matches F63: the context is only in an adjacent element, so the user must leave the link to find it. The product name appearing next to the link on screen does not count, and the live markup is unchanged."
+    },
+    {
+      "fingerprint": "3a4032df19ae",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Comprar Agora\" link in carousel slide 4. Its href goes to the page of product 608683 (an Intelbras 5200-lumen projector), and its onclick Comprar('608683') adds that product to the basket. Its text is identical to slide 3's link for a different product, and those were the only two exposed at snapshot time. The structure is the same as slide 3, so the same checks apply. The link is alone in div.d-block, and the product name and price sit in a separate preceding link. There is no ARIA name, description or title, and no heading names the product. The li is changed to a tabpanel labelled \"4 of 21\" inside a presentation ul, so it provides no list-item context, and it is not the nearest block-level ancestor that H77 requires. The surrounding text is therefore not programmatically determined link context (F63), and the link text alone does not say which product it buys. Visual proximity does not satisfy 2.4.4, and the live markup is unchanged."
+    }
+  ]
+}

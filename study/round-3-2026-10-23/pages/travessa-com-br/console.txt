@@ -1,0 +1,209 @@
+
+https://www.travessa.com.br/
+Surface: web · WCAG 2.2 A/AA · axe-core 4.14.0 · Model: ollama:gemma4:12b
+
+WCAG 1.1.1 (A) — Non-text Content
+  ✗ #slick-slide20 > img
+    Images must have alternative text
+    high · rule image-alt · id e1317bf0ba37
+  ✗ #wctnewsletter1_Image1
+    Images must have alternative text
+    high · rule image-alt · id 75a9b4634ab2
+  ✗ #form1 > footer > img
+    The text alternative "Image" is a placeholder, not a description: a screen reader reads it in place of the image. Describe what the image conveys, or use alt="" if it is decorative.
+    Evidence: "alt="Image""
+    confidence low · experimental · Rampa rule rampa/placeholder-alt · id f5e8f4a235cb
+
+WCAG 1.3.1 (A) — Info and Relationships
+  ✗ #ucCabecalho_menu > ul
+    <ul> and <ol> must only directly contain <li>, <script> or <template> elements
+    high · rule list · id cdf0aab54c4d
+
+WCAG 1.3.5 (AA) — Identify Input Purpose
+  ✗ #wctnewsletter1_txtnome
+    The field "Nome" asks for the user's full name but does not identify that purpose: autocomplete="name" is missing.
+    Evidence: "Nome"
+    Patch:
+      - <input name="wctnewsletter1$txtnome" type="text" id="wctnewsletter1_txtnome" maxlength="50" class="form-control input-box rounded-0 " placeholder="Nome" style="height:35px!important;background-color:white;border: 1px solid black;">
+      + <input name="wctnewsletter1$txtnome" type="text" id="wctnewsletter1_txtnome" maxlength="50" class="form-control input-box rounded-0 " placeholder="Nome" style="height:35px!important;background-color:white;border: 1px solid black;" autocomplete="name">
+    confidence high · 1/1 runs · evidence verified · id f63a4ac72bdc
+  ✗ #wctnewsletter1_txtEmail
+    The field "E-mail" asks for the user's email address but does not identify that purpose: autocomplete="email" is missing.
+    Evidence: "E-mail"
+    Patch:
+      - <input name="wctnewsletter1$txtEmail" type="email" id="wctnewsletter1_txtEmail" class="form-control input-box rounded-0 " placeholder="E-mail" style="height:35px!important;background-color:white;border: 1px solid black;">
+      + <input name="wctnewsletter1$txtEmail" type="email" id="wctnewsletter1_txtEmail" class="form-control input-box rounded-0 " placeholder="E-mail" style="height:35px!important;background-color:white;border: 1px solid black;" autocomplete="email">
+    confidence high · 1/1 runs · evidence verified · id c75ceba9643e
+
+WCAG 1.4.3 (AA) — Contrast (Minimum)
+  ✗ #boxFreteCabecalho > a:nth-of-type(1) > b
+    Elements must meet minimum color contrast ratio thresholds
+    high · rule color-contrast · id 588f173b0e41
+  ✗ #wctnewsletter1_txtnome
+    The placeholder "Nome" has a contrast of 1.61:1 with the field (#00000033 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#00000033 on #ffffff · 1.61:1 at best, 1.61:1 at worst · 16px, 400"
+    confidence low · experimental · Rampa rule rampa/placeholder-contrast · id 75f8c4fbb793
+  ✗ #wctnewsletter1_txtEmail
+    The placeholder "E-mail" has a contrast of 1.61:1 with the field (#00000033 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.
+    Evidence: "#00000033 on #ffffff · 1.61:1 at best, 1.61:1 at worst · 16px, 400"
+    confidence low · experimental · Rampa rule rampa/placeholder-contrast · id 8dcebc9a636c
+
+WCAG 1.4.11 (AA) — Non-text Contrast
+  ✗ #form1 > footer > div:nth-of-type(3) > a
+    The icon of this link ("Fale conosco pelo WhatsApp") has at most 1.98:1 contrast with the pixels next to it (#ffffff on #25d366). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).
+    Evidence: "#ffffff on #25d366 · 1.98:1 at best, 1.98:1 at worst"
+    confidence low · experimental · Rampa rule rampa/icon-contrast · id e79573b9f6dc
+
+WCAG 2.4.4 (A) — Link Purpose (In Context)
+  ✗ #form1 > div:nth-of-type(3) > div:nth-of-type(2) > a
+    Links must have discernible text
+    high · rule link-name · id a1d32efd5d99
+  ✗ #ucCabecalho_menu > ul > a:nth-of-type(2)
+    Links must have discernible text
+    high · rule link-name · id c56087e05706
+  ✗ #ucCabecalho_menu > ul > a:nth-of-type(3)
+    Links must have discernible text
+    high · rule link-name · id 7b76ab9dc4db
+  ✗ #ucCabecalho_menu > ul > a:nth-of-type(4)
+    Links must have discernible text
+    high · rule link-name · id 74f7220521cd
+  ✗ #slick-slide00 > a
+    Links must have discernible text
+    high · rule link-name · id 1bd2122810aa
+  ✗ #slick-slide10
+    Links must have discernible text
+    high · rule link-name · id 152d12edced1
+  ✗ #slick-slide20
+    Links must have discernible text
+    high · rule link-name · id f206b35e2cf8
+  ✗ #form1 > footer > center > table > tbody > tr > td:nth-of-type(1) > a
+    Links must have discernible text
+    high · rule link-name · id fd1536e4f2f4
+  ✗ #form1 > footer > center > table > tbody > tr > td:nth-of-type(2) > a
+    Links must have discernible text
+    high · rule link-name · id 8ab2d1c039e4
+  ✗ #form1 > footer > center > table > tbody > tr > td:nth-of-type(3) > a
+    Links must have discernible text
+    high · rule link-name · id 07ad1dd3a0e6
+
+WCAG 2.5.3 (A) — Label in Name
+  ✗ #I0_1792764204472 |> button
+    Elements must have their visible text as part of their accessible name
+    high · rule label-content-name-mismatch · id 909078cde0b4
+
+WCAG 2.5.8 (AA) — Target Size (Minimum)
+  ✗ #form1 > footer > nav > div:nth-of-type(1) > ul > li:nth-of-type(4) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 3dd0e9ffc648
+  ✗ #form1 > footer > nav > div:nth-of-type(1) > ul > li:nth-of-type(5) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 3886e2324aca
+  ✗ #form1 > footer > nav > div:nth-of-type(1) > ul > li:nth-of-type(6) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 020c5d87d5cc
+  ✗ #form1 > footer > nav > div:nth-of-type(1) > ul > li:nth-of-type(7) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id f0969854dacf
+  ✗ #form1 > footer > nav > div:nth-of-type(1) > ul > li:nth-of-type(8) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 534d533513cc
+  ✗ #form1 > footer > nav > div:nth-of-type(2) > ul > li:nth-of-type(1) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id c943f23595c1
+  ✗ #form1 > footer > nav > div:nth-of-type(2) > ul > li:nth-of-type(2) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 8fd37fa00735
+  ✗ #form1 > footer > nav > div:nth-of-type(2) > ul > li:nth-of-type(3) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 93cdf051dac2
+  ✗ #form1 > footer > nav > div:nth-of-type(2) > ul > li:nth-of-type(4) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 73f2f8d2b6f4
+  ✗ #form1 > footer > nav > div:nth-of-type(2) > ul > li:nth-of-type(5) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id e9079ff7c4c4
+  ✗ #form1 > footer > nav > div:nth-of-type(2) > ul > li:nth-of-type(6) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id e2ff5db2199e
+  ✗ #form1 > footer > nav > div:nth-of-type(2) > ul > li:nth-of-type(7) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id ea2ca29b96d8
+  ✗ #form1 > footer > nav > div:nth-of-type(2) > ul > li:nth-of-type(8) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 7aeddf977129
+  ✗ #form1 > footer > nav > div:nth-of-type(3) > ul > li:nth-of-type(2) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id fe88feff5a4c
+  ✗ #form1 > footer > nav > div:nth-of-type(3) > ul > li:nth-of-type(4) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 5b48171b85d7
+  ✗ #form1 > footer > nav > div:nth-of-type(3) > ul > li:nth-of-type(5) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 4616da22c92c
+  ✗ #form1 > footer > nav > div:nth-of-type(3) > ul > li:nth-of-type(6) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 88d90ef5b9fc
+  ✗ #form1 > footer > nav > div:nth-of-type(3) > ul > li:nth-of-type(7) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 2f562a6df3e7
+  ✗ #form1 > footer > nav > div:nth-of-type(4) > ul > li:nth-of-type(1) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 4f4d112f8a55
+  ✗ #form1 > footer > nav > div:nth-of-type(4) > ul > li:nth-of-type(2) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id c0c868bb91b1
+  ✗ #form1 > footer > nav > div:nth-of-type(4) > ul > li:nth-of-type(3) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 49f5fbbf2119
+  ✗ #form1 > footer > nav > div:nth-of-type(4) > ul > li:nth-of-type(4) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id e4d289fa10ff
+  ✗ #form1 > footer > nav > div:nth-of-type(4) > ul > li:nth-of-type(5) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 8255bd8750f5
+  ✗ #form1 > footer > nav > div:nth-of-type(5) > section > ul > li:nth-of-type(2) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id b3c3984ce7b6
+  ✗ #form1 > footer > nav > div:nth-of-type(5) > section > ul > li:nth-of-type(3) > a
+    All touch targets must be 24px large, or leave sufficient space
+    low · experimental · rule target-size · id 610a08c4f1f1
+
+WCAG 4.1.2 (A) — Name, Role, Value
+  ✗ #I0_1792764204472
+    Frames must have an accessible name
+    high · rule frame-title · id 28a7c06a8698
+  ✗ #I0_1792764204472 |> button
+    Interactive controls must not be nested
+    high · rule nested-interactive · id 31f350f233d2
+  ✗ #ucCabecalho_menu > ul > a:nth-of-type(1)
+    The browser exposes this element as a link but computes no name for it: a screen reader announces only "link", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).
+    Evidence: "role link · name """
+    confidence low · experimental · Rampa rule rampa/widget-name · id a821637815d6
+
+Needs review
+axe-core could not decide these, so a person must look at them. They are never failures and never change the exit code.
+  ? WCAG 1.4.3 (AA) — Contrast (Minimum): 21 elements · color-contrast
+    Element has a 1:1 contrast ratio with the background
+  ? WCAG 2.4.4 (A) — Link Purpose (In Context): 22 elements · judgment/2.4.4
+    A model read these as failing, but no fact Rampa checks supports the reading: on real pages such readings were almost all wrong. They are suggestions for a person to decide, never failures.
+  ? WCAG 2.5.8 (AA) — Target Size (Minimum): 11 elements · target-size
+    Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 20px instead of at least 24px. Is the neighbor a target?
+
+1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #I0_1792764204472 (https://www.google.com/shopping/merchantverse/?usegapi=1&merchant_id=5581397&origin=https%3A%2F%2Fwww.travessa.com.br&gsrc=3p&jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.etOqPKhAhvg.O%2Fd%3D1%2Frs%3DAHpOoo-l5JrVgGKVELwC844E6riBHX86-w%2Fm%3D__features__#_methods=onPlusOne%2C_ready%2C_cl).
+132 image(s) were left without a capture, so no judgment looked at them: 6 outside the page (an off-canvas menu); 126 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).
+The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 51 of 101 for 2.4.4. The coverage lists them as not judged.
+Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap.
+3 claim(s) from the model did not hold against the snapshot and were dropped.
+
+Model calls: 72 new, 0 from cache · 75.8k in / 7.7k out tokens · local model, no API cost
+
+Coverage of this run
+  Checked by axe-core (partial):     1.1.1, 1.3.1, 1.3.5, 1.4.1, 1.4.3, 1.4.4, 1.4.12, 2.4.2, 2.4.4, 2.5.3, 2.5.8, 3.1.1, 4.1.2
+  Checked by Rampa rules (partial):  2.4.2, 3.1.1; experimental: 1.1.1, 1.3.1, 1.4.3, 1.4.11, 2.4.6, 4.1.2
+  Judged with verified evidence:     1.1.1, 1.3.5, 2.4.4, 2.4.6
+  Needs review only:                 2.4.1, 3.3.2
+  Not checked automatically:         38 of 55 WCAG 2.2 A/AA criteria (--verbose lists them)
+  4.1.1 Parsing is not listed: WCAG 2.2 removed it.
+  Cognitive accessibility guidance (W3C COGA): not screened; --profile cognitive adds advisory checks.
+This report does not declare the page accessible.
+What was not checked needs manual review and testing with people.

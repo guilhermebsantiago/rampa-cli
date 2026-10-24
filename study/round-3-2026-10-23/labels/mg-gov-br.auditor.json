@@ -1,0 +1,18 @@
+{
+  "page": "https://www.mg.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "3ac5557b06cd",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 36x36 icon (img alt=\"boletim\") inside the 'Serviços em destaque' carousel link to /servico/consultar-boletim-escolar-digital, whose visible h2 is 'Boletim Escolar Digital'. The crop and the screenshot show a sheet with a folded corner, text lines and an 'A+' grade, which is a school report card. In Portuguese 'boletim' (as in 'boletim escolar') means report card, so the alt names exactly what the image shows. It is not a filename, a placeholder or a wrong description, so F30 does not apply. The link's visible text already gives its purpose, so the alt is at most redundant (the browser computes the link name as 'boletim Boletim Escolar Digital'). That is a best-practice point, not a 1.1.1 failure. The live page, checked 2026-10-23, still has the same image and alt. The model had a correct crop, the link text and the destination, and it judged wrongly."
+    },
+    {
+      "fingerprint": "f3e4faa1b5a2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the slick 'Next' arrow button (40x40, aria-label 'Next', no visible text) of the partner-logo carousel (Transparência, MG App, 155 LigMinas, UAI...) near the foot of the page. In the screenshot it is a #cccccc disc with the chevron cut out to the white page, on a #ffffff background: 1.61:1. The chevron against the disc gives the same 1.61:1, so neither the glyph nor its shape reaches 3:1. The live site's CSS explains it: '.paragraph--type--d-p-carousel .field--name-field-d-p-cs-item-reference .slick-arrow::before{color:#000;font-size:2.5rem;opacity:.2}', and black at 20% on white is #cccccc. Hover only raises the opacity to .3 (#b3b3b3, about 2.1:1). The theme's focus rule (opacity 1) loses to that more specific selector, so focus does not help either. The glyph is the only visual information that identifies the control. The button is not disabled (no slick-disabled class) and its look is styled by the author, so no exception applies. It fails 1.4.11 (G207 not met), as the finding says."
+    }
+  ]
+}

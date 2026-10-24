@@ -1,0 +1,12 @@
+{
+  "page": "https://www.cancerresearchuk.org/about-cancer/acute-lymphoblastic-leukaemia-all",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "a119648f61d7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 144px header icon (three pink-and-white blood cells on a navy disc) above 'About Cancer' and the H1 'Acute lymphoblastic leukaemia (ALL)'. The snapshot and the live HTML (unchanged on 2026-10-23) both show <img alt=\".\"> with no aria-hidden or presentation role, so it is exposed as an image named '.' and screen readers announce something like 'dot, image' or 'graphic'. The icon is decorative because the H1 right below it gives the topic, so it should have a null alt (alt=\"\"). A non-null placeholder alt on an image that should be ignored is documented failure F39. If the icon were treated as informative, '.' would not be an equivalent either. The message's wording ('describes something the image does not show') is loose, since '.' describes nothing. Read fairly, though, its claim is that the text alternative does not fit the image, and that is a real 1.1.1 failure."
+    }
+  ]
+}

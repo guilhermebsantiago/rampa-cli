@@ -1,0 +1,48 @@
+{
+  "page": "https://www.metropoles.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "fd94f5b8bba3",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 64 px round avatar on the 'Blog do Noblat' card in the Colunistas carousel. The crop shows Ricardo Noblat, the blog's author, and the file name is avatar-ricardo_noblat. On this site every avatar's alt repeats the column label printed next to it (another card using the same photo is labelled 'Ricardo Noblat', and one column avatar is 'Observatório das eleições'). The image is there to show whose column the teaser belongs to, and 'Blog do Noblat' names that column and its author, so the alt serves the same purpose (G94). It does not describe something missing from the photo, and it is not a file name or placeholder (F30). At worst it repeats the visible 'Blog do Noblat' link beside it, where alt=\"\" would be better practice, but repetition is not a 1.1.1 failure. The model had the crop, the alt, the src and the card's text, and still called the alt inaccurate."
+    },
+    {
+      "fingerprint": "1abea47cd247",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the left chevron button (aria-label 'Slide anterior de colunistas') of the strip of columnist names. The strip is shown at viewport widths of 1200 px and up, and the run used 1280 px. The button has no border, background or text, so the 9x11 stroked SVG chevron is the only thing that shows the control is there. In the screenshot its core pixels are #a1a1a1 (text-neutral-400 via currentColor) on #ffffff, which is 2.58:1, below the 3:1 that 1.4.11 requires for the visual information that identifies a control. I looked for ways it could pass and found none. The live code still uses the same static class, with only a red hover state. The Embla carousel is set to loop: true and the button has no disabled state, so the inactive-component exception does not apply. Nothing else on screen marks the control."
+    },
+    {
+      "fingerprint": "4dc48f4a7216",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the right chevron button (aria-label 'Próximo slide de colunistas') of the same columnist-name strip. It is visible at 1280 px, at the right edge of the strip. The chevron is its only visible content. The screenshot shows it as #a1a1a1 on white, 2.58:1, below 3:1. The strip has more names to scroll to and loops, so the control is always active, and its class has no disabled or inactive variant. No boundary, text or other cue identifies the control, so this is a real 1.4.11 failure (a G207 situation)."
+    },
+    {
+      "fingerprint": "390d74058324",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the left chevron button (aria-label 'Slide anterior de colunistas') under the columnist cards, beside the pagination dots. It is a separate element from the strip button with the same name. It is an icon-only button with no border or background. Its 9x14 chevron renders as #a1a1a1 on #ffffff in the screenshot, 2.58:1, below 3:1. The live source confirms a static text-neutral-400 class and an Embla carousel with loop: true, so the button is never inactive. The dot buttons offer another way to change slides, but 1.4.11 has no exception for a control that has an alternative. This control's identifying graphic still fails."
+    },
+    {
+      "fingerprint": "0c27a46d3c53",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the right chevron button (aria-label 'Próximo slide de colunistas') under the columnist cards. It is visible at the right edge in the screenshot. The chevron is all the control shows, and its pixels are #a1a1a1 on white, 2.58:1, below 3:1. The carousel has a second slide and loops, and the button has no disabled state. The hover colour does not help the default state. I found no collector artefact: the measured colour matches the CSS and the screenshot pixels. This is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "0e91bc454fc5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the image link (data-asoch-targets 'ad0,ochImage') in the Google Jeep Avenger ad. The ad sits in a fixed bottom banner and is visible in the screenshot. The link's only content is an empty SVG painted with a CSS background image, with no title, aria-label or text. Chrome's accessibility tree exposes it as a focusable link with no name and no name source, and the snapshot also computes none. The iframe's 'Publicidade' label names the frame, not the link. The headline link next to it goes to the same place, but a duplicate named link does not give this one a name, and no aria-hidden hides it. This matches F89 (an image as the only content of a link, with no accessible name), which WCAG lists as a 4.1.2 failure. The ad is third-party content, but it is presented on the page, and WCAG allows only a partial-conformance statement for that, not an exemption. Ads rotate, so the live page may now show a different ad."
+    },
+    {
+      "fingerprint": "7ad9bec77bdf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the advertiser-logo link (data-asoch-targets 'ad0,ochLogo', the Jeep logo, 48.6 px square) in the same fixed Google ad banner. Like the image link, it holds only an empty SVG with a CSS background image. Chrome's accessibility tree has it as a focusable link with no computed name and no name source, and no aria-hidden ancestor removes it. A screen reader user reaches a nameless link, or at best hears the long googleadservices URL. The named headline link beside it does not fix this element. This is the F89 pattern and a real 4.1.2 failure of content shown on the page, although the content is third-party. The ad seen at collection time may no longer be served live."
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "page": "https://www.fleury.com.br/noticias/a-sua-saude-mental-importa",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "89f737aed063",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header logo link (img alt Fleury). I looked for reasons the finding could be wrong. In headless Edge on the live page at 1280x800, with the cookie banner dismissed, focusing it shows outline: auto in oklab(0.708 0 0 / 0.5), i.e. #a1a1a1 at 50%. That colour comes from the site's global outline-ring/50 rule, so the author changed the focus style and the user-agent exception of 1.4.11 does not apply. The ring renders as about 2 px of #cfcfcf on white: 1.56:1. Comparing focused and blurred pixels, the ring is the only change: no background, text or underline cue. The probe's measurement matches the live page, and the Understanding for 1.4.11 says the focus indicator must have 3:1 against the adjacent background, so I found no reason that holds up."
+    },
+    {
+      "fingerprint": "3439323f9be1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Notícias' combobox (Radix Select trigger) in the header search pill. On the live page its focus-visible state adds a 3 px box-shadow ring of #a1a1a1 at 50%, part of it clipped by the pill. It renders as #cfcfcf against white (1.56:1); the darkest ring pixels, where it overlaps the #c8c8c8 pill border, reach only about 2.07:1. Its border stays 0 px, and no other visual change happens on focus. The style is author-defined, so the user-agent exception does not apply. The indicator stays below 3:1 against its adjacent colours, which fails 1.4.11 as the finding says."
+    },
+    {
+      "fingerprint": "e6537f0ecf9a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Para você' trigger in the main nav, inside the white nav bar. Live check: on focus it gets outline auto with the author's colour #a1a1a1 at 50%, which renders as a #cfcfcf ring on white (1.56:1). The diff between the focused and blurred crops shows only ring pixels changing, so there is no other contrasting focus cue. The ring sits wholly on the white bar, not on the dark header, so the adjacent colour really is white. The author modified the style, so the exemption does not apply. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "bfc30f7fdedb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Para médicos' nav trigger. Same component and focus style as the other nav items. On the live page it shows an author-coloured (#a1a1a1 at 50%) auto outline that renders as #cfcfcf on the white nav bar, 1.56:1, and nothing else changes on focus. No user-agent exemption, no second indicator, and no collector artefact: the probe's colours match the live page. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "5131df48aaf9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Unidades' link in the main nav. On the live page its focus-visible outline is auto, coloured oklab(0.708 0 0 / 0.5) by the author. It renders as a #cfcfcf ring on white (1.56:1), and the only changed pixels are the ring's (the state probe also recorded no other change on focus). The indicator is needed to identify focus, has under 3:1 against the adjacent white, and was styled by the author. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "d1687c622878",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Convênios' link in the main nav. On the live page, focus adds only the author-coloured auto outline, which renders as #cfcfcf on the white bar, 1.56:1; text and background stay the same. Nothing exempts it or gives a second indicator, and the measurement is not an artefact. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "8e3c5142ee0f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Notícias' link in the main nav (not the combobox or the breadcrumb). On the live page its focus ring is the author-coloured auto outline: #cfcfcf on white, 1.56:1, and it is the only change between focused and blurred states. The ring is below 3:1 against the adjacent white and the author styled it. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "57580ba0c136",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Institucional' nav trigger. On the live page, focus shows the same author-coloured (#a1a1a1 at 50%) auto outline, rendered as #cfcfcf on the white nav bar at 1.56:1, with no other visual change. No exemption or other cue applies. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "720b571d23d5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Breadcrumb 'Notícias' link on the #f5f5f5 breadcrumb band. On the live page, focus draws Chrome's two-tone auto ring in the author's colour: an outer #cfcfcf/#cacaca band and an inner #ffffff line. Against #f5f5f5 these give 1.43 to 1.50:1, and white against grey reaches only 1.64:1. Nothing else changes on focus. The author changed outline-color, so the default-style exemption does not apply. Every part of the indicator is below 3:1 against its neighbours, so it fails 1.4.11 as reported."
+    },
+    {
+      "fingerprint": "14b19e48c728",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Conheça o infoKids' link in the #f5f5f5 'Outras publicações' sidebar. On the live page its focus indicator is the author-coloured two-tone auto ring: #cfcfcf/#cacaca outer band and #ffffff inner line. Against the #f5f5f5 card that is about 1.43 to 1.5:1, and at most 1.56:1 between the ring's own parts. The ring is the only change on focus; underline appears only on hover. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "897cde0ac407",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "FoundationOne link in the sidebar; the finding says that at 390x844 it is fully hidden behind the OneTrust cookie banner when focused. The snapshot's own walk record shows that this walk did not wait for idle (idleMs 0). It reached the link at Tab x9, about 4.35 s after load and 35 to 100 ms per key. One step later, focus was inside the banner and stayed trapped there. I drove the live page in headless Edge at 390x844. The banner comes with a full-viewport 50% black overlay that blocks the page. About 0.8 s after it appears it takes focus. After that, Tab, Shift+Tab and ArrowDown then Tab all cycle inside its four controls, and Escape dismisses it. In its settled state the banner is effectively modal, which the Understanding for 2.4.11 lists as a way to pass ('making the banner modal so the user has to dismiss the banner before navigating through the page'). A keyboard user cannot move focus to the link while the banner is up, and once it is dismissed nothing covers the link. The probe caught a transient state during load, before the banner took focus, so the claim does not hold for the page as users meet it. The page may have changed since the run, but the snapshot's own trap record shows the same banner trap then."
+    }
+  ]
+}

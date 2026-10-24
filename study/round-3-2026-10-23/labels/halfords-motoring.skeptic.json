@@ -1,0 +1,30 @@
+{
+  "page": "https://www.halfords.com/motoring/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "cc86ad061ae4",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the American Express logo in the footer's row of accepted payment methods (the screenshot crop shows the blue AmEx mark). Its alt, \"american-express\", matches the file name american-express.png, but that name is itself an accurate alternative: it identifies the brand, as the sibling alts \"visa\", \"mastercard\", \"paypal\" and \"klarna\" do. F30 only covers file names that are not valid text alternatives in their own right (\"Oct.jpg\", \"Chart.jpg\"), and screen readers do not normally speak the hyphen. The rule treats any match with the file name as a failure, which is stricter than 1.1.1."
+    },
+    {
+      "fingerprint": "9cd411503213",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer newsletter sign-up field (input type=email, id=newsletter, sr-only label \"Email address\", next to a \"Sign up\" button). It asks for the user's own email address, which is an Input Purpose (email), and it carries autocomplete=\"off\". Nothing else on the field (no ARIA, no microdata) declares its purpose. The 1.3.5 Understanding document says type=\"email\" does not establish that the field is the user's email, and that input purposes must still be programmatically determinable when authors turn autofill off. I found no technique that makes it pass, so the finding holds."
+    },
+    {
+      "fingerprint": "07a1617f2080",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the icon-only 'Expand breadcrumb navigation' toggle at the left of the breadcrumb pill over the hero image. I sampled the screenshot inside the button's 40x40 bounds: the chevron's solid pixels are #ff9718 and its surround is a uniform #666666, which gives 2.65:1, so the rule measured correctly. The button has no text and no boundary of its own (the pill's white outline wraps the whole breadcrumb, not the control), so the chevron is the only visual sign that the control exists and what it does. The 1.4.11 Understanding document treats such arrow symbols as graphical objects that need 3:1. I could not re-check the live page, which returned HTTP 403 to curl."
+    },
+    {
+      "fingerprint": "8334e0a228a8",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the header search input (type=search, placeholder \"Search product or services\"). It is associated with an sr-only <label for=search-suggestions> that is empty. The CDP tree in the snapshot gives it no name and no nameFrom, so in Chrome the finding is factually right. However, HTML-AAM 4.1.1 says that when the label yields nothing, the title and then the placeholder become the name. ACT rule e086e5 passes a placeholder-only field (Passed Example 5), and browsers expose the placeholder separately, where NVDA, JAWS, VoiceOver and TalkBack usually announce it, so users likely hear more than 'searchbox'. Under the spec the field has a name; in the dominant browser it does not. Competent auditors would reasonably split on whether that is a 4.1.2 failure. The empty label is plainly an authoring defect either way. I could not re-check the live page, which returned HTTP 403."
+    }
+  ]
+}

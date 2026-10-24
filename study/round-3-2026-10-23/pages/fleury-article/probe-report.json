@@ -1,0 +1,2818 @@
+{
+  "schemaVersion": 1,
+  "rampaVersion": "0.1.1",
+  "createdAt": "2026-10-23T16:17:56.246Z",
+  "target": "https://www.fleury.com.br/noticias/a-sua-saude-mental-importa",
+  "surface": "web",
+  "wcagTarget": "wcag22-aa",
+  "locale": "en",
+  "llm": "on",
+  "model": "ollama:gemma4:12b",
+  "engine": {
+    "name": "axe-core",
+    "version": "4.14.0"
+  },
+  "minConfidence": "low",
+  "findings": [
+    {
+      "fingerprint": "9a4e5cf858a9",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > a > img",
+      "message": "The text alternative \"Logo\" is a file name or a placeholder.",
+      "evidence": "Logo",
+      "subject": "Logo",
+      "patch": {
+        "ref": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > a > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "Logo",
+        "to": "Fleury - Página inicial",
+        "before": "<img alt=\"Logo\" loading=\"lazy\" width=\"150\" height=\"50\" decoding=\"async\" data-nimg=\"1\" style=\"color:transparent\" src=\"https://d3unpzxgfygi8m.cloudfront.net/logo_fleury3_c934991886.png\">",
+        "after": "<img alt=\"Fleury - Página inicial\" loading=\"lazy\" width=\"150\" height=\"50\" decoding=\"async\" data-nimg=\"1\" style=\"color:transparent\" src=\"https://d3unpzxgfygi8m.cloudfront.net/logo_fleury3_c934991886.png\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "abffa738d47b",
+      "criterion": "1.1.1",
+      "level": "A",
+      "source": "judgment",
+      "ref": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > a:nth-of-type(2) > img",
+      "message": "The text alternative \"App Store Badge\" is all its link holds, and does not say where the link leads.",
+      "evidence": "App Store Badge",
+      "subject": "App Store Badge",
+      "patch": {
+        "ref": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > a:nth-of-type(2) > img",
+        "kind": "set-attribute",
+        "attribute": "alt",
+        "from": "App Store Badge",
+        "to": "Baixar na App Store",
+        "before": "<img alt=\"App Store Badge\" loading=\"lazy\" width=\"158\" height=\"56\" decoding=\"async\" data-nimg=\"1\" style=\"color:transparent\" src=\"/images/apple.png\">",
+        "after": "<img alt=\"Baixar na App Store\" loading=\"lazy\" width=\"158\" height=\"56\" decoding=\"async\" data-nimg=\"1\" style=\"color:transparent\" src=\"/images/apple.png\">"
+      },
+      "confidence": "high",
+      "agreement": {
+        "votes": 1,
+        "total": 1
+      },
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "fingerprint": "925f61a9c83c",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > header:nth-of-type(1) > div > div > div:nth-of-type(2) > a:nth-of-type(2)",
+      "target": "[\".inline-flex.bg-brand-red-500.hover\\\\:bg-brand-red-400\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a target=\"_blank\" data-slot=\"button\" class=\"inline-flex items-ce...\" href=\"https://agendamento....\">"
+    },
+    {
+      "fingerprint": "3c9502c7d1a7",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > main > nav > div > ol > li:nth-of-type(1) > div > a",
+      "target": "[\".md\\\\:text-base.text-xs[href$=\\\"noticias\\\"]\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<a class=\"text-body-small-medium text-brand-text-05 md:text-base text-xs\" href=\"/noticias\">Notícias</a>"
+    },
+    {
+      "fingerprint": "42a9d6defcfc",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > main > nav > div > ol > li:nth-of-type(2) > div > span",
+      "target": "[\".text-brand-text-03\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span class=\"text-body-small-medium text-brand-text-03 md:text-base text-xs\">A sua saúde mental importa!</span>"
+    },
+    {
+      "fingerprint": "8ca040d4b4a7",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > main > section > div > div:nth-of-type(2) > div > div:nth-of-type(1) > p",
+      "target": "[\".last\\\\:border-0.border-b.py-4:nth-child(1) > .text-caption-large-semibold.mb-4\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<p class=\"text-caption-large-semibold text-brand-text-05 mb-4\">24/9/2026</p>"
+    },
+    {
+      "fingerprint": "8d04551e002d",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > main > section > div > div:nth-of-type(2) > div > div:nth-of-type(2) > p",
+      "target": "[\".last\\\\:border-0.border-b.py-4:nth-child(2) > .text-caption-large-semibold.mb-4\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<p class=\"text-caption-large-semibold text-brand-text-05 mb-4\">09/9/2026</p>"
+    },
+    {
+      "fingerprint": "73293ec8876f",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > main > section > div > div:nth-of-type(2) > div > div:nth-of-type(3) > p",
+      "target": "[\".last\\\\:border-0.border-b.py-4:nth-child(3) > .text-caption-large-semibold.mb-4\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<p class=\"text-caption-large-semibold text-brand-text-05 mb-4\">09/9/2026</p>"
+    },
+    {
+      "fingerprint": "074c17fd5b2d",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "html > body > footer:nth-of-type(1) > div:nth-of-type(1) > button > span",
+      "target": "[\".lg\\\\:block > .z-50.w-full > .bg-brand-text-03.text-brand-text-04.cursor-pointer > span\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<span>Mais informações</span>"
+    },
+    {
+      "fingerprint": "d45693663fdf",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#onetrust-pc-btn-handler",
+      "target": "[\"#onetrust-pc-btn-handler\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button id=\"onetrust-pc-btn-handler\" aria-label=\"Definições de cookies, Abre a caixa de diálogo do centro de preferências\">Definições de cookies</button>"
+    },
+    {
+      "fingerprint": "c82c7ef451a3",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#onetrust-reject-all-handler",
+      "target": "[\"#onetrust-reject-all-handler\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button id=\"onetrust-reject-all-handler\">Rejeitar Todos</button>"
+    },
+    {
+      "fingerprint": "d816d4416df6",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "engine",
+      "ref": "#onetrust-accept-btn-handler",
+      "target": "[\"#onetrust-accept-btn-handler\"]",
+      "message": "Elements must meet minimum color contrast ratio thresholds",
+      "confidence": "high",
+      "ruleId": "color-contrast",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+      "html": "<button id=\"onetrust-accept-btn-handler\">Aceitar todos os cookies</button>"
+    },
+    {
+      "fingerprint": "e1765d005f18",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "#onetrust-policy-text > a",
+      "target": "#onetrust-policy-text > a",
+      "message": "The text \"Política de Cookies\" has at most 4.31:1 contrast with what is behind it (#ed0f69 on #ffffff), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#ed0f69 on #ffffff · 4.31:1 at best, 4.31:1 at worst · 13px, 700",
+      "subject": "Política de Cookies",
+      "confidence": "low",
+      "ruleId": "rampa/pixel-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<a class=\"ot-cookie-policy-link\" href=\"https://privacyportal.onetrust.com/policies/4b90a165-da16-4729-ae7d-a1ada2835ea8?context=eyJkc1BvcnRhbElkIjoiMGFjZGE4ODgtNDNlZS00OTdjLTk4MmQtMTExMmE2Y2ZhM2NkIn0=\" aria-label=\"Mais informação sobre a sua privacidade, abre num separador novo\" rel=\"noopener noreferrer\" target=\"_blank\">",
+      "experimental": true
+    },
+    {
+      "fingerprint": "1ac30bdcb657",
+      "criterion": "1.4.3",
+      "level": "AA",
+      "source": "rule",
+      "ref": "html > body > header:nth-of-type(1) > div > div > div:nth-of-type(1) > input",
+      "target": "html > body > header:nth-of-type(1) > div > div > div:nth-of-type(1) > input",
+      "message": "The placeholder \"Digite aqui...\" has a contrast of 3.74:1 with the field (#0a0a0a80 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+      "evidence": "#0a0a0a80 on #ffffff · 3.74:1 at best, 3.74:1 at worst · 16px, 400",
+      "subject": "Digite aqui...",
+      "confidence": "low",
+      "ruleId": "rampa/placeholder-contrast",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+      "html": "<input type=\"text\" placeholder=\"Digite aqui...\" class=\"search-input-desktop w-full p-4 border-t border-b border-r border-l border-gray-purple-100 h-[52px] rounded-r-full focus:outline-brand-text-03\" value=\"\">",
+      "experimental": true
+    },
+    {
+      "fingerprint": "89f737aed063",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "html > body > header:nth-of-type(1) > div > div > a",
+      "target": "html > body > header:nth-of-type(1) > div > div > a",
+      "message": "When this element has keyboard focus, its focus indicator (#cfcfcf, around it) has a contrast of 1.56:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×1: <a> focused and blurred; 740 px of its indicator around it: #cfcfcf (732 px) next to #ffffff (100%): 1.56:1",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a class=\"hover:scale-100! flex\" style=\"width:300px;height:40px\" href=\"/\"><img alt=\"Fleury\" loading=\"lazy\" width=\"300\" height=\"40\" decoding=\"async\" data-nimg=\"1\" class=\"w-full h-full object-contain\" style=\"color:transparent\" src=\"https://d3unpzxgfygi8m.cloudfront.net/logo_fleury_811f72688e.png\"></a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "3439323f9be1",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "html > body > header:nth-of-type(1) > div > div > div:nth-of-type(1) > div:nth-of-type(1) > button",
+      "target": "html > body > header:nth-of-type(1) > div > div > div:nth-of-type(1) > div:nth-of-type(1) > button",
+      "message": "When this element has keyboard focus, its focus indicator (#cfcfcf, around it) has a contrast of 1.56:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×2: <button> \"Notícias\" focused and blurred; 352 px of its indicator around it: #cfcfcf (316 px) next to #ffffff (93%): 1.56:1; style sheet: box-shadow #00000000, box-shadow #00000000, box-shadow #00000000, box-shadow #a1a1a180, box-shadow #00000000",
+      "confidence": "medium",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<button type=\"button\" role=\"combobox\" aria-controls=\"radix-_R_1idlb_\" aria-expanded=\"false\" aria-autocomplete=\"none\" dir=\"ltr\" data-state=\"closed\" data-slot=\"select-trigger\" data-size=\"default\" class=\"data-[placeholder]:text-body-small-regular [&amp;_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent whitespace-nowrap transition-[c",
+      "experimental": true
+    },
+    {
+      "fingerprint": "e6537f0ecf9a",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#radix-_R_4dlb_-trigger-radix-_R_asdlb_",
+      "target": "#radix-_R_4dlb_-trigger-radix-_R_asdlb_",
+      "message": "When this element has keyboard focus, its focus indicator (#cfcfcf, on and around it) has a contrast of 1.56:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×6: <button> \"Para você\" focused and blurred; 856 px of its indicator on and around it: #cfcfcf (824 px) next to #ffffff (100%): 1.56:1",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<button id=\"radix-_R_4dlb_-trigger-radix-_R_asdlb_\" data-state=\"closed\" aria-expanded=\"false\" aria-controls=\"radix-_R_4dlb_-content-radix-_R_asdlb_\" class=\"group flex flex-1 h-10 items-center justify-center px-4 py-2 text-sm font-medium disabled:pointer-events-none disabled:opacity-50 group rounded-lg text-body-small-bold w-full hover:text-brand-text-03 transition-all duration-150\" data-radix-collection-item=\"\">Para você<!-- --> <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-lin",
+      "experimental": true
+    },
+    {
+      "fingerprint": "bfc30f7fdedb",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#radix-_R_4dlb_-trigger-radix-_R_isdlb_",
+      "target": "#radix-_R_4dlb_-trigger-radix-_R_isdlb_",
+      "message": "When this element has keyboard focus, its focus indicator (#cfcfcf, on and around it) has a contrast of 1.56:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×7: <button> \"Para médicos\" focused and blurred; 860 px of its indicator on and around it: #cfcfcf (828 px) next to #ffffff (100%): 1.56:1",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<button id=\"radix-_R_4dlb_-trigger-radix-_R_isdlb_\" data-state=\"closed\" aria-expanded=\"false\" aria-controls=\"radix-_R_4dlb_-content-radix-_R_isdlb_\" class=\"group flex flex-1 h-10 items-center justify-center px-4 py-2 text-sm font-medium disabled:pointer-events-none disabled:opacity-50 group rounded-lg text-body-small-bold w-full hover:text-brand-text-03 transition-all duration-150\" data-radix-collection-item=\"\">Para médicos<!-- --> <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-",
+      "experimental": true
+    },
+    {
+      "fingerprint": "5131df48aaf9",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "html > body > header:nth-of-type(1) > nav > div > div > nav > div:nth-of-type(1) > ul > li:nth-of-type(3) > a",
+      "target": "html > body > header:nth-of-type(1) > nav > div > div > nav > div:nth-of-type(1) > ul > li:nth-of-type(3) > a",
+      "message": "When this element has keyboard focus, its focus indicator (#cfcfcf, around it) has a contrast of 1.56:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×8: <a> \"Unidades\" focused and blurred; 864 px of its indicator around it: #cfcfcf (828 px) next to #ffffff (100%): 1.56:1",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a target=\"_self\" class=\"group flex flex-1 h-10 items-center justify-center px-4 py-2 text-sm font-medium disabled:pointer-events-none disabled:opacity-50 hover:text-brand-text-03 transition-all duration-150 rounded-lg\" data-radix-collection-item=\"\" href=\"/unidades\">Unidades</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "d1687c622878",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "html > body > header:nth-of-type(1) > nav > div > div > nav > div:nth-of-type(1) > ul > li:nth-of-type(4) > a",
+      "target": "html > body > header:nth-of-type(1) > nav > div > div > nav > div:nth-of-type(1) > ul > li:nth-of-type(4) > a",
+      "message": "When this element has keyboard focus, its focus indicator (#cfcfcf, around it) has a contrast of 1.56:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×9: <a> \"Convênios\" focused and blurred; 868 px of its indicator around it: #cfcfcf (832 px) next to #ffffff (100%): 1.56:1",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a target=\"_self\" class=\"group flex flex-1 h-10 items-center justify-center px-4 py-2 text-sm font-medium disabled:pointer-events-none disabled:opacity-50 hover:text-brand-text-03 transition-all duration-150 rounded-lg\" data-radix-collection-item=\"\" href=\"/convenios\">Convênios</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "8e3c5142ee0f",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "html > body > header:nth-of-type(1) > nav > div > div > nav > div:nth-of-type(1) > ul > li:nth-of-type(5) > a",
+      "target": "html > body > header:nth-of-type(1) > nav > div > div > nav > div:nth-of-type(1) > ul > li:nth-of-type(5) > a",
+      "message": "When this element has keyboard focus, its focus indicator (#cfcfcf, around it) has a contrast of 1.56:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×10: <a> \"Notícias\" focused and blurred; 864 px of its indicator around it: #cfcfcf (828 px) next to #ffffff (100%): 1.56:1",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a target=\"_self\" class=\"group flex flex-1 h-10 items-center justify-center px-4 py-2 text-sm font-medium disabled:pointer-events-none disabled:opacity-50 hover:text-brand-text-03 transition-all duration-150 rounded-lg\" data-radix-collection-item=\"\" href=\"/noticias\">Notícias</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "57580ba0c136",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "#radix-_R_4dlb_-trigger-radix-_R_1isdlb_",
+      "target": "#radix-_R_4dlb_-trigger-radix-_R_1isdlb_",
+      "message": "When this element has keyboard focus, its focus indicator (#cfcfcf, on and around it) has a contrast of 1.56:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×11: <button> \"Institucional\" focused and blurred; 860 px of its indicator on and around it: #cfcfcf (828 px) next to #ffffff (100%): 1.56:1",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<button id=\"radix-_R_4dlb_-trigger-radix-_R_1isdlb_\" data-state=\"closed\" aria-expanded=\"false\" aria-controls=\"radix-_R_4dlb_-content-radix-_R_1isdlb_\" class=\"group flex flex-1 h-10 items-center justify-center px-4 py-2 text-sm font-medium disabled:pointer-events-none disabled:opacity-50 group rounded-lg text-body-small-bold w-full hover:text-brand-text-03 transition-all duration-150\" data-radix-collection-item=\"\">Institucional<!-- --> <svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stro",
+      "experimental": true
+    },
+    {
+      "fingerprint": "720b571d23d5",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "html > body > main > nav > div > ol > li:nth-of-type(1) > div > a",
+      "target": "html > body > main > nav > div > ol > li:nth-of-type(1) > div > a",
+      "message": "When this element has keyboard focus, its focus indicator (#cacaca, #ffffff, around it) has a contrast of 1.64:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×12: <a> \"Notícias\" focused and blurred; 528 px of its indicator around it: #cacaca (352 px) next to #f5f5f5 (98%): 1.50:1; #ffffff (176 px) next to #f5f5f5 (53%), #cacaca (47%): 1.64:1",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a class=\"text-body-small-medium text-brand-text-05 md:text-base text-xs\" href=\"/noticias\">Notícias</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "14b19e48c728",
+      "criterion": "1.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "html > body > main > section > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a",
+      "target": "html > body > main > section > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a",
+      "message": "When this element has keyboard focus, its focus indicator (#cfcfcf, #ffffff, around it) has a contrast of 1.56:1 at most with the colors next to it, under the 3:1 that WCAG 1.4.11 asks of visual information needed to identify a state. Give the indicator a color with at least 3:1 against what surrounds it, such as an outline of 2 px that is dark on a light page.",
+      "evidence": "Tab ×13: <a> \"Conheça o infoKids\" focused and blurred; 1032 px of its indicator around it: #cfcfcf (688 px) next to #f5f5f5 (98%): 1.43:1; #ffffff (344 px) next to #f5f5f5 (51%), #cfcfcf (49%): 1.56:1",
+      "confidence": "high",
+      "ruleId": "rampa/focus-indicator-contrast",
+      "html": "<a class=\"text-body-small-semibold hover:underline text-brand-text-02\" href=\"/noticias/conheca-o-infokids\">Conheça o infoKids</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "e298b8e35c19",
+      "criterion": "2.4.4",
+      "level": "A",
+      "source": "engine",
+      "ref": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(1)",
+      "target": "[\".max-w-\\\\[324px\\\\] > .gap-2.items-center.flex > .hover\\\\:opacity-80.hover\\\\:scale-\\\\[1\\\\.02\\\\][rel=\\\"noopener noreferrer\\\"]:nth-child(1)\"]",
+      "message": "Links must have discernible text",
+      "confidence": "high",
+      "ruleId": "link-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+      "html": "<a class=\"hover:opacity-80 hover:scale-[1.02] transition-all duration-300\" target=\"_blank\" rel=\"noopener noreferrer\" href=\"https://www.instagram.com/fleury\">"
+    },
+    {
+      "fingerprint": "897cde0ac407",
+      "criterion": "2.4.11",
+      "level": "AA",
+      "source": "probe",
+      "ref": "html > body > main > section > div > div:nth-of-type(2) > div > div:nth-of-type(3) > a",
+      "target": "html > body > main > section > div > div:nth-of-type(2) > div > div:nth-of-type(3) > a",
+      "message": "When this element receives keyboard focus, it is entirely hidden behind other content, so a keyboard user cannot see where focus is.",
+      "evidence": "Tab ×9 in a 390×844 window: <a> \"FoundationOne®: como o perfil genômico abrangente contribui…\" at y 622; 25 of 25 grid points hit <div> \"Bandeira de biscoitos\" #onetrust-banner-sdk (position: fixed, 375×392 px at y 548); painting it changed 0 px and hiding it 0 px; scroll-padding-bottom: 392px on html would keep focused elements clear of it",
+      "confidence": "high",
+      "ruleId": "rampa/focus-obscured",
+      "html": "<a class=\"text-body-small-semibold hover:underline text-brand-text-02\" href=\"/noticias/foundation-one-genomica-tratamentos-ongologicos\">FoundationOne®: como o perfil genômico abrangente contribui para a personalização do tratamento do câncer</a>",
+      "experimental": true
+    },
+    {
+      "fingerprint": "6d62fc3c9096",
+      "criterion": "2.5.3",
+      "level": "A",
+      "source": "engine",
+      "ref": "#onetrust-policy-text > a",
+      "target": "[\".ot-cookie-policy-link\"]",
+      "message": "Elements must have their visible text as part of their accessible name",
+      "confidence": "high",
+      "ruleId": "label-content-name-mismatch",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+      "html": "<a class=\"ot-cookie-policy-lin...\" href=\"https://privacyporta...\" aria-label=\"Mais informação sobr...\" rel=\"noopener noreferrer\" target=\"_blank\">"
+    },
+    {
+      "fingerprint": "170af9f8f17a",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "html > body > header:nth-of-type(1) > nav > div > div > nav > div:nth-of-type(1) > ul > li:nth-of-type(7) > span",
+      "target": "[\".px-9\"]",
+      "message": "Elements must only use supported ARIA attributes",
+      "confidence": "high",
+      "ruleId": "aria-allowed-attr",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-allowed-attr?application=axeAPI",
+      "html": "<span type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"false\" aria-controls=\"radix-_R_csdlb_\" data-state=\"closed\" data-slot=\"dialog-trigger\" class=\"rounded-lg text-body...\">"
+    },
+    {
+      "fingerprint": "f1af55e76489",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "html > body > header:nth-of-type(1) > div > div > div:nth-of-type(1) > div:nth-of-type(1) > button",
+      "target": "[\".data-\\\\[placeholder\\\\]\\\\:text-body-small-regular\"]",
+      "message": "Buttons must have discernible text",
+      "confidence": "high",
+      "ruleId": "button-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI",
+      "html": "<button type=\"button\" role=\"combobox\" aria-controls=\"radix-_R_1idlb_\" aria-expanded=\"false\" aria-autocomplete=\"none\" dir=\"ltr\" data-state=\"closed\" data-slot=\"select-trigger\" data-size=\"default\" class=\"data-[placeholder]:t...\">"
+    },
+    {
+      "fingerprint": "e98ce6d30374",
+      "criterion": "4.1.2",
+      "level": "A",
+      "source": "engine",
+      "ref": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > button",
+      "target": "[\".text-primary-foreground\"]",
+      "message": "Buttons must have discernible text",
+      "confidence": "high",
+      "ruleId": "button-name",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI",
+      "html": "<button data-slot=\"button\" class=\"gap-2 whitespace-now...\">"
+    }
+  ],
+  "belowThreshold": [],
+  "waived": [],
+  "discarded": [
+    {
+      "criterion": "1.1.1",
+      "ref": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > a:nth-of-type(1) > img",
+      "reason": "the alternative names the purpose of the link it is the only content of",
+      "output": {
+        "verdict": "fail",
+        "evidence": "Google Play Badge",
+        "problem": "missing_information",
+        "imageShows": "A Google Play badge with the text 'Baixar em Google Play' and the Google Play logo.",
+        "suggestedAlt": "Baixar no Google Play",
+        "confidence": "high"
+      }
+    }
+  ],
+  "criteria": [
+    {
+      "criterion": "1.1.1",
+      "applicable": true,
+      "candidates": 5,
+      "judged": 5,
+      "failed": 2,
+      "passed": 2,
+      "cannotTell": 0,
+      "discarded": 1,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "1.3.5",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.2",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.4",
+      "applicable": true,
+      "candidates": 25,
+      "judged": 25,
+      "failed": 0,
+      "passed": 25,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "2.4.6",
+      "applicable": true,
+      "candidates": 8,
+      "judged": 8,
+      "failed": 0,
+      "passed": 7,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0,
+      "suggested": 1
+    },
+    {
+      "criterion": "3.1.1",
+      "applicable": true,
+      "candidates": 1,
+      "judged": 1,
+      "failed": 0,
+      "passed": 1,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "3.1.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    },
+    {
+      "criterion": "3.3.2",
+      "applicable": true,
+      "candidates": 0,
+      "judged": 0,
+      "failed": 0,
+      "passed": 0,
+      "cannotTell": 0,
+      "discarded": 0,
+      "errors": 0,
+      "offlineMisses": 0
+    }
+  ],
+  "coverage": {
+    "engine": [
+      "1.1.1",
+      "1.3.1",
+      "1.4.1",
+      "1.4.3",
+      "1.4.4",
+      "1.4.12",
+      "2.4.2",
+      "2.4.4",
+      "2.5.3",
+      "2.5.8",
+      "3.1.1",
+      "4.1.2"
+    ],
+    "judged": [
+      "1.1.1",
+      "1.3.5",
+      "2.4.2",
+      "2.4.4",
+      "2.4.6",
+      "3.1.1"
+    ],
+    "notChecked": [
+      "1.3.2",
+      "1.3.3",
+      "1.4.5",
+      "2.2.1",
+      "2.2.2",
+      "2.3.1",
+      "2.4.3",
+      "2.4.5",
+      "2.5.1",
+      "2.5.2",
+      "2.5.4",
+      "2.5.7",
+      "3.1.2",
+      "3.2.2",
+      "3.2.3",
+      "3.2.4",
+      "3.2.6",
+      "3.3.1",
+      "3.3.3",
+      "3.3.4",
+      "3.3.7",
+      "3.3.8",
+      "4.1.3"
+    ],
+    "rules": [
+      "1.1.1",
+      "1.4.3",
+      "1.4.11",
+      "2.4.2",
+      "2.4.6",
+      "4.1.2"
+    ],
+    "probes": [
+      {
+        "criterion": "1.4.4",
+        "method": "probe/layout@1",
+        "rule": "rampa/resize-text",
+        "conditions": "640×512 CSS px at device scale 2 (1280×1024 at 200%) · chromium 155.0.4283.62 (headless)",
+        "status": "needs-review",
+        "applicable": 62,
+        "failures": 0,
+        "review": 3,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+      },
+      {
+        "criterion": "1.4.10",
+        "method": "probe/layout@1",
+        "rule": "rampa/reflow",
+        "conditions": "320×256 CSS px from 1280×1024 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 62,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "the page does not scroll sideways at 320 px; the guard blocked 19 request(s) to www.google.com, ad.doubleclick.net, analytics.google.com, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.12",
+        "method": "probe/layout@1",
+        "rule": "rampa/text-spacing",
+        "conditions": "spacing overrides at 1280×1024 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 69,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+      },
+      {
+        "criterion": "1.4.13",
+        "method": "probe/hover@1",
+        "rule": "rampa/hover-content",
+        "conditions": "hover and focus on up to 30 triggers at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "6 trigger(s) tried of 6 found (6 hovered, 4 focused); 0 showed content; the guard blocked 19 request(s) to analytics.google.com, www.google.com, ad.doubleclick.net, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.3.4",
+        "method": "probe/orientation@1",
+        "rule": "rampa/orientation",
+        "conditions": "portrait and landscape at 1280×800 and 390×844 (phone) · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 58,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "4 load(s) compared, upright and sideways, each loaded and then turned; the guard blocked 57 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "2.1.1",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/keyboard-reach",
+        "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 36,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 21 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+      },
+      {
+        "criterion": "2.1.2",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/keyboard-trap",
+        "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 36,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 21 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+      },
+      {
+        "criterion": "3.2.1",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/on-focus",
+        "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 36,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 21 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+      },
+      {
+        "criterion": "2.4.1",
+        "method": "probe/keyboard@1",
+        "rule": "rampa/bypass-blocks",
+        "conditions": "first 4 Tab stop(s), skip links pressed: 0 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 1,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "also: main landmark, navigation landmark, heading “A sua saúde mental importa!”; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "2.1.4",
+        "method": "probe/shortcuts@1",
+        "rule": "rampa/character-key-shortcuts",
+        "conditions": "printable keys with focus on the body at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "94 printable key(s) pressed one at a time with focus on the page; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.1",
+        "method": "probe/media@2",
+        "rule": "rampa/audio-video-only",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.3 s watch may be missed; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.2",
+        "method": "probe/media@2",
+        "rule": "rampa/captions",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.3 s watch may be missed; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.3",
+        "method": "probe/media@2",
+        "rule": "rampa/media-alternative",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.3 s watch may be missed; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.4",
+        "method": "probe/media@2",
+        "rule": "rampa/live-captions",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.3 s watch may be missed; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.2.5",
+        "method": "probe/media@2",
+        "rule": "rampa/audio-description",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.3 s watch may be missed; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.2",
+        "method": "probe/media@2",
+        "rule": "rampa/audio-control",
+        "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.3 s watch may be missed; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.1",
+        "method": "probe/color@2",
+        "rule": "rampa/color-only-state",
+        "conditions": "current and selected items against their neighbours at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "not-checked",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "0 current or selected item(s) found; the guard blocked 19 request(s) to www.google.com, ad.doubleclick.net, analytics.google.com, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.1",
+        "method": "probe/color@2",
+        "rule": "rampa/color-only-required",
+        "conditions": "required fields against optional ones at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "not-checked",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "0 form(s) with required and optional fields; the guard blocked 19 request(s) to www.google.com, ad.doubleclick.net, analytics.google.com, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.1",
+        "method": "probe/color@2",
+        "rule": "rampa/link-color-only",
+        "conditions": "links in text against the text around them, at rest, on hover and on focus at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 1,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "1 link(s) in blocks of text; 1 set apart by more than color; the guard blocked 19 request(s) to www.google.com, ad.doubleclick.net, analytics.google.com, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.1",
+        "method": "probe/color@2",
+        "rule": "rampa/color-words",
+        "conditions": "sentences that name a color, against the hue of what they name at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "not-checked",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "0 sentence(s) that convey something by a color; the guard blocked 19 request(s) to www.google.com, ad.doubleclick.net, analytics.google.com, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "2.4.7",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/focus-visible",
+        "conditions": "focused and blurred captures at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "needs-review",
+        "applicable": 36,
+        "failures": 0,
+        "review": 7,
+        "unmatched": 1,
+        "maturity": "experimental",
+        "note": "the guard blocked 21 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+      },
+      {
+        "criterion": "2.4.11",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/focus-obscured",
+        "conditions": "5×5 hit grid at 1280×800, both directions · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 36,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 21 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+      },
+      {
+        "criterion": "2.4.11",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/focus-obscured",
+        "conditions": "5×5 hit grid at 390×844, both directions · chromium 155.0.4283.62 (headless)",
+        "status": "failures",
+        "applicable": 13,
+        "failures": 1,
+        "review": 0,
+        "unmatched": 0,
+        "maturity": "experimental",
+        "note": "the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+      },
+      {
+        "criterion": "1.4.11",
+        "method": "probe/keyboard@2",
+        "rule": "rampa/focus-indicator-contrast",
+        "conditions": "focus indicators against the colors next to them, at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "failures",
+        "applicable": 36,
+        "failures": 28,
+        "review": 0,
+        "unmatched": 4,
+        "note": "18 more failure(s) not listed; the guard blocked 21 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.3",
+        "method": "probe/states@1",
+        "rule": "rampa/state-text-contrast",
+        "conditions": "text in hover and focus states at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "no-failure-found",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "32 control(s) with text in 13 style(s); 10 hovered and 10 focused; 20 kept their colors; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing",
+        "maturity": "experimental"
+      },
+      {
+        "criterion": "1.4.11",
+        "method": "probe/states@1",
+        "rule": "rampa/state-indicator-contrast",
+        "conditions": "selected and current items with their marks on and off at 1280×800 · chromium 155.0.4283.62 (headless)",
+        "status": "not-checked",
+        "applicable": 0,
+        "failures": 0,
+        "review": 0,
+        "unmatched": 0,
+        "note": "0 selected, current, pressed or checked item(s) found, 0 captured; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing",
+        "maturity": "experimental"
+      }
+    ],
+    "criteria": [
+      {
+        "id": "1.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "image-alt",
+            "ran": true,
+            "applicable": 5,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-meter-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-progressbar-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "object-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "role-img-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "svg-img-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-alt",
+            "ran": true,
+            "applicable": 5,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.1.1@4",
+            "ran": true,
+            "applicable": 5,
+            "failures": 2,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Equivalence for complex and contextual images; decorative or not; long descriptions; CAPTCHA usability"
+      },
+      {
+        "id": "1.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/audio-video-only",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.3 s watch may be missed; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Whether a transcript is equivalent; decorative video-only; labeled media alternatives"
+      },
+      {
+        "id": "1.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "video-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/captions",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.3 s watch may be missed; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Accuracy, completeness, synchronization, speakers; players Rampa cannot read"
+      },
+      {
+        "id": "1.2.3",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/media-alternative",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.3 s watch may be missed; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Whether visual information matters, and whether the description or alternative is adequate"
+      },
+      {
+        "id": "1.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/live-captions",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.3 s watch may be missed; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Everything about live captions"
+      },
+      {
+        "id": "1.2.5",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/audio-description",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.3 s watch may be missed; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Quality of the description; pauses; importance of the visuals"
+      },
+      {
+        "id": "1.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "list",
+            "ran": true,
+            "applicable": 6,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "listitem",
+            "ran": true,
+            "applicable": 22,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-children",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-parent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "definition-list",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "dlitem",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "table-fake-caption",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-has-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "axe",
+            "id": "td-headers-attr",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "th-has-data-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/table-header-cells",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/presentational-table",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/orphan-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Whether formatting carries meaning; complex tables; charts and maps; structure \"available in text\""
+      },
+      {
+        "id": "1.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether an order matters; magazine and dashboard layouts; bidirectional text"
+      },
+      {
+        "id": "1.3.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Instructions in images and media; references that depend on context"
+      },
+      {
+        "id": "1.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/orientation",
+            "ran": true,
+            "applicable": 58,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/orientation@1",
+              "conditions": "portrait and landscape at 1280×800 and 390×844 (phone) · chromium 155.0.4283.62 (headless)",
+              "note": "4 load(s) compared, upright and sideways, each loaded and then turned; the guard blocked 57 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Essential orientation; real devices with the rotation lock; native apps"
+      },
+      {
+        "id": "1.3.5",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "autocomplete-valid",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/1.3.5@2",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whose data a field collects in ambiguous contexts; whether autofill works"
+      },
+      {
+        "id": "1.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-in-text-block",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/color-only-state",
+            "ran": false,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/color@2",
+              "conditions": "current and selected items against their neighbours at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "0 current or selected item(s) found; the guard blocked 19 request(s) to www.google.com, ad.doubleclick.net, analytics.google.com, …; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/color-only-required",
+            "ran": false,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/color@2",
+              "conditions": "required fields against optional ones at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "0 form(s) with required and optional fields; the guard blocked 19 request(s) to www.google.com, ad.doubleclick.net, analytics.google.com, …; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/link-color-only",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/color@2",
+              "conditions": "links in text against the text around them, at rest, on hover and on focus at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "1 link(s) in blocks of text; 1 set apart by more than color; the guard blocked 19 request(s) to www.google.com, ad.doubleclick.net, analytics.google.com, …; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/color-words",
+            "ran": false,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/color@2",
+              "conditions": "sentences that name a color, against the hue of what they name at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "0 sentence(s) that convey something by a color; the guard blocked 19 request(s) to www.google.com, ad.doubleclick.net, analytics.google.com, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Charts, maps, color-coded tables; whether a difference carries meaning"
+      },
+      {
+        "id": "1.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "no-autoplay-audio",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/audio-control",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/media@2",
+              "conditions": "watched on load, then played muted for 2.5 s · chromium 155.0.4283.62 (headless)",
+              "note": "no audio or video found in the page, its open shadow roots or its same-origin frames; players in frames of another origin (YouTube, Vimeo and other embeds), in closed shadow roots, or added after the probe's 4.3 s watch may be missed; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Audio started by other interactions; games; cross-origin media; keyboard access to the control"
+      },
+      {
+        "id": "1.4.3",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "color-contrast",
+            "ran": true,
+            "applicable": 56,
+            "failures": 10,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/pixel-contrast",
+            "ran": true,
+            "applicable": 4,
+            "failures": 1,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-contrast",
+            "ran": true,
+            "applicable": 1,
+            "failures": 1,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/state-text-contrast",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/states@1",
+              "conditions": "text in hover and focus states at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "32 control(s) with text in 13 style(s); 10 hovered and 10 focused; 20 kept their colors; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Text over photos and video; text in images; logotypes"
+      },
+      {
+        "id": "1.4.4",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-viewport",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/meta-viewport",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/resize-text",
+            "ran": true,
+            "applicable": 62,
+            "failures": 0,
+            "review": 3,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/layout@1",
+              "conditions": "640×512 CSS px at device scale 2 (1280×1024 at 200%) · chromium 155.0.4283.62 (headless)",
+              "note": "the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Lost functionality in complex widgets; acceptable truncation; real mobile browsers"
+      },
+      {
+        "id": "1.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential presentation; customizable images; infographics"
+      },
+      {
+        "id": "1.4.10",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/reflow",
+            "ran": true,
+            "applicable": 62,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/layout@1",
+              "conditions": "320×256 CSS px from 1280×1024 · chromium 155.0.4283.62 (headless)",
+              "note": "the page does not scroll sideways at 320 px; the guard blocked 19 request(s) to www.google.com, ad.doubleclick.net, analytics.google.com, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Lost functionality at 320 CSS px; content that scrolls horizontally; whether the two-dimensional exception applies"
+      },
+      {
+        "id": "1.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/icon-contrast",
+            "ran": true,
+            "applicable": 2,
+            "failures": 0,
+            "review": 1,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/focus-indicator-contrast",
+            "ran": true,
+            "applicable": 36,
+            "failures": 28,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "focus indicators against the colors next to them, at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "18 more failure(s) not listed; the guard blocked 21 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/state-indicator-contrast",
+            "ran": false,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/states@1",
+              "conditions": "selected and current items with their marks on and off at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "0 selected, current, pressed or checked item(s) found, 0 captured; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Graphs and charts; whether a graphic is required; hover and active states; gradients"
+      },
+      {
+        "id": "1.4.12",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "avoid-inline-spacing",
+            "ran": true,
+            "applicable": 4,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/text-spacing",
+            "ran": true,
+            "applicable": 69,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/layout@1",
+              "conditions": "spacing overrides at 1280×1024 · chromium 155.0.4283.62 (headless)",
+              "note": "the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Text clipped or overlapping with the spacing applied; scripts where a metric does not apply; text in canvas and images"
+      },
+      {
+        "id": "1.4.13",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/hover-content",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/hover@1",
+              "conditions": "hover and focus on up to 30 triggers at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "6 trigger(s) tried of 6 found (6 hovered, 4 focused); 0 showed content; the guard blocked 19 request(s) to analytics.google.com, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Content shown on hover or focus: dismissible, hoverable, persistent; touch; content that moves"
+      },
+      {
+        "id": "2.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "frame-focusable-content",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "scrollable-region-focusable",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "server-side-image-map",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/keyboard-reach",
+            "ran": true,
+            "applicable": 36,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "the guard blocked 21 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Operating everything with the keyboard; states behind login; drag and drop; canvas; speech and switch input"
+      },
+      {
+        "id": "2.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/keyboard-trap",
+            "ran": true,
+            "applicable": 36,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "the guard blocked 21 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Moving through the whole page with the keyboard; traps after interactions; plug-ins; screen-reader modes"
+      },
+      {
+        "id": "2.1.4",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/character-key-shortcuts",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/shortcuts@1",
+              "conditions": "printable keys with focus on the body at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "94 printable key(s) pressed one at a time with focus on the page; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Settings on other pages or behind login, and whether they work; shortcuts in frames; keyboard layouts and IMEs; speech input"
+      },
+      {
+        "id": "2.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "meta-refresh",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/refresh-header",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Server-side time-outs; flows behind login; the exceptions"
+      },
+      {
+        "id": "2.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "blink",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "marquee",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Motion after an interaction or further down the page; whether a control is easy to find and works from the keyboard; essential motion; reliance on reduced motion"
+      },
+      {
+        "id": "2.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Flashing content, live and user-generated content; certification-grade sign-off"
+      },
+      {
+        "id": "2.4.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "bypass",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/bypass-blocks",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@1",
+              "conditions": "first 4 Tab stop(s), skip links pressed: 0 · chromium 155.0.4283.62 (headless)",
+              "note": "also: main landmark, navigation landmark, heading “A sua saúde mental importa!”; the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Whether a block is substantial; whether skip links work; single-page-app views"
+      },
+      {
+        "id": "2.4.2",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "document-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/default-title",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.2@3",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a title fits the domain and audience"
+      },
+      {
+        "id": "2.4.3",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether the focus order preserves meaning; dialogs and menus"
+      },
+      {
+        "id": "2.4.4",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 30,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.4@3",
+            "ran": true,
+            "applicable": 25,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "The \"ambiguous to users in general\" exception; destinations behind login"
+      },
+      {
+        "id": "2.4.5",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Defining the set of pages; the process exception"
+      },
+      {
+        "id": "2.4.6",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/placeholder-text",
+            "ran": true,
+            "applicable": 8,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/2.4.6@4",
+            "ran": true,
+            "applicable": 8,
+            "failures": 0,
+            "review": 1,
+            "suggestions": 1,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether a heading or label fits the domain and audience"
+      },
+      {
+        "id": "2.4.7",
+        "level": "AA",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/focus-visible",
+            "ran": true,
+            "applicable": 36,
+            "failures": 0,
+            "review": 7,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "focused and blurred captures at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "the guard blocked 21 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Whether every focused element shows it; faint indicators; forced colors"
+      },
+      {
+        "id": "2.4.11",
+        "level": "AA",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/focus-obscured",
+            "ran": true,
+            "applicable": 36,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "5×5 hit grid at 1280×800, both directions · chromium 155.0.4283.62 (headless)",
+              "note": "the guard blocked 21 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          },
+          {
+            "kind": "probe",
+            "id": "rampa/focus-obscured",
+            "ran": true,
+            "applicable": 13,
+            "failures": 1,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "5×5 hit grid at 390×844, both directions · chromium 155.0.4283.62 (headless)",
+              "note": "the guard blocked 19 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Focused elements hidden by sticky headers, banners or dialogs; content the user opened or can move"
+      },
+      {
+        "id": "2.5.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Essential gestures; alternatives elsewhere on the page or in another view; gestures the probe does not make (rotation, longer paths); real touch hardware"
+      },
+      {
+        "id": "2.5.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Actions on the down-event; undo in drag and drop; touch"
+      },
+      {
+        "id": "2.5.3",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "label-content-name-mismatch",
+            "ran": true,
+            "applicable": 2,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/field-label-in-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Label versus nearby instruction; symbols and numbers; testing with speech input"
+      },
+      {
+        "id": "2.5.4",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Camera and body gestures; real sensors; essential motion; settings on other pages; motion after a tap or a permission"
+      },
+      {
+        "id": "2.5.7",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Dragging and its single-pointer alternatives; essential dragging; canvas editors"
+      },
+      {
+        "id": "2.5.8",
+        "level": "AA",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "target-size",
+            "ran": true,
+            "applicable": 39,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Essential or legally required presentation; equivalent targets; canvas and SVG maps"
+      },
+      {
+        "id": "3.1.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "html-has-lang",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-lang-valid",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "html-xml-lang-mismatch",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.1@2",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Balanced bilingual pages; dialects"
+      },
+      {
+        "id": "3.1.2",
+        "level": "AA",
+        "target": "in",
+        "status": "no-applicable-content",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "valid-lang",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/language-switcher-lang",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.1.2@2",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Unmarked passages; single words; proper names; loanwords"
+      },
+      {
+        "id": "3.2.1",
+        "level": "A",
+        "target": "in",
+        "status": "no-failure-found",
+        "methods": [
+          {
+            "kind": "probe",
+            "id": "rampa/on-focus",
+            "ran": true,
+            "applicable": 36,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "probe": {
+              "method": "probe/keyboard@2",
+              "conditions": "keyboard walk at 1280×800 · chromium 155.0.4283.62 (headless)",
+              "note": "the guard blocked 21 request(s) to www.fleury.com.br, www.google.com, ad.doubleclick.net, …; content that needed them may be missing"
+            }
+          }
+        ],
+        "manual": "Changes of context when an element receives focus; states after interaction"
+      },
+      {
+        "id": "3.2.2",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Changes of context when a setting changes, and whether notice is adequate; custom widgets"
+      },
+      {
+        "id": "3.2.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Navigation order across the set of pages; personalization; pages behind login"
+      },
+      {
+        "id": "3.2.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "What counts as the same function; icons in context"
+      },
+      {
+        "id": "3.2.6",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Help mechanisms and their order across the set of pages; help that is not a link"
+      },
+      {
+        "id": "3.3.1",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Error messages after input; errors the server finds; wording"
+      },
+      {
+        "id": "3.3.2",
+        "level": "A",
+        "target": "in",
+        "status": "needs-review",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "form-field-multiple-labels",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/no-visible-label",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "judgment",
+            "id": "judgment/3.3.2@1",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          }
+        ],
+        "manual": "Whether instructions are enough; icons as labels"
+      },
+      {
+        "id": "3.3.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Whether a suggestion is correct; server-side errors; the security exception"
+      },
+      {
+        "id": "3.3.4",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Reversal, checking or confirmation of submissions: almost all of it"
+      },
+      {
+        "id": "3.3.7",
+        "level": "A",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Information asked again in a process; third-party steps; the exceptions"
+      },
+      {
+        "id": "3.3.8",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [],
+        "manual": "Cognitive function tests in sign-in and recovery; CAPTCHA escalations; later steps that need an account"
+      },
+      {
+        "id": "4.1.2",
+        "level": "A",
+        "target": "in",
+        "status": "failures",
+        "methods": [
+          {
+            "kind": "axe",
+            "id": "aria-allowed-attr",
+            "ran": true,
+            "applicable": 12,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "button-name",
+            "ran": true,
+            "applicable": 9,
+            "failures": 2,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "link-name",
+            "ran": true,
+            "applicable": 30,
+            "failures": 1,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr-value",
+            "ran": true,
+            "applicable": 12,
+            "failures": 0,
+            "review": 1,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-conditional-attr",
+            "ran": true,
+            "applicable": 12,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-deprecated-role",
+            "ran": true,
+            "applicable": 4,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-body",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-hidden-focus",
+            "ran": true,
+            "applicable": 16,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-prohibited-attr",
+            "ran": true,
+            "applicable": 12,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-required-attr",
+            "ran": true,
+            "applicable": 4,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-roles",
+            "ran": true,
+            "applicable": 4,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-valid-attr",
+            "ran": true,
+            "applicable": 12,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "duplicate-id-aria",
+            "ran": true,
+            "applicable": 17,
+            "failures": 0,
+            "review": 0,
+            "reviewOnly": true,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "label",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "nested-interactive",
+            "ran": true,
+            "applicable": 13,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "area-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-braille-equivalent",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-command-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-input-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tab-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-toggle-field-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "aria-tooltip-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title-unique",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "frame-title",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-button-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "input-image-alt",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "select-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "axe",
+            "id": "summary-name",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "stable"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/duplicate-id-reference",
+            "ran": true,
+            "applicable": 0,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/widget-name",
+            "ran": true,
+            "applicable": 40,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          },
+          {
+            "kind": "rule",
+            "id": "rampa/custom-control",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental"
+          }
+        ],
+        "manual": "Roles for custom widgets; values set by assistive technology; what is actually announced"
+      },
+      {
+        "id": "4.1.3",
+        "level": "AA",
+        "target": "in",
+        "status": "not-checked",
+        "methods": [
+          {
+            "kind": "rule",
+            "id": "rampa/live-regions",
+            "ran": true,
+            "applicable": 1,
+            "failures": 0,
+            "review": 0,
+            "maturity": "experimental",
+            "note": "1 live region(s): html > body > next-route-announcer >>> div (alert, assertive, atomic, empty). Whether status messages reach them only shows with the page in use",
+            "inventory": true
+          }
+        ],
+        "manual": "Whether status messages are announced in screen readers"
+      }
+    ]
+  },
+  "needsReview": [
+    {
+      "criterion": "1.4.4",
+      "level": "AA",
+      "ruleId": "rampa/resize-text",
+      "ref": "html > body > header:nth-of-type(1)",
+      "target": "html > body > header:nth-of-type(1)",
+      "message": "Text shown at 1280×1024 is hidden at 200% zoom (640×512 CSS px), and no other text on the page at that size has the same words. Check that it can still be reached at 200%, for example through a menu.",
+      "evidence": "at 1280×1024 shown; at 640×512 CSS px display: none (<header> html > body > header:nth-of-type(1)): 5 text box(es), such as \"Para você\", \"Para médicos\", \"Unidades\"; shown again back at 1280×1024"
+    },
+    {
+      "criterion": "1.4.4",
+      "level": "AA",
+      "ruleId": "rampa/resize-text",
+      "ref": "html > body > main > nav > div > span",
+      "target": "html > body > main > nav > div > span",
+      "message": "Text shown at 1280×1024 is hidden at 200% zoom (640×512 CSS px), and no other text on the page at that size has the same words. Check that it can still be reached at 200%, for example through a menu.",
+      "evidence": "at 1280×1024 shown; at 640×512 CSS px display: none (<span> html > body > main > nav > div > span): 1 text box(es), such as \"Você está em:\"; shown again back at 1280×1024"
+    },
+    {
+      "criterion": "1.4.4",
+      "level": "AA",
+      "ruleId": "rampa/resize-text",
+      "ref": "html > body > footer:nth-of-type(1)",
+      "target": "html > body > footer:nth-of-type(1)",
+      "message": "Text shown at 1280×1024 is hidden at 200% zoom (640×512 CSS px), and no other text on the page at that size has the same words. Check that it can still be reached at 200%, for example through a menu.",
+      "evidence": "at 1280×1024 shown; at 640×512 CSS px display: none (<footer> html > body > footer:nth-of-type(1)): 1 text box(es), such as \"Fleury S.A. | CNPJ: 60.840.055/0001-31 | Avenida Morumbi, 8…\"; shown again back at 1280×1024"
+    },
+    {
+      "criterion": "1.4.11",
+      "level": "AA",
+      "ruleId": "rampa/icon-contrast",
+      "ref": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(2)",
+      "target": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(2)",
+      "html": "<a class=\"hover:opacity-80 hover:scale-[1.02] transition-all duration-300\" target=\"_blank\" rel=\"noopener noreferrer\" href=\"http://www.youtube.com/fleurymedicinaesaude\">",
+      "message": "The contrast of the icon of this link could not be measured: what is behind it changed between the two captures.",
+      "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207"
+    },
+    {
+      "criterion": "2.4.6",
+      "level": "AA",
+      "ruleId": "judgment/2.4.6",
+      "ref": "html > body > header:nth-of-type(1) > div > div > div:nth-of-type(1) > input",
+      "message": "The label \"Digite aqui...\" does not say what to enter.",
+      "model": "ollama:gemma4:12b"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "html > body > header:nth-of-type(1) > div > div > div:nth-of-type(1) > div:nth-of-type(1) > button",
+      "target": "html > body > header:nth-of-type(1) > div > div > div:nth-of-type(1) > div:nth-of-type(1) > button",
+      "html": "<button type=\"button\" role=\"combobox\" aria-controls=\"radix-_R_1idlb_\" aria-expanded=\"false\" aria-autocomplete=\"none\" dir=\"ltr\" data-state=\"closed\" data-slot=\"select-trigger\" data-size=\"default\" class=\"data-[placeholder]:text-body-small-regular [&amp;_svg:not([class*='text-'])]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-2 rounded-md border bg-transparent whitespace-nowrap transition-[c",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×2: 376 of 20700 px changed, 0 by at least 3:1, 280 noticeably (mostly #ffffff → #cfcfcf); 134 px that move on their own left out in the 207×100 px around the element; a 1 px outline around its 143×52 px box would paint 390 px"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "html > body > main > nav > div > ol > li:nth-of-type(1) > div > a",
+      "target": "html > body > main > nav > div > ol > li:nth-of-type(1) > div > a",
+      "html": "<a class=\"text-body-small-medium text-brand-text-05 md:text-base text-xs\" href=\"/noticias\">Notícias</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×12: 560 of 11264 px changed, 0 by at least 3:1, 0 noticeably (mostly #f5f5f5 → #ffffff) in the 128×88 px around the element; a 1 px outline around its 62.2×24 px box would paint 172 px"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "html > body > main > section > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a",
+      "target": "html > body > main > section > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a",
+      "html": "<a class=\"text-body-small-semibold hover:underline text-brand-text-02\" href=\"/noticias/conheca-o-infokids\">Conheça o infoKids</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×13: 1064 of 18144 px changed, 0 by at least 3:1, 0 noticeably (mostly #f5f5f5 → #ffffff) in the 216×84 px around the element; a 1 px outline around its 151×20 px box would paint 342 px"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "html > body > main > section > div > div:nth-of-type(2) > div > div:nth-of-type(2) > a",
+      "target": "html > body > main > section > div > div:nth-of-type(2) > div > div:nth-of-type(2) > a",
+      "html": "<a class=\"text-body-small-semibold hover:underline text-brand-text-02\" href=\"/noticias/fleury-oscar-americano-encerramento\">Fleury Oscar Americano: encerramento das atividades</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×14: 2570 of 32136 px changed, 0 by at least 3:1, 0 noticeably (mostly #f5f5f5 → #cbcbcb) in the 206×156 px around the element; a 1 px outline around its 140.8×92 px box would paint 466 px"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "html > body > main > section > div > div:nth-of-type(2) > div > div:nth-of-type(3) > a",
+      "target": "html > body > main > section > div > div:nth-of-type(2) > div > div:nth-of-type(3) > a",
+      "html": "<a class=\"text-body-small-semibold hover:underline text-brand-text-02\" href=\"/noticias/foundation-one-genomica-tratamentos-ongologicos\">FoundationOne®: como o perfil genômico abrangente contribui para a personalização do tratamento do câncer</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×15: 4610 of 44880 px changed, 0 by at least 3:1, 0 noticeably (mostly #f5f5f5 → #cbcbcb) in the 255×176 px around the element; a 1 px outline around its 190×116 px box would paint 612 px"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(4) > a",
+      "target": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > ul > li:nth-of-type(4) > a",
+      "html": "<a class=\"text-body-small-medium hover:text-brand-text-02 text-brand-text-05 transition-colors duration-300\" href=\"/institucional/direitos-e-responsabilidades-dos-pacientes\">Direitos e Responsabilidades do paciente</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×25: 1528 of 27588 px changed, 0 by at least 3:1, 0 noticeably (mostly #ffffff → #d0d0d0) in the 209×132 px around the element; a 1 px outline around its 143.9×68 px box would paint 424 px"
+    },
+    {
+      "criterion": "2.4.7",
+      "level": "AA",
+      "ruleId": "rampa/focus-visible",
+      "ref": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(2) > a",
+      "target": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(2) > a",
+      "html": "<a class=\"text-body-small-medium hover:text-brand-text-02 text-brand-text-05 transition-colors duration-300\" href=\"/institucional/assessoria-de-imprensa\">Assessoria de imprensa</a>",
+      "message": "The change when this element receives focus is faint: fewer pixels change noticeably (by 3:1 contrast, or by 48 in a color channel) than a 1 px outline around it would paint. Check that the indicator can be seen.",
+      "evidence": "Tab ×33: 916 of 18684 px changed, 0 by at least 3:1, 0 noticeably (mostly #ffffff → #d0d0d0) in the 173×108 px around the element; a 1 px outline around its 107.8×44 px box would paint 304 px"
+    },
+    {
+      "criterion": "4.1.2",
+      "level": "A",
+      "ruleId": "aria-valid-attr-value",
+      "ref": "html > body > header:nth-of-type(1) > nav > div > div > nav > div:nth-of-type(1) > ul > li:nth-of-type(7) > span",
+      "target": "[\".px-9\"]",
+      "html": "<span type=\"button\" aria-haspopup=\"dialog\" aria-expanded=\"false\" aria-controls=\"radix-_R_csdlb_\" data-state=\"closed\" data-slot=\"dialog-trigger\" class=\"rounded-lg text-body...\">",
+      "message": "Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"radix-_R_csdlb_\"",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI"
+    }
+  ],
+  "usage": {
+    "calls": 0,
+    "cachedCalls": 41,
+    "inputTokens": 38404,
+    "outputTokens": 3890,
+    "latencyMs": 0
+  },
+  "errors": [],
+  "notes": [
+    "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+  ],
+  "failOn": "confirmed"
+}

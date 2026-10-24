@@ -1,0 +1,66 @@
+{
+  "page": "https://www.nps.gov/findapark/index.htm",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "c59c7b9ad348",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the photo at the top of the Abraham Lincoln Birthplace result card. It sits inside a link whose text also gives the park name, designation and state. The crop and the screenshot show the neoclassical Memorial Building at the Lincoln birthplace site among trees. The page's find-a-park.js sets alt to the CMS alt text or, when that is empty, to park_name + \" banner image\". The park-finder API the page reads (checked live: same image, empty CMS alt) confirms this is the park's own banner image, so the alt is literally accurate. It is generic and repeats the card heading; alt=\"\" or a short scene description would be better. But it describes nothing the image fails to show, so the claimed mismatch is not a 1.1.1 failure. The model had the image, the heading and the destination, and misjudged it."
+    },
+    {
+      "fingerprint": "cb989611db27",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the banner photo of the Acadia result card. It sits inside a link that also reads 'Acadia National Park Maine' and carries an image credit. The crop shows a pink-granite summit above a bay dotted with islands, the classic Cadillac Mountain view over Frenchman Bay. The live park-finder API confirms this is Acadia's own banner image (credit Alan Nyiri) with no CMS alt text, so the page falls back to 'Acadia banner image'. That alt is accurate, if terse and redundant with the heading. Nothing it says is absent from the image, so the claimed mismatch does not hold."
+    },
+    {
+      "fingerprint": "113f8086c65e",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the banner photo of the Adams National Historical Park result card, inside a link that also names the park and Massachusetts. It shows colonial clapboard and saltbox houses behind a stone wall: the Adams birthplaces in Quincy. The live API confirms it is the park's own banner image with empty CMS alt text, hence the template fallback 'Adams banner image'. The alt correctly identifies the image as the Adams park banner. It is generic, not wrong, so the claim that it describes something the image does not show is false."
+    },
+    {
+      "fingerprint": "4c2107619a64",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the banner photo of the African American Civil War Memorial result card, inside a link that repeats the name. It shows the bronze 'Spirit of Freedom' sculpture of uniformed Black soldiers holding rifles, which is that memorial. The live API confirms it is the memorial's own banner image with no CMS alt, so the fallback alt names the subject accurately. The alt is generic and redundant with the heading, but it does not describe anything absent from the photo, so this is not the 1.1.1 failure claimed."
+    },
+    {
+      "fingerprint": "aa2ee11a2279",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the banner photo of the African Burial Ground National Monument result card. It shows visitors gathered in front of the monument's dark granite memorial, which bears the Sankofa symbol, in Lower Manhattan. The live API confirms it is that park's own banner image with empty CMS alt, so 'African Burial Ground banner image' identifies it correctly. The alt names no scene the photo lacks. It is only terse and redundant with the card heading, which is not the failure claimed."
+    },
+    {
+      "fingerprint": "e02ed7e9ef86",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the banner photo of the Agate Fossil Beds National Monument result card. It shows painted tipis on the Nebraska prairie with the park's hills behind. 'Agate Fossil Beds' in the alt is the park's proper name, not a claim that fossils are pictured. The live API confirms this is the park's own banner image with empty CMS alt. The fallback alt is accurate as an identification, so the claimed mismatch does not hold; at most the alt is generic and repeats the heading."
+    },
+    {
+      "fingerprint": "ec68f8528629",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the banner photo of the Alagnak Wild River result card. It shows salmon swimming underwater, fitting a river known for its salmon runs. The live API confirms it is Alagnak's own banner image with empty CMS alt, so 'Alagnak banner image' identifies it correctly. Nothing in the alt is contradicted by the image. The alt is only non-descriptive and redundant with the heading, which is not the failure claimed."
+    },
+    {
+      "fingerprint": "a07fca37af49",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the banner photo of the Ala Kahakai National Historic Trail result card. It shows a lava-field coastline on Hawai'i Island with a trail line crossing it, which is the trail's setting. The live API confirms it is that park's own banner image with empty CMS alt. The fallback alt 'Ala Kahakai banner image' is accurate, if generic, so the claim that it describes something not shown is false."
+    },
+    {
+      "fingerprint": "e6a874e64f34",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the banner photo of the Alaska Public Lands Center result card. It shows Denali above spruce forest, with a row of partner agency logos (the NPS arrowhead, USGS and others). The live API confirms it is that unit's own banner image with empty CMS alt, so 'Alaska Public Lands banner image' identifies it correctly. The alt describes nothing absent from the image. One could note that it omits the logos, but that is a different, minor point, not the mismatch claimed."
+    },
+    {
+      "fingerprint": "a7f103bac882",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the banner photo of the Alcatraz Island result card. It plainly shows Alcatraz Island, with its lighthouse and cellhouse, in San Francisco Bay. The live API confirms it is that park's own banner image with empty CMS alt, so 'Alcatraz Island banner image' is accurate. The alt is generic and redundant with the heading, but it does not describe anything the image fails to show, so this is not the 1.1.1 failure claimed."
+    }
+  ]
+}

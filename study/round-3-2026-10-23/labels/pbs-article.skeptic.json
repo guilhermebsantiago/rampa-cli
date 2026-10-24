@@ -1,0 +1,54 @@
+{
+  "page": "https://www.pbs.org/newshour/show/doj-monitoring-plans-and-dhs-voter-checks-raise-concerns-of-election-interference",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "24c9a3b0d9b3",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The image is the thumbnail inside the 'Watch' link of the 'Watch the Full Episode / PBS NewsHour from Oct 22, 2026' card. The link's accessible name is 'Watch fullepisode', and it leads to the October 22 full-episode page (title 'October 22, 2026 - PBS News Hour full episode'); the title link next to it has the same href. For an image inside a link, 1.1.1 asks the text alternative to convey the link's function, not to describe the photo (a hand holding an election-security seal). Together with 'Watch', 'fullepisode' names what the thumbnail stands for and where it leads. The alt is a run-together string taken from the file name and could be better (or empty, since the title link already covers it), but it is not false, so the claimed mismatch between alt and image is not a 1.1.1 failure. The live page is unchanged."
+    },
+    {
+      "fingerprint": "09ecd3f5b241",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The sidebar promo image is an image of text ('Stand with free and independent journalism. Join Press Pass. A new supporter program from PBS News. Issue my Press Pass'). It is the only content of a link to /newshour/presspass/ (title 'Press Pass | PBS News'). Its alt, and so the link's accessible name, is 'Web ad - adjusted (1)', a media-library file title. That is the F30 pattern, and it falls short of H30, which needs a linked image's alt to describe the link's function. Nothing else names the link: no aria-label, no title, and no nearby text. I found no technique that makes it pass. The live page still has this markup."
+    },
+    {
+      "fingerprint": "c08f567095bc",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The image is the 'VIEWERS LIKE YOU' funder logo in the footer list headed 'Support for News Hour Provided By', beside BNSF Railway, Consumer Cellular and Raymond James. Its link redirects to pbs.org/donate. The alt repeats the logo's text exactly, so it gives screen-reader users the same information the image gives sighted users and serves the same purpose (G94). Sighted users get no more destination information than 'Viewers Like You' in a funder credit either. 1.1.1 does not require an alt to state a destination the image itself does not show. Any doubt about where the link goes is shared by all users, which 2.4.4's exception for links ambiguous to users in general covers. The finding applies a stricter rule than the criterion."
+    },
+    {
+      "fingerprint": "f3fa165c7dd2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the sidebar 'Educate your inbox' newsletter field (input type=email name=email). Its only visible label is the placeholder, plus a visually hidden span. It collects the user's own email address, which is one of the listed input purposes. It has autocomplete='off' and no other purpose metadata. The 1.3.5 Understanding document says type=email does not make clear that the address is the user's own. It also says authors who turn autofill off must still make the purpose programmatically determinable; H98 would need autocomplete='email'. I found no reason it passes. The live page still has autocomplete='off'."
+    },
+    {
+      "fingerprint": "d2cb80f4548f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer 'Subscribe to Here's the Deal with Lisa Desjardins' newsletter field, a separate input with the same markup: type=email, name=email, autocomplete='off'. It collects the user's own email address, and nothing else exposes that purpose. The Understanding document says type=email is not enough, and turning autofill off does not exempt a field. The input is in the DOM and focusable; the Press Pass modal over the footer in the screenshot only hid it visually when the page was captured. It fails 1.3.5, and the live page is unchanged."
+    },
+    {
+      "fingerprint": "703e30213ea4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Watch the Full Episode' is the label above the full-episode card title and is real, informative text. The site CSS sets .card-episode-lg__meta to 12px with color #7e97ad, which matches the pixel measurement. The background is white (.card-episode-lg__body and .video-single__article are #fff). #7e97ad on #ffffff works out to 3.04:1. Text at 12px and normal weight is not large, so it needs 4.5:1. No exception applies: it is not a logo, decoration or an inactive control. The element overlapping it (the play/'Watch' overlay) does not cover the text or change its colours. The live CSS is the same."
+    },
+    {
+      "fingerprint": "75b419dab775",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Related' h2 heading of the video aside. The site CSS sets .video__aside-header to color #7f84a7, weight 500, and 16px at this viewport width, which matches the pixel measurement. The background is white (.video-single__article is #fff). That works out to 3.65:1. 16px at weight 500 is not large-scale text, which needs 18pt, or 14pt bold, so 4.5:1 applies. No exception covers a section heading. It is a real failure, and the live CSS is unchanged."
+    },
+    {
+      "fingerprint": "b5d53f241456",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The placeholder 'Enter your email address' is the sidebar newsletter field's only visible label. The site's ::placeholder colour rules all target other forms (.subscribe__form, .popup, .subscribe-page__topper, .footer__subscribe-form), and none of them is an ancestor of this field, which sits in .sidebar__subscribe .subscribe__box. The site only sets the placeholder's opacity to 1, so Chromium's default placeholder colour, #757575, applies. The field's background is #f0f1f8 (.subscribe__box input). That works out to 4.09:1 at 13px and weight 400, below 4.5:1. The 1.4.3 Understanding document explicitly includes placeholder text. It is a real failure."
+    }
+  ]
+}

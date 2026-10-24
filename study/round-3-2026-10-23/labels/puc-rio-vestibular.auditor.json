@@ -1,0 +1,24 @@
+{
+  "page": "https://www.puc-rio.br/vestibular/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "2389ec6d37e0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the photo in the first slide of the home-page carousel (banner-bolsa-belkiss.jpg), inside a link whose caption 'Bolsa Belkiss e Carlos Infante de Castro' is HTML text. I checked the crop and the full image from the live site, whose markup is unchanged since the run. It shows a smiling young woman with a backpack strap and a phone on a sunny paved walkway between buildings and trees, with several blurred young people walking behind her. 'Imagem de alunos no Campus da PUC-Rio' is a generic but fair description of that: students outdoors in a campus-like setting. The picture cannot confirm the PUC-Rio location (the JPEG's EXIF credits peopleimages.com, so it is a stock photo), but a sighted visitor cannot see that either. The alternative still serves the equivalent purpose of this illustrative photo, so 1.1.1 is not failed. At most the photo could be treated as decorative and given alt=\"\", which is a different point from the one reported."
+    },
+    {
+      "fingerprint": "611fa8901954",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the photo in the second carousel slide (img_bolsa_nova.png), inside a link whose caption 'Bolsa de Conhecimento e Transformação Social' is HTML text. The crop and the full live image show two smiling young women on a wooden bench outdoors under trees, looking at a laptop together. 'Imagem de alunos no Campus da PUC-Rio' fairly describes students outdoors in a campus-like setting, and nothing it names is missing from the picture. The PUC-Rio location cannot be proved from any photo, but it is also what a sighted visitor would assume in context. The alternative serves the equivalent purpose of an illustrative photo, so this is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "3e7f40daae21",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Archdiocese's circular seal in the footer iframe. It is the only content of a link to https://arqrio.org.br (opens in a new tab) whose title is 'Site da Arquidiocese de São Sebastião do Rio de Janeiro'; the live footer markup is the same. The browser computes the link's name from the alt, 'Selo da Arquidiocese de São Sebastião do Rio de Janeiro', and exposes the title as its accessible description. That name identifies the organisation whose site the link opens: the destination's page title is 'Arquidiocese de São Sebastião do Rio de Janeiro'. So it does convey where the link leads, which is what 1.1.1's clause for controls and technique H30 ask for. 'Site da' instead of 'Selo da' would be better practice, as in the WAI tutorial's 'W3C home'. But a linked logo whose alternative names the organisation it links to is not a 1.1.1 failure (nor a 2.4.4 one), so the finding applies a stricter rule than the criterion requires."
+    }
+  ]
+}

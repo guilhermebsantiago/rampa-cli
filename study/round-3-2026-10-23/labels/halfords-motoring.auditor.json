@@ -1,0 +1,30 @@
+{
+  "page": "https://www.halfords.com/motoring/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "cc86ad061ae4",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the American Express logo in the footer's row of accepted payment methods, with alt=\"american-express\" (live page unchanged). The file name happens to be the brand name, so the alt text gives the same information the logo does: American Express is accepted. A screen reader reads it as \"american express\", and the neighbouring logos (visa, mastercard, paypal, klarna) work the same way. F30 covers text alternatives that are not alternatives, such as \"image\" or \"spacer.gif\", and this one is a real alternative. The rule flagged it only because the alt matches the file name, which is stricter than 1.1.1 requires."
+    },
+    {
+      "fingerprint": "9cd411503213",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer newsletter sign-up field (input#newsletter, type=email, with a visually hidden label \"Email address\"). It asks for the user's own email address, which is the 'email' purpose in the Input Purposes list, so 1.3.5 applies. It has autocomplete=\"off\" in both the snapshot and the live page loaded in Edge, so no autocomplete token identifies its purpose. type=\"email\" only describes the data format: it does not say whose email it is, and it is not the H98 technique. The purpose is therefore not programmatically identified, and this fails 1.3.5 as the finding says."
+    },
+    {
+      "fingerprint": "07a1617f2080",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 40x40 'Expand breadcrumb navigation' button in the hero. It shows only an orange chevron icon and has no border or fill of its own. It sits inside the breadcrumb pill, whose computed background (live) is solid rgb(102,102,102). In the screenshot the chevron's pixels are #ff9718 and the surrounding pixels are uniform #666666, which gives 2.65:1. The live page computes the same colours. The chevron is the only visual cue that this control exists and what it does, so as an icon it needs 3:1 against adjacent colours under 1.4.11 (G207), and it falls short."
+    },
+    {
+      "fingerprint": "8334e0a228a8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the header search field (input#search-suggestions, type=search). It is tied to <label for=\"search-suggestions\" class=\"sr-only\"></label>, and that label is empty in both the snapshot and the live page. The CDP data in the snapshot shows the searchbox labelled by that label, with no name. I loaded the live page in headless Edge 155 and the searchbox's computed name is \"\". A minimal test in the same engine confirms that an empty associated label wins over the placeholder (the placeholder source is marked superseded). So in Chromium browsers the field has no accessible name, and the placeholder 'Search product or services' is exposed only as a placeholder. Some screen readers may still voice that placeholder and Firefox may use it as the name, but in the main engine the name cannot be programmatically determined, so the 4.1.2 claim holds."
+    }
+  ]
+}

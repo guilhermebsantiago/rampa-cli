@@ -1,0 +1,144 @@
+{
+  "page": "https://www.ed.ac.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "cf7428fe112a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of a focusable, exposed link (no aria-hidden or tabindex), so its alt \"Three people outdoors with Edinburgh Castle in the background.\" is the link's whole accessible name; the link goes to https://study.ed.ac.uk/ (\"Study with us\"), the same href as the card heading link right after it. H30 (sufficient for 1.1.1) requires the alt of an image-only link to describe the link's purpose, and this alt describes the photo instead. Nothing in it points to studying at Edinburgh. The redundant heading link does not give this link a name, and the live page is unchanged. The claim holds."
+    },
+    {
+      "fingerprint": "1082dbb286f9",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of a focusable, exposed link (no aria-hidden or tabindex), so its alt \"Emma Ahlert - wearing a pink jumper standing in front of a cream textured wall\" is the link's whole accessible name; the link goes to the Impact story \"A community for female and sexual healthcare champions\", the same href as the card heading link right after it. H30 (sufficient for 1.1.1) requires the alt of an image-only link to describe the link's purpose, and this alt describes the photo instead. The person's name is a partial hint, but the rest is visual detail, and it does not say the link opens that story. The redundant heading link does not give this link a name, and the live page is unchanged. The claim holds."
+    },
+    {
+      "fingerprint": "e61e90eac27e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of a focusable, exposed link (no aria-hidden or tabindex), so its alt \"Three students walking through Old College Quad at the University of Edinburgh.\" is the link's whole accessible name; the link goes to the story \"Building a lasting legacy: how we invest to support future generations\", the same href as the card heading link right after it. H30 (sufficient for 1.1.1) requires the alt of an image-only link to describe the link's purpose, and this alt describes the photo instead. Nothing in it relates to the destination. The redundant heading link does not give this link a name, and the live page is unchanged. The claim holds."
+    },
+    {
+      "fingerprint": "46f659cbce0e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of a focusable, exposed link (no aria-hidden or tabindex), so its alt \"Two School pupils sat at a classroom table with Kim Rowson, IntoUniversity Scotland Operations Manager\" is the link's whole accessible name; the link goes to the news story \"Higher education progression more than twice national average at Scottish learning centres\", the same href as the card heading link right after it. H30 (sufficient for 1.1.1) requires the alt of an image-only link to describe the link's purpose, and this alt describes the photo instead. Naming IntoUniversity is only an indirect hint. The alt describes the scene and does not identify the story. The redundant heading link does not give this link a name, and the live page is unchanged. The claim holds."
+    },
+    {
+      "fingerprint": "848f5b831865",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of a focusable, exposed link (no aria-hidden or tabindex), so its alt \"3 summer school students sitting in Bristo square\" is the link's whole accessible name; the link goes to /global (\"Global engagement\"), the same href as the card heading link right after it. H30 (sufficient for 1.1.1) requires the alt of an image-only link to describe the link's purpose, and this alt describes the photo instead. Nothing in it says the link leads to the global engagement page. The redundant heading link does not give this link a name, and the live page is unchanged. The claim holds."
+    },
+    {
+      "fingerprint": "4d3d06819b34",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The img is the only content of a focusable, exposed link (no aria-hidden or tabindex), so its alt \"6 people sit around a table and smile to camera\" is the link's whole accessible name; the link goes to https://local.ed.ac.uk/ (\"Edinburgh Local\"), the same href as the card heading link right after it. H30 (sufficient for 1.1.1) requires the alt of an image-only link to describe the link's purpose, and this alt describes the photo instead. Nothing in it relates to the destination. The redundant heading link does not give this link a name, and the live page is unchanged. The claim holds."
+    },
+    {
+      "fingerprint": "9089a868dce3",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is a non-linked stock photo on a navigation card (a library with people pulling books off the shelves), and the card's h3 is also \"Research and teaching\". The alt names the topic the photo illustrates. It is not false about the image, since a library scene does depict research, and it is not a filename-style non-alternative. WCAG does not require a literal description of an illustrative card photo. At most, alt=\"\" would avoid repeating the heading, which is redundancy and not the mismatch the finding claims. The model passed the same pattern on the Visit, About us and Open Days cards."
+    },
+    {
+      "fingerprint": "083c2665d0f7",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is a non-linked stock photo on the \"Connect with us\" card (two people talking by a window), and the h3 below repeats \"Connect with us\". The alt is a topic label for an illustrative image that visually represents connecting with people. It does not misdescribe content that users need. WCAG does not require a scene description of a decorative or illustrative card photo. At most it repeats the heading (alt=\"\" would be cleaner), which is not the failure the finding claims."
+    },
+    {
+      "fingerprint": "d1fe044157c0",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). The live CSS sets .card-high header links to #19b5fe on #041e42, about 7.15:1, which passes even 4.5:1. The measured #0c5a7f on #020f21 is that pair under the 50% black backdrop. Text dimmed behind a modal consent backdrop is a transient, inactive state and does not fail 1.4.3."
+    },
+    {
+      "fingerprint": "dfe4f69dd0bc",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). This is the same .card-high heading link style: #19b5fe on #041e42, about 7.15:1. #0c5a7f on #020f21 is the dimmed pair, so the text passes the 3:1 large-text threshold easily."
+    },
+    {
+      "fingerprint": "b0f2871ad726",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). The text \"Study level\" is a visually-hidden label, so it has no contrast requirement. The visible select text \"Undergraduate\" uses the live .form-select color #3a3a3a on background #ececec, 9.63:1. The measured #1d1d1d on #767676 is that pair halved by the backdrop."
+    },
+    {
+      "fingerprint": "a90cc4e85908",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). Rampa's own full-page screenshot shows this Impact heading undimmed as #19b5fe on #3a3a3a, about 4.9:1, which passes the 3:1 needed for this 29.7px large text. #125a7f on #1d1d1d is that pair at half brightness."
+    },
+    {
+      "fingerprint": "556b8148f38d",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). In the undimmed full-page screenshot the heading is #19b5fe on #3a3a3a, about 4.9:1, above the 3:1 needed for large text. #0c5a7f on #1d1d1d is the backdrop-darkened version."
+    },
+    {
+      "fingerprint": "9a97a147367c",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). In the undimmed full-page screenshot \"Latest news\" is #19b5fe on #3a3a3a, about 4.9:1, which passes 3:1 for this large text. The reported 2.24:1 comes from the dimmed pair #125a7f on #1d1d1d."
+    },
+    {
+      "fingerprint": "5962758b1b2e",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). In the undimmed full-page screenshot this heading is #19b5fe on #3a3a3a, about 4.9:1, which passes 3:1 for large text. #0c5a7f on #1d1d1d is the same pair darkened by the consent backdrop."
+    },
+    {
+      "fingerprint": "204e74ff697e",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). In the full-page screenshot this footer link is #d4d4d4 on the #383838-#363636 gradient, about 7.9:1, well above 4.5:1. The reported #6a6a6a on #1b1b1b is exactly that pair halved."
+    },
+    {
+      "fingerprint": "db7c9965d01c",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). Undimmed, the footer link is #d4d4d4 on about #363636-#343434, about 8.1:1, which passes 4.5:1. #6a6a6a on #1b1b1b-#1a1a1a is the backdrop-darkened pair."
+    },
+    {
+      "fingerprint": "da51908ce852",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). Undimmed, the footer link is #d4d4d4 on about #333333, about 8.5:1, which passes 4.5:1. The reported #6a6a6a on #1a1a1a-#191919 is half of those values."
+    },
+    {
+      "fingerprint": "9eefbbfee6c5",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). Undimmed, the footer link is #d4d4d4 on about #313131-#303030, about 8.8:1, which passes 4.5:1. #6a6a6a on #181818 is the darkened version."
+    },
+    {
+      "fingerprint": "849c5d03574f",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). Undimmed, the footer link is #d4d4d4 on about #383838, about 7.9:1, which passes 4.5:1. #6a6a6a on #1b1b1b is that pair under the 50% black layer."
+    },
+    {
+      "fingerprint": "7d642c9bb497",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). Undimmed, the footer link is #d4d4d4 on about #363636-#343434, about 8.1:1, which passes 4.5:1. #6a6a6a on #1a1a1a is the dimmed pair."
+    },
+    {
+      "fingerprint": "abc71b943720",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). The live CSS sets .form-control::placeholder to #505050 (opacity 1) on .form-control background #ececec, 6.83:1, which passes 4.5:1. The measured #282828 on #767676 is that pair halved by the backdrop."
+    },
+    {
+      "fingerprint": "8917a76ac3ac",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The page was captured with the uoe-consent cookie banner open; its .uoe-backdrop is a fixed full-viewport #000 layer at opacity .5, and the measured colours are exactly half the real ones (the full-page screenshot shows the same areas undimmed below the first viewport). This is the same .form-control styling: placeholder #505050 on #ececec, 6.83:1, which passes 4.5:1. #282828 on #767676 is the backdrop-dimmed version."
+    }
+  ]
+}

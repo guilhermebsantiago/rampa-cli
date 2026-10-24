@@ -1,0 +1,48 @@
+{
+  "page": "https://www.metropoles.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "fd94f5b8bba3",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 64 px round avatar on the 'Blog do Noblat' card in the Colunistas carousel. It is not a link (the card's stretched link is aria-hidden). The crop and the screenshot show a headshot of the journalist Ricardo Noblat. The file is avatar-ricardo_noblat, and the same photo is used on the neighbouring 'Ricardo Noblat' card, whose alt is 'Ricardo Noblat'. The alt 'Blog do Noblat' names the column of the man shown and matches the visible column link beside it, the same pattern every columnist avatar on the page follows. It serves the image's purpose (saying whose column this is), so 1.1.1 is met. At most it repeats the adjacent text, where alt=\"\" would be cleaner, and that is not a failure. The claim that it describes something the image does not show is wrong. The live page still serves the same image and alt."
+    },
+    {
+      "fingerprint": "1abea47cd247",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the icon-only 'previous' button (aria-label 'Slide anterior de colunistas') at the left end of the strip of columnist-name links at the top of the Colunistas section. Its only visible content is an SVG chevron stroked in currentColor (text-neutral-400), with no text, border or background. I sampled the screenshot inside its bounds: the stroke core is #a1a1a1 on the white #ffffff page, 2.58:1, below 3:1. The button is enabled and focusable (no disabled or aria-disabled) and styled the same as its 'next' twin, so the inactive-component exemption does not apply. The chevron is the only visual information that shows a control is there, so 1.4.11 (G207) requires 3:1. The live page still serves the same markup."
+    },
+    {
+      "fingerprint": "4dc48f4a7216",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the icon-only 'next' button (aria-label 'Próximo slide de colunistas') at the right end of the columnist-name strip in the Colunistas section. It shows only an SVG chevron in currentColor (text-neutral-400), with no text, border or background. Pixels sampled from the screenshot inside its bounds give a stroke core of #a1a1a1 on #ffffff, 2.58:1, below the 3:1 that 1.4.11 needs for the visual information identifying a control. The button is active and focusable, so no exemption applies. The live page still serves the same class and SVG."
+    },
+    {
+      "fingerprint": "390d74058324",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the second 'Slide anterior de colunistas' button, an icon-only control at the left end of the pagination row (two dots) under the columnist-stories carousel. Its only visible content is a 9x14 SVG chevron in currentColor (text-neutral-400), with no text or boundary. The screenshot pixels in its bounds are #a1a1a1 on the white #ffffff background, 2.58:1, below 3:1. It is not disabled or presented as inactive (same styling as the 'next' button, focusable), and the chevron is the only cue that a control is there. That is a 1.4.11 failure (G207). The live page is unchanged."
+    },
+    {
+      "fingerprint": "0c27a46d3c53",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Próximo slide de colunistas' button at the right end of the pagination row under the columnist-stories carousel. It is icon-only: an SVG chevron in currentColor (text-neutral-400), with no text, border or background. The screenshot pixels in its bounds are #a1a1a1 on #ffffff, 2.58:1, below the 3:1 that 1.4.11 requires for the visual information identifying an active control. It is enabled and focusable, so no exemption applies. The live page still serves the same markup."
+    },
+    {
+      "fingerprint": "0e91bc454fc5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the image link (a.svg-anchor, data-asoch-targets ochImage) of a Google responsive display ad (Jeep Avenger) in the iframe 'Publicidade', inside an anchor container fixed to the bottom of the viewport. Its only content is an empty SVG painted with a CSS background image: no title, no aria-label, empty SVG hash, and the SVG is ignored in the accessibility tree. Chrome's accessibility tree lists the anchor as a focusable link with no name and no name source. An image as the only content of a link with no accessible name is the documented failure F89 of 4.1.2. The ad is third-party and rotates: the full-page screenshot does not show the fixed ad, and the live page may serve a different creative. At capture time, though, this unnamed link was on the page. Third-party status matters only for a conformance claim."
+    },
+    {
+      "fingerprint": "7ad9bec77bdf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the logo link (a.svg-anchor, data-asoch-targets ochLogo) in the same Google ad iframe 'Publicidade' (Jeep Avenger anchor ad). Its only content is an empty SVG with a CSS background image of the advertiser logo, with no title, aria-label or text. The SVG is ignored in the accessibility tree, and Chrome exposes the anchor as a focusable link with no computed name. That fails 4.1.2 (F89). Other links in the ad with the same href have names ('Jeep Avenger: Confira Versões', 'Abrir'), but that does not name this one. The ad is third-party and rotating, so the live page may differ, but the failure was real on the captured page."
+    }
+  ]
+}

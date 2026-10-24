@@ -1,0 +1,36 @@
+{
+  "page": "https://www.vam.ac.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "f7a050142d6f",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The img.news__image beside the News item 'Notice of part and temporary closure of V&A museums' has alt=\"map\". Both the packet crop and the page screenshot show a historic hand-coloured floor plan of the V&A (Refreshment Rooms, Garden, Entrance Hall, Cloisters), so the image is a map. The alt is short but accurate. The claim that it describes something the image does not show is wrong. The cookie banner covered part of the crop, but the map was still plainly visible. The live HTML (fetched 2026-10-23) still has alt=\"map\"."
+    },
+    {
+      "fingerprint": "def485891822",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a slide image in the membership promo carousel (src 'V&A Flower Shop2.jpg') with alt \"Shop at V&A South Kensington\". The crop shows a museum shop interior: display cabinets, shelves of books and goods, and paper-flower installations hanging from the ceiling. That matches the alt, and the alt suits a promo listing member benefits that include a shop discount. Cookie-banner text overlaps one corner of the crop, but the shop is clearly visible. The alt does not describe something absent, so there is no 1.1.1 failure."
+    },
+    {
+      "fingerprint": "35e1887487eb",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is <svg><use xlink:href=\"...#valogo\"/></svg> inside div.b-newsletter__logo: the large pale V&A monogram watermark behind the 'Sign up to our emails' block, as the page screenshot shows. It is purely decorative, and the V&A name is given in text elsewhere. The 'Show purposes' and 'Accept all' buttons the finding attributes to it belong to the fixed cookie-consent dialog, which was overlaid on the crop the model saw. They are not part of the SVG. The SVG conveys no information that needs a text alternative."
+    },
+    {
+      "fingerprint": "28bc4c8f962d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the email field of the in-page 'Sign up to our emails' form (form aria-labelledby the heading). It has no <label> or aria-label, only placeholder=\"name@example.com\" (the alt attribute is invalid on an input and is ignored), so the browser's accessible name is the placeholder. In context the visible and programmatic text clearly says what to enter: an example email address, next to the heading 'Sign up to our emails' and a 'Sign up' button. So 2.4.6 (labels describe purpose) is not failed. The real weakness is that the only label is a placeholder that disappears on input and is not a persistent label. That belongs under 3.3.2 (and arguably 1.3.1), not under 2.4.6 as the finding claims."
+    },
+    {
+      "fingerprint": "e396fd423f64",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the footer newsletter email field. Its accessible name comes from aria-label=\"Enter your email address\", which fully describes the purpose. The visible placeholder \"name@example.com\" also signals an email address, beside the 'Sign up to our emails' heading and a 'Sign up' button. The finding treats the placeholder as the label and calls it non-descriptive, but the label is descriptive, so this is not a 2.4.6 failure. The lack of a persistent visible label would at most be a 3.3.2 concern."
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "page": "https://www.correiobraziliense.com.br/politica/2026/10/7526242-real-time-flavio-bolsonaro-tem-52-e-lula-48-a-dois-dias-do-2-turno.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "63ddefcd3a3e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the first link in the 'Saiba Mais' related-stories block. Its 'POLÍTICA' label is a strong element, 9.6 px and bold, coloured #0077b6 on white. On the live page, hovering the link applies the rule '.read-more ul li a:hover { color: rgb(0,204,153) }', so the label turns #00cc99 on white, about 2.08:1. That is small text, so it needs 4.5:1. The headline span keeps #333. The Understanding document for 1.4.3 says the criterion covers text shown while the pointer hovers, so the hover state fails as reported. The two other links in the block share the same rule."
+    },
+    {
+      "fingerprint": "7b1d0445dc1f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the headline span of the first 'Saiba Mais' link. The block is a slick-slider div with height 280px and overflow hidden. On the live page, with the 1.4.12 values applied (line-height 1.5, letter-spacing 0.12em, word-spacing 0.16em, 2em after paragraphs), the card grows: the container's scrollHeight becomes 306 against a clientHeight of 280, and the span's last line falls about 26 px below the clip. In my screenshot the headline ends at '...anunciados e como' and 'acompanhá-los?' is no longer visible. Visible content is lost, which is failure F104, as reported."
+    },
+    {
+      "fingerprint": "92572b37a1b1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the headline span of the second 'Saiba Mais' link ('Campanha de Lula pede que TSE requisite dados de Flávio Bolsonaro'). It sits in the same slick-slider, which has height 280px and overflow hidden. With the 1.4.12 spacing applied on the live page, the span grows to 97 px and its last line is cut about 26 px at the bottom. My screenshot shows the headline stop at '...dados de Flávio', with 'Bolsonaro' clipped. The text is lost with no way to scroll to it, so this fails 1.4.12 as reported."
+    },
+    {
+      "fingerprint": "61743798caa6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the WhatsApp channel promo link in the article body. In the probe's 1280x800 Tab walk it got focus at y 713, inside the fixed anchored ad footer (y 690-800). I re-ran the walk on the live page with the probe's conditions (Taboola blocked): it lands at the same y and nothing of it or its focus ring is visible. The overlay is the site's anchored ad footer (div.publicidade-ancorads): position fixed, z-index 9999, an opaque white bar 110 px tall across the full viewport width at the bottom. Its close control is a plain div that cannot be reached by keyboard, and html has no scroll-padding. The Understanding document for 2.4.11 says that a fully obscured focus indicator would likely fail 2.4.7 too, so this is a real 2.4.7 failure, even though the cause is the overlay and not a missing outline. When nothing covers the link, it shows the browser's default focus ring (outline auto 1px)."
+    },
+    {
+      "fingerprint": "477de3bc92c5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the inline link 'pesquisa do Real Time Big Data' in the article body. In the probe's desktop walk it got focus at y 591, wholly inside the cookie banner (x 128-1152, y 584-680). The probe recorded 0 changed pixels. On the live page the banner is opaque and fixed, and Chrome's focus scroll leaves links under it (I saw this happen to this same link at 390x844). The overlay is the cookie consent banner (#cookies_container .cc-window): a non-modal, position fixed, z-index 9999, opaque white box near the bottom of the viewport. Focus is not moved into it and it is the last stop in the Tab order. The Understanding document for 2.4.11 says that a fully obscured focus indicator would likely fail 2.4.7 too, so this is a real 2.4.7 failure, even though the cause is the overlay and not a missing outline. When nothing covers the link, it shows the browser's default focus ring (outline auto 1px)."
+    },
+    {
+      "fingerprint": "921b8b80bac2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the author link 'Correio Braziliense' at the end of the article. When I re-ran the live desktop walk under the probe's conditions, it got focus at y 644, the same place the probe recorded, wholly inside the cookie banner (y 584-680). No part of it or its ring can be seen. The overlay is the cookie consent banner (#cookies_container .cc-window): a non-modal, position fixed, z-index 9999, opaque white box near the bottom of the viewport. Focus is not moved into it and it is the last stop in the Tab order. The Understanding document for 2.4.11 says that a fully obscured focus indicator would likely fail 2.4.7 too, so this is a real 2.4.7 failure, even though the cause is the overlay and not a missing outline. When nothing covers the link, it shows the browser's default focus ring (outline auto 1px)."
+    },
+    {
+      "fingerprint": "39f059d06862",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the tag link 'eleições' in the Tags list. In the probe's walk, and in my live re-run under the same conditions, it gets focus at y 763, inside the anchored ad footer (y 690-800). In my screenshots of the 390 px walk the focused tags are covered, and the focus ring cannot be seen. The overlay is the site's anchored ad footer (div.publicidade-ancorads): position fixed, z-index 9999, an opaque white bar 110 px tall across the full viewport width at the bottom. Its close control is a plain div that cannot be reached by keyboard, and html has no scroll-padding. The Understanding document for 2.4.11 says that a fully obscured focus indicator would likely fail 2.4.7 too, so this is a real 2.4.7 failure, even though the cause is the overlay and not a missing outline. When nothing covers the link, it shows the browser's default focus ring (outline auto 1px)."
+    },
+    {
+      "fingerprint": "1e8361b1b262",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the tag link 'eleições2026'. In the probe and in my live re-run it gets focus at y 763, under the opaque anchored ad footer (y 690-800), so neither the link nor its default focus ring is visible. The overlay is the site's anchored ad footer (div.publicidade-ancorads): position fixed, z-index 9999, an opaque white bar 110 px tall across the full viewport width at the bottom. Its close control is a plain div that cannot be reached by keyboard, and html has no scroll-padding. The Understanding document for 2.4.11 says that a fully obscured focus indicator would likely fail 2.4.7 too, so this is a real 2.4.7 failure, even though the cause is the overlay and not a missing outline. When nothing covers the link, it shows the browser's default focus ring (outline auto 1px)."
+    },
+    {
+      "fingerprint": "ce1ad1d609fb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the tag link 'flávio bolsonaro'. In the probe and in my live re-run it gets focus at y 763, under the opaque anchored ad footer. My 390 px screenshot of the same link focused shows it entirely covered. The overlay is the site's anchored ad footer (div.publicidade-ancorads): position fixed, z-index 9999, an opaque white bar 110 px tall across the full viewport width at the bottom. Its close control is a plain div that cannot be reached by keyboard, and html has no scroll-padding. The Understanding document for 2.4.11 says that a fully obscured focus indicator would likely fail 2.4.7 too, so this is a real 2.4.7 failure, even though the cause is the overlay and not a missing outline. When nothing covers the link, it shows the browser's default focus ring (outline auto 1px)."
+    },
+    {
+      "fingerprint": "4f7e83773d36",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'MAIS LIDAS' sidebar heading link (href '#'). In my live desktop re-run with the probe's conditions it got focus at y 723, and all nine elementFromPoint samples hit div.publicidade-ancorads. The viewport screenshot shows no trace of the link or of its focus ring. The overlay is the site's anchored ad footer (div.publicidade-ancorads): position fixed, z-index 9999, an opaque white bar 110 px tall across the full viewport width at the bottom. Its close control is a plain div that cannot be reached by keyboard, and html has no scroll-padding. The Understanding document for 2.4.11 says that a fully obscured focus indicator would likely fail 2.4.7 too, so this is a real 2.4.7 failure, even though the cause is the overlay and not a missing outline. When nothing covers the link, it shows the browser's default focus ring (outline auto 1px)."
+    },
+    {
+      "fingerprint": "3fb87b2be306",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "This is the cookie banner's 'Prosseguir' control: an a element with role=button and tabindex=0. Nothing covers it, since it sits in the topmost banner. On the live page I reached it by a natural Tab walk under the probe's conditions (Tab 97, :focus-visible true). It shows the default focus ring (outline auto 1px), and the cookieconsent rule '.cc-highlight .cc-btn:first-child:focus { text-decoration: underline }' underlines its text. Comparing the focused and blurred screenshots, 900 pixels changed inside the button's box, and the indicator is plainly visible. The probe's '0 px changed' does not match how the control behaves, so the probe measured the wrong thing. The page may have changed since the run, but this is the library's stock CSS."
+    },
+    {
+      "fingerprint": "393fb42cd1ea",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the WhatsApp channel promo link (550x86) in the article body. At 1280x800 the Tab walk scrolls it to y 713, entirely inside the fixed anchored ad footer (y 690-800). I re-ran the walk on the live page (Taboola blocked, as in the probe) and it lands at the same position, completely covered. The overlay is the site's anchored ad footer (div.publicidade-ancorads): position fixed, z-index 9999, an opaque white bar 110 px tall across the full viewport width at the bottom. Its close control is a plain div that cannot be reached by keyboard, and html has no scroll-padding. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "d683b7e728b4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the inline link 'pesquisa espontânea'. The probe recorded it at y 750, under the anchored ad footer. In my live re-runs it got focus at y 721, again under that footer, and in another run at y 580, entirely under the cookie banner. Either way the whole link is hidden when it gets focus. The overlay is the site's anchored ad footer (div.publicidade-ancorads): position fixed, z-index 9999, an opaque white bar 110 px tall across the full viewport width at the bottom. Its close control is a plain div that cannot be reached by keyboard, and html has no scroll-padding. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "5c5b1b9f8a95",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the inline link 'pesquisa do Real Time Big Data'. The probe recorded it at y 591, wholly within the cookie banner (x 128-1152, y 584-680). All 25 sample points hit the banner, and painting or hiding the link changed no pixels. On the live page at 390x844 I saw the same link focused entirely under the banner. Its exact position varies with ad loading. The overlay is the cookie consent banner (#cookies_container .cc-window): a non-modal, position fixed, z-index 9999, opaque white box near the bottom of the viewport. Focus is not moved into it and it is the last stop in the Tab order. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "aa773a59fc79",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the author link 'Correio Braziliense' at the end of the article. In my live desktop re-run under the probe's conditions it got focus at y 644, exactly as the probe recorded, wholly inside the cookie banner (y 584-680). The overlay is the cookie consent banner (#cookies_container .cc-window): a non-modal, position fixed, z-index 9999, opaque white box near the bottom of the viewport. Focus is not moved into it and it is the last stop in the Tab order. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "666c8b2c8ec6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the tag link 'eleições'. In the probe and in my live re-run it gets focus at y 763, inside the opaque anchored ad footer (y 690-800), so the whole link is hidden. The overlay is the site's anchored ad footer (div.publicidade-ancorads): position fixed, z-index 9999, an opaque white bar 110 px tall across the full viewport width at the bottom. Its close control is a plain div that cannot be reached by keyboard, and html has no scroll-padding. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "d192fdae0551",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the tag link 'eleições2026'. In the probe and in my live re-run it gets focus at y 763, inside the opaque anchored ad footer, so the whole link is hidden. The overlay is the site's anchored ad footer (div.publicidade-ancorads): position fixed, z-index 9999, an opaque white bar 110 px tall across the full viewport width at the bottom. Its close control is a plain div that cannot be reached by keyboard, and html has no scroll-padding. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "34606bf7dcd1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the tag link 'flávio bolsonaro'. In the probe and in my live re-run it gets focus at y 763, inside the opaque anchored ad footer. A 390 px screenshot of it focused shows it fully covered. The overlay is the site's anchored ad footer (div.publicidade-ancorads): position fixed, z-index 9999, an opaque white bar 110 px tall across the full viewport width at the bottom. Its close control is a plain div that cannot be reached by keyboard, and html has no scroll-padding. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "b266e9658e31",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the tag link 'lula'. The probe recorded it at y 763, under the anchored ad footer. In my live re-run it got focus at y 793, still under the footer and the viewport edge, with no part of it visible. The overlay is the site's anchored ad footer (div.publicidade-ancorads): position fixed, z-index 9999, an opaque white bar 110 px tall across the full viewport width at the bottom. Its close control is a plain div that cannot be reached by keyboard, and html has no scroll-padding. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "8f85b51ae7e4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'MAIS LIDAS' sidebar heading link. In my live desktop re-run it got focus at y 723, and all nine sample points hit div.publicidade-ancorads. The screenshot shows the link fully hidden. The overlay is the site's anchored ad footer (div.publicidade-ancorads): position fixed, z-index 9999, an opaque white bar 110 px tall across the full viewport width at the bottom. Its close control is a plain div that cannot be reached by keyboard, and html has no scroll-padding. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "0d5a8c2fdb3e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Facebook' share link in the social bar, at 390x844. My live mobile re-run reproduces the probe: it gets focus at y 700 (probe: 699), wholly inside the cookie banner (x 39-351, y 462-764), and every sample point hits the banner. The screenshot shows it covered. The overlay is the cookie consent banner (#cookies_container .cc-window): a non-modal, position fixed, z-index 9999, opaque white box near the bottom of the viewport. Focus is not moved into it and it is the last stop in the Tab order. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "2c8abaf2fa94",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Twitter' share link in the social bar, at 390x844. In my live mobile re-run it got focus at y 700, inside the cookie banner, with all sample points hitting the banner, matching the probe. The overlay is the cookie consent banner (#cookies_container .cc-window): a non-modal, position fixed, z-index 9999, opaque white box near the bottom of the viewport. Focus is not moved into it and it is the last stop in the Tab order. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "88a83334ee93",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Google Discover' link in the social bar, at 390x844. In my live mobile re-run it got focus at y 689 (probe: 688), inside the cookie banner, with all sample points hitting the banner. The overlay is the cookie consent banner (#cookies_container .cc-window): a non-modal, position fixed, z-index 9999, opaque white box near the bottom of the viewport. Focus is not moved into it and it is the last stop in the Tab order. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "0fb153091553",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the author avatar link (a 40x40 image link) at 390x844. The probe recorded it at y 756, inside the 390x110 anchored ad footer (y 734-844). In my live mobile walk the same link got focus at y 775 and all nine sample points hit div.publicidade-ancorads. The overlay is the site's anchored ad footer (div.publicidade-ancorads): position fixed, z-index 9999, an opaque white bar 110 px tall across the full viewport width at the bottom. Its close control is a plain div that cannot be reached by keyboard, and html has no scroll-padding. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "0ad82da3c77b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the tag link 'eleições2026' at 390x844. In my live mobile re-runs it got focus at y 529 (probe: 528), and also at y 703, wholly inside the cookie banner (y 462-764), with every sample point hitting the banner. The overlay is the cookie consent banner (#cookies_container .cc-window): a non-modal, position fixed, z-index 9999, opaque white box near the bottom of the viewport. Focus is not moved into it and it is the last stop in the Tab order. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "e4cd867075f4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the tag link 'lula' at 390x844. The probe recorded it at y 580, under the cookie banner. In my live mobile re-runs it got focus at y 610, inside the cookie banner, and in another run at y 754, inside the anchored ad footer. Either way the whole link is hidden. The overlay is the cookie consent banner (#cookies_container .cc-window): a non-modal, position fixed, z-index 9999, opaque white box near the bottom of the viewport. Focus is not moved into it and it is the last stop in the Tab order. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    },
+    {
+      "fingerprint": "e6428692bcff",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Últimas Notícias' sidebar heading link at 390x844. The probe recorded it at y 804, inside the opaque 390x110 anchored ad footer (y 734-844). All 25 sample points hit the footer, and painting or hiding the link changed nothing. My live mobile walks show the same mechanism hiding the neighbouring links that receive focus near the bottom edge. The overlay is the site's anchored ad footer (div.publicidade-ancorads): position fixed, z-index 9999, an opaque white bar 110 px tall across the full viewport width at the bottom. Its close control is a plain div that cannot be reached by keyboard, and html has no scroll-padding. The Understanding document for 2.4.11 says sticky footers placed by the author and sticky notifications such as cookie banners fail when they entirely hide the focused component. Note 2 only covers content the user opened, so it does not apply here."
+    }
+  ]
+}
