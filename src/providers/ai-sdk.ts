@@ -2,8 +2,9 @@ import { Output, generateText } from 'ai'
 import { z } from 'zod'
 import { RampaError } from '../core/util.ts'
 import { createCliProvider } from './cli/provider.ts'
+import { firstWordOf, ollamaWord } from './ollama-word.ts'
 import { PROVIDERS, type ProviderDef, type ProviderModel, findProvider } from './registry.ts'
-import type { ModelProvider } from './types.ts'
+import type { ModelProvider, WordRequest, WordResponse } from './types.ts'
 
 export const REASONING_LEVELS = ['provider-default', 'none', 'minimal', 'low', 'medium', 'high'] as const
 export type Reasoning = (typeof REASONING_LEVELS)[number]
@@ -125,6 +126,31 @@ ${JSON.stringify(z.toJSONSchema(request.schema))}`
       })
       return {
         output: result.output,
+        inputTokens: result.usage.inputTokens ?? 0,
+        outputTokens: result.usage.outputTokens ?? 0,
+        latencyMs: Math.round(performance.now() - started),
+        modelId: result.response.modelId ?? modelId,
+      }
+    },
+    // Ollama answers through its native API, which gives the first token's probabilities; every other provider
+    // answers in text, and the word alone counts (core/confirm.ts says what that means for the decision).
+    async word(request: WordRequest): Promise<WordResponse> {
+      if (definition.id === 'ollama') return ollamaWord(modelId, request, options.fetch)
+      const started = performance.now()
+      const images = request.images ?? []
+      const result = await generateText({
+        model: resolved.model,
+        instructions: request.system,
+        messages: [{ role: 'user', content: [{ type: 'text', text: request.user }, ...images.map((image) => ({ type: 'file' as const, data: image.data, mediaType: image.mediaType }))] }],
+        maxOutputTokens: 8,
+        maxRetries: 2,
+        ...(request.signal ? { abortSignal: request.signal } : {}),
+        ...(reasoning === 'provider-default' ? {} : { reasoning }),
+        ...(resolved.temperature === undefined ? {} : { temperature: resolved.temperature }),
+        ...(resolved.providerOptions === undefined ? {} : { providerOptions: resolved.providerOptions }),
+      })
+      return {
+        word: firstWordOf(result.text),
         inputTokens: result.usage.inputTokens ?? 0,
         outputTokens: result.usage.outputTokens ?? 0,
         latencyMs: Math.round(performance.now() - started),

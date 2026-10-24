@@ -31,6 +31,8 @@ export interface EvalCommandOptions {
   llm: boolean
   pairs: boolean
   verify: boolean
+  /** The second pass over claims that rest on the model's reading (core/confirm.ts); --no-confirm is the ablation. */
+  confirm: boolean
   runs: string
   limit?: string
   offline?: boolean
@@ -156,6 +158,7 @@ export async function runEval(options: EvalCommandOptions, context: GlobalContex
         cache,
         offline: Boolean(options.offline),
         verify: options.verify,
+        confirm: options.confirm,
         follow,
         wcag,
         batch,
@@ -176,6 +179,7 @@ export async function runEval(options: EvalCommandOptions, context: GlobalContex
     runs,
     llm,
     verify: options.verify,
+    confirm: options.confirm,
     actSha256: dataset.sha256,
     criteria: criteria.map((c) => c.id),
     followLinks: followed,
@@ -204,6 +208,7 @@ async function runJob(
     cache: ReturnType<typeof fileCache>
     offline: boolean
     verify: boolean
+    confirm: boolean
     follow?: FollowOptions | undefined
     wcag: WcagVersion
     batch?: boolean | undefined
@@ -252,6 +257,7 @@ async function runJob(
       minConfidence: 'low',
       concurrency: 2,
       verify: ctx.verify,
+      confirm: ctx.confirm,
       wcag: ctx.wcag,
       batch: ctx.batch,
       ...(ctx.fast ? { maxCandidates: FAST.maxCandidates } : {}),
@@ -329,6 +335,8 @@ export interface EvalSummary {
   runs: number
   llm: boolean
   verify: boolean
+  /** The second pass over claims that rest on the model's reading was on; absent in runs made before it existed. */
+  confirm?: boolean | undefined
   actSha256: string
   criteria: string[]
   /** The WCAG version whose axe-core rules ran; absent in runs made before 2.2 was the default (2.1). */
@@ -356,6 +364,7 @@ export function summarize(
     runs: number
     llm: boolean
     verify: boolean
+    confirm?: boolean | undefined
     actSha256: string
     criteria: string[]
     followLinks?: FollowLinks | undefined
@@ -421,6 +430,7 @@ export function summarize(
     runs: meta.runs,
     llm: meta.llm,
     verify: meta.verify,
+    ...(meta.confirm === undefined ? {} : { confirm: meta.confirm }),
     actSha256: meta.actSha256,
     criteria: meta.criteria,
     wcag: meta.wcag,
