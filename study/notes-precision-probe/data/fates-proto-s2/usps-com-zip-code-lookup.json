@@ -1,0 +1,2097 @@
+[
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#skiptomain",
+  "subject": "Skip to Main Content",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Skip to Main Content' explicitly states that the link's purpose is to move the focus to the main content of the page.",
+   "leadsTo": "#endnav",
+   "verdict": "pass",
+   "evidence": "Skip to Main Content",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Skip to Main Content",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "#endnav",
+   "startTag": "<a tabindex=\"0\" id=\"skiptomain\" href=\"#endnav\" class=\"hidden-skip keyboard\">",
+   "endTag": "</a>",
+   "language": "en",
+   "part": {
+    "id": "endnav",
+    "role": "generic",
+    "text": "",
+    "siteWords": [
+     "codetm",
+     "lookup",
+     "tools",
+     "usps",
+     "zip"
+    ]
+   }
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#link-lang",
+  "subject": "Current language: English",
+  "inCap": true,
+  "status": "discarded",
+  "verdict": "fail",
+  "problem": "mismatch",
+  "confidence": "high",
+  "verification": "mismatch without a known destination",
+  "fate": "discarded",
+  "message": "The link text \"Current language: English\" does not match where the link goes.",
+  "patchTo": "Switch to English",
+  "output": {
+   "promises": "The link text 'Current language: English' suggests it is an indicator of the current language or a way to change the language.",
+   "leadsTo": "The href is '#', which typically indicates a placeholder or a link to the top of the current page.",
+   "verdict": "fail",
+   "evidence": "Current language: English",
+   "problem": "mismatch",
+   "suggestedText": "Switch to English",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Current language: English",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "#",
+   "startTag": "<a id=\"link-lang\" href=\"#\">",
+   "endTag": "</a>",
+   "language": "en"
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#utility-header > div:nth-of-type(1) > ul > li:nth-of-type(1) > a",
+  "subject": "English",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'English' indicates that clicking it will switch the page language to English.",
+   "leadsTo": "A javascript function that sets the language to English.",
+   "verdict": "pass",
+   "evidence": "English",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "English",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "javascript:OneLink('en');",
+   "startTag": "<a class=\"multi-lang-link\" tabindex=\"-1\" lang=\"en\" href=\"javascript:OneLink('en');\">",
+   "endTag": "</a>",
+   "language": "en",
+   "menu": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#utility-header > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+  "subject": "Español",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Español' indicates that clicking the link will switch the page language to Spanish.",
+   "leadsTo": "A JavaScript function that sets the language to Spanish.",
+   "verdict": "pass",
+   "evidence": "Español",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Español",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "javascript:OneLink('es');",
+   "startTag": "<a class=\"multi-lang-link\" tabindex=\"-1\" lang=\"es\" href=\"javascript:OneLink('es');\">",
+   "endTag": "</a>",
+   "language": "en",
+   "menu": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#utility-header > div:nth-of-type(1) > ul > li:nth-of-type(3) > a",
+  "subject": "Chinese",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Chinese' in a language selection context suggests it will switch the page language to Chinese.",
+   "leadsTo": "A JavaScript function that sets the language to Chinese.",
+   "verdict": "pass",
+   "evidence": "Chinese",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Chinese",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "javascript:OneLink('zh');",
+   "startTag": "<a class=\"multi-lang-link\" tabindex=\"-1\" href=\"javascript:OneLink('zh');\">",
+   "endTag": "</a>",
+   "language": "en",
+   "menu": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#link-locator",
+  "subject": "Locations",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Locations' suggests a page listing various locations.",
+   "leadsTo": "A page to find USPS Post Offices & Locations Near Me.",
+   "verdict": "pass",
+   "evidence": "Locations",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Locations",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://tools.usps.com/locations/",
+   "startTag": "<a id=\"link-locator\" href=\"https://tools.usps.com/locations/\">",
+   "endTag": "</a>",
+   "destination": {
+    "kind": "page",
+    "status": 200,
+    "contentType": "text/html",
+    "title": "Find USPS Post Offices & Locations Near Me | USPS",
+    "heading": "Find USPS Locations",
+    "description": "Find USPS locations like Post Offices, collection boxes, and kiosks so you can send packages, mail letters, buy stamps, apply for passports, get redeliveries, and more."
+   },
+   "language": "en"
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#link-customer",
+  "subject": "Support",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Support' suggests a page for customer assistance or help.",
+   "leadsTo": "https://www.usps.com/help/contact-us.htm",
+   "verdict": "pass",
+   "evidence": "Support",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Support",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://www.usps.com/help/contact-us.htm",
+   "startTag": "<a id=\"link-customer\" href=\"https://www.usps.com/help/contact-us.htm\">",
+   "endTag": "</a>",
+   "language": "en"
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#link-myusps",
+  "subject": "Informed Delivery",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Informed Delivery' suggests a service or page related to USPS Informed Delivery.",
+   "leadsTo": "https://informeddelivery.usps.com",
+   "verdict": "pass",
+   "evidence": "Informed Delivery",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Informed Delivery",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://informeddelivery.usps.com",
+   "startTag": "<a id=\"link-myusps\" href=\"https://informeddelivery.usps.com\">",
+   "endTag": "</a>",
+   "language": "en"
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#login-register-header",
+  "subject": "Register / Sign In",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Register / Sign In' indicates that the link leads to a page where a user can either create a new account or log into an existing one.",
+   "leadsTo": "https://verified.usps.com/login?goto=https%3A%2F%2Ftools.usps.com%2Fzip-code-lookup.htm",
+   "verdict": "pass",
+   "evidence": "Register / Sign In",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Register / Sign In",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://verified.usps.com/login?goto=https%3A%2F%2Ftools.usps.com%2Fzip-code-lookup.htm",
+   "startTag": "<a id=\"login-register-header\" class=\"link-reg\" href=\"https://verified.usps.com/login?goto=https%3A%2F%2Ftools.usps.com%2Fzip-code-lookup.htm\">",
+   "endTag": "</a>",
+   "language": "en"
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#skipallnav",
+  "subject": "Skip all category navigation links",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Skip all category navigation links' explicitly states that it will skip the category navigation links.",
+   "leadsTo": "An anchor point (#endnav) at the end of the navigation section.",
+   "verdict": "pass",
+   "evidence": "Skip all category navigation links",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Skip all category navigation links",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "#endnav",
+   "startTag": "<a tabindex=\"-1\" name=\"skipallnav\" id=\"skipallnav\" href=\"#endnav\" class=\"hidden-skip\">",
+   "endTag": "</a>",
+   "language": "en",
+   "part": {
+    "id": "endnav",
+    "role": "generic",
+    "text": "",
+    "siteWords": [
+     "codetm",
+     "lookup",
+     "tools",
+     "usps",
+     "zip"
+    ]
+   }
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#navquicktools",
+  "subject": "Skip Quick Tools Links",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "A link to skip the 'Quick Tools' section and jump to the 'Send Links' section.",
+   "leadsTo": "a section on the same page with the ID 'navmailship' (Skip Send Links)",
+   "verdict": "pass",
+   "evidence": "Skip Quick Tools Links",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Skip Quick Tools Links",
+   "target": "Skip Send Links",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "#navmailship",
+   "startTag": "<a tabindex=\"-1\" name=\"navquicktools\" id=\"navquicktools\" href=\"#navmailship\" class=\"hidden-skip\">",
+   "endTag": "</a>",
+   "context": "Skip Quick Tools Links Quick Tools",
+   "landmark": "navigation (Main)",
+   "language": "en",
+   "chrome": true,
+   "part": {
+    "id": "navmailship",
+    "role": "link",
+    "text": "Skip Send Links",
+    "region": true,
+    "siteWords": [
+     "codetm",
+     "lookup",
+     "tools",
+     "usps",
+     "zip"
+    ]
+   }
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#navmailship",
+  "subject": "Skip Send Links",
+  "inCap": true,
+  "status": "failed",
+  "verdict": "fail",
+  "problem": "mismatch",
+  "confidence": "high",
+  "grounded": false,
+  "fate": "suggestion",
+  "message": "The link text \"Skip Send Links\" does not match where the link leads: \"Skip Receive Links\".",
+  "patchTo": "Skip to Receive Links",
+  "output": {
+   "promises": "A link to skip 'Send Links' and jump to a different section of the page.",
+   "leadsTo": "a section of the page titled 'Skip Receive Links'",
+   "verdict": "fail",
+   "evidence": "Skip Send Links",
+   "problem": "mismatch",
+   "suggestedText": "Skip to Receive Links",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Skip Send Links",
+   "target": "Skip Receive Links",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "#navtrackmanage",
+   "startTag": "<a tabindex=\"-1\" name=\"navmailship\" id=\"navmailship\" href=\"#navtrackmanage\" class=\"hidden-skip\">",
+   "endTag": "</a>",
+   "context": "Skip Send Links Send Search USPS.com",
+   "landmark": "navigation (Main)",
+   "language": "en",
+   "chrome": true,
+   "part": {
+    "id": "navtrackmanage",
+    "role": "link",
+    "text": "Skip Receive Links",
+    "region": true,
+    "siteWords": [
+     "codetm",
+     "lookup",
+     "tools",
+     "usps",
+     "zip"
+    ]
+   }
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#navtrackmanage",
+  "subject": "Skip Receive Links",
+  "inCap": true,
+  "status": "failed",
+  "verdict": "fail",
+  "problem": "mismatch",
+  "confidence": "high",
+  "grounded": false,
+  "fate": "suggestion",
+  "message": "The link text \"Skip Receive Links\" does not match where the link leads: \"Skip Shop Links\".",
+  "patchTo": "Skip to Shop Links",
+  "output": {
+   "promises": "A link to skip to the 'Receive Links' section of the page.",
+   "leadsTo": "a section of the page with the text 'Skip Shop Links'",
+   "verdict": "fail",
+   "evidence": "Skip Receive Links",
+   "problem": "mismatch",
+   "suggestedText": "Skip to Shop Links",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Skip Receive Links",
+   "target": "Skip Shop Links",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "#navpostalstore",
+   "startTag": "<a tabindex=\"-1\" name=\"navtrackmanage\" id=\"navtrackmanage\" href=\"#navpostalstore\" class=\"hidden-skip\">",
+   "endTag": "</a>",
+   "context": "Skip Receive Links Receive Search USPS.com",
+   "landmark": "navigation (Main)",
+   "language": "en",
+   "chrome": true,
+   "part": {
+    "id": "navpostalstore",
+    "role": "link",
+    "text": "Skip Shop Links",
+    "region": true,
+    "siteWords": [
+     "codetm",
+     "lookup",
+     "tools",
+     "usps",
+     "zip"
+    ]
+   }
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#navpostalstore",
+  "subject": "Skip Shop Links",
+  "inCap": true,
+  "status": "failed",
+  "verdict": "fail",
+  "problem": "mismatch",
+  "confidence": "high",
+  "grounded": false,
+  "fate": "suggestion",
+  "message": "The link text \"Skip Shop Links\" does not match where the link leads: \"Skip Business Links\".",
+  "patchTo": "Skip to Business Links",
+  "output": {
+   "promises": "The link text 'Skip Shop Links' and its context suggest it is a skip link that navigates the user to a different section of the page, specifically bypassing the shop links.",
+   "leadsTo": "a section of the page with the ID 'navbusiness' which contains 'Skip Business Links'.",
+   "verdict": "fail",
+   "evidence": "Skip Shop Links",
+   "problem": "mismatch",
+   "suggestedText": "Skip to Business Links",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Skip Shop Links",
+   "target": "Skip Business Links",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "#navbusiness",
+   "startTag": "<a tabindex=\"-1\" name=\"navpostalstore\" id=\"navpostalstore\" href=\"#navbusiness\" class=\"hidden-skip\">",
+   "endTag": "</a>",
+   "context": "Skip Shop Links Shop Search the Postal Store: Keyword or SKU",
+   "landmark": "navigation (Main)",
+   "language": "en",
+   "chrome": true,
+   "part": {
+    "id": "navbusiness",
+    "role": "link",
+    "text": "Skip Business Links",
+    "region": true,
+    "siteWords": [
+     "codetm",
+     "lookup",
+     "tools",
+     "usps",
+     "zip"
+    ]
+   }
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#navbusiness",
+  "subject": "Skip Business Links",
+  "inCap": true,
+  "status": "failed",
+  "verdict": "fail",
+  "problem": "mismatch",
+  "confidence": "high",
+  "grounded": false,
+  "fate": "suggestion",
+  "message": "The link text \"Skip Business Links\" does not match where the link leads: \"Skip International Links\".",
+  "patchTo": "Skip to International Links",
+  "output": {
+   "promises": "The link text 'Skip Business Links' suggests it will skip over a section of business-related links to reach a different part of the page.",
+   "leadsTo": "a section of the page titled 'Skip International Links'",
+   "verdict": "fail",
+   "evidence": "Skip Business Links",
+   "problem": "mismatch",
+   "suggestedText": "Skip to International Links",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Skip Business Links",
+   "target": "Skip International Links",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "#navinternational",
+   "startTag": "<a tabindex=\"-1\" name=\"navbusiness\" id=\"navbusiness\" href=\"#navinternational\" class=\"hidden-skip\">",
+   "endTag": "</a>",
+   "context": "Skip Business Links Business Search USPS.com",
+   "landmark": "navigation (Main)",
+   "language": "en",
+   "chrome": true,
+   "part": {
+    "id": "navinternational",
+    "role": "link",
+    "text": "Skip International Links",
+    "region": true,
+    "siteWords": [
+     "codetm",
+     "lookup",
+     "tools",
+     "usps",
+     "zip"
+    ]
+   }
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#navinternational",
+  "subject": "Skip International Links",
+  "inCap": true,
+  "status": "failed",
+  "verdict": "fail",
+  "problem": "mismatch",
+  "confidence": "high",
+  "grounded": false,
+  "fate": "suggestion",
+  "message": "The link text \"Skip International Links\" does not match where the link leads: \"Skip Help Links\".",
+  "patchTo": "Skip to Help Links",
+  "output": {
+   "promises": "The link text 'Skip International Links' suggests it will skip or jump past a section of international links.",
+   "leadsTo": "a section on the same page with the heading 'Skip Help Links'",
+   "verdict": "fail",
+   "evidence": "Skip International Links",
+   "problem": "mismatch",
+   "suggestedText": "Skip to Help Links",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Skip International Links",
+   "target": "Skip Help Links",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "#navhelp",
+   "startTag": "<a tabindex=\"-1\" name=\"navinternational\" id=\"navinternational\" href=\"#navhelp\" class=\"hidden-skip\">",
+   "endTag": "</a>",
+   "context": "Skip International Links International Search USPS.com",
+   "landmark": "navigation (Main)",
+   "language": "en",
+   "chrome": true,
+   "part": {
+    "id": "navhelp",
+    "role": "link",
+    "text": "Skip Help Links",
+    "region": true,
+    "siteWords": [
+     "codetm",
+     "lookup",
+     "tools",
+     "usps",
+     "zip"
+    ]
+   }
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#navhelp",
+  "subject": "Skip Help Links",
+  "inCap": true,
+  "status": "failed",
+  "verdict": "fail",
+  "problem": "mismatch",
+  "confidence": "high",
+  "grounded": false,
+  "fate": "suggestion",
+  "message": "The link text \"Skip Help Links\" does not match where the link leads: \"Skip Search\".",
+  "patchTo": "Skip to Search",
+  "output": {
+   "promises": "The link text 'Skip Help Links' suggests it will skip or jump past a section of help links.",
+   "leadsTo": "a section of the page with the text 'Skip Search'",
+   "verdict": "fail",
+   "evidence": "Skip Help Links",
+   "problem": "mismatch",
+   "suggestedText": "Skip to Search",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Skip Help Links",
+   "target": "Skip Search",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "#navsearch",
+   "startTag": "<a tabindex=\"-1\" name=\"navhelp\" id=\"navhelp\" href=\"#navsearch\" class=\"hidden-skip\">",
+   "endTag": "</a>",
+   "context": "Skip Help Links Help",
+   "landmark": "navigation (Main)",
+   "language": "en",
+   "chrome": true,
+   "part": {
+    "id": "navsearch",
+    "role": "link",
+    "text": "Skip Search",
+    "region": true,
+    "siteWords": [
+     "codetm",
+     "lookup",
+     "tools",
+     "usps",
+     "zip"
+    ]
+   }
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#navsearch",
+  "subject": "Skip Search",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Skip Search' and its context within the navigation menu suggest that clicking it will skip the search functionality and move the focus to the end of the navigation area.",
+   "leadsTo": "#endnav",
+   "verdict": "pass",
+   "evidence": "Skip Search",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Skip Search",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "#endnav",
+   "startTag": "<a tabindex=\"-1\" name=\"navsearch\" id=\"navsearch\" href=\"#endnav\" class=\"hidden-skip\">",
+   "endTag": "</a>",
+   "context": "Skip Search Search USPS.com Search USPS.com Search USPS.com Top Searches PO BOXES PASSPORTS FREE BOXES",
+   "landmark": "navigation (Main)",
+   "language": "en",
+   "chrome": true,
+   "part": {
+    "id": "endnav",
+    "role": "generic",
+    "text": "",
+    "siteWords": [
+     "codetm",
+     "lookup",
+     "tools",
+     "usps",
+     "zip"
+    ]
+   }
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#zip-lookup-welcome > div > div > div:nth-of-type(1) > a",
+  "subject": "FAQs",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'FAQs' combined with the surrounding text 'Look Up a ZIP Code ™ FAQs' and the heading 'Look Up a ZIP Code™' indicates that the link leads to the Frequently Asked Questions page for the ZIP Code lookup service.",
+   "leadsTo": "https://www.usps.com/faqs/ziplookup-faqs.htm",
+   "verdict": "pass",
+   "evidence": "FAQs",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "FAQs",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://www.usps.com/faqs/ziplookup-faqs.htm",
+   "startTag": "<a href=\"https://www.usps.com/faqs/ziplookup-faqs.htm\" target=\"_blank\" class=\"header-faqs\">",
+   "endTag": "</a>",
+   "context": "Look Up a ZIP Code ™ FAQs",
+   "heading": "Look Up a ZIP Code™",
+   "sameText": {
+    "links": 2,
+    "places": 2,
+    "apart": true
+   },
+   "language": "en"
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(1) > li > ol > li:nth-of-type(1) > a",
+  "subject": "Contact Us",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Contact Us' in a footer navigation menu indicates that the link leads to a page where the user can contact the organization.",
+   "leadsTo": "https://www.usps.com/help/contact-us.htm",
+   "verdict": "pass",
+   "evidence": "Contact Us",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Contact Us",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://www.usps.com/help/contact-us.htm",
+   "startTag": "<a href=\"https://www.usps.com/help/contact-us.htm\">",
+   "endTag": "</a>",
+   "context": "Helpful Links Contact Us Site Index FAQs USPS Jobs Careers",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(1) > li > ol > li:nth-of-type(2) > a",
+  "subject": "Site Index",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Site Index' in a footer navigation menu suggests it leads to a directory or index of the website's pages.",
+   "leadsTo": "https://www.usps.com/globals/site-index.htm",
+   "verdict": "pass",
+   "evidence": "Site Index",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Site Index",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://www.usps.com/globals/site-index.htm",
+   "startTag": "<a href=\"https://www.usps.com/globals/site-index.htm\">",
+   "endTag": "</a>",
+   "context": "Helpful Links Contact Us Site Index FAQs USPS Jobs Careers",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(1) > li > ol > li:nth-of-type(3) > a",
+  "subject": "FAQs",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'FAQs' in a footer navigation menu suggests it leads to a Frequently Asked Questions page.",
+   "leadsTo": "https://faq.usps.com/s/",
+   "verdict": "pass",
+   "evidence": "FAQs",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "FAQs",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://faq.usps.com/s/",
+   "startTag": "<a href=\"https://faq.usps.com/s/\">",
+   "endTag": "</a>",
+   "context": "Helpful Links Contact Us Site Index FAQs USPS Jobs Careers",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "sameText": {
+    "links": 2,
+    "places": 2,
+    "apart": true
+   },
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(1) > li > ol > li:nth-of-type(4) > ol > li > a",
+  "subject": "Careers",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "A page about careers and jobs at USPS.",
+   "leadsTo": "https://about.usps.com/careers/",
+   "verdict": "pass",
+   "evidence": "Careers",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Careers",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://about.usps.com/careers/",
+   "startTag": "<a href=\"https://about.usps.com/careers/\">",
+   "endTag": "</a>",
+   "context": "USPS Jobs Careers",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(1) > ol > li:nth-of-type(1) > a",
+  "subject": "About USPS Home",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'About USPS Home' and its context in a navigation menu suggest it leads to the homepage of the 'About USPS' section of the website.",
+   "leadsTo": "https://about.usps.com/",
+   "verdict": "pass",
+   "evidence": "About USPS Home",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "About USPS Home",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://about.usps.com/",
+   "startTag": "<a href=\"https://about.usps.com/\">",
+   "endTag": "</a>",
+   "context": "On About.USPS.com About USPS Home Newsroom USPS Service Updates Forms & Publications Government Services Rights & Permissions",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(1) > ol > li:nth-of-type(2) > a",
+  "subject": "Newsroom",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Newsroom' in a navigation menu context suggests it leads to a news or press release section of the website.",
+   "leadsTo": "https://about.usps.com/newsroom/",
+   "verdict": "pass",
+   "evidence": "Newsroom",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Newsroom",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://about.usps.com/newsroom/",
+   "startTag": "<a href=\"https://about.usps.com/newsroom/\">",
+   "endTag": "</a>",
+   "context": "On About.USPS.com About USPS Home Newsroom USPS Service Updates Forms & Publications Government Services Rights & Permissions",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(1) > ol > li:nth-of-type(3) > a",
+  "subject": "USPS Service Updates",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'USPS Service Updates' in a navigation menu suggests it leads to a page containing information about current USPS service alerts or updates.",
+   "leadsTo": "https://about.usps.com/newsroom/service-alerts/",
+   "verdict": "pass",
+   "evidence": "USPS Service Updates",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "USPS Service Updates",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://about.usps.com/newsroom/service-alerts/",
+   "startTag": "<a href=\"https://about.usps.com/newsroom/service-alerts/\">",
+   "endTag": "</a>",
+   "context": "On About.USPS.com About USPS Home Newsroom USPS Service Updates Forms & Publications Government Services Rights & Permissions",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(1) > ol > li:nth-of-type(4) > a",
+  "subject": "Forms & Publications",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Forms & Publications' in a navigation menu suggests it leads to a page containing forms and publications.",
+   "leadsTo": "https://about.usps.com/resources/",
+   "verdict": "pass",
+   "evidence": "Forms & Publications",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Forms & Publications",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://about.usps.com/resources/",
+   "startTag": "<a href=\"https://about.usps.com/resources/\">",
+   "endTag": "</a>",
+   "context": "On About.USPS.com About USPS Home Newsroom USPS Service Updates Forms & Publications Government Services Rights & Permissions",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(1) > ol > li:nth-of-type(5) > a",
+  "subject": "Government Services",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Government Services' in a navigation menu suggests it leads to a page describing the services provided to government entities.",
+   "leadsTo": "https://about.usps.com/what/government-services/",
+   "verdict": "pass",
+   "evidence": "Government Services",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Government Services",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://about.usps.com/what/government-services/",
+   "startTag": "<a href=\"https://about.usps.com/what/government-services/\">",
+   "endTag": "</a>",
+   "context": "On About.USPS.com About USPS Home Newsroom USPS Service Updates Forms & Publications Government Services Rights & Permissions",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(1) > ol > li:nth-of-type(6) > a",
+  "subject": "Rights & Permissions",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Rights & Permissions' in a navigation menu suggests it leads to a page detailing the rights and permissions associated with USPS services.",
+   "leadsTo": "https://about.usps.com/what/business-services/rights-permissions/",
+   "verdict": "pass",
+   "evidence": "Rights & Permissions",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Rights & Permissions",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://about.usps.com/what/business-services/rights-permissions/",
+   "startTag": "<a href=\"https://about.usps.com/what/business-services/rights-permissions/\">",
+   "endTag": "</a>",
+   "context": "On About.USPS.com About USPS Home Newsroom USPS Service Updates Forms & Publications Government Services Rights & Permissions",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(2) > ol > li:nth-of-type(1) > a",
+  "subject": "Business Customer Gateway",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "A gateway for business customers.",
+   "leadsTo": "https://gateway.usps.com/",
+   "verdict": "pass",
+   "evidence": "Business Customer Gateway",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Business Customer Gateway",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://gateway.usps.com/",
+   "startTag": "<a href=\"https://gateway.usps.com/\">",
+   "endTag": "</a>",
+   "context": "Other USPS Sites Business Customer Gateway Postal Inspectors Inspector General Postal Explorer National Postal Museum Resources for Developers PostalPro",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(2) > ol > li:nth-of-type(2) > a",
+  "subject": "Postal Inspectors",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Postal Inspectors' in a list of USPS-related sites suggests it leads to the official website or information page for the United States Postal Inspection Service.",
+   "leadsTo": "https://www.uspis.gov/",
+   "verdict": "pass",
+   "evidence": "Postal Inspectors",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Postal Inspectors",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://www.uspis.gov/",
+   "startTag": "<a href=\"https://www.uspis.gov/\">",
+   "endTag": "</a>",
+   "context": "Other USPS Sites Business Customer Gateway Postal Inspectors Inspector General Postal Explorer National Postal Museum Resources for Developers PostalPro",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(2) > ol > li:nth-of-type(3) > a",
+  "subject": "Inspector General",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Inspector General' in a list of USPS-related sites suggests it leads to the official website or page for the Office of the Inspector General.",
+   "leadsTo": "https://www.uspsoig.gov/",
+   "verdict": "pass",
+   "evidence": "Inspector General",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Inspector General",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://www.uspsoig.gov/",
+   "startTag": "<a href=\"https://www.uspsoig.gov/\">",
+   "endTag": "</a>",
+   "context": "Other USPS Sites Business Customer Gateway Postal Inspectors Inspector General Postal Explorer National Postal Museum Resources for Developers PostalPro",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(2) > ol > li:nth-of-type(4) > a",
+  "subject": "Postal Explorer",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "A tool or site for exploring postal information, specifically the 'Postal Explorer' service.",
+   "leadsTo": "https://pe.usps.com",
+   "verdict": "pass",
+   "evidence": "Postal Explorer",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Postal Explorer",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://pe.usps.com",
+   "startTag": "<a href=\"https://pe.usps.com\">",
+   "endTag": "</a>",
+   "context": "Other USPS Sites Business Customer Gateway Postal Inspectors Inspector General Postal Explorer National Postal Museum Resources for Developers PostalPro",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(2) > ol > li:nth-of-type(5) > a",
+  "subject": "National Postal Museum",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'National Postal Museum' in a list of USPS sites suggests it leads to the official website or page for the National Postal Museum.",
+   "leadsTo": "https://postalmuseum.si.edu/",
+   "verdict": "pass",
+   "evidence": "National Postal Museum",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "National Postal Museum",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://postalmuseum.si.edu/",
+   "startTag": "<a href=\"https://postalmuseum.si.edu/\">",
+   "endTag": "</a>",
+   "context": "Other USPS Sites Business Customer Gateway Postal Inspectors Inspector General Postal Explorer National Postal Museum Resources for Developers PostalPro",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(2) > ol > li:nth-of-type(6) > a",
+  "subject": "Resources for Developers",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Resources for Developers' suggests it leads to a page containing tools, APIs, or documentation for developers.",
+   "leadsTo": "https://www.usps.com/business/web-tools-apis/",
+   "verdict": "pass",
+   "evidence": "Resources for Developers",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Resources for Developers",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://www.usps.com/business/web-tools-apis/",
+   "startTag": "<a href=\"https://www.usps.com/business/web-tools-apis/\">",
+   "endTag": "</a>",
+   "context": "Other USPS Sites Business Customer Gateway Postal Inspectors Inspector General Postal Explorer National Postal Museum Resources for Developers PostalPro",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(2) > ol > li:nth-of-type(7) > a",
+  "subject": "PostalPro",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'PostalPro' in a list of USPS sites suggests it leads to the PostalPro service or website.",
+   "leadsTo": "https://postalpro.usps.com/",
+   "verdict": "pass",
+   "evidence": "PostalPro",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "PostalPro",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://postalpro.usps.com/",
+   "startTag": "<a href=\"https://postalpro.usps.com/\">",
+   "endTag": "</a>",
+   "context": "Other USPS Sites Business Customer Gateway Postal Inspectors Inspector General Postal Explorer National Postal Museum Resources for Developers PostalPro",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(3) > ol > li:nth-of-type(1) > a",
+  "subject": "Privacy Policy",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Privacy Policy' in a footer navigation list clearly indicates that it leads to the organization's privacy policy page.",
+   "leadsTo": "https://about.usps.com/who/legal/privacy-policy/",
+   "verdict": "pass",
+   "evidence": "Privacy Policy",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Privacy Policy",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://about.usps.com/who/legal/privacy-policy/",
+   "startTag": "<a href=\"https://about.usps.com/who/legal/privacy-policy/\">",
+   "endTag": "</a>",
+   "context": "Legal Information Privacy Policy Terms of Use FOIA No FEAR Act/EEO Contacts Fair Chance Act Accessibility Statement",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(3) > ol > li:nth-of-type(2) > a",
+  "subject": "Terms of Use",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Terms of Use' in a footer navigation list clearly indicates that it leads to the terms of use page.",
+   "leadsTo": "https://about.usps.com/who/legal/terms-of-use.htm",
+   "verdict": "pass",
+   "evidence": "Terms of Use",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Terms of Use",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://about.usps.com/who/legal/terms-of-use.htm",
+   "startTag": "<a href=\"https://about.usps.com/who/legal/terms-of-use.htm\">",
+   "endTag": "</a>",
+   "context": "Legal Information Privacy Policy Terms of Use FOIA No FEAR Act/EEO Contacts Fair Chance Act Accessibility Statement",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(3) > ol > li:nth-of-type(3) > a",
+  "subject": "FOIA",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'FOIA' in a list of legal links (Privacy Policy, Terms of Use, etc.) indicates it leads to information regarding the Freedom of Information Act.",
+   "leadsTo": "https://about.usps.com/who/legal/foia/",
+   "verdict": "pass",
+   "evidence": "FOIA",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "FOIA",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://about.usps.com/who/legal/foia/",
+   "startTag": "<a href=\"https://about.usps.com/who/legal/foia/\">",
+   "endTag": "</a>",
+   "context": "Legal Information Privacy Policy Terms of Use FOIA No FEAR Act/EEO Contacts Fair Chance Act Accessibility Statement",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(3) > ol > li:nth-of-type(4) > a",
+  "subject": "No FEAR Act/EEO Contacts",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'No FEAR Act/EEO Contacts' suggests it leads to information regarding the No FEAR Act and Equal Employment Opportunity (EEO) contacts.",
+   "leadsTo": "https://about.usps.com/who/legal/no-fear-act/",
+   "verdict": "pass",
+   "evidence": "No FEAR Act/EEO Contacts",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "No FEAR Act/EEO Contacts",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://about.usps.com/who/legal/no-fear-act/",
+   "startTag": "<a href=\"https://about.usps.com/who/legal/no-fear-act/\">",
+   "endTag": "</a>",
+   "context": "Legal Information Privacy Policy Terms of Use FOIA No FEAR Act/EEO Contacts Fair Chance Act Accessibility Statement",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(3) > ol > li:nth-of-type(5) > a",
+  "subject": "Fair Chance Act",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Fair Chance Act' in a list of legal links suggests it leads to information regarding the Fair Chance Act.",
+   "leadsTo": "https://about.usps.com/who/legal/fair-chance-act/",
+   "verdict": "pass",
+   "evidence": "Fair Chance Act",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Fair Chance Act",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://about.usps.com/who/legal/fair-chance-act/",
+   "startTag": "<a href=\"https://about.usps.com/who/legal/fair-chance-act/\">",
+   "endTag": "</a>",
+   "context": "Legal Information Privacy Policy Terms of Use FOIA No FEAR Act/EEO Contacts Fair Chance Act Accessibility Statement",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.4",
+  "version": "2",
+  "ref": "#global-footer--wrap > footer > nav > ol:nth-of-type(2) > li:nth-of-type(3) > ol > li:nth-of-type(6) > a",
+  "subject": "Accessibility Statement",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "promises": "The link text 'Accessibility Statement' in a footer navigation menu clearly indicates that it leads to a page containing the organization's accessibility statement.",
+   "leadsTo": "https://about.usps.com/who/legal/accessibility-statement/",
+   "verdict": "pass",
+   "evidence": "Accessibility Statement",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "name": "Accessibility Statement",
+   "labelledByAttribute": false,
+   "labelledByIds": false,
+   "href": "https://about.usps.com/who/legal/accessibility-statement/",
+   "startTag": "<a href=\"https://about.usps.com/who/legal/accessibility-statement/\">",
+   "endTag": "</a>",
+   "context": "Legal Information Privacy Policy Terms of Use FOIA No FEAR Act/EEO Contacts Fair Chance Act Accessibility Statement",
+   "heading": "Look Up a ZIP Code™",
+   "landmark": "navigation (footer)",
+   "language": "en",
+   "menu": true,
+   "chrome": true
+  }
+ },
+ {
+  "criterion": "2.4.6",
+  "version": "3",
+  "ref": "#global-header--search-track-mail-ship",
+  "subject": "Search USPS.com",
+  "inCap": true,
+  "status": "failed",
+  "verdict": "fail",
+  "problem": "generic",
+  "confidence": "high",
+  "grounded": false,
+  "fate": "suggestion",
+  "message": "The label \"Search USPS.com\" does not say what to enter.",
+  "patchTo": "Search or Enter a Tracking Number",
+  "output": {
+   "named": "Search USPS.com",
+   "verdict": "fail",
+   "evidence": "Search USPS.com",
+   "problem": "generic",
+   "suggestedText": "Search or Enter a Tracking Number",
+   "confidence": "high"
+  },
+  "facts": {
+   "kind": "label",
+   "text": "Search USPS.com",
+   "target": {
+    "ref": "#g-navigation > div > nav > ul > li:nth-of-type(2) > div > form > span > label",
+    "startTag": "<label tabindex=\"-1\" class=\"visuallyhidden\" for=\"global-header--search-track-mail-ship\">",
+    "endTag": "</label>"
+   },
+   "content": "Field: textbox, type=\"text\"\nname=\"q\"\nid=\"global-header--search-track-mail-ship\"\nautocomplete=\"off\"\nplaceholder=\"Search or Enter a Tracking Number\"\nUnder the visible heading: none\n5 fields share this label, and no visible heading or group tells them apart",
+   "sharedUnsorted": true,
+   "language": "en"
+  }
+ },
+ {
+  "criterion": "2.4.6",
+  "version": "3",
+  "ref": "#global-header--search-track-track-manage",
+  "subject": "Search USPS.com",
+  "inCap": true,
+  "status": "failed",
+  "verdict": "fail",
+  "problem": "generic",
+  "confidence": "high",
+  "grounded": false,
+  "fate": "suggestion",
+  "message": "The label \"Search USPS.com\" does not say what to enter.",
+  "patchTo": "Search or Enter a Tracking Number",
+  "output": {
+   "named": "Search USPS.com",
+   "verdict": "fail",
+   "evidence": "Search USPS.com",
+   "problem": "generic",
+   "suggestedText": "Search or Enter a Tracking Number",
+   "confidence": "high"
+  },
+  "facts": {
+   "kind": "label",
+   "text": "Search USPS.com",
+   "target": {
+    "ref": "#g-navigation > div > nav > ul > li:nth-of-type(3) > div > form > span > label",
+    "startTag": "<label tabindex=\"-1\" class=\"visuallyhidden\" for=\"global-header--search-track-track-manage\">",
+    "endTag": "</label>"
+   },
+   "content": "Field: textbox, type=\"text\"\nname=\"q\"\nid=\"global-header--search-track-track-manage\"\nautocomplete=\"off\"\nplaceholder=\"Search or Enter a Tracking Number\"\nUnder the visible heading: none\n5 fields share this label, and no visible heading or group tells them apart",
+   "sharedUnsorted": true,
+   "language": "en"
+  }
+ },
+ {
+  "criterion": "2.4.6",
+  "version": "3",
+  "ref": "#global-header--search-track-store",
+  "subject": "Search the Postal Store: Keyword or SKU",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "named": "Search the Postal Store: Keyword or SKU",
+   "verdict": "pass",
+   "evidence": "Search the Postal Store: Keyword or SKU",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "kind": "label",
+   "text": "Search the Postal Store: Keyword or SKU",
+   "target": {
+    "ref": "#g-navigation > div > nav > ul > li:nth-of-type(4) > div > form > span > label",
+    "startTag": "<label class=\"visuallyhidden\" tabindex=\"-1\" for=\"global-header--search-track-store\">",
+    "endTag": "</label>"
+   },
+   "content": "Field: textbox, type=\"text\"\nname=\"q\"\nid=\"global-header--search-track-store\"\nautocomplete=\"off\"\nplaceholder=\"Search the Postal Store: Keyword or SKU\"\nUnder the visible heading: none",
+   "language": "en"
+  }
+ },
+ {
+  "criterion": "2.4.6",
+  "version": "3",
+  "ref": "#global-header--search-track-business",
+  "subject": "Search USPS.com",
+  "inCap": true,
+  "status": "discarded",
+  "verdict": "fail",
+  "problem": "generic",
+  "confidence": "high",
+  "verification": "suggested text equals the current one",
+  "fate": "discarded",
+  "message": "The label \"Search USPS.com\" does not say what to enter.",
+  "patchTo": "Search USPS.com",
+  "output": {
+   "named": "Search USPS.com",
+   "verdict": "fail",
+   "evidence": "Search USPS.com",
+   "problem": "generic",
+   "suggestedText": "Search USPS.com",
+   "confidence": "high"
+  },
+  "facts": {
+   "kind": "label",
+   "text": "Search USPS.com",
+   "target": {
+    "ref": "#g-navigation > div > nav > ul > li:nth-of-type(5) > div > form > span > label",
+    "startTag": "<label tabindex=\"-1\" class=\"visuallyhidden\" for=\"global-header--search-track-business\">",
+    "endTag": "</label>"
+   },
+   "content": "Field: textbox, type=\"text\"\nname=\"q\"\nid=\"global-header--search-track-business\"\nautocomplete=\"off\"\nplaceholder=\"Search or Enter a Tracking Number\"\nUnder the visible heading: none\n5 fields share this label, and no visible heading or group tells them apart",
+   "sharedUnsorted": true,
+   "language": "en"
+  }
+ },
+ {
+  "criterion": "2.4.6",
+  "version": "3",
+  "ref": "#global-header--search-track-international",
+  "subject": "Search USPS.com",
+  "inCap": true,
+  "status": "failed",
+  "verdict": "fail",
+  "problem": "generic",
+  "confidence": "high",
+  "grounded": false,
+  "fate": "suggestion",
+  "message": "The label \"Search USPS.com\" does not say what to enter.",
+  "patchTo": "Search or enter a tracking number",
+  "output": {
+   "named": "Search USPS.com",
+   "verdict": "fail",
+   "evidence": "Search USPS.com",
+   "problem": "generic",
+   "suggestedText": "Search or enter a tracking number",
+   "confidence": "high"
+  },
+  "facts": {
+   "kind": "label",
+   "text": "Search USPS.com",
+   "target": {
+    "ref": "#g-navigation > div > nav > ul > li:nth-of-type(6) > div > form > span > label",
+    "startTag": "<label tabindex=\"-1\" class=\"visuallyhidden\" for=\"global-header--search-track-international\">",
+    "endTag": "</label>"
+   },
+   "content": "Field: textbox, type=\"text\"\nname=\"q\"\nid=\"global-header--search-track-international\"\nautocomplete=\"off\"\nplaceholder=\"Search or Enter a Tracking Number\"\nUnder the visible heading: none\n5 fields share this label, and no visible heading or group tells them apart",
+   "sharedUnsorted": true,
+   "language": "en"
+  }
+ },
+ {
+  "criterion": "2.4.6",
+  "version": "3",
+  "ref": "#global-header--search-track-search",
+  "subject": "Search USPS.com",
+  "inCap": true,
+  "status": "discarded",
+  "verdict": "fail",
+  "problem": "generic",
+  "confidence": "high",
+  "verification": "suggested text equals the current one",
+  "fate": "discarded",
+  "message": "The label \"Search USPS.com\" does not say what to enter.",
+  "patchTo": "Search USPS.com",
+  "output": {
+   "named": "Search USPS.com",
+   "verdict": "fail",
+   "evidence": "Search USPS.com",
+   "problem": "generic",
+   "suggestedText": "Search USPS.com",
+   "confidence": "high"
+  },
+  "facts": {
+   "kind": "label",
+   "text": "Search USPS.com",
+   "target": {
+    "ref": "#g-navigation > div > nav > ul > li:nth-of-type(8) > div > form > span > label",
+    "startTag": "<label tabindex=\"-1\" class=\"visuallyhidden\" for=\"global-header--search-track-search\">",
+    "endTag": "</label>"
+   },
+   "content": "Field: textbox, type=\"text\"\nname=\"q\"\nid=\"global-header--search-track-search\"\nautocomplete=\"off\"\nplaceholder=\"Search or Enter a Tracking Number\"\nUnder the visible heading: none\n5 fields share this label, and no visible heading or group tells them apart",
+   "sharedUnsorted": true,
+   "language": "en"
+  }
+ },
+ {
+  "criterion": "2.4.6",
+  "version": "3",
+  "ref": "#global-header--search-track-mob-search",
+  "subject": "Enter Search term for Search USPS.com",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "named": "Search term",
+   "verdict": "pass",
+   "evidence": "Enter Search term for Search USPS.com",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "kind": "label",
+   "text": "Enter Search term for Search USPS.com",
+   "target": {
+    "ref": "#search--display > form > span > div:nth-of-type(1) > label",
+    "startTag": "<label class=\"visuallyhidden\" for=\"global-header--search-track-mob-search\">",
+    "endTag": "</label>"
+   },
+   "content": "Field: textbox, type=\"text\"\nname=\"q\"\nid=\"global-header--search-track-mob-search\"\nautocomplete=\"off\"\nplaceholder=\"Search or Enter a Tracking Number\"\nUnder the visible heading: none",
+   "language": "en"
+  }
+ },
+ {
+  "criterion": "2.4.6",
+  "version": "3",
+  "ref": "#zip-lookup-welcome > div > div > div:nth-of-type(1) > h1",
+  "subject": "Look Up a ZIP Code™",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "named": "ZIP Code Lookup",
+   "verdict": "pass",
+   "evidence": "Look Up a ZIP Code™",
+   "problem": "none",
+   "suggestedText": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "kind": "heading",
+   "text": "Look Up a ZIP Code™",
+   "target": {
+    "ref": "#zip-lookup-welcome > div > div > div:nth-of-type(1) > h1",
+    "startTag": "<h1>",
+    "endTag": "</h1>"
+   },
+   "level": 1,
+   "outline": [],
+   "siblings": [],
+   "content": "FAQs By Address Enter a corporate or residential street address, city, and state to see a specific ZIP Code ™ . Find by Address By City and State Enter city and state to see all the ZIP Codes ™ for that city. Find by City & State Cities by ZIP Code ™ Enter a ZIP Code ™ to see the cities it covers. Find Cities by ZIP",
+   "language": "en"
+  }
+ },
+ {
+  "criterion": "1.3.5",
+  "version": "2",
+  "ref": "#global-header--search-track-mail-ship",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "asks": "Search query or tracking number",
+   "about": "not_personal",
+   "purpose": "none",
+   "verdict": "pass",
+   "evidence": "Search USPS.com",
+   "confidence": "high"
+  },
+  "facts": {
+   "label": "Search USPS.com",
+   "placeholder": "Search or Enter a Tracking Number",
+   "control": "text",
+   "autocomplete": {
+    "kind": "state",
+    "raw": "off"
+   },
+   "startTag": "<input tabindex=\"-1\" autocomplete=\"off\" placeholder=\"Search or Enter a Tracking Number\" class=\"search--track-input input--field q global-header--search-track\" id=\"global-header--search-track-mail-ship\" maxlength=\"256\" name=\"q\" type=\"text\">",
+   "otherFields": [],
+   "facts": "Field: input type=\"text\"\nname=\"q\"\nid=\"global-header--search-track-mail-ship\"\nplaceholder=\"Search or Enter a Tracking Number\"\nautocomplete=\"off\": names no purpose\nUnder the visible heading: none",
+   "formIssues": []
+  }
+ },
+ {
+  "criterion": "1.3.5",
+  "version": "2",
+  "ref": "#global-header--search-track-track-manage",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "asks": "Search query or tracking number",
+   "about": "not_personal",
+   "purpose": "none",
+   "verdict": "pass",
+   "evidence": "Search USPS.com",
+   "confidence": "high"
+  },
+  "facts": {
+   "label": "Search USPS.com",
+   "placeholder": "Search or Enter a Tracking Number",
+   "control": "text",
+   "autocomplete": {
+    "kind": "state",
+    "raw": "off"
+   },
+   "startTag": "<input tabindex=\"-1\" autocomplete=\"off\" placeholder=\"Search or Enter a Tracking Number\" class=\"search--track-input input--field q global-header--search-track\" id=\"global-header--search-track-track-manage\" maxlength=\"256\" name=\"q\" type=\"text\">",
+   "otherFields": [],
+   "facts": "Field: input type=\"text\"\nname=\"q\"\nid=\"global-header--search-track-track-manage\"\nplaceholder=\"Search or Enter a Tracking Number\"\nautocomplete=\"off\": names no purpose\nUnder the visible heading: none",
+   "formIssues": []
+  }
+ },
+ {
+  "criterion": "1.3.5",
+  "version": "2",
+  "ref": "#global-header--search-track-store",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "asks": "Keyword or SKU",
+   "about": "not_personal",
+   "purpose": "none",
+   "verdict": "pass",
+   "evidence": "Search the Postal Store: Keyword or SKU",
+   "confidence": "high"
+  },
+  "facts": {
+   "label": "Search the Postal Store: Keyword or SKU",
+   "placeholder": "Search the Postal Store: Keyword or SKU",
+   "control": "text",
+   "autocomplete": {
+    "kind": "state",
+    "raw": "off"
+   },
+   "startTag": "<input tabindex=\"-1\" autocomplete=\"off\" placeholder=\"Search the Postal Store: Keyword or SKU\" class=\"search--track-input input--field q global-header--search-track\" id=\"global-header--search-track-store\" maxlength=\"256\" name=\"q\" type=\"text\">",
+   "otherFields": [],
+   "facts": "Field: input type=\"text\"\nname=\"q\"\nid=\"global-header--search-track-store\"\nautocomplete=\"off\": names no purpose\nUnder the visible heading: none",
+   "formIssues": []
+  }
+ },
+ {
+  "criterion": "1.3.5",
+  "version": "2",
+  "ref": "#global-header--search-track-business",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "asks": "Search query or tracking number",
+   "about": "not_personal",
+   "purpose": "none",
+   "verdict": "pass",
+   "evidence": "Search USPS.com",
+   "confidence": "high"
+  },
+  "facts": {
+   "label": "Search USPS.com",
+   "placeholder": "Search or Enter a Tracking Number",
+   "control": "text",
+   "autocomplete": {
+    "kind": "state",
+    "raw": "off"
+   },
+   "startTag": "<input tabindex=\"-1\" autocomplete=\"off\" placeholder=\"Search or Enter a Tracking Number\" class=\"search--track-input input--field q global-header--search-track\" id=\"global-header--search-track-business\" maxlength=\"256\" name=\"q\" type=\"text\">",
+   "otherFields": [],
+   "facts": "Field: input type=\"text\"\nname=\"q\"\nid=\"global-header--search-track-business\"\nplaceholder=\"Search or Enter a Tracking Number\"\nautocomplete=\"off\": names no purpose\nUnder the visible heading: none",
+   "formIssues": []
+  }
+ },
+ {
+  "criterion": "1.3.5",
+  "version": "2",
+  "ref": "#global-header--search-track-international",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "asks": "Search query or tracking number",
+   "about": "not_personal",
+   "purpose": "none",
+   "verdict": "pass",
+   "evidence": "Search USPS.com",
+   "confidence": "high"
+  },
+  "facts": {
+   "label": "Search USPS.com",
+   "placeholder": "Search or Enter a Tracking Number",
+   "control": "text",
+   "autocomplete": {
+    "kind": "state",
+    "raw": "off"
+   },
+   "startTag": "<input tabindex=\"-1\" autocomplete=\"off\" placeholder=\"Search or Enter a Tracking Number\" class=\"search--track-input input--field q global-header--search-track\" id=\"global-header--search-track-international\" maxlength=\"256\" name=\"q\" type=\"text\">",
+   "otherFields": [],
+   "facts": "Field: input type=\"text\"\nname=\"q\"\nid=\"global-header--search-track-international\"\nplaceholder=\"Search or Enter a Tracking Number\"\nautocomplete=\"off\": names no purpose\nUnder the visible heading: none",
+   "formIssues": []
+  }
+ },
+ {
+  "criterion": "1.3.5",
+  "version": "2",
+  "ref": "#global-header--search-track-search",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "asks": "Search query or tracking number",
+   "about": "not_personal",
+   "purpose": "none",
+   "verdict": "pass",
+   "evidence": "Search USPS.com",
+   "confidence": "high"
+  },
+  "facts": {
+   "label": "Search USPS.com",
+   "placeholder": "Search or Enter a Tracking Number",
+   "control": "text",
+   "autocomplete": {
+    "kind": "state",
+    "raw": "off"
+   },
+   "startTag": "<input tabindex=\"-1\" autocomplete=\"off\" placeholder=\"Search or Enter a Tracking Number\" class=\"search--track-input input--field q global-header--search-track\" id=\"global-header--search-track-search\" maxlength=\"256\" name=\"q\" type=\"text\">",
+   "otherFields": [],
+   "facts": "Field: input type=\"text\"\nname=\"q\"\nid=\"global-header--search-track-search\"\nplaceholder=\"Search or Enter a Tracking Number\"\nautocomplete=\"off\": names no purpose\nUnder the visible heading: none",
+   "formIssues": []
+  }
+ },
+ {
+  "criterion": "1.3.5",
+  "version": "2",
+  "ref": "#global-header--search-track-mob-search",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "asks": "Search term",
+   "about": "not_personal",
+   "purpose": "none",
+   "verdict": "pass",
+   "evidence": "Enter Search term for Search USPS.com",
+   "confidence": "high"
+  },
+  "facts": {
+   "label": "Enter Search term for Search USPS.com",
+   "placeholder": "Search or Enter a Tracking Number",
+   "control": "text",
+   "autocomplete": {
+    "kind": "state",
+    "raw": "off"
+   },
+   "startTag": "<input autocomplete=\"off\" placeholder=\"Search or Enter a Tracking Number\" class=\"search--track-input input--field q fsrVisible global-header--search-track\" id=\"global-header--search-track-mob-search\" maxlength=\"256\" name=\"q\" type=\"text\">",
+   "otherFields": [],
+   "facts": "Field: input type=\"text\"\nname=\"q\"\nid=\"global-header--search-track-mob-search\"\nplaceholder=\"Search or Enter a Tracking Number\"\nautocomplete=\"off\": names no purpose\nUnder the visible heading: none",
+   "formIssues": []
+  }
+ },
+ {
+  "criterion": "2.4.2",
+  "version": "3",
+  "ref": "html",
+  "subject": "ZIP Code™ Lookup | USPS",
+  "inCap": true,
+  "status": "passed",
+  "verdict": "pass",
+  "problem": "none",
+  "confidence": "high",
+  "fate": "passed",
+  "output": {
+   "verdict": "pass",
+   "evidence": "ZIP Code™ Lookup | USPS",
+   "problem": "none",
+   "suggestedTitle": "",
+   "confidence": "high"
+  },
+  "facts": {
+   "title": "ZIP Code™ Lookup | USPS",
+   "address": "tools.usps.com/zip-code-lookup.htm",
+   "headings": [
+    "Look Up a ZIP Code™"
+   ],
+   "opening": "Skip to Main Content Current language: English English Español Chinese Locations Support Informed Delivery Register / Sign In Skip all category navigation links USPS.com Skip Quick Tools Links Quick Tools Skip Send Links Send Search USPS.com Skip Receive Links Receive Search USPS.com Skip Shop Links Shop Search the Postal Store: Keyword or SKU Skip Business Links Business Search USPS.com Skip International Links International Search USPS.com Skip Help Links Help Skip Search Search USPS.com Search USPS.com Search USPS.com Top Searches PO BOXES PASSPORTS FREE BOXES Enter Search term for Search USPS.com Top Searches PO BOXES PASSPORTS FREE BOXES Look Up a ZIP Code ™ FAQs By Address Enter a cor…",
+   "language": "en",
+   "siblings": [
+    "Find USPS Post Offices & Locations Near Me | USPS"
+   ]
+  }
+ }
+]

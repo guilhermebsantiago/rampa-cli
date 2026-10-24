@@ -312,6 +312,16 @@ def mean_pfail(r):
     return sum(ps) / len(ps) if ps else None
 
 
+def min_pfail(r):
+    ps = [p for p in (r['verifier'].get(k) for k in 'ABC') if p is not None]
+    return min(ps) if ps else None
+
+
+def reading_claim(r):
+    """A 1.1.1 claim that rests on the model's reading of the picture: no pattern or list decides it."""
+    return r['criterion'] == '1.1.1' and r['claim'] in ('wrong_content', 'functional-link', 'functional-button', 'missing_information')
+
+
 INTERVENTIONS = [
     ('T0 today\'s main (15b1149) verification on the recorded answers: 1.1.1 claims it now discards', lambda r: r['criterion'] == '1.1.1' and r['todayFate'] == 'discarded'),
     ('I1 collector: a page rendered without its stylesheet (ufpe.br) reports no judgment finding; proxy here: a link in a list of >100 links', in_giant_list),
@@ -388,9 +398,23 @@ def main():
         ('S5 = S3 + V-2of3 (second pass on what is left)', lambda r: (r['criterion'] == '1.1.1' and r['todayFate'] == 'discarded') or in_giant_list(r) or alt_names_language(r) or alt_in_nearby_text(r) or logo_to_home(r) or url_in_sentence(r) or r['criterion'] in ('2.4.6', '2.4.2', '3.3.2') or (lambda v: v is not None and v[0] < 2)(verifier_votes(r))),
         ('S6 = S3 + V-3of3', lambda r: (r['criterion'] == '1.1.1' and r['todayFate'] == 'discarded') or in_giant_list(r) or alt_names_language(r) or alt_in_nearby_text(r) or logo_to_home(r) or url_in_sentence(r) or r['criterion'] in ('2.4.6', '2.4.2', '3.3.2') or (lambda v: v is not None and v[0] < v[1])(verifier_votes(r))),
         ('S7 = S4 + V-2of3', lambda r: (r['criterion'] == '1.1.1' and r['todayFate'] == 'discarded') or in_giant_list(r) or alt_names_language(r) or alt_in_nearby_text(r) or logo_to_home(r) or url_in_sentence(r) or r['criterion'] in ('2.4.6', '2.4.2', '3.3.2') or is_wrong_content(r) or (lambda v: v is not None and v[0] < 2)(verifier_votes(r))),
+        ('S8 = S3 + V-3of3 on the 1.1.1 claims that rest on the model\'s reading only (wrong_content, functional)', lambda r: (r['criterion'] == '1.1.1' and r['todayFate'] == 'discarded') or in_giant_list(r) or alt_names_language(r) or alt_in_nearby_text(r) or logo_to_home(r) or url_in_sentence(r) or r['criterion'] in ('2.4.6', '2.4.2', '3.3.2') or (reading_claim(r) and (lambda v: v is not None and v[0] < v[1])(verifier_votes(r)))),
+        ('S9 = S8 with min P(fail) over the framings ≥ 0.9 instead of three votes', lambda r: (r['criterion'] == '1.1.1' and r['todayFate'] == 'discarded') or in_giant_list(r) or alt_names_language(r) or alt_in_nearby_text(r) or logo_to_home(r) or url_in_sentence(r) or r['criterion'] in ('2.4.6', '2.4.2', '3.3.2') or (reading_claim(r) and (lambda m: m is not None and m < 0.9)(min_pfail(r)))),
     ]
     for title, predicate in stacks:
         report(title, base, predicate)
+
+    print('\n## Precision against coverage: 1.1.1 reading claims (wrong_content, functional) left after the facts of S3, by the verifier\'s min P(fail) over the three framings\n')
+    left = [r for r in base if reading_claim(r) and not ((r['criterion'] == '1.1.1' and r['todayFate'] == 'discarded') or alt_names_language(r) or alt_in_nearby_text(r) or logo_to_home(r)) and r['final'] != 'uncertain']
+    print(f'{len(left)} decided findings: {sum(1 for r in left if r["final"] == "true_positive")} TP, {sum(1 for r in left if r["final"] == "false_positive")} FP.\n')
+    print('| threshold on min P(fail) | kept TP | kept FP | precision of what is kept | share of TP kept |')
+    print('| --- | ---: | ---: | --- | ---: |')
+    tp_all = sum(1 for r in left if r['final'] == 'true_positive')
+    for threshold in (0.0, 0.5, 0.7, 0.9, 0.95, 0.99):
+        kept = [r for r in left if (min_pfail(r) or 0) >= threshold]
+        tp = sum(1 for r in kept if r['final'] == 'true_positive')
+        fp = sum(1 for r in kept if r['final'] == 'false_positive')
+        print(f'| {threshold} | {tp} | {fp} | {fmt(tp, tp + fp)} | {tp / tp_all if tp_all else 0:.0%} |')
 
     print('\n## Per criterion and claim, today (base), for the report-or-suggest decision\n')
     print('| criterion · claim | TP | FP | unc | precision | s2-after | s3 |')
