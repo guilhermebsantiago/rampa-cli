@@ -190,7 +190,28 @@ What was implemented on `probe/precision` after section 6, and the rules it fixe
 
 What round 4 measures, pre-registered: precision at the default threshold per split and per criterion with the stack on, and with `--no-confirm` on the same snapshots (the ablation); the share of 1.1.1 reading claims the second pass confirms, denies or cannot ask; the capture state of every page (`reach.stylesheets`, `reach.overlay`); and a labelled sample of the suggestions, so what moved to review is costed in recall.
 
-## 9. Data and reproduction
+## 9. The implementation, measured (2026-10-24, in-sample)
+
+The rules of section 8 were implemented on `probe/precision` and run on the recorded snapshots of studies 2 and 3 with the studies' flags and a copy of each page's judgment cache (`run-impl.sh`): on study 3, every default criterion, with the 2.4.4, 2.4.6, 1.3.5, 2.4.2, 3.1.x and 3.3.2 answers read back and the 1.1.1 version-5 answers of section 2.3 read back too, so the only new calls are the second pass's; on study 2, every criterion but 2.4.4 and 2.4.6, whose prompts changed version since its run and whose answers were not kept (their default-threshold findings are the re-judged run's, with the two rules that touch them applied: a raw address in a sentence and a shared label become suggestions). Findings are matched to the labels by page, criterion and element at the default threshold (`compare-impl.py`, `data/compare-impl.md`). **Every number is in-sample: the pages were read to choose these rules.**
+
+| Study | Split | Before (TP / FP) | After (TP / FP / uncertain) | True positives lost |
+| --- | --- | --- | --- | --- |
+| 3 | dev | 16 / 21: 0.43 (0.29–0.59) | 15 / 3 / 1: **0.83 (0.61–0.94)** | 1 ("Botão Rybená LIBRAS": every framing of the second pass passes it) |
+| 3 | test | 24 / 75: 0.24 (0.17–0.34) | 24 / 57 / 2: **0.30 (0.21–0.40)** | 0 |
+| 3 | test without ufpe.br | 24 / 25 | 24 / 7: 0.77 (0.59–0.89) | 0 |
+| 2 | dev | 20 / 21: 0.49 (0.34–0.64) | 19 / 0 / 2: **1.00 (0.83–1.00)** | 1 (unicamp.br's reused caption: the claim framing at 0.30) |
+| 2 | test | 12 / 20: 0.38 (0.23–0.55) | 10 / 3 / 0: **0.77 (0.50–0.92)** | 2 (thomann.co.uk's "Days Money-Back" and "Years warranty", which today's `main` already drops) |
+| both | all | 72 / 137: 0.34 (0.28–0.41) | 68 / 63: **0.52 (0.43–0.60)** | 4 of 72 |
+| both | all, without ufpe.br | 72 / 87: 0.45 | 68 / 13: **0.84 (0.74–0.91)** | 4 of 72 |
+
+- **The 50 ufpe.br findings stay on the recorded snapshot.** The guard for an unstyled page works at capture time (stylesheet requests that failed, `link.sheet`), and the third study's recording holds no such fact, so a replay cannot apply it; the page loads styled today. The local regression test is what shows the guard working; round 4 is where it would show on a real capture, if one happens.
+- **The second pass** confirmed 23 and denied 23 of study 3's 46 reading claims, and 9 and 9 of study 2's 18; none was left unasked. On study 3's dev half the 1.1.1 findings went from 7 / 20 to 6 / 4; on its test half from 18 / 18 to 18 / 8; on study 2 from 7 / 19 (dev) and 8 / 12 (test) to 6 / 0 and 8 / 4.
+- **What is left on study 3's test half besides ufpe.br:** 7 false positives, five of them 1.1.1 `wrong_content` claims every framing confirms with P(fail) above 0.95 ("Imagem de alunos no Campus da PUC-Rio" on study 3's dev half is their kind: an accurate alternative the model and its second pass both call wrong) and two `ambiguous` link sets.
+- **Compared with the simulation** (section 3, S8: 0.83 pooled, 4 TP lost), the implementation loses the same four true positives and reaches 0.84 on the findings the recordings can replay, with the ufpe.br block the difference between 0.52 and 0.84 pooled.
+
+**On the W3C ACT test cases** (`run-evals.sh`, `data/evals/`, Gemma 4 12B, 2026-10-24): 1.1.1 with the second pass and with `--no-confirm` on the same judgments give the same numbers, 23a2a8, qt1vmo and e88epe at precision and recall 1.00 and both pairs told apart; the pass confirmed every failed example it was asked about (9 calls). The demo's recorded evaluation of 2.4.2, 2.4.4, 2.4.6, 3.1.1 and 3.1.2 (`demo/recorded/eval/ollama-gemma4-12b`, recorded again, 152 new calls) gives every set and pair the numbers of the 2026-10-23 recording but one: cc0f0a's recall goes from 0.17 (1 of 6) to 0.00, because the shared-label fact no longer grounds a finding (Failed Example 4 is a suggestion now), and the suggestions go from 25 to 30. 5effbb stays at 0.83 / 1.00, fd3a94 at 0.88 / 0.78, the 2.4.4 pairs at 20 of 21.
+
+## 10. Data and reproduction
 
 All paths are under `study/notes-precision-probe/`. Run from the repository root after `pnpm install --frozen-lockfile` and `pnpm build`, with the second and third studies' recordings and caches copied into `study/fresh-2026-10-11/pages/<slug>/` and `study/round-3-2026-10-23/pages/<slug>/` (checked against each study's `data/recordings.json`).
 
@@ -200,5 +221,6 @@ All paths are under `study/notes-precision-probe/`. Run from the repository root
 - `node study/notes-precision-probe/verifier.ts s3|s2` asks the three one-word framings of every labelled 1.1.1, 2.4.4 and 2.4.6 finding through Ollama's native API and writes `data/verifier-s3.json` and `data/verifier-s2.json` (resumable).
 - `python -I study/notes-precision-probe/simulate.py [--verbose]` writes the tables of sections 3 and 4 (`data/simulate.md`, `data/simulate-verbose.md` with every finding and what each intervention does to it); `python -I study/notes-precision-probe/policy.py` writes `data/policy.md`.
 - `node study/notes-precision-probe/kcl-repro-5360.mjs [issue|cancel|read] [status]`, `node study/notes-precision-probe/kcl-repro-sizes.mjs [KiB] [pieces] [delayMs] [issue|cancel]` and `node study/notes-precision-probe/ufpe-stylesheets.mjs` are the local reproductions and the one ufpe.br load of sections 2.2 and 7.
+- `bash study/notes-precision-probe/run-impl.sh [s3|s2]` runs the implementation on the recorded snapshots (`data/impl/`, the log in `data/impl/run-log.txt`); `python -I study/notes-precision-probe/compare-impl.py` writes `data/compare-impl.md` (section 9). `bash study/notes-precision-probe/run-evals.sh` runs the three ACT evaluations into `data/evals/`.
 - The prototype of items 2 and 5 is in `src/criteria/non-text-content.ts` (`grounded`), `link-purpose.ts` (`groundedLink`), `headings-and-labels.ts` (`saysNothing`) and `labels-or-instructions.ts` (`collapsed`, `search`, `grounded`), committed on `probe/precision`; `pnpm exec vitest run --dir test test/non-text-content.test.ts test/link-purpose-facts.test.ts test/link-purpose.test.ts test/headings-in-context.test.ts test/labels-or-instructions.test.ts test/demo-replay.test.ts` passes.
 - Kept out of git: the recordings, caches and screenshots (as in the studies), the build copy in `.rampa/dist-main-15b1149/` and the crashed live load in `.rampa/kcl-live/`.
