@@ -117,6 +117,11 @@ const messages = {
     reachTruncated: 'The collector stopped reading shadow roots and frames at its limit of elements: what follows in them is not in the snapshot, so only axe-core checked it.',
     reachLoadTimedOut: "The page's load event had not fired after {ms} ms (--timeout), often because an ad or a widget keeps loading: Rampa read the page as it was then, so what was still loading may be missing.",
     reachMasked: "{count} element(s) had their DOM properties masked by a page script, so that reading them gives nothing (bot checks hide their frames so from automated browsers): they and what they hold are not in the snapshot, so Rampa's rules and the judged criteria did not read them.",
+    reachStylesheets: "{failed} of the page's {linked} stylesheet(s) had not applied when it was read ({list}): the page was read with the styles it had, which may differ from what people see.",
+    reachUnstyled:
+      "The page was read without its own stylesheets, even after one more load ({failed} of {linked} did not apply: {list}): what the browser showed is not what people see (hidden menus and lists become visible, layouts collapse), so every judgment that rests on what is visible is listed as a suggestion, and contrast and label visibility were not measured from pixels. Load the page again later, or check that its stylesheets can be reached from this machine.",
+    reachOverlay: 'A layer lay over the viewport when the page was read ({selector}, on top at {coverage} of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page\'s own.',
+    unstyledSuggestion: 'The page was read without its stylesheets, so what is visible around this element may not be what people see: the claim stays a suggestion.',
     settledBelow: "Rampa's {rule} measured it, below the confidence threshold: {message}",
     settledPassBelow: "Rampa's {rule} measured it and found no failure, below the confidence threshold.",
     documentSvg:
@@ -355,6 +360,11 @@ const messages = {
     reachTruncated: 'O coletor parou de ler shadow roots e frames no seu limite de elementos: o que vem depois neles não está no snapshot, então só o axe-core o verificou.',
     reachLoadTimedOut: 'O evento load da página não tinha disparado após {ms} ms (--timeout), muitas vezes porque um anúncio ou um widget continua carregando: o Rampa leu a página como ela estava então, então o que ainda carregava pode faltar.',
     reachMasked: '{count} elemento(s) tiveram as propriedades do DOM mascaradas por um script da página, de modo que lê-las não dá nada (verificações anti-robô escondem seus frames assim de navegadores automatizados): eles e o que contêm não estão no snapshot, então as regras do Rampa e os critérios julgados não os leram.',
+    reachStylesheets: '{failed} das {linked} folha(s) de estilo da página não tinham sido aplicadas quando ela foi lida ({list}): a página foi lida com os estilos que tinha, que podem diferir do que as pessoas veem.',
+    reachUnstyled:
+      'A página foi lida sem as próprias folhas de estilo, mesmo depois de mais um carregamento ({failed} de {linked} não se aplicaram: {list}): o que o navegador mostrou não é o que as pessoas veem (menus e listas escondidos aparecem, o layout desmorona), então todo julgamento que depende do que está visível fica listado como sugestão, e contraste e visibilidade de rótulos não foram medidos a partir de pixels. Carregue a página de novo mais tarde, ou confira se as folhas de estilo dela são alcançáveis desta máquina.',
+    reachOverlay: 'Uma camada cobria a área visível quando a página foi lida ({selector}, por cima em {coverage} dos pontos amostrados: um fundo de aviso de cookies, um diálogo): ela foi escondida enquanto imagens, rótulos e contraste eram capturados, então os pixels medidos são os da própria página.',
+    unstyledSuggestion: 'A página foi lida sem as folhas de estilo, então o que está visível ao redor deste elemento pode não ser o que as pessoas veem: a alegação fica como sugestão.',
     settledBelow: 'O {rule} do Rampa o mediu, abaixo do limiar de confiança: {message}',
     settledPassBelow: 'O {rule} do Rampa o mediu e não achou falha, abaixo do limiar de confiança.',
     documentSvg:

@@ -22,13 +22,16 @@ export function unreached(reach: Reach | undefined): Reach | undefined {
     (frame) => !BY_DESIGN.has(frame.reason ?? '') && (!frame.collected || (frame.engine === false && !BY_DESIGN.has(frame.engineReason ?? ''))),
   )
   const closed = reach.shadowRoots?.closed ?? 0
-  if (frames.length === 0 && closed === 0 && !reach.truncated && !reach.masked && reach.loadTimedOutMs === undefined) return undefined
+  const sheets = reach.stylesheets && (reach.stylesheets.failed.length > 0 || reach.stylesheets.unstyled) ? reach.stylesheets : undefined
+  if (frames.length === 0 && closed === 0 && !reach.truncated && !reach.masked && reach.loadTimedOutMs === undefined && !sheets && !reach.overlay) return undefined
   return {
     ...(frames.length > 0 ? { frames } : {}),
     ...(closed > 0 && reach.shadowRoots ? { shadowRoots: reach.shadowRoots } : {}),
     ...(reach.truncated ? { truncated: true } : {}),
     ...(reach.masked ? { masked: reach.masked } : {}),
     ...(reach.loadTimedOutMs !== undefined ? { loadTimedOutMs: reach.loadTimedOutMs } : {}),
+    ...(sheets ? { stylesheets: sheets } : {}),
+    ...(reach.overlay ? { overlay: reach.overlay } : {}),
   }
 }
 
@@ -48,8 +51,17 @@ export function reachNotes(reach: Reach | undefined, locale: Locale): string[] {
   const gaps = unreached(reach)
   if (!gaps) return []
   const notes: string[] = []
-  // A page read before its load event fired frames everything else: said first.
+  // A page read without its stylesheets frames everything else: said first, then a load that timed out.
+  if (gaps.stylesheets) {
+    const sheets = gaps.stylesheets
+    const list = sheets.failed
+      .slice(0, MAX_LISTED)
+      .map((sheet) => `${sheet.href} (${sheet.reason})`)
+      .join(', ')
+    notes.push(t(locale, sheets.unstyled ? 'reachUnstyled' : 'reachStylesheets', { failed: sheets.failed.length, linked: sheets.linked, list: list || '?' }))
+  }
   if (gaps.loadTimedOutMs !== undefined) notes.push(t(locale, 'reachLoadTimedOut', { ms: gaps.loadTimedOutMs }))
+  if (gaps.overlay) notes.push(t(locale, 'reachOverlay', { selector: gaps.overlay.selector, coverage: `${Math.round(gaps.overlay.coverage * 100)}%` }))
   const frames = gaps.frames ?? []
   // axe-core may run in a frame that has not loaded, on its blank document: that checks nothing.
   const engineOnly = frames.filter((frame) => !frame.collected && frame.engine === true && frame.reason !== 'not-loaded')

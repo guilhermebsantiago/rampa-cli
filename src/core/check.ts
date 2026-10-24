@@ -306,6 +306,22 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
           }
           const output = judgment.representative
           if (!output) continue
+          // A page read without its stylesheets (reach.stylesheets.unstyled): what is visible around an element, and what
+          // is hidden, is not what people see, so a fail that rests on it is the model's suggestion.
+          if (judgment.status === 'failed' && options.verify !== false && snapshot.reach?.stylesheets?.unstyled) {
+            summary.suggested = (summary.suggested ?? 0) + 1
+            const suggested = criterion.patch?.(output, judgment.candidate, view)?.to
+            suggestions.push({
+              criterion: criterion.id,
+              level: criterion.level,
+              ruleId: `judgment/${criterion.id}`,
+              ref: judgment.candidate.ref,
+              message: criterion.message(output, judgment.candidate, options.locale),
+              evidence: [suggested ? t(options.locale, 'suggestedText', { text: suggested }) : undefined, t(options.locale, 'unstyledSuggestion')].filter(Boolean).join(' · '),
+              model: options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId,
+            })
+            continue
+          }
           // A fail that rests on the model's reading alone is its suggestion, not a finding (the ablation keeps it as one).
           if (judgment.status === 'failed' && options.verify !== false && criterion.grounded && !criterion.grounded(output, judgment.candidate, view)) {
             summary.suggested = (summary.suggested ?? 0) + 1

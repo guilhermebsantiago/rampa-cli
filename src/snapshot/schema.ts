@@ -225,6 +225,28 @@ export const ReachSchema = z.object({
    * bot check hides its frame so): left out of the tree with what they hold.
    */
   masked: z.number().optional(),
+  /**
+   * Stylesheets the page links that had not applied when it was read: a request that failed or was refused, a sheet
+   * with no rules. `unstyled` when none of them, or none of the page's own, applied even after one more load: the page
+   * was read as the browser showed it without them, which is not what people see (www.ufpe.br in the third real-page
+   * study), so judgments that rest on what is visible are suggestions and nothing is measured from pixels.
+   */
+  stylesheets: z
+    .object({
+      linked: z.number(),
+      applied: z.number(),
+      failed: z.array(z.object({ href: z.string(), reason: z.string() })),
+      unstyled: z.boolean().optional(),
+      /** The page was loaded once more because its stylesheets had not applied. */
+      retried: z.boolean().optional(),
+    })
+    .optional(),
+  /**
+   * A layer that lay over most of the viewport when the page was read, at `coverage` of the points sampled: a consent
+   * banner's backdrop, a welcome dialog (www.ed.ac.uk's consent backdrop dimmed every pixel the contrast rules
+   * measured). Hidden while images, labels and contrast were captured.
+   */
+  overlay: z.object({ ref: z.string().optional(), selector: z.string(), coverage: z.number(), hidden: z.boolean() }).optional(),
 })
 export type Reach = z.infer<typeof ReachSchema>
 
