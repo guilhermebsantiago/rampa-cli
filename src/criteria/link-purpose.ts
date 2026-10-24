@@ -433,7 +433,9 @@ export type LinkFacts = Pick<LinkPurposeContext, 'name' | 'sameText' | 'context'
  */
 export function groundedLink(problem: (typeof LINK_PROBLEMS)[number], c: LinkFacts): boolean {
   if (problem === 'generic') return (genericLinkText(c.name) && !c.context && !c.headers && !c.description) || kindOnlyUncompleted(c)
-  if (problem === 'url_or_filename') return addressText(c.name)
+  // A raw address with a sentence of its own ("…conforme orientações previstas na página www.cnj.jus.br/comopeticionar.")
+  // has a programmatically determined context that can say where it leads (G53): whether it does is the model's reading.
+  if (problem === 'url_or_filename') return addressText(c.name) && !c.context && !c.description
   if (problem === 'ambiguous') return Boolean(c.sameText && c.sameText.places > 1 && !c.sameText.apart)
   if (problem === 'mismatch') return namesNoPartOf(c)
   return false

@@ -561,6 +561,17 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
   subject: (candidate) => (candidate.context.hidden ? `hidden ${candidate.context.src ?? candidate.context.hidden.drawnAs}` : candidate.context.alt),
   // New: a fail about a hidden image stays below the default threshold until it passes the evaluation gate.
   confidenceCap: (candidate) => (candidate.context.hidden ? 'low' : undefined),
+  // A finding needs something Rampa can check. "Describes something the image does not show" on an ordinary image rests
+  // on the model's reading of the picture alone: on the real-page studies' pages it was right 7 times in 59 (0.12) once
+  // the facts above had dropped what they refute (study/notes-precision-probe). It is the model's suggestion, in the
+  // report's items to review. A placeholder, a generic word, a functional image (judged by its control's purpose), a
+  // "leaves out" or "decorative" claim, and the hidden-image question keep their findings.
+  grounded: (output, candidate) => {
+    const c = candidate.context
+    if (c.hidden || c.functional) return true
+    const problem = (output as NonTextContentJudgment).problem
+    return problem !== 'wrong_content' || looksLikePlaceholder(c.alt, c.src) || isGenericAlt(c.alt)
+  },
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<NonTextContentContext>[] {
     const index = indexTree(snapshot.root)
