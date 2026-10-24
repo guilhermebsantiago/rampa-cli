@@ -119,6 +119,8 @@ const noEngine: EngineResults = { engine: { name: 'axe-core', version: 'test' },
 
 async function judged(snapshot: A11ySnapshot, engine: EngineResults, variant: 0 | 1) {
   return checkSnapshot(snapshot, engine, {
+    // What is tested is the fingerprint of a verified claim: the second pass over 1.1.1 is off here (its tests are confirm.test.ts).
+    confirm: false,
     criteria: [...CRITERIA.values()],
     llm: true,
     provider: wordedProvider(variant),

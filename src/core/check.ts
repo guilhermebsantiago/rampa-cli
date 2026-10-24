@@ -218,7 +218,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       deadline: options.deadline,
       batch: options.batch,
     })
-    watch?.criterion(criterionTiming(criterion.id, started, prepareMs, candidates.length, judgments))
+    // The second pass's calls over this criterion's claims, counted in its timing with the judgments'.
+    const passUsage = { calls: 0, cachedCalls: 0 }
     const inBatches = judgments.filter((judgment) => judgment.samples.some((sample) => sample.batch))
     if (inBatches.length > 0) {
       const calls = inBatches.reduce((sum, judgment) => sum + judgment.samples.filter((sample) => sample.batch && !sample.batch.shared).length, 0)
@@ -345,6 +346,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
           if (framings && framings.length > 0) {
             confirmation = await confirmClaim(criterion, framings, { provider: options.provider, cache: options.cache, offline: options.offline, signal, deadline: options.deadline })
             for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) usage[key] += confirmation.usage[key]
+            passUsage.calls += confirmation.usage.calls
+            passUsage.cachedCalls += confirmation.usage.cachedCalls
             if (confirmation.outcome === 'offline-miss') summary.offlineMisses++
             if (confirmation.outcome === 'error' && confirmation.error && !errors.includes(confirmation.error)) errors.push(confirmation.error)
             if (confirmation.outcome !== 'confirmed') {
@@ -421,6 +424,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
         }
       }
     }
+    // The criterion's time and calls, the second pass's included: it is asked within the criterion's run.
+    const timing = criterionTiming(criterion.id, started, prepareMs, candidates.length, judgments)
+    watch?.criterion({ ...timing, calls: timing.calls + passUsage.calls, cachedCalls: timing.cachedCalls + passUsage.cachedCalls })
   }
 
   for (const decision of clearing) {

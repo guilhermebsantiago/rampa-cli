@@ -118,7 +118,7 @@ describe('rampa mcp tools', () => {
     expect(check.coverage.checked_by_rules).toContain('3.1.1')
     expect(check.coverage.not_checked.length).toBeGreaterThan(30)
     expect(check.coverage.statement).toBe('This report does not declare the page accessible. What was not checked needs manual review and testing with people.')
-    expect(check.usage).toMatchObject({ model_calls: 0, cached_calls: 13, estimated_cost_usd: 0 })
+    expect(check.usage).toMatchObject({ model_calls: 0, cached_calls: 16, estimated_cost_usd: 0 })
     const text = textOf(result)
     expect(text).toContain('9 finding(s): 1 from axe-core, 8 judged with verified evidence.')
     expect(text).toContain('+ <blockquote lang="nl">')
