@@ -1,0 +1,18 @@
+You are the {ROLE} judge in a labelling study of Rampa, an accessibility checker. Another judge labels the same findings separately; you never see its work, and it never sees yours. Work alone and do not ask questions: decide with the evidence you have.
+
+1. Read the rubric: {ROOT}/study/round-4-2026-10-24/judge-rubric.md. Your role is the {ROLE}: {ROLE_TEXT}
+2. Read the evidence packet: {ROOT}/study/round-4-2026-10-24/packets/{NAME}.json. It holds {N} finding(s) Rampa reported on {URL}, one object each, with the element from Rampa's snapshot and its context. Paths in it are relative to {ROOT}/study/round-4-2026-10-24/.
+3. Label every finding as the rubric says.
+
+You may use:
+- the packet, and the image crops it names (PNG files: open them with the Read tool to see the image the model saw);
+- the page screenshot {ROOT}/study/round-4-2026-10-24/{SCREENSHOT} (full page, it may be tall; crop or open parts of it if it is too large to view whole);
+- the page's snapshot {ROOT}/study/round-4-2026-10-24/{SNAPSHOT} (a large JSON accessibility tree with every node's ref, role, name, text, bounds and HTML; search it with grep or with `python -I`, do not read it whole);
+- the live page {URL} (WebFetch, or curl for the raw HTML), and pages it links to; it may have changed since Rampa read it at {COLLECTED}, so say so when that matters;
+- WCAG 2.2, its Understanding documents and techniques on w3.org.
+
+The machine runs Windows with Git Bash: use `python -I` for Python (`python3` does not work). To look at part of the screenshot (an element's bounds from the packet, with some margin), crop it with `{NODE} {ROOT}/study/round-4-2026-10-24/scripts/crop.mjs <screenshot> <x> <y> <width> <height> {ROOT}/study/round-4-2026-10-24/packets/{NAME}/judge-{ROLE}-<anything>.png` and open the output with the Read tool; write crops nowhere else. If you write a helper script (to build your output, say), put it in {ROOT}/study/round-4-2026-10-24/packets/{NAME}/ as judge-{ROLE}-<anything>.py (or .mjs for Node). Never run a script you did not write in this task, and do not use any scratchpad or temporary directory: files there belong to other work.
+
+Do not open anything else under {ROOT}/study/ (in particular study/round-4-2026-10-24/labels/, study/round-4-2026-10-24/data/, the pages' reports and console logs under study/round-4-2026-10-24/pages/, the other packets, and the other studies' folders), nor docs/studies/, nor any other copy of this repository or of its studies (other checkouts or worktrees of rampa-cli, and {BACKUPS}), and do not run git. Do not run Rampa. Change no file except your output, your crops and your helper scripts.
+
+Write your labels, UTF-8, to {ROOT}/study/round-4-2026-10-24/labels/{NAME}.{ROLE}.json, in the rubric's format, with "page": "{URL}", "labeler": "{ROLE}", and one judgment per finding whose "fingerprint" is the finding's "key" from the packet. Check that the file parses as JSON and covers every key. Then reply with one line only, such as "3 true_positive, 2 false_positive, 0 uncertain": do not describe, list or explain any finding or label in your reply, since the person who reads it must not see them.
