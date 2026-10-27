@@ -1,3 +1,4 @@
+import type { GroupOf } from '../core/groups.ts'
 import type { Finding, Report } from '../core/types.ts'
 import { type Locale, type MessageKey, t } from '../i18n.ts'
 import { VERSION } from '../version.ts'
@@ -12,7 +13,10 @@ import {
   escapeHtml as e,
   findingPlace,
   diffLines,
+  groupWhy,
+  groupsClause,
   levelBreakdown,
+  memberAbout,
   methodsText,
   pageLabel,
   parsingNote,
@@ -20,8 +24,9 @@ import {
   plural,
   reviewGroups,
   statusText,
+  type ShownEntry,
   safeUrl,
-  shownFindings,
+  shownEntries,
   sourceLabel,
   thresholdLevel,
   toolsLine,
@@ -53,7 +58,9 @@ export function renderHtml(reports: readonly Report[], options: HtmlOptions = {}
     reports.length === 0
       ? t(locale, 'noPages')
       : confirmed.length > 0
-        ? `${plural(locale, 'confirmedCount', confirmed.length)} ${plural(locale, 'onPages', reports.length, { version })}: ${levelBreakdown(countLevels(confirmed), locale, version)}.`
+        ? [`${plural(locale, 'confirmedCount', confirmed.length)} ${plural(locale, 'onPages', reports.length, { version })}: ${levelBreakdown(countLevels(confirmed), locale, version)}.`, groupsClause(reports, locale)]
+            .filter(Boolean)
+            .join(' ')
         : plural(locale, 'noFindingsPages', reports.length)
 
   const parts: string[] = []
@@ -118,7 +125,6 @@ ${rows.join('\n')}
 function pageSection(report: Report, index: number, several: boolean, verbose: boolean): string {
   const locale = report.locale
   const id = `page-${index + 1}`
-  const findings = shownFindings(report, verbose)
   const out: string[] = []
   out.push(`<section class="page" aria-labelledby="${id}">`)
   out.push(several ? `<h2 id="${id}">${e(pageLabel(report))}</h2>` : `<h2 id="${id}">${e(t(locale, 'findingsOn', { page: pageLabel(report) }))}</h2>`)
@@ -139,18 +145,19 @@ function pageSection(report: Report, index: number, several: boolean, verbose: b
   if (usage) notes.push(usage)
   if (notes.length > 0) out.push(`<ul class="notes">${notes.map((note) => `<li>${e(note)}</li>`).join('')}</ul>`)
 
-  const byCriterion = new Map<string, Finding[]>()
-  for (const finding of findings) byCriterion.set(finding.criterion, [...(byCriterion.get(finding.criterion) ?? []), finding])
+  // A burst of near-identical findings is one item: the group, an example and its elements, folded (core/groups.ts).
+  const byCriterion = new Map<string, ShownEntry[]>()
+  for (const entry of shownEntries(report, verbose)) byCriterion.set(entry.finding.criterion, [...(byCriterion.get(entry.finding.criterion) ?? []), entry])
   for (const criterion of [...byCriterion.keys()].sort(compareCriteria)) {
-    const group = byCriterion.get(criterion) ?? []
-    const first = group[0]
+    const entries = byCriterion.get(criterion) ?? []
+    const first = entries[0]?.finding
     if (!first) continue
     const name = criterionName(criterion, locale)
     const url = understandingUrl(criterion)
     out.push('<div class="criterion">')
     out.push(`<h3>${e(name ? `${criterionTag(first)} — ${name}` : criterionTag(first))}</h3>`)
     if (url && name) out.push(`<p class="understanding"><a href="${e(url)}">${e(t(locale, 'understanding', { id: criterion, name }))}</a></p>`)
-    out.push(`<ol class="findings">${group.map((finding) => findingItem(finding, report)).join('\n')}</ol>`)
+    out.push(`<ol class="findings">${entries.map((entry) => (entry.group ? groupItem(entry.group, report) : findingItem(entry.finding, report))).join('\n')}</ol>`)
     out.push('</div>')
   }
 
@@ -170,8 +177,40 @@ function pageSection(report: Report, index: number, several: boolean, verbose: b
 }
 
 function findingItem(finding: Finding, report: Report): string {
+  return ['<li class="finding">', ...findingBody(finding, report), '</li>'].join('')
+}
+
+/**
+ * A group of near-identical findings as one item: the count, why they are together and that each is a finding, one
+ * example as a finding item shows it, and every element with its id in a <details>.
+ */
+function groupItem(entry: GroupOf, report: Report): string {
   const locale = report.locale
-  const out: string[] = ['<li class="finding">']
+  const { group, members } = entry
+  const [example] = members
+  if (!example) return ''
+  const elements = members
+    .map((member) => {
+      const about = memberAbout(member)
+      return `<li><code>${e(findingPlace(member))}</code>${about ? ` <q>${e(about)}</q>` : ''} · id <code>${e(member.fingerprint)}</code></li>`
+    })
+    .join('')
+  return [
+    '<li class="finding group">',
+    `<p class="group-title"><strong>${e(t(locale, 'groupTitle', { count: group.count }))}</strong></p>`,
+    `<p>${e(groupWhy(group, locale))}</p>`,
+    `<div class="example"><p class="example-title">${e(t(locale, 'groupExample'))}</p>`,
+    ...findingBody(example, report),
+    '</div>',
+    `<details><summary>${e(plural(locale, 'reviewElements', members.length))} · ${e(t(locale, 'groupLabel'))} <code>${e(group.id)}</code></summary><ul class="members">${elements}</ul></details>`,
+    '</li>',
+  ].join('')
+}
+
+/** What an item says of a finding: its element, message, evidence, patch or markup, and a line of facts with its id. */
+function findingBody(finding: Finding, report: Report): string[] {
+  const locale = report.locale
+  const out: string[] = []
   const place = findingPlace(finding)
   const selector = finding.ref ?? finding.target
   const where = [`<code>${e(place)}</code>`]
@@ -205,8 +244,7 @@ function findingItem(finding: Finding, report: Report): string {
   if (!report.findings.includes(finding)) meta.push(e(t(locale, 'belowThresholdShort', { level: thresholdLevel(report) })))
   meta.push(`id <code>${e(finding.fingerprint)}</code>`)
   out.push(`<p class="meta">${meta.join(' · ')}</p>`)
-  out.push('</li>')
-  return out.join('')
+  return out
 }
 
 /** What the engine could not decide, by criterion and rule, with the elements folded. */
@@ -335,6 +373,11 @@ h3{margin:2rem 0 .5rem;font-size:1.15rem}
 .findings{list-style:none;margin:0;padding:0}
 .finding{margin:0 0 1rem;padding:1rem;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
 .finding p{margin:.35rem 0}
+.group-title{font-size:1.05rem}
+.example{margin:.5rem 0;padding-left:.75rem;border-left:3px solid var(--border)}
+.example-title{font-weight:600}
+.members{margin:.5rem 0 0;padding-left:1.25rem}
+.members li{margin:.2rem 0}
 .advisory{border-style:dashed}
 .where code{font-weight:600}
 .where .selector{font-weight:400;color:var(--muted)}

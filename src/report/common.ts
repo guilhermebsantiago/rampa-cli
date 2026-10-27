@@ -1,6 +1,7 @@
 import { reviewOnlyCriteria } from '../core/coverage.ts'
 import { fastLine } from '../core/fast.ts'
-import type { CoverageMethod, CoverageStatus, CriterionCoverage, Finding, Report, ReviewItem } from '../core/types.ts'
+import { type GroupOf, reportGroups } from '../core/groups.ts'
+import type { CoverageMethod, CoverageStatus, CriterionCoverage, Finding, FindingGroup, Report, ReviewItem } from '../core/types.ts'
 import { type Locale, type MessageKey, t } from '../i18n.ts'
 import { reachNotes, truncationNote } from '../snapshot/reach.ts'
 import { type WcagVersion, compareCriteria, criteriaFor, successCriterion, versionOf } from '../wcag.ts'
@@ -87,6 +88,60 @@ export function sourceLabel(source: Exclude<Finding['source'], 'judgment'>, loca
 export function shownFindings(report: Report, verbose: boolean): Finding[] {
   const findings = verbose ? [...report.findings, ...report.belowThreshold] : [...report.findings]
   return findings.sort((a, b) => compareCriteria(a.criterion, b.criterion))
+}
+
+/** One entry of a list a report shows: a finding, or a group of near-identical findings shown once, by its example. */
+export interface ShownEntry {
+  /** The finding, or the group's example: its first member. */
+  finding: Finding
+  group?: GroupOf | undefined
+}
+
+/** The findings in their order, each group of near-identical ones as one entry where its first member stands. */
+export function entriesOf(findings: readonly Finding[], groups: readonly GroupOf[]): ShownEntry[] {
+  const groupOf = new Map<Finding, GroupOf>()
+  for (const group of groups) for (const member of group.members) groupOf.set(member, group)
+  const shown = new Set<GroupOf>()
+  const entries: ShownEntry[] = []
+  for (const finding of findings) {
+    const group = groupOf.get(finding)
+    if (!group) entries.push({ finding })
+    else if (!shown.has(group)) {
+      shown.add(group)
+      entries.push({ finding: group.members[0] ?? finding, group })
+    }
+  }
+  return entries
+}
+
+/** What a report shows (`shownFindings`) as entries: each group of near-identical findings once. */
+export function shownEntries(report: Report, verbose: boolean): ShownEntry[] {
+  const groups = reportGroups(report).filter((entry) => verbose || entry.group.list === 'findings')
+  return entriesOf(shownFindings(report, verbose), groups)
+}
+
+/**
+ * Why the findings of a group are shown together, and that each is still a finding: one sentence for every format. A
+ * site's view says `pages` for a group of findings repeated on several pages.
+ */
+export function groupWhy(group: Pick<FindingGroup, 'check' | 'claim' | 'count'>, locale: Locale, where: 'page' | 'pages' = 'page'): string {
+  const vars = { check: group.check, count: group.count, where: t(locale, where === 'page' ? 'groupOnPage' : 'groupOnPages'), ...(group.claim ? { claim: group.claim } : {}) }
+  return t(locale, group.claim ? 'groupWhy' : 'groupWhyNoClaim', vars)
+}
+
+/** What a group's list says of a member besides its place: what it is about (the link text, the alternative), else its evidence. */
+export function memberAbout(finding: Finding, max = 80): string | undefined {
+  const about = (finding.subject ?? finding.evidence)?.replace(/\s+/g, ' ').trim()
+  if (!about) return undefined
+  return about.length > max ? `${about.slice(0, max - 1)}…` : about
+}
+
+/** One sentence on the confirmed findings that sit in groups, for a summary line; undefined when none do. */
+export function groupsClause(reports: readonly Report[], locale: Locale): string | undefined {
+  const groups = reports.flatMap((report) => reportGroups(report).filter((entry) => entry.group.list === 'findings'))
+  if (groups.length === 0) return undefined
+  const count = groups.reduce((total, entry) => total + entry.group.count, 0)
+  return plural(locale, 'groupsClause', groups.length, { count, groups: groups.length })
 }
 
 export interface LevelCounts {
