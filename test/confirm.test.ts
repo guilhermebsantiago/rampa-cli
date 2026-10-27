@@ -76,7 +76,7 @@ function provider(words: Script | undefined, problem = 'wrong_content'): ModelPr
   return p
 }
 
-const CONFIRMS: Script = { rules: { word: 'fail', probabilities: { fail: 0.99, pass: 0.01 } }, claim: { word: 'yes', probabilities: { yes: 0.98, no: 0.02 } }, reversed: { word: 'no', probabilities: { no: 0.97, yes: 0.03 } } }
+const CONFIRMS: Script = { rules: { word: 'fail', probabilities: { fail: 0.999, pass: 0.001 } }, claim: { word: 'yes', probabilities: { yes: 0.998, no: 0.002 } }, reversed: { word: 'no', probabilities: { no: 0.995, yes: 0.005 } } }
 
 async function check(snapshot: A11ySnapshot, p: ModelProvider, options: { cache?: JudgmentCache; offline?: boolean; confirm?: boolean } = {}) {
   return checkSnapshot(snapshot, NO_ENGINE, {
@@ -120,7 +120,7 @@ describe('the second pass over a 1.1.1 claim that rests on the model\'s reading'
     const report = await check(page('Red car'), p)
     expect(p.wordCalls).toBe(3)
     expect(report.findings).toHaveLength(1)
-    expect(report.findings[0]?.confirmation).toEqual({ framings: 3, minProbability: 0.97 })
+    expect(report.findings[0]?.confirmation).toEqual({ framings: 3, minProbability: 0.995 })
     expect(report.needsReview ?? []).toHaveLength(0)
     expect(report.criteria[0]).toMatchObject({ failed: 1, confirmed: 1 })
   })
@@ -132,7 +132,7 @@ describe('the second pass over a 1.1.1 claim that rests on the model\'s reading'
     const item = report.needsReview?.[0]
     expect(item).toMatchObject({ criterion: '1.1.1', ruleId: 'judgment/1.1.1', model: 'test:confirm' })
     expect(item?.evidence).toContain('The model suggests: "Blue truck on a road"')
-    expect(item?.evidence).toContain('did not confirm it (rules: fail (0.99), claim: no (0.30), reversed: no (0.97))')
+    expect(item?.evidence).toContain('did not confirm it (rules: fail (1.00), claim: no (0.30), reversed: no (0.99))')
     expect(report.criteria[0]).toMatchObject({ failed: 0, suggested: 1, unconfirmed: 1 })
   })
 
@@ -164,7 +164,7 @@ describe('the second pass over a 1.1.1 claim that rests on the model\'s reading'
     const again = provider(CONFIRMS)
     const second = await check(page('Red car'), again, { cache })
     expect(again.wordCalls).toBe(0)
-    expect(second.findings[0]?.confirmation).toEqual({ framings: 3, minProbability: 0.97 })
+    expect(second.findings[0]?.confirmation).toEqual({ framings: 3, minProbability: 0.995 })
     // Offline with the judgment cached but not the second pass's answers.
     const judgmentsOnly = memoryCache()
     const stash: Array<[string, Parameters<JudgmentCache['set']>[1]]> = []
@@ -199,13 +199,14 @@ describe('the second pass over a 1.1.1 claim that rests on the model\'s reading'
 describe('the decision rule and the word reading', () => {
   it('confirms only when every framing confirms and the lowest probability reaches the threshold', () => {
     const all = [
-      { framing: 'rules', word: 'fail', fail: true, probability: 0.95, cached: false },
-      { framing: 'claim', word: 'yes', fail: true, probability: 0.91, cached: false },
-      { framing: 'reversed', word: 'no', fail: true, probability: 0.99, cached: false },
+      { framing: 'rules', word: 'fail', fail: true, probability: 0.995, cached: false },
+      { framing: 'claim', word: 'yes', fail: true, probability: 0.991, cached: false },
+      { framing: 'reversed', word: 'no', fail: true, probability: 0.999, cached: false },
     ]
-    expect(decide(all)).toEqual({ confirmed: true, minProbability: 0.91 })
+    expect(decide(all)).toEqual({ confirmed: true, minProbability: 0.991 })
     expect(decide([...all.slice(0, 2), { ...all[2]!, fail: false, word: 'yes' }]).confirmed).toBe(false)
-    expect(decide([...all.slice(0, 2), { ...all[2]!, probability: 0.89 }]).confirmed).toBe(false)
+    // 0.987, as two false 1.1.1 findings of the fourth real-page study confirmed: under the 0.99 cut.
+    expect(decide([...all.slice(0, 2), { ...all[2]!, probability: 0.987 }]).confirmed).toBe(false)
     expect(decide(all.map((a) => ({ ...a, probability: undefined })))).toEqual({ confirmed: true, minProbability: undefined })
     expect(decide([]).confirmed).toBe(false)
   })

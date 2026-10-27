@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { memoryCache } from '../src/core/cache.ts'
 import { checkSnapshot } from '../src/core/check.ts'
 import type { EngineResults } from '../src/core/types.ts'
-import { homePageHost, pageTitled, siteNameIn } from '../src/criteria/page-titled.ts'
+import { groundedTitle, homePageHost, pageTitled, siteNameIn } from '../src/criteria/page-titled.ts'
 import type { ModelProvider } from '../src/providers/types.ts'
 import type { A11ySnapshot } from '../src/snapshot/schema.ts'
 import { node } from './helpers.ts'
@@ -128,5 +128,17 @@ describe('2.4.2 on a home page titled with the site name (G88)', () => {
     expect(service.context.home).toBeUndefined()
     expect(pageTitled.decide?.(service, inner)).toBeUndefined()
     expect(pageTitled.prompt(service, inner).user).not.toContain('home page')
+  })
+})
+
+describe('2.4.2 claims that rest on a fact', () => {
+  it('makes a title fail a finding only for a generic title, an address or a file name, or the very title of another page of the site', () => {
+    expect(groundedTitle('generic', { title: 'Untitled document' })).toBe(true)
+    expect(groundedTitle('filename_or_url', { title: 'report_v2.pdf' })).toBe(true)
+    expect(groundedTitle('generic', { title: 'Contact | Museum', siblings: ['Visit | Museum', 'contact | museum'] })).toBe(true)
+    // The fourth real-page study's two false findings, and ACT c4a8a4's mismatches: the model's reading.
+    expect(groundedTitle('generic', { title: 'Fale conosco', siblings: ['Sobre', 'Agenda'] })).toBe(false)
+    expect(groundedTitle('mismatch', { title: 'Contact us | National Library of Scotland' })).toBe(false)
+    expect(groundedTitle('mismatch', { title: 'Untitled document' })).toBe(false)
   })
 })

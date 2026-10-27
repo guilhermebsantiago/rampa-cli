@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "rampaVersion": "0.1.1",
+  "createdAt": "2026-10-27T22:46:36.481Z",
+  "model": "ollama:gemma4:12b",
+  "runs": 1,
+  "llm": true,
+  "verify": true,
+  "confirm": true,
+  "actSha256": "49051da603afa6d28b94ef3e758146dafcbe72bade7202a24636bab3ea4c0036",
+  "criteria": [
+    "1.1.1"
+  ],
+  "wcag": "2.2",
+  "wallMs": 36765,
+  "sets": [
+    {
+      "label": "ACT 23a2a8 (syntax)",
+      "criterion": "1.1.1",
+      "baseline": {
+        "tp": 5,
+        "fp": 0,
+        "tn": 13,
+        "fn": 0,
+        "n": 18,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.5655085052479191,
+          1
+        ],
+        "precisionCi": [
+          0.5655085052479191,
+          1
+        ]
+      },
+      "rampa": {
+        "tp": 5,
+        "fp": 0,
+        "tn": 13,
+        "fn": 0,
+        "n": 18,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.5655085052479191,
+          1
+        ],
+        "precisionCi": [
+          0.5655085052479191,
+          1
+        ]
+      }
+    },
+    {
+      "label": "ACT qt1vmo (semantic)",
+      "criterion": "1.1.1",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 13,
+        "fn": 3,
+        "n": 16,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.5615060804490177
+        ]
+      },
+      "rampa": {
+        "tp": 3,
+        "fp": 0,
+        "tn": 13,
+        "fn": 0,
+        "n": 16,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.43849391955098227,
+          1
+        ],
+        "precisionCi": [
+          0.43849391955098227,
+          1
+        ]
+      }
+    },
+    {
+      "label": "ACT e88epe (semantic)",
+      "criterion": "1.1.1",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 15,
+        "fn": 5,
+        "n": 20,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.43449149475208104
+        ]
+      },
+      "rampa": {
+        "tp": 5,
+        "fp": 0,
+        "tn": 15,
+        "fn": 0,
+        "n": 20,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.5655085052479191,
+          1
+        ],
+        "precisionCi": [
+          0.5655085052479191,
+          1
+        ]
+      }
+    },
+    {
+      "label": "pairs (intact + corrupted)",
+      "criterion": "1.1.1",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 1,
+        "fn": 2,
+        "n": 3,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.6576280471103807
+        ]
+      },
+      "rampa": {
+        "tp": 2,
+        "fp": 0,
+        "tn": 1,
+        "fn": 0,
+        "n": 3,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.34237195288961925,
+          1
+        ],
+        "precisionCi": [
+          0.34237195288961925,
+          1
+        ]
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "criterion": "1.1.1",
+      "corruptor": "alt-placeholder",
+      "total": 1,
+      "baseline": 0,
+      "rampa": 1
+    },
+    {
+      "criterion": "1.1.1",
+      "corruptor": "alt-swap",
+      "total": 1,
+      "baseline": 0,
+      "rampa": 1
+    }
+  ],
+  "judgment": {
+    "candidates": 32,
+    "discarded": 0,
+    "cannotTell": 0,
+    "suggestions": 0
+  },
+  "usage": {
+    "calls": 1,
+    "cachedCalls": 43,
+    "inputTokens": 29570,
+    "outputTokens": 2395,
+    "costUsd": 0
+  },
+  "errors": []
+}

@@ -1,0 +1,291 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.pbs.org/newshour/show/doj-monitoring-plans-and-dhs-voter-checks-raise-concerns-of-election-interference",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "24c9a3b0d9b3",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(3) > main > div > article > div > div:nth-of-type(2) > div:nth-of-type(3) > article > figure > a > img",
+   "message": "The text alternative \"fullepisode\" describes something the image does not show.",
+   "evidence": "fullepisode",
+   "subject": "fullepisode",
+   "patch": {
+    "ref": "html > body > div:nth-of-type(3) > main > div > article > div > div:nth-of-type(2) > div:nth-of-type(3) > article > figure > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "fullepisode",
+    "to": "Election security tag",
+    "before": "<img class=\" lazyloaded\" src=\"https://d3i6fh83elv35t.cloudfront.net/static/2026/10/fullepisode-7-768x512.jpg\" data-src=\"https://d3i6fh83elv35t.cloudfront.net/static/2026/10/fullepisode-7-768x512.jpg\" alt=\"fullepisode\" pinger-seen=\"true\">",
+    "after": "<img class=\" lazyloaded\" src=\"https://d3i6fh83elv35t.cloudfront.net/static/2026/10/fullepisode-7-768x512.jpg\" data-src=\"https://d3i6fh83elv35t.cloudfront.net/static/2026/10/fullepisode-7-768x512.jpg\" alt=\"Election security tag\" pinger-seen=\"true\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9993791140562709
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "09ecd3f5b241",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#web-ad-image",
+   "message": "The text alternative \"Web ad - adjusted (1)\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Web ad - adjusted (1)",
+   "subject": "Web ad - adjusted (1)",
+   "patch": {
+    "ref": "#web-ad-image",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Web ad - adjusted (1)",
+    "to": "Join Press Pass: A new supporter program from PBS News. Issue my Press Pass.",
+    "before": "<img src=\"https://d3i6fh83elv35t.cloudfront.net/static/2026/10/Web-ad-adjusted-1.png\" alt=\"Web ad - adjusted (1)\" id=\"web-ad-image\" loading=\"lazy\">",
+    "after": "<img src=\"https://d3i6fh83elv35t.cloudfront.net/static/2026/10/Web-ad-adjusted-1.png\" alt=\"Join Press Pass: A new supporter program from PBS News. Issue my Press Pass.\" id=\"web-ad-image\" loading=\"lazy\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999952143180404
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f3fa165c7dd2",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(3) > main > div > section > div:nth-of-type(5) > div > form > div:nth-of-type(1) > label > input:nth-of-type(7)",
+   "message": "The field \"Enter your email address\" asks for the user's email address, but autocomplete=\"off\" does not identify that purpose.",
+   "evidence": "Enter your email address",
+   "patch": {
+    "ref": "html > body > div:nth-of-type(3) > main > div > section > div:nth-of-type(5) > div > form > div:nth-of-type(1) > label > input:nth-of-type(7)",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "from": "off",
+    "to": "email",
+    "before": "<input class=\"subscribe__input\" type=\"email\" value=\"\" name=\"email\" autocomplete=\"off\" placeholder=\"Enter your email address\">",
+    "after": "<input class=\"subscribe__input\" type=\"email\" value=\"\" name=\"email\" autocomplete=\"email\" placeholder=\"Enter your email address\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "d2cb80f4548f",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(1) > div > div:nth-of-type(4) > div > div > form > div:nth-of-type(1) > label > input:nth-of-type(7)",
+   "message": "The field \"Enter your email address\" asks for the user's email address, but autocomplete=\"off\" does not identify that purpose.",
+   "evidence": "Enter your email address",
+   "patch": {
+    "ref": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(1) > div > div:nth-of-type(4) > div > div > form > div:nth-of-type(1) > label > input:nth-of-type(7)",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "from": "off",
+    "to": "email",
+    "before": "<input class=\"subscribe__input\" type=\"email\" value=\"\" name=\"email\" autocomplete=\"off\" placeholder=\"Enter your email address\">",
+    "after": "<input class=\"subscribe__input\" type=\"email\" value=\"\" name=\"email\" autocomplete=\"email\" placeholder=\"Enter your email address\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(3) > footer > div:nth-of-type(2) > ul > li:nth-of-type(4) > a > img",
+   "message": "The text alternative \"Viewers Like You\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Support PBS with a membership\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.78), claim: yes (1.00), reversed: no (0.95))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(3) > main > div > section > div:nth-of-type(1) > p > a",
+   "message": "The link text \"Learn more\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Learn more about support provided\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(3) > main > div > section > div:nth-of-type(4) > ul > li:nth-of-type(1) > a",
+   "message": "The link text \"PBS Video\" does not match where the link leads: a page titled \"PBS News Hour | PBS\".",
+   "evidence": "The model suggests: \"PBS News Hour\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#recirc-latest > h2",
+   "message": "The heading \"The Latest\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Latest News\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 2,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 2,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 2,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 96,
+   "judged": 50,
+   "failed": 0,
+   "passed": 48,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 46,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 0,
+   "passed": 11,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: html > body > div:nth-of-type(3) > main > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > iframe (https://player.pbs.org/widget/partnerplayer/3114826023/?chapterbar=false&endscreen=false&topbar=false&autoplay=false), html > body > div:nth-of-type(3) > main > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > iframe |> html > body > div:nth-child(1) > div > div > div > div > div:nth-child(1) > div:nth-child(10) > div:nth-child(1) > iframe:nth-child(3).",
+  "2 image(s) were left without a capture, so no judgment looked at them: 2 outside the page (an off-canvas menu). The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 46 of 96 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 86,
+  "inputTokens": 78308,
+  "outputTokens": 7165,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > div:nth-of-type(3) > main > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > iframe",
+     "url": "https://player.pbs.org/widget/partnerplayer/3114826023/?chapterbar=false&endscreen=false&topbar=false&autoplay=false",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "html > body > div:nth-of-type(3) > main > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > div > iframe |> html > body > div:nth-child(1) > div > div > div > div > div:nth-child(1) > div:nth-child(10) > div:nth-child(1) > iframe:nth-child(3)",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

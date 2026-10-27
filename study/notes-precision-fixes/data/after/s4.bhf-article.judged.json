@@ -1,0 +1,182 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.bhf.org.uk/informationsupport/heart-matters-magazine/nutrition/eat-well-on-a-budget",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > header > div > div > div > a > img:nth-of-type(2)",
+   "message": "The text alternative \"BHF logo\" describes something the image does not show.",
+   "evidence": "The model suggests: \"British Heart Foundation\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.84), claim: no (0.00), reversed: no (0.99))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > main > section:nth-of-type(2) > div > div > div:nth-of-type(2) > aside > nav > ul > li:nth-of-type(1) > a > img",
+   "message": "The text alternative \"A pot of chicken curry with red chillis and star anise on the side\" describes something the image does not show.",
+   "evidence": "The model suggests: \"A bowl of yellow curry with meat and peppers\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.12), claim: no (0.00), reversed: no (0.74))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > main > section:nth-of-type(2) > div > div > div:nth-of-type(1) > section:nth-of-type(1) > p:nth-of-type(3) > a:nth-of-type(2)",
+   "message": "The link text \"stroke\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Stroke - causes, symptoms and treatment\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > main > section:nth-of-type(2) > div > div > div:nth-of-type(1) > section:nth-of-type(1) > p:nth-of-type(8) > a",
+   "message": "The link text \"salt\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Watch: Why is too much salt bad for you?\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > main > section:nth-of-type(2) > div > div > div:nth-of-type(1) > section:nth-of-type(1) > p:nth-of-type(9) > a",
+   "message": "The link text \"sugar\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"6 things you didn't know about sugar\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 15,
+   "failed": 0,
+   "passed": 13,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2,
+   "unconfirmed": 2
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 60,
+   "judged": 50,
+   "failed": 0,
+   "passed": 47,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 10,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 15,
+   "failed": 0,
+   "passed": 15,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "3 image(s) were left without a capture, so no judgment looked at them: 3 transparent where it sits. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 10 of 60 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 87,
+  "inputTokens": 78013,
+  "outputTokens": 7588,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": {
+   "overlay": {
+    "ref": "#onetrust-consent-sdk > div:nth-of-type(1)",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  }
+ }
+}

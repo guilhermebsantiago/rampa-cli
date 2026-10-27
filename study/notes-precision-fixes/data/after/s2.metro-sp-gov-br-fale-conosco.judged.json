@@ -1,0 +1,124 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.metro.sp.gov.br/fale-conosco/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "a96a1739ad0c",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#post-401 > div > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(1) > figure > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Logo with the words 'METRÔ CONECTA'\".",
+   "evidence": "Logo with the words 'METRÔ CONECTA'",
+   "subject": "hidden image.png",
+   "patch": {
+    "ref": "#post-401 > div > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(1) > figure > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Logotipo do Metrô Conecta",
+    "before": "<img decoding=\"async\" width=\"185\" height=\"69\" src=\"/wp-content/uploads/2023/06/image.png\" alt=\"\" class=\"wp-image-13947\">",
+    "after": "<img decoding=\"async\" width=\"185\" height=\"69\" src=\"/wp-content/uploads/2023/06/image.png\" alt=\"Logotipo do Metrô Conecta\" class=\"wp-image-13947\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 18,
+   "judged": 18,
+   "failed": 1,
+   "passed": 16,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 21,
+  "inputTokens": 17075,
+  "outputTokens": 1726,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": null
+ }
+}

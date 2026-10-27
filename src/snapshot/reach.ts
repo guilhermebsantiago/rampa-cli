@@ -1,4 +1,5 @@
 import { type Locale, t } from '../i18n.ts'
+import { PLAIN_PAGE_ELEMENTS, bodyLookOf, isDefaultLook } from './look.ts'
 import { FRAME_SEPARATOR, SHADOW_SEPARATOR } from './refs.ts'
 import type { A11ySnapshot, Reach } from './schema.ts'
 import { walkTree } from './tree.ts'
@@ -35,6 +36,55 @@ export function unreached(reach: Reach | undefined): Reach | undefined {
   }
 }
 
+/**
+ * Whether the page was read without its styles, which makes every judgment that rests on what is visible a suggestion
+ * (core/check.ts), and how Rampa tells:
+ * - `stylesheets`: the collector found the page's linked stylesheets had not applied, even after one more load
+ *   (`reach.stylesheets.unstyled` with sheets linked); a failed link whose address is the page itself is no stylesheet,
+ *   so a recording that counted one (www.thejournal.ie, fourth real-page study) is read as styled when every other
+ *   failure was such a link and some sheet applied;
+ * - `look`: the page came with no style at all and its body text had the browser's default look (snapshot/look.ts),
+ *   recorded by the collector as `unstyled` with no sheet linked; for a recording made before the collector looked
+ *   (no `authorStyles` on the root), read from its body look and size alone (www.ufpe.br in the third study,
+ *   museudoamanha.org.br in the fourth: the only two of the 72 recorded pages with that look).
+ */
+export function captureStyle(snapshot: Pick<A11ySnapshot, 'reach' | 'root' | 'target'>): { unstyled: boolean; by?: 'stylesheets' | 'look' | undefined; selfLinks?: number | undefined } {
+  const sheets = snapshot.reach?.stylesheets
+  if (sheets?.unstyled) {
+    const selfLinks = sheets.failed.filter((sheet) => samePage(sheet.href, snapshot.target)).length
+    if (selfLinks > 0 && selfLinks === sheets.failed.length && sheets.applied > 0) return { unstyled: false, selfLinks }
+    return { unstyled: true, by: sheets.linked === 0 ? 'look' : 'stylesheets' }
+  }
+  if (sheets === undefined && snapshot.root.native.authorStyles === undefined && isDefaultLook(bodyLookOf(snapshot.root))) {
+    let elements = 0
+    for (const node of walkTree(snapshot.root)) if (!node.ref.includes(SHADOW_SEPARATOR) && !node.ref.includes(FRAME_SEPARATOR)) elements++
+    if (elements >= PLAIN_PAGE_ELEMENTS) return { unstyled: true, by: 'look' }
+  }
+  return { unstyled: false }
+}
+
+/** Whether an address is the page's own, without its fragment. */
+function samePage(href: string, target: string): boolean {
+  try {
+    const page = new URL(target)
+    const url = new URL(href, page)
+    page.hash = ''
+    url.hash = ''
+    return url.href === page.href
+  } catch {
+    return false
+  }
+}
+
+/** The snapshot's `reach` as a report states it: a recorded unstyled verdict that `captureStyle` corrects is dropped. */
+export function reachSeen(snapshot: Pick<A11ySnapshot, 'reach' | 'root' | 'target'>): Reach | undefined {
+  const reach = snapshot.reach
+  const sheets = reach?.stylesheets
+  if (!reach || !sheets?.unstyled || captureStyle(snapshot).unstyled) return reach
+  const { unstyled: _dropped, ...kept } = sheets
+  return { ...reach, stylesheets: kept }
+}
+
 const MAX_LISTED = 5
 
 function listed(frames: readonly ReachFrame[], why: (frame: ReachFrame) => string | undefined): string {
@@ -58,7 +108,9 @@ export function reachNotes(reach: Reach | undefined, locale: Locale): string[] {
       .slice(0, MAX_LISTED)
       .map((sheet) => `${sheet.href} (${sheet.reason})`)
       .join(', ')
-    notes.push(t(locale, sheets.unstyled ? 'reachUnstyled' : 'reachStylesheets', { failed: sheets.failed.length, linked: sheets.linked, list: list || '?' }))
+    notes.push(
+      t(locale, sheets.unstyled ? (sheets.linked === 0 ? 'reachUnstyledLook' : 'reachUnstyled') : 'reachStylesheets', { failed: sheets.failed.length, linked: sheets.linked, list: list || '?' }),
+    )
   }
   if (gaps.loadTimedOutMs !== undefined) notes.push(t(locale, 'reachLoadTimedOut', { ms: gaps.loadTimedOutMs }))
   if (gaps.overlay) notes.push(t(locale, 'reachOverlay', { selector: gaps.overlay.selector, coverage: `${Math.round(gaps.overlay.coverage * 100)}%` }))

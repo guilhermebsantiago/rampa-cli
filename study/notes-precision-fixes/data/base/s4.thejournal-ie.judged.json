@@ -1,0 +1,184 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.thejournal.ie/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(6) > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > svg",
+   "message": "This image is hidden from screen readers (an svg with no name), but it conveys what the text around it does not say: \"The logo and the words 'Making sense of today'\".",
+   "evidence": "The model suggests: \"Journal logo and slogan: Making sense of today\" · The page was read without its stylesheets, so what is visible around this element may not be what people see: the claim stays a suggestion.",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#poll-7202682-0",
+   "message": "The label \"It was right to remove the ad\" does not say what to enter.",
+   "evidence": "The model suggests: \"Do you agree with the removal of the ad?\" · The page was read without its stylesheets, so what is visible around this element may not be what people see: the claim stays a suggestion.",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#poll-7202682-1",
+   "message": "The label \"I don't think the ad should have been removed\" does not say what to enter.",
+   "evidence": "The model suggests: \"Keep the ad\" · The page was read without its stylesheets, so what is visible around this element may not be what people see: the claim stays a suggestion.",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#poll-7202682-2",
+   "message": "The label \"I'm not sure\" does not say what to enter.",
+   "evidence": "The model suggests: \"Unsure\" · The page was read without its stylesheets, so what is visible around this element may not be what people see: the claim stays a suggestion.",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 40,
+   "judged": 40,
+   "failed": 0,
+   "passed": 39,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The page was read without its own stylesheets, even after one more load (1 of 7 did not apply: https://www.thejournal.ie/ (not loaded)): what the browser showed is not what people see (hidden menus and lists become visible, layouts collapse), so every judgment that rests on what is visible is listed as a suggestion, and contrast and label visibility were not measured from pixels. Load the page again later, or check that its stylesheets can be reached from this machine.",
+  "A layer lay over the viewport when the page was read (div, on top at 89% of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page's own.",
+  "36 image(s) were left without a capture, so no judgment looked at them: 2 blank in its capture; 34 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 48,
+  "inputTokens": 45314,
+  "outputTokens": 4264,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": {
+   "stylesheets": {
+    "linked": 7,
+    "applied": 6,
+    "failed": [
+     {
+      "href": "https://www.thejournal.ie/",
+      "reason": "not loaded"
+     }
+    ],
+    "unstyled": true,
+    "retried": true
+   },
+   "overlay": {
+    "ref": "html > body > div:nth-of-type(26) > div:nth-of-type(1)",
+    "selector": "div",
+    "coverage": 0.89,
+    "hidden": true
+   }
+  }
+ }
+}

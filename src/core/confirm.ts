@@ -15,9 +15,15 @@ import { errorMessage, sha256 } from './util.ts'
  * CONFIRM_MIN_PROBABILITY (on those data the two conditions chose the same findings). A claim the pass does not
  * confirm, or cannot ask (a provider with no one-word answers, an offline run with no cached answer), is the model's
  * suggestion, in the report's needsReview, never a finding.
+ *
+ * The threshold was 0.9 until 2026-10-27. The fourth real-page study pre-registered a 0.99 cut as a secondary measure,
+ * and the replay of the merged code on the second, third and fourth studies' recordings, with every second-pass
+ * probability read back (docs/studies/notes-precision-fixes.md), found under 0.99 five false findings (0.905, 0.959,
+ * 0.986, 0.987, 0.987), two uncertain ones and no true one; the lowest true finding confirmed at 0.997. In-sample: those
+ * pages were read.
  */
 
-export const CONFIRM_MIN_PROBABILITY = 0.9
+export const CONFIRM_MIN_PROBABILITY = 0.99
 
 export interface ConfirmAnswer {
   framing: string

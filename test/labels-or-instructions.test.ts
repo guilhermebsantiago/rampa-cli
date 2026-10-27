@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { EngineResults } from '../src/core/types.ts'
-import { type LabelsOrInstructionsJudgment, exampleOf, labelsOrInstructions } from '../src/criteria/labels-or-instructions.ts'
+import { type LabelsOrInstructionsContext, type LabelsOrInstructionsJudgment, exampleOf, groundedLabel, labelsOrInstructions } from '../src/criteria/labels-or-instructions.ts'
 import type { A11yNode, A11ySnapshot } from '../src/snapshot/schema.ts'
 import { node } from './helpers.ts'
 
@@ -197,6 +197,39 @@ describe('3.3.2 fields that were not on screen, and search fields', () => {
     const phone = candidates.find((c) => c.ref === '#phone')
     if (!phone) throw new Error('no candidate #phone')
     expect(labelsOrInstructions.grounded?.(fail, phone, snapshot)).toBe(true)
+  })
+})
+
+describe('3.3.2 claims that rest on a fact', () => {
+  const field = (extra: Partial<LabelsOrInstructionsContext>): LabelsOrInstructionsContext => ({
+    name: 'Telephone',
+    hiddenSource: 'aria-label',
+    visibleLabel: undefined,
+    placeholder: undefined,
+    pattern: undefined,
+    around: '',
+    facts: '',
+    startTag: '<input>',
+    isInput: true,
+    id: undefined,
+    language: 'en',
+    ...extra,
+  })
+
+  it('makes "nothing visible tells what to enter" a finding only with nothing beside the field, or a label measured as unseen', () => {
+    expect(groundedLabel('no_visible_label', field({}))).toBe(true)
+    // gla.ac.uk's "course keyword" kind: text beside the field that the model did not read as its label.
+    expect(groundedLabel('no_visible_label', field({ around: 'Find a course by keyword' }))).toBe(false)
+    expect(groundedLabel('no_visible_label', field({ hiddenSource: 'hidden-label', around: 'Surname', unseen: true }))).toBe(true)
+    expect(groundedLabel('no_visible_label', field({ collapsed: true }))).toBe(false)
+    expect(groundedLabel('no_visible_label', field({ search: true }))).toBe(false)
+  })
+
+  it('makes "the pattern is not explained" a finding only when no visible text at all could explain it', () => {
+    expect(groundedLabel('rule_not_explained', field({ hiddenSource: undefined, pattern: '[0-9]{8}' }))).toBe(true)
+    expect(groundedLabel('rule_not_explained', field({ hiddenSource: undefined, pattern: '[0-9]{8}', visibleLabel: 'CEP' }))).toBe(false)
+    expect(groundedLabel('rule_not_explained', field({ hiddenSource: undefined, pattern: '[0-9]{8}', placeholder: '00000000' }))).toBe(false)
+    expect(groundedLabel('rule_not_explained', field({ hiddenSource: undefined }))).toBe(false)
   })
 })
 

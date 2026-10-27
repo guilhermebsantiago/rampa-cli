@@ -1,0 +1,263 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.r7.com/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "3ed7bc149efd",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#fusion-app > main > div > div > div:nth-of-type(1) > div > div > div > div > article > div:nth-of-type(2) > a > figure > img",
+   "message": "The text alternative \"Alt para imagem\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Alt para imagem",
+   "subject": "Alt para imagem",
+   "patch": {
+    "ref": "#fusion-app > main > div > div > div:nth-of-type(1) > div > div > div > div > article > div:nth-of-type(2) > a > figure > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Alt para imagem",
+    "to": "Qual deve ser o Poder da Chama Vermelha em 'A Fazenda'?",
+    "before": "<img alt=\"Alt para imagem\" class=\"card-w-full card-object-cover card-h-full\" loading=\"lazy\" src=\"https://cloudfront-us-east-1.images.arcpublishing.com/newr7/6KBCLZ7SCJETJGPYFPSDSXRLGA.png\">",
+    "after": "<img alt=\"Qual deve ser o Poder da Chama Vermelha em 'A Fazenda'?\" class=\"card-w-full card-object-cover card-h-full\" loading=\"lazy\" src=\"https://cloudfront-us-east-1.images.arcpublishing.com/newr7/6KBCLZ7SCJETJGPYFPSDSXRLGA.png\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.999906604504734
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#fusion-app > main > div > div > div:nth-of-type(3) > div > div:nth-of-type(1) > div > article:nth-of-type(2) > div > figure > a > img",
+   "message": "The text alternative \"Eduardo Bolsonaro disse que jamais teve objetivo interferir em qualquer processo brasileiro\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Eduardo Bolsonaro pede que Flávio deixe o país se perder as eleições para Lula\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.17), claim: yes (1.00), reversed: no (0.98))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#fusion-app > header > div:nth-of-type(1) > div > div > div:nth-of-type(3) > a",
+   "message": "The link text \"Login\" does not match where the link leads: a page titled \"R7\".",
+   "evidence": "The model suggests: \"Entrar na conta R7\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#google_ads_iframe_\\/7542\\/r7home\\/home_0 |> #banner > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(3) > a",
+   "message": "The link text \"Visit Site\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Visite o site do IQ Center\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#fusion-app > main > div > div > div:nth-of-type(1) > div > div > div > div > article > div:nth-of-type(1) > a",
+   "message": "The link text \"VOTE!\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Vote no Poder da Chama Vermelha em 'A Fazenda'\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#fusion-app > main > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div > a",
+   "message": "The link text \"COMPARTILHE\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Compartilhar esta notícia\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > a > div > div > h2",
+   "message": "The heading \"Política\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Notícias de Política\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(3) > div > a > div > div > h2",
+   "message": "The heading \"Dr. Piterson Gomes\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Coluna de Dr. Piterson Gomes\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(4) > div > a > div > div > h2",
+   "message": "The heading \"Patricia Lages\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Biografia de Patricia Lages\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(5) > div > a > div > div > h2",
+   "message": "The heading \"Rafael Ferraz\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Rafael Ferraz - Biografia\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#fusion-app > main > div > div > div:nth-of-type(7) > div > div:nth-of-type(1) > div > div:nth-of-type(6) > div > a > div > div > h2",
+   "message": "The heading \"Dose de Cafeína\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Lilian Trigolo Café no Ceará\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#guide",
+   "message": "The label \"Programação:\" does not say what to enter.",
+   "evidence": "The model suggests: \"Escolha o horário da programação\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 11,
+   "judged": 11,
+   "failed": 1,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 1,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 237,
+   "judged": 50,
+   "failed": 0,
+   "passed": 45,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 187,
+   "suggested": 4
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 15,
+   "failed": 0,
+   "passed": 8,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 6
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The page was cut at 5000 elements, the collector's limit: what comes after them is not in the snapshot, so the checks that read the snapshot (Rampa's rules and judged criteria) did not run past that point. Checked only up to the cut: 1.1.1, 1.3.5, 1.4.3, 1.4.11, 2.4.2, 2.4.4, 2.4.6, 3.1.1, 3.1.2, 4.1.2. axe-core read the whole page.",
+  "164 image(s) were left without a capture, so no judgment looked at them: 164 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 187 of 237 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 84,
+  "inputTokens": 87651,
+  "outputTokens": 10780,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": null
+ }
+}

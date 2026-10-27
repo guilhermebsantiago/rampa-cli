@@ -120,6 +120,10 @@ const messages = {
     reachStylesheets: "{failed} of the page's {linked} stylesheet(s) had not applied when it was read ({list}): the page was read with the styles it had, which may differ from what people see.",
     reachUnstyled:
       "The page was read without its own stylesheets, even after one more load ({failed} of {linked} did not apply: {list}): what the browser showed is not what people see (hidden menus and lists become visible, layouts collapse), so every judgment that rests on what is visible is listed as a suggestion, and contrast and label visibility were not measured from pixels. Load the page again later, or check that its stylesheets can be reached from this machine.",
+    reachUnstyledLook:
+      "The page came with no stylesheet applied, even after one more load, and its body text had the browser's default look (16 px Times, black): a site's page served without its styles (a stripped page sent to automated browsers) is not what people see, so every judgment that rests on what is visible is listed as a suggestion, and contrast and label visibility were not measured from pixels. Load the page again later, or from another machine.",
+    recordedUnstyledLook:
+      "The recorded page's body text has the browser's default look (16 px Times, black), and the recording says nothing of its stylesheets: it was most likely read without them, which is not what people see, so every judgment that rests on what is visible is listed as a suggestion. Collect the page again to check.",
     reachOverlay: 'A layer lay over the viewport when the page was read ({selector}, on top at {coverage} of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page\'s own.',
     unstyledSuggestion: 'The page was read without its stylesheets, so what is visible around this element may not be what people see: the claim stays a suggestion.',
     settledBelow: "Rampa's {rule} measured it, below the confidence threshold: {message}",
@@ -363,6 +367,10 @@ const messages = {
     reachStylesheets: '{failed} das {linked} folha(s) de estilo da página não tinham sido aplicadas quando ela foi lida ({list}): a página foi lida com os estilos que tinha, que podem diferir do que as pessoas veem.',
     reachUnstyled:
       'A página foi lida sem as próprias folhas de estilo, mesmo depois de mais um carregamento ({failed} de {linked} não se aplicaram: {list}): o que o navegador mostrou não é o que as pessoas veem (menus e listas escondidos aparecem, o layout desmorona), então todo julgamento que depende do que está visível fica listado como sugestão, e contraste e visibilidade de rótulos não foram medidos a partir de pixels. Carregue a página de novo mais tarde, ou confira se as folhas de estilo dela são alcançáveis desta máquina.',
+    reachUnstyledLook:
+      'A página veio sem nenhuma folha de estilo aplicada, mesmo depois de mais um carregamento, e o texto do corpo tinha a aparência padrão do navegador (Times de 16 px, preto): a página de um site servida sem os estilos (uma página reduzida enviada a navegadores automatizados) não é o que as pessoas veem, então todo julgamento que depende do que está visível fica listado como sugestão, e contraste e visibilidade de rótulos não foram medidos a partir de pixels. Carregue a página de novo mais tarde, ou de outra máquina.',
+    recordedUnstyledLook:
+      'O texto do corpo da página gravada tem a aparência padrão do navegador (Times de 16 px, preto), e a gravação não diz nada das folhas de estilo: muito provavelmente ela foi lida sem elas, o que não é o que as pessoas veem, então todo julgamento que depende do que está visível fica listado como sugestão. Colete a página de novo para conferir.',
     reachOverlay: 'Uma camada cobria a área visível quando a página foi lida ({selector}, por cima em {coverage} dos pontos amostrados: um fundo de aviso de cookies, um diálogo): ela foi escondida enquanto imagens, rótulos e contraste eram capturados, então os pixels medidos são os da própria página.',
     unstyledSuggestion: 'A página foi lida sem as folhas de estilo, então o que está visível ao redor deste elemento pode não ser o que as pessoas veem: a alegação fica como sugestão.',
     settledBelow: 'O {rule} do Rampa o mediu, abaixo do limiar de confiança: {message}',

@@ -12,7 +12,7 @@ import { reviewLabelInName } from '../rules/label-in-name.ts'
 import { uncapturedImagesNote } from '../snapshot/image-skips.ts'
 import { axNotes, browserNamed } from '../snapshot/ax.ts'
 import { blockedNote, httpErrorNote } from '../snapshot/blocked.ts'
-import { pageCut, reachNotes, truncationNote, unreached } from '../snapshot/reach.ts'
+import { captureStyle, pageCut, reachNotes, reachSeen, truncationNote, unreached } from '../snapshot/reach.ts'
 import type { A11ySnapshot } from '../snapshot/schema.ts'
 import { AXE_REVIEW_RULES, EXPERIMENTAL_RULES } from '../engine/axe.ts'
 import { criteriaCoverage, engineCoverage, reviewItems, reviewOnlyCriteria, ruleCoverage } from './coverage.ts'
@@ -173,6 +173,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const settling: Array<{ rule: string; criterion: string; key: string; passed: boolean; unverified?: boolean | undefined; note?: string | undefined }> = []
   // Verified fails that no fact Rampa checks supports (Criterion.grounded): the model's suggestions, for a person to decide.
   const suggestions: ReviewItem[] = []
+  // A page read without its styles (snapshot/reach.ts): a failed stylesheet, or no style at all and the default look.
+  const style = captureStyle(snapshot)
 
   for (const criterion of criteria) {
     // A criterion that moved to the browser's names reads the snapshot with them; the others, as the collector named it.
@@ -307,9 +309,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
           }
           const output = judgment.representative
           if (!output) continue
-          // A page read without its stylesheets (reach.stylesheets.unstyled): what is visible around an element, and what
-          // is hidden, is not what people see, so a fail that rests on it is the model's suggestion.
-          if (judgment.status === 'failed' && options.verify !== false && snapshot.reach?.stylesheets?.unstyled) {
+          // A page read without its styles (`captureStyle`): what is visible around an element, and what is hidden, is
+          // not what people see, so a fail that rests on it is the model's suggestion.
+          if (judgment.status === 'failed' && options.verify !== false && style.unstyled) {
             summary.suggested = (summary.suggested ?? 0) + 1
             const suggested = criterion.patch?.(output, judgment.candidate, view)?.to
             suggestions.push({
@@ -580,7 +582,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   const cutNote = truncated
     ? truncationNote(truncated, { engine: engine.engine.name !== 'none' ? engine.engine.name : undefined, probes: (snapshot.observations?.probes.length ?? 0) > 0 }, options.locale)
     : undefined
-  notes.unshift(...(cutNote ? [cutNote] : []), ...reachNotes(snapshot.reach, options.locale), ...axNotes(snapshot.axTree, options.locale), ...(uncaptured ? [uncaptured] : []))
+  // A recording made before the collector looked at the body's look says nothing of its stylesheets: read from the look.
+  const lookNote = style.by === 'look' && !snapshot.reach?.stylesheets?.unstyled ? [t(options.locale, 'recordedUnstyledLook')] : []
+  notes.unshift(...(cutNote ? [cutNote] : []), ...lookNote, ...reachNotes(reachSeen(snapshot), options.locale), ...axNotes(snapshot.axTree, options.locale), ...(uncaptured ? [uncaptured] : []))
   // A page that is not an HTML document frames everything else, a cut included: said before it.
   if (snapshot.document) notes.unshift(t(options.locale, snapshot.document.kind === 'svg' ? 'documentSvg' : 'documentXml', { contentType: snapshot.document.contentType }))
   // An engine that stopped with an error on the page checked nothing: said with the gaps of what was read.
@@ -589,7 +593,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   // an error page, which was checked as the page that came.
   if (snapshot.blocked) notes.unshift(blockedNote(snapshot.blocked, options.locale))
   else if (snapshot.httpStatus) notes.unshift(httpErrorNote(snapshot.httpStatus, options.locale))
-  const reach = unreached(snapshot.reach)
+  const reach = unreached(reachSeen(snapshot))
   // The form probe submitted forms, or listed what it would: every report says so at the top.
   const submissions = submissionSummary(snapshot)
   const llm: Report['llm'] = !options.llm ? 'off' : llmActive ? 'on' : 'no-model'

@@ -4,6 +4,7 @@ import { type Stopwatch, timed } from '../core/timings.ts'
 import { RampaError, sha256 } from '../core/util.ts'
 import { AXE_REVIEW_RULES, axeLocale, axeSource, axeTags, emptyEngine, engineFromAxe } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
+import { DEFAULT_FAMILIES } from '../snapshot/look.ts'
 import { resolverSource } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { walkTree } from '../snapshot/tree.ts'
@@ -16,6 +17,7 @@ import { type FrameDriver, runAxeInFrames } from './frames.ts'
 import { buildReach, closedShadowRoots } from './reach.ts'
 import { captureImageNodes } from './image-capture.ts'
 import { MAX_NODES, collectInPage, documentKindInPage } from './in-page.ts'
+import { pageLookInPage } from './page-look.ts'
 import { attachMotionFacts } from './motion.ts'
 import { collectPresentation } from './presentation.ts'
 import { labelTargets, measureLabels } from './label-visibility.ts'
@@ -105,6 +107,12 @@ export async function collectPage(driver: PageDriver, options: PageCollectOption
   )
 
   let root = raw.root as A11yNode
+  // How many author style sheets apply, as collectWeb records it: the page is the caller's, read as it is, so a check
+  // never reads its look as a capture that lost its styles (snapshot/reach.ts, `captureStyle`).
+  if (!document) {
+    const look = await driver.evaluate(pageLookInPage, DEFAULT_FAMILIES).catch(() => undefined)
+    if (look) root.native.authorStyles = look.authorStyles
+  }
   const closed = await timed(watch, 'collection', async () => {
     if (!cdp) return undefined
     await attachFormIssues(cdp, root)

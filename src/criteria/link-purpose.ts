@@ -169,6 +169,8 @@ interface LinkInfo {
   headers: string | undefined
   /** Where it leads, written the same way for every link; undefined when the markup does not say. */
   place: string | undefined
+  /** The list items it is nested in and the named lists or menus around it (`nestingOf`, H81). */
+  nesting: string | undefined
 }
 
 export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
@@ -237,6 +239,7 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
         sections: open.filter(Boolean).join(' > '),
         headers: cellHeaders(index, node),
         place: placeOf(scriptedAddress(scripted.get(node.ref)) ?? attributes.href, base, linkDestination(snapshot, attributes.href, scripted.get(node.ref))),
+        nesting: nestingOf(index, node, textOfIds),
       })
     }
     const byText = new Map<string, LinkInfo[]>()
@@ -846,8 +849,10 @@ function sameTextLine(same: SameText): string {
 
 /**
  * Compares a link with the others that share its text. Links that lead elsewhere must differ in their
- * context: paragraph, list item or cell, header cells, description, or the sections they sit in. Two "Play" links
- * under "Result" headings tell apart when one "Result" is in the section of one example and the other in another's.
+ * context: paragraph, list item or cell, header cells, description, the sections they sit in, or the list items they
+ * are nested in (H81, `nestingOf`). Two "Play" links under "Result" headings tell apart when one "Result" is in the
+ * section of one example and the other in another's; two "Adhesives & Sealants" tell apart when one is a department
+ * of its own and the other sits in the list nested under "Deals".
  */
 function sameTextOf(link: LinkInfo, group: readonly LinkInfo[]): SameText | undefined {
   if (group.length < 2 || link.place === undefined) return undefined
@@ -861,7 +866,51 @@ function sameTextOf(link: LinkInfo, group: readonly LinkInfo[]): SameText | unde
 }
 
 function contextKey(link: LinkInfo): string {
-  return normalizeForMatch([link.context, link.sections || link.heading, link.headers, link.description].map((part) => part ?? '').join(' | '))
+  return normalizeForMatch([link.context, link.sections || link.heading, link.headers, link.description, link.nesting].map((part) => part ?? '').join(' | '))
+}
+
+/** Lists, menus and groups a screen reader names as it enters them, when they have a name of their own. */
+const NAMED_GROUP_ROLES = new Set(['list', 'menu', 'menubar', 'group', 'tree'])
+/** A nested item's own words this long are enough to tell it apart. */
+const NESTING_TEXT = 120
+
+/**
+ * What the lists around a link say about it, outermost first (technique H81, "the list item it is nested in"):
+ * - for a link whose list item is nested in another list item, that item's own text outside the nested list, its link
+ *   or its button included: "Deals" over a department list nested under the item "Deals". A screen reader reads the
+ *   nesting, so this is context whether the menu shows (a mega menu, a site map) or not (a list kept for screen
+ *   readers only, toolstation.com's footer in the fourth real-page study);
+ * - the name a list, menu or group around it has of its own (`aria-label`, `aria-labelledby`): a submenu named by the
+ *   button that opens it, the same mechanism for a menu that is not a nested list.
+ * The link's own list item is the link's context (`linkContext`), not its nesting. Undefined when nothing nests it.
+ */
+function nestingOf(index: TreeIndex, node: A11yNode, textOfIds: (ids: string | undefined) => string | undefined): string | undefined {
+  const labels: string[] = []
+  let ownItem = false
+  let child = node
+  for (let ref = index.get(node.ref)?.parentRef; ref !== undefined; ref = index.get(ref)?.parentRef) {
+    const current = index.get(ref)?.node
+    if (!current) break
+    if (current.role === 'listitem') {
+      if (ownItem) {
+        const at = current.children.indexOf(child)
+        const before = current.children.slice(0, Math.max(0, at)).filter((other) => !isHidden(other))
+        const label = (before.length > 0 ? before : current.children.slice(at + 1).filter((other) => !isHidden(other) && other.role !== 'list'))
+          .map((other) => (other.role === 'list' ? '' : subtreeText(other) || other.name?.trim() || ''))
+          .join(' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+        if (label) labels.unshift(truncate(label, NESTING_TEXT))
+      }
+      ownItem = true
+    } else if (NAMED_GROUP_ROLES.has(current.role)) {
+      const attributes = attributesOf(current)
+      const name = attributes['aria-label']?.trim() || textOfIds(attributes['aria-labelledby'])
+      if (name) labels.unshift(truncate(name, NESTING_TEXT))
+    }
+    child = current
+  }
+  return labels.length > 0 ? labels.join(' > ') : undefined
 }
 
 /** The page's own address, to resolve its links against; a recorded local page keeps only a relative path. */

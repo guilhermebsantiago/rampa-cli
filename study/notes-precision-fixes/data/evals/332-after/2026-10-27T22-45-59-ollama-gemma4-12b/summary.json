@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "rampaVersion": "0.1.1",
+  "createdAt": "2026-10-27T22:45:59.161Z",
+  "model": "ollama:gemma4:12b",
+  "runs": 1,
+  "llm": true,
+  "verify": true,
+  "confirm": true,
+  "actSha256": "49051da603afa6d28b94ef3e758146dafcbe72bade7202a24636bab3ea4c0036",
+  "criteria": [
+    "3.3.2"
+  ],
+  "wcag": "2.2",
+  "wallMs": 11893,
+  "sets": [
+    {
+      "label": "pairs (intact + corrupted)",
+      "criterion": "3.3.2",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 7,
+        "fn": 14,
+        "n": 21,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.21531701192718142
+        ]
+      },
+      "rampa": {
+        "tp": 13,
+        "fp": 0,
+        "tn": 7,
+        "fn": 1,
+        "n": 21,
+        "precision": 1,
+        "recall": 0.9285714285714286,
+        "f1": 0.962962962962963,
+        "recallCi": [
+          0.6853073044604219,
+          0.9872781138877085
+        ],
+        "precisionCi": [
+          0.7718981569447083,
+          1
+        ]
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "criterion": "3.3.2",
+      "corruptor": "label-hidden",
+      "total": 7,
+      "baseline": 0,
+      "rampa": 6
+    },
+    {
+      "criterion": "3.3.2",
+      "corruptor": "label-unseen",
+      "total": 7,
+      "baseline": 0,
+      "rampa": 7
+    }
+  ],
+  "judgment": {
+    "candidates": 20,
+    "discarded": 0,
+    "cannotTell": 0,
+    "suggestions": 4
+  },
+  "usage": {
+    "calls": 0,
+    "cachedCalls": 20,
+    "inputTokens": 9934,
+    "outputTokens": 1130,
+    "costUsd": 0
+  },
+  "errors": []
+}
