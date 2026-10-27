@@ -15,6 +15,7 @@ export {
 export { activeFingerprints, readWaivers, upsertWaiver, writeWaivers, type Waiver, type WaiverFile } from './adoption/waivers.ts'
 export { fileCache, memoryCache, type JudgmentCache } from './core/cache.ts'
 export { checkSnapshot, engineFindings, type CheckOptions } from './core/check.ts'
+export { GROUP_THRESHOLD, findingGroups, withGroups } from './core/groups.ts'
 export { judgeCandidates, majority } from './core/judge.ts'
 export type { RepeatedFinding, SiteReport, SiteSummary } from './core/site.ts'
 export type { PageSet, SiteCriteriaReport, SiteCriterion, SiteFinding, SitePageFacts } from './core/site.ts'

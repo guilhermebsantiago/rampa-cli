@@ -5,6 +5,7 @@ import { beyondName, guideName, guideTitle } from '../advisory/label.ts'
 import { am } from '../advisory/messages.ts'
 import type { Advisory } from '../advisory/types.ts'
 import { type FailOn, cannotVouch, failsPolicy, meetsThreshold, nothingJudgedNote, unjudgedCandidates } from '../core/gate.ts'
+import { type GroupOf, reportGroups } from '../core/groups.ts'
 import type { Finding, Report, SourceRegion } from '../core/types.ts'
 import { sha256 } from '../core/util.ts'
 import { type Locale, t } from '../i18n.ts'
@@ -15,7 +16,10 @@ import {
   WAIVERS_FILE,
   coverageStatement,
   criterionName,
+  findingPlace,
+  groupWhy,
   pageLabel,
+  plural,
   probedCriteria,
   reviewGroups,
   reviewOnly,
@@ -66,8 +70,11 @@ interface Region extends SourceRegion {
 }
 
 interface Location {
+  /** Set on a related location, which a message links to as `[text](id)`. */
+  id?: number
   physicalLocation: { artifactLocation: ArtifactLocation; region?: Region }
   logicalLocations?: Array<{ fullyQualifiedName: string; kind: string }>
+  message?: Message
 }
 
 interface Rule {
@@ -87,6 +94,8 @@ export interface SarifResult {
   level: 'error' | 'warning' | 'note'
   message: Message
   locations: Location[]
+  /** For a group of near-identical findings: every member, the example first. */
+  relatedLocations?: Location[]
   partialFingerprints: Record<string, string>
   fixes?: Array<{
     description: Message
@@ -164,9 +173,16 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
       ...(withBelow ? report.belowThreshold.map((finding): [Finding, Kind] => [finding, 'below-threshold']) : []),
       ...(options.verbose ? report.waived.map((finding): [Finding, Kind] => [finding, 'waived']) : []),
     ]
+    // A burst of near-identical findings is one result, at its example, with every member a related location
+    // (core/groups.ts): SARIF allows several locations only for a problem fixed by changing all of them.
+    const groups = reportGroups(report)
+    const groupOf = new Map<Finding, GroupOf>()
+    for (const group of groups) for (const member of group.members) groupOf.set(member, group)
     for (const [finding, kind] of entries) {
       const rule = ruleFor(finding)
-      results.push(resultOf(finding, kind, report, artifact, rule, policy))
+      const group = kind === 'waived' ? undefined : groupOf.get(finding)
+      if (!group) results.push(resultOf(finding, kind, report, artifact, rule, policy))
+      else if (group.members[0] === finding) results.push(groupResultOf(group, kind, report, artifact, rule, policy))
       ruleSources[rule.index] = [...(ruleSources[rule.index] ?? []), Boolean(finding.experimental)]
     }
     // Advisories of a --profile: their own rules, always at level note, so code scanning never reads them as failures.
@@ -269,6 +285,8 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
             notChecked: report.coverage.notChecked,
             // The collector cut the page at its budget: the checks that read the snapshot saw only its start.
             ...(report.coverage.truncated ? { truncated: { ...report.coverage.truncated, note: truncationText(report) } } : {}),
+            // Groups of near-identical findings: each is one result here, and each member is counted as a finding.
+            ...groupsCoverage(report),
             // Undecided results are not SARIF results: code scanning would show them as alerts. They are counted here.
             needsReview: reviewGroups(report).map((group) => ({ criterion: group.criterion, ruleId: group.ruleId, count: group.items.length, reason: group.reason })),
             criteria: (report.coverage.criteria ?? []).map((record) => ({
@@ -340,12 +358,8 @@ function ruleOf(finding: Finding, locale: Locale, version: WcagVersion): Rule {
   }
 }
 
-function resultOf(finding: Finding, kind: Kind, report: Report, artifact: ArtifactLocation, rule: { id: string; index: number }, policy: FailOn): SarifResult {
-  const locale = report.locale
-  const parts = [finding.message]
-  if (finding.evidence) parts.push(`${t(locale, 'evidence')}: "${finding.evidence}".`)
-  // The id people put in the waivers file, since code scanning shows the message and not the properties.
-  parts.push(`(id ${finding.fingerprint})`)
+/** Where a finding is: the page's artifact, the element's region in the source of a local page, and its selector. */
+function locationOf(finding: Finding, artifact: ArtifactLocation): Location {
   const location: Location = { physicalLocation: { artifactLocation: artifact } }
   if (finding.location) {
     const { startLine, startColumn, endLine, endColumn, snippet } = finding.location
@@ -353,8 +367,79 @@ function resultOf(finding: Finding, kind: Kind, report: Report, artifact: Artifa
   }
   const selector = finding.ref ?? finding.target
   if (selector) location.logicalLocations = [{ fullyQualifiedName: selector, kind: 'element' }]
+  return location
+}
 
-  const fails = kind !== 'waived' && failsPolicy(finding, kind === 'confirmed', policy)
+/** Members of a group its result's message links to, and members whose ids it lists; the related locations hold every one. */
+const LINKED_MEMBERS = 10
+const LISTED_IDS = 100
+
+/**
+ * One result for a group of near-identical findings (core/groups.ts). SARIF 2.1.0 lets a result have more than one
+ * location only when the problem "can only be corrected by making a change at every location" (§3.27.12), which is not
+ * so for elements that fail one by one, and GitHub code scanning reads the first location alone. So the result sits at
+ * the group's example, every member is a related location with its message and id (§3.27.22), the first ones linked from
+ * the message (§3.11.6), and the message lists the ids a waiver takes. Its level is the strictest of its members': `error`
+ * when any member fails the gate, as `rampa check` exits 1 then. It carries no fix: each member's patch is a change of
+ * its own, and the JSON report keeps every one.
+ */
+function groupResultOf(entry: GroupOf, kind: Kind, report: Report, artifact: ArtifactLocation, rule: { id: string; index: number }, policy: FailOn): SarifResult {
+  const locale = report.locale
+  const { group, members } = entry
+  const example = members[0] as Finding
+  const { fixes: _fixes, ...base } = resultOf(example, kind, report, artifact, rule, policy)
+  const { patch: _patch, ...properties } = base.properties
+  const fails = members.some((member) => failsPolicy(member, kind === 'confirmed', policy))
+  const said = [example.message, ...(example.evidence ? [`${t(locale, 'evidence')}: "${example.evidence}".`] : [])].join(' ')
+  const links = members.slice(0, LINKED_MEMBERS).map((member, index) => `[${plainText(findingPlace(member) || member.fingerprint)}](${index + 1})`)
+  const more = (count: number) => (count > 0 ? ` ${plural(locale, 'andMore', count)}` : '')
+  const ids = members.slice(0, LISTED_IDS).map((member) => member.fingerprint)
+  const text = [
+    plainText(`${t(locale, 'groupTitle', { count: group.count })}. ${groupWhy(group, locale)} ${t(locale, 'groupExample')}: ${said}`),
+    `${plainText(plural(locale, 'reviewElements', members.length))}: ${links.join(', ')}${plainText(more(members.length - LINKED_MEMBERS))}.`,
+    plainText(`(${t(locale, 'groupLabel')} ${group.id}; id ${ids.join(', ')}${more(members.length - LISTED_IDS)})`),
+  ].join(' ')
+  const experimental = members.every((member) => member.experimental)
+  return {
+    ...base,
+    level: levelOf(example, kind, fails, report),
+    message: { text },
+    relatedLocations: members.map((member, index) => ({
+      id: index + 1,
+      ...locationOf(member, artifact),
+      message: { text: plainText(`${member.message} (id ${member.fingerprint})`) },
+    })),
+    // The same group on the same page gives the same value in every run, whichever member is its example.
+    partialFingerprints: { [FINGERPRINT_KEY]: sha256([artifact.uri, group.criterion, group.check, group.claim ?? '', 'group'].join('|')).slice(0, 32) },
+    properties: {
+      ...properties,
+      group: { id: group.id, list: group.list, check: group.check, ...(group.claim ? { claim: group.claim } : {}), count: group.count },
+      findingIds: members.map((member) => member.fingerprint),
+      maturity: experimental ? 'experimental' : members.some((member) => member.experimental) ? 'mixed' : 'stable',
+      experimental,
+      failsGate: fails,
+    },
+  }
+}
+
+/** The groups of a page, as its coverage in the run's properties counts them; nothing when it has none. */
+function groupsCoverage(report: Report): { groups?: Array<Record<string, unknown>> } {
+  const groups = reportGroups(report)
+  if (groups.length === 0) return {}
+  return {
+    groups: groups.map(({ group }) => ({ id: group.id, list: group.list, criterion: group.criterion, check: group.check, ...(group.claim ? { claim: group.claim } : {}), count: group.count })),
+  }
+}
+
+function resultOf(finding: Finding, kind: Kind, report: Report, artifact: ArtifactLocation, rule: { id: string; index: number }, policy: FailOn): SarifResult {
+  const locale = report.locale
+  const parts = [finding.message]
+  if (finding.evidence) parts.push(`${t(locale, 'evidence')}: "${finding.evidence}".`)
+  // The id people put in the waivers file, since code scanning shows the message and not the properties.
+  parts.push(`(id ${finding.fingerprint})`)
+  const location = locationOf(finding, artifact)
+
+  const fails =kind !== 'waived' && failsPolicy(finding, kind === 'confirmed', policy)
   const result: SarifResult = {
     ruleId: rule.id,
     ruleIndex: rule.index,

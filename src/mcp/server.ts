@@ -12,7 +12,7 @@ import type { Locale } from '../i18n.ts'
 import { VERSION } from '../version.ts'
 import { type AgentCheck, type AgentDefaults, type CallControl, judgmentFailure, resolveAgentTarget, runAgentCheck } from './check.ts'
 import { CriteriaListSchema, ExplanationSchema, type RememberedFinding, criteriaList, criteriaListText, explain, explanationText } from './explain.ts'
-import { CheckResultSchema, checkResult, checkText } from './format.ts'
+import { CheckResultSchema, checkResult, checkText, memberFindings } from './format.ts'
 
 /**
  * Sent to the client at initialize. Claude Code loads only these and the tool names up front and finds
@@ -98,7 +98,8 @@ export function createMcpServer(defaults: AgentDefaults): McpServer {
     const report: Report = { ...outcome.report, target: options.target ?? outcome.report.target }
     const result = checkResult(report, outcome.engine, options.maxFindings ?? MAX_FINDINGS)
     const target = report.target
-    for (const finding of result.findings) {
+    // The members of a group listed once are findings too: explain_finding takes their ids.
+    for (const finding of [...result.findings, ...memberFindings(report, outcome.engine, result)]) {
       remembered.delete(finding.id)
       remembered.set(finding.id, { finding, target })
     }

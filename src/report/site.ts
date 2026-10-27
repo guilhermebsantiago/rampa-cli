@@ -6,8 +6,9 @@ import type { CrawlSkip } from '../surfaces/crawl.ts'
 import { compareCriteria, criteriaFor, criterionLabel, versionOf } from '../wcag.ts'
 import { reviewOnlyCriteria } from '../core/coverage.ts'
 import { siteAdvisoryLines } from './advisory.ts'
-import { thresholdLevel } from './common.ts'
-import { type PrettyOptions, renderFinding } from './pretty.ts'
+import { GROUP_THRESHOLD, checkOf, groupList } from '../core/groups.ts'
+import { entriesOf, groupWhy, thresholdLevel } from './common.ts'
+import { type PrettyOptions, renderFinding, renderGroup } from './pretty.ts'
 import { renderSiteCriteria, siteCriteriaCoverage } from '../site/index.ts'
 
 const messages = {
@@ -131,16 +132,22 @@ const MAX_LISTED_ELEMENTS = 10
 /**
  * Engine findings with the same rule, message and pages print as one block that
  * lists their elements: a template with twenty images without a text
- * alternative reads as one problem with twenty places to fix. A judgment
- * finding has its own evidence and patch, so it stays on its own.
+ * alternative reads as one problem with twenty places to fix. Any other finding
+ * (a judgment, a Rampa or probe rule) has its own evidence and patch, so it stays
+ * on its own, unless more than five on the same pages share the criterion, check
+ * and claim (core/groups.ts): those are one block too, to review together.
  */
-function blocksOf(groups: readonly RepeatedFinding[]): RepeatedFinding[][] {
+function blocksOf(groups: readonly RepeatedFinding[], claimOf: (group: RepeatedFinding) => string | undefined): RepeatedFinding[][] {
   const blocks = new Map<string, RepeatedFinding[]>()
   for (const group of groups) {
-    const key = group.source === 'engine' ? `${group.ruleId}\u0000${group.message}\u0000${group.pages.join('\u0000')}` : group.signature
+    const pages = group.pages.join('\u0000')
+    const key =
+      group.source === 'engine'
+        ? `${group.ruleId}\u0000${group.message}\u0000${pages}`
+        : `${group.criterion}\u0000${checkOf(group)}\u0000${claimOf(group) ?? ''}\u0000${pages}`
     blocks.set(key, [...(blocks.get(key) ?? []), group])
   }
-  return [...blocks.values()]
+  return [...blocks.values()].flatMap((block) => (block[0]?.source === 'engine' || block.length > GROUP_THRESHOLD ? [block] : block.map((group) => [group])))
 }
 
 /**
@@ -168,12 +175,21 @@ export function renderSiteReport(site: SiteReport, options: PrettyOptions): stri
   if (site.pages.length === 0) lines.push(p.yellow(st(locale, 'noPages')), '')
   else if (site.summary.findings.total === 0 && !site.siteCriteria?.findings.length) lines.push(p.green(t(locale, 'noFindings')), '')
 
+  // The kind of claim of a repeated finding, read from its first occurrence.
+  const claimOf = (group: RepeatedFinding) => {
+    const first = group.occurrences[0]
+    return first ? site.pages[first.page]?.findings[first.finding]?.claim : undefined
+  }
   if (site.summary.repeated.length > 0) {
     lines.push(p.bold(st(locale, 'repeatedTitle')), '')
     for (const [criterion, groups] of byCriterion(site.summary.repeated)) {
       lines.push(p.bold(criterionLabel(criterion, locale)))
-      for (const block of blocksOf(groups)) {
+      for (const block of blocksOf(groups, claimOf)) {
         const first = block[0] as RepeatedFinding
+        // Near-identical judgments in one block say so first: one entry to review, each one still a finding.
+        if (first.source !== 'engine' && block.length > 1) {
+          lines.push(`  ${p.bold(t(locale, 'groupTitle', { count: block.length }))}`, `    ${groupWhy({ check: checkOf(first), claim: claimOf(first), count: block.length }, locale, 'pages')}`)
+        }
         // renderFinding starts with the element's line; a block lists all its elements there instead.
         const [, ...rest] = renderFinding(asFinding(first), locale, p)
         for (const group of block.slice(0, MAX_LISTED_ELEMENTS)) lines.push(`  ${p.redBold('✗')} ${group.ref ?? ''}`)
@@ -198,12 +214,16 @@ export function renderSiteReport(site: SiteReport, options: PrettyOptions): stri
         return
       }
       sections.push(p.bold(path(report.target)))
+      // A burst of near-identical findings particular to the page is one entry, as in a single page's report.
+      const groups = [...groupList(specific, 'findings'), ...(verbose ? groupList(report.belowThreshold, 'belowThreshold') : [])]
       for (const [criterion, list] of byCriterion(findings)) {
         sections.push(`  ${p.bold(criterionLabel(criterion, locale))}`)
         // With --verbose a page lists its findings below the threshold too, each marked as such.
         const below = report.belowThreshold.length > 0 ? { level: thresholdLevel(report) } : undefined
-        for (const finding of list) {
-          sections.push(...renderFinding(finding, locale, p, below && report.belowThreshold.includes(finding) ? below : undefined).map((line) => `  ${line}`))
+        for (const entry of entriesOf(list, groups)) {
+          const marked = below && report.belowThreshold.includes(entry.finding) ? below : undefined
+          const lines = entry.group ? renderGroup(entry.group, locale, p, { below: marked, verbose }) : renderFinding(entry.finding, locale, p, marked)
+          sections.push(...lines.map((line) => `  ${line}`))
         }
       }
       if (discarded.length > 0) {

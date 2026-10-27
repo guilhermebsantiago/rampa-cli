@@ -1,3 +1,4 @@
+import { withGroups } from '../core/groups.ts'
 import type { Report } from '../core/types.ts'
 import type { Painter } from './color.ts'
 import { renderHtml } from './html.ts'
@@ -21,8 +22,11 @@ export function formatReports(format: Format, reports: Report[], options: Format
   switch (format) {
     case 'pretty':
       return `\n${reports.map((report) => renderReport(report, options)).join('\n\n')}\n`
-    case 'json':
-      return `${JSON.stringify(reports.length === 1 ? reports[0] : reports, null, 2)}\n`
+    case 'json': {
+      // The groups as the lists hold them now: a baseline applied after the check leaves out findings it already had.
+      const grouped = reports.map(withGroups)
+      return `${JSON.stringify(grouped.length === 1 ? grouped[0] : grouped, null, 2)}\n`
+    }
     case 'sarif':
       return `${JSON.stringify(toSarif(reports, options), null, 2)}\n`
     case 'markdown':

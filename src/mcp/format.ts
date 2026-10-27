@@ -1,8 +1,9 @@
 import { z } from 'zod'
+import { type GroupOf, groupList } from '../core/groups.ts'
 import type { EngineResults, Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
-import { reviewGroups, reviewOnly, thresholdLevel, truncationText } from '../report/common.ts'
+import { groupWhy, groupsClause, memberAbout, plural, reviewGroups, reviewOnly, thresholdLevel, truncationText } from '../report/common.ts'
 import { beyondTargetNote, displayTarget, usageLine } from '../report/pretty.ts'
 import { criteriaFor, criterionLabel, successCriterion, versionOf } from '../wcag.ts'
 
@@ -43,8 +44,23 @@ export const FindingSchema = z.object({
   help_url: z.string().optional(),
   html: z.string().optional(),
   how_to_fix: z.string().optional().describe("axe-core's fix summary for this element"),
+  group: z.string().optional().describe('Set on the example of a group of near-identical findings: the id of the group in groups, which lists every member'),
 })
 export type AgentFinding = z.infer<typeof FindingSchema>
+
+export const GroupSchema = z
+  .object({
+    id: z.string().describe('The id of the group, not of a finding'),
+    criterion: z.string(),
+    check: z.string().describe('The check behind every member: a rule id, or judgment/<criterion> for a model judgment'),
+    claim: z.string().optional().describe('The kind of claim every member makes, such as "ambiguous" for links that share a text'),
+    count: z.number().int(),
+    example: z.string().describe('The id of the member findings lists'),
+    members: z
+      .array(z.object({ id: z.string(), selector: z.string().optional(), about: z.string().optional().describe('What the finding is about: the link text, the alternative, or its evidence') }))
+      .describe('Every member, the example first; explain_finding takes any of their ids'),
+  })
+  .describe('More than five findings on the page with the same criterion, check and claim, listed once by their example')
 
 // The short parts come first and the findings last, so a reader that skims, or a client that cuts a long result, keeps the coverage.
 export const CheckResultSchema = z.object({
@@ -65,6 +81,7 @@ export const CheckResultSchema = z.object({
     cannot_tell: z.number().int(),
     not_judged: z.number().int().describe('Candidates no model judged: no_llm, a cache miss offline, or a model error'),
     needs_review: z.number().int().describe('Elements axe-core could not decide: a person looks at them; never failures'),
+    groups: z.number().int().describe('Groups of near-identical findings listed once each; every member counts in findings'),
   }),
   coverage: z.object({
     statement: z.string(),
@@ -108,6 +125,11 @@ export const CheckResultSchema = z.object({
   }),
   errors: z.array(z.string()),
   findings: z.array(FindingSchema),
+  groups: z
+    .array(GroupSchema)
+    .describe(
+      'Bursts of near-identical findings, to review together: findings lists each group once, by its example. Each member is a finding of its own, checked and counted like any other; if the example turns out wrong, check the others before fixing them',
+    ),
 })
 export type CheckResult = z.infer<typeof CheckResultSchema>
 
@@ -194,9 +216,17 @@ export function pickFindings(findings: readonly Finding[], max: number): Finding
 
 /** A page can fail one axe-core rule on hundreds of elements; past `maxFindings` the rest are counted, not listed, to keep the agent's context usable. */
 export function checkResult(report: Report, engine: EngineResults, maxFindings = Number.POSITIVE_INFINITY): CheckResult {
-  const listed = pickFindings(report.findings, maxFindings)
-  const findings = listed.map((finding) => agentFinding(finding, engine))
-  const isListed = new Set(listed)
+  // A burst of near-identical findings takes one place in the list, by its example; groups lists its members (core/groups.ts).
+  const grouped = groupList(report.findings, 'findings')
+  const groupOf = groupsByMember(grouped)
+  const entries = report.findings.filter((finding) => (groupOf.get(finding)?.members[0] ?? finding) === finding)
+  const listed = pickFindings(entries, maxFindings)
+  const findings = listed.map((finding) => {
+    const group = groupOf.get(finding)
+    return group ? { ...agentFinding(finding, engine), group: group.group.id } : agentFinding(finding, engine)
+  })
+  const isListed = new Set(listed.flatMap((finding) => groupOf.get(finding)?.members ?? [finding]))
+  const groups = grouped.filter((entry) => listed.includes(entry.members[0] as Finding))
   const leftOut = report.findings.filter((finding) => !isListed.has(finding))
   const sum = (key: 'judged' | 'discarded' | 'cannotTell' | 'candidates') =>
     report.criteria.filter((c) => c.applicable).reduce((total, c) => total + c[key], 0)
@@ -226,6 +256,7 @@ export function checkResult(report: Report, engine: EngineResults, maxFindings =
       cannot_tell: sum('cannotTell'),
       not_judged: sum('candidates') - sum('judged'),
       needs_review: report.needsReview?.length ?? 0,
+      groups: groups.length,
     },
     coverage: {
       statement: coverageStatement(report.locale),
@@ -258,7 +289,34 @@ export function checkResult(report: Report, engine: EngineResults, maxFindings =
     },
     errors: report.errors,
     findings,
+    groups: groups.map(({ group, members }) => ({
+      id: group.id,
+      criterion: group.criterion,
+      check: group.check,
+      ...(group.claim ? { claim: group.claim } : {}),
+      count: group.count,
+      example: group.example,
+      members: members.map((member) => {
+        const about = memberAbout(member)
+        const selector = selectorOf(member)
+        return { id: member.fingerprint, ...(selector ? { selector } : {}), ...(about ? { about } : {}) }
+      }),
+    })),
   }
+}
+
+function groupsByMember(groups: readonly GroupOf[]): Map<Finding, GroupOf> {
+  const byMember = new Map<Finding, GroupOf>()
+  for (const group of groups) for (const member of group.members) byMember.set(member, group)
+  return byMember
+}
+
+/** The members of the groups a result lists, besides their examples, as explain_finding remembers them. */
+export function memberFindings(report: Report, engine: EngineResults, result: CheckResult): AgentFinding[] {
+  const listed = new Set(result.groups.map((group) => group.id))
+  return groupList(report.findings, 'findings')
+    .filter((entry) => listed.has(entry.group.id))
+    .flatMap((entry) => entry.members.slice(1).map((member) => ({ ...agentFinding(member, engine), group: entry.group.id })))
 }
 
 function notesOf(report: Report, findings: AgentFinding[]): string[] {
@@ -283,6 +341,9 @@ function notesOf(report: Report, findings: AgentFinding[]): string[] {
   return notes
 }
 
+/** Members of a group the text lists; the structured content has every one. */
+const LISTED_MEMBERS = 20
+
 /** Plain text for the agent and for whoever reads the transcript: no colors, tool arguments instead of CLI flags. */
 export function checkText(report: Report, result: CheckResult): string {
   const locale = report.locale
@@ -303,11 +364,18 @@ export function checkText(report: Report, result: CheckResult): string {
         judged: result.summary.judged,
       }),
     )
+    // Findings in groups are counted one by one above; the clause says how many are listed once as a group.
+    const grouped = groupsClause([report], locale)
+    if (grouped) lines.push(grouped)
   }
+  const groups = new Map(result.groups.map((group) => [group.id, group]))
   // A rule that fails on many elements usually gives each the same advice; it is written out once.
   const advice = new Map<string, number>()
   for (const [index, finding] of result.findings.entries()) {
     lines.push('', `${index + 1}. ${criterionLabel(finding.criterion, locale)}`)
+    // A group of near-identical findings: what it is, then its example as any finding, then every element.
+    const group = finding.group ? groups.get(finding.group) : undefined
+    if (group) lines.push(`   ${t(locale, 'groupTitle', { count: group.count })} (${t(locale, 'groupLabel')} ${group.id})`, `   ${groupWhy(group, locale)}`, `   ${t(locale, 'groupExample')}:`)
     if (finding.selector) lines.push(`   ${t(locale, 'agentElement')}: ${finding.selector}`)
     lines.push(`   ${finding.message}`)
     if (finding.evidence) lines.push(`   ${t(locale, 'evidence')}: "${finding.evidence}"`)
@@ -329,6 +397,11 @@ export function checkText(report: Report, result: CheckResult): string {
           ? [`${t(locale, 'rampaRule')} ${finding.rule_id ?? ''}`, finding.help_url]
         : [finding.agreement && `${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`, t(locale, 'verified')]
     lines.push(`   ${[`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`, ...details, `id ${finding.id}`].filter(Boolean).join(' · ')}`)
+    if (group) {
+      lines.push(`   ${plural(locale, 'reviewElements', group.members.length)}:`)
+      for (const member of group.members.slice(0, LISTED_MEMBERS)) lines.push(`   - ${member.selector ?? ''}${member.about ? ` · "${member.about}"` : ''} · id ${member.id}`)
+      if (group.members.length > LISTED_MEMBERS) lines.push(`   - ${plural(locale, 'andMore', group.members.length - LISTED_MEMBERS)}`)
+    }
   }
 
   if (result.needs_review.length > 0) {

@@ -2,13 +2,14 @@ import { relative, sep } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { adoptionLines, noNewFindings } from '../adoption/render.ts'
 import { am } from '../advisory/messages.ts'
+import { type GroupOf, reportGroups } from '../core/groups.ts'
 import type { Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd, subscriptionOf } from '../providers/models.ts'
 import { compareCriteria, criterionLabel, criteriaFor, versionOf } from '../wcag.ts'
 import { advisoryLines, cogaCoverage } from './advisory.ts'
 import type { Painter } from './color.ts'
-import { coverageRows, methodsText, plural, reviewGroups, statusText, thresholdLevel } from './common.ts'
+import { coverageRows, entriesOf, groupWhy, memberAbout, methodsText, plural, reviewGroups, statusText, thresholdLevel } from './common.ts'
 import { timingLines } from './timings.ts'
 
 export interface PrettyOptions {
@@ -39,12 +40,16 @@ export function renderReport(report: Report, options: PrettyOptions): string {
     lines.push('')
   }
 
+  // A burst of near-identical findings is one entry: the group, an example and its elements (core/groups.ts).
+  const grouped = reportGroups(report)
   const byCriterion = (findings: readonly Finding[], below?: { level: string }) => {
     const groups = new Map<string, Finding[]>()
     for (const finding of findings) groups.set(finding.criterion, [...(groups.get(finding.criterion) ?? []), finding])
     for (const criterion of [...groups.keys()].sort(compareCriteria)) {
       lines.push(p.bold(criterionLabel(criterion, locale)))
-      for (const finding of groups.get(criterion) ?? []) lines.push(...renderFinding(finding, locale, p, below))
+      for (const entry of entriesOf(groups.get(criterion) ?? [], grouped)) {
+        lines.push(...(entry.group ? renderGroup(entry.group, locale, p, { below, verbose }) : renderFinding(entry.finding, locale, p, below)))
+      }
       lines.push('')
     }
   }
@@ -188,6 +193,32 @@ export function renderFinding(finding: Finding, locale: Locale, p: Painter, belo
     }
   }
   lines.push(p.dim(`    ${[...parts, ...tail].join(' · ')}`))
+  return lines
+}
+
+/** Elements of a group the terminal lists without --verbose; the JSON report has every member. */
+const LISTED_MEMBERS = 10
+
+/**
+ * A group of near-identical findings as one entry: how many, why they are together and that each is a finding, one
+ * example as a finding is shown, then its elements with their ids (all of them with --verbose).
+ */
+export function renderGroup(entry: GroupOf, locale: Locale, p: Painter, options: { below?: { level: string } | undefined; verbose?: boolean | undefined } = {}): string[] {
+  const { group, members } = entry
+  const [example] = members
+  if (!example) return []
+  const lines = [`  ${options.below ? p.yellow('~') : p.redBold('✗')} ${p.bold(t(locale, 'groupTitle', { count: group.count }))}`, `    ${groupWhy(group, locale)}`]
+  // The example as a finding is shown, one step in: its element's line becomes "Example: <element>".
+  const [, ...rest] = renderFinding(example, locale, p, options.below)
+  lines.push(`    ${t(locale, 'groupExample')}: ${example.ref ?? example.target ?? ''}`, ...rest.map((line) => `  ${line}`))
+  lines.push(`    ${plural(locale, 'reviewElements', members.length)}:`)
+  const listed = options.verbose ? members : members.slice(0, LISTED_MEMBERS)
+  for (const member of listed) {
+    const about = memberAbout(member)
+    lines.push(p.dim(`      ${member.ref ?? member.target ?? ''}${about ? ` · "${about}"` : ''} · id ${member.fingerprint}`))
+  }
+  if (listed.length < members.length) lines.push(p.dim(`      ${t(locale, 'groupMore', { count: members.length - listed.length })}`))
+  lines.push(p.dim(`    ${t(locale, 'groupLabel')} ${group.id}`))
   return lines
 }
 

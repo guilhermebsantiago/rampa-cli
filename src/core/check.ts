@@ -20,6 +20,7 @@ import { VERSION } from '../version.ts'
 import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria, criteriaFor, successCriterion, wcagTarget } from '../wcag.ts'
 import type { JudgmentCache } from './cache.ts'
 import { type Confirmation, confirmClaim, describeAnswers } from './confirm.ts'
+import { claimOf, findingGroups } from './groups.ts'
 import { DEFAULT_MAX_CANDIDATES, type Sample, judgeCandidates } from './judge.ts'
 import type { FastCoverage } from './fast.ts'
 import { assertConfidence, meetsThreshold, nothingJudgedNote } from './gate.ts'
@@ -402,6 +403,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
           // Keyed on what was judged, never on the model's quote: models pick different words to quote
           // from run to run, and a fingerprint that moves breaks every waiver and baseline holding it.
           const subject = criterion.subject?.(judgment.candidate)
+          // The kind of claim, read from the answer: groups of near-identical findings are keyed on it (core/groups.ts).
+          const claim = claimOf(output)
           findings.push({
             fingerprint: fingerprint(criterion.id, judgment.candidate.ref, subject ?? ''),
             criterion: criterion.id,
@@ -411,6 +414,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             message: criterion.message(output, judgment.candidate, options.locale),
             evidence: output.evidence,
             subject,
+            ...(claim ? { claim } : {}),
             patch: criterion.patch?.(output, judgment.candidate, view),
             confidence,
             // A judgment the criterion made without a model names no model; its message says what decided it.
@@ -597,6 +601,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   // The form probe submitted forms, or listed what it would: every report says so at the top.
   const submissions = submissionSummary(snapshot)
   const llm: Report['llm'] = !options.llm ? 'off' : llmActive ? 'on' : 'no-model'
+  const groups = findingGroups({ findings: reported, belowThreshold })
   // Judgment was asked for and the model judged nothing: the report says so, and rampa check exits 2.
   const nothingJudged = nothingJudgedNote({ llm, criteria: summaries, locale: options.locale })
   if (nothingJudged) notes.push(nothingJudged)
@@ -617,6 +622,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     belowThreshold,
     ...(beyond.length > 0 ? { beyondTarget: beyond } : {}),
     waived,
+    // Bursts of near-identical findings, to review together; every member stays in its list (core/groups.ts).
+    ...(groups.length > 0 ? { groups } : {}),
     discarded,
     criteria: summaries,
     coverage: {

@@ -1,3 +1,4 @@
+import type { GroupOf } from '../core/groups.ts'
 import type { Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { VERSION } from '../version.ts'
@@ -10,7 +11,10 @@ import {
   criterionTag,
   findingPlace,
   diffLines,
+  groupWhy,
+  groupsClause,
   levelBreakdown,
+  memberAbout,
   methodsText,
   pageLabel,
   parsingNote,
@@ -20,6 +24,7 @@ import {
   statusText,
   runUsageLine,
   safeUrl,
+  shownEntries,
   shownFindings,
   sourceLabel,
   thresholdLevel,
@@ -55,7 +60,8 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
   const locale: Locale = reports[0]?.locale ?? 'en'
   const verbose = Boolean(options.verbose)
   const maxLength = options.maxLength ?? MAX_COMMENT_LENGTH
-  const pages = reports.map((report) => ({ report, findings: shownFindings(report, verbose) }))
+  // A burst of near-identical findings on a page is one block: the group, an example and its elements (core/groups.ts).
+  const pages = reports.map((report) => ({ report, findings: shownFindings(report, verbose), entries: shownEntries(report, verbose) }))
   const all = pages.flatMap((page) => page.findings)
   const confirmed = reports.flatMap((report) => report.findings)
 
@@ -64,8 +70,10 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
   else if (confirmed.length > 0) {
     const counts = countLevels(confirmed)
     const version = wcagVersion(reports[0] ?? {})
+    // Findings in groups are counted one by one, as everywhere; the clause says how many are listed once as a group.
+    const grouped = groupsClause(reports, locale)
     head.push(
-      `**${plural(locale, 'confirmedCount', confirmed.length)}** ${plural(locale, 'onPages', reports.length, { version })}: ${levelBreakdown(counts, locale, version)}.`,
+      `**${plural(locale, 'confirmedCount', confirmed.length)}** ${plural(locale, 'onPages', reports.length, { version })}: ${levelBreakdown(counts, locale, version)}.${grouped ? ` ${grouped}` : ''}`,
     )
   } else if (reports.length === 1 && reports[0]?.blocked) {
     // A page the site replaced with a bot check was not checked at all: "no failures" would read as a pass.
@@ -105,27 +113,29 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
   const body: string[] = []
   let used = 0
   let omitted = 0
-  for (const { report, findings } of pages) {
-    if (findings.length === 0) continue
+  for (const { report, entries } of pages) {
+    if (entries.length === 0) continue
     const heading = `### ${code(pageLabel(report))}`
-    const fits: string[] = []
-    for (const finding of findings) {
-      const block = findingBlock(finding, report)
+    // Each block with the findings it stands for: one, or every member of a group.
+    const fits: Array<{ block: string; count: number }> = []
+    for (const entry of entries) {
+      const block = entry.group ? groupBlock(entry.group, report) : findingBlock(entry.finding, report)
       // A page's first block also pays for its heading and the <details> around its folded findings.
       const cost = block.length + (fits.length === 0 ? heading.length + 200 : 0)
       if (used + cost > budget) {
-        omitted++
+        omitted += entry.group?.members.length ?? 1
         continue
       }
       used += cost
-      fits.push(block)
+      fits.push({ block, count: entry.group?.members.length ?? 1 })
     }
     if (fits.length === 0) continue
     body.push(heading, '')
-    body.push(...fits.slice(0, OPEN_FINDINGS))
+    body.push(...fits.slice(0, OPEN_FINDINGS).map((fit) => fit.block))
     const folded = fits.slice(OPEN_FINDINGS)
     if (folded.length > 0) {
-      body.push('<details>', `<summary>${plural(locale, 'moreFindings', folded.length)}</summary>`, '', ...folded, '</details>', '')
+      const count = folded.reduce((total, fit) => total + fit.count, 0)
+      body.push('<details>', `<summary>${plural(locale, 'moreFindings', count)}</summary>`, '', ...folded.map((fit) => fit.block), '</details>', '')
     }
   }
   if (omitted > 0) body.push(`> ${plural(locale, 'omittedFindings', omitted)}`, '')
@@ -185,6 +195,35 @@ function findingBlock(finding: Finding, report: Report): string {
   if (report.findings.includes(finding)) meta.push(`id ${code(finding.fingerprint)}`)
   else meta.push(`${t(locale, 'belowThresholdShort', { level: thresholdLevel(report) })} · id ${code(finding.fingerprint)}`)
   lines.push(meta.join(' · '), '')
+  return lines.join('\n')
+}
+
+/** Members a group's list holds in a comment; the JSON, SARIF and HTML reports have every one. */
+const MAX_MEMBERS = 100
+
+/**
+ * A group of near-identical findings as one block: the criterion and the count, why they are together and that each is
+ * a finding, one example as a finding block shows it, and every element with its id, folded into a <details>.
+ */
+function groupBlock(entry: GroupOf, report: Report): string {
+  const locale = report.locale
+  const { group, members } = entry
+  const [example] = members
+  if (!example) return ''
+  const url = understandingUrl(group.criterion)
+  const name = criterionName(group.criterion, locale)
+  const tag = url ? `[${criterionTag(example)}](${url}${name ? ` "${name.replaceAll('"', "'")}"` : ''})` : criterionTag(example)
+  const lines = [`**${tag}** — **${prose(t(locale, 'groupTitle', { count: group.count }))}**\\`, prose(groupWhy(group, locale)), '']
+  // The example's block, under a label; its first line names the element instead of the criterion again.
+  const [, ...rest] = findingBlock(example, report).split('\n')
+  const place = findingPlace(example)
+  lines.push(`${t(locale, 'groupExample')}${place ? ` — ${code(place)}` : ''}:\\`, ...rest)
+  const listed = members.slice(0, MAX_MEMBERS).map((member) => {
+    const about = memberAbout(member)
+    return `- ${code(findingPlace(member) || '—')}${about ? ` "${prose(about)}"` : ''} · id ${code(member.fingerprint)}`
+  })
+  if (members.length > MAX_MEMBERS) listed.push(`- ${plural(locale, 'andMore', members.length - MAX_MEMBERS)}`)
+  lines.push('<details>', `<summary>${plural(locale, 'reviewElements', members.length)} · ${t(locale, 'groupLabel')} ${group.id}</summary>`, '', ...listed, '</details>', '')
   return lines.join('\n')
 }
 
