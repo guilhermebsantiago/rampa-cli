@@ -75,3 +75,43 @@ Cells are true / false (uncertain) findings and precision with its Wilson 95% in
 - **Per group and per page.** With bursts collapsed, the pooled precision is 0.83 after (0.76 before). The remaining groups are all true but one mixed (correio's 6 shared-text links, 3 true, 2 false, 1 uncertain, counted true): tst.jus.br's 8 shared-text links, theconversation's 8 language parts, correio's and ed.ac.uk's 6 functional images. Of the 39 pages with a decided finding after, 27 have only true ones (24 of 44 before), and the mean of the pages' precisions is 0.81 (0.70 before).
 - **What is left**, 16 false findings on 12 pages, one or two a page: seven 1.1.1 claims every second-pass framing confirmed at 0.998 or more (section 3), seven 2.4.4 shared-text links (osesp.art.br's two "Ouvidoria", one of which redirects by script to the other; thomann 2, correio 2, pimoroni 1) and correio's generic "SAIBA MAIS", and gla.ac.uk's 3.3.2. None of them is a burst.
 - **Against the projections.** The precision check projected 0.82 (0.74–0.88) in-sample for F1 + F2 and 0.83 with F3; the next-iteration notes projected 0.86 for items 1–4. The replay gives 0.86, as the frozen expectation of section 2 said (95 / 16), because each fix removed exactly the findings it was built for and nothing else. That agreement says the code does what the simulation assumed; it says nothing about fresh pages.
+
+## 5. The W3C ACT cases and pairs, before and after
+
+Each set run with the build before the fixes and then with the build after, on one judgment cache (a copy of the precision probe's), with Gemma 4 12B (`run-evals.sh`, `data/evals/`, 2026-10-27); the after runs made 0 to 2 new model calls, so the two differ by the rules only. Rampa's precision / recall per set:
+
+| Criterion | Set | Before | After |
+| --- | --- | --- | --- |
+| 1.1.1 | 23a2a8, qt1vmo, e88epe, pairs (2 of 2) | 1.00 / 1.00 each | 1.00 / 1.00 each: every confirmed failed example is above 0.99 |
+| 2.4.2 | 2779a5 (syntax) | 0.50 / 1.00 (6 passed pages flagged: "Title of the page." read as saying nothing) | **1.00 / 1.00**: those claims are suggestions |
+| 2.4.2 | c4a8a4 (semantic) | 1.00 / 1.00 (3 of 3) | **– / 0.00**: its three failed examples are mismatches ("Apple harvesting season" over another subject), the model's reading, so suggestions |
+| 2.4.2 | pairs (`title-generic`) | 3 of 3 | 3 of 3 |
+| 2.4.4 | c487ae, 5effbb, fd3a94, pairs | 1.00 / 1.00, 1.00 / 0.83, 0.78 / 0.88, 20 of 21 | the same: the nesting fact changes no ACT link |
+| 2.4.6 | cc0f0a, b49b2e, pairs | 0 of 6, 0 of 4 (suggestions), 5 of 9 | the same |
+| 3.1.1 | bf051a, b5c3f8, ucwvc8, pairs | 1.00 / 1.00, 4 of 4 | the same |
+| 3.1.2 | de46e4, off6ek, pairs | 1.00 / 1.00, 6 of 10 | the same |
+| 3.3.2 | pairs (`label-hidden`, `label-unseen`) | 7 of 7, 7 of 7 | **6 of 7**, 7 of 7: the corrupted Passed Example 5 of cc0f0a keeps text beside its "Name" and "Street" fields, so their claims are suggestions |
+
+The demo's recorded evaluation (`demo/recorded/eval/ollama-gemma4-12b`) is recorded again from the after run of its five criteria: the before run gives exactly the recording it replaces (every set and pair), and the after run moves only 2.4.2, as above; its suggestions go from 30 to 39. The ACT cases are no measure of real-page precision: the 2.4.2 cost is the price of the rule that had no true real-page finding to lose.
+
+## 6. What a fifth round should fix in advance
+
+The replay shows that each fix removes what it was built for on the pages it was built from. Whether precision holds on new pages depends mostly on whether a new page brings a burst cause not seen yet (three in 72 pages so far, each a new mechanism), so a fifth round should be pre-registered before any page loads, as the fourth was, with these fixed:
+
+- **The code**: `src/` frozen at a named commit with these four fixes, and the thresholds of section 2 (the 0.99 cut, the default look and its family list, the 150-element floor, the H81 nesting rule, the 2.4.2 and 3.3.2 grounding). No change after the pre-registration commit.
+- **The pages**: 24 new pages by the fourth round's design and seeded split, its 2,111 excluded domains plus its own 24 and every domain this branch's files name.
+- **The primary measure**: test-half precision per element at the default threshold over the judged criteria, with Wilson and the page bootstrap as co-primary intervals; compared with the fourth round's test half (14 of 26, 0.54) and pooled halves (27 of 93, 0.29) by Newcombe and by a page-bootstrap difference, reading "went up" only when both intervals lie above 0.
+- **Secondaries, each with its rule written down**: precision per group (the group of section 2: same page, criterion, check id and claim kind, 6 or more, labelled by the plurality of its labelled members, a tie uncertain), always next to per element; the share of pages with a decided finding on which every finding is true, and the mean page precision; the dev half and every finding counted; per criterion.
+- **Ablations by replay of the same snapshots**, each a counterfactual from what the report records, so its cost is exact: the 1.1.1 cut at 0.9 against 0.99 (the probability of a claim the cut moved is in its suggestion's text); the second pass off (`--no-confirm`); the shared-text fact without the nesting (a replay of the fact on the snapshot, as `shared-text.ts` does); the capture guard's trigger and signal (`reach.stylesheets`, `linked: 0` for the body-look signal), logged for every page.
+- **A labelled sample of what the fixes moved to review**: every shared-text claim the nesting tells apart, every judgment on a page read as unstyled, the 1.1.1 claims between 0.9 and 0.99, and the 2.4.2 and 3.3.2 claims, with the round-4 sample of other suggestions repeated, so that the recall these rules cost is measured and not only the precision they buy.
+- **A burst rule for the analysis**: every page with 6 or more findings of one claim is listed with its mechanism (from the dev half only, the test half counted), since one new mechanism can still decide a half.
+- **People**: before round 5 is run, a blind human sample of rounds 3 and 4 (every finding on the three burst pages and a stratified 100), with human–Claude agreement per claim, as the [next-iteration notes](notes-precision-next.md) propose; without it the labels stay a pre-annotation by two Claude agents of one family.
+
+## 7. Data and reproduction
+
+All paths are under `study/notes-precision-fixes/`. Run from the repository root after `pnpm install --frozen-lockfile` and `pnpm build`, with the studies' recordings in `C:/Users/guilh/dev/rampa-study-recordings` (or `RECORDINGS`) and the precision probe's caches in its worktree (or `PROBE_PAGES`).
+
+- `bash shared-text.sh`: the shared-text fact before and after F1 (and the F4 variants, by editing `contextKey`) on every recorded snapshot, no model; `data/shared-text.md`, `data/shared-text.json`.
+- `node capture-style.ts`: the unstyled-capture rule on the 93 recorded snapshots; `data/capture-style.md`.
+- `bash replay.sh <label> <dist> offline|online [s2 s3 s4]`: the replay; `python -I compact.py <label>` keeps the judged part of each report (`data/<label>/*.judged.json`; the full reports and consoles are kept out of git); `python -I analyze.py base after`: the tables of sections 3 and 4 (`data/base.md`, `data/after.md`, `data/<label>/summary.json`). The working copies of the caches (`pages/`, out of git) were copied to the recordings folder.
+- `bash run-evals.sh <before dist> <after dist>`: the W3C ACT cases and pairs before and after (`data/evals/`); the demo's recorded evaluation is the `demo-after` run.

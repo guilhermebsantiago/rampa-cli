@@ -4,7 +4,7 @@ WCAG 2.4.4 asks that the purpose of each link can be told from its text, alone o
 
 - **The link's context**: its sentence, paragraph, list item (and the items it is nested in), table cell and the header cells of that cell, the heading it sits under (and, to tell links with one text apart, the headings of the sections it sits in), and its `aria-describedby` description. A short `div` or `span` around a link counts as its sentence. A block that holds nothing but links is no context.
 - **Where the link leads**: the part of the page a `#part` link points to, and, for other links, what Rampa read at the address before judging: a page's title, first `h1`, meta description and the part a `#fragment` points to, or a file's type and size.
-- **The links that share its text**: how many there are, how many different places they lead to, and whether the context of each tells it apart from the ones that lead elsewhere.
+- **The links that share its text**: how many there are, how many different places they lead to, and whether the context of each tells it apart from the ones that lead elsewhere. Since 2026-10-27 that comparison also reads the list items a link is nested in (technique H81: the text of each enclosing item outside the nested list, its link or button included) and the name a list, menu or group around it has of its own, so a menu's department nested under "Deals" tells apart from the department itself, shown or kept for screen readers ([notes](studies/notes-precision-fixes.md)).
 
 With these, the model can report three problems besides a generic text such as "click here":
 
