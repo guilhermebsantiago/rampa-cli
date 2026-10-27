@@ -96,6 +96,29 @@ export interface LabelsOrInstructionsContext {
 
 const SEARCH_NAMES = /^(search|busca|buscar|pesquisa|pesquisar|procurar|búsqueda|busqueda)\b/i
 
+/**
+ * Whether a field's fail rests on a fact Rampa checks, not on the model's reading of what the screen shows. The claim
+ * had no true case in four real-page studies (0 of 8 at the default threshold): a header search box collapsed to an
+ * icon or inside a closed menu, a field in a form whose visible text the model did not read as its label
+ * (study/notes-precision-probe, docs/studies/notes-precision-fixes.md). So:
+ * - never on a field that was not on screen when the page was read, or on a search field (a magnifying-glass button
+ *   labels it, and the snapshot does not always show the icon);
+ * - "nothing visible tells what to enter": the field's only label is on the page but its pixels did not change when its
+ *   text was made transparent (`unseen`, measured), or nothing visible sits beside the field at all: no visible label,
+ *   no placeholder, no text just before or after it, no button next to it;
+ * - "the pattern is not explained": the field enforces a pattern (and verification found no example of it on the page)
+ *   with no visible label, no placeholder and nothing visible beside it, so no text could explain it.
+ * A group of options or a date field (`kind`, experimental, below the default threshold) is judged as before.
+ */
+export function groundedLabel(problem: (typeof LABEL_PROBLEMS)[number], c: LabelsOrInstructionsContext): boolean {
+  if (c.kind) return true
+  if (c.collapsed || c.search) return false
+  const nothingBeside = !c.visibleLabel && !c.placeholder && c.around.trim() === ''
+  if (problem === 'no_visible_label') return Boolean(c.unseen) || nothingBeside
+  if (problem === 'rule_not_explained') return Boolean(c.pattern) && nothingBeside
+  return false
+}
+
 /** Whether a field was not on screen when the page was read (`LabelsOrInstructionsContext.collapsed`). */
 function collapsedField(node: A11yNode, index: ReturnType<typeof indexTree>, snapshot: A11ySnapshot): boolean {
   if (node.states.includes('offscreen')) return true
@@ -182,10 +205,8 @@ export const labelsOrInstructions: Criterion<LabelsOrInstructionsContext, Labels
   schema: LabelsOrInstructionsJudgment,
   // Option groups and dates are new: below the default threshold until they pass the evaluation gate.
   confidenceCap: (candidate) => (candidate.context.kind ? 'low' : undefined),
-  // A "nothing on screen" claim on a field that was not on screen when the page was read, or on a search field, is the
-  // model's suggestion: on the real-page studies' pages every such finding was a header search box collapsed to an icon
-  // or inside a closed menu, with a visible label once opened (study/notes-precision-probe).
-  grounded: (_output, candidate) => !candidate.context.collapsed && !candidate.context.search,
+  // A fail is a finding only on a fact Rampa checks itself (`groundedLabel`); any other is the model's suggestion.
+  grounded: (output, candidate) => groundedLabel(output.problem, candidate.context),
 
   candidates(snapshot: A11ySnapshot, engine: EngineResults): Candidate<LabelsOrInstructionsContext>[] {
     const index = indexTree(snapshot.root)

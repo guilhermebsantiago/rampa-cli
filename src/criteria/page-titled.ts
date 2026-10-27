@@ -81,6 +81,9 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
   schema: PageTitledJudgment,
   // Only default or generic titles keep the model's confidence; see generic-text.ts.
   confidenceCap: (candidate) => (genericTitle(candidate.context.title) ? undefined : 'low'),
+  // A fail is a finding only on a fact Rampa checks (`groundedTitle`); any other is the model's suggestion. Every 2.4.2
+  // finding of the four real-page studies was false (0 of 7 at the default threshold or below it).
+  grounded: (output, candidate) => groundedTitle(output.problem, candidate.context),
   subject: (candidate) => candidate.context.title,
   decidedBy: 'rampa/home-page-title',
 
@@ -192,6 +195,20 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
       after: `<title>${escapeHtml(value)}</title>`,
     }
   },
+}
+
+/**
+ * Whether a title fail rests on a fact Rampa checks: the title is on the generic lists, or is an address or a file name
+ * (`genericTitle`), or another page of the same site (one a crawl read, or one this page links to) has the very same
+ * title, so it tells this page apart from none. A mismatch with the page's subject, or "this specific title says
+ * nothing", is the model's reading: on real pages it was always wrong ("Fale conosco" on a contact page, "Diabetes |
+ * Type 1 Diabetes | Type 2 Diabetes | MedlinePlus" on a page about diabetes).
+ */
+export function groundedTitle(problem: (typeof TITLE_PROBLEMS)[number], c: Pick<PageTitledContext, 'title' | 'siblings'>): boolean {
+  if (problem !== 'generic' && problem !== 'filename_or_url') return false
+  if (genericTitle(c.title)) return true
+  const title = normalizeForMatch(c.title)
+  return problem === 'generic' && (c.siblings ?? []).some((sibling) => normalizeForMatch(sibling) === title)
 }
 
 /** The path and file name of the page, without the query or the local disk. */
