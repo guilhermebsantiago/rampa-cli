@@ -126,6 +126,66 @@ describe('2.4.4 links that share a text', () => {
     })
   })
 
+  it('lets the list item a link is nested in tell it apart (H81), in a menu kept for screen readers too', () => {
+    // toolstation.com's footer (fourth real-page study): the departments, then the same names nested under "Deals" and
+    // "Sale & Clearance", each leading to its own listing, in a navigation kept off screen for screen readers.
+    const department = (ref: string, label: string, ...nested: A11yNode[]) =>
+      item(ref, link(`${ref}-a`, label, `/${ref}`), ...(nested.length > 0 ? [list(`${ref}-ul`, ...nested)] : []))
+    const nav = node({
+      ref: 'nav',
+      role: 'navigation',
+      name: 'Site Navigation',
+      states: ['offscreen'],
+      native: { tag: 'nav' },
+      children: [
+        list(
+          'top',
+          department('deals', 'Deals', item('deals-adh', link('deals-adh-a', 'Adhesives & Sealants', '/deals/adhesives')), item('deals-auto', link('deals-auto-a', 'Automotive', '/deals/automotive'))),
+          department('adhesives', 'Adhesives & Sealants', item('foam', link('foam-a', 'Expanding Foam', '/foam'))),
+          department('automotive', 'Automotive'),
+          department('sale', 'Sale & Clearance', item('sale-adh', link('sale-adh-a', 'Adhesives & Sealants', '/sale/adhesives'))),
+        ),
+      ],
+    })
+    const page = snapshot([nav])
+    const shared = linkPurpose.candidates(page, noFindings).filter((c) => c.context.name === 'Adhesives & Sealants' || c.context.name === 'Automotive')
+    expect(shared.map((c) => [c.ref, c.context.sameText])).toEqual([
+      ['deals-adh-a', { links: 3, places: 3, apart: true }],
+      ['deals-auto-a', { links: 2, places: 2, apart: true }],
+      ['adhesives-a', { links: 3, places: 3, apart: true }],
+      ['automotive-a', { links: 2, places: 2, apart: true }],
+      ['sale-adh-a', { links: 3, places: 3, apart: true }],
+    ])
+    expect(linkPurpose.verify(judgment({ evidence: 'Adhesives & Sealants', problem: 'ambiguous', suggestedText: 'Adhesives on sale' }), shared[0]!, page)).toEqual({
+      ok: false,
+      reason: 'no other link with this text leads elsewhere from the same context',
+    })
+  })
+
+  it('reads the item a list is nested in by its text, button or link, and a submenu named by its button', () => {
+    const page = snapshot([
+      list(
+        'menu',
+        item('i1', node({ ref: 'b1', role: 'button', name: 'Women', text: 'Women', native: { tag: 'button' } }), list('l1', item('l1i', link('w', 'New in', '/women/new')))),
+        item('i2', node({ ref: 't2', text: 'Men' }), list('l2', item('l2i', link('m', 'New in', '/men/new')))),
+      ),
+      node({ ref: 'kids-button', role: 'button', name: 'Kids', native: { tag: 'button', attributes: { id: 'kids' } }, children: [node({ ref: 'kids-text', text: 'Kids' })] }),
+      node({ ref: 'kids-menu', role: 'list', native: { tag: 'ul', attributes: { 'aria-labelledby': 'kids' } }, children: [item('k', link('k-a', 'New in', '/kids/new'))] }),
+    ])
+    expect(linkPurpose.candidates(page, noFindings).map((c) => c.context.sameText?.apart)).toEqual([true, true, true])
+  })
+
+  it('still finds links nested under items that read the same, or under none, ambiguous', () => {
+    const page = snapshot([
+      list('a', item('a1', link('a1-a', 'Shop', '/shop'), list('a1-ul', item('a1-i', link('x', 'Offers', '/offers/1'))))),
+      list('b', item('b1', link('b1-a', 'Shop', '/shop'), list('b1-ul', item('b1-i', link('y', 'Offers', '/offers/2'))))),
+    ])
+    expect(linkPurpose.candidates(page, noFindings).filter((c) => c.context.name === 'Offers').map((c) => c.context.sameText)).toEqual([
+      { links: 2, places: 2, apart: false },
+      { links: 2, places: 2, apart: false },
+    ])
+  })
+
   it('counts one place for the same address, a redirect to it, a tracking parameter or the same page at another path', () => {
     const same = (destinations: Record<string, Destination>, ...hrefs: string[]) => {
       const page = snapshot([list('ul', ...hrefs.map((href, i) => item(`li${i}`, link(`a${i}`, 'Shop', href))))], destinations)
