@@ -1,0 +1,241 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.infomoney.com.br/politica/lula-e-flavio-fazem-promessas-sobre-dividas-seguranca-e-saude-no-ultimo-debate/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "f931403c6b19",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > main > article > iframe |> #el-f5b6f802-ec01-4500-8f61-4bfb5519e5b4 > div:nth-of-type(1) > amp-img > img",
+   "message": "The text alternative \"flavio-lula-vertical\" is a file name or a placeholder.",
+   "evidence": "flavio-lula-vertical",
+   "subject": "flavio-lula-vertical",
+   "patch": {
+    "ref": "html > body > main > article > iframe |> #el-f5b6f802-ec01-4500-8f61-4bfb5519e5b4 > div:nth-of-type(1) > amp-img > img",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "flavio-lula-vertical",
+    "to": "Lula x Flávio: tudo sobre o 2º turno das eleições presidenciais"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c3a1e3c102e4",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > main > div:nth-of-type(5) > div > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Autor avatar\" describes something the image does not show.",
+   "evidence": "Autor avatar",
+   "subject": "Autor avatar",
+   "patch": {
+    "ref": "html > body > main > div:nth-of-type(5) > div > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Autor avatar",
+    "to": "Marina",
+    "before": "<img class=\"object-cover w-full h-full\" src=\"https://www.infomoney.com.br/wp-content/uploads/2026/08/Marina.jpg\" alt=\"Autor avatar\">",
+    "after": "<img class=\"object-cover w-full h-full\" src=\"https://www.infomoney.com.br/wp-content/uploads/2026/08/Marina.jpg\" alt=\"Marina\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9866364634168864
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "7a144b663fc2",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > main > article > div:nth-of-type(2) > div > div > section > div:nth-of-type(2) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"The words 'PLANILHA DE GASTOS' and the InfoMoney logo.\".",
+   "evidence": "The words 'PLANILHA DE GASTOS' and the InfoMoney logo.",
+   "subject": "hidden 900x300-1-1.png",
+   "patch": {
+    "ref": "html > body > main > article > div:nth-of-type(2) > div > div > section > div:nth-of-type(2) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Planilha de gastos da InfoMoney com ilustração de tabela e gráficos.",
+    "before": "<img class=\"w-full h-full object-cover\" src=\"https://www.infomoney.com.br/wp-content/uploads/2025/07/900x300-1-1.png?fit=900%2C300&amp;quality=70&amp;strip=all\" alt=\"\">",
+    "after": "<img class=\"w-full h-full object-cover\" src=\"https://www.infomoney.com.br/wp-content/uploads/2025/07/900x300-1-1.png?fit=900%2C300&amp;quality=70&amp;strip=all\" alt=\"Planilha de gastos da InfoMoney com ilustração de tabela e gráficos.\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "2bd0481fb8cd",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#siteFooter > div > div:nth-of-type(1) > ul:nth-of-type(4) > li > a",
+   "message": "The link text \"Veja mais\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "Veja mais",
+   "subject": "Veja mais",
+   "patch": {
+    "ref": "#siteFooter > div > div:nth-of-type(1) > ul:nth-of-type(4) > li > a",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "Veja mais",
+    "to": "Ver mais tópicos relacionados",
+    "before": "<a href=\"#\" class=\"!py-2 block text-xl text-wl-white md:text-2xl font-semibold traking-tighter md:tracking-tight hover:no-underline\" aria-label=\"Veja mais\">",
+    "after": "<a href=\"#\" class=\"!py-2 block text-xl text-wl-white md:text-2xl font-semibold traking-tighter md:tracking-tight hover:no-underline\" aria-label=\"Ver mais tópicos relacionados\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#siteHeader > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > div > div:nth-of-type(1) > nav > ul:nth-of-type(5) > li:nth-of-type(3) > a",
+   "message": "The link text \"Aprenda\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Aprenda sobre nossos serviços\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 3,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 118,
+   "judged": 50,
+   "failed": 1,
+   "passed": 47,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 68,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 0,
+   "passed": 12,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "4 image(s) were left without a capture, so no judgment looked at them: 4 outside the page (an off-canvas menu). The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 68 of 118 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 70,
+  "inputTokens": 66032,
+  "outputTokens": 6810,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": null
+ }
+}

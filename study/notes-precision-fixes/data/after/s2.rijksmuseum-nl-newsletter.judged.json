@@ -1,0 +1,178 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.rijksmuseum.nl/en/newsletter?slug=NEWSLETTER_EN",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "46204e105279",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#NewsletterSubscription_Email",
+   "message": "The field \"Email*\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "Email*",
+   "patch": {
+    "ref": "#NewsletterSubscription_Email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input class=\"full-width\" id=\"NewsletterSubscription_Email\" name=\"NewsletterSubscription.Email\" type=\"email\" value=\"\">",
+    "after": "<input class=\"full-width\" id=\"NewsletterSubscription_Email\" name=\"NewsletterSubscription.Email\" type=\"email\" value=\"\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "32e4614db0f1",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#NewsletterSubscription_FirstName",
+   "message": "The field \"Firstname\" asks for the user's first name but does not identify that purpose: autocomplete=\"given-name\" is missing.",
+   "evidence": "Firstname",
+   "patch": {
+    "ref": "#NewsletterSubscription_FirstName",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "given-name",
+    "before": "<input class=\"full-width\" id=\"NewsletterSubscription_FirstName\" name=\"NewsletterSubscription.FirstName\" type=\"text\" value=\"\">",
+    "after": "<input class=\"full-width\" id=\"NewsletterSubscription_FirstName\" name=\"NewsletterSubscription.FirstName\" type=\"text\" value=\"\" autocomplete=\"given-name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "b5ecd47330a8",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#NewsletterSubscription_LastName",
+   "message": "The field \"Lastname*\" asks for the user's last name but does not identify that purpose: autocomplete=\"family-name\" is missing.",
+   "evidence": "Lastname*",
+   "patch": {
+    "ref": "#NewsletterSubscription_LastName",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "family-name",
+    "before": "<input class=\"full-width\" id=\"NewsletterSubscription_LastName\" name=\"NewsletterSubscription.LastName\" type=\"text\" value=\"\">",
+    "after": "<input class=\"full-width\" id=\"NewsletterSubscription_LastName\" name=\"NewsletterSubscription.LastName\" type=\"text\" value=\"\" autocomplete=\"family-name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "2.4.2",
+   "level": "A",
+   "ruleId": "judgment/2.4.2",
+   "ref": "html",
+   "message": "The page title \"Keep me informed\" says nothing about this page.",
+   "evidence": "The model suggests: \"Newsletter Sign-up - Rijksmuseum\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 11,
+   "judged": 11,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 11,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 3,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 17,
+  "inputTokens": 13103,
+  "outputTokens": 1276,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": null
+ }
+}

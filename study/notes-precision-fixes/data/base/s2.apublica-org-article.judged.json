@@ -1,0 +1,155 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://apublica.org/2026/10/flavio-bolsonaro-e-o-risco-de-um-presidente-com-esqueletos-no-armario/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "ef78fe55d02b",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#post-267202 > div:nth-of-type(1) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"The image shows the year \"1968\" and represents the theme.\".",
+   "evidence": "The image shows the year \"1968\" and represents the theme.",
+   "subject": "hidden Capa-Regra-de-1968-ano-do-AI-5-embasa-exoneracoes-de-professoras-na-rede-estadual-paulista.jpg",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "45a76e5b7541",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#post-267206 > div:nth-of-type(1) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"A message saying 'Não foi possível executar a operação'\".",
+   "evidence": "A message saying 'Não foi possível executar a operação'",
+   "subject": "hidden Capa-Plataformas-mantem-anuncios-e-recomendacoes-politicas-irregulares-no-dia-da-votacao.jpg",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "eda908cce89c",
+   "criterion": "2.4.2",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html",
+   "message": "The page title \"Flávio Bolsonaro e os esqueletos no armário\" says nothing about this page.",
+   "evidence": "Flávio Bolsonaro e os esqueletos no armário",
+   "subject": "Flávio Bolsonaro e os esqueletos no armário",
+   "patch": {
+    "ref": "html",
+    "kind": "set-text",
+    "from": "Flávio Bolsonaro e os esqueletos no armário",
+    "to": "Flávio Bolsonaro e o risco de um presidente com esqueletos no armário - Agência Pública",
+    "before": "<title>Flávio Bolsonaro e os esqueletos no armário</title>",
+    "after": "<title>Flávio Bolsonaro e o risco de um presidente com esqueletos no armário - Agência Pública</title>"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 14,
+   "judged": 14,
+   "failed": 2,
+   "passed": 11,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 16,
+  "inputTokens": 16073,
+  "outputTokens": 1637,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": null
+ }
+}

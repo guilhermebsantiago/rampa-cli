@@ -1,0 +1,139 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.martinsfontespaulista.com.br/livros/literatura-brasileira",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "43c7c510f895",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#ihttps\\:\\/\\/martinsfontespaulista\\.vteximg\\.com\\.br\\/arquivos\\/ids\\/155422\\/banner-departamento\\.png\\?v\\=637116051678570000",
+   "message": "The text alternative \"Banner padrão\" describes something the image does not show.",
+   "evidence": "Banner padrão",
+   "subject": "Banner padrão",
+   "patch": {
+    "ref": "#ihttps\\:\\/\\/martinsfontespaulista\\.vteximg\\.com\\.br\\/arquivos\\/ids\\/155422\\/banner-departamento\\.png\\?v\\=637116051678570000",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Banner padrão",
+    "to": "Literatura Brasileira",
+    "before": "<img width=\"1920\" height=\"200\" id=\"ihttps://martinsfontespaulista.vteximg.com.br/arquivos/ids/155422/banner-departamento.png?v=637116051678570000\" alt=\"Banner padrão\" src=\"https://martinsfontespaulista.vteximg.com.br/arquivos/ids/155422/banner-departamento.png?v=637116051678570000\" complete=\"complete\">",
+    "after": "<img width=\"1920\" height=\"200\" id=\"ihttps://martinsfontespaulista.vteximg.com.br/arquivos/ids/155422/banner-departamento.png?v=637116051678570000\" alt=\"Literatura Brasileira\" src=\"https://martinsfontespaulista.vteximg.com.br/arquivos/ids/155422/banner-departamento.png?v=637116051678570000\" complete=\"complete\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9990860593775487
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 0,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The page was cut at 5000 elements, the collector's limit: what comes after them is not in the snapshot, so the checks that read the snapshot (Rampa's rules and judged criteria) did not run past that point. Checked only up to the cut: 1.1.1, 1.4.3, 2.4.2, 2.4.6, 3.1.1, 3.1.2, 4.1.2. axe-core read the whole page.",
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #rd_tmgr.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 10,
+  "inputTokens": 5479,
+  "outputTokens": 428,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#rd_tmgr",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

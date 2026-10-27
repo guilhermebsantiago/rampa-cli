@@ -51,3 +51,27 @@ Its reports carry the lowest second-pass probability of every confirmed 1.1.1 fi
 | s4 | 0.98664 ("Autor avatar"), 0.98700 ("CC BY ND") | – | 0 | 0.99991 |
 
 The cut costs no true finding on any study (the closest true one is 0.0066 above it) and removes 5 false and 2 uncertain ones, so it was adopted. Above it, 7 false 1.1.1 findings remain, between 0.998 and 0.99998 ("Connect with us", "fullepisode", "Imagem de alunos no Campus da PUC-Rio", "istagram", "Flexible-Fuel", "Logo Boletim UFPR", "shield"): no threshold on this signal reaches them without true findings.
+
+## 4. The final replay, in-sample
+
+The frozen code (`dist` built at the commit in `data/after-commit.txt`), replayed with the protocol of section 2 (`replay.sh after … online`, `analyze.py base after`): 72 reports, no error, no cache miss. New model calls were needed on one page only: on www.toolstation.com the 2.4.4 cap now reaches 50 other links (50 new calls: 43 passed, 7 dropped by verification, no finding and no suggestion). **Every number below is in-sample**; the labels are the studies' two Claude judges.
+
+| Study | Half | Per element before | Per element after | Page bootstrap after | Per group before | Per group after |
+| --- | --- | --- | --- | --- | --- | --- |
+| s2 (fresh) | dev | 19 / 0 (2 unc.): 1.00 (0.83–1.00) | 19 / 0: 1.00 (0.83–1.00) | 1.00–1.00 | 19 / 0: 1.00 | 19 / 0: 1.00 |
+| s2 | test | 10 / 3: 0.77 (0.50–0.92) | 10 / 3: 0.77 (0.50–0.92) | 0.14–1.00 | 10 / 3: 0.77 | 10 / 3: 0.77 |
+| s3 (round 3) | dev | 15 / 3 (1): 0.83 (0.61–0.94) | 15 / 2 (1): 0.88 (0.66–0.97) | 0.70–1.00 | 15 / 3: 0.83 | 15 / 2: 0.88 |
+| s3 | test | 24 / 57 (2): 0.30 (0.21–0.40) | 24 / 5 (2): **0.83** (0.65–0.92) | 0.78–0.94 | 12 / 6: 0.67 | 12 / 3: 0.80 |
+| s4 (round 4) | dev | 13 / 54 (2): 0.19 (0.12–0.30) | 13 / 2 (2): **0.87** (0.62–0.96) | 0.62–1.00 | 6 / 5: 0.55 | 6 / 2: 0.75 |
+| s4 | test | 14 / 12: 0.54 (0.35–0.71) | 14 / 4: **0.78** (0.55–0.91) | 0.36–0.95 | 7 / 5: 0.58 | 7 / 4: 0.64 |
+| all | dev | 47 / 57 (5): 0.45 (0.36–0.55) | 47 / 4 (3): 0.92 (0.81–0.97) | 0.83–1.00 | 40 / 8: 0.83 | 40 / 4: 0.91 |
+| all | test | 48 / 72 (2): 0.40 (0.32–0.49) | 48 / 12 (2): 0.80 (0.68–0.88) | 0.67–0.90 | 29 / 14: 0.67 | 29 / 10: 0.74 |
+| **all** | both | 95 / 129 (7): **0.42** (0.36–0.49) | 95 / 16 (5): **0.86** (0.78–0.91) | 0.78–0.92 | 69 / 22: 0.76 | 69 / 14: **0.83** (0.74–0.90) |
+
+Cells are true / false (uncertain) findings and precision with its Wilson 95% interval; "per group" counts each group of 6 or more findings of one claim on one page as one finding (section 2). Per study over both halves, per element: s2 29 / 3 (0.91) before and after; s3 39 / 60 (0.39) to 39 / 7 (0.85); s4 27 / 66 (0.29) to 27 / 6 (0.82).
+
+- **No true finding was lost, and no finding appeared.** 113 false findings and 2 uncertain ones left the default threshold, all as suggestions: toolstation.com's 50 (F1), www.ufpe.br's 50 and museudoamanha.org.br's 8 (F2, both read from their recordings' body look), and five 1.1.1 findings under 0.99 with the two uncertain ones (F3: fleury "App Store Badge", mg.gov.br "boletim", clevelandclinic "get care icon", infomoney "Autor avatar", theconversation "CC BY ND"). Item 4 removed no default-threshold finding: gla.ac.uk's "course keyword" field, whose name is in its `title`, has nothing visible beside it by Rampa's facts, so its 3.3.2 claim stays a finding (false by the labels); six below-threshold 2.4.2 claims, all false where labelled, became suggestions.
+- **Suggestions** (the model's fails no fact supports, listed for review) went from 235 to 306 on the 72 pages: +50 2.4.4 on ufpe, +8 3.1.2 on museudoamanha, +6 1.1.1 from the cut (and thejournal.ie's one 1.1.1 suggestion left, now an experimental hidden-image finding below the threshold), +6 2.4.2, +1 3.1.2 on ufpe.
+- **Per group and per page.** With bursts collapsed, the pooled precision is 0.83 after (0.76 before). The remaining groups are all true but one mixed (correio's 6 shared-text links, 3 true, 2 false, 1 uncertain, counted true): tst.jus.br's 8 shared-text links, theconversation's 8 language parts, correio's and ed.ac.uk's 6 functional images. Of the 39 pages with a decided finding after, 27 have only true ones (24 of 44 before), and the mean of the pages' precisions is 0.81 (0.70 before).
+- **What is left**, 16 false findings on 12 pages, one or two a page: seven 1.1.1 claims every second-pass framing confirmed at 0.998 or more (section 3), seven 2.4.4 shared-text links (osesp.art.br's two "Ouvidoria", one of which redirects by script to the other; thomann 2, correio 2, pimoroni 1) and correio's generic "SAIBA MAIS", and gla.ac.uk's 3.3.2. None of them is a burst.
+- **Against the projections.** The precision check projected 0.82 (0.74–0.88) in-sample for F1 + F2 and 0.83 with F3; the next-iteration notes projected 0.86 for items 1–4. The replay gives 0.86, as the frozen expectation of section 2 said (95 / 16), because each fix removed exactly the findings it was built for and nothing else. That agreement says the code does what the simulation assumed; it says nothing about fresh pages.

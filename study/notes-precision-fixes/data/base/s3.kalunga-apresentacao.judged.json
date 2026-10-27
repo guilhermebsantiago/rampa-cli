@@ -1,0 +1,185 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.kalunga.com.br/depto/apresentacao/17",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "ced2f4badf38",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#categoria-carrosel-slide03 > div > div > div:nth-of-type(2) > div > a",
+   "message": "The link text \" Comprar Agora\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": " Comprar Agora",
+   "subject": " Comprar Agora",
+   "patch": {
+    "ref": "#categoria-carrosel-slide03 > div > div > div:nth-of-type(2) > div > a",
+    "kind": "set-text",
+    "from": " Comprar Agora",
+    "to": "Comprar Plástico para Plastificação A4",
+    "before": "<a href=\"/prod/plastico-para-plastificacao-125-micras-220mm-x-307mm-x-0-05mm-a4-02342-spiral-pt-100-un/629951\" class=\"btn btn-blue-ka btn-sm mt-2 btn-width\" onclick=\"Comprar('629951');\" tabindex=\"0\"> Comprar Agora</a>",
+    "after": "<a href=\"/prod/plastico-para-plastificacao-125-micras-220mm-x-307mm-x-0-05mm-a4-02342-spiral-pt-100-un/629951\" class=\"btn btn-blue-ka btn-sm mt-2 btn-width\" onclick=\"Comprar('629951');\" tabindex=\"0\">Comprar Plástico para Plastificação A4</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "3a4032df19ae",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#categoria-carrosel-slide04 > div > div > div:nth-of-type(2) > div > a",
+   "message": "The link text \" Comprar Agora\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": " Comprar Agora",
+   "subject": " Comprar Agora",
+   "patch": {
+    "ref": "#categoria-carrosel-slide04 > div > div > div:nth-of-type(2) > div > a",
+    "kind": "set-text",
+    "from": " Comprar Agora",
+    "to": "Comprar Projetor Multimídia Intelbras PFL5211",
+    "before": "<a href=\"/prod/projetor-multimidia-5200-lumens-full-hd-bivolt-branco-pfl5211-4290057-intelbras-cx-1-un/608683\" class=\"btn btn-blue-ka btn-sm mt-2 btn-width\" onclick=\"Comprar('608683');\" tabindex=\"0\"> Comprar Agora</a>",
+    "after": "<a href=\"/prod/projetor-multimidia-5200-lumens-full-hd-bivolt-branco-pfl5211-4290057-intelbras-cx-1-un/608683\" class=\"btn btn-blue-ka btn-sm mt-2 btn-width\" onclick=\"Comprar('608683');\" tabindex=\"0\">Comprar Projetor Multimídia Intelbras PFL5211</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#mainSiteKa > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(1) > div > div > h1",
+   "message": "The heading \"Apresentação\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Produtos em destaque\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 163,
+   "judged": 50,
+   "failed": 2,
+   "passed": 48,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 113
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 18,
+   "judged": 18,
+   "failed": 0,
+   "passed": 17,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "38 image(s) were left without a capture, so no judgment looked at them: 11 outside the page (an off-canvas menu); 3 still loading after the wait; 24 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 113 of 163 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 72,
+  "inputTokens": 72885,
+  "outputTokens": 7987,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": null
+ }
+}
