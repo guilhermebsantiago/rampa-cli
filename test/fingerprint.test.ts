@@ -20,7 +20,8 @@ function page(): A11ySnapshot {
     schemaVersion: 1,
     surface: 'web',
     target: 'test://store',
-    title: 'Untitled document - Corner Store',
+    // Generic by Rampa's list, so a 2.4.2 fail on it rests on a checked fact (page-titled.ts, `groundedTitle`).
+    title: 'Welcome',
     locale: 'en',
     viewport: { width: 1280, height: 800, scale: 1 },
     collectedAt: '2026-10-08T00:00:00.000Z',
@@ -82,8 +83,8 @@ const ANSWERS: Record<string, [unknown, unknown]> = {
     { verdict: 'fail', evidence: 'ceramic  coffee mug', problem: 'missing_information', imageShows: 'A rain umbrella', suggestedAlt: 'Umbrella in the rain', confidence: 'high' },
   ],
   '2.4.2': [
-    { verdict: 'fail', evidence: 'Untitled document - Corner Store', problem: 'generic', suggestedTitle: 'Shop mugs and umbrellas', confidence: 'high' },
-    { verdict: 'fail', evidence: 'Untitled document - Corner', problem: 'mismatch', suggestedTitle: 'Corner Store: new arrivals', confidence: 'high' },
+    { verdict: 'fail', evidence: 'Welcome', problem: 'generic', suggestedTitle: 'Shop mugs and umbrellas', confidence: 'high' },
+    { verdict: 'fail', evidence: 'welcome', problem: 'generic', suggestedTitle: 'Corner Store: new arrivals', confidence: 'high' },
   ],
   '2.4.4': [
     { promises: 'more of something', leadsTo: 'unknown', verdict: 'fail', evidence: 'Click here to read more', problem: 'generic', suggestedText: 'Shipping rates', confidence: 'high' },
