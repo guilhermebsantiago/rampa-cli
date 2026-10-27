@@ -52,7 +52,7 @@ Each finding also says what found it: an axe-core rule ("rule image-alt (axe-cor
 | `AA` | a confirmed finding on a Level A or AA criterion: anything that blocks AA conformance |
 | `none` (or `never`) | never; only errors exit `2` |
 
-The levels are read in any case, so `--fail-on aa` works. Waived findings never count. With `A` or `AA`, a finding on a rule outside WCAG A/AA does not fail the run; with `confirmed` it does. What needs review never fails a run, and neither does a finding beyond the target (a WCAG 2.2 criterion in a `--wcag 2.1` run).
+The levels are read in any case, so `--fail-on aa` works. Waived findings never count. A [group of near-identical findings](#groups-of-near-identical-findings) changes none of this: each of its members is counted as a finding, so a group fails the run exactly when one of its members does. With `A` or `AA`, a finding on a rule outside WCAG A/AA does not fail the run; with `confirmed` it does. What needs review never fails a run, and neither does a finding beyond the target (a WCAG 2.2 criterion in a `--wcag 2.1` run).
 
 A usage error, such as an unknown `--format`, exits `2`. Earlier versions exited `1` there, which CI could not tell apart from a failure on the page. So does an error while Rampa's modules load, such as a broken install.
 
@@ -71,6 +71,62 @@ A config file is checked when it loads: a value Rampa cannot use (`"minConfidenc
 **A page read without its stylesheets.** When the stylesheets a page links did not apply (a request that failed or was refused, a sheet with no rules), the page is loaded once more. If none of them, or none of the page's own, applies even then, the snapshot records it (`reach.stylesheets`, with `unstyled: true` and `retried: true`), the first note says so, every judgment that rests on what is visible is listed as the model's suggestion instead of a finding, and contrast and label visibility are not measured from pixels. An unstyled page is not what people see: www.ufpe.br's theme CSS did not apply once in the third real-page study, a hidden type-ahead list of 1,628 links became visible, and 50 "ambiguous link" findings followed. A stylesheet that failed on a page otherwise styled is recorded too (`reach.stylesheets.failed`), with a note and no other effect.
 
 **A layer over the viewport.** A consent banner's backdrop or a dialog that lies over most of the viewport (on top at seven or more of nine points sampled, out of the flow or hosting a shadow root, holding little of the page's text) is recorded (`reach.overlay`) and hidden while images, labels and contrast are captured, so the pixels measured are the page's own: www.ed.ac.uk's consent backdrop, in a closed shadow root, had dimmed every pixel the contrast rules measured.
+
+## Groups of near-identical findings
+
+On real pages, almost every false finding Rampa reported came from one page that repeated one claim dozens of times: 50 2.4.4 findings "shared by N links" from one hidden menu on www.toolstation.com, 50 more on www.ufpe.br ([notes](studies/notes-precision-check.md)). True findings come in bursts too: eight images with a file name for an alternative are one pattern to fix. Every report shows such a burst once, as a group a person reviews together: if its example is a false positive, check whether the others share the mistake; if it is right, one fix may cover them all.
+
+**What makes a group** (`src/core/groups.ts`). On one page and in one list (`findings`, or `belowThreshold`), findings form a group when more than five of them, so six or more, have all of:
+
+- the same criterion: `criterion`;
+- the same check: the rule's id (`ruleId`) for an engine, Rampa or probe finding, such as `color-contrast` or `rampa/placeholder-alt`; `judgment/<criterion>` for a model's judgment (`source: "judgment"`), such as `judgment/2.4.4`;
+- the same claim kind: `claim`, a field judgment findings now carry. It is the model's `problem` where the criterion's answer names one: 1.1.1's question about an alternative (`filename_or_placeholder`, `generic`, `wrong_content`, `missing_information`, `decorative`), 2.4.2 (`generic`, `filename_or_url`, `mismatch`), 2.4.4 (`generic`, `url_or_filename`, `mismatch`, `ambiguous`), 2.4.6 (`generic`, `mismatch`, `placeholder_text`), 3.3.1 (`field_not_identified`, `cause_not_described`, `hidden_from_assistive_technology`) and 3.3.2 (`no_visible_label`, `rule_not_explained`); or its `relation` for 1.3.2 (`sequence`, `heading`, `sentence`, `grouping`, `table`); never `none`. The other judgments (3.1.1, 3.1.2, 1.1.1's question about a hidden image, and the rest) and every rule have no `claim`: their check makes one kind of claim, and the check alone decides.
+
+Five findings stay findings on their own, and findings on two pages, in two lists, of two criteria, two checks or two claims never share a group. The definition is fixed in advance, and the real-page studies count by it.
+
+**What does not change.** A group is a way of showing findings, never a filter:
+
+- Every member stays in `findings` (or `belowThreshold`) exactly as it was, with its id, evidence and patch, so what reads findings (CI gates, `--fail-on`, the GitHub Action, the baseline, waivers, Rampa Lab's review mode) reads them as before. A group of 50 confirmed findings is 50 confirmed findings, each checked like any other.
+- The exit code and `--fail-on` count each member: a group fails the run whenever one of its members would.
+- `rampa eval` scores each ACT test case from the findings, one per element, so its numbers do not move. `test/finding-groups-eval.test.ts` runs the eval's scoring on pages with a burst, with grouping and with grouping taken out, and gets the same records and scores.
+- Counts in headlines are counts of findings, with a clause for the groups: "16 confirmed findings on 1 page checked against WCAG 2.2 A/AA: 13 at Level A, 3 at Level AA. 8 of them are in 1 group of near-identical findings, listed once."
+- A waiver names one finding. To dismiss a group, waive each member; every format lists their ids.
+- Waived findings are never grouped.
+
+**How each format shows a group.** Every format says what the group is ("8 near-identical findings, grouped to review together"), why ("Same check (judgment/2.4.4) and same claim (generic) on 8 elements of this page, so a person can review them together"), and that each member is still a finding ("Each one is a finding of its own, checked and counted like any other"), in English or Portuguese ("8 achados quase idênticos, agrupados para revisar juntos").
+
+- **pretty:** one entry under its criterion, the first member as the example, shown as any finding is, then the elements with their ids: the first ten, and all of them with `--verbose`, then the group's id. A group below the threshold, listed with `--verbose`, is marked `~` like its members.
+- **Markdown:** one block, with the example's diff, and every element (up to 100) with its id in a `<details>`. A group is one of the five blocks a page shows before the rest fold, and the fold's summary counts the findings it holds, members included.
+- **HTML:** one item with the example inside, and the elements in a `<details>`.
+- **JSON:** `groups`, below.
+- **SARIF:** one result per group, below.
+- **MCP** (`check_page`, `check_html`): `findings` lists a group once, by its example, which gets a `group` field with the group's id, and the group takes one place against `max_findings`. `groups` lists each group: `id`, `criterion`, `check`, `claim`, `count`, `example`, and `members`, each with its `id`, `selector` and what it is `about` (the link text, the alternative, or its evidence). `summary.findings` still counts every member, and `summary.groups` counts the groups. `explain_finding` takes any member's id. The text block says the same in words, with up to 20 elements.
+- **`rampa site`:** a page's own bursts show as groups in the page-by-page part; in the part about findings on several pages, more than five judgments with the same criterion, check and claim on the same pages print as one block.
+
+**JSON.** A report has `groups` when a group formed, and no `groups` field otherwise:
+
+```json
+"groups": [
+  {
+    "id": "g-72f2ca9f4e63",
+    "list": "findings",
+    "criterion": "2.4.4",
+    "level": "A",
+    "source": "judgment",
+    "check": "judgment/2.4.4",
+    "claim": "generic",
+    "count": 8,
+    "members": ["1af8a73e209d", "cb28876e7301", "147d2b906002", "a44645d29c92", "840cf65fe3fa", "b7b02a47b8a8", "f03047096a64", "b40081e119cd"],
+    "example": "1af8a73e209d"
+  }
+]
+```
+
+`members` are the members' fingerprints in the list's order, and `example` is the first. `id` hashes the list, criterion, check and claim, so the same group keeps its id from run to run whichever elements it holds; it is never a finding's id, and a waiver of it does nothing. `rampa check` computes the groups from the lists it writes, after a baseline left out what it already had, so a group names only findings that are in its list. [schema/report.schema.json](../schema/report.schema.json) describes the report, its findings and its groups. **The schema version stays 1**: `groups` and `claim` are new fields, every field a version-1 reader used is where it was and means what it meant, and Rampa Lab refuses any version other than 1.
+
+**SARIF.** A group is one result, located at its example, with every member a related location. SARIF 2.1.0 has room for several locations on one result only when "the condition indicated by the result ... can only be corrected by making a change at every location specified" (§3.27.12), which is not so for elements that each fail on their own, and GitHub code scanning reads only a result's first location. Related locations are "relevant to understanding the result" (§3.27.22): each member is one, with `id` 1, 2, …, its region in the file or its selector, and a message with its own text and id. The result's message links to the first ten (`[selector](1)`, §3.11.6) and lists the ids a waiver takes, up to 100. Its level is the strictest of its members': `error` when any member fails the gate, as `rampa check` exits `1` then. Its properties have `group` (`id`, `list`, `check`, `claim`, `count`), `findingIds`, `failsGate`, and `maturity` (`mixed` when only some members are experimental). It carries no `fixes`: each member's patch is a change of its own, and the JSON has every one. `partialFingerprints["rampa/v1"]` hashes the page, the criterion, the check and the claim. The run's coverage lists each page's `groups`.
+
+What this means in code scanning: a burst is one alert instead of one per element, and dismissing it there dismisses the group. When a repository first uploads a report with groups, the earlier per-element alerts of each group are no longer reported and close, and when a group falls to five members or fewer, its alert closes and its members come back as alerts of their own. Code scanning calls a closed alert fixed; here it only means the results were regrouped, so read the newest report before taking an alert as fixed.
 
 ## Where a finding is in the source
 
@@ -93,6 +149,7 @@ The report as before: one object for one page, an array for several, with these 
 - `sourceFile` on a report: the local file behind the target, relative as above.
 - `minConfidence` and `failOn` on a report: the threshold that split `findings` from `belowThreshold`, and the `--fail-on` policy of the run.
 - `experimental` on a finding: the method behind it has not passed the evaluation gate (see above).
+- `claim` on a judgment finding, and `groups` on a report: the kind of claim, and the [groups of near-identical findings](#groups-of-near-identical-findings) on the page. [schema/report.schema.json](../schema/report.schema.json) describes the report; its version stays 1.
 - `location` on a finding: `file`, `startLine`, `startColumn`, `endLine`, `endColumn` (1-based, end column exclusive, in UTF-16 code units as in SARIF), the source `snippet` when the region is 500 characters or less, and `fix` when the patch applies to the file: the `region` to replace, the `text` to put there, and the element `before` and `after`.
 
 ## SARIF
@@ -107,6 +164,7 @@ The report as before: one object for one page, an array for several, with these 
 - **Fingerprints.** `partialFingerprints["rampa/v1"]` hashes the page, the criterion, the rule and the element's selector. It survives a model quoting different words and the element moving to another line, so code scanning keeps tracking one alert. A change in the structure around the element, such as a new sibling of the same tag before it, changes the selector, and code scanning then sees a new alert.
 - **Coverage.** Each page gets a `note` notification with its coverage statement, and `runs[0].properties.coverage` lists what the engine checked, what was judged, what needs review and what was not checked, with each criterion's status, each method's `maturity`, the page's `minConfidence` and `belowThreshold` count, and the run's `wcagTarget`. What axe-core could not decide is counted there (`needsReview`), never as a result, since code scanning would show it as an alert. A log without results still says what nobody checked. A page where judgment was asked for and nothing was judged gets an `error` notification (`nothing-judged`) and a `notJudged` count, and the invocation is not successful. A page the collector cut at its limit of elements has `truncated` in its coverage (`elements`, `criteria`, `note`).
 - **Suppressions.** With `--verbose`, waived findings are included with an external, accepted suppression.
+- **Groups.** A [group of near-identical findings](#groups-of-near-identical-findings) is one result at its example, with every member a related location.
 
 GitHub code scanning shows results located in files of the repository. Results for remote pages are valid SARIF, but GitHub has no file to show them on; for a deployed site, read the Markdown or HTML report instead.
 
@@ -124,6 +182,7 @@ Evidence: "Click here" · confidence high · 1/1 runs · evidence verified · id
 
 - It starts with a hidden marker, `<!-- rampa-report -->`, so a bot can find its earlier comment and edit it instead of posting a new one.
 - A summary line counts the confirmed findings by level, then each page with findings gets one block per finding: the criterion and level (linked to W3C's Understanding page), `file:line` or the selector, the message, the patch as a `diff` against the source as written, the evidence, the confidence, "experimental" when it is, what found it and the id.
+- A [group of near-identical findings](#groups-of-near-identical-findings) is one block, with its elements in a `<details>`.
 - A page's findings past the fifth fold into a `<details>`. The report stays under 60,000 characters, below GitHub's limit for a comment: notes, coverage rows and pages without findings are listed up to 20 each, and findings that do not fit are counted and left to the SARIF, JSON and HTML reports.
 - Notes, the coverage of the run and the statement that the report does not declare the page accessible come at the end, then how to waive a false positive.
 - Text from the page is escaped: it cannot add Markdown or HTML, mention a person (`@name`) or reference an issue (`#12`, `GH-12`). An address in it still becomes a link, as GitHub does with any text.
@@ -160,3 +219,5 @@ const sarif = toSarif([located])
 const markdown = renderMarkdown([located], { maxLength: 30_000 })
 const html = renderHtml([located])
 ```
+
+`checkSnapshot` sets `groups` on the report it returns. A program that changes a report's lists afterwards (a filter of its own, say) gets the groups of what is left from `withGroups(report)`, or the list alone from `findingGroups(report)`; `formatReports('json', reports, options)` does it before writing.
