@@ -23,7 +23,12 @@ const page = (title: string, head: string, body: string) => `<!doctype html><htm
 /** A hidden type-ahead list, as www.ufpe.br's: two entries share a text and lead to two places. Styled, the list does not show. */
 const LISTING = '<main><h1>Departments</h1><p>Find a department.</p><ul id="search-list" class="dropdown-menu"><li><a href="/caa/documentos">Documentos</a></li><li><a href="/cav/documentos">Documentos</a></li></ul></main>'
 
+/** A site's page: a header menu of 60 departments, a footer of 60 more and paragraphs of text, around the hidden list. */
+const PLAIN_SITE = `<header><nav><ul>${Array.from({ length: 60 }, (_, i) => `<li><a href="/department/${i}">Department number ${i}</a></li>`).join('')}</ul></nav></header>${LISTING}<section>${Array.from({ length: 20 }, (_, i) => `<p>Paragraph ${i} of the page, long enough to be body text.</p>`).join('')}</section><footer><ul>${Array.from({ length: 60 }, (_, i) => `<li><a href="/service/${i}">Service number ${i}</a></li>`).join('')}</ul></footer>`
+
 const requests: Record<string, number> = {}
+// A second origin for the same server (localhost against 127.0.0.1), set once the server listens.
+let other = ''
 const ROUTES: Record<string, (request: import('node:http').IncomingMessage, response: import('node:http').ServerResponse) => void> = {
   // The theme stylesheet is missing: the page is read as the browser shows it without styles, after one more load.
   '/unstyled': (_, response) => response.end(page('Departments', '<link rel="stylesheet" href="/theme-missing.css">', LISTING)),
@@ -41,6 +46,16 @@ const ROUTES: Record<string, (request: import('node:http').IncomingMessage, resp
     response.writeHead(200, { 'Content-Type': 'text/css' })
     response.end('.dropdown-menu { display: none } body { font-family: Arial }')
   },
+  // museudoamanha.org.br in the fourth real-page study: a site's page served with no style at all, its body text in
+  // the browser's default look. Loaded once more, then read as unstyled.
+  '/plain-site': (_, response) => response.end(page('Departments', '', PLAIN_SITE)),
+  // The same look on a page this small (an ACT test case, a fixture) is a page written without CSS: read as it is.
+  '/plain-small': (_, response) => response.end(page('Departments', '', LISTING)),
+  // A site's page with a style element: its styles applied, whatever its body font.
+  '/plain-styled': (_, response) => response.end(page('Departments', '<style>.dropdown-menu { display: none }</style>', PLAIN_SITE)),
+  // www.thejournal.ie: a stylesheet link whose address is the page itself, the only one on the page's origin; the
+  // theme comes from another origin and applies.
+  '/self-link': (_, response) => response.end(page('Departments', `<link rel="stylesheet" href="/self-link"><link rel="stylesheet" href="${other}/theme.css">`, LISTING)),
   // A consent backdrop in a closed shadow root over text on a gradient, which axe-core leaves to the pixels.
   '/overlay': (_, response) =>
     response.end(
@@ -68,6 +83,7 @@ beforeAll(async () => {
   })
   await new Promise<void>((done) => server?.listen(0, '127.0.0.1', done))
   origin = `http://127.0.0.1:${(server?.address() as AddressInfo).port}`
+  other = `http://localhost:${(server?.address() as AddressInfo).port}`
 })
 afterAll(async () => {
   server?.closeAllConnections()
@@ -126,6 +142,48 @@ describe.skipIf(!browser)('a page read without its stylesheets', () => {
     const { snapshot } = await collect('/styled')
     expect(snapshot.reach?.stylesheets).toBeUndefined()
     expect(requests['/styled']).toBe(1)
+  })
+})
+
+describe.skipIf(!browser)('a page served with no style at all', () => {
+  it("reads a site's page whose body text has the browser's default look as unstyled, after one more load", { timeout: 60_000 }, async () => {
+    const { snapshot, engine } = await collect('/plain-site', { pixelContrast: true })
+    expect(requests['/plain-site']).toBe(2)
+    expect(snapshot.reach?.stylesheets).toEqual({ linked: 0, applied: 0, failed: [], unstyled: true, retried: true })
+    expect(snapshot.root.native.authorStyles).toBe(0)
+    expect(snapshot.root.native.pixelContrastRun).toBeUndefined()
+    const report = await checkSnapshot(snapshot, engine, {
+      criteria: resolveCriteria(['2.4.4']),
+      llm: true,
+      provider: failsLinks(),
+      runs: 1,
+      cache: memoryCache(),
+      offline: false,
+      locale: 'en',
+      minConfidence: 'medium',
+      concurrency: 2,
+    })
+    expect(report.findings.filter((f) => f.source === 'judgment')).toHaveLength(0)
+    expect((report.needsReview ?? []).filter((item) => item.model).length).toBeGreaterThanOrEqual(2)
+    expect(report.notes?.[0]).toContain('The page came with no stylesheet applied, even after one more load')
+    expect(report.coverage.reach?.stylesheets?.unstyled).toBe(true)
+  })
+
+  it("reads a small page with the default look as it is, and a site's page with a style element as styled", { timeout: 60_000 }, async () => {
+    const small = await collect('/plain-small')
+    expect(small.snapshot.reach?.stylesheets).toBeUndefined()
+    expect(requests['/plain-small']).toBe(1)
+    const styled = await collect('/plain-styled')
+    expect(styled.snapshot.reach?.stylesheets).toBeUndefined()
+    expect(styled.snapshot.root.native.authorStyles).toBe(1)
+    expect(requests['/plain-styled']).toBe(1)
+  })
+
+  it('does not count a stylesheet link to the page itself (www.thejournal.ie)', { timeout: 60_000 }, async () => {
+    const { snapshot } = await collect('/self-link')
+    expect(snapshot.reach?.stylesheets).toBeUndefined()
+    // The page, and the browser asking for it once more as a stylesheet: no reload.
+    expect(requests['/self-link']).toBe(2)
   })
 })
 

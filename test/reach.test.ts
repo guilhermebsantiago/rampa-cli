@@ -17,7 +17,7 @@ import { renderMarkdown } from '../src/report/markdown.ts'
 import { renderReport } from '../src/report/pretty.ts'
 import { toSarif } from '../src/report/sarif.ts'
 import { createLocator } from '../src/source/locate.ts'
-import { pageCut, reachNotes, truncationNote, unreached } from '../src/snapshot/reach.ts'
+import { captureStyle, pageCut, reachNotes, reachSeen, truncationNote, unreached } from '../src/snapshot/reach.ts'
 import { resolveRefInPage, scopeOfRef } from '../src/snapshot/refs.ts'
 import { emptyEngine } from '../src/engine/axe.ts'
 import { runRuleChecks } from '../src/rules/index.ts'
@@ -430,6 +430,38 @@ describe('reach in the report, offline', () => {
     expect(report.notes?.[0]).toMatch(/^The page was cut at 9 elements/)
     expect(report.notes?.[0]).not.toContain('read the whole page')
     expect(coverageStatement(report)).toContain('The page was cut at 9 elements')
+  })
+
+  it("reads a recording with the browser's default body look and no record of its stylesheets as unstyled, by its look", () => {
+    const DEFAULT = { size: 16, weight: 400, family: 'times new roman', color: 'rgb(0, 0, 0)' }
+    const page = (elements: number, native: Record<string, unknown>, reach?: A11ySnapshot['reach']) => ({
+      target: 'https://museum.example/',
+      root: node({ ref: 'html', native: { tag: 'html', ...native }, children: Array.from({ length: elements - 1 }, (_, i) => node({ ref: `html > p:nth-of-type(${i + 1})` })) }),
+      reach,
+    })
+    // museudoamanha.org.br and www.ufpe.br: recorded before the collector looked, both with this look and 260 or more elements.
+    expect(captureStyle(page(260, { bodyLook: DEFAULT }))).toEqual({ unstyled: true, by: 'look' })
+    // A page this small is read as it is; so is one in an author's font, or one the new collector looked at and found styled.
+    expect(captureStyle(page(40, { bodyLook: DEFAULT })).unstyled).toBe(false)
+    expect(captureStyle(page(260, { bodyLook: { ...DEFAULT, family: 'gilroy' } })).unstyled).toBe(false)
+    expect(captureStyle(page(260, { bodyLook: DEFAULT, authorStyles: 3 })).unstyled).toBe(false)
+    // What the collector recorded: no sheet linked and unstyled is the look; sheets that failed are the stylesheets.
+    expect(captureStyle(page(260, { authorStyles: 0 }, { stylesheets: { linked: 0, applied: 0, failed: [], unstyled: true, retried: true } }))).toEqual({ unstyled: true, by: 'look' })
+    expect(captureStyle(page(260, {}, { stylesheets: { linked: 1, applied: 0, failed: [{ href: 'https://museum.example/theme.css', reason: 'HTTP 404' }], unstyled: true, retried: true } }))).toEqual({
+      unstyled: true,
+      by: 'stylesheets',
+    })
+  })
+
+  it('reads a recording whose only failed stylesheet was a link to the page itself as styled (www.thejournal.ie)', () => {
+    const recorded = {
+      target: 'https://www.thejournal.ie/',
+      root: node({ ref: 'html', native: { tag: 'html', bodyLook: { size: 22, weight: 600, family: 'marr sans', color: 'rgb(25, 25, 25)' } } }),
+      reach: { stylesheets: { linked: 7, applied: 6, failed: [{ href: 'https://www.thejournal.ie/', reason: 'not loaded' }], unstyled: true, retried: true } },
+    }
+    expect(captureStyle(recorded)).toEqual({ unstyled: false, selfLinks: 1 })
+    expect(reachSeen(recorded)?.stylesheets).toEqual({ linked: 7, applied: 6, failed: [{ href: 'https://www.thejournal.ie/', reason: 'not loaded' }], retried: true })
+    expect(reachNotes(reachSeen(recorded), 'en')[0]).toContain("1 of the page's 7 stylesheet(s) had not applied")
   })
 
   it('keeps a snapshot with no frame and no shadow root as it always was', () => {

@@ -31,6 +31,29 @@ export function bodyLookOf(root: A11yNode): Look | undefined {
   return asLook(root.native.bodyLook)
 }
 
+/**
+ * The first families a browser's default style sheet gives text when no author style sets one: Chromium's standard font
+ * setting is "Times New Roman" on every desktop platform, and the generic family or its metric twins where it is not.
+ */
+export const DEFAULT_FAMILIES: readonly string[] = ['times new roman', 'times', 'serif', 'tinos', 'liberation serif', 'dejavu serif']
+
+/**
+ * Body text in the browser's own default look: 16 px, weight 400, black, the default serif. On the 72 pages of the
+ * second to fourth real-page studies, only the two captures that came without their styles had it (www.ufpe.br, whose
+ * theme did not apply, and museudoamanha.org.br, served as a stripped page with no stylesheet at all;
+ * docs/studies/notes-precision-check.md).
+ */
+export function isDefaultLook(look: Look | undefined): boolean {
+  return look !== undefined && look.size === 16 && look.weight === 400 && look.color === 'rgb(0, 0, 0)' && DEFAULT_FAMILIES.includes(look.family) && !look.italic
+}
+
+/**
+ * The fewest elements a page has for a default look with no author style at all to count as a capture that lost its
+ * styles: a site's page has a header, menus and a footer to style; a page this small (a W3C ACT test case, a fixture)
+ * is more likely written without CSS on purpose, and is read as it is. museudoamanha.org.br's stripped page had 260.
+ */
+export const PLAIN_PAGE_ELEMENTS = 150
+
 /** The same typographic signature: size within half a pixel, and the same weight, family, style, case and color. */
 export function sameLook(a: Look, b: Look): boolean {
   return Math.abs(a.size - b.size) <= 0.5 && a.weight === b.weight && a.family === b.family && a.color === b.color && Boolean(a.italic) === Boolean(b.italic) && (a.caps ?? '') === (b.caps ?? '')

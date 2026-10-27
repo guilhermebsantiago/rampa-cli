@@ -7,6 +7,8 @@ import type { EngineResults } from '../core/types.ts'
 import { RampaError, errorMessage, sha256 } from '../core/util.ts'
 import { AXE_REVIEW_RULES, axeLocale, axeSource, axeTags, emptyEngine, engineFromAxe } from '../engine/axe.ts'
 import type { Locale } from '../i18n.ts'
+import { DEFAULT_FAMILIES, PLAIN_PAGE_ELEMENTS } from '../snapshot/look.ts'
+import { pageLookInPage } from './page-look.ts'
 import { type HandleFrame, elementForRef, isQualifiedRef, resolverSource } from '../snapshot/refs.ts'
 import type { A11yNode, A11ySnapshot, Blocked, ProbeRecord } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
@@ -165,19 +167,27 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     // A page whose own stylesheets did not apply is not the page people see (www.ufpe.br's hidden type-ahead list became
     // 1,628 visible links in the third real-page study): it is loaded once more, and if it is still unstyled the snapshot
     // says so, judgments that rest on what is visible become suggestions, and nothing is measured from pixels.
+    // A page served with no style at all (no stylesheet linked, none in a style element) whose body text has the
+    // browser's default look is the same event without a failed request to show for it: museudoamanha.org.br sent the
+    // fourth real-page study's browser a stripped page, every CMS field a bare paragraph. A small page (an ACT test
+    // case, a fixture) is read as it is (`PLAIN_PAGE_ELEMENTS`).
     let stylesheets = await stylesheetFacts(page, stylesheetRequests.failed())
-    if (stylesheets?.unstyled) {
+    let look = await pageLook(page)
+    const plain = () => look !== undefined && look.defaultLook && look.authorStyles === 0 && look.elements >= PLAIN_PAGE_ELEMENTS
+    if (stylesheets?.unstyled || plain()) {
       try {
         await timed(watch, 'navigation', async () => {
           await page.reload({ timeout: options.timeoutMs ?? 30_000, waitUntil: 'load' })
           settled = await settlePage(page, network, settle)
         })
         stylesheets = { ...((await stylesheetFacts(page, stylesheetRequests.failed())) ?? { linked: 0, applied: 0, failed: [] }), retried: true }
+        look = await pageLook(page)
       } catch (error) {
         if (navigatedAway(error)) throw error
-        stylesheets = { ...stylesheets, retried: true }
+        stylesheets = { ...(stylesheets ?? { linked: 0, applied: 0, failed: [] }), retried: true }
       }
     }
+    if (stylesheets && !stylesheets.unstyled && plain()) stylesheets = { ...stylesheets, unstyled: true }
     const unstyled = stylesheets?.unstyled === true
     if (options.inspect) await options.inspect(page, response)
     if (options.mutate) await options.mutate(page)
@@ -241,6 +251,8 @@ export async function collectWeb(browser: Browser, url: string, options: WebColl
     const blocked = raw.blocked
     const html = raw.kind.kind === 'html' && !blocked
     const readable = raw.kind.kind !== 'xml' && !blocked
+    // How many author style sheets applied, kept so a check can tell this collector looked (snapshot/reach.ts, `captureStyle`).
+    if (html && look) root.native.authorStyles = look.authorStyles
     // A layer over the viewport (a consent backdrop in a closed shadow root, a welcome dialog) paints over every capture
     // of what lies under it: found by what sits on top at nine points of the viewport, and hidden with the fixed layers.
     const overlay = html ? await page.evaluate(detectOverlayInPage).catch(() => undefined) : undefined
@@ -391,6 +403,11 @@ function watchStylesheets(page: Page): { failed(): Map<string, string>; stop(): 
 
 type StylesheetFacts = NonNullable<NonNullable<A11ySnapshot['reach']>['stylesheets']>
 
+/** Whether the page's body text has the browser's default look with no author style (`pageLookInPage`); undefined when it cannot be asked. */
+async function pageLook(page: Page): Promise<ReturnType<typeof pageLookInPage> | undefined> {
+  return page.evaluate(pageLookInPage, DEFAULT_FAMILIES).catch(() => undefined)
+}
+
 /** The page's linked stylesheets and which of them did not apply; undefined for a document with none, or one that cannot be asked. */
 async function stylesheetFacts(page: Page, requests: Map<string, string>): Promise<StylesheetFacts | undefined> {
   const facts = await page.evaluate(stylesheetFactsInPage).catch(() => undefined)
@@ -405,8 +422,12 @@ async function stylesheetFacts(page: Page, requests: Map<string, string>): Promi
  * failed or was refused) and holds rules (a sheet of another origin cannot be read and counts as applied).
  */
 export function stylesheetFactsInPage(): { linked: number; applied: number; failed: Array<{ href: string; reason: string }>; own: { linked: number; failed: number } } {
+  const page = location.href.replace(/#.*$/, '')
   const links = Array.from(document.querySelectorAll<HTMLLinkElement>('link[rel~="stylesheet"]')).filter((link) => {
     if (!link.href || link.disabled) return false
+    // A link whose address is the page itself (an empty or "#" href, or the page's own address) is no stylesheet: it
+    // never loads as one, and counting it made www.thejournal.ie, whose other six sheets applied, read as unstyled.
+    if (link.href.replace(/#.*$/, '') === page) return false
     const media = link.media.trim()
     return media === '' || media === 'all' || media === 'screen' || matchMedia(media).matches
   })
