@@ -289,6 +289,12 @@ export interface Finding {
   evidence?: string | undefined
   /** What a judgment is about, as the snapshot has it (the alt text, the link text); never the model's words. */
   subject?: string | undefined
+  /**
+   * The kind of claim a judgment makes, where its answer names one (core/groups.ts, `claimOf`): the model's `problem`
+   * (1.1.1's question about an alternative, 2.4.2, 2.4.4, 2.4.6, 3.3.1, 3.3.2) or `relation` (1.3.2), such as
+   * `ambiguous`. Absent for the other judgments and for every rule, which makes one claim. Groups use it.
+   */
+  claim?: string | undefined
   patch?: Patch | undefined
   confidence: Confidence
   agreement?: { votes: number; total: number } | undefined
@@ -313,6 +319,31 @@ export interface Finding {
   experimental?: boolean | undefined
   /** A WCAG 2.2-only criterion in a WCAG 2.1 report: shown, never counted toward the exit code. */
   beyondTarget?: boolean | undefined
+}
+
+/**
+ * Findings of one page and one list that make the same claim: the same criterion, check (`check`) and claim kind
+ * (`claim`), more than five of them (core/groups.ts). A group references its members by fingerprint and adds nothing to
+ * them: each one stays a finding in its list, and what counts findings (the exit code, --fail-on, the baseline,
+ * `rampa eval`) counts every member.
+ */
+export interface FindingGroup {
+  /** `g-` and 12 hex digits: the list, criterion, check and claim hashed, so the same group keeps its id from run to run. */
+  id: string
+  /** The report's list that holds the members. */
+  list: 'findings' | 'belowThreshold'
+  criterion: string
+  level: Level | undefined
+  source: Finding['source']
+  /** The rule's id (`ruleId`) for an engine, Rampa or probe finding; `judgment/<criterion>` for a model's judgment. */
+  check: string
+  /** `Finding.claim` of every member; absent when the check makes one kind of claim. */
+  claim?: string | undefined
+  count: number
+  /** The members' fingerprints, in the list's order. */
+  members: string[]
+  /** The fingerprint of the member reports show as the example: the first one. */
+  example: string
 }
 
 /** What one probe rule did for one criterion: the method, its conditions and counts (docs/probes.md). */
@@ -504,6 +535,12 @@ export interface Report {
    */
   beyondTarget?: Finding[] | undefined
   waived: Finding[]
+  /**
+   * Bursts of near-identical findings on this page, to review together (core/groups.ts): more than five findings of one
+   * list with the same criterion, check and claim. Each member stays in its list as it is, and counts as it does there.
+   * Absent when no group formed.
+   */
+  groups?: FindingGroup[] | undefined
   /** Waivers past their expiry date that matched findings of this run: those findings are reported again. */
   expiredWaivers?: Waiver[] | undefined
   /** Set with --baseline: findings the baseline already had are left out of findings and belowThreshold. */

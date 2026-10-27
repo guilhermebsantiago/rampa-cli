@@ -1,0 +1,145 @@
+{
+  "$id": "https://raw.githubusercontent.com/guilhermebsantiago/rampa-cli/main/schema/report.schema.json",
+  "title": "Rampa report",
+  "description": "What `rampa check --format json` writes: one report for one page, an array of them for several. It describes the fields other tools read (the findings, the groups of near-identical findings, the counts and the coverage) and allows fields it does not name, so a newer report still validates. docs/output-formats.md says what each field means.",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    { "$ref": "#/$defs/report" },
+    { "type": "array", "items": { "$ref": "#/$defs/report" } }
+  ],
+  "$defs": {
+    "level": { "type": "string", "enum": ["A", "AA", "AAA"] },
+    "confidence": { "type": "string", "enum": ["low", "medium", "high"] },
+    "finding": {
+      "type": "object",
+      "description": "One failure on one element. Every member of a group stays a finding here, with every field it would have outside the group.",
+      "properties": {
+        "fingerprint": { "type": "string", "minLength": 1, "description": "The finding's id: what waivers and a group's members name" },
+        "criterion": { "type": "string", "minLength": 1 },
+        "level": { "$ref": "#/$defs/level" },
+        "source": { "type": "string", "enum": ["engine", "judgment", "rule", "probe"] },
+        "ref": { "type": "string" },
+        "target": { "type": "string" },
+        "message": { "type": "string" },
+        "evidence": { "type": "string" },
+        "subject": { "type": "string", "description": "What a judgment is about, as the snapshot has it: the alt text, the link text" },
+        "claim": { "type": "string", "description": "The kind of claim a judgment makes, where its answer names one: the model's problem (1.1.1, 2.4.2, 2.4.4, 2.4.6, 3.3.1, 3.3.2) or relation (1.3.2), such as ambiguous" },
+        "patch": {
+          "type": "object",
+          "properties": {
+            "ref": { "type": "string" },
+            "kind": { "type": "string", "enum": ["set-attribute", "set-text", "replace-element"] },
+            "attribute": { "type": "string" },
+            "from": { "type": "string" },
+            "to": { "type": "string" },
+            "before": { "type": "string" },
+            "after": { "type": "string" }
+          },
+          "required": ["ref", "kind", "to"]
+        },
+        "confidence": { "$ref": "#/$defs/confidence" },
+        "agreement": {
+          "type": "object",
+          "properties": { "votes": { "type": "integer", "minimum": 0 }, "total": { "type": "integer", "minimum": 0 } },
+          "required": ["votes", "total"]
+        },
+        "confirmation": {
+          "type": "object",
+          "properties": { "framings": { "type": "integer", "minimum": 0 }, "minProbability": { "type": "number", "minimum": 0, "maximum": 1 } },
+          "required": ["framings"]
+        },
+        "ruleId": { "type": "string" },
+        "helpUrl": { "type": "string" },
+        "html": { "type": "string" },
+        "model": { "type": "string" },
+        "locatedBy": { "type": "string" },
+        "location": {
+          "type": "object",
+          "properties": {
+            "file": { "type": "string" },
+            "startLine": { "type": "integer", "minimum": 1 },
+            "startColumn": { "type": "integer", "minimum": 1 },
+            "endLine": { "type": "integer", "minimum": 1 },
+            "endColumn": { "type": "integer", "minimum": 1 },
+            "snippet": { "type": "string" },
+            "fix": { "type": "object" }
+          },
+          "required": ["file", "startLine", "startColumn", "endLine", "endColumn"]
+        },
+        "experimental": { "type": "boolean" },
+        "beyondTarget": { "type": "boolean" }
+      },
+      "required": ["fingerprint", "criterion", "source", "message", "confidence"]
+    },
+    "group": {
+      "type": "object",
+      "description": "More than five findings of one list of the page with the same criterion, check and claim: shown once, to review together. It references its members and changes nothing about them.",
+      "properties": {
+        "id": { "type": "string", "pattern": "^g-[0-9a-f]{12}$", "description": "Stable from run to run: the list, criterion, check and claim hashed. Not a finding's id" },
+        "list": { "type": "string", "enum": ["findings", "belowThreshold"], "description": "The report's list that holds the members" },
+        "criterion": { "type": "string", "minLength": 1 },
+        "level": { "$ref": "#/$defs/level" },
+        "source": { "type": "string", "enum": ["engine", "judgment", "rule", "probe"] },
+        "check": { "type": "string", "minLength": 1, "description": "The rule's id (ruleId) for an engine, Rampa or probe finding; judgment/<criterion> for a model's judgment" },
+        "claim": { "type": "string", "description": "The members' claim; absent when the check makes one kind of claim" },
+        "count": { "type": "integer", "minimum": 6 },
+        "members": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 6, "description": "The members' fingerprints, in the list's order" },
+        "example": { "type": "string", "minLength": 1, "description": "The fingerprint of the member reports show as the example: the first" }
+      },
+      "required": ["id", "list", "criterion", "source", "check", "count", "members", "example"]
+    },
+    "report": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": { "type": "number", "const": 1 },
+        "rampaVersion": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "target": { "type": "string", "minLength": 1 },
+        "sourceFile": { "type": "string" },
+        "surface": { "type": "string", "enum": ["web", "android", "ios", "windows", "macos", "image"] },
+        "wcagTarget": { "type": "string", "enum": ["wcag21-aa", "wcag22-aa"] },
+        "locale": { "type": "string", "enum": ["en", "pt-BR"] },
+        "llm": { "type": "string", "enum": ["on", "off", "no-model"] },
+        "model": { "type": "string" },
+        "engine": {
+          "type": "object",
+          "properties": { "name": { "type": "string" }, "version": { "type": "string" } },
+          "required": ["name", "version"]
+        },
+        "minConfidence": { "$ref": "#/$defs/confidence" },
+        "failOn": { "type": "string" },
+        "findings": { "type": "array", "items": { "$ref": "#/$defs/finding" }, "description": "Every confirmed finding, one per element: what --fail-on, the exit code and rampa eval count" },
+        "belowThreshold": { "type": "array", "items": { "$ref": "#/$defs/finding" } },
+        "beyondTarget": { "type": "array", "items": { "$ref": "#/$defs/finding" } },
+        "waived": { "type": "array", "items": { "$ref": "#/$defs/finding" } },
+        "groups": { "type": "array", "items": { "$ref": "#/$defs/group" }, "description": "Absent when no group formed, and in reports written before groups existed" },
+        "discarded": { "type": "array" },
+        "criteria": { "type": "array" },
+        "coverage": {
+          "type": "object",
+          "properties": {
+            "engine": { "type": "array", "items": { "type": "string" } },
+            "judged": { "type": "array", "items": { "type": "string" } },
+            "notChecked": { "type": "array", "items": { "type": "string" } }
+          },
+          "required": ["engine", "judged", "notChecked"]
+        },
+        "needsReview": { "type": "array" },
+        "usage": {
+          "type": "object",
+          "properties": {
+            "calls": { "type": "integer", "minimum": 0 },
+            "cachedCalls": { "type": "integer", "minimum": 0 },
+            "inputTokens": { "type": "integer", "minimum": 0 },
+            "outputTokens": { "type": "integer", "minimum": 0 },
+            "latencyMs": { "type": "number", "minimum": 0 }
+          },
+          "required": ["calls", "cachedCalls", "inputTokens", "outputTokens", "latencyMs"]
+        },
+        "errors": { "type": "array", "items": { "type": "string" } },
+        "notes": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["schemaVersion", "rampaVersion", "createdAt", "target", "surface", "locale", "llm", "engine", "findings", "belowThreshold", "waived", "discarded", "criteria", "coverage", "usage", "errors"]
+    }
+  }
+}
