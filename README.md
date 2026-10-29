@@ -122,7 +122,7 @@ Exit codes: `0` no confirmed failure, `1` a confirmed failure, `2` the run could
 Pass `--model provider:model`, set `RAMPA_MODEL`, or let Rampa pick: a local Ollama model first, then the first provider with a key.
 
 - **Local:** `ollama:gemma4:12b`, the default, is free and has vision. On an RTX 5060 Ti (16 GB) a real page took 165 to 292 s, or 74 to 103 s with `--fast`, against 5 to 8 s with no model ([performance](docs/performance.md#three-real-pages)).
-- **Hosted:** `openai:gpt-6-luna` and `anthropic:claude-haiku-5-5` cost US$ 0.10 per million input tokens and 0.50 per million output; the report counts its calls and tokens and estimates the price.
+- **Hosted:** `openai:gpt-6-luna` and `anthropic:claude-haiku-5-5` cost US$ 0.10 per million input tokens and 0.50 per million output; the report counts its calls and tokens and estimates the price. Measured with `gpt-6-luna` on three real pages: US$ 0.010 to 0.023 a page, or 0.6 to 0.8 cents with `--fast` (61 to 72 s); on the W3C test cases it scored the same as Gemma ([hosted models](docs/models.md#hosted-models-measured)).
 - **Every provider**, with its key and price, and how to choose a model per criterion with `rampa eval`: [docs/models.md](docs/models.md).
 
 ## How it compares

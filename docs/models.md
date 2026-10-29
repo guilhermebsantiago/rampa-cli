@@ -216,6 +216,29 @@ The paired comparison of the two (`rampa compare`) on 343 cases: Gemma alone rig
 - **Small sets.** Precision intervals on the pooled meaning sets overlap for all four models; Gemma's lead is in recall and in 2.4.4. The repeated runs show that the verdicts are stable, not that the gap would hold on other pages.
 - **One machine.** A shared GPU, Ollama's default parallelism and Q4_K_M weights. Other quantizations and runtimes (LM Studio, llama.cpp) can differ, structured output above all.
 
+## Hosted models, measured
+
+On 2026-10-29 three OpenAI models ran the full default evaluation next to Gemma, each from an empty cache, at `93443ad` (after the fix that gives a one-word answer room for a model that reasons first). `gpt-6-luna` had run first, at `0bada65`, where OpenAI refused the 1.1.1 second pass's 8-token answers on 4 pages: its calls, tokens, time and cost are that run's, and its scores those of a rerun at `93443ad` from that run's cache (15 new calls). Prices are OpenAI's standard tier on that day, per million tokens: `gpt-6-luna` 0.10 in / 0.50 out, `gpt-6.1-sol` 2.00 / 10.00, `gpt-5.4-mini` 0.75 / 4.50 (not in Rampa's price table, so its report shows no estimate).
+
+| Model | Precision | Recall | F1 | Pairs told apart | Calls | Tokens in / out | Wall time | Cost |
+| --- | :---: | :---: | :---: | :---: | ---: | ---: | ---: | ---: |
+| `ollama:gemma4:12b` | 0.97 | 0.84 | 0.90 | 67 of 79 | 280 | 223k / 22.5k | 9 min 12 s | none |
+| `openai:gpt-6-luna` | 0.96 | 0.84 | 0.90 | 67 of 79 | 272 | 279k / 47.2k | 5 min 16 s | US$ 0.05 |
+| `openai:gpt-6.1-sol` | 0.96 | 0.84 | 0.90 | 67 of 79 | 284 | 288k / 21.7k | 6 min 49 s | US$ 0.79 |
+| `openai:gpt-5.4-mini` | 0.97 | 0.78 | 0.86 | 62 of 79 | 276 | 287k / 15.9k | 4 min 43 s | about US$ 0.29 |
+
+Precision, recall and F1 pool every set of the eight criteria (343 cases). Paired on the same cases (`rampa compare`, McNemar's exact test): `gpt-6-luna` and `gpt-6.1-sol` gave the same verdict on all 343; Gemma and `gpt-6-luna` differ on 5 (3 right only for Gemma, 2 only for luna, p = 1.0); `gpt-5.4-mini` is behind Gemma (12 against 1, p = 0.003) and `gpt-6-luna` (12 against 2, p = 0.013), mostly on 1.1.1 and the pairs. Gemma's time is on a GPU other jobs were using.
+
+**Real pages, cost and time.** Three recorded pages of the fifth real-page study's dev half (lakeland.co.uk, ms.gov.br, santacasasp.org.br), checked with the studies' flags (`--concurrency 2`), with and without `--fast`:
+
+| Model | Full: cost a page | Full: time | `--fast`: cost a page | `--fast`: time |
+| --- | ---: | ---: | ---: | ---: |
+| `openai:gpt-6-luna` | US$ 0.010–0.023 | 92–271 s | US$ 0.006–0.008 | 61–72 s |
+| `openai:gpt-6.1-sol` | US$ 0.15–0.34 | 84–200 s | US$ 0.08 | 47–77 s |
+| `openai:gpt-5.4-mini` | US$ 0.06–0.11 | 43–84 s | US$ 0.03 | 23–39 s |
+
+These measure cost and time, not quality: the pages' findings under these models were not labelled. One run each. The `gpt-6-luna` page runs came before that fix, so on two pages one call of the 1.1.1 second pass was refused (OpenAI's 16-token minimum); their costs and times are those of that run. With Gemma on this GPU, the fifth study's judgment took 17 to 322 s a page (median 145 s) on its 24 pages ([round 5](studies/real-pages-2026-10-round5.md)).
+
 ## Measure, then compare
 
 Run the evaluation once per model, plus once without a model for the baseline:
