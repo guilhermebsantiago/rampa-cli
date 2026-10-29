@@ -2,6 +2,43 @@
 
 Rampa asks a model only what axe-core cannot decide, one WCAG criterion at a time, and keeps a claim only when its evidence checks out against the page. A model that judges alt text well can still misjudge link purpose, and a cheap model can be the right choice for one criterion and the wrong one for another. Generic benchmarks do not tell you which. Measuring does: `rampa eval` scores a model on the W3C ACT test cases and on corrupted pairs, and `rampa compare` puts several runs side by side, criterion by criterion.
 
+## Providers and keys
+
+The judgment runs on a local model or on any major provider, through the [AI SDK](https://ai-sdk.dev). Pass `--model provider:model`, set `RAMPA_MODEL` or `model` in the config, or let Rampa choose: a local Ollama model first, then the first provider in this table with credentials. `rampa models` shows what is ready on your machine, and `rampa doctor` says what is missing. Keys go in the environment or in a `.env` file in the working directory, never in the config file.
+
+| Provider | Recommended model | USD per 1M tokens, in / out | Credentials |
+| --- | --- | --- | --- |
+| Ollama (local) | `ollama:gemma4:12b` | free | none; `OLLAMA_BASE_URL` if not on localhost |
+| LM Studio (local) | `lmstudio:<loaded model>` | free | none; `LMSTUDIO_BASE_URL` if not on localhost:1234 |
+| Anthropic | `anthropic:claude-haiku-5-5` | 0.10 / 0.50 | `ANTHROPIC_API_KEY` |
+| OpenAI | `openai:gpt-6-luna` | 0.10 / 0.50 | `OPENAI_API_KEY` |
+| Google Gemini API | `google:gemini-3.5-flash-lite` | 0.30 / 2.50, free tier | `GEMINI_API_KEY` (or `GOOGLE_GENERATIVE_AI_API_KEY`) |
+| Vercel AI Gateway | `gateway:openai/gpt-6-luna` | the provider's price | `AI_GATEWAY_API_KEY` |
+| OpenRouter | `openrouter:openai/gpt-6-luna` | the provider's price | `OPENROUTER_API_KEY` |
+| Amazon Bedrock | `bedrock:global.anthropic.claude-haiku-5-5` | 0.10 / 0.50 | `AWS_REGION` and `AWS_BEARER_TOKEN_BEDROCK` (or `AWS_ACCESS_KEY_ID` + `AWS_SECRET_ACCESS_KEY`) |
+| Google Vertex AI | `vertex:gemini-3.5-flash-lite` | 0.30 / 2.50 | `GOOGLE_VERTEX_PROJECT` with Application Default Credentials (or `GOOGLE_VERTEX_API_KEY`) |
+| Mistral AI | `mistral:mistral-small-latest` | 0.15 / 0.60 | `MISTRAL_API_KEY` |
+| Together AI | `togetherai:Qwen/Qwen3.5-9B` | 0.17 / 0.25 | `TOGETHER_API_KEY` |
+| Fireworks AI | `fireworks:accounts/fireworks/models/glm-5p3-flash` | 0.15 / 0.50 | `FIREWORKS_API_KEY` |
+| DeepSeek | `deepseek:deepseek-flash` | 0.30 / 1.20, half off-peak | `DEEPSEEK_API_KEY` |
+| xAI | `xai:grok-4.20-0309-non-reasoning` | 1.25 / 2.50 | `XAI_API_KEY` |
+| Cerebras | `cerebras:qwen-3.8-27b` | 0.99 / 1.49 | `CEREBRAS_API_KEY` |
+| Groq | `groq:qwen/qwen3.8-27b` (preview) | 0.80 / 4.00 | `GROQ_API_KEY` |
+| Azure OpenAI | `azure:<deployment>`, for example of gpt-6-luna | 0.10 / 0.50 | `AZURE_API_KEY` and `AZURE_RESOURCE_NAME` (or `AZURE_BASE_URL`) |
+| Claude on Vertex AI | `vertex-anthropic:<model id as Vertex lists it>` | Vertex's price | `GOOGLE_VERTEX_PROJECT` with Application Default Credentials |
+| Any OpenAI-compatible server (vLLM, llama.cpp…) | `openai-compatible:<model>` | | `RAMPA_OPENAI_COMPATIBLE_URL`, optional `RAMPA_OPENAI_COMPATIBLE_KEY` |
+| Codex CLI (ChatGPT plans) | `codex:default` | your plan's limits | `codex` installed and signed in with ChatGPT |
+| Gemini CLI (Gemini Code Assist) | `gemini-cli:default` | your license's limits | `gemini` installed and signed in with Google |
+
+Model ids and prices were checked on each provider's own pages on 2026-10-07, and every recommended model takes images. LM Studio, Azure, Claude on Vertex AI and OpenAI-compatible servers need a name only you know, and the two CLIs run on your plan, so Rampa never picks them on its own. Short aliases work too: `gemini:`, `aws:`, `together:`, `vercel:`.
+
+- **Every provider has a test.** It checks the request the provider builds (prompt, image and schema) and reads a reply in its wire format, with no network. The published evaluation ran on Ollama; tables for hosted models come next.
+- **Cloud details.** Vertex uses the `global` location unless `GOOGLE_VERTEX_LOCATION` says otherwise. Bedrock returns the JSON through a forced tool, which every Claude on Bedrock supports; with AWS SSO or profiles, export the session first with `eval "$(aws configure export-credentials --format env)"`. Azure takes your deployment name, not the model name.
+- **1.1.1 and 1.4.5 need vision.** `gemma4:12b` has it and runs on a 16 GB GPU. Measured on 2026-10-10 on the full default evaluation against Qwen3-VL 8B, Qwen 3.5 9B and Ministral 3 14B, it got the most cases right (320 of 343) and told apart the most corrupted pairs (71 of 79), with the caveat that the prompts were tuned on its errors (that run's sets and pairs are not the [evaluation](evaluation.md) table's, which is an earlier run); [the comparison below](#four-local-models-measured) says what to use on a smaller GPU. Text-only models such as `groq:openai/gpt-oss-20b` judge the rest with `--criteria 1.3.5,2.4.2,2.4.4,2.4.6,3.1.1,3.1.2,3.3.2`.
+- **Reasoning is off by default for local models.** On an RTX 5060 Ti that cut a judgment from about 6 s to 2 s with the same answer; `--reasoning` brings it back, and `rampa eval` can measure the trade-off.
+- **Subscriptions.** Codex CLI (ChatGPT plans) and Gemini CLI (Gemini Code Assist) can judge on a subscription through their official CLIs: you install and sign in to the CLI, and Rampa runs it in its non-interactive mode with your own setup kept out, never reading the credentials ([subscriptions.md](subscriptions.md)). Claude plans are not supported: Anthropic's terms say Pro and Max usage limits assume ordinary, individual usage, and that third-party developers may not route requests through plan credentials on behalf of their users ([Legal and compliance](https://code.claude.com/docs/en/legal-and-compliance)). With Claude, use an API key; Claude Max and Team plans include monthly API credits ([Help Center](https://support.claude.com/en/articles/15036540)) that a key can draw on.
+- **Recommendations come from measurement.** `rampa models` lists a starting point; the model per criterion should be chosen with `rampa eval`, not generic benchmarks.
+
 ## Four local models, measured
 
 On 2026-10-10, four local models ran the full default evaluation on the same machine and the same commit, one after another, each from an empty cache. The two best ran a second time.
@@ -10,7 +47,7 @@ On 2026-10-10, four local models ran the full default evaluation on the same mac
 
 ### Method
 
-- **Code and data.** Commit `9293eb4`, axe-core 4.14.0, WCAG 2.2 rules, W3C ACT test cases `a9a1483e` (the file of 2026-10-07 the README's numbers use).
+- **Code and data.** Commit `9293eb4`, axe-core 4.14.0, WCAG 2.2 rules, W3C ACT test cases `a9a1483e` (the file of 2026-10-07 the numbers in [evaluation.md](evaluation.md) use).
 - **Command**, per model: `node dist/cli.mjs eval --model ollama:<model> --locale en --cache-dir .rampa/cache-models/<run>-<model>`. That is the eight default criteria (1.1.1, 1.3.5, 2.4.2, 2.4.4, 2.4.6, 3.1.1, 3.1.2, 3.3.2) with their corrupted pairs, verification on, one judgment per candidate, the default concurrency (4 pages at a time, up to 2 calls each) and links followed on the W3C host. 1.4.5 and 3.3.1 are not in the default set and were not run.
 - **Settings as the provider sets them.** Rampa's Ollama provider sent temperature 0, `reasoning_effort: "none"` and the criterion's JSON schema as `response_format` on every call. The two models with a thinking mode, Gemma 4 and Qwen 3.5, returned no reasoning text. Ollama kept its default context of 4,096 tokens. No model needed a flag.
 - **Vision.** All four take images (`ollama show` lists vision), and each answered all 29 calls that carried one, so every model judged 1.1.1. A text-only model would be run without 1.1.1 (`--criteria 1.3.5,2.4.2,…`), and `rampa compare` would show 1.1.1 as not evaluated by that run, not as missed.
@@ -253,7 +290,7 @@ A is `ollama:gemma4:12b` on a local GPU, B is `openai:gpt-6-luna`. Reading it fr
 
 Two models that give the same verdict are not thereby correct. The paired table counts *both wrong* separately because no comparison between two models can reveal those errors; only the reference can.
 
-- In the run above, Gemma and gpt-6-luna agree on 35 of 37 pages, and on one of those 35 both are wrong. The README's evaluation notes that, on 1.1.1 and 3.1.2, the model errors of the two fell on the same bilingual sentence.
+- In the run above, Gemma and gpt-6-luna agree on 35 of 37 pages, and on one of those 35 both are wrong. The [evaluation](evaluation.md) notes that, on 1.1.1 and 3.1.2, the model errors of the two fell on the same bilingual sentence.
 - In the smoke tests of 2026-10-08 below, `gemma4:12b`, `qwen3-vl:8b-instruct` and `ministral-3:14b`, three model families, all failed the same passing ACT page, `<button role="link">Click me for WAI!</button>`, as a generic link text. The ACT case expects a pass, and the text does say where the link goes. `qwen3.5:9b` made the same claim; verification dropped it for another reason. Four models agreeing would have looked like certainty.
 - Models share training data and habits, so their errors correlate. A majority of models is not ground truth, and a rule such as "report only what two models agree on" trades recall for precision; measure it with `rampa eval` before you rely on it.
 - The same holds within one model: `--runs 5` with all five votes agreeing is consistency, not correctness.

@@ -43,12 +43,12 @@ Providers live in one table, `src/providers/registry.ts`: the prefix, the enviro
 
 1. Add a case to `test/providers.test.ts`. It checks the request the provider builds (prompt, image and schema) and reads a reply in its wire format, without a network.
 2. If the provider does not pass the JSON schema on to the model, set `schemaInPrompt`.
-3. Add its recommended model to `src/providers/models.ts` only after checking the id, the price and image input on the provider's own documentation, and add a row to the table in the README.
+3. Add its recommended model to `src/providers/models.ts` only after checking the id, the price and image input on the provider's own documentation, and add a row to the provider table in [docs/models.md](docs/models.md#providers-and-keys).
 
 ## Pull requests
 
 Keep them focused, include tests, and make sure `pnpm typecheck`, `pnpm test` and `pnpm build` pass. A change people will notice gets a line under **Unreleased** in [CHANGELOG.md](CHANGELOG.md); [RELEASING.md](RELEASING.md) says how a version is published.
 
-## README media
+## README and docs media
 
-Every image in the README is rendered from the real CLI by `pnpm media` (it needs a model or cached judgments). If your change alters what the CLI prints, run it and commit the new images with the change.
+Every image in `docs/media`, which the README, [docs/how-it-works.md](docs/how-it-works.md) and [docs/evaluation.md](docs/evaluation.md) show, is rendered from the real CLI by `pnpm media` (it needs a model or cached judgments). If your change alters what the CLI prints, run it and commit the new images with the change.

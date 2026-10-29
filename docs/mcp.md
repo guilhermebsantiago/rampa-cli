@@ -17,7 +17,7 @@ You need what `rampa check` needs:
 
 - **Node.js 22.12 or later.**
 - **Chrome or Edge** (or `npx playwright-core install chromium`) to check URLs and `.html` files. A snapshot `.json` needs no browser.
-- **A model for the judgment layer**: Ollama with `gemma4:12b` locally, or an API key for any provider in the [README](../README.md#models). Without one, a call can still pass `no_llm: true` and get axe-core's findings.
+- **A model for the judgment layer**: Ollama with `gemma4:12b` locally, or an API key for any provider in [models.md](models.md#providers-and-keys). Without one, a call can still pass `no_llm: true` and get axe-core's findings.
 
 `rampa doctor` checks all three, and `rampa models` shows which model Rampa would pick.
 
