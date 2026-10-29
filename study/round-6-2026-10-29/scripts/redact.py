@@ -1,9 +1,10 @@
 """Redact client addresses and tokens from a screen file before it is kept.
 
 The screen writes its raw file outside the repository; this writes the copy git keeps. In every string it replaces
-IPv4 and IPv6 addresses with "[redacted]"; and a final address on another registrable domain than the candidate's,
-or on a page that showed a challenge, loses its query string and fragment (a bot check's redirect carries tokens and
-the client's address there, as camicado.com.br's did in the fifth study). It prints what it changed, without the values.
+IPv4 and IPv6 addresses with "[redacted]"; and every final address loses its query string and fragment (a bot check's
+redirect carries tokens and the client's address there, as camicado.com.br's did in the fifth study, and a store's can
+carry the region it read from the client's address, as lojasrenner.com.br's did here). It prints what it changed,
+without the values.
 
   python -I redact.py <public_suffix_list.dat> <raw screen.json> <kept screen.json>
 """
@@ -46,7 +47,9 @@ def main():
             own = psl.registrable(urlsplit(row["url"]).hostname or "")
             parts = urlsplit(final)
             there = psl.registrable(parts.hostname or "")
-            if (there != own or row.get("challenge")) and (parts.query or parts.fragment):
+            # Any query string goes: a store's redirect can carry the region it read from the client's address
+            # (lojasrenner.com.br's utm_region in this study's screen), and a bot check's carries tokens.
+            if parts.query or parts.fragment or there != own:
                 row["finalUrl"] = urlunsplit((parts.scheme, parts.netloc, parts.path, "[redacted]" if parts.query else "", ""))
                 stripped.append(row["slot"])
     rows = scrub(rows, counts, "")
