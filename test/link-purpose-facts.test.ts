@@ -4,6 +4,7 @@ import { checkSnapshot } from '../src/core/check.ts'
 import type { EngineResults } from '../src/core/types.ts'
 import { genericLinkText, kindOnlyLinkText, namesOnlyFileKind } from '../src/criteria/generic-text.ts'
 import { groundedLink, linkPurpose } from '../src/criteria/link-purpose.ts'
+import { subtreeText } from '../src/criteria/shared.ts'
 import type { JudgeRequest, ModelProvider } from '../src/providers/types.ts'
 import type { A11yNode, A11ySnapshot } from '../src/snapshot/schema.ts'
 import { node } from './helpers.ts'
@@ -256,6 +257,89 @@ describe('a link to a part of this page that its text names nothing of', () => {
   })
 })
 
+const div = (ref: string, ...children: A11yNode[]) => node({ ref, native: { tag: 'div' }, children })
+const h3 = (ref: string, name: string, ...children: A11yNode[]) =>
+  node({ ref, role: 'heading', name, native: { tag: 'h3' }, children: children.length > 0 ? children : [text(`${ref}-text`, name)] })
+/** A link that leads nowhere: an href of "#", or none. */
+const toggle = (ref: string, name: string, href?: string) =>
+  node({ ref, role: 'link', name, native: { tag: 'a', attributes: href === undefined ? {} : { href } }, children: [text(`${ref}-text`, name)] })
+/** pucrs.br's news card in the fifth real-page study: a category link, the heading (the article's own link), and "Leia mais" in a div of its own. */
+const card = (n: number, title = `Enfermagem: descubra a profissão ${n}`, more = 'Leia mais') =>
+  div(`card${n}`, link(`#cat${n}`, 'ENSINO', '/noticias/ensino/'), h3(`h${n}`, title, link(`#title${n}`, title, `/noticias/ensino/enfermagem-${n}/`)), div(`more${n}`, link(`#more${n}`, more, `/noticias/ensino/enfermagem-${n}/`)))
+const contextOf = (snapshot: A11ySnapshot, ref: string) => facts(snapshot)[linkPurpose.candidates(snapshot, NO_ENGINE).findIndex((c) => c.ref === ref)]
+
+describe('a generic link text completed by the heading of its card (H80), and a disclosure toggle', () => {
+  it('reads the heading of a card made of divs as completing "Leia mais", says so in the prompt, and grounds no generic claim on it', () => {
+    const snapshot = page([card(1), card(2)])
+    const more = contextOf(snapshot, '#more1')
+    expect(more).toMatchObject({ name: 'Leia mais', context: undefined, heading: 'Enfermagem: descubra a profissão 1', cardHeading: 'Enfermagem: descubra a profissão 1' })
+    expect(groundedLink('generic', more!)).toBe(false)
+    // Without the card heading, the same facts ground it, as they did before (the block holds nothing but links).
+    expect(groundedLink('generic', { ...more!, cardHeading: undefined })).toBe(true)
+    const candidate = linkPurpose.candidates(snapshot, NO_ENGINE).find((c) => c.ref === '#more1')!
+    const prompt = linkPurpose.prompt(candidate, snapshot).user
+    expect(prompt).toContain('Heading the link sits under (part of its context): Enfermagem: descubra a profissão 1')
+    expect(prompt).toContain('Heading of the card the link sits in: Enfermagem: descubra a profissão 1')
+    // A link that names its destination keeps its prompt: the line is only for a generic text.
+    const title = linkPurpose.candidates(snapshot, NO_ENGINE).find((c) => c.ref === '#title1')!
+    expect(title.context.cardHeading).toBeUndefined()
+    expect(linkPurpose.prompt(title, snapshot).user).not.toContain('Heading of the card')
+    // A generic link with no card is judged first under the cap, as before; one its card completes is not.
+    expect(linkPurpose.judgeFirst?.(candidate)).toBe(false)
+  })
+
+  it('needs the heading and the link to share an ancestor at most two levels up, holding at most 300 characters', () => {
+    // A section's heading, itself a link as on pucrs.br, so that the block holds nothing but links and gives no context.
+    const sectionHeading = () => h3('h', 'Notícias', link('#h-link', 'Notícias', '/noticias'))
+    // Three levels up: the heading heads a section, not the link's card.
+    const deeper = page([div('section', sectionHeading(), div('list', div('item', link('#more', 'Leia mais', '/noticias/1'))))])
+    expect(contextOf(deeper, '#more')).toMatchObject({ context: undefined, heading: 'Notícias' })
+    expect(contextOf(deeper, '#more')).not.toHaveProperty('cardHeading')
+    expect(groundedLink('generic', contextOf(deeper, '#more')!)).toBe(true)
+    // Two levels up: a card while its text is 300 characters at most, a section of a page past that.
+    const box = (length: number) => {
+      const base = div('box', sectionHeading(), div('wrap', link('#more', 'Leia mais', '/noticias/1')), link('#all', '', '/todas'))
+      // The padding comes after a space.
+      const pad = length - subtreeText(base).length - 1
+      return page([div('box', sectionHeading(), div('wrap', link('#more', 'Leia mais', '/noticias/1')), link('#all', 'x'.repeat(pad), '/todas'))])
+    }
+    expect(subtreeText(box(300).root.children[0]!.children[0]!)).toHaveLength(300)
+    expect(contextOf(box(300), '#more')).toMatchObject({ context: undefined, cardHeading: 'Notícias' })
+    expect(contextOf(box(301), '#more')).toMatchObject({ context: undefined, heading: 'Notícias' })
+    expect(contextOf(box(301), '#more')).not.toHaveProperty('cardHeading')
+    expect(groundedLink('generic', contextOf(box(301), '#more')!)).toBe(true)
+    // A heading after the link in its card is not the heading the link sits under.
+    const after = page([sectionHeading(), div('section', div('card', div('more-wrap', link('#more', 'Leia mais', '/noticias/1')), h3('h2', 'Enfermagem', link('#t', 'Enfermagem', '/noticias/1'))))])
+    expect(contextOf(after, '#more')).toMatchObject({ heading: 'Notícias' })
+    expect(contextOf(after, '#more')).not.toHaveProperty('cardHeading')
+  })
+
+  it('reads a "More" that leads nowhere and opens the list after it in its own item as a toggle, not a link to judge', () => {
+    const submenu = ul('sub', li('s1', link('#visit', 'Visit', '/visit')), li('s2', link('#shop', 'Shop', '/shop')))
+    // horniman.ac.uk's "More": an href of "#" with the submenu after it.
+    const menu = page([node({ ref: 'nav', role: 'navigation', native: { tag: 'nav' }, children: [ul('top', li('t1', link('#home', 'Home', '/')), li('t2', toggle('#more', 'More', '#'), submenu))] })])
+    expect(contextOf(menu, '#more')).toMatchObject({ name: 'More', menuToggle: true })
+    expect(groundedLink('generic', contextOf(menu, '#more')!)).toBe(false)
+    expect(groundedLink('generic', { ...contextOf(menu, '#more')!, menuToggle: undefined })).toBe(true)
+    // No href, or a script, is a toggle too; the list may sit deeper in the item, as a mega menu's panel does.
+    for (const href of [undefined, 'javascript:void(0)']) {
+      const other = page([ul('top', li('t1', link('#home', 'Home', '/')), li('t2', toggle('#more', 'More', href), div('panel', submenu)))])
+      expect(contextOf(other, '#more')?.menuToggle, String(href)).toBe(true)
+    }
+    // A "More" that leads somewhere, one with no list after it, and one after the list are links.
+    const leads = page([ul('top', li('t1', link('#home', 'Home', '/')), li('t2', link('#more', 'More', '/more'), submenu))])
+    const alone = page([ul('top', li('t1', link('#home', 'Home', '/')), li('t2', toggle('#more', 'More', '#')))])
+    const before = page([ul('top', li('t1', link('#home', 'Home', '/')), li('t2', submenu, toggle('#more', 'More', '#')))])
+    const outside = page([div('bar', toggle('#more', 'More', '#'), submenu)])
+    for (const [label, snapshot] of [['leads', leads], ['alone', alone], ['before', before], ['outside a list item', outside]] as const) {
+      expect(contextOf(snapshot, '#more')?.menuToggle, label).toBeUndefined()
+    }
+    // A toggle with a specific text is not read: the fact only takes a generic text off.
+    const named = page([ul('top', li('t2', toggle('#about', 'About us', '#'), submenu))])
+    expect(contextOf(named, '#about')?.menuToggle).toBeUndefined()
+  })
+})
+
 /** A model that fails every link: "generic" on most, "mismatch" on a link to a part of the page. */
 function failsEverything(): ModelProvider {
   return {
@@ -276,5 +360,14 @@ describe('what the facts make of a model that fails everything', () => {
     const report = await checkSnapshot(snapshot, NO_ENGINE, { criteria: [linkPurpose], llm: true, provider: failsEverything(), runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 1 })
     expect(report.findings.map((f) => f.subject)).toEqual(['HTML', 'EPUB', 'Plain text', 'See this product'])
     expect(report.needsReview?.map((item) => item.ref)).toEqual(['#ws'])
+  })
+
+  it('reports a "Leia mais" its card completes, and a toggle, for review; one with no card stays a finding', async () => {
+    const submenu = ul('sub', li('s1', link('#visit', 'Visit', '/visit')))
+    const section = div('section', h3('h', 'Notícias', link('#h-link', 'Notícias', '/noticias')), div('list', div('item', link('#alone', 'Leia mais', '/noticias/1'))))
+    const snapshot = page([card(1), ul('top', li('t2', toggle('#toggle', 'More', '#'), submenu)), section])
+    const report = await checkSnapshot(snapshot, NO_ENGINE, { criteria: [linkPurpose], llm: true, provider: failsEverything(), runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 1 })
+    expect(report.findings.filter((f) => f.claim === 'generic').map((f) => f.ref)).toEqual(['#alone'])
+    expect(report.needsReview?.map((item) => item.ref)).toEqual(expect.arrayContaining(['#more1', '#toggle']))
   })
 })
