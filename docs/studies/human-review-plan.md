@@ -52,10 +52,12 @@ What blindness does not cover:
 ## 4. What the labellers see, and what is missing
 
 - Each page's **snapshot**, cut down to the sampled elements, their ancestors and the destinations of their links (`snapshots/<slug>.snapshot.json`; the full snapshots are in the recordings backup, `rampa-study-recordings/<round>/pages/<slug>/recording/`). With it the Lab shows the element's crop as the model saw it, its role, accessible name, text, states, attributes and HTML, four ancestors, and where a link leads as Rampa read it.
-- A **context image** per item, `contexto/<fingerprint>.jpg`: the element outlined in the page's full screenshot, with a margin. The Lab does not show the screenshot, so the image is opened beside it. An item has none when its element was off screen or had no size in the capture; `data/sample.json` lists them.
+- A **context image**, `contexto/<fingerprint>.jpg`: the element outlined in the page's full screenshot, with a margin. The Lab does not show the screenshot, so the image is opened beside it. The screenshot was taken apart from the snapshot, and on many pages the layout moved in between (content loaded later, carousels, sticky bars), so an element's bounds can point at something else in it; hering's newsletter field, for one, lands on the sticky header. A page's screenshot is used only when the crops its own snapshot holds (the element images the model saw) match it at their bounds: median mean absolute difference at most 20 (of 255, at 32×32) and at least 60% of them under 20; a sampled element with its own crop must match too (at most 25). 23 of the 43 sampled pages pass, which gives **53 of the 100 items** a context image (13 of the 30). The rest have none rather than a wrong one; `data/sample.json` lists them, with each page's alignment.
 - The **live page**, one link away in the Lab. It may have changed since the run; the judges were told the same.
 
-Missing, compared with the judges' packets: the nearby headings, the page's and the ancestors' `lang` (which matters for 3.1.1 and 3.1.2; the claim names the language Rampa read), and the full screenshot. Paragraphs (the 3.1.2 passages) have their text in the snapshot but no HTML; the Lab shows the text.
+Missing, compared with the judges' packets: the nearby headings, the page's and the ancestors' `lang` (which matters for 3.1.1 and 3.1.2; the claim names the language Rampa read, and the pruned snapshot keeps the `lang` of the root and the ancestors for whoever opens it), and the full screenshot where it does not line up. Paragraphs (the 3.1.2 passages) have their text in the snapshot but no HTML; the Lab shows the text.
+
+Expected time, an estimate from the kind of evidence each item needs (not measured): 1.5 to 2.5 minutes an item, more when the live page must be opened; 2.5 to 4 hours for the 100 and 1 to 1.5 hours for the 30. The Lab records when each label was saved, and the analysis reports the median time between labels, so the next round can plan from the measured figure.
 
 ## 5. Labelling and analysis
 
@@ -84,3 +86,19 @@ python -I study/human-review-2026-10/scripts/analyze.py <author export> [<second
 ```
 
 `sample.py` reads the recordings from `C:/Users/guilh/dev/rampa-study-recordings` (or `$RECORDINGS`, or `--recordings`) and needs Pillow for the context images; `check-lab.mjs` imports the Lab from `C:/Users/guilh/dev/rampa-lab` (or `$RAMPA_LAB`, or `--lab`) and needs its `node_modules` (zod).
+
+## 7. What the draw gave
+
+Run after the rule's commit, with the seed above; `data/sample.json` is the result.
+
+| | The 100 | The 30 |
+| --- | --- | --- |
+| Parts | J 66, B 24 (ufpe-br 8, toolstation-plumbing 8, museudoamanha 8), S 10 (5 per study) | J 20, B 7 (2, 3, 2), S 3 |
+| Studies | round 3: 36 (dev 11, test 25); round 4: 37 (20, 17); round 5: 27 (12, 15) | 11 (3, 8); 10 (5, 5); 9 (3, 6) |
+| Criteria | 2.4.4 41, 1.1.1 30, 3.1.2 11, 1.3.5 9, 2.4.6 6, 3.3.2 2, 3.1.1 1 | 2.4.4 15, 1.1.1 10, 3.1.2 3, 1.3.5 2 |
+| Claim kinds | 2.4.4 shared text 32, 1.1.1 wrong content 13, 3.1.2 passage 11, 1.1.1 functional 9, 1.3.5 9, 2.4.4 generic 7, 1.1.1 placeholder 5, 2.4.6 heading 4, 2.4.6 label 2, 3.3.2 2, and one each of 1.1.1 decorative, 1.1.1 generic, 1.1.1 hidden image, 2.4.4 address, 2.4.4 mismatch and 3.1.1 | shared text 11, wrong content 5, 1.1.1 functional 3, 2.4.4 generic 3, 3.1.2 3, 1.3.5 2, one each of 1.1.1 generic, 1.1.1 placeholder and 2.4.4 mismatch |
+| Claude labels | 51 false, 40 true, 9 uncertain | 15 false, 12 true, 3 uncertain |
+| Pages | 43 | 20 |
+
+The next-iteration notes asked for at least 15 `wrong_content` and 15 shared-text claims; the rule set no quota by claim, and the draw gave 13 and 32. Both packages load in the Lab with every item blind and its element found in its snapshot (`check-lab.mjs`), and `analyze.py` ran on two synthetic exports written by the Lab's own export code; neither export is in the repository.
+

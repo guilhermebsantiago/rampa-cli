@@ -106,10 +106,11 @@ for (const [name, labeler, seed] of [
     const element = elementContext(snapshot, e.ref)
     if (!element) fail(where(`${e.fingerprint}: the snapshot has no element ${e.ref}`))
     else {
-      // Paragraphs keep their text in the snapshot, not their HTML, and an svg or a span with role=img its name and crop; the Lab shows those.
+      // Paragraphs keep their text in the snapshot, not their HTML; an svg or a span with role=img its name and crop; a
+      // div with role=combobox the name the browser computed. The Lab shows those.
       if (!(e.html ?? element.html)) {
         withoutHtml++
-        if (!element.text && !element.image && !element.name) fail(where(`${e.fingerprint}: no HTML, text, name or crop to show`))
+        if (!element.text && !element.image && !element.name && !element.browserName) fail(where(`${e.fingerprint}: no HTML, text, name or crop to show`))
       }
       if (element.image) withCrop++
       else if (e.criterion === '1.1.1') imagesWithoutCrop.push(`${e.fingerprint} (${element.role})`)

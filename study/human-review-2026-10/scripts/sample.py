@@ -11,7 +11,7 @@ Writes, under study/human-review-2026-10/:
   data/sample.json                         the manifest: which finding each item is (no Claude label)
   pacote-100/data/findings.json, pages.json  the 100 items, blind, in the seeded order
   pacote-100/snapshots/<slug>.snapshot.json  each page's snapshot, cut down to the sampled elements and their ancestors
-  pacote-100/contexto/<fingerprint>.jpg       the element in the page's screenshot, outlined, when it is on screen
+  pacote-100/contexto/<fingerprint>.jpg       the element in the page's screenshot, outlined, when the screenshot lines up
   pacote-30/...                               the same for the second person's 30
 The LEIA-ME.md files are written by hand and left alone.
 
@@ -42,6 +42,12 @@ PACKAGES = (("pacote-100", "all"), ("pacote-30", "second"))
 MARGIN = {"left": 320, "right": 320, "top": 240, "bottom": 360}
 MAX_W, MAX_H = 1280, 960
 OUTLINE = (230, 0, 160)
+# The full-page screenshot was taken apart from the snapshot, and on some pages the layout moved in between (lazy
+# content, carousels, sticky bars), so an element's bounds can point at something else in it. A page's screenshot is
+# used only when the crops its snapshot holds (the element images the model saw) match the screenshot at their bounds:
+# the median of their mean absolute differences (0-255, at 32x32) at most ALIGN_MEDIAN, and at least ALIGN_SHARE of
+# them under ALIGN_CLOSE. A sampled element with its own crop must match too (ALIGN_ITEM).
+ALIGN_MEDIAN, ALIGN_SHARE, ALIGN_CLOSE, ALIGN_ITEM = 20.0, 0.6, 20.0, 25.0
 
 
 def recording_dir(recordings, sid):
@@ -104,6 +110,36 @@ def prune(snapshot, refs):
     out["root"] = copy(snapshot["root"])
     out["destinations"] = destinations
     return out, missing, nodes
+
+
+def crop_difference(screenshot, node):
+    """How far the element's own crop is from the screenshot at its bounds, or None when it cannot be compared."""
+    import base64
+    import io
+
+    from PIL import Image, ImageChops, ImageStat
+
+    image, b = node.get("image"), node.get("bounds")
+    if not image or not b or b.get("width", 0) < 8 or b.get("height", 0) < 8:
+        return None
+    x, y, w, h = (int(round(b[k])) for k in ("x", "y", "width", "height"))
+    if x < 0 or y < 0 or x + w > screenshot.width or y + h > screenshot.height:
+        return None
+    try:
+        own = Image.open(io.BytesIO(base64.b64decode(image.split(",", 1)[1]))).convert("RGB").resize((32, 32))
+    except Exception:  # noqa: BLE001 - a crop the collector could not encode is simply not compared
+        return None
+    there = screenshot.crop((x, y, x + w, y + h)).convert("RGB").resize((32, 32))
+    return sum(ImageStat.Stat(ImageChops.difference(there, own)).mean) / 3
+
+
+def alignment(screenshot, nodes):
+    diffs = sorted(d for d in (crop_difference(screenshot, n) for n, _ in nodes.values()) if d is not None)
+    if not diffs:
+        return {"crops": 0, "median": None, "close": None, "aligned": False}
+    median = diffs[len(diffs) // 2] if len(diffs) % 2 else (diffs[len(diffs) // 2 - 1] + diffs[len(diffs) // 2]) / 2
+    close = sum(d < ALIGN_CLOSE for d in diffs) / len(diffs)
+    return {"crops": len(diffs), "median": round(median, 1), "close": round(close, 2), "aligned": median <= ALIGN_MEDIAN and close >= ALIGN_SHARE}
 
 
 def context_image(screenshot, bounds, out_path):
@@ -214,8 +250,10 @@ def main():
     if len({urls[k] for k in by_page}) != len(by_page):
         raise SystemExit("two sampled pages share an address")
 
+    shutil.rmtree(os.path.join(common.FOLDER, "pacote-100", "contexto"), ignore_errors=True)
+
     # Snapshots, cut per package, and the context images.
-    report = {"missingRefs": [], "noContext": [], "pages": len(by_page)}
+    report = {"missingRefs": [], "noContext": [], "pages": len(by_page), "alignment": {}}
     html_fallback, context = {}, {}
     pruned = {name: {} for name, _ in PACKAGES}
     for (sid, slug), items in sorted(by_page.items()):
@@ -232,6 +270,10 @@ def main():
         shot = Image.open(shot_path) if os.path.exists(shot_path) else None
         if shot is not None:
             shot.load()
+            report["alignment"][f"{sid}/{slug}"] = align = alignment(shot, nodes)
+            if not align["aligned"]:
+                shot.close()
+                shot = None
         for r in items:
             iid = common.item_id(r)
             node = nodes.get(r["ref"], (None, None))[0]
@@ -239,7 +281,8 @@ def main():
                 report["missingRefs"].append(iid)
                 html_fallback[iid] = (r.get("patch") or {}).get("before")
             ok = False
-            if shot is not None and node is not None:
+            own = crop_difference(shot, node) if shot is not None and node is not None else None
+            if shot is not None and node is not None and (own is None or own <= ALIGN_ITEM):
                 ok = context_image(shot, node.get("bounds"), os.path.join(common.FOLDER, "pacote-100", "contexto", f"{common.package_fingerprint(r)}.jpg"))
             context[iid] = ok
             if not ok:
@@ -303,6 +346,7 @@ def main():
         "notes": {
             "missingRefs": sorted(report["missingRefs"]),
             "noContextImage": sorted(report["noContext"]),
+            "screenshotAlignment": report["alignment"],
         },
     }
     common.write_json(common.MANIFEST, manifest)
@@ -315,8 +359,10 @@ def main():
         for w in warnings:
             print(f"warning {name}: {w}", file=sys.stderr)
         failed = failed or bool(problems)
+    aligned = sum(a["aligned"] for a in report["alignment"].values())
     print(f"items {len(sample)}, second person {len(second)}, pages {len(by_page)}; "
-          f"elements not in their snapshot {len(report['missingRefs'])}, without a context image {len(report['noContext'])}")
+          f"elements not in their snapshot {len(report['missingRefs'])}, without a context image {len(report['noContext'])}; "
+          f"screenshots that line up with their snapshot {aligned} of {len(report['alignment'])}")
     if failed:
         raise SystemExit("the packages are not blind; see above")
 
