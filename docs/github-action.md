@@ -133,7 +133,7 @@ GitHub-hosted runners have Google Chrome, which Rampa uses. On a self-hosted run
 
 The deterministic layer (axe-core) always runs. The judgment layer needs a model, and there are three ways to give it one:
 
-- **An API key as a secret, and nothing else.** Put the key in the `env` of the step, as in the workflow above. Rampa picks the recommended model of the first provider with a key (`rampa models` lists them): `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GEMINI_API_KEY` and so on. A check of a few pages costs fractions of a cent; the comment shows the calls, the tokens and the estimated price.
+- **An API key as a secret, and nothing else.** Put the key in the `env` of the step, as in the workflow above. Rampa picks the recommended model of the first provider with a key (`rampa models` lists them): `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `GEMINI_API_KEY` and so on. With `gpt-6-luna`, a real page cost 1 to 2.3 cents, or under 1 cent with `--fast` ([measured](models.md#hosted-models-measured)); the comment shows the calls, the tokens and the estimated price.
 - **A model of your choice**, with `model: openai:gpt-6-luna` (or `RAMPA_MODEL` in `env`) and its key in `env`.
 - **No model**: `model: none` runs `--no-llm`, the deterministic layer only.
 
