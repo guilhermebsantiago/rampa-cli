@@ -1,0 +1,262 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://museudoipiranga.org.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "dc731b254c6a",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#masthead > div > div > div > div:nth-of-type(1) > div > div > div > a > div > div > img",
+   "message": "The text alternative \"logo-museu\" is a file name or a placeholder.",
+   "evidence": "logo-museu",
+   "subject": "logo-museu",
+   "claim": "missing_information",
+   "patch": {
+    "ref": "#masthead > div > div > div > div:nth-of-type(1) > div > div > div > a > div > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "logo-museu",
+    "to": "Museu do Ipiranga - USP",
+    "before": "<img class=\"hfe-site-logo-img elementor-animation-\" src=\"https://museudoipiranga.org.br/wp-content/uploads/2022/02/logo-museu.png\" alt=\"logo-museu\">",
+    "after": "<img class=\"hfe-site-logo-img elementor-animation-\" src=\"https://museudoipiranga.org.br/wp-content/uploads/2022/02/logo-museu.png\" alt=\"Museu do Ipiranga - USP\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "156458431eaf",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#dd-item-content-373",
+   "message": "The field \"Digite seu Nome\" asks for the user's full name but does not identify that purpose: autocomplete=\"name\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Digite seu Nome",
+   "patch": {
+    "ref": "#dd-item-content-373",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "name",
+    "before": "<input type=\"text\" id=\"dd-item-content-373\" name=\"name\" placeholder=\"Digite seu Nome\" maxlength=\"100\" class=\"isend-forms-field isend-forms-input-text\" required=\"true\" style=\"width: calc(100% - 6px); min-height: 20px; margin: 0px 0px 10px; border-width: 1px 1px 1px 3px; border-color: rgb(192, 192, 192) rgb(192, 192, 192) rgb(192, 192, 192) rgb(255, 87, 91); border-radius: 0px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-family: Verdana, Geneva, sans-serif; font-size: 12px; font-weight: normal; font-style: italic; text-decoration: none;\">",
+    "after": "<input type=\"text\" id=\"dd-item-content-373\" name=\"name\" placeholder=\"Digite seu Nome\" maxlength=\"100\" class=\"isend-forms-field isend-forms-input-text\" required=\"true\" style=\"width: calc(100% - 6px); min-height: 20px; margin: 0px 0px 10px; border-width: 1px 1px 1px 3px; border-color: rgb(192, 192, 192) rgb(192, 192, 192) rgb(192, 192, 192) rgb(255, 87, 91); border-radius: 0px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-family: Verdana, Geneva, sans-serif; font-size: 12px; font-weight: normal; font-style: italic; text-decoration: none;\" autocomplete=\"name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "aae180b2d443",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#dd-item-content-301",
+   "message": "The field \"Digite seu E-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Digite seu E-mail",
+   "patch": {
+    "ref": "#dd-item-content-301",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"text\" id=\"dd-item-content-301\" name=\"email\" placeholder=\"Digite seu E-mail\" maxlength=\"150\" class=\"isend-forms-field isend-forms-input-text\" required=\"true\" style=\"width: calc(100% - 6px); min-height: 20px; margin: 0px 0px 10px; border-width: 1px 1px 1px 3px; border-color: rgb(192, 192, 192) rgb(192, 192, 192) rgb(192, 192, 192) rgb(255, 87, 91); border-radius: 0px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-family: Verdana, Geneva, sans-serif; font-size: 12px; font-weight: normal; font-style: italic; text-decoration: none;\">",
+    "after": "<input type=\"text\" id=\"dd-item-content-301\" name=\"email\" placeholder=\"Digite seu E-mail\" maxlength=\"150\" class=\"isend-forms-field isend-forms-input-text\" required=\"true\" style=\"width: calc(100% - 6px); min-height: 20px; margin: 0px 0px 10px; border-width: 1px 1px 1px 3px; border-color: rgb(192, 192, 192) rgb(192, 192, 192) rgb(192, 192, 192) rgb(255, 87, 91); border-radius: 0px; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255); font-family: Verdana, Geneva, sans-serif; font-size: 12px; font-weight: normal; font-style: italic; text-decoration: none;\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#masthead > div > div > div > div:nth-of-type(1) > div > div > div > a",
+   "message": "The link text \"logo-museu\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Museu do Ipiranga\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-793 > div > a",
+   "message": "The link text \"APOIE +\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Apoie o projeto\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#premium-modal-cbfd80b > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div > p:nth-of-type(2) > a",
+   "message": "The link text \"aqui\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Exposições\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#premium-modal-cbfd80b > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(3) > div > p > span > a",
+   "message": "The link text \"aqui\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Pré-agendamento de grupos e informações gerais\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#premium-modal-cbfd80b > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(5) > div > p > a",
+   "message": "The link text \"aqui\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Confira os detalhes do ofício de grupos sem agendamento (PDF)\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 8,
+   "judged": 8,
+   "failed": 1,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 2,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 45,
+   "judged": 45,
+   "failed": 0,
+   "passed": 37,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 5
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 17,
+   "judged": 17,
+   "failed": 0,
+   "passed": 17,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #widget2 (https://www.youtube.com/embed/TLkmmNMUf2Y?controls=0&rel=0&playsinline=1&cc_load_policy=0&enablejsapi=1&origin=https%3A%2F%2Fmuseudoipiranga.org.br&widgetid=1&forigin=https%3A%2F%2Fmuseudoipiranga.org.br%2F&aoriginsup=1&vf=5), #isend-recaptcha-78 > div > div > iframe (https://www.google.com/recaptcha/api2/anchor?ar=1&k=6Lfi_34UAAAAAHr530mGrKGIZkUfzlVJA3xvhlel&co=aHR0cHM6Ly9tdXNldWRvaXBpcmFuZ2Eub3JnLmJyOjQ0Mw..&hl=en&v=NhfdZHzre16wrc2m6BxEdu7J&size=normal&anchor-ms=20000&execute-ms=30000&cb=u232mpmlzqlp).",
+  "29 image(s) were left without a capture, so no judgment looked at them: 1 outside the page (an off-canvas menu); 9 the screenshot failed; 19 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 72,
+  "inputTokens": 68843,
+  "outputTokens": 7014,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#widget2",
+     "url": "https://www.youtube.com/embed/TLkmmNMUf2Y?controls=0&rel=0&playsinline=1&cc_load_policy=0&enablejsapi=1&origin=https%3A%2F%2Fmuseudoipiranga.org.br&widgetid=1&forigin=https%3A%2F%2Fmuseudoipiranga.org.br%2F&aoriginsup=1&vf=5",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#isend-recaptcha-78 > div > div > iframe",
+     "url": "https://www.google.com/recaptcha/api2/anchor?ar=1&k=6Lfi_34UAAAAAHr530mGrKGIZkUfzlVJA3xvhlel&co=aHR0cHM6Ly9tdXNldWRvaXBpcmFuZ2Eub3JnLmJyOjQ0Mw..&hl=en&v=NhfdZHzre16wrc2m6BxEdu7J&size=normal&anchor-ms=20000&execute-ms=30000&cb=u232mpmlzqlp",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

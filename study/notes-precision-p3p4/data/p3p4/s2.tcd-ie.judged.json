@@ -1,0 +1,190 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.tcd.ie/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "5bbc5b88f32c",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#main > div:nth-of-type(3) > div > div > ul > li:nth-of-type(3) > a > div > h3",
+   "message": "This passage has no lang attribute, so it is read as English (en), but it is in Irish (ga).",
+   "evidence": "géarchéim tithíochta don nGaelainn mar",
+   "subject": "unmarked|en|géarchéim tithíochta don nGaelainn mar",
+   "patch": {
+    "ref": "#main > div:nth-of-type(3) > div > div > ul > li:nth-of-type(3) > a > div > h3",
+    "kind": "set-text",
+    "from": "géarchéim tithíochta don nGaelainn mar",
+    "to": "<span lang=\"ga\">géarchéim tithíochta don nGaelainn mar</span>",
+    "before": "géarchéim tithíochta don nGaelainn mar",
+    "after": "<span lang=\"ga\">géarchéim tithíochta don nGaelainn mar</span>"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "866ca7d31834",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#main > div:nth-of-type(3) > div > div > ul > li:nth-of-type(3) > a > div > p",
+   "message": "This passage has no lang attribute, so it is read as English (en), but it is in Irish (ga).",
+   "evidence": "d’fhoilsigh taighdeoirí ó Choláiste na Tríonóide, Baile Átha Cliath, inniu.",
+   "subject": "unmarked|en|d’fhoilsigh taighdeoirí ó Choláiste na Tríonóide, Baile Átha Cliath, inniu.",
+   "patch": {
+    "ref": "#main > div:nth-of-type(3) > div > div > ul > li:nth-of-type(3) > a > div > p",
+    "kind": "set-text",
+    "from": "d’fhoilsigh taighdeoirí ó Choláiste na Tríonóide, Baile Átha Cliath, inniu.",
+    "to": "<span lang=\"ga\">d’fhoilsigh taighdeoirí ó Choláiste na Tríonóide, Baile Átha Cliath, inniu.</span>",
+    "before": "d’fhoilsigh taighdeoirí ó Choláiste na Tríonóide, Baile Átha Cliath, inniu.",
+    "after": "<span lang=\"ga\">d’fhoilsigh taighdeoirí ó Choláiste na Tríonóide, Baile Átha Cliath, inniu.</span>"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#main > div:nth-of-type(1) > div > div > img",
+   "message": "The text alternative \"Frontsquare TCD\" describes something the image does not show.",
+   "evidence": "The model suggests: \"The Front Square at Trinity College Dublin with a 'Welcome to Trinity' overlay.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.02), claim: no (0.00), reversed: yes (0.21))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(3) > div > div > div > ul > li:nth-of-type(2) > a > img",
+   "message": "The text alternative \"istagram\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Instagram\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 19,
+   "judged": 19,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 7,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 2,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #main > div:nth-of-type(4) > div > div > div > div > div > div:nth-of-type(2) > iframe (https://www.youtube.com/embed/V1ggffYdjzU).",
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "5 image(s) were left without a capture, so no judgment looked at them: 5 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 30,
+  "inputTokens": 23040,
+  "outputTokens": 2134,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#main > div:nth-of-type(4) > div > div > div > div > div > div:nth-of-type(2) > iframe",
+     "url": "https://www.youtube.com/embed/V1ggffYdjzU",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.eu/sdk/bc-v4.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  }
+ }
+}
