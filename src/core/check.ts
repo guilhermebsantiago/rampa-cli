@@ -57,8 +57,9 @@ export interface CheckOptions {
   /** The WCAG version the report states coverage against; 2.2 by default. */
   wcag?: WcagVersion | undefined
   /**
-   * Ablation switch for the evaluation: when false, claims that fail
-   * verification are kept as findings instead of discarded. Never use it in CI.
+   * Ablation switch (`--no-verify` on `rampa check` and `rampa eval`): when false, a fail claim that fails verification
+   * is treated as a verified one instead of discarded, so the grounding, the unstyled-page guard and the second pass still
+   * apply to it and the ablation measures verification alone. Never use it in CI.
    */
   verify?: boolean | undefined
   /**
@@ -231,10 +232,13 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
 
     // Why a verified fail is the model's suggestion before any second pass: a page read without its styles
     // (`captureStyle`), where what is visible around an element, and what is hidden, is not what people see; or no fact
-    // Rampa checks supports it (`Criterion.grounded`). The ablation (verify: false) holds back neither.
+    // Rampa checks supports it (`Criterion.grounded`). The ablation without verification (verify: false) treats an
+    // unverified fail claim as a verified one, so both still hold it back.
+    const claimsFail = (judgment: (typeof judgments)[number]): boolean =>
+      judgment.status === 'failed' || (options.verify === false && judgment.status === 'discarded' && judgment.verdict === 'fail')
     const heldBack = (judgment: (typeof judgments)[number]): 'unstyled' | 'ungrounded' | undefined => {
       const output = judgment.representative
-      if (judgment.status !== 'failed' || !output || options.verify === false) return undefined
+      if (!claimsFail(judgment) || !output) return undefined
       if (style.unstyled) return 'unstyled'
       if (criterion.grounded && !criterion.grounded(output, judgment.candidate, view)) return 'ungrounded'
       return undefined
@@ -247,7 +251,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       const asked: Array<{ judgment: (typeof judgments)[number]; key: string | undefined; confirmation: Confirmation }> = []
       for (const judgment of judgments) {
         const output = judgment.representative
-        if (judgment.status !== 'failed' || !output || heldBack(judgment)) continue
+        if (!claimsFail(judgment) || !output || heldBack(judgment)) continue
         const framings = criterion.confirm(output, judgment.candidate, view)
         if (!framings || framings.length === 0) continue
         const confirmation = await confirmClaim(criterion, framings, { provider: options.provider, cache: options.cache, offline: options.offline, signal, deadline: options.deadline })
@@ -358,7 +362,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             })
             continue
           }
-          // A fail that rests on the model's reading alone is its suggestion, not a finding (the ablation keeps it as one).
+          // A fail that rests on the model's reading alone is its suggestion, not a finding.
           if (held === 'ungrounded') {
             summary.suggested = (summary.suggested ?? 0) + 1
             const suggested = criterion.patch?.(output, judgment.candidate, view)?.to
@@ -630,6 +634,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   if (snapshot.document) notes.unshift(t(options.locale, snapshot.document.kind === 'svg' ? 'documentSvg' : 'documentXml', { contentType: snapshot.document.contentType }))
   // An engine that stopped with an error on the page checked nothing: said with the gaps of what was read.
   if (engine.error) notes.unshift(t(options.locale, 'engineFailed', { error: engine.error }))
+  // A run without verification is an ablation, and its report says so before the page's own notes.
+  if (options.verify === false && options.llm) notes.unshift(t(options.locale, 'verificationOff'))
   // What the site sent instead of the page comes before everything: a bot check or a refusal, which was not read, or
   // an error page, which was checked as the page that came.
   if (snapshot.blocked) notes.unshift(blockedNote(snapshot.blocked, options.locale))

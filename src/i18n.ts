@@ -127,6 +127,7 @@ const messages = {
       "The recorded page's body text has the browser's default look (16 px Times, black), and the recording says nothing of its stylesheets: it was most likely read without them, which is not what people see, so every judgment that rests on what is visible is listed as a suggestion. Collect the page again to check.",
     reachOverlay: 'A layer lay over the viewport when the page was read ({selector}, on top at {coverage} of the points sampled: a consent backdrop, a dialog): it was hidden while images, labels and contrast were captured, so the pixels measured are the page\'s own.',
     unstyledSuggestion: 'The page was read without its stylesheets, so what is visible around this element may not be what people see: the claim stays a suggestion.',
+    verificationOff: 'Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.',
     settledBelow: "Rampa's {rule} measured it, below the confidence threshold: {message}",
     settledPassBelow: "Rampa's {rule} measured it and found no failure, below the confidence threshold.",
     documentSvg:
@@ -385,6 +386,7 @@ const messages = {
       'O texto do corpo da página gravada tem a aparência padrão do navegador (Times de 16 px, preto), e a gravação não diz nada das folhas de estilo: muito provavelmente ela foi lida sem elas, o que não é o que as pessoas veem, então todo julgamento que depende do que está visível fica listado como sugestão. Colete a página de novo para conferir.',
     reachOverlay: 'Uma camada cobria a área visível quando a página foi lida ({selector}, por cima em {coverage} dos pontos amostrados: um fundo de aviso de cookies, um diálogo): ela foi escondida enquanto imagens, rótulos e contraste eram capturados, então os pixels medidos são os da própria página.',
     unstyledSuggestion: 'A página foi lida sem as folhas de estilo, então o que está visível ao redor deste elemento pode não ser o que as pessoas veem: a alegação fica como sugestão.',
+    verificationOff: 'A verificação estava desligada (--no-verify): alegações do modelo cuja evidência citada não está na página foram relatadas como se estivesse. Esta execução serve só para medição.',
     settledBelow: 'O {rule} do Rampa o mediu, abaixo do limiar de confiança: {message}',
     settledPassBelow: 'O {rule} do Rampa o mediu e não achou falha, abaixo do limiar de confiança.',
     documentSvg:

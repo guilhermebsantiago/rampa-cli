@@ -230,6 +230,7 @@ Exit codes: `0` no confirmed failure, `1` at least one confirmed failure (see `-
 | `--storage-state`, `--header`, `--cookie`, `--device`, `--viewport`, `--color-scheme`, `--reduced-motion`, `--browser-locale`, `--wait-for`, `--timeout`, `--user-agent` | | Pages behind a login, phones, dark mode ([browser options](docs/browser-options.md)) |
 | `--offline` | | Cached judgments only, never call the model |
 | `--no-confirm` | | Ablation: skip the second pass that confirms 1.1.1 claims resting on the model's reading ([criteria](docs/criteria.md#111-non-text-content)) |
+| `--no-verify` | | Ablation: keep the model's claims whose quoted evidence is not on the page, and change nothing else; the report says so. For measurement, never for CI |
 | `--screenshots` | | Save full-page screenshots to `.rampa/screenshots` |
 | `--cache-dir <dir>` | `.rampa/cache` | Judgment cache |
 | `--concurrency <n>` | `4` | Parallel model calls |

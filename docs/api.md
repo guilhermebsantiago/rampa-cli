@@ -37,6 +37,7 @@ interface RampaOptions {
   reasoning?: Reasoning                // --reasoning
   offline?: boolean                    // --offline
   confirm?: boolean                    // --no-confirm when false: skip the second pass over 1.1.1 claims that rest on the model's reading
+  verify?: boolean                     // --no-verify when false: keep claims whose quoted evidence is not on the page (an ablation)
   waivers?: Iterable<string> | string  // waiver ids, or a file; .rampa/waivers.json by default
   locale?: 'en' | 'pt-BR'              // --locale
   cacheDir?: string                    // --cache-dir
