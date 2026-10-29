@@ -1,0 +1,213 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.cedars-sinai.org/home.html",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "10ce774862df",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#grid-tiles-1 > div > section > div > div > ul > li:nth-of-type(2) > article > div:nth-of-type(1) > picture > img",
+   "message": "The text alternative \"Cedars-Sinai Here. For. LA. event.\" describes something the image does not show.",
+   "evidence": "Cedars-Sinai Here. For. LA. event.",
+   "subject": "Cedars-Sinai Here. For. LA. event.",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#grid-tiles-1 > div > section > div > div > ul > li:nth-of-type(2) > article > div:nth-of-type(1) > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Cedars-Sinai Here. For. LA. event.",
+    "to": "A diverse group of people holding 'HERE FOR L.A.' signs at a community event.",
+    "before": "<img class=\"Image-module__image__Cb38 Image-module__alignVerticleCenter__nxND\" alt=\"Cedars-Sinai Here. For. LA. event.\" loading=\"lazy\" src=\"/content/dam/cedars-sinai/homepage/new/diversityinclusion-dt.jpg\" style=\"--defaultAspectRatio: 3/2; --mobileAspectRatio: 3/2;\">",
+    "after": "<img class=\"Image-module__image__Cb38 Image-module__alignVerticleCenter__nxND\" alt=\"A diverse group of people holding 'HERE FOR L.A.' signs at a community event.\" loading=\"lazy\" src=\"/content/dam/cedars-sinai/homepage/new/diversityinclusion-dt.jpg\" style=\"--defaultAspectRatio: 3/2; --mobileAspectRatio: 3/2;\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6a83ce9f9ba1",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#featured-services-1 > div > section > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div",
+   "target": "#featured-services-1 > div > section > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div",
+   "message": "None of the 6 tabs in this list is exposed as selected: a screen reader does not say which panel is open. Mark the current tab with aria-selected=\"true\" (and the others with \"false\").",
+   "evidence": "6 tabs, none selected: Heart, Cancer, Pediatrics at Guerin Children…, Neurology & Neurosurgery",
+   "subject": "Heart | Cancer | Pediatrics at Guerin Children… | Neurology & Neurosurgery | Orthopaedics | Obstetrics & Gynecology",
+   "confidence": "low",
+   "ruleId": "rampa/tab-state",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<div class=\"RailList-module__tablist__UVf4\" role=\"tablist\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 7
+ },
+ "groups": [
+  {
+   "id": "g-caa6eccc5028",
+   "list": "findings",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "engine",
+   "check": "label-content-name-mismatch",
+   "count": 6,
+   "members": [
+    "5c827ace2e62",
+    "7bb878add09e",
+    "fbbcecd7525a",
+    "7e5ab395665b",
+    "3719341c6e45",
+    "1f37a464c4e5"
+   ],
+   "example": "5c827ace2e62"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.2",
+   "level": "A",
+   "ruleId": "judgment/2.4.2",
+   "ref": "html",
+   "message": "The page title \"A Nonprofit Hospital in Los Angeles | Cedars-Sinai\" says nothing about this page.",
+   "evidence": "The model suggests: \"Home | Cedars-Sinai Medical Center\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#cshs-root-spa > div > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2) > h2",
+   "message": "The heading \"Learn More\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"About Us\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 11,
+   "judged": 11,
+   "failed": 1,
+   "passed": 8,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 67,
+   "judged": 50,
+   "failed": 0,
+   "passed": 50,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 17
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 32,
+   "judged": 32,
+   "failed": 0,
+   "passed": 31,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "5 image(s) were left without a capture, so no judgment looked at them: 5 transparent where it sits. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 17 of 67 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 95,
+  "inputTokens": 87569,
+  "outputTokens": 8345,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": null
+ }
+}

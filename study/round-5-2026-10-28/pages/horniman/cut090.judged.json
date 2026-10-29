@@ -1,0 +1,232 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.horniman.ac.uk/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "a8118e719717",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#header-menu > li:nth-of-type(4) > a",
+   "message": "The link text \"More\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "More",
+   "subject": "More",
+   "claim": "generic",
+   "patch": {
+    "ref": "#header-menu > li:nth-of-type(4) > a",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "More",
+    "to": "More options",
+    "before": "<a href=\"#\" aria-label=\"More\" 1=\"\" aria-hidden=\"false\">",
+    "after": "<a href=\"#\" aria-label=\"More options\" 1=\"\" aria-hidden=\"false\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "3249ad080a4b",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#h-keyword",
+   "target": "#h-keyword",
+   "message": "The browser exposes this element as a textbox but computes no name for it: a screen reader announces only \"textbox\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role textbox · name \"\"",
+   "subject": "textbox",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<input type=\"text\" name=\"s\" id=\"h-keyword\" value=\"\" placeholder=\"Search\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 14
+ },
+ "groups": [
+  {
+   "id": "g-808556be00fa",
+   "list": "findings",
+   "criterion": "1.3.1",
+   "level": "A",
+   "source": "engine",
+   "check": "aria-required-parent",
+   "count": 6,
+   "members": [
+    "e9b105a2afd8",
+    "a6627da327bc",
+    "c312f0a1d78b",
+    "7ac0b5510ed6",
+    "0194796e5bf7",
+    "bb8a49c39c45"
+   ],
+   "example": "e9b105a2afd8"
+  },
+  {
+   "id": "g-7cb3a1db08d4",
+   "list": "findings",
+   "criterion": "1.3.1",
+   "level": "A",
+   "source": "engine",
+   "check": "listitem",
+   "count": 6,
+   "members": [
+    "563485eae6c7",
+    "8e923dbd9aeb",
+    "9bf0818ffd66",
+    "c3ff33abeef0",
+    "9951de6002e9",
+    "c03ee90a4e49"
+   ],
+   "example": "563485eae6c7"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#content > div:nth-of-type(2) > section:nth-of-type(4) > div:nth-of-type(2) > div > div > div > article > div > div > div:nth-of-type(2) > article > a > figure > img",
+   "message": "The text alternative \"Inquisitive child at Horniman exhibition.\" describes something the image does not show.",
+   "evidence": "The model suggests: \"A child exploring an exhibit at the Horniman Museum\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.00), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > div:nth-of-type(2) > section:nth-of-type(4) > div:nth-of-type(2) > div > div > div > article > div > div > div:nth-of-type(2) > article > a",
+   "message": "The link text \"Membership Find out more\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Find out more about membership\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 8,
+   "judged": 8,
+   "failed": 0,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 57,
+   "judged": 50,
+   "failed": 1,
+   "passed": 38,
+   "cannotTell": 0,
+   "discarded": 10,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 7,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 19,
+   "judged": 19,
+   "failed": 0,
+   "passed": 19,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 7 of 57 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 81,
+  "inputTokens": 74485,
+  "outputTokens": 7207,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": null
+ }
+}

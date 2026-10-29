@@ -1,0 +1,274 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.abbeytheatre.ie/contact/get-in-touch/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "77676aed6ccc",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > header > nav > div:nth-of-type(2) > div > div > a > img:nth-of-type(2)",
+   "message": "The text alternative \"Abbey Theatre logo text\" describes something the image does not show.",
+   "evidence": "Abbey Theatre logo text",
+   "subject": "Abbey Theatre logo text",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "html > body > header > nav > div:nth-of-type(2) > div > div > a > img:nth-of-type(2)",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Abbey Theatre logo text",
+    "to": "Abbey Theatre logo in English and Irish",
+    "before": "<img class=\"logo-text-img tr-all-035\" src=\"https://www.abbeytheatre.ie/wp-content/themes/abbey2025/img/logo_title180.png\" alt=\"Abbey Theatre logo text\">",
+    "after": "<img class=\"logo-text-img tr-all-035\" src=\"https://www.abbeytheatre.ie/wp-content/themes/abbey2025/img/logo_title180.png\" alt=\"Abbey Theatre logo in English and Irish\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "53f41fc218e6",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > div > div > div:nth-of-type(2) > a:nth-of-type(3) > img",
+   "message": "The text alternative \"Department of Arts Logo\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Department of Arts Logo",
+   "subject": "Department of Arts Logo",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "html > body > footer > div > div > div:nth-of-type(2) > a:nth-of-type(3) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Department of Arts Logo",
+    "to": "Department of Culture, Heritage and the Gaeltacht",
+    "before": "<img src=\"https://www.abbeytheatre.ie/wp-content/themes/abbey2025/img/dept-arts-logo2.png\" alt=\"Department of Arts Logo\">",
+    "after": "<img src=\"https://www.abbeytheatre.ie/wp-content/themes/abbey2025/img/dept-arts-logo2.png\" alt=\"Department of Culture, Heritage and the Gaeltacht\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "4bc72cd0db7c",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > main > article > div > section > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Signage showing 'OIFIG NA dTICÉAD BOX OFFICE'\".",
+   "evidence": "Signage showing 'OIFIG NA dTICÉAD BOX OFFICE'",
+   "subject": "hidden SM_1299_0193_PhotoBySteMurray.jpg",
+   "patch": {
+    "ref": "html > body > main > article > div > section > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "The Abbey Theatre box office counter with signage in Irish and English.",
+    "before": "<img fetchpriority=\"high\" decoding=\"async\" class=\"alignnone size-full wp-image-6021\" src=\"https://www.abbeytheatre.ie/wp-content/uploads/2022/06/SM_1299_0193_PhotoBySteMurray.jpg\" alt=\"\" width=\"760\" height=\"429\">",
+    "after": "<img fetchpriority=\"high\" decoding=\"async\" class=\"alignnone size-full wp-image-6021\" src=\"https://www.abbeytheatre.ie/wp-content/uploads/2022/06/SM_1299_0193_PhotoBySteMurray.jpg\" alt=\"The Abbey Theatre box office counter with signage in Irish and English.\" width=\"760\" height=\"429\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "39ce9a4e7dd7",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#fullname",
+   "message": "The field \"Your name\" asks for the user's full name but does not identify that purpose: autocomplete=\"name\" is missing.",
+   "evidence": "Your name",
+   "patch": {
+    "ref": "#fullname",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "name",
+    "before": "<input type=\"text\" id=\"fullname\" name=\"fullname\" placeholder=\"Your name\" data-name=\"fullname\">",
+    "after": "<input type=\"text\" id=\"fullname\" name=\"fullname\" placeholder=\"Your name\" data-name=\"fullname\" autocomplete=\"name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c00946fa036b",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#email",
+   "message": "The field \"Your email\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Your email",
+   "patch": {
+    "ref": "#email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"text\" id=\"email\" name=\"email\" placeholder=\"Your email\" required=\"\" data-name=\"email\">",
+    "after": "<input type=\"text\" id=\"email\" name=\"email\" placeholder=\"Your email\" required=\"\" data-name=\"email\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 6
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > header > div > div:nth-of-type(1) > section:nth-of-type(3) > ul > li:nth-of-type(2) > a",
+   "message": "The link text \"Community\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Our Community Projects\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 3,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 2,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 45,
+   "judged": 45,
+   "failed": 0,
+   "passed": 43,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 15,
+   "failed": 0,
+   "passed": 15,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 of the page's 5 stylesheet(s) had not applied when it was read (https://www.abbeytheatre.ie/wp-content/plugins/media-focus-point/focus-point.css?ver=1790091138 (no rules)): the page was read with the styles it had, which may differ from what people see.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 70,
+  "inputTokens": 63505,
+  "outputTokens": 6152,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": {
+   "stylesheets": {
+    "linked": 5,
+    "applied": 4,
+    "failed": [
+     {
+      "href": "https://www.abbeytheatre.ie/wp-content/plugins/media-focus-point/focus-point.css?ver=1790091138",
+      "reason": "no rules"
+     }
+    ]
+   }
+  }
+ }
+}
