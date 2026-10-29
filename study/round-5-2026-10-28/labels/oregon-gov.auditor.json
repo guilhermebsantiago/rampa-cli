@@ -1,0 +1,66 @@
+{
+  "page": "https://www.oregon.gov/Pages/index.aspx",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "0a7708cc811b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Background photo of the 'Unemployment Claims and Status' card (research.jpg). I opened the source image: a woman at a table typing on a dark grey laptop, with notebooks beside her. 'Person at desk using grey computer' accurately describes it. On the page the photo sits under a heavy green overlay, but enough of it shows (hands, keyboard, papers) and the alt matches the actual image, so the claim that it describes something not shown is wrong."
+    },
+    {
+      "fingerprint": "f9426a514b9b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News excerpt paragraph in the Latest News Stories section. It is a full Spanish passage ('Mientras se acercan las fiestas...'). The page is lang='en-us'. The snapshot records lang attributes elsewhere on the page (the language menu spans carry es, ar, etc.), and neither this paragraph nor any of its ancestors has a lang other than the root en-us. Screen readers will read Spanish text with English pronunciation. This is a real 3.1.2 Language of Parts failure (the content is rendered client-side by or-newsroom, so the live raw HTML does not show it)."
+    },
+    {
+      "fingerprint": "scf09f743ec5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "h3 inside the fourth #MyOregon Instagram card, which links to an Instagram post. The heading text is the placeholder 'No Title', shown because the post has no caption title. The content it heads is a photo credited 'By Jeff Risher Photography'. A heading that reads 'No Title' does not describe the topic or purpose of its section, so 2.4.6 fails. (The card image's alt is also just the author name, a separate 1.1.1 issue.)"
+    },
+    {
+      "fingerprint": "35f533426795",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Background photo of the 'Register to Vote in Oregon' card (vote.jpg). The source image is a roll of red, white and blue 'I VOTED' stickers, and the word VOTED is visible even through the green overlay in the crop. 'Roll of stickers stating I Voted' is accurate, so the claim is wrong."
+    },
+    {
+      "fingerprint": "f598fa7815b1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Background photo of the 'Get vaccinated for COVID-19' card (coffee-shop.jpg). The source image is the inside of a small coffee shop: window counter, stools, shelves of bagged coffee. 'Interior of a small business shop' describes it accurately. The photo does not suit a vaccine card, but the alt still matches the image, and the link text carries the card's purpose. This is not a 1.1.1 failure of the kind the finding claims."
+    },
+    {
+      "fingerprint": "9b31aa50643c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Background photo of the 'Wildfire Response and Recovery' card (wildfire-response.jpg). The source image shows a pine forest with smoke and flames on the ground. 'Wildfire on a wooded forest floor' is accurate. The crop shows the trees under the green overlay. The alt does not describe something absent."
+    },
+    {
+      "fingerprint": "babb87e6be16",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "h3 news headline 'Trabajos de temporada y beneficios de SNAP: lo que las personas que viven en Oregon deben saber antes de la temporada de fiestas', which is Spanish (an English version of the same story follows it). Neither the heading, its link, nor any ancestor has a lang attribute. Only the root has one, lang='en-us', and the snapshot does capture lang where it is set (on the language menu). The Spanish headline will be read with English pronunciation, so 3.1.2 fails."
+    },
+    {
+      "fingerprint": "s7a40c8adda3",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page is the Oregon.gov home page, titled 'Oregon.gov : State of Oregon' (the live page still has that title). For a state portal's home page, the site name and the jurisdiction are exactly what the title should identify. It matches the h1 'Oregon.gov' and tells users where they are. 2.4.2 is met."
+    },
+    {
+      "fingerprint": "dd00b3337921",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Background photo of the 'Find Jobs and Opportunities' card (file mechanic.jpg). I opened the source image: a person working on a vintage car door, a painted metal door panel with a window frame and a latch, using a tool at the latch, in a garage. There is no woodworking. The alt 'Person wood working at bench' misstates what the image shows, so the text alternative is not equivalent to the image. The image is mostly decorative under a green overlay, but it is exposed to assistive technology with a wrong description, so 1.1.1 fails, though the impact is low."
+    },
+    {
+      "fingerprint": "saa9c28933b5",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Living' is the first top-level item in the main navigation, beside 'Jobs and Business', 'Government', 'Public Safety', 'Education' and 'Recreation'. It is an href='#' control that opens the Living mega-menu, whose list (Individual Services, Birth Certificates, Change of Address, ...) is inside the same list item. In that programmatically determined context (a nav list item containing its submenu), its purpose as the Living category menu is clear, so 2.4.4 is not failed. The real defect is that it is a link used as a disclosure without button role or aria-expanded, which falls under 4.1.2, not 2.4.4."
+    }
+  ]
+}

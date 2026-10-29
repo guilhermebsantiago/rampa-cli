@@ -1,0 +1,402 @@
+{
+  "page": "https://www.cotswoldoutdoor.com/c/mens.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "cafafc88538b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product image link (merrell-mens-moab-3-gtx-shoes-B22AAC0016) whose only child is a <figure> holding two imgs with alt text. In the snapshot's CDP tree the link has no name: every link whose child is a figure is nameless, while links with plain img/span children are named, because Chromium does not compute name-from-content through figure. The browser thus exposes a tab stop announced only as 'link'. A spec-following accname 1.2 implementation would use the alt text, so the cause is arguably a browser quirk, but the name is not programmatically determinable in the dominant browser and a professional audit would report it under 4.1.2. The live page has the same markup."
+    },
+    {
+      "fingerprint": "0ad75df6161f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet: alt=\"id_e2e2e2\" (also its title) is the SVG's file name (id_e2e2e2.svg). It is exposed in the CDP tree as an image named \"id_e2e2e2\", read next to the visible option text \"Silver (5)\". The swatch is redundant with that text and should have alt=\"\" (or the colour name); a file-name alternative is a documented 1.1.1 failure (F30/F39). The live page still uses these alts."
+    },
+    {
+      "fingerprint": "e995d25862ee",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product title link (rab-mens-downpour-mountain-jacket-B12AE90517) whose visible text (brand + product name) sits inside a <header>, which Chrome maps to sectionheader. Chrome's CDP tree gives the link name \"\" (all 13 such links are nameless; links with div/span content are named), so Chrome-based screen readers and speech input get an unnamed link even though the text is visible. Rampa's own DOM name is right, but the browser-computed name the finding reports is empty. A professional audit would report this under 4.1.2 (fix: aria-label or drop the header wrapper), noting it stems from Chromium's name computation; the live page has the same markup."
+    },
+    {
+      "fingerprint": "s8ef4ac5d4a0",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Brand filter checkbox labelled 'Balega(10)' (brand name plus result count) in the visible 'Brands' filter list. For a filter option the brand name is exactly what the label needs to describe; a checkbox takes no entered value, so asking its label to 'say what to enter' applies a different test than 2.4.6's 'labels describe topic or purpose'. Not a failure."
+    },
+    {
+      "fingerprint": "31ce3a1b9a1f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product tile wrapper: a div role=\"link\" (no href, no tabindex, cursor-pointer) whose content is an <article>. Chrome's CDP tree gives it name \"\" (every such wrapper on the page is nameless): Chromium does not take name-from-content through article/figure/sectionheader descendants. So the browser exposes a link with no accessible name, as the finding says; Rampa's own DOM name is the concatenated tile text, but what Chrome-based AT receives is empty. A role=link component without a programmatic name fails 4.1.2 (it is also a non-focusable, nested-interactive pseudo-link). Some auditors would call the empty name a Chromium deviation from accname 1.2, but it is what users of the dominant browser get."
+    },
+    {
+      "fingerprint": "c0b80ca0b8ce",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product image link (arc-teryx-mens-covert-half-zip-fleece-B12BED0196) whose only child is a <figure> holding two imgs with alt text. In the snapshot's CDP tree the link has no name: every link whose child is a figure is nameless, while links with plain img/span children are named, because Chromium does not compute name-from-content through figure. The browser thus exposes a tab stop announced only as 'link'. A spec-following accname 1.2 implementation would use the alt text, so the cause is arguably a browser quirk, but the name is not programmatically determinable in the dominant browser and a professional audit would report it under 4.1.2. The live page has the same markup."
+    },
+    {
+      "fingerprint": "7d203329c012",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product tile wrapper: a div role=\"link\" (no href, no tabindex, cursor-pointer) whose content is an <article>. Chrome's CDP tree gives it name \"\" (every such wrapper on the page is nameless): Chromium does not take name-from-content through article/figure/sectionheader descendants. So the browser exposes a link with no accessible name, as the finding says; Rampa's own DOM name is the concatenated tile text, but what Chrome-based AT receives is empty. A role=link component without a programmatic name fails 4.1.2 (it is also a non-focusable, nested-interactive pseudo-link). Some auditors would call the empty name a Chromium deviation from accname 1.2, but it is what users of the dominant browser get."
+    },
+    {
+      "fingerprint": "16765cf2ea05",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product title link (the-north-face-mens-extreme-pile-2-print-fleece-jacket-B12BEC0428) whose visible text (brand + product name) sits inside a <header>, which Chrome maps to sectionheader. Chrome's CDP tree gives the link name \"\" (all 13 such links are nameless; links with div/span content are named), so Chrome-based screen readers and speech input get an unnamed link even though the text is visible. Rampa's own DOM name is right, but the browser-computed name the finding reports is empty. A professional audit would report this under 4.1.2 (fix: aria-label or drop the header wrapper), noting it stems from Chromium's name computation; the live page has the same markup."
+    },
+    {
+      "fingerprint": "e387ea8b4e66",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product title link (columbia-mens-csc-heavyweight-logo-t-shirt-B12BAC1499) whose visible text (brand + product name) sits inside a <header>, which Chrome maps to sectionheader. Chrome's CDP tree gives the link name \"\" (all 13 such links are nameless; links with div/span content are named), so Chrome-based screen readers and speech input get an unnamed link even though the text is visible. Rampa's own DOM name is right, but the browser-computed name the finding reports is empty. A professional audit would report this under 4.1.2 (fix: aria-label or drop the header wrapper), noting it stems from Chromium's name computation; the live page has the same markup."
+    },
+    {
+      "fingerprint": "b5127d710ddf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet: alt=\"id_e10000\" (also its title) is the SVG's file name (id_e10000.svg). It is exposed in the CDP tree as an image named \"id_e10000\", read next to the visible option text \"Red (89)\". The swatch is redundant with that text and should have alt=\"\" (or the colour name); a file-name alternative is a documented 1.1.1 failure (F30/F39). The live page still uses these alts."
+    },
+    {
+      "fingerprint": "e350b6b84b25",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product colour swatch image in a tile (a small circular colour/pattern sample, per the crop) with alt=\"124\" (a colour code) and title=\"Black Csc Retro Logo\". The accessible name is the numeric code, which neither describes the swatch nor names the colour it stands for; only the title (exposed as a description) carries the colour. A text alternative that is a code rather than an equivalent fails 1.1.1 (F30); read fairly, the finding's claim that the alt does not match what the image shows holds."
+    },
+    {
+      "fingerprint": "ffb33eb8cf3c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product title link (montane-mens-icarus-hooded-jacket-3-0-B12ABB0453) whose visible text (brand + product name) sits inside a <header>, which Chrome maps to sectionheader. Chrome's CDP tree gives the link name \"\" (all 13 such links are nameless; links with div/span content are named), so Chrome-based screen readers and speech input get an unnamed link even though the text is visible. Rampa's own DOM name is right, but the browser-computed name the finding reports is empty. A professional audit would report this under 4.1.2 (fix: aria-label or drop the header wrapper), noting it stems from Chromium's name computation; the live page has the same markup."
+    },
+    {
+      "fingerprint": "14902b5ee073",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet: alt=\"id_753a00\" (also its title) is the SVG's file name (id_753a00.svg). It is exposed in the CDP tree as an image named \"id_753a00\", read next to the visible option text \"Brown (309)\". The swatch is redundant with that text and should have alt=\"\" (or the colour name); a file-name alternative is a documented 1.1.1 failure (F30/F39). The live page still uses these alts."
+    },
+    {
+      "fingerprint": "aa9f687d1f8a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet: alt=\"id_3a57dc\" (also its title) is the SVG's file name (id_3a57dc.svg). It is exposed in the CDP tree as an image named \"id_3a57dc\", read next to the visible option text \"Blue (531)\". The swatch is redundant with that text and should have alt=\"\" (or the colour name); a file-name alternative is a documented 1.1.1 failure (F30/F39). The live page still uses these alts."
+    },
+    {
+      "fingerprint": "a56a54182e86",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product tile wrapper: a div role=\"link\" (no href, no tabindex, cursor-pointer) whose content is an <article>. Chrome's CDP tree gives it name \"\" (every such wrapper on the page is nameless): Chromium does not take name-from-content through article/figure/sectionheader descendants. So the browser exposes a link with no accessible name, as the finding says; Rampa's own DOM name is the concatenated tile text, but what Chrome-based AT receives is empty. A role=link component without a programmatic name fails 4.1.2 (it is also a non-focusable, nested-interactive pseudo-link). Some auditors would call the empty name a Chromium deviation from accname 1.2, but it is what users of the dominant browser get."
+    },
+    {
+      "fingerprint": "0409891f9ba1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet: alt=\"id_808080\" (also its title) is the SVG's file name (id_808080.svg). It is exposed in the CDP tree as an image named \"id_808080\", read next to the visible option text \"Grey (334)\". The swatch is redundant with that text and should have alt=\"\" (or the colour name); a file-name alternative is a documented 1.1.1 failure (F30/F39). The live page still uses these alts."
+    },
+    {
+      "fingerprint": "4d88957bc31a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product title link (mountain-equipment-mens-nanda-devi-insulated-jacket-B12ABB0456) whose visible text (brand + product name) sits inside a <header>, which Chrome maps to sectionheader. Chrome's CDP tree gives the link name \"\" (all 13 such links are nameless; links with div/span content are named), so Chrome-based screen readers and speech input get an unnamed link even though the text is visible. Rampa's own DOM name is right, but the browser-computed name the finding reports is empty. A professional audit would report this under 4.1.2 (fix: aria-label or drop the header wrapper), noting it stems from Chromium's name computation; the live page has the same markup."
+    },
+    {
+      "fingerprint": "1ae54a153035",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product image link (columbia-mens-helvetia-streetwear-fleece-B12BEE0110) whose only child is a <figure> holding two imgs with alt text. In the snapshot's CDP tree the link has no name: every link whose child is a figure is nameless, while links with plain img/span children are named, because Chromium does not compute name-from-content through figure. The browser thus exposes a tab stop announced only as 'link'. A spec-following accname 1.2 implementation would use the alt text, so the cause is arguably a browser quirk, but the name is not programmatically determinable in the dominant browser and a professional audit would report it under 4.1.2. The live page has the same markup."
+    },
+    {
+      "fingerprint": "ee7da07429f5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product image link (columbia-mens-csc-seasonal-graphic-t-shirt-B12BAC1387) whose only child is a <figure> holding two imgs with alt text. In the snapshot's CDP tree the link has no name: every link whose child is a figure is nameless, while links with plain img/span children are named, because Chromium does not compute name-from-content through figure. The browser thus exposes a tab stop announced only as 'link'. A spec-following accname 1.2 implementation would use the alt text, so the cause is arguably a browser quirk, but the name is not programmatically determinable in the dominant browser and a professional audit would report it under 4.1.2. The live page has the same markup."
+    },
+    {
+      "fingerprint": "31b57bc4b3f1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet: alt=\"id_cccc00\" (also its title) is the SVG's file name (id_cccc00.svg). It is exposed in the CDP tree as an image named \"id_cccc00\", read next to the visible option text \"Gold (6)\". The swatch is redundant with that text and should have alt=\"\" (or the colour name); a file-name alternative is a documented 1.1.1 failure (F30/F39). The live page still uses these alts."
+    },
+    {
+      "fingerprint": "a3e68247c6d4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header search field whose only visible label is the placeholder 'What are you looking for?'. Measured from the screenshot, the placeholder glyphs are #8a8a8a on #ffffff, 3.45:1 at 14px normal weight, below 4.5:1. Placeholder text is text that conveys the field's purpose and is not exempt as incidental, so this is a 1.4.3 failure as reported."
+    },
+    {
+      "fingerprint": "898274538934",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet: alt=\"id_f07800\" (also its title) is the SVG's file name (id_f07800.svg). It is exposed in the CDP tree as an image named \"id_f07800\", read next to the visible option text \"Orange (35)\". The swatch is redundant with that text and should have alt=\"\" (or the colour name); a file-name alternative is a documented 1.1.1 failure (F30/F39). The live page still uses these alts."
+    },
+    {
+      "fingerprint": "e769c60afa1c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product image link (montane-mens-icarus-hooded-jacket-3-0-B12ABB0453) whose only child is a <figure> holding two imgs with alt text. In the snapshot's CDP tree the link has no name: every link whose child is a figure is nameless, while links with plain img/span children are named, because Chromium does not compute name-from-content through figure. The browser thus exposes a tab stop announced only as 'link'. A spec-following accname 1.2 implementation would use the alt text, so the cause is arguably a browser quirk, but the name is not programmatically determinable in the dominant browser and a professional audit would report it under 4.1.2. The live page has the same markup."
+    },
+    {
+      "fingerprint": "3c0e8bb47869",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet: alt=\"id_37b634\" (also its title) is the SVG's file name (id_37b634.svg). It is exposed in the CDP tree as an image named \"id_37b634\", read next to the visible option text \"Green (349)\". The swatch is redundant with that text and should have alt=\"\" (or the colour name); a file-name alternative is a documented 1.1.1 failure (F30/F39). The live page still uses these alts."
+    },
+    {
+      "fingerprint": "1a9a4169b95e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Search submit button in the header. Its only content is a span role=img with no aria-label wrapping an aria-hidden SVG magnifier; the button has no aria-label, title or text, the snapshot's CDP node has no name, and the live HTML is the same. A screen reader announces just 'button', so the name is not programmatically determinable: a 4.1.2 failure as reported."
+    },
+    {
+      "fingerprint": "b298d1f8edc7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product title link (columbia-mens-csc-seasonal-graphic-t-shirt-B12BAC1387) whose visible text (brand + product name) sits inside a <header>, which Chrome maps to sectionheader. Chrome's CDP tree gives the link name \"\" (all 13 such links are nameless; links with div/span content are named), so Chrome-based screen readers and speech input get an unnamed link even though the text is visible. Rampa's own DOM name is right, but the browser-computed name the finding reports is empty. A professional audit would report this under 4.1.2 (fix: aria-label or drop the header wrapper), noting it stems from Chromium's name computation; the live page has the same markup."
+    },
+    {
+      "fingerprint": "ca20f141b34f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product image link (keen-mens-targhee-apex-waterproof-shoes-B22AAC0089) whose only child is a <figure> holding two imgs with alt text. In the snapshot's CDP tree the link has no name: every link whose child is a figure is nameless, while links with plain img/span children are named, because Chromium does not compute name-from-content through figure. The browser thus exposes a tab stop announced only as 'link'. A spec-following accname 1.2 implementation would use the alt text, so the cause is arguably a browser quirk, but the name is not programmatically determinable in the dominant browser and a professional audit would report it under 4.1.2. The live page has the same markup."
+    },
+    {
+      "fingerprint": "67f19b1c8165",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product tile wrapper: a div role=\"link\" (no href, no tabindex, cursor-pointer) whose content is an <article>. Chrome's CDP tree gives it name \"\" (every such wrapper on the page is nameless): Chromium does not take name-from-content through article/figure/sectionheader descendants. So the browser exposes a link with no accessible name, as the finding says; Rampa's own DOM name is the concatenated tile text, but what Chrome-based AT receives is empty. A role=link component without a programmatic name fails 4.1.2 (it is also a non-focusable, nested-interactive pseudo-link). Some auditors would call the empty name a Chromium deviation from accname 1.2, but it is what users of the dominant browser get."
+    },
+    {
+      "fingerprint": "0a0e5e6ae6f5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product title link (arc-teryx-mens-covert-half-zip-fleece-B12BED0196) whose visible text (brand + product name) sits inside a <header>, which Chrome maps to sectionheader. Chrome's CDP tree gives the link name \"\" (all 13 such links are nameless; links with div/span content are named), so Chrome-based screen readers and speech input get an unnamed link even though the text is visible. Rampa's own DOM name is right, but the browser-computed name the finding reports is empty. A professional audit would report this under 4.1.2 (fix: aria-label or drop the header wrapper), noting it stems from Chromium's name computation; the live page has the same markup."
+    },
+    {
+      "fingerprint": "a397082f2818",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product tile wrapper: a div role=\"link\" (no href, no tabindex, cursor-pointer) whose content is an <article>. Chrome's CDP tree gives it name \"\" (every such wrapper on the page is nameless): Chromium does not take name-from-content through article/figure/sectionheader descendants. So the browser exposes a link with no accessible name, as the finding says; Rampa's own DOM name is the concatenated tile text, but what Chrome-based AT receives is empty. A role=link component without a programmatic name fails 4.1.2 (it is also a non-focusable, nested-interactive pseudo-link). Some auditors would call the empty name a Chromium deviation from accname 1.2, but it is what users of the dominant browser get."
+    },
+    {
+      "fingerprint": "s6bc66c98a15",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Price-range minimum number input in the Price filter (collapsed at capture). When the section is open it sits under the visible 'Price' toggle, below a two-thumb price slider, with a visible '£' prefix, an arrow between the two fields and a prefilled value (2 / 799) matching the slider ends. That visible context tells users to enter a minimum/maximum price, so 3.3.2's labels-or-instructions requirement is met. The aria-label 'filter-item-range-…-£-' is a poor accessible name (a separate quality issue), but the claim that nothing on screen says what to enter is wrong; the ancestors given to the model already showed 'Price £ £'."
+    },
+    {
+      "fingerprint": "12ea6a9f6d22",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product tile wrapper: a div role=\"link\" (no href, no tabindex, cursor-pointer) whose content is an <article>. Chrome's CDP tree gives it name \"\" (every such wrapper on the page is nameless): Chromium does not take name-from-content through article/figure/sectionheader descendants. So the browser exposes a link with no accessible name, as the finding says; Rampa's own DOM name is the concatenated tile text, but what Chrome-based AT receives is empty. A role=link component without a programmatic name fails 4.1.2 (it is also a non-focusable, nested-interactive pseudo-link). Some auditors would call the empty name a Chromium deviation from accname 1.2, but it is what users of the dominant browser get."
+    },
+    {
+      "fingerprint": "c257e0115c55",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product tile wrapper: a div role=\"link\" (no href, no tabindex, cursor-pointer) whose content is an <article>. Chrome's CDP tree gives it name \"\" (every such wrapper on the page is nameless): Chromium does not take name-from-content through article/figure/sectionheader descendants. So the browser exposes a link with no accessible name, as the finding says; Rampa's own DOM name is the concatenated tile text, but what Chrome-based AT receives is empty. A role=link component without a programmatic name fails 4.1.2 (it is also a non-focusable, nested-interactive pseudo-link). Some auditors would call the empty name a Chromium deviation from accname 1.2, but it is what users of the dominant browser get."
+    },
+    {
+      "fingerprint": "010e00f68946",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product title link (patagonia-mens-retro-pile-patch-fleece-jacket-B12BEB0422) whose visible text (brand + product name) sits inside a <header>, which Chrome maps to sectionheader. Chrome's CDP tree gives the link name \"\" (all 13 such links are nameless; links with div/span content are named), so Chrome-based screen readers and speech input get an unnamed link even though the text is visible. Rampa's own DOM name is right, but the browser-computed name the finding reports is empty. A professional audit would report this under 4.1.2 (fix: aria-label or drop the header wrapper), noting it stems from Chromium's name computation; the live page has the same markup."
+    },
+    {
+      "fingerprint": "sda62a7f9459",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Price-range maximum number input in the Price filter (collapsed at capture). When the section is open it sits under the visible 'Price' toggle, below a two-thumb price slider, with a visible '£' prefix, an arrow between the two fields and a prefilled value (2 / 799) matching the slider ends. That visible context tells users to enter a minimum/maximum price, so 3.3.2's labels-or-instructions requirement is met. The aria-label 'filter-item-range-…-£-' is a poor accessible name (a separate quality issue), but the claim that nothing on screen says what to enter is wrong; the ancestors given to the model already showed 'Price £ £'."
+    },
+    {
+      "fingerprint": "fb9c90b90022",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product image link (scarpa-mens-terra-gtx-boots-B1124125) whose only child is a <figure> holding two imgs with alt text. In the snapshot's CDP tree the link has no name: every link whose child is a figure is nameless, while links with plain img/span children are named, because Chromium does not compute name-from-content through figure. The browser thus exposes a tab stop announced only as 'link'. A spec-following accname 1.2 implementation would use the alt text, so the cause is arguably a browser quirk, but the name is not programmatically determinable in the dominant browser and a professional audit would report it under 4.1.2. The live page has the same markup."
+    },
+    {
+      "fingerprint": "3e22445b1eb1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product title link (rab-mens-microlight-alpine-jacket-B12ABB0446) whose visible text (brand + product name) sits inside a <header>, which Chrome maps to sectionheader. Chrome's CDP tree gives the link name \"\" (all 13 such links are nameless; links with div/span content are named), so Chrome-based screen readers and speech input get an unnamed link even though the text is visible. Rampa's own DOM name is right, but the browser-computed name the finding reports is empty. A professional audit would report this under 4.1.2 (fix: aria-label or drop the header wrapper), noting it stems from Chromium's name computation; the live page has the same markup."
+    },
+    {
+      "fingerprint": "bf9f86dd8285",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product image link (rab-mens-downpour-mountain-jacket-B12AE90517) whose only child is a <figure> holding two imgs with alt text. In the snapshot's CDP tree the link has no name: every link whose child is a figure is nameless, while links with plain img/span children are named, because Chromium does not compute name-from-content through figure. The browser thus exposes a tab stop announced only as 'link'. A spec-following accname 1.2 implementation would use the alt text, so the cause is arguably a browser quirk, but the name is not programmatically determinable in the dominant browser and a professional audit would report it under 4.1.2. The live page has the same markup."
+    },
+    {
+      "fingerprint": "2b14532c519c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product tile wrapper: a div role=\"link\" (no href, no tabindex, cursor-pointer) whose content is an <article>. Chrome's CDP tree gives it name \"\" (every such wrapper on the page is nameless): Chromium does not take name-from-content through article/figure/sectionheader descendants. So the browser exposes a link with no accessible name, as the finding says; Rampa's own DOM name is the concatenated tile text, but what Chrome-based AT receives is empty. A role=link component without a programmatic name fails 4.1.2 (it is also a non-focusable, nested-interactive pseudo-link). Some auditors would call the empty name a Chromium deviation from accname 1.2, but it is what users of the dominant browser get."
+    },
+    {
+      "fingerprint": "7b502b837953",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product title link (scarpa-mens-terra-gtx-boots-B1124125) whose visible text (brand + product name) sits inside a <header>, which Chrome maps to sectionheader. Chrome's CDP tree gives the link name \"\" (all 13 such links are nameless; links with div/span content are named), so Chrome-based screen readers and speech input get an unnamed link even though the text is visible. Rampa's own DOM name is right, but the browser-computed name the finding reports is empty. A professional audit would report this under 4.1.2 (fix: aria-label or drop the header wrapper), noting it stems from Chromium's name computation; the live page has the same markup."
+    },
+    {
+      "fingerprint": "13a6e359e1ce",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product tile wrapper: a div role=\"link\" (no href, no tabindex, cursor-pointer) whose content is an <article>. Chrome's CDP tree gives it name \"\" (every such wrapper on the page is nameless): Chromium does not take name-from-content through article/figure/sectionheader descendants. So the browser exposes a link with no accessible name, as the finding says; Rampa's own DOM name is the concatenated tile text, but what Chrome-based AT receives is empty. A role=link component without a programmatic name fails 4.1.2 (it is also a non-focusable, nested-interactive pseudo-link). Some auditors would call the empty name a Chromium deviation from accname 1.2, but it is what users of the dominant browser get."
+    },
+    {
+      "fingerprint": "8ec717c26435",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product title link (patagonia-mens-better-sweater-fleece-jacket-A1724338) whose visible text (brand + product name) sits inside a <header>, which Chrome maps to sectionheader. Chrome's CDP tree gives the link name \"\" (all 13 such links are nameless; links with div/span content are named), so Chrome-based screen readers and speech input get an unnamed link even though the text is visible. Rampa's own DOM name is right, but the browser-computed name the finding reports is empty. A professional audit would report this under 4.1.2 (fix: aria-label or drop the header wrapper), noting it stems from Chromium's name computation; the live page has the same markup."
+    },
+    {
+      "fingerprint": "91648d4d8eb3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet: alt=\"id_000000\" (also its title) is the SVG's file name (id_000000.svg). It is exposed in the CDP tree as an image named \"id_000000\", read next to the visible option text \"Black (847)\". The swatch is redundant with that text and should have alt=\"\" (or the colour name); a file-name alternative is a documented 1.1.1 failure (F30/F39). The live page still uses these alts."
+    },
+    {
+      "fingerprint": "c47b7a012145",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet: alt=\"id_ff8080\" (also its title) is the SVG's file name (id_ff8080.svg). It is exposed in the CDP tree as an image named \"id_ff8080\", read next to the visible option text \"Pink (18)\". The swatch is redundant with that text and should have alt=\"\" (or the colour name); a file-name alternative is a documented 1.1.1 failure (F30/F39). The live page still uses these alts."
+    },
+    {
+      "fingerprint": "0f73f4ec61ba",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product colour swatch image in a tile (a small circular colour/pattern sample, per the crop) with alt=\"20759\" (a colour code) and title=\"Dark Stone, Retro Scoped\". The accessible name is the numeric code, which neither describes the swatch nor names the colour it stands for; only the title (exposed as a description) carries the colour. A text alternative that is a code rather than an equivalent fails 1.1.1 (F30); read fairly, the finding's claim that the alt does not match what the image shows holds."
+    },
+    {
+      "fingerprint": "a44823945888",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product tile wrapper: a div role=\"link\" (no href, no tabindex, cursor-pointer) whose content is an <article>. Chrome's CDP tree gives it name \"\" (every such wrapper on the page is nameless): Chromium does not take name-from-content through article/figure/sectionheader descendants. So the browser exposes a link with no accessible name, as the finding says; Rampa's own DOM name is the concatenated tile text, but what Chrome-based AT receives is empty. A role=link component without a programmatic name fails 4.1.2 (it is also a non-focusable, nested-interactive pseudo-link). Some auditors would call the empty name a Chromium deviation from accname 1.2, but it is what users of the dominant browser get."
+    },
+    {
+      "fingerprint": "cf3d14ba1ed3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product tile wrapper: a div role=\"link\" (no href, no tabindex, cursor-pointer) whose content is an <article>. Chrome's CDP tree gives it name \"\" (every such wrapper on the page is nameless): Chromium does not take name-from-content through article/figure/sectionheader descendants. So the browser exposes a link with no accessible name, as the finding says; Rampa's own DOM name is the concatenated tile text, but what Chrome-based AT receives is empty. A role=link component without a programmatic name fails 4.1.2 (it is also a non-focusable, nested-interactive pseudo-link). Some auditors would call the empty name a Chromium deviation from accname 1.2, but it is what users of the dominant browser get."
+    },
+    {
+      "fingerprint": "b8c9f855a56b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Retail-media banner tile in the product grid (the Keen 'Made to Keep Going / Shop now' ad, injected client-side) whose link holds only an img with no alt and no title; the link has no text, aria-label or title, and the CDP tree shows it with no name. A focusable link with no accessible name fails 4.1.2 (and 2.4.4; the image fails 1.1.1). The server-rendered banner tiles on the live page carry alt text, but this injected ad did not at capture."
+    },
+    {
+      "fingerprint": "5726d6f5a399",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product image link (rab-mens-microlight-alpine-jacket-B12ABB0446) whose only child is a <figure> holding two imgs with alt text. In the snapshot's CDP tree the link has no name: every link whose child is a figure is nameless, while links with plain img/span children are named, because Chromium does not compute name-from-content through figure. The browser thus exposes a tab stop announced only as 'link'. A spec-following accname 1.2 implementation would use the alt text, so the cause is arguably a browser quirk, but the name is not programmatically determinable in the dominant browser and a professional audit would report it under 4.1.2. The live page has the same markup."
+    },
+    {
+      "fingerprint": "22a9fe9464ad",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product image link (patagonia-mens-better-sweater-fleece-jacket-A1724338) whose only child is a <figure> holding two imgs with alt text. In the snapshot's CDP tree the link has no name: every link whose child is a figure is nameless, while links with plain img/span children are named, because Chromium does not compute name-from-content through figure. The browser thus exposes a tab stop announced only as 'link'. A spec-following accname 1.2 implementation would use the alt text, so the cause is arguably a browser quirk, but the name is not programmatically determinable in the dominant browser and a professional audit would report it under 4.1.2. The live page has the same markup."
+    },
+    {
+      "fingerprint": "dd9e2948f9fc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet: alt=\"id_e1e100\" (also its title) is the SVG's file name (id_e1e100.svg). It is exposed in the CDP tree as an image named \"id_e1e100\", read next to the visible option text \"Yellow (62)\". The swatch is redundant with that text and should have alt=\"\" (or the colour name); a file-name alternative is a documented 1.1.1 failure (F30/F39). The live page still uses these alts."
+    },
+    {
+      "fingerprint": "d2279e9cb588",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product tile wrapper: a div role=\"link\" (no href, no tabindex, cursor-pointer) whose content is an <article>. Chrome's CDP tree gives it name \"\" (every such wrapper on the page is nameless): Chromium does not take name-from-content through article/figure/sectionheader descendants. So the browser exposes a link with no accessible name, as the finding says; Rampa's own DOM name is the concatenated tile text, but what Chrome-based AT receives is empty. A role=link component without a programmatic name fails 4.1.2 (it is also a non-focusable, nested-interactive pseudo-link). Some auditors would call the empty name a Chromium deviation from accname 1.2, but it is what users of the dominant browser get."
+    },
+    {
+      "fingerprint": "7423b9ab2f94",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet: alt=\"id_800080\" (also its title) is the SVG's file name (id_800080.svg). It is exposed in the CDP tree as an image named \"id_800080\", read next to the visible option text \"Purple (35)\". The swatch is redundant with that text and should have alt=\"\" (or the colour name); a file-name alternative is a documented 1.1.1 failure (F30/F39). The live page still uses these alts."
+    },
+    {
+      "fingerprint": "136bd823fd5c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product image link (mountain-equipment-mens-nanda-devi-insulated-jacket-B12ABB0456) whose only child is a <figure> holding two imgs with alt text. In the snapshot's CDP tree the link has no name: every link whose child is a figure is nameless, while links with plain img/span children are named, because Chromium does not compute name-from-content through figure. The browser thus exposes a tab stop announced only as 'link'. A spec-following accname 1.2 implementation would use the alt text, so the cause is arguably a browser quirk, but the name is not programmatically determinable in the dominant browser and a professional audit would report it under 4.1.2. The live page has the same markup."
+    },
+    {
+      "fingerprint": "s94dccaa5e28",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Brand filter checkbox labelled 'Barts(13)' (brand name plus result count) in the visible 'Brands' filter list. For a filter option the brand name is exactly what the label needs to describe; a checkbox takes no entered value, so asking its label to 'say what to enter' applies a different test than 2.4.6's 'labels describe topic or purpose'. Not a failure."
+    },
+    {
+      "fingerprint": "9f827061bed8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product image link (columbia-mens-csc-heavyweight-logo-t-shirt-B12BAC1499) whose only child is a <figure> holding two imgs with alt text. In the snapshot's CDP tree the link has no name: every link whose child is a figure is nameless, while links with plain img/span children are named, because Chromium does not compute name-from-content through figure. The browser thus exposes a tab stop announced only as 'link'. A spec-following accname 1.2 implementation would use the alt text, so the cause is arguably a browser quirk, but the name is not programmatically determinable in the dominant browser and a professional audit would report it under 4.1.2. The live page has the same markup."
+    },
+    {
+      "fingerprint": "663089d5469e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product tile wrapper: a div role=\"link\" (no href, no tabindex, cursor-pointer) whose content is an <article>. Chrome's CDP tree gives it name \"\" (every such wrapper on the page is nameless): Chromium does not take name-from-content through article/figure/sectionheader descendants. So the browser exposes a link with no accessible name, as the finding says; Rampa's own DOM name is the concatenated tile text, but what Chrome-based AT receives is empty. A role=link component without a programmatic name fails 4.1.2 (it is also a non-focusable, nested-interactive pseudo-link). Some auditors would call the empty name a Chromium deviation from accname 1.2, but it is what users of the dominant browser get."
+    },
+    {
+      "fingerprint": "7bad8479b03c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product tile wrapper: a div role=\"link\" (no href, no tabindex, cursor-pointer) whose content is an <article>. Chrome's CDP tree gives it name \"\" (every such wrapper on the page is nameless): Chromium does not take name-from-content through article/figure/sectionheader descendants. So the browser exposes a link with no accessible name, as the finding says; Rampa's own DOM name is the concatenated tile text, but what Chrome-based AT receives is empty. A role=link component without a programmatic name fails 4.1.2 (it is also a non-focusable, nested-interactive pseudo-link). Some auditors would call the empty name a Chromium deviation from accname 1.2, but it is what users of the dominant browser get."
+    },
+    {
+      "fingerprint": "5550e1f9d75d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product image link (patagonia-mens-retro-pile-patch-fleece-jacket-B12BEB0422) whose only child is a <figure> holding two imgs with alt text. In the snapshot's CDP tree the link has no name: every link whose child is a figure is nameless, while links with plain img/span children are named, because Chromium does not compute name-from-content through figure. The browser thus exposes a tab stop announced only as 'link'. A spec-following accname 1.2 implementation would use the alt text, so the cause is arguably a browser quirk, but the name is not programmatically determinable in the dominant browser and a professional audit would report it under 4.1.2. The live page has the same markup."
+    },
+    {
+      "fingerprint": "c05334c40b95",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product title link (columbia-mens-helvetia-streetwear-fleece-B12BEE0110) whose visible text (brand + product name) sits inside a <header>, which Chrome maps to sectionheader. Chrome's CDP tree gives the link name \"\" (all 13 such links are nameless; links with div/span content are named), so Chrome-based screen readers and speech input get an unnamed link even though the text is visible. Rampa's own DOM name is right, but the browser-computed name the finding reports is empty. A professional audit would report this under 4.1.2 (fix: aria-label or drop the header wrapper), noting it stems from Chromium's name computation; the live page has the same markup."
+    },
+    {
+      "fingerprint": "8c4aa55c93ee",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product image link (the-north-face-mens-extreme-pile-2-print-fleece-jacket-B12BEC0428) whose only child is a <figure> holding two imgs with alt text. In the snapshot's CDP tree the link has no name: every link whose child is a figure is nameless, while links with plain img/span children are named, because Chromium does not compute name-from-content through figure. The browser thus exposes a tab stop announced only as 'link'. A spec-following accname 1.2 implementation would use the alt text, so the cause is arguably a browser quirk, but the name is not programmatically determinable in the dominant browser and a professional audit would report it under 4.1.2. The live page has the same markup."
+    },
+    {
+      "fingerprint": "346fb8e297fb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet: alt=\"id_ffffff\" (also its title) is the SVG's file name (id_ffffff.svg). It is exposed in the CDP tree as an image named \"id_ffffff\", read next to the visible option text \"White (207)\". The swatch is redundant with that text and should have alt=\"\" (or the colour name); a file-name alternative is a documented 1.1.1 failure (F30/F39). The live page still uses these alts."
+    },
+    {
+      "fingerprint": "sfe6c203d237",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Brand filter checkbox labelled 'Didriksons(9)' (brand name plus result count) in the visible 'Brands' filter list. For a filter option the brand name is exactly what the label needs to describe; a checkbox takes no entered value, so asking its label to 'say what to enter' applies a different test than 2.4.6's 'labels describe topic or purpose'. Not a failure."
+    },
+    {
+      "fingerprint": "4e8bea7afd8e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet: alt=\"id_fff5ee\" (also its title) is the SVG's file name (id_fff5ee.svg). It is exposed in the CDP tree as an image named \"id_fff5ee\", read next to the visible option text \"No colour (63)\". The swatch is redundant with that text and should have alt=\"\" (or the colour name); a file-name alternative is a documented 1.1.1 failure (F30/F39). The live page still uses these alts."
+    },
+    {
+      "fingerprint": "92804c40cb68",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Focusable product title link (keen-mens-targhee-apex-waterproof-shoes-B22AAC0089) whose visible text (brand + product name) sits inside a <header>, which Chrome maps to sectionheader. Chrome's CDP tree gives the link name \"\" (all 13 such links are nameless; links with div/span content are named), so Chrome-based screen readers and speech input get an unnamed link even though the text is visible. Rampa's own DOM name is right, but the browser-computed name the finding reports is empty. A professional audit would report this under 4.1.2 (fix: aria-label or drop the header wrapper), noting it stems from Chromium's name computation; the live page has the same markup."
+    },
+    {
+      "fingerprint": "s901a423669a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The title \"Men's Outdoor Clothing & Footwear | Waterproof Jackets | Cotswold Outdoor\" names the topic of this men's category listing (h1 \"Men's Outdoor Kit\": men's jackets, footwear, mid-layers) and the site. The 'Waterproof Jackets' segment is SEO padding, but the title still describes the page's topic and purpose, so 2.4.2 is met."
+    }
+  ]
+}

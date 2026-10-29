@@ -1,0 +1,309 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://cinemateca.org.br/fale-conosco/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "b1d950aec621",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#content > div > section:nth-of-type(1) > div:nth-of-type(3) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Labels on the structure: ARTUR, SANÇÃO, ELÉSTR1, C.C.P.P., COFAP, BOTECO\".",
+   "evidence": "Labels on the structure: ARTUR, SANÇÃO, ELÉSTR1, C.C.P.P., COFAP, BOTECO",
+   "subject": "hidden oscarito-scaled-aspect-ratio-800-580-2560x1855.jpg",
+   "patch": {
+    "ref": "#content > div > section:nth-of-type(1) > div:nth-of-type(3) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Homem em traje de lantejoulas segurando um telefone ao lado de uma estrutura com nomes gravados.",
+    "before": "<img src=\"https://cinemateca.org.br/wp-content/uploads/2024/07/oscarito-scaled-aspect-ratio-800-580-2560x1855.jpg\" alt=\"\">",
+    "after": "<img src=\"https://cinemateca.org.br/wp-content/uploads/2024/07/oscarito-scaled-aspect-ratio-800-580-2560x1855.jpg\" alt=\"Homem em traje de lantejoulas segurando um telefone ao lado de uma estrutura com nomes gravados.\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "4d84eed50c4e",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > img:nth-of-type(2)",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"The name 'JACK VULCAN' is displayed in the image.\".",
+   "evidence": "The name 'JACK VULCAN' is displayed in the image.",
+   "subject": "hidden f_0431_003-scaled-aspect-ratio-920-540-2560x1503.jpg",
+   "patch": {
+    "ref": "#content > div > section:nth-of-type(3) > div:nth-of-type(2) > img:nth-of-type(2)",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Fotografia em preto e branco de Jack Vulcan em um estúdio.",
+    "before": "<img src=\"https://cinemateca.org.br/wp-content/uploads/2024/07/f_0431_003-scaled-aspect-ratio-920-540-2560x1503.jpg\" alt=\"\" class=\"desktop-view\">",
+    "after": "<img src=\"https://cinemateca.org.br/wp-content/uploads/2024/07/f_0431_003-scaled-aspect-ratio-920-540-2560x1503.jpg\" alt=\"Fotografia em preto e branco de Jack Vulcan em um estúdio.\" class=\"desktop-view\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "ecc8b51ae177",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#footer > div:nth-of-type(2) > div:nth-of-type(2) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Logo of the organization: \"MINISTÉRIO DA CULTURA\"\".",
+   "evidence": "Logo of the organization: \"MINISTÉRIO DA CULTURA\"",
+   "subject": "hidden logo-mc-brasil-sf.png",
+   "patch": {
+    "ref": "#footer > div:nth-of-type(2) > div:nth-of-type(2) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Logotipo do Ministério da Cultura",
+    "before": "<img src=\"https://cinemateca.org.br/wp-content/uploads/2026/07/logo-mc-brasil-sf.png\" alt=\"\">",
+    "after": "<img src=\"https://cinemateca.org.br/wp-content/uploads/2026/07/logo-mc-brasil-sf.png\" alt=\"Logotipo do Ministério da Cultura\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c681b00b15b3",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#wpcf7-f23124-o1 > form > p:nth-of-type(3) > span > input",
+   "message": "The field \"Telefone\" asks for the user's telephone number but does not identify that purpose: autocomplete=\"tel\" is missing.",
+   "evidence": "Telefone",
+   "patch": {
+    "ref": "#wpcf7-f23124-o1 > form > p:nth-of-type(3) > span > input",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "tel",
+    "before": "<input size=\"40\" maxlength=\"400\" class=\"wpcf7-form-control wpcf7-tel wpcf7-text wpcf7-validates-as-tel\" aria-invalid=\"false\" placeholder=\"Telefone\" value=\"\" type=\"tel\" name=\"telefone\">",
+    "after": "<input size=\"40\" maxlength=\"400\" class=\"wpcf7-form-control wpcf7-tel wpcf7-text wpcf7-validates-as-tel\" aria-invalid=\"false\" placeholder=\"Telefone\" value=\"\" type=\"tel\" name=\"telefone\" autocomplete=\"tel\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 14
+ },
+ "groups": [
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 10,
+   "members": [
+    "a563ff78ec51",
+    "c8558bbc3115",
+    "a7825f303e75",
+    "3a9c816c0d19",
+    "5177e329550c",
+    "4e533b36fce8",
+    "96eba89382eb",
+    "ff2268be3f11",
+    "5ac31df01b04",
+    "07e1829ddc59"
+   ],
+   "example": "a563ff78ec51"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-23737 > a",
+   "message": "The link text \"A Cinemateca\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"Ir para A Cinemateca\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-23602 > a",
+   "message": "The link text \"Linha do tempo\" does not match where the link leads: a page titled \"1930 - Cinemateca Brasileira\".",
+   "evidence": "The model suggests: \"Linha do tempo: 1930 - Cinemateca Brasileira\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-60354 > a",
+   "message": "The link text \"SAv/MinC\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"SAv/MinC - Secretaria Audiovisual do Ministério da Cultura\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-23739 > a",
+   "message": "The link text \"Acervo\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Ver Acervo\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-item-23741 > a",
+   "message": "The link text \"Apoie\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Apoie o projeto\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 3,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 1,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 74,
+   "judged": 50,
+   "failed": 0,
+   "passed": 44,
+   "cannotTell": 1,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 24,
+   "suggested": 5
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 6,
+   "failed": 0,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 closed shadow root(s) cannot be read by any script, so nothing inside them was checked (hosts: #wpcf7-f23124-o1 > form > div:nth-of-type(1) > div > div, #wpcf7-f24357-o2 > form > div:nth-of-type(1) > div > div).",
+  "1 image(s) were left without a capture, so no judgment looked at them: 1 outside the page (an off-canvas menu). The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 24 of 74 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 66,
+  "cachedCalls": 0,
+  "inputTokens": 61242,
+  "outputTokens": 6430,
+  "latencyMs": 288193
+ },
+ "coverage": {
+  "reach": {
+   "shadowRoots": {
+    "open": 0,
+    "closed": 2,
+    "closedHosts": [
+     "#wpcf7-f23124-o1 > form > div:nth-of-type(1) > div > div",
+     "#wpcf7-f24357-o2 > form > div:nth-of-type(1) > div > div"
+    ]
+   }
+  }
+ }
+}

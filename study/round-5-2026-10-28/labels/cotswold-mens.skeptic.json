@@ -1,0 +1,402 @@
+{
+  "page": "https://www.cotswoldoutdoor.com/c/mens.html",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "cafafc88538b",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-image link <a href><figure><img alt=\"Mens Moab 3 GTX Shoes\">...</figure></a>. The images are loaded and have meaningful alt text, so under accname 1.2 (step 2H, recursive name from content through every descendant) and technique H30 the link is named \"Mens Moab 3 GTX Shoes\". The empty name comes from Chromium: its name-from-content recursion skips <figure>, and the snapshot recorded that browser name. Screen readers still read the image alt inside the link, and spec-based tools (axe/WAVE) compute a name. This is a browser quirk, not a missing name in the content, so the claim that only \"link\" is announced does not hold."
+    },
+    {
+      "fingerprint": "0ad75df6161f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet, inside the label whose visible text is \"Silver (5)\". Its alt (and title) is \"id_e2e2e2\", the same as its src file name (id_e2e2e2.svg), and the browser exposes it as an image named that string (it is in the accessibility tree even while the accordion is collapsed). The swatch only repeats the colour named in the adjacent text, so it should be alt=\"\". As coded, a screen reader reads a file name: F30 (file name as text alternative), and also not ignorable (F38/F39 style)."
+    },
+    {
+      "fingerprint": "e995d25862ee",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-title link whose content is <header><div>brand</div><div>product</div></header> with the visible text \"Rab Mens Downpour Mountain Jacket\". Under H91 and accname 1.2 (step 2H) that text is its name, and Rampa's own computed name matches it. The snapshot shows Chrome mapping the <header> to role \"sectionheader\" and returning an empty name: Chromium does not take name from content through that role. That is a browser deviation, not missing author markup. Screen readers render the link text, so the element does not fail 4.1.2."
+    },
+    {
+      "fingerprint": "s8ef4ac5d4a0",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Brand checkbox in the \"Brands\" filter facet, labelled by a visible <label for> reading \"Balega(10)\". 2.4.6 asks that labels describe topic or purpose, and in a list of brand filters a brand name with its result count says exactly what the checkbox does. A checkbox takes no entered value, so demanding that its label \"say what to enter\" applies a different test from the one the criterion sets."
+    },
+    {
+      "fingerprint": "31ce3a1b9a1f",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-tile wrapper <div role=\"link\"> (no href, no tabindex, not focusable) around an <article> holding the tile (\"Mens Icarus Hooded Jacket 3.0NewMontane Mens ...\"). Under accname 1.2 (step 2H) a role=link takes its name from all descendant content, so it does have a name, though a long one. Chrome reports \"\" only because it does not recurse through the article role. Read fairly, the \"computes no name\" claim is a browser artefact. The wrapper has real problems of other kinds (a link role on a non-focusable container with nested links, which touches 2.1.1 and role semantics), but not the missing name the finding reports. Each tile also holds a properly named stretched link."
+    },
+    {
+      "fingerprint": "c0b80ca0b8ce",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-image link <a href><figure><img alt=\"Mens Covert Half Zip Fleece\">...</figure></a>. The images are loaded and have meaningful alt text, so under accname 1.2 (step 2H, recursive name from content through every descendant) and technique H30 the link is named \"Mens Covert Half Zip Fleece\". The empty name comes from Chromium: its name-from-content recursion skips <figure>, and the snapshot recorded that browser name. Screen readers still read the image alt inside the link, and spec-based tools (axe/WAVE) compute a name. This is a browser quirk, not a missing name in the content, so the claim that only \"link\" is announced does not hold."
+    },
+    {
+      "fingerprint": "7d203329c012",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-tile wrapper <div role=\"link\"> (no href, no tabindex, not focusable) around an <article> holding the tile (\"Mens Covert Half Zip FleeceNewArc'teryx Mens ...\"). Under accname 1.2 (step 2H) a role=link takes its name from all descendant content, so it does have a name, though a long one. Chrome reports \"\" only because it does not recurse through the article role. Read fairly, the \"computes no name\" claim is a browser artefact. The wrapper has real problems of other kinds (a link role on a non-focusable container with nested links, which touches 2.1.1 and role semantics), but not the missing name the finding reports. Each tile also holds a properly named stretched link."
+    },
+    {
+      "fingerprint": "16765cf2ea05",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-title link whose content is <header><div>brand</div><div>product</div></header> with the visible text \"The North Face Mens Extreme Pile 2 Print Fleece Jacket\". Under H91 and accname 1.2 (step 2H) that text is its name, and Rampa's own computed name matches it. The snapshot shows Chrome mapping the <header> to role \"sectionheader\" and returning an empty name: Chromium does not take name from content through that role. That is a browser deviation, not missing author markup. Screen readers render the link text, so the element does not fail 4.1.2."
+    },
+    {
+      "fingerprint": "e387ea8b4e66",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-title link whose content is <header><div>brand</div><div>product</div></header> with the visible text \"Columbia Mens CSC Heavyweight Logo T-Shirt\". Under H91 and accname 1.2 (step 2H) that text is its name, and Rampa's own computed name matches it. The snapshot shows Chrome mapping the <header> to role \"sectionheader\" and returning an empty name: Chromium does not take name from content through that role. That is a browser deviation, not missing author markup. Screen readers render the link text, so the element does not fail 4.1.2."
+    },
+    {
+      "fingerprint": "b5127d710ddf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet, inside the label whose visible text is \"Red (89)\". Its alt (and title) is \"id_e10000\", the same as its src file name (id_e10000.svg), and the browser exposes it as an image named that string (it is in the accessibility tree even while the accordion is collapsed). The swatch only repeats the colour named in the adjacent text, so it should be alt=\"\". As coded, a screen reader reads a file name: F30 (file name as text alternative), and also not ignorable (F38/F39 style)."
+    },
+    {
+      "fingerprint": "e350b6b84b25",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour swatch on a product tile: a 24px fabric swatch image (the crop shows the product colour) that is the visible content of the label for a display:none colour radio. Its alt is \"124\", an internal colour code that conveys nothing about the image. The colour name \"Black Csc Retro Logo\" exists only in the title attribute, which is exposed only as a description and is not reliably announced. The name a screen reader reads is a meaningless number, not an equivalent of the image, so it fails 1.1.1 (F30 type: text alternative that is not an alternative)."
+    },
+    {
+      "fingerprint": "ffb33eb8cf3c",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-title link whose content is <header><div>brand</div><div>product</div></header> with the visible text \"Montane Mens Icarus Hooded Jacket 3.0\". Under H91 and accname 1.2 (step 2H) that text is its name, and Rampa's own computed name matches it. The snapshot shows Chrome mapping the <header> to role \"sectionheader\" and returning an empty name: Chromium does not take name from content through that role. That is a browser deviation, not missing author markup. Screen readers render the link text, so the element does not fail 4.1.2."
+    },
+    {
+      "fingerprint": "14902b5ee073",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet, inside the label whose visible text is \"Brown (309)\". Its alt (and title) is \"id_753a00\", the same as its src file name (id_753a00.svg), and the browser exposes it as an image named that string (it is in the accessibility tree even while the accordion is collapsed). The swatch only repeats the colour named in the adjacent text, so it should be alt=\"\". As coded, a screen reader reads a file name: F30 (file name as text alternative), and also not ignorable (F38/F39 style)."
+    },
+    {
+      "fingerprint": "aa9f687d1f8a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet, inside the label whose visible text is \"Blue (531)\". Its alt (and title) is \"id_3a57dc\", the same as its src file name (id_3a57dc.svg), and the browser exposes it as an image named that string (it is in the accessibility tree even while the accordion is collapsed). The swatch only repeats the colour named in the adjacent text, so it should be alt=\"\". As coded, a screen reader reads a file name: F30 (file name as text alternative), and also not ignorable (F38/F39 style)."
+    },
+    {
+      "fingerprint": "a56a54182e86",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-tile wrapper <div role=\"link\"> (no href, no tabindex, not focusable) around an <article> holding the tile (\"Mens Terra GTX Boots-10%%Scarpa Mens Terra GT...\"). Under accname 1.2 (step 2H) a role=link takes its name from all descendant content, so it does have a name, though a long one. Chrome reports \"\" only because it does not recurse through the article role. Read fairly, the \"computes no name\" claim is a browser artefact. The wrapper has real problems of other kinds (a link role on a non-focusable container with nested links, which touches 2.1.1 and role semantics), but not the missing name the finding reports. Each tile also holds a properly named stretched link."
+    },
+    {
+      "fingerprint": "0409891f9ba1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet, inside the label whose visible text is \"Grey (334)\". Its alt (and title) is \"id_808080\", the same as its src file name (id_808080.svg), and the browser exposes it as an image named that string (it is in the accessibility tree even while the accordion is collapsed). The swatch only repeats the colour named in the adjacent text, so it should be alt=\"\". As coded, a screen reader reads a file name: F30 (file name as text alternative), and also not ignorable (F38/F39 style)."
+    },
+    {
+      "fingerprint": "4d88957bc31a",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-title link whose content is <header><div>brand</div><div>product</div></header> with the visible text \"Mountain Equipment Mens Nanda Devi Insulated Jacket\". Under H91 and accname 1.2 (step 2H) that text is its name, and Rampa's own computed name matches it. The snapshot shows Chrome mapping the <header> to role \"sectionheader\" and returning an empty name: Chromium does not take name from content through that role. That is a browser deviation, not missing author markup. Screen readers render the link text, so the element does not fail 4.1.2."
+    },
+    {
+      "fingerprint": "1ae54a153035",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-image link <a href><figure><img alt=\"Mens Helvetia Streetwear Fleece\">...</figure></a>. The images are loaded and have meaningful alt text, so under accname 1.2 (step 2H, recursive name from content through every descendant) and technique H30 the link is named \"Mens Helvetia Streetwear Fleece\". The empty name comes from Chromium: its name-from-content recursion skips <figure>, and the snapshot recorded that browser name. Screen readers still read the image alt inside the link, and spec-based tools (axe/WAVE) compute a name. This is a browser quirk, not a missing name in the content, so the claim that only \"link\" is announced does not hold."
+    },
+    {
+      "fingerprint": "ee7da07429f5",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-image link <a href><figure><img alt=\"Mens CSC Seasonal Graphic T-Shirt\">...</figure></a>. The images are loaded and have meaningful alt text, so under accname 1.2 (step 2H, recursive name from content through every descendant) and technique H30 the link is named \"Mens CSC Seasonal Graphic T-Shirt\". The empty name comes from Chromium: its name-from-content recursion skips <figure>, and the snapshot recorded that browser name. Screen readers still read the image alt inside the link, and spec-based tools (axe/WAVE) compute a name. This is a browser quirk, not a missing name in the content, so the claim that only \"link\" is announced does not hold."
+    },
+    {
+      "fingerprint": "31b57bc4b3f1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet, inside the label whose visible text is \"Gold (6)\". Its alt (and title) is \"id_cccc00\", the same as its src file name (id_cccc00.svg), and the browser exposes it as an image named that string (it is in the accessibility tree even while the accordion is collapsed). The swatch only repeats the colour named in the adjacent text, so it should be alt=\"\". As coded, a screen reader reads a file name: F30 (file name as text alternative), and also not ignorable (F38/F39 style)."
+    },
+    {
+      "fingerprint": "a3e68247c6d4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header search field. Its placeholder \"What are you looking for?\" is the only visible label. I sampled the screenshot: the darkest glyph pixels are #8a8a8a on a #ffffff field, about 3.45:1, and the text is 14px regular, not large. Placeholder text that carries the field's purpose is not incidental text (the field is active and the text is not decorative), so 1.4.3 needs 4.5:1. It fails."
+    },
+    {
+      "fingerprint": "898274538934",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet, inside the label whose visible text is \"Orange (35)\". Its alt (and title) is \"id_f07800\", the same as its src file name (id_f07800.svg), and the browser exposes it as an image named that string (it is in the accessibility tree even while the accordion is collapsed). The swatch only repeats the colour named in the adjacent text, so it should be alt=\"\". As coded, a screen reader reads a file name: F30 (file name as text alternative), and also not ignorable (F38/F39 style)."
+    },
+    {
+      "fingerprint": "e769c60afa1c",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-image link <a href><figure><img alt=\"Mens Icarus Hooded Jacket 3.0\">...</figure></a>. The images are loaded and have meaningful alt text, so under accname 1.2 (step 2H, recursive name from content through every descendant) and technique H30 the link is named \"Mens Icarus Hooded Jacket 3.0\". The empty name comes from Chromium: its name-from-content recursion skips <figure>, and the snapshot recorded that browser name. Screen readers still read the image alt inside the link, and spec-based tools (axe/WAVE) compute a name. This is a browser quirk, not a missing name in the content, so the claim that only \"link\" is announced does not hold."
+    },
+    {
+      "fingerprint": "3c0e8bb47869",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet, inside the label whose visible text is \"Green (349)\". Its alt (and title) is \"id_37b634\", the same as its src file name (id_37b634.svg), and the browser exposes it as an image named that string (it is in the accessibility tree even while the accordion is collapsed). The swatch only repeats the colour named in the adjacent text, so it should be alt=\"\". As coded, a screen reader reads a file name: F30 (file name as text alternative), and also not ignorable (F38/F39 style)."
+    },
+    {
+      "fingerprint": "1a9a4169b95e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header search submit button (data-qa=\"search_btn\"). Its only content is a span role=\"img\" with no aria-label wrapping an aria-hidden SVG magnifier; there is no text, aria-label, aria-labelledby or title, and a <button type=\"submit\"> gets no default name. The live page still has the same markup. Nothing supplies a name, so the button really is announced as just \"button\": a 4.1.2 failure."
+    },
+    {
+      "fingerprint": "b298d1f8edc7",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-title link whose content is <header><div>brand</div><div>product</div></header> with the visible text \"Columbia Mens CSC Seasonal Graphic T-Shirt\". Under H91 and accname 1.2 (step 2H) that text is its name, and Rampa's own computed name matches it. The snapshot shows Chrome mapping the <header> to role \"sectionheader\" and returning an empty name: Chromium does not take name from content through that role. That is a browser deviation, not missing author markup. Screen readers render the link text, so the element does not fail 4.1.2."
+    },
+    {
+      "fingerprint": "ca20f141b34f",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-image link <a href><figure><img alt=\"Mens Targhee Apex Waterproof Shoes\">...</figure></a>. The images are loaded and have meaningful alt text, so under accname 1.2 (step 2H, recursive name from content through every descendant) and technique H30 the link is named \"Mens Targhee Apex Waterproof Shoes\". The empty name comes from Chromium: its name-from-content recursion skips <figure>, and the snapshot recorded that browser name. Screen readers still read the image alt inside the link, and spec-based tools (axe/WAVE) compute a name. This is a browser quirk, not a missing name in the content, so the claim that only \"link\" is announced does not hold."
+    },
+    {
+      "fingerprint": "67f19b1c8165",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-tile wrapper <div role=\"link\"> (no href, no tabindex, not focusable) around an <article> holding the tile (\"Mens Moab 3 GTX Shoes-12%%Merrell Mens Moab 3...\"). Under accname 1.2 (step 2H) a role=link takes its name from all descendant content, so it does have a name, though a long one. Chrome reports \"\" only because it does not recurse through the article role. Read fairly, the \"computes no name\" claim is a browser artefact. The wrapper has real problems of other kinds (a link role on a non-focusable container with nested links, which touches 2.1.1 and role semantics), but not the missing name the finding reports. Each tile also holds a properly named stretched link."
+    },
+    {
+      "fingerprint": "0a0e5e6ae6f5",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-title link whose content is <header><div>brand</div><div>product</div></header> with the visible text \"Arc'teryx Mens Covert Half Zip Fleece\". Under H91 and accname 1.2 (step 2H) that text is its name, and Rampa's own computed name matches it. The snapshot shows Chrome mapping the <header> to role \"sectionheader\" and returning an empty name: Chromium does not take name from content through that role. That is a browser deviation, not missing author markup. Screen readers render the link text, so the element does not fail 4.1.2."
+    },
+    {
+      "fingerprint": "a397082f2818",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-tile wrapper <div role=\"link\"> (no href, no tabindex, not focusable) around an <article> holding the tile (\"Mens Better Sweater Fleece Jacket-26%%%%Patag...\"). Under accname 1.2 (step 2H) a role=link takes its name from all descendant content, so it does have a name, though a long one. Chrome reports \"\" only because it does not recurse through the article role. Read fairly, the \"computes no name\" claim is a browser artefact. The wrapper has real problems of other kinds (a link role on a non-focusable container with nested links, which touches 2.1.1 and role semantics), but not the missing name the finding reports. Each tile also holds a properly named stretched link."
+    },
+    {
+      "fingerprint": "s6bc66c98a15",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The minimum field of the Price range filter (type=number, prefilled 2). Visually it sits under the \"Price\" facet heading, below a two-thumb price slider, with a \"£\" prefix and a dash between the two boxes (\"£ [2] – £ [799]\"). That visible text and layout tell users to enter a price bound, so the claim that nothing on screen says what to enter is wrong. The real defect is the junk aria-label \"filter-item-range-…-£-\", an accessible-name problem (4.1.2/2.5.3 or 1.3.1), not a missing visible label or instruction under 3.3.2."
+    },
+    {
+      "fingerprint": "12ea6a9f6d22",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-tile wrapper <div role=\"link\"> (no href, no tabindex, not focusable) around an <article> holding the tile (\"Mens CSC Seasonal Graphic T-ShirtSponsoredNew...\"). Under accname 1.2 (step 2H) a role=link takes its name from all descendant content, so it does have a name, though a long one. Chrome reports \"\" only because it does not recurse through the article role. Read fairly, the \"computes no name\" claim is a browser artefact. The wrapper has real problems of other kinds (a link role on a non-focusable container with nested links, which touches 2.1.1 and role semantics), but not the missing name the finding reports. Each tile also holds a properly named stretched link."
+    },
+    {
+      "fingerprint": "c257e0115c55",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-tile wrapper <div role=\"link\"> (no href, no tabindex, not focusable) around an <article> holding the tile (\"Mens Retro Pile Patch Fleece Jacket-21%New%%P...\"). Under accname 1.2 (step 2H) a role=link takes its name from all descendant content, so it does have a name, though a long one. Chrome reports \"\" only because it does not recurse through the article role. Read fairly, the \"computes no name\" claim is a browser artefact. The wrapper has real problems of other kinds (a link role on a non-focusable container with nested links, which touches 2.1.1 and role semantics), but not the missing name the finding reports. Each tile also holds a properly named stretched link."
+    },
+    {
+      "fingerprint": "010e00f68946",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-title link whose content is <header><div>brand</div><div>product</div></header> with the visible text \"Patagonia Mens Retro Pile Patch Fleece Jacket\". Under H91 and accname 1.2 (step 2H) that text is its name, and Rampa's own computed name matches it. The snapshot shows Chrome mapping the <header> to role \"sectionheader\" and returning an empty name: Chromium does not take name from content through that role. That is a browser deviation, not missing author markup. Screen readers render the link text, so the element does not fail 4.1.2."
+    },
+    {
+      "fingerprint": "sda62a7f9459",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The maximum field of the Price range filter (type=number, prefilled 799). Visually it sits under the \"Price\" facet heading, below a two-thumb price slider, with a \"£\" prefix and a dash between the two boxes (\"£ [2] – £ [799]\"). That visible text and layout tell users to enter a price bound, so the claim that nothing on screen says what to enter is wrong. The real defect is the junk aria-label \"filter-item-range-…-£-\", an accessible-name problem (4.1.2/2.5.3 or 1.3.1), not a missing visible label or instruction under 3.3.2."
+    },
+    {
+      "fingerprint": "fb9c90b90022",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-image link <a href><figure><img alt=\"Mens Terra GTX Boots\">...</figure></a>. The images are loaded and have meaningful alt text, so under accname 1.2 (step 2H, recursive name from content through every descendant) and technique H30 the link is named \"Mens Terra GTX Boots\". The empty name comes from Chromium: its name-from-content recursion skips <figure>, and the snapshot recorded that browser name. Screen readers still read the image alt inside the link, and spec-based tools (axe/WAVE) compute a name. This is a browser quirk, not a missing name in the content, so the claim that only \"link\" is announced does not hold."
+    },
+    {
+      "fingerprint": "3e22445b1eb1",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-title link whose content is <header><div>brand</div><div>product</div></header> with the visible text \"Rab Mens Microlight Alpine Jacket\". Under H91 and accname 1.2 (step 2H) that text is its name, and Rampa's own computed name matches it. The snapshot shows Chrome mapping the <header> to role \"sectionheader\" and returning an empty name: Chromium does not take name from content through that role. That is a browser deviation, not missing author markup. Screen readers render the link text, so the element does not fail 4.1.2."
+    },
+    {
+      "fingerprint": "bf9f86dd8285",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-image link <a href><figure><img alt=\"Mens Downpour Mountain Jacket\">...</figure></a>. The images are loaded and have meaningful alt text, so under accname 1.2 (step 2H, recursive name from content through every descendant) and technique H30 the link is named \"Mens Downpour Mountain Jacket\". The empty name comes from Chromium: its name-from-content recursion skips <figure>, and the snapshot recorded that browser name. Screen readers still read the image alt inside the link, and spec-based tools (axe/WAVE) compute a name. This is a browser quirk, not a missing name in the content, so the claim that only \"link\" is announced does not hold."
+    },
+    {
+      "fingerprint": "2b14532c519c",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-tile wrapper <div role=\"link\"> (no href, no tabindex, not focusable) around an <article> holding the tile (\"Mens CSC Heavyweight Logo T-ShirtSponsoredNew...\"). Under accname 1.2 (step 2H) a role=link takes its name from all descendant content, so it does have a name, though a long one. Chrome reports \"\" only because it does not recurse through the article role. Read fairly, the \"computes no name\" claim is a browser artefact. The wrapper has real problems of other kinds (a link role on a non-focusable container with nested links, which touches 2.1.1 and role semantics), but not the missing name the finding reports. Each tile also holds a properly named stretched link."
+    },
+    {
+      "fingerprint": "7b502b837953",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-title link whose content is <header><div>brand</div><div>product</div></header> with the visible text \"Scarpa Mens Terra GTX Boots\". Under H91 and accname 1.2 (step 2H) that text is its name, and Rampa's own computed name matches it. The snapshot shows Chrome mapping the <header> to role \"sectionheader\" and returning an empty name: Chromium does not take name from content through that role. That is a browser deviation, not missing author markup. Screen readers render the link text, so the element does not fail 4.1.2."
+    },
+    {
+      "fingerprint": "13a6e359e1ce",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-tile wrapper <div role=\"link\"> (no href, no tabindex, not focusable) around an <article> holding the tile (\"Mens Downpour Mountain JacketExclusiveRab Men...\"). Under accname 1.2 (step 2H) a role=link takes its name from all descendant content, so it does have a name, though a long one. Chrome reports \"\" only because it does not recurse through the article role. Read fairly, the \"computes no name\" claim is a browser artefact. The wrapper has real problems of other kinds (a link role on a non-focusable container with nested links, which touches 2.1.1 and role semantics), but not the missing name the finding reports. Each tile also holds a properly named stretched link."
+    },
+    {
+      "fingerprint": "8ec717c26435",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-title link whose content is <header><div>brand</div><div>product</div></header> with the visible text \"Patagonia Mens Better Sweater Fleece Jacket\". Under H91 and accname 1.2 (step 2H) that text is its name, and Rampa's own computed name matches it. The snapshot shows Chrome mapping the <header> to role \"sectionheader\" and returning an empty name: Chromium does not take name from content through that role. That is a browser deviation, not missing author markup. Screen readers render the link text, so the element does not fail 4.1.2."
+    },
+    {
+      "fingerprint": "91648d4d8eb3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet, inside the label whose visible text is \"Black (847)\". Its alt (and title) is \"id_000000\", the same as its src file name (id_000000.svg), and the browser exposes it as an image named that string (it is in the accessibility tree even while the accordion is collapsed). The swatch only repeats the colour named in the adjacent text, so it should be alt=\"\". As coded, a screen reader reads a file name: F30 (file name as text alternative), and also not ignorable (F38/F39 style)."
+    },
+    {
+      "fingerprint": "c47b7a012145",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet, inside the label whose visible text is \"Pink (18)\". Its alt (and title) is \"id_ff8080\", the same as its src file name (id_ff8080.svg), and the browser exposes it as an image named that string (it is in the accessibility tree even while the accordion is collapsed). The swatch only repeats the colour named in the adjacent text, so it should be alt=\"\". As coded, a screen reader reads a file name: F30 (file name as text alternative), and also not ignorable (F38/F39 style)."
+    },
+    {
+      "fingerprint": "0f73f4ec61ba",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour swatch on a product tile: a 24px fabric swatch image (the crop shows the product colour) that is the visible content of the label for a display:none colour radio. Its alt is \"20759\", an internal colour code that conveys nothing about the image. The colour name \"Dark Stone, Retro Scoped\" exists only in the title attribute, which is exposed only as a description and is not reliably announced. The name a screen reader reads is a meaningless number, not an equivalent of the image, so it fails 1.1.1 (F30 type: text alternative that is not an alternative)."
+    },
+    {
+      "fingerprint": "a44823945888",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-tile wrapper <div role=\"link\"> (no href, no tabindex, not focusable) around an <article> holding the tile (\"Mens Targhee Apex Waterproof ShoesSponsored-1...\"). Under accname 1.2 (step 2H) a role=link takes its name from all descendant content, so it does have a name, though a long one. Chrome reports \"\" only because it does not recurse through the article role. Read fairly, the \"computes no name\" claim is a browser artefact. The wrapper has real problems of other kinds (a link role on a non-focusable container with nested links, which touches 2.1.1 and role semantics), but not the missing name the finding reports. Each tile also holds a properly named stretched link."
+    },
+    {
+      "fingerprint": "cf3d14ba1ed3",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-tile wrapper <div role=\"link\"> (no href, no tabindex, not focusable) around an <article> holding the tile (\"Mens Helvetia Streetwear FleeceSponsored-21%N...\"). Under accname 1.2 (step 2H) a role=link takes its name from all descendant content, so it does have a name, though a long one. Chrome reports \"\" only because it does not recurse through the article role. Read fairly, the \"computes no name\" claim is a browser artefact. The wrapper has real problems of other kinds (a link role on a non-focusable container with nested links, which touches 2.1.1 and role semantics), but not the missing name the finding reports. Each tile also holds a properly named stretched link."
+    },
+    {
+      "fingerprint": "b8c9f855a56b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Sponsored KEEN banner tile in the product grid (\"Made to Keep Going / Shop now\" image). The <a> holds only an <img> with no alt attribute, and has no aria-label or title, so it has no accessible name from any source. That is documented failure F89 (an image with no alt as the only content of a link), which covers 4.1.2. I found no technique that rescues it."
+    },
+    {
+      "fingerprint": "5726d6f5a399",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-image link <a href><figure><img alt=\"Mens Microlight Alpine Jacket\">...</figure></a>. The images are loaded and have meaningful alt text, so under accname 1.2 (step 2H, recursive name from content through every descendant) and technique H30 the link is named \"Mens Microlight Alpine Jacket\". The empty name comes from Chromium: its name-from-content recursion skips <figure>, and the snapshot recorded that browser name. Screen readers still read the image alt inside the link, and spec-based tools (axe/WAVE) compute a name. This is a browser quirk, not a missing name in the content, so the claim that only \"link\" is announced does not hold."
+    },
+    {
+      "fingerprint": "22a9fe9464ad",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-image link <a href><figure><img alt=\"Mens Better Sweater Fleece Jacket\">...</figure></a>. The images are loaded and have meaningful alt text, so under accname 1.2 (step 2H, recursive name from content through every descendant) and technique H30 the link is named \"Mens Better Sweater Fleece Jacket\". The empty name comes from Chromium: its name-from-content recursion skips <figure>, and the snapshot recorded that browser name. Screen readers still read the image alt inside the link, and spec-based tools (axe/WAVE) compute a name. This is a browser quirk, not a missing name in the content, so the claim that only \"link\" is announced does not hold."
+    },
+    {
+      "fingerprint": "dd9e2948f9fc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet, inside the label whose visible text is \"Yellow (62)\". Its alt (and title) is \"id_e1e100\", the same as its src file name (id_e1e100.svg), and the browser exposes it as an image named that string (it is in the accessibility tree even while the accordion is collapsed). The swatch only repeats the colour named in the adjacent text, so it should be alt=\"\". As coded, a screen reader reads a file name: F30 (file name as text alternative), and also not ignorable (F38/F39 style)."
+    },
+    {
+      "fingerprint": "d2279e9cb588",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-tile wrapper <div role=\"link\"> (no href, no tabindex, not focusable) around an <article> holding the tile (\"Mens Microlight Alpine Jacket-15%New%%Rab Men...\"). Under accname 1.2 (step 2H) a role=link takes its name from all descendant content, so it does have a name, though a long one. Chrome reports \"\" only because it does not recurse through the article role. Read fairly, the \"computes no name\" claim is a browser artefact. The wrapper has real problems of other kinds (a link role on a non-focusable container with nested links, which touches 2.1.1 and role semantics), but not the missing name the finding reports. Each tile also holds a properly named stretched link."
+    },
+    {
+      "fingerprint": "7423b9ab2f94",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet, inside the label whose visible text is \"Purple (35)\". Its alt (and title) is \"id_800080\", the same as its src file name (id_800080.svg), and the browser exposes it as an image named that string (it is in the accessibility tree even while the accordion is collapsed). The swatch only repeats the colour named in the adjacent text, so it should be alt=\"\". As coded, a screen reader reads a file name: F30 (file name as text alternative), and also not ignorable (F38/F39 style)."
+    },
+    {
+      "fingerprint": "136bd823fd5c",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-image link <a href><figure><img alt=\"Mens Nanda Devi Insulated Jacket\">...</figure></a>. The images are loaded and have meaningful alt text, so under accname 1.2 (step 2H, recursive name from content through every descendant) and technique H30 the link is named \"Mens Nanda Devi Insulated Jacket\". The empty name comes from Chromium: its name-from-content recursion skips <figure>, and the snapshot recorded that browser name. Screen readers still read the image alt inside the link, and spec-based tools (axe/WAVE) compute a name. This is a browser quirk, not a missing name in the content, so the claim that only \"link\" is announced does not hold."
+    },
+    {
+      "fingerprint": "s94dccaa5e28",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Brand checkbox in the \"Brands\" filter facet, labelled by a visible <label for> reading \"Barts(13)\". 2.4.6 asks that labels describe topic or purpose, and in a list of brand filters a brand name with its result count says exactly what the checkbox does. A checkbox takes no entered value, so demanding that its label \"say what to enter\" applies a different test from the one the criterion sets."
+    },
+    {
+      "fingerprint": "9f827061bed8",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-image link <a href><figure><img alt=\"Mens CSC Heavyweight Logo T-Shirt\">...</figure></a>. The images are loaded and have meaningful alt text, so under accname 1.2 (step 2H, recursive name from content through every descendant) and technique H30 the link is named \"Mens CSC Heavyweight Logo T-Shirt\". The empty name comes from Chromium: its name-from-content recursion skips <figure>, and the snapshot recorded that browser name. Screen readers still read the image alt inside the link, and spec-based tools (axe/WAVE) compute a name. This is a browser quirk, not a missing name in the content, so the claim that only \"link\" is announced does not hold."
+    },
+    {
+      "fingerprint": "663089d5469e",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-tile wrapper <div role=\"link\"> (no href, no tabindex, not focusable) around an <article> holding the tile (\"Mens Nanda Devi Insulated JacketNewMountain E...\"). Under accname 1.2 (step 2H) a role=link takes its name from all descendant content, so it does have a name, though a long one. Chrome reports \"\" only because it does not recurse through the article role. Read fairly, the \"computes no name\" claim is a browser artefact. The wrapper has real problems of other kinds (a link role on a non-focusable container with nested links, which touches 2.1.1 and role semantics), but not the missing name the finding reports. Each tile also holds a properly named stretched link."
+    },
+    {
+      "fingerprint": "7bad8479b03c",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-tile wrapper <div role=\"link\"> (no href, no tabindex, not focusable) around an <article> holding the tile (\"Mens Extreme Pile 2 Print Fleece JacketNewThe...\"). Under accname 1.2 (step 2H) a role=link takes its name from all descendant content, so it does have a name, though a long one. Chrome reports \"\" only because it does not recurse through the article role. Read fairly, the \"computes no name\" claim is a browser artefact. The wrapper has real problems of other kinds (a link role on a non-focusable container with nested links, which touches 2.1.1 and role semantics), but not the missing name the finding reports. Each tile also holds a properly named stretched link."
+    },
+    {
+      "fingerprint": "5550e1f9d75d",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-image link <a href><figure><img alt=\"Mens Retro Pile Patch Fleece Jacket\">...</figure></a>. The images are loaded and have meaningful alt text, so under accname 1.2 (step 2H, recursive name from content through every descendant) and technique H30 the link is named \"Mens Retro Pile Patch Fleece Jacket\". The empty name comes from Chromium: its name-from-content recursion skips <figure>, and the snapshot recorded that browser name. Screen readers still read the image alt inside the link, and spec-based tools (axe/WAVE) compute a name. This is a browser quirk, not a missing name in the content, so the claim that only \"link\" is announced does not hold."
+    },
+    {
+      "fingerprint": "c05334c40b95",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-title link whose content is <header><div>brand</div><div>product</div></header> with the visible text \"Columbia Mens Helvetia Streetwear Fleece\". Under H91 and accname 1.2 (step 2H) that text is its name, and Rampa's own computed name matches it. The snapshot shows Chrome mapping the <header> to role \"sectionheader\" and returning an empty name: Chromium does not take name from content through that role. That is a browser deviation, not missing author markup. Screen readers render the link text, so the element does not fail 4.1.2."
+    },
+    {
+      "fingerprint": "8c4aa55c93ee",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-image link <a href><figure><img alt=\"Mens Extreme Pile 2 Print Fleece Jacket\">...</figure></a>. The images are loaded and have meaningful alt text, so under accname 1.2 (step 2H, recursive name from content through every descendant) and technique H30 the link is named \"Mens Extreme Pile 2 Print Fleece Jacket\". The empty name comes from Chromium: its name-from-content recursion skips <figure>, and the snapshot recorded that browser name. Screen readers still read the image alt inside the link, and spec-based tools (axe/WAVE) compute a name. This is a browser quirk, not a missing name in the content, so the claim that only \"link\" is announced does not hold."
+    },
+    {
+      "fingerprint": "346fb8e297fb",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet, inside the label whose visible text is \"White (207)\". Its alt (and title) is \"id_ffffff\", the same as its src file name (id_ffffff.svg), and the browser exposes it as an image named that string (it is in the accessibility tree even while the accordion is collapsed). The swatch only repeats the colour named in the adjacent text, so it should be alt=\"\". As coded, a screen reader reads a file name: F30 (file name as text alternative), and also not ignorable (F38/F39 style)."
+    },
+    {
+      "fingerprint": "sfe6c203d237",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Brand checkbox in the \"Brands\" filter facet, labelled by a visible <label for> reading \"Didriksons(9)\". 2.4.6 asks that labels describe topic or purpose, and in a list of brand filters a brand name with its result count says exactly what the checkbox does. A checkbox takes no entered value, so demanding that its label \"say what to enter\" applies a different test from the one the criterion sets."
+    },
+    {
+      "fingerprint": "4e8bea7afd8e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Colour-filter swatch image in the Colour facet, inside the label whose visible text is \"No colour (63)\". Its alt (and title) is \"id_fff5ee\", the same as its src file name (id_fff5ee.svg), and the browser exposes it as an image named that string (it is in the accessibility tree even while the accordion is collapsed). The swatch only repeats the colour named in the adjacent text, so it should be alt=\"\". As coded, a screen reader reads a file name: F30 (file name as text alternative), and also not ignorable (F38/F39 style)."
+    },
+    {
+      "fingerprint": "92804c40cb68",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "Product-title link whose content is <header><div>brand</div><div>product</div></header> with the visible text \"Keen Mens Targhee Apex Waterproof Shoes\". Under H91 and accname 1.2 (step 2H) that text is its name, and Rampa's own computed name matches it. The snapshot shows Chrome mapping the <header> to role \"sectionheader\" and returning an empty name: Chromium does not take name from content through that role. That is a browser deviation, not missing author markup. Screen readers render the link text, so the element does not fail 4.1.2."
+    },
+    {
+      "fingerprint": "s901a423669a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page is the Men's category listing (H1 \"Men's Outdoor Kit\", URL /c/mens.html). Its title \"Men's Outdoor Clothing & Footwear | Waterproof Jackets | Cotswold Outdoor\" names that topic and the site. The extra SEO phrase does not stop it describing the page, so the title passes 2.4.2."
+    }
+  ]
+}

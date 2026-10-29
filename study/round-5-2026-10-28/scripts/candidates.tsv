@@ -1,0 +1,109 @@
+# slot	url
+# Twelve strata (Brazil or international x six categories), two slots each: a home page (h) and an inner page (i),
+# as in the third and fourth studies. The first URL of a slot is the primary; the next ones (b1, b2...) are backups, used
+# in order only when the primary fails the pre-screen (does not load, bot challenge, error page, sign-in wall) or turns
+# out to be excluded (scripts/exclusions.py; a redirect counts). For an inner slot the URL is the site; the inner page
+# is picked from the site's own navigation (scripts/links.mjs) by the slot's rule: the first article linked from a news
+# or health home page, the first category of a store's menu, an admissions or study page, a contact page or form (for
+# the international government slot, as in the earlier studies, the URL is a public search form itself).
+# Written on 2026-10-27, before the screen. Six of the first list were named by the repository (scripts/exclusions.py
+# check) and were replaced here before the screen: www.cbsnews.com (in-news-h.b2) by www.belfasttelegraph.co.uk,
+# www.waterstones.com (in-shop-h.b1) by www.whittard.co.uk, www.hopkinsmedicine.org (in-health-h) by www.cedars-sinai.org,
+# www.heart.org (in-health-i.b3) by www.mind.org.uk, www.britishmuseum.org (in-culture-h) by www.horniman.ac.uk, and
+# www.metmuseum.org (in-culture-h.b3) by www.ashmolean.org.
+br-gov-h	https://www.ba.gov.br/
+br-gov-h.b1	https://www.ms.gov.br/
+br-gov-h.b2	https://www.pa.gov.br/
+br-gov-h.b3	https://prefeitura.pbh.gov.br/
+br-gov-i	https://www.tjdft.jus.br/
+br-gov-i.b1	https://www.mpsp.mp.br/
+br-gov-i.b2	https://www.trf4.jus.br/
+br-gov-i.b3	https://www.tjsp.jus.br/
+br-edu-h	https://www.ufg.br/
+br-edu-h.b1	https://www.ufjf.br/
+br-edu-h.b2	https://www.unifesp.br/
+br-edu-h.b3	https://www.ufv.br/
+br-edu-i	https://www.pucrs.br/
+br-edu-i.b1	https://www.unisinos.br/
+br-edu-i.b2	https://www.pucpr.br/
+br-edu-i.b3	https://www.unifor.br/
+br-news-h	https://www.correio24horas.com.br/
+br-news-h.b1	https://www.jb.com.br/
+br-news-h.b2	https://www.atribuna.com.br/
+br-news-h.b3	https://www.jornaldebrasilia.com.br/
+br-news-i	https://www.agazeta.com.br/
+br-news-i.b1	https://www.moneytimes.com.br/
+br-news-i.b2	https://diariodonordeste.verdesmares.com.br/
+br-news-i.b3	https://www.istoedinheiro.com.br/
+br-shop-h	https://www.hering.com.br/
+br-shop-h.b1	https://www.rihappy.com.br/
+br-shop-h.b2	https://www.dpaschoal.com.br/
+br-shop-h.b3	https://www.camicado.com.br/
+br-shop-i	https://www.madeiramadeira.com.br/
+br-shop-i.b1	https://www.drogaraia.com.br/
+br-shop-i.b2	https://www.dafiti.com.br/
+br-shop-i.b3	https://www.telhanorte.com.br/
+br-health-h	https://www.hospitaloswaldocruz.org.br/
+br-health-h.b1	https://accamargo.org.br/
+br-health-h.b2	https://pequenoprincipe.org.br/
+br-health-h.b3	https://www.santacasasp.org.br/
+br-health-i	https://www.oncoguia.org.br/
+br-health-i.b1	https://www.sbem.org.br/
+br-health-i.b2	https://www.hermespardini.com.br/
+br-health-i.b3	https://www.cuidadospelavida.com.br/
+br-culture-h	https://www.museudalinguaportuguesa.org.br/
+br-culture-h.b1	https://www.museudofutebol.org.br/
+br-culture-h.b2	https://www.mon.org.br/
+br-culture-h.b3	https://mis-sp.org.br/
+br-culture-i	https://theatromunicipal.org.br/
+br-culture-i.b1	https://www.bienal.org.br/
+br-culture-i.b2	https://www.cinemateca.org.br/
+br-culture-i.b3	https://www.memorialdaamericalatina.org.br/
+in-gov-h	https://www.london.gov.uk/
+in-gov-h.b1	https://www.oregon.gov/
+in-gov-h.b2	https://www.dublincity.ie/
+in-gov-h.b3	https://www.michigan.gov/
+in-gov-i	https://www.nhtsa.gov/recalls
+in-gov-i.b1	https://ratings.food.gov.uk/
+in-gov-i.b2	https://www.airnow.gov/
+in-gov-i.b3	https://www.energystar.gov/productfinder/
+in-edu-h	https://www.ncl.ac.uk/
+in-edu-h.b1	https://www.sheffield.ac.uk/
+in-edu-h.b2	https://www.universityofgalway.ie/
+in-edu-h.b3	https://www.cardiff.ac.uk/
+in-edu-i	https://www.nottingham.ac.uk/
+in-edu-i.b1	https://www.york.ac.uk/
+in-edu-i.b2	https://www.ul.ie/
+in-edu-i.b3	https://www.liverpool.ac.uk/
+in-news-h	https://www.irishexaminer.com/
+in-news-h.b1	https://www.standard.co.uk/
+in-news-h.b2	https://www.belfasttelegraph.co.uk/
+in-news-h.b3	https://www.walesonline.co.uk/
+in-news-i	https://www.newstatesman.com/
+in-news-i.b1	https://www.breakingnews.ie/
+in-news-i.b2	https://www.irishcentral.com/
+in-news-i.b3	https://inews.co.uk/
+in-shop-h	https://www.lakeland.co.uk/
+in-shop-h.b1	https://www.whittard.co.uk/
+in-shop-h.b2	https://www.robertdyas.co.uk/
+in-shop-h.b3	https://www.brompton.com/
+in-shop-i	https://www.dunelm.com/
+in-shop-i.b1	https://www.wickes.co.uk/
+in-shop-i.b2	https://ao.com/
+in-shop-i.b3	https://www.cotswoldoutdoor.com/
+in-health-h	https://www.cedars-sinai.org/
+in-health-h.b1	https://www.mskcc.org/
+in-health-h.b2	https://www.guysandstthomas.nhs.uk/
+in-health-h.b3	https://www.dana-farber.org/
+in-health-i	https://www.macmillan.org.uk/
+in-health-i.b1	https://www.stroke.org.uk/
+in-health-i.b2	https://www.alzheimers.org.uk/
+in-health-i.b3	https://www.mind.org.uk/
+in-culture-h	https://www.horniman.ac.uk/
+in-culture-h.b1	https://www.nationalgallery.ie/
+in-culture-h.b2	https://www.rmg.co.uk/
+in-culture-h.b3	https://www.ashmolean.org/
+in-culture-i	https://www.royalalberthall.com/
+in-culture-i.b1	https://www.abbeytheatre.ie/
+in-culture-i.b2	https://www.kennedy-center.org/
+in-culture-i.b3	https://www.shakespearesglobe.com/

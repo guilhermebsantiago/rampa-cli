@@ -1,0 +1,48 @@
+{
+  "page": "https://cinemateca.org.br/fale-conosco/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "ecc8b51ae177",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Ministério da Cultura / Governo do Brasil logo in the footer, an unlinked img with alt=\"\" next to the SAC (Sociedade Amigos da Cinemateca) logo. The screenshot and the live footer HTML (unchanged) show no visible or hidden text naming the Ministry anywhere near it; the only mention on the page is the abbreviation \"SAv/MinC\" inside the collapsed main menu, and the other MinC logos in the header are commented out. An institutional affiliation logo is informative content (it tells users the Cinemateca is tied to the federal Ministry of Culture), so marking it decorative removes that information for screen-reader users. It fails 1.1.1 as the finding says."
+    },
+    {
+      "fingerprint": "sbed74d80970",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the top-level \"A Cinemateca\" item of the main menu, an <a href=\"#\"> that opens a submenu whose first entry is another \"A Cinemateca\" link to /a-cinemateca/ (confirmed in the live HTML). Its text is a section name, not an address, and in its programmatically determined context (the list item holding the nested submenu) its purpose, revealing the \"A Cinemateca\" section menu, is clear. That is not a 2.4.4 failure. Using a link with href=\"#\" as a disclosure control without aria-expanded or a button role is a 4.1.2 concern, not a link-purpose one."
+    },
+    {
+      "fingerprint": "s09d9530c282",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the \"SAv/MinC\" link in the \"A Cinemateca\" submenu, pointing to /a-cinemateca/sav-minc/, and that page's title is \"SAv/MinC - Cinemateca Brasileira\" (a page about the Secretaria do Audiovisual of the Ministry of Culture). The link text names its destination exactly. 2.4.4 does not require abbreviations in link text to be expanded: that is 3.1.4 Abbreviations (AAA). The link's purpose is determinable from its text and its menu context, so this is not a failure of 2.4.4."
+    },
+    {
+      "fingerprint": "4d84eed50c4e",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the large archival photograph beside the \"Assessoria de Imprensa\" section (a man seated in a TV studio, seen over another person's shoulder), with alt=\"\". The screenshot and the crop show that the only text in it is a partly visible caption on a background TV monitor reading \"JECE VALAD...\" (presumably Jece Valadão), not \"JACK VULCAN\", so the finding misreads the image. That text is incidental to the photo, and the photo itself is ambient illustration for a contact section; it carries nothing the user needs to contact the press office. An empty alt is acceptable there, so this is not a 1.1.1 failure as claimed."
+    },
+    {
+      "fingerprint": "b1d950aec621",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the hero photograph at the top of the Fale Conosco page: a film still of a comedian (Oscarito) on the phone next to a giant prop dial whose holes are labelled ARTUR, SANSÃO, ELESTAL, C.C.P., COFAP, BOTECO, with alt=\"\". The labels are incidental text on a prop in an ambient picture that visually echoes \"contact us\"; they carry no information relevant to the page, and the finding even misreads some of them (\"SANÇÃO\", \"ELÉSTR1\", \"C.C.P.P.\"). Treating an atmospheric hero image as decorative is accepted practice, so the claim that these labels convey missing information is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "c681b00b15b3",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Telefone\" input (type=\"tel\", name=\"telefone\", placeholder only) in the Fale Conosco contact form, and it asks for the user's own phone number. The live HTML confirms it has no autocomplete attribute, while the form's name and email fields have one (email=\"email\"; the name field even has an invalid value, \"nome\"). type=\"tel\" gives only the data format, not the input purpose, and the sufficient technique for 1.3.5 (H98) needs autocomplete=\"tel\". The field fails 1.3.5 as reported."
+    },
+    {
+      "fingerprint": "s5bc938479c1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the top-level \"Acervo\" menu item, an <a href=\"#\"> that opens the Acervo submenu (Acervo, Biblioteca, Base de Dados, Publicações, Depósitos e Doações, BCC); the live HTML confirms this, and the submenu holds a real \"Acervo\" link to /acervo/. Its text names the section, and in its menu context its purpose (revealing that section's submenu) is determinable, so the claim that nothing around it says where it goes is wrong. The real problem is a link used as a disclosure toggle without aria-expanded or a button role, which belongs under 4.1.2, not 2.4.4."
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "page": "https://www.horniman.ac.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sa12827d94c9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the card link in the 'Members say' section. It wraps an image, an h3 'Membership' and the visual button text 'Find out more', and its accessible name is 'Membership Find out more'. It goes to the Membership page (title 'Membership - Horniman Museum and Gardens'). The live HTML is the same. The word 'Membership' in the link text says exactly where the link goes, so the link text alone meets 2.4.4. The checker had the name, the heading and the destination, and still judged wrongly."
+    },
+    {
+      "fingerprint": "6eb5513e93df",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the image in the Membership card, with alt 'Inquisitive child at Horniman exhibition.'. The crop the model saw (and the same image on the live page) shows a young child looking up and to the side with a curious expression, in a dim gallery with lit display cases and exhibits behind. The alt describes what the image shows. It is also accurate and fitting for an image inside a link whose text already gives the purpose. It does not fail 1.1.1."
+    },
+    {
+      "fingerprint": "a8118e719717",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'More' item in the Main navigation (a href='#' aria-label='More'). It does not go anywhere: it opens a submenu. That submenu (Schools, Support Us, Venue hire, News and Stories, Projects, Our history, Shop) sits in the same list item, right after the link, in both the DOM and the accessibility tree. With the link's programmatically determined context (its list item inside nav 'Main'), its purpose is clear: it reveals more sections of the site. That meets 2.4.4. The live page has the same markup. The real problem with this control is a different one: a link used as a disclosure button, with no button role and no aria-expanded. That would fall under 4.1.2, not 2.4.4."
+    },
+    {
+      "fingerprint": "3249ad080a4b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the header search field (input#h-keyword, placeholder 'Search'). It has an explicit <label for='h-keyword'>Search</label>. However, the theme CSS (live main.min.css: '#header .header-search .keyword-wrap label{...visibility:hidden...}') hides that label with visibility:hidden. It acts only as a width spacer behind the input. In Rampa's recording, Chrome's CDP accessibility tree marks the label as ignored (notVisible). It lists a labelledby relation from the textbox to that label, yet reports the textbox's computed name as an empty string. Chrome does not fall back to the placeholder, because a label source was found but was empty. So in the browser Rampa used, a screen reader gets a nameless textbox, which matches the finding's claim, and the live page still has the same markup and CSS. Note: the markup looks compliant on a code read, axe would accept the placeholder, and other engines may compute 'Search'. But given the name Chrome actually exposes, an auditor testing in Chrome would log this under 4.1.2. The fix is a visually-hidden (clipped) label or an aria-label."
+    }
+  ]
+}

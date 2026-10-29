@@ -1,0 +1,90 @@
+{
+  "page": "https://www.museudalinguaportuguesa.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "4c9f703be916",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer image of the sponsors/partners strip ('Temporada 2026': Lei Rouanet, Petrobras, Motiva, Instituto Votorantim, Vale, IDBrasil, Museu da Língua Portuguesa, Fundação Roberto Marinho, Cult SP, Governo de SP, Ministério da Cultura, Governo do Brasil). alt='Barra de parceiros' (partners bar) does describe what the image is, so the claim that it describes something the image does not show is wrong. The image does fail 1.1.1 for a different reason: the alt is insufficient, since it omits the sponsor names and roles the logos convey and no nearby text lists them (checked in the snapshot and the live HTML)."
+    },
+    {
+      "fingerprint": "sfccebabb60d",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Footer sitemap link 'Reconstrução' (a section heading link with 'Linha do tempo' and 'Ações Educativo-Culturais' listed beneath it). /reconstrucao/ redirects to /reconstrucao/linha-do-tempo/, whose breadcrumb on the live page reads Home > Reconstrução > Linha do tempo: the link takes the user into the Reconstrução section at its first page, which is what the text says. 2.4.4 asks that the purpose be determinable from the text and context, not that the text equal the destination's title, so this passes."
+    },
+    {
+      "fingerprint": "6b673b4af2de",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only social link (YouTube) in the footer: a white Font Awesome glyph on a filled #a4a4a4 grey square (sampled from the screenshot: 164,164,164 and white), 2.49:1, under 3:1. The glyph is the only visual identifier of the link (name is sr-only text), so 1.4.11 applies. The logo/essential exception does not hold: the white-on-grey treatment is an author styling choice, not the brands' mandated colours, which the Understanding document says is not exempt. The live page still has the same markup."
+    },
+    {
+      "fingerprint": "7aa07b7d694b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only social link (Facebook) in the footer: a white Font Awesome glyph on a filled #a4a4a4 grey square (sampled from the screenshot: 164,164,164 and white), 2.49:1, under 3:1. The glyph is the only visual identifier of the link (name is sr-only text), so 1.4.11 applies. The logo/essential exception does not hold: the white-on-grey treatment is an author styling choice, not the brands' mandated colours, which the Understanding document says is not exempt. The live page still has the same markup."
+    },
+    {
+      "fingerprint": "7f65342145df",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only social link (Twitter) in the footer: a white Font Awesome glyph on a filled #a4a4a4 grey square (sampled from the screenshot: 164,164,164 and white), 2.49:1, under 3:1. The glyph is the only visual identifier of the link (name is sr-only text), so 1.4.11 applies. The logo/essential exception does not hold: the white-on-grey treatment is an author styling choice, not the brands' mandated colours, which the Understanding document says is not exempt. The live page still has the same markup."
+    },
+    {
+      "fingerprint": "7501fe3a2e68",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only social link (Instagram) in the orange 'Destaques' strip near the top of the page: a white Font Awesome glyph on a filled #ff7300 square (sampled from the screenshot: 255,115,0 and white), 2.73:1, under the 3:1 that 1.4.11 asks of graphics needed to identify a control. The glyph is the only visual cue to which network the link goes to (the name is sr-only text). The logo exception does not cover it: the Understanding document says a low-contrast presentation chosen by the author rather than mandated by brand guidelines is not essential, and here the site recolours every brand mark white on its own orange tile. The live page still has the same markup."
+    },
+    {
+      "fingerprint": "s397836ced65",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Footer sitemap link 'Gestão', a section heading link with 'Quem somos', 'Transparência' etc. listed below it. /gestao/ redirects to /gestao/quem-somos/, whose breadcrumb on the live page is Home > Gestão > Quem somos, so the link opens the Gestão (management) section at its first page; the purpose is clear from the text and the sitemap context. Requiring the text to match the landing page's title is stricter than 2.4.4."
+    },
+    {
+      "fingerprint": "364b738574d0",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only social link (Spotify) in the orange 'Destaques' strip near the top of the page: a white Font Awesome glyph on a filled #ff7300 square (sampled from the screenshot: 255,115,0 and white), 2.73:1, under the 3:1 that 1.4.11 asks of graphics needed to identify a control. The glyph is the only visual cue to which network the link goes to (the name is sr-only text). The logo exception does not cover it: the Understanding document says a low-contrast presentation chosen by the author rather than mandated by brand guidelines is not essential, and here the site recolours every brand mark white on its own orange tile. The live page still has the same markup."
+    },
+    {
+      "fingerprint": "s55db27c67d8",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Footer sitemap link 'Educativo', the heading link of a group whose first child is 'Biblioteca'. /educacao/ redirects to /educacao/biblioteca/, whose breadcrumb on the live page is Home > Educativo > Biblioteca, so the link leads into the Educativo section at its first page, as the text says. 2.4.4 does not require the link text to equal the destination title; the purpose is determinable."
+    },
+    {
+      "fingerprint": "951d921c2047",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only social link (Twitter) in the orange 'Destaques' strip near the top of the page: a white Font Awesome glyph on a filled #ff7300 square (sampled from the screenshot: 255,115,0 and white), 2.73:1, under the 3:1 that 1.4.11 asks of graphics needed to identify a control. The glyph is the only visual cue to which network the link goes to (the name is sr-only text). The logo exception does not cover it: the Understanding document says a low-contrast presentation chosen by the author rather than mandated by brand guidelines is not essential, and here the site recolours every brand mark white on its own orange tile. The live page still has the same markup."
+    },
+    {
+      "fingerprint": "409b2b44550b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only social link (Instagram) in the footer: a white Font Awesome glyph on a filled #a4a4a4 grey square (sampled from the screenshot: 164,164,164 and white), 2.49:1, under 3:1. The glyph is the only visual identifier of the link (name is sr-only text), so 1.4.11 applies. The logo/essential exception does not hold: the white-on-grey treatment is an author styling choice, not the brands' mandated colours, which the Understanding document says is not exempt. The live page still has the same markup."
+    },
+    {
+      "fingerprint": "7c280ff2a12b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only social link (YouTube) in the orange 'Destaques' strip near the top of the page: a white Font Awesome glyph on a filled #ff7300 square (sampled from the screenshot: 255,115,0 and white), 2.73:1, under the 3:1 that 1.4.11 asks of graphics needed to identify a control. The glyph is the only visual cue to which network the link goes to (the name is sr-only text). The logo exception does not cover it: the Understanding document says a low-contrast presentation chosen by the author rather than mandated by brand guidelines is not essential, and here the site recolours every brand mark white on its own orange tile. The live page still has the same markup."
+    },
+    {
+      "fingerprint": "c88febe3d1d2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only social link (Facebook) in the orange 'Destaques' strip near the top of the page: a white Font Awesome glyph on a filled #ff7300 square (sampled from the screenshot: 255,115,0 and white), 2.73:1, under the 3:1 that 1.4.11 asks of graphics needed to identify a control. The glyph is the only visual cue to which network the link goes to (the name is sr-only text). The logo exception does not cover it: the Understanding document says a low-contrast presentation chosen by the author rather than mandated by brand guidelines is not essential, and here the site recolours every brand mark white on its own orange tile. The live page still has the same markup."
+    },
+    {
+      "fingerprint": "a884d96a892f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only social link (Spotify) in the footer: a white Font Awesome glyph on a filled #a4a4a4 grey square (sampled from the screenshot: 164,164,164 and white), 2.49:1, under 3:1. The glyph is the only visual identifier of the link (name is sr-only text), so 1.4.11 applies. The logo/essential exception does not hold: the white-on-grey treatment is an author styling choice, not the brands' mandated colours, which the Understanding document says is not exempt. The live page still has the same markup."
+    }
+  ]
+}

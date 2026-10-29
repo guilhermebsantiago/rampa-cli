@@ -1,0 +1,18 @@
+{
+  "page": "https://www.irishcentral.com/news/colleague-saved-life-stroke",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sfe2d421b226",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The page is a news article about Kieran O'Carroll, a Dublin father whose work colleague recognised his stroke during a phone call and drove him to hospital. The screenshot shows this article, and the live page's h1 reads 'Irish father says work colleague saved his life after stroke left him speaking gibberish'. The title 'Irish father says colleague saved his life after stroke' describes that topic exactly, so 2.4.2 passes. The checker saw only the Cookiebot consent dialog's text, and an empty h1 list: the snapshot hit its 5000-element limit inside the dialog's cookie tables, so the article content never reached the model."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the img #CybotCookiebotDialogPoweredbyImage in the header of the Cookiebot consent dialog. The crop and the screenshot show it is the 'IrishCentral.' wordmark, an image of text, and its alt is 'logo'. The image tells users which site is asking for consent, and no other text in the dialog names IrishCentral (the body only says 'We and our 1090 partners'). A screen reader announces 'logo', a generic placeholder that does not give the image's text or purpose, which is failure F30. If the logo were treated as decorative, it would need alt=\"\" to pass, and alt='logo' still fails 1.1.1."
+    }
+  ]
+}

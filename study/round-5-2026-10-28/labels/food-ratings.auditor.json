@@ -1,0 +1,12 @@
+{
+  "page": "https://ratings.food.gov.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "a75d91f22a6c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the hero banner image: an aria-hidden inline SVG that clips /images/homepage-hero-image.jpeg into a circle, beside the h1 'Food hygiene ratings' and the line 'Use our online service to find a food business's hygiene rating'. The photo shows hands holding a sample FSA rating sticker that reads 5 / Very Good. I checked it in the snapshot, the screenshot and the live HTML, and it has not changed. The sticker is not the rating of any business, and nothing on the search page refers to the photo or depends on it. It only illustrates the topic the heading already names, which makes it an ambiance or eye-candy image in the sense of the W3C decorative-images guidance. Hiding it from assistive technology is an accepted way to meet 1.1.1 for decorative non-text content, so there is no failure. The model treated the sample score on the sticker as page information that the text leaves out, and that was a misjudgment. A stricter auditor might suggest a short alt as a best practice, but that is advice, not a 1.1.1 failure."
+    }
+  ]
+}

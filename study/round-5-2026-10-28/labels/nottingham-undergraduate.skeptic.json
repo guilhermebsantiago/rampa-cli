@@ -1,0 +1,24 @@
+{
+  "page": "https://www.nottingham.ac.uk/studywithus/ugstudy/find-uon.html",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s3fb644599d2",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is a footer navigation link \"Connect\" in a list (Community, Connect, Donate) under the h2 \"Alumni\". It goes to the alumni News and features page in the alumni \"news-and-events\" section. 2.4.4 does not require the link text to match the destination's title. It requires that the purpose can be worked out from the text plus its programmatically determined context, and the preceding heading counts (H80). Read with that heading, \"Alumni: Connect\" names the alumni engagement section. The university uses \"Connect\" as its own label for this section. The alumni site's footer gives the same link the title \"Connect with our alumni through news and events\", and its alumni magazine is called \"Connect\". So a user can decide whether to follow the link, and the claimed mismatch with the title \"News\" is not a failure of this criterion. The label is vague, which is at most an advisory 2.4.9 concern."
+    },
+    {
+      "fingerprint": "sbdbb85208a6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page is the University of Nottingham undergraduate course-finder landing page. Its h1 is \"Find your ideal course\" and the main element on the page is a course search box. The title \"Find your course\" (the same on the live page on 2026-10-28) states the page's purpose and matches its h1. 2.4.2 requires only that the title describe the topic or purpose. It does not require the site name or titles that are unique, so the claim that the title \"says nothing about this page\" is wrong."
+    },
+    {
+      "fingerprint": "3dd79f0ae4c6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the global header search field, #search-input. It has no visible label, so its placeholder \"Search for courses, subjects, careers...\" is the only visible text that says what the field is for. The live stylesheet (clientlib-v2) sets .search-bar input[type=search]::placeholder{color:#9fa8b1}, and the .search-bar pill has background-color:#fff. A headless render of the live page at 1280px shows the field visible in the header, and the darkest placeholder pixel is exactly #9fa8b1. That gives about 2.41:1 for 16px regular text, below 4.5:1. The study's full-page screenshot leaves the header out, but the snapshot gives the field visible bounds and the live render confirms it is shown. Placeholder text is text, and no 1.4.3 exception applies: it is not incidental, a logo, or part of an inactive control. I found no reason that holds up to clear it."
+    }
+  ]
+}

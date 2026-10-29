@@ -1,0 +1,184 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.trf4.jus.br/trf4/controlador.php?acao=pagina_menu_listar&id_pai=253",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "287a772071cf",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#divMarcaRodape",
+   "target": "#divMarcaRodape",
+   "message": "The text \"Portal Unificado da Justiça Federal da 4ª Região\" has at most 3.41:1 contrast with what is behind it (#ffffff on #339999), measured from pixels because axe-core could not decide (a background image). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #339999 · 3.41:1 at best, 3.41:1 at worst · 17px, 400",
+   "subject": "Portal Unificado da Justiça Federal da 4ª Região",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<div id=\"divMarcaRodape\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 16
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 16,
+   "members": [
+    "ba67e424ef1c",
+    "3b3407709aed",
+    "edd73746f187",
+    "b72b033c4277",
+    "661e2d6ce042",
+    "e80b79dde154",
+    "4606a277989a",
+    "9a1fd97bddf5",
+    "dbc356bf2c81",
+    "138b447da39d",
+    "8e527794c22c",
+    "581386c041d8",
+    "1afcbac65dad",
+    "3bca33a6e5d8",
+    "9e03abc06625",
+    "647d5cfd0799"
+   ],
+   "example": "ba67e424ef1c"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "3.3.2",
+   "level": "A",
+   "ruleId": "judgment/3.3.2",
+   "ref": "#txtBuscaPortal",
+   "message": "Nothing on screen tells what to enter in the field \"Expressão de busca\": its label is hidden from view.",
+   "evidence": "The model suggests: \"Expressão de busca\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 23,
+   "judged": 23,
+   "failed": 0,
+   "passed": 17,
+   "cannotTell": 0,
+   "discarded": 6,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 0,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  }
+ ],
+ "notes": [
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 34,
+  "cachedCalls": 0,
+  "inputTokens": 32035,
+  "outputTokens": 3738,
+  "latencyMs": 163648
+ },
+ "coverage": {
+  "reach": null
+ }
+}

@@ -1,0 +1,54 @@
+{
+  "page": "https://www.oncoguia.org.br/conteudo/cancer-e-fertilidade-em-uma-conversa-sobre-escolhas-e-possibilidades/18273/1414/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "915cda938052",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is select2's rendering span (select2-selection__rendered). select2 gives it role=textbox and makes it read-only; it is not focusable and sits inside the focusable span role=combobox, which is the control users actually operate. That combobox exposes a role and a name. The span is not a user interface component of its own, so 4.1.2's name requirement does not apply to it separately. The span also carries title=\"Selecione...\", which names it under accname step 2I (Rampa's own name computation gets that name; only Chrome's tree shows an empty name), and Chrome exposes its value \"Selecione...\", so 'announces only textbox' overstates the case. The real problem is on the combobox: it is named by its current value instead of its purpose, because the hidden 'Tipo de câncer' label is attached to the aria-hidden native select. That is a 1.3.1/2.5.3 issue, not this finding."
+    },
+    {
+      "fingerprint": "e25ed7576b50",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer promo paragraph in #icons-ft. The snapshot's computed style gives color rgb(107,118,116) (#6b7674, the site's --color-grey, confirmed in the live /css/all.css) at 13px weight 400, and the screenshot shows a flat #eef3f2 background behind it; my own pixel check finds that background and the text colour, and I compute 4.19:1. The element axe could not decide on is a transparent absolute-link overlay, which does not change the backdrop. The text is normal size, not incidental, not a logo and not disabled, so no exception applies and 4.19:1 is below 4.5:1. No reason for a pass holds up. Text: 'Faça você também parte desta batalha'."
+    },
+    {
+      "fingerprint": "01be32a470b6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer promo paragraph in #icons-ft. The snapshot's computed style gives color rgb(107,118,116) (#6b7674, the site's --color-grey, confirmed in the live /css/all.css) at 13px weight 400, and the screenshot shows a flat #eef3f2 background behind it; my own pixel check finds that background and the text colour, and I compute 4.19:1. The element axe could not decide on is a transparent absolute-link overlay, which does not change the backdrop. The text is normal size, not incidental, not a logo and not disabled, so no exception applies and 4.19:1 is below 4.5:1. No reason for a pass holds up. Text: 'Diferentes materiais educativos para download'."
+    },
+    {
+      "fingerprint": "sce5cc0944f1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the header site-search facade input. Its accessible name is aria-label 'Pesquisar no Instituto Oncoguia', its placeholder is 'Pesquisar...', and it has a magnifying-glass icon; visually the field shows the icon and a 'Melhorado pelo Google' branding image. For a search field, 'Pesquisar' (Search), especially in the full name 'Pesquisar no Instituto Oncoguia', fully describes what to enter: a site search query. The label describes the field's purpose, so 2.4.6 passes. The model's claim that it does not say what to enter is wrong."
+    },
+    {
+      "fingerprint": "a2b843169fc6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer promo paragraph in #icons-ft. The snapshot's computed style gives color rgb(107,118,116) (#6b7674, the site's --color-grey, confirmed in the live /css/all.css) at 13px weight 400, and the screenshot shows a flat #eef3f2 background behind it; my own pixel check finds that background and the text colour, and I compute 4.19:1. The element axe could not decide on is a transparent absolute-link overlay, which does not change the backdrop. The text is normal size, not incidental, not a logo and not disabled, so no exception applies and 4.19:1 is below 4.5:1. No reason for a pass holds up. Text: 'Acesse a galeria do TV Oncoguia e Biblioteca'."
+    },
+    {
+      "fingerprint": "8ed467d12f80",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer promo paragraph in #icons-ft. The snapshot's computed style gives color rgb(107,118,116) (#6b7674, the site's --color-grey, confirmed in the live /css/all.css) at 13px weight 400, and the screenshot shows a flat #eef3f2 background behind it; my own pixel check finds that background and the text colour, and I compute 4.19:1. The element axe could not decide on is a transparent absolute-link overlay, which does not change the backdrop. The text is normal size, not incidental, not a logo and not disabled, so no exception applies and 4.19:1 is below 4.5:1. No reason for a pass holds up. Text: 'Mantenha-se conectado ao nosso trabalho'."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the email input (type=email, name=email, visually hidden label 'E-mail') in the sidebar sign-up box 'Quer ficar em contato com o Oncoguia? Cadastre-se aqui', so it collects the user's own email address, which is the 'email' purpose in WCAG's Input Purposes list. It has autocomplete=\"off\" (still so on the live page as of this check), so no autocomplete token identifies the purpose; the sufficient technique H98 is not met. I looked for a reason it could pass: type=email states the data format, not that the address is the user's own, and is generally not accepted as meeting 1.3.5. The field is not someone else's address or a one-off non-personal entry. The failure holds."
+    },
+    {
+      "fingerprint": "sf10bf296300",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the select2 combobox in the sidebar box whose visible bold label reads 'Busque seu tipo de câncer' (Search your type of cancer), directly above the control. 'Selecione...' is the placeholder option and the current value; select2 also uses it as the combobox's accessible name through aria-labelledby. 2.4.6 concerns the label presented to users, and that label ('Busque seu tipo de câncer') describes the purpose clearly. What is actually wrong is programmatic: the visible label is not associated with the combobox, and the hidden 'Tipo de câncer' label sits on the aria-hidden native select. So screen reader users hear only 'Selecione...'. That fails 1.3.1 and 2.5.3 (name lacks the visible label), not 2.4.6."
+    }
+  ]
+}

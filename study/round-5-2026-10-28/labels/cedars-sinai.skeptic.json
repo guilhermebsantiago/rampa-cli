@@ -1,0 +1,24 @@
+{
+  "page": "https://www.cedars-sinai.org/home.html",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "10ce774862df",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the photo in the 'Diversity and Inclusion' card, with alt \"Cedars-Sinai Here. For. LA. event.\". The crop the model saw, the screenshot and the full-size live image (diversityinclusion-dt.jpg) all show a group of people with race medals and bibs at an outdoor event, holding signs that read \"HERE. FOR. L.A.\", and each sign has a small Cedars-Sinai logo on its edge. So all three parts of the alt (Cedars-Sinai, Here. For. L.A., event) are visible in the image. The alt is short and could say more about the people, but it does not describe anything the image fails to show, which is the claim. It works as an alternative for an illustrative card image, so 1.1.1 is met."
+    },
+    {
+      "fingerprint": "6a83ce9f9ba1",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'World-Class Specialty Care' rail list (role=tablist) with six role=tab buttons, all set to aria-selected=\"false\". In the snapshot all six tabpanels (tabpanel-0..5) are hidden (class isHidden), and the screenshot shows the default image collage with no specialty panel open. So no panel is open, and 'none selected' is the true state. The site's RailList code (live React bundle) sets aria-selected to true exactly when a tab is activated and its panel is shown (aria-selected = open index === i; panel hidden when not open). So the selected state is exposed and kept in sync, as 4.1.2 requires. The finding's claim that a screen reader cannot tell which panel is open is wrong because none is open. Requiring one tab to be selected at all times is an ARIA Authoring Practices convention, not a WCAG 2.2 requirement."
+    },
+    {
+      "fingerprint": "s6c46afc1b1f",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the Cedars-Sinai home page (/home.html). Its title, \"A Nonprofit Hospital in Los Angeles | Cedars-Sinai\", names the organization and says what it is. That is a descriptive title for a site's home page, and it matches the content (hospital services, find a doctor, specialties, the H1 about care from trusted doctors). The live page has the same title. The model had the title, URL and H1 and judged wrongly. The page-level text it saw began with a Google Translate language list, which may have misled it, but that does not make the title undescriptive. 2.4.2 is met."
+    }
+  ]
+}

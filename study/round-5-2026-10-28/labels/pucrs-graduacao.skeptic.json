@@ -1,0 +1,210 @@
+{
+  "page": "https://portal.pucrs.br/ensino/graduacao/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "531fd971aadd",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Hero banner img with alt '2025-11-17-banner-informacoes-financeiras' (the file name, src .../2025-11-17-banner-informacoes-financeiras.png). The image itself is decorative shapes (orange, blue, a star); the 'Graduação' heading and tagline are HTML overlaid on it. Not aria-hidden, exposed as an image named by alt. A decorative image should have alt=\"\" (F39) and an informative one needs a real alternative (F30); the file name, which even names a different topic (financial information), is neither. I found no technique that makes it pass."
+    },
+    {
+      "fingerprint": "4b7b3c39126f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card image in the 'Certificações de Estudos' slide, alt 'thumb_certificaoes_estudos' = file name. The image is a stock photo of a student drawing at a desk. Not in a link, not hidden. Whether treated as decorative (should be alt=\"\", F39) or informative (should describe the photo, F30), a file-name alt with 'thumb_' and a typo fails 1.1.1. No mitigating context found."
+    },
+    {
+      "fingerprint": "5c461bf3a709",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is an 80x80 icon inside a link whose visible text is 'Diferentes tipos de bolsas Saiba mais'. The crop shows a hand holding a percent sign (a discount/benefit icon), which is exactly what the words in the alt name, so the claim that the alt describes something the image does not show is false. The real problem is different: a decorative icon carries a non-null, file-name alt that gets prepended to the link name ('fi-tr-benefit-porcent-dark-80x80 Diferentes tipos de bolsas Saiba mais'), which is a 1.1.1 issue under F39/F30, but that is not the claim made here."
+    },
+    {
+      "fingerprint": "dc1d0d01cc1c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card image in the 'Conheça o G+1' carousel slide, alt 'thumb_g_mais_um' = file name (src thumb_g_mais_um.png). I opened the live image: a photo of a smiling student with a bicycle. Not in a link, not aria-hidden. The alt neither describes the photo (F30) nor is null as a decorative image should be (F39); a screen reader reads 'thumb g mais um'. The rule's claim holds."
+    },
+    {
+      "fingerprint": "861b0013e0d6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "16px icon inside the header link 'Sou PUCRS' (computed link name 'Sou PUCRS ico login'). The crop shows a person/user silhouette, the usual login/account glyph, so 'ico login' does name what the image shows; the claim that the alt describes something not shown is wrong. At most the icon is redundant with the link text and would be better as alt=\"\" (an F39-style issue), which is not what the finding says."
+    },
+    {
+      "fingerprint": "8e2e18558f92",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A 'Leia mais' link in a news-card carousel. In the snapshot each card holds, in DOM order, the image link, an 'Ensino' tag, an h3 with the full article title ('Ciências Contábeis: conheça a carreira responsável pela gestão e sustentabilidade financeira dos negócios') and then this link, all to the same article. Link text plus the preceding heading in the same card is a programmatically determined context (sufficient technique H80, also G53), so the purpose is determinable and the claim that nothing around it tells where it goes is wrong. Not a 2.4.4 failure (it would only matter for 2.4.9, AAA)."
+    },
+    {
+      "fingerprint": "08d2a1aae4fc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A 'Leia mais' link in a news-card carousel. In the snapshot each card holds, in DOM order, the image link, an 'Ensino' tag, an h3 with the full article title ('Fisioterapia: conheça a profissão que melhora a saúde e qualidade de vida das pessoas por meio do movimento') and then this link, all to the same article. Link text plus the preceding heading in the same card is a programmatically determined context (sufficient technique H80, also G53), so the purpose is determinable and the claim that nothing around it tells where it goes is wrong. Not a 2.4.4 failure (it would only matter for 2.4.9, AAA)."
+    },
+    {
+      "fingerprint": "27e5802d2e73",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image that is the only content of a link to the 'Engenharia de Produção' article; alt 'DSC2197' is a camera file name (src DSC2197-scaled.jpg), so the link's accessible name is 'DSC2197'. I opened the live image (a photo). The alt conveys neither the photo nor the link's function; neighbouring links to the same article do not give this link a name. Fails 1.1.1 (F30); unchanged on the live page."
+    },
+    {
+      "fingerprint": "ee9680151946",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card image for 'Graduações Combinadas', alt 'thumb-carrossel-imagens-graduacoes-combinadas' = file name. The crop is a photo of five students talking outdoors. Not in a link, not hidden. A file-name alt is not an alternative (F30) and not null as decoration would need (F39). Fails 1.1.1 as claimed."
+    },
+    {
+      "fingerprint": "01bf2582a4c0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Saiba mais' link in the 'Certificações de Estudos' carousel slide. In the same slide container it is preceded by the h3 'Certificações de Estudos' and a paragraph about the certifications, and it leads to /ensino/certificacoes-de-estudos/. Link text plus the preceding heading (H80) and the surrounding text gives a programmatically determined context, so the purpose is determinable. The claim that nothing around it tells where it goes is wrong; not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "1e2e7a791360",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A 'Leia mais' link in a news-card carousel. In the snapshot each card holds, in DOM order, the image link, an 'Ensino' tag, an h3 with the full article title ('Ciências Aeronáuticas: conheça as possibilidades da carreira ideal para quem quer voar alto') and then this link, all to the same article. Link text plus the preceding heading in the same card is a programmatically determined context (sufficient technique H80, also G53), so the purpose is determinable and the claim that nothing around it tells where it goes is wrong. Not a 2.4.4 failure (it would only matter for 2.4.9, AAA)."
+    },
+    {
+      "fingerprint": "32fed9a75162",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A 'Leia mais' link in a news-card carousel. In the snapshot each card holds, in DOM order, the image link, an 'Ensino' tag, an h3 with the full article title ('Engenharia de Produção: conheça a profissão que melhora os processos produtivos de forma sustentável') and then this link, all to the same article. Link text plus the preceding heading in the same card is a programmatically determined context (sufficient technique H80, also G53), so the purpose is determinable and the claim that nothing around it tells where it goes is wrong. Not a 2.4.4 failure (it would only matter for 2.4.9, AAA)."
+    },
+    {
+      "fingerprint": "65d1f246382d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The magnifier icon inside the course filter's search field (in an <a class=m-filter__search__submit> with no href). The crop shows a magnifying glass, i.e. a search icon, so 'ico search' names what the image shows; the claim that it describes something the image does not show is false. Separate issues may exist (the href-less anchor is likely not keyboard-operable, a 2.1.1 matter; 'ico' is file-name noise), but they are not this claim."
+    },
+    {
+      "fingerprint": "sb86540d1eda",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "An h5 'Mais' heading in the closed 'Pesquisa' mega-menu (offscreen until opened), heading a column of further Pesquisa links (Bolsas e financiamentos, Centros de pesquisa, Grupos, Laboratórios...). Inside its menu, 'Mais' (More) accurately signals 'more links of this section'. The 2.4.6 Understanding document says a word may suffice if it is an appropriate cue; it does not require a more specific label for a miscellaneous group. Asking for one is stricter than the criterion."
+    },
+    {
+      "fingerprint": "07e8d661ee33",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card image for 'Disciplinas Online da Graduação Presencial', alt 'thumb-carrossel-disciplinas-online' = file name. I opened the live image: a photo of a woman in a video call on a laptop. Not in a link, not hidden. A file-name alt fails 1.1.1 whether the photo is informative (F30) or decorative (F39)."
+    },
+    {
+      "fingerprint": "94f73cfea770",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image that is the only content of a link to the 'Direito' article; alt 'Giordano-Toldo-8339' (a photographer's name plus a frame number, the file name), so the link is announced as 'Giordano-Toldo-8339'. I opened the live image: students at a moot-court table. The alt conveys neither the photo nor the link's destination. Fails 1.1.1 (F30); the adjacent heading link does not name this link."
+    },
+    {
+      "fingerprint": "c765fed71efc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is an 80x80 icon inside a link whose visible text is 'Vagas de créditos educativos Saiba mais'. The crop shows an open book, which is exactly what the words in the alt name, so the claim that the alt describes something the image does not show is false. The real problem is different: a decorative icon carries a non-null, file-name alt that gets prepended to the link name ('fi-book-open-cover-dark-80x80 Vagas de créditos educativos Saiba mais'), which is a 1.1.1 issue under F39/F30, but that is not the claim made here."
+    },
+    {
+      "fingerprint": "f330e81a7619",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Photo in the 'Service Learning' tab panel, alt 'thumb_espacos_aprendizagem_service_learning_02' = file name. The crop shows students working around tables in a classroom. Not in a link, not hidden. The topic words do not describe the photo, and as decoration it would need alt=\"\"; a file name with 'thumb_' and '_02' fails 1.1.1 (F30/F39)."
+    },
+    {
+      "fingerprint": "fb31b2b1b435",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card image for 'PUCRS Tour', alt '2025_04_22-thumb_card_pucrs_tour_2025' = file name. The crop shows an image of text ('PUCRS TOUR', 'Conheça os espaços da sua Universidade', 'PUCRS Experience') plus photos. The text 'Conheça os espaços da sua Universidade' appears nowhere in the HTML, and the dates and 'thumb_card' are noise. Fails 1.1.1 (F30)."
+    },
+    {
+      "fingerprint": "9c798891c5be",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "16px icon inside the header link 'Store' (to pucrsstore.com.br; computed name 'Store ico pucrs store'). The crop shows a shopping bag, a store icon, so 'ico pucrs store' does name what the image shows; the claim that it describes something not shown is false. The icon is redundant with the text and would be better as alt=\"\" (an F39-style issue), but that is not the claim."
+    },
+    {
+      "fingerprint": "2ef90beef99d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is an 80x80 icon inside a link whose visible text is 'Variadas modalidades de desconto Saiba mais'. The crop shows a piggy bank, which is exactly what the words in the alt name, so the claim that the alt describes something the image does not show is false. The real problem is different: a decorative icon carries a non-null, file-name alt that gets prepended to the link name ('fi-tr-piggy-bank-dark-80x80 Variadas modalidades de desconto Saiba mais'), which is a 1.1.1 issue under F39/F30, but that is not the claim made here."
+    },
+    {
+      "fingerprint": "7be16bce4718",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A 'Leia mais' link in a news-card carousel. In the snapshot each card holds, in DOM order, the image link, an 'Ensino' tag, an h3 with the full article title ('Publicidade e Propaganda: saiba tudo sobre a profissão que transforma criatividade em impacto para marcas e negócios') and then this link, all to the same article. Link text plus the preceding heading in the same card is a programmatically determined context (sufficient technique H80, also G53), so the purpose is determinable and the claim that nothing around it tells where it goes is wrong. Not a 2.4.4 failure (it would only matter for 2.4.9, AAA)."
+    },
+    {
+      "fingerprint": "sd1ab90d9980",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "An h5 'Mais' heading in the closed 'Inovação' mega-menu (offscreen until opened), over the links Ambientes, Ecossistema Startups and Track Startup. In its menu, 'More' is an adequate cue for further Inovação links; 2.4.6 accepts a short label when it is an appropriate cue and does not require a specific title for a miscellaneous group. The finding applies a stricter standard."
+    },
+    {
+      "fingerprint": "77882242c6fa",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Home icon that is the first breadcrumb item, a link to https://portal.pucrs.br whose computed name is 'ico home'. The crop shows a house icon. The name says 'home' and the link goes to the site's home page, so it does say where the link leads; the claim is false. 'ico' is file-name noise and 'Página inicial' would be better, but the function is conveyed, so F30's test (the text cannot replace the image without loss of function) is not met."
+    },
+    {
+      "fingerprint": "s16117f85161",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "An h5 'Mais' heading in the closed 'Saúde' mega-menu (offscreen until opened), over Aliança Divina Providência, BioHub, Transparência and Vila Fátima. Inside the Saúde menu, 'More' adequately cues further Saúde links; 2.4.6 does not require a more specific heading for a catch-all group. The finding is stricter than the criterion."
+    },
+    {
+      "fingerprint": "124013fe3e08",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Image that is the only content of a link to the 'Odontologia: conheça a profissão...' article; alt 'odontologia_diegofurtado' = file name (topic plus photographer's name). I opened the live image: a dental student treating a patient. The alt is a file name and includes a person's name that means nothing to users, but it names the course the link is about, so a user can tell the link is the Odontologia one. Whether that conveys the link's function well enough is a call auditors would reasonably split on."
+    },
+    {
+      "fingerprint": "037ce2e3da19",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A 'Leia mais' link in a news-card carousel. In the snapshot each card holds, in DOM order, the image link, an 'Ensino' tag, an h3 with the full article title ('Educação Física: saiba tudo sobre a profissão que cuida da saúde e qualidade de vida das pessoas') and then this link, all to the same article. Link text plus the preceding heading in the same card is a programmatically determined context (sufficient technique H80, also G53), so the purpose is determinable and the claim that nothing around it tells where it goes is wrong. Not a 2.4.4 failure (it would only matter for 2.4.9, AAA)."
+    },
+    {
+      "fingerprint": "0f210e035518",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card image for 'Conheça do GP-G', alt 'thumb_g_pg' = file name. I opened the live image: a portrait of a man in a blazer in front of a mural. Not in a link, not hidden. The cryptic file name neither describes the photo (F30) nor is null as decoration would need (F39). Fails 1.1.1."
+    },
+    {
+      "fingerprint": "0e2a8a4fd758",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer image that is the only content of a link to the e-MEC record; alt 'qr-code-e-mec-vertical' = file name. In the screenshot the image holds text ('e-MEC', 'Consulte aqui o cadastro da PUCRS no Sistema e-MEC') plus a QR code. The alt drops that text, 'vertical' is a layout word, and the link is announced as 'qr-code-e-mec-vertical'. 'e-MEC' gives a hint, but the information and function are not equivalently conveyed. Fails 1.1.1 (F30); unchanged on the live page."
+    },
+    {
+      "fingerprint": "bd0690b95aa8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page title is 'Portal | Ensino | Graduação | PUCRS' on https://portal.pucrs.br/ensino/graduacao/, whose content is the PUCRS undergraduate ('Graduação') page: banner 'Graduação', degree types and a course search. The title names the site, section and topic, so it describes the page as 2.4.2 requires (G88). The claim is wrong."
+    },
+    {
+      "fingerprint": "18b0cace9d64",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Image that is the only content of a link to the 'Engenharia de Software: conheça a profissão de TI...' article; alt 'ages-engenharia-de-software-2' = file name. I opened the live image: students at laptops in a lab (AGES is PUCRS's software-engineering agency). The text names the course the link is about, but with 'ages' jargon, hyphens and a '-2' suffix it is plainly a file name. Whether it conveys the link's function well enough for 1.1.1 is borderline, and auditors would split."
+    },
+    {
+      "fingerprint": "a0094f29c2c8",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is <p><a name=\"complementar\"></a></p>, a legacy named anchor serving as an in-page fragment target. It has no href, no content, no size, and CDP lists it as not focusable (still present on the live page). Chrome maps it to role link, probably because a script attached a click listener, but users cannot see, focus or activate it. It is not a user interface component in WCAG's sense, so 4.1.2's name requirement does not apply."
+    },
+    {
+      "fingerprint": "82184ee49ce6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Header search submit button (next to the field with placeholder 'O que você está procurando?'), whose only content is a magnifier img with alt 'ico search', so the button's computed name is 'ico search'. The name contains 'search', which states what the button does; the claim that it does not is false. 'ico' is file-name noise and a Portuguese label ('Pesquisar') would be better, but the function is conveyed, so F30's test is not met."
+    },
+    {
+      "fingerprint": "1bba7fb90953",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "TikTok logo that is the only content of the footer social link to tiktok.com/@pucrs; alt 'icon-tiktok' matches the file name. The text alternative still conveys the link's function (TikTok), like its siblings 'Instagram' and 'Facebook'. F30 fails text that cannot replace the image without loss of information or function, not every alt that matches a file name. Treating it as a failure is stricter than 1.1.1; 'icon-' is only noise."
+    }
+  ]
+}

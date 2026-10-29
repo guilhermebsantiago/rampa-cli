@@ -1,0 +1,366 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.oregon.gov/Pages/index.aspx",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "9b31aa50643c",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main > div:nth-of-type(1) > div > or-top-services > div > a:nth-of-type(1) > div:nth-of-type(1) > or-img > picture > img",
+   "message": "The text alternative \"Wildfire on a wooded forest floor\" describes something the image does not show.",
+   "evidence": "Wildfire on a wooded forest floor",
+   "subject": "Wildfire on a wooded forest floor",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#main > div:nth-of-type(1) > div > or-top-services > div > a:nth-of-type(1) > div:nth-of-type(1) > or-img > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Wildfire on a wooded forest floor",
+    "to": "Wildfire Response and Recovery",
+    "before": "<img src=\"https://images.oregon.gov/Portal/Images/Nature/wildfire-response.jpg\" alt=\"Wildfire on a wooded forest floor\">",
+    "after": "<img src=\"https://images.oregon.gov/Portal/Images/Nature/wildfire-response.jpg\" alt=\"Wildfire Response and Recovery\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9994900302576618
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "dd00b3337921",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main > div:nth-of-type(1) > div > or-top-services > div > a:nth-of-type(3) > div:nth-of-type(1) > or-img > picture > img",
+   "message": "The text alternative \"Person wood working at bench\" describes something the image does not show.",
+   "evidence": "Person wood working at bench",
+   "subject": "Person wood working at bench",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#main > div:nth-of-type(1) > div > or-top-services > div > a:nth-of-type(3) > div:nth-of-type(1) > or-img > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Person wood working at bench",
+    "to": "A person working in a mechanical workshop",
+    "before": "<img src=\"https://images.oregon.gov/Portal/Images/People/mechanic.jpg\" alt=\"Person wood working at bench\">",
+    "after": "<img src=\"https://images.oregon.gov/Portal/Images/People/mechanic.jpg\" alt=\"A person working in a mechanical workshop\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9932933418750007
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "35f533426795",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main > div:nth-of-type(1) > div > or-top-services > div > a:nth-of-type(6) > div:nth-of-type(1) > or-img > picture > img",
+   "message": "The text alternative \"Roll of stickers stating I Voted\" describes something the image does not show.",
+   "evidence": "Roll of stickers stating I Voted",
+   "subject": "Roll of stickers stating I Voted",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#main > div:nth-of-type(1) > div > or-top-services > div > a:nth-of-type(6) > div:nth-of-type(1) > or-img > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Roll of stickers stating I Voted",
+    "to": "Register to Vote in Oregon",
+    "before": "<img src=\"https://images.oregon.gov/Portal/Images/Elections/vote.jpg\" alt=\"Roll of stickers stating I Voted\">",
+    "after": "<img src=\"https://images.oregon.gov/Portal/Images/Elections/vote.jpg\" alt=\"Register to Vote in Oregon\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.996307634090526
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "babb87e6be16",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#main > div:nth-of-type(5) > div > or-newsroom > div > div:nth-of-type(2) > div > div > h3",
+   "message": "This passage has no lang attribute, so it is read as American English (en-us), but it is in Spanish (es).",
+   "evidence": "Trabajos de temporada y beneficios de SNAP: lo que las personas que viven en Oregon deben saber antes …",
+   "subject": "unmarked|en-us|Trabajos de temporada y beneficios de SNAP: lo que las personas que viven en Oregon deben saber antes …",
+   "patch": {
+    "ref": "#main > div:nth-of-type(5) > div > or-newsroom > div > div:nth-of-type(2) > div > div > h3",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "from": "",
+    "to": "es",
+    "before": "<h3 title=\"Trabajos de temporada y beneficios de SNAP: lo que las personas que viven en Oregon deben saber antes de la temporada de fiestas\">",
+    "after": "<h3 title=\"Trabajos de temporada y beneficios de SNAP: lo que las personas que viven en Oregon deben saber antes de la temporada de fiestas\" lang=\"es\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f9426a514b9b",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#main > div:nth-of-type(5) > div > or-newsroom > div > div:nth-of-type(2) > div > div > p:nth-of-type(2)",
+   "message": "This passage has no lang attribute, so it is read as American English (en-us), but it is in Spanish (es).",
+   "evidence": "Mientras se acercan las fiestas de esta época del año, ODHS anima a las personas en Oregon que actualmente no reciben beneficios de alimentos SNAP a que los soliciten para ver si son elegibles.",
+   "subject": "unmarked|en-us|Mientras se acercan las fiestas de esta época del año, ODHS anima a las personas en Oregon que actualmente no reciben beneficios de alimentos SNAP a que los soliciten para ver si son elegibles. Es posible que las personas …",
+   "patch": {
+    "ref": "#main > div:nth-of-type(5) > div > or-newsroom > div > div:nth-of-type(2) > div > div > p:nth-of-type(2)",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "from": "",
+    "to": "es",
+    "before": "<p class=\"or-news-article-excerpt\">",
+    "after": "<p class=\"or-news-article-excerpt\" lang=\"es\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#main > div:nth-of-type(1) > div > or-top-services > div > a:nth-of-type(2) > div:nth-of-type(1) > or-img > picture > img",
+   "message": "The text alternative \"Interior of a small business shop\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Decorative background image of a coffee shop interior\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.45), claim: no (0.00), reversed: no (0.97))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#main > div:nth-of-type(1) > div > or-top-services > div > a:nth-of-type(5) > div:nth-of-type(1) > or-img > picture > img",
+   "message": "The text alternative \"Person at desk using grey computer\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Unemployment Claims and Status\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.00), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.2",
+   "level": "A",
+   "ruleId": "judgment/2.4.2",
+   "ref": "html",
+   "message": "The page title \"Oregon.gov : State of Oregon\" says nothing about this page.",
+   "evidence": "The model suggests: \"Home - Oregon.gov : State of Oregon\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#top > header > or-top-bar > or-secondary-navigation > div > div:nth-of-type(1) > div:nth-of-type(2) > a",
+   "message": "The link text \"Here's how you know\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"How to verify this official website\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#top > header > or-top-bar > or-secondary-navigation > div > or-accessibility-options > a",
+   "message": "The link text \"Tweak how this site behaves using its Options\" does not match where the link leads: a page titled \"Oregon.gov : State of Oregon\".",
+   "evidence": "The model suggests: \"Oregon.gov homepage\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#top > header > or-top-bar > or-top-navigation > nav > ul > li:nth-of-type(1) > a",
+   "message": "The link text \"Living\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Living section\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#top > header > or-top-bar > or-top-navigation > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(3) > a",
+   "message": "The link text \"Taxes\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Tax Information\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#top > header > or-top-bar > or-top-navigation > nav > ul > li:nth-of-type(1) > ul > li:nth-of-type(5) > a",
+   "message": "The link text \"Veterans\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Veterans Services\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#main > div:nth-of-type(4) > div:nth-of-type(2) > h2",
+   "message": "The heading \"Did you know…\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Oregon's Seven Wonders\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#main > div:nth-of-type(6) > or-instagram-grid > a:nth-of-type(4) > div:nth-of-type(2) > h3",
+   "message": "The heading \"No Title\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Photography Gallery\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 13,
+   "judged": 13,
+   "failed": 3,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 6,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 3,
+   "suggested": 2,
+   "unconfirmed": 2
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 332,
+   "judged": 50,
+   "failed": 0,
+   "passed": 41,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 282,
+   "suggested": 5
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 37,
+   "judged": 37,
+   "failed": 0,
+   "passed": 31,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 2,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 image(s) were left without a capture, so no judgment looked at them: 1 transparent where it sits. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 282 of 332 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 117,
+  "cachedCalls": 1,
+  "inputTokens": 96312,
+  "outputTokens": 9645,
+  "latencyMs": 456795
+ },
+ "coverage": {
+  "reach": null
+ }
+}

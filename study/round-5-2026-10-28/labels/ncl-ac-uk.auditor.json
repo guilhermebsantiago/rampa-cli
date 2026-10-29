@@ -1,0 +1,18 @@
+{
+  "page": "https://www.ncl.ac.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s961b9f874ee",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the disabled, checked 'Necessary' checkbox in the Cookiebot consent banner, labelled by a visible <label for> with the text 'Necessary'. It sits in a group named 'Consent Selection' next to 'Preferences', 'Statistics' and 'Marketing' toggles, under the heading 'This website uses cookies'. A checkbox takes no typed input, so 'does not say what to enter' does not apply. In context the label names the cookie category being consented to, which describes its purpose as 2.4.6 requires. The model had this ancestor context and still judged wrongly."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 90x90 image at the left of the Cookiebot banner (#CybotCookiebotDialogPoweredbyImage). The crop and the page screenshot show the Newcastle University crest and wordmark. Its alt is 'logo', which is a generic placeholder: it does not convey the organisation name shown as text in the image (failure F30). The image is not inside a link and has no other accessible name. It is also not marked as decorative, so screen readers will announce 'logo'. A text alternative such as 'Newcastle University' would be needed. This is client-side Cookiebot markup, so I checked it in the snapshot rather than in the live HTML."
+    }
+  ]
+}

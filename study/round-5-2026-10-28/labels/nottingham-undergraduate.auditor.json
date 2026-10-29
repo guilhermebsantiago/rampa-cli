@@ -1,0 +1,24 @@
+{
+  "page": "https://www.nottingham.ac.uk/studywithus/ugstudy/find-uon.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s3fb644599d2",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the footer link \"Connect\" in a list under the h2 \"Alumni\" (Community / Connect / Donate). It leads to the alumni \"News and features\" page. I checked the live page and the destination. On the university's alumni pages the same footer link is also called \"Connect\", with the title \"Connect with our alumni through news and events\", and its URL redirects to this same news.aspx page. 2.4.4 lets the purpose come from the link text together with its programmatically determined context, and the preceding heading counts (H80). Read as \"Alumni: Connect\", the link goes to the alumni news and events hub, which is the site's own \"Connect\" area. The text is vague, but it does not mislead. The finding asks for the link text to match the destination's title \"News\", which is stricter than 2.4.4 requires. At most this is a 2.4.9 (AAA) advisory."
+    },
+    {
+      "fingerprint": "sbdbb85208a6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page is the University of Nottingham's course-finder and undergraduate study landing page. Its title \"Find your course\" matches the breadcrumb (\"Homepage > Find your course\") and the h1 \"Find your ideal course\", and a course-search panel sits at the top of the page. The live page's title is unchanged. The title describes the page's topic and purpose, which is what 2.4.2 asks. WCAG does not require the site name or the word \"undergraduate\" in the title. The packet's page block shows the h1 in a garbled order (\"Find your course ideal\"), but it still clearly matches the title. Saying the title \"says nothing about this page\" is a wrong judgment."
+    },
+    {
+      "fingerprint": "3dd79f0ae4c6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field #search-input (type=search). Its placeholder reads \"Search for courses, subjects, careers...\" and its only real label (\"Search\") is visually hidden. The site's live CSS (clientlib-v2) sets .search-bar input[type=search]::placeholder to color #9fa8b1. The .search-bar background is #fff, and the input is transparent over it. The header search is hidden only at widths up to 767px, and the snapshot shows it rendered at 1280px (456x22 at y=32). I computed the contrast of #9fa8b1 on #ffffff as 2.41:1. The text is 16px at weight 400, so it is normal-size text and needs 4.5:1. Placeholder text is visible text that tells users what to type. It is not part of an inactive control and it is not incidental, so 1.4.3 applies and the field fails. The full-page screenshot does not show the header, which is probably a capture artefact, but the CSS and the pixel measurement in the snapshot agree."
+    }
+  ]
+}

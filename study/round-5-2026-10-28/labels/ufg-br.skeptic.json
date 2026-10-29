@@ -1,0 +1,120 @@
+{
+  "page": "https://ufg.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s4c0ee80c707",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the 'Simplifique!' link in the standard gov.br federal bar, next to 'Comunica BR', 'Participe', 'Acesso à informação' and similar links. The text is the proper name of the federal Simplifique! service that the link points to, so it names the destination, in the same way a nav link named after its target page does (G91). The finding wants the text to explain what the program is, which goes beyond 2.4.4. On the live check (2026-10-28) the old economia URL now leads to a login-restricted 'Conteúdo Restrito' page. That makes it a broken or outdated link, which is not a 2.4.4 failure of the link text."
+    },
+    {
+      "fingerprint": "s1647ffb7ac7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a 'Leia mais...' link in the 'Nota de pesar' news card. The DOM is li > article > p > a, and the enclosing list item holds the h3 'Nota de pesar', the date and the summary about Adriana Vidotte. That is programmatically determined link context (H77, enclosing list item; H80, preceding heading), so the link's purpose can be determined and 2.4.4 passes. The packet's ancestors show this context, so the claim that nothing around the link tells where it goes is wrong."
+    },
+    {
+      "fingerprint": "3aace9703444",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The icon-only 'Rádio UFG' link in the header has no visible text. It is a white radio glyph on a 34px circle filled with #66aad5. I measured the screenshot pixels: #66aad5 and #ffffff, 2.54:1. The circle is also 2.54:1 against the white page, so nothing that identifies the control reaches 3:1. The fill comes from the site's own .social-icon style, not from any brand, so no exception applies, and the 1.4.11 failure is real."
+    },
+    {
+      "fingerprint": "b54e3a0ab4f7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the news-card image for 'Informe à comunidade acadêmica' and the only content of its link. Its alt is 'INFORME_capa.png', so the browser's accessible name for the link is that file name; the title only supplies the description. The image shows the word 'Informe', but the alt is clearly a file name with its extension, which is F30. As a functional image, it also does not describe the link's purpose. Even if it were treated as decorative, a non-empty file-name alt would still fail 1.1.1."
+    },
+    {
+      "fingerprint": "2a7914be5607",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Ser UFG' button in the left side dock: a white heart icon on a #66aad5 pill, measured at 2.54:1 from the screenshot. The span 'Ser UFG' is in the DOM, but the live CSS sets .side-dock .btn>span to opacity:0 unless the button is .active. Hover only darkens the background, and the screenshot shows the button as an icon only. So at rest the icon is the only visual identifier and it needs 3:1. It fails."
+    },
+    {
+      "fingerprint": "e16ff5ad7777",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is a carousel banner that is the sole content of a link to the Propessoas Estágio Probatório news item. The image carries a lot of text: 'Atenção servidores técnico-administrativos e docentes ingressantes após 07/02/2025', the MGI/SouGOV notice, and 'Clique aqui e saiba mais'. Its alt is the file name 'banner_-_Estágio_Probatório_novo.png', which also becomes the link's accessible name; the title is only the description. That is a file-name text alternative (F30) that conveys neither the banner's text nor its function, so 1.1.1 fails."
+    },
+    {
+      "fingerprint": "ba8b9037ca9c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the icon-only Twitter link in the footer: a white bird glyph on a #66aad5 circle, on white. Measured at 2.54:1 from the screenshot. Logos are exempt only when the low-contrast look is the brand's own; here the colour is the site's uniform .social-icon fill, also used for the non-brand radio and TV icons, so it is the author's choice. The Understanding document says such logos are not exempt. The icon is the only identifier, so 1.4.11 fails."
+    },
+    {
+      "fingerprint": "3e924100836e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Redes' button in the side dock: a white icon on a #e5d277 (--light-yellow) pill, measured at 1.52:1. The label span is opacity:0 unless the button is .active, and the screenshot shows the button collapsed to its icon. So the icon is what identifies the control, and it is far below 3:1. The 1.4.11 failure holds."
+    },
+    {
+      "fingerprint": "8db2bddd93ce",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the icon-only Instagram link in the header: a white glyph on the site's #66aad5 circle, measured at 2.54:1 against the fill, with the circle also 2.54:1 against the white page. The light-blue circle is the author's uniform styling, not Instagram's brand presentation, so the logo exception does not apply (the Understanding document on author-chosen low-contrast logos). It fails 1.4.11."
+    },
+    {
+      "fingerprint": "4b4e2236c50c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the icon-only Facebook link in the header: a white 'f' on the site's #66aad5 circle, measured at 2.54:1 against the fill and the same against the white page. The colour is the site's own .social-icon style, not Facebook's brand blue, so the logo exception does not cover it. No visible text identifies the link, so the icon needs 3:1, and it fails 1.4.11."
+    },
+    {
+      "fingerprint": "431d1af69a52",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the visible 'Português (Brasil)' label of the header language dropdown. The live CSS colours it var(--grey) #999999, and the header background is white (rgba(255,255,255,0.8) over white); the screenshot pixels confirm #999999 on #ffffff, 2.85:1. It is normal-weight text of about 16px, so it needs 4.5:1. The link is an active, working control rather than an inactive one, and it is neither a logo nor decorative, so no exception applies. 1.4.3 fails."
+    },
+    {
+      "fingerprint": "56e6791d8349",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Serviços' button in the side dock: a white hand icon on a #66aad5 pill, measured at 2.54:1. The 'Serviços' span is hidden (opacity:0) unless the button is .active, and the screenshot shows only the icon, so the icon alone identifies the control. It is below 3:1 and fails 1.4.11."
+    },
+    {
+      "fingerprint": "s350bf79dd22",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This h3 is the headline of a Jornal UFG card. Under it are the kicker 'COVID-19' and the deck 'Pesquisa da UFG mostra o poder do testemunho frente aos traumas da linha de frente da pandemia'. 'Relembrar para não repetir' (remember so as not to repeat) is the article's own title, and it describes the same story the deck summarises: remembering pandemic trauma through testimony. A journalistic headline that matches its teaser describes its topic. Nothing under it is a different topic, so 2.4.6 is not failed."
+    },
+    {
+      "fingerprint": "763942c98357",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Conpeex 2026 carousel banner, the only content of its link. The image is full of text: '23º Conpeex 2026', 'Ciência Delas', '9 a 13 nov', the venue and the URL. Its alt is the file name 'BANNER_SITEconpeex2026.png', which becomes the link's accessible name; the link title is itself a file-like slug. A file-name alternative (F30) conveys neither the content nor the link's purpose, so 1.1.1 fails."
+    },
+    {
+      "fingerprint": "b069d809b385",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Jornal' button in the side dock: a white newspaper icon on a #abcc88 (--light-green) pill, measured at 1.79:1. The label span is opacity:0 unless the button is .active, and the screenshot shows the icon only, so the icon is what identifies the control and it needs 3:1. It fails 1.4.11."
+    },
+    {
+      "fingerprint": "b3b783ec3cf5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the icon-only Facebook link in the footer: a white 'f' on a #66aad5 circle, on white, measured at 2.54:1. The colour is the site's uniform social-icon style, not the brand's own, so the logo exception does not apply. No visible text identifies the link, so it fails 1.4.11."
+    },
+    {
+      "fingerprint": "79fc6793e607",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the news-card photo for 'Estudantes e docentes da UFG são premiados pelo Crea-GO', and the only content of its link. Its alt is '26-10-2026_crea-ufg capa', the file name (26-10-2026_crea-ufg.jpg) plus 'capa' (cover). The browser takes the link's accessible name from it; the title is only the description. A file-name slug does not describe the link's purpose (1.1.1 controls clause, F30). It would also fail as a decorative image, which needs alt=\"\"."
+    },
+    {
+      "fingerprint": "5bd2ab6db699",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the 'Gaste nossa energia' carousel banner, the only content of its link. The image is mostly text: 'Gaste nossa energia com o que vale a pena!' and several energy-saving tips. Its alt is the file name 'PEÇAS__BANNER_SITE_gasteaenergia.png', which also becomes the link's accessible name, since the title is only the description. A file-name alternative (F30) fails 1.1.1."
+    },
+    {
+      "fingerprint": "87626bfbcd30",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the news-card image (the RUF 2026 'Ranking Universitário Folha' seal) for the 'Ranking Folha diz que UFG é a 13ª melhor universidade do País' item, and the only content of its link. Its alt is 'selo_ruf_2026.png', a file name with an extension, and it becomes the link's accessible name. It neither describes the seal nor gives the link's purpose. Even if the image were treated as decorative, a non-empty file-name alt fails, so 1.1.1 fails either way (F30)."
+    }
+  ]
+}

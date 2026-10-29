@@ -1,0 +1,18 @@
+{
+  "page": "https://www.trf4.jus.br/trf4/controlador.php?acao=pagina_menu_listar&id_pai=253",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "287a772071cf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer div #divMarcaRodape. Its live text 'Portal Unificado da Justiça Federal da 4ª Região' is shown at its top, above a background image (tudo_aqui.png, positioned 35px down) that holds the logos and the 'tudo aqui.' slogan. The packet crop shows only that background, but the page screenshot shows the text in white on solid teal. The live CSS confirms #divAreaGlobalRodape is background-color #339999 and color #FFFFFF, and the div is 17px at weight 400, so it is not large text. White on #339999 works out to 3.41:1, short of the 4.5:1 that 1.4.3 requires. The background image does not sit behind the text, so the pixel measurement is not an artefact. I checked two ways it could pass. First, the logotype exception: the text is plain HTML in the same Lato face as the other footer text, not part of the logo graphic, so the exception does not cover it. Second, G174: the page has an 'Alto Contraste' toggle that turns this text white on black. G174 only works if the alternate version meets every Level A/AA criterion and can be reached through an accessibility-supported mechanism. This toggle is an <a> with no href, tabindex=0 and only a click handler (it works through accesskey but not with Enter), and nothing shows the alternate version fully conforms. So that technique cannot be credited, and the default presentation fails."
+    },
+    {
+      "fingerprint": "sabb81f76693",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the portal search box #txtBuscaPortal. Its <label class='LeitorDeTela'> is moved off-screen (left:-9999px), so it has no visible text label. The claim that 'nothing on screen tells what to enter' is still wrong. In the screenshot and in the live HTML, an h2 'o que você procura?' ('what are you looking for?') sits right above the field and works as a visible prompt. A submit button with a magnifying-glass icon (input #sbmBuscaPortal, accessible name 'Buscar no Portal') follows the field in the DOM and appears inside its right edge. That is technique G167 (Example 1: a magnifying-glass search button labels the adjacent search field), which is sufficient for 3.3.2. Under 3.3.2, a label or instruction only has to be visible; it does not have to be programmatically associated (that is 1.3.1/4.1.2). The heading was in the context the checker had (headingsNear), so it judged wrongly."
+    }
+  ]
+}

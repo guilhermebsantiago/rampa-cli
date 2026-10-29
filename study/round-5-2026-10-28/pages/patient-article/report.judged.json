@@ -1,0 +1,504 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "c7b9ec618684",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#content > div:nth-of-type(3) > div > div:nth-of-type(1) > div:nth-of-type(6) > form > div > div > input",
+   "message": "The field \"Enter your email\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "Enter your email",
+   "patch": {
+    "ref": "#content > div:nth-of-type(3) > div > div:nth-of-type(1) > div:nth-of-type(6) > form > div > div > input",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input data-testid=\"emailinput\" class=\"\n    TextField_input__BqJuC\n    \n    \n    \n    NewsletterUpsell_input-wrapper__2ME5X\n  \" placeholder=\"Enter your email\" type=\"email\" value=\"\">",
+    "after": "<input data-testid=\"emailinput\" class=\"\n    TextField_input__BqJuC\n    \n    \n    \n    NewsletterUpsell_input-wrapper__2ME5X\n  \" placeholder=\"Enter your email\" type=\"email\" value=\"\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "435ce7555c2a",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#globaltarget > nav > div > div > div:nth-of-type(1) > a:nth-of-type(2)",
+   "target": "#globaltarget > nav > div > div > div:nth-of-type(1) > a:nth-of-type(2)",
+   "message": "The text \"Medical professionals\" has at most 3.67:1 contrast with what is behind it (#6f6f8c on #e9d9d0…#ecddd5), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#6f6f8c on #e9d9d1; #e9d9d0…#ecddd5 · 3.67:1 at best, 3.54:1 at worst · 14px, 500",
+   "subject": "Medical professionals",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://patient.info/doctor\" class=\"AudienceBanner_audience-nav-link__OchGi \">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "7102e3aaa44d",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#globaltarget > nav > div > div > div:nth-of-type(2) > span",
+   "target": "#globaltarget > nav > div > div > div:nth-of-type(2) > span",
+   "message": "The text \"Trusted health information since 1996\" has at most 3.70:1 contrast with what is behind it (#6f6f8c on #e8d8d0…#edded7), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#6f6f8c on #e9d9d1; #e8d8d0…#edded7 · 3.70:1 at best, 3.50:1 at worst · 14px, 400",
+   "subject": "Trusted health information since 1996",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<span class=\"AudienceBanner_audience-nav-context__nYHFt\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "5989c22b358a",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#globaltarget > nav > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > button",
+   "target": "#globaltarget > nav > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > button",
+   "message": "The text \"Go ad-free\" has at most 3.50:1 contrast with what is behind it (#6f6f8c on #e6d5cc…#e8d8cf), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#6f6f8c on #e7d7ce; #e6d5cc…#e8d8cf · 3.50:1 at best, 3.41:1 at worst · 14px, 500",
+   "subject": "Go ad-free",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<button type=\"button\" class=\"AdFreePromo_trigger__sd4Iu AdFreePromo_triggerAudienceHeader__TgB_d\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-testid=\"ad-free-promo-trigger\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "fb2aee9fb659",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+   "target": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+   "message": "\"🇩🇪 Deutsch\" is in German, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"de\" to the link.",
+   "evidence": "🇩🇪 Deutsch",
+   "subject": "🇩🇪 Deutsch",
+   "patch": {
+    "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(2) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "de",
+    "before": "<a tabindex=\"-1\" href=\"https://de.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-de\">",
+    "after": "<a tabindex=\"-1\" href=\"https://de.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-de\" lang=\"de\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a tabindex=\"-1\" href=\"https://de.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-de\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "dfd259c5cadc",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(3) > a",
+   "target": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(3) > a",
+   "message": "\"🇪🇸 Español\" is in Spanish, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"es\" to the link.",
+   "evidence": "🇪🇸 Español",
+   "subject": "🇪🇸 Español",
+   "patch": {
+    "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(3) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "es",
+    "before": "<a tabindex=\"-1\" href=\"https://es.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-es\">",
+    "after": "<a tabindex=\"-1\" href=\"https://es.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-es\" lang=\"es\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a tabindex=\"-1\" href=\"https://es.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-es\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "e84d98a9e17c",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+   "target": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+   "message": "\"🇫🇷 Français\" is in French, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"fr\" to the link.",
+   "evidence": "🇫🇷 Français",
+   "subject": "🇫🇷 Français",
+   "patch": {
+    "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(4) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "fr",
+    "before": "<a tabindex=\"-1\" href=\"https://fr.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-fr\">",
+    "after": "<a tabindex=\"-1\" href=\"https://fr.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-fr\" lang=\"fr\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a tabindex=\"-1\" href=\"https://fr.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-fr\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "a75cfc05b64e",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(5) > a",
+   "target": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(5) > a",
+   "message": "\"🇮🇹 Italiano\" is in Italian, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"it\" to the link.",
+   "evidence": "🇮🇹 Italiano",
+   "subject": "🇮🇹 Italiano",
+   "patch": {
+    "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(5) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "it",
+    "before": "<a tabindex=\"-1\" href=\"https://it.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-it\">",
+    "after": "<a tabindex=\"-1\" href=\"https://it.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-it\" lang=\"it\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a tabindex=\"-1\" href=\"https://it.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-it\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "281236771905",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(6) > a",
+   "target": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(6) > a",
+   "message": "\"🇵🇹 Português\" is in Portuguese, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"pt\" to the link.",
+   "evidence": "🇵🇹 Português",
+   "subject": "🇵🇹 Português",
+   "patch": {
+    "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(6) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "pt",
+    "before": "<a tabindex=\"-1\" href=\"https://pt.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-pt\">",
+    "after": "<a tabindex=\"-1\" href=\"https://pt.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-pt\" lang=\"pt\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a tabindex=\"-1\" href=\"https://pt.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-pt\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "8e89fbf0d776",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(7) > a",
+   "target": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(7) > a",
+   "message": "\"🇮🇳 हिन्दी\" is in Hindi, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"hi\" to the link.",
+   "evidence": "🇮🇳 हिन्दी",
+   "subject": "🇮🇳 हिन्दी",
+   "patch": {
+    "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(7) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "hi",
+    "before": "<a tabindex=\"-1\" href=\"https://hi.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-hi\">",
+    "after": "<a tabindex=\"-1\" href=\"https://hi.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-hi\" lang=\"hi\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a tabindex=\"-1\" href=\"https://hi.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-hi\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "f2567d066f14",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(8) > a",
+   "target": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(8) > a",
+   "message": "\"🇮🇱 עברית\" is in Hebrew, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"he\" to the link.",
+   "evidence": "🇮🇱 עברית",
+   "subject": "🇮🇱 עברית",
+   "patch": {
+    "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(8) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "he",
+    "before": "<a tabindex=\"-1\" href=\"https://he.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-he\">",
+    "after": "<a tabindex=\"-1\" href=\"https://he.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-he\" lang=\"he\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a tabindex=\"-1\" href=\"https://he.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-he\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "7085d0d51dd2",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(10) > a",
+   "target": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(10) > a",
+   "message": "\"🇸🇪 Svenska\" is in Swedish, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"sv\" to the link.",
+   "evidence": "🇸🇪 Svenska",
+   "subject": "🇸🇪 Svenska",
+   "patch": {
+    "ref": "#content > div:nth-of-type(1) > div > div > div > div:nth-of-type(2) > div:nth-of-type(3) > ul > li:nth-of-type(3) > div:nth-of-type(2) > ul > li:nth-of-type(10) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "sv",
+    "before": "<a tabindex=\"-1\" href=\"https://sv.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-sv\">",
+    "after": "<a tabindex=\"-1\" href=\"https://sv.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-sv\" lang=\"sv\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a tabindex=\"-1\" href=\"https://sv.patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season\" class=\"ActionBar_link__Vbi7E globalseo-exclude\" data-testid=\"action-bar-language-dialog-link-sv\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 20
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 13,
+   "members": [
+    "2e1801918957",
+    "0cc16149a0ee",
+    "2010ad38c66c",
+    "4574c66b397e",
+    "c5037917c3ba",
+    "fbcdb42433cc",
+    "656565f8c5d1",
+    "684b56b89259",
+    "ef7ee389d660",
+    "baff5b030d8b",
+    "f1682f4ad415",
+    "0e1cf805eca5",
+    "229945507898"
+   ],
+   "example": "2e1801918957"
+  },
+  {
+   "id": "g-619128050cef",
+   "list": "findings",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "check": "rampa/language-switcher-lang",
+   "count": 8,
+   "members": [
+    "fb2aee9fb659",
+    "dfd259c5cadc",
+    "e84d98a9e17c",
+    "a75cfc05b64e",
+    "281236771905",
+    "8e89fbf0d776",
+    "f2567d066f14",
+    "7085d0d51dd2"
+   ],
+   "example": "fb2aee9fb659"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > div:nth-of-type(3) > div > div:nth-of-type(1) > div:nth-of-type(3) > div > p:nth-of-type(1) > a",
+   "message": "The link text \"setting off fireworks\" does not match where the link leads: a page titled \"Managing PTSD during fireworks season\".",
+   "evidence": "The model suggests: \"Managing PTSD during fireworks season\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > div:nth-of-type(3) > div > div:nth-of-type(1) > div:nth-of-type(3) > div > p:nth-of-type(3) > a",
+   "message": "The link text \"with no eye examination\" does not match where the link leads: a page titled \"How to protect your eyes as you age\".",
+   "evidence": "The model suggests: \"Future-proof your sight: why your eyes deserve a long-term plan\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#content > div:nth-of-type(3) > div > div:nth-of-type(1) > div:nth-of-type(3) > div > div:nth-of-type(1) > div:nth-of-type(1) > h3",
+   "message": "The heading \"Mr Alex Day\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Expert Advice from Mr Alex Day\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#globaltarget > footer > div > div:nth-of-type(2) > h2",
+   "message": "The heading \"Download the Patient app\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"About us and Site Links\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 84,
+   "judged": 50,
+   "failed": 0,
+   "passed": 46,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 34,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 19,
+   "judged": 19,
+   "failed": 0,
+   "passed": 17,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "3 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #sync_pubmatic_1793232387769 (https://ads.pubmatic.com/AdServer/js/user_sync.html?gdpr=&gdpr_consent=&us_privacy=&predirect=https%3A%2F%2Fpbs.optidigital.com%2Fsetuid%3Fbidder%3Dpubmatic%26gdpr%3D%26gdpr_consent%3D%26gpp%3D%26gpp_sid%3D%26f%3Db%26uid%3D), #discourse-embed-frame (https://community.patient.info/embed/comments?embed_url=https%3A%2F%2Fpatient.info%2Ffeatures%2Feye-health%2Fhalloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season), html > body > iframe:nth-of-type(1) (https://news.google.com/swg/ui/v1/serviceiframe?_=1793232387233&publicationId=publication-id-free).",
+  "4 image(s) were left without a capture, so no judgment looked at them: 4 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 34 of 84 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 76,
+  "cachedCalls": 0,
+  "inputTokens": 73425,
+  "outputTokens": 8100,
+  "latencyMs": 249073
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#sync_pubmatic_1793232387769",
+     "url": "https://ads.pubmatic.com/AdServer/js/user_sync.html?gdpr=&gdpr_consent=&us_privacy=&predirect=https%3A%2F%2Fpbs.optidigital.com%2Fsetuid%3Fbidder%3Dpubmatic%26gdpr%3D%26gdpr_consent%3D%26gpp%3D%26gpp_sid%3D%26f%3Db%26uid%3D",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#discourse-embed-frame",
+     "url": "https://community.patient.info/embed/comments?embed_url=https%3A%2F%2Fpatient.info%2Ffeatures%2Feye-health%2Fhalloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "html > body > iframe:nth-of-type(1)",
+     "url": "https://news.google.com/swg/ui/v1/serviceiframe?_=1793232387233&publicationId=publication-id-free",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

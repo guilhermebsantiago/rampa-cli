@@ -1,0 +1,425 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.irishexaminer.com/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "8955260dfa5a",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "#page-content > footer > div > div:nth-of-type(1) > div > a:nth-of-type(1) > img",
+   "target": "#page-content > footer > div > div:nth-of-type(1) > div > a:nth-of-type(1) > img",
+   "message": "The text alternative \"https://newsbrandsireland.ie/\" is a file name: a screen reader reads it in place of the image. Describe what the image conveys, or use alt=\"\" if it is decorative.",
+   "evidence": "alt=\"https://newsbrandsireland.ie/\"",
+   "subject": "https://newsbrandsireland.ie/",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-alt",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F30",
+   "html": "<img src=\"../../../pu_examiner/images/f-logo-nbi.png\" width=\"85\" height=\"58\" alt=\"https://newsbrandsireland.ie/\" loading=\"lazy\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "783a924415e4",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "#page-content > footer > div > div:nth-of-type(1) > div > a:nth-of-type(2) > img",
+   "target": "#page-content > footer > div > div:nth-of-type(1) > div > a:nth-of-type(2) > img",
+   "message": "The text alternative \"https://www.presscouncil.ie\" is a file name: a screen reader reads it in place of the image. Describe what the image conveys, or use alt=\"\" if it is decorative.",
+   "evidence": "alt=\"https://www.presscouncil.ie\"",
+   "subject": "https://www.presscouncil.ie",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-alt",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F30",
+   "html": "<img src=\"../../../pu_examiner/images/f-logo2.png\" width=\"85\" height=\"71\" alt=\"https://www.presscouncil.ie\" loading=\"lazy\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "09f063a653d9",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "#page-content > footer > div > div:nth-of-type(1) > div > a:nth-of-type(3) > img",
+   "target": "#page-content > footer > div > div:nth-of-type(1) > div > a:nth-of-type(3) > img",
+   "message": "The text alternative \"https://iabireland.ie/iab-ireland-publishers-commercial-charter/\" is a file name: a screen reader reads it in place of the image. Describe what the image conveys, or use alt=\"\" if it is decorative.",
+   "evidence": "alt=\"https://iabireland.ie/iab-ireland-publishers-commercial-charter/\"",
+   "subject": "https://iabireland.ie/iab-ireland-publishers-commercial-charter/",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-alt",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F30",
+   "html": "<img src=\"../../../pu_examiner/images/IAB-logo-white.png\" width=\"85\" height=\"33\" alt=\"https://iabireland.ie/iab-ireland-publishers-commercial-charter/\" loading=\"lazy\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "351630f90713",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#article-card-41930268 > a > div:nth-of-type(1) > img",
+   "message": "The text alternative \"<p>Included in the sale of St Vincent's Church, Sunday's Well, is a large hall at lower ground level, previously used as a community centre, as well as a car park with 18 spaces, where a revenue split agreement is in place with the car park operator. Picture: Irish Examiner Archive</p>\" describes something the image does not show.",
+   "evidence": "<p>Included in the sale of St Vincent's Church, Sunday's Well, is a large hall at lower ground level, previously used as a community centre, as well as a car park with 18 spaces, where a revenue split agreement is in place with the car park operator. Picture: Irish Examiner Archive</p>",
+   "subject": "<p>Included in the sale of St Vincent's Church, Sunday's Well, is a large hall at lower ground level, previously used as a community centre, as well as a car park with 18 spaces, where a revenue split agreement is in place with the car park operator. Picture: Irish Examiner Archive</p>",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#article-card-41930268 > a > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "<p>Included in the sale of St Vincent's Church, Sunday's Well, is a large hall at lower ground level, previously used as a community centre, as well as a car park with 18 spaces, where a revenue split agreement is in place with the car park operator. Picture: Irish Examiner Archive</p>",
+    "to": "Exterior view of St Vincent's Church and the included community hall in Sunday's Well."
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "415cf44acbe9",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#article-card-41930121 > a > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Spilled Red Wine\" describes something the image does not show.",
+   "evidence": "Spilled Red Wine",
+   "subject": "Spilled Red Wine",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#article-card-41930121 > a > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Spilled Red Wine",
+    "to": "A wine glass tipped over with red wine spilling onto a white napkin",
+    "before": "<img loading=\"lazy\" src=\"/cms_media/module_img/10548/5274234_5_teasersmall_iStock-173933676_1_.jpg\" alt=\"Spilled Red Wine\" title=\"iStock-173933676.jpg\" width=\"201\" height=\"113\">",
+    "after": "<img loading=\"lazy\" src=\"/cms_media/module_img/10548/5274234_5_teasersmall_iStock-173933676_1_.jpg\" alt=\"A wine glass tipped over with red wine spilling onto a white napkin\" title=\"iStock-173933676.jpg\" width=\"201\" height=\"113\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c8b5127d9996",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#article-card-41930211 > a > div:nth-of-type(1) > img",
+   "message": "The text alternative \"An Ghaeltacht v Sallins - AIB GAA Football All-Ireland Intermediate Club Championship Semi-Final\" describes something the image does not show.",
+   "evidence": "An Ghaeltacht v Sallins - AIB GAA Football All-Ireland Intermediate Club Championship Semi-Final",
+   "subject": "An Ghaeltacht v Sallins - AIB GAA Football All-Ireland Intermediate Club Championship Semi-Final",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#article-card-41930211 > a > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "An Ghaeltacht v Sallins - AIB GAA Football All-Ireland Intermediate Club Championship Semi-Final",
+    "to": "A man in a black puffer jacket standing in a stadium.",
+    "before": "<img loading=\"lazy\" src=\"/cms_media/module_img/10548/5274405_8_teasersmall_3316750.jpg\" alt=\"An Ghaeltacht v Sallins - AIB GAA Football All-Ireland Intermediate Club Championship Semi-Final\" title=\"3316750.jpg\" width=\"201\" height=\"113\">",
+    "after": "<img loading=\"lazy\" src=\"/cms_media/module_img/10548/5274405_8_teasersmall_3316750.jpg\" alt=\"A man in a black puffer jacket standing in a stadium.\" title=\"3316750.jpg\" width=\"201\" height=\"113\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "5df5c30f8291",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#article-card-41930316 > a > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Blue lights on the roof of a Garda Siochana Irish police car\" describes something the image does not show.",
+   "evidence": "Blue lights on the roof of a Garda Siochana Irish police car",
+   "subject": "Blue lights on the roof of a Garda Siochana Irish police car",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#article-card-41930316 > a > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Blue lights on the roof of a Garda Siochana Irish police car",
+    "to": "Garda Siochana police car light bar",
+    "before": "<img loading=\"lazy\" src=\"/cms_media/module_img/10549/5274657_2_teasersmall_Garda_20stock_20image.jpg\" alt=\"Blue lights on the roof of a Garda Siochana Irish police car\" title=\"Garda stock image.jpg\" width=\"201\" height=\"113\">",
+    "after": "<img loading=\"lazy\" src=\"/cms_media/module_img/10549/5274657_2_teasersmall_Garda_20stock_20image.jpg\" alt=\"Garda Siochana police car light bar\" title=\"Garda stock image.jpg\" width=\"201\" height=\"113\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "cacf01d7338b",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#article-card-41930343 > a > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Burton Albion v Nottingham Forest - Carabao Cup - Fourth Round - Pirelli Stadium\" describes something the image does not show.",
+   "evidence": "Burton Albion v Nottingham Forest - Carabao Cup - Fourth Round - Pirelli Stadium",
+   "subject": "Burton Albion v Nottingham Forest - Carabao Cup - Fourth Round - Pirelli Stadium",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#article-card-41930343 > a > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Burton Albion v Nottingham Forest - Carabao Cup - Fourth Round - Pirelli Stadium",
+    "to": "Carabao Cup trophy",
+    "before": "<img loading=\"lazy\" src=\"/cms_media/module_img/10549/5274729_2_teasersmall_2.39423497.jpg.jpg\" alt=\"Burton Albion v Nottingham Forest - Carabao Cup - Fourth Round - Pirelli Stadium\" title=\"39423497\" width=\"201\" height=\"113\">",
+    "after": "<img loading=\"lazy\" src=\"/cms_media/module_img/10549/5274729_2_teasersmall_2.39423497.jpg.jpg\" alt=\"Carabao Cup trophy\" title=\"39423497\" width=\"201\" height=\"113\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "82aee64dcbad",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#page-content > div:nth-of-type(4) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div > div > div:nth-of-type(3) > p",
+   "target": "#page-content > div:nth-of-type(4) > div > div > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(3) > div > div > div:nth-of-type(3) > p",
+   "message": "The text \"Every Monday\" has at most 2.49:1 contrast with what is behind it (#ffffff on #00b8aa), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #00b8aa · 2.49:1 at best, 2.49:1 at worst · 23px, 600",
+   "subject": "Every Monday",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<p>",
+   "experimental": true
+  },
+  {
+   "fingerprint": "21d11688db9c",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#carouselHarryBurton > div > div:nth-of-type(1) > div > div:nth-of-type(1) > p:nth-of-type(3) > strong",
+   "target": "#carouselHarryBurton > div > div:nth-of-type(1) > div > div:nth-of-type(1) > p:nth-of-type(3) > strong",
+   "message": "The text \"WEEKLY CARTOON BY HARRY BURTON\" has at most 4.35:1 contrast with what is behind it (#797979 on #ffffff), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#797979 on #ffffff · 4.35:1 at best, 4.35:1 at worst · 11px, 700",
+   "subject": "WEEKLY CARTOON BY HARRY BURTON",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<strong>",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 49
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 9,
+   "members": [
+    "a820b15ee70e",
+    "2e1669381dd3",
+    "9804f3ad95d8",
+    "73fd50adfd63",
+    "eedd1632c4d2",
+    "a1833b4f977d",
+    "403a493d07c2",
+    "39fed20f1296",
+    "e2d342ff063b"
+   ],
+   "example": "a820b15ee70e"
+  },
+  {
+   "id": "g-1743d84907d0",
+   "list": "findings",
+   "criterion": "2.5.8",
+   "level": "AA",
+   "source": "engine",
+   "check": "target-size",
+   "count": 31,
+   "members": [
+    "be633c5f1cfb",
+    "66b6087f55bd",
+    "9ca9f8bbe5ad",
+    "eee86273e961",
+    "ea08ea56898f",
+    "ae636d35f560",
+    "bd0672b74a9b",
+    "f49cd8996a8b",
+    "224490ee57ef",
+    "da06b762a489",
+    "c5f00ba0f0bc",
+    "d0f021ad2796",
+    "dd95ea701028",
+    "a5beff34c351",
+    "3c7c7173463c",
+    "43df20cc9724",
+    "311379f54101",
+    "75604467e4f1",
+    "3833912a5ddf",
+    "68007c00dd5a",
+    "78b0196b6c27",
+    "523c21b25fb6",
+    "bbffec244c06",
+    "e2933c0bf3a3",
+    "db36e9c86d48",
+    "a5dd87b08f77",
+    "cc720f81d1df",
+    "4f82b362861e",
+    "59e7d51c4fcf",
+    "f2c9834c78e0",
+    "ce1ef3fc6603"
+   ],
+   "example": "be633c5f1cfb"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#navbar-IE > ul > li:nth-of-type(14) > form > input",
+   "message": "The label \"SEARCH..\" does not say what to enter.",
+   "evidence": "The model suggests: \"Search site content\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#page-content > div:nth-of-type(4) > div > div > div:nth-of-type(2) > section:nth-of-type(12) > h2",
+   "message": "The heading \"World\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"World News\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 22,
+   "judged": 22,
+   "failed": 5,
+   "passed": 13,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 232,
+   "judged": 50,
+   "failed": 0,
+   "passed": 50,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 182
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 29,
+   "judged": 29,
+   "failed": 0,
+   "passed": 27,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "43 image(s) were left without a capture, so no judgment looked at them: 43 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 182 of 232 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 102,
+  "inputTokens": 87694,
+  "outputTokens": 8750,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": null
+ }
+}

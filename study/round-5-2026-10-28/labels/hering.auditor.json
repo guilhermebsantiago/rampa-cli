@@ -1,0 +1,108 @@
+{
+  "page": "https://www.hering.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "9d2b6567321d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "COMPRE AGORA button on the second hero slide (glass, inverted variant), 16px regular white text. Live CSS gives it background var(--dark-glass-800) = #00000072 (about 45% black) with a backdrop blur over the hero photo. On this slide the photo behind the button is very light, so the button face comes out about #7c7e7f; I sampled the slide crop myself and got 4.08 to 4.31:1, the same as Rampa. Normal-size text needs 4.5:1, so it fails 1.4.3 whenever this slide is showing. The carousel autoplays, so users do see it."
+    },
+    {
+      "fingerprint": "b603e4393078",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer payment-method icon (li 6 of seven), showing the Diners Club logo. All seven icons have alt=\"payment\", there is no visible label or text nearby naming the brands, and the live HTML is the same. The icons tell users which payment methods are accepted, but a screen reader just says \"payment\" seven times, so the text alternative does not give the same information (1.1.1; see the generic/placeholder text-alternative failure F30). The finding's wording (the alt describes something not shown) is loose: the real problem is that the alt is too generic to identify the brand. Read fairly, it still points at a real failure."
+    },
+    {
+      "fingerprint": "d68b964b969b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer payment-method icon (li 5 of seven), showing the Elo logo. All seven icons have alt=\"payment\", there is no visible label or text nearby naming the brands, and the live HTML is the same. The icons tell users which payment methods are accepted, but a screen reader just says \"payment\" seven times, so the text alternative does not give the same information (1.1.1; see the generic/placeholder text-alternative failure F30). The finding's wording (the alt describes something not shown) is loose: the real problem is that the alt is too generic to identify the brand. Read fairly, it still points at a real failure."
+    },
+    {
+      "fingerprint": "f9ad061d74ba",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Feminino\" link text in the desktop main navigation, 14px regular, color #fff. The header bar is a sticky glass panel; live CSS gives it background var(--dark-glass-800) = #00000072 (about 45% black) and no opaque fill, so its colour depends on what is underneath. Over white page content it composites to #8d8d8d, which is exactly Rampa's value and gives 3.32:1. Over the light hero slides I measured about 4.1 to 4.3:1 at this position. Both are below 4.5:1, so the text fails 1.4.3. The main full-page screenshot does not show the header, so I took the background from the CSS and from the hero crops, not from that screenshot."
+    },
+    {
+      "fingerprint": "b501c51273b1",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer newsletter field (input type=email, aria-label \"Insira seu e-mail para receber novidades\"). It asks for the user's own email address, which is one of the listed input purposes. The snapshot shows no autocomplete attribute on the input or on its form, and there is no other way to identify its purpose. type=email only describes the data format, not the purpose, so it does not meet 1.3.5. It fails 1.3.5 as reported; autocomplete=\"email\" would fix it."
+    },
+    {
+      "fingerprint": "045eb87af8f8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Novidades\" link text in the desktop main navigation, 14px regular, white, on the sticky glass header (#00000072 overlay with no opaque fill, from live CSS). Where it sits over light parts of the hero photos I computed about 4.07:1, and over white content as the sticky header scrolls about 3.32:1; Rampa measured 4.00 to 4.25:1. On some slides part of the word sits over dark hair and passes there, but the text also appears over light backgrounds below 4.5:1, so it fails 1.4.3."
+    },
+    {
+      "fingerprint": "873340996911",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer payment-method icon (li 7 of seven), showing a small card-brand wordmark (likely American Express). All seven icons have alt=\"payment\", there is no visible label or text nearby naming the brands, and the live HTML is the same. The icons tell users which payment methods are accepted, but a screen reader just says \"payment\" seven times, so the text alternative does not give the same information (1.1.1; see the generic/placeholder text-alternative failure F30). The finding's wording (the alt describes something not shown) is loose: the real problem is that the alt is too generic to identify the brand. Read fairly, it still points at a real failure."
+    },
+    {
+      "fingerprint": "f1fe55447e96",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer payment-method icon (li 2 of seven), showing the Apple Pay logo. All seven icons have alt=\"payment\", there is no visible label or text nearby naming the brands, and the live HTML is the same. The icons tell users which payment methods are accepted, but a screen reader just says \"payment\" seven times, so the text alternative does not give the same information (1.1.1; see the generic/placeholder text-alternative failure F30). The finding's wording (the alt describes something not shown) is loose: the real problem is that the alt is too generic to identify the brand. Read fairly, it still points at a real failure."
+    },
+    {
+      "fingerprint": "00926a80825c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Benefit-bar icon, 20x20 px: a delivery-truck icon next to the h4 text \"FRETE GRÁTIS* ACIMA DE R$349,99\". Its alt, \"Ícone representativo do benefício\" (\"icon representing the benefit\"), is the same placeholder on all four icons, and the live page is unchanged. The text beside it already says everything, so the icon is decorative and should have alt=\"\". As it is, screen readers announce a meaningless phrase, which is the documented 1.1.1 failure F39 (non-null alt such as \"image\" on an image AT should ignore) and also F30 (placeholder text as the alternative). The finding frames this as the alt describing something the image does not show, which is loose, since the real issue is a generic alt on a decorative image. The element still fails 1.1.1."
+    },
+    {
+      "fingerprint": "b4165acc5ea7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Benefit-bar icon, 20x20 px: a circular-arrows (return) icon next to the h4 text \"DEVOLUÇÃO GRÁTIS ATÉ 15 DIAS\". Its alt, \"Ícone representativo do benefício\" (\"icon representing the benefit\"), is the same placeholder on all four icons, and the live page is unchanged. The text beside it already says everything, so the icon is decorative and should have alt=\"\". As it is, screen readers announce a meaningless phrase, which is the documented 1.1.1 failure F39 (non-null alt such as \"image\" on an image AT should ignore) and also F30 (placeholder text as the alternative). The finding frames this as the alt describing something the image does not show, which is loose, since the real issue is a generic alt on a decorative image. The element still fails 1.1.1."
+    },
+    {
+      "fingerprint": "8d0500a8f167",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Benefit-bar icon, 20x20 px: a credit-card icon next to the h4 text \"PARCELE EM ATÉ 6X SEM JUROS NO CARTÃO\". Its alt, \"Ícone representativo do benefício\" (\"icon representing the benefit\"), is the same placeholder on all four icons, and the live page is unchanged. The text beside it already says everything, so the icon is decorative and should have alt=\"\". As it is, screen readers announce a meaningless phrase, which is the documented 1.1.1 failure F39 (non-null alt such as \"image\" on an image AT should ignore) and also F30 (placeholder text as the alternative). The finding frames this as the alt describing something the image does not show, which is loose, since the real issue is a generic alt on a decorative image. The element still fails 1.1.1."
+    },
+    {
+      "fingerprint": "08b35e443c83",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Second hero carousel image, inside the /verao link. The image has text baked in (\"NOVA COLEÇÃO\", \"Confira os lançamentos da estação\") over a product photo, and its alt is the CMS creative code \"HOME_GERAL_TV1_ALTO_VERAO\"; the live page's CMS data still uses the 'creative' field for the alt. An internal asset name is not a text alternative (F30), and it does not give the promotional text, so the image fails 1.1.1 as the finding says."
+    },
+    {
+      "fingerprint": "68c087d20508",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "First hero carousel image, inside the /tudo-com-60 link. The image has text baked in (\"NOVAS PEÇAS | NOVOS DESCONTOS\", \"SALDOS TUDO COM 60%OFF\", \"*Ação válida por tempo limitado em peças selecionadas. Imagem ilustrativa.\"), and its alt is the CMS creative code \"HOME_GERAL_TV1_TUDO_COM_60\"; the live page is the same. A filename-like code is not a text alternative (F30), and the countdown bar only partly repeats the offer, so the image fails 1.1.1."
+    },
+    {
+      "fingerprint": "5a20d282d539",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer payment-method icon (li 3 of seven), showing the Mastercard logo. All seven icons have alt=\"payment\", there is no visible label or text nearby naming the brands, and the live HTML is the same. The icons tell users which payment methods are accepted, but a screen reader just says \"payment\" seven times, so the text alternative does not give the same information (1.1.1; see the generic/placeholder text-alternative failure F30). The finding's wording (the alt describes something not shown) is loose: the real problem is that the alt is too generic to identify the brand. Read fairly, it still points at a real failure."
+    },
+    {
+      "fingerprint": "1ef0e42aad28",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer payment-method icon (li 1 of seven), showing the Pix logo. All seven icons have alt=\"payment\", there is no visible label or text nearby naming the brands, and the live HTML is the same. The icons tell users which payment methods are accepted, but a screen reader just says \"payment\" seven times, so the text alternative does not give the same information (1.1.1; see the generic/placeholder text-alternative failure F30). The finding's wording (the alt describes something not shown) is loose: the real problem is that the alt is too generic to identify the brand. Read fairly, it still points at a real failure."
+    },
+    {
+      "fingerprint": "9233c6b8b832",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Benefit-bar icon, 20x20 px: a dollar-sign-in-circle icon next to the h4 text \"15% OFF NA PRIMEIRA COMPRA\". Its alt, \"Ícone representativo do benefício\" (\"icon representing the benefit\"), is the same placeholder on all four icons, and the live page is unchanged. The text beside it already says everything, so the icon is decorative and should have alt=\"\". As it is, screen readers announce a meaningless phrase, which is the documented 1.1.1 failure F39 (non-null alt such as \"image\" on an image AT should ignore) and also F30 (placeholder text as the alternative). The finding frames this as the alt describing something the image does not show, which is loose, since the real issue is a generic alt on a decorative image. The element still fails 1.1.1."
+    },
+    {
+      "fingerprint": "042d24b684f5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer payment-method icon (li 4 of seven), showing the Visa logo. All seven icons have alt=\"payment\", there is no visible label or text nearby naming the brands, and the live HTML is the same. The icons tell users which payment methods are accepted, but a screen reader just says \"payment\" seven times, so the text alternative does not give the same information (1.1.1; see the generic/placeholder text-alternative failure F30). The finding's wording (the alt describes something not shown) is loose: the real problem is that the alt is too generic to identify the brand. Read fairly, it still points at a real failure."
+    }
+  ]
+}

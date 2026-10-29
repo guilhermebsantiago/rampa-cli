@@ -1,0 +1,144 @@
+{
+  "page": "https://www.lakeland.co.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "feae5044778a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"View More\" link in the Food Storage column (Storage & Home menu) link to /collections/food-storage. The desktop mega-menu column is a plain div of sibling links (a bold column-title link, eight sub-category links, then this link); there is no heading, nested list or aria-describedby, and aria-label/title are just \"View More\". The only programmatic context is the top-level menu list item, which holds several identical \"View More\" links to different collections, so it does not tell them apart (F63-type: the category is only conveyed by visual column position). The snapshot has 26 such links (13 desktop + 13 mobile drawer) to 13 collections, matching the claim; the live HTML (2026-10-28) still has 26 aria-label=\"View More\" links. The mega-menu is opacity-0 when closed but stays in the accessibility tree and focusable, so screen-reader users meet these links. Fails 2.4.4 as reported."
+    },
+    {
+      "fingerprint": "7388cf472c29",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"View More\" link in the Roasting column (Cooking & Dining menu) link to /collections/roasting. The desktop mega-menu column is a plain div of sibling links (a bold column-title link, eight sub-category links, then this link); there is no heading, nested list or aria-describedby, and aria-label/title are just \"View More\". The only programmatic context is the top-level menu list item, which holds several identical \"View More\" links to different collections, so it does not tell them apart (F63-type: the category is only conveyed by visual column position). The snapshot has 26 such links (13 desktop + 13 mobile drawer) to 13 collections, matching the claim; the live HTML (2026-10-28) still has 26 aria-label=\"View More\" links. The mega-menu is opacity-0 when closed but stays in the accessibility tree and focusable, so screen-reader users meet these links. Fails 2.4.4 as reported."
+    },
+    {
+      "fingerprint": "s92f8d1d06d4",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Help\" link in the top utility bar (list: Help, Find a store, myLakeland) to /pages/contact-us. That page (checked live) is titled \"Contact us\" and opens with Popular FAQs and customer-service contact details, i.e. it is the site's help page. \"Help\" describes that purpose well enough for a user to decide whether to follow it; a link need not repeat the destination's exact title. Not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "e0bb71b457f8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer badge link to the Google Play store (\"GET IT ON Google Play\" badge). Both app links have aria-label and img alt \"Download our App\"; one goes to the Apple App Store, the other to Google Play. The surrounding context (h4 \"Download our App\", \"For your latest myLakeland vouchers\") does not say which store each link opens, so a screen-reader user cannot tell the Android link from the iOS one. The platform is part of the link's purpose here; fails 2.4.4 (also 2.5.3/1.1.1, since the badge text is not in the name). Live HTML unchanged."
+    },
+    {
+      "fingerprint": "d99403573e43",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"View More\" link in the Small Kitchen Appliances column (Electricals menu) link to /collections/small-kitchen-appliances. The desktop mega-menu column is a plain div of sibling links (a bold column-title link, eight sub-category links, then this link); there is no heading, nested list or aria-describedby, and aria-label/title are just \"View More\". The only programmatic context is the top-level menu list item, which holds several identical \"View More\" links to different collections, so it does not tell them apart (F63-type: the category is only conveyed by visual column position). The snapshot has 26 such links (13 desktop + 13 mobile drawer) to 13 collections, matching the claim; the live HTML (2026-10-28) still has 26 aria-label=\"View More\" links. The mega-menu is opacity-0 when closed but stays in the accessibility tree and focusable, so screen-reader users meet these links. Fails 2.4.4 as reported."
+    },
+    {
+      "fingerprint": "1a78b56f10ff",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer VISA logo (footer-icon-visa.svg, shows \"VISA\" in the screenshot). It is one of eight payment-method logos in the footer bottom bar (Visa, Mastercard, Amex, Apple Pay, Google Pay, PayPal, Maestro, Shop Pay), every one with alt=\"\" and no adjacent text (only \"(c) Lakeland Ltd 2026\"), no list label and no visually hidden \"We accept\" text. The logos tell users which payment methods the shop accepts, so they are informative, not decoration as WCAG defines it (no information, aesthetic only). Screen-reader users get none of that information. Live HTML (2026-10-28) still has alt=\"\". Fails 1.1.1."
+    },
+    {
+      "fingerprint": "ad96b3e82b44",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer Shop Pay logo (footer-icon-shop-pay.svg, shows \"shop Pay\"). It is one of eight payment-method logos in the footer bottom bar (Visa, Mastercard, Amex, Apple Pay, Google Pay, PayPal, Maestro, Shop Pay), every one with alt=\"\" and no adjacent text (only \"(c) Lakeland Ltd 2026\"), no list label and no visually hidden \"We accept\" text. The logos tell users which payment methods the shop accepts, so they are informative, not decoration as WCAG defines it (no information, aesthetic only). Screen-reader users get none of that information. Live HTML (2026-10-28) still has alt=\"\". Fails 1.1.1."
+    },
+    {
+      "fingerprint": "49a548c172cf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"View More\" link in the Baking Accessories column (Baking menu) link to /collections/baking-accessories. The desktop mega-menu column is a plain div of sibling links (a bold column-title link, eight sub-category links, then this link); there is no heading, nested list or aria-describedby, and aria-label/title are just \"View More\". The only programmatic context is the top-level menu list item, which holds several identical \"View More\" links to different collections, so it does not tell them apart (F63-type: the category is only conveyed by visual column position). The snapshot has 26 such links (13 desktop + 13 mobile drawer) to 13 collections, matching the claim; the live HTML (2026-10-28) still has 26 aria-label=\"View More\" links. The mega-menu is opacity-0 when closed but stays in the accessibility tree and focusable, so screen-reader users meet these links. Fails 2.4.4 as reported."
+    },
+    {
+      "fingerprint": "900b51ea99c5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image of text inside the Google Play link: the badge reads \"GET IT ON Google Play\" (crop and screenshot), alt=\"Download our App\". As the sole content of a link, the alt must convey the link's function, and the essential information shown, the store, is missing; the alt is identical to the App Store badge's, so it does not serve the equivalent purpose. The finding's \"describes something the image does not show\" is loosely worded (the gap is an omission of the store name rather than wrong content), but the alt/image mismatch it names is real. Fails 1.1.1."
+    },
+    {
+      "fingerprint": "3422f30f4fd4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image of text inside the App Store link: the badge reads \"Download on the App Store\" with the Apple logo, alt=\"Download our App\". The alt drops the store name, which is the information that distinguishes it from the adjacent Google Play badge carrying the same alt, so the text alternative is not equivalent to the image's text and function. Wording of the claim is loose (omission rather than wrong content) but the mismatch is real. Fails 1.1.1."
+    },
+    {
+      "fingerprint": "b608a104105f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"View More\" link in the Tableware column (Cooking & Dining menu) link to /collections/tableware. The desktop mega-menu column is a plain div of sibling links (a bold column-title link, eight sub-category links, then this link); there is no heading, nested list or aria-describedby, and aria-label/title are just \"View More\". The only programmatic context is the top-level menu list item, which holds several identical \"View More\" links to different collections, so it does not tell them apart (F63-type: the category is only conveyed by visual column position). The snapshot has 26 such links (13 desktop + 13 mobile drawer) to 13 collections, matching the claim; the live HTML (2026-10-28) still has 26 aria-label=\"View More\" links. The mega-menu is opacity-0 when closed but stays in the accessibility tree and focusable, so screen-reader users meet these links. Fails 2.4.4 as reported."
+    },
+    {
+      "fingerprint": "25b5912a5c50",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"View More\" link in the Cake Decorating column (Baking menu) link to /collections/cake-decorating. The desktop mega-menu column is a plain div of sibling links (a bold column-title link, eight sub-category links, then this link); there is no heading, nested list or aria-describedby, and aria-label/title are just \"View More\". The only programmatic context is the top-level menu list item, which holds several identical \"View More\" links to different collections, so it does not tell them apart (F63-type: the category is only conveyed by visual column position). The snapshot has 26 such links (13 desktop + 13 mobile drawer) to 13 collections, matching the claim; the live HTML (2026-10-28) still has 26 aria-label=\"View More\" links. The mega-menu is opacity-0 when closed but stays in the accessibility tree and focusable, so screen-reader users meet these links. Fails 2.4.4 as reported."
+    },
+    {
+      "fingerprint": "sc8a5aa96a15",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header search (Algolia autocomplete). The role=combobox wrapper and the search input are both aria-labelledby=\"autocomplete-0-label\", a <label> carrying aria-label=\"Submit\" that wraps the magnifier submit button (title \"Submit\"), so both get the accessible name \"Submit\" (confirmed in the snapshot AX data); the only visible cue is the magnifier icon plus placeholder \"Search ...\". The label presented to assistive-technology users names a button action, not what the field is for or what to enter, so it is not descriptive of the field's purpose. Fails 2.4.6 (it is also a 4.1.2/2.5.3 problem; some auditors would file it only there)."
+    },
+    {
+      "fingerprint": "45990b01530e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"View More\" link in the Picnicware & Outdoor Dining column (Cooking & Dining menu) link to /collections/picnicware-outdoor-dining. The desktop mega-menu column is a plain div of sibling links (a bold column-title link, eight sub-category links, then this link); there is no heading, nested list or aria-describedby, and aria-label/title are just \"View More\". The only programmatic context is the top-level menu list item, which holds several identical \"View More\" links to different collections, so it does not tell them apart (F63-type: the category is only conveyed by visual column position). The snapshot has 26 such links (13 desktop + 13 mobile drawer) to 13 collections, matching the claim; the live HTML (2026-10-28) still has 26 aria-label=\"View More\" links. The mega-menu is opacity-0 when closed but stays in the accessibility tree and focusable, so screen-reader users meet these links. Fails 2.4.4 as reported."
+    },
+    {
+      "fingerprint": "26fcc44ffada",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"View More\" link in the Bakeware column (Baking menu) link to /collections/bakeware. The desktop mega-menu column is a plain div of sibling links (a bold column-title link, eight sub-category links, then this link); there is no heading, nested list or aria-describedby, and aria-label/title are just \"View More\". The only programmatic context is the top-level menu list item, which holds several identical \"View More\" links to different collections, so it does not tell them apart (F63-type: the category is only conveyed by visual column position). The snapshot has 26 such links (13 desktop + 13 mobile drawer) to 13 collections, matching the claim; the live HTML (2026-10-28) still has 26 aria-label=\"View More\" links. The mega-menu is opacity-0 when closed but stays in the accessibility tree and focusable, so screen-reader users meet these links. Fails 2.4.4 as reported."
+    },
+    {
+      "fingerprint": "d7ad40b26768",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"View More\" link in the Knives column (Cooking & Dining menu) link to /collections/knives. The desktop mega-menu column is a plain div of sibling links (a bold column-title link, eight sub-category links, then this link); there is no heading, nested list or aria-describedby, and aria-label/title are just \"View More\". The only programmatic context is the top-level menu list item, which holds several identical \"View More\" links to different collections, so it does not tell them apart (F63-type: the category is only conveyed by visual column position). The snapshot has 26 such links (13 desktop + 13 mobile drawer) to 13 collections, matching the claim; the live HTML (2026-10-28) still has 26 aria-label=\"View More\" links. The mega-menu is opacity-0 when closed but stays in the accessibility tree and focusable, so screen-reader users meet these links. Fails 2.4.4 as reported."
+    },
+    {
+      "fingerprint": "90eda1ac6a15",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer badge link to the Apple App Store (\"Download on the App Store\" badge). It shares the accessible name \"Download our App\" (aria-label and alt) with the Google Play link; nothing in the name or the programmatic context (heading \"Download our App\" and a voucher blurb) says which store it opens, so users cannot choose the right one for their device. Fails 2.4.4. Live HTML unchanged."
+    },
+    {
+      "fingerprint": "sb617e9f91c6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"View More\" link at the foot of the Pots & Pans column of the Cooking & Dining mega-menu, leading to /collections/pots-pans (\"Cooking Pots & Pans | Induction & Non-Stick | Lakeland\"). The destination is not actually inconsistent with the link (it is the \"more\" of that column), so the \"does not match\" wording overstates it; but read fairly the claim is that the text does not convey the destination, and that holds: the name is just \"View More\" (aria-label and title), the column is a plain div with no heading or nested list, and the enclosing menu list item holds six identical \"View More\" links to different collections. Fails 2.4.4."
+    },
+    {
+      "fingerprint": "55c70a69c47d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer Mastercard logo (footer-icon-mastercard.svg, the red/yellow circles mark). It is one of eight payment-method logos in the footer bottom bar (Visa, Mastercard, Amex, Apple Pay, Google Pay, PayPal, Maestro, Shop Pay), every one with alt=\"\" and no adjacent text (only \"(c) Lakeland Ltd 2026\"), no list label and no visually hidden \"We accept\" text. The logos tell users which payment methods the shop accepts, so they are informative, not decoration as WCAG defines it (no information, aesthetic only). Screen-reader users get none of that information. Live HTML (2026-10-28) still has alt=\"\". Fails 1.1.1."
+    },
+    {
+      "fingerprint": "76fe821f736e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"View More\" link in the Cooking Electricals column (Electricals menu) link to /collections/cooking-electricals. The desktop mega-menu column is a plain div of sibling links (a bold column-title link, eight sub-category links, then this link); there is no heading, nested list or aria-describedby, and aria-label/title are just \"View More\". The only programmatic context is the top-level menu list item, which holds several identical \"View More\" links to different collections, so it does not tell them apart (F63-type: the category is only conveyed by visual column position). The snapshot has 26 such links (13 desktop + 13 mobile drawer) to 13 collections, matching the claim; the live HTML (2026-10-28) still has 26 aria-label=\"View More\" links. The mega-menu is opacity-0 when closed but stays in the accessibility tree and focusable, so screen-reader users meet these links. Fails 2.4.4 as reported."
+    },
+    {
+      "fingerprint": "02f69b0bd5a6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"View More\" link in the Cooking Utensils column (Cooking & Dining menu) link to /collections/cooking-utensils. The desktop mega-menu column is a plain div of sibling links (a bold column-title link, eight sub-category links, then this link); there is no heading, nested list or aria-describedby, and aria-label/title are just \"View More\". The only programmatic context is the top-level menu list item, which holds several identical \"View More\" links to different collections, so it does not tell them apart (F63-type: the category is only conveyed by visual column position). The snapshot has 26 such links (13 desktop + 13 mobile drawer) to 13 collections, matching the claim; the live HTML (2026-10-28) still has 26 aria-label=\"View More\" links. The mega-menu is opacity-0 when closed but stays in the accessibility tree and focusable, so screen-reader users meet these links. Fails 2.4.4 as reported."
+    },
+    {
+      "fingerprint": "90146417db09",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer American Express logo (footer-icon-amex-minified.svg, shows \"AMEX\"). It is one of eight payment-method logos in the footer bottom bar (Visa, Mastercard, Amex, Apple Pay, Google Pay, PayPal, Maestro, Shop Pay), every one with alt=\"\" and no adjacent text (only \"(c) Lakeland Ltd 2026\"), no list label and no visually hidden \"We accept\" text. The logos tell users which payment methods the shop accepts, so they are informative, not decoration as WCAG defines it (no information, aesthetic only). Screen-reader users get none of that information. Live HTML (2026-10-28) still has alt=\"\". Fails 1.1.1."
+    },
+    {
+      "fingerprint": "c8b2835be383",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"View More\" link in the Pest Control column (Storage & Home menu) link to /collections/pest-control. The desktop mega-menu column is a plain div of sibling links (a bold column-title link, eight sub-category links, then this link); there is no heading, nested list or aria-describedby, and aria-label/title are just \"View More\". The only programmatic context is the top-level menu list item, which holds several identical \"View More\" links to different collections, so it does not tell them apart (F63-type: the category is only conveyed by visual column position). The snapshot has 26 such links (13 desktop + 13 mobile drawer) to 13 collections, matching the claim; the live HTML (2026-10-28) still has 26 aria-label=\"View More\" links. The mega-menu is opacity-0 when closed but stays in the accessibility tree and focusable, so screen-reader users meet these links. Fails 2.4.4 as reported."
+    }
+  ]
+}

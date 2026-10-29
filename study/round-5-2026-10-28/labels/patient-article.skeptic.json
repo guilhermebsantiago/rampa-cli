@@ -1,0 +1,90 @@
+{
+  "page": "https://patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "f2567d066f14",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link in the article's Language panel whose text is the Hebrew name of the language. The snapshot and the live HTML (fetched 2026-10-28) show <a><span>🇮🇱 עברית</span></a> with no lang on the link, the span or any ancestor, and html lang=\"en\". The panel is visually closed in the screenshot but stays in the accessibility tree (not aria-hidden), so screen readers reach it, and it shows when opened. I looked for reasons it might pass: language names are not proper names or vernacular words in English, and the Understanding document for 3.1.2 gives this case (alternative language links, each language name written in that language and marked with lang) as its example. A screen reader guessing the language from the script is not a WCAG technique. Real 3.1.2 failure."
+    },
+    {
+      "fingerprint": "c7b9ec618684",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Visible newsletter sign-up field ('Enter your email') that asks for the user's own email address. Snapshot and live HTML: <input type=\"email\" placeholder=\"Enter your email\"> with no autocomplete attribute. The email purpose is in the Input Purposes list and HTML can identify it, so 1.3.5 applies. I checked whether anything else makes it pass: type=\"email\" only sets the data format, not the autocomplete purpose that H98 relies on, and no autocomplete is added at runtime in the snapshot. Real 1.3.5 failure. The field also has only a placeholder as its label, which concerns other criteria."
+    },
+    {
+      "fingerprint": "435ce7555c2a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Medical professionals' link in the Halloween-themed audience banner (nav class audience-nav-halloween), 14px, weight 500, so normal-size text. I sampled the screenshot myself. The darkest text pixel is exactly the CSS colour #6f6f8c, so no overlay changes the colour. The banner's beige gradient is around #e9d9d1 to #ecddd5, which gives about 3.5 to 3.7:1, below 4.5:1. The link is active, not disabled or decorative, so no exception applies. Real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "s50f4518b181",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h3 'Mr Alex Day' is the title of an image card in the article. The screenshot shows a bordered box with 'Mr Alex Day' above a photo of him (alt 'Mr Alex Day, Consultant Ophthalmologist...') and a 'View larger' button. The heading names exactly what the card holds, and the paragraphs around it quote Day's advice, so it describes its topic. Using a heading as an image caption might be argued under 1.3.1, but it is not a 2.4.6 failure. The model misjudged content it had."
+    },
+    {
+      "fingerprint": "281236771905",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link in the Language panel whose text is 'Português', the language's own name. Snapshot and live HTML show no lang on the link, its span or any ancestor, and the page is lang=\"en\". The links stay in the accessibility tree while the panel is closed and show when it opens. Language names are not proper names or vernacular words in English, and the Understanding document for 3.1.2 shows this case (alternative language links marked with lang) as its example. Real 3.1.2 failure."
+    },
+    {
+      "fingerprint": "e84d98a9e17c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link in the Language panel whose text is 'Français'. Snapshot and live HTML show no lang on the link, its span or any ancestor, on a page that is lang=\"en\". The panel stays in the accessibility tree while closed. The Understanding document for 3.1.2 uses this case (each language name written in that language, marked with lang, with 'Français' among its examples) to show how to meet the criterion. No exception applies. Real 3.1.2 failure."
+    },
+    {
+      "fingerprint": "a75cfc05b64e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link in the Language panel whose text is 'Italiano'. Snapshot and live HTML show no lang on the link, its span or any ancestor, on a page that is lang=\"en\". The links stay in the accessibility tree while the panel is closed. The proper-name and vernacular exceptions do not cover a language's own name, and the Understanding document for 3.1.2 gives alternative language links marked with lang as its example. Real 3.1.2 failure."
+    },
+    {
+      "fingerprint": "fb2aee9fb659",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link in the Language panel whose text is 'Deutsch'. Snapshot and live HTML show no lang on the link, its span or any ancestor, on a page that is lang=\"en\". The Understanding document for 3.1.2 names Deutsch and Français in its alternative-language-links example, where each link carries lang. The links are in the accessibility tree whether or not the panel is open. Real 3.1.2 failure."
+    },
+    {
+      "fingerprint": "dfd259c5cadc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link in the Language panel whose text is 'Español'. Snapshot and live HTML show no lang on the link, its span or any ancestor, on a page that is lang=\"en\". A language's own name is not covered by the proper-name or vernacular exceptions, and the Understanding document for 3.1.2 gives alternative language links marked with lang as its example. The panel is exposed to assistive technology even while closed. Real 3.1.2 failure."
+    },
+    {
+      "fingerprint": "7085d0d51dd2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link in the Language panel whose text is 'Svenska'. Snapshot and live HTML show no lang on the link, its span or any ancestor, on a page that is lang=\"en\". An English screen reader voice would mispronounce it. No exception applies, and the Understanding document for 3.1.2 gives this case as its example. Real 3.1.2 failure."
+    },
+    {
+      "fingerprint": "7102e3aaa44d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Tagline 'Trusted health information since 1996' in the Halloween-themed audience banner, 14px, weight 400 (CSS colour rgb(111,111,140)). I sampled the screenshot: the darkest text pixel is #6f6f8c and the background is around #e9d9d1 to #edded7, about 3.5:1, below 4.5:1. It is a tagline, not part of a logo, and not decorative, so no exception applies. Real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "sbe2029f4ef1",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Inline link in article prose: 'we've followed the tradition of setting off fireworks', pointing to 'Managing PTSD during fireworks season'. 2.4.4 asks that the link's purpose be determinable from its text and its programmatically determined context (the sentence). It does not ask that link text match the destination's title. The link is a topical cross-reference to a related fireworks article. Any loss of clarity applies equally to sighted readers, and that case falls under the criterion's 'ambiguous to users in general' exception. No documented 2.4.4 failure covers loose editorial link wording. The finding applies a stricter text-matches-destination rule than WCAG's."
+    },
+    {
+      "fingerprint": "5989c22b358a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Go ad-free' button in the Halloween-themed audience banner, 14px, weight 500, so normal-size text. I sampled the screenshot: the darkest text pixel is the CSS colour #6f6f8c and the background is around #e7d7ce, about 3.4 to 3.5:1, below 4.5:1. The button is an active control (opens a dialog), so no exception applies. Real 1.4.3 failure."
+    },
+    {
+      "fingerprint": "8e89fbf0d776",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Link in the Language panel whose text is 'हिन्दी' (Hindi, Devanagari). Snapshot and live HTML show no lang on the link, its span or any ancestor, on a page that is lang=\"en\". A screen reader might switch voice on its own from the script, but that is user-agent guesswork and not a WCAG technique. The Understanding document for 3.1.2 gives alternative language links marked with lang as its example. Real 3.1.2 failure."
+    }
+  ]
+}

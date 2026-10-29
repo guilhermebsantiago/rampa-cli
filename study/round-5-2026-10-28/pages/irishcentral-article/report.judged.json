@@ -1,0 +1,247 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.irishcentral.com/news/colleague-saved-life-stroke",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "3ea565d0a50f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#CybotCookiebotDialogPoweredbyImage",
+   "message": "The text alternative \"logo\" is a file name or a placeholder.",
+   "evidence": "logo",
+   "subject": "logo",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#CybotCookiebotDialogPoweredbyImage",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "logo",
+    "to": "IrishCentral."
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 32
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 16,
+   "members": [
+    "94eb8df22f42",
+    "4d05f3f9c6e6",
+    "7c0f6d70243b",
+    "158534f59ec5",
+    "f04c367df769",
+    "f3a594e4221a",
+    "89c00b0459a8",
+    "543b4c0dd0b0",
+    "952509904161",
+    "695101008d50",
+    "f6c8880d0f44",
+    "054b346dda80",
+    "d80c8f93381f",
+    "9175715175f2",
+    "9f310ea95e8f",
+    "427d894e4854"
+   ],
+   "example": "94eb8df22f42"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.2",
+   "level": "A",
+   "ruleId": "judgment/2.4.2",
+   "ref": "html",
+   "message": "The page title \"Irish father says colleague saved his life after stroke\" names a different topic than the page.",
+   "evidence": "The model suggests: \"Responsible use of your data - IrishCentral\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 1,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 8,
+   "judged": 8,
+   "failed": 0,
+   "passed": 8,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The page was cut at 5000 elements, the collector's limit: what comes after them is not in the snapshot, so the checks that read the snapshot (Rampa's rules and judged criteria) did not run past that point. Checked only up to the cut: 1.1.1, 2.4.2, 2.4.4, 2.4.6, 3.1.1, 3.1.2. axe-core read the whole page.",
+  "8 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #google_ads_iframe_\\/27621295\\/icLeaderboardTop_0, #google_ads_iframe_\\/27621295\\/icLeaderboardTop_0 |> html > body > iframe, #quiz-iframe, #google_ads_iframe_\\/213794966\\,27621295\\/vuukle-widget\\/irishcentral\\.com_0, #v-comments +3.",
+  "The browser's accessibility tree was not read (the page has 47993 elements, over the limit of 40000): names and roles are Rampa's own approximation, and the rules that read the browser's tree had nothing to apply to.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 13,
+  "cachedCalls": 0,
+  "inputTokens": 8316,
+  "outputTokens": 930,
+  "latencyMs": 23996
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#google_ads_iframe_\\/27621295\\/icLeaderboardTop_0",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#google_ads_iframe_\\/27621295\\/icLeaderboardTop_0 |> html > body > iframe",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#quiz-iframe",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#google_ads_iframe_\\/213794966\\,27621295\\/vuukle-widget\\/irishcentral\\.com_0",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#v-comments",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#google_ads_iframe_\\/213794966\\,27621295\\/vuukle-widget\\/irishcentral\\.com-2_0",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#ic-page-top > iframe:nth-of-type(6)",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#li_sync_frame",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

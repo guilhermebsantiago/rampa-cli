@@ -1,0 +1,279 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.ms.gov.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "928d393545aa",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#root > section:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"not found\" describes something the image does not show.",
+   "evidence": "not found",
+   "subject": "not found",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#root > section:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "not found",
+    "to": "Página inicial",
+    "before": "<img alt=\"not found\" src=\"/assets/images/icon-home.svg\">",
+    "after": "<img alt=\"Página inicial\" src=\"/assets/images/icon-home.svg\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999917953360224
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f378e509771f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#root > section:nth-of-type(1) > div:nth-of-type(4) > form > div > div > div > img",
+   "message": "The text alternative \"Contraste\" describes something the image does not show.",
+   "evidence": "Contraste",
+   "subject": "Contraste",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#root > section:nth-of-type(1) > div:nth-of-type(4) > form > div > div > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Contraste",
+    "to": "Pesquisar",
+    "before": "<img alt=\"Contraste\" src=\"/assets/images/searchIcon.svg\" class=\"portal1619\">",
+    "after": "<img alt=\"Pesquisar\" src=\"/assets/images/searchIcon.svg\" class=\"portal1619\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999961846979416
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "89777dbca227",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#root > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > img",
+   "message": "The text alternative \"Rodapé 2\" describes something the image does not show.",
+   "evidence": "Rodapé 2",
+   "subject": "Rodapé 2",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#root > footer > div:nth-of-type(2) > div > div:nth-of-type(2) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Rodapé 2",
+    "to": "Brasão e nome do Estado de Mato Grosso do Sul",
+    "before": "<img class=\"portal1589\" alt=\"Rodapé 2\" src=\"https://noticias.ms.gov.br/uploads/midias/e0e36ee104ac49ecad8a3fe5412288e4.svg\">",
+    "after": "<img class=\"portal1589\" alt=\"Brasão e nome do Estado de Mato Grosso do Sul\" src=\"https://noticias.ms.gov.br/uploads/midias/e0e36ee104ac49ecad8a3fe5412288e4.svg\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999957796956478
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "bb705dfb7f5a",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#root > section:nth-of-type(1) > div:nth-of-type(4) > form > div > div > input",
+   "target": "#root > section:nth-of-type(1) > div:nth-of-type(4) > form > div > div > input",
+   "message": "The placeholder \"Ex: CNH, Matrícula escolar...\" has a contrast of 2.07:1 with the field (#0057af6b on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#0057af6b on #ffffff · 2.07:1 at best, 2.07:1 at worst · 14px, 700",
+   "subject": "Ex: CNH, Matrícula escolar...",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input placeholder=\"Ex: CNH, Matrícula escolar...\" type=\"text\" class=\"portal195 portal180 portal199\" value=\"\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 5
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#root > footer > div:nth-of-type(1) > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > div > a:nth-of-type(1)",
+   "message": "The link text \"Saiba Mais\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Saiba mais sobre o MS.GOV.BR\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#root > section:nth-of-type(1) > div:nth-of-type(4) > form > div > div > input",
+   "message": "The label \"Ex: CNH, Matrícula escolar...\" does not say what to enter.",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#root > div:nth-of-type(4) > section:nth-of-type(4) > div > div > div > div:nth-of-type(1) > h1",
+   "message": "The heading \"1237\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Serviços no portal\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 6,
+   "failed": 3,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 3
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 53,
+   "judged": 50,
+   "failed": 0,
+   "passed": 8,
+   "cannotTell": 0,
+   "discarded": 41,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 3,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 36,
+   "judged": 36,
+   "failed": 0,
+   "passed": 34,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: html > body > div:nth-of-type(6) > div > div:nth-of-type(1) > iframe (https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LdqDVcmAAAAAAstIzlypO4A-DoDIxfsttFBvL8G&co=aHR0cHM6Ly93d3cubXMuZ292LmJyOjQ0Mw..&hl=en&v=NhfdZHzre166o-vFZrWsq3yu&size=invisible&anchor-ms=20000&execute-ms=30000&ovv=CADq00gF&cb=rqjcx1ll8x0k).",
+  "1 image(s) were left without a capture, so no judgment looked at them: 1 blank in its capture. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 3 of 53 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 102,
+  "inputTokens": 86629,
+  "outputTokens": 9908,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > div:nth-of-type(6) > div > div:nth-of-type(1) > iframe",
+     "url": "https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LdqDVcmAAAAAAstIzlypO4A-DoDIxfsttFBvL8G&co=aHR0cHM6Ly93d3cubXMuZ292LmJyOjQ0Mw..&hl=en&v=NhfdZHzre166o-vFZrWsq3yu&size=invisible&anchor-ms=20000&execute-ms=30000&ovv=CADq00gF&cb=rqjcx1ll8x0k",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

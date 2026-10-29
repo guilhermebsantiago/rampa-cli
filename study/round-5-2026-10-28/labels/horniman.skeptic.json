@@ -1,0 +1,30 @@
+{
+  "page": "https://www.horniman.ac.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sa12827d94c9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the card link in the 'Members say' section. It wraps an image, an h3 'Membership' and the text 'Find out more'. Its accessible name, 'Membership Find out more', already names the target, and the link goes to /plan-your-visit/membership/, whose title and h1 are both 'Membership'. The live HTML is the same. The link text alone says where the link goes, so 2.4.4 is met. The checker had the name, the heading and the destination, so it judged wrongly."
+    },
+    {
+      "fingerprint": "6eb5513e93df",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the thumbnail inside the Membership card link, with alt 'Inquisitive child at Horniman exhibition.'. The crop the model saw shows a young child looking up curiously, in a dim gallery with lit display cases behind him. That is what the alt says. Nothing in the image contradicts the alt, so the claim that it describes something the image does not show is wrong. At most the alt is redundant inside a link whose text already says 'Membership', and that is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "a8118e719717",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the 'More' item (href='#') in the main navigation (nav 'Main'). It opens a submenu, and the submenu sits in the same list item: Schools, Support Us, Venue hire, News and Stories, Projects, Our history, Shop. The snapshot shows those links exposed and focusable, and the live HTML matches. Text in the same list item is programmatically determined link context under 2.4.4, and it makes clear that the link shows more site sections. The ancestor text the checker was given contained that list, so 'nothing around it does' is wrong. A link with href='#' used as a disclosure toggle without aria-expanded would be a 4.1.2 role/state issue, not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "3249ad080a4b",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the header search field (input#h-keyword, placeholder 'Search'). It has an associated <label for='h-keyword'>Search</label>, which the theme CSS hides with visibility:hidden. I checked a copy of this markup in Edge 156 through the DevTools protocol (Chromium's accessibility API). Chromium does compute an empty name: the hidden label wins with an empty value, and the placeholder is marked as superseded. So in Chromium-based browsers the data behind the finding is accurate. But the specs say otherwise. Accname 1.2 keeps the content of a hidden label that is the root of a native label traversal. HTML-AAM falls back to the placeholder when the label gives nothing, and ACT rule e086e5 counts a placeholder as a non-empty accessible name. Under the specs the name is 'Search', and Firefox falls back to the placeholder. Screen readers usually also read the placeholder, so 'announces only textbox' is probably overstated. Whether this fails 4.1.2 or is a Chromium bug against an author-supplied label is a point where competent auditors would disagree."
+    }
+  ]
+}

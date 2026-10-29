@@ -1,0 +1,144 @@
+{
+  "page": "https://www.lakeland.co.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "feae5044778a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Desktop mega-menu link \"View More\" (aria-label and title also \"View More\") at the bottom of the Food Storage column, linking to /collections/food-storage. I counted the snapshot: 26 \"View More\" links, 13 destinations (desktop menu plus a mobile copy), so the count in the message is right. The only thing that ties this link to its column is the column title, \"Food Storage\", which is a plain link in a div (class megamenu__column). It is not a heading, the column is not a list item, and nothing like aria-describedby points to it. The nearest list item is the top-level \"Storage & Home\" item, which holds every column and its own \"View More\" links, so the context H81 would give does not tell them apart. The checker missed no technique (G53, H77, H78, H80, H81) that would make this pass, and the visual column grouping is not programmatically determined (F63). The live page still has the same markup. Real 2.4.4 failure."
+    },
+    {
+      "fingerprint": "7388cf472c29",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Desktop mega-menu link \"View More\" (aria-label and title also \"View More\") at the bottom of the Roasting column, linking to /collections/roasting. I counted the snapshot: 26 \"View More\" links, 13 destinations (desktop menu plus a mobile copy), so the count in the message is right. The only thing that ties this link to its column is the column title, \"Roasting\", which is a plain link in a div (class megamenu__column). It is not a heading, the column is not a list item, and nothing like aria-describedby points to it. The nearest list item is the top-level \"Cooking & Dining\" item, which holds every column and its own \"View More\" links, so the context H81 would give does not tell them apart. The checker missed no technique (G53, H77, H78, H80, H81) that would make this pass, and the visual column grouping is not programmatically determined (F63). The live page still has the same markup. Real 2.4.4 failure."
+    },
+    {
+      "fingerprint": "s92f8d1d06d4",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Help\" link in the top utility bar (next to \"Find a store\" and \"myLakeland\") linking to /pages/contact-us. Rampa read the destination: its title is \"Contact us\". I fetched it: it is the site's customer-service hub, with popular FAQs (orders, delivery, returns, guarantee, account), a link to the full FAQ, and webchat, phone, email and postal contact. A link named \"Help\" in a utility header that leads to the help and contact hub is clear from its text alone. The model had the destination and still judged it wrong. Not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "e0bb71b457f8",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link to the Google Play store page (play.google.com, com.lakeland.android). Its only content is the store badge, and it has aria-label=\"Download our App\". The neighbouring link to the Apple App Store has the same name. The context is the same for both (heading \"Download our App\", text \"For your latest myLakeland vouchers\") and does not name the store. Visually the badges say App Store and Google Play, so sighted users can tell the two apart, but a screen-reader user hears two identical \"Download our App\" links and cannot tell which platform each serves. Following ACT rule fd3a94 (identical names and same context must lead to equivalent resources unless the page itself shows no difference), the two store pages are not equivalent for a given user, and the visual design shows they differ. I checked whether the purpose of downloading the app is the same either way and decided it is not enough: the platform is the part of the purpose that differs. Live page unchanged. Real 2.4.4 failure."
+    },
+    {
+      "fingerprint": "d99403573e43",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Desktop mega-menu link \"View More\" (aria-label and title also \"View More\") at the bottom of the Small Kitchen Appliances column, linking to /collections/small-kitchen-appliances. I counted the snapshot: 26 \"View More\" links, 13 destinations (desktop menu plus a mobile copy), so the count in the message is right. The only thing that ties this link to its column is the column title, \"Small Kitchen Appliances\", which is a plain link in a div (class megamenu__column). It is not a heading, the column is not a list item, and nothing like aria-describedby points to it. The nearest list item is the top-level \"Electricals\" item, which holds every column and its own \"View More\" links, so the context H81 would give does not tell them apart. The checker missed no technique (G53, H77, H78, H80, H81) that would make this pass, and the visual column grouping is not programmatically determined (F63). The live page still has the same markup. Real 2.4.4 failure."
+    },
+    {
+      "fingerprint": "1a78b56f10ff",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer payment-method logo (Visa, 40x23, alt=\"\"), one of eight such icons (Visa, Mastercard, Amex, Apple Pay, Google Pay, PayPal, Maestro, Shop Pay), all with alt=\"\". The crop the model saw is offset, but my own crop of the screenshot confirms the logo is Visa, as the finding says. There is no visible or hidden text such as \"We accept\" or a list of payment methods anywhere in the snapshot, so the logos are the only place the page says which payment methods it takes. That is information, not decoration, and alt=\"\" removes it from assistive technology. I found no technique that would make an empty alt acceptable here. Real 1.1.1 failure."
+    },
+    {
+      "fingerprint": "ad96b3e82b44",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer payment-method logo (Shop Pay, 40x23, alt=\"\"), one of eight such icons (Visa, Mastercard, Amex, Apple Pay, Google Pay, PayPal, Maestro, Shop Pay), all with alt=\"\". The crop the model saw is offset, but my own crop of the screenshot confirms the logo is Shop Pay, as the finding says. There is no visible or hidden text such as \"We accept\" or a list of payment methods anywhere in the snapshot, so the logos are the only place the page says which payment methods it takes. That is information, not decoration, and alt=\"\" removes it from assistive technology. I found no technique that would make an empty alt acceptable here. Real 1.1.1 failure."
+    },
+    {
+      "fingerprint": "49a548c172cf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Desktop mega-menu link \"View More\" (aria-label and title also \"View More\") at the bottom of the Baking Accessories column, linking to /collections/baking-accessories. I counted the snapshot: 26 \"View More\" links, 13 destinations (desktop menu plus a mobile copy), so the count in the message is right. The only thing that ties this link to its column is the column title, \"Baking Accessories\", which is a plain link in a div (class megamenu__column). It is not a heading, the column is not a list item, and nothing like aria-describedby points to it. The nearest list item is the top-level \"Baking\" item, which holds every column and its own \"View More\" links, so the context H81 would give does not tell them apart. The checker missed no technique (G53, H77, H78, H80, H81) that would make this pass, and the visual column grouping is not programmatically determined (F63). The live page still has the same markup. Real 2.4.4 failure."
+    },
+    {
+      "fingerprint": "900b51ea99c5",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The Google Play badge image inside the footer app link, with alt=\"Download our App\". The crop shows \"GET IT ON Google Play\". The finding says the alt describes something the image does not show. That is not quite right: \"Download our App\" matches the badge's call to action and the link's function, which the functional-image guidance asks an alt to give. The real weakness is an omission. The alt leaves out the store name that the image of text shows, and the other badge has the same alt, so the platform information is lost (under G94, the alt does not present the same information). Some auditors would fail 1.1.1 for that. Others would accept the functional alt and file the problem under 2.4.4 (as the link findings do). Auditors could reasonably disagree on whether this fails 1.1.1, and the stated reason does not fit, so I label it uncertain."
+    },
+    {
+      "fingerprint": "3422f30f4fd4",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The Apple App Store badge image inside the footer app link, with alt=\"Download our App\". The crop shows \"Download on the App Store\". The finding says the alt describes something the image does not show. That is not quite right: \"Download our App\" matches the badge's call to action and the link's function, which the functional-image guidance asks an alt to give. The real weakness is an omission. The alt leaves out the store name that the image of text shows, and the other badge has the same alt, so the platform information is lost (under G94, the alt does not present the same information). Some auditors would fail 1.1.1 for that. Others would accept the functional alt and file the problem under 2.4.4 (as the link findings do). Auditors could reasonably disagree on whether this fails 1.1.1, and the stated reason does not fit, so I label it uncertain."
+    },
+    {
+      "fingerprint": "b608a104105f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Desktop mega-menu link \"View More\" (aria-label and title also \"View More\") at the bottom of the Tableware column, linking to /collections/tableware. I counted the snapshot: 26 \"View More\" links, 13 destinations (desktop menu plus a mobile copy), so the count in the message is right. The only thing that ties this link to its column is the column title, \"Tableware\", which is a plain link in a div (class megamenu__column). It is not a heading, the column is not a list item, and nothing like aria-describedby points to it. The nearest list item is the top-level \"Cooking & Dining\" item, which holds every column and its own \"View More\" links, so the context H81 would give does not tell them apart. The checker missed no technique (G53, H77, H78, H80, H81) that would make this pass, and the visual column grouping is not programmatically determined (F63). The live page still has the same markup. Real 2.4.4 failure."
+    },
+    {
+      "fingerprint": "25b5912a5c50",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Desktop mega-menu link \"View More\" (aria-label and title also \"View More\") at the bottom of the Cake Decorating column, linking to /collections/cake-decorating. I counted the snapshot: 26 \"View More\" links, 13 destinations (desktop menu plus a mobile copy), so the count in the message is right. The only thing that ties this link to its column is the column title, \"Cake Decorating\", which is a plain link in a div (class megamenu__column). It is not a heading, the column is not a list item, and nothing like aria-describedby points to it. The nearest list item is the top-level \"Baking\" item, which holds every column and its own \"View More\" links, so the context H81 would give does not tell them apart. The checker missed no technique (G53, H77, H78, H80, H81) that would make this pass, and the visual column grouping is not programmatically determined (F63). The live page still has the same markup. Real 2.4.4 failure."
+    },
+    {
+      "fingerprint": "sc8a5aa96a15",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the Algolia autocomplete wrapper (div role=combobox) in the header search form, with aria-labelledby=\"autocomplete-0-label\". That label is a <label aria-label=\"Submit\"> wrapping the magnifier submit button (title \"Submit\"), so the combobox and the input inside it are both named \"Submit\". This is a real accessibility defect: screen readers announce the search field as \"Submit\". The question is whether 2.4.6 is the right criterion. What sighted users see is a box with placeholder \"Search ...\" and a magnifier icon, which describes the field's purpose. Only the computed accessible name is wrong. Many auditors would file that under 4.1.2 or 1.3.1 rather than 2.4.6. Others count the <label> element's text alternative as the label shown to AT users, and fail it under 2.4.6. The criterion mapping is open to reasonable disagreement, so I label it uncertain."
+    },
+    {
+      "fingerprint": "45990b01530e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Desktop mega-menu link \"View More\" (aria-label and title also \"View More\") at the bottom of the Picnicware & Outdoor Dining column, linking to /collections/picnicware-outdoor-dining. I counted the snapshot: 26 \"View More\" links, 13 destinations (desktop menu plus a mobile copy), so the count in the message is right. The only thing that ties this link to its column is the column title, \"Picnicware & Outdoor Dining\", which is a plain link in a div (class megamenu__column). It is not a heading, the column is not a list item, and nothing like aria-describedby points to it. The nearest list item is the top-level \"Cooking & Dining\" item, which holds every column and its own \"View More\" links, so the context H81 would give does not tell them apart. The checker missed no technique (G53, H77, H78, H80, H81) that would make this pass, and the visual column grouping is not programmatically determined (F63). The live page still has the same markup. Real 2.4.4 failure."
+    },
+    {
+      "fingerprint": "26fcc44ffada",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Desktop mega-menu link \"View More\" (aria-label and title also \"View More\") at the bottom of the Bakeware column, linking to /collections/bakeware. I counted the snapshot: 26 \"View More\" links, 13 destinations (desktop menu plus a mobile copy), so the count in the message is right. The only thing that ties this link to its column is the column title, \"Bakeware\", which is a plain link in a div (class megamenu__column). It is not a heading, the column is not a list item, and nothing like aria-describedby points to it. The nearest list item is the top-level \"Baking\" item, which holds every column and its own \"View More\" links, so the context H81 would give does not tell them apart. The checker missed no technique (G53, H77, H78, H80, H81) that would make this pass, and the visual column grouping is not programmatically determined (F63). The live page still has the same markup. Real 2.4.4 failure."
+    },
+    {
+      "fingerprint": "d7ad40b26768",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Desktop mega-menu link \"View More\" (aria-label and title also \"View More\") at the bottom of the Knives column, linking to /collections/knives. I counted the snapshot: 26 \"View More\" links, 13 destinations (desktop menu plus a mobile copy), so the count in the message is right. The only thing that ties this link to its column is the column title, \"Knives\", which is a plain link in a div (class megamenu__column). It is not a heading, the column is not a list item, and nothing like aria-describedby points to it. The nearest list item is the top-level \"Cooking & Dining\" item, which holds every column and its own \"View More\" links, so the context H81 would give does not tell them apart. The checker missed no technique (G53, H77, H78, H80, H81) that would make this pass, and the visual column grouping is not programmatically determined (F63). The live page still has the same markup. Real 2.4.4 failure."
+    },
+    {
+      "fingerprint": "90eda1ac6a15",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link to the Apple App Store page (apps.apple.com, mylakeland). Its only content is the store badge, and it has aria-label=\"Download our App\". The neighbouring link to the Google Play store has the same name. The context is the same for both (heading \"Download our App\", text \"For your latest myLakeland vouchers\") and does not name the store. Visually the badges say App Store and Google Play, so sighted users can tell the two apart, but a screen-reader user hears two identical \"Download our App\" links and cannot tell which platform each serves. Following ACT rule fd3a94 (identical names and same context must lead to equivalent resources unless the page itself shows no difference), the two store pages are not equivalent for a given user, and the visual design shows they differ. I checked whether the purpose of downloading the app is the same either way and decided it is not enough: the platform is the part of the purpose that differs. Live page unchanged. Real 2.4.4 failure."
+    },
+    {
+      "fingerprint": "sb617e9f91c6",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "\"View More\" at the bottom of the Pots & Pans mega-menu column, linking to /collections/pots-pans, the same URL as the column-title link \"Pots & Pans\". The finding says the text does not match the destination. Read literally, that is wrong: \"View More\" under Pots & Pans leading to the Pots & Pans collection is exactly what a user would expect, so nothing is mismatched or misleading. The element does fail 2.4.4, though, for another reason: the text is generic, and the column title is a plain link in a div, not a heading or list-item context, so the link has no programmatically determined context (the sibling \"View More\" findings make this point). A reader could take \"does not match\" to mean \"does not identify\", and then the claim names the real failure. Because it depends on that reading, I label it uncertain."
+    },
+    {
+      "fingerprint": "55c70a69c47d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer payment-method logo (Mastercard, 40x23, alt=\"\"), one of eight such icons (Visa, Mastercard, Amex, Apple Pay, Google Pay, PayPal, Maestro, Shop Pay), all with alt=\"\". The crop the model saw is offset, but my own crop of the screenshot confirms the logo is Mastercard, as the finding says. There is no visible or hidden text such as \"We accept\" or a list of payment methods anywhere in the snapshot, so the logos are the only place the page says which payment methods it takes. That is information, not decoration, and alt=\"\" removes it from assistive technology. I found no technique that would make an empty alt acceptable here. Real 1.1.1 failure."
+    },
+    {
+      "fingerprint": "76fe821f736e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Desktop mega-menu link \"View More\" (aria-label and title also \"View More\") at the bottom of the Cooking Electricals column, linking to /collections/cooking-electricals. I counted the snapshot: 26 \"View More\" links, 13 destinations (desktop menu plus a mobile copy), so the count in the message is right. The only thing that ties this link to its column is the column title, \"Cooking Electricals\", which is a plain link in a div (class megamenu__column). It is not a heading, the column is not a list item, and nothing like aria-describedby points to it. The nearest list item is the top-level \"Electricals\" item, which holds every column and its own \"View More\" links, so the context H81 would give does not tell them apart. The checker missed no technique (G53, H77, H78, H80, H81) that would make this pass, and the visual column grouping is not programmatically determined (F63). The live page still has the same markup. Real 2.4.4 failure."
+    },
+    {
+      "fingerprint": "02f69b0bd5a6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Desktop mega-menu link \"View More\" (aria-label and title also \"View More\") at the bottom of the Cooking Utensils column, linking to /collections/cooking-utensils. I counted the snapshot: 26 \"View More\" links, 13 destinations (desktop menu plus a mobile copy), so the count in the message is right. The only thing that ties this link to its column is the column title, \"Cooking Utensils\", which is a plain link in a div (class megamenu__column). It is not a heading, the column is not a list item, and nothing like aria-describedby points to it. The nearest list item is the top-level \"Cooking & Dining\" item, which holds every column and its own \"View More\" links, so the context H81 would give does not tell them apart. The checker missed no technique (G53, H77, H78, H80, H81) that would make this pass, and the visual column grouping is not programmatically determined (F63). The live page still has the same markup. Real 2.4.4 failure."
+    },
+    {
+      "fingerprint": "90146417db09",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer payment-method logo (American Express, 40x23, alt=\"\"), one of eight such icons (Visa, Mastercard, Amex, Apple Pay, Google Pay, PayPal, Maestro, Shop Pay), all with alt=\"\". The crop the model saw is offset, but my own crop of the screenshot confirms the logo is American Express, as the finding says. There is no visible or hidden text such as \"We accept\" or a list of payment methods anywhere in the snapshot, so the logos are the only place the page says which payment methods it takes. That is information, not decoration, and alt=\"\" removes it from assistive technology. I found no technique that would make an empty alt acceptable here. Real 1.1.1 failure."
+    },
+    {
+      "fingerprint": "c8b2835be383",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Desktop mega-menu link \"View More\" (aria-label and title also \"View More\") at the bottom of the Pest Control column, linking to /collections/pest-control. I counted the snapshot: 26 \"View More\" links, 13 destinations (desktop menu plus a mobile copy), so the count in the message is right. The only thing that ties this link to its column is the column title, \"Pest Control\", which is a plain link in a div (class megamenu__column). It is not a heading, the column is not a list item, and nothing like aria-describedby points to it. The nearest list item is the top-level \"Storage & Home\" item, which holds every column and its own \"View More\" links, so the context H81 would give does not tell them apart. The checker missed no technique (G53, H77, H78, H80, H81) that would make this pass, and the visual column grouping is not programmatically determined (F63). The live page still has the same markup. Real 2.4.4 failure."
+    }
+  ]
+}

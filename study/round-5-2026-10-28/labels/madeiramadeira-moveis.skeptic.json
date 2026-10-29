@@ -1,0 +1,24 @@
+{
+  "page": "https://www.madeiramadeira.com.br/moveis",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s3613072b137",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a 'Ver todos' link (an <a> wrapping a <button>) under the 'Os mais populares' carousel. It goes to /moveis/moveis-para-quarto/guarda-roupas because the 'Guarda-roupa' filter chip is selected. I looked for context that would make it pass. Visually the selected chip and the wardrobe product cards make the destination clear. But the chips are plain buttons with no aria-pressed or selected state, in both the snapshot and the live SSR markup. The cards sit in a sibling carousel that is not in the same sentence, paragraph, list item or table cell as the link. The link has no aria-label, aria-labelledby, aria-describedby or hidden text. The only usable context is the preceding heading under H80, and 'Os mais populares' + 'Ver todos' means 'see all most popular', which does not identify the wardrobe category page. Context that exists only in unrelated sibling content is the F63 pattern, so the claim that nothing programmatically associated identifies the destination holds. Some auditors would accept the reading-order context, but WCAG's definition of programmatically determined link context does not support that. The live page is unchanged on these points."
+    },
+    {
+      "fingerprint": "scf998861fd9",
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the footer link 'Sobre a Madeira' (title 'Ir para a página de Sobre a Madeira'), pointing to /landing/confiavel. The checker judged the mismatch only from the destination's <title>, 'Loja Online de Móveis e Decoração | MadeiraMadeira', which is the site's generic default title. The packet captured no heading for that page. I fetched the live destination: its main content is headed 'Sobre nós', 'Por que você pode confiar?' and 'O que a imprensa diz sobre nós', and it opens with the company's description of itself. That is an about page, so the link text matches where it leads and 2.4.4 is met. A generic title would at most be a 2.4.2 question on the destination page, not a link-purpose failure here."
+    },
+    {
+      "fingerprint": "e76f696df137",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text input 'Insira o CEP' in the header location popover. The screenshot shows the popover open on load. Its copy reads 'Escolha sua localização' and asks for the CEP to show freight, delivery and service conditions 'para sua região'. So it collects the user's own postal code, which falls within 1.3.5's scope (information about the user), and 'postal-code' is in the Input Purposes list. The snapshot's attributes for the input are only id, class, type, placeholder and maxlength. I checked the live ZipcodeDialog chunk: the input gets size, placeholder, onChange, value, onKeyDown, maxLength and error props, and no autoComplete. HTML supports autocomplete tokens, so the purpose is not programmatically determinable and the field fails 1.3.5. I found no technique or exception that makes it pass. The name coming only from the placeholder is a separate 3.3.2/4.1.2 concern."
+    }
+  ]
+}

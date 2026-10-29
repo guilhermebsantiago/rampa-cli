@@ -1,0 +1,66 @@
+{
+  "page": "https://www.agazeta.com.br/colunas/abdo-filho/as-maiores-empresas-do-espirito-santo-veja-a-lista--1026",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s45dc8d20943",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Tag link in the 'Tópicos Relacionados' list, visible text and accessible name 'Comércio exterior', href /tema/mercosul/. The live page still has this mapping and /tema/comercio-exterior returns 404, so the site files its foreign-trade tag under the Mercosul topic page, which lists articles on the EU-Mercosul trade agreement (one of them carries the hat 'Comércio exterior'). The link text tells the user it leads to the foreign-trade topic, and it leads to a foreign-trade topic page with a narrower title. The wording differs from the destination title, but the purpose is determinable from the text and the user lands where the text leads them to expect; this is a taxonomy naming inconsistency, not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "d8e12695e6a7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "div#tab-hfexcrl.nd-tab 'Fale com a redação' is the second tab of a custom tab widget: the live markup has onclick=\"NdTabs.selectTab('NDbxvlg0c','tab-hfexcrl')\", which swaps the visible nd-tab-content panel. It has no role (Chrome exposes generic), no tabindex and no aria-selected, and its container has no tablist role. A script-driven div acting as a control with no role is exactly F59, so name/role/state are not exposed and 4.1.2 fails (it is also unreachable by keyboard, a 2.1.1 issue)."
+    },
+    {
+      "fingerprint": "9dd12d6645ba",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "h4#breadcrumbs-tag-item shows 'Tópicos Relacionados' visually, but carries aria-label=\"Title\"; Chrome's accessibility tree gives the heading the name 'Title' (nameFrom aria-label), so screen reader users hear and see in the headings list 'Title', as with the other CMS headings on the page ('Veja Também', 'Recomendado para você' are also named 'Title'). The heading as exposed to assistive technology does not describe the topic of the related-tags section, which fails 2.4.6 for those users (an auditor could also log it under 1.3.1). The finding's claim matches what AT receives."
+    },
+    {
+      "fingerprint": "183b89553ef2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link with visible text 'SOBRE NÓS', href /sobre-a-gazeta, but aria-label=\"Ir para a página\" overrides the content; Chrome names it 'Ir para a página' (nameFrom aria-label). The surrounding list item holds only the link's own content, which the aria-label hides from AT, and no heading or sentence gives context. Seven visible links on the page share this name and go to five destinations (home twice, the store, the login trigger, Sobre twice, Equipe), so the purpose cannot be determined: 2.4.4 fails (also 2.5.3). Confirmed on the live page."
+    },
+    {
+      "fingerprint": "sbc4efb02d0d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header 'Entrar' link (href javascript:void(0), onclick NdTouchpointLink with content 'Entrar', i.e. the sign-in trigger) has aria-label=\"Ir para a página\", which replaces the visible 'Entrar' in its accessible name (Chrome: nameFrom aria-label). 'Go to the page' says nothing about signing in, and the only context (the visually hidden site-name h1 and hidden 'Title' modal headings) does not either. 2.4.4 fails, as the finding says; confirmed in the live HTML."
+    },
+    {
+      "fingerprint": "b5f9f7ebd2fd",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header logo link to https://www.agazeta.com.br/ whose img alt 'AGazeta' is overridden by aria-label=\"Ir para a página\"; Chrome names it 'Ir para a página'. The only possible context is the visually hidden h1 'A Gazeta portal de notícias do Espirito Santo', which is shared by the Assine and Entrar links that carry the same name and go elsewhere, so it does not tell this link apart. AT users cannot tell that it leads to the home page: 2.4.4 fails. Confirmed on the live page."
+    },
+    {
+      "fingerprint": "522c42586b77",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link with visible text 'HOME', href /index, with aria-label=\"Ir para a página\" overriding the content (Chrome: nameFrom aria-label). Its list item contains only the hidden-from-AT link content and no heading or sentence describes it; the same name is shared by six other visible links to different destinations. Purpose not determinable from name or programmatic context: 2.4.4 fails (also 2.5.3). Confirmed in the live HTML."
+    },
+    {
+      "fingerprint": "d2a8947a469d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link with visible text 'EQUIPE', href /nossa-equipe, with aria-label=\"Ir para a página\" replacing the visible text in its accessible name (Chrome: nameFrom aria-label). No programmatic context supplies the purpose, and the same name is used by six other visible links leading to four other places. 2.4.4 fails as reported. Confirmed in the live HTML."
+    },
+    {
+      "fingerprint": "a5688fc9a6e6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "div#tab-e0gufbx.nd-tab.nd-tab-active 'Viu algum erro?' is the first, currently selected tab of the same custom tab widget (onclick NdTabs.selectTab('NDbxvlg0c','tab-e0gufbx') shows its panel and hides the other). It is exposed as generic, with no tab role, no selected state and no tabindex, so AT users get neither the control nor which tab is active. F59 applies: 4.1.2 fails. Being the active tab does not change that its role and state must be exposed."
+    },
+    {
+      "fingerprint": "5eeba18b48c4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header 'Assine' link to the subscription store (mkt.agazeta.com.br/loja-agazeta) with aria-label=\"Ir para a página\", which overrides the visible 'Assine' (Chrome: nameFrom aria-label). Nothing in its programmatic context names the subscription purpose, and it shares the name with the logo and Entrar links next to it. 2.4.4 fails as the finding says (also 2.5.3). Confirmed on the live page."
+    }
+  ]
+}

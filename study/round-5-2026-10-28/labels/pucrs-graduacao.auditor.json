@@ -1,0 +1,210 @@
+{
+  "page": "https://portal.pucrs.br/ensino/graduacao/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "531fd971aadd",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Hero banner <img> whose alt is the upload file name \"2025-11-17-banner-informacoes-financeiras\". The image is a decorative background of abstract shapes; the heading \"Graduação\" and the tagline over it are HTML text (checked in the live markup and the screenshot). A decorative image with a non-null placeholder alt fails 1.1.1 (F39), and a file name is not a text alternative (F30). The finding is right."
+    },
+    {
+      "fingerprint": "4b7b3c39126f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Carousel card photo (a student drawing at a table) next to the heading \"Certificações de Estudos\". Its alt \"thumb_certificaoes_estudos\" is the file name. Whether the photo is decorative (F39) or informative (F30), a file-name alt fails 1.1.1. Still present on the live page."
+    },
+    {
+      "fingerprint": "5c461bf3a709",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon (an open hand with a percent sign) inside the link \"Diferentes tipos de bolsas Saiba mais\". Its alt \"fi-tr-benefit-porcent-dark-80x80\" is a file name with a size suffix, and Chrome includes it in the link name. The icon is decorative next to the heading text and should have alt=\"\" (F39); as given, the alt is a file identifier, not an alternative (F30). The finding's wording (\"describes something the image does not show\") is loose, since the file name roughly names the motif. Read fairly, it says the alt is not a real alternative for this image, which is a real 1.1.1 failure."
+    },
+    {
+      "fingerprint": "dc1d0d01cc1c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Carousel card image for \"Conheça o G+1\" with alt=\"thumb_g_mais_um\", which is exactly the file name thumb_g_mais_um.png. A file name is neither a text alternative (F30) nor the null alt a decorative image needs (F39), so it fails 1.1.1 either way. Still on the live page."
+    },
+    {
+      "fingerprint": "861b0013e0d6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A 16px person/user icon inside the top-bar link \"Sou PUCRS\"; its alt is \"ico login\" and the AX link name is \"Sou PUCRS ico login\". The crop shows a standard user/login glyph, so the alt does not describe something the image fails to show. The icon is redundant with the link text, and alt=\"\" would be cleaner, but a short label naming the icon's meaning is not a 1.1.1 failure. The claim is wrong."
+    },
+    {
+      "fingerprint": "8e2e18558f92",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Leia mais\" link in a news card. In the same container, just before it, is an h3 that is itself a link to the same URL: \"Ciências Contábeis: conheça a carreira responsável pela gestão e sustentabilidade financeira dos negócios\" (verified in the live markup). The purpose can be determined from the link text plus its programmatically determined context, the preceding heading in the same card (H80), so 2.4.4 passes. The checker had this text in the ancestors and still said nothing around the link tells its destination."
+    },
+    {
+      "fingerprint": "08d2a1aae4fc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Leia mais\" link in the Fisioterapia news card. The card's preceding h3 (also a link to the same article) reads \"Fisioterapia: conheça a profissão que melhora a saúde e qualidade de vida das pessoas por meio do movimento\", in the same container. The link purpose is determinable from that context (H80), so this is not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "27e5802d2e73",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News-card image wrapped in its own link to the Engenharia de Produção article. The alt \"DSC2197\" is a camera file name and becomes the accessible name of that image link. A functional image whose alt is a file name fails 1.1.1 (F30). Still on the live page."
+    },
+    {
+      "fingerprint": "ee9680151946",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Carousel card photo (a group of students outdoors) for \"Graduações Combinadas\" with alt \"thumb-carrossel-imagens-graduacoes-combinadas\", the file name. A file-name alt fails 1.1.1 whether the photo is decorative (F39) or informative (F30)."
+    },
+    {
+      "fingerprint": "01bf2582a4c0",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Saiba mais\" link at the end of the \"Certificações de Estudos\" carousel card. In the same container it follows the h3 \"Certificações de Estudos\" and a paragraph about the certifications (live markup checked). The link purpose is determinable from its context (preceding heading, H80, and the card text), so 2.4.4 is met. The claim that nothing around it tells the destination is wrong."
+    },
+    {
+      "fingerprint": "1e2e7a791360",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Leia mais\" link in the Ciências Aeronáuticas news card. It directly follows, in the same container, the h3 link \"Ciências Aeronáuticas: conheça as possibilidades da carreira ideal para quem quer voar alto\", which goes to the same URL. The link purpose is clear from that programmatically determined context (H80), so 2.4.4 passes."
+    },
+    {
+      "fingerprint": "32fed9a75162",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Leia mais\" link in the Engenharia de Produção news card. The preceding h3 in the same card is a link to the same article, \"Engenharia de Produção: conheça a profissão que melhora os processos produtivos de forma sustentável\". The purpose is determinable in context (H80), so this is not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "65d1f246382d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A magnifier icon in the course filter's search field, inside <a class=\"m-filter__search__submit\"> with no href. Its alt is \"ico search\". The crop shows a magnifying glass, so the alt names exactly what the image shows, and the claimed mismatch is false. (The href-less anchor raises separate keyboard/role questions, not this 1.1.1 claim.)"
+    },
+    {
+      "fingerprint": "sb86540d1eda",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "h5 \"Mais\" (shown uppercase) heading the second column of the \"Pesquisa\" mega menu. It groups additional Pesquisa links (Bolsas e financiamentos, Centros de pesquisa, Formas de ingresso...) beside the main column. In that menu context, \"Mais\" (more) accurately describes the section's purpose as further links of the category. 2.4.6 asks for headings that describe topic or purpose, not that they be specific or unique, so this is not a failure."
+    },
+    {
+      "fingerprint": "07e8d661ee33",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Carousel card image for \"Disciplinas Online da Graduação Presencial\" with alt=\"thumb-carrossel-disciplinas-online\", the file name. A file-name alt fails 1.1.1 either way (F30 if informative, F39 if decorative)."
+    },
+    {
+      "fingerprint": "94f73cfea770",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link in the Direito news card; its alt \"Giordano-Toldo-8339\" is the file name (photographer and frame number) and is the image link's whole accessible name. A functional image with a file-name alt fails 1.1.1 (F30)."
+    },
+    {
+      "fingerprint": "c765fed71efc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Open-book icon inside the link \"Vagas de créditos educativos Saiba mais\". Its alt is \"fi-book-open-cover-dark-80x80\", a file name with a size suffix that Chrome adds to the link name. The icon is decorative beside the heading text and needs alt=\"\" (F39); the given alt is a file identifier, not an alternative (F30). The finding's \"describes something the image does not show\" is imprecise, but read fairly it says the alt is not a valid alternative, which is a real 1.1.1 failure."
+    },
+    {
+      "fingerprint": "f330e81a7619",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Photo of students working at tables in the \"Service Learning\" slide, with alt \"thumb_espacos_aprendizagem_service_learning_02\", the file name. A file-name alt fails 1.1.1 whether the photo is decorative (F39) or informative (F30)."
+    },
+    {
+      "fingerprint": "fb31b2b1b435",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "PUCRS Tour card image. It holds text (\"PUCRS TOUR\", \"Conheça os espaços da sua Universidade\", \"PUCRS Experience\") and photos, and its alt is the file name \"2025_04_22-thumb_card_pucrs_tour_2025\". A file name is not a text alternative (F30), so this fails 1.1.1, even though the card heading repeats \"PUCRS Tour\"."
+    },
+    {
+      "fingerprint": "9c798891c5be",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A 16px shopping-bag icon inside the top-bar link \"Store\", which goes to pucrsstore.com.br; its alt is \"ico pucrs store\". The crop shows a store/shopping-bag glyph, so the alt does not describe something absent from the image. Alt=\"\" would avoid repeating the link text, but the alt is not a mismatch and not a clear 1.1.1 failure."
+    },
+    {
+      "fingerprint": "2ef90beef99d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Piggy-bank icon inside the link \"Variadas modalidades de desconto Saiba mais\". Its alt \"fi-tr-piggy-bank-dark-80x80\" is a file name with a size suffix and pollutes the link name. A decorative icon needs alt=\"\" (F39), and a file name is not an alternative (F30), so 1.1.1 fails. The claimed reason (describing something not shown) is loosely worded, but read fairly it says the alt is not a valid alternative."
+    },
+    {
+      "fingerprint": "7be16bce4718",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Leia mais\" link in the Publicidade e Propaganda news card. In the same container it follows the h3 link \"Publicidade e Propaganda: saiba tudo sobre a profissão que transforma criatividade em impacto para marcas e negócios\", which goes to the same URL. The purpose is determinable from that preceding heading (H80), so 2.4.4 passes."
+    },
+    {
+      "fingerprint": "sd1ab90d9980",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "h5 \"Mais\" heading the second column of the \"Inovação\" mega menu, which lists further innovation links (Ambientes, Ecossistema, Startups, Track Startup). Within that menu, \"Mais\" describes the group's purpose as more links for the category, so it is not a non-descriptive heading under 2.4.6."
+    },
+    {
+      "fingerprint": "77882242c6fa",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The first breadcrumb item is a link to portal.pucrs.br whose only content is a house icon with alt \"ico home\", so the link name is \"ico home\". The name does carry the destination word \"home\", and the breadcrumb context makes it the home page. However, it is a file-name-derived English label on a pt-BR page. Some auditors would accept it as minimally descriptive and others would fail it as a non-alternative (F30). The claim that it does not say where the link leads is arguable either way."
+    },
+    {
+      "fingerprint": "s16117f85161",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "h5 \"Mais\" heading the second column of the \"Saúde\" mega menu, which groups further health-area links (Aliança Divina Providência, BioHub, Transparência, Vila Fátima). In that menu context, \"Mais\" describes the group as additional links of the category, which meets 2.4.6. It is vague, but not a non-descriptive heading."
+    },
+    {
+      "fingerprint": "124013fe3e08",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link in the Odontologia news card; its alt \"odontologia_diegofurtado\" is the file name (course plus photographer) and is the link's accessible name. A functional image with a file-name alt fails 1.1.1 (F30)."
+    },
+    {
+      "fingerprint": "037ce2e3da19",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Leia mais\" link in the Educação Física news card. It follows, in the same container, the h3 link \"Educação Física: saiba tudo sobre a profissão que cuida da saúde e qualidade de vida das pessoas\", which goes to the same article. The purpose is determinable in context (H80), so this is not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "0f210e035518",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Carousel card image for \"Conheça do GP-G\" with alt=\"thumb_g_pg\", exactly its file name. A file-name alt fails 1.1.1 whether the image is informative (F30) or decorative (F39)."
+    },
+    {
+      "fingerprint": "0e2a8a4fd758",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer e-MEC card. It is one image holding the e-MEC logo, the text \"Consulte aqui o cadastro da PUCRS no Sistema e-MEC\" and a QR code (seen in the screenshot at its bounds), and it is the only content of a link to emec.mec.gov.br. Its alt and the link name are the file name \"qr-code-e-mec-vertical\", so the image's text and the link's purpose are lost. This fails 1.1.1 (F30)."
+    },
+    {
+      "fingerprint": "bd0690b95aa8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page title is \"Portal | Ensino | Graduação | PUCRS\". The page is PUCRS's undergraduate (Graduação) course page within Ensino, and its banner heading is \"Graduação\". The title clearly names the topic and the site, so 2.4.2 is met. The claim that it says nothing about the page is wrong."
+    },
+    {
+      "fingerprint": "18b0cace9d64",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link in the Engenharia de Software news card with alt \"ages-engenharia-de-software-2\", the file name. It is the image link's accessible name. A functional image with a file-name alt fails 1.1.1 (F30)."
+    },
+    {
+      "fingerprint": "a0094f29c2c8",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is <p><a name=\"complementar\"></a></p>: an empty legacy named anchor (a fragment target) with no href, no content and no box. Chrome lists it as role link, almost certainly from its heuristic for anchors with click listeners, but it is not in the tab order and nobody perceives it as a control. It is not a user interface component in WCAG's sense, and tools such as axe's link-name do not treat href-less anchors as links. Applying 4.1.2's name requirement to it is not warranted; replacing it with an id is a cleanup, not a fix for a failure. Still present on the live page."
+    },
+    {
+      "fingerprint": "82184ee49ce6",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Header search submit button whose only content is a magnifier image with alt \"ico search\", so the button's name is \"ico search\". The name does contain the function word \"search\", and the button sits next to the input \"O que você está procurando?\". However, it is a file-name-derived English label on a pt-BR page and does not plainly state the action (e.g. \"Buscar\"). Competent auditors would split between a weak-but-passing name and a 1.1.1 failure (F30)."
+    },
+    {
+      "fingerprint": "1bba7fb90953",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer social link to tiktok.com/@pucrs whose only content is an image with alt \"icon-tiktok\", which matches the file name icon-tiktok.svg, as the rule says. The other social icons use plain names (\"Instagram\", \"Facebook\"). The alt still identifies TikTok, so the link's destination is conveyed. F30 only fails file names that are not valid alternatives in their own right, so auditors would reasonably disagree on whether this is a failure or just poor quality."
+    }
+  ]
+}

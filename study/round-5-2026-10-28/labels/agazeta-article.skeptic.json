@@ -1,0 +1,66 @@
+{
+  "page": "https://www.agazeta.com.br/colunas/abdo-filho/as-maiores-empresas-do-espirito-santo-veja-a-lista--1026",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s45dc8d20943",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "A tag link in the visible 'Tópicos Relacionados' list, text 'Comércio exterior', href /tema/mercosul/. The live page still has it, and /tema/comercio-exterior returns 404, so the CMS sends this tag to the Mercosul topic page. That page lists foreign-trade stories (EU-Mercosul agreement, which ES products gain in the EU), some of them filed under a 'Comércio exterior' label. A user who follows 'Comércio exterior' from a related-topics list gets a page of foreign-trade news. 2.4.4 asks that the link's purpose can be determined. It does not ask that the link text match the destination page's title word for word. Mercosul trade is part of foreign trade, so the link is not misleading. Every user sees the same text, so at most this is an editorial mapping choice, not an accessibility failure."
+    },
+    {
+      "fingerprint": "d8e12695e6a7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Fale com a redação' is one of two div.nd-tab elements in a tab widget. The live markup is <div class=\"nd-tab\" onclick=\"NdTabs.selectTab(...)\">, and CDP shows a click listener on the node itself. There is no role, no tabindex and no aria-selected, and no tablist role on the parent. Clicking it shows the hidden panel #container-tab-hfexcrl. A screen reader exposes it as generic text, so neither its role (tab) nor its selected state is available. I found nothing that makes it pass. This is the F59 pattern and fails 4.1.2. It also fails 2.1.1, since it cannot be focused."
+    },
+    {
+      "fingerprint": "9dd12d6645ba",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The h4 #breadcrumbs-tag-item shows 'Tópicos Relacionados', but it has aria-label=\"Title\". CDP reports its name as 'Title', taken from aria-label, and other headings on the page carry the same placeholder label. Screen readers announce the aria-label for headings, so a user moving by headings or using a headings list hears 'Title', which says nothing about the tag links under it. The visible text is descriptive. One could file the mismatch under 1.3.1 rather than 2.4.6. Still, the claim that the heading as exposed does not describe its section is a real failure for screen reader users, and no technique on the element fixes it."
+    },
+    {
+      "fingerprint": "183b89553ef2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link with visible text 'SOBRE NÓS' (href /sobre-a-gazeta), with aria-label=\"Ir para a página\" overriding it. The live HTML is unchanged. Its accessible name is the generic 'Ir para a página', and seven visible links share that name across five destinations: home twice, the store, the login trigger, /sobre-a-gazeta twice and /nossa-equipe. The list item holds only the link's own content, which the aria-label hides from AT, so no programmatic context supplies the purpose. The 'ambiguous to users in general' exception does not apply, since sighted users read 'SOBRE NÓS'. Fails 2.4.4, and 2.5.3 as well."
+    },
+    {
+      "fingerprint": "sbc4efb02d0d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header 'Entrar' link (href javascript:void(0)) opens the login popup: its script calls NdPopup.open on click. Its aria-label=\"Ir para a página\" replaces the visible 'Entrar', so AT announces a link named 'go to the page'. That gives no destination or purpose and in fact suggests navigation rather than signing in. Its container holds only the link's own text, and the preceding heading is the generic site h1, so no programmatic context recovers the purpose. Fails 2.4.4, and 2.5.3 as well."
+    },
+    {
+      "fingerprint": "b5f9f7ebd2fd",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header logo link to https://www.agazeta.com.br/ contains <img alt=\"AGazeta\">, but the link's aria-label=\"Ir para a página\" overrides that alt, so the accessible name is only 'go to the page'. I checked whether the visually hidden h1 'A Gazeta portal de notícias do Espirito Santo' before it could serve as heading context (H80). It covers the whole header (search, store, login, menu), so it does not identify this link's destination. The same name is used by links to the store, the login and the About page. Sighted users see the logo, which by convention links home, so the purpose is not ambiguous to users in general. Fails 2.4.4."
+    },
+    {
+      "fingerprint": "522c42586b77",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link with visible text 'HOME' (href /index), with aria-label=\"Ir para a página\" overriding it. The live HTML is unchanged. The accessible name is generic and shared by links to five different destinations. The enclosing list item holds only the link's own text, which the label hides from AT, so nothing programmatic gives the purpose. Sighted users see 'HOME', so the exception does not apply. Fails 2.4.4, and 2.5.3 as well."
+    },
+    {
+      "fingerprint": "d2a8947a469d",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link with visible text 'EQUIPE' (href /nossa-equipe, the team page), with aria-label=\"Ir para a página\" overriding it. The live HTML is unchanged. The accessible name says nothing about the team page, and other links with the same name go elsewhere. The list item gives no context beyond the link's own text, which the label hides. Fails 2.4.4, and 2.5.3 as well."
+    },
+    {
+      "fingerprint": "a5688fc9a6e6",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Viu algum erro?' is the other div.nd-tab in the same tab widget, with onclick=\"NdTabs.selectTab(...)\" and a click listener on the node. I considered that it is the active tab, so clicking it does nothing at first. It is still the control that brings its panel back after the other tab is chosen, and it is a tab of the widget. It has no role, no aria-selected and no focusability, so AT users cannot tell it is a selected tab in a tablist. This is the F59 pattern and fails 4.1.2."
+    },
+    {
+      "fingerprint": "5eeba18b48c4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header 'Assine' link to the subscription store (mkt.agazeta.com.br), with aria-label=\"Ir para a página\" overriding the visible 'Assine'. The live HTML is unchanged. AT announces only 'go to the page'. The same name is used by links to home, the login, About and the team page. Its container holds only the link's own text, and the preceding heading is the generic site h1, so no programmatic context gives the purpose. Fails 2.4.4, and 2.5.3 as well."
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+# Kept out of git, as the earlier studies' were: the recordings (snapshots and engine results), screenshots, judgment
+# and destination caches, and image crops. data/recordings.json has the size and SHA-256 of every recording file, so a
+# copy kept elsewhere (C:/Users/guilh/dev/rampa-study-recordings/round-5) can be checked before judgments are re-run on it.
+pages/*/recording/
+pages/*/*.png
+pages/*/cache/
+pages/*/cache-*/
+pages/*/.rampa/
+pages/*/*-collect.json
+packets/*/
+# Also kept out, as the precision-fixes notes kept them (study/notes-precision-fixes/compact.py): the full reports and
+# the consoles. scripts/compact.py keeps in git the part of each report the analysis reads (pages/<slug>/*.judged.json:
+# every judgment and rule finding, the model's suggestions, the criteria's summaries, the notes, the capture state and
+# the usage); the full ones are in the recordings copy.
+pages/*/report.json
+pages/*/noconfirm-report.json
+pages/*/cut090-report.json
+pages/*/*console*.txt
+# Attempts set aside (a connection drop, a rate limit): their logs are kept, not their recordings or caches.
+pages/*/discarded-*/**/recording/
+pages/*/discarded-*/**/*.png
+pages/*/discarded-*/**/cache*/
+pages/*/discarded-*/**/*-collect.json
+pages/*/discarded-*/**/*report.json
+scripts/__pycache__/
