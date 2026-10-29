@@ -1,0 +1,203 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://pinacoteca.org.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "ee7607bd2053",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#fale-conosco-nome",
+   "message": "The field \"Nome*\" asks for the user's full name but does not identify that purpose: autocomplete=\"name\" is missing.",
+   "evidence": "Nome*",
+   "patch": {
+    "ref": "#fale-conosco-nome",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "name",
+    "before": "<input size=\"40\" maxlength=\"400\" class=\"wpcf7-form-control wpcf7-text wpcf7-validates-as-required form-control\" id=\"fale-conosco-nome\" aria-required=\"true\" aria-invalid=\"false\" placeholder=\"Nome*\" value=\"\" type=\"text\" name=\"fale-conosco-nome\">",
+    "after": "<input size=\"40\" maxlength=\"400\" class=\"wpcf7-form-control wpcf7-text wpcf7-validates-as-required form-control\" id=\"fale-conosco-nome\" aria-required=\"true\" aria-invalid=\"false\" placeholder=\"Nome*\" value=\"\" type=\"text\" name=\"fale-conosco-nome\" autocomplete=\"name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "bad5c8c25204",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#fale-conosco-email",
+   "message": "The field \"Email*\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "Email*",
+   "patch": {
+    "ref": "#fale-conosco-email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input size=\"40\" maxlength=\"400\" class=\"wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email form-control\" id=\"fale-conosco-email\" aria-required=\"true\" aria-invalid=\"false\" placeholder=\"E-mail*\" value=\"\" type=\"email\" name=\"fale-conosco-email\">",
+    "after": "<input size=\"40\" maxlength=\"400\" class=\"wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email form-control\" id=\"fale-conosco-email\" aria-required=\"true\" aria-invalid=\"false\" placeholder=\"E-mail*\" value=\"\" type=\"email\" name=\"fale-conosco-email\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "13cb282fd79d",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#fale-conosco-telefone",
+   "message": "The field \"Telefone\" asks for the user's telephone number but does not identify that purpose: autocomplete=\"tel\" is missing.",
+   "evidence": "Telefone",
+   "patch": {
+    "ref": "#fale-conosco-telefone",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "tel",
+    "before": "<input size=\"40\" maxlength=\"15\" class=\"wpcf7-form-control wpcf7-tel wpcf7-text wpcf7-validates-as-tel form-control phone\" id=\"fale-conosco-telefone\" aria-invalid=\"false\" placeholder=\"Telefone\" value=\"\" type=\"tel\" name=\"fale-conosco-telefone\">",
+    "after": "<input size=\"40\" maxlength=\"15\" class=\"wpcf7-form-control wpcf7-tel wpcf7-text wpcf7-validates-as-tel form-control phone\" id=\"fale-conosco-telefone\" aria-invalid=\"false\" placeholder=\"Telefone\" value=\"\" type=\"tel\" name=\"fale-conosco-telefone\" autocomplete=\"tel\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6982a269f459",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#newsletter-email",
+   "message": "The field \"Email*\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "Email*",
+   "patch": {
+    "ref": "#newsletter-email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input size=\"40\" maxlength=\"400\" class=\"wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email form-control\" id=\"newsletter-email\" aria-required=\"true\" aria-invalid=\"false\" placeholder=\"Exemplo: nome@mail.com\" value=\"\" type=\"email\" name=\"newsletter-email\">",
+    "after": "<input size=\"40\" maxlength=\"400\" class=\"wpcf7-form-control wpcf7-email wpcf7-validates-as-required wpcf7-text wpcf7-validates-as-email form-control\" id=\"newsletter-email\" aria-required=\"true\" aria-invalid=\"false\" placeholder=\"Exemplo: nome@mail.com\" value=\"\" type=\"email\" name=\"newsletter-email\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 0,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 4,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 closed shadow root(s) cannot be read by any script, so nothing inside them was checked (hosts: #wpcf7-f5-o1 > form > div > div > div:nth-of-type(1) > div:nth-of-type(7) > div > div > div, #wpcf7-f85-o2 > form > div > div > div:nth-of-type(1) > div:nth-of-type(4) > div > div > div).",
+  "152 image(s) were left without a capture, so no judgment looked at them: 1 still loading after the wait; 151 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 14,
+  "inputTokens": 11205,
+  "outputTokens": 1120,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": {
+   "shadowRoots": {
+    "open": 0,
+    "closed": 2,
+    "closedHosts": [
+     "#wpcf7-f5-o1 > form > div > div > div:nth-of-type(1) > div:nth-of-type(7) > div > div > div",
+     "#wpcf7-f85-o2 > form > div > div > div:nth-of-type(1) > div:nth-of-type(4) > div > div > div"
+    ]
+   }
+  }
+ }
+}

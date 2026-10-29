@@ -35,3 +35,52 @@ Written down before the confirming replay of section 3; nothing below was change
 - *A known cost, from the test fixtures, not from a study.* The rule reads any small block as a card, whatever its heading says: the integration tests' shop page had "Click here" two levels under a cart section headed "Section 2" (under 100 characters of text), a true failure that becomes the model's suggestion. The fixture's link was moved a level down so that those tests keep testing what they test; the case is in the limits of [criteria.md](../criteria.md#244-link-purpose-in-context). No such link is among the labelled true findings of the four studies.
 - *Before*, every half should equal the studies' and the fixes replay's numbers (s2–s4 95 / 16 / 5 uncertain; fifth study dev 31 / 8 / 1, test 20 / 4 / 1), with no cache miss. That baseline was run before these notes were committed (`data/main/`): 96 reports, 0 cache misses, 0 new calls, every half as stated. *After*, if the new answers add nothing: s2–s4 95 / 18 / 4 (in-sample), fifth study dev 37 / 0 / 1 (in-sample), test 20 / 4 / 1 (read-once, counted); the fifth study pooled 57 / 4 (0.93), as the round-5 notes projected; s2–s4 and the fifth study's dev half together 126 / 24 to 132 / 18.
 - *ACT* (`run-evals.sh`, main and this branch on one copy of the precision-fixes evaluation cache): 1.1.1 unchanged (no ACT 1.1.1 page has two reading claims with one alternative); 2.4.4 identical to main (c487ae 1.00 / 1.00, 5effbb 1.00 / 0.83, fd3a94 0.78 / 0.88, link-generic pairs 11 / 11, link-mismatch 9 / 10), with new calls only where an ACT page has a generic link in a card with a heading.
+
+## 3. The confirming replay
+
+The frozen code (`dist` built at `0162d7d`, `data/after-commit.txt`), replayed with the protocol of section 2 (`replay.sh p1p2 … online`, `compact.py`, `analyze.py main p1p2`, written to `data/compare.md`): 96 reports, no error, no cache miss. It asked the model 72 new 2.4.4 questions, exactly the ones `prompts.ts` listed (s3 11, s4 1, fifth study dev 54, test 6), and nothing else; replayed again offline from its own work caches, it gives the same 96 reports with no miss. Cells are true / false findings at the default threshold (uncertain apart) and precision with its Wilson 95% interval; "per group" counts each group of 6 or more findings of one claim on one page as one.
+
+| Study | Half | What it is | Per element before | Per element after | Per group before | Per group after |
+| --- | --- | --- | --- | --- | --- | --- |
+| s2 | dev | in-sample | 19 / 0: 1.00 (0.83–1.00) | 19 / 0: 1.00 (0.83–1.00) | 19 / 0 | 19 / 0 |
+| s2 | test | in-sample | 10 / 3: 0.77 (0.50–0.92) | 10 / 3: 0.77 (0.50–0.92) | 10 / 3 | 10 / 3 |
+| s3 | dev | in-sample | 15 / 2 (1 unc.): 0.88 (0.66–0.97) | 15 / 3 (1): 0.83 (0.61–0.94) | 15 / 2 | 15 / 3 |
+| s3 | test | in-sample | 24 / 5 (2): 0.83 (0.65–0.92) | 24 / 5 (2): 0.83 (0.65–0.92) | 12 / 3 | 12 / 3 |
+| s4 | dev | in-sample | 13 / 2 (2): 0.87 (0.62–0.96) | 13 / 3 (1): 0.81 (0.57–0.93) | 6 / 2 | 6 / 3 |
+| s4 | test | in-sample | 14 / 4: 0.78 (0.55–0.91) | 14 / 4: 0.78 (0.55–0.91) | 7 / 4 | 7 / 4 |
+| fifth | dev | in-sample | 31 / 8 (1): 0.79 (0.64–0.89) | **37 / 0 (1): 1.00 (0.91–1.00)** | 18 / 2: 0.90 | 16 / 0: 1.00 |
+| fifth | test | read-once, counted | 20 / 4 (1): 0.83 (0.64–0.93) | 20 / 4 (1): 0.83 (0.64–0.93) | 20 / 4 | 20 / 4 |
+| s2–s4 | both | in-sample | 95 / 16 (5): 0.86 (0.78–0.91) | 95 / 18 (4): 0.84 (0.76–0.90) | 69 / 14: 0.83 | 69 / 16: 0.81 |
+| s2–s4 and fifth dev | | in-sample | 126 / 24 (6): 0.84 (0.77–0.89) | **132 / 18 (5): 0.88 (0.82–0.92)** | 87 / 16: 0.84 | 85 / 16: 0.84 |
+| fifth | both | in-sample + read-once | 51 / 12 (2): 0.81 (0.70–0.89) | 57 / 4 (2): 0.93 (0.84–0.97) | 38 / 6: 0.86 | 36 / 4: 0.90 |
+| all four | both | in-sample + read-once | 146 / 28 (7): 0.84 (0.78–0.89) | 152 / 22 (6): 0.87 (0.82–0.92) | 107 / 20: 0.84 | 105 / 20: 0.84 |
+
+Page bootstrap of the per-element precision after (10,000 resamples of the pages with a decided finding): fifth study dev 1.00–1.00, test 0.62–0.97, s2–s4 0.76–0.91, s2–s4 and the fifth study's dev half 0.81–0.94. Per group, the fifth study's dev half counts 16 units after where it counted 18: hering's nine 1.1.1 "describes something the image does not show" findings (its two banners and the seven logos) are now one group of near-identical findings.
+
+- **Every finding that moved is one section 2 named, and nothing else moved.** Left the default threshold: the fifth study dev half's 8 false 2.4.4 generic findings (pucrs-graduacao's 6 "Leia mais" and 1 "Saiba mais", whose card links are no longer judged under the cap; horniman's "More", now a suggestion) and s4 dev's uncertain "Veja mais" on infomoney-article. Came to it: hering's 6 true `payment` findings (fifth study dev, `identical: { claims: 7, confirmed: 1 }`), and the 2 false twins on puc-rio-vestibular (s3 dev) and cobasi-cachorro (s4 dev), each `identical: { claims: 2, confirmed: 1 }`. **No true finding was lost, and no finding is new and unlabelled:** the 42 pucrs links the cap now reaches, the one on infomoney, and the 29 links asked again with the card line gave no finding.
+- **Against the round-5 notes' expectation.** P1 is as they measured (−8 false, 0 true, on the fifth study's dev half), by a different route for pucrs: their fact replay made its 7 claims suggestions, while in the shipped pipeline those links fall behind the cap's judge-first order and are not judged. P2 is +6 true and +2 false where they measured +7 and +2: cnj-ouvidoria's second "Botão Rybená LIBRAS" was in their pool from the precision probe's verifier run, and the shipped code never sends that claim to the second pass, as section 2 said before the replay. Every number of section 2's expected "after" came out exactly.
+- **Suggestions** on the 96 pages went from 447 to 437: 8 1.1.1 suggestions are findings now (P2); 2.4.4 gained horniman's "More" and hcor-com-br's "Saiba mais" (asked again with its card line, now a fail, which the card heading keeps a suggestion) and lost vam-ac-uk's "Find out more" (asked again, now passed) and 3 on the fifth study's test half (counted: links asked again with the card line); `data/suggestions.md`.
+- **What it says.** On the pages P1 and P2 were chosen from, they do what they were built to do and nothing else: the fifth study's dev half goes from 31 / 8 to 37 / 0, and s2–s4 pay P2's in-sample cost (95 / 16 to 95 / 18). That agreement says the code does what the offline measure assumed; it says nothing about fresh pages. The read-once test half is unchanged at 20 / 4 because it had no generic 2.4.4 finding and no repeated alternative, so it measures neither change. The fifth study's 57 / 4 (0.93) mixes the in-sample dev half with that unchanged test half, so it is no held-out number either.
+
+## 4. The W3C ACT cases and the demo
+
+`run-evals.sh` ran `rampa eval --criteria 1.1.1` and `--criteria 2.4.4` with main's build and then this branch's, on one fresh copy of the precision-fixes evaluation cache, with Gemma 4 12B (2026-10-29, ACT test cases `49051da6`, `data/evals/`):
+
+| Criterion | Set | main | this branch |
+| --- | --- | --- | --- |
+| 1.1.1 | 23a2a8, qt1vmo, e88epe, pairs | precision and recall 1.00 each; alt-placeholder 1 / 1, alt-swap 1 / 1 | the same |
+| 2.4.4 | c487ae, 5effbb, fd3a94, pairs | 1.00 / 1.00, 1.00 / 0.83, 0.78 / 0.88, 1.00 / 0.95; link-generic 11 / 11, link-mismatch 9 / 10 | the same |
+
+Every record of both sets (56 and 91) is identical between the two builds, findings included. The 1.1.1 run with main's build asked one question the cache copy lacked; the branch's runs asked none: no ACT page has a generic link in a card with a heading among its judged links, and no ACT 1.1.1 page has two reading claims with one alternative.
+
+**The demo.** `node .rampa/misses.ts <snapshot>` prints nothing for any of the six recorded pages under this branch (0 misses), and their reports, run offline from a copy of `demo/recorded/cache` with both builds, have the same findings and suggestions; the cache copy is unchanged. The recorded evaluation (`demo/recorded/eval/ollama-gemma4-12b`: 2.4.2, 2.4.4, 2.4.6, 3.1.1, 3.1.2) could change only through 2.4.4, whose records are identical. Nothing in `demo/recorded/` was recorded again.
+
+## 5. Data and reproduction
+
+All paths under `study/notes-precision-p1p2/`. Run from the repository root after `pnpm install --frozen-lockfile` and `pnpm build`, with the recordings in `C:/Users/guilh/dev/rampa-study-recordings` (`RECORDINGS`).
+
+- `node prompts.ts > data/prompts.md`: what P1 changes in the 2.4.4 inputs of every recorded page, no model (`data/prompts.json`; the fifth study's test half by count only).
+- `python -I groups.py`: P2 predicted from the second-pass outcomes in the reports of main's code (`data/groups-predicted.json`).
+- `bash replay.sh <label> <dist> offline|online [s2 s3 s4 s5]`, then `python -I compact.py <label>`: the replay (`data/main/`, `data/p1p2/`: run logs and the judged part of each report; full reports, consoles and work caches stay out of git). The after replay's caches are in the recordings folder (`notes-precision-p1p2-2026-10-29/caches-after`), from which it reruns offline.
+- `python -I analyze.py main p1p2 > data/compare.md`: the tables of section 3 (`data/compare.json`, `data/<label>/summary.json`); `python -I suggestions.py main p1p2 > data/suggestions.md`: the suggestions that moved. `labels.py` reads the four studies' labels.
+- `bash run-evals.sh <main dist> <branch dist>`: section 4 (`data/evals/`).

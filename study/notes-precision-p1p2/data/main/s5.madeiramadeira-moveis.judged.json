@@ -1,0 +1,169 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.madeiramadeira.com.br/moveis",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "e76f696df137",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#\\31 3b78ea2-e40f-46c1-ac6b-97f28f48010d",
+   "message": "The field \"Insira o CEP\" asks for the user's postal code but does not identify that purpose: autocomplete=\"postal-code\" is missing.",
+   "evidence": "Insira o CEP",
+   "patch": {
+    "ref": "#\\31 3b78ea2-e40f-46c1-ac6b-97f28f48010d",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "postal-code",
+    "before": "<input id=\"13b78ea2-e40f-46c1-ac6b-97f28f48010d\" class=\"w_100% d_inline-block px_$large rounded_$medium border_1px_solid border_$border-input-default fw_$regular bg_$background-input-default text_$text-input focus:ring_0 focus:border_$border-input-focus fo\" type=\"text\" placeholder=\"Insira o CEP\" maxlength=\"9\">",
+    "after": "<input id=\"13b78ea2-e40f-46c1-ac6b-97f28f48010d\" class=\"w_100% d_inline-block px_$large rounded_$medium border_1px_solid border_$border-input-default fw_$regular bg_$background-input-default text_$text-input focus:ring_0 focus:border_$border-input-focus fo\" type=\"text\" placeholder=\"Insira o CEP\" maxlength=\"9\" autocomplete=\"postal-code\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#control-box-content > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div > div > div > div:nth-of-type(2) > div:nth-of-type(2) > a",
+   "message": "The link text \"Ver todos\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Ver todos os guarda-roupas\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#__next > div:nth-of-type(1) > footer > div > div:nth-of-type(1) > div:nth-of-type(1) > ul > li:nth-of-type(1) > a",
+   "message": "The link text \"Sobre a Madeira\" does not match where the link leads: a page titled \"Loja Online de Móveis e Decoração | MadeiraMadeira\".",
+   "evidence": "The model suggests: \"Página inicial da MadeiraMadeira\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 0,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 68,
+   "judged": 50,
+   "failed": 0,
+   "passed": 47,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 18,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 16,
+   "judged": 16,
+   "failed": 0,
+   "passed": 16,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "51 image(s) were left without a capture, so no judgment looked at them: 51 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 18 of 68 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 73,
+  "inputTokens": 73933,
+  "outputTokens": 8210,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": null
+ }
+}
