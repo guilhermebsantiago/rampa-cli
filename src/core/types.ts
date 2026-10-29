@@ -300,9 +300,11 @@ export interface Finding {
   agreement?: { votes: number; total: number } | undefined
   /**
    * A second pass confirmed the claim (`Criterion.confirm`, core/confirm.ts): how many framings answered, and the lowest
-   * probability of a confirming word among them where the provider reports token probabilities.
+   * probability of a confirming word among them where the provider reports token probabilities. `identical` is set when
+   * the pass denied this claim and confirmed an identical one on the page (the same subject and verdict, core/confirm.ts
+   * `confirmTogether`): how many identical claims it was asked about, this one included, and how many it confirmed.
    */
-  confirmation?: { framings: number; minProbability?: number | undefined } | undefined
+  confirmation?: { framings: number; minProbability?: number | undefined; identical?: { claims: number; confirmed: number } | undefined } | undefined
   ruleId?: string | undefined
   helpUrl?: string | undefined
   html?: string | undefined

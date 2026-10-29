@@ -34,7 +34,8 @@ import { type LinkOutcome, activationText, scriptedDestination, scriptedOutcomes
  * fd3a94 (links with the same name and context serve an equivalent purpose).
  *
  * A fail is a finding only when a fact Rampa checks itself supports it (`grounded`): a generic text such as "Read more"
- * with nothing around it, a text that names only a file's format or its download with nothing around it that says
+ * with nothing around it (no heading of a small card it sits in either, and not a disclosure toggle written as a link),
+ * a text that names only a file's format or its download with nothing around it that says
  * which document, a raw address, links that share the text and lead elsewhere from the same context, or a link to a
  * part of this page that its text names nothing of. Any other fail, such as "the text names something else than where
  * it leads" on another page, or "this specific text says nothing", is the model's suggestion for a person to review:
@@ -115,6 +116,17 @@ export interface LinkPurposeContext {
   chrome?: boolean | undefined
   /** For a link to a part of this page: that part's id, role and text, and the words of the site's own name. For verification only. */
   part?: SamePagePart | undefined
+  /**
+   * For a generic text ("Leia mais"): the heading of the card the link sits in (`cardHeadingOf`, technique H80), the
+   * nearest heading before the link when the two share an ancestor at most CARD_DEPTH levels above the link whose whole
+   * text is at most CARD_TEXT characters. In the prompt, and read by verification: it completes the text.
+   */
+  cardHeading?: string | undefined
+  /**
+   * The link leads nowhere (an href of "#", none, or a script) and a list follows it inside its own list item: a
+   * disclosure toggle that opens a submenu, not a link to judge (`menuToggleOf`). For verification only.
+   */
+  menuToggle?: boolean | undefined
 }
 
 /** The part of the page a same-page link points to, as verification reads it. */
@@ -171,6 +183,8 @@ interface LinkInfo {
   place: string | undefined
   /** The list items it is nested in and the named lists or menus around it (`nestingOf`, H81). */
   nesting: string | undefined
+  /** For a generic text, the heading of the card it sits in (`cardHeadingOf`, H80). */
+  cardHeading: string | undefined
 }
 
 export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
@@ -215,12 +229,12 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
     const scripted = scriptedOutcomes(snapshot, index)
     // Every link a person can reach, so links that share a text can be compared.
     const links: LinkInfo[] = []
-    let heading: string | undefined
+    let heading: A11yNode | undefined
     // The open sections by level: a heading closes those of its level and below.
     const open: string[] = []
     for (const node of walkTree(snapshot.root)) {
       if (node.role === 'heading' && node.name && !isHidden(node)) {
-        heading = node.name
+        heading = node
         const level = headingLevel(node)
         open.length = level - 1
         open[level - 1] = node.name
@@ -235,11 +249,13 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
         attributes,
         description: textOfIds(attributes['aria-describedby']),
         context: linkContext(index, node, name),
-        heading,
+        heading: heading?.name,
         sections: open.filter(Boolean).join(' > '),
         headers: cellHeaders(index, node),
         place: placeOf(scriptedAddress(scripted.get(node.ref)) ?? attributes.href, base, linkDestination(snapshot, attributes.href, scripted.get(node.ref))),
         nesting: nestingOf(index, node, textOfIds),
+        // Read only where it can complete the text: on any other link the prompt stays as it was.
+        cardHeading: genericLinkText(name) ? cardHeadingOf(index, node, heading) : undefined,
       })
     }
     const byText = new Map<string, LinkInfo[]>()
@@ -289,6 +305,8 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
             : {}),
           ...(rowSubject ? { rowSubject } : {}),
           ...(menu ? { menu } : {}),
+          ...(link.cardHeading ? { cardHeading: link.cardHeading } : {}),
+          ...(genericLinkText(name) && menuToggleOf(index, node, attributes.href) ? { menuToggle: true } : {}),
           ...(inSiteChrome(index, node) ? { chrome: true } : {}),
           ...(fragment && partNode
             ? {
@@ -323,6 +341,7 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
         `Markup: ${c.startTag}`,
         c.context ? `Text around the link (sentence, paragraph, list items or cell it sits in): ${c.context}` : 'Text around the link: none',
         c.heading ? `Heading the link sits under (part of its context): ${c.heading}` : 'Heading the link sits under: none',
+        c.cardHeading ? `Heading of the card the link sits in: ${c.cardHeading}` : undefined,
         c.headers ? `Header cells of its table cell: ${c.headers}` : undefined,
         c.landmark ? `The link sits in: ${c.landmark}` : undefined,
         c.description ? `Description of the link (aria-describedby): ${c.description}` : undefined,
@@ -413,12 +432,14 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
 
 /** What `groundedLink` reads of a candidate. */
 export type LinkFacts = Pick<LinkPurposeContext, 'name' | 'sameText' | 'context' | 'headers' | 'description'> &
-  Partial<Pick<LinkPurposeContext, 'heading' | 'landmark' | 'rowSubject' | 'menu' | 'chrome' | 'target' | 'part'>>
+  Partial<Pick<LinkPurposeContext, 'heading' | 'landmark' | 'rowSubject' | 'menu' | 'chrome' | 'target' | 'part' | 'cardHeading' | 'menuToggle'>>
 
 /**
  * Whether a fail rests on a fact Rampa checked:
  * - a generic text (F84's "click here") with no programmatically determined context of its own to complete it (no
- *   sentence, paragraph, list item or cell, header cells or description);
+ *   sentence, paragraph, list item or cell, header cells or description), no heading of a card it sits in (H80: a news
+ *   card of heading, blurb and "Leia mais", `cardHeadingOf`), and that is a link, not a disclosure toggle written as
+ *   one (`menuToggleOf`);
  * - a text that names only a file's format ("HTML", "EPUB", "Download PDF", generic-text.ts) and nothing in its
  *   context that could say which document: no sentence, list item or cell text, no description, no heading above it,
  *   outside the site's own header, menus and footer; or one that names only its download ("Download") in a table row
@@ -435,7 +456,9 @@ export type LinkFacts = Pick<LinkPurposeContext, 'name' | 'sameText' | 'context'
  * privacy notice behind "Declaração de Cookies").
  */
 export function groundedLink(problem: (typeof LINK_PROBLEMS)[number], c: LinkFacts): boolean {
-  if (problem === 'generic') return (genericLinkText(c.name) && !c.context && !c.headers && !c.description) || kindOnlyUncompleted(c)
+  if (problem === 'generic') {
+    return (genericLinkText(c.name) && !c.context && !c.headers && !c.description && !c.cardHeading && !c.menuToggle) || kindOnlyUncompleted(c)
+  }
   // A raw address with a sentence of its own ("…conforme orientações previstas na página www.cnj.jus.br/comopeticionar.")
   // has a programmatically determined context that can say where it leads (G53): whether it does is the model's reading.
   if (problem === 'url_or_filename') return addressText(c.name) && !c.context && !c.description
@@ -911,6 +934,63 @@ function nestingOf(index: TreeIndex, node: A11yNode, textOfIds: (ids: string | u
     child = current
   }
   return labels.length > 0 ? labels.join(' > ') : undefined
+}
+
+/** A card's root is at most this many levels above the link (1 is its parent)… */
+const CARD_DEPTH = 2
+/** …and holds at most this many characters of text: a heading, a blurb and the link, not a section of a page. */
+const CARD_TEXT = 300
+
+/**
+ * The heading of the card a link sits in (technique H80, "the heading the link is under"): the nearest heading before
+ * the link, when the two share an ancestor at most CARD_DEPTH levels above the link and that ancestor's whole text is
+ * at most CARD_TEXT characters. That is a news or course card built of `div`s (a heading, itself often the article's
+ * link, a blurb, "Leia mais"), where the link has no sentence, list item or cell of its own and `linkContext` finds no
+ * block short enough to be its sentence. The nearest heading of a page is not enough: it may head a section of dozens
+ * of links. Undefined otherwise. On the labelled findings of the second to fifth real-page studies, every depth from 2
+ * to 8 and every size from 300 to 2,000 characters moved the same 7, all on one course list (pucrs.br), so the tightest
+ * was frozen (docs/studies/notes-precision-round5.md, P1; in-sample).
+ */
+function cardHeadingOf(index: TreeIndex, node: A11yNode, heading: A11yNode | undefined): string | undefined {
+  if (!heading?.name) return undefined
+  const aroundHeading = new Set<string>()
+  for (let ref = index.get(heading.ref)?.parentRef; ref !== undefined; ref = index.get(ref)?.parentRef) aroundHeading.add(ref)
+  let ref = index.get(node.ref)?.parentRef
+  for (let depth = 1; ref !== undefined && depth <= CARD_DEPTH; depth++) {
+    if (aroundHeading.has(ref)) {
+      // The lowest ancestor the two share: a larger one only holds more text.
+      const card = index.get(ref)?.node
+      return card && subtreeText(card).length <= CARD_TEXT ? heading.name : undefined
+    }
+    ref = index.get(ref)?.parentRef
+  }
+  return undefined
+}
+
+/**
+ * A disclosure toggle written as a link: its href leads nowhere ("#", none, or a script) and a list follows it inside
+ * its own list item, the submenu it opens (shown or not). Such a "More" names a control, not a destination: the 2.4.4
+ * mismatch fact already leaves controls out, and a generic text on one is no failure of link purpose (horniman.ac.uk's
+ * "More" in the fifth real-page study).
+ */
+function menuToggleOf(index: TreeIndex, node: A11yNode, href: string | undefined): boolean {
+  if (isAddress(href)) return false
+  let child = node
+  for (let ref = index.get(node.ref)?.parentRef; ref !== undefined; ref = index.get(ref)?.parentRef) {
+    const current = index.get(ref)?.node
+    if (!current) return false
+    if (current.role === 'listitem') {
+      const at = current.children.indexOf(child)
+      return at >= 0 && current.children.slice(at + 1).some(holdsList)
+    }
+    child = current
+  }
+  return false
+}
+
+function holdsList(node: A11yNode): boolean {
+  for (const inner of walkTree(node)) if (inner.role === 'list') return true
+  return false
 }
 
 /** The page's own address, to resolve its links against; a recorded local page keeps only a relative path. */

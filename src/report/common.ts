@@ -84,6 +84,16 @@ export function sourceLabel(source: Exclude<Finding['source'], 'judgment'>, loca
   return t(locale, source === 'rule' ? 'rampaRule' : source === 'probe' ? 'probeRule' : 'engineRule')
 }
 
+/**
+ * What the second pass said of a judgment finding: "confirmed by a second pass (3 framings, P(fail) ≥ 0.99)", or, for a
+ * claim confirmed with an identical one on the page, how many of those the pass confirmed on their own.
+ */
+export function confirmationText(confirmation: NonNullable<Finding['confirmation']>, locale: Locale): string {
+  if (confirmation.identical) return t(locale, 'confirmedTogether', { confirmed: confirmation.identical.confirmed, claims: confirmation.identical.claims })
+  const probability = confirmation.minProbability === undefined ? '' : t(locale, 'confirmedProbability', { value: confirmation.minProbability.toFixed(2) })
+  return t(locale, 'confirmedBy', { framings: confirmation.framings, probability })
+}
+
 /** What a report shows: confirmed findings, plus those below the confidence threshold with --verbose. */
 export function shownFindings(report: Report, verbose: boolean): Finding[] {
   const findings = verbose ? [...report.findings, ...report.belowThreshold] : [...report.findings]

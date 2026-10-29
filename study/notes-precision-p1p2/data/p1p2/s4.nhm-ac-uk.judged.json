@@ -1,0 +1,240 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.nhm.ac.uk/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "7e4deccc67e8",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#spotlight-tile > div > div:nth-of-type(2) > figure > picture > img",
+   "message": "This image is hidden from screen readers (inside aria-hidden=\"true\"), but it conveys what the text around it does not say: \"The image shows a 'Dig a Dinosaur Skeleton' kit.\".",
+   "evidence": "The image shows a 'Dig a Dinosaur Skeleton' kit.",
+   "subject": "hidden retail-dino-bundle-tile.jpg",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6ea6a395b057",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#_R_lpqbamH1_",
+   "message": "The field \"First name *\" asks for the user's first name but does not identify that purpose: autocomplete=\"given-name\" is missing.",
+   "evidence": "First name *",
+   "patch": {
+    "ref": "#_R_lpqbamH1_",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "given-name",
+    "before": "<input id=\"_R_lpqbamH1_\" class=\"themed-input\" data-input-is-valid=\"true\" data-icon-position=\"false\" type=\"text\" required=\"\" aria-errormessage=\"_R_lpqbam_\" aria-invalid=\"false\" placeholder=\"First name\" name=\"firstname\">",
+    "after": "<input id=\"_R_lpqbamH1_\" class=\"themed-input\" data-input-is-valid=\"true\" data-icon-position=\"false\" type=\"text\" required=\"\" aria-errormessage=\"_R_lpqbam_\" aria-invalid=\"false\" placeholder=\"First name\" name=\"firstname\" autocomplete=\"given-name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "36afd0a0138f",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#_R_tpqbamH1_",
+   "message": "The field \"Last name *\" asks for the user's last name but does not identify that purpose: autocomplete=\"family-name\" is missing.",
+   "evidence": "Last name *",
+   "patch": {
+    "ref": "#_R_tpqbamH1_",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "family-name",
+    "before": "<input id=\"_R_tpqbamH1_\" class=\"themed-input\" data-input-is-valid=\"true\" data-icon-position=\"false\" type=\"text\" required=\"\" aria-errormessage=\"_R_tpqbam_\" aria-invalid=\"false\" placeholder=\"Last name\" name=\"lastname\">",
+    "after": "<input id=\"_R_tpqbamH1_\" class=\"themed-input\" data-input-is-valid=\"true\" data-icon-position=\"false\" type=\"text\" required=\"\" aria-errormessage=\"_R_tpqbam_\" aria-invalid=\"false\" placeholder=\"Last name\" name=\"lastname\" autocomplete=\"family-name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6c8ec400e583",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#_R_15pqbamH1_",
+   "message": "The field \"Email address *\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Email address *",
+   "patch": {
+    "ref": "#_R_15pqbamH1_",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input id=\"_R_15pqbamH1_\" class=\"themed-input\" data-input-is-valid=\"true\" data-icon-position=\"false\" type=\"email\" required=\"\" aria-errormessage=\"_R_15pqbam_\" aria-invalid=\"false\" placeholder=\"Email address\" name=\"email\">",
+    "after": "<input id=\"_R_15pqbamH1_\" class=\"themed-input\" data-input-is-valid=\"true\" data-icon-position=\"false\" type=\"email\" required=\"\" aria-errormessage=\"_R_15pqbam_\" aria-invalid=\"false\" placeholder=\"Email address\" name=\"email\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#highlights-container > div > div > div > ul > li:nth-of-type(3) > div > a",
+   "message": "The link text \"Fern the Diplodocus\" does not match where the link leads: a page titled \"Our Gardens | Natural History Museum\".",
+   "evidence": "The model suggests: \"Our Gardens (featuring Fern the Diplodocus)\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#__next > div > footer > section > div:nth-of-type(2) > ul:nth-of-type(1) > li:nth-of-type(5) > a",
+   "message": "The link text \"Access\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Accessibility at South Kensington\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#promo-banner-container > div > div > div:nth-of-type(4) > div > div > h2",
+   "message": "The heading \"Come curious, leave inspired\" says nothing about the content under it.",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 9,
+   "judged": 9,
+   "failed": 1,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 3,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 89,
+   "judged": 50,
+   "failed": 0,
+   "passed": 48,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 39,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 28,
+   "judged": 28,
+   "failed": 0,
+   "passed": 26,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 39 of 89 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 90,
+  "inputTokens": 84782,
+  "outputTokens": 7240,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": null
+ }
+}

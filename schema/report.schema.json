@@ -45,7 +45,16 @@
         },
         "confirmation": {
           "type": "object",
-          "properties": { "framings": { "type": "integer", "minimum": 0 }, "minProbability": { "type": "number", "minimum": 0, "maximum": 1 } },
+          "properties": {
+            "framings": { "type": "integer", "minimum": 0 },
+            "minProbability": { "type": "number", "minimum": 0, "maximum": 1 },
+            "identical": {
+              "type": "object",
+              "description": "Set when the second pass denied this claim and confirmed an identical one on the page (same subject and verdict): the identical claims it was asked about, this one included, and how many it confirmed",
+              "properties": { "claims": { "type": "integer", "minimum": 2 }, "confirmed": { "type": "integer", "minimum": 1 } },
+              "required": ["claims", "confirmed"]
+            }
+          },
           "required": ["framings"]
         },
         "ruleId": { "type": "string" },

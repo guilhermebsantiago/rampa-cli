@@ -1,0 +1,218 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.irishtimes.com/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "e14852f9ca0e",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#lazy_3901 > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > img",
+   "message": "The text alternative \"logo\" is a file name or a placeholder.",
+   "evidence": "logo",
+   "subject": "logo",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#lazy_3901 > div > div > div:nth-of-type(2) > div:nth-of-type(2) > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "logo",
+    "to": "ePaper",
+    "before": "<img class=\"logo\" src=\"https://cloudfront-eu-central-1.images.arcpublishing.com/sandbox.irishtimes/NBZTERI3LJCBNBYCBPDZJLZMV4.png\" alt=\"logo\">",
+    "after": "<img class=\"logo\" src=\"https://cloudfront-eu-central-1.images.arcpublishing.com/sandbox.irishtimes/NBZTERI3LJCBNBYCBPDZJLZMV4.png\" alt=\"ePaper\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#lazy_45280 > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(1) > div > div > span:nth-of-type(2) > a",
+   "message": "The link text \"LIVE UPDATES\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Environment News & Analysis\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#lazy_45280 > div > div > div:nth-of-type(1) > div > div > div:nth-of-type(1) > a",
+   "message": "The link text \"Storm Boelo: Ireland braces for ‘damaging’ second storm as Met Éireann issues new orange warnings\" does not match where the link leads: a page titled \"Storm Boelo latest: Ireland braces for ‘damaging’ second storm as Met Éireann i…\".",
+   "evidence": "The model suggests: \"Storm Austen live updates\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#lazy_62705 > div > div > div:nth-of-type(3) > div > div > div > div > div > div > div > div > span > a",
+   "message": "The link text \"ON THE MONEY NEWSLETTER\" does not match where the link leads: a page titled \"Your Money\".",
+   "evidence": "The model suggests: \"Your Money finance news\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#main > div:nth-of-type(1) > a:nth-of-type(13) > h2",
+   "message": "The heading \"DON'T MISS\" says nothing about the content under it.",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#main > div:nth-of-type(3) > a:nth-of-type(2) > h2",
+   "message": "The heading \"SUBSCRIBER ONLY\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Subscriber Exclusive Content\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 325,
+   "judged": 50,
+   "failed": 0,
+   "passed": 43,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 275,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 62,
+   "judged": 50,
+   "failed": 0,
+   "passed": 48,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 12,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "2 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #fw-desktop (https://lw.foreca.net/v4/en/site/irishtimes/widget/?name=Dublin&id=102964574), #lazy_46830 > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > iframe (https://www.recruitireland.com/embed/search/jobs).",
+  "78 image(s) were left without a capture, so no judgment looked at them: 78 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 275 of 325 for 2.4.4, 12 of 62 for 2.4.6. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 103,
+  "inputTokens": 96088,
+  "outputTokens": 8239,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#fw-desktop",
+     "url": "https://lw.foreca.net/v4/en/site/irishtimes/widget/?name=Dublin&id=102964574",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#lazy_46830 > div > div > div:nth-of-type(1) > div:nth-of-type(2) > div > iframe",
+     "url": "https://www.recruitireland.com/embed/search/jobs",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

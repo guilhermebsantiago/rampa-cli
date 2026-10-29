@@ -1,0 +1,235 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.nps.gov/findapark/index.htm",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#FindAPark__Results > div > a:nth-of-type(2) > img",
+   "message": "The text alternative \"Acadia banner image\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Scenic view of Acadia National Park with rocky islands and coastal landscape at sunset\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.88), claim: no (0.00), reversed: no (0.96))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#FindAPark__Results > div > a:nth-of-type(3) > img",
+   "message": "The text alternative \"Adams banner image\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Historic buildings at Adams National Historical Park\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.00), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#FindAPark__Results > div > a:nth-of-type(4) > img",
+   "message": "The text alternative \"African American Civil War Memorial banner image\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Bronze sculpture of African American Civil War soldiers\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.01), claim: no (0.00), reversed: yes (0.04))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#FindAPark__Results > div > a:nth-of-type(5) > img",
+   "message": "The text alternative \"African Burial Ground banner image\" describes something the image does not show.",
+   "evidence": "The model suggests: \"A crowd of people gathered at the African Burial Ground National Monument in New York City.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.77), claim: no (0.00), reversed: yes (0.01))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#FindAPark__Results > div > a:nth-of-type(6) > img",
+   "message": "The text alternative \"Agate Fossil Beds banner image\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Two tipis in a grassy field with a mesa in the background\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.77), claim: no (0.00), reversed: yes (0.01))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#FindAPark__Results > div > a:nth-of-type(7) > img",
+   "message": "The text alternative \"Alagnak banner image\" describes something the image does not show.",
+   "evidence": "The model suggests: \"A school of fish swimming in the Alagnak River\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.98), claim: no (0.00), reversed: no (0.98))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#FindAPark__Results > div > a:nth-of-type(8) > img",
+   "message": "The text alternative \"Ala Kahakai banner image\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Charred forest landscape along the coastline of the Ala Kahakai National Historic Trail\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.97), claim: no (0.00), reversed: yes (0.33))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#FindAPark__Results > div > a:nth-of-type(9) > img",
+   "message": "The text alternative \"Alaska Public Lands banner image\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Snow-capped mountains and a forest in Alaska\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.22), claim: no (0.00), reversed: yes (0.02))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#FindAPark__Results > div > a:nth-of-type(10) > img",
+   "message": "The text alternative \"Alcatraz Island banner image\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Panoramic view of Alcatraz Island and its historic buildings\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.01), claim: no (0.00), reversed: yes (0.04))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#FindAPark__Results > div > a:nth-of-type(2)",
+   "message": "The link text \"Acadia banner image Acadia National Park Maine Image Credit: Photo by Alan Nyiri. Used with permission\" does not match where the link leads: a page titled \"Acadia National Park (U.S. National Park Service)\".",
+   "evidence": "The model suggests: \"Acadia National Park\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#ResultsPagination > p > a:nth-of-type(2)",
+   "message": "The link text \"View all\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"View all Alcatraz Island items\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#FindAParkViewControlList-List",
+   "message": "The label \" List\" does not say what to enter.",
+   "evidence": "The model suggests: \"Select list view\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 21,
+   "judged": 21,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 9,
+   "unconfirmed": 9
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 41,
+   "judged": 41,
+   "failed": 0,
+   "passed": 39,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 19,
+   "judged": 19,
+   "failed": 0,
+   "passed": 16,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 111,
+  "inputTokens": 92460,
+  "outputTokens": 7349,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": null
+ }
+}

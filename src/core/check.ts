@@ -19,7 +19,7 @@ import { criteriaCoverage, engineCoverage, reviewItems, reviewOnlyCriteria, rule
 import { VERSION } from '../version.ts'
 import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria, criteriaFor, successCriterion, wcagTarget } from '../wcag.ts'
 import type { JudgmentCache } from './cache.ts'
-import { type Confirmation, confirmClaim, describeAnswers } from './confirm.ts'
+import { type Confirmation, confirmClaim, confirmTogether, describeAnswers, identicalClaimKey } from './confirm.ts'
 import { claimOf, findingGroups } from './groups.ts'
 import { DEFAULT_MAX_CANDIDATES, type Sample, judgeCandidates } from './judge.ts'
 import type { FastCoverage } from './fast.ts'
@@ -229,6 +229,38 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
       summary.batched = { candidates: inBatches.length, calls }
     }
 
+    // Why a verified fail is the model's suggestion before any second pass: a page read without its styles
+    // (`captureStyle`), where what is visible around an element, and what is hidden, is not what people see; or no fact
+    // Rampa checks supports it (`Criterion.grounded`). The ablation (verify: false) holds back neither.
+    const heldBack = (judgment: (typeof judgments)[number]): 'unstyled' | 'ungrounded' | undefined => {
+      const output = judgment.representative
+      if (judgment.status !== 'failed' || !output || options.verify === false) return undefined
+      if (style.unstyled) return 'unstyled'
+      if (criterion.grounded && !criterion.grounded(output, judgment.candidate, view)) return 'ungrounded'
+      return undefined
+    }
+    // A fail that rests on the model's reading of the element is asked again, one word at a time, three ways
+    // (core/confirm.ts). Every claim that reaches the pass is asked first, in order, so that identical claims on the page
+    // are decided together (`confirmTogether`); the loop below reads each outcome.
+    const confirmations = new Map<(typeof judgments)[number], Confirmation>()
+    if (options.confirm !== false && criterion.confirm) {
+      const asked: Array<{ judgment: (typeof judgments)[number]; key: string | undefined; confirmation: Confirmation }> = []
+      for (const judgment of judgments) {
+        const output = judgment.representative
+        if (judgment.status !== 'failed' || !output || heldBack(judgment)) continue
+        const framings = criterion.confirm(output, judgment.candidate, view)
+        if (!framings || framings.length === 0) continue
+        const confirmation = await confirmClaim(criterion, framings, { provider: options.provider, cache: options.cache, offline: options.offline, signal, deadline: options.deadline })
+        const verdict = (output as { verdict?: unknown }).verdict
+        asked.push({ judgment, key: identicalClaimKey(criterion.id, criterion.subject?.(judgment.candidate), typeof verdict === 'string' ? verdict : undefined), confirmation })
+      }
+      const outcomes = confirmTogether(asked)
+      asked.forEach(({ judgment }, i) => {
+        const outcome = outcomes[i]
+        if (outcome) confirmations.set(judgment, outcome)
+      })
+    }
+
     for (const judgment of judgments) {
       // A candidate the criterion passed or failed without a model counts in the coverage as its own method (kind rule).
       if (judgment.samples.some((sample) => sample.decided) && (judgment.status === 'passed' || judgment.status === 'failed')) {
@@ -310,9 +342,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
           }
           const output = judgment.representative
           if (!output) continue
-          // A page read without its styles (`captureStyle`): what is visible around an element, and what is hidden, is
-          // not what people see, so a fail that rests on it is the model's suggestion.
-          if (judgment.status === 'failed' && options.verify !== false && style.unstyled) {
+          const held = heldBack(judgment)
+          // A page read without its styles: a fail that rests on what is visible is the model's suggestion.
+          if (held === 'unstyled') {
             summary.suggested = (summary.suggested ?? 0) + 1
             const suggested = criterion.patch?.(output, judgment.candidate, view)?.to
             suggestions.push({
@@ -327,7 +359,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             continue
           }
           // A fail that rests on the model's reading alone is its suggestion, not a finding (the ablation keeps it as one).
-          if (judgment.status === 'failed' && options.verify !== false && criterion.grounded && !criterion.grounded(output, judgment.candidate, view)) {
+          if (held === 'ungrounded') {
             summary.suggested = (summary.suggested ?? 0) + 1
             const suggested = criterion.patch?.(output, judgment.candidate, view)?.to
             suggestions.push({
@@ -341,13 +373,10 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             })
             continue
           }
-          // A fail that rests on the model's reading of the element is asked again, one word at a time, three ways: it is a
-          // finding only when every framing confirms it (core/confirm.ts); otherwise it is the model's suggestion, with
-          // what the second pass answered.
-          let confirmation: Confirmation | undefined
-          const framings = judgment.status === 'failed' && options.confirm !== false && criterion.confirm ? criterion.confirm(output, judgment.candidate, view) : undefined
-          if (framings && framings.length > 0) {
-            confirmation = await confirmClaim(criterion, framings, { provider: options.provider, cache: options.cache, offline: options.offline, signal, deadline: options.deadline })
+          // A claim the second pass was asked about is a finding only when the pass confirmed it, or an identical claim on
+          // the page (core/confirm.ts); otherwise it is the model's suggestion, with what the pass answered.
+          const confirmation = confirmations.get(judgment)
+          if (confirmation) {
             for (const key of ['calls', 'cachedCalls', 'inputTokens', 'outputTokens', 'latencyMs'] as const) usage[key] += confirmation.usage[key]
             passUsage.calls += confirmation.usage.calls
             passUsage.cachedCalls += confirmation.usage.cachedCalls
@@ -419,7 +448,15 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             confidence,
             // A judgment the criterion made without a model names no model; its message says what decided it.
             agreement: decided ? undefined : { votes: judgment.votes, total: judgment.total },
-            ...(confirmation ? { confirmation: { framings: confirmation.answers.length, ...(confirmation.minProbability === undefined ? {} : { minProbability: confirmation.minProbability }) } } : {}),
+            ...(confirmation
+              ? {
+                  confirmation: {
+                    framings: confirmation.answers.length,
+                    ...(confirmation.minProbability === undefined ? {} : { minProbability: confirmation.minProbability }),
+                    ...(confirmation.identical ? { identical: confirmation.identical } : {}),
+                  },
+                }
+              : {}),
             model: decided ? undefined : (options.provider?.id ?? judgment.samples.find((s) => s.modelId)?.modelId),
             // An experimental module, or a judgment over a probe's facts, which is as experimental as the probe.
             ...(judgmentMaturity(criterion) === 'experimental' ? { experimental: true } : {}),

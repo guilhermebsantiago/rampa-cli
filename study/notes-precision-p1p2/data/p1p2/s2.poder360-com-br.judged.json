@@ -1,0 +1,208 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.poder360.com.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "62789fbd11d4",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#google_ads_iframe_\\/50451226\\/1248x250_home_desktop_0 |> #img_anch_CJ6GuLfyspcDFRmmlQIdJ0wn3g > img",
+   "message": "The text alternative \"Advertisement\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Advertisement",
+   "subject": "Advertisement",
+   "claim": "missing_information",
+   "patch": {
+    "ref": "#google_ads_iframe_\\/50451226\\/1248x250_home_desktop_0 |> #img_anch_CJ6GuLfyspcDFRmmlQIdJ0wn3g > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Advertisement",
+    "to": "A evolução do seu jeito de investir. Descubra uma nova experiência com o app Ágora. Saiba mais.",
+    "before": "<img src=\"https://s0.2mdn.net/simgad/9075036038877917428\" alt=\"Advertisement\" border=\"0\" width=\"1248\" height=\"250\" style=\"display:block\">",
+    "after": "<img src=\"https://s0.2mdn.net/simgad/9075036038877917428\" alt=\"A evolução do seu jeito de investir. Descubra uma nova experiência com o app Ágora. Saiba mais.\" border=\"0\" width=\"1248\" height=\"250\" style=\"display:block\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999297729302586
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "9af9ac8766ce",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > input:nth-of-type(1)",
+   "message": "The field \"seu e-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "seu e-mail",
+   "patch": {
+    "ref": "#page-885654 > div > div:nth-of-type(9) > form > fieldset > div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > input:nth-of-type(1)",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"text\" class=\"form-subscribe__text--modelo2 form-create__email\" placeholder=\"seu e-mail\">",
+    "after": "<input type=\"text\" class=\"form-subscribe__text--modelo2 form-create__email\" placeholder=\"seu e-mail\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "5574c2fda4be",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#video_38455",
+   "message": "Marked as lang=\"pt-br\", but the text is in English (en).",
+   "evidence": "Video Player Play Video Play Video Advertisement Advertisement",
+   "subject": "pt-br",
+   "patch": {
+    "ref": "#video_38455",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "from": "pt-br",
+    "to": "en",
+    "before": "<div class=\"video-js vjs-default-skin vjs-big-play-centered vjs-paused video_38455-dimensions vjs-fluid vjs-controls-enabled vjs-workinghover vjs-v7 vjs-user-active\" id=\"video_38455\" tabindex=\"-1\" lang=\"pt-br\" role=\"region\" aria-label=\"Video Player\">",
+    "after": "<div class=\"video-js vjs-default-skin vjs-big-play-centered vjs-paused video_38455-dimensions vjs-fluid vjs-controls-enabled vjs-workinghover vjs-v7 vjs-user-active\" id=\"video_38455\" tabindex=\"-1\" lang=\"en\" role=\"region\" aria-label=\"Video Player\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "3.3.2",
+   "level": "A",
+   "ruleId": "judgment/3.3.2",
+   "ref": "#gsc-i-id1",
+   "message": "Nothing on screen tells what to enter in the field \"pesquisar\": its name is in aria-label, which only screen readers get.",
+   "evidence": "The model suggests: \"pesquisar\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 12,
+   "failed": 1,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 1,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  }
+ ],
+ "notes": [
+  "2 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #goog_246052519 (https://imasdk.googleapis.com/js/core/bridge3.792.0_en.html#deid=%22%22&eventfe_experiment_ids=%5B%5D&fid=%22goog_246052519%22&genotype_experiment_data=%7B%22experimentStateProto%22%3A%22%5B%5B%5B45713128%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45848619%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45796605%2Cnull%2Cnull%2), #goog_246052519 |> html > body > div:nth-child(3) > iframe.",
+  "97 image(s) were left without a capture, so no judgment looked at them: 5 outside the page (an off-canvas menu); 8 transparent where it sits; 84 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 21,
+  "inputTokens": 16756,
+  "outputTokens": 1427,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#goog_246052519",
+     "url": "https://imasdk.googleapis.com/js/core/bridge3.792.0_en.html#deid=%22%22&eventfe_experiment_ids=%5B%5D&fid=%22goog_246052519%22&genotype_experiment_data=%7B%22experimentStateProto%22%3A%22%5B%5B%5B45713128%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45848619%2Cnull%2Cnull%2C%5B%5D%5D%2C%5B45796605%2Cnull%2Cnull%2",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#goog_246052519 |> html > body > div:nth-child(3) > iframe",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}
