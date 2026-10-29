@@ -52,7 +52,29 @@ Written down before the confirming replay of section 3; nothing below was change
 
 ## 3. The confirming replay
 
-Not run yet.
+The frozen code (`dist` built at `df97d5f`, `data/after-commit.txt`; byte for byte the build the ACT runs of section 4 used), replayed with the protocol of section 2 (`replay.sh p3p4 … online`, `compact.py`, `analyze.py main p3p4`, written to `data/compare.md`): 96 reports, no error, no cache miss. It asked the model 5 new 2.4.4 questions, exactly the ones `facts.ts` listed (s3 test: ufpe-br 4, correio 1), and nothing else; replayed again offline from its own work caches, it gives the same 96 reports with no miss and no call. Cells are true / false findings at the default threshold (uncertain apart) and precision with its Wilson 95% interval; "per group" counts each group of 6 or more findings of one claim on one page as one.
+
+| Study | Half | What it is | Per element before (main `a82558e`) | Per element after | Per group before | Per group after |
+| --- | --- | --- | --- | --- | --- | --- |
+| s2 | dev | in-sample | 19 / 0: 1.00 (0.83–1.00) | 19 / 0: 1.00 (0.83–1.00) | 19 / 0 | 19 / 0 |
+| s2 | test | in-sample | 10 / 3: 0.77 (0.50–0.92) | **10 / 2: 0.83 (0.55–0.95)** | 10 / 3 | 10 / 2 |
+| s3 | dev | in-sample | 15 / 3 (1 unc.): 0.83 (0.61–0.94) | 15 / 3 (1): 0.83 (0.61–0.94) | 15 / 3 | 15 / 3 |
+| s3 | test | in-sample | 24 / 5 (2): 0.83 (0.65–0.92) | **24 / 3 (2): 0.89 (0.72–0.96)** | 12 / 3 | 14 / 3 |
+| s4 | dev | in-sample | 13 / 3 (1): 0.81 (0.57–0.93) | 13 / 3 (1): 0.81 (0.57–0.93) | 6 / 3 | 6 / 3 |
+| s4 | test | in-sample | 14 / 4: 0.78 (0.55–0.91) | 14 / 4: 0.78 (0.55–0.91) | 7 / 4 | 7 / 4 |
+| fifth | dev | in-sample | 37 / 0 (1): 1.00 (0.91–1.00) | 37 / 0 (1): 1.00 (0.91–1.00) | 16 / 0 | 16 / 0 |
+| fifth | test | counted | 20 / 4 (1): 0.83 (0.64–0.93) | 20 / 4 (1): 0.83 (0.64–0.93) | 20 / 4 | 20 / 4 |
+| s2–s4 | both | in-sample | 95 / 18 (4): 0.84 (0.76–0.90) | **95 / 15 (4): 0.86 (0.79–0.92)** | 69 / 16: 0.81 | 71 / 15: 0.83 |
+| s2–s4 and fifth dev | | in-sample | 132 / 18 (5): 0.88 (0.82–0.92) | **132 / 15 (5): 0.90 (0.84–0.94)** | 85 / 16: 0.84 | 87 / 15: 0.85 |
+| fifth | both | in-sample + counted | 57 / 4 (2): 0.93 (0.84–0.97) | 57 / 4 (2): 0.93 (0.84–0.97) | 36 / 4: 0.90 | 36 / 4: 0.90 |
+| all four | both | in-sample + counted | 152 / 22 (6): 0.87 (0.82–0.92) | 152 / 19 (6): 0.89 (0.83–0.93) | 105 / 20: 0.84 | 107 / 19: 0.85 |
+
+Page bootstrap of the per-element precision after (10,000 resamples of the pages with a decided finding): s2–s4 0.78–0.93, s2–s4 and the fifth study's dev half 0.83–0.95, the fifth study's test half 0.62–0.97 (counted).
+
+- **Every finding that moved is one section 2 named, and nothing else moved.** Left the default threshold: tcd-ie's 1.1.1 "istagram" (s2 test, false; now a suggestion, with no second pass asked, so 3 cached calls fewer), correio's 2.4.4 "Direito e Justiça" (s3 test, false; no longer judged under the cap) and pimoroni's "Pimoroni" (s3 test, false; now a suggestion). **No true finding was lost, no finding came, and none is new and unlabelled.** The card-heading refinement moved nothing, as expected: no recorded card heading is on the generic lists. Every number of section 2's expected "after" came out exactly, per element and per group (`data/expected.md`, `data/compare.md`).
+- **The 5 newly judged links.** correio's (the link that took "Direito e Justiça"'s place under the cap) passed. ufpe-br's 4 failed as shared texts ("Monitoria", "Eventos", "Herbário UFP", "Herbário HURM"), which on that page read as unstyled are suggestions; on a styled page they would have been new, unlabelled findings, so P4's judge-first order can bring new claims as P1's did.
+- **Suggestions** on the 96 pages went from 437 to 439 (`data/suggestions.md`): tcd-ie's "istagram" and pimoroni's "Pimoroni" joined; ufpe-br's 4 suggestions on the links P4 moved out of the cap left and its 4 newly judged links' came. Nothing changed on the fifth study's test half (counted).
+- **What it says.** On the pages P3 and P4 were chosen from, they do what they were built to do and nothing else: s2–s4 go from 95 / 18 to 95 / 15, and with the fifth study's dev half from 132 / 18 (0.88) to 132 / 15 (0.90), all in-sample. That agreement says the code does what the offline facts assumed; it says nothing about fresh pages. The fifth study's test half is unchanged at 20 / 4 (0.83, counted) because it had neither mechanism. In the shipped pipeline P3 had one finding left to take (the notes' pool counted four, three of which an earlier fact already drops), so its measured gain is 1 false finding in 174 decided ones; P4's is 2. Both are small, as the round-5 notes said.
 
 ## 4. The W3C ACT cases and the demo
 
@@ -74,5 +96,6 @@ All paths under `study/notes-precision-p3p4/`. Run from the repository root at t
 - `node facts.ts > data/facts.md`: what P3, P4 and the refinement change in the inputs of every recorded page, no model (`data/facts.json`; the fifth study's test half by count only).
 - `node pool.ts > data/pool.md`: P3 on the round-5 notes' 55 confirmed reading claims, beside the notes' wider rule.
 - `bash replay.sh <label> <dist> offline|online [s2 s3 s4 s5]`, then `python -I compact.py <label>`: the replay (`data/main/`, `data/p3p4/`: run logs and the judged part of each report).
-- `python -I analyze.py main --predict > data/expected.md`: the expected "after" of section 2; `python -I analyze.py main p3p4 > data/compare.md`: the tables of section 3. Labels are read with `study/notes-precision-p1p2/labels.py`.
+- `python -I analyze.py main --predict > data/expected.md`: the expected "after" of section 2; `python -I analyze.py main p3p4 > data/compare.md`: the tables of section 3 (`data/compare.json`, `data/<label>/summary.json`); `python -I suggestions.py main p3p4 > data/suggestions.md`: the suggestions that moved. Labels are read with `study/notes-precision-p1p2/labels.py`.
+- The after replay's caches are in the recordings folder (`notes-precision-p3p4-2026-10-29/caches-after`, with the evaluation cache), from which it reruns offline.
 - `bash run-evals.sh <main dist> <branch dist>`: section 4 (`data/evals/`).

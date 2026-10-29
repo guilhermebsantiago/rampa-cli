@@ -1,0 +1,310 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://osesp.art.br/osesp/pt/fale-conosco",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "321f23b46bcf",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(3) > astro-island > div > div:nth-of-type(2) > a > img",
+   "message": "The text alternative \"Patrocinador\" describes something the image does not show.",
+   "evidence": "Patrocinador",
+   "subject": "Patrocinador",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(3) > astro-island > div > div:nth-of-type(2) > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Patrocinador",
+    "to": "Motiva",
+    "before": "<img src=\"https://docs.osesp.net.br/logo_motiva_branco_novo_46c359b79a.png\" width=\"120\" height=\"80\" alt=\"Patrocinador\" decoding=\"async\" loading=\"lazy\" style=\"max-width:200px\" class=\"\">",
+    "after": "<img src=\"https://docs.osesp.net.br/logo_motiva_branco_novo_46c359b79a.png\" width=\"120\" height=\"80\" alt=\"Motiva\" decoding=\"async\" loading=\"lazy\" style=\"max-width:200px\" class=\"\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999586057487488
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "3632db9dd1b8",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#name",
+   "message": "The field \"Nome\" asks for the user's full name but does not identify that purpose: autocomplete=\"name\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Nome",
+   "patch": {
+    "ref": "#name",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "name",
+    "before": "<input type=\"text\" class=\"\" id=\"name\" placeholder=\"ex.: João da Silva Gomes\" required=\"\" minlength=\"5\" aria-label=\"Nome\" name=\"name\" pattern=\"[a-zA-ZÀ-ú]+( [a-zA-ZÀ-ú]+)*\" data-msg-valuemissing=\"Informe seu nome completo\" data-msg-patternmismatch=\"Informe seu nome completo\">",
+    "after": "<input type=\"text\" class=\"\" id=\"name\" placeholder=\"ex.: João da Silva Gomes\" required=\"\" minlength=\"5\" aria-label=\"Nome\" name=\"name\" pattern=\"[a-zA-ZÀ-ú]+( [a-zA-ZÀ-ú]+)*\" data-msg-valuemissing=\"Informe seu nome completo\" data-msg-patternmismatch=\"Informe seu nome completo\" autocomplete=\"name\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c00946fa036b",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#email",
+   "message": "The field \"E-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "E-mail",
+   "patch": {
+    "ref": "#email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"email\" class=\"\" id=\"email\" placeholder=\"ex.: nome@email.com\" required=\"\" aria-label=\"E-mail\" name=\"email\" data-msg-valuemissing=\"Informe seu e-mail\" data-msg-patternmismatch=\"Verifique o e-mail informado\">",
+    "after": "<input type=\"email\" class=\"\" id=\"email\" placeholder=\"ex.: nome@email.com\" required=\"\" aria-label=\"E-mail\" name=\"email\" data-msg-valuemissing=\"Informe seu e-mail\" data-msg-patternmismatch=\"Verifique o e-mail informado\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a9e213e59f43",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > nav > a:nth-of-type(7)",
+   "message": "The link text \"Ouvidoria\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "Ouvidoria",
+   "subject": "Ouvidoria",
+   "claim": "ambiguous",
+   "patch": {
+    "ref": "html > body > footer > div:nth-of-type(1) > div > div:nth-of-type(2) > nav > a:nth-of-type(7)",
+    "kind": "set-text",
+    "from": "Ouvidoria",
+    "to": "Ouvidoria da Osesp",
+    "before": "<a href=\"https://fala.sp.gov.br/\" rel=\"noreferrer\" target=\"_blank\" data-astro-cid-sz7xmlte=\"\">Ouvidoria</a>",
+    "after": "<a href=\"https://fala.sp.gov.br/\" rel=\"noreferrer\" target=\"_blank\" data-astro-cid-sz7xmlte=\"\">Ouvidoria da Osesp</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "2ec749673643",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > section > div > div:nth-of-type(1) > a",
+   "message": "The link text \"Ouvidoria\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "Ouvidoria",
+   "subject": "Ouvidoria",
+   "claim": "ambiguous",
+   "patch": {
+    "ref": "html > body > footer > section > div > div:nth-of-type(1) > a",
+    "kind": "set-text",
+    "from": "Ouvidoria",
+    "to": "Ouvidoria do Estado de São Paulo",
+    "before": "<a href=\"https://www.ouvidoria.sp.gov.br/Portal/Default.aspx\" target=\"_blank\" rel=\"noreferrer\">Ouvidoria</a>",
+    "after": "<a href=\"https://www.ouvidoria.sp.gov.br/Portal/Default.aspx\" target=\"_blank\" rel=\"noreferrer\">Ouvidoria do Estado de São Paulo</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "2.4.2",
+   "level": "A",
+   "ruleId": "judgment/2.4.2",
+   "ref": "html",
+   "message": "The page title \"Fale conosco\" says nothing about this page.",
+   "evidence": "The model suggests: \"Fale Conosco | Fundação Osesp\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > section > div > div:nth-of-type(3) > a",
+   "message": "The link text \"SIC\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Acesse o portal SIC\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#govMenuToggle",
+   "message": "The label \"Abrir/Fechar\" does not say what to enter.",
+   "evidence": "The model suggests: \"Abrir ou fechar o menu\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#email",
+   "message": "The label \"ex.: nome@email.com\" does not say what to enter.",
+   "evidence": "The model suggests: \"E-mail\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#phone",
+   "message": "The label \"(00)00000-0000\" does not say what to enter.",
+   "evidence": "The model suggests: \"Telefone\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 1,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 2,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 18,
+   "judged": 18,
+   "failed": 2,
+   "passed": 15,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 0,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: html > body > div:nth-of-type(4) > div > div:nth-of-type(1) > iframe (https://www.google.com/recaptcha/api2/anchor?ar=1&k=6Lcx2p0pAAAAAIKuxNncOXYS8C-ZWtuIXs-nH3Up&co=aHR0cHM6Ly9vc2VzcC5hcnQuYnI6NDQz&hl=en&v=NhfdZHzre16wrc2m6BxEdu7J&size=invisible&anchor-ms=20000&execute-ms=30000&cb=p9ywku7p6ivp).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 40,
+  "inputTokens": 32715,
+  "outputTokens": 3375,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > div:nth-of-type(4) > div > div:nth-of-type(1) > iframe",
+     "url": "https://www.google.com/recaptcha/api2/anchor?ar=1&k=6Lcx2p0pAAAAAIKuxNncOXYS8C-ZWtuIXs-nH3Up&co=aHR0cHM6Ly9vc2VzcC5hcnQuYnI6NDQz&hl=en&v=NhfdZHzre16wrc2m6BxEdu7J&size=invisible&anchor-ms=20000&execute-ms=30000&cb=p9ywku7p6ivp",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}
