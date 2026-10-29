@@ -5,6 +5,7 @@ import { VERSION } from '../version.ts'
 import {
   PROJECT_URL,
   WAIVERS_FILE,
+  confirmationText,
   countLevels,
   coverageRows,
   criterionName,
@@ -182,10 +183,7 @@ function findingBlock(finding: Finding, report: Report): string {
   // What found it: a model with verified evidence, or a rule of axe-core, of Rampa or over a probe's facts.
   if (finding.source === 'judgment') {
     meta.push(t(locale, 'verified'))
-    if (finding.confirmation) {
-      const probability = finding.confirmation.minProbability === undefined ? '' : t(locale, 'confirmedProbability', { value: finding.confirmation.minProbability.toFixed(2) })
-      meta.push(t(locale, 'confirmedBy', { framings: finding.confirmation.framings, probability }))
-    }
+    if (finding.confirmation) meta.push(confirmationText(finding.confirmation, locale))
   } else if (finding.ruleId) {
     const help = safeUrl(finding.helpUrl)
     // In angle brackets, a ) in the address cannot end the link early.

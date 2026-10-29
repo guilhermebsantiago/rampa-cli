@@ -9,7 +9,7 @@ import { estimateCostUsd, subscriptionOf } from '../providers/models.ts'
 import { compareCriteria, criterionLabel, criteriaFor, versionOf } from '../wcag.ts'
 import { advisoryLines, cogaCoverage } from './advisory.ts'
 import type { Painter } from './color.ts'
-import { coverageRows, entriesOf, groupWhy, memberAbout, methodsText, plural, reviewGroups, statusText, thresholdLevel } from './common.ts'
+import { confirmationText, coverageRows, entriesOf, groupWhy, memberAbout, methodsText, plural, reviewGroups, statusText, thresholdLevel } from './common.ts'
 import { timingLines } from './timings.ts'
 
 export interface PrettyOptions {
@@ -187,10 +187,7 @@ export function renderFinding(finding: Finding, locale: Locale, p: Painter, belo
     parts = [`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`, ...experimental]
     if (finding.agreement) parts.push(`${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`)
     parts.push(t(locale, 'verified'))
-    if (finding.confirmation) {
-      const probability = finding.confirmation.minProbability === undefined ? '' : t(locale, 'confirmedProbability', { value: finding.confirmation.minProbability.toFixed(2) })
-      parts.push(t(locale, 'confirmedBy', { framings: finding.confirmation.framings, probability }))
-    }
+    if (finding.confirmation) parts.push(confirmationText(finding.confirmation, locale))
   }
   lines.push(p.dim(`    ${[...parts, ...tail].join(' · ')}`))
   return lines

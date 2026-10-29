@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { type JudgmentCache, memoryCache } from '../src/core/cache.ts'
 import { checkSnapshot } from '../src/core/check.ts'
-import { CONFIRM_MIN_PROBABILITY, decide } from '../src/core/confirm.ts'
+import { CONFIRM_MIN_PROBABILITY, type Confirmation, confirmTogether, decide, identicalClaimKey } from '../src/core/confirm.ts'
 import type { EngineResults } from '../src/core/types.ts'
 import { resolveCriteria } from '../src/criteria/index.ts'
 import { nonTextContent } from '../src/criteria/non-text-content.ts'
 import { firstWordOf, probabilitiesOf, wordOf } from '../src/providers/ollama-word.ts'
+import { paint } from '../src/report/color.ts'
+import { renderMarkdown } from '../src/report/markdown.ts'
+import { renderReport } from '../src/report/pretty.ts'
 import type { JudgeRequest, ModelProvider, WordRequest } from '../src/providers/types.ts'
 import type { A11ySnapshot } from '../src/snapshot/schema.ts'
 import { node } from './helpers.ts'
@@ -193,6 +196,114 @@ describe('the second pass over a 1.1.1 claim that rests on the model\'s reading'
     const other = await check(page('IMG_2034.jpg', '/IMG_2034.jpg'), placeholder)
     expect(placeholder.wordCalls).toBe(0)
     expect(other.findings).toHaveLength(1)
+  })
+})
+
+/** A footer of logos, one image per alternative, each with a file name of its own (`/logo-<n>.png`). */
+function footer(alts: readonly string[]): A11ySnapshot {
+  const base = page('unused')
+  const images = alts.map((alt, n) =>
+    node({ ref: `footer > img:nth-of-type(${n + 1})`, role: 'img', name: alt, image: PNG, bounds: { x: n * 40, y: 600, width: 32, height: 20 }, native: { tag: 'img', attributes: { src: `/logo-${n}.png`, alt }, html: `<img src="/logo-${n}.png" alt="${alt}">` } }),
+  )
+  const footerNode = node({ ref: 'footer', role: 'contentinfo', native: { tag: 'footer' }, children: [node({ ref: 'footer > p', role: 'paragraph', text: 'Pay with' }), ...images] })
+  return { ...base, root: node({ ref: 'html', role: 'document', lang: 'en', children: [node({ ref: 'body', native: { tag: 'body' }, children: [footerNode] })] }) }
+}
+
+/** A model that fails every image as "wrong content", and answers the second pass of each image (by its file name) as scripted. */
+function perImage(scripts: readonly Script[]): ModelProvider & { wordCalls: number } {
+  const p = provider(undefined)
+  p.word = async (request: WordRequest) => {
+    p.wordCalls++
+    const n = Number(/\/logo-(\d+)\.png/.exec(request.user)?.[1])
+    const framing = request.system.includes('pass or fail') ? 'rules' : request.system.includes('reviewer made the claim') ? 'claim' : 'reversed'
+    const answer = scripts[n]?.[framing]
+    if (!answer) throw new Error(`no scripted answer for logo ${n}, ${framing}`)
+    return { word: answer.word, ...(answer.probabilities ? { probabilities: answer.probabilities } : {}), inputTokens: 40, outputTokens: 1, latencyMs: 1, modelId: 'scripted' }
+  }
+  return p
+}
+
+const DENIES: Script = { ...CONFIRMS, claim: { word: 'no', probabilities: { yes: 0.3, no: 0.7 } } }
+const UNSURE: Script = { ...CONFIRMS, rules: { word: 'fail', probabilities: { fail: 0.6, pass: 0.4 } } }
+
+describe('identical claims on one page, confirmed together', () => {
+  it('confirms every identical claim on the page once the pass confirms one of them, and says so', async () => {
+    // hering.com.br in the fifth real-page study: seven payment logos with alt="payment", one confirmed, six denied.
+    const p = perImage([DENIES, CONFIRMS, UNSURE])
+    const report = await check(footer(['payment', 'payment', 'payment']), p)
+    expect(p.wordCalls).toBe(9)
+    expect(report.needsReview ?? []).toHaveLength(0)
+    expect(report.findings.map((f) => f.confirmation)).toEqual([
+      { framings: 3, minProbability: 0.3, identical: { claims: 3, confirmed: 1 } },
+      { framings: 3, minProbability: 0.995 },
+      { framings: 3, minProbability: 0.6, identical: { claims: 3, confirmed: 1 } },
+    ])
+    expect(report.criteria[0]).toMatchObject({ failed: 3, confirmed: 3 })
+    expect(report.criteria[0]?.unconfirmed).toBeUndefined()
+    const line = 'confirmed by a second pass on an identical claim on this page (1 of 3 confirmed on their own)'
+    expect(renderReport(report, { verbose: false, paint: paint(false) })).toContain(line)
+    expect(renderMarkdown([report])).toContain(line)
+  })
+
+  it('reads one alternative whatever its case, accents and spaces, and groups nothing else', async () => {
+    const report = await check(footer(['Ícone do benefício', 'icone  do BENEFICIO', 'Red car']), perImage([CONFIRMS, DENIES, DENIES]))
+    expect(report.findings.map((f) => [f.subject, f.confirmation?.identical])).toEqual([
+      ['Ícone do benefício', undefined],
+      ['icone  do BENEFICIO', { claims: 2, confirmed: 1 }],
+    ])
+    expect(report.needsReview?.map((item) => item.ref)).toEqual(['footer > img:nth-of-type(3)'])
+    expect(report.criteria[0]).toMatchObject({ failed: 2, confirmed: 2, unconfirmed: 1, suggested: 1 })
+  })
+
+  it('leaves every identical claim a suggestion when the pass confirms none of them', async () => {
+    const report = await check(footer(['payment', 'payment']), perImage([DENIES, UNSURE]))
+    expect(report.findings).toHaveLength(0)
+    expect(report.needsReview).toHaveLength(2)
+    expect(report.criteria[0]).toMatchObject({ failed: 0, unconfirmed: 2 })
+  })
+
+  it('confirms nothing together with the second pass off', async () => {
+    const p = perImage([DENIES, CONFIRMS])
+    const report = await check(footer(['payment', 'payment']), p, { confirm: false })
+    expect(p.wordCalls).toBe(0)
+    expect(report.findings.map((f) => f.confirmation)).toEqual([undefined, undefined])
+  })
+})
+
+describe('the rule for identical claims', () => {
+  const answer = (outcome: Confirmation['outcome']): Confirmation => ({ outcome, answers: [], usage: { calls: 0, cachedCalls: 0, inputTokens: 0, outputTokens: 0, latencyMs: 0 } })
+
+  it('keys a claim by its criterion, its subject read loosely and its verdict', () => {
+    expect(identicalClaimKey('1.1.1', ' Ícone  do Benefício ', 'fail')).toBe(identicalClaimKey('1.1.1', 'icone do beneficio', 'fail'))
+    expect(identicalClaimKey('1.1.1', 'payment', 'fail')).not.toBe(identicalClaimKey('1.1.1', 'payments', 'fail'))
+    expect(identicalClaimKey('1.1.1', 'payment', 'fail')).not.toBe(identicalClaimKey('1.1.1', 'payment', 'cannot_tell'))
+    expect(identicalClaimKey('1.1.1', 'payment', 'fail')).not.toBe(identicalClaimKey('2.4.4', 'payment', 'fail'))
+    expect(identicalClaimKey('1.1.1', '  ', 'fail')).toBeUndefined()
+    expect(identicalClaimKey('1.1.1', undefined, 'fail')).toBeUndefined()
+  })
+
+  it('confirms only the denied members of a group with a confirmed one; misses, errors and claims with no key keep their outcome', () => {
+    const claims = [
+      { key: 'a', confirmation: answer('denied') },
+      { key: 'a', confirmation: answer('confirmed') },
+      { key: 'a', confirmation: answer('offline-miss') },
+      { key: 'a', confirmation: answer('error') },
+      { key: 'a', confirmation: answer('unavailable') },
+      { key: 'b', confirmation: answer('denied') },
+      { key: undefined, confirmation: answer('denied') },
+      { key: undefined, confirmation: answer('confirmed') },
+    ]
+    expect(confirmTogether(claims).map((c) => [c.outcome, c.identical])).toEqual([
+      ['confirmed', { claims: 5, confirmed: 1 }],
+      ['confirmed', undefined],
+      ['offline-miss', undefined],
+      ['error', undefined],
+      ['unavailable', undefined],
+      ['denied', undefined],
+      ['denied', undefined],
+      ['confirmed', undefined],
+    ])
+    expect(confirmTogether([])).toEqual([])
   })
 })
 

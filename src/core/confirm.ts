@@ -21,6 +21,9 @@ import { errorMessage, sha256 } from './util.ts'
  * probability read back (docs/studies/notes-precision-fixes.md), found under 0.99 five false findings (0.905, 0.959,
  * 0.986, 0.987, 0.987), two uncertain ones and no true one; the lowest true finding confirmed at 0.997. In-sample: those
  * pages were read.
+ *
+ * Since 2026-10-29, identical claims on one page (the same alternative, the same verdict) are confirmed together: one
+ * the pass confirms confirms the others it denied (`confirmTogether`).
  */
 
 export const CONFIRM_MIN_PROBABILITY = 0.99
@@ -44,6 +47,11 @@ export interface Confirmation {
   outcome: 'confirmed' | 'denied' | 'unavailable' | 'offline-miss' | 'error'
   answers: ConfirmAnswer[]
   minProbability?: number | undefined
+  /**
+   * Set when an identical claim on the page confirmed this one (`confirmTogether`): its own answers denied it. How many
+   * identical claims the pass was asked about on the page, this one included, and how many it confirmed on their own.
+   */
+  identical?: { claims: number; confirmed: number } | undefined
   error?: string | undefined
   usage: { calls: number; cachedCalls: number; inputTokens: number; outputTokens: number; latencyMs: number }
 }
@@ -110,6 +118,41 @@ export async function confirmClaim(criterion: { id: string; confirmVersion?: str
   }
   const { confirmed, minProbability } = decide(answers)
   return { outcome: confirmed ? 'confirmed' : 'denied', answers, ...(minProbability === undefined ? {} : { minProbability }), usage }
+}
+
+/**
+ * What makes two claims on a page identical: the criterion, the subject the claim is about (for 1.1.1, the alternative
+ * text) in lower case, without accents and with its spaces collapsed, and the verdict. Undefined for a claim with no
+ * subject, which is grouped with none.
+ */
+export function identicalClaimKey(criterion: string, subject: string | undefined, verdict: string | undefined): string | undefined {
+  const text = (subject ?? '').normalize('NFKD').replace(/\p{M}/gu, '').replace(/\s+/g, ' ').trim().toLowerCase()
+  return text === '' ? undefined : JSON.stringify([criterion, text, verdict ?? ''])
+}
+
+/**
+ * Identical claims on one page are confirmed together. The claims the second pass was asked about on a page that share
+ * a key (`identicalClaimKey`) form a group, and when the pass confirmed at least one of them, every one of them it
+ * denied is confirmed too, marked as such (`identical`). One alternative on several copies of a picture is one claim:
+ * asked of each copy, it is split by the luck of one framing's word on one copy. On hering.com.br in the fifth
+ * real-page study, seven payment logos with `alt="payment"` became one finding and six suggestions, all seven true
+ * (docs/studies/notes-precision-round5.md, P2, the rule "C-any"; on the 165 labelled reading claims of the second to
+ * fifth studies it adds 7 true and 2 false findings and loses none, in-sample). A claim the pass could not finish (no
+ * cached answer offline, an error, a provider that cannot answer one word) keeps its outcome, and so does every claim
+ * of a group the pass confirmed none of. Returns each claim's outcome, in order.
+ */
+export function confirmTogether(claims: ReadonlyArray<{ key: string | undefined; confirmation: Confirmation }>): Confirmation[] {
+  const groups = new Map<string, Confirmation[]>()
+  for (const { key, confirmation } of claims) {
+    if (key === undefined) continue
+    groups.set(key, [...(groups.get(key) ?? []), confirmation])
+  }
+  return claims.map(({ key, confirmation }) => {
+    const group = key === undefined ? undefined : groups.get(key)
+    if (!group || group.length < 2 || confirmation.outcome !== 'denied') return confirmation
+    const confirmed = group.filter((member) => member.outcome === 'confirmed').length
+    return confirmed > 0 ? { ...confirmation, outcome: 'confirmed', identical: { claims: group.length, confirmed } } : confirmation
+  })
 }
 
 function isCachedWord(value: unknown): value is CachedWord {
