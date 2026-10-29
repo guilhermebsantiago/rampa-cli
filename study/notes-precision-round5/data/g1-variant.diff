@@ -1,0 +1,121 @@
+diff --git a/src/criteria/link-purpose.ts b/src/criteria/link-purpose.ts
+index 5ecaf85..b82867f 100644
+--- a/src/criteria/link-purpose.ts
++++ b/src/criteria/link-purpose.ts
+@@ -115,6 +115,14 @@ export interface LinkPurposeContext {
+   chrome?: boolean | undefined
+   /** For a link to a part of this page: that part's id, role and text, and the words of the site's own name. For verification only. */
+   part?: SamePagePart | undefined
++  /**
++   * PROTOTYPE (probe/precision-r5, not shipped): the heading of the card the link sits in, when the nearest preceding
++   * heading and the link share an ancestor at most two levels above the link whose text is at most 300 characters (H80,
++   * a news card: heading, blurb, "Read more"). For verification only.
++   */
++  cardHeading?: string | undefined
++  /** PROTOTYPE: a link to "#" (or nowhere) that a list follows inside its own list item: a disclosure toggle, not a link. */
++  menuToggle?: boolean | undefined
+ }
+ 
+ /** The part of the page a same-page link points to, as verification reads it. */
+@@ -171,6 +179,50 @@ interface LinkInfo {
+   place: string | undefined
+   /** The list items it is nested in and the named lists or menus around it (`nestingOf`, H81). */
+   nesting: string | undefined
++  /** PROTOTYPE: the heading of the link's own card (`cardHeadingOf`). */
++  cardHeading: string | undefined
++  /** PROTOTYPE: a disclosure toggle written as a link (`menuToggleOf`). */
++  menuToggle: boolean
++}
++
++/** PROTOTYPE thresholds: the card's root is at most this many levels above the link and holds at most this much text. */
++const CARD_DEPTH = 2
++const CARD_TEXT = 300
++
++/**
++ * PROTOTYPE (H80): the nearest preceding heading, when it and the link share an ancestor at most CARD_DEPTH levels above
++ * the link whose whole text is at most CARD_TEXT characters: a card of heading, blurb and "Read more" built of divs, where
++ * the link has no sentence, list item or cell of its own. Undefined otherwise.
++ */
++function cardHeadingOf(index: TreeIndex, node: A11yNode, heading: A11yNode | undefined): string | undefined {
++  if (!heading?.name) return undefined
++  const headingAncestors = new Set<string>()
++  for (let ref = index.get(heading.ref)?.parentRef; ref !== undefined; ref = index.get(ref)?.parentRef) headingAncestors.add(ref)
++  let ref = index.get(node.ref)?.parentRef
++  for (let depth = 1; ref !== undefined && depth <= CARD_DEPTH; depth++) {
++    if (headingAncestors.has(ref)) {
++      const card = index.get(ref)?.node
++      return card && subtreeText(card).length <= CARD_TEXT ? heading.name : undefined
++    }
++    ref = index.get(ref)?.parentRef
++  }
++  return undefined
++}
++
++/** PROTOTYPE: an href of "#", none or a script, with a list after the link inside the link's own list item: it opens a submenu. */
++function menuToggleOf(index: TreeIndex, node: A11yNode, href: string | undefined): boolean {
++  if (isAddress(href)) return false
++  let child = node
++  for (let ref = index.get(node.ref)?.parentRef; ref !== undefined; ref = index.get(ref)?.parentRef) {
++    const current = index.get(ref)?.node
++    if (!current) return false
++    if (current.role === 'listitem') {
++      const at = current.children.indexOf(child)
++      return at >= 0 && current.children.slice(at + 1).some((other) => other.role === 'list' || [...walkTree(other)].some((n) => n.role === 'list'))
++    }
++    child = current
++  }
++  return false
+ }
+ 
+ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
+@@ -216,11 +268,13 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
+     // Every link a person can reach, so links that share a text can be compared.
+     const links: LinkInfo[] = []
+     let heading: string | undefined
++    let headingNode: A11yNode | undefined
+     // The open sections by level: a heading closes those of its level and below.
+     const open: string[] = []
+     for (const node of walkTree(snapshot.root)) {
+       if (node.role === 'heading' && node.name && !isHidden(node)) {
+         heading = node.name
++        headingNode = node
+         const level = headingLevel(node)
+         open.length = level - 1
+         open[level - 1] = node.name
+@@ -240,6 +294,8 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
+         headers: cellHeaders(index, node),
+         place: placeOf(scriptedAddress(scripted.get(node.ref)) ?? attributes.href, base, linkDestination(snapshot, attributes.href, scripted.get(node.ref))),
+         nesting: nestingOf(index, node, textOfIds),
++        cardHeading: cardHeadingOf(index, node, headingNode),
++        menuToggle: menuToggleOf(index, node, attributes.href),
+       })
+     }
+     const byText = new Map<string, LinkInfo[]>()
+@@ -289,6 +345,8 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
+             : {}),
+           ...(rowSubject ? { rowSubject } : {}),
+           ...(menu ? { menu } : {}),
++          ...(link.cardHeading ? { cardHeading: link.cardHeading } : {}),
++          ...(link.menuToggle ? { menuToggle: true } : {}),
+           ...(inSiteChrome(index, node) ? { chrome: true } : {}),
+           ...(fragment && partNode
+             ? {
+@@ -413,7 +471,7 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
+ 
+ /** What `groundedLink` reads of a candidate. */
+ export type LinkFacts = Pick<LinkPurposeContext, 'name' | 'sameText' | 'context' | 'headers' | 'description'> &
+-  Partial<Pick<LinkPurposeContext, 'heading' | 'landmark' | 'rowSubject' | 'menu' | 'chrome' | 'target' | 'part'>>
++  Partial<Pick<LinkPurposeContext, 'heading' | 'landmark' | 'rowSubject' | 'menu' | 'chrome' | 'target' | 'part' | 'cardHeading' | 'menuToggle'>>
+ 
+ /**
+  * Whether a fail rests on a fact Rampa checked:
+@@ -435,7 +493,8 @@ export type LinkFacts = Pick<LinkPurposeContext, 'name' | 'sameText' | 'context'
+  * privacy notice behind "Declaração de Cookies").
+  */
+ export function groundedLink(problem: (typeof LINK_PROBLEMS)[number], c: LinkFacts): boolean {
+-  if (problem === 'generic') return (genericLinkText(c.name) && !c.context && !c.headers && !c.description) || kindOnlyUncompleted(c)
++  // PROTOTYPE: a card's heading completes a generic text (H80), and a disclosure toggle is not a link to judge.
++  if (problem === 'generic') return (genericLinkText(c.name) && !c.context && !c.headers && !c.description && !c.cardHeading && !c.menuToggle) || kindOnlyUncompleted(c)
+   // A raw address with a sentence of its own ("…conforme orientações previstas na página www.cnj.jus.br/comopeticionar.")
+   // has a programmatically determined context that can say where it leads (G53): whether it does is the model's reading.
+   if (problem === 'url_or_filename') return addressText(c.name) && !c.context && !c.description
