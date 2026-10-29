@@ -80,7 +80,7 @@ describe.skipIf(skip !== undefined)('a real @playwright/test run', () => {
     expect(failing?.expectedStatus).toBe('failed')
     const message = failing?.results[0]?.error?.message ?? ''
     expect(message).toContain('expect(report).toHaveNoRampaFindings()\n\nRampa: 3 failures in https://shop.test/cart (scope: #cart)')
-    expect(message).toContain('2. WCAG 2.4.4 (A) — Link Purpose (In Context)\n   Element:   #cart > p > small > a')
+    expect(message).toContain('2. WCAG 2.4.4 (A) — Link Purpose (In Context)\n   Element:   #cart > p > a')
     expect(message).toContain('   Evidence:  "Click here"\n   Patch:     - <a href="/shipping">Click here</a>\n              + <a href="/shipping">Shipping and returns</a>')
     expect(message).toContain('This report does not declare the page accessible.')
   })

@@ -94,7 +94,7 @@ describe.skipIf(!browser)('checkPage in a real browser', { timeout: 30_000 }, ()
     expect(report.llm).toBe('on')
     expect(report.model).toBe('stub:rules')
     const link = report.findings.find((f) => f.criterion === '2.4.4' && f.evidence === 'Click here')
-    expect(link).toMatchObject({ source: 'judgment', ref: '#cart > p > small > a', patch: { to: 'Shipping and returns' } })
+    expect(link).toMatchObject({ source: 'judgment', ref: '#cart > p > a', patch: { to: 'Shipping and returns' } })
     // 1.1.1 needs vision: the image reaches the model as rendered.
     expect(model.asked).toContainEqual({ criterion: '1.1.1', subject: 'IMG_2034.jpg', images: 1 })
     expect(report.findings.find((f) => f.criterion === '1.1.1' && f.source === 'judgment')?.patch?.after).toContain('alt="Blue ceramic mug"')
@@ -108,7 +108,7 @@ describe.skipIf(!browser)('checkPage in a real browser', { timeout: 30_000 }, ()
     expect(model.asked.map((a) => a.subject).sort()).toEqual(['Click here', 'IMG_2034.jpg', 'Section 2'])
     expect(report.findings.map((f) => `${f.criterion} ${f.ref}`).sort()).toEqual([
       '1.1.1 #cart > ul > li > img',
-      '2.4.4 #cart > p > small > a',
+      '2.4.4 #cart > p > a',
       '2.4.6 #cart-title',
     ])
     // The page's title and language are not the component's: reported as not applicable, and left unchecked.
@@ -188,7 +188,7 @@ describe.skipIf(!browser)('matchers and fixture in a real browser', { timeout: 3
     expect(failure).toContain('expect(page).toPassRampa()')
     expect(failure).toContain('Rampa: 3 failures in https://shop.test/cart (scope: #cart)')
     expect(failure).toContain('2. WCAG 2.4.4 (A) — Link Purpose (In Context)')
-    expect(failure).toContain('Element:   #cart > p > small > a')
+    expect(failure).toContain('Element:   #cart > p > a')
     expect(failure).toContain('Message:   The link text "Click here" does not tell where the link goes, and nothing around it does.')
     expect(failure).toContain('Evidence:  "Click here"')
     expect(failure).toContain('Patch:     - <a href="/shipping">Click here</a>\n              + <a href="/shipping">Shipping and returns</a>')

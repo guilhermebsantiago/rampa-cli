@@ -16,7 +16,7 @@ import {
   subtreeText,
   verifyQuote,
 } from './shared.ts'
-import { addressText, genericLinkText, kindOnlyLinkText, namesFileFormat, namesOnlyFileKind } from './generic-text.ts'
+import { addressText, genericHeadingOrLabel, genericLinkText, kindOnlyLinkText, namesFileFormat, namesOnlyFileKind } from './generic-text.ts'
 import { initialsMatch } from '../advisory/abbreviations/long-form.ts'
 import { type LinkOutcome, activationText, scriptedDestination, scriptedOutcomes } from '../probes/links.ts'
 
@@ -34,10 +34,10 @@ import { type LinkOutcome, activationText, scriptedDestination, scriptedOutcomes
  * fd3a94 (links with the same name and context serve an equivalent purpose).
  *
  * A fail is a finding only when a fact Rampa checks itself supports it (`grounded`): a generic text such as "Read more"
- * with nothing around it (no heading of a small card it sits in either, and not a disclosure toggle written as a link),
- * a text that names only a file's format or its download with nothing around it that says which document, a raw
- * address, links that share the text and lead elsewhere from the same context (unless the page read at this link's
- * address is named by its text), or a link to a
+ * with nothing around it (no heading of a small card it sits in either, unless that heading says nothing itself, and
+ * not a disclosure toggle written as a link), a text that names only a file's format or its download with nothing
+ * around it that says which document, a raw address, links that share the text and lead elsewhere from the same context
+ * (unless the page read at this link's address is named by its text), or a link to a
  * part of this page that its text names nothing of. Any other fail, such as "the text names something else than where
  * it leads" on another page, or "this specific text says nothing", is the model's suggestion for a person to review:
  * on real pages those readings were almost all wrong (docs/studies/notes-244-246.md, notes-remaining-errors.md).
@@ -988,9 +988,13 @@ const CARD_TEXT = 300
  * of links. Undefined otherwise. On the labelled findings of the second to fifth real-page studies, every depth from 2
  * to 8 and every size from 300 to 2,000 characters moved the same 7, all on one course list (pucrs.br), so the tightest
  * was frozen (docs/studies/notes-precision-round5.md, P1; in-sample).
+ *
+ * A heading that itself names nothing, by the generic lists of generic-text.ts ("Section 2", "Part 1", "Untitled", a
+ * template's "Your heading here", or a link text such as "Read more"), completes nothing, so it is no card heading: a
+ * "Click here" two levels under "Section 2" stays a link with nothing around it (`genericCardHeading`).
  */
 function cardHeadingOf(index: TreeIndex, node: A11yNode, heading: A11yNode | undefined): string | undefined {
-  if (!heading?.name) return undefined
+  if (!heading?.name || genericCardHeading(heading.name)) return undefined
   const aroundHeading = new Set<string>()
   for (let ref = index.get(heading.ref)?.parentRef; ref !== undefined; ref = index.get(ref)?.parentRef) aroundHeading.add(ref)
   let ref = index.get(node.ref)?.parentRef
@@ -1003,6 +1007,11 @@ function cardHeadingOf(index: TreeIndex, node: A11yNode, heading: A11yNode | und
     ref = index.get(ref)?.parentRef
   }
   return undefined
+}
+
+/** A heading on the generic lists, for a heading or for a link: it says nothing a generic link text could take from it. */
+export function genericCardHeading(text: string): boolean {
+  return genericHeadingOrLabel(text, 'heading') || genericLinkText(text)
 }
 
 /**

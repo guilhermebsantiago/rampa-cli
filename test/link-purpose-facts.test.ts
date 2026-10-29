@@ -3,7 +3,7 @@ import { memoryCache } from '../src/core/cache.ts'
 import { checkSnapshot } from '../src/core/check.ts'
 import type { EngineResults } from '../src/core/types.ts'
 import { genericLinkText, kindOnlyLinkText, namesOnlyFileKind } from '../src/criteria/generic-text.ts'
-import { groundedLink, linkPurpose, namesOwnDestination } from '../src/criteria/link-purpose.ts'
+import { genericCardHeading, groundedLink, linkPurpose, namesOwnDestination } from '../src/criteria/link-purpose.ts'
 import { subtreeText } from '../src/criteria/shared.ts'
 import type { JudgeRequest, ModelProvider } from '../src/providers/types.ts'
 import type { A11yNode, A11ySnapshot } from '../src/snapshot/schema.ts'
@@ -312,6 +312,26 @@ describe('a generic link text completed by the heading of its card (H80), and a 
     const after = page([sectionHeading(), div('section', div('card', div('more-wrap', link('#more', 'Leia mais', '/noticias/1')), h3('h2', 'Enfermagem', link('#t', 'Enfermagem', '/noticias/1'))))])
     expect(contextOf(after, '#more')).toMatchObject({ heading: 'Notícias' })
     expect(contextOf(after, '#more')).not.toHaveProperty('cardHeading')
+  })
+
+  it('reads no card heading in a heading on the generic lists: "Click here" under "Section 2" stays a generic link with nothing around it', () => {
+    // The shop fixture's cart (test/fixtures/checkout.html): the link two levels under a short section headed "Section 2".
+    const cart = (title: string) =>
+      page([node({ ref: '#cart', native: { tag: 'section' }, children: [h2('#cart-title', title), div('#note', text('n', 'Orders over $50 ship for free.')), p('#p', link('#click', 'Click here', '/shipping'))] })])
+    for (const title of ['Section 2', 'Part 1', 'Untitled', 'Your heading here', 'Read more']) {
+      expect(genericCardHeading(title), title).toBe(true)
+      const c = contextOf(cart(title), '#click')!
+      expect(c, title).toMatchObject({ name: 'Click here', context: undefined, heading: title })
+      expect(c, title).not.toHaveProperty('cardHeading')
+      expect(groundedLink('generic', c), title).toBe(true)
+      expect(linkPurpose.prompt(linkPurpose.candidates(cart(title), NO_ENGINE).find((x) => x.ref === '#click')!, cart(title)).user).not.toContain('Heading of the card')
+    }
+    // A heading that names something is still the card's.
+    for (const title of ['Shipping and returns', 'Section 2: shipping', 'Notícias']) {
+      expect(genericCardHeading(title), title).toBe(false)
+      expect(contextOf(cart(title), '#click')).toMatchObject({ cardHeading: title })
+      expect(groundedLink('generic', contextOf(cart(title), '#click')!), title).toBe(false)
+    }
   })
 
   it('reads a "More" that leads nowhere and opens the list after it in its own item as a toggle, not a link to judge', () => {
