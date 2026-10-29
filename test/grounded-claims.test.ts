@@ -175,7 +175,7 @@ describe("a fail no checked fact supports is the model's suggestion, not a findi
     expect(reviewGroups(report)[0]?.reason).toContain('São sugestões para uma pessoa decidir, nunca falhas.')
   })
 
-  it('keeps every verified fail as a finding in the ablation without verification', async () => {
+  it('holds back an ungrounded fail in the ablation without verification too, which measures verification alone', async () => {
     const report = await checkSnapshot(snapshot, NO_ENGINE, {
       criteria: [linkPurpose],
       llm: true,
@@ -188,7 +188,8 @@ describe("a fail no checked fact supports is the model's suggestion, not a findi
       concurrency: 1,
       verify: false,
     })
-    expect(report.findings.map((f) => f.subject).sort()).toEqual(['Read more', 'TOC'])
-    expect(report.needsReview).toBeUndefined()
+    expect(report.findings.map((f) => f.subject)).toEqual(['Read more'])
+    expect(report.criteria.find((c) => c.criterion === '2.4.4')).toMatchObject({ judged: 2, failed: 1, suggested: 1 })
+    expect(report.notes?.[0]).toContain('--no-verify')
   })
 })

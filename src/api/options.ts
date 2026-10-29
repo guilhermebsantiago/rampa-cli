@@ -37,6 +37,8 @@ export interface RampaOptions {
   offline?: boolean | undefined
   /** The second pass that confirms claims resting on the model's reading (1.1.1), like --no-confirm when false. Default true. */
   confirm?: boolean | undefined
+  /** Verification of the model's claims, like --no-verify when false: an ablation for measurement, never for CI. Default true. */
+  verify?: boolean | undefined
   /** Fingerprints of findings dismissed on purpose, or the path of a waivers file. Default: .rampa/waivers.json, as the CLI reads it. */
   waivers?: Iterable<string> | string | undefined
   /** Report language, 'en' or 'pt-BR'. Default: RAMPA_LOCALE, the config, then 'en'. */
@@ -106,6 +108,7 @@ export async function resolveSettings(options: RampaOptions = {}): Promise<Setti
     cache: options.cache ?? fileCache(options.cacheDir ?? config.cacheDir ?? '.rampa/cache'),
     offline,
     confirm: options.confirm !== false,
+    verify: options.verify !== false,
     locale: resolveLocale(options.locale ?? process.env.RAMPA_LOCALE ?? config.locale),
     minConfidence,
     concurrency: whole(options.concurrency ?? config.concurrency, 4),

@@ -115,6 +115,7 @@ const check = program
   .addOption(new Option('--reasoning <level>', 'model reasoning effort (local models default to none)').choices([...REASONING_LEVELS]))
   .option('--offline', 'use cached judgments only, never call the model')
   .option('--no-confirm', 'ablation: skip the second pass that confirms claims resting on the model\'s reading (1.1.1)')
+  .option('--no-verify', 'ablation: keep model claims whose quoted evidence is not on the page; nothing else changes')
   .option('--screenshots', 'save full-page screenshots to .rampa/screenshots')
   .option('--save <dir>', 'record each snapshot and its engine results, to check later without a browser or a device')
   .option('--cache-dir <dir>', 'judgment cache directory', '.rampa/cache')

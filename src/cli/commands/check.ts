@@ -61,6 +61,8 @@ export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   offline?: boolean
   /** The second pass over claims that rest on the model's reading (core/confirm.ts); --no-confirm turns it off. */
   confirm?: boolean
+  /** Verification of the model's claims; --no-verify turns it off, for the ablation (core/check.ts, `verify`). */
+  verify?: boolean
   screenshots?: boolean
   cacheDir: string
   concurrency: string
@@ -357,6 +359,7 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
         cache,
         offline: Boolean(options.offline),
         confirm: options.confirm !== false,
+        verify: options.verify !== false,
         locale: context.locale,
         minConfidence: options.minConfidence,
         concurrency,
