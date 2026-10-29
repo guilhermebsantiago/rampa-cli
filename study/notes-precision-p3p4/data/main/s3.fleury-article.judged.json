@@ -1,0 +1,178 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.fleury.com.br/noticias/a-sua-saude-mental-importa",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "9a4e5cf858a9",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > a > img",
+   "message": "The text alternative \"Logo\" is a file name or a placeholder.",
+   "evidence": "Logo",
+   "subject": "Logo",
+   "claim": "missing_information",
+   "patch": {
+    "ref": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Logo",
+    "to": "Fleury - Página inicial",
+    "before": "<img alt=\"Logo\" loading=\"lazy\" width=\"150\" height=\"50\" decoding=\"async\" data-nimg=\"1\" style=\"color:transparent\" src=\"https://d3unpzxgfygi8m.cloudfront.net/logo_fleury3_c934991886.png\">",
+    "after": "<img alt=\"Fleury - Página inicial\" loading=\"lazy\" width=\"150\" height=\"50\" decoding=\"async\" data-nimg=\"1\" style=\"color:transparent\" src=\"https://d3unpzxgfygi8m.cloudfront.net/logo_fleury3_c934991886.png\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > footer:nth-of-type(1) > div:nth-of-type(3) > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1) > a:nth-of-type(2) > img",
+   "message": "The text alternative \"App Store Badge\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Baixar na App Store\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: yes (0.91), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > header:nth-of-type(1) > div > div > div:nth-of-type(1) > input",
+   "message": "The label \"Digite aqui...\" does not say what to enter.",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 5,
+   "judged": 5,
+   "failed": 1,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 25,
+   "judged": 25,
+   "failed": 0,
+   "passed": 25,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 8,
+   "judged": 8,
+   "failed": 0,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 closed shadow root(s) cannot be read by any script, so nothing inside them was checked (hosts: html > cs-native-frame-holder).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 44,
+  "inputTokens": 40223,
+  "outputTokens": 3906,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": {
+   "shadowRoots": {
+    "open": 1,
+    "closed": 1,
+    "closedHosts": [
+     "html > cs-native-frame-holder"
+    ]
+   }
+  }
+ }
+}

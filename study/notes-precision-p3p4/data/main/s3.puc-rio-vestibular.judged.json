@@ -1,0 +1,201 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://www.puc-rio.br/vestibular/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "2389ec6d37e0",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#VG-topo > div:nth-of-type(2) > div > div > div:nth-of-type(1) > a > img",
+   "message": "The text alternative \"Imagem de alunos no Campus da PUC-Rio\" describes something the image does not show.",
+   "evidence": "Imagem de alunos no Campus da PUC-Rio",
+   "subject": "Imagem de alunos no Campus da PUC-Rio",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#VG-topo > div:nth-of-type(2) > div > div > div:nth-of-type(1) > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Imagem de alunos no Campus da PUC-Rio",
+    "to": "Estudante sorridente em destaque no banner da Bolsa Belkiss e Carlos Infante de Castro",
+    "before": "<img src=\"https://www.puc-rio.br/vestibular/imagens/banner-bolsa-belkiss.jpg\" alt=\"Imagem de alunos no Campus da PUC-Rio\">",
+    "after": "<img src=\"https://www.puc-rio.br/vestibular/imagens/banner-bolsa-belkiss.jpg\" alt=\"Estudante sorridente em destaque no banner da Bolsa Belkiss e Carlos Infante de Castro\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.999977129114441
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "611fa8901954",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#VG-topo > div:nth-of-type(2) > div > div > div:nth-of-type(2) > a > img",
+   "message": "The text alternative \"Imagem de alunos no Campus da PUC-Rio\" describes something the image does not show.",
+   "evidence": "Imagem de alunos no Campus da PUC-Rio",
+   "subject": "Imagem de alunos no Campus da PUC-Rio",
+   "claim": "wrong_content",
+   "patch": {
+    "ref": "#VG-topo > div:nth-of-type(2) > div > div > div:nth-of-type(2) > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Imagem de alunos no Campus da PUC-Rio",
+    "to": "Duas estudantes sorridentes usando um notebook no campus da PUC-Rio",
+    "before": "<img src=\"https://www.puc-rio.br/vestibular/imagens/img_bolsa_nova.png\" alt=\"Imagem de alunos no Campus da PUC-Rio\">",
+    "after": "<img src=\"https://www.puc-rio.br/vestibular/imagens/img_bolsa_nova.png\" alt=\"Duas estudantes sorridentes usando um notebook no campus da PUC-Rio\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.01263487663293669,
+    "identical": {
+     "claims": 2,
+     "confirmed": 1
+    }
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#iframe_rodape_completo |> #rodape_logoarqrio",
+   "message": "The text alternative \"Selo da Arquidiocese de São Sebastião do Rio de Janeiro\" is all its link holds, and does not say where the link leads.",
+   "evidence": "The model suggests: \"Site da Arquidiocese de São Sebastião do Rio de Janeiro\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.00), claim: yes (1.00), reversed: yes (0.00))",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 19,
+   "judged": 19,
+   "failed": 2,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 6,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 2,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 16,
+   "judged": 16,
+   "failed": 0,
+   "passed": 16,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 0,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 image(s) were left without a capture, so no judgment looked at them: 1 cut off by the box that holds it. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 50,
+  "inputTokens": 41521,
+  "outputTokens": 4040,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": null
+ }
+}

@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "rampaVersion": "0.1.1",
+  "createdAt": "2026-10-29T05:15:50.933Z",
+  "model": "ollama:gemma4:12b",
+  "runs": 1,
+  "llm": true,
+  "verify": true,
+  "confirm": true,
+  "actSha256": "49051da603afa6d28b94ef3e758146dafcbe72bade7202a24636bab3ea4c0036",
+  "criteria": [
+    "2.4.4"
+  ],
+  "wcag": "2.2",
+  "followLinks": "same-origin",
+  "wallMs": 53250,
+  "sets": [
+    {
+      "label": "ACT c487ae (syntax)",
+      "criterion": "2.4.4",
+      "baseline": {
+        "tp": 11,
+        "fp": 0,
+        "tn": 17,
+        "fn": 0,
+        "n": 28,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.7411599827511859,
+          1
+        ],
+        "precisionCi": [
+          0.7411599827511859,
+          1
+        ]
+      },
+      "rampa": {
+        "tp": 11,
+        "fp": 0,
+        "tn": 17,
+        "fn": 0,
+        "n": 28,
+        "precision": 1,
+        "recall": 1,
+        "f1": 1,
+        "recallCi": [
+          0.7411599827511859,
+          1
+        ],
+        "precisionCi": [
+          0.7411599827511859,
+          1
+        ]
+      }
+    },
+    {
+      "label": "ACT 5effbb (semantic)",
+      "criterion": "2.4.4",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 12,
+        "fn": 6,
+        "n": 18,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.3903430336530645
+        ]
+      },
+      "rampa": {
+        "tp": 5,
+        "fp": 0,
+        "tn": 12,
+        "fn": 1,
+        "n": 18,
+        "precision": 1,
+        "recall": 0.8333333333333334,
+        "f1": 0.9090909090909091,
+        "recallCi": [
+          0.43649056343635395,
+          0.9699474141282697
+        ],
+        "precisionCi": [
+          0.5655085052479191,
+          1
+        ]
+      }
+    },
+    {
+      "label": "ACT fd3a94 (semantic)",
+      "criterion": "2.4.4",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 16,
+        "fn": 8,
+        "n": 24,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.3244156195108769
+        ]
+      },
+      "rampa": {
+        "tp": 7,
+        "fp": 2,
+        "tn": 14,
+        "fn": 1,
+        "n": 24,
+        "precision": 0.7777777777777778,
+        "recall": 0.875,
+        "f1": 0.823529411764706,
+        "recallCi": [
+          0.5291051942301386,
+          0.9775830911367038
+        ],
+        "precisionCi": [
+          0.4525833436728054,
+          0.9367762376877727
+        ]
+      }
+    },
+    {
+      "label": "pairs (intact + corrupted)",
+      "criterion": "2.4.4",
+      "baseline": {
+        "tp": 0,
+        "fp": 0,
+        "tn": 13,
+        "fn": 21,
+        "n": 34,
+        "recall": 0,
+        "recallCi": [
+          0,
+          0.15464382326420195
+        ]
+      },
+      "rampa": {
+        "tp": 20,
+        "fp": 0,
+        "tn": 13,
+        "fn": 1,
+        "n": 34,
+        "precision": 1,
+        "recall": 0.9523809523809523,
+        "f1": 0.975609756097561,
+        "recallCi": [
+          0.7733018341376452,
+          0.9915442305280766
+        ],
+        "precisionCi": [
+          0.8388698745050667,
+          1
+        ]
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "criterion": "2.4.4",
+      "corruptor": "link-generic",
+      "total": 11,
+      "baseline": 0,
+      "rampa": 11
+    },
+    {
+      "criterion": "2.4.4",
+      "corruptor": "link-mismatch",
+      "total": 10,
+      "baseline": 0,
+      "rampa": 9
+    }
+  ],
+  "judgment": {
+    "candidates": 102,
+    "discarded": 0,
+    "cannotTell": 0,
+    "suggestions": 10
+  },
+  "usage": {
+    "calls": 0,
+    "cachedCalls": 102,
+    "inputTokens": 99248,
+    "outputTokens": 11201,
+    "costUsd": 0
+  },
+  "errors": []
+}

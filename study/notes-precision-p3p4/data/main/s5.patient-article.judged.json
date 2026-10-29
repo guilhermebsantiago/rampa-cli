@@ -1,0 +1,213 @@
+{
+ "rampaVersion": "0.1.1",
+ "target": "https://patient.info/features/eye-health/halloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "findings": [
+  {
+   "fingerprint": "c7b9ec618684",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#content > div:nth-of-type(3) > div > div:nth-of-type(1) > div:nth-of-type(6) > form > div > div > input",
+   "message": "The field \"Enter your email\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "Enter your email",
+   "patch": {
+    "ref": "#content > div:nth-of-type(3) > div > div:nth-of-type(1) > div:nth-of-type(6) > form > div > div > input",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input data-testid=\"emailinput\" class=\"\n    TextField_input__BqJuC\n    \n    \n    \n    NewsletterUpsell_input-wrapper__2ME5X\n  \" placeholder=\"Enter your email\" type=\"email\" value=\"\">",
+    "after": "<input data-testid=\"emailinput\" class=\"\n    TextField_input__BqJuC\n    \n    \n    \n    NewsletterUpsell_input-wrapper__2ME5X\n  \" placeholder=\"Enter your email\" type=\"email\" value=\"\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > div:nth-of-type(3) > div > div:nth-of-type(1) > div:nth-of-type(3) > div > p:nth-of-type(1) > a",
+   "message": "The link text \"setting off fireworks\" does not match where the link leads: a page titled \"Managing PTSD during fireworks season\".",
+   "evidence": "The model suggests: \"Managing PTSD during fireworks season\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > div:nth-of-type(3) > div > div:nth-of-type(1) > div:nth-of-type(3) > div > p:nth-of-type(3) > a",
+   "message": "The link text \"with no eye examination\" does not match where the link leads: a page titled \"How to protect your eyes as you age\".",
+   "evidence": "The model suggests: \"Future-proof your sight: why your eyes deserve a long-term plan\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#content > div:nth-of-type(3) > div > div:nth-of-type(1) > div:nth-of-type(3) > div > div:nth-of-type(1) > div:nth-of-type(1) > h3",
+   "message": "The heading \"Mr Alex Day\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Expert Advice from Mr Alex Day\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#globaltarget > footer > div > div:nth-of-type(2) > h2",
+   "message": "The heading \"Download the Patient app\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"About us and Site Links\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 84,
+   "judged": 50,
+   "failed": 0,
+   "passed": 46,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 34,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 19,
+   "judged": 19,
+   "failed": 0,
+   "passed": 17,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "3 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #sync_pubmatic_1793232387769 (https://ads.pubmatic.com/AdServer/js/user_sync.html?gdpr=&gdpr_consent=&us_privacy=&predirect=https%3A%2F%2Fpbs.optidigital.com%2Fsetuid%3Fbidder%3Dpubmatic%26gdpr%3D%26gdpr_consent%3D%26gpp%3D%26gpp_sid%3D%26f%3Db%26uid%3D), #discourse-embed-frame (https://community.patient.info/embed/comments?embed_url=https%3A%2F%2Fpatient.info%2Ffeatures%2Feye-health%2Fhalloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season), html > body > iframe:nth-of-type(1) (https://news.google.com/swg/ui/v1/serviceiframe?_=1793232387233&publicationId=publication-id-free).",
+  "4 image(s) were left without a capture, so no judgment looked at them: 4 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 34 of 84 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 76,
+  "inputTokens": 73425,
+  "outputTokens": 8100,
+  "latencyMs": 0
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#sync_pubmatic_1793232387769",
+     "url": "https://ads.pubmatic.com/AdServer/js/user_sync.html?gdpr=&gdpr_consent=&us_privacy=&predirect=https%3A%2F%2Fpbs.optidigital.com%2Fsetuid%3Fbidder%3Dpubmatic%26gdpr%3D%26gdpr_consent%3D%26gpp%3D%26gpp_sid%3D%26f%3Db%26uid%3D",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#discourse-embed-frame",
+     "url": "https://community.patient.info/embed/comments?embed_url=https%3A%2F%2Fpatient.info%2Ffeatures%2Feye-health%2Fhalloween-and-bonfire-night-how-to-protect-your-eyes-this-spooky-season",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "html > body > iframe:nth-of-type(1)",
+     "url": "https://news.google.com/swg/ui/v1/serviceiframe?_=1793232387233&publicationId=publication-id-free",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}
