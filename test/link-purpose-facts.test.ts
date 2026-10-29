@@ -3,7 +3,7 @@ import { memoryCache } from '../src/core/cache.ts'
 import { checkSnapshot } from '../src/core/check.ts'
 import type { EngineResults } from '../src/core/types.ts'
 import { genericLinkText, kindOnlyLinkText, namesOnlyFileKind } from '../src/criteria/generic-text.ts'
-import { groundedLink, linkPurpose } from '../src/criteria/link-purpose.ts'
+import { groundedLink, linkPurpose, namesOwnDestination } from '../src/criteria/link-purpose.ts'
 import { subtreeText } from '../src/criteria/shared.ts'
 import type { JudgeRequest, ModelProvider } from '../src/providers/types.ts'
 import type { A11yNode, A11ySnapshot } from '../src/snapshot/schema.ts'
@@ -369,5 +369,60 @@ describe('what the facts make of a model that fails everything', () => {
     const report = await checkSnapshot(snapshot, NO_ENGINE, { criteria: [linkPurpose], llm: true, provider: failsEverything(), runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 1 })
     expect(report.findings.filter((f) => f.claim === 'generic').map((f) => f.ref)).toEqual(['#alone'])
     expect(report.needsReview?.map((item) => item.ref)).toEqual(expect.arrayContaining(['#more1', '#toggle']))
+  })
+})
+
+// P4 of docs/studies/notes-precision-p3p4.md: a link whose text names the page it leads to rests no shared-text claim.
+describe('a shared text that names its destination', () => {
+  // correio.braziliense's header menu in the third real-page study: "Direito e Justiça" to its section, and another
+  // "Direito e Justiça" further down to an article.
+  const shared = (destinations: A11ySnapshot['destinations']) => {
+    const snapshot = page([ul('menu', li('m1', link('#section', 'Direito e Justiça', '/direito-e-justica/')), li('m2', link('#article', 'Direito e Justiça', '/artigo/123')))])
+    return destinations ? { ...snapshot, destinations } : snapshot
+  }
+  const ambiguous = (snapshot: A11ySnapshot) => facts(snapshot).map((c) => groundedLink('ambiguous', c))
+
+  it("grounds no shared-text claim on a link whose text is its destination's main heading or a part of its title", () => {
+    const titled = shared({ '/direito-e-justica/': { kind: 'page', title: 'Direito e Justiça: artigos, entrevistas e colunas sobre o mundo jurídico' } })
+    expect(facts(titled).map((c) => c.sameText)).toEqual([{ links: 2, places: 2, apart: false }, { links: 2, places: 2, apart: false }])
+    expect(ambiguous(titled)).toEqual([false, true])
+    expect(namesOwnDestination(facts(titled)[0]!)).toBe(true)
+    // The main heading names it too, case, accents and punctuation aside; so does a part of a title, the site's name after it.
+    expect(ambiguous(shared({ '/direito-e-justica/': { kind: 'page', title: 'Correio', heading: 'DIREITO E JUSTICA' } }))).toEqual([false, true])
+    expect(ambiguous(shared({ '/direito-e-justica/': { kind: 'page', title: 'Direito e Justiça - Correio Braziliense' } }))).toEqual([false, true])
+    // Both destinations named: neither rests the claim.
+    expect(
+      ambiguous(shared({ '/direito-e-justica/': { kind: 'page', title: 'Direito e Justiça' }, '/artigo/123': { kind: 'page', title: 'Direito e Justiça | Artigo' } })),
+    ).toEqual([false, false])
+  })
+
+  it('keeps the fact when the destination was not read, is a file, or only holds the text', () => {
+    expect(ambiguous(shared(undefined))).toEqual([true, true])
+    expect(ambiguous(shared({ '/direito-e-justica/': { kind: 'page', title: 'Notícias jurídicas' } }))).toEqual([true, true])
+    expect(ambiguous(shared({ '/direito-e-justica/': { kind: 'file', contentType: 'application/pdf' } }))).toEqual([true, true])
+    // A title that begins with the text or holds it names something narrower: two "Contact" links to "Contact sales" and
+    // "Contact support" do not say which is which (the links probe's tests), nor "ACT rules" to "ACT Rules Community Group".
+    expect(namesOwnDestination({ name: 'Contact', destination: { kind: 'page', title: 'Contact sales', heading: 'Contact sales' } })).toBe(false)
+    expect(namesOwnDestination({ name: 'ACT rules', destination: { kind: 'page', title: 'ACT Rules Community Group', heading: 'Community & Business Groups' } })).toBe(false)
+    expect(namesOwnDestination({ name: 'Direito e Justiça', destination: { kind: 'page', title: 'Juiz decide: Direito e Justiça em debate' } })).toBe(false)
+    expect(namesOwnDestination({ name: 'Cursos', destination: { kind: 'page', title: 'Concursos públicos' } })).toBe(false)
+    expect(namesOwnDestination({ name: 'Cursos', destination: { kind: 'page', title: 'Cursos | Universidade Example' } })).toBe(true)
+    // One or two letters name nothing.
+    expect(namesOwnDestination({ name: 'A', destination: { kind: 'page', title: 'A' } })).toBe(false)
+  })
+
+  it('reports such a claim for review, and the other link of the text as a finding', async () => {
+    const snapshot = shared({ '/direito-e-justica/': { kind: 'page', title: 'Direito e Justiça: artigos e colunas' } })
+    const provider: ModelProvider = {
+      id: 'test:ambiguous',
+      async judge<T>(request: JudgeRequest<T>) {
+        const name = /<link>([\s\S]*?)<\/link>/.exec(request.user)?.[1] ?? ''
+        const output = { promises: '', leadsTo: '', verdict: 'fail', evidence: name, problem: 'ambiguous', suggestedText: `${name}: artigo`, confidence: 'high' }
+        return { output: request.schema.parse(output), inputTokens: 10, outputTokens: 5, latencyMs: 1, modelId: 'ambiguous' }
+      },
+    }
+    const report = await checkSnapshot(snapshot, NO_ENGINE, { criteria: [linkPurpose], llm: true, provider, runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 1 })
+    expect(report.findings.map((f) => f.ref)).toEqual(['#article'])
+    expect(report.needsReview?.map((entry) => entry.ref)).toEqual(['#section'])
   })
 })

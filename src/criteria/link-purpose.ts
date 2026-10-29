@@ -35,8 +35,9 @@ import { type LinkOutcome, activationText, scriptedDestination, scriptedOutcomes
  *
  * A fail is a finding only when a fact Rampa checks itself supports it (`grounded`): a generic text such as "Read more"
  * with nothing around it (no heading of a small card it sits in either, and not a disclosure toggle written as a link),
- * a text that names only a file's format or its download with nothing around it that says
- * which document, a raw address, links that share the text and lead elsewhere from the same context, or a link to a
+ * a text that names only a file's format or its download with nothing around it that says which document, a raw
+ * address, links that share the text and lead elsewhere from the same context (unless the page read at this link's
+ * address is named by its text), or a link to a
  * part of this page that its text names nothing of. Any other fail, such as "the text names something else than where
  * it leads" on another page, or "this specific text says nothing", is the model's suggestion for a person to review:
  * on real pages those readings were almost all wrong (docs/studies/notes-244-246.md, notes-remaining-errors.md).
@@ -432,7 +433,7 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
 
 /** What `groundedLink` reads of a candidate. */
 export type LinkFacts = Pick<LinkPurposeContext, 'name' | 'sameText' | 'context' | 'headers' | 'description'> &
-  Partial<Pick<LinkPurposeContext, 'heading' | 'landmark' | 'rowSubject' | 'menu' | 'chrome' | 'target' | 'part' | 'cardHeading' | 'menuToggle'>>
+  Partial<Pick<LinkPurposeContext, 'heading' | 'landmark' | 'rowSubject' | 'menu' | 'chrome' | 'target' | 'part' | 'cardHeading' | 'menuToggle' | 'destination'>>
 
 /**
  * Whether a fail rests on a fact Rampa checked:
@@ -447,7 +448,9 @@ export type LinkFacts = Pick<LinkPurposeContext, 'name' | 'sameText' | 'context'
  *   context is in content that is not the link's programmatically determined context);
  * - a raw address or file name;
  * - other links with the same text that lead elsewhere from the same context (ACT fd3a94; `verify` already asks for
- *   that fact);
+ *   that fact), unless this link's text is the main heading or a part of the title Rampa read at its address
+ *   (`namesOwnDestination`): then the link names where it leads, and whether the other links make it ambiguous is the
+ *   model's reading;
  * - a mismatch with a part of this page that the page names (its id and its text share a word), when no word of the
  *   link's text or context is among that part's names (`namesNoPartOf`).
  * Whether a context completes a generic text is the model's reading, and so is a mismatch with another page: a title
@@ -462,9 +465,44 @@ export function groundedLink(problem: (typeof LINK_PROBLEMS)[number], c: LinkFac
   // A raw address with a sentence of its own ("…conforme orientações previstas na página www.cnj.jus.br/comopeticionar.")
   // has a programmatically determined context that can say where it leads (G53): whether it does is the model's reading.
   if (problem === 'url_or_filename') return addressText(c.name) && !c.context && !c.description
-  if (problem === 'ambiguous') return Boolean(c.sameText && c.sameText.places > 1 && !c.sameText.apart)
+  if (problem === 'ambiguous') return Boolean(c.sameText && c.sameText.places > 1 && !c.sameText.apart) && !namesOwnDestination(c)
   if (problem === 'mismatch') return namesNoPartOf(c)
   return false
+}
+
+/** The shortest link text read for its destination's name: one or two letters are in nearly any title. */
+const DESTINATION_NAME_MIN = 3
+
+/** Where a page's title or heading parts: "Direito e Justiça: artigos…", "Institucional - UFPE", "Settings · Acme". */
+const TITLE_PARTS = /\s+[-–—|·]\s+|\s*[|·]\s*|:\s+/
+
+/**
+ * The link's text is the name of the page Rampa read at its address: it is, as words (case, accents and punctuation
+ * aside), the page's main heading or one part of its title, "Direito e Justiça" leading to a section headed "Direito e
+ * Justiça" and titled "Direito e Justiça: artigos, entrevistas e colunas…", "Pimoroni" to the collection headed
+ * "Pimoroni" (the third real-page study, where another link of each text leads elsewhere, the home page under a logo,
+ * and the judges read neither as a failure). The link names where it leads; a person may still not tell it from the
+ * other one, as ACT fd3a94 would say, so a shared-text claim on it is the model's suggestion, not a finding. A text the
+ * title only begins with or holds is no name of it: two "Contact" links to "Contact sales" and "Contact support" do not
+ * say which is which, nor do two "ACT rules" to the rules and to "ACT Rules Community Group". Only a page read at the
+ * address says so (`destination`, kind page); a link whose destination was not read keeps the fact. Chosen on the 44
+ * labelled shared-text findings of the second to fifth studies, where it selects 2 false and 0 true (in-sample;
+ * docs/studies/notes-precision-round5.md P4, notes-precision-p3p4.md).
+ */
+export function namesOwnDestination(c: Pick<LinkFacts, 'name' | 'destination'>): boolean {
+  const destination = c.destination
+  if (destination?.kind !== 'page') return false
+  const name = wholeWords(c.name)
+  if (name.replace(/ /g, '').length < DESTINATION_NAME_MIN) return false
+  return [destination.title, destination.heading].some((text) => text !== undefined && text.split(TITLE_PARTS).some((part) => wholeWords(part) === name))
+}
+
+/** A text as lowercase words without accents, one space apart: "Direito e Justiça: artigos" is "direito e justica artigos". */
+function wholeWords(text: string): string {
+  return folded(text)
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter(Boolean)
+    .join(' ')
 }
 
 /** Landmarks of the site's own chrome: in its menus, header and footer the site is the subject, and "Download" names its download page. */
