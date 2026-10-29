@@ -9,6 +9,10 @@ import type { ModelProvider, WordRequest, WordResponse } from './types.ts'
 export const REASONING_LEVELS = ['provider-default', 'none', 'minimal', 'low', 'medium', 'high'] as const
 export type Reasoning = (typeof REASONING_LEVELS)[number]
 
+// The output budget of a one-word answer. A model that reasons by default (OpenAI's gpt-6-luna does, at medium) spends
+// it on thinking before the word, and a few tokens leave the answer empty; OpenAI also refuses a budget under 16.
+export const WORD_MAX_OUTPUT_TOKENS = 1024
+
 // The AI SDK prints provider warnings (an unsupported setting, a fallback) to the console, in the middle of the report.
 // RAMPA_DEBUG=1 brings them back.
 const sdkGlobals = globalThis as { AI_SDK_LOG_WARNINGS?: unknown }
@@ -142,7 +146,7 @@ ${JSON.stringify(z.toJSONSchema(request.schema))}`
         model: resolved.model,
         instructions: request.system,
         messages: [{ role: 'user', content: [{ type: 'text', text: request.user }, ...images.map((image) => ({ type: 'file' as const, data: image.data, mediaType: image.mediaType }))] }],
-        maxOutputTokens: 8,
+        maxOutputTokens: WORD_MAX_OUTPUT_TOKENS,
         maxRetries: 2,
         ...(request.signal ? { abortSignal: request.signal } : {}),
         ...(reasoning === 'provider-default' ? {} : { reasoning }),

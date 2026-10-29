@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { z } from 'zod'
-import { createModelProvider, parseModelSpec, providerIdentity } from '../src/providers/ai-sdk.ts'
+import { WORD_MAX_OUTPUT_TOKENS, createModelProvider, parseModelSpec, providerIdentity } from '../src/providers/ai-sdk.ts'
 import { chooseModel, defaultModel } from '../src/providers/detect.ts'
 import { PROVIDERS, findProvider } from '../src/providers/registry.ts'
 
@@ -141,6 +141,16 @@ describe('providers', () => {
     expect(request?.body).toContain(PNG_BASE64)
     // The schema reaches the model, as a native structured output or in the instructions.
     expect(request?.body).toContain('cannot_tell')
+  })
+
+  it('leaves a one-word answer room for a model that reasons first, above the 16 tokens OpenAI requires', async () => {
+    vi.stubEnv('OPENAI_API_KEY', 'test')
+    const network = stubNetwork()
+    const provider = await createModelProvider('openai:gpt-6-luna', { fetch: network.fetch })
+    await provider.word?.({ system: 'Answer with one word, yes or no.', user: 'Is it?', words: ['yes', 'no'] })
+    const body = JSON.parse(network.requests[0]?.body ?? '{}') as { max_output_tokens?: number }
+    expect(body.max_output_tokens).toBe(WORD_MAX_OUTPUT_TOKENS)
+    expect(WORD_MAX_OUTPUT_TOKENS).toBeGreaterThanOrEqual(16)
   })
 
   it('asks Bedrock for the JSON through a forced tool, which every Claude on Bedrock supports', async () => {
