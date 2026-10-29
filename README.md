@@ -148,7 +148,7 @@ Caveats: Rampa's prompts were tuned on these test cases, and all of its gain is 
 
 - **Held out.** In the [fifth real-page study](docs/studies/real-pages-2026-10-round5.md), on 24 pages the code had not seen, with Gemma 4 12B at the default threshold, 0.83 of the judged findings on the test half were real failures (20 of 24 decided, Wilson 95% 0.64–0.93), and 0.81 over all 24 pages (51 of 63). Against the fourth study's test half (0.54), the rule fixed in advance reads that as no measurable change.
 - **Beyond axe-core.** None of the 146 true judged findings on studies 2 to 5 is a failure axe-core reports ([notes](docs/studies/notes-added-over-axe.md)); on the fifth study's pages they came with about one false finding for every four true ones.
-- **In-sample only.** The P1 and P2 fixes since then (card headings for generic links, menu toggles, identical alternatives confirmed together) were measured only on the pages they were chosen from ([notes](docs/studies/notes-precision-p1p2.md)).
+- **In-sample only.** The fixes since then (card headings for generic links, menu toggles, identical alternatives confirmed together, social-network icons, links that name their destination) were measured only on the pages they were chosen from: 0.90 there, against 0.88 before them ([P1, P2](docs/studies/notes-precision-p1p2.md), [P3, P4](docs/studies/notes-precision-p3p4.md)). A sixth round on fresh pages has to say how much of that holds.
 - **Labels** come from two Claude agents, pending review by a person. Each study is one run and measures precision, not what Rampa missed.
 
 ## Principles
