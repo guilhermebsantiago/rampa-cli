@@ -1,11 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import {
   addressNames,
+  groundedImage,
   isGenericAlt,
   isLabelAlt,
   keepsAlternative,
   looksLikePlaceholder,
   namesAddress,
+  namesNetworkOfLink,
   namesPurpose,
   namesService,
   nonTextContent,
@@ -14,7 +16,10 @@ import {
   siteNames,
   splitGlued,
 } from '../src/criteria/non-text-content.ts'
+import { memoryCache } from '../src/core/cache.ts'
+import { checkSnapshot } from '../src/core/check.ts'
 import type { EngineResults } from '../src/core/types.ts'
+import type { JudgeRequest, ModelProvider, WordRequest } from '../src/providers/types.ts'
 import type { A11ySnapshot } from '../src/snapshot/schema.ts'
 import { node } from './helpers.ts'
 
@@ -645,5 +650,110 @@ describe('1.1.1 facts that refute a claim', () => {
       confidence: 'high' as const,
     }
     expect(nonTextContent.verify(claim, candidate, snapshot)).toEqual({ ok: true })
+  })
+})
+
+// P3 of the notes after round 5 (docs/studies/notes-precision-p3p4.md): tcd.ie's Instagram icon, alt="istagram", which
+// every framing of the second pass confirmed as wrong in the second real-page study, and the claims it must keep.
+describe('1.1.1 a social network icon whose alternative names the network', () => {
+  const page = (children: ReturnType<typeof node>[]): A11ySnapshot => ({
+    ...gallery(),
+    target: 'https://www.tcd.example/',
+    title: 'Trinity Example',
+    locale: 'en',
+    root: node({ ref: 'html', role: 'document', lang: 'en', children }),
+  })
+  const picture = (ref: string, alt: string, src = 'icon.png') =>
+    node({ ref, role: 'img', name: alt, image: PNG, bounds: { x: 0, y: 0, width: 32, height: 32 }, native: { tag: 'img', attributes: { src, alt }, html: `<img src="${src}" alt="${alt}">` } })
+  const anchor = (ref: string, href: string, children: ReturnType<typeof node>[]) => node({ ref, role: 'link', native: { tag: 'a', attributes: { href } }, children })
+  const item = (ref: string, child: ReturnType<typeof node>) => node({ ref, role: 'listitem', children: [child] })
+  const follow = page([
+    node({
+      ref: '#social',
+      role: 'list',
+      children: [
+        item('#li1', anchor('#ig', 'https://www.instagram.com/trinitycollegedublin/', [picture('#ig-img', 'istagram')])),
+        item('#li2', anchor('#x', 'https://twitter.com/tcddublin', [picture('#x-img', 'X')])),
+        item('#li3', anchor('#li', 'https://br.linkedin.com/company/metro', [picture('#li-img', 'LinkedIn Metrô de São Paulo')])),
+        item('#li4', anchor('#yt', 'https://www.tiktok.com/@santacasa', [picture('#yt-img', 'icone youtube')])),
+        item('#li5', anchor('#png', 'https://www.facebook.com/tcd', [picture('#png-img', 'facebook.png', 'facebook.png')])),
+      ],
+    }),
+    anchor('#home', 'https://ufpr.example/', [picture('#home-img', 'Logo UFPR')]),
+    anchor('#share', '#', [picture('#share-img', 'Facebook')]),
+    node({ ref: '#story', children: [anchor('#story-link', 'https://www.instagram.com/p/1/', [picture('#story-img', 'Instagram'), node({ ref: '#story-text', text: 'Our new post' })])] }),
+  ])
+  const candidateOf = (ref: string) => {
+    const candidate = nonTextContent.candidates(follow, { engine: engine.engine, rules: [] }).find((c) => c.ref === ref)
+    if (!candidate) throw new Error(`no candidate ${ref}`)
+    return candidate
+  }
+  type Problem = 'wrong_content' | 'missing_information' | 'generic' | 'decorative' | 'filename_or_placeholder'
+  const claim = (evidence: string, problem: Problem) => ({
+    verdict: 'fail' as const,
+    evidence,
+    problem,
+    imageShows: 'A camera logo',
+    suggestedAlt: 'Trinity College Dublin on Instagram',
+    confidence: 'high' as const,
+  })
+  const grounded = (ref: string, problem: Problem = 'missing_information') => {
+    const candidate = candidateOf(ref)
+    return groundedImage(claim(candidate.context.alt, problem), candidate.context, follow)
+  }
+  const link = (href: string | undefined, control: 'link' | 'button' = 'link') => ({ control, href })
+
+  it('reads the network named, misspelt by up to two letters, or by its other name, on a link to its own host', () => {
+    expect(namesNetworkOfLink('istagram', link('https://www.instagram.com/trinitycollegedublin/'), follow)).toBe(true)
+    expect(namesNetworkOfLink('Twiter', link('https://www.twitter.com/fiocruz'), follow)).toBe(true)
+    expect(namesNetworkOfLink('x icon', link('https://twitter.com/CDCgov'), follow)).toBe(true)
+    expect(namesNetworkOfLink('Twitter', link('https://x.com/metrosp'), follow)).toBe(true)
+    expect(namesNetworkOfLink('Instagramlogo', link('//www.instagram.com/tcd'), follow)).toBe(true)
+    // Three letters off is another word; a network on a link to another network, or to no network, names nothing.
+    expect(namesNetworkOfLink('Istgrm', link('https://www.instagram.com/tcd'), follow)).toBe(false)
+    expect(namesNetworkOfLink('Facebook', link('https://www.instagram.com/tcd'), follow)).toBe(false)
+    expect(namesNetworkOfLink('icone youtube', link('https://www.tiktok.com/@santacasa'), follow)).toBe(false)
+    expect(namesNetworkOfLink('Logo UFPR', link('https://ufpr.example/'), follow)).toBe(false)
+    expect(namesNetworkOfLink('Facebook', link('#'), follow)).toBe(false)
+    expect(namesNetworkOfLink('Instagram', link(undefined, 'button'), follow)).toBe(false)
+  })
+
+  it("makes a reading claim on such an icon the model's suggestion, and keeps every other claim", () => {
+    expect(grounded('#ig-img')).toBe(false)
+    expect(grounded('#ig-img', 'wrong_content')).toBe(false)
+    expect(grounded('#x-img')).toBe(false)
+    expect(grounded('#li-img')).toBe(false)
+    // A network named on a link to another one, a site's own logo, a share script, a file name.
+    for (const ref of ['#yt-img', '#home-img', '#share-img', '#png-img']) expect(grounded(ref), ref).toBe(true)
+    // A claim that does not rest on the reading of the picture.
+    expect(grounded('#ig-img', 'generic')).toBe(true)
+    expect(grounded('#ig-img', 'decorative')).toBe(true)
+    // An image that is not all its link holds is no icon of the link.
+    expect(candidateOf('#story-img').context.functional).toBeUndefined()
+    expect(grounded('#story-img')).toBe(true)
+  })
+
+  it('reports the claim under review with no second pass, and the others as before', async () => {
+    let wordCalls = 0
+    const provider: ModelProvider = {
+      id: 'test:social',
+      async judge<T>(request: JudgeRequest<T>) {
+        const alt = /Current text alternative: "([^"]*)"/.exec(request.user)?.[1] ?? ''
+        const output = { verdict: 'fail', evidence: alt, problem: 'missing_information', imageShows: 'A logo', suggestedAlt: `${alt} profile of Trinity`, confidence: 'high' }
+        return { output: request.schema.parse(output), inputTokens: 10, outputTokens: 5, latencyMs: 1, modelId: 'social' }
+      },
+      async word(request: WordRequest) {
+        wordCalls++
+        const word = request.system.includes('pass or fail') ? 'fail' : request.system.includes('reviewer made the claim') ? 'yes' : 'no'
+        return { word, probabilities: { [word]: 0.999 }, inputTokens: 10, outputTokens: 1, latencyMs: 1, modelId: 'social' }
+      },
+    }
+    const only = page([anchor('#ig', 'https://www.instagram.com/tcd/', [picture('#ig-img', 'istagram')]), anchor('#yt', 'https://www.tiktok.com/@tcd', [picture('#yt-img', 'icone youtube')])])
+    const report = await checkSnapshot(only, { engine: engine.engine, rules: [] }, { criteria: [nonTextContent], llm: true, provider, runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 1 })
+    expect(report.findings.filter((f) => f.criterion === '1.1.1').map((f) => f.ref)).toEqual(['#yt-img'])
+    expect(report.needsReview?.filter((entry) => entry.criterion === '1.1.1').map((entry) => entry.ref)).toEqual(['#ig-img'])
+    // Three framings for the claim that stays, none for the suggestion.
+    expect(wordCalls).toBe(3)
+    expect(report.criteria.find((c) => c.criterion === '1.1.1')).toMatchObject({ suggested: 1, confirmed: 1 })
   })
 })

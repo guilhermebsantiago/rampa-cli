@@ -519,6 +519,68 @@ export function namesService(alt: string, f: Pick<FunctionalImage, 'control' | '
   return others.size >= 2
 }
 
+/** The shortest word, and the shortest label of a host, read for a misspelt network's name ("istagram"). */
+const NETWORK_WORD_MIN = 4
+/** The most edits (a letter added, dropped or changed) between such a word and the host's label. */
+const NETWORK_EDITS = 2
+
+/** Levenshtein distance: the fewest letters to add, drop or change to turn one word into the other. */
+function editDistance(a: string, b: string): number {
+  let previous = Array.from({ length: b.length + 1 }, (_, j) => j)
+  for (let i = 1; i <= a.length; i++) {
+    const current = [i]
+    for (let j = 1; j <= b.length; j++) {
+      current[j] = Math.min((previous[j] ?? 0) + 1, (current[j - 1] ?? 0) + 1, (previous[j - 1] ?? 0) + (a[i - 1] === b[j - 1] ? 0 : 1))
+    }
+    previous = current
+  }
+  return previous[b.length] ?? 0
+}
+
+/**
+ * The image is all its link holds, the link leads to a social network's host (a service of SERVICES), and its
+ * alternative names that network: a word of it is the network's name ("X" on a link to twitter.com), or is within two
+ * edits of a label of the link's host, four letters or more each ("istagram" and www.instagram.com, on tcd.ie in the
+ * second real-page study, which every framing of the second pass confirmed as wrong). A claim that such an alternative
+ * describes something the image does not show, or does not say where the link leads, is the model's suggestion, not a
+ * finding (`Criterion.grounded`): the alternative names the destination, misspelt or not, as the network's logo does
+ * for people who see it. A link to any other host is left out, whatever its alternative says ("Logo UFPR" to ufpr.br,
+ * "Facebook" on a share script's "#"), and so is a network named on a link to another one ("icone youtube" to
+ * tiktok.com). Chosen on the confirmed reading claims of the second to fourth real-page studies, where it selected
+ * false findings only (docs/studies/notes-precision-round5.md P3, notes-precision-p3p4.md; in-sample).
+ */
+export function namesNetworkOfLink(alt: string, f: Pick<FunctionalImage, 'control' | 'href'>, snapshot: A11ySnapshot): boolean {
+  if (f.control !== 'link' || !f.href) return false
+  let host: string
+  try {
+    const url = new URL(f.href, pageUrl(snapshot))
+    if (url.protocol !== 'http:' && url.protocol !== 'https:') return false
+    host = url.hostname.toLowerCase()
+  } catch {
+    return false
+  }
+  const at = (domains: readonly string[]): boolean => domains.some((domain) => host === domain || host.endsWith(`.${domain}`))
+  if (![...SERVICES.values()].some(at)) return false
+  const words = tokens(alt)
+  if (words.some((word) => at(SERVICES.get(word) ?? []))) return true
+  const labels = hostLabels(host).filter((label) => label.length >= NETWORK_WORD_MIN)
+  return words.some((word) => word.length >= NETWORK_WORD_MIN && labels.some((label) => editDistance(word, label) <= NETWORK_EDITS))
+}
+
+/**
+ * Whether a verified fail rests on more than the model's reading of a picture it cannot tell from the network it names:
+ * false for a reading claim (wrong content, or a functional image's missing information, as the second pass asks) on
+ * an image that is all its link to a social network holds and whose alternative names that network
+ * (`namesNetworkOfLink`). A file name, a placeholder or a generic word names nothing, so its claim stays.
+ */
+export function groundedImage(output: NonTextContentOutput, c: NonTextContentContext, snapshot: A11ySnapshot): boolean {
+  if (c.hidden || !c.functional) return true
+  const answer = output as NonTextContentJudgment
+  if (answer.verdict !== 'fail' || (answer.problem !== 'wrong_content' && answer.problem !== 'missing_information')) return true
+  if (looksLikePlaceholder(c.alt, c.src) || isGenericAlt(c.alt)) return true
+  return !namesNetworkOfLink(c.alt, c.functional, snapshot)
+}
+
 /**
  * The alternative of a link's only image names its destination: a part of the destination's title or heading that is
  * not the site's own name ("Nova Saúde" of "Nova Saúde - Portal Unicamp"), a part of the link's address, or a service.
@@ -635,6 +697,9 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
   subject: (candidate) => (candidate.context.hidden ? `hidden ${candidate.context.src ?? candidate.context.hidden.drawnAs}` : candidate.context.alt),
   // New: a fail about a hidden image stays below the default threshold until it passes the evaluation gate.
   confidenceCap: (candidate) => (candidate.context.hidden ? 'low' : undefined),
+  // A reading claim on a social network's icon whose alternative names the network is the model's suggestion, asked of
+  // no second pass (`groundedImage`); every other verified fail goes on as before.
+  grounded: (output, candidate, snapshot) => groundedImage(output, candidate.context, snapshot),
   // A fail that rests on the model's reading of the picture ("describes something the image does not show" on an
   // ordinary image, or a functional image whose alternative does not say where its link leads) is asked again, one
   // word at a time, three ways (core/confirm.ts): on the real-page studies' pages the first pass was right 7 times in
