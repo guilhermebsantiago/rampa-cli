@@ -1,0 +1,36 @@
+{
+  "page": "https://www.abbeytheatre.ie/contact/get-in-touch/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "4bc72cd0db7c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a photo of the box office counter (alt=\"\") placed directly under the heading \"Box Office (bookings)\" and above text that says where the box office is, its hours and how to contact it. The finding says the signage \"OIFIG NA dTICÉAD BOX OFFICE\" carries information the text around it does not, but the English signage just repeats the heading, and the Irish line is the same name in Irish. The photo illustrates the section without adding information a user needs, so treating it as decorative with an empty alt meets 1.1.1. A short alt would be nicer, but its absence is not a failure. Checked the screenshot, the snapshot order and the live HTML, which is unchanged."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Your email\" field in the footer Mailing List signup form, which asks for the user's own email address. It is <input type=\"text\" id=\"email\" name=\"email\" placeholder=\"Your email\" required> with no autocomplete attribute, either in the snapshot or on the live page now. Its purpose matches the \"email\" input purpose in WCAG 2.2 section 7, and HTML supports autocomplete, so the purpose cannot be programmatically determined. That fails 1.3.5, as the finding says."
+    },
+    {
+      "fingerprint": "39ce9a4e7dd7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Your name\" field (id=fullname) in the same footer mailing list form, which asks for the user's own full name. Neither the snapshot nor the live HTML has an autocomplete attribute on the field or on the form. Its purpose matches the \"name\" input purpose in WCAG 2.2 section 7, so leaving out autocomplete=\"name\" fails 1.3.5, as the finding says."
+    },
+    {
+      "fingerprint": "53f41fc218e6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the only image inside a link, under the footer heading \"Supporters\", to https://www.chg.gov.ie/. That address now redirects to the gov.ie page of the Department of Culture, Communications and Sport. The alt \"Department of Arts Logo\" names the supporting government department, and for a supporter logo linked to its own site, naming the organisation is what tells the user where the link goes. The extra word \"Logo\" is redundant but does not stop the alt doing its job, so the claim that it does not say where the link leads does not hold for 1.1.1. An auditor might separately note that the alt does not match the department name printed in the image (\"Department of Culture, Heritage and the Gaeltacht\"), but the finding does not claim that."
+    },
+    {
+      "fingerprint": "77676aed6ccc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the visible wordmark image (logo_title180.png) in the header home link. The screenshot and the crop show \"ABBEY THEATRE / AMHARCLANN NA MAINISTREACH\". Its alt \"Abbey Theatre logo text\" names the theatre and calls the image the logo text, which is exactly what it shows, so the claim that the alt describes something the image does not show is wrong. The alt could be better: it leaves out the Irish name, and the link's name \"Abbey Theatre logo Abbey Theatre logo text\" is verbose. But that is not the failure the finding reports, and the link name still identifies the Abbey Theatre home link."
+    }
+  ]
+}

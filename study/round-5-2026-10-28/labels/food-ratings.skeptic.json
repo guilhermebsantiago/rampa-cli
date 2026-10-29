@@ -1,0 +1,12 @@
+{
+  "page": "https://ratings.food.gov.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "a75d91f22a6c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the homepage hero banner: an aria-hidden inline SVG that clips a stock photo (/images/homepage-hero-image.jpeg) into a circle, showing hands holding a sample sticker that reads 'Food hygiene rating 5 Very good'. It sits beside the h1 'Food hygiene ratings' and the line 'Use our online service to find a food business's hygiene rating'. I checked the snapshot, the screenshot and the live HTML, which still matches the run. The photo illustrates the topic the heading already names. The '5 Very good' sticker is a generic example, not a rating for any business and not content that the user needs, so the image is decorative in the sense of 1.1.1. Hiding it from assistive technology is an accepted way to handle a decorative image, so there is no failure. The checker had the crop and the nearby heading, and it mistook the sample sticker's text for information the page must convey."
+    }
+  ]
+}

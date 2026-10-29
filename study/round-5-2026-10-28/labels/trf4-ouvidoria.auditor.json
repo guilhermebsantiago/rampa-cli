@@ -1,0 +1,18 @@
+{
+  "page": "https://www.trf4.jus.br/trf4/controlador.php?acao=pagina_menu_listar&id_pai=253",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "287a772071cf",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer caption div#divMarcaRodape, which holds the live HTML text 'Portal Unificado da Justiça Federal da 4ª Região'. It is not part of an image: the tudo_aqui.png background sits 35px below it. The live CSS (infra-local.css) sets div#divAreaGlobalRodape to color #FFFFFF on background-color #339999 and div#divMarcaRodape to font-size 17px at normal weight. Sampling the screenshot behind the text gives a solid rgb(51,153,153). White on #339999 is 3.41:1. That is below 4.5:1, and 17px regular is not large text. The packet's image crop shows only the logo area, but the full screenshot shows the text clearly, white on teal. I considered the logotype exception, since the div is named 'marca'. This is ordinary page text in the site font, a caption next to the logo graphic and not the logo itself, so the exception does not apply. The finding names a real 1.4.3 failure. The rest of the footer's white-on-teal link text fails the same way."
+    },
+    {
+      "fingerprint": "sabb81f76693",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header search field #txtBuscaPortal. Its <label> 'Expressão de busca' is visually hidden (class LeitorDeTela), and so is the fieldset legend. Even so, the screen does say what to enter. A visible h2 'o que você procura?' ('what are you looking for?') sits directly above the field, and a magnifying-glass submit button ('Buscar no Portal') sits inside it. Together they tell sighted users that this is a site search box (compare G131 and G167). SC 3.3.2 asks for labels or instructions; it does not ask for a visible <label> element. The live page and the screenshot match. The model had the nearby h2 in its context and still claimed that nothing on screen explains the field, so this is a model error."
+    }
+  ]
+}

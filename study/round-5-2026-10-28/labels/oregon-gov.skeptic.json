@@ -1,0 +1,66 @@
+{
+  "page": "https://www.oregon.gov/Pages/index.aspx",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "0a7708cc811b",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The image is the photo on the 'Unemployment Claims and Status' tile (research.jpg, and the research-4x3-lg.webp variant the picture element serves at desktop width). I downloaded both: they show a woman at a white table typing on a dark grey laptop, with notebooks beside her. The alt 'Person at desk using grey computer' is accurate. The crop the model saw is the rendered tile, where a dense green CSS overlay and the white heading text cover almost all of the photo, so the claim of a mismatch rests on an obscured rendering, not on the image."
+    },
+    {
+      "fingerprint": "f9426a514b9b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The excerpt paragraph of the second news card ('Mientras se acercan las fiestas...') is a full Spanish passage, visible in the screenshot, on a page whose html lang is en-us. The snapshot records no lang attribute on the p, its or-ellipsis-text child, or any ancestor (the only lang attributes on the page are on the language-picker items). The card is light DOM, so no shadow root supplies a language. It is not a proper name or a vernacular phrase, so no exception applies, and a screen reader's automatic language detection does not count as programmatic determination. This fails 3.1.2 as the finding says."
+    },
+    {
+      "fingerprint": "scf09f743ec5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is an h3 in the #MyOregon Instagram grid. Its text is the placeholder 'No Title', from a post that has no caption title, and the only other content in the card is 'By Jeff Risher Photography' and the photo. The other cards have real headings such as 'Seaside, Oregon' and 'Thor's Well'. The heading is exposed in the accessibility tree, so screen-reader users navigating by heading hear 'No Title', which says nothing about the topic. I looked for a reason it would pass (that it is hidden, or that it is a real title) and found none that holds up. Using the photographer's name or a short description would describe the card. A heading that is present must describe its topic or purpose, so this fails 2.4.6. The grid was not painted in the full-page screenshot, but that does not change what assistive technology exposes."
+    },
+    {
+      "fingerprint": "35f533426795",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the image on the 'Register to Vote in Oregon' tile (vote.jpg / vote-4x3-lg.webp). The source photo is exactly a roll of round 'I VOTED' stickers with stars and stripes, so the alt 'Roll of stickers stating I Voted' is accurate. Even in the green-overlaid crop the model saw, the 'VOTED' stickers are visible at the bottom right. The claim that the alt describes something the image does not show is wrong."
+    },
+    {
+      "fingerprint": "f598fa7815b1",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the image on the 'Get vaccinated for COVID-19' tile (coffee-shop.jpg / coffee-shop-4x3-lg.webp). The photo shows the inside of a small café: a window counter with stools, and wall shelves holding bagged products. The alt 'Interior of a small business shop' describes it accurately. The overlaid crop still shows the shelves, stools and window. The image does not relate to the vaccine link (the site reuses it from the small-business tile), but the finding's claim, that the alt describes something not shown, is false, and the alt matches the image, so 1.1.1 is not failed."
+    },
+    {
+      "fingerprint": "9b31aa50643c",
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "This is the image on the 'Wildfire Response and Recovery' tile (wildfire-response.jpg / wildfire-response-4x3-lg.webp). The source photo is an aerial view of a pine forest with heavy smoke and small flames burning along the forest floor, so the alt 'Wildfire on a wooded forest floor' is accurate. In the crop the model saw, the green CSS overlay and the heading leave only faint tree silhouettes, and hide the flames and most of the smoke. The mismatch claim comes from that obscured rendering, not from the image."
+    },
+    {
+      "fingerprint": "babb87e6be16",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the h3, with its link, of the second news card, 'Trabajos de temporada y beneficios de SNAP: lo que las personas que viven en Oregon deben saber antes de la temporada de fiestas'. It is a full Spanish sentence, visible in the screenshot, on an en-us page. The snapshot shows no lang attribute on the h3, the a, the or-ellipsis-text or any ancestor, and its title attribute is also Spanish and unmarked. No exception applies, so the heading's language cannot be programmatically determined and it fails 3.1.2."
+    },
+    {
+      "fingerprint": "s7a40c8adda3",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the home page of Oregon.gov (Pages/index.aspx, h1 'Oregon.gov'). Its title 'Oregon.gov : State of Oregon', which the live page still has, names the site and its owner. For a site's home page, the site name is the descriptive title, as the 2.4.2 Understanding document and G88 allow. The title does describe this page's topic and purpose, so 2.4.2 is not failed."
+    },
+    {
+      "fingerprint": "dd00b3337921",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the image on the 'Find Jobs and Opportunities' tile (mechanic.jpg / mechanic-4x3-lg.webp). The source photo shows a person working with a tool on the latch of a beige, rusty vintage car door laid on a wooden surface, not woodworking. So 'Person wood working at bench' is partly inaccurate, and the finding's narrow claim has some basis. Against a failure: the photo is a mood background, almost hidden behind an opaque green overlay, inside a link whose heading and description carry all the meaning. The alt's gist, a person doing hands-on trade work at a bench, serves the same illustrative purpose. No documented failure covers a slightly inaccurate description of a decorative-in-function image. Competent auditors would disagree on whether this fails 1.1.1."
+    },
+    {
+      "fingerprint": "saa9c28933b5",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Living' is the first top-level item of the main navigation mega-menu. Its siblings are 'Jobs and Business', 'Government', 'Public Safety', 'Education' and 'Recreation', and its href is '#'. Activating it opens the Living category submenu (Individual Services, Drivers and Transportation, Taxes, Health and Family, ...), which sits in the same list item. That list item is programmatically determined link context under 2.4.4, and the model was given its text. The purpose, opening the 'Living' services section, is clear from the link text and that context, so the claim that nothing around it tells where it goes is wrong. The real defect is a link with href='#' acting as a disclosure button without aria-expanded, which would be a 4.1.2 issue, not 2.4.4."
+    }
+  ]
+}

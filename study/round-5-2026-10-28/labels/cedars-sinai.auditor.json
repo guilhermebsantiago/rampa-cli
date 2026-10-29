@@ -1,0 +1,24 @@
+{
+  "page": "https://www.cedars-sinai.org/home.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "10ce774862df",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the photo on the 'Diversity and Inclusion' card in 'Caring for Our Community'. Its alt is \"Cedars-Sinai Here. For. LA. event.\" I looked at the crop and at the same area of the full screenshot. Both show a group of people outdoors holding red-and-white 'HERE. FOR. L.A.' signs, which is plainly a 'Here For LA' event. The alt is short, but it matches what the photo shows and gives its purpose on the card. Nothing in it describes something the image does not show, so this is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "6a83ce9f9ba1",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the vertical tablist in 'World-Class Specialty Care at Your Fingertips' (Heart, Cancer, Pediatrics, ...). In the snapshot, every tab button has aria-selected=\"false\" and all six tabpanels are hidden (class isHidden). The screenshot shows the default image collage on the right and no tab styled as active. I read the live site's RailList component in its JS bundle. It sets aria-selected to true exactly when a tab's panel is open (f===i || t===i), and it hides a panel exactly when its tab is not selected. When a tab is activated, it gets aria-selected=\"true\" and its panel shows. On load no panel is open, so 'none selected' is the true state, and it is exposed programmatically. The finding says a screen reader cannot tell which panel is open, but none is open. Requiring one tab to be selected at all times is an ARIA authoring-practice convention, not a 4.1.2 requirement."
+    },
+    {
+      "fingerprint": "s6c46afc1b1f",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page is Cedars-Sinai's home page (home.html), and its h1 is 'The care you need from doctors you trust'. The title 'A Nonprofit Hospital in Los Angeles | Cedars-Sinai' names the organization and says what it is, which is exactly the topic of a hospital's home page. The live page has the same title today. Under 2.4.2, a home page title that identifies the site and its purpose is descriptive, so this passes."
+    }
+  ]
+}

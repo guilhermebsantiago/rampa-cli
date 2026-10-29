@@ -1,0 +1,78 @@
+{
+  "page": "https://www.irishexaminer.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "415cf44acbe9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Teaser photo inside the link to the Richard Hogan column on parental drinking. The crop and the screenshot show a tipped-over wine glass with red wine spilled on a white tablecloth, so alt=\"Spilled Red Wine\" describes exactly what the image shows, and it fits the article. Nothing in the alt is absent from the image; the model misread the picture."
+    },
+    {
+      "fingerprint": "cacf01d7338b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Teaser photo inside the link to the Carabao Cup quarter-final draw story. The full-size image (EXIF dated 30 Oct 2018, the date of the Burton Albion v Nottingham Forest fourth-round tie) shows the Carabao Cup trophy on a plinth beside a floodlit pitch. The alt is the photo agency's event title for the photo: it names the Carabao Cup, which is what the picture shows, and the fixture and venue where it was taken. It is not a visual description, but it is not false, and for an illustrative image in a link that also carries the headline it serves the image's purpose. A better alt would be \"The Carabao Cup trophy on display\" (the caption the article page uses), but this is not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "8955260dfa5a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "NewsBrands Ireland logo (I downloaded f-logo-nbi.png: it reads \"NewsBrands Ireland\") as the only content of a footer link to newsbrandsireland.ie. alt=\"https://newsbrandsireland.ie/\" is a URL, not a file name or placeholder: it names the link's destination and the organisation, which is the image's function. Also, the parent link has aria-label=\"newsbrandsireland\", which overrides the image for the link's name, so screen readers announce \"newsbrandsireland, link\" and not the alt. Awkward, but not an F30 non-alternative. The rule wrongly called the URL a file name. (These footer logos were not rendered in the full-page screenshot; I checked the live HTML and image files.)"
+    },
+    {
+      "fingerprint": "c8b5127d9996",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Teaser photo inside the link to the story about An Ghaeltacht withdrawing from the West Kerry SFC. The full-size image (Sportsfile, EXIF January 2026, when the All-Ireland club semi-finals are played) shows a man in an An Ghaeltacht club jacket (crest visible) at a stadium, in front of the crowd. The destination's caption identifies him as Dara Ó Cinnéide. The alt is the agency's event title for the match where the photo was taken; it is consistent with what is shown (an An Ghaeltacht figure at a GAA match). It leaves out who the person is but does not describe anything absent, and the link carries the headline. Best-practice weakness, not a 1.1.1 failure."
+    },
+    {
+      "fingerprint": "sf237564e78a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "h2 \"World\" (a link to /world/) heads the home page's world-news section. The section holds international stories (Russell Brand rape trial, Brazil election, etc.). On a news front page, a section heading that names the section's category describes the topic of the content under it, as 2.4.6 requires. Other sections on the page use the same pattern (News, sport...). The model judged wrongly."
+    },
+    {
+      "fingerprint": "351630f90713",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Card image inside the link to \"Hosanna in the highest bid: St Vincent's Church sale agreed at EUR400k\". The image (I looked at the full dashboardbig file) shows the exterior of St Vincent's Church, Sunday's Well, with its lower building along the street. The alt is the newspaper caption: it names St Vincent's Church (shown) and adds sale details (lower-ground hall, car park, revenue split). That extra context is not visible, but the alt does describe the shown subject and suits the article, so it is not a mismatch that fails 1.1.1. The real defect is different: the alt holds escaped HTML (\"<p>...</p>\") that screen readers may read out, and it is very long. That is a quality problem, not the claimed failure."
+    },
+    {
+      "fingerprint": "783a924415e4",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Press Council of Ireland / Office of the Press Ombudsman logo (I downloaded f-logo2.png) as the only content of a footer link to presscouncil.ie. alt=\"https://www.presscouncil.ie\" is a URL that names the link's destination and the organisation, not a file name or placeholder. Also, the parent link has aria-label=\"presscouncil\", which supplies the link's name in place of the image's alt. Not an F30 non-alternative; the rule wrongly called the URL a file name. (Footer not rendered in the screenshot; checked in the live HTML.)"
+    },
+    {
+      "fingerprint": "09f063a653d9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "IAB Ireland Publishers' Commercial Charter badge (I downloaded IAB-logo-white.png: it reads \"IAB Ireland Publishers' Commercial Charter\") as the only content of a footer link to the charter page. The alt is that page's URL, \".../iab-ireland-publishers-commercial-charter/\". It names the badge's organisation and charter and the link's destination; it is not a file name or placeholder. The parent link also has aria-label=\"iab-ireland-publishers-commercial-charter\", which supplies the link's name. Verbose, but not a 1.1.1 failure; the rule misclassified a URL as a file name."
+    },
+    {
+      "fingerprint": "82aee64dcbad",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Visible \"Every Monday\" text (<p>, 23px, weight 600) in a teal circle on The Replay promo banner. It is real text, not part of a logo. The other two \"Every Monday\" copies are hidden responsive variants; this one is displayed. I sampled the screenshot: glyphs #ffffff on a uniform #00b8aa fill. The snapshot reports CSS color white and the same background, and the ratio computes to 2.49:1. At 23px/600 it is at most large text if 600 counts as bold, which needs 3:1; otherwise it needs 4.5:1. 2.49:1 fails either threshold, so the finding stands, though the 4.5:1 it quotes may overstate the requirement."
+    },
+    {
+      "fingerprint": "s979d4453f80",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Header site-search field: text input with placeholder \"SEARCH..\", aria-label \"Input phrase\", and a submit button named \"Search\" (magnifier icon), in a form with action /pa.1304. \"Search\" next to a search button tells users the field is for search terms, which describes its purpose as 2.4.6 requires; a search box needs no more. Separate issues could be raised elsewhere: a placeholder-only visible label (3.3.2), and the visible \"SEARCH..\" not appearing in the name \"Input phrase\" (2.5.3 Label in Name). Neither is a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "5df5c30f8291",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Teaser photo inside the link to \"Woman (80s) dies following fatal road collision in Tipperary\". The crop shows the blue light bar on a Garda car roof with a \"GARDA\" sign, which is exactly what alt=\"Blue lights on the roof of a Garda Siochana Irish police car\" says. It also fits the story. The alt does not describe anything absent; the model misread the image."
+    },
+    {
+      "fingerprint": "21d11688db9c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"WEEKLY CARTOON BY HARRY BURTON\" byline (<strong> in a <p>, 11px, bold, Source Sans Pro) under the Harry Burton cartoon description. The snapshot reports CSS color rgb(121,121,121), and screenshot pixels show #797979 glyphs on a #ffffff background. That computes to 4.35:1. At 11px bold it is normal-size text, so 1.4.3 requires 4.5:1 and it fails, narrowly. It is visible informative text, not incidental, and the caption is still on the live page."
+    }
+  ]
+}

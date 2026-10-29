@@ -1,0 +1,18 @@
+{
+  "page": "https://www.ncl.ac.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s961b9f874ee",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the disabled, checked 'Necessary' toggle in the Cookiebot consent banner. Its accessible name comes from a visible <label> 'Necessary', and it sits in a group named 'Consent Selection' inside a region titled 'This website uses cookies', next to sibling toggles 'Preferences', 'Statistics' and 'Marketing' (confirmed in the snapshot and the screenshot). A checkbox does not ask the user to enter anything. In that context the label clearly names the cookie category being consented to, which is enough for 2.4.6: a label does not have to be understandable on its own, out of context. The checker had this context in its ancestors and still judged wrongly."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is an <img alt=\"logo\"> in the Cookiebot banner header. The crop and the screenshot both show that it is the Newcastle University logo, so it is not a collector artefact. It is exposed to assistive technology (role image, name from alt, not hidden), so screen readers announce 'logo'. That word gives neither the organisation's name, which is the logo's text and purpose, nor marks the image as decorative, which would need alt=\"\". I looked for a reason it could pass, such as treating it as decorative branding repeated from the page header, but a decorative image would still have to be ignorable by assistive technology, and this one is not. A generic placeholder alt like this matches failure F30, so the finding stands. The banner is injected by script, so the live page may have changed since the run, but the snapshot is clear."
+    }
+  ]
+}

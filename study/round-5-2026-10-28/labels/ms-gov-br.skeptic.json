@@ -1,0 +1,42 @@
+{
+  "page": "https://www.ms.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "bb705dfb7f5a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the placeholder of the header's service search field. In the screenshot its glyph pixels are (148,184,221) on white, which is 2.07:1 and matches the rule's figure. The text is 14px bold, so it is not large text and needs 4.5:1. The Understanding document for 1.4.3 says the criterion covers placeholder text. The field is enabled, so the inactive-component exception does not apply. I checked whether G174 could rescue it through the site's accessibility widget (acessibilidade.bundle.js). Its 'escuro' and 'claro' modes only override text color and background with !important and do not restyle ::placeholder, and 'invertido' turns the placeholder into roughly 2.5:1 on black. The widget's button also does not show in the captured screenshot. No technique I could find makes this pass."
+    },
+    {
+      "fingerprint": "89777dbca227",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer image: the Mato Grosso do Sul coat of arms with the words 'Estado de Mato Grosso do Sul', exposed to assistive technology as an image named 'Rodapé 2' ('Footer 2'). I checked that the crop matches the element's bounds in the screenshot. The alt is a CMS slot label, not an alternative. It is the 'placeholder text as alt' pattern of F30. If the logo is informative, the alt should carry its text. If it is redundant with the nearby 'Governadoria do Estado de Mato Grosso do Sul', it should be empty so AT ignores it. It is neither, and it is not a link, so no other name rescues it."
+    },
+    {
+      "fingerprint": "f378e509771f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the magnifier icon (searchIcon.svg) inside the search field's adornment, exposed as an image named 'Contraste' ('Contrast'). It is not aria-hidden, and the live React source still renders it with alt 'Contraste'. The icon may be decorative, since the BUSCAR SERVIÇO button already conveys search, but then it should have an empty alt so AT ignores it. Instead screen readers announce a misleading 'Contraste' next to the search field. That is neither an equivalent alternative nor an ignorable decoration, so it fails 1.1.1 (F30 pattern)."
+    },
+    {
+      "fingerprint": "928d393545aa",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the house icon (icon-home.svg) at the start of the main navigation, exposed as an image named 'not found'. It sits in a plain Box with no link and no click handler; the live source still has alt 'not found'. 'not found' is leftover fallback text: it neither describes the home icon nor lets AT ignore it as decoration. This is the F30 pattern, a failure whether the icon is meant to be informative or decorative."
+    },
+    {
+      "fingerprint": "s43a9c5b3d47",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "'1237' is the big number on a statistics card under 'Indicadores', marked up as h1, with the caption 'Serviços no portal' as an h2 below it. In the heading list it reads as 'heading 1, 1237', which says nothing on its own. But visually the number is not a heading of any section. The real defect is heading markup used for a styled statistic, which most auditors file under 1.3.1. The number and its h2 caption together do convey the meaning. Whether a 1.3.1 markup misuse should also count as a 2.4.6 failure is something competent auditors split on, so I leave it uncertain."
+    },
+    {
+      "fingerprint": "sed6eb462722",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the header's single-field service search. Its only name is the placeholder 'Ex: CNH, Matrícula escolar...', which shows examples of what to type: service names such as CNH (driver's licence) or school enrolment. Right next to it is the submit button 'BUSCAR SERVIÇO', with a magnifier icon at the start of the field. Per G167, an adjacent button with a clear name acts as the label of a search field, so the field's purpose ('search for a service') is described. The model had the button text in its ancestor context and still judged the placeholder alone. The real weakness is relying on a placeholder that disappears instead of a persistent label, which belongs under 3.3.2, not 2.4.6. The finding's claim that the label 'does not say what to enter' is also not accurate, since the examples do say it."
+    }
+  ]
+}

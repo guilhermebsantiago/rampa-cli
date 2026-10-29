@@ -1,0 +1,24 @@
+{
+  "page": "https://www.madeiramadeira.com.br/moveis",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s3613072b137",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Ver todos' link (an <a> wrapping a <button>) under the 'Os mais populares' section, after a row of category filter chips and a product carousel; it goes to the Guarda-Roupa category page. Its programmatic context is only the preceding h2 'Os mais populares' (H80), which reads as 'see all most popular', not 'see all wardrobes'. The only cue that it means wardrobes is the visually highlighted 'Guarda-roupa' chip, whose selected state is shown by colour only: the chips are plain buttons with no aria-pressed or aria-selected (snapshot and live HTML agree), and the product cards are not in the same paragraph, list item or cell as the link. Sighted users can tell the purpose, so the 'ambiguous to everyone' exception does not apply. A screen-reader user cannot determine from the link and its programmatic context that it leads to the full wardrobe category, so it fails 2.4.4. The finding's 'nothing around it does' overstates it slightly, since the visual chip does, but the claim holds for programmatically determined context."
+    },
+    {
+      "fingerprint": "scf998861fd9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the footer link 'Sobre a Madeira' (title 'Ir para a página de Sobre a Madeira') under the 'Institucional' list, pointing to /landing/confiavel. The destination's <title> is the site's generic brand title, but I fetched the live page and its content is an About page: sections 'Sobre nós' ('Já somos a maior loja online de móveis e decoração da América Latina...'), 'Por que você pode confiar?' and 'O que a imprensa diz sobre nós'. The link text accurately describes where it goes. A generic page title does not make the link text a mismatch. If anything, that title is a 2.4.2 matter on the other page, not a 2.4.4 failure of this link. The checker had only the title and description, which do not contradict the link text, and inferred a mismatch anyway."
+    },
+    {
+      "fingerprint": "e76f696df137",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text input in the header's 'Escolha sua localização' popover (placeholder 'Insira o CEP', maxlength 9), which asks for the user's own postal code 'para ver as melhores condições de frete, entrega e serviços para sua região'. That is information about the user (their location), and postal-code is one of the listed input purposes. The snapshot shows no autocomplete attribute. The live page's lazy-loaded zipcode drawer component sets placeholder, onChange, value, onKeyDown and maxLength but no autoComplete, and the field has no other mechanism that identifies its purpose. A user's CEP field without autocomplete='postal-code' fails 1.3.5, as the finding says."
+    }
+  ]
+}

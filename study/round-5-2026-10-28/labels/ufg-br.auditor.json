@@ -1,0 +1,120 @@
+{
+  "page": "https://ufg.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s4c0ee80c707",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Link in the standard gov.br federal bar, alongside Comunica BR, Participe, Acesso à informação, Legislação and Canais. 'Simplifique!' is the proper name of the federal Simplifique! service, and the link goes to that service's page (gov.br/.../ouvidoria/simplifique), so the link text names its destination. That meets 2.4.4: the criterion does not require link text to explain what a named service is. When checked today the URL redirects to a restricted-content login page on gov.br. That makes it a stale link, but not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "s1647ffb7ac7",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Leia mais...' is a visually hidden overlay link that covers the whole 'Nota de pesar' news card (bounds 300x446, empty paragraph). It sits inside the card's article and list item, which also hold the h3 'Nota de pesar' and the summary 'Adriana Vidotte era professora da Faculdade de História...'. Both the enclosing list item (H77) and the preceding heading (H80) give programmatically determined link context. That context makes the purpose clear, so 2.4.4 passes; the generic text is at most a 2.4.9 (AAA) issue. The packet itself lists the heading, so the claim that nothing around the link explains it is wrong."
+    },
+    {
+      "fingerprint": "3aace9703444",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header 'Rádio UFG' link: a white radio glyph on a 34px light-blue circle (.social-icon background var(--light-blue) #66aad5). There is no visible text, and the img is aria-hidden, so sighted users identify the link by the glyph alone. Pixel sampling of the screenshot gives #ffffff on #66aad5 = 2.54:1, below 3:1. It is a generic radio icon, not a brand logo, so no exception applies. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "b54e3a0ab4f7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News-card image link to 'Informe à comunidade acadêmica'. The image shows the word 'Informe' on a teal background, and its alt is the file name 'INFORME_capa.png'. The browser takes the link's accessible name from this alt (name 'INFORME_capa.png'; the title is only the description), so screen readers announce the file name. A file name as the text alternative is documented failure F30. The alt should describe the image or the link purpose, or be empty if the image is decorative. The same alt is still on the live page. Fails 1.1.1."
+    },
+    {
+      "fingerprint": "2a7914be5607",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Ser UFG' button in the fixed side dock: a white heart icon on a light-blue (#66aad5) pill. The CSS sets the label span to opacity 0 unless the button is .active (the section is scrolled into view), and the screenshot shows only the icon. In the default state the icon is the only visual identifier of the control. Pixel sampling gives #ffffff on #66aad5 = 2.54:1, below 3:1 (hover darkens the background, but the default state fails). Fails 1.4.11."
+    },
+    {
+      "fingerprint": "e16ff5ad7777",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Carousel banner linking to the Propessoas notice on Estágio Probatório. The image holds a lot of text ('Atenção servidores técnico-administrativos e docentes ingressantes após 07/02/2025', 'MGI informa alterações...'), and its alt is the file name 'banner_-_Estágio_Probatório_novo.png'. The browser takes the link's name from that alt (the title is only the description). A file-name alt is documented failure F30, and none of the banner's text reaches assistive technology. Fails 1.1.1."
+    },
+    {
+      "fingerprint": "ba8b9037ca9c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer Twitter link: a white bird glyph on a 34px circle with background var(--light-blue) #66aad5, with no visible text. The glyph is the only visual identifier of the control, and pixel sampling gives 2.54:1, below 3:1. The site draws its own white-on-light-blue presentation rather than Twitter's brand colours, and darkens it only on hover. Understanding 1.4.11 says an author-chosen low-contrast presentation of a logo is not 'essential', so the logo exemption does not apply. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "3e924100836e",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Redes' button in the side dock: a white dots icon on a light-yellow (#e5d277) pill. Its label span is hidden (opacity 0) unless the button is active, and the screenshot shows only the icon. Pixel sampling gives #ffffff on #e5d277 = 1.52:1, far below 3:1, for the icon that identifies the control. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "8db2bddd93ce",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header Instagram link: a white Instagram glyph on a #66aad5 circle, with no visible text (the img is aria-hidden). Pixel sampling gives 2.54:1, below 3:1. The light-blue circle is the site's own choice, not something Instagram's brand rules require, and it turns dark blue only on hover. Understanding 1.4.11 (author-choice logos, Figure 27) says such a presentation is not 'essential', so the logo exemption does not apply. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "4b4e2236c50c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header Facebook link: a white 'f' glyph on a #66aad5 circle, with no visible text. Pixel sampling gives 2.54:1, below 3:1, for the only visual identifier of the control. The low-contrast white-on-light-blue presentation is the site's choice (it darkens only on hover), not something Facebook's brand rules require, so per Understanding 1.4.11 it is not 'essential' and not exempt. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "431d1af69a52",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Português (Brasil)' is the visible label of the language selector in the header, the current-language link that opens the dropdown. The site CSS sets it to color var(--grey) #999999, and the screenshot shows #999999 text on white: 2.85:1. It is normal-weight text of about 16px, so it needs 4.5:1. It is an active control, not disabled. Fails 1.4.3."
+    },
+    {
+      "fingerprint": "56e6791d8349",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Serviços' button in the side dock: a white pointing-hand icon on a light-blue (#66aad5) pill. The label span is hidden (opacity 0) unless the button is active, so in the default state the icon alone identifies the control. Pixel sampling gives 2.54:1, below 3:1. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "s350bf79dd22",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "h3 'Relembrar para não repetir' is the headline of a Jornal UFG story card. Above it is the 'COVID-19' kicker; below it is the deck 'Pesquisa da UFG mostra o poder do testemunho frente aos traumas da linha de frente da pandemia', which the card links to as article /noticia/relembrar-para-nao-repetir. The headline ('remember so as not to repeat') matches the topic: research on testimony about pandemic front-line trauma. A journalistic headline that is the article's actual title describes its content, so 2.4.6 passes."
+    },
+    {
+      "fingerprint": "763942c98357",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Carousel banner for the 23rd Conpeex. The image is rich in text: 'Ciência DELAS', dates '9 a 13 NOV', venue, URL '23conpeex.plateia.ufg.br'. Its alt is the file name 'BANNER_SITEconpeex2026.png', which the browser uses as the link's accessible name (the title 'Banner_site_Conpeex_2026_...' is only the description, and is itself a placeholder). A file-name alt is documented failure F30. The same alt is still on the live page. Fails 1.1.1."
+    },
+    {
+      "fingerprint": "b069d809b385",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Jornal' button in the side dock: a white newspaper icon on a light-green (#abcc88) pill. Its label span has opacity 0 unless active, and the screenshot shows only the icon. Pixel sampling gives #ffffff on #abcc88 = 1.79:1, below 3:1, for the graphic that identifies the control. Fails 1.4.11."
+    },
+    {
+      "fingerprint": "b3b783ec3cf5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer Facebook link: a white 'f' glyph on a #66aad5 circle with no visible text. Pixel sampling gives 2.54:1, below 3:1. The low-contrast presentation is the site's own choice (it darkens only on hover), not one Facebook's brand rules require, so the logo exemption does not apply (Understanding 1.4.11, author choice). Fails 1.4.11."
+    },
+    {
+      "fingerprint": "79fc6793e607",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News-card image link: a photo of award winners holding certificates, the only content of a link to the article 'Estudantes e docentes da UFG são premiados pelo Crea-GO'. Its alt '26-10-2026_crea-ufg capa' is the file name plus 'capa' (cover), and the browser uses it as the link's accessible name (nameFrom contents; the article title sits only in the title attribute, exposed as the description). The alt neither describes the image nor states the link's purpose, as a functional image's text alternative must (F30, H30). Fails 1.1.1."
+    },
+    {
+      "fingerprint": "5bd2ab6db699",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Carousel banner (a cloned slide of the energy-saving campaign) linking to 'Gaste nossa energia com o que vale a pena!'. The image is full of text (the campaign title and several energy-saving tips), and its alt is the file name 'PEÇAS__BANNER_SITE_gasteaenergia.png', which the browser uses as the link's name. A file-name alt is documented failure F30, and none of the banner text is available as text. This banner was missing from the live HTML I fetched later (the carousel has rotated), but at collection time it was in the accessibility tree. Fails 1.1.1."
+    },
+    {
+      "fingerprint": "87626bfbcd30",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News-card image (the 'Ranking Universitário Folha 2026 RUF' seal) that is the only content of a link to the ranking article. Its alt is the file name 'selo_ruf_2026.png', which the browser uses as the link's accessible name. A file name as the text alternative is documented failure F30. It should describe the seal or the link purpose, or be empty with the link named another way. The same alt is still on the live page. Fails 1.1.1."
+    }
+  ]
+}

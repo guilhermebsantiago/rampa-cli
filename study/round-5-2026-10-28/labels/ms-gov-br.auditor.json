@@ -1,0 +1,42 @@
+{
+  "page": "https://www.ms.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "bb705dfb7f5a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The main service search input shows the placeholder 'Ex: CNH, Matrícula escolar...' in 14px bold text styled #0057AF at about 42% alpha on a white field. Sampling the screenshot gives #94B8DD on #FFFFFF, about 2.07:1, far below the 4.5:1 needed for text of this size. The placeholder is visible text that carries the only in-field hint of what to type, so 1.4.3 applies. The page has an overlay accessibility menu with contrast modes, but that does not make the default presentation conform, and nothing shows it meets G174. The live bundle still sets this placeholder to #0057AF with opacity."
+    },
+    {
+      "fingerprint": "89777dbca227",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer image (an SVG from noticias.ms.gov.br) showing the state coat of arms and the words 'Estado de Mato Grosso do Sul'. Its alt is 'Rodapé 2' ('Footer 2'), a placeholder or file-style label that names neither the logo nor the text in the image (F30). If it were treated as decorative, a non-null alt like this would still fail (F39). Either way, the text alternative does not serve the image's purpose, as the finding says."
+    },
+    {
+      "fingerprint": "f378e509771f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is a 19px magnifying-glass icon at the start of the search input, rendered as an MUI input adornment, and it is not interactive. Its alt is 'Contraste' ('Contrast'), which does not match what it shows: screen readers announce a 'Contraste' image inside the search form. The icon is decorative because the 'BUSCAR SERVIÇO' button gives the purpose, so it should have empty alt. As it is, the misleading alt fails 1.1.1 (F30/F39). The live bundle still has alt 'Contraste'."
+    },
+    {
+      "fingerprint": "928d393545aa",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the house icon at the left of the main navigation bar. In both the snapshot and the live bundle it is a plain img inside a non-interactive Box with alt 'not found'. That alt is a leftover string with no relation to the house picture, so screen reader users hear 'not found'. If the icon is decorative it needs empty alt (F39); if it means 'Início' it needs that text (F30). Either way it fails 1.1.1, as the finding says."
+    },
+    {
+      "fingerprint": "s43a9c5b3d47",
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is a statistic card in the 'Indicadores' section: the number 1237 is an h1, through MUI Typography variant 'h1', and its caption 'Serviços no portal' is an h2. The matching card '1144494 / Usuários cadastrados' renders its number as a plain paragraph, which shows the heading level is used only for styling. A user moving by headings hears 'heading level 1, 1237', which does not name a topic, so G130's test fails. But the real defect is heading markup on content that is not a heading (1.3.1, F43), and the fix is to remove that markup, not to reword the heading. Competent auditors would split on also counting this as a 2.4.6 failure."
+    },
+    {
+      "fingerprint": "sed6eb462722",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the main search field. Its only visible text is the placeholder 'Ex: CNH, Matrícula escolar...', next to a magnifier icon and an adjacent 'BUSCAR SERVIÇO' submit button (G167, the button labels the field's purpose). Together they make clear what to enter: the name of a government service, with CNH and school enrolment as examples. The labelling describes the purpose, so it does not fail 2.4.6. The field does lack a persistent visible or programmatic label beyond the placeholder, which belongs under 3.3.2/1.3.1, not 2.4.6. The model had the button text in the ancestor context and still judged the label non-descriptive."
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "page": "https://www.irishexaminer.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "415cf44acbe9",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Teaser image inside the link to the Richard Hogan column on parents' drinking. The crop shows a wine glass tipped over on a white tablecloth with red wine spilled across it, which is exactly what the alt \"Spilled Red Wine\" says. The alt does not describe anything absent from the image, and the image is supplementary to the headline text in the same link, so there is no 1.1.1 failure."
+    },
+    {
+      "fingerprint": "cacf01d7338b",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Teaser image inside the link to the Carabao Cup quarter-final draw story. The crop shows the Carabao Cup trophy on a branded plinth at a floodlit stadium at night. The alt is the photo agency's event caption (Burton Albion v Nottingham Forest, Carabao Cup fourth round, Pirelli Stadium): it names the competition whose trophy is shown and a stadium setting consistent with the photo, so nothing in it is contradicted by the image. It is a caption rather than a visual description, but the image is supplementary to the headline in the same link and the alt identifies its subject well enough; the claim that it describes something the image does not show does not hold."
+    },
+    {
+      "fingerprint": "8955260dfa5a",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Footer logo (News Brands Ireland) as the only content of a link to https://newsbrandsireland.ie/. The alt is that URL, not a file name as the message says: it names the destination organisation, which is the function of a linked logo, so it is not the kind of non-alternative F30 describes (file names, placeholder text). Moreover the link carries aria-label=\"newsbrandsireland\", which overrides the image's alt in the link's accessible name, so screen readers announce the link by its aria-label rather than reading the URL in place of the image. A URL alt is poor practice, but the 1.1.1 failure claimed here is a stricter rule than the criterion; the link's terse aria-label would be a 2.4.4 question, not this one."
+    },
+    {
+      "fingerprint": "c8b5127d9996",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Teaser image inside the link to the story about An Ghaeltacht withdrawing from the West Kerry SFC. The crop shows a man in a black club jacket standing on a pitch with a crowd behind him, a typical sideline photo from a GAA match. The alt is the Sportsfile event caption for the All-Ireland Intermediate semi-final An Ghaeltacht v Sallins; nothing in the image contradicts it, and the checker had no basis to say the photo was not taken at that match. The image is supplementary to the headline in the same link. The claim that the alt describes something not shown is unsupported."
+    },
+    {
+      "fingerprint": "sf237564e78a",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An h2 \"World\" (linking to /world/) heading a homepage section whose stories are all international news: the Russell Brand trial, Bolsonaro arriving in the US, US sanctions related to North Korea, the train crash in Spain. On a news front page a section heading that names the section describes its topic accurately, which is what 2.4.6 asks. Not a failure."
+    },
+    {
+      "fingerprint": "351630f90713",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Teaser image inside the link \"Hosanna in the highest bid: St Vincent's Church sale agreed at €400k\". The crop shows St Vincent's Church, Sunday's Well, with its lower-level building and the street beside it. The alt is the article's photo caption: it names the church and its hall, which the image shows, and adds sale details (car park, revenue split) that a caption carries but that do not make it a false description. The alt does contain literal \"<p>\" markup, an authoring defect a screen reader may voice, but that is not what this finding claims, and with the headline in the same link the image is supplementary. The claim that the alt describes something the image does not show is not a fair reading."
+    },
+    {
+      "fingerprint": "783a924415e4",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Footer logo (Press Council of Ireland) as the only content of a link to https://www.presscouncil.ie/. The alt is the organisation's URL, not a file name: the domain identifies the body the logo stands for and the link's destination, so it is not a non-alternative in the sense of F30. The link also has aria-label=\"presscouncil\", which supplies the link's accessible name in place of the image's alt, so assistive technology does not read the URL in place of the image in normal use. A URL alt is weak practice, but calling it a 1.1.1 failure applies a stricter rule than the criterion."
+    },
+    {
+      "fingerprint": "09f063a653d9",
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Footer IAB Ireland logo as the only content of a link to the IAB Ireland publishers' commercial charter page. The alt is that page's URL, which actually spells out what the badge stands for (IAB Ireland, publishers' commercial charter); it is not a file name or placeholder as the message says. The link's aria-label=\"iab-ireland-publishers-commercial-charter\" overrides the alt in the link's name anyway. A URL as alt text is clumsy, but it is not the 1.1.1 failure claimed."
+    },
+    {
+      "fingerprint": "82aee64dcbad",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The visible desktop copy of \"Every Monday\" (the 15px and 18px copies are hidden at this width) is white HTML text, 23px at weight 600, in a teal circle on the promo banner for a weekly video series. The snapshot takes the foreground from CSS (#ffffff) and measures the background from pixels as a uniform #00b8aa, which gives 2.49:1; the screenshot confirms white text on that teal. Weight 600 at 23px is not large text, so 4.5:1 applies, and even the 3:1 large-text threshold would fail. It is informational text, not a logotype or incidental, so no exception applies."
+    },
+    {
+      "fingerprint": "s979d4453f80",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The site search field in the main navigation: placeholder \"SEARCH..\", aria-label \"Input phrase\", next to a submit button named \"Search\" with a magnifier icon, in a form that submits to the search page. \"Search\" plus the magnifier describes the field's purpose clearly, and a site search box needs no more to say what to enter (any phrase). 2.4.6 asks that labels describe topic or purpose, which this does. Relying on a placeholder as the visible label might raise a 3.3.2 question, but the descriptiveness claim fails."
+    },
+    {
+      "fingerprint": "5df5c30f8291",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Teaser image inside the link to the story about a fatal road collision in Tipperary. The crop shows the roof of a Garda car with its blue light bar and the \"GARDA\" sign, which is exactly what the alt \"Blue lights on the roof of a Garda Siochana Irish police car\" describes. Nothing in the alt is absent from the image. Not a failure."
+    },
+    {
+      "fingerprint": "21d11688db9c",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The credit line \"WEEKLY CARTOON BY HARRY BURTON\" in the first, visible slide of the Harry Burton cartoon carousel is 11px bold Source Sans Pro with CSS color rgb(121,121,121) = #797979 on a white background, as both the snapshot's computed style and the pixel measurement say. That is 4.35:1, below the 4.5:1 that small text needs (WCAG allows no rounding), and the screenshot shows grey text on white. It is a meaningful byline, not incidental text or a logotype, so no exception applies, and I found no reason to doubt the measurement."
+    }
+  ]
+}

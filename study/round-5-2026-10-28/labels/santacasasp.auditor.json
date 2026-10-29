@@ -1,0 +1,114 @@
+{
+  "page": "https://santacasasp.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "bf4558da14f4",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only Facebook link in the header (a PNG with no visible text). Sampling the screenshot gives a #cecece glyph on #ffffff, 1.57:1, well under 3:1. The icon is the only visual identification of the control. The Understanding document for 1.4.11 says logos lose the essential exemption when the low-contrast rendering is an author choice, and a pale grey variant here is a styling choice. This fails 1.4.11."
+    },
+    {
+      "fingerprint": "7aebdbe2740f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main navigation link 'Apoio Diagnóstico', white 14px weight-400 text on the orange nav bar. The live CSS sets #cshero-header-navigation { background: #e07417 }, and pixels in the screenshot confirm #ffffff on #e07417, 3.14:1. The text is not large, so the 4.5:1 minimum applies and it fails 1.4.3."
+    },
+    {
+      "fingerprint": "23367b31639a",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main navigation link 'Contato', white 14px normal-weight text on the #e07417 nav bar (confirmed in the live CSS and by sampling the screenshot), 3.14:1. This is under 4.5:1 for normal-size text and fails 1.4.3."
+    },
+    {
+      "fingerprint": "bba4534bd537",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main navigation link 'Especialidades'. Sampling the screenshot gives #ffffff on #e07417, 3.14:1. The snapshot reports 14px, weight 400, and the live CSS sets the nav background to #e07417. Normal-size text below 4.5:1 fails 1.4.3."
+    },
+    {
+      "fingerprint": "2193cf5fdd0b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Clique Aqui' outline button in the purple 'Agendamento de retornos e exames' card. Text is about #f7f7f7, 14px weight 400, over a photo under a purple overlay of roughly #b06cd1 to #b36fd4. Sampling the screenshot gives about 3.3:1 at most (3.5:1 at the most favourable pixel pair), below 4.5:1. This fails 1.4.3."
+    },
+    {
+      "fingerprint": "640d43aecacd",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only Instagram link in the header: a #cecece glyph on white, 1.57:1, confirmed by pixel sampling. The icon is all the link shows, and the grey rendering is an author choice, not a brand mandate, so the logo exemption does not apply (Understanding 1.4.11, the figure on low-contrast logos). This fails 1.4.11."
+    },
+    {
+      "fingerprint": "s6d723a38a91",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Ano base: 2025' is a small h2 shown as a subtitle just under the h2 'Números de atendimentos', above the five statistics. It names the reference year of those statistics, which is accurate and useful information about the content that follows. Read in the heading list ('Números de atendimentos', 'Ano base: 2025'), it is not misleading or empty, so it does not fail 2.4.6. Marking a subtitle up as a heading is at most a 1.3.1 / best-practice concern."
+    },
+    {
+      "fingerprint": "4dfd2db3a6c5",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Top-level menu trigger 'Como ajudar' (an <a> without href that opens a submenu), white 14px weight-400 text on the #e07417 nav bar, 3.14:1, confirmed by pixel sampling and the live CSS. It is visible text below 4.5:1, which fails 1.4.3."
+    },
+    {
+      "fingerprint": "c180e05292b2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only LinkedIn link in the header: a pale grey #cecece 'in' glyph on #ffffff, 1.57:1. The icon is the link's only visual identification, and the low-contrast grey is the author's choice, so the logo exemption does not cover it. This fails 1.4.11."
+    },
+    {
+      "fingerprint": "20a48619e968",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main navigation link 'Unidades', white 14px normal-weight text on the #e07417 nav bar, 3.14:1 (screenshot pixels and live CSS agree). It is below 4.5:1 and fails 1.4.3."
+    },
+    {
+      "fingerprint": "c85d675bf8cc",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter signup form ('Receba mais informações'). The text input labelled 'Nome' (visually hidden label, placeholder 'Nome') collects the user's own name. The live HTML still has no autocomplete attribute on it, so its purpose (name) is not programmatically determinable. This fails 1.3.5."
+    },
+    {
+      "fingerprint": "s4a7993d18e2",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Clique Aqui' button in the first card. The live DOM puts it inside a <section> whose <header> holds the h2 'DOAÇÃO DE SANGUE E MEDULA', followed by the paragraph 'Seu gesto solidário salva vidas!'. The link also has the title 'Quem Somos – doação'. Link text plus the section's heading (technique H80) makes the purpose determinable, and it leads to the blood-donation page. So it passes 2.4.4, though it fails 2.4.9 (AAA). The claim that nothing around the link tells where it goes is wrong."
+    },
+    {
+      "fingerprint": "sa0b08b1f5e8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Clique Aqui' in the cookie bar sits in the sentence 'Para visualizar a Política de Privacidade Clique Aqui', inside the same <b> element, and links to the privacy policy. That sentence is programmatically determined link context (G53), so the purpose is clear and 2.4.4 passes. It is at most a 2.4.9 (AAA) issue."
+    },
+    {
+      "fingerprint": "d12b947d3db2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Email field of the newsletter signup ('Cadastre seu e-mail...', placeholder 'Digite seu e-mail', hidden label 'E-mail (cópia) *'). It collects the user's own email address. The live HTML has type=email but no autocomplete; type=email gives the data format, not the input purpose. Without autocomplete=\"email\" the field fails 1.3.5."
+    },
+    {
+      "fingerprint": "ba01834114c2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main navigation link 'Institucional' (current page), white 14px weight-400 text on the #e07417 nav bar, 3.14:1 per the screenshot pixels and live CSS. No current-page styling changes the colours in the screenshot. It is below 4.5:1 and fails 1.4.3."
+    },
+    {
+      "fingerprint": "8f916ac71cc7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only TikTok link in the header (its alt text wrongly says 'icone youtube', a separate 1.1.1 / 2.4.4 issue). Sampling the glyph gives #cecece on white, 1.57:1. The icon is the only visual identification of the link, and the grey rendering is an author choice, so it fails 1.4.11 as reported."
+    },
+    {
+      "fingerprint": "1ca96b3c8b77",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Main navigation submenu trigger 'Ensino e Pesquisa', white 14px weight-400 text on the #e07417 nav bar, 3.14:1, confirmed from pixels and the live CSS. It is below the 4.5:1 required for normal text and fails 1.4.3."
+    },
+    {
+      "fingerprint": "3428973cd175",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header search field. Its label 'Search for:' is not visible, and the placeholder 'Pesquise aqui...' is the only visible text saying what the field is for. Sampling the screenshot gives #b2b2b2 on #ffffff, 2.12:1, at 14px. Placeholder text is text that conveys information, so 1.4.3's 4.5:1 applies, and the field fails it."
+    }
+  ]
+}

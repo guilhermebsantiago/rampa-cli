@@ -1,0 +1,90 @@
+{
+  "page": "https://www.museudalinguaportuguesa.org.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "4c9f703be916",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the footer image 00___Regua_Reconstrucao_2022 (a 'régua' of sponsor logos). The crop the model saw shows exactly that: a bar of partner and sponsor logos (Lei Rouanet, Petrobras, Motiva, Instituto Votorantim, Vale, IDBrasil, Fundação Roberto Marinho, Cult SP, Governo de SP, Ministério da Cultura, Governo do Brasil) grouped under headings like Patrocínio and Realização. 'Barra de parceiros' ('partners bar') describes what the image shows, so the claim that the alt describes something the image does not show is wrong. The alt is arguably still insufficient under 1.1.1, because it does not give the partner names or the text in the image, and the page does not list them as text anywhere. That is a different 1.1.1 failure from the one this finding claims."
+    },
+    {
+      "fingerprint": "sfccebabb60d",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the footer sitemap link 'Reconstrução' (href /reconstrucao/), the head of a group whose sub-links are 'Linha do tempo' and 'Ações Educativo-Culturais'. /reconstrucao/ redirects to the section's landing subpage /reconstrucao/linha-do-tempo/. I checked that page live: its breadcrumb reads Home > Reconstrução > Linha do tempo, and its intro says 'Confira os principais marcos da reconstrução do Museu'. The link takes the user into the Reconstrução section, as its text says. The final URL the checker had already showed the page sits under /reconstrucao/. A section link that lands on the section's first page is not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "6b673b4af2de",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer YouTube link: an icon-only link whose name comes from sr-only text. In the screenshot I measured a white glyph on a #a4a4a4 square (2.49:1), and the square sits on a white page (also 2.49:1). The theme CSS (.footer-support .support-medias li a {background:#a4a4a4;color:#fff}) confirms these colours, and the live CSS is unchanged. The glyph is the only thing that shows the link's purpose, so G207 needs 3:1. The logo exception does not apply: the Understanding document says a low-contrast presentation the author chose is not 'essential', and this grey treatment is the site's choice, not YouTube's brand rule. The pojo plugin has a high-contrast toggle, but G174 needs the alternate version to conform to every criterion, and nothing shows that. The default presentation fails."
+    },
+    {
+      "fingerprint": "7aa07b7d694b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer Facebook link, icon only. The pixels show a white 'f' glyph on a #a4a4a4 square, which is 2.49:1, and the square is 2.49:1 against the white footer. The theme CSS sets these colours. The glyph is the link's only visual content, so G207's 3:1 applies. The logo exemption does not cover a low-contrast presentation the author chose (Understanding 1.4.11), and the accessibility toolbar's high-contrast mode is not shown to be a fully conforming alternate version. The default presentation fails 1.4.11."
+    },
+    {
+      "fingerprint": "7f65342145df",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer Twitter link, icon only. I confirmed white on #a4a4a4 at 2.49:1 from the screenshot pixels and from the theme CSS, and the grey square is also 2.49:1 against the white page. The bird glyph is the only visual cue to the link's purpose, so it needs 3:1 under G207. The colours are the author's choice, not a brand mandate, so the logo exemption does not apply, and nothing shows a conforming high-contrast alternate version. This is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "7501fe3a2e68",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Instagram link in the hero's social bar, icon only. The theme CSS (.widget-featured-controls .socialmedias li a {background:#ff7300;color:#fff}) and the pixels both give a white glyph on #ff7300, 2.73:1. The orange square stands out from the dark photo, but the glyph is what tells which network the link goes to. It is a graphical object needed to understand the control, compared against its own background as in the Understanding's icon-in-circle example, and it falls short of 3:1. The white-on-orange treatment is the site's own, so the logo exemption does not apply. This is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "s397836ced65",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the footer sitemap link 'Gestão' (href /gestao/), the head of a group with sub-links Quem somos, Transparência, Trabalhe conosco and Compras e contratações. /gestao/ redirects to /gestao/quem-somos/, whose live breadcrumb reads Home > Gestão > Quem somos. The page is about the museum's management (IDBrasil as the managing organisation, the government team). The link leads to the Gestão section's landing page, as its text says. A page title of 'Quem somos' does not make the link's purpose wrong or impossible to tell, so 2.4.4 is not failed."
+    },
+    {
+      "fingerprint": "364b738574d0",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Spotify link in the hero social bar, icon only. I measured a white glyph on #ff7300 at 2.73:1, and the theme CSS confirms both colours. The glyph alone identifies the link's purpose, so G207's 3:1 applies, and 2.73:1 falls short. The glyph is recoloured on an orange background the author chose, so the logo exemption does not apply. No conforming alternate version is shown. Real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "s55db27c67d8",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the footer sitemap link 'Educativo' (href /educacao/), the head of a group with sub-links Biblioteca, Educação em Museus and Cadernos educativos. /educacao/ redirects to /educacao/biblioteca/, whose live breadcrumb reads Home > Educativo > Biblioteca. The link opens the Educativo section at its first page, which matches the link text. Landing on a subpage titled 'Biblioteca' does not mislead about the link's purpose, and the final URL the checker had showed that nesting. This is not a 2.4.4 failure."
+    },
+    {
+      "fingerprint": "951d921c2047",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Twitter link in the hero social bar, icon only. The pixels show a white glyph on #ff7300, 2.73:1, and the theme CSS agrees. The square's edge has strong contrast with the dark photo, but the glyph that shows which link this is falls under 3:1 against its adjacent colour. The colours are an author choice, so the logo exemption does not apply. This fails 1.4.11 (G207)."
+    },
+    {
+      "fingerprint": "409b2b44550b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer Instagram link, icon only. I measured a white glyph on #a4a4a4 at 2.49:1, and the square is also 2.49:1 against the white page. The theme CSS confirms the colours. The glyph is the link's only visual content, and neither the logo exemption (the grey presentation is the author's choice) nor the plugin's high-contrast toggle (not shown to be a conforming alternate version) excuses it. This is a real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "7c280ff2a12b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the YouTube link in the hero social bar, icon only. The play glyph is white on #ff7300, which I confirmed at 2.73:1 in the screenshot and in the theme CSS. The glyph is the only visual cue to the link's purpose, so G207's 3:1 applies. The colour treatment is the site's own, so the logo exemption does not apply. This fails 1.4.11."
+    },
+    {
+      "fingerprint": "c88febe3d1d2",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the Facebook link in the hero social bar, icon only. I confirmed a white 'f' glyph on #ff7300 at 2.73:1 from the pixels and the CSS. The orange square stands out from the dark photo, but the glyph that identifies the link falls under 3:1 against its own background, as in the Understanding's icon-in-a-circle example. The colours are the author's choice, not a brand mandate, so the logo exemption does not apply. Real 1.4.11 failure."
+    },
+    {
+      "fingerprint": "a884d96a892f",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer Spotify link, icon only. I measured a white glyph on a #a4a4a4 square at 2.49:1, and the square is 2.49:1 against the white page. The theme CSS sets these colours. The icon is all the control shows, so it needs 3:1 (G207). Spotify's own guidelines do not require this grey treatment; it is the author's choice, so it is not exempt as a logo. No conforming alternate version is shown. This fails 1.4.11."
+    }
+  ]
+}

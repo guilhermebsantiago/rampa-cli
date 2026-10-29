@@ -1,0 +1,36 @@
+{
+  "page": "https://www.abbeytheatre.ie/contact/get-in-touch/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "4bc72cd0db7c",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is a photo of the Abbey's box office counter with alt=\"\". It sits directly under the h2 \"Box Office (bookings)\" and is followed by \"Located in the foyer, our Box Office is found at the main entrance on Marlborough Street...\", with hours, phone, email and address. The only information the finding says the photo carries is the sign \"OIFIG NA dTICÉAD / BOX OFFICE\", and the heading right above it already gives that. The photo just illustrates text that sits next to it, so an empty alt is acceptable under 1.1.1 (H67 / the W3C images tutorial's case for redundant or eye-candy images). The model had the heading in its context and still judged that the image conveys something the text does not. The live page is unchanged."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Your email\" field (input type=text, id/name=email) in the footer Mailing List subscribe form, so it collects the user's own email address, and \"email\" is an Input Purposes token. Neither the snapshot DOM (taken after scripts ran) nor the live HTML has an autocomplete attribute on the field, and the form has none either. The id/name \"email\" is not a mechanism WCAG accepts for making the purpose programmatically determinable. Chromium's issue for this field (FormInputAssignedAutocompleteValueToIdOrNameAttributeError) confirms an autocomplete-style name with no autocomplete attribute. HTML supports autocomplete, so 1.3.5 fails. I found no technique or context that would make it pass."
+    },
+    {
+      "fingerprint": "39ce9a4e7dd7",
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the \"Your name\" field (input type=text, id/name=fullname) in the same footer Mailing List subscribe form. It asks for the subscriber's own name, which matches the \"name\" input purpose. It has no autocomplete attribute in the snapshot DOM or in the live HTML, and nothing else makes its purpose programmatically determinable. The field is optional, but 1.3.5 still applies to it. This is a real 1.3.5 failure."
+    },
+    {
+      "fingerprint": "53f41fc218e6",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the sole content of a link to https://www.chg.gov.ie/, which now redirects to the gov.ie page of the Department of Culture, Communications and Sport. It sits under the footer heading \"Supporters\", beside the Arts Council and Culture Ireland logo links. The alt \"Department of Arts Logo\" names the government department, and the link goes to that department's site. Read in context, it tells a user where the link leads: the usual org-name pattern for a sponsor logo link. The word \"Logo\" is extra, and the alt is looser than the image text (\"Department of Culture, Heritage and the Gaeltacht\"), but the finding does not make that claim. The claim that the alt does not say where the link leads does not hold up."
+    },
+    {
+      "fingerprint": "77676aed6ccc",
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the visible header wordmark image (logo_title180.png) inside the home link. It shows \"ABBEY THEATRE / AMHARCLANN NA MAINISTREACH\", the Abbey Theatre's logo text, which the header crop and the screenshot both confirm. So the alt \"Abbey Theatre logo text\" names exactly what the image shows, and the claim that it describes something the image does not show is wrong. One could argue a different 1.1.1 or 2.4.4 point: the alt labels the image as logo text instead of transcribing the Irish name, and the link's name does not say \"home\". That is not the reported failure. The live page is unchanged."
+    }
+  ]
+}
