@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   addressNames,
+  extendsAlternative,
   groundedImage,
   isGenericAlt,
   isLabelAlt,
@@ -13,6 +14,7 @@ import {
   nonTextContent,
   onlyRewords,
   repeatsText,
+  sameWordInNumber,
   siteNames,
   splitGlued,
 } from '../src/criteria/non-text-content.ts'
@@ -551,6 +553,58 @@ describe('1.1.1 facts that refute a claim', () => {
       expect(nonTextContent.verify(fail('Lula', 'wrong_content', 'Jair Bolsonaro'), lula, widget)).toEqual({ ok: true })
       expect(nonTextContent.verify(fail('Lula', 'missing_information', 'Lula sorrindo, com 45% dos votos'), lula, widget)).toEqual({ ok: true })
       expect(keepsAlternative('Imagem de um cachorro', 'Imagem')).toBe(false)
+    })
+  })
+
+  describe('a suggestion that extends the alternative, keeping a word of it in another number', () => {
+    // hcor.com.br's banner on the third real-page study's dev split: alt="Alerta de Golpe", the model's "describes
+    // something the image does not show" with a suggestion that keeps "golpe" only as "golpes" and adds the warning.
+    const hcorSuggestion = 'Alerta de segurança: Evite golpes. O Hcor não faz ligações para solicitar pagamentos antecipados.'
+    const banner = page([picture('#golpe', 'Alerta de Golpe', 'BANNER-DESKTOP_SITE-HCOR-GOLPE-OUTUBRO.png')])
+    const golpe = candidateOf(banner, '#golpe')
+    const hcor = { ...fail('Alerta de Golpe', 'wrong_content', hcorSuggestion), imageShows: 'A security alert banner warning patients about phone scams.' }
+    const widget = page([node({ ref: '#candidates', children: [picture('#lula', 'Lula', 'Lula.png'), node({ ref: '#votes', text: 'Lula PT 53.879.538 votos' })] })])
+    const lula = candidateOf(widget, '#lula')
+
+    it('reads two words as one in another number only for a plural in "s" or "es" of a word of 4 letters or more', () => {
+      for (const [a, b] of [['golpe', 'golpes'], ['flores', 'flor'], ['alerta', 'alerta']]) expect(sameWordInNumber(a!, b!)).toBe(true)
+      for (const [a, b] of [['sol', 'sois'], ['gas', 'gases'], ['new', 'news'], ['751', '7515'], ['golpe', 'golpista']]) expect(sameWordInNumber(a!, b!)).toBe(false)
+    })
+
+    it('keeps the alternative in either number only when asked to', () => {
+      expect(keepsAlternative(hcorSuggestion, 'Alerta de Golpe')).toBe(false)
+      expect(keepsAlternative(hcorSuggestion, 'Alerta de Golpe', { forms: true })).toBe(true)
+      expect(keepsAlternative('Evite golpes', 'Alerta de Golpe', { forms: true })).toBe(false)
+    })
+
+    it('extends the alternative when the suggestion keeps it and adds a word, not when it only repeats it or drops a word', () => {
+      expect(extendsAlternative(hcorSuggestion, 'Alerta de Golpe')).toBe(true)
+      expect(extendsAlternative('Alertas de golpes', 'Alerta de Golpe')).toBe(false)
+      expect(extendsAlternative('Evite golpes. O Hcor não faz ligações para solicitar pagamentos antecipados.', 'Alerta de Golpe')).toBe(false)
+    })
+
+    it('verifies as before: the claim stays, and a suggestion that keeps every word exactly is still dropped', () => {
+      expect(nonTextContent.verify(hcor, golpe, banner)).toEqual({ ok: true })
+      expect(nonTextContent.verify(fail('Lula', 'wrong_content', 'Lula com um selo de 16%'), lula, widget)).toEqual({ ok: false, reason: 'the suggested alternative keeps every word of the current one' })
+    })
+
+    it('says the alternative leaves out what the image conveys, and keeps "does not show" for a suggestion that names something else', () => {
+      expect(nonTextContent.message(hcor, golpe, 'en')).toBe('The text alternative "Alerta de Golpe" leaves out what the image conveys here.')
+      expect(nonTextContent.message(hcor, golpe, 'pt-BR')).toBe('O texto alternativo "Alerta de Golpe" deixa de fora o que a imagem comunica aqui.')
+      expect(nonTextContent.message(fail('Lula', 'wrong_content', 'Jair Bolsonaro'), lula, 'en')).toBe('The text alternative "Lula" describes something the image does not show.')
+      expect(nonTextContent.message({ ...hcor, suggestedAlt: 'Alertas de golpes' }, golpe, 'en')).toBe('The text alternative "Alerta de Golpe" describes something the image does not show.')
+    })
+
+    it('keeps the wording of an image that is all its link holds', () => {
+      const linked = page([anchor('#a', { href: '/golpes' }, [picture('#golpe', 'Alerta de Golpe', 'BANNER-DESKTOP_SITE-HCOR-GOLPE-OUTUBRO.png')])])
+      expect(nonTextContent.message(hcor, candidateOf(linked, '#golpe'), 'en')).toBe('The text alternative "Alerta de Golpe" is all its link holds, and does not say where the link leads.')
+    })
+
+    it('asks the second pass about the claim as before, so its cached answers still hold, and keeps the versions', () => {
+      const framings = nonTextContent.confirm?.(hcor, golpe, banner) ?? []
+      expect(framings.find((f) => f.id === 'claim')?.user).toContain("The reviewer's claim: The text alternative \"Alerta de Golpe\" describes something the image does not show.")
+      expect(nonTextContent.version).toBe('5')
+      expect(nonTextContent.confirmVersion).toBe('1')
     })
   })
 

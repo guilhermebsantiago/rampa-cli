@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import type { Candidate, Criterion, EngineResults, PromptImage, Verification } from '../core/types.ts'
 import { dataBlock, normalizeForMatch, truncate } from '../core/util.ts'
-import { languageName } from '../i18n.ts'
+import { type Locale, languageName } from '../i18n.ts'
 import type { A11yNode, A11ySnapshot } from '../snapshot/schema.ts'
 import { hiddenImageSignals, textAround } from '../snapshot/hidden-images.ts'
 import { type TreeIndex, indexTree, inheritedLang, walkTree } from '../snapshot/tree.ts'
@@ -239,13 +239,44 @@ function purposeWords(text: string): Set<string> {
  * "Mapa do Brasil com estados coloridos indicando dados do Boletim InfoGripe". A claim that the alternative names what
  * the image does not show contradicts an answer that keeps naming it. Both are asked in the alternative's language,
  * so its words can meet them; a name or a number ("InfoGripe", "751") reads the same in any language, so it meets
- * them even when a model writes its description in English anyway.
+ * them even when a model writes its description in English anyway. Words are matched exactly; with `forms`, a word in
+ * another number meets one too (`sameWordInNumber`), which only the message reads (`extendsAlternative`), never `verify`.
  */
-export function keepsAlternative(answer: string | ReadonlyArray<string>, current: string): boolean {
+export function keepsAlternative(answer: string | ReadonlyArray<string>, current: string, options: { forms?: boolean } = {}): boolean {
   const named = [...purposeWords(current)]
   const texts = typeof answer === 'string' ? [answer] : answer
   const words = new Set(texts.flatMap((text) => [...altWords(text), ...tokens(text)]))
-  return named.length > 0 && named.every((word) => words.has(word))
+  // With forms, a named word is kept in either number: "golpe" in "Evite golpes".
+  const kept = options.forms ? (word: string) => words.has(word) || [...words].some((other) => sameWordInNumber(word, other)) : (word: string) => words.has(word)
+  return named.length > 0 && named.every(kept)
+}
+
+/** The shortest word read in another number: "flor" and "flores", not "sol" and "sois" or "gas" and "gases". */
+const NUMBER_MIN = 4
+
+/**
+ * Two words of one text, as `altWords` and `tokens` read them, are the same word in another number: equal, or, neither
+ * holding a digit, the longer is the shorter (of 4 letters or more) plus "s" or "es" ("golpe" and "golpes", "flor" and
+ * "flores"). Nothing wider (no gender, no "ão"/"ões", no English "y"/"ies"): the evidence is one plural, round 3's
+ * hcor.com.br banner "Alerta de Golpe" with the suggestion "… Evite golpes …", on the dev split.
+ */
+export function sameWordInNumber(a: string, b: string): boolean {
+  if (a === b) return true
+  if (/\d/.test(a) || /\d/.test(b)) return false
+  const [shorter, longer] = a.length <= b.length ? [a, b] : [b, a]
+  return shorter.length >= NUMBER_MIN && (longer === `${shorter}s` || longer === `${shorter}es`)
+}
+
+/**
+ * The suggestion extends the current alternative: it keeps every word the alternative names, in either number, and adds
+ * at least one word of its own (as `purposeWords` reads them) that is no word of the alternative in either number. The
+ * claim then reads as one that the alternative leaves out what the image conveys, not that it names what the image
+ * does not show.
+ */
+export function extendsAlternative(suggested: string, current: string): boolean {
+  if (!keepsAlternative(suggested, current, { forms: true })) return false
+  const said = [...new Set([...altWords(current), ...tokens(current)])]
+  return [...purposeWords(suggested)].some((word) => !said.some((other) => sameWordInNumber(word, other)))
 }
 
 /**
@@ -681,6 +712,46 @@ export function looksLikePlaceholder(alt: string, src?: string): boolean {
   return normalizeForMatch(file.replace(/\.[a-z0-9]+$/i, '')) === normalizeForMatch(value)
 }
 
+const REASONS: Record<(typeof PROBLEMS)[number], { en: string; 'pt-BR': string }> = {
+  none: { en: 'does not serve the same purpose as the image', 'pt-BR': 'não cumpre o mesmo propósito da imagem' },
+  filename_or_placeholder: { en: 'is a file name or a placeholder', 'pt-BR': 'é um nome de arquivo ou um placeholder' },
+  generic: { en: 'is too generic to describe the image', 'pt-BR': 'é genérico demais para descrever a imagem' },
+  wrong_content: { en: 'describes something the image does not show', 'pt-BR': 'descreve algo que a imagem não mostra' },
+  missing_information: { en: 'leaves out what the image conveys here', 'pt-BR': 'deixa de fora o que a imagem comunica aqui' },
+  decorative: { en: 'names an image that is decorative', 'pt-BR': 'nomeia uma imagem decorativa' },
+}
+
+/**
+ * The claim of a verified answer about an image with an alternative, in words. With `extension`, a "describes something
+ * the image does not show" answer whose suggestion extends the alternative, keeping one of its words only in another
+ * number (`extendsAlternative`), reads as "leaves out what the image conveys here": round 3's hcor.com.br banner, "Alerta
+ * de Golpe" with the suggestion "Alerta de segurança: Evite golpes. …", on the dev split, which a specialist labelled
+ * true for what the alternative leaves out and the two Claude judges false for the sentence it was given. An answer
+ * that keeps every word exactly, in the suggestion or with the description, is the one `verify` discards; it keeps its
+ * words, so a run without verification reads as before. The second pass asks about the claim without `extension`, as
+ * before, so its questions and their cached answers are the same.
+ */
+function claimText(output: NonTextContentJudgment, c: NonTextContentContext, locale: Locale, options: { extension: boolean }): string {
+  const alt = c.alt
+  // The deterministic pattern wins over the model's label for the obvious cases.
+  const problem = looksLikePlaceholder(alt, c.src) ? 'filename_or_placeholder' : isGenericAlt(alt) ? 'generic' : output.problem
+  // A functional image's alternative is judged by its control's purpose, and the message says so.
+  const control = c.functional?.control
+  const purpose =
+    control && (problem === 'wrong_content' || problem === 'missing_information')
+      ? control === 'link'
+        ? { en: 'is all its link holds, and does not say where the link leads', 'pt-BR': 'é tudo o que o link contém, e não diz aonde ele leva' }
+        : { en: 'is all its button holds, and does not say what the button does', 'pt-BR': 'é tudo o que o botão contém, e não diz o que ele faz' }
+      : undefined
+  const extension =
+    options.extension &&
+    problem === 'wrong_content' &&
+    extendsAlternative(output.suggestedAlt, alt) &&
+    !keepsAlternative([output.imageShows, output.suggestedAlt], alt)
+  const reason = (purpose ?? REASONS[extension ? 'missing_information' : problem])[locale]
+  return locale === 'pt-BR' ? `O texto alternativo "${alt}" ${reason}.` : `The text alternative "${alt}" ${reason}.`
+}
+
 export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutput> = {
   id: '1.1.1',
   level: 'A',
@@ -720,7 +791,7 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
       .split('\n')
       .filter((line) => !line.startsWith('Write imageShows and suggestedAlt in:'))
       .join('\n')
-    const claim = nonTextContent.message(answer, candidate, 'en')
+    const claim = claimText(output, c, 'en', { extension: false })
     return [
       { id: 'rules', system: CONFIRM_RULES, user, images: prompt.images, fail: ['fail'], pass: ['pass'] },
       { id: 'claim', system: CONFIRM_CLAIM, user: `${user}\n\nThe reviewer's claim: ${claim}`, images: prompt.images, fail: ['yes'], pass: ['no'] },
@@ -894,32 +965,7 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
 
   message(answer, candidate, locale) {
     if (candidate.context.hidden) return hiddenMessage(answer as HiddenImageJudgment, candidate.context.hidden, locale)
-    const output = answer as NonTextContentJudgment
-    const alt = candidate.context.alt
-    const reasons: Record<(typeof PROBLEMS)[number], { en: string; 'pt-BR': string }> = {
-      none: { en: 'does not serve the same purpose as the image', 'pt-BR': 'não cumpre o mesmo propósito da imagem' },
-      filename_or_placeholder: { en: 'is a file name or a placeholder', 'pt-BR': 'é um nome de arquivo ou um placeholder' },
-      generic: { en: 'is too generic to describe the image', 'pt-BR': 'é genérico demais para descrever a imagem' },
-      wrong_content: { en: 'describes something the image does not show', 'pt-BR': 'descreve algo que a imagem não mostra' },
-      missing_information: { en: 'leaves out what the image conveys here', 'pt-BR': 'deixa de fora o que a imagem comunica aqui' },
-      decorative: { en: 'names an image that is decorative', 'pt-BR': 'nomeia uma imagem decorativa' },
-    }
-    // The deterministic pattern wins over the model's label for the obvious cases.
-    const problem = looksLikePlaceholder(alt, candidate.context.src)
-      ? 'filename_or_placeholder'
-      : isGenericAlt(alt)
-        ? 'generic'
-        : output.problem
-    // A functional image's alternative is judged by its control's purpose, and the message says so.
-    const control = candidate.context.functional?.control
-    const purpose =
-      control && (problem === 'wrong_content' || problem === 'missing_information')
-        ? control === 'link'
-          ? { en: 'is all its link holds, and does not say where the link leads', 'pt-BR': 'é tudo o que o link contém, e não diz aonde ele leva' }
-          : { en: 'is all its button holds, and does not say what the button does', 'pt-BR': 'é tudo o que o botão contém, e não diz o que ele faz' }
-        : undefined
-    const reason = (purpose ?? reasons[problem])[locale]
-    return locale === 'pt-BR' ? `O texto alternativo "${alt}" ${reason}.` : `The text alternative "${alt}" ${reason}.`
+    return claimText(answer as NonTextContentJudgment, candidate.context, locale, { extension: true })
   },
 
   patch(answer, candidate, snapshot) {
