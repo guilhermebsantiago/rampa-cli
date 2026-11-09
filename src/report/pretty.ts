@@ -35,8 +35,9 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   lines.push('')
 
   if (report.findings.length === 0) {
-    // A page the site replaced with a bot check was not checked at all: "no failures" would read as a pass.
-    lines.push(report.blocked ? p.bold(p.yellow(t(locale, 'blockedHeadline'))) : p.green(noNewFindings(report) ?? t(locale, 'noFindings')))
+    // A page the site replaced with a bot check, or a target that could not be loaded, was not checked at all: "no failures" would read as a pass.
+    const unchecked = report.notLoaded ? 'notLoadedHeadline' : report.blocked ? 'blockedHeadline' : undefined
+    lines.push(unchecked ? p.bold(p.yellow(t(locale, unchecked))) : p.green(noNewFindings(report) ?? t(locale, 'noFindings')))
     lines.push('')
   }
 

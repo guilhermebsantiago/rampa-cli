@@ -594,6 +594,15 @@ export interface Report {
    * nothing was checked, the notes say what the site sent, and rampa check exits 2.
    */
   blocked?: Blocked | undefined
+  /**
+   * Set on the report `rampa check` writes for a target it could not load in a run of several (a snapshot file that is
+   * not one, a page that did not load): nothing on it was checked, every criterion is in `coverage.notChecked`, `error`
+   * is the message, also in `errors`, and the run exits 2. Its `surface` is the target's kind: `web` for a URL or an
+   * HTML file, `android` for a device or a UI Automator dump, `image` for a screenshot, and `web` for a snapshot or
+   * XCUITest file, whose surface is not known before it loads. Its `engine` is `none`. A run of one target that cannot
+   * be loaded writes no report and exits 2.
+   */
+  notLoaded?: { error: string } | undefined
   /** The HTTP status of the page checked, when it was an error (400 or more): the report is about the error page that came with it. */
   httpStatus?: number | undefined
   /**

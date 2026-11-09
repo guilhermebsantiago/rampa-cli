@@ -65,6 +65,8 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
   const pages = reports.map((report) => ({ report, findings: shownFindings(report, verbose), entries: shownEntries(report, verbose) }))
   const all = pages.flatMap((page) => page.findings)
   const confirmed = reports.flatMap((report) => report.findings)
+  // A target that could not be loaded was not checked: it is not counted with the pages checked, nor listed as clean.
+  const checked = reports.filter((report) => !report.notLoaded).length
 
   const head: string[] = [MARKDOWN_MARKER, `## ${t(locale, 'reportTitle')}`, '']
   if (reports.length === 0) head.push(`**${t(locale, 'noPages')}**`)
@@ -74,13 +76,18 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
     // Findings in groups are counted one by one, as everywhere; the clause says how many are listed once as a group.
     const grouped = groupsClause(reports, locale)
     head.push(
-      `**${plural(locale, 'confirmedCount', confirmed.length)}** ${plural(locale, 'onPages', reports.length, { version })}: ${levelBreakdown(counts, locale, version)}.${grouped ? ` ${grouped}` : ''}`,
+      `**${plural(locale, 'confirmedCount', confirmed.length)}** ${plural(locale, 'onPages', checked, { version })}: ${levelBreakdown(counts, locale, version)}.${grouped ? ` ${grouped}` : ''}`,
     )
   } else if (reports.length === 1 && reports[0]?.blocked) {
     // A page the site replaced with a bot check was not checked at all: "no failures" would read as a pass.
     head.push(`**${t(locale, 'blockedHeadline')}**`)
-  } else {
-    head.push(`**${plural(locale, 'noFindingsPages', reports.length)}**`)
+  } else if (checked > 0) {
+    head.push(`**${plural(locale, 'noFindingsPages', checked)}**`)
+  }
+  // Each target that could not be loaded gets its own line instead.
+  for (const report of reports.filter((each) => each.notLoaded)) {
+    if (head.at(-1) !== '') head.push('')
+    head.push(`**${reports.length > 1 ? `${code(pageLabel(report))}: ` : ''}${t(locale, 'notLoadedHeadline')}**`)
   }
   head.push('')
   // Forms the probe submitted (--allow-submit): the run wrote to a server, which the comment says before anything else.
@@ -91,8 +98,8 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
 
   // The pages without findings, listed up to a limit so a site of hundreds of pages still fits.
   const cleanPages: string[] = []
-  const clean = pages.filter((page) => page.findings.length === 0).map((page) => pageLabel(page.report))
-  if (clean.length > 0 && clean.length < reports.length) {
+  const clean = pages.filter((page) => page.findings.length === 0 && !page.report.notLoaded).map((page) => pageLabel(page.report))
+  if (clean.length > 0 && clean.length < checked) {
     const line = plural(locale, 'cleanPages', clean.length)
     if (clean.length <= 5) cleanPages.push(`${line} ${clean.map(code).join(', ')}`, '')
     else cleanPages.push('<details>', `<summary>${line}</summary>`, '', ...capped(clean.map((label) => `- ${code(label)}`), MAX_LIST, locale), '</details>', '')

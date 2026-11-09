@@ -5,13 +5,14 @@ import { prepareAdoption, targetsOrConfig } from '../../adoption/apply.ts'
 import { observationWindow } from '../../advisory/observed.ts'
 import { resolveProfiles } from '../../advisory/profile.ts'
 import { type JudgmentCache, fileCache } from '../../core/cache.ts'
-import { checkSnapshot, loweredCap } from '../../core/check.ts'
+import { checkSnapshot, countedCriteria, loweredCap } from '../../core/check.ts'
 import { nothingJudgedNote } from '../../core/gate.ts'
 import { FAST, type FastCollection, fastCollectOptions, fastCollection, fastCoverage } from '../../core/fast.ts'
 import { Stopwatch, timed } from '../../core/timings.ts'
 import type { AnyCriterion, Confidence, EngineResults, Report, Usage } from '../../core/types.ts'
-import { RampaError } from '../../core/util.ts'
+import { RampaError, errorMessage } from '../../core/util.ts'
 import { resolveCriteria } from '../../criteria/index.ts'
+import { emptyEngine } from '../../engine/axe.ts'
 import { rulesNotes } from '../../engine/rules.ts'
 import { type Locale, t } from '../../i18n.ts'
 import { type Reasoning, createModelProvider, providerIdentity } from '../../providers/ai-sdk.ts'
@@ -19,7 +20,7 @@ import { chooseModel } from '../../providers/detect.ts'
 import type { ModelProvider } from '../../providers/types.ts'
 import { colorsEnabled, paint } from '../../report/color.ts'
 import { displayTarget, renderReport } from '../../report/pretty.ts'
-import type { A11ySnapshot } from '../../snapshot/schema.ts'
+import type { A11ySnapshot, Surface } from '../../snapshot/schema.ts'
 import { type AdbRunner, collectAndroid, fromScreen, systemAdb } from '../../surfaces/android/adb.ts'
 import { ANDROID_PROBE_KINDS, runAndroidProbes } from '../../surfaces/android/probes.ts'
 import { IOS_PROBE_KINDS } from '../../surfaces/ios.ts'
@@ -39,7 +40,8 @@ import type { GlobalContext } from '../context.ts'
 import { type FailOn, exitCode } from '../exit-code.ts'
 import { singlePageNote } from '../../site/index.ts'
 import { runSiteCheck } from './site.ts'
-import { DEFAULT_WCAG, type WcagVersion, parseWcagVersion } from '../../wcag.ts'
+import { DEFAULT_WCAG, type WcagVersion, parseWcagVersion, wcagTarget } from '../../wcag.ts'
+import { VERSION } from '../../version.ts'
 
 export interface CheckCommandOptions extends BrowserFlags, CrawlFlags {
   criteria: string
@@ -319,6 +321,8 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
 
   const reports: Report[] = []
   let browser: Browser | undefined
+  // A browser that cannot start fails every web target alike: that ends the run, as it does with one target.
+  let launchError: unknown
   const ctx: CollectContext = {
     locale: context.locale,
     provider,
@@ -338,7 +342,12 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     presentation: profiles.includes('cognitive'),
     browser: async (watch) => {
       // Probes compare pixels: the browser renders with a fixed color profile and no LCD text (and lets media autoplay for the media probe).
-      browser ??= await timed(watch, 'browser-launch', () => launchBrowser(probes.length > 0 ? { args: probeLaunchArgs(probes) } : {}))
+      try {
+        browser ??= await timed(watch, 'browser-launch', () => launchBrowser(probes.length > 0 ? { args: probeLaunchArgs(probes) } : {}))
+      } catch (error) {
+        launchError = error
+        throw error
+      }
       return browser
     },
   }
@@ -348,7 +357,28 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
       // The time limit counts from here, so it also covers loading the page, as a timeout around the whole run would.
       const deadline = timeLimitMs === undefined ? undefined : Date.now() + timeLimitMs
       const watch = options.timings ? new Stopwatch() : undefined
-      const collected = await collect(target, ctx, watch)
+      let collected: Collected
+      try {
+        collected = await collect(target, ctx, watch)
+      } catch (error) {
+        // A target that cannot be loaded does not end a run of several: the others are checked, and it gets a report
+        // that says nothing on it was checked, so the run exits 2. A run of one target, and rampa baseline (onReports),
+        // which must not record a run that lost a page, end here as before.
+        if (resolved.length < 2 || options.onReports || error === launchError || (error instanceof Error && error.name === 'AbortError')) throw error
+        const message = error instanceof RampaError ? error.message : errorMessage(error)
+        progress('')
+        process.stderr.write(`rampa: ${target.label}: ${t(context.locale, 'notLoadedStderr', { error: message })}\n`)
+        reports.push(
+          notLoadedReport(target, message, {
+            locale: context.locale,
+            wcag,
+            llm: !options.llm ? 'off' : provider !== undefined || options.offline ? 'on' : 'no-model',
+            model: provider?.id,
+            minConfidence: options.minConfidence,
+          }),
+        )
+        continue
+      }
       if (options.save && collected.record) await saveRecording(options.save, target, collected)
       const report = await checkSnapshot(collected.snapshot, collected.engine, {
         timings: watch,
@@ -403,8 +433,8 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     progress('')
     await browser?.close()
   }
-  // Expired waivers and the baseline: from here on, findings are the new ones.
-  for (const [index, report] of reports.entries()) reports[index] = adoption.apply(report)
+  // Expired waivers and the baseline: from here on, findings are the new ones. A target not loaded has nothing to compare.
+  for (const [index, report] of reports.entries()) if (!report.notLoaded) reports[index] = adoption.apply(report)
   if (options.onReports) return options.onReports(reports)
   // The gate in effect goes in every report, next to its threshold: SARIF's levels follow it, and JSON states it.
   for (const report of reports) report.failOn = options.failOn
@@ -435,6 +465,54 @@ export async function runCheck(targets: string[], options: CheckCommandOptions, 
     if (report.blocked) process.stderr.write(`rampa: ${displayTarget(report.target)}: ${t(report.locale, 'blockedStderr')}\n`)
   }
   return exitCode(reports, options.failOn)
+}
+
+/**
+ * The report of a target that a run of several could not load: nothing on it was checked, so every criterion of the
+ * target is not checked, the note and `errors` give the error, and the run exits 2 (core/gate.ts, `cannotVouch`).
+ */
+function notLoadedReport(
+  target: Target,
+  error: string,
+  run: { locale: Locale; wcag: WcagVersion; llm: Report['llm']; model: string | undefined; minConfidence: Confidence },
+): Report {
+  return {
+    schemaVersion: 1,
+    rampaVersion: VERSION,
+    createdAt: new Date().toISOString(),
+    target: target.label,
+    surface: surfaceBeforeLoading(target),
+    wcagTarget: wcagTarget(run.wcag),
+    locale: run.locale,
+    llm: run.llm,
+    model: run.model,
+    engine: emptyEngine().engine,
+    minConfidence: run.minConfidence,
+    findings: [],
+    belowThreshold: [],
+    waived: [],
+    discarded: [],
+    criteria: [],
+    coverage: { engine: [], judged: [], notChecked: countedCriteria(run.wcag) },
+    usage: { calls: 0, cachedCalls: 0, inputTokens: 0, outputTokens: 0, latencyMs: 0 },
+    errors: [error],
+    notes: [t(run.locale, 'notLoadedNote', { error })],
+    notLoaded: { error },
+  }
+}
+
+/** The surface of a target by its kind; a snapshot or XCUITest file says its own only once it is read, so it counts as web. */
+function surfaceBeforeLoading(target: Target): Surface {
+  switch (target.kind) {
+    case 'android':
+    case 'android-dump':
+      return 'android'
+    case 'image':
+      return 'image'
+    case 'web':
+    case 'snapshot':
+      return 'web'
+  }
 }
 
 /**
