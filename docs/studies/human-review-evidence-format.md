@@ -105,3 +105,72 @@ python -I study/human-review-2026-10/scripts/evidence_package.py --select pilot 
 ```
 
 The self-test builds the block from a small snapshot written in the script (two links with the same text under a heading in a list, a hidden third one, an image, a `data:` image, a nested list, a paragraph in English) and checks each field; it needs no recordings, and checks the capture's scaling only when Pillow is there. The package needs the recordings backup (`C:/Users/guilh/dev/rampa-study-recordings`, `$RECORDINGS` or `--recordings`, read only) and Pillow. `--name` must start with `pacote-v2-`; the script writes only inside that folder and `data/<select>-v2.json`. Never run `sample.py` to rebuild anything here: its `main()` rewrites `pacote-100` and `pacote-30`.
+
+## 6. Checks
+
+Two scripts, run on 2026-11-09: one checks that the pilot loads in the Lab that shows the evidence, blind and with its evidence; the other checks that the sent packages load and render the same in the deployed Lab and in the branch that would replace it.
+
+- [`scripts/check-lab-v2.mjs`](../../study/human-review-2026-10/scripts/check-lab-v2.mjs) loads a v2 package with a Lab's own `readReviewFiles`, `mergeEntries`, `elementContext` and `evidenceFor`, from the files its folder picker would hand over (as `check-lab.mjs` does). It makes every blindness check `check-lab.mjs` makes (the logic is copied), and checks the evidence: every item has an evidence entry for its ref; every image of the block is a data URL the Lab kept as it is, and no other field holds a `data:` address; a 2.4.4 item has `enclosing` or `headingBefore`; an item whose element is an image (role or tag `img`, the rule `evidence.py` applies) has `imageFile`; the block's `rubric` is read; no key of the block is in `sample.FORBIDDEN_KEYS` (copied into the script, with a comment naming the source); no text of the block equals a label value (NFKC, case, spaces, hyphens and underscores folded). It prints, per item, which fields it has, never their text.
+- [`scripts/compare-lab.mjs`](../../study/human-review-2026-10/scripts/compare-lab.mjs) loads each package with each Lab's own code and requires the load outcome (problems, sources, snapshots, files skipped), the entries and `elementContext` for every entry to be deep-equal as JSON (*data level*). With both URLs it also drives each built Lab in Microsoft Edge: a fresh browser context per Lab and package, `pt/?view=review`, the package's folder picked in `#review-folder-input`, then every item in turn with the Lab's own "next" button, taking the item section's `outerHTML` (*rendered level*). Before comparing, two things are normalised on both sides alike: **empty HTML comments (`<!---->`) are removed**, the anchors Svelte leaves where a conditional block renders nothing; and Svelte's per-render id (`$props.id()`, `c` and a page-wide counter) is replaced by `uid1`, `uid2`… in order of appearance wherever it starts the value, or a token of the value, of an `id`, `for`, `name`, `headers`, `list`, `form` or ARIA id-reference attribute, or follows the `#` of an in-page `href`. Same item count and the same string for every item, or it prints the item's fingerprint and a short diff of the markup and exits 1. Otherwise it prints counts and digests only: round 5's test half is handled as opaque strings, and nothing of an item's message, evidence or HTML is printed.
+
+**The two Labs.** Lab A is rampa-lab `main` at `86d1dc5`, what reviewers use now, in a detached worktree with `pnpm install --frozen-lockfile`. Lab B is the branch `feat/review-three-answers` at `2ac7c25`, which holds `feat/review-evidence` (`841020d`). Neither was changed. Each was built with `npx vite build` and served with `npx vite preview --strictPort`, Lab A on port 4173 and Lab B on 4174. Node 24.21.0; Svelte 5.57.2 and Vite 8.3.3 in both; playwright-core 1.64.0 from Lab B's `node_modules`; Microsoft Edge 157, headless.
+
+**Commands**, from the repository root. `A` is `C:/Users/guilh/dev/rampa-lab-wt/main-ref`, `B` is `C:/Users/guilh/dev/rampa-lab-wt/review-three-answers`, `P15` is `C:/Users/guilh/dev/rampa-cli/study/human-review-2026-10/pacote-15`. `pacote-15` is not committed; it was read where it is, and nothing was written there.
+
+```sh
+S=study/human-review-2026-10
+node $S/scripts/check-lab-v2.mjs --lab $B --package $S/pacote-v2-piloto
+node $S/scripts/check-lab.mjs --lab $B
+node $S/scripts/check-lab.mjs --lab $A
+node $S/scripts/compare-lab.mjs --lab-a $A --lab-b $B --package $S/pacote-100 --package $S/pacote-30 --package $P15 \
+  --url-a http://localhost:4173/ --url-b http://localhost:4174/
+node $S/scripts/compare-lab.mjs --lab-a $A --lab-b $B --package $S/pacote-v2-piloto \
+  --url-a http://localhost:4173/ --url-b http://localhost:4174/
+```
+
+### 6.1 The pilot in Lab B: passes
+
+`check-lab-v2.mjs` exits 0. The Lab reads 5 items on 4 pages from 4 snapshots, all on the findings list, with no problem message and no warning; each item is blind (no confidence, fix, maturity, judge, final label or half) and has its element found (counted). Every block is read with rubric `three-answers-1`, for which Lab B asks the three questions, on all 4 pages. The 5 images of the blocks (4 page captures, 1 context image) are data URLs the Lab kept as they are. No key of a block is a forbidden one, no text is a label value, and no block holds evidence for a ref that is not an item (counted).
+
+| Package order | Item (fingerprint) | Page | Criterion | Element | Item fields the Lab read |
+| ---: | --- | --- | --- | --- | --- |
+| 1 | `d6caa9194146` | pucrs-graduacao | 2.4.4 | link, `<a>` | lang, headingBefore, before (2), sameText (41 links share the text, 12 listed) |
+| 2 | `20d0f3c98b19` | hcor-com-br | 1.1.1 | img, `<img>`, with a crop | lang, before (1), imageFile |
+| 3 | `43b566914e7d` | pucrs-graduacao | 1.1.1 | img, `<img>`, with a crop | lang, enclosing, headingBefore, listItems (1), imageFile |
+| 4 | `89ebe02f37c7` | conversation | 3.1.2 | paragraph, `<p>` | lang, enclosing, headingBefore, before (2) |
+| 5 | `37b6b9cb397f` | lakeland | 2.4.4 | link, `<a>` | lang, context, enclosing, listItems (1), before (2), sameText (26 links share the text, 12 listed) |
+
+Every item's page gives `lang`, `capture`, `captureSize` and `captureAligned` (aligned on `lakeland` only). These are the fields of section 4's table, which was written from the package: the Lab reads every field the blocks hold.
+
+The script can fail: against Lab A it stops at once (Lab A has no `evidenceFor`), and on a scratch copy of the pilot with 7 planted faults (a forbidden key, a label value as a text, a `data:` address in a field the Lab does not show, a context that is not a data URL, a rubric that is not text, a 2.4.4 item with neither `enclosing` nor `headingBefore`, an image item without `imageFile`) it reported all 7 and exited 1. The copy was deleted.
+
+### 6.2 The unchanged `check-lab.mjs` on both Labs: passes, same summary
+
+Both runs exit 0, and their JSON summaries are byte-identical (compared). `pacote-100`: 100 items on 43 pages, 43 snapshots, all on the findings list, 31 elements with a crop, 13 text items without HTML, 17 links with a destination, 53 context images. `pacote-30`: 30 items on 20 pages, 20 snapshots, all on the findings list, 10 with a crop, 4 without HTML, 8 links with a destination, 13 context images (counted). The groups come in the same order in both.
+
+### 6.3 The sent packages in Lab A and Lab B: the same
+
+`compare-lab.mjs` exits 0.
+
+| Package | Items compared | Data level | Rendered level | Empty comments removed, Lab A / Lab B |
+| --- | ---: | --- | --- | ---: |
+| `pacote-100` | 100 | identical | identical, 100 of 100 items | 4,087 / 4,287 |
+| `pacote-30` | 30 | identical | identical, 30 of 30 items | 1,250 / 1,310 |
+| `pacote-15` | 15 | identical | identical, 15 of 15 items | 618 / 648 |
+
+All counted. At the data level every entry's element is found in its snapshot in both Labs. At the rendered level each Lab steps through as many items as its first item says it has, and the two Labs show the same items in the same order. The folder pick handed the page 99, 36 and 25 files; their `.json` files are the 45, 22 and 16 that `check-lab.mjs`'s `asPicked` gives, the ones the Lab reads (checked by the script).
+
+**What the normalisation had to cover** (counted):
+
+- *Empty comments.* Every item in Lab B has exactly 2 more `<!---->` than in Lab A (200 more over 100 items, 60 over 30, 30 over 15): the anchors of the two conditional blocks Lab B adds to an item, the evidence and the three questions, which render nothing for these packages. With the comments left in, all 145 items differ; with only the comments removed, all 145 are identical.
+- *Per-render ids.* Each item holds one Svelte id, in 8 `id`, 4 `for`, 4 `aria-describedby` and 3 `name` attributes (the three label choices, their help texts and the note). In these runs both Labs gave the same raw ids (each run starts a fresh browser context and draws one id per item), so the id step changed nothing in the result; it stays so that the comparison does not depend on that. In the pilot, Lab B's items draw a second id, for the three questions.
+
+### 6.4 The control: the pilot renders differently, as expected
+
+`compare-lab.mjs` on `pacote-v2-piloto` reports 5 differences in 5 items and exits 1, the expected result: it shows the comparison can fail. The data level is identical (the evidence sits on the snapshot, not on the entry or the element's context); at the rendered level each item first differs where Lab B draws the block "Mais da página capturada" (the evidence) before the label choices, and Lab B's items also ask the three questions.
+
+### 6.5 What these checks leave out
+
+- Markup only: style, layout and pixels are not compared. Both builds give the item the same scoped-style class (`svelte-b8uht5`); Lab B's stylesheet adds the rules for the evidence and the questions.
+- The Portuguese page only (`pt/`), at 1,280 × 900 CSS pixels, in a browser with no labels stored, and the default lists (every item of the three packages is on the findings list, counted).
+- Labelling and exporting are not exercised.
