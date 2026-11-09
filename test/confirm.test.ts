@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { type JudgmentCache, memoryCache } from '../src/core/cache.ts'
 import { checkSnapshot } from '../src/core/check.ts'
-import { CONFIRM_MIN_PROBABILITY, type Confirmation, confirmTogether, decide, identicalClaimKey } from '../src/core/confirm.ts'
+import { CONFIRM_MIN_PROBABILITY, CONFIRM_TOGETHER_MIN_PROBABILITY, type Confirmation, confirmTogether, decide, identicalClaimKey } from '../src/core/confirm.ts'
 import type { EngineResults } from '../src/core/types.ts'
 import { resolveCriteria } from '../src/criteria/index.ts'
 import { nonTextContent } from '../src/criteria/non-text-content.ts'
@@ -268,6 +268,22 @@ describe('identical claims on one page, confirmed together', () => {
     expect(p.wordCalls).toBe(0)
     expect(report.findings.map((f) => f.confirmation)).toEqual([undefined, undefined])
   })
+
+  it(`leaves a suggestion the claim the pass denied with a probability under ${CONFIRM_TOGETHER_MIN_PROBABILITY}, with what each framing answered`, async () => {
+    // One framing answered against the claim with a probability of 0.01 of a confirming word.
+    const confident: Script = { ...CONFIRMS, reversed: { word: 'yes', probabilities: { no: 0.01, yes: 0.99 } } }
+    const report = await check(footer(['payment', 'payment', 'payment']), perImage([CONFIRMS, DENIES, confident]))
+    expect(report.findings.map((f) => [f.ref, f.confirmation])).toEqual([
+      ['footer > img:nth-of-type(1)', { framings: 3, minProbability: 0.995 }],
+      ['footer > img:nth-of-type(2)', { framings: 3, minProbability: 0.3, identical: { claims: 3, confirmed: 1 } }],
+    ])
+    expect(report.needsReview?.map((item) => item.ref)).toEqual(['footer > img:nth-of-type(3)'])
+    const item = report.needsReview?.[0]
+    expect(item).toMatchObject({ criterion: '1.1.1', ruleId: 'judgment/1.1.1', model: 'test:confirm' })
+    expect(item?.evidence).toContain('The model suggests: "Blue truck on a road"')
+    expect(item?.evidence).toContain('did not confirm it (rules: fail (1.00), claim: yes (1.00), reversed: yes (0.01))')
+    expect(report.criteria[0]).toMatchObject({ failed: 2, confirmed: 2, unconfirmed: 1, suggested: 1 })
+  })
 })
 
 describe('the rule for identical claims', () => {
@@ -304,6 +320,28 @@ describe('the rule for identical claims', () => {
       ['confirmed', undefined],
     ])
     expect(confirmTogether([])).toEqual([])
+  })
+
+  it(`confirms a denied member only when its lowest probability is at least ${CONFIRM_TOGETHER_MIN_PROBABILITY}, or when it has none`, () => {
+    const denied = (minProbability: number | undefined): Confirmation => ({ ...answer('denied'), ...(minProbability === undefined ? {} : { minProbability }) })
+    const claims = [
+      { key: 'a', confirmation: { ...answer('confirmed'), minProbability: 0.995 } },
+      { key: 'a', confirmation: denied(0.049) },
+      { key: 'a', confirmation: denied(0.05) },
+      { key: 'a', confirmation: denied(undefined) },
+    ]
+    expect(confirmTogether(claims).map((c) => [c.outcome, c.minProbability, c.identical])).toEqual([
+      ['confirmed', 0.995, undefined],
+      ['denied', 0.049, undefined],
+      ['confirmed', 0.05, { claims: 4, confirmed: 1 }],
+      ['confirmed', undefined, { claims: 4, confirmed: 1 }],
+    ])
+    // The member under the floor is returned as it came.
+    expect(confirmTogether(claims)[1]).toBe(claims[1]?.confirmation)
+  })
+
+  it('fixes the floor at 0.05', () => {
+    expect(CONFIRM_TOGETHER_MIN_PROBABILITY).toBe(0.05)
   })
 })
 
