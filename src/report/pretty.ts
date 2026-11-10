@@ -9,7 +9,7 @@ import { estimateCostUsd, subscriptionOf } from '../providers/models.ts'
 import { compareCriteria, criterionLabel, criteriaFor, versionOf } from '../wcag.ts'
 import { advisoryLines, cogaCoverage } from './advisory.ts'
 import type { Painter } from './color.ts'
-import { captureLines, confirmationText, coverageRows, entriesOf, groupWhy, memberAbout, methodsText, plural, reviewGroups, statusText, thresholdLevel } from './common.ts'
+import { captureLines, confirmationText, coverageRows, entriesOf, groupWhy, memberAbout, methodsText, plural, readingText, reviewGroups, statusText, thresholdLevel } from './common.ts'
 import { timingLines } from './timings.ts'
 
 export interface PrettyOptions {
@@ -194,6 +194,9 @@ export function renderFinding(finding: Finding, locale: Locale, p: Painter, belo
     if (finding.confirmation) parts.push(confirmationText(finding.confirmation, locale))
   }
   lines.push(p.dim(`    ${[...parts, ...tail].join(' · ')}`))
+  // The documented reading the claim applies (Finding.techniques), after the second pass's words.
+  const reading = readingText(finding.techniques, locale)
+  if (reading) lines.push(p.dim(`    ${reading}`))
   return lines
 }
 

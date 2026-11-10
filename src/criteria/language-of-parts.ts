@@ -245,6 +245,8 @@ export const languageOfParts: Criterion<LanguageOfPartsContext, LanguageOfPartsJ
       : `Marked as lang="${declared}", but the text is in ${name} (${detected}).${identified}`
   },
 
+  claimKind: () => 'passage_language',
+
   patch(output, candidate, snapshot) {
     const detected = canonicalLanguageTag(output.detectedLanguage)
     if (!detected) return undefined

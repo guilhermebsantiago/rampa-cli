@@ -24,6 +24,7 @@
         "evidence": { "type": "string" },
         "subject": { "type": "string", "description": "What a judgment is about, as the snapshot has it: the alt text, the link text" },
         "claim": { "type": "string", "description": "The kind of claim a judgment makes, where its answer names one: the model's problem (1.1.1, 2.4.2, 2.4.4, 2.4.6, 3.3.1, 3.3.2) or relation (1.3.2), such as ambiguous" },
+        "techniques": { "type": "array", "items": { "type": "string", "minLength": 1 }, "minItems": 1, "description": "A judgment: the ids of the WCAG techniques and failures whose documented reading its claim applies, such as F30, the most specific first; a reading, not a verdict on the page" },
         "patch": {
           "type": "object",
           "properties": {

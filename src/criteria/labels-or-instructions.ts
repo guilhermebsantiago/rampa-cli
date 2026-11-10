@@ -390,6 +390,14 @@ export const labelsOrInstructions: Criterion<LabelsOrInstructionsContext, Labels
       : `Nothing on screen tells what to enter in the field "${c.name}": ${source}.`
   },
 
+  // Only the claim that a field's label does not show has a key (core/techniques.ts): a group with no question, a date
+  // with no format shown and a pattern nothing explains are other claims, and cite nothing. The order is `message`'s.
+  claimKind(output, candidate) {
+    const c = candidate.context
+    if (c.kind === 'group' || c.kind === 'format' || output.problem === 'rule_not_explained') return undefined
+    return 'label_not_visible'
+  },
+
   patch(output, candidate): Patch | undefined {
     const c = candidate.context
     // Only an input's start tag is the whole element, so only an input can be rewritten in place. A group needs a

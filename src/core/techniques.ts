@@ -1,8 +1,9 @@
 /**
  * The documented WCAG technique or failure each kind of claim applies, for the eight criteria Rampa judges by default.
  * A citation says which documented reading of the criterion a claim applies; it does not say the page fails WCAG. A
- * kind with no citation has none that fits, and is left empty rather than given a loose one. Nothing reads this table
- * yet: findings and reports will cite it later.
+ * kind with no citation has none that fits, and is left empty rather than given a loose one. A judgment finding carries
+ * the ids of its claim's kind (`Finding.techniques`, set in core/check.ts from `Criterion.claimKind`), and every report
+ * format shows them with their titles (report/common.ts, `readingText`).
  *
  * Every page was read on w3.org on 2026-11-09, at the address its row carries (the Techniques for WCAG 2.2): the title is
  * copied from the page, the page lists the criterion among the success criteria it relates to, and what it describes
@@ -169,4 +170,10 @@ export function techniquesFor(criterion: string, kind: string): readonly Techniq
     const found = Object.hasOwn(TECHNIQUES, id) ? TECHNIQUES[id] : undefined
     return found ? [found] : []
   })
+}
+
+/** The ids a claim of this kind cites, the most specific first; none for a kind not in the table or one with no citation. */
+export function techniqueIds(criterion: string, kind: string): string[] {
+  const key = `${criterion} ${kind}`
+  return Object.hasOwn(CLAIM_TECHNIQUES, key) ? [...(CLAIM_TECHNIQUES[key] ?? [])] : []
 }

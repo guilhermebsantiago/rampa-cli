@@ -22,6 +22,7 @@ import {
   parsingNote,
   patchOf,
   plural,
+  readingText,
   reviewGroups,
   statusText,
   runUsageLine,
@@ -213,7 +214,10 @@ function findingBlock(finding: Finding, report: Report): string {
   }
   if (report.findings.includes(finding)) meta.push(`id ${code(finding.fingerprint)}`)
   else meta.push(`${t(locale, 'belowThresholdShort', { level: thresholdLevel(report) })} · id ${code(finding.fingerprint)}`)
-  lines.push(meta.join(' · '), '')
+  // The documented reading the claim applies (Finding.techniques), each id linked to its page on w3.org.
+  const reading = readingText(finding.techniques, locale, { link: (id, url) => `[${prose(id)}](<${url}>)`, text: prose })
+  if (reading) lines.push(`${meta.join(' · ')}\\`, reading, '')
+  else lines.push(meta.join(' · '), '')
   return lines.join('\n')
 }
 

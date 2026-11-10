@@ -97,7 +97,7 @@ describe('SARIF', () => {
     const link = run?.results.find((result) => result.ruleId === 'WCAG-2.4.4')
     expect(link?.level).toBe('error')
     expect(link?.message.text).toBe(
-      'The link text "Click here" does not tell where the link goes, and nothing around it does. Evidence: "Click here". (id 1af8a73e209d)',
+      'The link text "Click here" does not tell where the link goes, and nothing around it does. Evidence: "Click here". Reading applied: technique G91, "Providing link text that describes the purpose of a link". (id 1af8a73e209d)',
     )
     expect(link?.locations[0]?.physicalLocation).toEqual({
       artifactLocation: { uri: 'examples/store/before.html', uriBaseId: SOURCE_ROOT, index: 0 },

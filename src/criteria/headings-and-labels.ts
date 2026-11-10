@@ -297,6 +297,9 @@ export const headingsAndLabels: Criterion<HeadingsAndLabelsContext, HeadingsAndL
     return locale === 'pt-BR' ? `O rótulo "${text}" ${reason}.` : `The label "${text}" ${reason}.`
   },
 
+  // A heading's claim or a label's, as the message words it.
+  claimKind: (_output, candidate) => candidate.context.kind,
+
   patch(output, candidate, snapshot): Patch | undefined {
     const target = candidate.context.target
     const value = output.suggestedText.trim()

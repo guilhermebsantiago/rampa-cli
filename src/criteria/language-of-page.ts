@@ -145,6 +145,8 @@ export const languageOfPage: Criterion<LanguageOfPageContext, LanguageOfPageJudg
       : `The page is marked lang="${declared}", but most of its text is in ${name} (${detected}).${identified}`
   },
 
+  claimKind: () => 'page_language',
+
   patch(output, candidate, snapshot): Patch | undefined {
     // An app's language comes from its localizations and settings, not from one attribute.
     if (isNativeSurface(snapshot.surface)) return undefined

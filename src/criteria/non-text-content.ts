@@ -810,27 +810,55 @@ const SHORT_REASON = { en: 'names a label, not what the image conveys here', 'pt
  * marker, not a description of something else. The order: a placeholder or a generic word, then a functional image's
  * wording, then "leaves out", then "names a label", then the model's problem. The second pass asks about the claim
  * without `extension` or `short`, as before, so its questions and their cached answers are the same.
+ *
+ * The decisions are `altClaim`'s: it returns the kind of claim and this function only picks the kind's sentence, so the
+ * message and the kind a finding cites (`claimKind`) cannot disagree.
  */
 function claimText(output: NonTextContentJudgment, c: NonTextContentContext, locale: Locale, options: { extension: boolean; short: boolean }): string {
+  const reason = CLAIM_REASONS[altClaim(output, c, options)][locale]
+  return locale === 'pt-BR' ? `O texto alternativo "${c.alt}" ${reason}.` : `The text alternative "${c.alt}" ${reason}.`
+}
+
+/**
+ * The kind of claim a verified answer about an image with an alternative makes, as the "<criterion> <kind>" keys of
+ * src/core/techniques.ts name it, with `none` for an answer whose problem is none. Every decision `claimText` words is
+ * made here, in its order: a placeholder or a generic word, a functional image, "leaves out", "names a label", the
+ * model's problem.
+ */
+export function altClaim(output: NonTextContentJudgment, c: NonTextContentContext, options: { extension: boolean; short: boolean }): AltClaim {
   const alt = c.alt
   // The deterministic pattern wins over the model's label for the obvious cases.
-  const problem = looksLikePlaceholder(alt, c.src) ? 'filename_or_placeholder' : isGenericAlt(alt) ? 'generic' : output.problem
+  if (looksLikePlaceholder(alt, c.src)) return 'placeholder'
+  if (isGenericAlt(alt)) return 'generic'
+  const problem = output.problem
   // A functional image's alternative is judged by its control's purpose, and the message says so.
   const control = c.functional?.control
-  const purpose =
-    control && (problem === 'wrong_content' || problem === 'missing_information')
-      ? control === 'link'
-        ? { en: 'is all its link holds, and does not say where the link leads', 'pt-BR': 'é tudo o que o link contém, e não diz aonde ele leva' }
-        : { en: 'is all its button holds, and does not say what the button does', 'pt-BR': 'é tudo o que o botão contém, e não diz o que ele faz' }
-      : undefined
-  const extension =
-    options.extension &&
-    problem === 'wrong_content' &&
-    extendsAlternative(output.suggestedAlt, alt) &&
-    !keepsAlternative([output.imageShows, output.suggestedAlt], alt)
-  const short = options.short && problem === 'wrong_content' && !purpose && !extension && isShortAlternative(alt) && !mayBeName(alt)
-  const reason = (purpose ?? (short ? SHORT_REASON : REASONS[extension ? 'missing_information' : problem]))[locale]
-  return locale === 'pt-BR' ? `O texto alternativo "${alt}" ${reason}.` : `The text alternative "${alt}" ${reason}.`
+  if (control && (problem === 'wrong_content' || problem === 'missing_information')) return control === 'link' ? 'functional_link' : 'functional_button'
+  if (problem === 'wrong_content') {
+    if (options.extension && extendsAlternative(output.suggestedAlt, alt) && !keepsAlternative([output.imageShows, output.suggestedAlt], alt)) return 'missing_information'
+    if (options.short && isShortAlternative(alt) && !mayBeName(alt)) return 'short_alternative'
+  }
+  return problem === 'filename_or_placeholder' ? 'placeholder' : problem
+}
+
+/** Every kind `altClaim` returns. */
+export const ALT_CLAIMS = ['placeholder', 'generic', 'functional_link', 'functional_button', 'missing_information', 'short_alternative', 'wrong_content', 'decorative', 'none'] as const
+export type AltClaim = (typeof ALT_CLAIMS)[number]
+
+/** The wordings a finding's message uses, and so the kind it cites; the second pass asks without them. */
+const MESSAGE_WORDINGS = { extension: true, short: true } as const
+
+/** The sentence of each kind of claim about an image with an alternative. */
+const CLAIM_REASONS: Record<AltClaim, { en: string; 'pt-BR': string }> = {
+  placeholder: REASONS.filename_or_placeholder,
+  generic: REASONS.generic,
+  functional_link: { en: 'is all its link holds, and does not say where the link leads', 'pt-BR': 'é tudo o que o link contém, e não diz aonde ele leva' },
+  functional_button: { en: 'is all its button holds, and does not say what the button does', 'pt-BR': 'é tudo o que o botão contém, e não diz o que ele faz' },
+  missing_information: REASONS.missing_information,
+  short_alternative: SHORT_REASON,
+  wrong_content: REASONS.wrong_content,
+  decorative: REASONS.decorative,
+  none: REASONS.none,
 }
 
 export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutput> = {
@@ -1046,7 +1074,13 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
 
   message(answer, candidate, locale) {
     if (candidate.context.hidden) return hiddenMessage(answer as HiddenImageJudgment, candidate.context.hidden, locale)
-    return claimText(answer as NonTextContentJudgment, candidate.context, locale, { extension: true, short: true })
+    return claimText(answer as NonTextContentJudgment, candidate.context, locale, MESSAGE_WORDINGS)
+  },
+
+  claimKind(answer, candidate) {
+    if (candidate.context.hidden) return 'hidden_image'
+    const kind = altClaim(answer as NonTextContentJudgment, candidate.context, MESSAGE_WORDINGS)
+    return kind === 'none' ? undefined : kind
   },
 
   patch(answer, candidate, snapshot) {

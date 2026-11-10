@@ -182,6 +182,8 @@ export const pageTitled: Criterion<PageTitledContext, PageTitledJudgment> = {
     return locale === 'pt-BR' ? `O título da página "${title}" ${reason}.` : `The page title "${title}" ${reason}.`
   },
 
+  claimKind: () => 'title',
+
   patch(output, candidate): Patch | undefined {
     const value = output.suggestedTitle.trim()
     if (value === '') return undefined

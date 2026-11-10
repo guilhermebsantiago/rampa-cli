@@ -206,6 +206,9 @@ export const identifyInputPurpose: Criterion<IdentifyInputPurposeContext, Identi
     return `${head}, but autocomplete="${current.raw}" does not identify that purpose.${corroborated(c, locale)}`
   },
 
+  // A missing token and a wrong one are one kind of claim (core/techniques.ts).
+  claimKind: () => 'autocomplete',
+
   patch(output, candidate): Patch | undefined {
     if (!isPurpose(output.purpose)) return undefined
     const c = candidate.context

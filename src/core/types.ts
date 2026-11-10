@@ -212,6 +212,12 @@ export interface Criterion<Ctx = unknown, Out extends JudgmentBase = JudgmentBas
   verify(output: Out, candidate: Candidate<Ctx>, snapshot: A11ySnapshot): Verification
   message(output: Out, candidate: Candidate<Ctx>, locale: Locale): string
   /**
+   * The kind of claim `message` words for this answer, as the "<criterion> <kind>" keys of core/techniques.ts name it
+   * (`placeholder`, `shared_text`): a finding cites the techniques and failures of that key (`Finding.techniques`).
+   * Undefined for a claim with no key. Absent: no finding of the criterion cites any.
+   */
+  claimKind?(output: Out, candidate: Candidate<Ctx>): string | undefined
+  /**
    * What a claim about the candidate is about, read from the snapshot: the alt text, the link text,
    * the declared language. It keys the finding's fingerprint, which must never depend on the model's
    * wording; without it, the criterion and the ref alone do.
@@ -296,6 +302,13 @@ export interface Finding {
    * `ambiguous`. Absent for the other judgments and for every rule, which makes one claim. Groups use it.
    */
   claim?: string | undefined
+  /**
+   * The WCAG techniques and failures whose documented reading the judgment's claim applies (core/techniques.ts,
+   * `CLAIM_TECHNIQUES` for "<criterion> <kind>", the kind from `Criterion.claimKind`), the most specific first. It names
+   * a reading, not a verdict on the page or the element. Absent for a claim with no citation and for every rule,
+   * engine and probe finding.
+   */
+  techniques?: string[] | undefined
   patch?: Patch | undefined
   confidence: Confidence
   agreement?: { votes: number; total: number } | undefined

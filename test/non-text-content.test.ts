@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   addressNames,
+  altClaim,
   extendsAlternative,
   groundedImage,
   isAbsenceAlt,
@@ -804,6 +805,85 @@ describe('1.1.1 facts that refute a claim', () => {
       confidence: 'high' as const,
     }
     expect(nonTextContent.verify(claim, candidate, snapshot)).toEqual({ ok: true })
+  })
+
+  // The kind a finding cites (claimKind) and the sentence its message says come from one function (altClaim): on each
+  // wording the tests above pin, and on the generic, button and decorative wordings, the two agree.
+  describe('the kind of claim, which a finding cites, and the sentence of its message', () => {
+    const SENTENCES: Record<string, string> = {
+      placeholder: 'is a file name or a placeholder.',
+      generic: 'is too generic to describe the image.',
+      functional_link: 'is all its link holds, and does not say where the link leads.',
+      functional_button: 'is all its button holds, and does not say what the button does.',
+      missing_information: 'leaves out what the image conveys here.',
+      short_alternative: 'names a label, not what the image conveys here.',
+      wrong_content: 'describes something the image does not show.',
+      decorative: 'names an image that is decorative.',
+    }
+    const hcorSuggestion = 'Alerta de segurança: Evite golpes. O Hcor não faz ligações para solicitar pagamentos antecipados.'
+    const hcor = { ...fail('Alerta de Golpe', 'wrong_content', hcorSuggestion), imageShows: 'A security alert banner warning patients about phone scams.' }
+    const strip = page([
+      picture('#payment', 'payment', 'visa.svg'),
+      picture('#rodape', 'Rodapé 2', 'rodape-2.png'),
+      picture('#long', 'Cachorro correndo na praia ensolarada', 'praia.jpg'),
+      picture('#banner', 'HOME_GERAL_BANNER_01', 'hero.jpg'),
+      picture('#absent', 'not found', 'hero-2.jpg'),
+      picture('#img1', 'img-1', 'img-1.png'),
+      picture('#produto', 'produto', 'p.png'),
+      picture('#golpe', 'Alerta de Golpe', 'BANNER-DESKTOP_SITE-HCOR-GOLPE-OUTUBRO.png'),
+      picture('#lula', 'Lula', 'foto.jpg'),
+      picture('#jair', 'Jair Bolsonaro', 'foto-2.jpg'),
+      anchor('#pay', { href: '/pagamento' }, [picture('#linked', 'payment', 'visa.svg')]),
+      anchor('#a', { href: '/golpes' }, [picture('#linked-golpe', 'Alerta de Golpe', 'BANNER-DESKTOP_SITE-HCOR-GOLPE-OUTUBRO.png')]),
+      node({ ref: '#send', role: 'button', native: { tag: 'button', attributes: {} }, children: [picture('#send-img', 'Seta azul', 'seta.png')] }),
+    ])
+    const at = (ref: string) => candidateOf(strip, ref)
+    const long = 'Cachorro correndo na praia ensolarada'
+    const cases: Array<[string, ReturnType<typeof fail>, string, string]> = [
+      ['an identifier', fail('HOME_GERAL_BANNER_01', 'wrong_content', 'Mulher de vestido florido na praia'), '#banner', 'placeholder'],
+      ['an absence text', fail('not found', 'wrong_content', 'Mulher de vestido florido na praia'), '#absent', 'placeholder'],
+      ['a placeholder the model names', fail('img-1', 'filename_or_placeholder', 'Cachorro marrom'), '#img1', 'placeholder'],
+      ['a generic word', fail('produto', 'wrong_content', 'Cadeira de madeira'), '#produto', 'generic'],
+      ['an image that is all its link holds', fail('payment', 'wrong_content', 'Logotipo da bandeira Visa'), '#linked', 'functional_link'],
+      ['an extension, in a link', hcor, '#linked-golpe', 'functional_link'],
+      ['an image that is all its button holds', fail('Seta azul', 'missing_information', 'Enviar'), '#send-img', 'functional_button'],
+      ['an extension of the alternative', hcor, '#golpe', 'missing_information'],
+      ['a "leaves out" the model names', fail('payment', 'missing_information', 'Logotipo da bandeira Visa'), '#payment', 'missing_information'],
+      ['a short alternative', fail('payment', 'wrong_content', 'Logotipo da bandeira Visa'), '#payment', 'short_alternative'],
+      ['a short alternative with a number', fail('Rodapé 2', 'wrong_content', 'Faixa colorida com as cores da bandeira'), '#rodape', 'short_alternative'],
+      ['a longer alternative', fail(long, 'wrong_content', 'Gato dormindo no sofá'), '#long', 'wrong_content'],
+      ['a short alternative that may be a name', fail('Lula', 'wrong_content', 'Jair Bolsonaro'), '#lula', 'wrong_content'],
+      ['two words that may be a name', fail('Jair Bolsonaro', 'wrong_content', 'Lula'), '#jair', 'wrong_content'],
+      ['a suggestion that only repeats the alternative in another number', { ...hcor, suggestedAlt: 'Alertas de golpes' }, '#golpe', 'wrong_content'],
+      ['a decorative image', fail(long, 'decorative', ''), '#long', 'decorative'],
+    ]
+
+    it.each(cases)('agree on %s', (_name, answer, ref, kind) => {
+      const candidate = at(ref)
+      expect(nonTextContent.claimKind?.(answer, candidate)).toBe(kind)
+      expect(nonTextContent.message(answer, candidate, 'en')).toBe(`The text alternative "${candidate.context.alt}" ${SENTENCES[kind]}`)
+    })
+
+    it('agree with the second pass, which asks without the extension and short wordings', () => {
+      expect(altClaim(fail('payment', 'wrong_content', 'Logotipo da bandeira Visa'), at('#payment').context, { extension: false, short: false })).toBe('wrong_content')
+      expect(altClaim(hcor, at('#golpe').context, { extension: false, short: false })).toBe('wrong_content')
+    })
+
+    it('give no kind to a fail whose problem is none, and hidden_image to an image hidden from screen readers', () => {
+      const none = { ...fail(long, 'wrong_content', 'Gato dormindo no sofá'), problem: 'none' as const }
+      expect(nonTextContent.claimKind?.(none, at('#long'))).toBeUndefined()
+      expect(nonTextContent.message(none, at('#long'), 'en')).toBe(`The text alternative "${long}" does not serve the same purpose as the image.`)
+      const chart = node({
+        ref: '#chart',
+        role: 'presentation',
+        image: PNG,
+        bounds: { x: 0, y: 0, width: 400, height: 300 },
+        native: { tag: 'img', attributes: { src: 'vendas.png', alt: '' }, html: '<img src="vendas.png" alt="">' },
+      })
+      const snapshot = page([node({ ref: '#before', role: 'paragraph', text: 'Relatório anual' }), chart])
+      const hidden = { imageShows: 'A bar chart', textInImage: '', verdict: 'fail' as const, evidence: 'sales rise', suggestedAlt: 'Gráfico de vendas', confidence: 'high' as const }
+      expect(nonTextContent.claimKind?.(hidden, candidateOf(snapshot, '#chart'))).toBe('hidden_image')
+    })
   })
 })
 
