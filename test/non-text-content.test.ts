@@ -1,9 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import {
   addressNames,
+  extendsAlternative,
   groundedImage,
+  isAbsenceAlt,
   isGenericAlt,
+  isIdentifierAlt,
   isLabelAlt,
+  isShortAlternative,
   keepsAlternative,
   looksLikePlaceholder,
   namesAddress,
@@ -13,6 +17,7 @@ import {
   nonTextContent,
   onlyRewords,
   repeatsText,
+  sameWordInNumber,
   siteNames,
   splitGlued,
 } from '../src/criteria/non-text-content.ts'
@@ -539,7 +544,7 @@ describe('1.1.1 facts that refute a claim', () => {
       expect(looksLikePlaceholder('Tarja-Especiais-Site-Interna-1', 'https://example.org/Tarja-Especiais-Site-Interna-1.png')).toBe(true)
       expect(looksLikePlaceholder('foto_capa', 'https://example.org/foto_capa.jpg')).toBe(true)
       expect(looksLikePlaceholder('dog-2', 'https://example.org/dog-2.png')).toBe(true)
-      expect(nonTextContent.message(fail('Lula', 'wrong_content', 'Lula com um selo de 16%'), lula, 'en')).toBe('The text alternative "Lula" describes something the image does not show.')
+      expect(nonTextContent.message(fail('Lula', 'wrong_content', 'Lula com um selo de 16%'), lula, 'en')).toBe('The text alternative "Lula" names a label, not what the image conveys here.')
     })
 
     it('drops "names what the image does not show" when the suggestion keeps every word of the alternative', () => {
@@ -551,6 +556,142 @@ describe('1.1.1 facts that refute a claim', () => {
       expect(nonTextContent.verify(fail('Lula', 'wrong_content', 'Jair Bolsonaro'), lula, widget)).toEqual({ ok: true })
       expect(nonTextContent.verify(fail('Lula', 'missing_information', 'Lula sorrindo, com 45% dos votos'), lula, widget)).toEqual({ ok: true })
       expect(keepsAlternative('Imagem de um cachorro', 'Imagem')).toBe(false)
+    })
+  })
+
+  describe('a suggestion that extends the alternative, keeping a word of it in another number', () => {
+    // hcor.com.br's banner on the third real-page study's dev split: alt="Alerta de Golpe", the model's "describes
+    // something the image does not show" with a suggestion that keeps "golpe" only as "golpes" and adds the warning.
+    const hcorSuggestion = 'Alerta de segurança: Evite golpes. O Hcor não faz ligações para solicitar pagamentos antecipados.'
+    const banner = page([picture('#golpe', 'Alerta de Golpe', 'BANNER-DESKTOP_SITE-HCOR-GOLPE-OUTUBRO.png')])
+    const golpe = candidateOf(banner, '#golpe')
+    const hcor = { ...fail('Alerta de Golpe', 'wrong_content', hcorSuggestion), imageShows: 'A security alert banner warning patients about phone scams.' }
+    const widget = page([node({ ref: '#candidates', children: [picture('#lula', 'Lula', 'Lula.png'), node({ ref: '#votes', text: 'Lula PT 53.879.538 votos' })] })])
+    const lula = candidateOf(widget, '#lula')
+
+    it('reads two words as one in another number only for a plural in "s" or "es" of a word of 4 letters or more', () => {
+      for (const [a, b] of [['golpe', 'golpes'], ['flores', 'flor'], ['alerta', 'alerta']]) expect(sameWordInNumber(a!, b!)).toBe(true)
+      for (const [a, b] of [['sol', 'sois'], ['gas', 'gases'], ['new', 'news'], ['751', '7515'], ['golpe', 'golpista']]) expect(sameWordInNumber(a!, b!)).toBe(false)
+    })
+
+    it('keeps the alternative in either number only when asked to', () => {
+      expect(keepsAlternative(hcorSuggestion, 'Alerta de Golpe')).toBe(false)
+      expect(keepsAlternative(hcorSuggestion, 'Alerta de Golpe', { forms: true })).toBe(true)
+      expect(keepsAlternative('Evite golpes', 'Alerta de Golpe', { forms: true })).toBe(false)
+    })
+
+    it('extends the alternative when the suggestion keeps it and adds a word, not when it only repeats it or drops a word', () => {
+      expect(extendsAlternative(hcorSuggestion, 'Alerta de Golpe')).toBe(true)
+      expect(extendsAlternative('Alertas de golpes', 'Alerta de Golpe')).toBe(false)
+      expect(extendsAlternative('Evite golpes. O Hcor não faz ligações para solicitar pagamentos antecipados.', 'Alerta de Golpe')).toBe(false)
+    })
+
+    it('verifies as before: the claim stays, and a suggestion that keeps every word exactly is still dropped', () => {
+      expect(nonTextContent.verify(hcor, golpe, banner)).toEqual({ ok: true })
+      expect(nonTextContent.verify(fail('Lula', 'wrong_content', 'Lula com um selo de 16%'), lula, widget)).toEqual({ ok: false, reason: 'the suggested alternative keeps every word of the current one' })
+    })
+
+    it('says the alternative leaves out what the image conveys, and keeps "does not show" for a suggestion that names something else', () => {
+      expect(nonTextContent.message(hcor, golpe, 'en')).toBe('The text alternative "Alerta de Golpe" leaves out what the image conveys here.')
+      expect(nonTextContent.message(hcor, golpe, 'pt-BR')).toBe('O texto alternativo "Alerta de Golpe" deixa de fora o que a imagem comunica aqui.')
+      expect(nonTextContent.message(fail('Lula', 'wrong_content', 'Jair Bolsonaro'), lula, 'en')).toBe('The text alternative "Lula" names a label, not what the image conveys here.')
+      expect(nonTextContent.message({ ...hcor, suggestedAlt: 'Alertas de golpes' }, golpe, 'en')).toBe('The text alternative "Alerta de Golpe" describes something the image does not show.')
+    })
+
+    it('keeps the wording of an image that is all its link holds', () => {
+      const linked = page([anchor('#a', { href: '/golpes' }, [picture('#golpe', 'Alerta de Golpe', 'BANNER-DESKTOP_SITE-HCOR-GOLPE-OUTUBRO.png')])])
+      expect(nonTextContent.message(hcor, candidateOf(linked, '#golpe'), 'en')).toBe('The text alternative "Alerta de Golpe" is all its link holds, and does not say where the link leads.')
+    })
+
+    it('asks the second pass about the claim as before, so its cached answers still hold, and keeps the versions', () => {
+      const framings = nonTextContent.confirm?.(hcor, golpe, banner) ?? []
+      expect(framings.find((f) => f.id === 'claim')?.user).toContain("The reviewer's claim: The text alternative \"Alerta de Golpe\" describes something the image does not show.")
+      expect(nonTextContent.version).toBe('5')
+      expect(nonTextContent.confirmVersion).toBe('1')
+    })
+  })
+
+  describe('an identifier or an absence text is a placeholder, and a short alternative names a label', () => {
+    // On the real-page studies' dev pages: hering's "HOME_GERAL_…" banners, ms.gov.br's "not found", hering's seven
+    // payment logos with alt="payment", ms.gov.br's "Rodapé 2".
+    const strip = page([
+      picture('#payment', 'payment', 'visa.svg'),
+      picture('#rodape', 'Rodapé 2', 'rodape-2.png'),
+      picture('#long', 'Cachorro correndo na praia ensolarada', 'praia.jpg'),
+      picture('#banner', 'HOME_GERAL_BANNER_01', 'hero.jpg'),
+      picture('#absent', 'not found', 'hero-2.jpg'),
+      anchor('#pay', { href: '/pagamento' }, [picture('#linked', 'payment', 'visa.svg')]),
+    ])
+    const at = (ref: string) => candidateOf(strip, ref)
+    const suggestion = 'Logotipo da bandeira Visa'
+
+    it('reads an upper-case identifier joined by underscores, and a text that only says a resource is absent, as a placeholder', () => {
+      for (const alt of ['HOME_GERAL_BANNER_01', 'HOME_GERAL_TV1_ALTO_VERAO', 'not found', 'Imagem não encontrada', '404', 'Página no disponible', '404 Not Found', 'Sem imagem']) {
+        expect(looksLikePlaceholder(alt)).toBe(true)
+      }
+      for (const alt of ['Home_Geral', 'home_banner', 'COVID-19', 'UFC', 'PLANO DE SAÚDE', 'Error', 'Produto indisponível', 'Page not found illustration', 'payment', 'Imagen not found']) {
+        expect(looksLikePlaceholder(alt)).toBe(false)
+      }
+      expect(isIdentifierAlt(' HOME_GERAL_BANNER_01 ')).toBe(true)
+      expect(isIdentifierAlt('_HOME_GERAL')).toBe(false)
+      expect(isIdentifierAlt('1HOME_GERAL')).toBe(false)
+      expect(isAbsenceAlt('Arquivo indisponível')).toBe(true)
+      expect(isAbsenceAlt('not found image')).toBe(false)
+    })
+
+    it('counts one or two words, without the tokens that are all digits, as a short alternative', () => {
+      for (const alt of ['payment', 'Rodapé 2', 'Banner padrão', 'Lula']) expect(isShortAlternative(alt)).toBe(true)
+      for (const alt of ['Alerta de Golpe', '404', 'Cachorro correndo na praia ensolarada']) expect(isShortAlternative(alt)).toBe(false)
+    })
+
+    it('says a short alternative names a label, not what the image conveys, in English and in Portuguese', () => {
+      expect(nonTextContent.message(fail('payment', 'wrong_content', suggestion), at('#payment'), 'en')).toBe('The text alternative "payment" names a label, not what the image conveys here.')
+      expect(nonTextContent.message(fail('payment', 'wrong_content', suggestion), at('#payment'), 'pt-BR')).toBe('O texto alternativo "payment" dá um rótulo, não o que a imagem comunica aqui.')
+      expect(nonTextContent.message(fail('Rodapé 2', 'wrong_content', 'Faixa colorida com as cores da bandeira'), at('#rodape'), 'en')).toBe('The text alternative "Rodapé 2" names a label, not what the image conveys here.')
+    })
+
+    it('keeps the other wordings: a longer alternative, "leaves out", a functional image, a placeholder', () => {
+      const long = 'Cachorro correndo na praia ensolarada'
+      expect(nonTextContent.message(fail(long, 'wrong_content', 'Gato dormindo no sofá'), at('#long'), 'en')).toBe(`The text alternative "${long}" describes something the image does not show.`)
+      expect(nonTextContent.message(fail(long, 'wrong_content', 'Gato dormindo no sofá'), at('#long'), 'pt-BR')).toBe(`O texto alternativo "${long}" descreve algo que a imagem não mostra.`)
+      expect(nonTextContent.message(fail('payment', 'missing_information', suggestion), at('#payment'), 'en')).toBe('The text alternative "payment" leaves out what the image conveys here.')
+      expect(nonTextContent.message(fail('payment', 'wrong_content', suggestion), at('#linked'), 'en')).toBe('The text alternative "payment" is all its link holds, and does not say where the link leads.')
+      expect(nonTextContent.message(fail('payment', 'wrong_content', suggestion), at('#linked'), 'pt-BR')).toBe('O texto alternativo "payment" é tudo o que o link contém, e não diz aonde ele leva.')
+      for (const [ref, alt] of [
+        ['#banner', 'HOME_GERAL_BANNER_01'],
+        ['#absent', 'not found'],
+      ] as const) {
+        expect(nonTextContent.message(fail(alt, 'wrong_content', 'Mulher de vestido florido na praia'), at(ref), 'en')).toBe(`The text alternative "${alt}" is a file name or a placeholder.`)
+        expect(nonTextContent.message(fail(alt, 'wrong_content', 'Mulher de vestido florido na praia'), at(ref), 'pt-BR')).toBe(`O texto alternativo "${alt}" é um nome de arquivo ou um placeholder.`)
+      }
+    })
+
+    it('keeps the "leaves out" wording of the earlier case', () => {
+      const hcorSuggestion = 'Alerta de segurança: Evite golpes. O Hcor não faz ligações para solicitar pagamentos antecipados.'
+      const banner = page([picture('#golpe', 'Alerta de Golpe', 'BANNER-DESKTOP_SITE-HCOR-GOLPE-OUTUBRO.png')])
+      const hcor = { ...fail('Alerta de Golpe', 'wrong_content', hcorSuggestion), imageShows: 'A security alert banner warning patients about phone scams.' }
+      expect(nonTextContent.message(hcor, candidateOf(banner, '#golpe'), 'en')).toBe('The text alternative "Alerta de Golpe" leaves out what the image conveys here.')
+      expect(nonTextContent.message(hcor, candidateOf(banner, '#golpe'), 'pt-BR')).toBe('O texto alternativo "Alerta de Golpe" deixa de fora o que a imagem comunica aqui.')
+    })
+
+    it('asks no second pass about an identifier or an absence text, and asks about a short alternative in the old words', () => {
+      expect(nonTextContent.confirm?.(fail('HOME_GERAL_BANNER_01', 'wrong_content', 'Mulher de vestido florido na praia'), at('#banner'), strip)).toBeUndefined()
+      expect(nonTextContent.confirm?.(fail('not found', 'wrong_content', 'Mulher de vestido florido na praia'), at('#absent'), strip)).toBeUndefined()
+      const framings = nonTextContent.confirm?.(fail('payment', 'wrong_content', suggestion), at('#payment'), strip) ?? []
+      expect(framings.map((f) => f.id)).toEqual(['rules', 'claim', 'reversed'])
+      expect(framings.find((f) => f.id === 'claim')?.user).toContain("The reviewer's claim: The text alternative \"payment\" describes something the image does not show.")
+    })
+
+    it('keeps a fail on an identifier whose words are all in the text next to the image, which that fact would drop for words', () => {
+      const card = (alt: string) => page([node({ ref: '#card', text: 'Home geral TV1 alto verão', children: [picture('#tv1', alt, 'tv1.jpg')] })])
+      const identifier = card('HOME_GERAL_TV1_ALTO_VERAO')
+      expect(nonTextContent.verify(fail('HOME_GERAL_TV1_ALTO_VERAO', 'wrong_content', 'Mulher de vestido florido na praia'), candidateOf(identifier, '#tv1'), identifier)).toEqual({ ok: true })
+      const words = card('Home geral TV1 alto verão')
+      expect(nonTextContent.verify(fail('Home geral TV1 alto verão', 'wrong_content', 'Mulher de vestido florido na praia'), candidateOf(words, '#tv1'), words)).toEqual({
+        ok: false,
+        reason: "the alternative's words are all in the text next to the image",
+      })
+      expect(nonTextContent.version).toBe('5')
     })
   })
 
