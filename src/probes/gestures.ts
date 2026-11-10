@@ -10,7 +10,7 @@ import { markPointerListeners } from './pointer.ts'
 import { type Thumb, thumbDistance, thumbOf } from './variants.ts'
 
 /**
- * Gestures and device motion (docs/plans/wcag-coverage.md, D2), on the activate-class harness (activate.ts):
+ * Gestures and device motion (docs/probes.md), on the activate-class harness (activate.ts):
  *
  * - 2.5.1 Pointer Gestures: the carousels, maps, image viewers and elements with touch or gesture listeners the pointer
  *   probe lists (C7) are swiped along a path and pinched with two fingers, as touch events sent over the DevTools

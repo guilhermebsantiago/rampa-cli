@@ -3,7 +3,7 @@ import type { Locale } from '../i18n.ts'
 /**
  * Every string an advisory is shown with, in English and Portuguese. They live apart from src/i18n.ts so
  * one test can read them all: advisory wording never says the page fails, violates or does not conform
- * (docs/plans/cognitive-profile.md §2.4). Messages with two forms, one|other, go through `amPlural`.
+ * (docs/cognitive-profile.md, "Reading an advisory"). Messages with two forms, one|other, go through `amPlural`.
  */
 const messages = {
   en: {

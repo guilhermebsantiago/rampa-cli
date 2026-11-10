@@ -5,7 +5,7 @@ import type { InPageElement } from './kit.ts'
 import { type ProbeOptions, type ProbePage, type ProbePageOptions, openProbePage } from './page.ts'
 
 /**
- * The activate class (docs/plans/wcag-coverage.md, 4.4; docs/probes.md): a harness for probes that click, change a
+ * The activate class (docs/probes.md, "The activate-class harness"): a harness for probes that click, change a
  * setting or type, which the observe class never does. The shortcuts probe was the first of the class; this
  * generalizes what it does (a change watch with noise learned in a wait with no input, the guard on all along) and adds:
  *

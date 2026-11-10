@@ -8,7 +8,7 @@ import type { InPageIdentity, Kit } from './kit.ts'
 
 /**
  * Text alternatives for audio and video (1.2.1, and what 1.2.2 and 1.2.3 quote): found, read and quoted, never judged
- * for equivalence (docs/plans/wcag-coverage.md, section 6). The media probe calls this after its inventory. In the page
+ * for equivalence (docs/probes.md, "Audio and video"). The media probe calls this after its inventory. In the page
  * it looks, around each media element and player frame and then on the whole page, for:
  *
  * - links and buttons named for a transcript or another alternative (`Transcript`, `Transcrição`, `Text version`,

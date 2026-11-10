@@ -23,7 +23,7 @@ import { type ProbeRule, type ProbeRuleContext, type ProbeRuleResult, asArray, a
  * a captions track that does not load, holds no cues, or holds only empty or placeholder cues (1.2.2); sound that
  * plays on its own for more than 3 seconds with no control on the page that could stop it (1.4.2); and, from probe
  * version 2, audio-only or video-only media whose every alternative found is a placeholder or broken (1.2.1). The rest
- * of 1.2.x is needs review by design (docs/plans/wcag-coverage.md, section 6): whether captions, a description or a
+ * of 1.2.x is needs review by design (docs/probes.md, "Audio and video"): whether captions, a description or a
  * transcript is equivalent needs the full meaning of the media. Each item to review quotes what the probe found.
  */
 

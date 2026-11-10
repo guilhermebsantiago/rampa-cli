@@ -19,11 +19,11 @@ rampa check https://example.com --sitemap --min-confidence low  # experimental f
 
 They run on every crawl, whatever `--criteria` says: that option picks the judgment modules of each page, and these comparisons need no model. A folder of `.html` files is checked page by page, not as a site; serve it and crawl its address to compare its pages.
 
-All of these checks are **experimental**. Their findings sit below the default confidence threshold, as every new check does until it passes the evaluation gate (section 4.9 of the [coverage plan](plans/wcag-coverage.md)). The report counts them and `--verbose` shows them. `--min-confidence low` reports them as failures, and then they count in the exit code.
+All of these checks are **experimental**. Their findings sit below the default confidence threshold, as every new check does until it passes the [evaluation gate](rules.md#maturity-confidence-and-the-exit-code). The report counts them and `--verbose` shows them. `--min-confidence low` reports them as failures, and then they count in the exit code.
 
 ## Sets of pages
 
-WCAG applies 2.4.5, 3.2.3, 3.2.4 and 3.2.6 to a "set of web pages", and leaves it to the author to say which pages form one. Rampa does not decide that by itself (see section 6 of the plan). It proposes sets, and the report lists them so you can check them:
+WCAG applies 2.4.5, 3.2.3, 3.2.4 and 3.2.6 to a "set of web pages", and leaves it to the author to say which pages form one. Rampa does not decide that by itself. It proposes sets, and the report lists them so you can check them:
 
 1. **Sets you name.** `pageSets` in the config maps a name to path patterns, in the same robots.txt syntax as `--include`: a prefix, `*` for anything, `$` for the end. A page goes to the first set whose patterns match it.
 
@@ -72,7 +72,7 @@ WCAG 2.4.1 (A) — Bypass Blocks
 
 **Real sites (2.4.1).** On 2026-10-10, `rampa check <url> --crawl --no-llm --min-confidence low`: on rampa.guilhermebs.com.br (10 pages; 9 in English compared, the Portuguese home page alone in its language), every page has its header and menu before a main landmark, and nothing failed, which is right. On agenciabrasil.ebc.com.br with `--max-pages 5`, the 3 Portuguese pages compared have a main landmark and a skip link after the repeated header; the English and Spanish pages are one page each in their language, so not compared. Nothing failed, which is right; the skip link that does not show on focus is what `--probe keyboard` reports, on one page.
 
-**ACT cf77f2.** `rampa eval --rules site/2.4.1` loads each test page and the first page of the same site it links to (the plan's "following one link per page"; every test page links to the rule's chapter 2), and compares the two as a crawl would. On 2026-10-10, with Edge 154 headless and the ACT file whose SHA-256 starts with `a9a1483e`, on the rule's 13 HTML test cases (the SVG one is left out): the failed example fails, none of the 12 passed examples fails (precision and recall 1.00), and Passed Example 8, whose way past is a button that moves focus by script, goes to review. Passed Examples 1 and 11 (a link and a button that hide the menu) have a menu of two items, under the size Rampa reports, so they say nothing rather than going to review. axe-core alone fails none of them: its `bypass` can only pass or ask for review.
+**ACT cf77f2.** `rampa eval --rules site/2.4.1` loads each test page and the first page of the same site it links to (following one link per page; every test page links to the rule's chapter 2), and compares the two as a crawl would. On 2026-10-10, with Edge 154 headless and the ACT file whose SHA-256 starts with `a9a1483e`, on the rule's 13 HTML test cases (the SVG one is left out): the failed example fails, none of the 12 passed examples fails (precision and recall 1.00), and Passed Example 8, whose way past is a button that moves focus by script, goes to review. Passed Examples 1 and 11 (a link and a button that hide the menu) have a menu of two items, under the size Rampa reports, so they say nothing rather than going to review. axe-core alone fails none of them: its `bypass` can only pass or ask for review.
 
 ## 2.4.2 Page Titled, across pages
 
@@ -85,7 +85,7 @@ Each page's title is checked on its page: axe-core's `document-title`, the rule 
 
 ## 2.4.5 Multiple Ways
 
-2.4.5 asks for more than one way to locate a page within a set of pages, except a page that is the result or a step of a process. Rampa **never fails it**: a crawl is never known to hold every page of a site, and which pages are steps of a process is the author's to say (section 6 of the plan). For each language and viewport it lists, as one item to review, the ways it found and on how many pages:
+2.4.5 asks for more than one way to locate a page within a set of pages, except a page that is the result or a step of a process. Rampa **never fails it**: a crawl is never known to hold every page of a site, and which pages are steps of a process is the author's to say. For each language and viewport it lists, as one item to review, the ways it found and on how many pages:
 
 | Way | Found when |
 | --- | --- |

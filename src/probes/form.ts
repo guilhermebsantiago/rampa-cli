@@ -9,7 +9,7 @@ import type { InPageElement } from './kit.ts'
 import { type ProbeOptions, type ProbePage, skippedRecord } from './page.ts'
 
 /**
- * Form probes (docs/plans/wcag-coverage.md, C6), on the activate-class harness (activate.ts):
+ * Form probes (docs/probes.md, "Forms"), on the activate-class harness (activate.ts):
  *
  * - 3.3.1 and 3.3.3, errors on leaving a field. For each text field that shows and states a constraint (a type, a
  *   pattern, minlength, min or max, required, or a required mark in its label), the probe types a value that breaks

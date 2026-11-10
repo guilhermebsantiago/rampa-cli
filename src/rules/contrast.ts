@@ -8,7 +8,7 @@ import { walkTree } from '../snapshot/tree.ts'
 import type { Hit, RuleCheck, RuleRun } from './types.ts'
 
 /**
- * Pixel rules (wave B3 of docs/plans/wcag-coverage.md): contrast the collector measured from pixels
+ * Pixel rules (docs/rules.md, "Pixel rules"): contrast the collector measured from pixels
  * (surfaces/contrast-capture.ts), judged here with WCAG's thresholds, so a saved snapshot is judged
  * again offline. The reading is ACT's highest possible contrast (afw4f7, 09o5cg):
  *

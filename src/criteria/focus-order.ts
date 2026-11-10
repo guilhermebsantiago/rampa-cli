@@ -8,7 +8,7 @@ import { indexTree } from '../snapshot/tree.ts'
 
 /**
  * WCAG 2.0 SC 2.4.3 Focus Order (A): the order of the page's own Tab sequence, which geometry alone may not decide
- * (docs/plans/wcag-coverage.md, section 6: DOM and visual order differ on most pages without harm).
+ * (docs/probes.md, 2.4.3: DOM and visual order differ on most pages without harm).
  *
  * The focus-order probe (src/probes/focus-order.ts) recorded the Tab sequence from the top, each stop with its box,
  * its tabindex and its groups. Two shapes become candidates (`orderCandidates`, recomputed here from those facts): a
@@ -76,7 +76,7 @@ export const focusOrder: Criterion<OrderContext, OrderJudgment> = {
   engineRules: [],
   schema: OrderJudgment,
   subject: (candidate) => `order|${candidate.context.kind}|${candidate.context.key}`,
-  // Below the default threshold until the check is measured on real pages (wcag-coverage.md, 4.9).
+  // Below the default threshold until the check is measured on real pages (docs/rules.md, maturity).
   confidenceCap: () => 'low',
 
   candidates(snapshot): Candidate<OrderContext>[] {

@@ -18,7 +18,7 @@ import { startFixtureServers } from './media-server.ts'
 import { byRule, probeCheckOptions, reviewByRule } from './probe-helpers.ts'
 
 /**
- * WCAG 1.2.1 and 1.2.2 from the media probe's version 2 (docs/plans/wcag-coverage.md, D3): alternatives found, read and
+ * WCAG 1.2.1 and 1.2.2 from the media probe's version 2 (docs/probes.md, media): alternatives found, read and
  * quoted; a failure only when every alternative found is a placeholder or broken. Never a verdict on equivalence.
  */
 

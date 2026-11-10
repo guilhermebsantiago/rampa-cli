@@ -30,8 +30,8 @@ import type { Basis } from '../types.ts'
  * be given, and nothing on the list of plain interface words below may be claimed (PLAIN_PHRASES), nor a text made only
  * of them asked about. What is left is a suggestion to review, never a WCAG failure (src/advisory/model.ts).
  *
- * The plan of 2026-10-09 kept idioms the model finds without a lexicon out of the profile (docs/plans/cognitive-profile.md
- * §1.5). This check reads them only where COGA says to start, reports a suggestion that never changes the exit code,
+ * The design of 2026-10-09 kept idioms the model finds without a lexicon out of the profile (docs/cognitive-profile.md).
+ * This check reads them only where COGA says to start, reports a suggestion that never changes the exit code,
  * and says that it has not been measured on real pages.
  */
 

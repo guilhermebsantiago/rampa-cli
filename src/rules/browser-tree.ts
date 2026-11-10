@@ -8,7 +8,7 @@ import { nearMatch } from './label-in-name.ts'
 import type { Hit, RuleCheck } from './types.ts'
 
 /**
- * Rules over the browser's own accessibility tree (wave B2 of docs/plans/wcag-coverage.md): what Chromium exposes
+ * Rules over the browser's own accessibility tree (docs/rules.md, "Browser tree rules"): what Chromium exposes
  * for each element, read over CDP and recorded on the node (`node.ax`, surfaces/ax-tree.ts). They report only what
  * axe-core leaves out: names for roles its rules do not select, controls the browser exposes with no role, states a
  * widget never exposes, and a visible label an aria-label replaces where axe-core does not look. On a snapshot

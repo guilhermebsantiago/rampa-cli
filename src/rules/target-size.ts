@@ -10,7 +10,7 @@ import type { EngineRuleResult } from '../core/types.ts'
  * - Equivalent: another link to the same address is at least 24 by 24 CSS pixels.
  *
  * The rule is experimental (engine/axe.ts, EXPERIMENTAL_RULES): its findings report at low confidence
- * until it passes the evaluation gate of docs/plans/wcag-coverage.md, 4.9.
+ * until it passes the evaluation gate (docs/rules.md, "Maturity, confidence and the exit code").
  */
 export const TARGET_SIZE = 'target-size'
 

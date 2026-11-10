@@ -7,7 +7,7 @@ import { inheritedLang, walkTree } from '../snapshot/tree.ts'
 import type { Hit, RuleCheck, Text } from './types.ts'
 
 /**
- * Content rules (wave A3 of docs/plans/wcag-coverage.md): failures a rule can name with no model,
+ * Content rules (docs/rules.md, "Content rules"): failures a rule can name with no model,
  * because the text itself gives them away. Each list is short on purpose: a rule reports only what
  * no page means on purpose, and leaves every other weak alternative, title or heading to judgment.
  */

@@ -8,7 +8,7 @@ The Note says it plainly: "Following this guidance is not required for conforman
 - never changes the exit code, unless you pass `--fail-on advisory`; and a model's suggestion to review, from the [checks a model decides](#checks-a-model-decides-literal-language-summaries-and-error-messages), never does, not even then;
 - always carries a fixed label that says so: "Advisory · COGA o4p06 Use Clear Visible Labels (not a WCAG requirement)", or in Portuguese "Recomendação · COGA o4p06 Use rótulos claros e visíveis (não é requisito da WCAG)".
 
-**Every check is experimental so far, and every report says so.** A check stays experimental until it passes the evaluation the [plan](plans/cognitive-profile.md) sets (§4.2): it has fixtures, but it has not yet been measured on real pages or reviewed by people. Experimental checks run whenever the profile is on. In the terminal, Markdown and HTML reports, the advisory section opens with one notice, and each advisory from an experimental check carries the tag `experimental`; JSON and SARIF give each result its `maturity`. The notice reads:
+**Every check is experimental so far, and every report says so.** A check stays experimental until it passes the evaluation on the [roadmap](roadmap.md): it has fixtures, but it has not yet been measured on real pages or reviewed by people. Experimental checks run whenever the profile is on. In the terminal, Markdown and HTML reports, the advisory section opens with one notice, and each advisory from an experimental check carries the tag `experimental`; JSON and SARIF give each result its `maturity`. The notice reads:
 
 > These advisories come from W3C COGA guidance (and GAIA where cited) and are not WCAG requirements. The ones marked experimental come from checks that have not yet been measured on real pages or reviewed by people, so each one needs a person's judgment.
 
@@ -226,7 +226,7 @@ The coverage says 1.4.8 was measured in the page's own styles. Paragraph spacing
 
 - **Centered text, bold and letter or word spacing.** No source sets a limit Rampa could use.
 - **Paragraph spacing.** WCAG 1.4.8 asks for 1.5 times the line spacing, but the collector does not measure the space between blocks.
-- **Whether an icon is familiar, or the right one.** That depends on the audience (plan §1.5).
+- **Whether an icon is familiar, or the right one.** That depends on the audience ([what the profile is not](#what-the-profile-is-not)).
 - **Sans-serif over serif.** GAIA prefers sans-serif, but COGA and WebAIM do not, and the evidence is contested.
 - **Scripts that open windows without an inline `onclick`.** A listener added by script is not seen without running it.
 - **The example page.** `examples/cognitive/cadastro.html` sets its text 40rem wide in `system-ui`. At 1280 px that is about 87 characters per line, so the page also gives a `coga/line-length` advisory.
@@ -366,7 +366,7 @@ Each check's `version` holds its prompt's version (`1+literal-1`), and the versi
 
 **What it reports.** When the answer is no, the model must quote the first sentence it read, which must be one of the first three sentences of the text; the advisory quotes that sentence from the page and suggests a brief summary at the start: "A high level outline in a few sentences or bullet points is most effective" (How it Helps).
 
-**Stays silent.** Pages of 300 words of paragraphs or fewer; a start with a summary heading; a start the model reads as a summary. Whether a summary is good enough is not asked: that needs people (plan §1.5).
+**Stays silent.** Pages of 300 words of paragraphs or fewer; a start with a summary heading; a start the model reads as a summary. Whether a summary is good enough is not asked: that needs people ([what the profile is not](#what-the-profile-is-not)).
 
 ### `coga/error-wording`
 
@@ -401,12 +401,12 @@ Each check has fail and pass pages in `test/fixtures/coga/<check>/{fail,pass}/`,
 | `coga/long-text-summary` | 7 of 8 | 2 of 3: a story start and a history start; **missed** the start of a public notice ("Edital"), whose legal preamble the model read as a summary | 5 of 5: an "Em resumo" heading (no model asked), two lead paragraphs, a page under 300 words, a list of short news items |
 | `coga/error-wording` | 8 of 8 | 4 of 4: "Campo inválido", "Invalid input", "Erro 0x13", a message with a regular expression | 4 of 4: clear messages in each language |
 
-These pages are tiny and were written for the checks by their author: the numbers say the checks work as designed on clear cases, not how precise they are. On real pages they are **not measured**: no real page has been run, labelled or reviewed for them, and the evaluation the plan requires before a check leaves experimental (§4.2) has not been done for any of the three. The model's suggested meanings and wordings were not judged for quality.
+These pages are tiny and were written for the checks by their author: the numbers say the checks work as designed on clear cases, not how precise they are. On real pages they are **not measured**: no real page has been run, labelled or reviewed for them, and the evaluation a check needs before it leaves experimental ([roadmap](roadmap.md)) has not been done for any of the three. The model's suggested meanings and wordings were not judged for quality.
 
 ### Limits
 
 - **A model's reading.** Whether a text is an idiom, a start a summary, or a message plain is the model's judgment; the rules check only that it quotes the page, names words of the text, and invents no limit. A larger or smaller model will read differently.
-- **The plan kept idioms out** (plan §1.5: "Idioms, sarcasm or implied meaning the model finds without a lexicon match"), for the risk of false positives. They are reported here only where COGA says to start, as suggestions that never gate, and still unmeasured.
+- **The 2026-10-09 design kept idioms out** ("Idioms, sarcasm or implied meaning the model finds without a lexicon match"), for the risk of false positives. They are reported here only where COGA says to start, as suggestions that never gate, and still unmeasured.
 - **Error messages Rampa finds.** Only messages already on the page (a server-rendered error, a page a test drove into an error state) or shown after `--probe form` typed into a field. Errors that need a submission are not seen.
 - **Only Portuguese and English.**
 - **With `--crawl`** they run on each page as on a single page, with the same cap per page. A crawl runs no probe, so messages that show only after typing are not read there.
@@ -515,12 +515,12 @@ To tell a word in capitals (ENTRAR) from an acronym (CPF), the abbreviation chec
 - **Not a reading-level verdict.** Formulas count word and sentence length; they do not measure whether people understand a text.
 - **Not a judgment of clarity or familiarity.** No check says a word is hard, a layout unfamiliar or a text "simple enough": those depend on the audience, and a model's opinion is not evidence. The three checks a model decides ask a model whether a text is literal, a start a summary, a message plain; what it says is a suggestion for a person, never a fact Rampa states and never a reason to fail a run.
 - **Not an overlay.** It reads the page and never clicks, types or submits.
-- **Not yet validated.** The checks are marked `experimental`, in `report.advisory.checks`, on each result and in every output. Each has pass and fail fixtures (`test/fixtures/coga/<check>/`) with the results they must give; those of the checks a model decides are run against a model by `scripts/coga-model-fixtures.ts`. The rest of the gate the plan requires before a check is called stable (docs/plans/cognitive-profile.md §4.2) is not built yet: the corrupted pairs, and the evaluation on real pages labelled by annotators (work item WI-10). Please report what looks wrong.
+- **Not yet validated.** The checks are marked `experimental`, in `report.advisory.checks`, on each result and in every output. Each has pass and fail fixtures (`test/fixtures/coga/<check>/`) with the results they must give; those of the checks a model decides are run against a model by `scripts/coga-model-fixtures.ts`. The rest of the gate a check needs before it is called stable ([roadmap](roadmap.md)) is not built yet: the corrupted pairs, and the evaluation on real pages labelled by annotators. Please report what looks wrong.
 
 ## Known limits
 
 - Web pages only, in Portuguese and English. Text in other languages is counted but not screened for abbreviations.
-- Rampa does not type into fields: a mask that reformats "01310-100" before validation makes a pattern advisory moot, which is why those are medium confidence. Wave 2 adds a typing probe.
+- Rampa does not type into fields: a mask that reformats "01310-100" before validation makes a pattern advisory moot, which is why those are medium confidence. A typing probe that would confirm them is on the [roadmap](roadmap.md).
 - Abbreviations: dotted abbreviations (nº, p. ex., e.g.) and camel-case names outside the list are not screened. The curated lists are a seed, pending review by a plain-language editor. An abbreviation is reported once per page, at its first use.
 - A long block the collector cut (over 20,000 characters) lowers confidence to medium: an explanation could sit past the cut. A page with more than 5,000 elements is not screened for abbreviations at all.
 - The Portuguese pattern titles are Rampa's own, unofficial translation; the English title and the link go with them.
@@ -545,7 +545,7 @@ None of these sources is a WCAG requirement, and none defines a conformance that
     - it is written for autistic children, and for multitouch devices;
     - it was piloted with 6 IT professionals, not with autistic users;
     - 16 of its 28 recommendations cite WebAIM's WAVE cognitive checklist, so GAIA and WebAIM are related sources, not independent ones;
-    - it gives no mapping to WCAG. Where the plan maps a GAIA recommendation to a WCAG criterion or a COGA pattern (its Appendix A), the mapping is Rampa's, not GAIA's.
+    - it gives no mapping to WCAG. Where Rampa maps a GAIA recommendation to a WCAG criterion or a COGA pattern, the mapping is Rampa's, not GAIA's.
 - **WebAIM's cognitive series.** *Cognitive Disabilities* (https://webaim.org/articles/cognitive/) and *Evaluating Cognitive Web Accessibility* (https://webaim.org/articles/evaluatingcognitive/).
   - It has no guidance specific to autism. It sorts barriers by function rather than by diagnosis: memory, problem-solving, attention, reading and verbal comprehension, math, and visual comprehension.
   - On evaluation it says: "For the most part, cognitive web accessibility is one of those "you know it when you see it" things. Common sense, holistic evaluation, and user testing should predominantly guide cognitive web accessibility evaluation."
@@ -569,4 +569,3 @@ The sources themselves rule out a pass or fail. COGA Content Usable is outside W
 - WCAG 2.2 Understanding 1.4.8 Visual Presentation: https://www.w3.org/WAI/WCAG22/Understanding/visual-presentation.html; technique G201, Giving users advanced warning when opening a new window: https://www.w3.org/WAI/WCAG22/Techniques/general/G201.
 - GAIA G03 Legibilidade: https://gaia.wiki.br/vocabulario-visual-e-textual/legibilidade; G09 Eliminar distrações: https://gaia.wiki.br/engajamento/eliminar-distracoes; G14 Equivalentes textuais: https://gaia.wiki.br/representacoes-redundantes/equivalentes-textuais; G22 Consistência: https://gaia.wiki.br/reconhecimento-e-previsibilidade/.
 - Harley, A. (2014), Icon Usability, Nielsen Norman Group: https://www.nngroup.com/articles/icon-usability/.
-- The design plan: [docs/plans/cognitive-profile.md](plans/cognitive-profile.md).

@@ -5,7 +5,7 @@ import type { InPageElement, Kit } from './kit.ts'
 import { type ProbeOptions, type ProbePage, skippedRecord } from './page.ts'
 
 /**
- * Timing Adjustable (2.2.1), item C10 of docs/plans/wcag-coverage.md, with the motion probe (`--probe motion`). A
+ * Timing Adjustable (2.2.1), docs/probes.md, with the motion probe (`--probe motion`). A
  * time limit set by the content must be one the person can turn off, adjust or extend (with a warning, at least 20 s
  * and a simple action), unless an exception applies. The probe looks for time limits the page enforces by itself
  * while nobody touches it: Playwright's fake clock jumps the page's time forward (timers due fire once per jump, as

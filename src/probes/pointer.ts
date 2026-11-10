@@ -6,7 +6,7 @@ import type { InPageElement } from './kit.ts'
 import { type ProbeOptions, type ProbePage, skippedRecord } from './page.ts'
 
 /**
- * Pointer probes (docs/plans/wcag-coverage.md, C7), on the activate-class harness (activate.ts):
+ * Pointer probes (docs/probes.md, "Pointer"), on the activate-class harness (activate.ts):
  *
  * - 2.5.2 Pointer Cancellation: each control is pressed (the down-event), the pointer moves away and is released there.
  *   What changed on the press, and whether it was still in effect after the release, is recorded: a navigation, a

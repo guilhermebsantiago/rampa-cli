@@ -10,7 +10,7 @@ import { destructiveAddress } from './guard.ts'
 import { type ProbeOptions, openProbePage, skippedRecord } from './page.ts'
 
 /**
- * Three Flashes or Below Threshold (2.3.1), item D1 of docs/plans/wcag-coverage.md. One analyzer (pixels/flash.ts)
+ * Three Flashes or Below Threshold (2.3.1), docs/probes.md. One analyzer (pixels/flash.ts)
  * counts flashes on downsampled grids of frames, whatever they come from:
  *
  * - **Animated images** (GIF, APNG, animated WebP), in `img` elements and CSS backgrounds: their bytes are fetched

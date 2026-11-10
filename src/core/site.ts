@@ -353,7 +353,7 @@ export interface SiteFinding {
   /** The order observed, page by page: items common to the pages compared, in document order. */
   observed: Array<{ pages: string[]; order: string[] }>
   confidence: Confidence
-  /** Experimental checks report below the default threshold until they pass the evaluation gate (docs/plans/wcag-coverage.md, 4.9). */
+  /** Experimental checks report below the default threshold until they pass the evaluation gate (docs/rules.md, "Maturity, confidence and the exit code"). */
   experimental: boolean
   /**
    * A question the rules could not settle, for a model to answer by a majority of its runs (3.2.4: do two names on

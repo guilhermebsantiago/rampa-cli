@@ -22,7 +22,7 @@ import {
 /**
  * What a run checked, per WCAG criterion and per method, worded so that nothing reads as "passed":
  * a criterion has failures, needs review, has no failure found in what was checked, had nothing
- * a check applies to, or was not checked. See docs/plans/wcag-coverage.md, 4.7.
+ * a check applies to, or was not checked. See docs/wcag-2-2.md.
  */
 
 /**

@@ -92,7 +92,7 @@ export const visibleLabelInName: Criterion<VisibleLabelContext, VisibleLabelJudg
   // The name speech input matches against is the one the browser exposes.
   names: 'browser',
   schema: VisibleLabelJudgment,
-  // Experimental: below the default threshold until the check passes the evaluation gate (docs/plans/wcag-coverage.md, 4.9).
+  // Experimental: below the default threshold until the check passes the evaluation gate (docs/rules.md, "Maturity, confidence and the exit code").
   confidenceCap: () => 'low',
   subject: (candidate) => `${candidate.context.text} / ${candidate.context.name}`,
 

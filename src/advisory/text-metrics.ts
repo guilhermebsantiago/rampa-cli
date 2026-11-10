@@ -6,7 +6,7 @@ import { type Page, ancestorsOf, blockText, languageOf, tagOf } from './page.ts'
 import type { SentenceQuote, TextMeasurement, TextMetrics } from './types.ts'
 
 /**
- * Text measurements: facts shown as context, never a verdict (docs/plans/cognitive-profile.md §3).
+ * Text measurements: facts shown as context, never a verdict (docs/cognitive-profile.md, "Text measurements").
  * Only paragraph prose is measured, inside main or article when the page has them: microcopy, lists,
  * tables and forms would make every number meaningless. Each language with at least 5% of the words
  * gets its own measurement, as Understanding 3.1.5 asks. Words are the segmenter's words that hold a

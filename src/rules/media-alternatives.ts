@@ -6,7 +6,7 @@ import { say } from './probes.ts'
 
 /**
  * What the media probe found as alternatives (src/probes/media-alternatives.ts), sorted into three states. Rampa never
- * says an alternative is equivalent, complete or correct (docs/plans/wcag-coverage.md, section 6); it only tells
+ * says an alternative is equivalent, complete or correct (docs/probes.md, "Audio and video"); it only tells
  * one that holds text (to quote, for a person to compare) from one that is broken or a placeholder, and from one it
  * could not read.
  *

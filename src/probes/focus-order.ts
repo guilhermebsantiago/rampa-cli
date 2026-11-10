@@ -20,7 +20,7 @@ import { type ProbeOptions, type ProbePage, skippedRecord } from './page.ts'
  *    again on a second load.
  * 2. The sequence. A Tab walk from the top records each stop with its box, its tabindex and the groups it sits in
  *    (landmarks, forms, fieldsets, sections, lists, tables, dialogs). Rules never fail an order from geometry
- *    (wcag-coverage.md, section 6): positive tabindex values and groups whose stops Tab visits going back up and left
+ *    (docs/probes.md, 2.4.3): positive tabindex values and groups whose stops Tab visits going back up and left
  *    are candidates for the 2.4.3 judgment (criteria/focus-order.ts), whose cited transitions a verifier recomputes.
  */
 
@@ -591,7 +591,7 @@ export function goesBack(from: InPageRect, to: InPageRect, rtl = false): boolean
 const MAX_CANDIDATES = 4
 
 /**
- * Candidates for the 2.4.3 judgment, from the sequence alone. Geometry only nominates (wcag-coverage.md, section 6):
+ * Candidates for the 2.4.3 judgment, from the sequence alone. Geometry only nominates (docs/probes.md, 2.4.3):
  * a positive tabindex reorders the sequence; a group (a form, a fieldset, a landmark, a list…) whose stops Tab visits
  * going back up or left at least twice may interleave parts laid out apart. Forms and fieldsets come first.
  */

@@ -9,7 +9,7 @@ import type { InPageElement, InPageRect, Kit } from './kit.ts'
 import { type ProbeOptions, openProbePage, skippedRecord } from './page.ts'
 
 /**
- * Contrast in states other than the one a page loads in (C15 of docs/plans/wcag-coverage.md):
+ * Contrast in states other than the one a page loads in (docs/probes.md, "Contrast in states"):
  *
  * - **Hover and focus (1.4.3).** Links and buttons with text are hovered (the pointer moved onto them) and, apart,
  *   given focus with `focus()`. When their text color or what lies behind it changes, the text is measured from

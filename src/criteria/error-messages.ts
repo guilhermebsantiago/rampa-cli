@@ -10,7 +10,7 @@ import { attributesOf, contentWords, isHidden, isHoneypot, phraseIn, verifyQuote
 
 /**
  * Error states already on the page: WCAG 3.3.1 Error Identification and 3.3.3 Error Suggestion, without submitting
- * anything (docs/plans/wcag-coverage.md, B8; the cognitive profile plan's WI-17). A page shows errors when the
+ * anything (docs/rules.md, "Error states"; docs/cognitive-profile.md, `coga/error-wording`). A page shows errors when the
  * server rendered them, or when a test drove it there (a `checkPage` after a failed fill). This module reads them
  * from the snapshot:
  * - fields in an error state: `aria-invalid`, `:user-invalid` with the browser's validity flags (the collector

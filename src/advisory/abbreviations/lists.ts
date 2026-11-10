@@ -1,6 +1,6 @@
 /**
- * The curated lists behind the abbreviation check, per language. They are a seed: the plan has a
- * plain-language editor review them (docs/plans/cognitive-profile.md, ANN-1), and the version below
+ * The curated lists behind the abbreviation check, per language. They are a seed: a
+ * plain-language editor is to review them (docs/roadmap.md), and the version below
  * keys the cache and goes into every report.
  *
  * - `common`: abbreviations more common than their full term. COGA o3p01 asks to explain an abbreviation

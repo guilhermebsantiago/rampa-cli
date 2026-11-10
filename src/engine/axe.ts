@@ -29,7 +29,7 @@ export function axeTags(version: WcagVersion = DEFAULT_WCAG): string[] {
 export const AXE_REVIEW_RULES = ['td-has-header', 'table-fake-caption']
 
 /**
- * Rules new to Rampa that have not passed the evaluation gate (docs/plans/wcag-coverage.md, 4.9): their
+ * Rules new to Rampa that have not passed the evaluation gate (docs/rules.md, maturity): their
  * findings are reported at low confidence, below the default threshold, until they do.
  */
 export const EXPERIMENTAL_RULES: ReadonlySet<string> = new Set(['target-size'])

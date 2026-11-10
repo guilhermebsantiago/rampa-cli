@@ -7,7 +7,7 @@ import type { InPageElement } from './kit.ts'
 import type { ProbeOptions, ProbePage } from './page.ts'
 
 /**
- * 2.5.4 Motion Actuation, the device-motion part of the gestures probe (docs/plans/wcag-coverage.md, D2; ACT c249d5 and
+ * 2.5.4 Motion Actuation, the device-motion part of the gestures probe (docs/probes.md; ACT c249d5 and
  * 7677a9). It runs only on a page that listens to the device's motion or orientation on `window` (the listeners C17's
  * scope note reads, read again on the probe's page). The browser's virtual sensors are turned on before the page loads
  * (Emulation.setSensorOverrideEnabled: accelerometer, linear acceleration, gyroscope, relative and absolute orientation),

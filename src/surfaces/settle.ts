@@ -15,7 +15,7 @@ export interface SettleOptions {
   capMs: number
 }
 
-/** The probes' setting (docs/plans/wcag-coverage.md, 4.5): 300 ms of quiet, at most 3 s. */
+/** The probes' setting (docs/probes.md, "Determinism"): 300 ms of quiet, at most 3 s. */
 export const SETTLE: SettleOptions = { quietMs: 300, capMs: 3000 }
 
 /** Requests that bring content: frame documents, scripts, styles and data. Images, fonts, media, beacons and sockets do not hold the wait. */

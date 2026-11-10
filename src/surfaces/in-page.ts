@@ -1159,7 +1159,7 @@ export async function axeFinishInPage(arg: { partials: unknown[]; options: unkno
     return found
   }
 
-  // WCAG 2.5.8 exceptions that axe-core's target-size does not know (docs/plans/wcag-coverage.md, A5). The facts are
+  // WCAG 2.5.8 exceptions that axe-core's target-size does not know (docs/wcag-2-2.md, 2.5.8). The facts are
   // recorded on the node, and the engine moves exempt targets out of the failures, so a recording replays the same.
   let clean: Document | undefined
   let frame: HTMLIFrameElement | undefined

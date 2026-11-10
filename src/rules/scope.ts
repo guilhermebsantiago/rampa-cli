@@ -6,7 +6,7 @@ import { type MotionFacts, motionFactsOf } from '../surfaces/motion.ts'
 import type { Hit, RuleCheck } from './types.ts'
 
 /**
- * Scope notes (C17 of docs/plans/wcag-coverage.md): criteria Rampa cannot check, whose scope it can see. Each says
+ * Scope notes (docs/rules.md, "Scope notes"): criteria Rampa cannot check, whose scope it can see. Each says
  * that the criterion applies on this page, what made it apply, and what a person has to verify. They are items to
  * review, never failures, and a page without such content gets nothing (the criterion stays not checked):
  *

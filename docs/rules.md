@@ -2,7 +2,7 @@
 
 Rampa's rules are deterministic checks over the snapshot, with no model. They sit next to axe-core: axe-core checks syntax across the whole page, and each Rampa rule reports one narrow failure that axe-core does not, where the page's own text or markup gives the failure away. Findings from a rule have `source: "rule"` and a rule id in the `rampa/` namespace.
 
-The content rules are wave A3 of the [WCAG coverage plan](plans/wcag-coverage.md), the structure rules are wave A4, the pixel rules B3, the rules over the browser's own accessibility tree B2, the error state rules B8, the letter-spaced words rule C16, and the reading-order rules D4. A rule ships only when its false-positive risk is very low. Anything a rule cannot decide is left to judgment or to a person.
+The rules come in groups: content rules, structure rules, pixel rules, rules over the browser's own accessibility tree, error state rules, a letter-spaced words rule and reading-order rules. A rule ships only when its false-positive risk is very low. Anything a rule cannot decide is left to judgment or to a person.
 
 ## Where rules run
 
@@ -30,7 +30,7 @@ The collector records three facts for rules, as additive fields on the root node
 
 ## Maturity, confidence and the exit code
 
-Every rule ships as `experimental`, as the plan requires, until it passes the evaluation gate in section 4.9 of the plan. That gate has four parts:
+Every rule ships as `experimental` until it passes the evaluation gate. That gate has four parts:
 
 - ACT test cases;
 - fixture pairs;
@@ -80,7 +80,7 @@ When a rule is promoted to `stable`, its findings keep the rule's own confidence
 
 ### Error states: 3.3.1 and 3.3.3
 
-These rules are B8 of the plan (the cognitive profile plan's WI-17). They read errors a page **already shows**: a server that rendered a form with its errors, or a test that drove the page there (fill a field, leave it, then `checkPage`). Nothing is submitted. Few pages load in an error state, so on most pages they find nothing to read, and both are narrow (`narrow`): with no field in an error state they say nothing, and 3.3.1 and 3.3.3 stay "not checked", never "no applicable content".
+These rules read errors a page **already shows**: a server that rendered a form with its errors, or a test that drove the page there (fill a field, leave it, then `checkPage`). Nothing is submitted. Few pages load in an error state, so on most pages they find nothing to read, and both are narrow (`narrow`): with no field in an error state they say nothing, and 3.3.1 and 3.3.3 stay "not checked", never "no applicable content".
 
 **What the collector records.** `aria-invalid`, `aria-errormessage` and `aria-live` are kept with each node's attributes. For an `input`, `select` or `textarea` marked invalid (`aria-invalid` set and not `false`, or the browser's own `:user-invalid`, which needs someone to have typed), the collector adds `native.userInvalid` and `native.validity`: the constraints the value breaks, as the browser reads them (`valueMissing`, `typeMismatch`, `patternMismatch`, `tooShort`, `tooLong`, `rangeUnderflow`, `rangeOverflow`, `stepMismatch`, `badInput`, `customError`).
 
@@ -91,7 +91,7 @@ These rules are B8 of the plan (the cognitive profile plan's WI-17). They read e
 | `rampa/error-without-text` | 3.3.1 | A field with `aria-invalid` and no message a person sees and assistive technology reads: none at all (the error shows only by its state or its color), only one that is hidden, or only one under `aria-hidden` (ACT 36b590's third expectation). A field marked only by an error class goes to review | a field marked only by the browser's `:user-invalid`: the page shows nothing unless it styles it, and the browser names the error itself when the form is sent; a message anywhere listed above counts, a summary link included |
 | `rampa/error-suggestion` | 3.3.3 | A field the browser finds invalid against a constraint its markup states, with an error message, where neither the message, the label nor a hint tied to the field states the constraint: the number for `minlength`, `maxlength`, `min` and `max`; for `type=email` an `@` or the word "email"; for `url`, `number`, `tel` and dates their words or digits. Failure for those; review for a `pattern` with no example the pattern accepts (as in 3.3.2), for `step`, and for a date range | `valueMissing` (a required field left empty: saying so is 3.3.1's), `customError` and a field the browser finds valid (the server rejected it for a reason the markup does not state: nothing to compare); a field with no message (3.3.1's) |
 
-Both are experimental, so their failures are reported at low confidence, below the default threshold. The form probe (`--probe form`, the plan's C6, [probes](probes.md)) runs the same two decisions on the page after it typed an invalid value into a field and left it, as `rampa/error-on-leave` and `rampa/suggestion-on-leave`, and, only with `--allow-submit` naming the page's origin, on the form the server sends back after a submission, as `rampa/error-on-submit` and `rampa/suggestion-on-submit` ([submitting forms](probes.md#submitting-forms---allow-submit)). **The judgment** that ACT 36b590 asks for (does an error message let a person tell which field is in error, and does it say what is wrong?) is the 3.3.1 module in [judged criteria](criteria.md#331-error-identification), run with `--criteria 3.3.1`.
+Both are experimental, so their failures are reported at low confidence, below the default threshold. The form probe (`--probe form`, [probes](probes.md)) runs the same two decisions on the page after it typed an invalid value into a field and left it, as `rampa/error-on-leave` and `rampa/suggestion-on-leave`, and, only with `--allow-submit` naming the page's origin, on the form the server sends back after a submission, as `rampa/error-on-submit` and `rampa/suggestion-on-submit` ([submitting forms](probes.md#submitting-forms---allow-submit)). **The judgment** that ACT 36b590 asks for (does an error message let a person tell which field is in error, and does it say what is wrong?) is the 3.3.1 module in [judged criteria](criteria.md#331-error-identification), run with `--criteria 3.3.1`.
 
 **Fixtures.** `test/fixtures/rules/errors-fail.html` (an email marked invalid with no text, a message under `aria-hidden`, "Invalid age." for `min="18"`, "This CEP is invalid." for a CEP pattern, a field with only a class), `errors-pass.html` (a GOV.UK-style summary, "Enter an email address like name@example.com", "You must be 18 or older", "Enter the CEP in the format 12345-678", a hidden template and `aria-invalid="false"`), and `errors-live.html`, which a test fills and leaves, then checks with `checkPage`: "Invalid password." for `minlength="8"` fails 3.3.3, "Use at least 3 characters." for `minlength="3"` does not, and a field left to the browser's own validation is not reported.
 
@@ -102,11 +102,11 @@ Both are experimental, so their failures are reported at low confidence, below t
 | design-system.service.gov.uk, the error message example (a date of issue) | 3 (day, month, year, by class) | none | Right: the message "The date your passport was issued must be in the past" is tied to the fieldset by `aria-describedby`, which before the group was read left all three to review |
 | getbootstrap.com/docs/5.3/forms/validation | 5 (by class, the server-side example) | none | Right: each has its `invalid-feedback` text, tied with `aria-describedby`. 3.3.3 has nothing to read: the browser's validity is recorded only for a field marked with `aria-invalid` or `:user-invalid`, and these are marked by class |
 
-Neither page exercises 3.3.3, which needs a field the browser finds invalid: static pages rarely have one, which is why the plan expects B8 to earn its value in tests that drive a page into an error state.
+Neither page exercises 3.3.3, which needs a field the browser finds invalid: static pages rarely have one, which is why these rules are expected to earn their value in tests that drive a page into an error state.
 
 ### Letter-spaced words: 1.3.2
 
-This rule is C16 of the plan: failure technique [F32](https://www.w3.org/WAI/WCAG22/Techniques/failures/F32), white space put between the letters of a word to space them out ("W E L C O M E", `H&nbsp;E&nbsp;L&nbsp;L&nbsp;O`). A screen reader may read each letter on its own, and the word is lost; CSS `letter-spacing` gives the same look and keeps the word.
+This rule checks failure technique [F32](https://www.w3.org/WAI/WCAG22/Techniques/failures/F32), white space put between the letters of a word to space them out ("W E L C O M E", `H&nbsp;E&nbsp;L&nbsp;L&nbsp;O`). A screen reader may read each letter on its own, and the word is lost; CSS `letter-spacing` gives the same look and keeps the word.
 
 | Rule | WCAG | Reports | Leaves out on purpose | Patch |
 |---|---|---|---|---|
@@ -124,7 +124,7 @@ This rule is C16 of the plan: failure technique [F32](https://www.w3.org/WAI/WCA
 
 ### Reading order: 1.3.2
 
-These rules are D4 of the plan. They compare the order a screen reader reads, the markup's, with the order people see, for two kinds of content: text laid out in columns with white space ([F33](https://www.w3.org/WAI/WCAG22/Techniques/failures/F33), [F34](https://www.w3.org/WAI/WCAG22/Techniques/failures/F34)), and boxes CSS shows in another order than the markup's ([F1](https://www.w3.org/WAI/WCAG22/Techniques/failures/F1)). Section 6 of the plan sets the bar: DOM order and visual order differ on most real pages without harm, so geometry only nominates candidates, and a failure needs a relationship that breaks and can be checked.
+These rules compare the order a screen reader reads, the markup's, with the order people see, for two kinds of content: text laid out in columns with white space ([F33](https://www.w3.org/WAI/WCAG22/Techniques/failures/F33), [F34](https://www.w3.org/WAI/WCAG22/Techniques/failures/F34)), and boxes CSS shows in another order than the markup's ([F1](https://www.w3.org/WAI/WCAG22/Techniques/failures/F1)). The bar is high: DOM order and visual order differ on most real pages without harm, so geometry only nominates candidates, and a failure needs a relationship that breaks and can be checked.
 
 **What the collector records** (additive fields on `native`, so `schemaVersion` stays 1):
 
@@ -153,7 +153,7 @@ These rules are D4 of the plan. They compare the order a screen reader reads, th
 
 ### Scope notes: 3.3.4 and 2.5.4
 
-These rules are C17 of the plan. Rampa cannot check 3.3.4 Error Prevention (Legal, Financial, Data) or 2.5.4 Motion Actuation: one needs a form submitted, which Rampa never does without `--allow-submit`, and the other needs the device moved. What it can see is that they **apply** to a page, and what made them apply. Each rule says so as an item to review, with what a person has to verify; neither ever reports a failure. Both are narrow: a page without such content gets nothing, and the criterion stays "not checked", never "no applicable content", since a later step of the process, or a script that loads after a tap, may still bring it in. A page where one applies gets "needs review only" for it.
+Rampa cannot check 3.3.4 Error Prevention (Legal, Financial, Data) or 2.5.4 Motion Actuation: one needs a form submitted, which Rampa never does without `--allow-submit`, and the other needs the device moved. What it can see is that they **apply** to a page, and what made them apply. Each rule says so as an item to review, with what a person has to verify; neither ever reports a failure. Both are narrow: a page without such content gets nothing, and the criterion stays "not checked", never "no applicable content", since a later step of the process, or a script that loads after a tap, may still bring it in. A page where one applies gets "needs review only" for it.
 
 | Rule | WCAG | Notes, as items to review | Leaves out on purpose |
 |---|---|---|---|
@@ -162,7 +162,7 @@ These rules are C17 of the plan. Rampa cannot check 3.3.4 Error Prevention (Lega
 
 **What the collector records for 2.5.4.** After collecting a web page, `native.motion` on the document node: `listeners` (`type`, `script`, `line`), `mentions` (`api`, `name`, `script`, a `quote` of the code around it) and `leftOut` (scripts past the budget, unread). A saved snapshot is judged again with no browser. A listener added by a fraud check or an analytics script (some bot-detection scripts read the sensors) looks the same as one that moves something: the script's address is in the note, and the note says that 2.5.4 does not apply when nothing on the page responds to motion. `checkPage` in Playwright and Puppeteer records the same, unless it checks only part of the page; snapshots of other surfaces have no such record, and the rule says nothing on them.
 
-**With `--probe gestures`.** The gestures probe (the plan's D2, [probes](probes.md)) reads the same listeners on its own load and, when there are some, shakes and tilts the device through the browser's virtual sensors, then looks for a control that does what the motion did and a switch that turns it off. Its rule, `rampa/motion-actuation`, reports on 2.5.4 (a failure when a motion operates something with no control, or with no switch on the page; an item to review otherwise), and this note steps aside for it. When the probe found no listener on its load, the note stays.
+**With `--probe gestures`.** The gestures probe ([probes](probes.md)) reads the same listeners on its own load and, when there are some, shakes and tilts the device through the browser's virtual sensors, then looks for a control that does what the motion did and a switch that turns it off. Its rule, `rampa/motion-actuation`, reports on 2.5.4 (a failure when a motion operates something with no control, or with no switch on the page; an item to review otherwise), and this note steps aside for it. When the probe found no listener on its load, the note stays.
 
 **Cost.** Reading the listeners and the scripts took 0.15 s on rampa.guilhermebs.com.br and about 1 s on www.kayak.com and g1.globo.com (all of kayak's scripts read; 19 of g1's left out past the budget), on 2026-10-11.
 
@@ -172,7 +172,7 @@ These rules are C17 of the plan. Rampa cannot check 3.3.4 Error Prevention (Lega
 
 ### Structure rules: 1.3.1 and 4.1.2
 
-These rules are wave A4 of the plan. They read structure that the markup states and the browser computes, from facts the collector records on each node's `native`. Where the collector also read the browser's accessibility tree (see the browser tree rules below), they read the browser's own answer first: whether a table is exposed as one, and the name a field gets.
+These rules read structure that the markup states and the browser computes, from facts the collector records on each node's `native`. Where the collector also read the browser's accessibility tree (see the browser tree rules below), they read the browser's own answer first: whether a table is exposed as one, and the name a field gets.
 
 | Field | What it holds |
 |---|---|
@@ -191,7 +191,7 @@ A `fieldset` now has the role `group`, named by its `legend`. 2.4.6 reads that n
 
 **Experimental axe-core rules.** `td-has-header` and `table-fake-caption` are experimental in axe-core 4.14, so a tag run leaves them out. Rampa enables them in the same axe-core run through `rules`, and reports what they find as needs review only (`AXE_REVIEW_RULES` in `src/engine/axe.ts`): in the report's **Needs review**, never in the findings, and they never make 1.3.1 count as checked.
 
-The plan also named `p-as-heading`. It is left out because every hit on the real pages below was wrong:
+A `p-as-heading` rule is left out because every hit on the real pages below was wrong:
 
 - the verdict words "✓ Passes" and "✗ Fails" on rampa.guilhermebs.com.br;
 - three statistics such as "1,9%" on ibge.gov.br.
@@ -209,7 +209,7 @@ On the 38 test pages of ACT 2ee8b8, axe-core alone fails all 16 failed examples 
 
 ### Pixel rules: 1.4.3 and 1.4.11
 
-These rules are wave B3 of the plan. axe-core reads text contrast from the style sheet. When something other than one flat color lies behind the text (a background image, a gradient, an element under or over it, text shadows, a pseudo-element), it cannot, and returns *incomplete*: until now those elements were only listed for review. axe-core does not check placeholders at all, and nothing checked the icon of an icon-only control.
+axe-core reads text contrast from the style sheet. When something other than one flat color lies behind the text (a background image, a gradient, an element under or over it, text shadows, a pseudo-element), it cannot, and returns *incomplete*: until now those elements were only listed for review. axe-core does not check placeholders at all, and nothing checked the icon of an icon-only control.
 
 **How the collector measures.** After axe-core runs, the web collector (`src/surfaces/contrast-capture.ts`) takes each element in turn:
 
@@ -255,7 +255,7 @@ The collector also keeps axe-core's reason key on each `color-contrast` result (
 
 ### Browser tree rules: 4.1.2, 2.5.3, 1.3.1 and 4.1.3
 
-These rules are wave B2 of the plan. The collector computes each element's role and name itself (`src/surfaces/in-page.ts`), which is an approximation of the ARIA and HTML-AAM rules. Chromium's own accessibility tree is what assistive technology gets. On the web, the collector now reads that tree too and records it beside its own reading. The rules below read it to find what axe-core leaves out.
+The collector computes each element's role and name itself (`src/surfaces/in-page.ts`), which is an approximation of the ARIA and HTML-AAM rules. Chromium's own accessibility tree is what assistive technology gets. On the web, the collector now reads that tree too and records it beside its own reading. The rules below read it to find what axe-core leaves out.
 
 **How the collector reads it** (`src/surfaces/ax-tree.ts`). Right after the collector reads the page, it opens a CDP session and makes these calls:
 
@@ -291,7 +291,7 @@ Chromium keeps no node of its own for plain text-level elements (`span`, `b`, an
 
 What a limit leaves out is in `axTree`, and the report has a note for it, for example "The browser's accessibility tree was not read (the page has 52,000 elements, over the limit of 40,000): names and roles are Rampa's own approximation…". Elements past the collector's own limit of elements (`truncated`) are not in the snapshot, so they get no facts either. The `ax` records added 28 KB to the 438 KB snapshot of Rampa's site.
 
-**Names: the collector's or the browser's.** The node's `name` and `role` stay the collector's, so nothing that reads them changes by itself. A criterion or a rule moves to the browser's names one at a time, as the plan asks:
+**Names: the collector's or the browser's.** The node's `name` and `role` stay the collector's, so nothing that reads them changes by itself. A criterion or a rule moves to the browser's names one at a time:
 
 - **Rules.** `rampa/field-label-in-name` (version 2) takes the field's name and its source from the browser. An `aria-labelledby` that points at nothing leaves the `<label>` to name the field, and is not reported. The review of axe-core's `label-content-name-mismatch` compares the visible text with the browser's name. The 1.3.1 rules use the browser's names and roles where they are recorded. `rampa/orphan-label` reads the field's name, and treats a placeholder the browser fell back on as no name. `rampa/presentational-table` and `rampa/table-header-cells` read whether the browser kept `role="presentation"` or exposes a table, before the collector's `presentational` fact.
 - **Judged criteria.** 2.4.4, 2.4.6 and 3.3.2 (`names: 'browser'` on the criterion, `browserNamed` in `src/snapshot/ax.ts`) read each name as the browser computes it. Text hidden from assistive technology is left out of a link's name, an image's alt is in, and a heading that is only an image is named by its alt. An element the browser names nothing of its kind (a list item, a label, a caption) keeps the collector's name, which stands for its text there. The other judged criteria read the collector's names, as before.
@@ -318,7 +318,7 @@ Each of these is what assistive technology gets, which is what these criteria ar
 
 **States after a click.** `rampa/tab-state` and `rampa/disclosure-state` read the tree as the page loaded, so they can say that no tab is selected, or that a button controls hidden content with no `aria-expanded`, but not whether the state follows a click. The toggles probe (`--probe toggles`, [probes](probes.md#412-name-role-value-the-state-of-toggles---probe-toggles-rule-rampastate-exposure)) clicks such controls and reads the browser's tree again after each click, for the control and the other tabs of its group (`liveAxFacts` in `src/surfaces/ax-tree.ts`, one `Accessibility.getPartialAXTree` call per element). A control whose content or look changes while its exposed state does not then fails 4.1.2 as `rampa/state-exposure`, a probe rule. The two rules here stay as they are: they read the state on load, the probe reads it change.
 
-**An inventory decides nothing.** `rampa/live-regions` has `inventory: true`. It never has hits, it does not count as "checked by Rampa rules", and 4.1.3 keeps the status its other methods give it, which is "not checked" today. Its coverage line says what it found, for example `rampa/live-regions (inventory, decides nothing: 2 found; experimental; 2 live region(s): #start > div > div:nth-of-type(2) > p (status, polite, atomic, empty); …)`. Whether a status message reaches those regions only shows with the page in use: the status probe (`--probe status`, the plan's C5, [probes](probes.md#413-status-messages---probe-status-rule-rampastatus-messages-judgment-judgment4132)) uses the page that way. It sets off safe triggers, reads the browser's tree again around each text that appears, and takes this inventory as input: its coverage line under 4.1.3 says how many live regions the page had on load and which of them received text after a trigger. A text that appears outside every live region, with no focus on it, goes through F103's triage there.
+**An inventory decides nothing.** `rampa/live-regions` has `inventory: true`. It never has hits, it does not count as "checked by Rampa rules", and 4.1.3 keeps the status its other methods give it, which is "not checked" today. Its coverage line says what it found, for example `rampa/live-regions (inventory, decides nothing: 2 found; experimental; 2 live region(s): #start > div > div:nth-of-type(2) > p (status, polite, atomic, empty); …)`. Whether a status message reaches those regions only shows with the page in use: the status probe (`--probe status`, [probes](probes.md#413-status-messages---probe-status-rule-rampastatus-messages-judgment-judgment4132)) uses the page that way. It sets off safe triggers, reads the browser's tree again around each text that appears, and takes this inventory as input: its coverage line under 4.1.3 says how many live regions the page had on load and which of them received text after a trigger. A text that appears outside every live region, with no focus on it, goes through F103's triage there.
 
 **Fixtures.** `browser-tree-fail.html` has one planted case per rule: a tree item named only by an `aria-hidden` icon; a focusable `div` with a click listener; a tab list with no selected tab; a disclosure button with no `aria-expanded`, which goes to review; an input button whose `aria-label` drops its value; and a status region for the inventory. `browser-tree-pass.html` is the same page fixed. `browser-tree-controls.html` holds the near misses, and none is reported:
 
@@ -413,7 +413,7 @@ On 2026-10-09 the rules ran with `rampa check <url> --no-llm --min-confidence lo
 | ibge.gov.br | `language-switcher-lang`: the "English" link, with no `lang`, on a pt-BR page | true |
 | pt.wikipedia.org/wiki/Brasil | `table-header-cells`: 8 headers of a navbox, now as review | The HTML table model assigns them to no cell, because a picture cell spans their row. Browsers guess. The headers now go to review with a request for `scope` (they were failures before this was found) |
 
-Rampa's rules found one failure on these pages, and it was true. They found no false positive. This is far from the plan's gate: 35 reviewed findings per rule are needed before a rule becomes stable. Every rule stays experimental.
+Rampa's rules found one failure on these pages, and it was true. They found no false positive. This is far from the gate: 35 reviewed findings per rule are needed before a rule becomes stable. Every rule stays experimental.
 
 ### Real pages: the browser tree rules
 
@@ -427,7 +427,7 @@ On 2026-10-09 the browser tree rules ran with `rampa check <url> --no-llm --min-
 | americanas.com.br | `custom-control`: `<i class="_access-icon material-icons" title="Atalho: ctrl+alt+a" tabindex="0">accessibility</i>`, listening to click and keyup; 4 live regions: two carousels' lists, Next.js's route announcer and the cookie banner | True. It is the button that opens the site's accessibility menu. The browser exposes it as `generic` and names it by its shortcut, so a screen reader announces neither a button nor what it does |
 | gov.br/pt-br | `widget-name`: the search combobox (`div role="combobox" aria-labelledby="searchtext-label"`), with no name. Review: the search button, whose name is only U+F002 with "Submit" as its description; 1 live region | The combobox is true: no element has the id `searchtext-label`, so the ARIA 1.1 combobox has no name. The field inside it is still named by its placeholder, "O que você procura?", so the harm is small. The review is right to be a review. The browser names the button by the Font Awesome glyph that CSS draws, not by its `title`. Rampa's own approximation had called it "Submit", which is what a screen reader puts after the glyph, as the description |
 
-The two failures are true, and the review is a real question. These checks find little on libraries that follow the ARIA patterns, which is what they should do. As for every rule, they stay experimental until the gate in the plan is met.
+The two failures are true, and the review is a real question. These checks find little on libraries that follow the ARIA patterns, which is what they should do. As for every rule, they stay experimental until the gate is met.
 
 **Limits.**
 
@@ -447,7 +447,7 @@ On 2026-10-09 the pixel rules ran with `rampa check <url> --no-llm --min-confide
 | www.nasa.gov | 40 texts (20 measured), 1 placeholder (1), 7 icons (7) | none | 8 texts and 2 icons over the hero: what is behind them moves | Right: a video plays behind the hero. The 12 card texts over photographs, white on a dark overlay, measure 5.18:1 to 20.62:1 at their lowest; the search placeholder, `#757575` on a black field, 4.56:1; the 5 footer and image icons, 4.74:1 to 13.52:1. 20 texts were past the limit and stay in axe-core's review |
 | stripe.com | 77 texts (20 measured), 8 icons (4 measured, 1 disabled) | 3: "in payments volume processed in 2025", "for Stripe services" and the link "historical uptime", `#7d8ba4` on a lavender gradient at 16 px, weight 300, 2.98:1 to 3.05:1 | 5: the hero heading and subheading, twice each, and the "Pricing" menu link, over the animated gradient canvas | The failures are true while those statistics are dimmed: the section highlights one statistic at a time and dims the other three, so the dimmed state is what most visitors read. The same gray in the 48 px figures passes as large text (3.04:1 to 3.10:1 at their lowest). The reviews are right to be reviews: the canvas changes between captures. The time budget left 57 texts and 3 icons unmeasured |
 
-What these runs changed: the page's scroll is put back after each element and only moved when needed (Rampa's hero caption read as half faded), it is put back instantly (nasa.gov scrolls smoothly, so the next captures were taken mid-scroll), the box is captured twice as rendered (Stripe's hero canvas passed for glyphs), and a style sheet color that the pixels contradict is not used (a link captured during its color transition read at 1.18:1). The pixel rules found 3 failures on these pages, all true, and no false positive; like every rule they stay experimental until the gate in the plan is met.
+What these runs changed: the page's scroll is put back after each element and only moved when needed (Rampa's hero caption read as half faded), it is put back instantly (nasa.gov scrolls smoothly, so the next captures were taken mid-scroll), the box is captured twice as rendered (Stripe's hero canvas passed for glyphs), and a style sheet color that the pixels contradict is not used (a link captured during its color transition read at 1.18:1). The pixel rules found 3 failures on these pages, all true, and no false positive; like every rule they stay experimental until the gate is met.
 
 ## The interface
 
@@ -476,7 +476,7 @@ interface RuleCheck {
 }
 ```
 
-`RuleCheck` is the deterministic half of the `Check` interface in the [cognitive profile plan](plans/cognitive-profile.md) (WI-1). It has the same `id`, `version`, `maturity`, `surfaces`, `run`, `message` and `patch`, with WCAG criteria where `Check` has a basis, and it never has a `judge`. A `Hit` carries:
+`RuleCheck` is the deterministic half of the `Check` interface the cognitive profile was designed with, built as `AdvisoryCheck` (`src/advisory/check.ts`). It has the same `id`, `version`, `maturity`, `surfaces`, `run`, `message` and `patch`, with WCAG criteria where `Check` has a basis, and it never has a `judge`. A `Hit` carries:
 
 - `ref`;
 - `outcome` (`fail` or `review`);

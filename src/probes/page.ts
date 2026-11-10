@@ -12,7 +12,7 @@ export type ProbeKind = (typeof PROBE_KINDS)[number]
  * fields of real sign-in forms (a dummy value, cleared), which nobody should get from a catch-all. The flash probe
  * plays media (muted) and takes some 200 captures of the window, which costs more than a catch-all should. The probes
  * of the activate class built on the harness (activate.ts) click controls, press keys on them, open dialogs and menus,
- * change settings, type into fields, drag, swipe, pinch or move the device, which the plan keeps opt-in (wcag-coverage.md, 4.4). The state-variants probe loads other pages over the network
+ * change settings, type into fields, drag, swipe, pinch or move the device, which stays opt-in (docs/probes.md, "What a probe may do"). The state-variants probe loads other pages over the network
  * (the page's versions in other languages), which a catch-all should not do either. The motion probe (2.2.2, 2.2.1)
  * moves the page's time for minutes, up to 20 hours, and presses controls named to pause, stop or hide what moves.
  * The cognitive observation (cognitive.ts) feeds only the advisories of `--profile cognitive`, which turns it on by
@@ -21,7 +21,7 @@ export type ProbeKind = (typeof PROBE_KINDS)[number]
 export const OPT_IN_KINDS: readonly ProbeKind[] = ['variants', 'auth', 'flash', 'links', 'input', 'toggles', 'status', 'motion', 'form', 'pointer', 'parity', 'focus-order', 'gestures', 'cognitive']
 /**
  * `--probe interact`: the plan's name for the activate class, every probe that presses, clicks, changes a setting,
- * types into a field, drags, swipes, pinches or moves the device (wcag-coverage.md, 4.4). The shortcuts probe is one of them, and stays in `all` as it
+ * types into a field, drags, swipes, pinches or moves the device (docs/probes.md). The shortcuts probe is one of them, and stays in `all` as it
  * always was: it only presses printable keys with focus on the body (and Space on shortcut settings, toggled back),
  * and behind the guard a key can neither write, nor navigate any frame or window, nor send a GET to an address that
  * names a destructive action (guard.ts). What it can still set off is a GET to another address, which a server that

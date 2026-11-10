@@ -119,7 +119,7 @@ export const sensoryCharacteristics: Criterion<SensoryContext, SensoryJudgment> 
   names: 'browser',
   schema: SensoryJudgment,
   decidedBy: 'rampa/sensory-words',
-  // Experimental: below the default threshold until the check passes the evaluation gate (docs/plans/wcag-coverage.md, 4.9).
+  // Experimental: below the default threshold until the check passes the evaluation gate (docs/rules.md, "Maturity, confidence and the exit code").
   confidenceCap: () => 'low',
   subject: (candidate) => candidate.context.sentence,
 

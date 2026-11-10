@@ -10,7 +10,7 @@ import { type InPageElement, installKit, settleInPage } from './kit.ts'
 import { type ProbeOptions, type ProbePage, openProbePage, skippedRecord } from './page.ts'
 
 /**
- * Form submissions (docs/plans/wcag-coverage.md, D5; docs/probes.md, "Submitting forms"). Only with `--allow-submit`
+ * Form submissions (docs/probes.md, "Submitting forms"). Only with `--allow-submit`
  * naming the page's exact origin (scheme, host and port), the form probe submits the page's forms, to see:
  *
  * - 3.3.1 and 3.3.3: the errors the server finds. Each form is submitted once with invalid values derived from its

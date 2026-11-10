@@ -9,7 +9,7 @@ import type { Settlement } from './types.ts'
 /**
  * Rules over probe observations: pure functions of the snapshot, so a saved snapshot gives the
  * same findings offline. Thresholds live here, never in the probes. Every probe rule is
- * experimental until it passes the evaluation gate (docs/plans/wcag-coverage.md, 4.9).
+ * experimental until it passes the evaluation gate (docs/rules.md, "Maturity, confidence and the exit code").
  */
 
 export interface ProbeRuleContext {

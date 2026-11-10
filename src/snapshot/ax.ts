@@ -5,7 +5,7 @@ import { walkTree } from './tree.ts'
 /**
  * Reading the browser's accessibility tree that the collector recorded on each node (`node.ax`, see
  * surfaces/ax-tree.ts). The collector's own `role` and `name` stay as they were, so a criterion or a rule moves to
- * what the browser computes one at a time (docs/plans/wcag-coverage.md, B2), through these helpers.
+ * what the browser computes one at a time (docs/rules.md, "Browser tree rules"), through these helpers.
  */
 
 /** The browser's facts for a node, when it recorded them and the browser keeps a node for it. */

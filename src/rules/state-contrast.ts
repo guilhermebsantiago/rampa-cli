@@ -13,7 +13,7 @@ import { walkOf } from './keyboard.ts'
 import { type ProbeRule, type ProbeRuleContext, type ProbeRuleResult, appPlatform, asArray, asRecord, conditionsText, coverageStatus, moreNotListed, probeFinding, say } from './probes.ts'
 
 /**
- * Contrast in states (C15 of docs/plans/wcag-coverage.md), read from probe records:
+ * Contrast in states (docs/probes.md, "Contrast in states"), read from probe records:
  *
  * - `rampa/focus-indicator-contrast` (1.4.11): the focus indicator the keyboard walk captured (probes/focus.ts),
  *   as the main colors of the pixels that change on focus against the colors next to them in the focused state.

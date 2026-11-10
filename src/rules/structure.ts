@@ -8,7 +8,7 @@ import { type TreeIndex, walkTree } from '../snapshot/tree.ts'
 import type { Hit, RuleCheck } from './types.ts'
 
 /**
- * Structure rules (wave A4 of docs/plans/wcag-coverage.md): relationships the markup states and the
+ * Structure rules (docs/rules.md, "Structure rules"): relationships the markup states and the
  * browser computes, read from facts the collector records (a table's grid, what a label labels, a
  * role the browser keeps or drops). 1.3.1 Info and Relationships and 4.1.2 Name, Role, Value.
  */

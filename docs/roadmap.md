@@ -1,6 +1,6 @@
 # Roadmap
 
-What is built and what is next. Each study and plan it links has the detail.
+What is built and what is next. Each study and document it links has the detail.
 
 - [x] Web surface: Playwright and axe-core over a normalized snapshot
 - [x] WCAG 1.1.1 with vision, with a suggested `alt` as the patch, on `img`, `input type="image"`, `role="img"` and named `<canvas>`
@@ -25,12 +25,20 @@ What is built and what is next. Each study and plan it links has the detail.
 - [x] WCAG 2.2 by default, with a status for every criterion and axe-core's incomplete results kept for review
 - [x] Deterministic Rampa rules, and 2.5.8 target size (experimental)
 - [x] Site criteria over a crawl: 3.2.3 consistent navigation and 3.2.6 consistent help (experimental)
-- [x] An opt-in cognitive accessibility profile from the W3C COGA guidance: first four checks ([plan](plans/cognitive-profile.md))
+- [x] An opt-in cognitive accessibility profile from the W3C COGA guidance: first four checks ([cognitive-profile.md](cognitive-profile.md))
 - [x] Cognitive profile, second round (COGA and GAIA): motion, interruptions, layout shift, blocked paste, legibility, icon-only controls and new-window links, all experimental
 - [x] Probes that drive the page, opt-in with `--probe`: media (captions, sound that plays by itself), orientation, text cut at 200% zoom, reflow at 320 px, text spacing, content on hover or focus, keyboard reachability and traps, single-key shortcuts, change on focus, focus visible and not obscured ([probes.md](probes.md))
 - [x] Contrast measured from pixels where axe-core cannot decide (text over images, gradients and video; placeholders; icon-only controls), and axe-core in every frame, open shadow roots and same-origin frames in the snapshot ([rules.md](rules.md))
 - [x] A language identifier that decides long, clear 3.1.1 and 3.1.2 cases without a model and drops model claims that contradict it
-- [x] The rest of the probe waves: all four waves of the [plan](plans/wcag-coverage.md) are built, every check experimental and every probe off by default
+- [x] The rest of the WCAG coverage waves: every check experimental and every probe off by default ([probes.md](probes.md), [rules.md](rules.md))
 - [x] The browser's accessibility tree in the snapshot (Chromium, over CDP): names and roles as assistive technology gets them, used by the rules and by 2.4.4, 2.4.6 and 3.3.2
 - [x] The rest of the WCAG 2.2 waves, as experimental probes run only when named: accessible authentication (`auth`), focus management (`focus-order`), errors after submitting (`form` with `--allow-submit`), motion and time limits (`motion`)
 - [x] ChatGPT and Gemini subscriptions through their official CLIs
+- [ ] An evaluation for the cognitive profile (`rampa eval --suite coga`, COGA corruptors, label export and import): a check leaves experimental when its fixtures all pass, its corrupted pairs flip at least 95% of the time, about 60 real-page advisories labelled by two people give a Wilson lower bound of 0.85 (0.90 for barriers, agreement 0.67 or more), and its 90th percentile stays at 10 advisories a page or fewer
+- [ ] Cognitive profile checks still to build: unmarked required fields and disabled controls with no reason, a status heading that does not say what it is about, plain words from a curated lexicon (`coga/plain-words`), long prose with no heading and 2.4.10 (AAA), and a typing probe to confirm the input-format advisories
+- [ ] Later cognitive profile checks: rules shown only in an error, feedback after a submission, help reachable across a crawl, media chapters, link styles, heading fonts, ambiguous dates in English
+- [ ] The cognitive profile outside `rampa check`: `--advisory <id>` and an `advisories` config key, the MCP `profile` argument, `toPassRampa({ advisories: true })`, the GitHub Action's `profile` input, and site advisories grouped across pages
+- [ ] Text measurements: proper names left out of the formulas, and an ordering check on OneStopEnglish and PorSimples
+- [ ] Beyond the target, in the cognitive profile: a meta refresh also noted under 2.2.4 and 3.2.5 (AAA, F41), and identical links with the same purpose as 2.4.9 (AAA) to review
+- [ ] Human review of the cognitive advisories (an annotation guide per check, specialist annotators, the abbreviation and word lists reviewed by a plain-language editor), and a pilot with people with cognitive and learning disabilities on the corrupted pairs, after ethics committee approval (CEP, Plataforma Brasil)
+- [ ] 2.5.8 evidence as an overlay screenshot with the 24 px circles, and a one-line coverage summary in the pull request comment (criteria checked, to review, not checked)

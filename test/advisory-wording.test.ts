@@ -16,7 +16,7 @@ import { testDictionaries } from './coga-helpers.ts'
 import { cadastroSnapshot, presentationSnapshot } from './coga-snapshot.ts'
 
 /**
- * An advisory must never read as a WCAG failure (docs/plans/cognitive-profile.md §2.4): no "fail",
+ * An advisory must never read as a WCAG failure (docs/cognitive-profile.md, "Reading an advisory"): no "fail",
  * "violation", "does not conform", "falha", "viola", "não conforme", "reprovado", and no "error" or
  * "erro" used as a label. The words checked here are every template, every label and every advisory the
  * checks write, with the page's own text (what sits between quotes) taken out first.

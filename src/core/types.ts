@@ -14,7 +14,7 @@ export type Confidence = 'low' | 'medium' | 'high'
 
 export const CONFIDENCE_RANK: Record<Confidence, number> = { low: 0, medium: 1, high: 2 }
 
-/** Whether a method has passed the evaluation gate (docs/plans/wcag-coverage.md, 4.9): experimental ones report below the default threshold. */
+/** Whether a method has passed the evaluation gate (docs/rules.md, "Maturity, confidence and the exit code"): experimental ones report below the default threshold. */
 export type Maturity = 'stable' | 'experimental'
 
 export function minConfidence(a: Confidence, b: Confidence): Confidence {

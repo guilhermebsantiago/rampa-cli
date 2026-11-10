@@ -11,7 +11,7 @@ import { type ProbeOptions, type ProbePage, skippedRecord } from './page.ts'
 import { TIME_LIMITS_VERSION, timeLimitsProbe } from './time-limits.ts'
 
 /**
- * Pause, Stop, Hide (2.2.2), item C10 of docs/plans/wcag-coverage.md. Content that moves, blinks or scrolls, starts
+ * Pause, Stop, Hide (2.2.2), docs/probes.md. Content that moves, blinks or scrolls, starts
  * on its own, lasts more than five seconds and is shown next to other content needs a way to pause, stop or hide it;
  * so does content that updates on its own. The probe records facts; rules/motion.ts decides.
  *
