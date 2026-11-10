@@ -5,6 +5,7 @@ import type { Waiver } from '../adoption/waivers.ts'
 import type { Locale } from '../i18n.ts'
 import type { A11ySnapshot, Blocked, Reach, Surface } from '../snapshot/schema.ts'
 import type { Level, WcagTarget } from '../wcag.ts'
+import type { CaptureRecord } from './capture.ts'
 import type { FastCoverage } from './fast.ts'
 import type { FailOn } from './gate.ts'
 import type { Timings } from './timings.ts'
@@ -605,6 +606,14 @@ export interface Report {
   notLoaded?: { error: string } | undefined
   /** The HTTP status of the page checked, when it was an error (400 or more): the report is about the error page that came with it. */
   httpStatus?: number | undefined
+  /**
+   * How faithfully the page was read, in one record (core/capture.ts): its styles, a layer over it, what the site sent,
+   * a cut, a load that did not settle, the images with and without a capture and the candidates the model did not judge.
+   * It reports and decides nothing: no verdict, finding, note or exit code reads it. Set on every report
+   * `checkSnapshot` builds; absent from reports written before it and from the report of a target that could not be
+   * loaded (`notLoaded`). The record has its own `version`, and `schemaVersion` stays 1.
+   */
+  capture?: CaptureRecord | undefined
   /**
    * Set when the form probe was allowed to submit forms (`--allow-submit`) or listed what it would submit
    * (`--submit-dry-run`), from its record, so a saved run replays it too: the origins named, the requests the guard

@@ -19,6 +19,7 @@ import { criteriaCoverage, engineCoverage, reviewItems, reviewOnlyCriteria, rule
 import { VERSION } from '../version.ts'
 import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria, criteriaFor, successCriterion, wcagTarget } from '../wcag.ts'
 import type { JudgmentCache } from './cache.ts'
+import { captureRecord } from './capture.ts'
 import { type Confirmation, confirmClaim, confirmTogether, describeAnswers, identicalClaimKey } from './confirm.ts'
 import { claimOf, findingGroups } from './groups.ts'
 import { DEFAULT_MAX_CANDIDATES, type Sample, judgeCandidates } from './judge.ts'
@@ -696,6 +697,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     ...(notes.length > 0 ? { notes } : {}),
     ...(snapshot.blocked ? { blocked: snapshot.blocked } : {}),
     ...(snapshot.httpStatus ? { httpStatus: snapshot.httpStatus } : {}),
+    // How faithfully the page was read, in one record (core/capture.ts): it reports, and decides nothing above.
+    capture: captureRecord(snapshot, summaries),
     ...(submissions ? { submissions } : {}),
     ...(advisory ? { advisory: advisory.section } : {}),
   }

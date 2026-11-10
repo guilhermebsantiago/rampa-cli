@@ -146,7 +146,61 @@
           "required": ["calls", "cachedCalls", "inputTokens", "outputTokens", "latencyMs"]
         },
         "errors": { "type": "array", "items": { "type": "string" } },
-        "notes": { "type": "array", "items": { "type": "string" } }
+        "notes": { "type": "array", "items": { "type": "string" } },
+        "capture": {
+          "type": "object",
+          "description": "How faithfully the page was read, gathered from the snapshot and the criteria's summaries: it reports and decides nothing. Every field but version and styled is absent when there is nothing to say. Absent in reports written before it and on the report of a target that could not be loaded. It holds no share of an image covered by other content",
+          "properties": {
+            "version": { "type": "number", "const": 1 },
+            "styled": { "type": "boolean", "description": "false when the page was read without its styles" },
+            "styledBy": { "type": "string", "enum": ["stylesheets", "look"] },
+            "stylesheets": {
+              "type": "object",
+              "properties": {
+                "linked": { "type": "integer", "minimum": 0 },
+                "applied": { "type": "integer", "minimum": 0 },
+                "failed": { "type": "integer", "minimum": 0 },
+                "retried": { "type": "boolean" }
+              },
+              "required": ["linked", "applied", "failed"]
+            },
+            "overlay": {
+              "type": "object",
+              "properties": { "selector": { "type": "string" }, "coverage": { "type": "number", "minimum": 0, "maximum": 1 }, "hidden": { "type": "boolean" } },
+              "required": ["selector", "coverage", "hidden"]
+            },
+            "blocked": { "type": "boolean", "const": true },
+            "httpStatus": { "type": "integer" },
+            "cut": { "type": "object", "properties": { "elements": { "type": "integer", "minimum": 0 } }, "required": ["elements"] },
+            "unsettledAfterMs": { "type": "number", "minimum": 0 },
+            "loadTimedOutMs": { "type": "number", "minimum": 0 },
+            "images": {
+              "type": "object",
+              "properties": {
+                "captured": { "type": "integer", "minimum": 0 },
+                "notCaptured": { "type": "integer", "minimum": 0 },
+                "reasons": { "type": "object", "description": "Images without a capture by reason (native.imageSkipped): outside-page, clipped, not-shown, not-loaded, placeholder, blank, stacked, capture-failed, limit" }
+              },
+              "required": ["captured", "notCaptured", "reasons"]
+            },
+            "notJudged": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "criterion": { "type": "string", "minLength": 1 },
+                  "candidates": { "type": "integer", "minimum": 0 },
+                  "capped": { "type": "integer", "minimum": 1 },
+                  "timedOut": { "type": "integer", "minimum": 1 },
+                  "offlineMisses": { "type": "integer", "minimum": 1 },
+                  "errors": { "type": "integer", "minimum": 1 }
+                },
+                "required": ["criterion", "candidates"]
+              }
+            }
+          },
+          "required": ["version", "styled"]
+        }
       },
       "required": ["schemaVersion", "rampaVersion", "createdAt", "target", "surface", "locale", "llm", "engine", "findings", "belowThreshold", "waived", "discarded", "criteria", "coverage", "usage", "errors"]
     }
