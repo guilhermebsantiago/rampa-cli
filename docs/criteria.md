@@ -248,3 +248,45 @@ Some probe rules ([probes](probes.md)) find a likely failure from what they meas
 | 4.1.3 Status Messages | `status` | Text appeared after a safe trigger, and nothing exposes it: no live region, no status, alert or log role, no focus, no dialog. Whether it gives information on the result of an action, a wait, the progress of a process or an error | A verified answer settles the rule's item to review: a fail must quote the words that make it a status message and becomes a finding, with `role="status"` as the patch when the element was on the page at load; a pass removes the item, with a note |
 
 Six of the eight can only clear a probe rule's finding, never make one. 4.1.3's and 2.4.3's can make a finding, and both stay below the default threshold. What each probe does, its rules and how they were measured are in [probes](probes.md), under the probe.
+
+## Techniques and failures a claim applies
+
+`src/core/techniques.ts` names, for each kind of claim the eight default criteria make, the documented WCAG technique or failure the claim applies: its id, the W3C's own title in English, its address in the Techniques for WCAG 2.2, and a one-line Portuguese gloss. The gloss is this project's wording: the W3C's list of WAI translations has authorized Brazilian Portuguese translations of WCAG 2.2 and 2.0 themselves, and none of the Techniques. Nothing cites the table in findings or reports yet.
+
+A citation says which documented reading the claim applies; it does not say the page fails WCAG. A kind with no citation has none that fits.
+
+Each page below was read on the date given: its title was copied, the criterion was found in its "This technique relates to" list, and what it describes was compared with the claim. The kinds are those the human-review studies name, with 1.1.1 split finer. At most two per kind, the most specific first.
+
+| Claim kind | Id | Title | Address | Read on |
+| --- | --- | --- | --- | --- |
+| 1.1.1 placeholder | F30 | Failure of Success Criterion 1.1.1 and 1.2.1 due to using text alternatives that are not alternatives (e.g., filenames or placeholder text) | <https://www.w3.org/WAI/WCAG22/Techniques/failures/F30> | 2026-11-09 |
+| 1.1.1 generic | F30 | (as above) | <https://www.w3.org/WAI/WCAG22/Techniques/failures/F30> | 2026-11-09 |
+| 1.1.1 wrong_content | G94 | Providing short text alternative for non-text content that serves the same purpose and presents the same information as the non-text content | <https://www.w3.org/WAI/WCAG22/Techniques/general/G94> | 2026-11-09 |
+| 1.1.1 missing_information | G94 | (as above) | <https://www.w3.org/WAI/WCAG22/Techniques/general/G94> | 2026-11-09 |
+| 1.1.1 short_alternative | G94 | (as above) | <https://www.w3.org/WAI/WCAG22/Techniques/general/G94> | 2026-11-09 |
+| 1.1.1 functional_link | H30 | Providing link text that describes the purpose of a link for anchor elements | <https://www.w3.org/WAI/WCAG22/Techniques/html/H30> | 2026-11-09 |
+| 1.1.1 functional_button | H36 | Using alt attributes on images used as submit buttons | <https://www.w3.org/WAI/WCAG22/Techniques/html/H36> | 2026-11-09 |
+| 1.1.1 decorative | F39 | Failure of Success Criterion 1.1.1 due to providing a text alternative that is not null (e.g., alt="spacer" or alt="image") for images that should be ignored by assistive technology | <https://www.w3.org/WAI/WCAG22/Techniques/failures/F39> | 2026-11-09 |
+| 1.1.1 decorative | H67 | Using null alt text and no title attribute on img elements for images that assistive technology should ignore | <https://www.w3.org/WAI/WCAG22/Techniques/html/H67> | 2026-11-09 |
+| 1.1.1 hidden_image | none | | | |
+| 2.4.4 shared_text | H81 | Identifying the purpose of a link in a nested list using link text combined with the parent list item under which the list is nested | <https://www.w3.org/WAI/WCAG22/Techniques/html/H81> | 2026-11-09 |
+| 2.4.4 shared_text | H80 | Identifying the purpose of a link using link text combined with the preceding heading element | <https://www.w3.org/WAI/WCAG22/Techniques/html/H80> | 2026-11-09 |
+| 2.4.4 generic | G91 | Providing link text that describes the purpose of a link | <https://www.w3.org/WAI/WCAG22/Techniques/general/G91> | 2026-11-09 |
+| 2.4.4 address | G91 | (as above) | <https://www.w3.org/WAI/WCAG22/Techniques/general/G91> | 2026-11-09 |
+| 2.4.4 mismatch | G91 | (as above) | <https://www.w3.org/WAI/WCAG22/Techniques/general/G91> | 2026-11-09 |
+| 2.4.6 heading | G130 | Providing descriptive headings | <https://www.w3.org/WAI/WCAG22/Techniques/general/G130> | 2026-11-09 |
+| 2.4.6 label | G131 | Providing descriptive labels | <https://www.w3.org/WAI/WCAG22/Techniques/general/G131> | 2026-11-09 |
+| 2.4.2 title | F25 | Failure of Success Criterion 2.4.2 due to the title of a web page not identifying the contents | <https://www.w3.org/WAI/WCAG22/Techniques/failures/F25> | 2026-11-09 |
+| 2.4.2 title | G88 | Providing descriptive titles for web pages | <https://www.w3.org/WAI/WCAG22/Techniques/general/G88> | 2026-11-09 |
+| 3.1.1 page_language | H57 | Using the language attribute on the HTML element | <https://www.w3.org/WAI/WCAG22/Techniques/html/H57> | 2026-11-09 |
+| 3.1.2 passage_language | H58 | Using language attributes to identify changes in the human language | <https://www.w3.org/WAI/WCAG22/Techniques/html/H58> | 2026-11-09 |
+| 1.3.5 autocomplete | H98 | Using HTML autocomplete attributes | <https://www.w3.org/WAI/WCAG22/Techniques/html/H98> | 2026-11-09 |
+| 3.3.2 label_not_visible | H44 | Using label elements to associate text labels with form controls | <https://www.w3.org/WAI/WCAG22/Techniques/html/H44> | 2026-11-09 |
+
+What was left out, and why:
+
+- **1.1.1 hidden_image** has none. No failure that Understanding 1.1.1 lists describes an image that conveys something and is hidden with `alt=""`, `role="presentation"` or `"none"`, `aria-hidden` or an `svg` with no name: F65 is an `alt` attribute left out, F38 the opposite case, F3 a CSS background image. H67 is the marking the claim disputes.
+- **2.4.4 shared_text** cites H81 (sufficient for 2.4.4) and H80 (advisory, as its page says), the two context readings beyond the definition's own that the shared-text fact compares. F63 fails a link whose needed context "is located in content that is not programmatically determined link context"; the claim says only that nothing in this link's context tells it apart, not that such context is elsewhere, so F63 is not cited.
+- **1.3.5 autocomplete** holds a missing token and a wrong one. F107's test checks that the field "has an autocomplete attribute and value pair that does not match the purpose of the input", which a missing token is not, so only H98 is cited.
+- **3.3.2 label_not_visible** cites H44, whose page says "for Success Criterion 3.3.2 (Labels or Instructions), the label element must be visible". G131 asks for a descriptive label, not a visible one, and F82 is about a set of phone number fields. The studies read every 3.3.2 finding as this kind; H44 does not fit the other 3.3.2 claims (a pattern or a date format nothing on screen explains, a group with no legend), which have no key in the table.
+- **1.1.1 short_alternative** ("does not describe the image") cites G94, read by its test: nothing is lost when the alternative replaces the image. G94 also says an alternative "should not necessarily describe the non-text content".
