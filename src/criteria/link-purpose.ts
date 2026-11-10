@@ -50,6 +50,15 @@ const ENGINE_RULES = ['link-name'] as const
 
 export const LINK_PROBLEMS = ['none', 'generic', 'url_or_filename', 'mismatch', 'ambiguous'] as const
 
+/** The kind of claim each problem makes, as the "2.4.4 <kind>" keys of core/techniques.ts name it; none for `none`. */
+const LINK_CLAIMS: Record<(typeof LINK_PROBLEMS)[number], string | undefined> = {
+  none: undefined,
+  generic: 'generic',
+  url_or_filename: 'address',
+  mismatch: 'mismatch',
+  ambiguous: 'shared_text',
+}
+
 export const LinkPurposeJudgment = z.strictObject({
   // Written before the verdict, so the model reads what the link promises and where it leads before it compares them.
   promises: z.string().describe('What the link text, with its context, says the link leads to or does, in a few words; empty when it says nothing'),
@@ -409,6 +418,9 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
     const reason = reasons[output.problem][locale]
     return locale === 'pt-BR' ? `O texto do link "${name}" ${reason}.` : `The link text "${name}" ${reason}.`
   },
+
+  // The message words the model's problem, so the kind is that problem, as core/techniques.ts names it.
+  claimKind: (output) => LINK_CLAIMS[output.problem],
 
   patch(output, candidate, snapshot): Patch | undefined {
     const c = candidate.context

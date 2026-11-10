@@ -23,6 +23,7 @@ import {
   parsingNote,
   patchOf,
   plural,
+  readingText,
   reviewGroups,
   statusText,
   type ShownEntry,
@@ -254,6 +255,9 @@ function findingBody(finding: Finding, report: Report): string[] {
   if (!report.findings.includes(finding)) meta.push(e(t(locale, 'belowThresholdShort', { level: thresholdLevel(report) })))
   meta.push(`id <code>${e(finding.fingerprint)}</code>`)
   out.push(`<p class="meta">${meta.join(' · ')}</p>`)
+  // The documented reading the claim applies (Finding.techniques), each id linked to its page on w3.org.
+  const reading = readingText(finding.techniques, locale, { link: (id, url) => `<a href="${e(url)}">${e(id)}</a>`, text: e })
+  if (reading) out.push(`<p class="meta reading">${reading}</p>`)
   return out
 }
 

@@ -22,6 +22,7 @@ import {
   pageLabel,
   plural,
   probedCriteria,
+  readingText,
   reviewGroups,
   reviewOnly,
   safeUrl,
@@ -393,7 +394,8 @@ function groupResultOf(entry: GroupOf, kind: Kind, report: Report, artifact: Art
   const { fixes: _fixes, ...base } = resultOf(example, kind, report, artifact, rule, policy)
   const { patch: _patch, ...properties } = base.properties
   const fails = members.some((member) => failsPolicy(member, kind === 'confirmed', policy))
-  const said = [example.message, ...(example.evidence ? [`${t(locale, 'evidence')}: "${example.evidence}".`] : [])].join(' ')
+  const reading = readingText(example.techniques, locale)
+  const said = [example.message, ...(example.evidence ? [`${t(locale, 'evidence')}: "${example.evidence}".`] : []), ...(reading ? [`${reading}.`] : [])].join(' ')
   const links = members.slice(0, LINKED_MEMBERS).map((member, index) => `[${plainText(findingPlace(member) || member.fingerprint)}](${index + 1})`)
   const more = (count: number) => (count > 0 ? ` ${plural(locale, 'andMore', count)}` : '')
   const ids = members.slice(0, LISTED_IDS).map((member) => member.fingerprint)
@@ -438,6 +440,9 @@ function resultOf(finding: Finding, kind: Kind, report: Report, artifact: Artifa
   const locale = report.locale
   const parts = [finding.message]
   if (finding.evidence) parts.push(`${t(locale, 'evidence')}: "${finding.evidence}".`)
+  // The documented reading the claim applies (Finding.techniques); the ids are in the properties too.
+  const reading = readingText(finding.techniques, locale)
+  if (reading) parts.push(`${reading}.`)
   // The id people put in the waivers file, since code scanning shows the message and not the properties.
   parts.push(`(id ${finding.fingerprint})`)
   const location = locationOf(finding, artifact)
@@ -461,6 +466,7 @@ function resultOf(finding: Finding, kind: Kind, report: Report, artifact: Artifa
       ...(finding.ruleId ? { engineRule: finding.ruleId } : {}),
       ...(safeUrl(finding.helpUrl) ? { engineHelpUri: safeUrl(finding.helpUrl) } : {}),
       ...(finding.agreement ? { agreement: finding.agreement } : {}),
+      ...(finding.techniques?.length ? { techniques: finding.techniques } : {}),
       ...(finding.model ? { model: finding.model } : {}),
       ...(finding.patch?.before && finding.patch.after ? { patch: { before: finding.patch.before, after: finding.patch.after } } : {}),
       ...(kind === 'below-threshold' ? { belowThreshold: true } : {}),

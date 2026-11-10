@@ -3,7 +3,7 @@ import { type GroupOf, groupList } from '../core/groups.ts'
 import type { EngineResults, Finding, Report } from '../core/types.ts'
 import { type Locale, t } from '../i18n.ts'
 import { estimateCostUsd } from '../providers/models.ts'
-import { groupWhy, groupsClause, memberAbout, plural, reviewGroups, reviewOnly, thresholdLevel, truncationText } from '../report/common.ts'
+import { groupWhy, groupsClause, memberAbout, plural, readingText, reviewGroups, reviewOnly, thresholdLevel, truncationText } from '../report/common.ts'
 import { beyondTargetNote, displayTarget, usageLine } from '../report/pretty.ts'
 import { criteriaFor, criterionLabel, successCriterion, versionOf } from '../wcag.ts'
 
@@ -40,6 +40,10 @@ export const FindingSchema = z.object({
   patch: PatchSchema.optional(),
   confidence: z.enum(['low', 'medium', 'high']),
   agreement: z.object({ votes: z.number().int(), total: z.number().int() }).optional(),
+  techniques: z
+    .array(z.string())
+    .optional()
+    .describe('A judgment: the WCAG techniques and failures whose documented reading its claim applies, such as F30; not a verdict that the page fails them'),
   rule_id: z.string().optional(),
   help_url: z.string().optional(),
   html: z.string().optional(),
@@ -184,6 +188,7 @@ export function agentFinding(finding: Finding, engine: EngineResults): AgentFind
     },
     confidence: finding.confidence,
     agreement: finding.agreement,
+    ...(finding.techniques?.length ? { techniques: finding.techniques } : {}),
     rule_id: finding.ruleId,
     help_url: finding.helpUrl,
     html: finding.html,
@@ -397,6 +402,8 @@ export function checkText(report: Report, result: CheckResult): string {
           ? [`${t(locale, 'rampaRule')} ${finding.rule_id ?? ''}`, finding.help_url]
         : [finding.agreement && `${finding.agreement.votes}/${finding.agreement.total} ${t(locale, 'runs')}`, t(locale, 'verified')]
     lines.push(`   ${[`${t(locale, 'confidence')} ${t(locale, finding.confidence)}`, ...details, `id ${finding.id}`].filter(Boolean).join(' · ')}`)
+    const reading = readingText(finding.techniques, locale)
+    if (reading) lines.push(`   ${reading}`)
     if (group) {
       lines.push(`   ${plural(locale, 'reviewElements', group.members.length)}:`)
       for (const member of group.members.slice(0, LISTED_MEMBERS)) lines.push(`   - ${member.selector ?? ''}${member.about ? ` · "${member.about}"` : ''} · id ${member.id}`)

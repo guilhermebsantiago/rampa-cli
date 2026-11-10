@@ -1,6 +1,7 @@
 import { reviewOnlyCriteria } from '../core/coverage.ts'
 import { fastLine } from '../core/fast.ts'
 import { type GroupOf, reportGroups } from '../core/groups.ts'
+import { TECHNIQUES } from '../core/techniques.ts'
 import type { CoverageMethod, CoverageStatus, CriterionCoverage, Finding, FindingGroup, Report, ReviewItem } from '../core/types.ts'
 import { type Locale, type MessageKey, t } from '../i18n.ts'
 import { IMAGE_SKIPS, type ImageSkip } from '../snapshot/image-skips.ts'
@@ -93,6 +94,34 @@ export function confirmationText(confirmation: NonNullable<Finding['confirmation
   if (confirmation.identical) return t(locale, 'confirmedTogether', { confirmed: confirmation.identical.confirmed, claims: confirmation.identical.claims })
   const probability = confirmation.minProbability === undefined ? '' : t(locale, 'confirmedProbability', { value: confirmation.minProbability.toFixed(2) })
   return t(locale, 'confirmedBy', { framings: confirmation.framings, probability })
+}
+
+/**
+ * The techniques and failures a judgment finding cites (`Finding.techniques`), as one line: `Reading applied: failure
+ * F30, "<title>"`, in Portuguese with the project's gloss before the W3C title. It names the documented reading the
+ * claim applies, never a verdict on the page or the element. `link` makes an id a link and `text` escapes the other
+ * values, for HTML and Markdown. Undefined when the finding cites none.
+ */
+export function readingText(
+  techniques: readonly string[] | undefined,
+  locale: Locale,
+  format: { link?: (id: string, url: string) => string; text?: (value: string) => string } = {},
+): string | undefined {
+  const cited = (techniques ?? []).flatMap((id) => {
+    const technique = Object.hasOwn(TECHNIQUES, id) ? TECHNIQUES[id] : undefined
+    return technique ? [technique] : []
+  })
+  if (cited.length === 0) return undefined
+  const text = format.text ?? ((value: string) => value)
+  const items = cited.map((technique) =>
+    t(locale, 'readingItem', {
+      noun: text(t(locale, technique.type === 'failure' ? 'readingFailure' : 'readingTechnique')),
+      id: format.link ? format.link(technique.id, technique.url) : text(technique.id),
+      title: text(technique.title),
+      gloss: text(technique.gloss),
+    }),
+  )
+  return t(locale, 'readingApplied', { list: items.join(t(locale, 'readingAnd')) })
 }
 
 /** What a report shows: confirmed findings, plus those below the confidence threshold with --verbose. */

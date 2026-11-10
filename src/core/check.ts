@@ -22,6 +22,7 @@ import type { JudgmentCache } from './cache.ts'
 import { captureRecord } from './capture.ts'
 import { type Confirmation, confirmClaim, confirmTogether, describeAnswers, identicalClaimKey } from './confirm.ts'
 import { claimOf, findingGroups } from './groups.ts'
+import { techniqueIds } from './techniques.ts'
 import { DEFAULT_MAX_CANDIDATES, type Sample, judgeCandidates } from './judge.ts'
 import type { FastCoverage } from './fast.ts'
 import { assertConfidence, meetsThreshold, nothingJudgedNote } from './gate.ts'
@@ -449,6 +450,9 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
           const subject = criterion.subject?.(judgment.candidate)
           // The kind of claim, read from the answer: groups of near-identical findings are keyed on it (core/groups.ts).
           const claim = claimOf(output)
+          // The techniques and failures whose reading the claim applies (core/techniques.ts), for reports to show.
+          const kind = criterion.claimKind?.(output, judgment.candidate)
+          const techniques = kind ? techniqueIds(criterion.id, kind) : []
           findings.push({
             fingerprint: fingerprint(criterion.id, judgment.candidate.ref, subject ?? ''),
             criterion: criterion.id,
@@ -459,6 +463,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
             evidence: output.evidence,
             subject,
             ...(claim ? { claim } : {}),
+            ...(techniques.length > 0 ? { techniques } : {}),
             patch: criterion.patch?.(output, judgment.candidate, view),
             confidence,
             // A judgment the criterion made without a model names no model; its message says what decided it.
