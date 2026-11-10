@@ -106,7 +106,7 @@ Exit codes: `0` no confirmed failure, `1` a confirmed failure, `2` the run could
 
 ## Use it where you work
 
-- **GitHub Actions:** `uses: guilhermebsantiago/rampa-cli@v0.1.1` (a release tag; `@main` moves with every merge): SARIF to code scanning and one sticky pull request comment ([guide](docs/github-action.md)).
+- **GitHub Actions:** `uses: guilhermebsantiago/rampa-cli@v0.1.2` (a release tag; `@main` moves with every merge): SARIF to code scanning and one sticky pull request comment ([guide](docs/github-action.md)).
 - **Reports:** SARIF, Markdown, single-file HTML and JSON, with `file:line` for local pages ([formats](docs/output-formats.md)).
 - **Pre-commit:** pre-commit, Husky, lint-staged or Lefthook, on staged `.html` files ([guide](docs/pre-commit.md)).
 - **Playwright:** `await expect(page).toPassRampa()` from `rampa-cli/playwright`, on a page or one component ([guide](docs/playwright.md)).
