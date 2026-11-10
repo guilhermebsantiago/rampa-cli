@@ -89,14 +89,20 @@ describe('the kind of claim each judged criterion cites', () => {
   })
 })
 
+// The gloss inside the line: no opening "Falha: " (the noun says it) and no final period.
+const phrase = (gloss: string | undefined) => (gloss ?? '').replace(/^Falha:\s*/u, '').replace(/\.$/u, '')
+
 describe('the line that names the reading', () => {
   it('names a failure or a technique with its W3C title, two joined by "and", and the gloss first in Portuguese', () => {
     expect(readingText(['F30'], 'en')).toBe(`Reading applied: failure F30, "${TECHNIQUES.F30?.title}"`)
+    expect(readingText(['F30'], 'pt-BR')).toBe(
+      'Leitura aplicada: falha F30, "um texto alternativo que não é alternativa, como um nome de arquivo ou um placeholder" (Failure of Success Criterion 1.1.1 and 1.2.1 due to using text alternatives that are not alternatives (e.g., filenames or placeholder text))',
+    )
     expect(readingText(['F39', 'H67'], 'en')).toBe(`Reading applied: failure F39, "${TECHNIQUES.F39?.title}" and technique H67, "${TECHNIQUES.H67?.title}"`)
     expect(readingText(['H81', 'H80'], 'pt-BR')).toBe(
-      `Leitura aplicada: técnica H81, "${TECHNIQUES.H81?.gloss}" (${TECHNIQUES.H81?.title}) e técnica H80, "${TECHNIQUES.H80?.gloss}" (${TECHNIQUES.H80?.title})`,
+      `Leitura aplicada: técnica H81, "${phrase(TECHNIQUES.H81?.gloss)}" (${TECHNIQUES.H81?.title}) e técnica H80, "${phrase(TECHNIQUES.H80?.gloss)}" (${TECHNIQUES.H80?.title})`,
     )
-    expect(readingText(['F25', 'G88'], 'pt-BR')).toBe(`Leitura aplicada: falha F25, "${TECHNIQUES.F25?.gloss}" (${TECHNIQUES.F25?.title}) e técnica G88, "${TECHNIQUES.G88?.gloss}" (${TECHNIQUES.G88?.title})`)
+    expect(readingText(['F25', 'G88'], 'pt-BR')).toBe(`Leitura aplicada: falha F25, "${phrase(TECHNIQUES.F25?.gloss)}" (${TECHNIQUES.F25?.title}) e técnica G88, "${phrase(TECHNIQUES.G88?.gloss)}" (${TECHNIQUES.G88?.title})`)
   })
 
   it('is absent for a finding that cites none', () => {
@@ -155,7 +161,7 @@ describe('a report with one 1.1.1 placeholder finding', () => {
   if (!F30) throw new Error('no F30')
   const LINES = {
     en: `Reading applied: failure F30, "${F30.title}"`,
-    'pt-BR': `Leitura aplicada: falha F30, "${F30.gloss}" (${F30.title})`,
+    'pt-BR': `Leitura aplicada: falha F30, "${phrase(F30.gloss)}" (${F30.title})`,
   } as const
   const escape = (value: string) => value.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#39;')
 

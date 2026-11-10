@@ -118,10 +118,18 @@ export function readingText(
       noun: text(t(locale, technique.type === 'failure' ? 'readingFailure' : 'readingTechnique')),
       id: format.link ? format.link(technique.id, technique.url) : text(technique.id),
       title: text(technique.title),
-      gloss: text(technique.gloss),
+      gloss: text(glossPhrase(technique.gloss)),
     }),
   )
   return t(locale, 'readingApplied', { list: items.join(t(locale, 'readingAnd')) })
+}
+
+/**
+ * A gloss as a phrase inside the line: without the "Falha: " that opens a failure's gloss, which the noun before the id
+ * already says ("falha F30"), and without its final period, which would close the quotation before the title.
+ */
+function glossPhrase(gloss: string): string {
+  return gloss.replace(/^Falha:\s*/u, '').replace(/\.$/u, '')
 }
 
 /** What a report shows: confirmed findings, plus those below the confidence threshold with --verbose. */
