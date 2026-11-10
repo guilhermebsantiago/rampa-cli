@@ -6,6 +6,7 @@ import { compareCriteria, successCriterion } from '../wcag.ts'
 import {
   PROJECT_URL,
   WAIVERS_FILE,
+  captureLines,
   countLevels,
   coverageRows,
   criterionName,
@@ -54,14 +55,16 @@ export function renderHtml(reports: readonly Report[], options: HtmlOptions = {}
   const subject = reports.length === 1 && reports[0] ? pageLabel(reports[0]) : plural(locale, 'pagesCount', reports.length)
   const created = reports.map((report) => report.createdAt).sort().at(-1) ?? new Date().toISOString()
   const version = wcagVersion(reports[0] ?? {})
+  // A target that could not be loaded was not checked: it is not counted with the pages checked, and its section says so.
+  const checked = reports.filter((report) => !report.notLoaded).length
   const lead =
-    reports.length === 0
+    checked === 0
       ? t(locale, 'noPages')
       : confirmed.length > 0
-        ? [`${plural(locale, 'confirmedCount', confirmed.length)} ${plural(locale, 'onPages', reports.length, { version })}: ${levelBreakdown(countLevels(confirmed), locale, version)}.`, groupsClause(reports, locale)]
+        ? [`${plural(locale, 'confirmedCount', confirmed.length)} ${plural(locale, 'onPages', checked, { version })}: ${levelBreakdown(countLevels(confirmed), locale, version)}.`, groupsClause(reports, locale)]
             .filter(Boolean)
             .join(' ')
-        : plural(locale, 'noFindingsPages', reports.length)
+        : plural(locale, 'noFindingsPages', checked)
 
   const parts: string[] = []
   parts.push(`<!doctype html>
@@ -135,7 +138,9 @@ function pageSection(report: Report, index: number, several: boolean, verbose: b
   const counts = countLevels(report.findings)
   if (several || counts.total === 0) {
     const lead =
-      counts.total > 0 ? `${plural(locale, 'confirmedCount', counts.total)}: ${levelBreakdown(counts, locale, wcagVersion(report))}.` : t(locale, report.blocked ? 'blockedHeadline' : 'noFindings')
+      counts.total > 0
+        ? `${plural(locale, 'confirmedCount', counts.total)}: ${levelBreakdown(counts, locale, wcagVersion(report))}.`
+        : t(locale, report.notLoaded ? 'notLoadedHeadline' : report.blocked ? 'blockedHeadline' : 'noFindings')
     out.push(`<p class="page-lead">${e(lead)}</p>`)
   }
 
@@ -144,6 +149,11 @@ function pageSection(report: Report, index: number, several: boolean, verbose: b
   const usage = usageLine(report)
   if (usage) notes.push(usage)
   if (notes.length > 0) out.push(`<ul class="notes">${notes.map((note) => `<li>${e(note)}</li>`).join('')}</ul>`)
+  // How the page was read, from the capture record, after the notes: a heading at the level of the page's other parts, and a list.
+  const capture = captureLines(report, locale)
+  if (capture.length > 0) {
+    out.push(`<section class="capture">\n<h3>${e(t(locale, 'captureTitle'))}</h3>\n<ul class="notes">${capture.map((line) => `<li>${e(line)}</li>`).join('')}</ul>\n</section>`)
+  }
 
   // A burst of near-identical findings is one item: the group, an example and its elements, folded (core/groups.ts).
   const byCriterion = new Map<string, ShownEntry[]>()

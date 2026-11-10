@@ -19,6 +19,7 @@ import { criteriaCoverage, engineCoverage, reviewItems, reviewOnlyCriteria, rule
 import { VERSION } from '../version.ts'
 import { DEFAULT_WCAG, type WcagVersion, beyondTarget, compareCriteria, criteriaFor, successCriterion, wcagTarget } from '../wcag.ts'
 import type { JudgmentCache } from './cache.ts'
+import { captureRecord } from './capture.ts'
 import { type Confirmation, confirmClaim, confirmTogether, describeAnswers, identicalClaimKey } from './confirm.ts'
 import { claimOf, findingGroups } from './groups.ts'
 import { DEFAULT_MAX_CANDIDATES, type Sample, judgeCandidates } from './judge.ts'
@@ -103,6 +104,16 @@ export { DEFAULT_MAX_CANDIDATES }
 /** The cap when it is below the default one (fast mode's coverage line lists it); undefined for the default, a higher cap or none. */
 export function loweredCap(cap: number | undefined): number | undefined {
   return cap !== undefined && cap > 0 && cap < DEFAULT_MAX_CANDIDATES ? cap : undefined
+}
+
+/**
+ * The A/AA criteria a report states coverage against, in order: 4.1.1 is never counted, since WCAG 2.2 removed it and
+ * under 2.1 it is satisfied by definition for HTML and XML. A target that could not be loaded lists them all as not checked.
+ */
+export function countedCriteria(version: WcagVersion): string[] {
+  return criteriaFor(version)
+    .flatMap((sc) => (sc.removedIn ? [] : [sc.id]))
+    .sort(compareCriteria)
 }
 
 export function fingerprint(criterion: string, ref: string | undefined, detail: string): string {
@@ -545,7 +556,7 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
   reported.sort((a, b) => compareCriteria(a.criterion, b.criterion))
 
   // 4.1.1 is never counted: WCAG 2.2 removed it, and under 2.1 it is satisfied by definition for HTML and XML.
-  const all = new Set(criteriaFor(version).flatMap((sc) => (sc.removedIn ? [] : [sc.id])))
+  const all = new Set(countedCriteria(version))
   // What axe-core left undecided and a rule then took over (contrast measured from pixels, a video the media probe
   // played) leaves axe-core's items to review only where the report shows the rule's result instead.
   const { settled, context } = settledResults([...stage.settlements, ...(probe.settlements ?? [])], {
@@ -686,6 +697,8 @@ export async function checkSnapshot(snapshot: A11ySnapshot, engine: EngineResult
     ...(notes.length > 0 ? { notes } : {}),
     ...(snapshot.blocked ? { blocked: snapshot.blocked } : {}),
     ...(snapshot.httpStatus ? { httpStatus: snapshot.httpStatus } : {}),
+    // How faithfully the page was read, in one record (core/capture.ts): it reports, and decides nothing above.
+    capture: captureRecord(snapshot, summaries),
     ...(submissions ? { submissions } : {}),
     ...(advisory ? { advisory: advisory.section } : {}),
   }

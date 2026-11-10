@@ -9,7 +9,7 @@ import { estimateCostUsd, subscriptionOf } from '../providers/models.ts'
 import { compareCriteria, criterionLabel, criteriaFor, versionOf } from '../wcag.ts'
 import { advisoryLines, cogaCoverage } from './advisory.ts'
 import type { Painter } from './color.ts'
-import { confirmationText, coverageRows, entriesOf, groupWhy, memberAbout, methodsText, plural, reviewGroups, statusText, thresholdLevel } from './common.ts'
+import { captureLines, confirmationText, coverageRows, entriesOf, groupWhy, memberAbout, methodsText, plural, reviewGroups, statusText, thresholdLevel } from './common.ts'
 import { timingLines } from './timings.ts'
 
 export interface PrettyOptions {
@@ -35,8 +35,9 @@ export function renderReport(report: Report, options: PrettyOptions): string {
   lines.push('')
 
   if (report.findings.length === 0) {
-    // A page the site replaced with a bot check was not checked at all: "no failures" would read as a pass.
-    lines.push(report.blocked ? p.bold(p.yellow(t(locale, 'blockedHeadline'))) : p.green(noNewFindings(report) ?? t(locale, 'noFindings')))
+    // A page the site replaced with a bot check, or a target that could not be loaded, was not checked at all: "no failures" would read as a pass.
+    const unchecked = report.notLoaded ? 'notLoadedHeadline' : report.blocked ? 'blockedHeadline' : undefined
+    lines.push(unchecked ? p.bold(p.yellow(t(locale, unchecked))) : p.green(noNewFindings(report) ?? t(locale, 'noFindings')))
     lines.push('')
   }
 
@@ -84,6 +85,9 @@ export function renderReport(report: Report, options: PrettyOptions): string {
     for (const note of notes) lines.push(p.yellow(note))
     lines.push('')
   }
+  // How the page was read, from the capture record, next to the notes and with or without --verbose; nothing when it has nothing to say.
+  const capture = captureLines(report, locale)
+  if (capture.length > 0) lines.push(p.bold(t(locale, 'captureTitle')), ...capture.map((line) => `  ${line}`), '')
   const adoption = adoptionLines(report, verbose, p)
   if (adoption.length > 0) lines.push(...adoption, '')
 

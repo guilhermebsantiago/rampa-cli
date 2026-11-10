@@ -96,6 +96,15 @@ describe('--fail-on', () => {
     expect(exitCode([decidedAndMore], 'confirmed')).toBe(2)
   })
 
+  it('exits 2 for a target that could not be loaded, whatever the policy, alone or next to a report with findings', () => {
+    const notLoaded = report([], { notLoaded: { error: 'not a snapshot' }, errors: ['not a snapshot'] })
+    for (const policy of FAIL_ON) {
+      expect(exitCode([notLoaded], policy)).toBe(2)
+      expect(exitCode([report([finding('A')]), notLoaded], policy)).toBe(2)
+      expect(exitCode([notLoaded, report([], { belowThreshold: [finding('AA')] })], policy)).toBe(2)
+    }
+  })
+
   it('reads the policy in any case and rejects the rest', () => {
     expect(parseFailOn('aa')).toBe('AA')
     expect(parseFailOn(' A ')).toBe('A')

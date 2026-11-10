@@ -96,10 +96,11 @@ export function unjudgedCandidates(report: Pick<Report, 'llm' | 'criteria'>): nu
 
 /**
  * Whether the run cannot vouch for a report: a criterion the model failed on every candidate of, nothing judged at
- * all, or a page the site replaced with a bot check or a refusal, where nothing was checked.
+ * all, a page the site replaced with a bot check or a refusal, or a target that could not be loaded, where nothing
+ * was checked.
  */
-export function cannotVouch(report: Pick<Report, 'llm' | 'criteria' | 'blocked'>): boolean {
-  return report.blocked !== undefined || brokenCriteria(report).length > 0 || unjudgedCandidates(report) !== undefined
+export function cannotVouch(report: Pick<Report, 'llm' | 'criteria' | 'blocked' | 'notLoaded'>): boolean {
+  return report.blocked !== undefined || report.notLoaded !== undefined || brokenCriteria(report).length > 0 || unjudgedCandidates(report) !== undefined
 }
 
 /**

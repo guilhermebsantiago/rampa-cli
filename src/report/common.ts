@@ -3,6 +3,7 @@ import { fastLine } from '../core/fast.ts'
 import { type GroupOf, reportGroups } from '../core/groups.ts'
 import type { CoverageMethod, CoverageStatus, CriterionCoverage, Finding, FindingGroup, Report, ReviewItem } from '../core/types.ts'
 import { type Locale, type MessageKey, t } from '../i18n.ts'
+import { IMAGE_SKIPS, type ImageSkip } from '../snapshot/image-skips.ts'
 import { reachNotes, truncationNote } from '../snapshot/reach.ts'
 import { type WcagVersion, compareCriteria, criteriaFor, successCriterion, versionOf } from '../wcag.ts'
 import { cogaClause } from './advisory.ts'
@@ -271,6 +272,70 @@ export function truncationText(report: Pick<Report, 'coverage' | 'engine' | 'loc
   const cut = report.coverage.truncated
   if (!cut) return undefined
   return truncationNote(cut, { engine: report.engine.name !== 'none' ? report.engine.name : undefined, probes: report.coverage.probes !== undefined }, report.locale)
+}
+
+/** Each reason an image was left without a capture, in the words of the report's note on such images (snapshot/image-skips.ts). */
+const IMAGE_SKIP_KEYS: Record<ImageSkip, MessageKey> = {
+  'outside-page': 'imageSkipOutsidePage',
+  clipped: 'imageSkipClipped',
+  'not-shown': 'imageSkipNotShown',
+  'not-loaded': 'imageSkipNotLoaded',
+  placeholder: 'imageSkipPlaceholder',
+  blank: 'imageSkipBlank',
+  stacked: 'imageSkipStacked',
+  'capture-failed': 'imageSkipCaptureFailed',
+  limit: 'imageSkipLimit',
+}
+
+/**
+ * What a report's capture record (`Report.capture`, core/capture.ts) says of how the page was read, one plain line per
+ * fact it holds, in this order: read without its styles (and how Rampa told), the stylesheets that did not apply or the
+ * load once more for them, a layer over the viewport, a bot check or a refusal, an HTTP error, the cut at the collector's
+ * budget, a load event that had not fired, a page still changing after the wait, the images left without a capture (with
+ * those captured, by reason), and per criterion the candidates the model did not judge, by cause. The terminal, Markdown
+ * and HTML reports show the lines under "How the page was read", and SARIF carries the record when there is a line.
+ *
+ * No line for a record that says nothing beyond a page read in full (styled, every image captured), for a report with no
+ * record (one written before it) and for a target that could not be loaded. The lines state the record's facts and
+ * decide nothing; the notes say the same facts their own way and stay as they are.
+ */
+export function captureLines(report: Pick<Report, 'capture' | 'notLoaded'>, locale: Locale): string[] {
+  const record = report.capture
+  if (!record || report.notLoaded) return []
+  const lines: string[] = []
+  if (!record.styled) {
+    lines.push(t(locale, record.styledBy === 'stylesheets' ? 'captureUnstyledStylesheets' : record.styledBy === 'look' ? 'captureUnstyledLook' : 'captureUnstyled'))
+  }
+  const sheets = record.stylesheets
+  if (sheets && (sheets.failed > 0 || sheets.retried)) {
+    lines.push(t(locale, sheets.retried ? 'captureStylesheetsRetried' : 'captureStylesheets', { applied: sheets.applied, linked: sheets.linked, failed: sheets.failed }))
+  }
+  const overlay = record.overlay
+  if (overlay) lines.push(t(locale, overlay.hidden ? 'captureOverlay' : 'captureOverlayShown', { selector: overlay.selector, coverage: `${Math.round(overlay.coverage * 100)}%` }))
+  if (record.blocked) lines.push(t(locale, 'captureBlocked'))
+  if (record.httpStatus) lines.push(t(locale, 'captureHttpStatus', { code: record.httpStatus }))
+  if (record.cut) lines.push(t(locale, 'captureCut', { count: record.cut.elements }))
+  if (record.loadTimedOutMs !== undefined) lines.push(t(locale, 'captureLoadTimedOut', { ms: record.loadTimedOutMs }))
+  if (record.unsettledAfterMs !== undefined) lines.push(t(locale, 'captureUnsettled', { ms: record.unsettledAfterMs }))
+  const images = record.images
+  if (images && images.notCaptured > 0) {
+    const reasons = IMAGE_SKIPS.flatMap((reason) => {
+      const count = images.reasons[reason]
+      return count ? [`${count} ${t(locale, IMAGE_SKIP_KEYS[reason])}`] : []
+    })
+    lines.push(t(locale, 'captureImages', { captured: images.captured, notCaptured: images.notCaptured, reasons: reasons.join('; ') }))
+  }
+  for (const entry of record.notJudged ?? []) {
+    const total = entry.candidates
+    const causes = [
+      ...(entry.capped ? [t(locale, 'captureCapped', { count: entry.capped, total })] : []),
+      ...(entry.timedOut ? [t(locale, 'captureTimedOut', { count: entry.timedOut, total })] : []),
+      ...(entry.offlineMisses ? [t(locale, 'captureOfflineMisses', { count: entry.offlineMisses, total })] : []),
+      ...(entry.errors ? [t(locale, 'captureErrors', { count: entry.errors, total })] : []),
+    ]
+    if (causes.length > 0) lines.push(t(locale, 'captureNotJudged', { criterion: entry.criterion, causes: causes.join(', ') }))
+  }
+  return lines
 }
 
 /** One sentence: what was checked, judged and left unchecked on a page, and that it is not a verdict of accessibility. */
