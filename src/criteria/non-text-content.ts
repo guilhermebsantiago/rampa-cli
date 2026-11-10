@@ -698,6 +698,36 @@ export function weakSuggestion(suggestedAlt: string, current: string): string | 
   return undefined
 }
 
+/**
+ * An identifier: one token with no white space, upper-case letters and digits in runs joined by underscores, at least
+ * one underscore, starting with a letter ("HOME_GERAL_BANNER_01"). Prose does not join upper-case words with
+ * underscores. Case-sensitive: lower-case and mixed-case identifiers ("home_banner", "Home_Geral") are left out, as no
+ * dev finding asked for them, and so are "COVID-19", "UFC" and "PLANO DE SAÚDE".
+ */
+const IDENTIFIER = /^\p{Lu}[\p{Lu}\p{N}]*(?:_[\p{Lu}\p{N}]+)+$/u
+
+/**
+ * Texts that only say a resource is absent, as `altWords` reads them (lower case, accents removed): a phrase that only
+ * says a resource is absent, made of an optional subject and a predicate, a subject before its own language's
+ * predicate; and a few fixed phrases. A closed set: "not found", "Imagem não encontrada" and "404" are in it; "Error",
+ * "Produto indisponível" and "Page not found illustration" are not.
+ */
+const ABSENCE_PHRASES = [
+  { subjects: ['image', 'file', 'page'], predicates: ['not found', 'not available', 'unavailable'] },
+  { subjects: ['imagem', 'arquivo', 'pagina'], predicates: ['nao encontrado', 'nao encontrada', 'nao disponivel', 'indisponivel'] },
+  { subjects: ['imagen', 'archivo', 'pagina'], predicates: ['no encontrado', 'no encontrada', 'no disponible'] },
+] as const
+const ABSENCE_TEXTS: ReadonlySet<string> = new Set([
+  ...ABSENCE_PHRASES.flatMap(({ subjects, predicates }) => predicates.flatMap((predicate) => [predicate, ...subjects.map((subject) => `${subject} ${predicate}`)])),
+  '404',
+  '404 not found',
+  'error 404',
+  'erro 404',
+  'no image',
+  'sem imagem',
+  'sin imagen',
+])
+
 /** Cheap deterministic signal that agrees with the model on the obvious cases (img-1, IMG_2034.jpg). */
 export function looksLikePlaceholder(alt: string, src?: string): boolean {
   const value = alt.trim()
@@ -708,8 +738,32 @@ export function looksLikePlaceholder(alt: string, src?: string): boolean {
   // digit ("Tarja-Especiais-Site-Interna-1"): a file named in words gives its alternative no reason to be one. On the
   // real-page study's dev split, poder360.com.br's photo of Lula, from "Lula.png", was called a file name for "Lula".
   const file = fileName(src)
-  if (file === undefined || /\s/.test(value) || !/[_\-\d]/.test(value)) return false
-  return normalizeForMatch(file.replace(/\.[a-z0-9]+$/i, '')) === normalizeForMatch(value)
+  if (file !== undefined && !/\s/.test(value) && /[_\-\d]/.test(value) && normalizeForMatch(file.replace(/\.[a-z0-9]+$/i, '')) === normalizeForMatch(value)) return true
+  // An identifier ("HOME_GERAL_BANNER_01") or a text that only says the image is absent ("not found", "404"), both
+  // on the real-page studies' dev pages, are no more a text alternative than a file name is.
+  return isIdentifierAlt(value) || isAbsenceAlt(value)
+}
+
+/** The alternative, trimmed, is an identifier in upper case joined by underscores (`IDENTIFIER`). */
+export function isIdentifierAlt(alt: string): boolean {
+  return IDENTIFIER.test(alt.trim())
+}
+
+/** The alternative only says a resource is absent: exactly one phrase of `ABSENCE_TEXTS`, as `altWords` reads it. */
+export function isAbsenceAlt(alt: string): boolean {
+  return ABSENCE_TEXTS.has(altWords(alt).join(' '))
+}
+
+/**
+ * An alternative of one or two words, not counting the tokens that are all digits ("payment", "Rodapé 2", "Banner
+ * padrão", "Lula"; not "Alerta de Golpe"). A claim that so short an alternative "describes something the image does not
+ * show" reads as a label put where a text alternative belongs, so the message says it names a label, not what the image
+ * conveys. The rule is on length, because a list of label words cannot be closed ("payment", "Patrocinador", "Contraste"
+ * and "Rodapé 2" on the real-page studies' dev pages have nothing else in common).
+ */
+export function isShortAlternative(alt: string): boolean {
+  const words = altWords(alt).filter((word) => !/^\p{Nd}+$/u.test(word))
+  return words.length >= 1 && words.length <= 2
 }
 
 const REASONS: Record<(typeof PROBLEMS)[number], { en: string; 'pt-BR': string }> = {
@@ -722,16 +776,28 @@ const REASONS: Record<(typeof PROBLEMS)[number], { en: string; 'pt-BR': string }
 }
 
 /**
+ * The reason of a "describes something the image does not show" answer on an alternative of one or two words. It speaks
+ * of what the image conveys, as the "leaves out" reason does, not of describing it: a text alternative need not describe
+ * the image (technique G94), only serve the same purpose.
+ */
+const SHORT_REASON = { en: 'names a label, not what the image conveys here', 'pt-BR': 'dá um rótulo, não o que a imagem comunica aqui' }
+
+/**
  * The claim of a verified answer about an image with an alternative, in words. With `extension`, a "describes something
  * the image does not show" answer whose suggestion extends the alternative, keeping one of its words only in another
  * number (`extendsAlternative`), reads as "leaves out what the image conveys here": round 3's hcor.com.br banner, "Alerta
  * de Golpe" with the suggestion "Alerta de segurança: Evite golpes. …", on the dev split, which a specialist labelled
  * true for what the alternative leaves out and the two Claude judges false for the sentence it was given. An answer
  * that keeps every word exactly, in the suggestion or with the description, is the one `verify` discards; it keeps its
- * words, so a run without verification reads as before. The second pass asks about the claim without `extension`, as
- * before, so its questions and their cached answers are the same.
+ * words, so a run without verification reads as before. With `short`, a "describes something the image does not show"
+ * answer on an image that is no functional one, whose wording is not "leaves out", and whose alternative is one or two
+ * words (`isShortAlternative`: "payment", "Rodapé 2") reads as "names a label, not what the image conveys here": on the
+ * real-page studies' dev pages, most true findings worded "does not show" had an alternative that is a label or a
+ * marker, not a description of something else. The order: a placeholder or a generic word, then a functional image's
+ * wording, then "leaves out", then "names a label", then the model's problem. The second pass asks about the claim
+ * without `extension` or `short`, as before, so its questions and their cached answers are the same.
  */
-function claimText(output: NonTextContentJudgment, c: NonTextContentContext, locale: Locale, options: { extension: boolean }): string {
+function claimText(output: NonTextContentJudgment, c: NonTextContentContext, locale: Locale, options: { extension: boolean; short: boolean }): string {
   const alt = c.alt
   // The deterministic pattern wins over the model's label for the obvious cases.
   const problem = looksLikePlaceholder(alt, c.src) ? 'filename_or_placeholder' : isGenericAlt(alt) ? 'generic' : output.problem
@@ -748,7 +814,8 @@ function claimText(output: NonTextContentJudgment, c: NonTextContentContext, loc
     problem === 'wrong_content' &&
     extendsAlternative(output.suggestedAlt, alt) &&
     !keepsAlternative([output.imageShows, output.suggestedAlt], alt)
-  const reason = (purpose ?? REASONS[extension ? 'missing_information' : problem])[locale]
+  const short = options.short && problem === 'wrong_content' && !purpose && !extension && isShortAlternative(alt)
+  const reason = (purpose ?? (short ? SHORT_REASON : REASONS[extension ? 'missing_information' : problem]))[locale]
   return locale === 'pt-BR' ? `O texto alternativo "${alt}" ${reason}.` : `The text alternative "${alt}" ${reason}.`
 }
 
@@ -791,7 +858,7 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
       .split('\n')
       .filter((line) => !line.startsWith('Write imageShows and suggestedAlt in:'))
       .join('\n')
-    const claim = claimText(output, c, 'en', { extension: false })
+    const claim = claimText(output, c, 'en', { extension: false, short: false })
     return [
       { id: 'rules', system: CONFIRM_RULES, user, images: prompt.images, fail: ['fail'], pass: ['pass'] },
       { id: 'claim', system: CONFIRM_CLAIM, user: `${user}\n\nThe reviewer's claim: ${claim}`, images: prompt.images, fail: ['yes'], pass: ['no'] },
@@ -965,7 +1032,7 @@ export const nonTextContent: Criterion<NonTextContentContext, NonTextContentOutp
 
   message(answer, candidate, locale) {
     if (candidate.context.hidden) return hiddenMessage(answer as HiddenImageJudgment, candidate.context.hidden, locale)
-    return claimText(answer as NonTextContentJudgment, candidate.context, locale, { extension: true })
+    return claimText(answer as NonTextContentJudgment, candidate.context, locale, { extension: true, short: true })
   },
 
   patch(answer, candidate, snapshot) {
