@@ -251,7 +251,7 @@ Six of the eight can only clear a probe rule's finding, never make one. 4.1.3's 
 
 ## Techniques and failures a claim applies
 
-`src/core/techniques.ts` names, for each kind of claim the eight default criteria make, the documented WCAG technique or failure the claim applies: its id, the W3C's own title in English, its address in the Techniques for WCAG 2.2, and a one-line Portuguese gloss. The gloss is this project's wording: the W3C's list of WAI translations has authorized Brazilian Portuguese translations of WCAG 2.2 and 2.0 themselves, and none of the Techniques. Nothing cites the table in findings or reports yet.
+`src/core/techniques.ts` names, for each kind of claim the eight default criteria make, the documented WCAG technique or failure the claim applies: its id, the W3C's own title in English, its address in the Techniques for WCAG 2.2, and a one-line Portuguese gloss. The gloss is this project's wording: the W3C's list of WAI translations has authorized Brazilian Portuguese translations of WCAG 2.2 and 2.0 themselves, and none of the Techniques. Reports now show it: a judgment finding carries the ids for its kind of claim (`techniques`), and every format shows them with their titles ([output formats](output-formats.md#json)).
 
 A citation says which documented reading the claim applies; it does not say the page fails WCAG. A kind with no citation has none that fits.
 
