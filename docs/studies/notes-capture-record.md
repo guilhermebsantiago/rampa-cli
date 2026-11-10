@@ -132,4 +132,4 @@ Per page (`—`: the field is absent):
 ## Data and reproduction
 
 - `bash study/notes-capture-record/replay.sh <label> <dist dir>` from the repository root, once with a build of the base and once with a build of this branch (`before` and `after` here). It reads the recordings at `C:/Users/guilh/dev/rampa-study-recordings` (read only) and copies each dev page's cache; the full reports, consoles and cache copies go to `.rampa/capture-record/` (ignored by git).
-- `node study/notes-capture-record/compare.ts before after > study/notes-capture-record/data/table.md` writes the tables above and [`data/records.json`](../../study/notes-capture-record/data/records.json): the comparison, the cross-checks, the tallies and every page's record.
+- `node study/notes-capture-record/compare.ts before after` prints the tables above and writes [`data/records.json`](../../study/notes-capture-record/data/records.json): the comparison, the cross-checks, the tallies and every page's record.

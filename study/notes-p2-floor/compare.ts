@@ -18,7 +18,7 @@
  * Only pages whose split is "dev" in the study's data/pages.json are read, and only dev rows of data/findings.json.
  *
  * Run from the repository root after both replays:
- *   node study/notes-p2-floor/compare.ts before after > study/notes-p2-floor/data/compare.md
+ *   node study/notes-p2-floor/compare.ts before after (prints the tables)
  * Reads .rampa/p2-floor/replay/<label>/ (ignored by git); writes study/notes-p2-floor/data/compare.json.
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'

@@ -49,7 +49,7 @@ The caches keep answers that earlier builds asked for as well (the Hcor item is 
 
 ## 4. The replay (offline, dev pages, 1.1.1 only)
 
-`study/notes-alt-extension/replay.sh` runs `rampa check` on each dev page's recorded snapshot with `--model ollama:gemma4:12b --locale en --min-confidence low --time-limit 900 --concurrency 2 --offline --criteria 1.1.1`, a fresh copy of that page's cache from the same caches as section 3, each page in its own work directory, every API key variable unset. `--offline` asks no model. **Before** is `dist` built at `main` (`f3d20e7`); **after** is this branch's build at its code commit (`a576b5e`). `compare.ts` compares the two reports of each page (`data/compare.md`, `data/compare.json`).
+`study/notes-alt-extension/replay.sh` runs `rampa check` on each dev page's recorded snapshot with `--model ollama:gemma4:12b --locale en --min-confidence low --time-limit 900 --concurrency 2 --offline --criteria 1.1.1`, a fresh copy of that page's cache from the same caches as section 3, each page in its own work directory, every API key variable unset. `--offline` asks no model. **Before** is `dist` built at `main` (`f3d20e7`); **after** is this branch's build at its code commit (`a576b5e`). `compare.ts` compares the two reports of each page (`data/compare.json`).
 
 | Study | Pages | Identical sets | Misses before / after | Model calls before / after | Message changes | Other differences |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -74,7 +74,7 @@ The caches keep answers that earlier builds asked for as well (the Hcor item is 
 
 All paths under `study/notes-alt-extension/`. Run from the repository root with the recordings in `C:/Users/guilh/dev/rampa-study-recordings` (`RECORDINGS`) and Node 24 on `PATH`.
 
-- `node count.ts > data/count.md`: section 3 (`data/count.json`, with each item of (b) and (d) and its findings rows).
+- `node count.ts` prints the tables of section 3 (data in `data/count.json`, with each item of (b) and (d) and its findings rows).
 - Build `main` (`pnpm build`) and copy `dist` to `.rampa/alt-extension/dist-before`; build this branch and copy `dist` to `.rampa/alt-extension/dist-after` (`.rampa/` is ignored by git).
 - `bash replay.sh before .rampa/alt-extension/dist-before` and `bash replay.sh after .rampa/alt-extension/dist-after`: the full reports, consoles and cache copies go to `.rampa/alt-extension/`, out of git.
-- `node compare.ts before after > data/compare.md`: section 4 (`data/compare.json`).
+- `node compare.ts before after` prints the tables of section 4 (data in `data/compare.json`).

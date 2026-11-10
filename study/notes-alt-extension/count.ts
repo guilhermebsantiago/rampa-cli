@@ -18,7 +18,7 @@
  *
  * Only pages whose split is "dev" are read: no cache, finding or snapshot of a test page is opened.
  *
- * Run from the repository root: node study/notes-alt-extension/count.ts > study/notes-alt-extension/data/count.md
+ * Run from the repository root: node study/notes-alt-extension/count.ts
  * Writes study/notes-alt-extension/data/count.json and prints the tables.
  */
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'

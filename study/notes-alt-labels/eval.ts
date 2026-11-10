@@ -4,7 +4,7 @@
  * model usage. The first label is the reference; every other run is compared with it.
  *
  * Run from the repository root after the evaluations (notes, section 6):
- *   node study/notes-alt-labels/eval.ts before after before-2 > study/notes-alt-labels/data/eval.md
+ *   node study/notes-alt-labels/eval.ts before after before-2 (prints the comparison)
  * Reads .rampa/alt-labels/eval-<label>/<run>/results.jsonl (ignored by git); writes study/notes-alt-labels/data/eval.json.
  */
 import { readFileSync, readdirSync, writeFileSync } from 'node:fs'

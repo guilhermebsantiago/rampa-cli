@@ -17,7 +17,7 @@
  * Only pages whose split is "dev" are read: no report, finding or label of a test page is opened.
  *
  * Run from the repository root after both replays:
- *   node study/notes-alt-labels/compare.ts before after > study/notes-alt-labels/data/compare.md
+ *   node study/notes-alt-labels/compare.ts before after (prints the tables)
  * Reads .rampa/alt-labels/replay/<label>/ (ignored by git); writes study/notes-alt-labels/data/compare.json.
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'

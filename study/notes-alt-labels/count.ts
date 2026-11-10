@@ -19,7 +19,7 @@
  * Only pages whose split is "dev" are read: no cache, finding or snapshot of a test page is opened.
  *
  * Run from the repository root, after copying the branch tip's build to .rampa/alt-labels/dist-before:
- *   node study/notes-alt-labels/count.ts > study/notes-alt-labels/data/count.md
+ *   node study/notes-alt-labels/count.ts
  * Writes study/notes-alt-labels/data/count.json and prints the tables.
  */
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'

@@ -8,7 +8,7 @@
  *   (per criterion).
  *
  * Run from the repository root after both replays:
- *   node study/notes-capture-record/compare.ts before after > study/notes-capture-record/data/table.md
+ *   node study/notes-capture-record/compare.ts before after (prints the tables)
  * Reads .rampa/capture-record/replay/<label>/ (ignored by git); writes study/notes-capture-record/data/records.json.
  * Only pages whose split is "dev" in the study's data/pages.json are read.
  */

@@ -111,7 +111,7 @@ The replay shows that each fix removes what it was built for on the pages it was
 
 All paths are under `study/notes-precision-fixes/`. Run from the repository root after `pnpm install --frozen-lockfile` and `pnpm build`, with the studies' recordings in `C:/Users/guilh/dev/rampa-study-recordings` (or `RECORDINGS`) and the precision probe's caches in its worktree (or `PROBE_PAGES`).
 
-- `bash shared-text.sh`: the shared-text fact before and after F1 (and the F4 variants, by editing `contextKey`) on every recorded snapshot, no model; `data/shared-text.md`, `data/shared-text.json`.
+- `bash shared-text.sh`: the shared-text fact before and after F1 (and the F4 variants, by editing `contextKey`) on every recorded snapshot, no model; it prints the summary and writes `data/shared-text.json`.
 - `node capture-style.ts`: the unstyled-capture rule on the 93 recorded snapshots; `data/capture-style.md`.
-- `bash replay.sh <label> <dist> offline|online [s2 s3 s4]`: the replay; `python -I compact.py <label>` keeps the judged part of each report (`data/<label>/*.judged.json`; the full reports and consoles are kept out of git); `python -I analyze.py base after`: the tables of sections 3 and 4 (`data/base.md`, `data/after.md`, `data/<label>/summary.json`). The working copies of the caches (`pages/`, out of git) were copied to the recordings folder.
+- `bash replay.sh <label> <dist> offline|online [s2 s3 s4]`: the replay; `python -I compact.py <label>` keeps the judged part of each report (`data/<label>/*.judged.json`; the full reports and consoles are kept out of git); `python -I analyze.py base after` prints the tables of sections 3 and 4 (data in `data/<label>/summary.json`). The working copies of the caches (`pages/`, out of git) were copied to the recordings folder.
 - `bash run-evals.sh <before dist> <after dist>`: the W3C ACT cases and pairs before and after (`data/evals/`); the demo's recorded evaluation is the `demo-after` run.

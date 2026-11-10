@@ -15,7 +15,7 @@
  *
  * The fifth study's test half is counted only: its rows carry no text and no alternative.
  *
- * Run from the repository root: node study/notes-precision-p3p4/facts.ts > study/notes-precision-p3p4/data/facts.md
+ * Run from the repository root: node study/notes-precision-p3p4/facts.ts
  * Writes study/notes-precision-p3p4/data/facts.json and prints a table.
  */
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'

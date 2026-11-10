@@ -14,7 +14,7 @@
  * The fifth study's test half is counted only: its rows carry no link text.
  *
  * It reads this branch's link-purpose.ts (P1); main's behaviour is the same candidates with the two new facts taken out.
- * Run from the repository root: node study/notes-precision-p1p2/prompts.ts > study/notes-precision-p1p2/data/prompts.md
+ * Run from the repository root: node study/notes-precision-p1p2/prompts.ts
  * Writes study/notes-precision-p1p2/data/prompts.json and prints a table.
  */
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'

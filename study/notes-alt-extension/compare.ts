@@ -7,7 +7,7 @@
  *   on the items of class (b) in data/count.json whose suggestion extends the alternative; anything else is listed.
  *
  * Run from the repository root after both replays:
- *   node study/notes-alt-extension/compare.ts before after > study/notes-alt-extension/data/compare.md
+ *   node study/notes-alt-extension/compare.ts before after (prints the tables)
  * Reads .rampa/alt-extension/replay/<label>/ (ignored by git); writes study/notes-alt-extension/data/compare.json.
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
