@@ -14,6 +14,7 @@ import { VERSION } from '../version.ts'
 import {
   PROJECT_URL,
   WAIVERS_FILE,
+  captureLines,
   coverageStatement,
   criterionName,
   findingPlace,
@@ -285,6 +286,8 @@ export function toSarif(reports: readonly Report[], options: SarifOptions = {}):
             notChecked: report.coverage.notChecked,
             // The collector cut the page at its budget: the checks that read the snapshot saw only its start.
             ...(report.coverage.truncated ? { truncated: { ...report.coverage.truncated, note: truncationText(report) } } : {}),
+            // How the page was read: its capture record as it is, when the other formats show a line of it. No result, no notification.
+            ...(captureLines(report, locale).length > 0 ? { capture: report.capture } : {}),
             // Groups of near-identical findings: each is one result here, and each member is counted as a finding.
             ...groupsCoverage(report),
             // Undecided results are not SARIF results: code scanning would show them as alerts. They are counted here.

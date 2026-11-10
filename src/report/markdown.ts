@@ -5,6 +5,7 @@ import { VERSION } from '../version.ts'
 import {
   PROJECT_URL,
   WAIVERS_FILE,
+  captureLines,
   confirmationText,
   countLevels,
   coverageRows,
@@ -105,16 +106,21 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
     else cleanPages.push('<details>', `<summary>${line}</summary>`, '', ...capped(clean.map((label) => `- ${code(label)}`), MAX_LIST, locale), '</details>', '')
   }
 
-  const tailWith = (criteria: boolean) => [
+  const tailWith = (criteria: boolean, capture: readonly string[] = []) => [
     ...reviewSection(reports),
     ...notesSection(reports, verbose),
+    ...capture,
     ...coverageSection(reports, verbose, criteria),
     ...waiverSection(all, locale),
     footer(reports),
   ]
   // The per-criterion table goes when a short limit leaves no room for it; the rows and the statement stay.
+  let criteria = true
   let tail = tailWith(true)
-  if ([...head, ...cleanPages, ...tail].join('\n').length + 300 > maxLength) tail = tailWith(false)
+  if ([...head, ...cleanPages, ...tail].join('\n').length + 300 > maxLength) {
+    criteria = false
+    tail = tailWith(false)
+  }
   // What is left for findings once the fixed parts and the omission note are counted.
   const budget = maxLength - [...head, ...cleanPages, ...tail].join('\n').length - 300
 
@@ -150,7 +156,15 @@ export function renderMarkdown(reports: readonly Report[], options: MarkdownOpti
   // Advisories get what the findings left of the budget: they are what a long comment drops first.
   const advisories = advisoryMarkdown(reports, verbose, budget - used, { prose, code })
 
-  return `${[...head, ...body, ...advisories, ...cleanPages, ...tail].join('\n').trimEnd()}\n`
+  // How the page was read sits after the notes but takes only the room the findings and advisories left, so a comment at
+  // the size limit keeps every block it had: as many of its lines as fit, the rest counted, or none.
+  const comment = (capture: readonly string[]) => `${[...head, ...body, ...advisories, ...cleanPages, ...tailWith(criteria, capture)].join('\n').trimEnd()}\n`
+  const items = captureItems(reports)
+  for (let shown = Math.min(items.length, MAX_LIST); shown > 0; shown--) {
+    const text = comment(captureSection(items, shown, locale))
+    if (text.length <= maxLength) return text
+  }
+  return comment([])
 }
 
 /** At most `max` lines, then one that counts the rest. */
@@ -244,6 +258,20 @@ function notesSection(reports: readonly Report[], verbose: boolean): string[] {
   if (usage) notes.push(prose(usage))
   if (notes.length === 0) return []
   return [`#### ${t(locale, 'notesTitle')}`, '', ...capped(notes.map((note) => `- ${note}`), MAX_LIST, locale), '']
+}
+
+/** The items of "How the page was read": each page's capture lines, prefixed with the page when the run has several. */
+function captureItems(reports: readonly Report[]): string[] {
+  const locale = reports[0]?.locale ?? 'en'
+  const prefix = (report: Report) => (reports.length > 1 ? `${code(pageLabel(report))}: ` : '')
+  return reports.flatMap((report) => captureLines(report, locale).map((line) => `- ${prefix(report)}${prose(line)}`))
+}
+
+/** The section "How the page was read": a heading, its first `shown` items and a count of the rest; nothing without items. */
+function captureSection(items: readonly string[], shown: number, locale: Locale): string[] {
+  if (items.length === 0) return []
+  const rest = items.length - shown
+  return [`#### ${t(locale, 'captureTitle')}`, '', ...items.slice(0, shown), ...(rest > 0 ? [`- ${plural(locale, 'andMore', rest)}`] : []), '']
 }
 
 /** What the engine could not decide, by criterion and rule: for a person to look at, never a failure. */

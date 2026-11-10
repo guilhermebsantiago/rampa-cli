@@ -6,6 +6,7 @@ import { compareCriteria, successCriterion } from '../wcag.ts'
 import {
   PROJECT_URL,
   WAIVERS_FILE,
+  captureLines,
   countLevels,
   coverageRows,
   criterionName,
@@ -148,6 +149,11 @@ function pageSection(report: Report, index: number, several: boolean, verbose: b
   const usage = usageLine(report)
   if (usage) notes.push(usage)
   if (notes.length > 0) out.push(`<ul class="notes">${notes.map((note) => `<li>${e(note)}</li>`).join('')}</ul>`)
+  // How the page was read, from the capture record, after the notes: a heading at the level of the page's other parts, and a list.
+  const capture = captureLines(report, locale)
+  if (capture.length > 0) {
+    out.push(`<section class="capture">\n<h3>${e(t(locale, 'captureTitle'))}</h3>\n<ul class="notes">${capture.map((line) => `<li>${e(line)}</li>`).join('')}</ul>\n</section>`)
+  }
 
   // A burst of near-identical findings is one item: the group, an example and its elements, folded (core/groups.ts).
   const byCriterion = new Map<string, ShownEntry[]>()

@@ -23,6 +23,8 @@ rampa check site/ --sarif rampa.sarif --markdown rampa.md --html rampa.html   # 
 
 Folders for output files are created when missing. `--locale pt-BR` writes Markdown and HTML in Portuguese, and the messages in SARIF. JSON always has both lists, `belowThreshold` and `waived`.
 
+**How the page was read, in the terminal.** After the notes, the terminal report prints the JSON report's [`capture` record](#json) under the heading "How the page was read" ("Como a página foi lida" with `--locale pt-BR`), one line per fact it holds, with or without `--verbose`: read without its styles and how Rampa told, the stylesheets that did not apply or a load once more for them, a layer over the viewport and whether it was hidden for the captures, a bot check or a refusal, an HTTP error, the cut at the collector's limit of elements, a load event that had not fired, a page still changing when the wait after load reached its cap, the images left without a capture (with how many were captured, and why, in the words of the note on such images), and per criterion the candidates the model did not judge and why (the cap, the time limit, no cached judgment, a model error). The lines state the record's facts and decide nothing. The notes stay as they were, so some facts are said twice. A record that says nothing beyond a page read with its styles and every image captured prints nothing, and so does a report with no record (written before it, or a target that could not be loaded): those reports print exactly as before. The Markdown, HTML and SARIF reports show the same lines, or carry the record, as their sections say below.
+
 ## The confidence threshold and experimental checks
 
 `--min-confidence` (default `medium`, or `minConfidence` in the config) splits the findings: those at or above it are confirmed, and the rest are below the threshold. A check that has not passed the evaluation gate is experimental, and its findings are below the threshold unless `--min-confidence low`. Every report records the threshold, and every format says how many findings are below it and what the threshold was:
@@ -182,6 +184,8 @@ The report as before: one object for one page, an array for several, with these 
 - **Suppressions.** With `--verbose`, waived findings are included with an external, accepted suppression.
 - **Groups.** A [group of near-identical findings](#groups-of-near-identical-findings) is one result at its example, with every member a related location.
 
+**How the page was read.** A page's entry in `runs[0].properties.coverage` carries `capture`, the JSON report's [record](#json) as it is, when the other formats show a line of it (see the [terminal](#choosing-formats)); a run holds every page, so the record sits with its page, as `groups` and `truncated` do. It is never a result or a notification, and it changes no level. A page read with its styles and every image captured, or a report with no record, has no `capture` there, and its log is as before.
+
 GitHub code scanning shows results located in files of the repository. Results for remote pages are valid SARIF, but GitHub has no file to show them on; for a deployed site, read the Markdown or HTML report instead.
 
 ## Markdown
@@ -203,11 +207,15 @@ Evidence: "Click here" · confidence high · 1/1 runs · evidence verified · id
 - Notes, the coverage of the run and the statement that the report does not declare the page accessible come at the end, then how to waive a false positive.
 - Text from the page is escaped: it cannot add Markdown or HTML, mention a person (`@name`) or reference an issue (`#12`, `GH-12`). An address in it still becomes a link, as GitHub does with any text.
 
+**How the page was read.** After the notes, a heading "How the page was read" and a list hold the lines of each page's [`capture` record](#json), the same lines as the [terminal's](#choosing-formats), each prefixed with its page when the run checked several, and listed up to 20 like the notes. The section takes only the room the findings and advisories leave under the size limit: a long comment keeps every finding block it would have had, and shows as many of the lines as fit, counting the rest, or none. There is no heading when no page has a line, so a comment on pages read in full is as before.
+
 ## HTML
 
 One file with everything inline: no script, no font or stylesheet to fetch, so it opens offline and can be attached to a ticket. It follows the reader's light or dark preference, prints cleanly, and works without JavaScript; folded parts use `<details>`.
 
 It holds itself to what it reports: landmarks, one `h1` and a heading per criterion, tables with captions and header cells, a skip link, and text colors at 4.5:1 or more in both themes. A test runs axe-core on it in light and dark mode at 1280 and 320 pixels, and checks that the page never scrolls sideways. `rampa check --no-llm` on a generated report finds nothing.
+
+**How the page was read.** In each page's section, after its notes, a `section` with an `h3` "How the page was read", the level of the page's other parts, and a list of the lines of its [`capture` record](#json), the same as the [terminal's](#choosing-formats). A page whose record has no line has no such section, and its part of the file is as before.
 
 ## False positives
 
