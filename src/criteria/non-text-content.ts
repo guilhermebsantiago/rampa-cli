@@ -758,12 +758,25 @@ export function isAbsenceAlt(alt: string): boolean {
  * An alternative of one or two words, not counting the tokens that are all digits ("payment", "Rodapé 2", "Banner
  * padrão", "Lula"; not "Alerta de Golpe"). A claim that so short an alternative "describes something the image does not
  * show" reads as a label put where a text alternative belongs, so the message says it names a label, not what the image
- * conveys. The rule is on length, because a list of label words cannot be closed ("payment", "Patrocinador", "Contraste"
+ * conveys, unless the alternative may be a name (`mayBeName`). The rule is on length, because a list of label words cannot be closed ("payment", "Patrocinador", "Contraste"
  * and "Rodapé 2" on the real-page studies' dev pages have nothing else in common).
  */
 export function isShortAlternative(alt: string): boolean {
   const words = altWords(alt).filter((word) => !/^\p{Nd}+$/u.test(word))
   return words.length >= 1 && words.length <= 2
+}
+
+/**
+ * Every word of the alternative starts with an upper-case letter followed by a lower-case one, and none is a number
+ * ("Lula", "Jair Bolsonaro", "Patrocinador"; not "payment", "Banner padrão", "Rodapé 2", "W3C"). Such an alternative may
+ * be a name, a description of whom or what the image should show, and a claim that it names someone or something the
+ * image does not show is then the right sentence. A capitalised common word ("Patrocinador") reads the same way: from
+ * its letters alone it cannot be told from a name, so it keeps the model's wording. A word list cannot tell them either:
+ * "visa" is a listed word in English, Portuguese and Spanish, "patrocinador" in none.
+ */
+export function mayBeName(alt: string): boolean {
+  const words = alt.normalize('NFC').split(/[^\p{L}\p{N}]+/u).filter(Boolean)
+  return words.length > 0 && words.every((word) => /^\p{Lu}\p{Ll}/u.test(word))
 }
 
 const REASONS: Record<(typeof PROBLEMS)[number], { en: string; 'pt-BR': string }> = {
@@ -791,7 +804,8 @@ const SHORT_REASON = { en: 'names a label, not what the image conveys here', 'pt
  * that keeps every word exactly, in the suggestion or with the description, is the one `verify` discards; it keeps its
  * words, so a run without verification reads as before. With `short`, a "describes something the image does not show"
  * answer on an image that is no functional one, whose wording is not "leaves out", and whose alternative is one or two
- * words (`isShortAlternative`: "payment", "Rodapé 2") reads as "names a label, not what the image conveys here": on the
+ * words (`isShortAlternative`: "payment", "Rodapé 2") and may not be a name (`mayBeName`: "Lula" may) reads as "names a
+ * label, not what the image conveys here": on the
  * real-page studies' dev pages, most true findings worded "does not show" had an alternative that is a label or a
  * marker, not a description of something else. The order: a placeholder or a generic word, then a functional image's
  * wording, then "leaves out", then "names a label", then the model's problem. The second pass asks about the claim
@@ -814,7 +828,7 @@ function claimText(output: NonTextContentJudgment, c: NonTextContentContext, loc
     problem === 'wrong_content' &&
     extendsAlternative(output.suggestedAlt, alt) &&
     !keepsAlternative([output.imageShows, output.suggestedAlt], alt)
-  const short = options.short && problem === 'wrong_content' && !purpose && !extension && isShortAlternative(alt)
+  const short = options.short && problem === 'wrong_content' && !purpose && !extension && isShortAlternative(alt) && !mayBeName(alt)
   const reason = (purpose ?? (short ? SHORT_REASON : REASONS[extension ? 'missing_information' : problem]))[locale]
   return locale === 'pt-BR' ? `O texto alternativo "${alt}" ${reason}.` : `The text alternative "${alt}" ${reason}.`
 }
