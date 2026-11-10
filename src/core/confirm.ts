@@ -23,10 +23,21 @@ import { errorMessage, sha256 } from './util.ts'
  * pages were read.
  *
  * Since 2026-10-29, identical claims on one page (the same alternative, the same verdict) are confirmed together: one
- * the pass confirms confirms the others it denied (`confirmTogether`).
+ * the pass confirms confirms the others it denied (`confirmTogether`). Since 2026-11-09, only those it denied with a
+ * lowest probability of a confirming word of at least CONFIRM_TOGETHER_MIN_PROBABILITY, or with no probability at all.
  */
 
 export const CONFIRM_MIN_PROBABILITY = 0.99
+
+/**
+ * The floor under which an identical confirmed claim does not confirm a denied one (`confirmTogether`): the denied
+ * claim's own lowest probability of a confirming word. Fixed at 0.05 on 2026-11-09, before any replay, from the eight
+ * findings of the dev pages of the second to fifth real-page studies that existed only because an identical claim was
+ * confirmed (docs/studies/notes-p2-floor.md): six true by the two Claude judges' labels (hering's payment logos), at
+ * 0.12 to 0.96, and two false, at 0.0007 and 0.013. In-sample: chosen on those three groups of pages, with nothing held
+ * out that measures it.
+ */
+export const CONFIRM_TOGETHER_MIN_PROBABILITY = 0.05
 
 export interface ConfirmAnswer {
   framing: string
@@ -133,13 +144,25 @@ export function identicalClaimKey(criterion: string, subject: string | undefined
 /**
  * Identical claims on one page are confirmed together. The claims the second pass was asked about on a page that share
  * a key (`identicalClaimKey`) form a group, and when the pass confirmed at least one of them, every one of them it
- * denied is confirmed too, marked as such (`identical`). One alternative on several copies of a picture is one claim:
- * asked of each copy, it is split by the luck of one framing's word on one copy. On hering.com.br in the fifth
- * real-page study, seven payment logos with `alt="payment"` became one finding and six suggestions, all seven true
+ * denied is confirmed too, marked as such (`identical`), unless its own lowest probability of a confirming word is
+ * under CONFIRM_TOGETHER_MIN_PROBABILITY. One alternative on several copies of a picture is one claim: asked of each
+ * copy, it is split by the luck of one framing's word on one copy. On hering.com.br in the fifth real-page study, seven
+ * payment logos with `alt="payment"` became one finding and six suggestions, all seven true
  * (docs/studies/notes-precision-round5.md, P2, the rule "C-any"; on the 165 labelled reading claims of the second to
- * fifth studies it adds 7 true and 2 false findings and loses none, in-sample). A claim the pass could not finish (no
- * cached answer offline, an error, a provider that cannot answer one word) keeps its outcome, and so does every claim
- * of a group the pass confirmed none of. Returns each claim's outcome, in order.
+ * fifth studies it adds 7 true and 2 false findings and loses none, in-sample).
+ *
+ * The floor (since 2026-11-09, docs/studies/notes-p2-floor.md): on the dev pages of the second to fifth studies, eight
+ * findings existed only because an identical claim was confirmed. The six true ones (hering's logos) were denied at a
+ * lowest probability of 0.12 to 0.96; the two false ones at 0.0007 and 0.013, and in one of them the image is the dog
+ * its alternative describes while its confirmed twin is another image with the same alternative. Copies of one picture
+ * that one framing's word split kept some probability for the claim; a denial that leaves it almost none can be about
+ * another image that shares the alternative, which a twin's confirmation does not settle. Such a claim stays denied:
+ * the model's suggestion. The floor was chosen on those three groups of pages (counted, in-sample, Claude labels). A
+ * claim with no probability (a provider that reports none) is confirmed with its group as before: the floor has no
+ * evidence there.
+ *
+ * A claim the pass could not finish (no cached answer offline, an error, a provider that cannot answer one word) keeps
+ * its outcome, and so does every claim of a group the pass confirmed none of. Returns each claim's outcome, in order.
  */
 export function confirmTogether(claims: ReadonlyArray<{ key: string | undefined; confirmation: Confirmation }>): Confirmation[] {
   const groups = new Map<string, Confirmation[]>()
@@ -150,6 +173,7 @@ export function confirmTogether(claims: ReadonlyArray<{ key: string | undefined;
   return claims.map(({ key, confirmation }) => {
     const group = key === undefined ? undefined : groups.get(key)
     if (!group || group.length < 2 || confirmation.outcome !== 'denied') return confirmation
+    if (confirmation.minProbability !== undefined && confirmation.minProbability < CONFIRM_TOGETHER_MIN_PROBABILITY) return confirmation
     const confirmed = group.filter((member) => member.outcome === 'confirmed').length
     return confirmed > 0 ? { ...confirmation, outcome: 'confirmed', identical: { claims: group.length, confirmed } } : confirmation
   })
