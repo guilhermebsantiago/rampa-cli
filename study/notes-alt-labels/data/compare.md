@@ -6,8 +6,8 @@ Sets keyed by criterion, ref, fingerprint and source (suggestions by criterion, 
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | s2 | 12 | 12 / 12 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
 | s3 | 12 | 12 / 12 | 0 | 0 | 0 | 0 | 0 | 1 | 0 |
-| s4 | 12 | 12 / 12 | 0 | 0 | 0 | 0 | 0 | 3 | 0 |
-| s5 | 12 | 12 / 12 | 0 | 0 | 0 | 0 | 3 | 14 | 11 |
+| s4 | 12 | 12 / 12 | 0 | 0 | 0 | 0 | 0 | 2 | 0 |
+| s5 | 12 | 12 / 12 | 0 | 0 | 0 | 0 | 3 | 13 | 11 |
 
 ## Part (a): elements whose place or second-pass confirmation changes
 
@@ -24,10 +24,8 @@ Sets keyed by criterion, ref, fingerprint and source (suggestions by criterion, 
 | s2 | martinsfontes-literatura | findings | Banner padrão | The text alternative "Banner padrão" describes something the image does not show. | The text alternative "Banner padrão" names a label, not what the image conveys here. | names a label | true_positive |
 | s3 | pbs-article | findings | fullepisode | The text alternative "fullepisode" describes something the image does not show. | The text alternative "fullepisode" names a label, not what the image conveys here. | names a label | false_positive |
 | s4 | infomoney-article | needsReview | Autor avatar | The text alternative "Autor avatar" describes something the image does not show. | The text alternative "Autor avatar" names a label, not what the image conveys here. | names a label | false_positive |
-| s4 | osesp-contato | findings | Patrocinador | The text alternative "Patrocinador" describes something the image does not show. | The text alternative "Patrocinador" names a label, not what the image conveys here. | names a label | true_positive |
 | s4 | bhf-article | needsReview | BHF logo | The text alternative "BHF logo" describes something the image does not show. | The text alternative "BHF logo" names a label, not what the image conveys here. | names a label | false_positive (noconfirm-only) |
 | s5 | ms-gov-br | findings | not found | The text alternative "not found" describes something the image does not show. | The text alternative "not found" is a file name or a placeholder. | placeholder | true_positive |
-| s5 | ms-gov-br | findings | Contraste | The text alternative "Contraste" describes something the image does not show. | The text alternative "Contraste" names a label, not what the image conveys here. | names a label | true_positive |
 | s5 | ms-gov-br | findings | Rodapé 2 | The text alternative "Rodapé 2" describes something the image does not show. | The text alternative "Rodapé 2" names a label, not what the image conveys here. | names a label | true_positive |
 | s5 | pucrs-graduacao | needsReview | ico login | The text alternative "ico login" describes something the image does not show. | The text alternative "ico login" names a label, not what the image conveys here. | names a label | false_positive (noconfirm-only) |
 | s5 | pucrs-graduacao | needsReview | ico search | The text alternative "ico search" describes something the image does not show. | The text alternative "ico search" names a label, not what the image conveys here. | names a label | false_positive (noconfirm-only) |
@@ -46,9 +44,9 @@ Sets keyed by criterion, ref, fingerprint and source (suggestions by criterion, 
 | Wording after | True | False | Uncertain | Unlabelled | All |
 | --- | --- | --- | --- | --- | --- |
 | placeholder | 3 | 0 | 0 | 0 | 3 |
-| names a label | 11 | 1 | 0 | 0 | 12 |
+| names a label | 9 | 1 | 0 | 0 | 10 |
 | leaves out | 0 | 0 | 0 | 0 | 0 |
-| unchanged ("does not show") | 2 | 3 | 0 | 0 | 5 |
+| unchanged ("does not show") | 4 | 3 | 0 | 0 | 7 |
 
 Other differences between the reports (createdAt aside): 11.
 - s5 ms-gov-br `/criteria[0]/confirmed`: 3 → 2

@@ -8,6 +8,7 @@ import {
   isIdentifierAlt,
   isLabelAlt,
   isShortAlternative,
+  mayBeName,
   keepsAlternative,
   looksLikePlaceholder,
   namesAddress,
@@ -544,7 +545,7 @@ describe('1.1.1 facts that refute a claim', () => {
       expect(looksLikePlaceholder('Tarja-Especiais-Site-Interna-1', 'https://example.org/Tarja-Especiais-Site-Interna-1.png')).toBe(true)
       expect(looksLikePlaceholder('foto_capa', 'https://example.org/foto_capa.jpg')).toBe(true)
       expect(looksLikePlaceholder('dog-2', 'https://example.org/dog-2.png')).toBe(true)
-      expect(nonTextContent.message(fail('Lula', 'wrong_content', 'Lula com um selo de 16%'), lula, 'en')).toBe('The text alternative "Lula" names a label, not what the image conveys here.')
+      expect(nonTextContent.message(fail('Lula', 'wrong_content', 'Lula com um selo de 16%'), lula, 'en')).toBe('The text alternative "Lula" describes something the image does not show.')
     })
 
     it('drops "names what the image does not show" when the suggestion keeps every word of the alternative', () => {
@@ -594,7 +595,7 @@ describe('1.1.1 facts that refute a claim', () => {
     it('says the alternative leaves out what the image conveys, and keeps "does not show" for a suggestion that names something else', () => {
       expect(nonTextContent.message(hcor, golpe, 'en')).toBe('The text alternative "Alerta de Golpe" leaves out what the image conveys here.')
       expect(nonTextContent.message(hcor, golpe, 'pt-BR')).toBe('O texto alternativo "Alerta de Golpe" deixa de fora o que a imagem comunica aqui.')
-      expect(nonTextContent.message(fail('Lula', 'wrong_content', 'Jair Bolsonaro'), lula, 'en')).toBe('The text alternative "Lula" names a label, not what the image conveys here.')
+      expect(nonTextContent.message(fail('Lula', 'wrong_content', 'Jair Bolsonaro'), lula, 'en')).toBe('The text alternative "Lula" describes something the image does not show.')
       expect(nonTextContent.message({ ...hcor, suggestedAlt: 'Alertas de golpes' }, golpe, 'en')).toBe('The text alternative "Alerta de Golpe" describes something the image does not show.')
     })
 
@@ -642,6 +643,18 @@ describe('1.1.1 facts that refute a claim', () => {
     it('counts one or two words, without the tokens that are all digits, as a short alternative', () => {
       for (const alt of ['payment', 'Rodapé 2', 'Banner padrão', 'Lula']) expect(isShortAlternative(alt)).toBe(true)
       for (const alt of ['Alerta de Golpe', '404', 'Cachorro correndo na praia ensolarada']) expect(isShortAlternative(alt)).toBe(false)
+    })
+
+    it('reads an alternative whose every word is capitalised, with no number, as one that may be a name', () => {
+      for (const alt of ['Lula', 'Jair Bolsonaro', 'Patrocinador', 'São Paulo', 'Ângela']) expect(mayBeName(alt)).toBe(true)
+      for (const alt of ['payment', 'Banner padrão', 'Rodapé 2', 'W3C', 'ERCIM logo', 'HTML 5 logo', 'fullepisode', 'BHF logo', '']) expect(mayBeName(alt)).toBe(false)
+    })
+
+    it('keeps "describes something the image does not show" for a short alternative that may be a name', () => {
+      const names = page([picture('#lula', 'Lula', 'foto.jpg'), picture('#jair', 'Jair Bolsonaro', 'foto-2.jpg')])
+      expect(nonTextContent.message(fail('Lula', 'wrong_content', 'Jair Bolsonaro'), candidateOf(names, '#lula'), 'en')).toBe('The text alternative "Lula" describes something the image does not show.')
+      expect(nonTextContent.message(fail('Lula', 'wrong_content', 'Jair Bolsonaro'), candidateOf(names, '#lula'), 'pt-BR')).toBe('O texto alternativo "Lula" descreve algo que a imagem não mostra.')
+      expect(nonTextContent.message(fail('Jair Bolsonaro', 'wrong_content', 'Lula'), candidateOf(names, '#jair'), 'en')).toBe('The text alternative "Jair Bolsonaro" describes something the image does not show.')
     })
 
     it('says a short alternative names a label, not what the image conveys, in English and in Portuguese', () => {
