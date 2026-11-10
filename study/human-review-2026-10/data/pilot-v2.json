@@ -1,0 +1,173 @@
+{
+  "seed": "rampa-human-review-2026-10-29",
+  "rule": "From the 100 of common.draw (data/sample.json), the items whose split is dev. First r3/hcor-com-br/38c348a1cde8; then, walking the dev items in the order of common.digest('pilot', study, slug, key), the first item of each claim kind (common.claim_kind): 2.4.4 shared_text, 2.4.4 generic, 3.1.2 passage_language, 1.1.1 functional. Package order: common.package_order.",
+  "format": "docs/studies/human-review-evidence-format.md",
+  "package": "study/human-review-2026-10/pacote-v2-piloto",
+  "rubric": "three-answers-1",
+  "studies": {
+    "r3": "study/round-3-2026-10-23",
+    "r4": "study/round-4-2026-10-24",
+    "r5": "study/round-5-2026-10-28"
+  },
+  "counts": {
+    "items": 5,
+    "pages": 4
+  },
+  "items": [
+    {
+      "id": "r5/pucrs-graduacao/7be16bce4718",
+      "study": "r5",
+      "slug": "pucrs-graduacao",
+      "key": "7be16bce4718",
+      "fingerprint": "d6caa9194146",
+      "page": "https://portal.pucrs.br/ensino/graduacao/",
+      "criterion": "2.4.4",
+      "claimKind": "2.4.4 generic",
+      "order": 1,
+      "evidence": {
+        "page": [
+          "lang",
+          "capture",
+          "captureSize",
+          "captureAligned"
+        ],
+        "item": [
+          "lang",
+          "headingBefore",
+          "before",
+          "sameText"
+        ]
+      }
+    },
+    {
+      "id": "r3/hcor-com-br/38c348a1cde8",
+      "study": "r3",
+      "slug": "hcor-com-br",
+      "key": "38c348a1cde8",
+      "fingerprint": "20d0f3c98b19",
+      "page": "https://www.hcor.com.br/",
+      "criterion": "1.1.1",
+      "claimKind": "1.1.1 wrong_content",
+      "order": 2,
+      "evidence": {
+        "page": [
+          "lang",
+          "capture",
+          "captureSize",
+          "captureAligned"
+        ],
+        "item": [
+          "lang",
+          "before",
+          "imageFile"
+        ]
+      }
+    },
+    {
+      "id": "r5/pucrs-graduacao/77882242c6fa",
+      "study": "r5",
+      "slug": "pucrs-graduacao",
+      "key": "77882242c6fa",
+      "fingerprint": "43b566914e7d",
+      "page": "https://portal.pucrs.br/ensino/graduacao/",
+      "criterion": "1.1.1",
+      "claimKind": "1.1.1 functional",
+      "order": 3,
+      "evidence": {
+        "page": [
+          "lang",
+          "capture",
+          "captureSize",
+          "captureAligned"
+        ],
+        "item": [
+          "lang",
+          "enclosing",
+          "headingBefore",
+          "listItems",
+          "imageFile"
+        ]
+      }
+    },
+    {
+      "id": "r4/conversation/3ea3f918e78e",
+      "study": "r4",
+      "slug": "conversation",
+      "key": "3ea3f918e78e",
+      "fingerprint": "89ebe02f37c7",
+      "page": "https://theconversation.com/the-jackdaw-gasfield-passed-the-legal-test-for-north-sea-drilling-rosebank-will-find-it-much-harder-295029",
+      "criterion": "3.1.2",
+      "claimKind": "3.1.2 passage_language",
+      "order": 4,
+      "evidence": {
+        "page": [
+          "lang",
+          "capture",
+          "captureSize",
+          "captureAligned"
+        ],
+        "item": [
+          "lang",
+          "enclosing",
+          "headingBefore",
+          "before"
+        ]
+      }
+    },
+    {
+      "id": "r5/lakeland/d7ad40b26768",
+      "study": "r5",
+      "slug": "lakeland",
+      "key": "d7ad40b26768",
+      "fingerprint": "37b6b9cb397f",
+      "page": "https://www.lakeland.co.uk/",
+      "criterion": "2.4.4",
+      "claimKind": "2.4.4 shared_text",
+      "order": 5,
+      "evidence": {
+        "page": [
+          "lang",
+          "capture",
+          "captureSize",
+          "captureAligned"
+        ],
+        "item": [
+          "lang",
+          "context",
+          "enclosing",
+          "listItems",
+          "before",
+          "sameText"
+        ]
+      }
+    }
+  ],
+  "notes": {
+    "screenshotAlignment": {
+      "r5/pucrs-graduacao": {
+        "crops": 26,
+        "median": 37.6,
+        "close": 0.04,
+        "aligned": false
+      },
+      "r3/hcor-com-br": {
+        "crops": 23,
+        "median": 66.7,
+        "close": 0.22,
+        "aligned": false
+      },
+      "r4/conversation": {
+        "crops": 11,
+        "median": 19.9,
+        "close": 0.55,
+        "aligned": false
+      },
+      "r5/lakeland": {
+        "crops": 21,
+        "median": 13.9,
+        "close": 0.62,
+        "aligned": true
+      }
+    }
+  }
+}
