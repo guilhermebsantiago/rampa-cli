@@ -8,7 +8,7 @@ The Note says it plainly: "Following this guidance is not required for conforman
 - never changes the exit code, unless you pass `--fail-on advisory`; and a model's suggestion to review, from the [checks a model decides](#checks-a-model-decides-literal-language-summaries-and-error-messages), never does, not even then;
 - always carries a fixed label that says so: "Advisory · COGA o4p06 Use Clear Visible Labels (not a WCAG requirement)", or in Portuguese "Recomendação · COGA o4p06 Use rótulos claros e visíveis (não é requisito da WCAG)".
 
-**Every check is experimental so far, and every report says so.** A check stays experimental until it passes the evaluation on the [roadmap](roadmap.md): it has fixtures, but it has not yet been measured on real pages or reviewed by people. Experimental checks run whenever the profile is on. In the terminal, Markdown and HTML reports, the advisory section opens with one notice, and each advisory from an experimental check carries the tag `experimental`; JSON and SARIF give each result its `maturity`. The notice reads:
+**Every check is experimental so far, and every report says so.** A check stays experimental until it passes the [evaluation gate](#the-evaluation-gate): it has fixtures, but it has not yet been measured on real pages or reviewed by people. Experimental checks run whenever the profile is on. In the terminal, Markdown and HTML reports, the advisory section opens with one notice, and each advisory from an experimental check carries the tag `experimental`; JSON and SARIF give each result its `maturity`. The notice reads:
 
 > These advisories come from W3C COGA guidance (and GAIA where cited) and are not WCAG requirements. The ones marked experimental come from checks that have not yet been measured on real pages or reviewed by people, so each one needs a person's judgment.
 
@@ -401,7 +401,7 @@ Each check has fail and pass pages in `test/fixtures/coga/<check>/{fail,pass}/`,
 | `coga/long-text-summary` | 7 of 8 | 2 of 3: a story start and a history start; **missed** the start of a public notice ("Edital"), whose legal preamble the model read as a summary | 5 of 5: an "Em resumo" heading (no model asked), two lead paragraphs, a page under 300 words, a list of short news items |
 | `coga/error-wording` | 8 of 8 | 4 of 4: "Campo inválido", "Invalid input", "Erro 0x13", a message with a regular expression | 4 of 4: clear messages in each language |
 
-These pages are tiny and were written for the checks by their author: the numbers say the checks work as designed on clear cases, not how precise they are. On real pages they are **not measured**: no real page has been run, labelled or reviewed for them, and the evaluation a check needs before it leaves experimental ([roadmap](roadmap.md)) has not been done for any of the three. The model's suggested meanings and wordings were not judged for quality.
+These pages are tiny and were written for the checks by their author: the numbers say the checks work as designed on clear cases, not how precise they are. On real pages they are **not measured**: no real page has been run, labelled or reviewed for them, and the [evaluation gate](#the-evaluation-gate) a check must pass before it leaves experimental has not been run for any of the three. The model's suggested meanings and wordings were not judged for quality.
 
 ### Limits
 
@@ -427,6 +427,7 @@ These pages are tiny and were written for the checks by their author: the number
 ```
 
 - **The label** comes from code, never from the check's text, and says what the advisory rests on.
+- **The wording** says what COGA recommends and what Rampa measured, never that the page fails, violates or does not conform. `test/advisory-wording.test.ts` renders every template, label and advisory, with the page's quoted text taken out, and fails on `fail`, `violat`, `non-conform`, `does not conform`, `falh`, `viola`, `não conform` or `reprov` (`FAILURE_WORDING` in `src/advisory/messages.ts`), and on `error` or `erro` used as a label.
 - **experimental** in the last line says the check that wrote the advisory has not passed its evaluation yet (see the notice at the top of this page). It comes from the check's maturity, `maturity` in the JSON and SARIF reports.
 - **Impact** says what the barrier does to the person, fixed per check and never chosen by a model. It is not a WCAG severity.
 
@@ -515,7 +516,20 @@ To tell a word in capitals (ENTRAR) from an acronym (CPF), the abbreviation chec
 - **Not a reading-level verdict.** Formulas count word and sentence length; they do not measure whether people understand a text.
 - **Not a judgment of clarity or familiarity.** No check says a word is hard, a layout unfamiliar or a text "simple enough": those depend on the audience, and a model's opinion is not evidence. The three checks a model decides ask a model whether a text is literal, a start a summary, a message plain; what it says is a suggestion for a person, never a fact Rampa states and never a reason to fail a run.
 - **Not an overlay.** It reads the page and never clicks, types or submits.
-- **Not yet validated.** The checks are marked `experimental`, in `report.advisory.checks`, on each result and in every output. Each has pass and fail fixtures (`test/fixtures/coga/<check>/`) with the results they must give; those of the checks a model decides are run against a model by `scripts/coga-model-fixtures.ts`. The rest of the gate a check needs before it is called stable ([roadmap](roadmap.md)) is not built yet: the corrupted pairs, and the evaluation on real pages labelled by annotators. Please report what looks wrong.
+- **Not yet validated.** The checks are marked `experimental`, in `report.advisory.checks`, on each result and in every output. Each has pass and fail fixtures (`test/fixtures/coga/<check>/`) with the results they must give; those of the checks a model decides are run against a model by `scripts/coga-model-fixtures.ts`. The rest of the [gate](#the-evaluation-gate) a check must pass before it is called stable is not built yet: the corrupted pairs, and the evaluation on real pages labelled by annotators. Please report what looks wrong.
+
+## The evaluation gate
+
+A check of the profile leaves `experimental` only when all of these hold. Every check has its fixtures; the corrupted pairs, the labelled real pages and the evaluation tooling do not exist yet ([roadmap](roadmap.md)), so no check has passed.
+
+1. **Fixtures:** 100% expected output on the deterministic parts. Every claim has a fail fixture and a pass twin.
+2. **Corrupted pairs:** the verdict flips on at least 95% of pairs. The intact side produces 0 advisories from that check. Negative-control pairs, where the change does not touch the defect, must not flip.
+3. **Real pages:** about 60 sampled advisories per check from a real-page set, labelled by 2 annotators.
+   - Precision is the share where the fact is true *and* the pattern applies.
+   - **Wilson 95% lower bound ≥ 0.85**, and **≥ 0.90 for `barrier` checks**. With 60 items, 58 correct gives a lower bound of about 0.89.
+   - Report Cohen's κ, or Krippendorff's α for 3 or more raters. Labels count as gold only at ≥ 0.67, and headline numbers need ≥ 0.8.
+4. **Scoring:** "no candidates" counts as **inapplicable**, never as a pass. Detector recall (did the check find the element?) is reported apart from judgment precision.
+5. **Volume:** advisories per page on the real-page set are published. A check whose 90th percentile exceeds 10 per page needs better grouping before it ships.
 
 ## Known limits
 

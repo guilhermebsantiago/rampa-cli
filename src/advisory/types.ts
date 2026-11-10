@@ -133,7 +133,7 @@ export interface AdvisoryCheckSummary {
   /** Bump when the logic or the lists change. */
   version: string
   /**
-   * experimental until the check passes the cognitive profile's evaluation gate (docs/roadmap.md)
+   * experimental until the check passes the evaluation gate (docs/cognitive-profile.md, "The evaluation gate")
    * (fixtures, corrupted pairs, about 60 annotated real-page results with a Wilson lower bound ≥ 0.85).
    * An experimental check still runs with the profile (decision of 2026-10-15), and every report
    * marks its advisories.

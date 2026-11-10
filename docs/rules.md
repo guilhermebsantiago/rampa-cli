@@ -30,12 +30,14 @@ The collector records three facts for rules, as additive fields on the root node
 
 ## Maturity, confidence and the exit code
 
-Every rule ships as `experimental` until it passes the evaluation gate. That gate has four parts:
+Every rule ships as `experimental` until it passes the evaluation gate. The gate is the same for every new check (a rule, a probe rule, a judged criterion, a site criterion): it reports below the default confidence threshold until all of these hold.
 
-- ACT test cases;
-- fixture pairs;
-- 35 findings on real pages reviewed by a person with no false positive;
-- stability.
+1. **ACT test cases, where they exist.** Every failed example is found and no passed example is flagged, scored the way ACT intends. For most rules, "passed" means "further testing needed", not "satisfied".
+2. **Fixtures in pairs**, a passing and a failing variant per failure technique. They go into `rampa eval` through a no-model path for rule and probe criteria.
+3. **Real-page precision.** At least 35 findings reviewed by a person with no false positive, or 53 with one, which gives a 95% Wilson lower bound of about 0.9. Rare checks get a targeted corpus, for example pages found by searching for "rotate your device" or "gire o celular", because a random sample will not produce enough findings.
+4. **Stability.** The flake gate: each probe fixture runs 10 times in CI, and a single flipped verdict blocks the merge.
+
+No check has passed the gate yet. A probe kind becomes a default one at a time, after the gate and after its cost is measured on the real-page sample ([probes](probes.md#cost)). The shared real-page sample for part 3 (EVAL-1) is 100 pages, half pt-BR and half en, each a home page plus one inner page, with the probe records saved.
 
 An experimental rule's findings are reported at **low** confidence. That is below the default threshold (`medium`), so:
 

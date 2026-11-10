@@ -82,6 +82,22 @@ Rampa reports against WCAG 2.2 by default (`--wcag 2.1` for the older target), a
 
 Experimental checks report at low confidence, below the default threshold, until enough of their findings have been reviewed by a person. `--verbose` lists them without failing the build; `--min-confidence low` promotes them to findings, which then fail the build under the default `--fail-on confirmed`. The gate is in [rules.md](rules.md#maturity-confidence-and-the-exit-code), and what is still planned is on the [roadmap](roadmap.md).
 
+## What Rampa does not automate
+
+- **Saying a page is accessible, or that a criterion passes.** A probe sees one browser, one set of viewports and the states it reached; a clean result is "no failure found under these conditions".
+- **Writing to a server** (submitting forms, buying, signing in, deleting or changing account data), unless `--allow-submit` names the origin ([probes](probes.md#submitting-forms---allow-submit)). A guard cannot tell a harmless POST from a costly one.
+- **Solving, clicking or triggering CAPTCHAs.** 3.3.8 detects CAPTCHAs and alternatives; a person tests them.
+- **Judging whether captions are accurate, an audio description adequate, a transcript complete, or live captions in time** (1.2.x). Rampa finds media, broken tracks and missing signals; 1.2.3, 1.2.4 and 1.2.5 stay needs review only.
+- **Letting a model create a failure from an exception** (essential, logotype, incidental, user-agent controlled). A model may only lower or clear a finding, citing its reason.
+- **Judging contrast or flashing by looking.** Rampa measures pixels; a model may only locate what to measure. For 2.3.1 there is no vision model and no certification claim.
+- **Reading or focus order verdicts from geometry alone** (1.3.2, 2.4.3). DOM and visual order differ on most real pages without harm, so geometry only nominates candidates.
+- **Deciding by itself what a set of web pages is** (2.4.5, 3.2.3, 3.2.4, 3.2.6). Rampa proposes sets from templates; 2.4.5 never fails, since a crawl is never known to be complete.
+- **Deciding what a screen reader announces** (4.1.2, 4.1.3). Rampa checks what the browser exposes, not what NVDA, JAWS, VoiceOver or TalkBack say.
+- **Reporting markup validation as WCAG** (4.1.1, removed in WCAG 2.2 and satisfied by definition for HTML under 2.1).
+- **Fixing pages at run time.** Patches are proposals for a developer; a suggested `alt` is never applied by itself.
+- **Camera gestures, real sensors, touch hardware, other browsers and screen-reader modes.** Synthetic events cannot reproduce them; the report names them as not checked.
+- **Short-phrase language verdicts and reading-level verdicts.** Single words have no reliable language, and readability is context in the cognitive profile, never a verdict.
+
 ## Before and after
 
 [`examples/store/before.html`](../examples/store/before.html) is a small shop page with the kind of problems a deterministic audit lets through. [`after.html`](../examples/store/after.html) applies the patches Rampa suggested.

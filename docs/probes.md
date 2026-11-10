@@ -210,7 +210,7 @@ What each probe rule can fail, in short; each check below gives the full conditi
 
 ## Cost
 
-Typical times of single runs on desktop Edge headless; live pages vary. A failure that rests on an absence costs a second trial.
+Typical times of single runs on desktop Edge headless; live pages vary. A failure that rests on an absence costs a second trial. The targets for a kind to become a default are 0.2 s or less per keyboard stop, 2 to 5 s per layout variant and about 1 s per hover trigger.
 
 | Probe | Budget per page | What drives the time |
 |---|---|---|
