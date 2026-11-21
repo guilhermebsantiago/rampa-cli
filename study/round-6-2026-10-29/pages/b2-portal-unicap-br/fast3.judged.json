@@ -1,0 +1,431 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://portal.unicap.br/graduacao",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "75b8de0adfbd",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "rule",
+   "ref": "#portlet_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_INSTANCE_6UisxlQesB1G > div > div > div > div > div:nth-of-type(3) > div > div:nth-of-type(1) > img",
+   "target": "#portlet_com_liferay_asset_publisher_web_portlet_AssetPublisherPortlet_INSTANCE_6UisxlQesB1G > div > div > div > div > div:nth-of-type(3) > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"WhatsApp Image 2026-08-31 at 11.51.36.jpeg\" is the name a camera or a screenshot tool gave the file: a screen reader reads it in place of the image. Describe what the image conveys, or use alt=\"\" if it is decorative.",
+   "evidence": "alt=\"WhatsApp Image 2026-08-31 at 11.51.36.jpeg\"",
+   "subject": "WhatsApp Image 2026-08-31 at 11.51.36.jpeg",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-alt",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F30",
+   "html": "<img class=\"card-img-top\" src=\"/documents/475032/5605080/WhatsApp%20Image%202026-08-31%20at%2011.51.36.jpeg/7584209c-5723-1f81-77af-6ea5df74433d\" alt=\"WhatsApp Image 2026-08-31 at 11.51.36.jpeg\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "b78a7347657b",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_formFooter_ddm\\$\\$Email\\$j2CLXX5b\\$0\\$\\$pt_BR",
+   "message": "The field \"E-mail\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "E-mail",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_formFooter_ddm\\$\\$Email\\$j2CLXX5b\\$0\\$\\$pt_BR",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input aria-describedby=\"_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_formFooter_ddm$$Email$j2CLXX5b$0$$pt_BR_fieldFeedback\" aria-required=\"true\" dir=\"ltr\" id=\"_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_formFooter_ddm$$Email$j2CLXX5b$0$$pt_BR\" lang=\"pt-BR\" name=\"_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_formFooter_ddm$$Email$j2CLXX5b$0$$pt_BR\" placeholder=\"Digite seu Email\" class=\"form-control ddm-field-text\" type=\"text\" value=\"\">",
+    "after": "<input aria-describedby=\"_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_formFooter_ddm$$Email$j2CLXX5b$0$$pt_BR_fieldFeedback\" aria-required=\"true\" dir=\"ltr\" id=\"_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_formFooter_ddm$$Email$j2CLXX5b$0$$pt_BR\" lang=\"pt-BR\" name=\"_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_formFooter_ddm$$Email$j2CLXX5b$0$$pt_BR\" placeholder=\"Digite seu Email\" class=\"form-control ddm-field-text\" type=\"text\" value=\"\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "9ac6df7c28fe",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_formFooter_ddm\\$\\$Email\\$j2CLXX5b\\$0\\$\\$pt_BR",
+   "target": "#_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_formFooter_ddm\\$\\$Email\\$j2CLXX5b\\$0\\$\\$pt_BR",
+   "message": "The browser exposes this element as a textbox but computes no name for it: a screen reader announces only \"textbox\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role textbox · name \"\"",
+   "subject": "textbox",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<input aria-describedby=\"_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_formFooter_ddm$$Email$j2CLXX5b$0$$pt_BR_fieldFeedback\" aria-required=\"true\" dir=\"ltr\" id=\"_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_formFooter_ddm$$Email$j2CLXX5b$0$$pt_BR\" lang=\"pt-BR\" name=\"_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_formFooter_ddm$$Email$j2CLXX5b$0$$pt_BR\" placeholder=\"Digite seu Email\" class=\"form-control ddm-field-text\" type=\"text\" value=\"\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 33
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 15,
+   "members": [
+    "ac50142fec34",
+    "752288dc6dbd",
+    "4f912d00469a",
+    "cb023cc3f62a",
+    "d1f4990cf1f9",
+    "19ab71a02658",
+    "e7f6101fffbb",
+    "038e61d1047c",
+    "3f319afb8319",
+    "7bf1c2ac65ed",
+    "5c348cb29370",
+    "b984904f4f02",
+    "f5df78666bb7",
+    "45fdccc0dd93",
+    "9debf329047d"
+   ],
+   "example": "ac50142fec34"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#-carousel > div > div:nth-of-type(2) > div:nth-of-type(3) > a > div > div:nth-of-type(2) > picture > img",
+   "message": "The text alternative \"personagem de Direito\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Ilustração de um profissional do Direito segurando um martelo e um livro.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.00), claim: no (0.06), reversed: yes (0.01))",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#-carousel > div > div:nth-of-type(2) > div:nth-of-type(2) > a > div > div:nth-of-type(2) > picture > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Ciências Econômicas",
+    "problem": "wrong_content",
+    "imageShows": "Uma ilustração estilizada de uma mulher com cabelos azuis e óculos, segurando um gráfico de barras.",
+    "suggestedAlt": "Ilustração de uma mulher segurando um gráfico de barras",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#-carousel > div > div:nth-of-type(1) > div:nth-of-type(6) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Ciências Biológicas – Bacharelado Bloco B – Térreo Fone: (081) 2119-4172 PRESENCIAL Mais Informações' suggests it leads to more information about the Biological Sciences undergraduate course.",
+    "leadsTo": "https://portal.unicap.br/w/ciencias-biologicas#presencial",
+    "verdict": "fail",
+    "evidence": "Ciências Biológicas – Bacharelado Bloco B – Térreo Fone: (081) 2119-4172 PRESENCIAL Mais Informações",
+    "problem": "mismatch",
+    "suggestedText": "Mais informações sobre Ciências Biológicas",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#content > h2",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Graduação - Unicap",
+    "verdict": "fail",
+    "evidence": "G…",
+    "problem": "generic",
+    "suggestedText": "Graduação - Unicap",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#-carousel > div > div:nth-of-type(1) > div:nth-of-type(2) > a > div > h3",
+   "reason": "evidence is not the heading text",
+   "output": {
+    "named": "Arquitetura e Urbanismo",
+    "verdict": "pass",
+    "evidence": "Arquitetura e Urbanismo…",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#-carousel > div > div:nth-of-type(1) > div:nth-of-type(3) > a > div > h3",
+   "reason": "evidence is not the heading text",
+   "output": {
+    "named": "Banco de Dados - IA e Ciências de D…",
+    "verdict": "pass",
+    "evidence": "Banco de Dados - IA e Ciências de D…",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#-carousel > div > div:nth-of-type(1) > div:nth-of-type(4) > a > div > h3",
+   "reason": "evidence is not the heading text",
+   "output": {
+    "named": "Ciência da Computação",
+    "verdict": "pass",
+    "evidence": "Ciência da Computação -…",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 6,
+   "judged": 6,
+   "failed": 0,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 42,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 32
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 26,
+   "judged": 10,
+   "failed": 0,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 16,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 1,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "18 image(s) were left without a capture, so no judgment looked at them: 6 still loading after the wait; 12 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 32 of 42 for 2.4.4, 16 of 26 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 25,
+  "cachedCalls": 0,
+  "inputTokens": 22095,
+  "outputTokens": 3284,
+  "latencyMs": 78809
+ },
+ "timings": {
+  "totalMs": 46502,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 27
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 10624,
+    "prepareMs": 0,
+    "candidates": 6,
+    "judged": 6,
+    "calls": 9,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2582,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1224,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 20444,
+    "prepareMs": 0,
+    "candidates": 42,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 9913,
+    "prepareMs": 0,
+    "candidates": 26,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 169,
+    "prepareMs": 167,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 11,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1481,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 27
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 1000,
+  "images": {
+   "captured": 9,
+   "notCaptured": 18,
+   "reasons": {
+    "not-loaded": 6,
+    "limit": 12
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 42,
+    "capped": 32
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 26,
+    "capped": 16
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

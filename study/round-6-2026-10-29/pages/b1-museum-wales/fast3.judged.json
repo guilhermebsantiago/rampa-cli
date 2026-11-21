@@ -1,0 +1,420 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://museum.wales/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "f6f3ff76fe71",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#content_box_whatson_12967 > div > div:nth-of-type(1) > figure > picture > img",
+   "message": "The text alternative \"Ann Francis\" describes something the image does not show.",
+   "evidence": "Ann Francis",
+   "subject": "Ann Francis",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#content_box_whatson_12967 > div > div:nth-of-type(1) > figure > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Ann Francis",
+    "to": "A collection of gold and silver coins with a padlock and a pocket watch",
+    "before": "<img oncontextmenu=\"return true;\" data-id=\"65248\" alt=\"Ann Francis\" src=\"data:…\" loading=\"lazy\">",
+    "after": "<img oncontextmenu=\"return true;\" data-id=\"65248\" alt=\"A collection of gold and silver coins with a padlock and a pocket watch\" src=\"data:…\" loading=\"lazy\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999995847809168
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "24295281b59e",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#content_box_whatson_12923 > div > div:nth-of-type(1) > figure > picture > img",
+   "message": "The text alternative \"It’s Called Ffasiwn\" describes something the image does not show.",
+   "evidence": "It’s Called Ffasiwn",
+   "subject": "It’s Called Ffasiwn",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#content_box_whatson_12923 > div > div:nth-of-type(1) > figure > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "It’s Called Ffasiwn",
+    "to": "A person in a pink outfit and hat standing in a grassy field",
+    "before": "<img oncontextmenu=\"return true;\" data-id=\"64806\" alt=\"It’s Called Ffasiwn\" src=\"data:…\" loading=\"lazy\">",
+    "after": "<img oncontextmenu=\"return true;\" data-id=\"64806\" alt=\"A person in a pink outfit and hat standing in a grassy field\" src=\"data:…\" loading=\"lazy\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9998611873382568
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6f4dda44d348",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#content_box_snippet_1113 > div > div > figure > picture > img",
+   "message": "The text alternative \"Celebrating Turner 250\" names a label, not what the image conveys here.",
+   "evidence": "Celebrating Turner 250",
+   "subject": "Celebrating Turner 250",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#content_box_snippet_1113 > div > div > figure > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Celebrating Turner 250",
+    "to": "A framed painting in a gallery with a 'Support Us' donation message and buttons.",
+    "before": "<img oncontextmenu=\"return true;\" data-id=\"63832\" alt=\"Celebrating Turner 250\" src=\"data:…\" loading=\"lazy\">",
+    "after": "<img oncontextmenu=\"return true;\" data-id=\"63832\" alt=\"A framed painting in a gallery with a 'Support Us' donation message and buttons.\" src=\"data:…\" loading=\"lazy\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9990782824244053
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "11285f2a9bb8",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#global_header_options > div:nth-of-type(1) > div:nth-of-type(1) > a",
+   "target": "#global_header_options > div:nth-of-type(1) > div:nth-of-type(1) > a",
+   "message": "\"Cymraeg\" is in Welsh, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"cy\" to the link.",
+   "evidence": "Cymraeg",
+   "subject": "Cymraeg",
+   "patch": {
+    "ref": "#global_header_options > div:nth-of-type(1) > div:nth-of-type(1) > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "cy",
+    "before": "<a href=\"//amgueddfa.cymru/?\">",
+    "after": "<a href=\"//amgueddfa.cymru/?\" lang=\"cy\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"//amgueddfa.cymru/?\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#content_box_blog_2976 > div > div:nth-of-type(1) > figure > picture > img",
+   "message": "The text alternative \"Carbon Literacy Day cover image\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Autumn forest with orange and red foliage\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.05), claim: yes (1.00), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.4",
+   "ref": "#our_museums > nav > div:nth-of-type(3) > a",
+   "reason": "suggested text equals the current one",
+   "output": {
+    "promises": "The link text 'National Waterfront Museum' suggests it leads to a page about that specific museum.",
+    "leadsTo": "/swansea/",
+    "verdict": "fail",
+    "evidence": "National Waterfront Museum",
+    "problem": "mismatch",
+    "suggestedText": "National Waterfront Museum",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#page > h1",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Amgueddfa Cymru — Museum Wales",
+    "verdict": "fail",
+    "evidence": "A…",
+    "problem": "generic",
+    "suggestedText": "Amgueddfa Cymru — Museum Wales",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 11,
+   "judged": 10,
+   "failed": 3,
+   "passed": 6,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 1,
+   "confirmed": 3,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 61,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 51
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 27,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 17,
+   "batched": {
+    "candidates": 10,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "7 image(s) were left without a capture, so no judgment looked at them: 7 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 1 of 11 for 1.1.1, 51 of 61 for 2.4.4, 17 of 27 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (10 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 34,
+  "cachedCalls": 0,
+  "inputTokens": 24293,
+  "outputTokens": 2843,
+  "latencyMs": 79244
+ },
+ "timings": {
+  "totalMs": 46366,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 21626,
+    "prepareMs": 0,
+    "candidates": 11,
+    "judged": 10,
+    "calls": 22,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 15236,
+    "prepareMs": 0,
+    "candidates": 61,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 9278,
+    "prepareMs": 0,
+    "candidates": 27,
+    "judged": 10,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 172,
+    "prepareMs": 170,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 29
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 15,
+   "notCaptured": 7,
+   "reasons": {
+    "limit": 7
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 11,
+    "capped": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 61,
+    "capped": 51
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 27,
+    "capped": 17
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

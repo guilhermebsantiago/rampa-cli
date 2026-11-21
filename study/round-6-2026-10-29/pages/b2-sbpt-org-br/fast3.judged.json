@@ -1,0 +1,716 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://sbpt.org.br/portal/congresso-da-sbpt-reune-mais-de-2-mil-participantes-apresenta-941-trabalhos-cientificos-e-homenageia-nomes-da-pneumologia-brasileira/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "a79063b2352e",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#brxe-bjhbwa > div > div:nth-of-type(1) > figure > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"42º Congresso Brasileiro de Pneumologia and 18º Congresso Brasileiro de Medicina do Sono\".",
+   "evidence": "42º Congresso Brasileiro de Pneumologia and 18º Congresso Brasileiro de Medicina do Sono",
+   "subject": "hidden image-1024x682.jpeg",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f78296fe6f21",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#brxe-bjhbwa > div > div:nth-of-type(3) > figure > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"The certificate says '1º LUGAR'\".",
+   "evidence": "The certificate says '1º LUGAR'",
+   "subject": "hidden image-4-1024x683.jpeg",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "3ca88debccae",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#brxe-bjhbwa > div > div:nth-of-type(4) > figure > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"18º Congresso Brasileiro de Endoscopia Respiratória\".",
+   "evidence": "18º Congresso Brasileiro de Endoscopia Respiratória",
+   "subject": "hidden image-1-1024x768.jpeg",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c51301fccfb3",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#brxe-bjhbwa > div > div:nth-of-type(5) > figure > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Distribuição dos 1.233.205 casos de DPOC\".",
+   "evidence": "Distribuição dos 1.233.205 casos de DPOC",
+   "subject": "hidden image-2-1024x682.jpeg",
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "8fde2f9d2162",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#form-field-55413a",
+   "message": "The field \"Nome\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "Nome",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#form-field-55413a",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input id=\"form-field-55413a\" name=\"form-field-340dc5\" aria-label=\"Nome\" type=\"email\" value=\"\" placeholder=\"Digite seu e-mail\" maxlength=\"320\">",
+    "after": "<input id=\"form-field-55413a\" name=\"form-field-340dc5\" aria-label=\"Nome\" type=\"email\" value=\"\" placeholder=\"Digite seu e-mail\" maxlength=\"320\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "5ee1e4f97287",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#password",
+   "message": "The field \"Senha *\" asks for the user's current password but does not identify that purpose: autocomplete=\"current-password\" is missing.",
+   "evidence": "Senha *",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#password",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "current-password",
+    "before": "<input type=\"password\" id=\"password\" placeholder=\"Senha *\">",
+    "after": "<input type=\"password\" id=\"password\" placeholder=\"Senha *\" autocomplete=\"current-password\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "15fdde4465be",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#brxe-bjhbwa > div > h5:nth-of-type(11) > em > a",
+   "message": "The link text \"Clique aqui\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "Clique aqui",
+   "subject": "Clique aqui",
+   "claim": "generic",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "#brxe-bjhbwa > div > h5:nth-of-type(11) > em > a",
+    "kind": "set-text",
+    "from": "Clique aqui",
+    "to": "Acesse as fotos do Congresso",
+    "before": "<a href=\"https://drive.google.com/drive/folders/1eqCRn96_DL5GyhTNSgWC4b9GXIwhbgnW\">Clique aqui</a>",
+    "after": "<a href=\"https://drive.google.com/drive/folders/1eqCRn96_DL5GyhTNSgWC4b9GXIwhbgnW\">Acesse as fotos do Congresso</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "d7a0972a46b1",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#brxe-bjhbwa > div > h5:nth-of-type(12) > em > a",
+   "message": "The link text \"clique aqui.\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "clique aqui.",
+   "subject": "clique aqui.",
+   "claim": "generic",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "#brxe-bjhbwa > div > h5:nth-of-type(12) > em > a",
+    "kind": "set-text",
+    "from": "clique aqui.",
+    "to": "Acessar o certificado de participação",
+    "before": "<a href=\"https://sbpt.org.br/portal//central-de-certificados/\">clique aqui.</a>",
+    "after": "<a href=\"https://sbpt.org.br/portal//central-de-certificados/\">Acessar o certificado de participação</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f9856b6366bd",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#brxe-anqolv",
+   "message": "The link text \"Diretoria e Comissões\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "Diretoria e Comissões",
+   "subject": "Diretoria e Comissões",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#brxe-anqolv",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "Diretoria e Comissões",
+    "to": "Diretoria em Exercício",
+    "before": "<a id=\"brxe-anqolv\" class=\"brxe-text-link\" href=\"https://sbpt.org.br/portal/diretoria-em-exercicio/\" rel=\"Diretoria e Comissões\" aria-label=\"Diretoria e Comissões\">",
+    "after": "<a id=\"brxe-anqolv\" class=\"brxe-text-link\" href=\"https://sbpt.org.br/portal/diretoria-em-exercicio/\" rel=\"Diretoria e Comissões\" aria-label=\"Diretoria em Exercício\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "9e4f6252728b",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#brxe-swfkfq",
+   "message": "The link text \"Diretoria e Comissões\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "Diretoria e Comissões",
+   "subject": "Diretoria e Comissões",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#brxe-swfkfq",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "Diretoria e Comissões",
+    "to": "Diretoria e Comissões (Página Institucional)",
+    "before": "<a id=\"brxe-swfkfq\" class=\"brxe-text-link\" href=\"https://sbpt.org.br/portal/comissoes-e-departamentos/\" rel=\"Diretoria e Comissões\" aria-label=\"Diretoria e Comissões\">",
+    "after": "<a id=\"brxe-swfkfq\" class=\"brxe-text-link\" href=\"https://sbpt.org.br/portal/comissoes-e-departamentos/\" rel=\"Diretoria e Comissões\" aria-label=\"Diretoria e Comissões (Página Institucional)\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "d284e06ee119",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#brxe-jmzpnd",
+   "message": "The link text \"Relatórios Anuais\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "Relatórios Anuais",
+   "subject": "Relatórios Anuais",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#brxe-jmzpnd",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "Relatórios Anuais",
+    "to": "Relatórios Anuais de Residência Médica",
+    "before": "<a id=\"brxe-jmzpnd\" class=\"brxe-text-link\" href=\"https://sbpt.org.br/portal/relatorios-gerais-de-residencia-medica/\" rel=\"Relatórios Anuais\" aria-label=\"Relatórios Anuais\">",
+    "after": "<a id=\"brxe-jmzpnd\" class=\"brxe-text-link\" href=\"https://sbpt.org.br/portal/relatorios-gerais-de-residencia-medica/\" rel=\"Relatórios Anuais\" aria-label=\"Relatórios Anuais de Residência Médica\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "92adc7ecfe5c",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#brxe-bjhbwa > div > p:nth-of-type(22)",
+   "message": "This passage has no lang attribute, so it is read as Brazilian Portuguese (pt-BR), but it is in English (en).",
+   "evidence": "“Sociodemographic and clinical characteristics of individuals exposed to smoking or biomass smoke and followed at primary health care centers in Brazil: a multicenter study”",
+   "subject": "unmarked|pt-BR|“Sociodemographic and clinical characteristics of individuals exposed to smoking or biomass smoke and followed at primary health care centers in Brazil: a multicenter study”",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#brxe-bjhbwa > div > p:nth-of-type(22)",
+    "kind": "set-text",
+    "from": "“Sociodemographic and clinical characteristics of individuals exposed to smoking or biomass smoke and followed at primary health care centers in Brazil: a multicenter study”",
+    "to": "<span lang=\"en\">“Sociodemographic and clinical characteristics of individuals exposed to smoking or biomass smoke and followed at primary health care centers in Brazil: a multicenter study”</span>",
+    "before": "“Sociodemographic and clinical characteristics of individuals exposed to smoking or biomass smoke and followed at primary health care centers in Brazil: a multicenter study”",
+    "after": "<span lang=\"en\">“Sociodemographic and clinical characteristics of individuals exposed to smoking or biomass smoke and followed at primary health care centers in Brazil: a multicenter study”</span>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "8a1f17953d1a",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#brxe-bjhbwa > div > p:nth-of-type(23)",
+   "message": "This passage has no lang attribute, so it is read as Brazilian Portuguese (pt-BR), but it is in English (en).",
+   "evidence": "“Baseline characteristics of patients from the Brazilian Severe Asthma Registry (REBRAG) study”",
+   "subject": "unmarked|pt-BR|“Baseline characteristics of patients from the Brazilian Severe Asthma Registry (REBRAG) study”",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#brxe-bjhbwa > div > p:nth-of-type(23)",
+    "kind": "set-text",
+    "from": "“Baseline characteristics of patients from the Brazilian Severe Asthma Registry (REBRAG) study”",
+    "to": "<span lang=\"en\">“Baseline characteristics of patients from the Brazilian Severe Asthma Registry (REBRAG) study”</span>",
+    "before": "“Baseline characteristics of patients from the Brazilian Severe Asthma Registry (REBRAG) study”",
+    "after": "<span lang=\"en\">“Baseline characteristics of patients from the Brazilian Severe Asthma Registry (REBRAG) study”</span>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6ca03be4f624",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#brxe-bjhbwa > div > p:nth-of-type(23)",
+   "message": "This passage has no lang attribute, so it is read as Brazilian Portuguese (pt-BR), but it is in English (en).",
+   "evidence": "“Relative incidence of interstitial lung disease in Brazil” .",
+   "subject": "unmarked|pt-BR|“Relative incidence of interstitial lung disease in Brazil” .",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#brxe-bjhbwa > div > p:nth-of-type(23)",
+    "kind": "set-text",
+    "from": "“Relative incidence of interstitial lung disease in Brazil” .",
+    "to": "<span lang=\"en\">“Relative incidence of interstitial lung disease in Brazil” .</span>",
+    "before": "“Relative incidence of interstitial lung disease in Brazil” .",
+    "after": "<span lang=\"en\">“Relative incidence of interstitial lung disease in Brazil” .</span>"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "ede2c728abaa",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#brxe-bjhbwa > div > p:nth-of-type(42)",
+   "message": "This passage has no lang attribute, so it is read as Brazilian Portuguese (pt-BR), but it is in English (en).",
+   "evidence": "Research Institute (PVRI), intitulada The IPVD Consortium Perspective on Pulmonary Hypertension and Global Health. Rubin Tuder",
+   "subject": "unmarked|pt-BR|Research Institute (PVRI), intitulada The IPVD Consortium Perspective on Pulmonary Hypertension and Global Health. Rubin Tuder",
+   "techniques": [
+    "H58"
+   ],
+   "patch": {
+    "ref": "#brxe-bjhbwa > div > p:nth-of-type(42)",
+    "kind": "set-text",
+    "from": "Research Institute (PVRI), intitulada The IPVD Consortium Perspective on Pulmonary Hypertension and Global Health. Rubin Tuder",
+    "to": "<span lang=\"en\">Research Institute (PVRI), intitulada The IPVD Consortium Perspective on Pulmonary Hypertension and Global Health. Rubin Tuder</span>",
+    "before": "Research Institute (PVRI), intitulada The IPVD Consortium Perspective on Pulmonary Hypertension and Global Health. Rubin Tuder",
+    "after": "<span lang=\"en\">Research Institute (PVRI), intitulada The IPVD Consortium Perspective on Pulmonary Hypertension and Global Health. Rubin Tuder</span>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 7
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#brxe-nznfev",
+   "message": "The heading \"SBPT\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Sociedade Brasileira de Pneumologia e Tisiologia\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#brxe-xubuwx > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "SBPT",
+    "problem": "missing_information",
+    "imageShows": "O logotipo da Sociedade Brasileira de Pneumologia e Tisiologia (SBPT).",
+    "suggestedAlt": "Sociedade Brasileira de Pneumologia e Tisiologia (SBPT)",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#brxe-bjhbwa > div > div:nth-of-type(6) > figure > img",
+   "reason": "the text around the image already says what it conveys",
+   "output": {
+    "imageShows": "A large group of women posing for a group photo in a conference hall.",
+    "textInImage": "FÓRUM DAS MULHERES",
+    "verdict": "fail",
+    "evidence": "FÓRUM DAS MULHERES",
+    "suggestedAlt": "Grupo de mulheres no Fórum das Mulheres durante o congresso da SBPT.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.3.5",
+   "ref": "#email",
+   "reason": "fail verdict without a purpose",
+   "output": {
+    "asks": "E-mail or CPF",
+    "about": "user",
+    "purpose": "none",
+    "verdict": "fail",
+    "evidence": "E-mail ou CPF *",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#brxe-lgzfsq",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Relatórios Anuais' (Annual Reports) suggests it leads to a page containing annual reports.",
+    "leadsTo": "https://sbpt.org.br/portal/ligas-academicas-de-pneumologia/ (Academic Leagues of Pneumology)",
+    "verdict": "fail",
+    "evidence": "Relatórios Anuais",
+    "problem": "mismatch",
+    "suggestedText": "Ligas Acadêmicas de Pneumologia",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 12,
+   "judged": 10,
+   "failed": 4,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 2
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 2,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 74,
+   "judged": 10,
+   "failed": 5,
+   "passed": 3,
+   "cannotTell": 1,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 64
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 24,
+   "judged": 10,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 14,
+   "batched": {
+    "candidates": 9,
+    "calls": 4
+   },
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 8,
+   "judged": 8,
+   "failed": 4,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "batched": {
+    "candidates": 8,
+    "calls": 2
+   }
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 of the page's 23 stylesheet(s) had not applied when it was read (https://sbpt.org.br/portal/wp-content/uploads/bricks/css/theme-style-breackpoint.min.css?ver=1780922469 (no rules)): the page was read with the styles it had, which may differ from what people see.",
+  "9 image(s) were left without a capture, so no judgment looked at them: 1 transparent where it sits; 1 still loading after the wait; 7 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 10 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 2 of 12 for 1.1.1, 64 of 74 for 2.4.4, 14 of 24 for 2.4.6. The coverage lists them as not judged.",
+  "Batched judgment (--batch or --fast): the model judged several candidates per call for 2.4.6 (9 in 4 calls), 3.1.2 (8 in 2 calls); each answer was verified against its own candidate.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 31,
+  "cachedCalls": 0,
+  "inputTokens": 35766,
+  "outputTokens": 4255,
+  "latencyMs": 120867
+ },
+ "timings": {
+  "totalMs": 68882,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 29
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 21736,
+    "prepareMs": 0,
+    "candidates": 12,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3708,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1564,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 18121,
+    "prepareMs": 0,
+    "candidates": 74,
+    "judged": 10,
+    "calls": 10,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 16022,
+    "prepareMs": 0,
+    "candidates": 24,
+    "judged": 10,
+    "calls": 5,
+    "cachedCalls": 0,
+    "batches": 4
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 171,
+    "prepareMs": 166,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 7492,
+    "prepareMs": 0,
+    "candidates": 8,
+    "judged": 8,
+    "calls": 2,
+    "cachedCalls": 0,
+    "batches": 2
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 36
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "stylesheets": {
+   "linked": 23,
+   "applied": 22,
+   "failed": 1
+  },
+  "images": {
+   "captured": 13,
+   "notCaptured": 9,
+   "reasons": {
+    "not-shown": 1,
+    "not-loaded": 1,
+    "limit": 7
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 12,
+    "capped": 2
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 74,
+    "capped": 64
+   },
+   {
+    "criterion": "2.4.6",
+    "candidates": 24,
+    "capped": 14
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "stylesheets": {
+    "linked": 23,
+    "applied": 22,
+    "failed": [
+     {
+      "href": "https://sbpt.org.br/portal/wp-content/uploads/bricks/css/theme-style-breackpoint.min.css?ver=1780922469",
+      "reason": "no rules"
+     }
+    ]
+   }
+  }
+ }
+}
