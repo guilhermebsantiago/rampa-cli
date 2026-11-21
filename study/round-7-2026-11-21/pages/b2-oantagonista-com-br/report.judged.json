@@ -1,0 +1,620 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://oantagonista.com.br/analise/relatorio-da-pf-sobre-mendonca-saiu-pela-culatra/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "36e1000123e7",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#main > section > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > article > div:nth-of-type(3) > picture > img",
+   "message": "The text alternative \"Relatório da PF sobre Mendonça saiu pela culatra\" describes something the image does not show.",
+   "evidence": "Relatório da PF sobre Mendonça saiu pela culatra",
+   "subject": "Relatório da PF sobre Mendonça saiu pela culatra",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#main > section > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > article > div:nth-of-type(3) > picture > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Relatório da PF sobre Mendonça saiu pela culatra",
+    "to": "Um magistrado sentado em uma mesa de tribunal durante uma sessão.",
+    "before": "<img src=\"https://cdn.oantagonista.com/uploads/2026/11/55590654107_48edf41a55_5k-scaled-e1795199328508-1280x720.jpg\" width=\"874\" height=\"524\" alt=\"Relatório da PF sobre Mendonça saiu pela culatra\">",
+    "after": "<img src=\"https://cdn.oantagonista.com/uploads/2026/11/55590654107_48edf41a55_5k-scaled-e1795199328508-1280x720.jpg\" width=\"874\" height=\"524\" alt=\"Um magistrado sentado em uma mesa de tribunal durante uma sessão.\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.99795515305143
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "13bb4a8827e3",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#rd-email_field-mf475y9z",
+   "message": "The field \"Email*\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Email*",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#rd-email_field-mf475y9z",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input id=\"rd-email_field-mf475y9z\" class=\"bricks-form__input required js-email js-field-email\" name=\"email\" type=\"email\" data-use-type=\"STRING\" data-always-visible=\"true\" data-input-mask=\"\" placeholder=\"Email *\" required=\"required\">",
+    "after": "<input id=\"rd-email_field-mf475y9z\" class=\"bricks-form__input required js-email js-field-email\" name=\"email\" type=\"email\" data-use-type=\"STRING\" data-always-visible=\"true\" data-input-mask=\"\" placeholder=\"Email *\" required=\"required\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "a4f4749fc480",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#rd-email_field-lyxazx9p",
+   "message": "The field \"Email*\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "Email*",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#rd-email_field-lyxazx9p",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input id=\"rd-email_field-lyxazx9p\" class=\"bricks-form__input required js-email js-field-email\" name=\"email\" type=\"email\" data-use-type=\"STRING\" data-always-visible=\"true\" data-input-mask=\"\" placeholder=\"Email *\" required=\"required\">",
+    "after": "<input id=\"rd-email_field-lyxazx9p\" class=\"bricks-form__input required js-email js-field-email\" name=\"email\" type=\"email\" data-use-type=\"STRING\" data-always-visible=\"true\" data-input-mask=\"\" placeholder=\"Email *\" required=\"required\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "9b833db3184a",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#rd-email_field-mf475y9z",
+   "target": "#rd-email_field-mf475y9z",
+   "message": "The browser exposes this element as a textbox but computes no name for it: a screen reader announces only \"textbox\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role textbox · name \"\"",
+   "subject": "textbox",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<input id=\"rd-email_field-mf475y9z\" class=\"bricks-form__input required js-email js-field-email\" name=\"email\" type=\"email\" data-use-type=\"STRING\" data-always-visible=\"true\" data-input-mask=\"\" placeholder=\"Email *\" required=\"required\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "bc69579333a3",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#rd-email_field-lyxazx9p",
+   "target": "#rd-email_field-lyxazx9p",
+   "message": "The browser exposes this element as a textbox but computes no name for it: a screen reader announces only \"textbox\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role textbox · name \"\"",
+   "subject": "textbox",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<input id=\"rd-email_field-lyxazx9p\" class=\"bricks-form__input required js-email js-field-email\" name=\"email\" type=\"email\" data-use-type=\"STRING\" data-always-visible=\"true\" data-input-mask=\"\" placeholder=\"Email *\" required=\"required\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 18
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 9,
+   "members": [
+    "5c216f474d21",
+    "cd0ed422010a",
+    "27a0fa0eff16",
+    "44b3ce39bc68",
+    "82eae0f4639d",
+    "6479aeb1d840",
+    "388bb6ef174c",
+    "f22a3f1c6d10",
+    "62860166b800"
+   ],
+   "example": "5c216f474d21"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#main > section > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > article > div:nth-of-type(2) > div > figure > img",
+   "message": "The text alternative \"avatar\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"Foto de perfil de Rodolfo Borges\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.06), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#main > section > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(3) > div:nth-of-type(1) > figure > img",
+   "message": "The text alternative \"avatar\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"Rodolfo Borges\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: yes (0.94), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#app > div:nth-of-type(3) > img",
+   "message": "The text alternative \"Background do rodapé\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Fundo estilizado com marca d'água do logotipo da O Antagonista\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.92), claim: yes (0.98), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#dismiss",
+   "message": "The link text \"X\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Fechar\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content_post > p:nth-of-type(2) > strong:nth-of-type(2) > a",
+   "message": "The link text \"ataques abertos a Mendonça\" does not match where the link leads: a page titled \"O verdadeiro pixuleco eleitoral\".",
+   "evidence": "The model suggests: \"Análise: O verdadeiro pixuleco eleitoral\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#main > section > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(2) > div:nth-of-type(1) > h3",
+   "message": "The heading \"Governo de Minas alerta que calor e falta de água podem comprometer florada e enchimento dos grãos de café na safra de 2027\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Notícia sobre safra de café em Minas Gerais\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#main > section > div:nth-of-type(2) > div:nth-of-type(3) > div > div:nth-of-type(2) > div:nth-of-type(2) > h3",
+   "message": "The heading \"Homem é condenado por incêndio que devastou região de Malibu\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Notícia sobre condenação por incêndio em Malibu\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#link-crusoe > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "logo-crusoe-new",
+    "problem": "missing_information",
+    "imageShows": "O logotipo da marca Crusoe em letras brancas sobre um fundo preto.",
+    "suggestedAlt": "Crusoe",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#conversion-form-oa-formulario-de-cadastro-da-newsletter-whatsapp > button > img",
+   "reason": "suggested alternative only rewords the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Logo WhatsApp",
+    "problem": "wrong_content",
+    "imageShows": "O ícone oficial do WhatsApp em branco sobre um fundo verde.",
+    "suggestedAlt": "WhatsApp",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#app > div:nth-of-type(3) > footer > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > a:nth-of-type(1) > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Icone do Twitter",
+    "problem": "missing_information",
+    "imageShows": "O logotipo do Twitter (X) em branco e preto.",
+    "suggestedAlt": "Twitter",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#app > div:nth-of-type(3) > footer > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > a:nth-of-type(2) > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Icone do Youtube",
+    "problem": "missing_information",
+    "imageShows": "O logotipo do YouTube em um botão cinza.",
+    "suggestedAlt": "YouTube",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#app > div:nth-of-type(3) > footer > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > a:nth-of-type(3) > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Icone do Whatsapp",
+    "problem": "missing_information",
+    "imageShows": "O logotipo do WhatsApp em tons de cinza.",
+    "suggestedAlt": "WhatsApp",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#app > div:nth-of-type(3) > footer > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > a:nth-of-type(4) > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Icone do Instagram",
+    "problem": "missing_information",
+    "imageShows": "O logotipo do Instagram em tons de cinza.",
+    "suggestedAlt": "Instagram",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#app > div:nth-of-type(3) > footer > div:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(3) > a:nth-of-type(5) > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Icone do Facebook",
+    "problem": "missing_information",
+    "imageShows": "O logotipo do Facebook em um círculo cinza.",
+    "suggestedAlt": "Facebook",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#main > section > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > article > div:nth-of-type(4) > div:nth-of-type(1) > ul > li:nth-of-type(1) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Whastapp' (misspelled) and its context in a list of social media names followed by 'COMPARTILHAR' (SHARE) suggest that clicking the link will share the current article via WhatsApp.",
+    "leadsTo": "https://oantagonista.com.br/analise/relatorio-da-pf-sobre-mendonca-saiu-pela-culatra/",
+    "verdict": "fail",
+    "evidence": "Whastapp",
+    "problem": "mismatch",
+    "suggestedText": "Compartilhar no WhatsApp",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#main > section > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > article > div:nth-of-type(4) > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Facebook' within a list of social media names followed by 'COMPARTILHAR' (SHARE) suggests that clicking the link will share the current article on Facebook.",
+    "leadsTo": "https://oantagonista.com.br/analise/relatorio-da-pf-sobre-mendonca-saiu-pela-culatra/",
+    "verdict": "fail",
+    "evidence": "Facebook",
+    "problem": "mismatch",
+    "suggestedText": "Compartilhar no Facebook",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#main > section > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > article > div:nth-of-type(4) > div:nth-of-type(1) > ul > li:nth-of-type(3) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Linkedin' within a list of social media names followed by 'COMPARTILHAR' (SHARE) suggests that clicking the link will share the current article on LinkedIn.",
+    "leadsTo": "https://oantagonista.com.br/analise/relatorio-da-pf-sobre-mendonca-saiu-pela-culatra/",
+    "verdict": "fail",
+    "evidence": "Linkedin",
+    "problem": "mismatch",
+    "suggestedText": "Compartilhar no LinkedIn",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#main > section > div:nth-of-type(2) > div:nth-of-type(2) > div:nth-of-type(1) > article > div:nth-of-type(4) > div:nth-of-type(1) > ul > li:nth-of-type(4) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'Twitter' in a list of social media names followed by 'COMPARTILHAR' (SHARE) suggests that clicking the link will share the current article on Twitter.",
+    "leadsTo": "https://oantagonista.com.br/analise/relatorio-da-pf-sobre-mendonca-saiu-pela-culatra/",
+    "verdict": "fail",
+    "evidence": "Twitter",
+    "problem": "mismatch",
+    "suggestedText": "Compartilhar no Twitter",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#most-read-list > div:nth-of-type(10) > div:nth-of-type(2) > h2",
+   "reason": "suggested text equals the current one",
+   "output": {
+    "named": "Defesa Civil aponta microexplosão como causa de destruição em Tupanciretã",
+    "verdict": "fail",
+    "evidence": "Defesa Civil aponta microexplosão como causa de destruição em Tupanciretã",
+    "problem": "mismatch",
+    "suggestedText": "Defesa Civil aponta microexplosão como causa de destruição em Tupanciretã",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 15,
+   "failed": 1,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 7,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3,
+   "unconfirmed": 3,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 2,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 75,
+   "judged": 50,
+   "failed": 0,
+   "passed": 44,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 25,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 20,
+   "judged": 20,
+   "failed": 0,
+   "passed": 17,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #content_post > figure > div > iframe (https://www.youtube.com/embed/qlo3F_rv0uI?feature=oembed).",
+  "5 image(s) were left without a capture, so no judgment looked at them: 5 still loading after the wait. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 25 of 75 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 101,
+  "cachedCalls": 0,
+  "inputTokens": 90934,
+  "outputTokens": 8564,
+  "latencyMs": 276584
+ },
+ "timings": {
+  "totalMs": 145307,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 21
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 26990,
+    "prepareMs": 0,
+    "candidates": 15,
+    "judged": 15,
+    "calls": 27,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2433,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1419,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 85276,
+    "prepareMs": 0,
+    "candidates": 75,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 27930,
+    "prepareMs": 0,
+    "candidates": 20,
+    "judged": 20,
+    "calls": 20,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 173,
+    "prepareMs": 170,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 1042,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 22
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 15,
+   "notCaptured": 5,
+   "reasons": {
+    "not-loaded": 5
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 75,
+    "capped": 25
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#content_post > figure > div > iframe",
+     "url": "https://www.youtube.com/embed/qlo3F_rv0uI?feature=oembed",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}

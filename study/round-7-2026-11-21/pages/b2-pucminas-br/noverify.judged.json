@@ -1,0 +1,425 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.pucminas.br/AdministracaoSuperior/Pro-reitorias/Paginas/Graduacao.aspx",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "52078399e693",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#WebPartWPQ3 > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(2) > img",
+   "message": "The text alternative \"Print-tela-portal-prograd.jpg\" is a file name or a placeholder.",
+   "evidence": "Print-tela-portal-prograd.jpg",
+   "subject": "Print-tela-portal-prograd.jpg",
+   "claim": "wrong_content",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "#WebPartWPQ3 > div:nth-of-type(1) > div:nth-of-type(4) > div:nth-of-type(2) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Print-tela-portal-prograd.jpg",
+    "to": "Captura de tela do portal PROGRAD com avisos sobre o cronograma de 2025 e links de serviços acadêmicos.",
+    "before": "<img src=\"https://pucminas.br/AdministracaoSuperior/Pro-reitorias/PublishingImages/Paginas/Graduacao/portal_prograd.png\" alt=\"Print-tela-portal-prograd.jpg\" class=\"img-responsive\" style=\"margin-top: 5px; width: 794px;\">",
+    "after": "<img src=\"https://pucminas.br/AdministracaoSuperior/Pro-reitorias/PublishingImages/Paginas/Graduacao/portal_prograd.png\" alt=\"Captura de tela do portal PROGRAD com avisos sobre o cronograma de 2025 e links de serviços acadêmicos.\" class=\"img-responsive\" style=\"margin-top: 5px; width: 794px;\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "2f3b134e42d1",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#WebPartWPQ2 > div:nth-of-type(1) > div > div > div:nth-of-type(8) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Organograma da PROGRAD com nomes de departamentos e unidades\".",
+   "evidence": "Organograma da PROGRAD com nomes de departamentos e unidades",
+   "subject": "hidden mapaPROGRAD2026.png",
+   "patch": {
+    "ref": "#WebPartWPQ2 > div:nth-of-type(1) > div > div > div:nth-of-type(8) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Organograma da PROGRAD detalhando a estrutura da Pró-Reitoria e suas unidades vinculadas.",
+    "before": "<img src=\"/AdministracaoSuperior/Pro-reitorias/PublishingImages/Paginas/Graduacao/mapaPROGRAD2026.png\" usemap=\"#image-map\" border=\"0\" alt=\"\" style=\"width: 900px;\">",
+    "after": "<img src=\"/AdministracaoSuperior/Pro-reitorias/PublishingImages/Paginas/Graduacao/mapaPROGRAD2026.png\" usemap=\"#image-map\" border=\"0\" alt=\"Organograma da PROGRAD detalhando a estrutura da Pró-Reitoria e suas unidades vinculadas.\" style=\"width: 900px;\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "5058016ade28",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#ctl00_SmallSearchInputBox1_csr_sbox",
+   "target": "#ctl00_SmallSearchInputBox1_csr_sbox",
+   "message": "The text \"Pesquisar...\" has at most 4.48:1 contrast with what is behind it (#777777 on #ffffff), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#777777 on #ffffff · 4.48:1 at best, 4.48:1 at worst · 12.6px, 400",
+   "subject": "Pesquisar...",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input id=\"ctl00_SmallSearchInputBox1_csr_sbox\" class=\"ms-textSmall ms-srch-sb-prompt ms-helperText\" title=\"Pesquisar...\" type=\"text\" autocomplete=\"off\" maxlength=\"2048\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 40
+ },
+ "groups": [
+  {
+   "id": "g-a5ea3b6c2dce",
+   "list": "findings",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "engine",
+   "check": "image-alt",
+   "count": 18,
+   "members": [
+    "0499bb580fb9",
+    "48fda8bedfbd",
+    "c2046cd0611a",
+    "f1e552e0e761",
+    "852a19c1d00e",
+    "b48398002f1b",
+    "7abf8cd94a57",
+    "92d936cb2676",
+    "ac344d803a68",
+    "7ef099f58c38",
+    "51fed84896cb",
+    "4de42044f7e0",
+    "23c41edb9cc5",
+    "0e8bd364bf22",
+    "a644065e5543",
+    "a6fa41ea5657",
+    "e45d582e8243",
+    "ae4f80569646"
+   ],
+   "example": "0499bb580fb9"
+  },
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 17,
+   "members": [
+    "866bc5bcc9e6",
+    "43acb7dccd07",
+    "d5454d3ef6cd",
+    "904e493b6be2",
+    "ccea240284cb",
+    "3339d738aa2b",
+    "28ec41cea036",
+    "4d41b6181698",
+    "2ba95a8c8029",
+    "e350fe92bbf1",
+    "17036154db13",
+    "a36d3c12cc45",
+    "64abcd1103cf",
+    "21f5ce1c6b5b",
+    "3b5b65753638",
+    "ff751bf0e728",
+    "574a730088d5"
+   ],
+   "example": "866bc5bcc9e6"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.2",
+   "level": "A",
+   "ruleId": "judgment/2.4.2",
+   "ref": "html",
+   "message": "The page title \"Graduação\" says nothing about this page.",
+   "evidence": "The model suggests: \"Pró-reitoria de Graduação (PROGRAD) - PUC Minas\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#ctl00_PlaceHolderMain_ContentMap > span:nth-of-type(3) > a",
+   "message": "The link text \"Administração Superior\" does not match where the link leads: a page titled \"Grão-chanceler\".",
+   "evidence": "The model suggests: \"Grão-chanceler\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#ctl00_PlaceHolderMain_g_3262a7e7_3177_438f_9dae_687d20c9ac5f > div > a:nth-of-type(4)",
+   "message": "The link text \"Share\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Compartilhar no Facebook\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#ctl00_SmallSearchInputBox1_csr_sbox",
+   "message": "The label \"Pesquisar...\" does not say what to enter.",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "3.3.2",
+   "level": "A",
+   "ruleId": "judgment/3.3.2",
+   "ref": "#ctl00_SmallSearchInputBox1_csr_sbox",
+   "message": "Nothing on screen tells what to enter in the field \"Pesquisar...\": its name is in the title attribute, shown only as a tooltip.",
+   "evidence": "The model suggests: \"Pesquisar...\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#WebPartWPQ2 > div:nth-of-type(1) > div > div > div:nth-of-type(8) > img",
+   "reason": "the suggested alternative repeats the text around the image",
+   "output": {
+    "imageShows": "An organizational chart showing the structure of PROGRAD and its associated departments.",
+    "textInImage": "PROGRAD, Colegiado de Graduação, Secretaria, Assessoria de Acompanhamento de Processos Acadêmicos, Assessoria de Gestão da Informação Regulatória - AGIR, Assessoria de Projetos Pedagógicos, Assessoria de Acompanhamento Regulatório, Centro de Registros Acadêmicos, Sistema Integrado de Bibliotecas, PUC Carreiras, Núcleo de Educação Digital (NED)",
+    "verdict": "fail",
+    "evidence": "Organograma da PROGRAD com nomes de departamentos e unidades",
+    "suggestedAlt": "Organograma da PROGRAD detalhando a estrutura da Pró-Reitoria e suas unidades vinculadas.",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 15,
+   "judged": 15,
+   "failed": 0,
+   "passed": 13,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 4,
+   "judged": 4,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "4 image(s) were left without a capture, so no judgment looked at them: 1 cut off by the box that holds it; 3 covered where it sits by other content, such as a popup or a cookie banner. The snapshot says why for each (native.imageSkipped).",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 24,
+  "inputTokens": 21833,
+  "outputTokens": 2531,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 209,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 21
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 8,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 0,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 7,
+    "prepareMs": 0,
+    "candidates": 15,
+    "judged": 15,
+    "calls": 0,
+    "cachedCalls": 15
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 4,
+    "judged": 4,
+    "calls": 0,
+    "cachedCalls": 4
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 137,
+    "prepareMs": 135,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   }
+  ],
+  "otherMs": 24
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 18,
+   "notCaptured": 4,
+   "reasons": {
+    "clipped": 1,
+    "covered": 3
+   }
+  }
+ },
+ "coverage": {
+  "reach": null
+ }
+}

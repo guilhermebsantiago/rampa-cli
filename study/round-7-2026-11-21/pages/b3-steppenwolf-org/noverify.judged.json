@@ -1,0 +1,376 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.steppenwolf.org/about-us/contact-us",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "e5f0ef52d8d2",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#page-header > figure > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"The image contains the words 'CONTACT US' and 'GENERAL COMMENTS & QUESTIONS'\".",
+   "evidence": "The image contains the words 'CONTACT US' and 'GENERAL COMMENTS & QUESTIONS'",
+   "subject": "hidden brush-stroke.webp",
+   "patch": {
+    "ref": "#page-header > figure > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Contact Us: General Comments & Questions header with breadcrumb navigation.",
+    "before": "<img class=\"page-header__background-image\" src=\"https://www.steppenwolf.org/frontend/public/images/brush-stroke.webp\" width=\"790\" height=\"1085\" alt=\"\" loading=\"eager\">",
+    "after": "<img class=\"page-header__background-image\" src=\"https://www.steppenwolf.org/frontend/public/images/brush-stroke.webp\" width=\"790\" height=\"1085\" alt=\"Contact Us: General Comments &amp; Questions header with breadcrumb navigation.\" loading=\"eager\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#footer-nav-1__link-1item-link",
+   "message": "The link text \"CALENDAR\" does not match where the link goes.",
+   "evidence": "The model suggests: \"Steppenwolf Theater Calendar\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#utility-nav-1__title",
+   "message": "The heading \"Utility Links\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Quick Links\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#breadcrumb-1__nav-title",
+   "message": "The heading \"You are here:\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Breadcrumbs\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#footer > div:nth-of-type(1) > div > div > h2",
+   "message": "The heading \"Footer\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Site Information\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#social-nav-1__title",
+   "message": "The heading \"Social\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Social Media Links\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#meta-info > h3",
+   "message": "The heading \"Contact Information\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Contact Information\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.4",
+   "ref": "#footer-nav-1__link-1item-link",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "A calendar page or schedule.",
+    "leadsTo": "https://cart.steppenwolf.org/",
+    "verdict": "fail",
+    "evidence": "CALENDAR",
+    "problem": "mismatch",
+    "suggestedText": "Steppenwolf Theater Calendar",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#utility-nav-1__title",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Utility Links",
+    "verdict": "fail",
+    "evidence": "U…",
+    "problem": "generic",
+    "suggestedText": "Quick Links",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#footer > div:nth-of-type(1) > div > div > h2",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Footer",
+    "verdict": "fail",
+    "evidence": "F…",
+    "problem": "generic",
+    "suggestedText": "Site Information",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#social-nav-1__title",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Social",
+    "verdict": "fail",
+    "evidence": "S…",
+    "problem": "generic",
+    "suggestedText": "Social Media Links",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#meta-info > h3",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Contact Information",
+    "verdict": "fail",
+    "evidence": "C…",
+    "problem": "generic",
+    "suggestedText": "Contact Information",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 0,
+   "passed": 3,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 25,
+   "judged": 25,
+   "failed": 0,
+   "passed": 24,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 14,
+   "judged": 14,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 5
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 45,
+  "inputTokens": 41409,
+  "outputTokens": 3721,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 208,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 19
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 7,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 0,
+    "cachedCalls": 2
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 0,
+    "cachedCalls": 3
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 9,
+    "prepareMs": 0,
+    "candidates": 25,
+    "judged": 25,
+    "calls": 0,
+    "cachedCalls": 25
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 6,
+    "prepareMs": 0,
+    "candidates": 14,
+    "judged": 14,
+    "calls": 0,
+    "cachedCalls": 14
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 138,
+    "prepareMs": 135,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 23
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "unsettledAfterMs": 3000,
+  "images": {
+   "captured": 2,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": null
+ }
+}

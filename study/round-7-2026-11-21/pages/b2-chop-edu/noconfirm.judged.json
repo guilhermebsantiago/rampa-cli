@@ -1,0 +1,713 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.chop.edu/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "0f7e3a99896c",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#block-outline-frontend-mainpagecontent > article > chop-container > div > chop-grid:nth-of-type(4) > chop-column > div > chop-large-circle-feature > div:nth-of-type(2) > div > picture > img",
+   "message": "The text alternative \"Sarah with IV\" describes something the image does not show.",
+   "evidence": "Sarah with IV",
+   "subject": "Sarah with IV",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#block-outline-frontend-mainpagecontent > article > chop-container > div > chop-grid:nth-of-type(4) > chop-column > div > chop-large-circle-feature > div:nth-of-type(2) > div > picture > img",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "Sarah with IV",
+    "to": "A healthcare professional monitors the blood pressure of a smiling young girl."
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "cdc14c32bd0f",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#childrenshospital > div > img",
+   "message": "The text alternative \"Children holding badge\" describes something the image does not show.",
+   "evidence": "Children holding badge",
+   "subject": "Children holding badge",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#childrenshospital > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Children holding badge",
+    "to": "Two children smiling and holding a sign that reads 'Best Children's Hospitals US News & World Report'",
+    "before": "<img src=\"/sites/default/files/styles/large/public/2026-09/Photo-USNews2026-HonorRoll-ColtonAvamarie-2624x1720.jpg\" alt=\"Children holding badge\" loading=\"lazy\">",
+    "after": "<img src=\"/sites/default/files/styles/large/public/2026-09/Photo-USNews2026-HonorRoll-ColtonAvamarie-2624x1720.jpg\" alt=\"Two children smiling and holding a sign that reads 'Best Children's Hospitals US News &amp; World Report'\" loading=\"lazy\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "530307cdbb38",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#block-outline-frontend-mainpagecontent > article > chop-container > div > chop-grid:nth-of-type(1) > chop-column > div > chop-search-hero > chop-card-grid > chop-color-cta:nth-of-type(1) > div > chop-cta-link > a",
+   "target": "#block-outline-frontend-mainpagecontent > article > chop-container > div > chop-grid:nth-of-type(1) > chop-column > div > chop-search-hero > chop-card-grid > chop-color-cta:nth-of-type(1) > div > chop-cta-link > a",
+   "message": "The text \"Login to MyCHOP\" has at most 4.23:1 contrast with what is behind it (#ffffff on #648727…#638626), measured from pixels because axe-core could not decide (a gradient). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #648727; #648727…#638626 · 4.23:1 at best, 4.17:1 at worst · 16px, 600",
+   "subject": "Login to MyCHOP",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://mychop.chop.edu/mychart/Authentication/Login?\" target=\"_blank\" rel=\"noopener\" class=\"btn default link reversed\" disabled=\"false\" data-buttontype=\"cta_item\" data-once=\"dataLayerCTAInit\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "af26698394e9",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#block-outline-frontend-subfooter > ul > li:nth-of-type(1) > outline-link > a",
+   "message": "The link text \"Terms of use\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "Terms of use",
+   "subject": "Terms of use",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#block-outline-frontend-subfooter > ul > li:nth-of-type(1) > outline-link > a",
+    "kind": "set-text",
+    "from": "Terms of use",
+    "to": "Terms of use for Language Assistance",
+    "before": "<a href=\"/terms-use\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/114905\" data-once=\"globalIframeCleanupLinks\">Terms of use</a>",
+    "after": "<a href=\"/terms-use\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/114905\" data-once=\"globalIframeCleanupLinks\">Terms of use for Language Assistance</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6369b2c3002d",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#block-outline-frontend-subfooter > ul > li:nth-of-type(4) > outline-link > a",
+   "message": "The link text \"Privacy policy\" is shared by 3 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "Privacy policy",
+   "subject": "Privacy policy",
+   "claim": "ambiguous",
+   "techniques": [
+    "H81",
+    "H80"
+   ],
+   "patch": {
+    "ref": "#block-outline-frontend-subfooter > ul > li:nth-of-type(4) > outline-link > a",
+    "kind": "set-text",
+    "from": "Privacy policy",
+    "to": "Privacy policy (Site-wide)",
+    "before": "<a href=\"/privacy-policy\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/114904\" data-once=\"globalIframeCleanupLinks\">Privacy policy</a>",
+    "after": "<a href=\"/privacy-policy\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/114904\" data-once=\"globalIframeCleanupLinks\">Privacy policy (Site-wide)</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "4ee0721a1893",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(2) > outline-link > a",
+   "target": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(2) > outline-link > a",
+   "message": "\"Español\" is in Spanish, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"es\" to the link.",
+   "evidence": "Español",
+   "subject": "Español",
+   "patch": {
+    "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(2) > outline-link > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "es",
+    "before": "<a href=\"/nuestro-compromiso-con-las-poblaciones-diversas\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/128021\" data-once=\"globalIframeCleanupLinks\">",
+    "after": "<a href=\"/nuestro-compromiso-con-las-poblaciones-diversas\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/128021\" data-once=\"globalIframeCleanupLinks\" lang=\"es\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/nuestro-compromiso-con-las-poblaciones-diversas\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/128021\" data-once=\"globalIframeCleanupLinks\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "f1c8512d5715",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(3) > outline-link > a",
+   "target": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(3) > outline-link > a",
+   "message": "\"العربية\" is in Arabic, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"ar\" to the link.",
+   "evidence": "العربية",
+   "subject": "العربية",
+   "patch": {
+    "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(3) > outline-link > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "ar",
+    "before": "<a href=\"/nondiscrimination-statement/ar\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/128024\" data-once=\"globalIframeCleanupLinks\">",
+    "after": "<a href=\"/nondiscrimination-statement/ar\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/128024\" data-once=\"globalIframeCleanupLinks\" lang=\"ar\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/nondiscrimination-statement/ar\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/128024\" data-once=\"globalIframeCleanupLinks\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "bd7ae50d2961",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(4) > outline-link > a",
+   "target": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(4) > outline-link > a",
+   "message": "\"繁體中文\" is in Traditional Chinese, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"zh-Hant\" to the link.",
+   "evidence": "繁體中文",
+   "subject": "繁體中文",
+   "patch": {
+    "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(4) > outline-link > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "zh-Hant",
+    "before": "<a href=\"/language-assistance-chinese\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115535\" data-once=\"globalIframeCleanupLinks\">",
+    "after": "<a href=\"/language-assistance-chinese\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115535\" data-once=\"globalIframeCleanupLinks\" lang=\"zh-Hant\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/language-assistance-chinese\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115535\" data-once=\"globalIframeCleanupLinks\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "38b1eafe17ad",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(7) > outline-link > a",
+   "target": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(7) > outline-link > a",
+   "message": "\"Deutsch\" is in German, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"de\" to the link.",
+   "evidence": "Deutsch",
+   "subject": "Deutsch",
+   "patch": {
+    "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(7) > outline-link > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "de",
+    "before": "<a href=\"/language-assistance-german\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115526\" data-once=\"globalIframeCleanupLinks\">",
+    "after": "<a href=\"/language-assistance-german\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115526\" data-once=\"globalIframeCleanupLinks\" lang=\"de\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/language-assistance-german\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115526\" data-once=\"globalIframeCleanupLinks\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "07e3dc14d296",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(9) > outline-link > a",
+   "target": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(9) > outline-link > a",
+   "message": "\"Italiano\" is in Italian, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"it\" to the link.",
+   "evidence": "Italiano",
+   "subject": "Italiano",
+   "patch": {
+    "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(9) > outline-link > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "it",
+    "before": "<a href=\"/language-assistance-italian\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115530\" data-once=\"globalIframeCleanupLinks\">",
+    "after": "<a href=\"/language-assistance-italian\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115530\" data-once=\"globalIframeCleanupLinks\" lang=\"it\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/language-assistance-italian\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115530\" data-once=\"globalIframeCleanupLinks\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "03159235ba6c",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(11) > outline-link > a",
+   "target": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(11) > outline-link > a",
+   "message": "\"Polski\" is in Polish, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"pl\" to the link.",
+   "evidence": "Polski",
+   "subject": "Polski",
+   "patch": {
+    "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(11) > outline-link > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "pl",
+    "before": "<a href=\"/language-assistance-polish\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115536\" data-once=\"globalIframeCleanupLinks\">",
+    "after": "<a href=\"/language-assistance-polish\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115536\" data-once=\"globalIframeCleanupLinks\" lang=\"pl\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/language-assistance-polish\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115536\" data-once=\"globalIframeCleanupLinks\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "bdf2c16079d4",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(12) > outline-link > a",
+   "target": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(12) > outline-link > a",
+   "message": "\"Tiếng Việt\" is in Vietnamese, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"vi\" to the link.",
+   "evidence": "Tiếng Việt",
+   "subject": "Tiếng Việt",
+   "patch": {
+    "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(12) > outline-link > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "vi",
+    "before": "<a href=\"/language-assistance-vietnamese\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115533\" data-once=\"globalIframeCleanupLinks\">",
+    "after": "<a href=\"/language-assistance-vietnamese\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115533\" data-once=\"globalIframeCleanupLinks\" lang=\"vi\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/language-assistance-vietnamese\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115533\" data-once=\"globalIframeCleanupLinks\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "19b91dace51a",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(13) > outline-link > a",
+   "target": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(13) > outline-link > a",
+   "message": "\"Français\" is in French, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"fr\" to the link.",
+   "evidence": "Français",
+   "subject": "Français",
+   "patch": {
+    "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(13) > outline-link > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "fr",
+    "before": "<a href=\"/language-assistance-french\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115531\" data-once=\"globalIframeCleanupLinks\">",
+    "after": "<a href=\"/language-assistance-french\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115531\" data-once=\"globalIframeCleanupLinks\" lang=\"fr\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/language-assistance-french\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115531\" data-once=\"globalIframeCleanupLinks\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "361aaefc498b",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(14) > outline-link > a",
+   "target": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(14) > outline-link > a",
+   "message": "\"Português\" is in Portuguese, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"pt\" to the link.",
+   "evidence": "Português",
+   "subject": "Português",
+   "patch": {
+    "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(14) > outline-link > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "pt",
+    "before": "<a href=\"/language-assistance-portuguese\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115525\" data-once=\"globalIframeCleanupLinks\">",
+    "after": "<a href=\"/language-assistance-portuguese\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115525\" data-once=\"globalIframeCleanupLinks\" lang=\"pt\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/language-assistance-portuguese\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115525\" data-once=\"globalIframeCleanupLinks\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "b7eafbbfc6cc",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(16) > outline-link > a",
+   "target": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(16) > outline-link > a",
+   "message": "\"한국어\" is in Korean, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"ko\" to the link.",
+   "evidence": "한국어",
+   "subject": "한국어",
+   "patch": {
+    "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(16) > outline-link > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "ko",
+    "before": "<a href=\"/language-assistance-korean\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115517\" data-once=\"globalIframeCleanupLinks\">",
+    "after": "<a href=\"/language-assistance-korean\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115517\" data-once=\"globalIframeCleanupLinks\" lang=\"ko\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/language-assistance-korean\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115517\" data-once=\"globalIframeCleanupLinks\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "c81eee23397a",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(17) > outline-link > a",
+   "target": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(17) > outline-link > a",
+   "message": "\"Русский\" is in Russian, but it inherits the page's language (en): a screen reader mispronounces the language's name. Add lang=\"ru\" to the link.",
+   "evidence": "Русский",
+   "subject": "Русский",
+   "patch": {
+    "ref": "html > body > footer > chop-footer > div:nth-of-type(7) > ul > li:nth-of-type(17) > outline-link > a",
+    "kind": "set-attribute",
+    "attribute": "lang",
+    "to": "ru",
+    "before": "<a href=\"/language-assistance-russian\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115518\" data-once=\"globalIframeCleanupLinks\">",
+    "after": "<a href=\"/language-assistance-russian\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115518\" data-once=\"globalIframeCleanupLinks\" lang=\"ru\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/language-switcher-lang",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html",
+   "html": "<a href=\"/language-assistance-russian\" data-navmenu=\"footer\" data-drupal-link-system-path=\"node/115518\" data-once=\"globalIframeCleanupLinks\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {},
+ "groups": [
+  {
+   "id": "g-619128050cef",
+   "list": "findings",
+   "criterion": "3.1.2",
+   "level": "AA",
+   "source": "rule",
+   "check": "rampa/language-switcher-lang",
+   "count": 11,
+   "members": [
+    "4ee0721a1893",
+    "f1c8512d5715",
+    "bd7ae50d2961",
+    "38b1eafe17ad",
+    "07e3dc14d296",
+    "03159235ba6c",
+    "bdf2c16079d4",
+    "19b91dace51a",
+    "361aaefc498b",
+    "b7eafbbfc6cc",
+    "c81eee23397a"
+   ],
+   "example": "4ee0721a1893"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > header > chop-header-wrapper > div:nth-of-type(1) > nav > chop-utility-nav > div > ul > li:nth-of-type(3) > chop-cta-link > a",
+   "message": "The link text \"International\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"International Students\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#block-outline-frontend-footer > div > ul > li:nth-of-type(1) > ul > li:nth-of-type(3) > outline-link > a",
+   "message": "The link text \"Innovation\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Innovation in Pediatric Healthcare\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#block-outline-frontend-mainpagecontent > article > chop-container > div > chop-grid:nth-of-type(4) > chop-column > div > chop-large-circle-feature > chop-heading:nth-of-type(2) > h2",
+   "message": "The heading \"Driven to discovery\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Personalized Medicine and Patient Stories\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#block-outline-frontend-footerawards > chop-container > div > chop-styled-text > div:nth-of-type(1) > picture > img",
+   "reason": "the model's description of the image keeps every word of the current alternative",
+   "output": {
+    "verdict": "fail",
+    "evidence": "USNews Badge",
+    "problem": "wrong_content",
+    "imageShows": "A gold and blue badge that reads 'Best Children's Hospitals USNews Honor Roll 2026-2027'.",
+    "suggestedAlt": "U.S. News & World Report Best Children's Hospitals Honor Roll 2026-2027",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#main-content > outline-container > h1",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Welcome",
+    "verdict": "fail",
+    "evidence": "W…",
+    "problem": "generic",
+    "suggestedText": "Welcome to [Organization Name]",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 2,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 92,
+   "judged": 50,
+   "failed": 2,
+   "passed": 46,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 42,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 11,
+   "judged": 11,
+   "failed": 0,
+   "passed": 9,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "3 image(s) were left without a capture, so no judgment looked at them: 2 covered where it sits by other content, such as a popup or a cookie banner; 1 the screenshot failed. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 42 of 92 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 73,
+  "inputTokens": 65290,
+  "outputTokens": 6795,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 255,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 25
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 11,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 0,
+    "cachedCalls": 10
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 19,
+    "prepareMs": 0,
+    "candidates": 92,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 14,
+    "prepareMs": 0,
+    "candidates": 11,
+    "judged": 11,
+    "calls": 0,
+    "cachedCalls": 11
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 138,
+    "prepareMs": 135,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 10,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 31
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 11,
+   "notCaptured": 3,
+   "reasons": {
+    "covered": 2,
+    "capture-failed": 1
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 92,
+    "capped": 42
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

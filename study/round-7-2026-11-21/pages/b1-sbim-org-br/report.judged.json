@@ -1,0 +1,806 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://sbim.org.br/notas-tecnicas/dpnisvsams-atualizacao-da-estrategia-de-vacinacao-contra-a-mpox",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "d41b71c66790",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#navbarNavAltMarkup > div > a > img",
+   "message": "The text alternative \"Logo\" is a file name or a placeholder.",
+   "evidence": "Logo",
+   "subject": "Logo",
+   "claim": "missing_information",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "#navbarNavAltMarkup > div > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Logo",
+    "to": "SBIm - Início",
+    "before": "<img _ngcontent-ng-c2717217474=\"\" src=\"/assets/icons/logo-sbim.svg\" alt=\"Logo\" class=\"logo-sbim\">",
+    "after": "<img _ngcontent-ng-c2717217474=\"\" src=\"/assets/icons/logo-sbim.svg\" alt=\"SBIm - Início\" class=\"logo-sbim\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "630fb74b8f35",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(2) > ul > li:nth-of-type(5) > a > img",
+   "message": "The text alternative \"Telefone\" describes something the image does not show.",
+   "evidence": "Telefone",
+   "subject": "Telefone",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(2) > ul > li:nth-of-type(5) > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Telefone",
+    "to": "Localização",
+    "before": "<img _ngcontent-ng-c3136987470=\"\" src=\"/assets/icons/marker-pin-white.svg\" alt=\"Telefone\">",
+    "after": "<img _ngcontent-ng-c3136987470=\"\" src=\"/assets/icons/marker-pin-white.svg\" alt=\"Localização\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999969815772414
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "7f20f5a7b046",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(2) > div:nth-of-type(1) > img",
+   "message": "The text alternative \"vsn-logo\" is a file name or a placeholder.",
+   "evidence": "vsn-logo",
+   "subject": "vsn-logo",
+   "claim": "wrong_content",
+   "techniques": [
+    "F30"
+   ],
+   "patch": {
+    "ref": "html > body > app-root > app-footer > div:nth-of-type(2) > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "vsn-logo",
+    "to": "Selo Vaccine Safety Net",
+    "before": "<img _ngcontent-ng-c3136987470=\"\" width=\"34px\" height=\"35px\" src=\"/assets/icons/vsn-logo.png\" alt=\"vsn-logo\">",
+    "after": "<img _ngcontent-ng-c3136987470=\"\" width=\"34px\" height=\"35px\" src=\"/assets/icons/vsn-logo.png\" alt=\"Selo Vaccine Safety Net\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "f4b6b930643c",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(1) > img",
+   "message": "This image is hidden from screen readers (alt=\"\"), but it conveys what the text around it does not say: \"Logo of SBIm: SOCIEDADE BRASILEIRA DE IMUNIZAÇÕES\".",
+   "evidence": "Logo of SBIm: SOCIEDADE BRASILEIRA DE IMUNIZAÇÕES",
+   "subject": "hidden sbim-nacional_logotipo-negativo.png",
+   "patch": {
+    "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "",
+    "to": "Logotipo da Sociedade Brasileira de Imunizações (SBIm)",
+    "before": "<img _ngcontent-ng-c3136987470=\"\" width=\"70%\" src=\"/assets/imgs/sbim-nacional_logotipo-negativo.png\" alt=\"\" style=\"max-width: 150px;\">",
+    "after": "<img _ngcontent-ng-c3136987470=\"\" width=\"70%\" src=\"/assets/imgs/sbim-nacional_logotipo-negativo.png\" alt=\"Logotipo da Sociedade Brasileira de Imunizações (SBIm)\" style=\"max-width: 150px;\">"
+   },
+   "confidence": "low",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "e6c7252df896",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > app-root > app-technical-notes > div:nth-of-type(2) > div > div > app-search > div > div > div:nth-of-type(1) > input",
+   "target": "html > body > app-root > app-technical-notes > div:nth-of-type(2) > div > div > app-search > div > div > div:nth-of-type(1) > input",
+   "message": "The placeholder \"Escreva o que deseja buscar\" has a contrast of 1.40:1 with the field (#dadada on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#dadada on #ffffff · 1.40:1 at best, 1.40:1 at worst · 14px, 300",
+   "subject": "Escreva o que deseja buscar",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input _ngcontent-ng-c1280341111=\"\" type=\"text\" placeholder=\"Escreva o que deseja buscar\" class=\"form-control px-4 ng-untouched ng-pristine ng-valid\" style=\"width: 298px;\" value=\"\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 60
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 58,
+   "members": [
+    "6cefa076e8bf",
+    "830c950aaa14",
+    "823a42f687f0",
+    "91c41110fb54",
+    "123b9ca6e325",
+    "ee1092c28049",
+    "611cb133cbfb",
+    "1cc398bef4c2",
+    "e540ae64eccf",
+    "8a7888b5c0a6",
+    "803aaa26b03c",
+    "c387c0c02c00",
+    "5977992b3553",
+    "408014534300",
+    "fa88da3517e8",
+    "3bb56bf32cdb",
+    "5d5c4e252760",
+    "3b6bbaa9dec9",
+    "7131bd794cc9",
+    "d9130adab2a3",
+    "bf167b1bdab2",
+    "4624c41aea64",
+    "afe99ae0b7af",
+    "0ff6c25fb3a4",
+    "deb61ae77d14",
+    "b09b85c5eaf1",
+    "4af7f3636bc6",
+    "8f9217ec317a",
+    "d5ef7ed2e5b2",
+    "524dba9dc6b1",
+    "d773d1124396",
+    "e5c53bd3370a",
+    "3e10e69bb788",
+    "fe444413b940",
+    "cd64456655ac",
+    "30ec9acfb3e6",
+    "6eeef3bd7b30",
+    "9f39c8a979ae",
+    "9bd31c305e31",
+    "05a7771d58d3",
+    "027f2dedaf3b",
+    "bc5e7059cab7",
+    "0bbefef2e179",
+    "89f62d456708",
+    "f67b9fd2d9c3",
+    "4369fbf534b2",
+    "0103a13e4aaa",
+    "81d2595881c8",
+    "ef3915c899b9",
+    "f00ddefc7432",
+    "2b814f556389",
+    "d3b5872dfb49",
+    "bd976a96dd78",
+    "9b8bab29b40f",
+    "e22a15aade98",
+    "0b463971f8a3",
+    "343984f1557c",
+    "c1b426c7a883"
+   ],
+   "example": "6cefa076e8bf"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(3) > a",
+   "message": "The link text \"Ações\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Campanhas SBIm\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#checkboxContainer > label:nth-of-type(1) > input",
+   "message": "The label \"Não opcionais\" does not say what to enter.",
+   "evidence": "The model suggests: \"Aceito os termos não opcionais\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#checkboxContainer > label:nth-of-type(2) > input",
+   "message": "The label \"Estatísticas\" does not say what to enter.",
+   "evidence": "The model suggests: \"Aceitar estatísticas\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(2) > ul > li:nth-of-type(4) > a > img",
+   "reason": "suggested alternative is a label, not a description",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Telefone",
+    "problem": "wrong_content",
+    "imageShows": "Um ícone branco de um telefone fixo.",
+    "suggestedAlt": "decorative",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#navbarNavAltMarkup > ul > li:nth-of-type(4) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'AÇÕES' (Actions) in a navigation menu, when compared to the destination '/campanhas' (Campaigns), is ambiguous. While 'Ações' can refer to actions, in the context of a health society (SBIm), it is unclear if it refers to 'Actions' (social/corporate) or 'Campaigns' (public health campaigns).",
+    "leadsTo": "A page containing public health campaigns.",
+    "verdict": "fail",
+    "evidence": "AÇÕES",
+    "problem": "ambiguous",
+    "suggestedText": "Campanhas",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-technical-notes > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > app-content-list > div > div > div > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'Abrir' (Open) combined with the heading 'DPNI/SVSA/MS: Atualização da estratégia de vacinação contra a mpox' suggests it opens the specific technical note about the mpox vaccination strategy.",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' which provides information on vaccination and public health.",
+    "verdict": "fail",
+    "evidence": "Abrir",
+    "problem": "mismatch",
+    "suggestedText": "Abrir nota técnica sobre a estratégia de vacinação contra a mpox",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-technical-notes > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > app-content-list > div > div > div > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Abrir' (Open) combined with the heading 'CGICI/DPNI/SVSA/MS: Informações atualizadas do Painel da COVID-19' suggests it opens the specific technical note or page regarding updated COVID-19 panel information.",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' providing information on vaccination and public health.",
+    "verdict": "fail",
+    "evidence": "Abrir",
+    "problem": "ambiguous",
+    "suggestedText": "Abrir Informações atualizadas do Painel da COVID-19",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-technical-notes > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div:nth-of-type(3) > div > app-content-list > div > div > div > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'Abrir' (Open) combined with the heading 'Instrução Normativa do Calendário Nacional de Vacinação (2026)' suggests it opens the specific document or page for that instruction.",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' containing information about vaccination guidelines.",
+    "verdict": "fail",
+    "evidence": "Abrir",
+    "problem": "ambiguous",
+    "suggestedText": "Abrir Instrução Normativa do Calendário Nacional de Vacinação (2026)",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-technical-notes > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div:nth-of-type(4) > div > app-content-list > div > div > div > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(1) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "The link text 'Abrir' (Open) combined with the heading 'COVISI/CGGAS/DAPSI/SESAI/MS: Dose zero de sarampo nos Distritos Sanitários Especiais Indígenas' suggests it opens the specific technical note about the measles zero dose.",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' which provides information on vaccination and public health.",
+    "verdict": "fail",
+    "evidence": "Abrir",
+    "problem": "mismatch",
+    "suggestedText": "Abrir nota técnica sobre dose zero de sarampo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(1) > span > div:nth-of-type(2) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page about the Board of Directors (Diretoria) of SBIm.",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' which provides general information about the organization.",
+    "verdict": "fail",
+    "evidence": "Diretoria",
+    "problem": "mismatch",
+    "suggestedText": "Diretoria da SBIm",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(1) > span > div:nth-of-type(4) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page about the SBIm's regional directorates and representations.",
+    "leadsTo": "A general 'About' page for the SBIm (Sociedade Brasileira de Imunizações) providing general information about the organization.",
+    "verdict": "fail",
+    "evidence": "Diretorias e Representações",
+    "problem": "mismatch",
+    "suggestedText": "Diretorias e Representações regionais",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(1) > span > div:nth-of-type(5) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link 'Palavra da presidente' (President's word) suggests a message or statement from the president of the organization.",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' which provides general information about the organization, its mission, and resources.",
+    "verdict": "fail",
+    "evidence": "Palavra da presidente",
+    "problem": "mismatch",
+    "suggestedText": "Sobre a SBIm",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(6) > span > div:nth-of-type(1) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link text 'Atualizações Técnicas' (Technical Updates) suggests it leads to a page or section containing technical updates.",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' which provides general information about vaccination, guidelines, and scientific publications.",
+    "verdict": "fail",
+    "evidence": "Atualizações Técnicas",
+    "problem": "mismatch",
+    "suggestedText": "Página inicial da SBIm",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(6) > span > div:nth-of-type(5) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page containing other documents or publications from the SBIm.",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' which provides information on vaccination, public health campaigns, medical guidelines, and scientific publications.",
+    "verdict": "fail",
+    "evidence": "Outros documentos",
+    "problem": "mismatch",
+    "suggestedText": "Documentos da SBIm",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(6) > span > div:nth-of-type(6) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link text 'Revista Imunizações' and its context in a list of technical content suggest it leads to a publication or magazine titled 'Revista Imunizações'.",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' which provides general information about the society, including articles, guides, and scientific publications.",
+    "verdict": "fail",
+    "evidence": "Revista Imunizações",
+    "problem": "mismatch",
+    "suggestedText": "Revista Imunizações (SBIm)",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(6) > span > div:nth-of-type(7) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page containing books or publications related to technical content.",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' which provides information on vaccination, medical guidelines, and scientific publications.",
+    "verdict": "fail",
+    "evidence": "Livros",
+    "problem": "mismatch",
+    "suggestedText": "Publicações da SBIm",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(6) > span > div:nth-of-type(8) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link 'Legislação' under the heading 'Conteúdo técnico' suggests it leads to a page containing legislation or legal documents related to the technical content.",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' which provides general information about vaccination, public health campaigns, and medical guidelines.",
+    "verdict": "fail",
+    "evidence": "Legislação",
+    "problem": "mismatch",
+    "suggestedText": "Legislação da SBIm",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(7) > span > div:nth-of-type(2) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A newsletter subscription or information page.",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' providing information on vaccination and public health.",
+    "verdict": "fail",
+    "evidence": "Newsletter",
+    "problem": "mismatch",
+    "suggestedText": "Assine a Newsletter da SBIm",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(7) > span > div:nth-of-type(3) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link promises to lead to a press office or press relations page ('Assessoria de imprensa').",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' which provides general information about vaccination, public health campaigns, and medical guidelines.",
+    "verdict": "fail",
+    "evidence": "Assessoria de imprensa",
+    "problem": "mismatch",
+    "suggestedText": "Página da SBIm",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(8) > span > div:nth-of-type(2) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link 'Assessoria de imprensa' (Press Office) suggests it leads to a page for press inquiries or media relations.",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' which provides general information about vaccination, public health campaigns, and medical guidelines.",
+    "verdict": "fail",
+    "evidence": "Assessoria de imprensa",
+    "problem": "mismatch",
+    "suggestedText": "Página da SBIm",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(10) > span > div:nth-of-type(2) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A page about conflicts of interest and editorial independence.",
+    "leadsTo": "A page titled 'SBIm - Sociedade Brasileira de Imunizações' which provides general information about the society, vaccination, and public health.",
+    "verdict": "fail",
+    "evidence": "Conflitos de interesse e independência editorial",
+    "problem": "mismatch",
+    "suggestedText": "Conflitos de interesse e independência editorial (SBIm)",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > app-root > app-footer > div:nth-of-type(1) > div > div:nth-of-type(3) > div > div:nth-of-type(10) > span > div:nth-of-type(3) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link text 'Proteção de dados e privacidade' (Data protection and privacy) suggests it leads to a page about data protection or privacy policies.",
+    "leadsTo": "A page about the 'SBIm - Sociedade Brasileira de Imunizações' (SBIm - Brazilian Society of Immunizations), which provides information on vaccination and public health.",
+    "verdict": "fail",
+    "evidence": "Proteção de dados e privacidade",
+    "problem": "mismatch",
+    "suggestedText": "Política de cookies",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#cookieBox > div:nth-of-type(1) > p > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link text 'Política de Privacidade' (Privacy Policy) and its context suggest it leads to a page explaining the site's privacy policy, specifically regarding cookies as mentioned in the preceding sentence.",
+    "leadsTo": "a page titled 'SBIm - Sociedade Brasileira de Imunizações' which provides general information about the organization and its services.",
+    "verdict": "fail",
+    "evidence": "<link>Política de Privacidade</link>",
+    "problem": "mismatch",
+    "suggestedText": "Política de Cookies",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "html > body > app-root > app-technical-notes > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > app-content-list > div > div > div > div > div > div > div:nth-of-type(1) > h5",
+   "reason": "generic claim on a heading in a numbered series under a parent heading that names their subject",
+   "output": {
+    "named": "06/11/2026",
+    "verdict": "fail",
+    "evidence": "06/11/2026",
+    "problem": "generic",
+    "suggestedText": "Data de publicação",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "html > body > app-root > app-technical-notes > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div:nth-of-type(2) > div > app-content-list > div > div > div > div > div > div > div:nth-of-type(1) > h5",
+   "reason": "generic claim on a heading in a numbered series under a parent heading that names their subject",
+   "output": {
+    "named": "04/11/2026",
+    "verdict": "fail",
+    "evidence": "04/11/2026",
+    "problem": "generic",
+    "suggestedText": "Data de publicação",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "html > body > app-root > app-technical-notes > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div:nth-of-type(3) > div > app-content-list > div > div > div > div > div > div > div:nth-of-type(1) > h5",
+   "reason": "generic claim on a heading in a numbered series under a parent heading that names their subject",
+   "output": {
+    "named": "14/10/2026",
+    "verdict": "fail",
+    "evidence": "14/10/2026",
+    "problem": "generic",
+    "suggestedText": "Publicação em 14/10/2026",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "html > body > app-root > app-technical-notes > div:nth-of-type(3) > div > div:nth-of-type(2) > div > div:nth-of-type(4) > div > app-content-list > div > div > div > div > div > div > div:nth-of-type(1) > h5",
+   "reason": "generic claim on a heading in a numbered series under a parent heading that names their subject",
+   "output": {
+    "named": "02/10/2026",
+    "verdict": "fail",
+    "evidence": "02/10/2026",
+    "problem": "generic",
+    "suggestedText": "Data da atualização",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "3.3.2",
+   "ref": "#navbarContent > div:nth-of-type(3) > form > input",
+   "reason": "fail verdict while quoting visible text that names the field",
+   "output": {
+    "shown": "a button named \"Buscar\" that shows an icon",
+    "rule": "",
+    "verdict": "fail",
+    "problem": "no_visible_label",
+    "evidence": "Buscar",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 10,
+   "judged": 10,
+   "failed": 4,
+   "passed": 5,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "confirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 46,
+   "judged": 46,
+   "failed": 0,
+   "passed": 26,
+   "cannotTell": 0,
+   "discarded": 19,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 25,
+   "judged": 25,
+   "failed": 0,
+   "passed": 19,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 88,
+  "cachedCalls": 0,
+  "inputTokens": 81650,
+  "outputTokens": 8338,
+  "latencyMs": 256753
+ },
+ "timings": {
+  "totalMs": 133899,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 15644,
+    "prepareMs": 0,
+    "candidates": 10,
+    "judged": 10,
+    "calls": 13,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2556,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1343,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 80302,
+    "prepareMs": 0,
+    "candidates": 46,
+    "judged": 46,
+    "calls": 46,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 32152,
+    "prepareMs": 0,
+    "candidates": 25,
+    "judged": 25,
+    "calls": 25,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 182,
+    "prepareMs": 179,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 13,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1669,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 21
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 19,
+   "notCaptured": 0,
+   "reasons": {}
+  }
+ },
+ "coverage": {
+  "reach": null
+ }
+}

@@ -115,3 +115,22 @@ main until the tool improves); every commit is local, on study/round-7-run.
        snapshot. b3-sbgg-org-br's load reached the 30 s time-out (recorded in its capture; the page stays). No slot went
        to a backup during collection.
 13:12  Main judgment started (run-judged.sh main), block order, --concurrency 2, gemma4:12b on local Ollama.
+13:26  pass_list.ts dry-tested on a scratch copy (outside the repository, deleted after) of the 7 pages judged by then:
+       every page matched the main run's report (counts only were printed).
+14:58  Main judgment done (13:12-14:58): 60 of 60 pages, exits 1 (57) and 0 (3), 1 to 199 s a page (median 106 s); no
+       report with an error, a time-out or an offline miss; no pause for heat or memory (GPU about 65-69 C when read).
+15:01  Ablations done (run-ablation.sh, 14:59-15:01): noconfirm, noverify, nollm on 59 pages each; b4-medicare-gov was
+       skipped by the script's check for a main cache (its main run judged nothing, so it has no cache; its nollm run is
+       therefore missing too; it has no judged finding to count). Offline misses 0, 52 (noverify: claims verification
+       had discarded, as section 3 says), 0; no errors. Not labelled (pre-registration, section 3).
+15:02  compact.py: 237 compact reports.
+15:02  pass_list.ts stopped on b4-medicare-gov ("no recording, main report or main cache"): a page whose main run judged
+       nothing has no cache folder. Bug fix (section 6: a bug that stops a script): a missing main cache is copied as an
+       empty folder; nothing else changed. Rerun: every one of the 60 pages matched the main run's report.
+15:03  pass_draw.py: 200 items (1.1.1: 60 passed, 20 discarded, 20 held back; 2.4.4: the same); a second run wrote the
+       same bytes. sample_suggestions.py: 12 drawn in each of the 5 blocks, 9 more labelled in full (2.4.2, 3.3.2 or an
+       unstyled page).
+15:03  packets.py: 58 packets (b2-museudeartedorio-org-br and b4-medicare-gov have nothing to label), 563 items: 300 from the main run (105
+       of them default-threshold judged findings, the primary population), 194 pass-sample rows (6 drawn items were
+       already in a packet), 69 suggestions. judge_prompt.py --all: 116 prompt files, judge-prompts/index.json, largest
+       packets first (37 items down to 1). No judge launched by the runner.

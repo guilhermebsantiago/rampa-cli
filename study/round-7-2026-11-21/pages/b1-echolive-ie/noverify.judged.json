@@ -1,0 +1,591 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.echolive.ie/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "3827dfccac32",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(1) > section:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(1) > article > a > div:nth-of-type(1) > img",
+   "message": "The text alternative \"<p>Gardaí are appealing to anyone who was in the area of the Curraheen Road Sports Grounds between 1pm and 2pm and who may have any information to contact them.</p>\" describes something the image does not show.",
+   "evidence": "<p>Gardaí are appealing to anyone who was in the area of the Curraheen Road Sports Grounds between 1pm and 2pm and who may have any information to contact them.</p>",
+   "subject": "<p>Gardaí are appealing to anyone who was in the area of the Curraheen Road Sports Grounds between 1pm and 2pm and who may have any information to contact them.</p>",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(1) > section:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(1) > article > a > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "aria-label",
+    "from": "<p>Gardaí are appealing to anyone who was in the area of the Curraheen Road Sports Grounds between 1pm and 2pm and who may have any information to contact them.</p>",
+    "to": "A Garda officer in a high-visibility jacket."
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.999745136505908
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6de38563b4f5",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(1) > section:nth-of-type(3) > div > div:nth-of-type(2) > div:nth-of-type(1) > article > a > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Knocknagree v Multyfarnham - AIB GAA Football All-Ireland Junior Club Championship Final\" describes something the image does not show.",
+   "evidence": "Knocknagree v Multyfarnham - AIB GAA Football All-Ireland Junior Club Championship Final",
+   "subject": "Knocknagree v Multyfarnham - AIB GAA Football All-Ireland Junior Club Championship Final",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(1) > section:nth-of-type(3) > div > div:nth-of-type(2) > div:nth-of-type(1) > article > a > div > div:nth-of-type(1) > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Knocknagree v Multyfarnham - AIB GAA Football All-Ireland Junior Club Championship Final",
+    "to": "John Fintan Daly in club gear",
+    "before": "<img loading=\"lazy\" src=\"/cms_media/module_img/10599/5299518_6_teasersmall_1450198_1_.jpg\" alt=\"Knocknagree v Multyfarnham - AIB GAA Football All-Ireland Junior Club Championship Final\" title=\"1450198.jpg\" width=\"201\" height=\"113\">",
+    "after": "<img loading=\"lazy\" src=\"/cms_media/module_img/10599/5299518_6_teasersmall_1450198_1_.jpg\" alt=\"John Fintan Daly in club gear\" title=\"1450198.jpg\" width=\"201\" height=\"113\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.997593482103402
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "bb23b5fdd36e",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#mh-search",
+   "target": "#mh-search",
+   "message": "The text \"Search\" has at most 3.10:1 contrast with what is behind it (#ffffff on #009cdb), measured from pixels because axe-core could not decide (an element over or under it). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #009cdb · 3.10:1 at best, 3.10:1 at worst · 13px, 700",
+   "subject": "Search",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<button id=\"mh-search\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "2bb6f1a8323e",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(7) > div > div > div > div:nth-of-type(2) > a:nth-of-type(1)",
+   "target": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(7) > div > div > div > div:nth-of-type(2) > a:nth-of-type(1)",
+   "message": "The icon of this link (\"facebook\") has at most 2.71:1 contrast with the pixels next to it (#9d9d9c on #ffffff). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#9d9d9c on #ffffff · 2.71:1 at best, 2.71:1 at worst",
+   "subject": "facebook",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a aria-label=\"facebook\" href=\"https://www.facebook.com/echolivecork/\" rel=\"noopener\" target=\"_blank\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "173d3f654af1",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(7) > div > div > div > div:nth-of-type(2) > a:nth-of-type(2)",
+   "target": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(7) > div > div > div > div:nth-of-type(2) > a:nth-of-type(2)",
+   "message": "The icon of this link (\"twitter\") has at most 2.71:1 contrast with the pixels next to it (#9d9d9c on #ffffff). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#9d9d9c on #ffffff · 2.71:1 at best, 2.71:1 at worst",
+   "subject": "twitter",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a aria-label=\"twitter\" href=\"https://twitter.com/echolivecork?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor\" rel=\"noopener\" target=\"_blank\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "76a10bbd5d57",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(7) > div > div > div > div:nth-of-type(2) > a:nth-of-type(3)",
+   "target": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(7) > div > div > div > div:nth-of-type(2) > a:nth-of-type(3)",
+   "message": "The icon of this link (\"Instagram\") has at most 2.71:1 contrast with the pixels next to it (#9d9d9c on #ffffff). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#9d9d9c on #ffffff · 2.71:1 at best, 2.71:1 at worst",
+   "subject": "Instagram",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a aria-label=\"Instagram\" href=\"https://www.instagram.com/echolive.ie/?hl=en\" rel=\"noopener\" target=\"_blank\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "642cfdc81805",
+   "criterion": "1.4.11",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(7) > div > div > div > div:nth-of-type(2) > a:nth-of-type(4)",
+   "target": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(7) > div > div > div > div:nth-of-type(2) > a:nth-of-type(4)",
+   "message": "The icon of this link (\"newsletter\") has at most 2.71:1 contrast with the pixels next to it (#9d9d9c on #ffffff). It is all the control shows, so WCAG 1.4.11 asks for 3:1 (G207).",
+   "evidence": "#9d9d9c on #ffffff · 2.71:1 at best, 2.71:1 at worst",
+   "subject": "newsletter",
+   "confidence": "low",
+   "ruleId": "rampa/icon-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/general/G207",
+   "html": "<a aria-label=\"newsletter\" href=\"https://www.echolive.ie/newsletter/\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "9873edc102f2",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#more-click-menu",
+   "message": "The link text \"MORE\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "MORE",
+   "subject": "MORE",
+   "claim": "generic",
+   "techniques": [
+    "G91"
+   ],
+   "patch": {
+    "ref": "#more-click-menu",
+    "kind": "set-text",
+    "from": "MORE",
+    "to": "More navigation options",
+    "before": "<a href=\"#\" class=\"nav-link dropdown-toggle-split\" id=\"more-click-menu\">MORE</a>",
+    "after": "<a href=\"#\" class=\"nav-link dropdown-toggle-split\" id=\"more-click-menu\">More navigation options</a>"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 12
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(1) > section:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > article > a > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"‘I left LA to be an actor in Cork ... I’ve always loved the rain!’\" describes something the image does not show.",
+   "evidence": "The model suggests: \"A group of actors posing outdoors in Cork.\" · Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(1) > section:nth-of-type(2) > div > div:nth-of-type(1) > article > a > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"<p>Members of the public with any relevant information are asked to contact the Serious Crime Unit in Macroom Garda Station.</p>\" describes something the image does not show.",
+   "evidence": "Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(1) > section:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(3) > article > a > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"House key with home keyring in keyhole on wood door, copy space\" describes something the image does not show.",
+   "evidence": "The model suggests: \"A house key in a door lock, symbolizing home ownership or rental.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.10), claim: no (0.00), reversed: yes (0.02))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(1) > section:nth-of-type(2) > div > div:nth-of-type(2) > div:nth-of-type(4) > article > a > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Man in prison hands of behind hold Steel cage jail bars. offender criminal locked in jail.\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Hands gripping prison bars\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (0.81), claim: no (0.00), reversed: no (0.83))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(1) > section:nth-of-type(3) > div > div:nth-of-type(2) > div:nth-of-type(3) > article > a > div > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Cobh Wanderers v St Mary's - 2026 FAI Intermediate Cup Final\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Action shot of a soccer player during a match\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.06), claim: no (0.01), reversed: no (0.99))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#custom-navbar-expand > div > nav > div:nth-of-type(1) > ul > li:nth-of-type(2) > a",
+   "message": "The link text \"x\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"X (Twitter) profile\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#custom-navbar-expand > div > nav > div:nth-of-type(1) > ul > li:nth-of-type(3) > a",
+   "message": "The link text \"instagram\" is shared by 3 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "The model suggests: \"Instagram profile\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#navbar-IE > ul > li:nth-of-type(5) > a",
+   "message": "The link text \"WOW!\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"WoW - Echolive\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#navbar-IE > ul > li:nth-of-type(9) > div > a:nth-of-type(8)",
+   "message": "The link text \"epaper\" does not match where the link goes.",
+   "evidence": "The model suggests: \"Subscribe to the e-paper\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(1) > section:nth-of-type(7) > h2",
+   "message": "The heading \"WOW\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Lifestyle\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(2) > div:nth-of-type(7) > div > div > div > div:nth-of-type(1) > h6",
+   "message": "The heading \"FOLLOW ECHO\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Follow the Echo\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(1) > section:nth-of-type(1) > div > div:nth-of-type(1) > div:nth-of-type(2) > div:nth-of-type(2) > article > a > div:nth-of-type(1) > img",
+   "reason": "evidence is not the current text alternative",
+   "output": {
+    "verdict": "pass",
+    "evidence": "Munster ladies football glory for Aghada as&nbsp;goals crucial against Gaultier",
+    "problem": "none",
+    "imageShows": "A group of female athletes in green jerseys celebrating with a trophy.",
+    "suggestedAlt": "Aghada ladies football team celebrating their Munster championship win with a trophy.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(1) > section:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1) > article > a > div > div:nth-of-type(1) > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "‘I left LA to be an actor in Cork ... I’ve always loved the rain!’",
+    "problem": "wrong_content",
+    "imageShows": "A group of four people posing outdoors in front of a stone wall under a blue sky.",
+    "suggestedAlt": "A group of actors posing outdoors in Cork.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "#page-content > div:nth-of-type(3) > div > div > div:nth-of-type(1) > section:nth-of-type(2) > div > div:nth-of-type(1) > article > a > div > div:nth-of-type(1) > img",
+   "reason": "suggested alternative only rewords the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "<p>Members of the public with any relevant information are asked to contact the Serious Crime Unit in Macroom Garda Station.</p>",
+    "problem": "wrong_content",
+    "imageShows": "A white building with a lawn and a small ramp leading to the entrance.",
+    "suggestedAlt": "Macroom Garda Station",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#custom-navbar-expand > div > nav > div:nth-of-type(1) > ul > li:nth-of-type(3) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'instagram' in a navigation menu suggests it leads to the organization's Instagram profile.",
+    "leadsTo": "https://www.instagram.com/echolive.ie/",
+    "verdict": "fail",
+    "evidence": "instagram",
+    "problem": "ambiguous",
+    "suggestedText": "Instagram profile",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#navbar-IE > ul > li:nth-of-type(9) > div > a:nth-of-type(8)",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'epaper' in a navigation menu suggests it leads to an electronic version of a newspaper or a page related to the e-paper.",
+    "leadsTo": "A subscription page for 'The Echo' newspaper.",
+    "verdict": "fail",
+    "evidence": "epaper",
+    "problem": "mismatch",
+    "suggestedText": "Subscribe to the e-paper",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 25,
+   "judged": 25,
+   "failed": 2,
+   "passed": 17,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 2,
+   "confirmed": 2,
+   "suggested": 5,
+   "unconfirmed": 5
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 176,
+   "judged": 50,
+   "failed": 1,
+   "passed": 45,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 126,
+   "suggested": 4
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 22,
+   "judged": 22,
+   "failed": 0,
+   "passed": 20,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "40 image(s) were left without a capture, so no judgment looked at them: 40 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 126 of 176 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 114,
+  "inputTokens": 93992,
+  "outputTokens": 9154,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 331,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 25
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 29,
+    "prepareMs": 0,
+    "candidates": 25,
+    "judged": 25,
+    "calls": 0,
+    "cachedCalls": 40
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 79,
+    "prepareMs": 0,
+    "candidates": 176,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 8,
+    "prepareMs": 0,
+    "candidates": 22,
+    "judged": 22,
+    "calls": 0,
+    "cachedCalls": 22
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 139,
+    "prepareMs": 136,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 15,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 30
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 25,
+   "notCaptured": 40,
+   "reasons": {
+    "limit": 40
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 25,
+    "offlineMisses": 2
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 176,
+    "capped": 126
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

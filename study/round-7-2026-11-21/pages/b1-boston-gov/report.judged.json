@@ -1,0 +1,586 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.boston.gov/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "7d11931f272c",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#subscriber\\[email\\]",
+   "message": "The field \"Enter Your Email Address\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing.",
+   "evidence": "Enter Your Email Address",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#subscriber\\[email\\]",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input name=\"subscriber[email]\" id=\"subscriber[email]\" type=\"email\" value=\"\" placeholder=\"Email address\" class=\"txt-f bos-newsletter-email\">",
+    "after": "<input name=\"subscriber[email]\" id=\"subscriber[email]\" type=\"email\" value=\"\" placeholder=\"Email address\" class=\"txt-f bos-newsletter-email\" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "eff14b481403",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#subscriber\\[zipcode\\]",
+   "message": "The field \"Zip Code\" asks for the user's postal code but does not identify that purpose: autocomplete=\"postal-code\" is missing.",
+   "evidence": "Zip Code",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#subscriber\\[zipcode\\]",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "postal-code",
+    "before": "<input name=\"subscriber[zipcode]\" id=\"subscriber[zipcode]\" type=\"text\" value=\"\" placeholder=\"Zip Code\" class=\"txt-f bos-newsletter-zip\" size=\"18\">",
+    "after": "<input name=\"subscriber[zipcode]\" id=\"subscriber[zipcode]\" type=\"text\" value=\"\" placeholder=\"Zip Code\" class=\"txt-f bos-newsletter-zip\" size=\"18\" autocomplete=\"postal-code\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "1c607fbae239",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#content > article > div > div > div:nth-of-type(4) > div:nth-of-type(2) > a:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1)",
+   "target": "#content > article > div > div > div:nth-of-type(4) > div:nth-of-type(2) > a:nth-of-type(1) > div > div:nth-of-type(2) > div:nth-of-type(1)",
+   "message": "The text \"Guide:\" has at most 3.31:1 contrast with what is behind it (#091f2f on #1871bd), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#091f2f on #1871bd · 3.31:1 at best, 3.31:1 at worst · 23.5px, 400",
+   "subject": "Guide:",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<div class=\"cdfg-d\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "6aab2400e88a",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#subscriber\\[email\\]",
+   "target": "#subscriber\\[email\\]",
+   "message": "The placeholder \"Email address\" has a contrast of 3.84:1 with the field (#828282 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#828282 on #ffffff · 3.84:1 at best, 3.84:1 at worst · 18px, 400",
+   "subject": "Email address",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input name=\"subscriber[email]\" id=\"subscriber[email]\" type=\"email\" value=\"\" placeholder=\"Email address\" class=\"txt-f bos-newsletter-email\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "a6966beb47b1",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#subscriber\\[zipcode\\]",
+   "target": "#subscriber\\[zipcode\\]",
+   "message": "The placeholder \"Zip Code\" has a contrast of 3.84:1 with the field (#828282 on #ffffff). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#828282 on #ffffff · 3.84:1 at best, 3.84:1 at worst · 18px, 400",
+   "subject": "Zip Code",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input name=\"subscriber[zipcode]\" id=\"subscriber[zipcode]\" type=\"text\" value=\"\" placeholder=\"Zip Code\" class=\"txt-f bos-newsletter-zip\" size=\"18\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "cd27437c8a5f",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#page > div:nth-of-type(1) > label",
+   "target": "#page > div:nth-of-type(1) > label",
+   "message": "This element (\"Boston.gov An official website of the City of Boston. Here'…\") takes keyboard focus and listens to click, keydown, so it works as a control, but the browser exposes it as LabelText, with no control role: a screen reader does not announce it as a button or a link (F59). Use the native element (button, a) or give it the role of the control it is.",
+   "evidence": "role LabelText · click, keydown · \"Boston.gov An official website of the City of Boston. Here'…\"",
+   "subject": "LabelText click,keydown",
+   "confidence": "low",
+   "ruleId": "rampa/custom-control",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F59",
+   "html": "<label for=\"dr-banner\" class=\"dr-h\" tabindex=\"0\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "780408dc95d9",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#main-menu > label",
+   "target": "#main-menu > label",
+   "message": "This element (\"Toggle Menu\") takes keyboard focus and listens to keydown, so it works as a control, but the browser exposes it as LabelText, with no control role: a screen reader does not announce it as a button or a link (F59). Use the native element (button, a) or give it the role of the control it is.",
+   "evidence": "role LabelText · keydown · \"Toggle Menu\"",
+   "subject": "LabelText keydown",
+   "confidence": "low",
+   "ruleId": "rampa/custom-control",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F59",
+   "html": "<label for=\"brg-tr\" class=\"brg-b\" tabindex=\"0\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "a49241638517",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#searchIcon",
+   "target": "#searchIcon",
+   "message": "This element (\"Search\") takes keyboard focus and listens to click, keydown, so it works as a control, but the browser exposes it as LabelText, with no control role: a screen reader does not announce it as a button or a link (F59). Use the native element (button, a) or give it the role of the control it is.",
+   "evidence": "role LabelText · click, keydown · \"Search\"",
+   "subject": "LabelText click,keydown",
+   "confidence": "low",
+   "ruleId": "rampa/custom-control",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Techniques/failures/F59",
+   "html": "<label for=\"s-tr\" title=\"Search\" class=\"nv-h-l-a nv-h-l-a--k nv-h-l-a-ic\" id=\"searchIcon\" tabindex=\"0\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 42
+ },
+ "groups": [
+  {
+   "id": "g-a5ea3b6c2dce",
+   "list": "findings",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "engine",
+   "check": "image-alt",
+   "count": 12,
+   "members": [
+    "d1d64ee61393",
+    "c564f9eaefb8",
+    "145038616b5c",
+    "b80bf9b85e3c",
+    "2e233d7e31de",
+    "aa7076ee1e4f",
+    "c51addaca165",
+    "01b9258e144a",
+    "ec886e203c8e",
+    "241db96703ca",
+    "ebad44124b58",
+    "6f3f3735f4b4"
+   ],
+   "example": "d1d64ee61393"
+  },
+  {
+   "id": "g-808556be00fa",
+   "list": "findings",
+   "criterion": "1.3.1",
+   "level": "A",
+   "source": "engine",
+   "check": "aria-required-parent",
+   "count": 13,
+   "members": [
+    "b48f551fdbb0",
+    "ae776918534d",
+    "363952ec437a",
+    "88589ce2a974",
+    "6e1f2b4c4029",
+    "1705a1dc1d94",
+    "b9f7ed4a9433",
+    "8bc30d67e7ae",
+    "5f5043779820",
+    "22c4eaf2931d",
+    "889aff53ae15",
+    "6e13cd233f54",
+    "9a727543e1be"
+   ],
+   "example": "b48f551fdbb0"
+  },
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 13,
+   "members": [
+    "870c7e4150d9",
+    "d934cde6d4c9",
+    "896c7f42304c",
+    "34a2a492c0d7",
+    "69d659c19d7e",
+    "ce2ec7e6ef94",
+    "79175421bebc",
+    "99826b54784f",
+    "79d580d0ea62",
+    "7996cf1cd72c",
+    "666d703b630f",
+    "c8595ba1fa74",
+    "d1696f0399ed"
+   ],
+   "example": "870c7e4150d9"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#statusHeader > div:nth-of-type(2) > div > div > div:nth-of-type(5) > a",
+   "message": "The link text \"TOW LOT The tow lot is only open Monday through Friday, from 7 a.m. - 10:30 p.m. Automated kiosks are available 24 hours a day, seven days a week for vehicle releases.\" does not match where the link leads: a page titled \"How to Get Your Towed Vehicle Back | Boston.gov\".",
+   "evidence": "The model suggests: \"How to Get Your Towed Vehicle Back\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > article > div > div > div:nth-of-type(3) > div > div > div:nth-of-type(2) > a:nth-of-type(5)",
+   "message": "The link text \"Get a Moving Truck Permit\" does not match where the link leads: a page titled \"Reserve A Parking Spot For Your Moving Truck | Boston.gov\".",
+   "evidence": "The model suggests: \"Reserve a parking spot for your moving truck\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#content > article > div > div > div:nth-of-type(3) > div > div > div:nth-of-type(2) > a:nth-of-type(8)",
+   "message": "The link text \"Pay a Parking Ticket\" does not match where the link leads: a page titled \"How To Pay A Parking Ticket | Boston.gov\".",
+   "evidence": "The model suggests: \"How to pay a parking ticket\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#dr-banner",
+   "message": "The label \"Boston.gov An official website of the City of Boston. Here's how you know\" does not say what to enter.",
+   "evidence": "The model suggests: \"I understand the official website information\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#content > article > div > div > div:nth-of-type(1) > div > div > div > h1",
+   "message": "The heading \"CITY OF BOSTON\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"City Hall Operating Hours and Services\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#statusHeader > div:nth-of-type(1) > div > div > div > div > div > h2",
+   "message": "The heading \"SATURDAY, NOVEMBER 21\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"City Hall Services - Saturday, November 21\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#subscriber\\[honey\\]",
+   "message": "The label \"GOTCHA\" does not say what to enter.",
+   "evidence": "The model suggests: \"Enter the word 'honey'\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#content > article > div > div > div:nth-of-type(6) > div > div:nth-of-type(3) > div > div > div > div > div:nth-of-type(3) > a > div > div > div:nth-of-type(1) > div > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Boston Skyline",
+    "problem": "wrong_content",
+    "imageShows": "A cityscape of Boston with a white banner overlaying the top left corner that says 'NOV 19'.",
+    "suggestedAlt": "Boston skyline with a banner indicating the date November 19",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#block-mainmenu > ul > li:nth-of-type(6) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'BUSINESS SUPPORT' in a navigation menu suggests a page related to business support services or resources.",
+    "leadsTo": "https://www.boston.gov/government/cabinets/economic-opportunity-and-inclusion",
+    "verdict": "fail",
+    "evidence": "BUSINESS SUPPORT",
+    "problem": "mismatch",
+    "suggestedText": "Economic Opportunity and Inclusion Cabinet",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#block-mainmenu > ul > li:nth-of-type(13) > a",
+   "reason": "mismatch without a known destination",
+   "output": {
+    "promises": "The link text 'FEEDBACK' in a navigation menu suggests a page or form for providing feedback.",
+    "leadsTo": "mailto:mayor24reply@boston.gov",
+    "verdict": "fail",
+    "evidence": "FEEDBACK",
+    "problem": "mismatch",
+    "suggestedText": "Email the Mayor's Office",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#statusHeader > div:nth-of-type(2) > div > div > div:nth-of-type(1) > a",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text says it leads to 'CITY HALL OPERATING HOURS', but the context provides information about the hours directly in the link text.",
+    "leadsTo": "a contact page for Boston City Hall",
+    "verdict": "fail",
+    "evidence": "CITY HALL OPERATING HOURS",
+    "problem": "mismatch",
+    "suggestedText": "Contact Boston City Hall",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 11,
+   "judged": 11,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 3,
+   "judged": 3,
+   "failed": 2,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 72,
+   "judged": 50,
+   "failed": 0,
+   "passed": 44,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 22,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 21,
+   "judged": 21,
+   "failed": 0,
+   "passed": 17,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 4
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "9 image(s) were left without a capture, so no judgment looked at them: 1 transparent where it sits; 8 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 22 of 72 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 86,
+  "cachedCalls": 0,
+  "inputTokens": 77758,
+  "outputTokens": 7670,
+  "latencyMs": 241631
+ },
+ "timings": {
+  "totalMs": 124242,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 23
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 15642,
+    "prepareMs": 0,
+    "candidates": 11,
+    "judged": 11,
+    "calls": 11,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 3702,
+    "prepareMs": 0,
+    "candidates": 3,
+    "judged": 3,
+    "calls": 3,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 77202,
+    "prepareMs": 0,
+    "candidates": 72,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 26463,
+    "prepareMs": 0,
+    "candidates": 21,
+    "judged": 21,
+    "calls": 21,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 178,
+    "prepareMs": 176,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 1001,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 26
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 24,
+   "notCaptured": 9,
+   "reasons": {
+    "not-shown": 1,
+    "limit": 8
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 72,
+    "capped": 22
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

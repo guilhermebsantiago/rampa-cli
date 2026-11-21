@@ -154,12 +154,14 @@ for (const { slug } of meta.pages.filter((page) => page.split === 'test')) {
   const recording = join(dir, 'recording')
   const file = existsSync(recording) ? readdirSync(recording).find((name) => name.endsWith('.snapshot.json')) : undefined
   const mainPath = join(dir, 'report.json')
-  if (!file || !existsSync(mainPath) || !existsSync(join(dir, 'cache'))) throw new Error(`${slug}: no recording, main report or main cache`)
+  if (!file || !existsSync(mainPath)) throw new Error(`${slug}: no recording or main report`)
   const path = join(recording, file).replaceAll('\\', '/')
   const cacheDir = join(dir, 'cache-passlist')
   rmSync(cacheDir, { recursive: true, force: true })
   mkdirSync(dir, { recursive: true })
-  cpSync(join(dir, 'cache'), cacheDir, { recursive: true })
+  // A page whose main run judged nothing has no cache folder: its copy is an empty one (fixed 2026-11-21, run-log-notes).
+  if (existsSync(join(dir, 'cache'))) cpSync(join(dir, 'cache'), cacheDir, { recursive: true })
+  else mkdirSync(cacheDir, { recursive: true })
   const main = JSON.parse(readFileSync(mainPath, 'utf8')) as Report
   const criteria = resolveCriteria([...CRITERIA])
   const provider = await resolveProvider(MODEL, true)

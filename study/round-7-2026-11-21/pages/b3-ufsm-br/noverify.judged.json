@@ -1,0 +1,480 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.ufsm.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "d2d447fe3487",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "#logo > div:nth-of-type(1) > a > img",
+   "message": "The text alternative \"Imagem do brasão composta por quatro elementos: escudo, flor de lis, archotes e lema.\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Imagem do brasão composta por quatro elementos: escudo, flor de lis, archotes e lema.",
+   "subject": "Imagem do brasão composta por quatro elementos: escudo, flor de lis, archotes e lema.",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "#logo > div:nth-of-type(1) > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Imagem do brasão composta por quatro elementos: escudo, flor de lis, archotes e lema.",
+    "to": "Página inicial da UFSM",
+    "before": "<img src=\"https://www.ufsm.br/app/themes/ufsm/images/brasao.svg\" alt=\"Imagem do brasão composta por quatro elementos: escudo, flor de lis, archotes e lema.\">",
+    "after": "<img src=\"https://www.ufsm.br/app/themes/ufsm/images/brasao.svg\" alt=\"Página inicial da UFSM\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999930545666192
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "6b3f44e4bddd",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#swiper-wrapper-e56c93ff1ae9fe3f > div:nth-of-type(2) > a",
+   "target": "#swiper-wrapper-e56c93ff1ae9fe3f > div:nth-of-type(2) > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a data-elementor-open-lightbox=\"yes\" data-elementor-lightbox-slideshow=\"69621af\" data-elementor-lightbox-title=\"Descubra UFSM (Foto: Jessica Mocellin)\" data-elementor-lightbox-description=\"Descubra UFSM (Foto: Jessica Mocellin)\" data-e-action-hash=\"#elementor-action%3Aaction%3Dlightbox%26settings%3DeyJpZCI6Ijc0NzMwIiwidXJsIjoiaHR0cHM6XC9cL3d3dy51ZnNtLmJyXC9hcHBcL3VwbG9hZHNcLzIwMjZcLzExXC8xODJBMTA4MC0yLmpwZyIsInNsaWRlc2hvdyI6IjY5NjIxYWYifQ%3D%3D\" href=\"https://www.ufsm.br/app/uploads/2026/11/182A1080-2.jpg\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "c0cffa1fe837",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "#swiper-wrapper-37ca2d10b2525927a > div:nth-of-type(2) > a",
+   "target": "#swiper-wrapper-37ca2d10b2525927a > div:nth-of-type(2) > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a data-elementor-open-lightbox=\"yes\" data-elementor-lightbox-slideshow=\"43ad085\" data-elementor-lightbox-title=\"Descubra UFSM (Foto: Adrieny Rosa)\" data-elementor-lightbox-description=\"Descubra UFSM (Foto: Adrieny Rosa)\" data-e-action-hash=\"#elementor-action%3Aaction%3Dlightbox%26settings%3DeyJpZCI6Ijc0NzQ4IiwidXJsIjoiaHR0cHM6XC9cL3d3dy51ZnNtLmJyXC9hcHBcL3VwbG9hZHNcLzIwMjZcLzExXC9JQzNBMzY3Ny0xLmpwZyIsInNsaWRlc2hvdyI6IjQzYWQwODUifQ%3D%3D\" href=\"https://www.ufsm.br/app/uploads/2026/11/IC3A3677-1.jpg\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 20
+ },
+ "groups": [
+  {
+   "id": "g-b3cc505a410d",
+   "list": "findings",
+   "criterion": "2.4.4",
+   "level": "A",
+   "source": "engine",
+   "check": "link-name",
+   "count": 13,
+   "members": [
+    "74566c0a6217",
+    "99eeba15b4ea",
+    "a1c7bf5d7c5f",
+    "7fa7faf7f38a",
+    "d405e80f3816",
+    "07db3c600f5f",
+    "66df40b2ac5f",
+    "bba143c59ffd",
+    "70c3e72a435c",
+    "973f10c087af",
+    "f9daf84077e2",
+    "cec77dd75564",
+    "9b5a82b4cbeb"
+   ],
+   "example": "74566c0a6217"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "#swiper-wrapper-e56c93ff1ae9fe3f > div:nth-of-type(2) > a > figure > img",
+   "message": "The text alternative \"Descubra UFSM (Foto: Jessica Mocellin)\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Pessoas interagindo com um globo terrestre em um evento da UFSM\" · Offline: the second pass has no cached answer, so the claim stays a suggestion",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#menu-barra-brasil > ul > li:nth-of-type(4) > a",
+   "message": "The link text \"ACESSO À INFORMAÇÃO\" is shared by 2 links that lead to 2 different places, and nothing around this one tells it apart.",
+   "evidence": "The model suggests: \"Portal de Acesso à Informação\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#siteaction-vlibras > a",
+   "message": "The link text \"VLibras\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Acesse o VLibras\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#logo > div:nth-of-type(2) > a > h1",
+   "message": "The heading \"UFSM\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Portal da Universidade Federal de Santa Maria\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#portal-searchbox > form > fieldset > h2",
+   "message": "The heading \"Buscar no nos Sítios\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Buscar nos Sítios\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#post-1833 > div > div > section:nth-of-type(4) > div > div > div > div > div > h5",
+   "message": "The heading \"JAI\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Jornada Acadêmica Integrada\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "3.3.2",
+   "level": "A",
+   "ruleId": "judgment/3.3.2",
+   "ref": "#abusca",
+   "message": "The field \"Buscar nos Sítios\" only accepts a set format (pattern=\".{3,}\"), and nothing on screen explains it.",
+   "evidence": "The model suggests: \"O campo deve conter pelo menos 3 caracteres.\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "#swiper-wrapper-e56c93ff1ae9fe3f > div:nth-of-type(2) > a > figure > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Descubra UFSM (Foto: Jessica Mocellin)",
+    "problem": "wrong_content",
+    "imageShows": "Um grupo de pessoas em um evento interativo interagindo com um globo terrestre e materiais informativos.",
+    "suggestedAlt": "Pessoas interagindo com um globo terrestre em um evento da UFSM",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#menu-barra-brasil > ul > li:nth-of-type(4) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'ACESSO À INFORMAÇÃO' (Access to Information) suggests a portal or page regarding transparency and public information access.",
+    "leadsTo": "http://www.acessoainformacao.gov.br",
+    "verdict": "fail",
+    "evidence": "ACESSO À INFORMAÇÃO",
+    "problem": "ambiguous",
+    "suggestedText": "Portal de Acesso à Informação",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#portal-searchbox > form > fieldset > h2",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Buscar nos Sítios",
+    "verdict": "fail",
+    "evidence": "B…",
+    "problem": "generic",
+    "suggestedText": "Buscar nos Sítios",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "3.3.2",
+   "ref": "#abusca",
+   "reason": "the page shows an example in the required format: \"Buscar nos Sítios\"",
+   "output": {
+    "shown": "Buscar nos Sítios",
+    "rule": "O campo deve conter pelo menos 3 caracteres.",
+    "verdict": "fail",
+    "problem": "rule_not_explained",
+    "evidence": "Buscar nos Sítios",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 1,
+   "confirmed": 1,
+   "suggested": 1,
+   "unconfirmed": 1
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 132,
+   "judged": 50,
+   "failed": 0,
+   "passed": 48,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 82,
+   "suggested": 2
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 13,
+   "judged": 13,
+   "failed": 0,
+   "passed": 10,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 3
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  }
+ ],
+ "notes": [
+  "Verification was off (--no-verify): model claims whose quoted evidence is not on the page are reported as if it were. This run is for measurement only.",
+  "2 frame(s) were checked by axe-core only: their content is not in the snapshot (another origin, or it loaded after the page was read), so Rampa's rules and the judged criteria did not read it: #widget2 (https://www.youtube.com/embed/3eGUfRDgW3Q?controls=1&rel=0&playsinline=0&modestbranding=0&autoplay=0&enablejsapi=1&origin=https%3A%2F%2Fwww.ufsm.br&widgetid=1&forigin=https%3A%2F%2Fwww.ufsm.br%2F&aoriginsup=1&vf=1), #widget4 (https://www.youtube.com/embed/jxmn9ZusnaE?controls=1&rel=0&playsinline=0&modestbranding=0&autoplay=0&enablejsapi=1&origin=https%3A%2F%2Fwww.ufsm.br&widgetid=3&forigin=https%3A%2F%2Fwww.ufsm.br%2F&aoriginsup=1&vf=1).",
+  "19 image(s) were left without a capture, so no judgment looked at them: 2 outside the page (an off-canvas menu); 17 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 82 of 132 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 70,
+  "inputTokens": 62025,
+  "outputTokens": 6661,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 248,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 25
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 10,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 0,
+    "cachedCalls": 5
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 1,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 24,
+    "prepareMs": 0,
+    "candidates": 132,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 11,
+    "prepareMs": 0,
+    "candidates": 13,
+    "judged": 13,
+    "calls": 0,
+    "cachedCalls": 13
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 128,
+    "prepareMs": 125,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 3,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   }
+  ],
+  "otherMs": 39
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 23,
+   "notCaptured": 19,
+   "reasons": {
+    "outside-page": 2,
+    "limit": 17
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "1.1.1",
+    "candidates": 2,
+    "offlineMisses": 1
+   },
+   {
+    "criterion": "2.4.4",
+    "candidates": 132,
+    "capped": 82
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "#widget2",
+     "url": "https://www.youtube.com/embed/3eGUfRDgW3Q?controls=1&rel=0&playsinline=0&modestbranding=0&autoplay=0&enablejsapi=1&origin=https%3A%2F%2Fwww.ufsm.br&widgetid=1&forigin=https%3A%2F%2Fwww.ufsm.br%2F&aoriginsup=1&vf=1",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    },
+    {
+     "ref": "#widget4",
+     "url": "https://www.youtube.com/embed/jxmn9ZusnaE?controls=1&rel=0&playsinline=0&modestbranding=0&autoplay=0&enablejsapi=1&origin=https%3A%2F%2Fwww.ufsm.br&widgetid=3&forigin=https%3A%2F%2Fwww.ufsm.br%2F&aoriginsup=1&vf=1",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": true
+    }
+   ]
+  }
+ }
+}
