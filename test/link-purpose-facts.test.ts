@@ -392,6 +392,34 @@ describe('what the facts make of a model that fails everything', () => {
   })
 })
 
+/** A model that fails every link as shared by others that lead elsewhere. */
+const failsAsShared: ModelProvider = {
+  id: 'test:shared',
+  async judge<T>(request: JudgeRequest<T>) {
+    const name = /<link>([\s\S]*?)<\/link>/.exec(request.user)?.[1] ?? ''
+    const output = { promises: '', leadsTo: '', verdict: 'fail', evidence: name, problem: 'ambiguous', suggestedText: `${name}: this one`, confidence: 'high' }
+    return { output: request.schema.parse(output), inputTokens: 10, outputTokens: 5, latencyMs: 1, modelId: 'shared' }
+  },
+}
+const sharedFindings = async (snapshot: A11ySnapshot) =>
+  (await checkSnapshot(snapshot, NO_ENGINE, { criteria: [linkPurpose], llm: true, provider: failsAsShared, runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 1 }))
+    .findings.map((f) => f.ref)
+
+// marksandspencer.com in the sixth real-page study: a banner's "Free returns for online orders" carried a campaign tag in
+// its fragment, the footer's did not, and both lead to the same help page.
+describe('a fragment of parameters on a shared text', () => {
+  const pair = (bannerHref: string) => page([div('banner', link('#banner', 'Free returns for online orders', bannerHref)), ul('footer', li('f1', link('#footer', 'Free returns for online orders', '/help/returns')))], 'https://shop.example/women')
+
+  it('makes no other place, so a model that fails both as shared reports neither', async () => {
+    expect(await sharedFindings(pair('https://shop.example/help/returns#intid=cms_banner_free-returns_pos-3_1'))).toEqual([])
+  })
+
+  it('still reports the pair when the banner leads to another page or to a part of the help page', async () => {
+    expect(await sharedFindings(pair('/help/refunds#intid=cms_banner_1'))).toEqual(['#banner', '#footer'])
+    expect(await sharedFindings(pair('/help/returns#online-orders'))).toEqual(['#banner', '#footer'])
+  })
+})
+
 // P4 of docs/studies/notes-precision-p3p4.md: a link whose text names the page it leads to rests no shared-text claim.
 describe('a shared text that names its destination', () => {
   // correio.braziliense's header menu in the third real-page study: "Direito e Justiça" to its section, and another

@@ -197,6 +197,16 @@ describe('2.4.4 links that share a text', () => {
     expect(same({ '/shop': copy, '/about/shop': copy }, '/shop', '/about/shop')?.places).toBe(1)
     // The same path with another query may show another page, even when the HTML looks the same before scripts run.
     expect(same({ '/contact?page=1': copy, '/contact?page=2': copy }, '/contact?page=1', '/contact?page=2')?.places).toBe(2)
+    // A fragment of parameters (marksandspencer.com's "#intid=…" campaign tags) names no part of the page; a part, or a
+    // hash route, still makes another place.
+    expect(same({}, 'https://shop.test/help/returns#intid=banner_free-returns_pos-3_1', '/help/returns')).toEqual({ links: 2, places: 1, apart: true })
+    expect(same({}, '/help/returns#intid=banner_1', '/help/returns#intid=footer_2&utm_source=x')?.places).toBe(1)
+    expect(same({ '/help#a=1': copy, '/about/help': copy }, '/help#a=1', '/about/help')?.places).toBe(1)
+    expect(same({}, '/help#returns', '/help#delivery')?.places).toBe(2)
+    expect(same({}, '/help#returns', '/help')?.places).toBe(2)
+    expect(same({}, '/app#/orders', '/app#/returns')?.places).toBe(2)
+    expect(same({}, '#intid=top', 'https://shop.test/news/')?.places).toBe(1)
+    expect(same({}, '#intid=top', '#reviews')?.places).toBe(2)
     expect(linkPurpose.prompt(linkPurpose.candidates(snapshot([link('a', 'Shop', '/shop'), link('b', 'Shop', '/shop')]), noFindings)[0]!, snapshot([])).user).toContain(
       '2 links on this page have this text, and they all lead to the same place.',
     )
