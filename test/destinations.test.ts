@@ -215,6 +215,53 @@ describe('followLinks', () => {
     expect(calls).toHaveLength(3)
   })
 
+  // sboc.org.br in the sixth real-page study: a news list of hundreds of links, where the same post published twice under
+  // two addresses came after the first 40 read, so its two "COMUNICADO OFICIAL" links counted as two places.
+  it('reads the links that share a text and lead to different addresses first, whole groups within half the budget', async () => {
+    const { fetch, calls } = stubFetch({})
+    const posts = Array.from({ length: 6 }, (_, i) => link(`p${i}`, `Post ${i}`, `/noticias/${i}-post/`))
+    const twice = [link('c1', 'COMUNICADO OFICIAL', '/noticias/3828-comunicado-oficial/'), link('c2', ' Comunicado  oficial', '/noticias/3829-comunicado-oficial/')]
+    const footer = node({ ref: 'footer', role: 'contentinfo', children: [link('f1', 'Contato', '/contato'), link('f2', 'Contato', '/fale-conosco')] })
+    const found = await followLinks(page(...posts, ...twice, footer), base, { policy: 'same-origin', fetch, limits: { maxLinks: 6, concurrency: 1 } })
+    // Half of 6 is 3: one group of two fits, the smallest first, ties in page order; then the rest as before.
+    expect(Object.keys(found)).toEqual(['/noticias/3828-comunicado-oficial/', '/noticias/3829-comunicado-oficial/', '/noticias/0-post/', '/noticias/1-post/', '/noticias/2-post/', '/noticias/3-post/'])
+    expect(calls).toHaveLength(6)
+    // With room for both groups, the footer's pair is read too.
+    const wider = await followLinks(page(...posts, ...twice, footer), base, { policy: 'same-origin', fetch: stubFetch({}).fetch, limits: { maxLinks: 8, concurrency: 1 } })
+    expect(Object.keys(wider).slice(0, 4)).toEqual(['/noticias/3828-comunicado-oficial/', '/noticias/3829-comunicado-oficial/', '/contato', '/fale-conosco'])
+  })
+
+  it('reads no group first that is too large for its share, leads to one address, or leaves the site', async () => {
+    // The addresses asked for, in order (fetched one at a time).
+    const order = async (...links: A11yNode[]) => {
+      const { fetch, calls } = stubFetch({})
+      await followLinks(page(link('first', 'First', '/first'), ...links), base, { policy: 'same-origin', fetch, limits: { maxLinks: 4, concurrency: 1 } })
+      return calls.map((call) => new URL(call.url).pathname)
+    }
+    // Three addresses, and room for two.
+    expect(await order(link('m1', 'More', '/a'), link('m2', 'More', '/b'), link('m3', 'More', '/c'))).toEqual(['/first', '/a', '/b', '/c'])
+    // One address, written with and without a fragment, and the page itself.
+    expect(await order(link('s1', 'Shop', '/shop'), link('s2', 'Shop', '/shop#top'), link('s3', 'Shop', 'index.html'))).toEqual(['/first', '/shop', '/shop'])
+    // Another site, under same-origin, is not read, so the group has one address to read.
+    expect(await order(link('x1', 'Blog', '/blog'), link('x2', 'Blog', 'https://other.test/blog'))).toEqual(['/first', '/blog'])
+  })
+
+  it('lets 2.4.4 see that two addresses lead to the same post once both are read', async () => {
+    const post = htmlResponse(html('COMUNICADO OFICIAL - SBOC', '<h1>COMUNICADO OFICIAL</h1>'))
+    const other = htmlResponse(html('COMUNICADO OFICIAL - SBOC', '<h1>COMUNICADO OFICIAL</h1><meta name="description" content="Nota sobre a assembleia">'))
+    const titled = (ref: string, href: string) => link(ref, 'COMUNICADO OFICIAL', href, { children: [node({ ref: `${ref}-text`, text: 'COMUNICADO OFICIAL' })] })
+    const twice = page(titled('c1', '/noticias/3828-comunicado-oficial/'), titled('c2', '/noticias/3829-comunicado-oficial/'))
+    const sameText = async (second: () => Response) => {
+      const { fetch } = stubFetch({ 'https://shop.test/noticias/3828-comunicado-oficial/': post, 'https://shop.test/noticias/3829-comunicado-oficial/': second })
+      const destinations = await followLinks(twice, base, { policy: 'same-origin', fetch })
+      const snapshot = { schemaVersion: 1 as const, surface: 'web' as const, target: base, locale: 'pt-BR', viewport: { width: 1280, height: 800, scale: 1 }, collectedAt: '', collector: { name: 'test', version: '0' }, root: twice, destinations }
+      return linkPurpose.candidates(snapshot, { engine: { name: 'axe-core', version: 'test' }, rules: [] }).map((c) => c.context.sameText)
+    }
+    expect(await sameText(post)).toEqual(Array(2).fill({ links: 2, places: 1, apart: true }))
+    // Another post with the same title and heading but its own description is another place.
+    expect(await sameText(other)).toEqual(Array(2).fill({ links: 2, places: 2, apart: false }))
+  })
+
   it('reads an address once per run, however many pages link to it', async () => {
     const { fetch, calls } = stubFetch({ 'https://shop.test/pricing': htmlResponse(html('Pricing')) })
     const cache = destinationCache()

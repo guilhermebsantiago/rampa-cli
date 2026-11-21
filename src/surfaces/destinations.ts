@@ -3,7 +3,7 @@ import { isIP } from 'node:net'
 import { dirname, extname, isAbsolute, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { fetch as undiciFetch } from 'undici'
-import { errorMessage, mapLimit, sha256, truncate } from '../core/util.ts'
+import { errorMessage, mapLimit, normalizeForMatch, sha256, truncate } from '../core/util.ts'
 import { refInFrame } from '../snapshot/refs.ts'
 import { type A11yNode, type Destination, DestinationSchema } from '../snapshot/schema.ts'
 import { VERSION } from '../version.ts'
@@ -59,10 +59,59 @@ export interface FollowOptions {
 /**
  * Reads the links of a collected page and returns what each address leads to, keyed by the href as written.
  * `base` is the address the page's relative links resolve against (its document.baseURI).
- * Only visible links with a name are followed, the ones outside the page's menus, header and footer first.
+ * Only visible links with a name are followed: first the links that share a text and lead to different addresses
+ * (`sharedTextFirst`), then the others outside the page's menus, header and footer, then those in them.
  */
 export async function followLinks(root: A11yNode, base: string, options: FollowOptions): Promise<Record<string, Destination>> {
-  return readDestinations(linkHrefs(root), base, options)
+  const links = namedLinks(root)
+  const page = parseUrl(base)
+  const order = page ? sharedTextFirst(links, page, options) : []
+  return readDestinations([...new Set([...order, ...links.filter((link) => !link.chrome).map((link) => link.href), ...links.map((link) => link.href)])], base, options)
+}
+
+/** Groups take at most this share of the budget of addresses, so the other links are still read as before. */
+const SHARED_TEXT_SHARE = 0.5
+
+/**
+ * The hrefs to read before any other: those of the groups of links that share a text (case and spaces aside) and lead
+ * to two different addresses or more, whole groups only, the smallest first and then in page order, within half the
+ * budget of addresses (`SHARED_TEXT_SHARE`). 2.4.4 counts such links as going to different places by their addresses
+ * until it reads them, and two addresses can be one resource: the same post published twice (sboc.org.br's
+ * ".../3828-comunicado-oficial/" and ".../3829-comunicado-oficial/", sixth real-page study, where the page's other
+ * links used the budget of 40 before them), which the pages read show (placeOf in criteria/link-purpose.ts, ACT fd3a94's
+ * equivalent resources). A group is read whole or not at all: one address read and the other not still differ. The
+ * budget stays the same; the other half keeps the order links were read in before, for what else the pages read are
+ * for (a mismatch, a functional image's destination, the prompt).
+ */
+function sharedTextFirst(links: readonly NamedLink[], page: URL, options: FollowOptions): string[] {
+  const limits = { ...FOLLOW_LIMITS, ...options.limits }
+  const roots = options.roots ?? defaultRoots(page)
+  const reserve = Math.floor(limits.maxLinks * SHARED_TEXT_SHARE)
+  const byText = new Map<string, NamedLink[]>()
+  for (const link of links) byText.set(link.text, [...(byText.get(link.text) ?? []), link])
+  const groups: Array<{ hrefs: string[]; reads: Set<string>; first: number }> = []
+  for (const group of byText.values()) {
+    // What readDestinations would read, keyed as it counts them; the page itself costs nothing.
+    const reads = new Set<string>()
+    const addresses = new Set<string>()
+    for (const { href } of group) {
+      const url = parseUrl(href, page.href)
+      if (!url || withoutHash(url) === withoutHash(page) || !allowed(url, page, options.policy, roots)) continue
+      reads.add(url.href)
+      addresses.add(withoutHash(url))
+    }
+    if (addresses.size >= 2) groups.push({ hrefs: group.map((link) => link.href), reads, first: links.indexOf(group[0] as NamedLink) })
+  }
+  groups.sort((a, b) => a.reads.size - b.reads.size || a.first - b.first)
+  const chosen: string[] = []
+  const read = new Set<string>()
+  for (const group of groups) {
+    const more = [...group.reads].filter((address) => !read.has(address))
+    if (read.size + more.length > reserve) continue
+    for (const address of more) read.add(address)
+    chosen.push(...group.hrefs)
+  }
+  return chosen
 }
 
 /**
@@ -195,20 +244,27 @@ function keepsOnDisk(url: string): boolean {
 
 const CHROME_ROLES = new Set(['navigation', 'banner', 'contentinfo'])
 
-/** Hrefs of the visible, named links: those in the content first, then those in menus, header and footer, each in page order. */
-function linkHrefs(root: A11yNode): string[] {
-  const content: string[] = []
-  const chrome: string[] = []
+/** A visible link with a name and an href: its text as compared for sharing it, and whether it sits in a menu, header or footer. */
+interface NamedLink {
+  href: string
+  text: string
+  chrome: boolean
+}
+
+/** The visible, named links, in page order. */
+function namedLinks(root: A11yNode): NamedLink[] {
+  const links: NamedLink[] = []
   const visit = (node: A11yNode, inChrome: boolean): void => {
     if (node.states.includes('hidden') || node.states.includes('aria-hidden')) return
     const here = inChrome || CHROME_ROLES.has(node.role)
     const href = (node.native.attributes as Record<string, string> | undefined)?.href
+    const name = node.name?.trim()
     // A link in a frame resolves against the frame's own address, which the href alone does not say: it is not followed.
-    if (node.role === 'link' && node.name?.trim() && href?.trim() && !refInFrame(node.ref)) (here ? chrome : content).push(href)
+    if (node.role === 'link' && name && href?.trim() && !refInFrame(node.ref)) links.push({ href, text: normalizeForMatch(name), chrome: here })
     for (const child of node.children) visit(child, here)
   }
   visit(root, false)
-  return [...new Set([...content, ...chrome])]
+  return links
 }
 
 /**
