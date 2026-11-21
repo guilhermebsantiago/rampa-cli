@@ -1,0 +1,116 @@
+{
+  "page": "https://www.gosh.nhs.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "e24e657e9f21",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The hero photo is the only content of a focusable link to the metagenomics news article; the AX tree gives the link the name 'A young girl smiling... pink balloon.' (nameFrom contents), and the live HTML is the same plain <a href> with no aria-hidden or tabindex. claimTrue: yes, the alt is all the link holds and says nothing about the destination. elementFails: yes, the image is a functional image, and 1.1.1 asks a control to have a name that describes its purpose (H30: when an image is the only content of a link, its alt describes the link's function); a description of the photo does not. The adjacent 'Find out more' link to the same page does not give this link a purpose (it also fails 2.4.4: the preceding heading is h1 'Home'). captureDiffers: no, snapshot, screenshot and live markup agree. The claim names the failure."
+    },
+    {
+      "fingerprint": "d89f8c386025",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only footer link 'Follow us on LinkedIn' (svg aria-hidden, 54x54). Live CSS (main.3045a5b232c2.css) sets .footer__bottom to background #7fb8e6 and .icon to fill #fff; the inline sprite symbol is a solid white glyph, so the icon is #ffffff on #7fb8e6, 2.12:1 (I computed the same ratio). The link has no visible text (only a title tooltip; the 'Social media links' h2 is u-sr-only), so the icon is the only visual information that identifies the control, and 1.4.11 asks for 3:1. Understanding 1.4.11 exempts logos only where the colours are mandated by brand guidelines; a white glyph on a light-blue band the site chose is an author choice, so it is not exempt ('Essential exception and author choice'). captureDiffers: the snapshot HTML matches the live markup and the measured colours match the live CSS. The screenshot shows a partial dark consent overlay over the right part of the row, but the reported colours are the undimmed ones users get after the banner, so nothing that matters for this claim differs. The claim names the real failure, so the label is true_positive."
+    },
+    {
+      "fingerprint": "ab16ee03eb9c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Illustration in the 'Careers at GOSH' card link, followed by the visible link text. The crop and the image file show a stethoscope line drawing (black strokes, blue chest-piece dot) on a transparent background that renders on the pale-blue card. claimTrue: no, the alt names exactly what the image shows; only its colour words are loose ('blue', 'white background'), which is not describing something the image does not show. elementFails: no, for a supplementary image inside a link with its own text the alt is an adequate equivalent (at worst redundant, which is not a 1.1.1 failure). captureDiffers: no, live HTML has the same img and alt. The model had the crop and judged wrongly."
+    },
+    {
+      "fingerprint": "seb25ed18c35",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "h2 'Helpful information' heads a band of four quick-link cards (Your hospital visit, Patient app - MyGOSH, Careers at GOSH, Research and innovation for patients and families). claimTrue: no, it does say what the section is: a set of helpful links/information, distinct from the later 'What's going on around GOSH' band. elementFails: no, 2.4.6 asks that a heading describe the topic or purpose, and Understanding 2.4.6 says a short cue suffices; a generic but accurate label for a mixed set of quick links meets it. captureDiffers: no, the live page has the same heading and cards. Rampa applied a stricter, specificity-based standard than the criterion's."
+    },
+    {
+      "fingerprint": "cf5e36ab0383",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "img.footer__submarine (alt=\"\") is a decorative cartoon submarine in the footer; the live HTML is the same. The crop the model saw is covered by the OneTrust consent banner, so its 'Accept/Reject Additional Cookies' buttons appear where the image is. claimTrue: no, the image is hidden (alt=\"\") but it does not convey those buttons: they belong to the separate consent dialog, which exposes them as real buttons. elementFails: no, a purely decorative image correctly has an empty alt (H67/C9). captureDiffers: no, the snapshot DOM matches the live page and first-time visitors also see the fixed banner over the footer when they scroll down; the fault is a crop that shows an overlay instead of the element, i.e. wrong data from the collector."
+    },
+    {
+      "fingerprint": "a1ebc51e0e0b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only footer link 'Follow us on Instagram' (svg aria-hidden, 54x54). Live CSS (main.3045a5b232c2.css) sets .footer__bottom to background #7fb8e6 and .icon to fill #fff; the inline sprite symbol is a solid white glyph, so the icon is #ffffff on #7fb8e6, 2.12:1 (I computed the same ratio). The link has no visible text (only a title tooltip; the 'Social media links' h2 is u-sr-only), so the icon is the only visual information that identifies the control, and 1.4.11 asks for 3:1. Understanding 1.4.11 exempts logos only where the colours are mandated by brand guidelines; a white glyph on a light-blue band the site chose is an author choice, so it is not exempt ('Essential exception and author choice'). captureDiffers: the snapshot HTML matches the live markup and the measured colours match the live CSS. The screenshot shows a partial dark consent overlay over the right part of the row, but the reported colours are the undimmed ones users get after the banner, so nothing that matters for this claim differs. The claim names the real failure, so the label is true_positive."
+    },
+    {
+      "fingerprint": "17c276215992",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Image in the 'Patient app - MyGOSH' card link, followed by the visible link text. The crop and the image file show a blue fingerprint with a pink loop (the MyGOSH mark). claimTrue: no, the alt 'Blue and pint fingerprint' describes what is shown; 'pint' is a typo for 'pink', not a different subject. elementFails: no, for a supplementary image inside a link whose text names the app, the alt still serves an equivalent purpose; the typo is a quality issue, not a 1.1.1 failure. captureDiffers: no, live HTML has the same img and alt. The model had the crop and judged wrongly."
+    },
+    {
+      "fingerprint": "383c0034bd05",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only footer link 'Follow us on YouTube' (svg aria-hidden, 54x54). Live CSS (main.3045a5b232c2.css) sets .footer__bottom to background #7fb8e6 and .icon to fill #fff; the inline sprite symbol is a solid white glyph, so the icon is #ffffff on #7fb8e6, 2.12:1 (I computed the same ratio). The link has no visible text (only a title tooltip; the 'Social media links' h2 is u-sr-only), so the icon is the only visual information that identifies the control, and 1.4.11 asks for 3:1. Understanding 1.4.11 exempts logos only where the colours are mandated by brand guidelines; a white glyph on a light-blue band the site chose is an author choice, so it is not exempt ('Essential exception and author choice'). captureDiffers: the snapshot HTML matches the live markup and the measured colours match the live CSS. The screenshot shows a partial dark consent overlay over the right part of the row, but the reported colours are the undimmed ones users get after the banner, so nothing that matters for this claim differs. The claim names the real failure, so the label is true_positive."
+    },
+    {
+      "fingerprint": "5abb564da253",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Icon-only footer link 'Follow us on Facebook' (svg aria-hidden, 54x54). Live CSS (main.3045a5b232c2.css) sets .footer__bottom to background #7fb8e6 and .icon to fill #fff; the inline sprite symbol is a solid white glyph, so the icon is #ffffff on #7fb8e6, 2.12:1 (I computed the same ratio). The link has no visible text (only a title tooltip; the 'Social media links' h2 is u-sr-only), so the icon is the only visual information that identifies the control, and 1.4.11 asks for 3:1. Understanding 1.4.11 exempts logos only where the colours are mandated by brand guidelines; a white glyph on a light-blue band the site chose is an author choice, so it is not exempt ('Essential exception and author choice'). captureDiffers: the snapshot HTML matches the live markup and the measured colours match the live CSS. The screenshot shows a partial dark consent overlay over the right part of the row, but the reported colours are the undimmed ones users get after the banner, so nothing that matters for this claim differs. The claim names the real failure, so the label is true_positive."
+    },
+    {
+      "fingerprint": "44e1c89960e9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Header logo image (NHS mark, 'Great Ormond Street Hospital for Children NHS Foundation Trust' and the face drawing) inside the home link, whose name comes from aria-label 'Hospital site home page'. claimTrue: no, the alt 'Logo for GOSH Hospital site' identifies exactly what the image is (GOSH is the hospital's abbreviation). elementFails: no, the alt identifies the organisation's logo and the link's purpose is given by its aria-label; 'Logo for' is wordy but not a 1.1.1 failure. captureDiffers: no, live HTML matches and the screenshot shows the logo as cropped. The model had the crop and judged wrongly."
+    }
+  ]
+}

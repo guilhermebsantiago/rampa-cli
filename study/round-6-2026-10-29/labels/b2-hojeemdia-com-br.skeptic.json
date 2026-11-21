@@ -1,0 +1,27 @@
+{
+  "page": "https://www.hojeemdia.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p1a5abcad029",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is a pill link 'Geral' in the visible row of section links under the header (href /geral). Its text is the name of the newspaper's 'Geral' (general news) section, and on a news site's section menu that is enough to tell the purpose: it opens the Geral section. The destination, fetched live, is the section page with title 'Geral' and h2 'Geral'. So the link text alone meets 2.4.4 and there is no failure Rampa missed. One link reading 'Geral' and another link to the same address in the drawer menu point to the same place, so they are not ambiguous. The live HTML from my own fetch has the same anchor and markup as the snapshot, and the screenshot shows the styled pill row, so the capture matches what users get."
+    },
+    {
+      "fingerprint": "p1da6eb713d7",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the 'Entretenimento' group link in the off-canvas side menu (a section holding only this link, with a decorative chevron SVG, href /entretenimento). The SVG has no name, so the accessible name is 'Entretenimento', from the link's contents. The text names the Entertainment section, and the destination, fetched live, is the section page titled 'Entretenimento' with h2 'Entretenimento'. The link text alone gives the purpose, so the element meets 2.4.4. Being offscreen while the drawer is closed does not change that. The live raw HTML has the identical drawer markup, so the capture does not differ in any way that matters here."
+    },
+    {
+      "fingerprint": "p4baaafd47cb",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the 'Minas' group link in the off-canvas side menu (href /minas, decorative chevron SVG, accessible name 'Minas' from its contents). On a Belo Horizonte newspaper, 'Minas' plainly names the Minas Gerais regional section, and the destination, fetched live, is the section page titled 'Minas' with h2 'Minas'. The link text alone gives the purpose, so the element meets 2.4.4. Elsewhere on the page, h2 links 'Saúde' and 'Segurança' point to /minas, which is a mismatch on other elements, not this one. The live raw HTML has the same anchor and markup as the snapshot, so the capture does not differ."
+    }
+  ]
+}

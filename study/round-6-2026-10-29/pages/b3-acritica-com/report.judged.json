@@ -1,0 +1,373 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.acritica.com/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "c9eaa2d55064",
+   "criterion": "2.5.3",
+   "level": "A",
+   "source": "rule",
+   "ref": "#acritica-search-toggle",
+   "target": "#acritica-search-toggle",
+   "message": "The visible label \"Buscar\" is not in the field's accessible name, \"Abrir busca\", which comes from aria-label: people using speech input say what they see, and the field does not answer to it.",
+   "evidence": "\"Buscar\" / \"Abrir busca\"",
+   "subject": "Buscar / Abrir busca",
+   "patch": {
+    "ref": "#acritica-search-toggle",
+    "kind": "replace-element",
+    "to": "Buscar",
+    "before": "<input class=\"peer/search sr-only\" id=\"acritica-search-toggle\" type=\"checkbox\" aria-label=\"Abrir busca\">",
+    "after": "<input class=\"peer/search sr-only\" id=\"acritica-search-toggle\" type=\"checkbox\">"
+   },
+   "confidence": "low",
+   "ruleId": "rampa/field-label-in-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html",
+   "html": "<input class=\"peer/search sr-only\" id=\"acritica-search-toggle\" type=\"checkbox\" aria-label=\"Abrir busca\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 25
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 19,
+   "members": [
+    "1476f95202e1",
+    "6729613f896f",
+    "19659212d20b",
+    "0527680c6807",
+    "bc5287c0d155",
+    "8875ed3976d7",
+    "c48ddc65788f",
+    "9fb5e140c653",
+    "eead568807d2",
+    "46704c0e24ce",
+    "428429efab65",
+    "9d061ce076b6",
+    "ec045130329d",
+    "775693d47026",
+    "ffe4dd9ca713",
+    "7dcd41e1ea21",
+    "13a699ab27a1",
+    "cf9c0c170076",
+    "f0dc8440ec6e"
+   ],
+   "example": "1476f95202e1"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > main > section:nth-of-type(1) > div > div > a > h1",
+   "message": "The heading \"Praia da Ponta Negra é interditada para banho em Manaus\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Notícias de Manaus\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > main > section:nth-of-type(2) > div:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'ver mais' (see more) combined with the heading 'Manaus e Região' suggests it leads to more news or information specifically about the Manaus region.",
+    "leadsTo": "A page titled 'Últimas notícias - A Crítica' containing the latest news.",
+    "verdict": "fail",
+    "evidence": "ver mais",
+    "problem": "ambiguous",
+    "suggestedText": "Ver mais notícias de Manaus e Região",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > main > section:nth-of-type(3) > div > div:nth-of-type(1) > div:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page about 'Polícia' (Police).",
+    "leadsTo": "a page titled 'Polícia - A Crítica'",
+    "verdict": "fail",
+    "evidence": "ver mais",
+    "problem": "ambiguous",
+    "suggestedText": "Ver mais sobre Polícia",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > main > section:nth-of-type(3) > div > div:nth-of-type(4) > div:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "A page about entertainment (Entretenimento).",
+    "leadsTo": "a page titled 'Entretenimento - A Crítica'",
+    "verdict": "fail",
+    "evidence": "ver mais",
+    "problem": "ambiguous",
+    "suggestedText": "Ver mais sobre Entretenimento",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > main > section:nth-of-type(3) > div > div:nth-of-type(5) > div:nth-of-type(1) > a",
+   "reason": "no other link with this text leads elsewhere from the same context",
+   "output": {
+    "promises": "The link text 'ver mais' (see more) combined with the heading 'Geral' and the surrounding text 'Geral ver mais' suggests it leads to more information about the 'Geral' section.",
+    "leadsTo": "a page titled 'Geral - A Crítica'",
+    "verdict": "fail",
+    "evidence": "ver mais",
+    "problem": "ambiguous",
+    "suggestedText": "Ver mais sobre Geral",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "html > body > main > section:nth-of-type(2) > div:nth-of-type(3) > a > h3",
+   "reason": "suggested text equals the current one",
+   "output": {
+    "named": "Homem de 18 anos é preso suspeito de agredir e atropelar ex-companheira em Eirunepé",
+    "verdict": "fail",
+    "evidence": "Homem de 18 anos é preso suspeito de agredir e atropelar ex-companheira em Eirunepé",
+    "problem": "mismatch",
+    "suggestedText": "Homem de 18 anos é preso suspeito de agredir e atropelar ex-companheira em Eirunepé",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 2,
+   "judged": 2,
+   "failed": 0,
+   "passed": 2,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 88,
+   "judged": 50,
+   "failed": 0,
+   "passed": 46,
+   "cannotTell": 0,
+   "discarded": 4,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 38
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 32,
+   "judged": 32,
+   "failed": 0,
+   "passed": 30,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 38 of 88 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 84,
+  "cachedCalls": 0,
+  "inputTokens": 82232,
+  "outputTokens": 8771,
+  "latencyMs": 267801
+ },
+ "timings": {
+  "totalMs": 136586,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 3091,
+    "prepareMs": 0,
+    "candidates": 2,
+    "judged": 2,
+    "calls": 2,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 89167,
+    "prepareMs": 0,
+    "candidates": 88,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 44092,
+    "prepareMs": 0,
+    "candidates": 32,
+    "judged": 32,
+    "calls": 32,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 181,
+    "prepareMs": 178,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 15,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 21
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 19,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 88,
+    "capped": 38
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

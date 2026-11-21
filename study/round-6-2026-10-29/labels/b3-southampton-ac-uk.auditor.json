@@ -1,0 +1,99 @@
+{
+  "page": "https://www.southampton.ac.uk/study/undergraduate",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sca2b05b1e6e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer button link 'Get directions' under the 'Contact us' h2, next to the Highfield address, href /student-life/campuses. claimTrue: the capture's destination is 'Our university campuses' with heading 'Explore our campuses' and a description about the campuses, nothing about directions, so the sentence holds. elementFails: I fetched the destination; it is a marketing overview of the campuses (what to expect, where you'll study, campus cards) with no map, travel or directions content; directions only appear one step further, on each campus page ('Campus map and directions' on Highfield). The text promises directions to the address beside it, and the link does not deliver them, so I lean towards a 2.4.4 failure (text that misstates the link's purpose). captureDiffers: the live footer has the same link and href, and the destination still has the captured title and heading. Label uncertain: competent auditors would reasonably disagree, since the campuses page is the hub from which directions are reached and many auditors read 2.4.4 as being about ambiguous text, not about exactly where the link goes."
+    },
+    {
+      "fingerprint": "p196eb7c0df4",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer 'Information' nav link 'Website feedback' to a Qualtrics survey form. The link text alone says what it is for: giving feedback about the website, which is what the form is. elementFails no for 2.4.4. In the capture, scripts added target=_blank and class 'ext' with no warning text. That is about new-window warnings (advisory, or 3.2.5 at AAA), not 2.4.4. captureDiffers: the live raw HTML has the same link (the target and class come from the same script users run), so nothing that matters for 2.4.4 differs. No claim; the element passes."
+    },
+    {
+      "fingerprint": "s75e4815dee4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Footer h2 'Information', which labels a nav (aria-labelledby) listing 'For visitors', 'For staff & students', 'For schools & colleges', 'For researchers', 'For employers & recruiters', 'For parents & guardians', 'For international students' and 'Website feedback'. claimTrue no: the heading is generic but does not 'say nothing'. With the 'For ...' items it reads as the familiar 'Information for' audience pattern, and the section is indeed information pages by audience. elementFails no: 2.4.6 asks that a heading describe its topic or purpose, in context and not at length. This one does, if broadly. It is a weak heading, best practice at most. captureDiffers: the live footer has the same heading and list. Rampa asked for a more specific heading than 2.4.6 requires."
+    },
+    {
+      "fingerprint": "07448ed2e362",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Course search text field #edit-keyword-filter. It has no label element ('form-no-label'), and its placeholder 'Search by keywords' is the only visible text saying what to type, so the placeholder is information-bearing text under 1.4.3. claimTrue: I sampled the screenshot pixels of the placeholder: #9ca3af on #ffffff, 2.54:1, as stated. The text is 18px at weight 400, normal-size text, which needs 4.5:1. elementFails yes: the live stylesheet sets input::placeholder to #706b69 early on, but Tailwind's preflight rule (input::placeholder{color:#9ca3af}) comes later in the same file with the same specificity and wins, so users get 2.54:1. captureDiffers no: the live HTML and CSS match the styled capture. The claim names that failure."
+    },
+    {
+      "fingerprint": "pdcb9c4bfa3a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Card photo inside the 'Find a subject' card link (heading and description in the same link), alt 'A student sat at a computer screen.'. The crop shows a student at a computer monitor, with a second student at a keyboard in the foreground. The alt is accurate and brief, and the image is not the only content of the link, so it adds nothing the link needs. 1.1.1 is met. The live HTML has the same img and alt. No claim; the element passes."
+    },
+    {
+      "fingerprint": "p8beedc55190",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer Russell Group logo, after the figcaption 'Part of the'. The crop shows the words 'RUSSELL GROUP'. The alt 'Russell Group logo' carries that text and its purpose (membership, read with 'Part of the'), so it serves the same purpose. The word 'logo' is redundant but not a 1.1.1 failure. The live footer has the same figure, img and alt. No claim; the element passes."
+    },
+    {
+      "fingerprint": "pe8fbb655f8d",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Card photo inside the 'Explore life at Southampton' card link, alt 'A group of students sat on a sofa socialising.'. The crop shows four students on and around a leather sofa, chatting in a bar-like room. The alt matches the photo, and the link's own text gives its purpose. 1.1.1 is met. The live HTML has the same img and alt. No claim; the element passes."
+    },
+    {
+      "fingerprint": "p3e91b877b63",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link 'Subjects' in the Study secondary navigation, to /study/subjects ('SubjectFinder', heading 'Find a subject'). On a university's study section, the link text alone says where it goes: the page of subjects you can study, which is the destination. No other context is needed, so the rubric's context rule is not what decides this. 2.4.4 is met. The live page has the same link in #main-secondary-nav (the screenshot shows it in the bar after 'Study'). No claim; the element passes."
+    },
+    {
+      "fingerprint": "pcc7a49a0c20",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer university crest (shield with book, roses and stag, no text), alt 'University shield logo'. On the University of Southampton's own site, the alt identifies it as the university's shield logo, which is its purpose (branding), so 1.1.1 is met. Naming the university would be better, but a reader is not left without the image's meaning. The live footer has the same img and alt. No claim; the element passes."
+    }
+  ]
+}

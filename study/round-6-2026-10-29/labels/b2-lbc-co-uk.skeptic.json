@@ -1,0 +1,135 @@
+{
+  "page": "https://www.lbc.co.uk/article/stupid-people-criticise-relationships-xi-putin-trump-5HjdnM5_2/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "f146b3c9577c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the 'LBC NEWS' wordmark in the second 'On Air Now' card of the blue radio banner, inside a div with aria-hidden=\"true\"; the show title 'Non-stop News' is aria-hidden too, and screen readers get the link 'Listen to Non-stop News on Global Player.' and '3am to 7am'. The claim holds of the capture: the image is hidden and nothing in the card's exposed text names LBC News. Whether the element fails 1.1.1 is open: the station name tells which of the two stations the card is for and is not given in text, but the link name already says what will play and where, so the logo can be read as a brand mark that may be hidden; competent auditors would disagree on whether this counts as information. The live page has the same markup (aria-hidden logo div, alt 'LBC news logo'); only the time-dependent show names differ, which does not touch this claim."
+    },
+    {
+      "fingerprint": "094bb509e874",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the html of a Google ad iframe (lang=\"pt\"). The ad people see is a Portuguese Jeep creative ('Em Oferta a R$ 137.990', 'Acessar oferta'), in a #square div that is itself lang=\"pt\", so the marking matches the visible text. The English strings the identifier counted ('Ads by', 'Send feedback', 'Why this ad?', etc.) sit in aria-hidden feedback panels positioned outside the frame's visible area (bounds above and right of the 300x250 frame); the screenshot shows only Portuguese. So the claim that the text is English is false, and the element does not fail 3.1.2 in the captured state. The ad is geotargeted and rotates on every load; my fetch gets no ads, so I could not compare what other visitors receive. The language check judged hidden text it had states for: model_error."
+    },
+    {
+      "fingerprint": "3197adec3d3e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the html of a Google ad iframe (lang=\"pt\"). The visible creative is Portuguese ('Leapmotor B10 Elétrico', 'Saiba Mais'), inside a #square div also marked lang=\"pt\", and the screenshot confirms it. The English text that drove the finding is the AdChoices feedback panel ('Ads by', 'Seen this ad multiple times', ...), which is aria-hidden and positioned outside the frame's viewport, not presented to users in this state. lang=\"pt\" is correct for what the document presents, so the element does not fail 3.1.2 and the claim that its text is English is false. Ads rotate and are geotargeted; I could not load the live ad to compare. The language check counted hidden text despite the aria-hidden states in the snapshot: model_error."
+    },
+    {
+      "fingerprint": "fde9f0f2ce49",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is #playerPlayPause, a div role=\"button\" in the 'Listen to this article' audio player iframe. Chrome's accessibility tree in the snapshot gives it role button with a pressed state and no name. Its only content is a div with title=\"Play\" (Chrome exposes that as the child's description, not as the button's name) and an aria-hidden svg. I looked for a technique that would rescue it: the parent #playerMainControl is focusable and has aria-label 'Play or pause the audio player', but it is a generic div, so the control as a whole never exposes both a name and a role; in browse mode a screen reader meets an unnamed toggle button. The element fails 4.1.2 for the reason the claim gives. The player is injected by script and my raw fetch only gets its 'Loading audio...' placeholder, so I could not compare the live widget; the screenshot shows the same loaded player."
+    },
+    {
+      "fingerprint": "p64da96dacd5",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The image is the thumbnail in the 'Who is Danny Tommo? Far-right activist jailed for 15 months' card link, which already carries the headline and standfirst as text. Its alt, 'London National Demonstration Wednesday 17th September 2025', matches what the crop shows (a man gesturing in a street crowd with police at a protest). For a supporting thumbnail inside a link whose text gives the story, this alt is enough for 1.1.1: it describes the scene, even if it does not name the man. The live page has the same alt."
+    },
+    {
+      "fingerprint": "4e3b13587248",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the small 'LBC' wordmark in the first 'On Air Now' card of the radio banner, inside a div with aria-hidden=\"true\". The show title is aria-hidden as well, and screen readers get 'Listen to James Hanson on Global Player.' and '4am to 7am'. The claim holds of the capture: no exposed text in the card says LBC. Whether that fails 1.1.1 is open. The case for passing is that on lbc.co.uk the station is the site's own brand (page title '| LBC', header link 'LBC logo'), so the logo repeats what the context already says and may be hidden. The case for failing is that the logo is what tells this card (LBC) apart from the LBC News card. Competent auditors would disagree. The live page has the same aria-hidden logo markup; only the show names have changed since the capture."
+    },
+    {
+      "fingerprint": "sfa156f01cae",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link is the promo paragraph 'Enjoy your favourite LBC shows with ad-free Catch Up, weekly competition entries and an exclusive newsletter. Subscribe to LBC Catch Up Plus from £4.99 a month'. It leads to the article 'LBC launches new subscription service, LBC Catch Up Plus'. I read that article live: it describes exactly those benefits (ad-free Catch Up, weekly competition entries, subscriber newsletter), gives the £4.99 a month price and has a 'How to subscribe' section. The link text matches its destination and states its purpose, so the claim is false and the element passes 2.4.4. The live link is the same as in the capture."
+    },
+    {
+      "fingerprint": "p41fc465b544",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. 'Science & Technology' is a top-navigation link to /science-technology/, whose title is 'Latest Science & Technology News | LBC'. The link text alone gives its purpose, so it passes 2.4.4. The live page has the same link."
+    },
+    {
+      "fingerprint": "s27cafd11295",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The image is the header LBC logo. It is the only content of a link to '/', the LBC home page, and its alt is 'LBC logo'. The claim is literally true of the capture: the alt describes the image and does not say 'home'. But for a site logo that links to the home page, a text alternative naming the organisation is generally accepted as meeting 1.1.1 and conveying the link's purpose: it tells the user the link goes to LBC, and that destination's heading is 'LBC'. The word 'logo' is redundant, but that is a best-practice point, not a failure. Requiring the destination to be spelled out as 'home' is stricter than the criterion. The live page has the same markup."
+    },
+    {
+      "fingerprint": "f2a28ab1713f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image is the thumbnail in the 'A good day for Britain' Latest News card link. The crop shows the scene its alt describes: a man in a suit shaking hands with EU leaders (a woman in red, a man in glasses) in front of an 'EU-UK SUMMIT 2026' backdrop. Its alt reads 'The Prime Minister ... as he met EU chiefs in Brussels...'. The alt also carries caption material the photo cannot show (the quote, the contents of the package), so the sentence is partly true. But the alt does describe the image's subject, the PM meeting EU chiefs. For a supporting thumbnail inside a link that already holds the headline, it serves the purpose of 1.1.1; verbose is not failing. The live page has the same alt."
+    },
+    {
+      "fingerprint": "de3bd13014f2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] 'Saiba Mais' ('Learn more') is the call-to-action link of a Google display ad (Leapmotor B10) in an iframe titled 'Advertisement'. The snapshot shows no title or aria-describedby on it. It sits alone in a button-wrapper div; the ad's headline 'Leapmotor B10 Elétrico' is a separate link in another div, not a heading, and there is no shared paragraph, list item or table cell. The headings before it in the host page ('Listen to this article') do not explain it. Sighted users see which ad the button belongs to, so the purpose is not ambiguous to users in general, but by this round's context rule only the visual card supplies it. So the link fails 2.4.4 and the claim names that failure. This is a geotargeted ad that rotates per load, and my fetch gets no ads, so I could not compare it with what other visitors receive; judged on the capture, which shows a real served ad."
+    },
+    {
+      "fingerprint": "pc0384fb43b2",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The link is a Latest News card whose content is an h3 'Two men dead after glider crashed into a Scottish loch during 'training flight'', a standfirst and a time. It leads to the article with that same title. The link text alone gives its purpose, so it passes 2.4.4. The live page has the same link."
+    }
+  ]
+}

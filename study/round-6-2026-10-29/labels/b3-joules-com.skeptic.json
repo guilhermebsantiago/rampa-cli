@@ -1,0 +1,413 @@
+{
+  "page": "https://www.joules.com/womens-clothing",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "16f45a48dbca",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Fleeces & Sweatshirts\" link to boys' sweatshirts and hoodies (/shop/boys/clothing/sweatshirts-and-hoodies). The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the girls' Fleeces & Sweatshirts link, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "c35a1261d069",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Hooded Coats\" link to girls' hooded coats. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the women's and boys' Hooded Coats links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "e0d9b42b2f03",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Gilets\" link to women's gilets. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the men's, girls' and boys' Gilets links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "96631560f9f9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Waterproof Coats\" link to girls' waterproof coats. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the women's and boys' Waterproof Coats links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "2706662c3f0c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Wellies\" link to girls' wellies. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the boys' Wellies link (and an \"All Women's Wellies\" item), and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "ce0cf3227139",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Raincoats\" link to boys' raincoats. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the women's, men's and girls' Raincoats links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "258903059a7e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Raincoats\" link to men's raincoats. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the women's, girls' and boys' Raincoats links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "97e9622a1a5d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Sweatshirts & Hoodies\" link to men's sweatshirts and hoodies. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the women's Sweatshirts & Hoodies link, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "s30a8a51dde4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The header site-search text input (name w, placeholder \"Search\", accessible name \"Search\"; the live HTML also has <label for=header-big-screen-search-box>Search</label>), in a form posting to /search, next to a magnifier search button. claimTrue: taken literally, the one-word label names the action and does not spell out the kind of input (keywords, product names). elementFails: 2.4.6 asks that a label describe the field's topic or purpose, and \"Search\" on a site search box with a search button does exactly that. WCAG asks for no wording about what to type, and \"Search\" is the conventional, sufficient label. captureDiffers: the live input and label match the snapshot. The checker applied a stricter rule than the criterion."
+    },
+    {
+      "fingerprint": "26ae9eeb5542",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Fleeces\" link to women's fleeces. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the men's Fleeces link, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "d34fd9427064",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Coats & Jackets\" link to women's sale coats and jackets. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its context under the rubric is its own list item and, by H81, the parent list item OUTLET; no heading precedes it. OUTLET mixes women's, men's and home sale links in one flat list, and the sibling items that would group them are not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTLET the same text also leads to the men's sale Coats & Jackets link, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "261ee5e3d0d2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "\"Christmas Jumpers\" link to /shop/f/style-christmasjumper, the unfiltered Christmas jumper listing, in the CHRISTMAS list of the hidden SEO nav. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its context under the rubric is its own list item and, by H81, the parent list item CHRISTMAS; no heading precedes it. CHRISTMAS mixes women's, men's and all-audience links in one flat list; the sibling items (Gifts for Her, Gifts for Him) that suggest the grouping are not context by the rubric. claimTrue: the count (9 links, 6 destinations) checks out and nothing in the rubric's context tells it apart from the women's and men's Christmas Jumpers links in the same list. elementFails: the skeptic's reason holds partly. Unlike its two siblings, this link's text alone describes its purpose exactly (all Christmas jumpers, G91); the ambiguity comes from the siblings, whose text leaves out the audience. Some auditors would still fail it because a listener cannot tell which of the three is the all-audience one. I lean towards a pass, but competent auditors would reasonably disagree, so the label is uncertain. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. "
+    },
+    {
+      "fingerprint": "65f07d5a4aff",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Knitwear\" link to women's sale knitwear. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its context under the rubric is its own list item and, by H81, the parent list item OUTLET; no heading precedes it. OUTLET mixes women's, men's and home sale links in one flat list, and the sibling items that would group them are not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTLET the same text also leads to the men's sale Knitwear link, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "6dec22cf5d6a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Gilets\" link to men's gilets. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the women's, girls' and boys' Gilets links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "03ba37d7bfca",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Shop All\" link to the women's sale (/shop/womens/f/feat-sale). The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its context under the rubric is its own list item and, by H81, the parent list item OUTLET; no heading precedes it. OUTLET mixes women's, men's and home sale links in one flat list, and the sibling items that would group them are not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTLET the same text also leads to the men's and home sale Shop All links (beside a separate \"Shop all Outlet\"), and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "79926e20f010",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Coats & Jackets\" link to men's sale coats and jackets. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its context under the rubric is its own list item and, by H81, the parent list item OUTLET; no heading precedes it. OUTLET mixes women's, men's and home sale links in one flat list, and the sibling items that would group them are not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTLET the same text also leads to the women's sale Coats & Jackets link, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "e6eaa7f9f659",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Sweatshirts & Hoodies\" link to women's sweatshirts and hoodies. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the men's Sweatshirts & Hoodies link, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "ed9f725cb901",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Hooded Coats\" link to women's hooded coats. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the girls' and boys' Hooded Coats links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "ce7a87f4a826",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Knitwear\" link to men's sale knitwear. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its context under the rubric is its own list item and, by H81, the parent list item OUTLET; no heading precedes it. OUTLET mixes women's, men's and home sale links in one flat list, and the sibling items that would group them are not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTLET the same text also leads to the women's sale Knitwear link, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "d3dffb966fce",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Hooded Coats\" link to boys' hooded coats. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the women's and girls' Hooded Coats links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "44f723354bfd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Waterproof Coats\" link to boys' waterproof coats. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the women's and girls' Waterproof Coats links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "d7263094accc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Raincoats\" link to girls' raincoats. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the women's, men's and boys' Raincoats links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "2c11cd8affce",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Christmas Jumpers\" link to /boys/clothing/f/style-christmasjumper, the second such item in the BOYS list of the hidden SEO nav. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. By H81 its context includes the parent list item BOYS, which the model was given, and that sets it apart from the women's, men's, girls' and all-audience links. Its BOYS twin carries the same intended purpose. claimTrue: the count is right, but 'nothing around this one tells it apart' is false. elementFails: the purpose can be determined from the text plus the parent item, so it meets 2.4.4 in the claim's sense. Live, this href 301-redirects to /shop/boys/clothing and drops the Christmas jumper filter. That makes it a mis-targeted link, which I do not count as a 2.4.4 link-purpose failure; even if one did, the claim does not name it. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The model had the context and judged it wrong."
+    },
+    {
+      "fingerprint": "ed5a6a918517",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Gilets\" link to girls' gilets. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the women's, men's and boys' Gilets links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "f76ca4fafa83",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Christmas Jumpers\" link to women's Christmas jumpers. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its context under the rubric is its own list item and, by H81, the parent list item CHRISTMAS; no heading precedes it. CHRISTMAS mixes women's, men's and all-audience links in one flat list; the sibling items (Gifts for Her, Gifts for Him) that suggest the grouping are not context by the rubric. claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside CHRISTMAS the same text also leads to the men's and the all-audience Christmas Jumpers links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "862981f15bcb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Raincoats\" link to women's raincoats. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the men's, girls' and boys' Raincoats links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "7a1c321140df",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Fleeces\" link to men's fleeces. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the women's Fleeces link, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "8377f7605345",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Fleeces & Sweatshirts\" link to girls' sweatshirts and hoodies. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the boys' Fleeces & Sweatshirts link, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "sc2c3fbfe2ca",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Top-level mega-menu link \"boys\" (shown uppercase, title=\"BOYS\") whose href is https://www.joules.com/kids-clothes; the GIRLS and BOYS items share that href. claimTrue: the destination is the shared Kids' Clothes page (live: same title, h1 \"Kids' & Toddler Clothing\", description 'clothing and footwear for boys & girls'), not a page only for boys, so literally the text and the page title differ. elementFails: the link's purpose, shopping boys' clothing, can be determined from its text, and the page it opens is a children's department that offers boys' clothing. Pointing to a broader parent page does not hide or misstate that purpose, and as a menu trigger the item also opens the BOYS panel. That makes it a usability quirk, not a 2.4.4 failure. captureDiffers: the live HTML has the same href and title. The checker applied a stricter rule than the criterion: it required the text to match the destination's title exactly."
+    },
+    {
+      "fingerprint": "952f42cd66db",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Wellies\" link to boys' wellies. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the girls' Wellies link (and an \"All Women's Wellies\" item), and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "21472cca5573",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Waterproof Coats\" link to women's waterproof coats. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the girls' and boys' Waterproof Coats links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "ba826e8318ad",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Shop All\" link to the home sale (/shop/home/f/feat-sale). The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its context under the rubric is its own list item and, by H81, the parent list item OUTLET; no heading precedes it. OUTLET mixes women's, men's and home sale links in one flat list, and the sibling items that would group them are not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTLET the same text also leads to the women's and men's sale Shop All links (beside a separate \"Shop all Outlet\"), and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "7ca5be47fd9a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Shop All\" link to the men's sale (/shop/mens/f/feat-sale). The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its context under the rubric is its own list item and, by H81, the parent list item OUTLET; no heading precedes it. OUTLET mixes women's, men's and home sale links in one flat list, and the sibling items that would group them are not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTLET the same text also leads to the women's and home sale Shop All links (beside a separate \"Shop all Outlet\"), and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "4fd88e921829",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "\"Christmas Jumpers\" link to /shop/boys/clothing/f/style-christmasjumper in the BOYS list of the hidden SEO nav. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. By H81 its context includes the parent list item BOYS, which the packet's ancestors gave the model. \"BOYS > Christmas Jumpers\" sets it apart from the women's, men's, girls' and all-audience Christmas Jumpers links. The only link with the same text and context is the other BOYS item, meant for the same purpose. claimTrue: the count is right, but 'nothing around this one tells it apart' is false. elementFails: the purpose (boys' Christmas jumpers) can be determined from the text plus the parent list item, so 2.4.4 is met. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The model had the context and judged it wrong."
+    },
+    {
+      "fingerprint": "8324fc314e64",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Christmas Jumpers\" link to men's Christmas jumpers. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its context under the rubric is its own list item and, by H81, the parent list item CHRISTMAS; no heading precedes it. CHRISTMAS mixes women's, men's and all-audience links in one flat list; the sibling items (Gifts for Her, Gifts for Him) that suggest the grouping are not context by the rubric. claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside CHRISTMAS the same text also leads to the women's and the all-audience Christmas Jumpers links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "4ef34d211432",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"Gilets\" link to boys' gilets. The link sits in #embeddedNavLinks, an SEO navigation the header script builds on the client for every visitor (seoClientSidePixelEnabled is true on the live page): a nav with inline style height:0; overflow:hidden; position:fixed, not aria-hidden, links with tabindex=-1. It is invisible and out of the tab order but in the accessibility tree (CDP role link), so screen reader users read it in browse mode and 2.4.4 applies. The builder drops the group labels that have no target (WOMENS OUTERWEAR, FOR HER, WOMEN'S OUTLET), so each top-level item holds one flat list. Its programmatically determined context under the rubric is its own list item (just the link text) and, by H81, the parent list item OUTERWEAR; no heading precedes it (the nav is above every heading). OUTERWEAR holds women's, men's, girls' and boys' items in one flat list, and the only thing that says whose item this is, a sibling item such as \"All Women's Coats & Jackets\", is not context by the rubric (F63). claimTrue: I recounted the links with this name in the snapshot (case-insensitive, including the visible teaser links) and the count and number of destinations match; inside OUTERWEAR the same text also leads to the women's, men's and girls' Gilets links, and nothing in the rubric's context tells this one apart. elementFails: a screen reader user hears identical link text in the same list for different departments and cannot tell which to follow; I looked for a skeptic's way out (aria-label, title, aria-describedby, a heading, H81 parent item, the hidden-SEO status) and none holds up. captureDiffers: the live page has the same empty nav that script fills, and the live /headerstatic/seo-content JSON it reads lists the same items and targets in the same order as the snapshot, so no difference touches this claim. The claim names that failure."
+    },
+    {
+      "fingerprint": "s91a9dedd032",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Top-level mega-menu link \"girls\" (shown uppercase, title=\"GIRLS\") whose href is https://www.joules.com/kids-clothes; the GIRLS and BOYS items share that href. claimTrue: the destination is the shared Kids' Clothes page (live: same title, h1 \"Kids' & Toddler Clothing\", description 'clothing and footwear for boys & girls'), not a page only for girls, so literally the text and the page title differ. elementFails: the link's purpose, shopping girls' clothing, can be determined from its text, and the page it opens is a children's department that offers girls' clothing. Pointing to a broader parent page does not hide or misstate that purpose, and as a menu trigger the item also opens the GIRLS panel. That makes it a usability quirk, not a 2.4.4 failure. captureDiffers: the live HTML has the same href and title. The checker applied a stricter rule than the criterion: it required the text to match the destination's title exactly."
+    }
+  ]
+}

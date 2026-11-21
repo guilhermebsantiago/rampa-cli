@@ -1,0 +1,39 @@
+{
+  "page": "https://www.mprj.mp.br/comunicacao/ouvidoria",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sdf83d191cca",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the document title \"Ouvidoria - MPRJ\". In the capture the page is MPRJ's Ouvidoria (ombudsman) page: the breadcrumb reads Comunicação > Ouvidoria, the main h1 is \"Ouvidoria\", and the content describes the Ouvidoria of the Ministério Público do Estado do Rio de Janeiro, its duties and its service channels. So the title names exactly the page's topic and owner, and the claim that it names a different topic is false of the capture (claimTrue no). The title describes the page's topic and purpose, so 2.4.2 is met (elementFails no); the abbreviation MPRJ is the organisation's own and is spelled out in the page header. The live page, fetched today, returns the same <title> and the same content; the cookie modal shown in the screenshot does not affect the title (captureDiffers no). The model had the title, h1 and content text and still judged wrongly."
+    },
+    {
+      "fingerprint": "9c0c08fc4f43",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field, whose placeholder \"Buscar\" is its only visible text label (beside a magnifier icon). The snapshot records the placeholder colour #757575 from CSS and a measured background of #702826, 2.256:1, at 14px weight 400. I checked the screenshot: it was taken under the cookie modal's 50% black backdrop, and the field's pixels are #381413 with text pixels up to about #3a3838, which undimmed come to about #702826 and #757575. I also worked out the ratio myself and got 2.26:1 (claimTrue yes). The live theme CSS gives .busca-param a transparent background over the dark red header, typed text colour #afb7c7, and no ::placeholder rule, so the browser's default placeholder colour applies (#757575 in the captured Chrome). Placeholder text is text, here it labels the field, and it is not inactive, decorative or incidental, so it needs 4.5:1 and fails 1.4.3 (elementFails yes). Reasons I tested for the finding being wrong: (1) The 'aria-hidden' state comes from the open cookie modal hiding the content behind it and does not change what is drawn. (2) The Rybená widget's contrast modes, listed on the site's /acessibilidade page, could be read as G174. That does not hold up: it is a third-party overlay, nothing shows its output gives this text 4.5:1 (an inverted mode would keep the ratio low), and the default presentation is what fails. (3) Rampa measured with the overlay hidden, and the live CSS matches the capture (captureDiffers no)."
+    },
+    {
+      "fingerprint": "8a9df3796bfa",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the text of the breadcrumb link \"Comunicação\" (the link to /comunicacao), 14px at weight 500. The snapshot records #a3afbf from CSS on a measured #fafafa, 2.131:1, with axeReason bgOverlap: the fixed cookie modal covered it, which fits the claim's 'an element over or under it'. The screenshot's pixels under the 50% backdrop (#7d7d7d background, text down to #51575f) undim to #fafafa and about #a3afbf, and my own calculation gives 2.13:1 (claimTrue yes). The live theme main.css has '.breadcrumb li .breadcrumb-link{color:#a3afbf;font-weight:500}', with the same colour on hover, on the #fafafa page background. That is normal-size text in a working link, not a logo, inactive or incidental, so it needs 4.5:1 and fails 1.4.3 (elementFails yes). Reasons I tested for the finding being wrong: the modal backdrop only dims the page until it is closed, and Rampa measured the undimmed colours. The Rybená widget's optional contrast modes are not a verified conforming alternate (G174) and leave the default presentation failing. The live CSS matches the capture (captureDiffers no)."
+    }
+  ]
+}

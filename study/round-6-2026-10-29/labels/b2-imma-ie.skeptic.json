@@ -1,0 +1,200 @@
+{
+  "page": "https://imma.ie/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "18bcd14908d2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Gaeilge' link in the visible top-right utility menu (shown as GAEILGE) points to the Irish home page and has no lang attribute, so it inherits en-IE: the claim is true of the snapshot. Understanding 3.1.2 lists exactly this case as its second example (alternative language links whose text is the language's name in that language, with the language marked by lang). I looked for an exception that would let it pass: 'Gaeilge' is not a proper name or technical term, and it is not part of the English vernacular in a way that keeps its pronunciation (an en-IE voice says it as English), so no exception holds. The live HTML, fetched on 2026-11-21, has the same <a> with no lang, and <html lang=\"en-IE\">, so the capture matches what users get. The claim names that failure and the fix."
+    },
+    {
+      "fingerprint": "9f3d4fa2dd17",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Gaeilge' link in the overlay mega menu (#menu-mega-nav-1, tabindex=-1) points to /ga/ and has no lang, so the claim is true of the snapshot. The overlay is not shown in the screenshot, but the link is exposed in the accessibility tree (not aria-hidden or ignored) and is shown when the menu opens, so it is content users get. Understanding 3.1.2 lists exactly this case as its second example (alternative language links whose text is the language's name in that language, with the language marked by lang). I looked for an exception that would let it pass: 'Gaeilge' is not a proper name or technical term, and it is not part of the English vernacular in a way that keeps its pronunciation (an en-IE voice says it as English), so no exception holds. The live HTML, fetched on 2026-11-21, has the same <a> with no lang, and <html lang=\"en-IE\">, so the capture matches what users get."
+    },
+    {
+      "fingerprint": "3bb1803c0b38",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The overlay copy of the top-right menu (#menu-top-right-1, tabindex=-1) holds a 'Gaeilge' link to /ga/baile/ with no lang: the claim is true of the snapshot. It is not visible in the screenshot, but it is exposed in the accessibility tree and shown when the menu opens. Understanding 3.1.2 lists exactly this case as its second example (alternative language links whose text is the language's name in that language, with the language marked by lang). I looked for an exception that would let it pass: 'Gaeilge' is not a proper name or technical term, and it is not part of the English vernacular in a way that keeps its pronunciation (an en-IE voice says it as English), so no exception holds. The live HTML, fetched on 2026-11-21, has the same <a> with no lang, and <html lang=\"en-IE\">, so the capture matches what users get."
+    },
+    {
+      "fingerprint": "p795fe7d4e53",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The link 'Café, Siopa agus Láthair' (Irish for 'Café, Shop and Grounds') leads to the Irish page of that name, so its text alone says what it is for. It also sits in a list nested under the 'Gaeilge' list item (H81), which marks it as part of the Irish-language section. It meets 2.4.4. Its missing lang=\"ga\" is a 3.1.2 matter, not 2.4.4. The live HTML has the same link and nesting, so Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "p44c9aa6d269",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. A collection thumbnail (the crop shows Paula Rego's etching) with alt 'The Baker’s Wife', its title. Understanding 1.1.1 names works of visual art as sensory content, where a descriptive label that identifies the work is enough. The adjacent h4 adds the artist and year, and the parent link has its own name ('Artwork thumbnail: The Baker’s Wife'). It meets 1.1.1. The live HTML has the same img and alt (lazy-loaded from data-src; the screenshot shows the image loaded). The masonry layout in the screenshot differs from the snapshot bounds, but that does not touch the alt."
+    },
+    {
+      "fingerprint": "1f716f692b00",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A collection thumbnail inside a link named 'Artwork thumbnail: Line Writing'. The img alt 'Line Writing' is the artwork's title (Vong Phaophanit, 1994, as the adjacent h4 says), and the crop shows the installation: a red room with lines of light on the floor. So the alt identifies what is shown rather than describing something absent, and the claim is false. A work of visual art is sensory content under 1.1.1, so a descriptive label that identifies it is sufficient, and the link carries its own name. The element meets 1.1.1. The live HTML is unchanged. The model had the title, the h4 and the link name, and misread a title as a wrong description."
+    },
+    {
+      "fingerprint": "772a98694a16",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The header search field (#search_autocomplete, aria-label 'Search') is in a role=search form. Right after it is <input type=submit id=searchsubmit value=\"Search\">, so 'no button sits near it' is false of the snapshot. The live CSS draws a magnifying-glass icon at the field's start when the search is closed. When it is open, the icon moves to the field's end, over the Search button (opacity 0, z-index above). That is G167's Example 1: an adjacent button shown as a loupe icon with the accessible name 'Search' labels the field, which satisfies 3.3.2. The live HTML and CSS match the capture. The rule effectively demands visible text, which is stricter than 3.3.2."
+    },
+    {
+      "fingerprint": "s03e37c704a2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "A radio button in the 'Explore IMMA' filter. Its visible <label for> reads 'Individuals' and sits in a row captioned 'CONTENT SUITABLE FOR:' (screenshot and live HTML agree). A radio takes no typed entry. Its label's job is to name the option, and 'Individuals' under 'Content Suitable For' does exactly that, so the charge that it does not say what to enter does not hold. It meets 2.4.6. The model applied a text-field expectation to an option label. Separately, the caption is a span, not a fieldset/legend, which may be a 1.3.1 matter for the group, not 2.4.6 for this label."
+    },
+    {
+      "fingerprint": "a7c803994074",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A collection thumbnail with alt 'Lapsus Exposure', the title of James Coleman's work (1992-1994, as the adjacent h4 says). The crop shows the work's staged photograph of young people. The alt is the title of what is shown and not a description of something absent, so the claim is false. Visual art is sensory content under 1.1.1 and needs only an identifying label, and the parent link has its own name. The element meets 1.1.1. The live HTML is unchanged. The model had the title context and misjudged it."
+    },
+    {
+      "fingerprint": "pbcd6ff9da5b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. A thumbnail of Ay-O's 'Finger Box' (the crop shows a box printed 'FINGER BOX'), with alt 'Finger Box'. That is its title and also the text visible on the object. With the adjacent h4 (artist, year) and the link's own name, it meets 1.1.1. The live HTML has the same alt, so Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "pada586c2e2e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. A thumbnail of Isaac Julien's 'Hate/Love' (the crop shows two fists with HATE and LOVE rings), with alt 'Hate/Love'. That is its title and the words shown in the image. It is an identifying label for a work of visual art, which 1.1.1 accepts, and the link has its own name. The live HTML has the same alt, so Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "aef08b73170f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The hero banner's date line '19 Nov 2026 - 4 July 2027' is white, bold, 18px at this width (live CSS: 18px under 1650px, bold, no text-shadow). 18px bold is under 14pt (18.67px), so it is not large text and needs 4.5:1. The snapshot's pixel measurement matches the claim: common background #b4895f, 4.07:1 at best, 1.99:1 at worst. The live page paints the slides #b58a5f, and white on that is about 3.1:1. The full-page screenshot caught the banner in another slide's magenta (#ff00bb, about 3.5:1), with the parallax painting shifted. In every state the text is below 4.5:1, so that difference does not change the outcome. The claim names the failure."
+    },
+    {
+      "fingerprint": "s1a956235bbe",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "A radio button in the 'Explore IMMA' filter. Its visible <label for> reads 'Teens' and sits in the row captioned 'CONTENT SUITABLE FOR:' (screenshot and live HTML agree). A radio takes no typed entry, and its label names the option ('suitable for teens'), which is what 2.4.6 asks of it. The charge that it does not say what to enter does not hold. It meets 2.4.6. The missing fieldset/legend for the group would be a 1.3.1 question, not this label's 2.4.6."
+    },
+    {
+      "fingerprint": "82705794e4f2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A collection thumbnail with alt 'No More', the title of Mairéad McClean's 2013 work (adjacent h4). The crop shows a still from the work, a dancer. The alt identifies the work shown and does not describe something absent, so the claim is false. Visual art is sensory content under 1.1.1 and needs only a descriptive identifying label, and the parent link has its own name. The element meets 1.1.1. The live HTML is unchanged. The model treated a title as a failed description."
+    },
+    {
+      "fingerprint": "sb558c60e083",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 'Visit' link (shown as VISIT) is the first item of the main navigation of a museum site and leads to Visitor Info. Its own list item holds the nested submenu (Visitor Info, Guided Tours, Visiting with Children, Directions & Map, Accessibility...), which is programmatically determined context under this rubric. So 'nothing around it does' is false. Its text alone is already clear here: the museum's information for visitors. It meets 2.4.4. The live HTML is the same."
+    },
+    {
+      "fingerprint": "e5f30d6df293",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "In the footer form, <label>Join the Mailing List</label> has no for and does not wrap the email input, which is named 'Email address' by aria-label (matching its visible placeholder). The claim is true of the snapshot and of the live HTML. Whether this fails 1.3.1 is debatable. The field's own purpose is determined and visible, and the caption text sits right before it in reading order inside the same form, which reads as a form heading. But visually it is styled as the field's label (small caps above it) with author intent shown by the <label> tag, and many auditors report an unassociated visible label under 1.3.1. I lean to a pass, but competent auditors would reasonably disagree."
+    },
+    {
+      "fingerprint": "cf90feece589",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Gaeilge' item in the Visit dropdown of the main nav (#menu-item-24814, focusable) links to the Irish home page and heads the list of Irish-language pages. It has no lang, so it inherits en-IE: the claim is true. Understanding 3.1.2 lists exactly this case as its second example (alternative language links whose text is the language's name in that language, with the language marked by lang). I looked for an exception that would let it pass: 'Gaeilge' is not a proper name or technical term, and it is not part of the English vernacular in a way that keeps its pronunciation (an en-IE voice says it as English), so no exception holds. The live HTML, fetched on 2026-11-21, has the same <a> with no lang, and <html lang=\"en-IE\">, so the capture matches what users get."
+    },
+    {
+      "fingerprint": "7849efcc6d4d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer mailing-list field (type=email, name=email, placeholder 'Email address') collects the user's own email but has no autocomplete attribute. type=email gives the data format, not the purpose under 1.3.5 (H98 needs autocomplete=\"email\"). The snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for this input, which confirms the claim's last sentence. The live HTML, fetched on 2026-11-21, is identical. I found no technique that makes it pass, so it fails 1.3.5 as claimed."
+    }
+  ]
+}

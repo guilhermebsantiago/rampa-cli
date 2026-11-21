@@ -1,0 +1,116 @@
+{
+  "page": "https://www.manchestereveningnews.co.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "9c315eb467e6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser image for the off-duty officer story. The crop, and the article's own caption ('GMP HQ, Newton Heath (stock image)'), show a stock photo of the Greater Manchester Police Force Headquarters building with its sign; the alt is the story headline, so the sentence that it describes something the image does not show (an officer attacking colleagues) holds of the capture. The image is a news-teaser photo in a cover div that is not inside the link; the card's h3 link that follows carries the same headline as its aria-label and text. Whether a teaser photo whose alt repeats its story's headline fails 1.1.1 is contested: read as informative, the alt leaves out what the photo shows; read as an illustration of the story, it names what the photo is there for, and alt text that duplicates the adjacent heading is a redundancy that no documented failure covers (F39 covers only images that should be ignored, and this one arguably should not be). Here the photo is a generic stock image, which strengthens the decorative or illustrative reading, while its sign text is not conveyed, which strengthens the failure reading, so competent auditors would split. The live homepage still serves the same img with the same alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "7e09f2649ac6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser image for 'Man City face wait on two injured players ahead of Fulham game'. The crop shows one Manchester City player (the article captions him Abdukodir Khusanov) calling out on the pitch; the alt is the headline, which describes a team situation the photo does not show, so the claim holds of the capture. The image is a news-teaser photo in a cover div that is not inside the link; the card's h3 link that follows carries the same headline as its aria-label and text. Whether a teaser photo whose alt repeats its story's headline fails 1.1.1 is contested: read as informative, the alt leaves out what the photo shows; read as an illustration of the story, it names what the photo is there for, and alt text that duplicates the adjacent heading is a redundancy that no documented failure covers (F39 covers only images that should be ignored, and this one arguably should not be). The alt does carry the photo's general subject (Man City) but not who is shown, so auditors would reasonably disagree. The story has rotated off the live homepage, but teasers there still use the same headline-as-alt markup, so nothing suggests the capture differed from what users received."
+    },
+    {
+      "fingerprint": "26c1c08f2373",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The badge img (premium-byline-men.svg) above the off-duty officer headline shows the M.E.N. hexagon logo and the word 'PREMIUM' (confirmed in the crop and in the SVG itself). Its alt is 'men', the brand abbreviation, so the claim that the alt names a label and not what the image conveys is true. The information the badge carries is that the article is premium content; nothing else in the card conveys it (the teaser link's aria-label is only the headline, and there is no hidden 'Premium' text). Looking for a way out: the badge is not decorative and no adjacent text makes it redundant, so the alt fails 1.1.1, as the claim says. The live homepage serves identical badge markup (alt=\"men\"), so the capture does not differ."
+    },
+    {
+      "fingerprint": "12e465490137",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header's sign-in button has no text; its only visual content is an inline SVG avatar (circle, head and shoulders) whose strokes use var(--color-com-header-primary-nav-avatar-bg). I checked the live style sheets: at 1280px (xl tokens) that variable is #ffffff, the button's background is transparent, and the header behind it is painted with --color-com-header-primary-nav-container-bg, #f0ba00. White on #f0ba00 is 1.79:1, as Rampa measured, below the 3:1 that 1.4.11 asks of the graphics needed to identify a component. The full-page screenshot does not show the sticky header (its top is blank), which is a capture artefact, but Rampa's pixel measurement and the live CSS agree, so it does not touch the claim. I found no exception, alternative state or adjacent text that would make the button pass."
+    },
+    {
+      "fingerprint": "fb859104b8e9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The logo img at the top of the consent dialog (InMobi/Quantcast Choice, 'Take control of your privacy') shows the 'Manchester Evening News' wordmark; its alt is 'Publisher Logo'. As a sentence the claim is false: the image is indeed the publisher's logo, so the alt does not describe something absent. But the alt is a generic placeholder that does not give the logo's text or say which publisher it is, and nothing in the dialog does either (the dialog's name is 'Privacy' and its text names 'Reach'), so the element fails 1.1.1: a logo's alternative should carry its text, and placeholder text is not an alternative (F30). Read in good faith as the rubric directs, 'describes something the image does not show' for an alt that leaves out most of what the image conveys names that failure. The CMP loader on the live page is configured with displayUi 'always' and this logo URL, so users get the same dialog and the capture does not differ."
+    },
+    {
+      "fingerprint": "0eba711d0d78",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Lead teaser image for the BuzzBallz crash story. The crop shows a police custody photo of a man (the article captions him Apollo Simms, the driver) beside a photo of a woman drinking through a straw (Natasha Denman, the girlfriend). The alt is the headline, describing a fatal 84mph crash into roadworks that the image does not show, so the claim holds of the capture, though the alt does name the two people pictured. The image is a news-teaser photo in a cover div that is not inside the link; the card's h3 link that follows carries the same headline as its aria-label and text. Whether a teaser photo whose alt repeats its story's headline fails 1.1.1 is contested: read as informative, the alt leaves out what the photo shows; read as an illustration of the story, it names what the photo is there for, and alt text that duplicates the adjacent heading is a redundancy that no documented failure covers (F39 covers only images that should be ignored, and this one arguably should not be). Since the alt names the photo's subjects through the story, auditors would reasonably disagree. The live homepage still shows this image with a shortened headline as alt (same pattern), so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "947c452078d4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "cannot_tell",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser image for 'Mauricio Pochettino confirms Bruno Fernandes decision at Manchester United'. The crop shows Bruno Fernandes alone in Manchester United training kit (the article's caption confirms); Pochettino and any 'decision' are not shown, so the claim holds of the capture in part. The image is a news-teaser photo in a cover div that is not inside the link; the card's h3 link that follows carries the same headline as its aria-label and text. Whether a teaser photo whose alt repeats its story's headline fails 1.1.1 is contested: read as informative, the alt leaves out what the photo shows; read as an illustration of the story, it names what the photo is there for, and alt text that duplicates the adjacent heading is a redundancy that no documented failure covers (F39 covers only images that should be ignored, and this one arguably should not be). The alt does identify the person pictured and his club, which supports a pass, while it also names someone not shown, so competent auditors would split. The story has rotated off the live homepage, but the same headline-as-alt pattern is served there, so nothing suggests the capture differed."
+    },
+    {
+      "fingerprint": "11279ba0ba17",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The same premium badge img (premium-byline-men.svg, M.E.N. logo plus the word 'PREMIUM') on the 'She's in bed, I'm watching Match of the Day...' teaser, with alt 'men'. The claim that the alt names a label, not what the image conveys, is true: the badge tells sighted users the article is premium content, and neither the alt nor anything else in the card (the link's name is the headline only) tells anyone else. I found no adjacent text or hidden label that would make the badge redundant or decorative, so it fails 1.1.1 as the claim says. The live homepage serves the same badge markup, so the capture does not differ."
+    },
+    {
+      "fingerprint": "d1969d886990",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Teaser image for 'Why Mauricio Pochettino held three-hour meetings with Manchester United players'. The crop shows a grey-haired man in a dark top with his arm around players in Manchester United training kit; the article uses the same Getty photo with alt 'Mauricio Pochettino' and the caption 'Mauricio Pochettino spent three hours holding meetings with Manchester United players on Thursday'. So the alt describes what the photo shows, Pochettino with United players, and the claim that it describes something the image does not show is false of the capture. Whether the image is read as informative or as an illustration of the story, the alt serves it, so the element meets 1.1.1. The checker had the crop and judged wrongly. The live homepage serves the same photo with a shortened version of the headline as alt, which changes nothing here."
+    },
+    {
+      "fingerprint": "sc024294643e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 'Court' link sits in the burger-menu navigation (#mobile-nav, closed and inert in both the capture and the live HTML, shown when the menu opens), in a nested list labelled 'News Submenu' under the list item 'News'. The rubric counts the parent list item of a nested list as context (H81), so the link reads as 'News > Court': court news. It leads to the Manchester Crown Court topic page ('Read every news story... on Manchester Crown Court'), which matches that purpose, so the link meets 2.4.4. The claim that nothing around the link tells where it goes is false: the packet's ancestors give both the 'News' item and the 'News Submenu' label, so the checker had the context and judged wrongly. The live page serves the same markup, so the capture does not differ."
+    }
+  ]
+}

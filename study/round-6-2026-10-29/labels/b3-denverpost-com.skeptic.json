@@ -1,0 +1,333 @@
+{
+  "page": "https://www.denverpost.com/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "6fdca816f48f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "WordPress wp-emoji replacement image for the cocktail-glass emoji (Twemoji 1f378.svg) inside the Trending link 'Pop-up holiday bars'. The crop shows a cocktail glass, and the alt is the emoji character itself, which screen readers announce by its Unicode name ('cocktail glass'), so the alt describes exactly what the image shows: the claim is false and the image meets 1.1.1 (it is a decorative flourish next to the link text in any case). The live HTML carries the same emoji text and the wp-emoji script; browsers without native support get this same image with the emoji as alt, others get the text emoji, so no difference bears on the claim."
+    },
+    {
+      "fingerprint": "p0b2d334e404",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Season to Share house banner, the only content of a link (new window) to seasontoshare.com/donate, alt 'Season to Share Promo'. The banner's text reads 'You can make a difference, helping our neighbors in need', 'Your gift matched 50%', 'Donate here', 'The Denver Post Season to Share', plus partner logos. Reason it passes: as a control, 1.1.1 asks only for a name that describes its purpose, and the alt names the campaign the link leads to, so I lean no. Reason it fails: 'Promo' names the genre, and the call to action (donate) and the 50% match in the image text are missing, which many auditors would flag for an image of text. Competent auditors would disagree, so uncertain. The live HTML has the same link and alt; no capture difference."
+    },
+    {
+      "fingerprint": "9272ec5f422e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Thumbnail of the Bo Nix touchdown photo, the only content of a link (a second, empty icon-slideshow link precedes it) to the photo gallery 'PHOTOS: Denver Broncos defeat Arizona Cardinals 30-16 in NFL Week 7'. The alt describes a scene from that game, which loosely hints at the gallery's subject but does not say the link opens a gallery article. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"PHOTOS: Denver Broncos defeat Arizona Cardinals 30-16 in NFL Week 7\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. Live page (curl, 2026-11-21) serves the same card markup (link with title, img with this alt, lazyload swapped for users), so the capture does not differ in a way that touches the claim."
+    },
+    {
+      "fingerprint": "8f81afb59f6e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Photo of Nick Bolton stopping Jonah Coleman, the only content of a link to 'Broncos midseason report: Grades, awards and burning questions for a Super Bowl contender'. The caption describes one play from the Chiefs game, not the midseason report it links to. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"Broncos midseason report: Grades, awards and burning questions for a Super Bowl contender\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. Live page (curl, 2026-11-21) serves the same card markup (link with title, img with this alt, lazyload swapped for users), so the capture does not differ in a way that touches the claim."
+    },
+    {
+      "fingerprint": "s87cc3fa3dae",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Image link in the Featured block whose accessible name (CDP, from contents) is the Tomorrowland Belgium photo caption; it leads to the Colorado Tomorrowland story. The sentence holds of the capture: the computed link text describes the 2025 Belgian festival photo, not the article. But the link has title='Tomorrowland confirms talks are underway to bring winter EDM festival to Colorado', exposed as its accessible description, and this round counts the title (H33) as link context; together with the link text it determines the purpose exactly. So 2.4.4 is met. Rampa had the title (its own name for the link is the title), so this is a model error. The live page serves the same link markup."
+    },
+    {
+      "fingerprint": "720edaad9eb5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Thumbnail of a snowboarder at Arapahoe Basin's opening day, the only content of a link to the gallery 'PHOTOS: Arapahoe Basin opens, kicking off the Colorado ski season'. The alt matches the gallery's subject but does not say the link opens it. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"PHOTOS: Arapahoe Basin opens, kicking off the Colorado ski season\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. Live page (curl, 2026-11-21) serves the same card markup (link with title, img with this alt, lazyload swapped for users), so the capture does not differ in a way that touches the claim."
+    },
+    {
+      "fingerprint": "e5adbb18e797",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Photo of a protester at the QTS Aurora data center site, the only content of a link to 'Aurora data center faces mounting opposition as city leaders prepare for renewed debate'. The caption hints at the topic but is a photo caption, not the article's purpose. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"Aurora data center faces mounting opposition as city leaders prepare for renewed debate\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. Live page (curl, 2026-11-21) serves the same card markup (link with title, img with this alt, lazyload swapped for users), so the capture does not differ in a way that touches the claim."
+    },
+    {
+      "fingerprint": "a005ec336a79",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Thumbnail of a cross-country runner at the 5A state championship, the only content of a link to the gallery 'PHOTOS: 2026 Colorado high school cross-country state championships'. The alt matches the event but does not say the link opens a gallery. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"PHOTOS: 2026 Colorado high school cross-country state championships\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. Live page (curl, 2026-11-21) serves the same card markup (link with title, img with this alt, lazyload swapped for users), so the capture does not differ in a way that touches the claim."
+    },
+    {
+      "fingerprint": "169aed8869f1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Thumbnail of Justin Herbert sacked as the Broncos celebrate, the only content of a link to the gallery 'PHOTOS: Denver Broncos top Los Angeles Chargers 23-17 in NFL Week 5'. The alt describes a scene from that game, not the gallery link. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"PHOTOS: Denver Broncos top Los Angeles Chargers 23-17 in NFL Week 5\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. Live page (curl, 2026-11-21) serves the same card markup (link with title, img with this alt, lazyload swapped for users), so the capture does not differ in a way that touches the claim."
+    },
+    {
+      "fingerprint": "a48d13b4f09d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "wp-emoji replacement image for the mirror-ball emoji (Twemoji 1faa9.svg) inside the Trending link 'Tomorrowland Colorado?'. The crop shows a light-blue mirror ball, and the alt is the emoji character, which screen readers read as 'mirror ball', so it describes exactly what the image shows; the claim is false and 1.1.1 is met. The live HTML has the same emoji text and wp-emoji script, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "48c8ace28bf7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Photo of a CU touchdown against Houston, the only content of a link to 'CU Buffs vs. Cincinnati football: How to watch, keys to the game, odds, staff predictions'. The caption is about a past game, not the preview it links to. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"CU Buffs vs. Cincinnati football: How to watch, keys to the game, odds, staff predictions\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. Live page (curl, 2026-11-21) serves the same card markup (link with title, img with this alt, lazyload swapped for users), so the capture does not differ in a way that touches the claim."
+    },
+    {
+      "fingerprint": "95cdc29a02ec",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Photo of Tomorrowland performers in Boom, Belgium, the only content of a link to 'Tomorrowland confirms talks are underway to bring winter EDM festival to Colorado'. The long caption is about the 2025 Belgian festival, not the Colorado story. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"Tomorrowland confirms talks are underway to bring winter EDM festival to Colorado\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. Live page (curl, 2026-11-21) serves the same card markup (link with title, img with this alt, lazyload swapped for users), so the capture does not differ in a way that touches the claim."
+    },
+    {
+      "fingerprint": "e590207af684",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Thumbnail of Bonitto and Allen sacking Sam Darnold, the only content of a link to the gallery 'PHOTOS: Denver Broncos survive Seattle Seahawks to win in OT, NFL Week 6'. The alt describes a scene from that game, not the gallery link. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"PHOTOS: Denver Broncos survive Seattle Seahawks to win in OT, NFL Week 6\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. Live page (curl, 2026-11-21) serves the same card markup (link with title, img with this alt, lazyload swapped for users), so the capture does not differ in a way that touches the claim."
+    },
+    {
+      "fingerprint": "3179cdd4d838",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Lead photo of Ja'Quan McMillian in the Featured story, the only content of a link (no title attribute here) to 'Renck: Broncos extending Riley Moss makes no sense if they don't re-sign Ja'Quan McMillian'. The link's name is the photo caption, so the claim holds of the capture, and with no title there is no description supplying the destination; on the functional-image reading (G82/H30) it fails, so I lean yes. Against it: the h3 headline link to the same URL comes immediately before it in the same article, the caption names McMillian, the column's subject, and the alt accurately describes an informative photo; no documented 1.1.1 failure covers a descriptive alt in a redundant teaser link. Auditors split on this pattern, so uncertain. The live page (curl) serves the same markup (figure > div.image-wrapper > a without title > img with this alt); no capture difference."
+    },
+    {
+      "fingerprint": "pd6d5b508d0e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Header link 'Digital Replica Edition' to enewspaper.denverpost.com, with title 'Link to E-Edition opens in a new window'. The link text alone says it opens the paper's digital replica edition, and the title adds that it is the e-edition in a new window; the purpose is clear, so 2.4.4 is met and Rampa rightly reported nothing. The live page has the same link."
+    },
+    {
+      "fingerprint": "4d4bbb1a26c8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Photo of CSU coach Jim Mora with his defensive coordinator, the only content of a link to 'CSU Rams defense reaching historically bad lows, with Fresno State up next'. The caption relates to the topic but does not name the article. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"CSU Rams defense reaching historically bad lows, with Fresno State up next\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. On the live page (curl, 2026-11-21) this story has since rotated to a headline-only item; that is a later news update, not a capture defect, so I judged the element as users received it at capture time, and the same image-link-with-title pattern persists on other cards."
+    },
+    {
+      "fingerprint": "s41decca3ca0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Image link whose accessible name is the caption 'Colorado Bureau of Investigation in Arvada, Colorado on Friday, April 3, 2026. (Photo by ...)'; it leads to the CBI evidence technician story. The sentence is true of the capture (the computed link text names the building, not the story), but the link carries title='CBI evidence technician under investigation amid allegations she staged photos', its accessible description, which this round counts as context (H33); with it the purpose is determinable. 2.4.4 is met. The title was in Rampa's data (its link name), so model error. The live page has the same markup."
+    },
+    {
+      "fingerprint": "sd03d9ac0c33",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Image link whose accessible name is the keyword alt 'missing person people child generic'; it leads to 'Missing Arvada girl, 15, last seen getting into unknown vehicle'. The claim that nothing around it tells where it goes is false of the capture: the link has title='Missing Arvada girl, 15, last seen getting into unknown vehicle', exposed as its accessible description and counted as context in this round (H33), and it states the destination exactly. 2.4.4 is met. The story has since rotated to a headline-only item on the live page (a later news update, not a capture defect); judged as captured."
+    },
+    {
+      "fingerprint": "s030ff52644b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Section heading h2 'Travel' (a link to /things-to-do/travel/, rendered uppercase). The stories under it in the capture are a new Clear Creek Canyon trail, a Royal Gorge restaurant, the Snowmass food hall, Christmas tree permits and a ski resort opening: Colorado travel and outings, which the heading describes. The claim is false and 2.4.6 is met. The live page still has the Travel section with similar stories (one rotated in about Thanksgiving travel); no capture difference that matters."
+    },
+    {
+      "fingerprint": "f11770198fb5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Photo of the lit City and County Building at Christkindlmarket (2020), the only content of a link to 'Denver's $5 downtown parking deal returns for holidays'. The caption says nothing about parking; it is a file photo caption. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"Denver's $5 downtown parking deal returns for holidays\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. Live page (curl, 2026-11-21) serves the same card markup (link with title, img with this alt, lazyload swapped for users), so the capture does not differ in a way that touches the claim."
+    },
+    {
+      "fingerprint": "44abeb6e2f0b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Photo of travellers waiting for luggage at LaGuardia, the only content of a link to 'Outlook, FAA, bank outage, oh my! How to practice cyber hygiene in the AI age'. The caption says nothing about the article's subject. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"Outlook, FAA, bank outage, oh my! How to practice 'cyber hygiene' in the AI age\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. On the live page (curl, 2026-11-21) this story has since rotated to a headline-only item; that is a later news update, not a capture defect, so I judged the element as users received it at capture time, and the same image-link-with-title pattern persists on other cards."
+    },
+    {
+      "fingerprint": "e42676d30c18",
+      "answers": {
+        "claimTrue": "cannot_tell",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Next arrow of the slick carousel in the CitySpark 'Denver Events' widget iframe: <a class='next icon-arrow-right slick-arrow'> with no href, no text, no aria-label and no role; slick binds a click handler, and the screenshot shows the visible '>' arrow. The widget CSS (fetched live) sets .icon-arrow-right:before{content:'\\e601'}, a private-use glyph, so its only possible name is that glyph. The captured CDP node is role link with name '' (empty), so I cannot confirm from the capture that the browser's computed name holds the glyph rather than nothing, hence cannot_tell on the sentence. Either way, this carousel control has no readable accessible name (and no proper role), which fails 4.1.2, and the claim names exactly that missing name. No skeptic reason holds up: it is a visible, operable control on the page users receive (third-party content still counts). The live widget script still builds the arrows as '<a class=\"next icon-arrow-right\"></a>', so the capture matches."
+    },
+    {
+      "fingerprint": "d4e8142c2207",
+      "answers": {
+        "claimTrue": "cannot_tell",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Previous arrow of the same CitySpark events carousel: <a class='prev icon-arrow-left slick-arrow slick-disabled' aria-disabled='true'> with no href, text, label or role; the widget CSS (fetched live) gives it the icon-font glyph U+E600 via :before. The captured CDP node is role link, name '' (empty), so whether the browser's name holds the glyph or nothing cannot be confirmed (cannot_tell on the sentence), but either way the control has no readable name. Being disabled on the first slide does not exempt it: it becomes active after the carousel moves, and 4.1.2 covers disabled components. It fails 4.1.2 for the missing name the claim names. The live widget script still builds '<a class=\"prev icon-arrow-left\"></a>'; no capture difference."
+    },
+    {
+      "fingerprint": "8989220ab3d4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Photo of clowns at the 2018 Parade of Lights, the only content of a link to 'Colorado winter festival guide: Parade of Lights, Christkindlmarket, skijoring, ice climbing and more'. The caption touches one event in the guide but does not name the guide. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"Colorado winter festival guide: Parade of Lights, Christkindlmarket, skijoring, ice climbing and more\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. Live page (curl, 2026-11-21) serves the same card markup (link with title, img with this alt, lazyload swapped for users), so the capture does not differ in a way that touches the claim."
+    },
+    {
+      "fingerprint": "952e5f60f35e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Large photo of Bonitto forcing a Bryce Young fumble, the only content of a link to the gallery 'PHOTOS: Denver Broncos defeated the Carolina Panthers, 26-21, in NFL Week 9'. The alt describes a scene from that game, not the gallery link. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"PHOTOS: Denver Broncos defeated the Carolina Panthers, 26-21, in NFL Week 9\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. Live page (curl, 2026-11-21) serves the same card markup (link with title, img with this alt, lazyload swapped for users), so the capture does not differ in a way that touches the claim."
+    },
+    {
+      "fingerprint": "p45ef3fbedc9",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Top-navigation link 'BestReviews' to /best-reviews/, in the list of section links (News, Sports, Business, The Know, Outdoors, Opinion, Classifieds, Obituaries, BestReviews). The text names the section it opens, and the list item is its context; the purpose is determinable, so 2.4.4 is met and nothing was missed. The live page has the same menu item."
+    },
+    {
+      "fingerprint": "413a23b0febf",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Thumbnail of Jaylen Waddle celebrating a two-point conversion, the only content of a link to the gallery 'PHOTOS: Denver Broncos hang on to beat Kansas City Chiefs in NFL Week 8'. The alt describes a scene from that game, not the gallery link. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"PHOTOS: Denver Broncos hang on to beat Kansas City Chiefs in NFL Week 8\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. Live page (curl, 2026-11-21) serves the same card markup (link with title, img with this alt, lazyload swapped for users), so the capture does not differ in a way that touches the claim."
+    },
+    {
+      "fingerprint": "safeb56a114f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Bootstrap icon <i class='bi-moon-stars' role='img' aria-label='weather icon moon-stars'> in the header weather link. The crop shows a crescent moon with stars, which is what the label says, so the claim is false and the icon has a text alternative that matches it. (If anything is lost, it is that the parent link's aria-label 'Current temperature is 44°F, view full weather conditions in a new window' overrides the icon in the link's name, so the condition is not announced; that is a different issue the claim does not name.) The live page now shows 'bi-cloud-moon' with a matching 'weather icon cloud-moon' label because the weather changed; same pattern, no capture difference that touches the claim."
+    },
+    {
+      "fingerprint": "5516ef8b256b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Generic 'MISSING' graphic whose alt is the stock keyword string 'missing person people child generic', the only content of a link to 'Missing Arvada girl, 15, last seen getting into unknown vehicle'. The keywords hint at the topic but do not name the story (the keyword-style alt is weak on its own as a description too). Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"Missing Arvada girl, 15, last seen getting into unknown vehicle\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. On the live page (curl, 2026-11-21) this story has since rotated to a headline-only item; that is a later news update, not a capture defect, so I judged the element as users received it at capture time, and the same image-link-with-title pattern persists on other cards."
+    },
+    {
+      "fingerprint": "166000d587ac",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Photo of the CBI building in Arvada, the only content of a link to 'CBI evidence technician under investigation amid allegations she staged photos'. The caption names the agency's building, not the story. Skeptic check: the link's accessible name (CDP, nameFrom contents) is this photo caption, so the claim's sentence holds of the capture. On the strict functional-image reading (1.1.1 control clause, G82/H30), an image that is a link's only content needs an alt that names the link's purpose, and this one names a photo, so I lean yes. But concrete reasons against hold up partly: the link carries a title attribute with the full headline \"CBI evidence technician under investigation amid allegations she staged photos\", which the browser exposes as the link's accessible description (screen readers announce it), and the headline link to the same URL sits in the same card; the alt accurately describes an informative news photo; H30 is only a sufficient technique and no documented 1.1.1 failure covers a descriptive alt inside a link (F89 is about empty names, under 2.4.4/4.1.2). Competent auditors split on teaser images like this, so the label is uncertain. Live page (curl, 2026-11-21) serves the same card markup (link with title, img with this alt, lazyload swapped for users), so the capture does not differ in a way that touches the claim."
+    }
+  ]
+}

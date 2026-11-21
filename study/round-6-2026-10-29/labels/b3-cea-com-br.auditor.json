@@ -1,0 +1,41 @@
+{
+  "page": "https://www.cea.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sedd00fc331e",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the top-level main-navigation link \"Mindse7\" (href /mindset), a list item in the category menu next to Feminino, Masculino, Beleza and so on, with a separate \"Abrir submenu Mindse7\" button. claimTrue: no. The claim says the text does not match where the link leads, but the destination page's title it quotes begins with \"Mindse7\", and its heading names the Mindset collection. Mindse7 is the stylised name of C&A's Mindset line, so link text and destination agree. elementFails: no. The link text alone says the link goes to the Mindse7 section, and the menu list it sits in confirms it is a store category, so 2.4.4 is met. captureDiffers: no. The live HTML has the same link, text and href, and the screenshot shows \"Mindse7\" in the styled header. The checker had the destination title and still judged a match as a mismatch: model error."
+    },
+    {
+      "fingerprint": "3c19de0f51b4",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image in a main-carousel slide linking to /ofertas/outlet, alt \"confira seleção de oportunidades com até 60% off\". I downloaded its src and compared it with the packet crop: they match. The image is a banner reading \"C&A Black Friday\", \"oportunidades imperdíveis\" and \"até 70% OFF\", with a model in a black top. The CMS promotion name in the live page data, \"...OUTLET-ATE-70-OFF\", confirms the 70%. claimTrue: yes. The alternative states a 60% discount the image does not show. elementFails: yes. The image of text gives a different discount figure (and leaves out \"Black Friday\"), so a screen-reader user gets different information from a sighted user. That is not an equivalent text alternative under 1.1.1. The link's aria-label repeats the same 60% text, so the name users hear carries the same wrong figure. captureDiffers: no. The live HTML has the same src, alt and aria-label. The off-screen slide's small captured bounds do not affect the claim, and the crop is the right image. Read in good faith, \"describes something the image does not show\" points at the wrong figure, which is the real defect."
+    },
+    {
+      "fingerprint": "65569a4b0972",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the promotional top bar \"FRETE GRÁTIS EXCLUSIVO NO APP\", a div.promotionalTopBar__container. claimTrue: yes. The snapshot shows it as role generic, focusable, with a click listener and no role attribute. elementFails: yes. In the live HTML it has tabindex=\"0\" and cursor:pointer, and no role. The component's live script (cea.store-ds PromotionalTopBar) renders it as a div with onClick=handleBarClick and tabIndex set only when a redirectLink exists, which means it works as a link to a redirect target. Assistive technology gets no role for it (F59, 4.1.2: name, role, value). Separately, it has no key handler, so Enter likely does nothing, a probable 2.1.1 issue too. captureDiffers: no. The live markup matches the capture in every point that matters; only the bar's background colour differs, which does not touch this claim."
+    },
+    {
+      "fingerprint": "efe34605b0d7",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image in a main-carousel slide linking to /ofertas/beleza/fragrancias-favoritas, alt \"compre perfumes com até 60% off\". I downloaded its src, and it matches the packet crop. It shows two perfume bottles (Olympéa, La Vie Est Belle), \"C&A Black Friday\" and \"as melhores fragrâncias com até 70% OFF\". The live CMS promotion name, \"...PERFUMES-ATE-70-OFF\", confirms the 70%. claimTrue: yes. The alternative states a 60% discount the image does not show. elementFails: yes. The image of text promises up to 70% off and the alternative says up to 60%, so the alternative does not convey the same information (1.1.1). The link's aria-label repeats the wrong figure. captureDiffers: no. The live HTML has the same src, alt and aria-label, and the crop is the right image. The claim, read in good faith, names that mismatch."
+    },
+    {
+      "fingerprint": "sd460b91b140",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the footer h2 \"A gente se encontra na\" followed by a home link with the C&A logo (alt \"Logo C&A - Ir para a página inicial\"). Visually it reads \"A gente se encontra na [C&A]\", the brand tagline. Under it there are only five social-media links (Instagram, TikTok, Pinterest, Twitter and Facebook C&A Brasil), then the h2 \"Menu do rodapé\". claimTrue: no. The heading is not about a different topic. It names the brand and invites a meeting, and the content under it is that brand's own channels. The tagline is only unspecific. elementFails: my lean is no. As a sign-off over \"where to find C&A\" links, the heading suggests the section's purpose, and 2.4.6 does not require literal headings. But a screen-reader user moving by headings hears a tagline plus a logo link name, with nothing about social media, and competent auditors could reasonably call it non-descriptive. captureDiffers: no. The live markup is identical. The screenshot lacks the lazy-loaded logo and icons, but the heading's text and name are the same on the live page. Labelled uncertain for that reasonable disagreement."
+    }
+  ]
+}

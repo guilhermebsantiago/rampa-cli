@@ -1,0 +1,127 @@
+{
+  "page": "https://gatetheatre.ie/contact-us/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "61a3ff37723a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Jobs' link in the black footer's menu (nav 'Footer'). In the screenshot its letters (x 864-921, y 7645-7667) sit on the #1a1a1a top of the large wordmark, with #ef263a type, as the claim says. The live gate.css draws the footer's GATE THEATRE wordmark behind the menu in #1a1a1a on the black band and says so itself: 'the footer's small red text over its letters is 4.15:1 (AA needs 4.5:1; #101010 would pass)', a known trade-off chosen on 11 Nov, before the capture. Red #ef263a on #1a1a1a computes to 4.15:1; the menu type is 16px weight 900, not large text, so 4.5:1 applies. The live markup and CSS match the capture and the wordmark is not animated, so at 1280px the text overlaps the letters for users too. Skeptic checks: no large-text exemption, no alternative presentation, not a stricter rule than WCAG. Fails 1.4.3; the claim names it."
+    },
+    {
+      "fingerprint": "156c84dde1c2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Account' icon link in the fixed header: an SVG glyph in currentColor (black) inside a 44px box whose only edge is a 1px black inset shadow, with no visible text, so the glyph is what identifies the control and 1.4.11 asks 3:1 against its adjacent colour. In the capture's screenshot (x 979-1023, y 7068-7106) the glyph is #000000 on #4d4d4d, about 2.41:1, as claimed. The live gate.css (versioned 13 Nov, before the capture) gives .site-header no background, only a backdrop-filter blur, and the live script.js tints that blur with rgba(255,255,255,0.3) at full strength when the black header type sits on a ground with no contrast; over black that is #4d4d4d, the exact colour Rampa measured. Users reach that state whenever they scroll the fixed bar over the black 'Explore more' cards or the black footer (at the foot of the page with an 800px window the bar sits over the footer). The box interior is transparent, so the tinted ground is the adjacent colour. Skeptic checks: over white (the snapshot's scroll position) it passes, but the failing state is one users reach by scrolling, not an artefact; G207 is the right technique and 3:1 the right threshold. Fails 1.4.11; the claim names it."
+    },
+    {
+      "fingerprint": "e1645cc671e6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Your Visit' link in the fixed header's primary nav. In the capture's screenshot the bar is drawn over the black 'Explore more' cards, and sampling the pixels of this word (x 158-266, y 7080-7098) gives #000000 type on #4c4c4c-#4d4d4d, about 2.48:1, so the claim holds of the capture. The live gate.css (versioned 13 Nov, before the capture) gives .site-header no background, only a backdrop-filter blur, and the live script.js tints that blur with rgba(255,255,255,0.3) at full strength when the black header type sits on a ground with no contrast; over black that is #4d4d4d, the exact colour Rampa measured. Users reach that state whenever they scroll the fixed bar over the black 'Explore more' cards or the black footer (at the foot of the page with an 800px window the bar sits over the footer). Skeptic checks: at the snapshot's own scroll position (bar at y=5844) the bar was over white and black-on-white passes, but that is another scroll state of the same page, not a capture artefact, and WCAG gives no exception for text that is legible only at some scroll positions; the bar has no solid background in any state on desktop (only while the phone menu is open); the type is 14px weight 900, below the 18.66px bold large-text size, so 4.5:1 is the right threshold and 2.4:1 even misses 3:1. No reason to dismiss it holds up: the element fails 1.4.3 in a state users get, and the claim names that failure."
+    },
+    {
+      "fingerprint": "8722596fc9c9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'About Us' link in the fixed header's primary nav. In the capture's screenshot the bar is drawn over the black 'Explore more' cards, and sampling the pixels of this word (x 443-541, y 7080-7098) gives #000000 type on #4c4c4c-#4d4d4d, about 2.48:1, so the claim holds of the capture. The live gate.css (versioned 13 Nov, before the capture) gives .site-header no background, only a backdrop-filter blur, and the live script.js tints that blur with rgba(255,255,255,0.3) at full strength when the black header type sits on a ground with no contrast; over black that is #4d4d4d, the exact colour Rampa measured. Users reach that state whenever they scroll the fixed bar over the black 'Explore more' cards or the black footer (at the foot of the page with an 800px window the bar sits over the footer). Skeptic checks: at the snapshot's own scroll position (bar at y=5844) the bar was over white and black-on-white passes, but that is another scroll state of the same page, not a capture artefact, and WCAG gives no exception for text that is legible only at some scroll positions; the bar has no solid background in any state on desktop (only while the phone menu is open); the type is 14px weight 900, below the 18.66px bold large-text size, so 4.5:1 is the right threshold and 2.4:1 even misses 3:1. No reason to dismiss it holds up: the element fails 1.4.3 in a state users get, and the claim names that failure."
+    },
+    {
+      "fingerprint": "b6a91b9a5368",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Basket' icon link in the fixed header: an SVG glyph in currentColor (black) inside a 44px box whose only edge is a 1px black inset shadow, with no visible text, so the glyph is what identifies the control and 1.4.11 asks 3:1 against its adjacent colour. In the capture's screenshot (x 1039-1083, y 7068-7106) the glyph is #000000 on #4d4d4d, about 2.48:1, as claimed. The live gate.css (versioned 13 Nov, before the capture) gives .site-header no background, only a backdrop-filter blur, and the live script.js tints that blur with rgba(255,255,255,0.3) at full strength when the black header type sits on a ground with no contrast; over black that is #4d4d4d, the exact colour Rampa measured. Users reach that state whenever they scroll the fixed bar over the black 'Explore more' cards or the black footer (at the foot of the page with an 800px window the bar sits over the footer). The box interior is transparent, so the tinted ground is the adjacent colour. Skeptic checks: over white (the snapshot's scroll position) it passes, but the failing state is one users reach by scrolling, not an artefact; G207 is the right technique and 3:1 the right threshold. Fails 1.4.11; the claim names it."
+    },
+    {
+      "fingerprint": "f726a6612a82",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'About Us' link in the black footer's menu (nav 'Footer'). In the screenshot its letters (x 728-832, y 7645-7667) sit on the #1a1a1a top of the large wordmark, with #ef263a type, as the claim says. The live gate.css draws the footer's GATE THEATRE wordmark behind the menu in #1a1a1a on the black band and says so itself: 'the footer's small red text over its letters is 4.15:1 (AA needs 4.5:1; #101010 would pass)', a known trade-off chosen on 11 Nov, before the capture. Red #ef263a on #1a1a1a computes to 4.15:1; the menu type is 16px weight 900, not large text, so 4.5:1 applies. The live markup and CSS match the capture and the wordmark is not animated, so at 1280px the text overlaps the letters for users too. Skeptic checks: no large-text exemption, no alternative presentation, not a stricter rule than WCAG. Fails 1.4.3; the claim names it."
+    },
+    {
+      "fingerprint": "643cf4d2a78d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'News' link in the fixed header's primary nav. In the capture's screenshot the bar is drawn over the black 'Explore more' cards, and sampling the pixels of this word (x 905-965, y 7080-7098) gives #000000 type on #4d4d4d, about 2.48:1, so the claim holds of the capture. The live gate.css (versioned 13 Nov, before the capture) gives .site-header no background, only a backdrop-filter blur, and the live script.js tints that blur with rgba(255,255,255,0.3) at full strength when the black header type sits on a ground with no contrast; over black that is #4d4d4d, the exact colour Rampa measured. Users reach that state whenever they scroll the fixed bar over the black 'Explore more' cards or the black footer (at the foot of the page with an 800px window the bar sits over the footer). Skeptic checks: at the snapshot's own scroll position (bar at y=5844) the bar was over white and black-on-white passes, but that is another scroll state of the same page, not a capture artefact, and WCAG gives no exception for text that is legible only at some scroll positions; the bar has no solid background in any state on desktop (only while the phone menu is open); the type is 14px weight 900, below the 18.66px bold large-text size, so 4.5:1 is the right threshold and 2.4:1 even misses 3:1. No reason to dismiss it holds up: the element fails 1.4.3 in a state users get, and the claim names that failure."
+    },
+    {
+      "fingerprint": "572e9dc02f5b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'News' link in the black footer's menu (nav 'Footer'). In the screenshot its letters (x 480-542, y 7645-7667) sit on the #1a1a1a top of the large wordmark, with #ef263a type, as the claim says. The live gate.css draws the footer's GATE THEATRE wordmark behind the menu in #1a1a1a on the black band and says so itself: 'the footer's small red text over its letters is 4.15:1 (AA needs 4.5:1; #101010 would pass)', a known trade-off chosen on 11 Nov, before the capture. Red #ef263a on #1a1a1a computes to 4.15:1; the menu type is 16px weight 900, not large text, so 4.5:1 applies. The live markup and CSS match the capture and the wordmark is not animated, so at 1280px the text overlaps the letters for users too. Skeptic checks: no large-text exemption, no alternative presentation, not a stricter rule than WCAG. Fails 1.4.3; the claim names it."
+    },
+    {
+      "fingerprint": "4fc5e6606034",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Get Involved' link in the fixed header's primary nav. In the capture's screenshot the bar is drawn over the black 'Explore more' cards, and sampling the pixels of this word (x 286-422, y 7080-7098) gives #000000 type on #4c4c4c-#4d4d4d, about 2.48:1, so the claim holds of the capture. The live gate.css (versioned 13 Nov, before the capture) gives .site-header no background, only a backdrop-filter blur, and the live script.js tints that blur with rgba(255,255,255,0.3) at full strength when the black header type sits on a ground with no contrast; over black that is #4d4d4d, the exact colour Rampa measured. Users reach that state whenever they scroll the fixed bar over the black 'Explore more' cards or the black footer (at the foot of the page with an 800px window the bar sits over the footer). Skeptic checks: at the snapshot's own scroll position (bar at y=5844) the bar was over white and black-on-white passes, but that is another scroll state of the same page, not a capture artefact, and WCAG gives no exception for text that is legible only at some scroll positions; the bar has no solid background in any state on desktop (only while the phone menu is open); the type is 14px weight 900, below the 18.66px bold large-text size, so 4.5:1 is the right threshold and 2.4:1 even misses 3:1. No reason to dismiss it holds up: the element fails 1.4.3 in a state users get, and the claim names that failure."
+    },
+    {
+      "fingerprint": "0fdc4c08f3ce",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'What’s On' link in the fixed header's primary nav. In the capture's screenshot the bar is drawn over the black 'Explore more' cards, and sampling the pixels of this word (x 30-140, y 7080-7098) gives #000000 type on #4a4a4a-#4d4d4d (lighter near the card's left edge), about 2.41:1, so the claim holds of the capture. The live gate.css (versioned 13 Nov, before the capture) gives .site-header no background, only a backdrop-filter blur, and the live script.js tints that blur with rgba(255,255,255,0.3) at full strength when the black header type sits on a ground with no contrast; over black that is #4d4d4d, the exact colour Rampa measured. Users reach that state whenever they scroll the fixed bar over the black 'Explore more' cards or the black footer (at the foot of the page with an 800px window the bar sits over the footer). Skeptic checks: at the snapshot's own scroll position (bar at y=5844) the bar was over white and black-on-white passes, but that is another scroll state of the same page, not a capture artefact, and WCAG gives no exception for text that is legible only at some scroll positions; the bar has no solid background in any state on desktop (only while the phone menu is open); the type is 14px weight 900, below the 18.66px bold large-text size, so 4.5:1 is the right threshold and 2.4:1 even misses 3:1. No reason to dismiss it holds up: the element fails 1.4.3 in a state users get, and the claim names that failure."
+    },
+    {
+      "fingerprint": "db25a6c41111",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Join & Give' link in the fixed header's primary nav. In the capture's screenshot the bar is drawn over the black 'Explore more' cards, and sampling the pixels of this word (x 772-884, y 7080-7098) gives #000000 type on #4c4c4c-#4d4d4d, about 2.48:1, so the claim holds of the capture. The live gate.css (versioned 13 Nov, before the capture) gives .site-header no background, only a backdrop-filter blur, and the live script.js tints that blur with rgba(255,255,255,0.3) at full strength when the black header type sits on a ground with no contrast; over black that is #4d4d4d, the exact colour Rampa measured. Users reach that state whenever they scroll the fixed bar over the black 'Explore more' cards or the black footer (at the foot of the page with an 800px window the bar sits over the footer). Skeptic checks: at the snapshot's own scroll position (bar at y=5844) the bar was over white and black-on-white passes, but that is another scroll state of the same page, not a capture artefact, and WCAG gives no exception for text that is legible only at some scroll positions; the bar has no solid background in any state on desktop (only while the phone menu is open); the type is 14px weight 900, below the 18.66px bold large-text size, so 4.5:1 is the right threshold and 2.4:1 even misses 3:1. No reason to dismiss it holds up: the element fails 1.4.3 in a state users get, and the claim names that failure."
+    }
+  ]
+}

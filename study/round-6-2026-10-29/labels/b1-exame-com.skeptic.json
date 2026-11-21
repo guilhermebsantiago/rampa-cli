@@ -1,0 +1,147 @@
+{
+  "page": "https://exame.com/invest/mercados/producao-da-petrobras-bate-recorde-no-3o-tri-e-importacao-de-diesel-dispara/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "199667ba7233",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Lead photo of the article: an aerial view of a Petrobras FPSO platform ship at sea (crop and screenshot). Its alt is the editorial caption, also shown visibly below the image: \"Petrobras: dados de produção do 3º tri bateram recorde (MAURO PIMENTEL/AFP/Getty Images)\". claimTrue: record production data is not something the photo shows, so the sentence holds of the capture. elementFails: skeptic reading is no: the photo is a generic illustration whose purpose is to set the topic, and the alt identifies its subject (Petrobras, its oil production); no documented failure applies (it is not a filename or placeholder, F30). But it says nothing of what is depicted and duplicates the caption, and a strict auditor would fail it for not serving an equivalent purpose, so competent auditors would reasonably disagree. captureDiffers: the live HTML and the styled screenshot match the snapshot. Label uncertain."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter sign-up field (\"Saiba investir melhor\"), <input id=email type=email name=email> labelled \"Seu e-mail\", with no autocomplete attribute. It collects the user's own email address, an Input Purpose listed in WCAG 2.1 section 7; type=email gives the format, not whose address it is, and the only sufficient technique (H98) is missing. claimTrue: the snapshot shows no autocomplete and Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError on this input, so both parts hold. captureDiffers: the live HTML has the identical input with no autocomplete. I looked for a reason it could pass (not user data, purpose set another way) and found none: true_positive."
+    },
+    {
+      "fingerprint": "89596b1a1bf0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link in a related-articles card: <a> > <figure> > span > img with alt (\"Imagem referente à matéria: Arquivar ou trancar fotos no Google Fotos? Entenda a diferença\"), no text, no aria-label, aria-labelledby or title; the headline is a separate adjacent link to the same href. claimTrue: the snapshot's CDP tree gives this link the name \"\" (Rampa's own 'name' field is raw <noscript> markup, a collector quirk, but the finding rests on the browser name). In the same tree every link that wraps its image in a <figure> has an empty name while hamburger-menu links with span-wrapped images include the alt, so Chrome does not carry the alt through the figure. elementFails: in Chrome/Edge, as users receive it at desktop width (hidden md:* shows it), the focusable link exposes no accessible name; the accname spec would recurse into the figure, but WCAG judges what accessibility-supported user agents expose, and axe-style link-name checks skip figure content too. Redundancy with the headline link does not give this link a name. captureDiffers: the live HTML (curl, fetched 2026-11-21) has the same figure/img/noscript structure and no naming attribute. The claim names the real defect (empty link name), so true_positive."
+    },
+    {
+      "fingerprint": "1978d424f618",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link in a related-articles card: <a> > <figure> > span > img with alt (\"Imagem referente à matéria: Os últimos cinco anos foram os mais difíceis da minha vida, diz Caito Maia, da Chilli Beans\"), no text, no aria-label, aria-labelledby or title; the headline is a separate adjacent link to the same href. claimTrue: the snapshot's CDP tree gives this link the name \"\" (Rampa's own 'name' field is raw <noscript> markup, a collector quirk, but the finding rests on the browser name). In the same tree every link that wraps its image in a <figure> has an empty name while hamburger-menu links with span-wrapped images include the alt, so Chrome does not carry the alt through the figure. elementFails: in Chrome/Edge, as users receive it at desktop width (hidden md:* shows it), the focusable link exposes no accessible name; the accname spec would recurse into the figure, but WCAG judges what accessibility-supported user agents expose, and axe-style link-name checks skip figure content too. Redundancy with the headline link does not give this link a name. captureDiffers: the live HTML (curl, fetched 2026-11-21) has the same figure/img/noscript structure and no naming attribute. The claim names the real defect (empty link name), so true_positive."
+    },
+    {
+      "fingerprint": "1c7b4d9232a3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link in a related-articles card: <a> > <figure> > span > img with alt (\"Imagem referente à matéria: Tombo das ações de IA derruba Nasdaq em 5,28% e provoca onda de perdas em Wall Street\"), no text, no aria-label, aria-labelledby or title; the headline is a separate adjacent link to the same href. claimTrue: the snapshot's CDP tree gives this link the name \"\" (Rampa's own 'name' field is raw <noscript> markup, a collector quirk, but the finding rests on the browser name). In the same tree every link that wraps its image in a <figure> has an empty name while hamburger-menu links with span-wrapped images include the alt, so Chrome does not carry the alt through the figure. elementFails: in Chrome/Edge, as users receive it at desktop width (hidden md:* shows it), the focusable link exposes no accessible name; the accname spec would recurse into the figure, but WCAG judges what accessibility-supported user agents expose, and axe-style link-name checks skip figure content too. Redundancy with the headline link does not give this link a name. captureDiffers: the live HTML (curl, fetched 2026-11-21) has the same figure/img/noscript structure and no naming attribute. The claim names the real defect (empty link name), so true_positive."
+    },
+    {
+      "fingerprint": "7b49b4927e16",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link in a related-articles card: <a> > <figure> > span > img with alt (\"Imagem referente à matéria: GTA 6 fatura US$ 3,8 bilhões em 24 horas e bate recorde histórico do entretenimento\"), no text, no aria-label, aria-labelledby or title; the headline is a separate adjacent link to the same href. claimTrue: the snapshot's CDP tree gives this link the name \"\" (Rampa's own 'name' field is raw <noscript> markup, a collector quirk, but the finding rests on the browser name). In the same tree every link that wraps its image in a <figure> has an empty name while hamburger-menu links with span-wrapped images include the alt, so Chrome does not carry the alt through the figure. elementFails: in Chrome/Edge, as users receive it at desktop width (hidden md:* shows it), the focusable link exposes no accessible name; the accname spec would recurse into the figure, but WCAG judges what accessibility-supported user agents expose, and axe-style link-name checks skip figure content too. Redundancy with the headline link does not give this link a name. captureDiffers: the live HTML (curl, fetched 2026-11-21) has the same figure/img/noscript structure and no naming attribute (only the alt wording changed since capture, 'GTA 6' to 'GTA VI', which does not touch the claim). The claim names the real defect (empty link name), so true_positive."
+    },
+    {
+      "fingerprint": "ccb48020a919",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link in a related-articles card: <a> > <figure> > span > img with alt (\"Bancos abrem no feriado de 20 de novembro? Veja como ficam os serviços\"), no text, no aria-label, aria-labelledby or title; the headline is a separate adjacent link to the same href. claimTrue: the snapshot's CDP tree gives this link the name \"\" (Rampa's own 'name' field is raw <noscript> markup, a collector quirk, but the finding rests on the browser name). In the same tree every link that wraps its image in a <figure> has an empty name while hamburger-menu links with span-wrapped images include the alt, so Chrome does not carry the alt through the figure. elementFails: in Chrome/Edge, as users receive it at desktop width (hidden md:* shows it), the focusable link exposes no accessible name; the accname spec would recurse into the figure, but WCAG judges what accessibility-supported user agents expose, and axe-style link-name checks skip figure content too. Redundancy with the headline link does not give this link a name. captureDiffers: the live HTML (curl, fetched 2026-11-21) has the same figure/img/noscript structure and no naming attribute. The claim names the real defect (empty link name), so true_positive."
+    },
+    {
+      "fingerprint": "sdfc59aa50e0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The \"Invest\" link at the start of the section sub-navigation (BTG Insights, Mercados, ...), href https://exame.com/invest/, the Exame Invest section page. claimTrue: the snapshot (and live HTML) has four links named Invest, three to /invest/ and one footer newsletter link to /newsletters/, and this one has no heading, list item or description around it, so the sentence holds. elementFails: no. Its own text states its purpose, going to the Invest section, which is where it leads; 2.4.4 asks whether each link's purpose can be determined, not that all links sharing a text share a destination (that is closer to 2.4.9 or a consistency rule). The ambiguous link, if any, is the footer one, not this. captureDiffers: the live page and the styled screenshot match. false_positive, criterion_misapplied."
+    },
+    {
+      "fingerprint": "8ca2d23b904e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link in a related-articles card: <a> > <figure> > span > img with alt (\"Tombo das ações de IA derruba Nasdaq em 5,28% e provoca onda de perdas em Wall Street\"), no text, no aria-label, aria-labelledby or title; the headline is a separate adjacent link to the same href. claimTrue: the snapshot's CDP tree gives this link the name \"\" (Rampa's own 'name' field is raw <noscript> markup, a collector quirk, but the finding rests on the browser name). In the same tree every link that wraps its image in a <figure> has an empty name while hamburger-menu links with span-wrapped images include the alt, so Chrome does not carry the alt through the figure. elementFails: in Chrome/Edge, as users receive it at desktop width (hidden md:* shows it), the focusable link exposes no accessible name; the accname spec would recurse into the figure, but WCAG judges what accessibility-supported user agents expose, and axe-style link-name checks skip figure content too. Redundancy with the headline link does not give this link a name. captureDiffers: the live HTML (curl, fetched 2026-11-21) has the same figure/img/noscript structure and no naming attribute. The claim names the real defect (empty link name), so true_positive."
+    },
+    {
+      "fingerprint": "p21e74fd9f5a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Thumbnail image that is the only content of a link to the article \"Anthropic fecha em alta de 17%, longe da máxima, em estreia na bolsa\". Its alt is that headline, which states the link's destination, the function a text alternative for an image link must convey (H30); the crop shows an Anthropic/Claude logo illustration, so nothing informative is lost for the link's purpose. The repetition of the adjacent headline link is a redundancy issue, not a 1.1.1 failure, and the img node itself exposes the alt (the empty name of the enclosing link is a 4.1.2 matter, reported separately). captureDiffers: the live HTML has the same img and alt. elementFails no, so Rampa's silence is correct: false_positive."
+    },
+    {
+      "fingerprint": "6d77fd77fdf0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link in a related-articles card: <a> > <figure> > span > img with alt (\"Anthropic fecha em alta de 17%, longe da máxima, em estreia na bolsa\"), no text, no aria-label, aria-labelledby or title; the headline is a separate adjacent link to the same href. claimTrue: the snapshot's CDP tree gives this link the name \"\" (Rampa's own 'name' field is raw <noscript> markup, a collector quirk, but the finding rests on the browser name). In the same tree every link that wraps its image in a <figure> has an empty name while hamburger-menu links with span-wrapped images include the alt, so Chrome does not carry the alt through the figure. elementFails: in Chrome/Edge, as users receive it at desktop width (hidden md:* shows it), the focusable link exposes no accessible name; the accname spec would recurse into the figure, but WCAG judges what accessibility-supported user agents expose, and axe-style link-name checks skip figure content too. Redundancy with the headline link does not give this link a name. captureDiffers: the live HTML (curl, fetched 2026-11-21) has the same figure/img/noscript structure and no naming attribute. The claim names the real defect (empty link name), so true_positive."
+    },
+    {
+      "fingerprint": "pf708054070d",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Thumbnail image that is the only content of a link to the article \"BDR, ação nos EUA ou ETF: as formas de investir na Anthropic a partir do Brasil\". Its alt is that headline, which states the link's destination, the function a text alternative for an image link must convey (H30); the crop shows an Anthropic/Claude logo illustration, so nothing informative is lost for the link's purpose. The repetition of the adjacent headline link is a redundancy issue, not a 1.1.1 failure, and the img node itself exposes the alt (the empty name of the enclosing link is a 4.1.2 matter, reported separately). captureDiffers: the live HTML has the same img and alt. elementFails no, so Rampa's silence is correct: false_positive."
+    },
+    {
+      "fingerprint": "240a4a15e299",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image link in a related-articles card: <a> > <figure> > span > img with alt (\"BDR, ação nos EUA ou ETF: as formas de investir na Anthropic a partir do Brasil\"), no text, no aria-label, aria-labelledby or title; the headline is a separate adjacent link to the same href. claimTrue: the snapshot's CDP tree gives this link the name \"\" (Rampa's own 'name' field is raw <noscript> markup, a collector quirk, but the finding rests on the browser name). In the same tree every link that wraps its image in a <figure> has an empty name while hamburger-menu links with span-wrapped images include the alt, so Chrome does not carry the alt through the figure. elementFails: in Chrome/Edge, as users receive it at desktop width (hidden md:* shows it), the focusable link exposes no accessible name; the accname spec would recurse into the figure, but WCAG judges what accessibility-supported user agents expose, and axe-style link-name checks skip figure content too. Redundancy with the headline link does not give this link a name. captureDiffers: the live HTML (curl, fetched 2026-11-21) has the same figure/img/noscript structure and no naming attribute. The claim names the real defect (empty link name), so true_positive."
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "page": "https://www.lojasrenner.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "pfa8e4c7971f",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Brand link in the 'NAVEGUE PELAS MARCAS PARCEIRAS' carousel, holding a logo image with alt 'Mizuno' and a visible span 'Mizuno'. Its text names the brand, the heading just before it says these are partner brands, and the destination is the Mizuno brand page (title and h1 'Mizuno'), so the purpose is clear from the text and passes 2.4.4. The repeated name (alt plus span) is redundant but does not hide the purpose. The live server HTML has the same link, alt, text and href as the snapshot."
+    },
+    {
+      "fingerprint": "c0ac03c78b91",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image in the active slide of the main carousel; it is the only content of its link (the 'COMPRAR' heading sits in a separate link), so its alt is the link's name. The alt 'P02 261120 HOME CARROSSELPRINCIPAL OFERTADODIA TODOINFANTIL APP' is the image file name with underscores turned into spaces. The banner reads 'todo o infantil, oferta do dia, só por 24h, 2 = 15% OFF, 4 = 20% OFF' and the link goes to a kids' product list. A file-name alt on a functional image is failure F30 and does not convey the link's purpose, so the element fails 1.1.1. The claim (all the link holds, does not say where it leads) is true of the snapshot and points at that defect. The carousel is filled in by client-side scripts, so my own fetch of the server HTML could not show it. The capture is a fully styled, scripted render with no sign of a bot version, and nothing suggests users got a different alt."
+    },
+    {
+      "fingerprint": "p75ec74ba083",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Image that is the only content of a link in the 'DESTAQUES DO AQUECE BLACK FRIDAY' mosaic. Its alt 'VESTIDOS ATÉ 70% OFF' repeats the text in the image ('vestidos até 70% OFF'), and the link leads to a dress list. The alt is a proper alternative for the text in the image and gives the link's purpose, so it meets 1.1.1, and Rampa was right to report nothing. The mosaic is inserted by scripts my fetch of the server HTML cannot run. The capture is a fully scripted, styled render with no sign that it differs."
+    },
+    {
+      "fingerprint": "b88d40d5e8ac",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image that is the only content of a link in the Black Friday mosaic. Its alt '261117 HOME APOSTAS BF ACESSORIOS' is the file name (261117_HOME_APOSTAS_BF_ACESSORIOS.jpg) with the underscores and extension removed. The image reads 'acessórios até 70% OFF'. A file name used as alt is failure F30. Here it buries the one meaningful word among internal codes ('APOSTAS' is campaign jargon) and leaves out the offer, so it neither replaces the image's text nor clearly gives the link's purpose. The element fails 1.1.1. The claim (all the link holds, does not say where the link leads) is true of the snapshot in substance: 'ACESSORIOS' only hints at the destination. Read in good faith, it points at this defect. The mosaic is inserted by scripts my server-HTML fetch cannot run. The capture is a full scripted render with no sign that it differs."
+    },
+    {
+      "fingerprint": "s1277547ce8c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page's only h1, 'Lojas Renner S.A.', set in 10px text below the main carousel and before the 'DESTAQUES DO AQUECE BLACK FRIDAY' h2. As the h1 of the Lojas Renner home page, the content under it is the store's home page as a whole, which the company name describes. A site- or company-name h1 on a home page describes the page's topic, and 2.4.6 asks only that headings describe topic or purpose, so it passes. The claim that it says nothing about the content under it is not true of the snapshot: everything under it is that company's store content. The live server HTML has the same h1 in the same place. The model had this context and judged wrongly."
+    },
+    {
+      "fingerprint": "sb11d4f8a775",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Partner-brand carousel link with a logo image (alt) and the text 'L'oréal Professionnel', under the heading 'NAVEGUE PELAS MARCAS PARCEIRAS'. Its href is /marca/truss/-/N-199la5zZ6rd7lz. As captured, the destination's title and h1 say 'Truss', so the claimed mismatch holds for the snapshot's data. But fetching that destination shows its product grid is L'Oréal Professionnel products (Vitamino Color, Serie Expert, Absolut Repair, Metal Detox...). Only the page's title, h1 and SEO copy come from the Truss brand template. The link text therefore describes what the link delivers, and the element passes 2.4.4. The wrong title and heading are the destination page's own 2.4.2/2.4.6 problem. The live home page has the same link, and the destination's title and h1 are as captured. Rampa read only the destination's title and heading, not its contents."
+    },
+    {
+      "fingerprint": "d31249de76b8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'previous slider' arrow button of the partner-brand carousel. Its class includes slick-disabled: the carousel is at its first slide, so react-slick removes the click handler. Its icon is #e0e0e0 from the CSS, against #ffffff (1.32:1), while the active 'next slider' arrow is #191927 (17.36:1). The screenshot also shows the left arrow lighter than the right. The measured facts in the claim are true of the snapshot. But the light grey is the inactive state, and 1.4.11 does not apply to inactive components (Understanding 1.4.11: visible but not currently operable, not required to meet contrast). So the element does not fail 1.4.11. That the button stays focusable with no disabled or aria-disabled state is a possible 4.1.2 issue, not a 1.4.11 one. The arrows are script-rendered, and at load users get the same first-slide state, so there is no capture difference. The rule ignored the inactive exemption."
+    },
+    {
+      "fingerprint": "b393eec1d572",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image that is the only content of a link in the Black Friday mosaic. Its alt '261117 HOME APOSTAS BF JEANS' is the file name (261117_HOME_APOSTAS_BF_JEANS.jpg) with the underscores and extension removed. The image reads 'jeans até 60% OFF'. A file-name alt is failure F30. It hides the one meaningful word among internal codes and leaves out the offer, so it neither replaces the image's text nor clearly gives the link's purpose. The element fails 1.1.1. The claim is true of the snapshot in substance ('JEANS' only hints at the destination). Read in good faith, it names this defect. The mosaic is script-inserted and my server-HTML fetch could not show it. The capture is a full scripted render with no sign that it differs."
+    },
+    {
+      "fingerprint": "878bb7090b97",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Wide banner image that is the only content of a link to /lp/app. Its alt is 'Estilo'. The banner reads 'BLACK friday é no APP! 15% OFF na 1ª compra, CUPOM: VOUDEAPP, BAIXE JÁ', plus notes on notifications and free delivery. It is an invitation to download the app with a coupon. 'Estilo' ('style') conveys none of that and not the link's purpose, so the element fails 1.1.1. The claim (all the link holds, does not say where the link leads) is true and names the failure. The live server HTML has the same markup (alt='Estilo', href='/lp/app'), also in the mobile copy."
+    },
+    {
+      "fingerprint": "s1f9769553d9",
+      "answers": {
+        "claimTrue": "cannot_tell",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Partner-brand carousel link with a logo image (alt 'MAC') and the text 'MAC', under the heading 'NAVEGUE PELAS MARCAS PARCEIRAS'. Its href is /marca/mundial-calcados/-/N-i4mfjbZkk57ib. The snapshot records only the destination's generic title 'Marca - Renner' ('Brand - Renner'), which neither matches nor contradicts 'MAC'. So the capture does not show the claimed mismatch. Fetching the destination shows a grid of MAC cosmetics (Duo de Sombras MAC, Batom MACximal, Lip Balm MAC...), so the link text with its heading states the purpose correctly, and the element passes 2.4.4. The live link and the destination title match the capture. The model read a mismatch into a generic title."
+    },
+    {
+      "fingerprint": "sd02811d69ab",
+      "answers": {
+        "claimTrue": "cannot_tell",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Partner-brand carousel link with a logo image (alt 'New Balance') and the text 'New Balance', under the heading 'NAVEGUE PELAS MARCAS PARCEIRAS'. Its href is /lista/-/N-jj8685Zkk57ib. The snapshot records only the destination's generic title 'Lista - Renner' ('List - Renner'), which does not contradict the link text, so the capture does not show the claimed mismatch. Fetching the destination shows a list of New Balance sneakers (2002D, CT300, Fresh Foam, 530...), so the purpose is clear from the link text and the element passes 2.4.4. The live link and the destination title match the capture. The model read a mismatch into a generic title."
+    }
+  ]
+}

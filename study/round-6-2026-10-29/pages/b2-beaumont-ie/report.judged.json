@@ -1,0 +1,651 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://www.beaumont.ie/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "4ffd8c1bf791",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(4) > div > img",
+   "message": "The text alternative \"Careers\" describes something the image does not show.",
+   "evidence": "Careers",
+   "subject": "Careers",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(4) > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Careers",
+    "to": "Healthcare",
+    "before": "<img loading=\"lazy\" src=\"/sites/default/files/2024-10/health.svg\" alt=\"Careers\">",
+    "after": "<img loading=\"lazy\" src=\"/sites/default/files/2024-10/health.svg\" alt=\"Healthcare\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9983572953681187
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "b593333f958d",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > div > div > div > img",
+   "message": "The text alternative \"Services photo\" names a label, not what the image conveys here.",
+   "evidence": "Services photo",
+   "subject": "Services photo",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(2) > div > div > div:nth-of-type(1) > div > div > div > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Services photo",
+    "to": "A healthcare professional checking a patient's pulse in a medical facility.",
+    "before": "<img loading=\"lazy\" src=\"/sites/default/files/styles/large/public/2024-12/Patient%20being%20treated%204_560_560.jpg.webp?itok=jytOjLBl\" width=\"480\" height=\"480\" alt=\"Services photo\" class=\"image-style-large\">",
+    "after": "<img loading=\"lazy\" src=\"/sites/default/files/styles/large/public/2024-12/Patient%20being%20treated%204_560_560.jpg.webp?itok=jytOjLBl\" width=\"480\" height=\"480\" alt=\"A healthcare professional checking a patient's pulse in a medical facility.\" class=\"image-style-large\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999710964271807
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "1d319c006ca8",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(4) > div > div > div:nth-of-type(8) > a > div > img",
+   "message": "The text alternative \"Fitt 1\" names a label, not what the image conveys here.",
+   "evidence": "Fitt 1",
+   "subject": "Fitt 1",
+   "claim": "wrong_content",
+   "techniques": [
+    "G94"
+   ],
+   "patch": {
+    "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(4) > div > div > div:nth-of-type(8) > a > div > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Fitt 1",
+    "to": "Healthcare team celebrating the 10th anniversary of the Frailty Intervention Therapy Team (FITT).",
+    "before": "<img loading=\"eager\" class=\"img-fluid image-style-wide\" src=\"/sites/default/files/styles/wide/public/2025-10/Fitt%2010th%20anniversary1.jpg.webp?itok=KSw3bI-e\" width=\"543\" height=\"597\" alt=\"Fitt 1\">",
+    "after": "<img loading=\"eager\" class=\"img-fluid image-style-wide\" src=\"/sites/default/files/styles/wide/public/2025-10/Fitt%2010th%20anniversary1.jpg.webp?itok=KSw3bI-e\" width=\"543\" height=\"597\" alt=\"Healthcare team celebrating the 10th anniversary of the Frailty Intervention Therapy Team (FITT).\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "confirmation": {
+    "framings": 3,
+    "minProbability": 0.9999698039226426
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "33fd2b3970ce",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#edit-keys",
+   "target": "#edit-keys",
+   "message": "The text \"#edit-keys\" has at most 4.22:1 contrast with what is behind it (#f8f8f8 on #b3b0ab…#777a79), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#f8f8f8 on #787a79; #b3b0ab…#777a79 · 4.22:1 at best, 2.04:1 at worst · 16px, 400",
+   "subject": "#edit-keys",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input placeholder=\"Search beaumont.ie\" class=\"search form-autocomplete ui-autocomplete-input form-autocomplete\" data-drupal-selector=\"edit-keys\" data-search-api-autocomplete-search=\"search_content\" data-autocomplete-path=\"/search_api_autocomplete/search_content?display=block_1&amp;&amp;filter=keys\" type=\"text\" id=\"edit-keys\" name=\"keys\" value=\"\" size=\"30\" maxlength=\"128\" data-once=\"autocomplete search-api-autocomplete\" autocomplete=\"off\" style=\"background-image: none;\">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "e4e98bf43d1d",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "#edit-keys",
+   "target": "#edit-keys",
+   "message": "The placeholder \"Search beaumont.ie\" has a contrast of 4.34:1 with the field (#ffffff on #b3b0ab…#777a79). Placeholder text is text, and WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#ffffff on #787a79; #b3b0ab…#777a79 · 4.34:1 at best, 2.16:1 at worst · 16px, 400",
+   "subject": "Search beaumont.ie",
+   "confidence": "low",
+   "ruleId": "rampa/placeholder-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<input placeholder=\"Search beaumont.ie\" class=\"search form-autocomplete ui-autocomplete-input form-autocomplete\" data-drupal-selector=\"edit-keys\" data-search-api-autocomplete-search=\"search_content\" data-autocomplete-path=\"/search_api_autocomplete/search_content?display=block_1&amp;&amp;filter=keys\" type=\"text\" id=\"edit-keys\" name=\"keys\" value=\"\" size=\"30\" maxlength=\"128\" data-once=\"autocomplete search-api-autocomplete\" autocomplete=\"off\" style=\"background-image: none;\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 6
+ },
+ "groups": null,
+ "needsReview": [
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(1) > img",
+   "message": "The text alternative \"Hero Background\" describes something the image does not show.",
+   "evidence": "The model suggests: \"A nurse and a medical student providing care to a patient.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: yes (0.99), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(4) > div > div > div:nth-of-type(1) > a > div > img",
+   "message": "The text alternative \"NPIC-60\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"Celebrating 60 years of the National Poisons Information Centre of Ireland (1966-2026)\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.00), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(4) > div > div > div:nth-of-type(7) > a > div > img",
+   "message": "The text alternative \"strategy1\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"A large group of people attending a presentation in a lecture hall.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: yes (0.84), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(4) > div > div > div:nth-of-type(9) > a > div > img",
+   "message": "The text alternative \"CEO at RCSI even\" describes something the image does not show.",
+   "evidence": "The model suggests: \"Anne Coyne and colleagues at the ribbon-cutting ceremony for the new stem cell research facility.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: fail (1.00), claim: no (0.04), reversed: no (1.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "1.1.1",
+   "level": "A",
+   "ruleId": "judgment/1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(4) > div > div > div:nth-of-type(10) > a > div > img",
+   "message": "The text alternative \"Coral team 3\" names a label, not what the image conveys here.",
+   "evidence": "The model suggests: \"The Project Coral team posing with colorful balloons.\" · A second pass, asked one word at a time three ways, did not confirm it (rules: pass (0.01), claim: no (0.00), reversed: yes (0.00))",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#CollapsingNavbar > div > div > ul > li:nth-of-type(4) > a",
+   "message": "The link text \"I want to\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Cookie Preferences\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#block-beaumont-barrio-address1 > div > p > a",
+   "message": "The link text \"P.O. Box 1297 Beaumont Road D09 V2N0 Dublin 9, Ireland\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"Contact us\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "#block-beaumont-barrio-address2 > div > p > a",
+   "message": "The link text \"Springdale Road Raheny Dublin 5, D05 E261, Ireland\" is an address, not a purpose.",
+   "evidence": "The model suggests: \"View location on map\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "#CybotCookiebotDialogBodyLevelButtonNecessary",
+   "message": "The label \"Necessary\" does not say what to enter.",
+   "evidence": "The model suggests: \"Necessary cookies\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(1) > div:nth-of-type(1) > h1",
+   "message": "The heading \"Building Excellence in Care, Together\" names a different topic than the content under it.",
+   "evidence": "The model suggests: \"Hospital Services and Information\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(1) > div > div:nth-of-type(1) > p:nth-of-type(5) > button > img",
+   "reason": "suggested alternative is a label, not a description",
+   "output": {
+    "verdict": "fail",
+    "evidence": "arrow",
+    "problem": "wrong_content",
+    "imageShows": "A blue right-pointing arrow icon.",
+    "suggestedAlt": "decorative",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(1) > div > div:nth-of-type(2) > p:nth-of-type(5) > button > img",
+   "reason": "suggested alternative is a label, not a description",
+   "output": {
+    "verdict": "fail",
+    "evidence": "arrow",
+    "problem": "wrong_content",
+    "imageShows": "A blue right-pointing arrow icon.",
+    "suggestedAlt": "decorative",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(2) > div > div > div:nth-of-type(2) > button > img",
+   "reason": "suggested alternative is a label, not a description",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Arrow icon",
+    "problem": "wrong_content",
+    "imageShows": "A dark blue right-pointing arrow icon.",
+    "suggestedAlt": "decorative",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(3) > button:nth-of-type(1) > img",
+   "reason": "suggested alternative is a label, not a description",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Arrow icon",
+    "problem": "wrong_content",
+    "imageShows": "A dark blue right-pointing arrow icon.",
+    "suggestedAlt": "decorative",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(3) > div > div > div:nth-of-type(1) > div:nth-of-type(3) > button:nth-of-type(2) > img",
+   "reason": "suggested alternative is a label, not a description",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Arrow icon",
+    "problem": "wrong_content",
+    "imageShows": "A dark blue right-pointing arrow icon.",
+    "suggestedAlt": "decorative",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(4) > div > div > div:nth-of-type(2) > a > div > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Health-App",
+    "problem": "wrong_content",
+    "imageShows": "A promotional graphic for the HSE Health App showing a smartphone and statistics about registered users.",
+    "suggestedAlt": "Promotional graphic for the HSE Health App showing a smartphone and user statistics.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(4) > div > div > div:nth-of-type(3) > a > div > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "feedback",
+    "problem": "wrong_content",
+    "imageShows": "A promotional graphic for Beaumont Hospital's Feedback Clinic featuring a healthcare worker and a patient.",
+    "suggestedAlt": "Beaumont Hospital Feedback Clinic: Your voice matters. Share your experience and help us improve.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(4) > div > div > div:nth-of-type(4) > a > div > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Changing Places",
+    "problem": "wrong_content",
+    "imageShows": "Two women are standing next to a man in a wheelchair who is using a computer.",
+    "suggestedAlt": "Staff members assisting a patient in a wheelchair using a computer at the new Changing Places facility.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > div:nth-of-type(4) > div > div > div:nth-of-type(5) > a > div > img",
+   "reason": "the alternative repeats the visible text of the link or button it sits in",
+   "output": {
+    "verdict": "fail",
+    "evidence": "way-finding",
+    "problem": "wrong_content",
+    "imageShows": "A promotional graphic for Beaumont Hospital featuring a wayfinding kiosk and a mobile app.",
+    "suggestedAlt": "Promotional graphic for Beaumont Hospital's new wayfinding kiosk and app to help patients plan their journey.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(2) > main > img:nth-of-type(1)",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "ESO",
+    "problem": "wrong_content",
+    "imageShows": "The ESO Stroke Centre logo next to a 'CERTIFIED' badge with a checkmark.",
+    "suggestedAlt": "ESO Stroke Centre certified logo",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > div:nth-of-type(2) > section > div:nth-of-type(1) > div:nth-of-type(2) > a:nth-of-type(2)",
+   "reason": "evidence is not the link text",
+   "output": {
+    "promises": "The link text 'Find a Department' suggests it leads to a page where users can search for or view hospital departments.",
+    "leadsTo": "a page titled 'Departments | Beaumont Hospital'",
+    "verdict": "pass",
+    "evidence": "Find a Department",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "#block-beaumont-barrio-about > a:nth-of-type(5)",
+   "reason": "suggested text equals the current one",
+   "output": {
+    "promises": "The link text 'Media Queries' and its context in a navigation-style list suggest it leads to a page for media inquiries or press contacts.",
+    "leadsTo": "A feedback and contact page for Beaumont Hospital.",
+    "verdict": "fail",
+    "evidence": "Media Queries",
+    "problem": "mismatch",
+    "suggestedText": "Media Queries",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.6",
+   "ref": "#block-beaumont-barrio-copyrightmenu-menu",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "named": "Copyright Menu",
+    "verdict": "fail",
+    "evidence": "C…",
+    "problem": "generic",
+    "suggestedText": "Copyright Information",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 25,
+   "judged": 25,
+   "failed": 3,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 10,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 5,
+   "unconfirmed": 5,
+   "confirmed": 3
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 53,
+   "judged": 50,
+   "failed": 0,
+   "passed": 45,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 3,
+   "suggested": 3
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 30,
+   "judged": 30,
+   "failed": 0,
+   "passed": 27,
+   "cannotTell": 0,
+   "discarded": 1,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 2
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 7,
+   "judged": 7,
+   "failed": 0,
+   "passed": 7,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "1 frame(s) were not checked at all, so whatever they hold was missed: html > body > iframe:nth-of-type(2) (cross-origin; skipped).",
+  "4 image(s) were left without a capture, so no judgment looked at them: 4 over the limit of images captured per page. The snapshot says why for each (native.imageSkipped).",
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 3 of 53 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 137,
+  "cachedCalls": 0,
+  "inputTokens": 107136,
+  "outputTokens": 9949,
+  "latencyMs": 331047
+ },
+ "timings": {
+  "totalMs": 174383,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 20
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 47046,
+    "prepareMs": 0,
+    "candidates": 25,
+    "judged": 25,
+    "calls": 49,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 1479,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 1,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 81926,
+    "prepareMs": 0,
+    "candidates": 53,
+    "judged": 50,
+    "calls": 50,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 37696,
+    "prepareMs": 0,
+    "candidates": 30,
+    "judged": 30,
+    "calls": 30,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 183,
+    "prepareMs": 181,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 6000,
+    "prepareMs": 0,
+    "candidates": 7,
+    "judged": 7,
+    "calls": 7,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 29
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 25,
+   "notCaptured": 4,
+   "reasons": {
+    "limit": 4
+   }
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 53,
+    "capped": 3
+   }
+  ]
+ },
+ "coverage": {
+  "reach": {
+   "frames": [
+    {
+     "ref": "html > body > iframe:nth-of-type(2)",
+     "url": "https://consentcdn.cookiebot.com/sdk/bc-v5.min.html",
+     "collected": false,
+     "reason": "cross-origin",
+     "engine": false,
+     "engineReason": "skipped"
+    }
+   ]
+  }
+ }
+}

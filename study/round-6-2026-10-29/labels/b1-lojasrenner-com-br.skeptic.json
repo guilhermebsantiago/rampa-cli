@@ -1,0 +1,125 @@
+{
+  "page": "https://www.lojasrenner.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "pfa8e4c7971f",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Brand-carousel link wrapping an img alt=\"Mizuno\" and a visible span \"Mizuno\", under the heading \"NAVEGUE PELAS MARCAS PARCEIRAS\". The link text alone names the brand, and the heading makes the purpose plain: browse Mizuno at Renner. I fetched the destination (/marca/mizuno/...): title and h1 say Mizuno and the listing is all Mizuno products. The doubled browser name (\"Mizuno Mizuno\") is redundant, not misleading. The live server-rendered HTML has the same link, href and alt as the snapshot. It meets 2.4.4, so Rampa missed nothing."
+    },
+    {
+      "fingerprint": "c0ac03c78b91",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the current slide of the main carousel: an image link whose only content is an img with alt \"P02 261120 HOME CARROSSELPRINCIPAL OFERTADODIA TODOINFANTIL APP\", which is the file name with its underscores turned into spaces. A separate COMPRAR link sits on top of it. The banner's text reads \"todo o infantil, oferta do dia - só por 24h, 2=15%OFF, 4=20%OFF, exceto lojas parceiras\". claimTrue is no only because the sentence goes too far: the run-together token TODOINFANTIL does hint at the destination, which I checked is a children's clothing listing. Still, the alternative is a file name (failure F30). It leaves out the offer and buries the purpose in noise, so it neither stands in for the image nor works as the link's name. I looked for a reason it might pass and found none: the COMPRAR link next to it does not convey the purpose either, and the image is not decorative. The live RichRelevance data for home_page.bannerCarrossel2_resp sends imgAlt \"\" for this creative, so the page users get builds the same file-name alt. The claim, read in good faith, points at this failure."
+    },
+    {
+      "fingerprint": "p75ec74ba083",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "An image link in the Black Friday mosaic with alt \"VESTIDOS ATÉ 70% OFF\". The crop shows the text \"vestidos até 70% OFF\" over a model in a dress, and the link goes to a dresses listing. The alt reproduces the image's text and conveys the link's purpose. The photo is incidental, so leaving it undescribed is acceptable for a functional image. The live RichRelevance data for home_page.mosaico2_banner1 sends the same imgAlt. It meets 1.1.1, so Rampa missed nothing."
+    },
+    {
+      "fingerprint": "b88d40d5e8ac",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "An image link in the Black Friday mosaic whose only content is an img with alt \"261117 HOME APOSTAS BF ACESSORIOS\", the file name 261117_HOME_APOSTAS_BF_ACESSORIOS.jpg with spaces for underscores. The image reads \"acessórios até 70% OFF\". claimTrue is no because the alt does contain ACESSORIOS, which matches the destination (I fetched it: bags, sunglasses, belts, scarves). So \"does not say where the link leads\" overstates the case. Even so, the alternative is a file name (F30), padded with internal codes (261117, HOME, APOSTAS, BF) and missing the offer the image conveys. It does not serve the same purpose as the image, and nothing else in the link names it. The live RichRelevance data for home_page.mosaico2_banner3 sends imgAlt \"\", which the page turns into this file-name alt, so the capture matches. The claim, read in good faith, points at this inadequate alternative."
+    },
+    {
+      "fingerprint": "s1277547ce8c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page's only h1 is \"Lojas Renner S.A.\", in small 10px text below the main carousel and above \"DESTAQUES DO AQUECE BLACK FRIDAY\". The live server-rendered HTML has the same h1. Everything under it is the store's home page: Black Friday highlights, trends, new arrivals, partner brands. A top-level heading that names the store on its own home page describes the page's topic. 2.4.6 asks only that headings describe topic or purpose, not that they summarise every section, and the h2s below do that for their sections. So the claim that it \"says nothing about the content under it\" does not hold. Small size and placement are not 2.4.6 issues. Rampa had all of this context and judged wrongly."
+    },
+    {
+      "fingerprint": "sb11d4f8a775",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A brand-carousel link with img alt and span \"L'oréal Professionnel\", under \"NAVEGUE PELAS MARCAS PARCEIRAS\", with href /marca/truss/-/N-199la5zZ6rd7lz. As captured, the destination record's title and heading say Truss, so the sentence is true of the capture. But I fetched that destination and its product listing is all L'Oréal Professionnel (Vitamino Color, Absolut Repair, Metal Detox, Serie Expert...). Only the page shell (slug, title, h1, SEO text) is mislabelled Truss. The link text accurately states its purpose, which is to browse L'Oréal Professionnel products, and following it delivers them. The mismatch is a defect of the destination page's own title and heading, not of this link, so it meets 2.4.4. The live home page has the same link, href and alt. Rampa saw only the destination's title and heading, never its products."
+    },
+    {
+      "fingerprint": "d31249de76b8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The \"previous slider\" arrow of the partner-brands carousel. Its class includes slick-disabled because the carousel starts at the first slide. The measured #e0e0e0 on white (1.32:1) is the disabled style. The \"next slider\" arrow, which is active, measures #191927 at 17.36:1 in the same snapshot. The screenshot shows the left arrow faint and the right one dark. In react-slick, a disabled arrow at slide 0 of a non-infinite carousel gets no click handler, so the control is visible but not currently operable. 1.4.11 exempts inactive components, and its Understanding document says they \"are not required to meet contrast requirements\". So the icon does not fail 1.4.11 in this state. Once the user advances, it turns dark. Not exposing the disabled state programmatically (no disabled or aria-disabled) would be a 4.1.2 matter, not a contrast failure. Users get the same initial state."
+    },
+    {
+      "fingerprint": "b393eec1d572",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "An image link in the Black Friday mosaic whose only content is an img with alt \"261117 HOME APOSTAS BF JEANS\", the file name with spaces for underscores. The image reads \"jeans até 60% OFF\". claimTrue is no because the token JEANS matches the destination (I fetched it: a listing of denim and twill items), so the sentence overstates. The alternative is still a file name (F30), with internal codes and without the offer the image conveys. It does not serve the image's purpose, and the link has no other text. The live RichRelevance data for home_page.mosaico2_banner4 sends imgAlt \"\", which the page turns into this file-name alt, so the capture matches. The claim points in good faith at this failure."
+    },
+    {
+      "fingerprint": "878bb7090b97",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A full-width banner link to /lp/app (title \"Tá no APP. Tá na Renner\"), whose only content is an img with alt \"Estilo\". The image reads \"BLACK friday é no APP! 15% OFF na 1ª compra, CUPOM: VOUDEAPP, BAIXE JÁ\" plus notes about notifications and free in-store pickup. \"Estilo\" (style) conveys neither the image's text nor the link's purpose, which is to get the app and its coupon, so the claim is true. It is a functional image whose alternative does not describe its function, which fails 1.1.1. I found no saving context: no other text in the link and no nearby heading that names it. The live server-rendered HTML has the identical img with alt=\"Estilo\" in both the desktop and mobile versions."
+    },
+    {
+      "fingerprint": "s1f9769553d9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A brand-carousel link with img alt and span \"MAC\", under \"NAVEGUE PELAS MARCAS PARCEIRAS\", with href /marca/mundial-calcados/-/N-i4mfjbZkk57ib. The destination's title \"Marca - Renner\" (\"Brand - Renner\") is generic and does not contradict \"MAC\", so the claimed mismatch does not follow from the capture. I fetched the destination and it lists MAC cosmetics (Strobe, Lipglass, Dazzle kits, Holiday sets). The link text states its purpose correctly, and the doubled browser name \"MAC MAC\" is only redundant, so it meets 2.4.4. The live home page has the same link."
+    },
+    {
+      "fingerprint": "sd02811d69ab",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A brand-carousel link with img alt and span \"New Balance\", under \"NAVEGUE PELAS MARCAS PARCEIRAS\", with href /lista/-/N-jj8685Zkk57ib. The destination's title \"Lista - Renner\" is generic and does not contradict the link text, so the claimed mismatch is not shown by the capture. I fetched the destination and it lists New Balance sneakers (2002D, CT300, Fresh Foam, 530...). The link text states its purpose correctly, so it meets 2.4.4. The live home page has the same link, href and alt."
+    }
+  ]
+}

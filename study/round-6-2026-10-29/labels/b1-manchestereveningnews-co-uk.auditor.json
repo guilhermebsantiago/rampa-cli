@@ -1,0 +1,116 @@
+{
+  "page": "https://www.manchestereveningnews.co.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "9c315eb467e6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the teaser thumbnail for the 'Off-duty officer...' story; the crop and the article page's caption ('GMP HQ, Newton Heath (stock image)') show it is a stock photo of the Greater Manchester Police HQ building. claimTrue: the alt is the headline, describing an officer attacking cops, which the photo does not show. The pattern is a news teaser thumbnail whose alt repeats the headline that sits right after it in a separate heading link (the img is not inside the link). Duplicating the headline is a redundancy that axe and most audit practice treat as best practice; whether a thumbnail alt that names the story instead of describing the photo fails 1.1.1 is a point on which competent auditors split (some fail it as not describing the image, or as a non-null alt on an image that should be decorative, F39; others pass it because the alt identifies the story the image illustrates). My lean is that this illustrative stock image does not fail (the alt identifies the story; it would ideally be alt=\"\"), but the disagreement is real, so the label is uncertain. captureDiffers: the live page still has this card with the same img, alt and structure."
+    },
+    {
+      "fingerprint": "7e09f2649ac6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the teaser thumbnail for 'Man City face wait on two injured players ahead of Fulham game'; the linked article identifies the photo as Abdukodir Khusanov of Manchester City in a match. claimTrue: the alt (the headline) describes a team-news situation, not the pictured player gesturing, so it describes something the image does not show. The pattern is a news teaser thumbnail whose alt repeats the headline that sits right after it in a separate heading link (the img is not inside the link). Duplicating the headline is a redundancy that axe and most audit practice treat as best practice; whether a thumbnail alt that names the story instead of describing the photo fails 1.1.1 is a point on which competent auditors split (some fail it as not describing the image, or as a non-null alt on an image that should be decorative, F39; others pass it because the alt identifies the story the image illustrates). My lean is no failure for an illustrative player photo, but the label is uncertain. captureDiffers: the card has rotated off the live homepage, but the live cards that replaced it use the identical template (alt = headline, img outside the link), and the screenshot shows the capture rendered normally, so nothing suggests the capture differed from what users received when Rampa read it."
+    },
+    {
+      "fingerprint": "26c1c08f2373",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the premium badge img (premium-byline-men.svg) above the 'Off-duty officer...' headline; the crop and screenshot show the MEN monogram plus the word 'PREMIUM', marking the article as subscriber content. Its alt is 'men', which conveys only the brand abbreviation (and reads as the word 'men'), not the premium status; no other text in the card or the link's aria-label says 'Premium'. claimTrue: 'men' is a label, not what the image conveys here. elementFails: the text alternative does not serve the equivalent purpose, so 1.1.1 fails, and the claim names exactly that. captureDiffers: the live page has the same card with alt=\"men\"."
+    },
+    {
+      "fingerprint": "12e465490137",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header's sign-in button, an icon-only control (aria-label 'User Avatar - redirects to sign in and sign up'). The live markup and CSS confirm the icon is drawn with stroke var(--color-com-header-primary-nav-avatar-bg) = #ffffff on a transparent button over the primary header background #f0ba00 (xl-v2.css tokens, used at the 1280px viewport); the only other path is white at 16% opacity. White on #f0ba00 is about 1.79:1, below the 3:1 that 1.4.11 requires for the visual information needed to identify a component, and the icon is all the control shows. The claim states this accurately. captureDiffers: the live HTML and token stylesheet match the capture (the full-page screenshot leaves the header area blank, but the measured colours agree with the CSS)."
+    },
+    {
+      "fingerprint": "fb859104b8e9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the logo img at the top of the InMobi/Quantcast consent dialog ('Take control of your privacy'); the crop shows the 'Manchester Evening News' wordmark, and its alt is the generic 'Publisher Logo'. claimTrue: the image does show a publisher logo, so the sentence that the alt describes something the image does not show is false as worded. elementFails: the alt leaves out the only thing the logo conveys, the publication's name; it is placeholder-like text (F30), and if the logo were decorative a non-null alt like this would fail too (F39), so 1.1.1 fails. Read in good faith, as the rubric's example of an alternative that leaves out most of what the image conveys, the claim points at this alt as not matching the image, so it is a true positive. captureDiffers: the consent dialog (with the UK 'Reject and Pay' option) is what a first-time UK visitor receives; the live CMP config still sets the same cmp-MEN-logo image. I could not render the dialog myself, but nothing suggests a different version."
+    },
+    {
+      "fingerprint": "0eba711d0d78",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the lead NEWS teaser thumbnail for the BuzzBallz crash story; the crop and the article captions show a composite of the driver's GMP custody photo (Apollo Simms) and the girlfriend (Natasha Denman) drinking. claimTrue: the alt (the headline) describes the crash at 84mph into roadworks, which the image does not show. The pattern is a news teaser thumbnail whose alt repeats the headline that sits right after it in a separate heading link (the img is not inside the link). Duplicating the headline is a redundancy that axe and most audit practice treat as best practice; whether a thumbnail alt that names the story instead of describing the photo fails 1.1.1 is a point on which competent auditors split (some fail it as not describing the image, or as a non-null alt on an image that should be decorative, F39; others pass it because the alt identifies the story the image illustrates). Here the photo is more informative than a stock image, but the alt does name the driver and girlfriend it shows; my lean is no failure, and the label is uncertain. captureDiffers: the live page has since reworded the headline and alt ('...in 84mph crash') and moved the card, with the same image and template; the change does not touch the claim, so I judged from the capture."
+    },
+    {
+      "fingerprint": "947c452078d4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the teaser thumbnail for 'Mauricio Pochettino confirms Bruno Fernandes decision at Manchester United'; the article caption confirms the photo is Bruno Fernandes in a Manchester United training top. claimTrue: the alt is about Pochettino confirming a decision, and Pochettino and the decision are not shown, so it does describe something the image does not show (though it names Bruno Fernandes, who is shown). The pattern is a news teaser thumbnail whose alt repeats the headline that sits right after it in a separate heading link (the img is not inside the link). Duplicating the headline is a redundancy that axe and most audit practice treat as best practice; whether a thumbnail alt that names the story instead of describing the photo fails 1.1.1 is a point on which competent auditors split (some fail it as not describing the image, or as a non-null alt on an image that should be decorative, F39; others pass it because the alt identifies the story the image illustrates). My lean is no failure because the alt names the pictured player, but auditors would split, so uncertain. captureDiffers: the card has rotated off the live homepage; the remaining cards use the same template, and nothing suggests the capture differed from what users received then."
+    },
+    {
+      "fingerprint": "11279ba0ba17",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the premium badge img on the NEWS teaser \"'She's in bed, I'm watching Match of the Day...'\"; the crop shows the MEN monogram and 'PREMIUM'. Its alt is 'men', which does not convey that the article is premium content, and nothing else in the card (headline link aria-label, footer tag 'Courts') does. claimTrue: yes. elementFails: the text alternative does not serve the equivalent purpose, a 1.1.1 failure the claim names. captureDiffers: the live page still has this card with the same badge and alt=\"men\"."
+    },
+    {
+      "fingerprint": "d1969d886990",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the teaser thumbnail for 'Why Mauricio Pochettino held three-hour meetings with Manchester United players'. The crop shows a man in a black jacket with his arm round players in Manchester United training kit, and the linked article's figure (same Getty image, alt 'Mauricio Pochettino') is captioned 'Mauricio Pochettino spent three hours holding meetings with Manchester United players on Thursday'. claimTrue: the alt names what the image shows (Pochettino with United players at those meetings), so the claim is false. elementFails: the alt identifies the people and occasion pictured; it duplicates the headline (a best-practice redundancy), but it does not fail 1.1.1. The checker had the crop and judged wrongly: model_error. captureDiffers: the live page has the same image with a shortened alt ('Why Pochettino held three-hour meetings with United players'); no difference touches the claim."
+    },
+    {
+      "fingerprint": "sc024294643e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Court' link in the mobile navigation curtain, inside the nested list 'News Submenu' under the list item 'News' (link 'News' plus 'Show submenu for News'); it goes to the Manchester Crown Court topic page. By this round's rule the parent list item of a nested list counts as context (H81), so the purpose, court news within News, is determinable from the link text with its context, and the destination matches it; 'Court' is also a normal section label on a news site. claimTrue: 'nothing around it does' is false, since the nested-list context is in the snapshot (the ancestors show it). elementFails: no. The curtain is sr-only and inert at this width (the AX tree marks it ignored, inertElement), so users meet it only when the menu opens, with the same context. The checker had the ancestors and judged wrongly: model_error. captureDiffers: the live HTML has the same inert curtain and the same link."
+    }
+  ]
+}

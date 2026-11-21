@@ -1,0 +1,147 @@
+{
+  "page": "https://exame.com/invest/mercados/producao-da-petrobras-bate-recorde-no-3o-tri-e-importacao-de-diesel-dispara/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "199667ba7233",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the article's lead photo, an aerial view of an FPSO oil production ship at sea with a helideck, stylised by a filter. Its alt is exactly the visible caption below it, which is a <p>, not a figcaption: \"Petrobras: dados de produção do 3º tri bateram recorde (MAURO PIMENTEL/AFP/Getty Images)\". claimTrue is yes. The alt states a news fact, that production data broke a record, and gives a photo credit. The image shows neither data nor a record. elementFails is yes. The alt gives none of what the photo conveys: no ship, no platform, nothing about the scene. A screen reader user hears the caption twice and never learns what is pictured. That falls short of G94 (an alternative presenting the same information as the image). The photo is the editorial lead image, not decoration. Read in good faith, the claim names this defect (the rubric's own example). captureDiffers is no: the live HTML has the same image src, the same alt and the same caption, and the screenshot is styled."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the newsletter sign-up field in the sidebar box 'Saiba investir melhor', labelled 'Seu e-mail' by a <label for=email>. It is <input id=email type=email name=email> with no autocomplete attribute. claimTrue is yes: no autocomplete in the capture, and the snapshot records Chrome's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError on this field, so 'Chromium's own form check flags it' holds. elementFails is yes. The field collects the user's own email address, which is an Input Purpose ('email') under 1.3.5. type=email gives the data format but not that this is the user's own address. Without autocomplete=\"email\" (H98), the purpose is not programmatically determined. captureDiffers is no: the live server HTML has the same input with no autocomplete, and the screenshot shows the field rendered as captured."
+    },
+    {
+      "fingerprint": "89596b1a1bf0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image link of the fourth 'Mais na Exame' card (Google Fotos article): <a class='hidden md:block'><figure>... <img alt='Imagem referente à matéria: Arquivar ou trancar fotos...'></figure></a>. In the capture, Chrome's own accessibility tree (CDP) gives this link the role link and the name \"\". The image's alt inside it does not count toward the name because the link wraps a <figure>, and figure's role does not allow a name from content, so Chrome leaves the link unnamed (this pattern is documented: Adrian Roselli, \"Don't Wrap Figure in a Link\", 2025). So claimTrue is yes: the browser exposes a link with no name. Rampa's own snapshot 'name' (\"<img alt=...\") is the <noscript> markup read as text. That is a collector artefact, but the rule went by the browser's name, not that one. elementFails is yes. A focusable link reaches assistive tech with no name: Tab and links lists give 'link' or the URL, and voice control has nothing to say. A headline link next to it goes to the same URL, but that does not give this link a name. Some screen readers in browse mode read the figure's content, but that does not meet 4.1.2's 'name can be programmatically determined'. The screenshot is fully styled and shows the image card at these bounds, and class 'hidden md:*' is shown at the 1280 px viewport. captureDiffers is no. On the live page the 'Mais na Exame' cards have rotated to other articles, so this exact link is gone, but every current card uses the identical <a><figure><img alt></figure></a> markup. The rotation does not touch the claim, and the capture reflects what users received when Rampa read the page."
+    },
+    {
+      "fingerprint": "1978d424f618",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image link of the second 'Mais na Exame' card (Caito Maia / Chilli Beans article), an <a> wrapping a <figure> with an <img alt='Imagem referente à matéria: ...'>. In the capture, Chrome's own accessibility tree (CDP) gives this link the role link and the name \"\". The image's alt inside it does not count toward the name because the link wraps a <figure>, and figure's role does not allow a name from content, so Chrome leaves the link unnamed (this pattern is documented: Adrian Roselli, \"Don't Wrap Figure in a Link\", 2025). So claimTrue is yes: the browser exposes a link with no name. Rampa's own snapshot 'name' (\"<img alt=...\") is the <noscript> markup read as text. That is a collector artefact, but the rule went by the browser's name, not that one. elementFails is yes. A focusable link reaches assistive tech with no name: Tab and links lists give 'link' or the URL, and voice control has nothing to say. A headline link next to it goes to the same URL, but that does not give this link a name. Some screen readers in browse mode read the figure's content, but that does not meet 4.1.2's 'name can be programmatically determined'. The screenshot is fully styled and shows the image card at these bounds, and class 'hidden md:*' is shown at the 1280 px viewport. captureDiffers is no. The live 'Mais na Exame' cards now show other articles, but they use the same markup, so the difference does not touch this claim."
+    },
+    {
+      "fingerprint": "1c7b4d9232a3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image link of the third 'Mais na Exame' card (Nasdaq / AI stocks article), an <a> wrapping a <figure> with an <img alt='Imagem referente à matéria: Tombo das ações de IA...'>. In the capture, Chrome's own accessibility tree (CDP) gives this link the role link and the name \"\". The image's alt inside it does not count toward the name because the link wraps a <figure>, and figure's role does not allow a name from content, so Chrome leaves the link unnamed (this pattern is documented: Adrian Roselli, \"Don't Wrap Figure in a Link\", 2025). So claimTrue is yes: the browser exposes a link with no name. Rampa's own snapshot 'name' (\"<img alt=...\") is the <noscript> markup read as text. That is a collector artefact, but the rule went by the browser's name, not that one. elementFails is yes. A focusable link reaches assistive tech with no name: Tab and links lists give 'link' or the URL, and voice control has nothing to say. A headline link next to it goes to the same URL, but that does not give this link a name. Some screen readers in browse mode read the figure's content, but that does not meet 4.1.2's 'name can be programmatically determined'. The screenshot is fully styled and shows the image card at these bounds, and class 'hidden md:*' is shown at the 1280 px viewport. captureDiffers is no. The live 'Mais na Exame' cards have rotated, but they use the identical markup, so nothing that touches the claim differs."
+    },
+    {
+      "fingerprint": "7b49b4927e16",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image link of the first 'Mais na Exame' card (GTA 6 article), an <a> wrapping a <figure> with an <img alt='Imagem referente à matéria: GTA 6 fatura...'>. In the capture, Chrome's own accessibility tree (CDP) gives this link the role link and the name \"\". The image's alt inside it does not count toward the name because the link wraps a <figure>, and figure's role does not allow a name from content, so Chrome leaves the link unnamed (this pattern is documented: Adrian Roselli, \"Don't Wrap Figure in a Link\", 2025). So claimTrue is yes: the browser exposes a link with no name. Rampa's own snapshot 'name' (\"<img alt=...\") is the <noscript> markup read as text. That is a collector artefact, but the rule went by the browser's name, not that one. elementFails is yes. A focusable link reaches assistive tech with no name: Tab and links lists give 'link' or the URL, and voice control has nothing to say. A headline link next to it goes to the same URL, but that does not give this link a name. Some screen readers in browse mode read the figure's content, but that does not meet 4.1.2's 'name can be programmatically determined'. The screenshot is fully styled and shows the image card at these bounds, and class 'hidden md:*' is shown at the 1280 px viewport. captureDiffers is no. The live cards now show other articles with the same <a><figure><img alt></figure></a> markup, so the rotation does not touch the claim."
+    },
+    {
+      "fingerprint": "ccb48020a919",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image link of the third 'Mais de Invest' card ('Bancos abrem no feriado de 20 de novembro?'), an <a class='hidden md:flex'> wrapping a <figure> with an <img alt='Bancos abrem no feriado...'>. In the capture, Chrome's own accessibility tree (CDP) gives this link the role link and the name \"\". The image's alt inside it does not count toward the name because the link wraps a <figure>, and figure's role does not allow a name from content, so Chrome leaves the link unnamed (this pattern is documented: Adrian Roselli, \"Don't Wrap Figure in a Link\", 2025). So claimTrue is yes: the browser exposes a link with no name. Rampa's own snapshot 'name' (\"<img alt=...\") is the <noscript> markup read as text. That is a collector artefact, but the rule went by the browser's name, not that one. elementFails is yes. A focusable link reaches assistive tech with no name: Tab and links lists give 'link' or the URL, and voice control has nothing to say. A headline link next to it goes to the same URL, but that does not give this link a name. Some screen readers in browse mode read the figure's content, but that does not meet 4.1.2's 'name can be programmatically determined'. The screenshot is fully styled and shows the image card at these bounds, and class 'hidden md:*' is shown at the 1280 px viewport. captureDiffers is no: the live HTML has the same card and the same markup."
+    },
+    {
+      "fingerprint": "sdfc59aa50e0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 'Invest' link at the left of the sticky section subheader, styled as the section title and pointing to https://exame.com/invest/ (destination title 'Notícias sobre Mercado Financeiro e Investimentos | Exame Invest'). claimTrue is yes. The snapshot has four links named 'Invest': this one, the breadcrumb and a footer Editorias link go to /invest/, and a footer newsletters-list link goes to /newsletters/. This link has no aria-label, title or preceding heading, so nothing around it sets it apart. elementFails is no. The text 'Invest' names the site section that the link opens, so its purpose can be determined from the link text alone. 2.4.4 asks whether each link's purpose can be determined, not that links with the same text go to the same place (that is closer to 2.4.9 or the identical-links best practice). If any link is unclear, it is the footer newsletter one, not this one. Rampa applied a uniqueness rule stricter than 2.4.4. captureDiffers is no: the live HTML has the same subheader link, and the screenshot shows it styled."
+    },
+    {
+      "fingerprint": "8ca2d23b904e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image link of the first 'Mais de Invest' card ('Tombo das ações de IA derruba Nasdaq...'), an <a> wrapping a <figure> with an <img alt='Tombo das ações de IA...'>. In the capture, Chrome's own accessibility tree (CDP) gives this link the role link and the name \"\". The image's alt inside it does not count toward the name because the link wraps a <figure>, and figure's role does not allow a name from content, so Chrome leaves the link unnamed (this pattern is documented: Adrian Roselli, \"Don't Wrap Figure in a Link\", 2025). So claimTrue is yes: the browser exposes a link with no name. Rampa's own snapshot 'name' (\"<img alt=...\") is the <noscript> markup read as text. That is a collector artefact, but the rule went by the browser's name, not that one. elementFails is yes. A focusable link reaches assistive tech with no name: Tab and links lists give 'link' or the URL, and voice control has nothing to say. A headline link next to it goes to the same URL, but that does not give this link a name. Some screen readers in browse mode read the figure's content, but that does not meet 4.1.2's 'name can be programmatically determined'. The screenshot is fully styled and shows the image card at these bounds, and class 'hidden md:*' is shown at the 1280 px viewport. captureDiffers is no: the live HTML has the same card and markup."
+    },
+    {
+      "fingerprint": "p21e74fd9f5a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This row has no claim. The element is the thumbnail of the fourth 'Mais de Invest' card. The crop shows a Claude logo (a head silhouette with the asterisk) beside a phone with the Anthropic 'AI' mark, and the alt is the card's headline, 'Anthropic fecha em alta de 17%, longe da máxima, em estreia na bolsa'. The image is the only content of a link to that article, so it is a functional image, and its alt correctly states where the link goes. That satisfies 1.1.1, and the image is exposed with its alt (CDP: image, nameFrom alt). The alt repeats the headline link next to it, which is redundant but no 1.1.1 failure. The link around it has no name in Chrome because of the <figure> wrapper. That is a 4.1.2 failure of the link, reported separately, not a fault of this image's alternative. elementFails is no. captureDiffers is no: the live HTML has the same card, image and alt. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "6d77fd77fdf0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image link of the fourth 'Mais de Invest' card ('Anthropic fecha em alta de 17%...'), an <a> wrapping a <figure> with an <img alt='Anthropic fecha em alta...'>. In the capture, Chrome's own accessibility tree (CDP) gives this link the role link and the name \"\". The image's alt inside it does not count toward the name because the link wraps a <figure>, and figure's role does not allow a name from content, so Chrome leaves the link unnamed (this pattern is documented: Adrian Roselli, \"Don't Wrap Figure in a Link\", 2025). So claimTrue is yes: the browser exposes a link with no name. Rampa's own snapshot 'name' (\"<img alt=...\") is the <noscript> markup read as text. That is a collector artefact, but the rule went by the browser's name, not that one. elementFails is yes. A focusable link reaches assistive tech with no name: Tab and links lists give 'link' or the URL, and voice control has nothing to say. A headline link next to it goes to the same URL, but that does not give this link a name. Some screen readers in browse mode read the figure's content, but that does not meet 4.1.2's 'name can be programmatically determined'. The screenshot is fully styled and shows the image card at these bounds, and class 'hidden md:*' is shown at the 1280 px viewport. captureDiffers is no: the live HTML has the same card and markup."
+    },
+    {
+      "fingerprint": "pf708054070d",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This row has no claim. The element is the thumbnail of the second 'Mais de Invest' card. The crop shows a phone with the Anthropic logo on an orange background, and the alt is the card's headline, 'BDR, ação nos EUA ou ETF: as formas de investir na Anthropic a partir do Brasil'. The image is the sole content of a link to that article, so its alt correctly gives the link's destination. That meets 1.1.1, and the image is exposed with its alt (CDP: image, nameFrom alt). Repeating the adjacent headline is redundant, not a failure. The unnamed wrapping link (because of the <figure>) is a separate 4.1.2 issue. elementFails is no. captureDiffers is no: the live HTML has the same card, image and alt. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "240a4a15e299",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image link of the second 'Mais de Invest' card ('BDR, ação nos EUA ou ETF...'), an <a> wrapping a <figure> with an <img alt='BDR, ação nos EUA ou ETF...'>. In the capture, Chrome's own accessibility tree (CDP) gives this link the role link and the name \"\". The image's alt inside it does not count toward the name because the link wraps a <figure>, and figure's role does not allow a name from content, so Chrome leaves the link unnamed (this pattern is documented: Adrian Roselli, \"Don't Wrap Figure in a Link\", 2025). So claimTrue is yes: the browser exposes a link with no name. Rampa's own snapshot 'name' (\"<img alt=...\") is the <noscript> markup read as text. That is a collector artefact, but the rule went by the browser's name, not that one. elementFails is yes. A focusable link reaches assistive tech with no name: Tab and links lists give 'link' or the URL, and voice control has nothing to say. A headline link next to it goes to the same URL, but that does not give this link a name. Some screen readers in browse mode read the figure's content, but that does not meet 4.1.2's 'name can be programmatically determined'. The screenshot is fully styled and shows the image card at these bounds, and class 'hidden md:*' is shown at the 1280 px viewport. captureDiffers is no: the live HTML has the same card and markup."
+    }
+  ]
+}

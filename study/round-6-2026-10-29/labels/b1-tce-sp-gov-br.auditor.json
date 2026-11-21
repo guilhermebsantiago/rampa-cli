@@ -1,0 +1,39 @@
+{
+  "page": "https://www.tce.sp.gov.br/ouvidoria",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "6eff4ae550f2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field (input name=termo), whose only text label is its placeholder \"Pesquisar\" (accessible name comes from the placeholder; there is no visible label). claimTrue: the snapshot's pixel measurement gives #999999 on #ffffff, 2.85:1, at 14px weight 400, and my own sampling of the screenshot at the field finds the darkest glyph pixels at #999999 on white (2.85:1). elementFails: the live site's stylesheet sets .form-control::-webkit-input-placeholder / ::-moz-placeholder to #999 on the default white field, so users get the same 2.85:1 for normal-size text, below 4.5:1 (and below 3:1). Placeholder text is text and falls under none of 1.4.3's exceptions (it is not incidental, not a logo, and the field is not inactive); here it is also the only text naming the field. captureDiffers: the full-page screenshot draws the fixed header lower down the page, but the colours, font and live CSS match, so nothing differs that touches contrast. The claim names exactly this failure."
+    },
+    {
+      "fingerprint": "7311d0b9ce6e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is <a id=\"main-content\"></a>, Drupal's empty fragment-target anchor before the main content: no href, no tabindex, no text, no rendered size (bounds null). claimTrue: the snapshot's CDP accessibility node does report role link with no name (the snapshot's own role field says generic), so the sentence about what the browser exposes holds of the capture. elementFails: 4.1.2 covers user interface components, parts of the content perceived as a control for a function. This anchor is not one: it has no destination, no content, no box to click and is not in the keyboard tab order; the live HTML has no skip link pointing to it either. It is a named anchor, not a link, and no keyboard or pointer user can operate it; whatever leads Chrome to map it to the link role does not make it a control. The live page serves the same markup, so captureDiffers is no. The rule treated any node the browser maps to a link role as a widget needing a name, which is broader than the criterion, hence criterion_misapplied. (At most this is cleanup advice to remove the vestigial anchor, not a 4.1.2 failure.)"
+    },
+    {
+      "fingerprint": "s9a621ae50bd",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the document and its title \"Ouvidoria | Tribunal de Contas do Estado de São Paulo\". claimTrue: the claim says the title says nothing about the page, but the page is the Ombudsman (Ouvidoria) page of TCESP: the banner reads \"Ouvidoria do TCESP\" and the text opens \"Bem-vindo(a) à Ouvidoria do Tribunal de Contas do Estado de São Paulo!\". The title names both the page's topic and the site, so the sentence is false of the capture. elementFails: the title describes topic and purpose, which meets 2.4.2. captureDiffers: the live page serves the same title (UTF-8, rendered correctly) and the same content, so nothing differs. The model had the title and the page text and judged wrongly."
+    }
+  ]
+}

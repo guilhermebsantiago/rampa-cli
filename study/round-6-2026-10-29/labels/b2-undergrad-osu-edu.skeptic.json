@@ -1,0 +1,62 @@
+{
+  "page": "https://undergrad.osu.edu/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "sbed14de25c1",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Footer link \"Annual Security Report\" to https://dps.osu.edu/clery-act (trailing space in the href, which browsers trim). Rampa never read the destination. I fetched it: it is the Department of Public Safety's \"Clery Act\" page, which has an H2 \"Annual Security Report\" section that explains the report and links to it. The Clery Act is the law that requires the report, so the link text describes where the link goes, and the claim that it does not match is false. The live footer markup is the same as the snapshot and the screenshot. The link meets 2.4.4 from its text alone. False positive: the checker lacked the destination."
+    },
+    {
+      "fingerprint": "se75690190f8",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Image link (a stat card) whose only content is an img with alt \"Top 14 best public universities\". It goes to /majors-and-academics/quick-facts, which Rampa never read. I fetched it: the \"Quick facts\" page has a section \"Not to brag, but here's how we rank\" that opens with \"14th among all publics (U.S. News and World Report)\". So the link leads to more about the ranking its text names, and that purpose can be told from the link text. The live HTML matches the capture. The alt says \"Top 14\" and leaves out \"U.S. News & World Report\", while the image reads \"#14 ... U.S. News & World Report\". That is at most a 1.1.1 nuance, not a 2.4.4 failure. False positive: the destination was not read."
+    },
+    {
+      "fingerprint": "2723f2fdc2ae",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Functional image, the only content of a link to /cost-and-aid/ohio-state-value (titled \"The Ohio State value\"). Its alt is \"Best value public colleges — Princeton Review\". It is true that the alt is all the link holds. But the crop shows exactly that text (\"Best Value Public Colleges / Princeton Review\"), so the alt is a full equivalent of the image (G94). It also tells users the link is about Ohio State's value, which is the topic of the destination, an affordability page. 1.1.1 asks a control's text alternative to describe its purpose, and this one does. It does not have to name the page. The live markup matches the capture. Rampa had the destination's title and still judged the alt inadequate. False positive."
+    },
+    {
+      "fingerprint": "s3a24d5d73ee",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Link \"Buckeye Bridge Program\", inside an h3 under \"Recent Ohio State News\", to /cost-and-aid/ohio-state-value. Rampa saw only the destination's title, main heading and description. I fetched the destination: under \"Need-based grants and scholarships\" it has an H4 \"Buckeye Bridge Program\" section that describes the program (the Columbus State and Ohio State initiative). The \"Regional Campus Commitment Program\" link goes to the same page and has its own section there. The link therefore leads to content about exactly what its text names, so the claim of a mismatch is false. The live HTML matches the capture. The link meets 2.4.4 from its text alone. False positive: the checker lacked the destination's content."
+    },
+    {
+      "fingerprint": "s7823678e0d3",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Page h1 \"Your story begins here\", a marketing tagline on the Undergraduate Admissions homepage (also the page title). Directly under it is only the \"Information for...\" student-type selector, before the h2 \"Explore majors\". Literally, the heading names no topic of that content, so the claim holds of the capture. The skeptic's case against it: on an admissions homepage, the tagline states the page's purpose, the starting point of an applicant's path. The selector under it is that starting point. 2.4.6 does not require headings to be literal, and no documented failure covers taglines. My lean is that the h1 passes, but competent auditors split on slogan-style h1s, so the label is uncertain. The live HTML matches the capture."
+    },
+    {
+      "fingerprint": "p1f3ca982324",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Photo with alt=\"\" in the \"Become a Buckeye\" card: four smiling students in Ohio State apparel. It is not inside a link or control. The card's h2 \"Become a Buckeye\", the h3 \"Next steps\" and the links carry the card's information. The photo is atmospheric and adds no information a user needs, so a null alt meets 1.1.1 as decorative (technique H67). The other two card photos are marked up the same way. The live HTML matches the capture. Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "sf0e6fce726d",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer link \"Webmaster\" with href mailto:ESUE-Webadmiss@osu.edu. It sits in a footer paragraph next to \"Nondiscrimination notice\" and \"Annual Security Report\", and no heading or description adds anything. Still, the text \"Webmaster\" says the link reaches the site's webmaster, a common footer contact convention whose purpose is clear to users in general. 2.4.4 does not require a link to say that it opens an email client. So the claim that the text does not tell where the link goes is false, and the link meets 2.4.4 from its text alone. The live HTML matches the capture. False positive: Rampa had the text and the mailto href and judged wrongly."
+    },
+    {
+      "fingerprint": "sa545c140bbb",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Image link whose name comes from its only image, alt \"Best value public colleges — Princeton Review\". It goes to /cost-and-aid/ohio-state-value, titled \"The Ohio State value\", with the heading \"Access to excellence\" and sections on grants, tuition guarantees and savings. The link text announces Ohio State's best-value standing, and the destination is the page about Ohio State's value and affordability. A user can tell the link's purpose (learn about Ohio State's value) from its text, so the claim that it does not match is false. The ranking line itself appears on Quick facts, not on this page, but the topic matches. The live HTML matches the capture. Rampa had the destination's title and still judged a mismatch. False positive."
+    }
+  ]
+}

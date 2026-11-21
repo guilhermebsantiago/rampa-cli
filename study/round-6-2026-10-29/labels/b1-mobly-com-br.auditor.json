@@ -1,0 +1,138 @@
+{
+  "page": "https://www.mobly.com.br/moveis/moveis-sala",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s1be1672319b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the minimum thumb (input type=range) of the two-thumb Altura size slider in the filter sidebar. Its name, \"Escolha o tamanho\", comes from aria-labelledby pointing at a role=group div whose aria-label is \"Escolha o tamanho\"; that text is not visible (the screenshot shows only the track and \"0 cm\"/\"250 cm\"), and the same name is used for both thumbs of all three dimension sliders. claimTrue: taken alone, the name says neither which dimension nor which end of the range the thumb sets, so the sentence holds of the capture. elementFails: by WCAG's definition a label is presented to all users, and the hidden aria-label is a name rather than a label; the visible labelling (the Altura heading and region, the Mínimo/Máximo fields, the 0 cm/250 cm end values) describes the purpose, so my lean is that 2.4.6 is met and the identical thumb names are a 4.1.2/1.3.1 matter. But many auditors treat an aria-label as a label for 2.4.6, and a name shared by six thumbs that does not distinguish minimum from maximum is a credible 2.4.6 failure for them, so competent auditors would reasonably disagree. captureDiffers: the live server HTML carries the same role=group aria-label=\"Escolha o tamanho\" markup, so no. Label uncertain."
+    },
+    {
+      "fingerprint": "d9615d4acedf",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the visible text of the \"Frete Grátis\" filter checkbox chip in the sticky filter bar (span inside the label, class text-mobly-orange, 14px, weight 500). claimTrue: the snapshot records foreground #ff4600 from CSS, background #ffffff, 3.43:1, and axe's bgOverlap reason (the transparent checkbox input lies over the text), so the sentence holds. elementFails: the live CSS defines .text-mobly-orange as rgb(255 70 0) and the screenshot shows orange text on white; 3.43:1 is below 4.5:1, and 14px/500 is not large text, so it fails 1.4.3. captureDiffers: my own (automated) fetch of the live page returns the same server-rendered markup and the same Tailwind classes; the screenshot is fully styled; the only capture oddities are the full-page stitching that paints the sticky header and filter bar mid-page and the Insider opt-in overlay, which do not change the colours measured, so no. The claim names the real failure: true positive."
+    },
+    {
+      "fingerprint": "b64b20229d0f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the inline link \"sala de estar completa!\" at the end of the intro paragraph written over the dark photo banner (16px, weight 400, no bold). claimTrue: the snapshot records foreground #5f23a8 from CSS over a background image (axe bgImage) with pixels from #010101 to #564b47, 2.28:1 at best; #5f23a8 against black is about 2.29:1 by my own calculation, so the sentence holds. elementFails: the screenshot crop shows dark purple text on the darkened photo, much harder to read than the white text around it, and the live HTML has the same unstyled <a> inside .bg-img; at 16px normal weight it needs 4.5:1 and reaches about 2.3:1 at best, so it fails 1.4.3. captureDiffers: the live markup and the banner image match the capture, so no. True positive."
+    },
+    {
+      "fingerprint": "325b11da064a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the product count \"( 167 )\" beside the price-range radio \"Acima de R$ 4.089,71\" in the Preço filter (span class text-default-400 text-sm, 14px, weight 400). claimTrue: the snapshot records computed colour rgb(161,161,170) = #a1a1aa on #ffffff, 2.56:1 (I recomputed 2.56:1), with axe's bgOverlap reason, so the sentence holds. elementFails: the live CSS gives the same class; the count is informative text (how many products the range holds), not incidental, and 2.56:1 at 14px is far below 4.5:1, so it fails 1.4.3. captureDiffers: my own (automated) fetch of the live page returns the same server-rendered markup and the same Tailwind classes; the screenshot is fully styled; the only capture oddities are the full-page stitching that paints the sticky header and filter bar mid-page and the Insider opt-in overlay, which do not change the colours measured, so no. The claim names the real failure: true positive."
+    },
+    {
+      "fingerprint": "sf6758fd390b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the \"Frete Grátis\" filter checkbox in the filter bar (a transparent input over a visible label chip; name from aria-labelledby to the visible text \"Frete Grátis\"). claimTrue: a checkbox takes nothing to enter, and the label does state what checking it does (show products with free shipping), so the sentence does not hold. elementFails: \"Frete Grátis\" beside a checkbox in a product-filter bar clearly describes its purpose, as do its siblings \"Envio Imediato\" and \"Exclusivo Mobly\"; 2.4.6 is met (its orange text fails 1.4.3 contrast, a separate criterion and finding). captureDiffers: the live HTML has the same label and checkbox, so no. False positive: the model had the visible label and the filter context and judged a clear label as undescriptive."
+    },
+    {
+      "fingerprint": "e388da06c10a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the product count \"( 176 )\" beside the price-range radio \"De R$ 1.799,98 até R$ 4.019,96\" in the Preço filter (span class text-default-400 text-sm, 14px, weight 400). claimTrue: the snapshot records computed colour rgb(161,161,170) = #a1a1aa on #ffffff, 2.56:1 (I recomputed 2.56:1), with axe's bgOverlap reason, so the sentence holds. elementFails: the live CSS gives the same class; the count is informative text (how many products the range holds), not incidental, and 2.56:1 at 14px is far below 4.5:1, so it fails 1.4.3. captureDiffers: my own (automated) fetch of the live page returns the same server-rendered markup and the same Tailwind classes; the screenshot is fully styled; the only capture oddities are the full-page stitching that paints the sticky header and filter bar mid-page and the Insider opt-in overlay, which do not change the colours measured, so no. The claim names the real failure: true positive."
+    },
+    {
+      "fingerprint": "a903bdf5039d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the visible text of the \"Envio Imediato\" filter checkbox chip in the sticky filter bar (span inside the label, class text-mobly-orange, 14px, weight 500). claimTrue: the snapshot records foreground #ff4600 from CSS, background #ffffff, 3.43:1, and axe's bgOverlap reason (the transparent checkbox input lies over the text), so the sentence holds. elementFails: the live CSS defines .text-mobly-orange as rgb(255 70 0) and the screenshot shows orange text on white; 3.43:1 is below 4.5:1, and 14px/500 is not large text, so it fails 1.4.3. captureDiffers: my own (automated) fetch of the live page returns the same server-rendered markup and the same Tailwind classes; the screenshot is fully styled; the only capture oddities are the full-page stitching that paints the sticky header and filter bar mid-page and the Insider opt-in overlay, which do not change the colours measured, so no. The claim names the real failure: true positive."
+    },
+    {
+      "fingerprint": "s149ba9284b6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the \"Máximo\" text field of the Largura (width) filter, filled with \"330 cm\". Its computed name is \"Máximo Máximo\" because aria-labelledby lists the input itself (aria-label \"Máximo\") and its visible <label> \"Máximo\". claimTrue: taken alone, \"Máximo Máximo\" does not say maximum of what, so the sentence holds of the capture. elementFails: the visible label is \"Máximo\", paired with \"Mínimo\", inside the region and under the h2 \"Largura\", with the value in cm; the label describes its purpose in that context, which is how Understanding 2.4.6 reads labels (they need not repeat the group's heading), so 2.4.6 is met. The doubled name is a naming quirk, not an undescriptive label. captureDiffers: the live server HTML has the same field and labelling, so no. False positive: the model had the Largura heading and region in its context and still judged the label undescriptive."
+    },
+    {
+      "fingerprint": "1945b5134063",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the site search field in the header; its placeholder \"Encontre tudo sobre móveis e decoração...\" is the only visible label (the aria-label repeats it; the button beside it is an icon). claimTrue: the markup sets placeholder:text-[#8A9198] and the snapshot measured #8a9198 on #ffffff, 3.19:1 (I recomputed 3.19:1), so the sentence holds. elementFails: placeholder text is text, and here it is the field's only visible identification; at 16px normal weight it needs 4.5:1 and has 3.19:1, so it fails 1.4.3. captureDiffers: the live HTML carries the same placeholder colour class; the screenshot paints the sticky header mid-page under the opt-in overlay, but the field itself is white on the real page, so no. True positive."
+    },
+    {
+      "fingerprint": "d036a5d0e84b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the product count \"( 180 )\" beside the price-range radio \"De R$ 1.144,96 até R$ 1.799,00\" in the Preço filter (span class text-default-400 text-sm, 14px, weight 400). claimTrue: the snapshot records computed colour rgb(161,161,170) = #a1a1aa on #ffffff, 2.56:1 (I recomputed 2.56:1), with axe's bgOverlap reason, so the sentence holds. elementFails: the live CSS gives the same class; the count is informative text (how many products the range holds), not incidental, and 2.56:1 at 14px is far below 4.5:1, so it fails 1.4.3. captureDiffers: my own (automated) fetch of the live page returns the same server-rendered markup and the same Tailwind classes; the screenshot is fully styled; the only capture oddities are the full-page stitching that paints the sticky header and filter bar mid-page and the Insider opt-in overlay, which do not change the colours measured, so no. The claim names the real failure: true positive."
+    },
+    {
+      "fingerprint": "2fbd3626c4f7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the visible text of the \"Exclusivo Mobly\" filter checkbox chip in the sticky filter bar (span inside the label, class text-mobly-orange, 14px, weight 500). claimTrue: the snapshot records foreground #ff4600 from CSS, background #ffffff, 3.43:1, and axe's bgOverlap reason (the transparent checkbox input lies over the text), so the sentence holds. elementFails: the live CSS defines .text-mobly-orange as rgb(255 70 0) and the screenshot shows orange text on white; 3.43:1 is below 4.5:1, and 14px/500 is not large text, so it fails 1.4.3. captureDiffers: my own (automated) fetch of the live page returns the same server-rendered markup and the same Tailwind classes; the screenshot is fully styled; the only capture oddities are the full-page stitching that paints the sticky header and filter bar mid-page and the Insider opt-in overlay, which do not change the colours measured, so no. The claim names the real failure: true positive."
+    },
+    {
+      "fingerprint": "2f7f0a1a8c4f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the product count \"( 176 )\" beside the price-range radio \"De R$ 698,86 até R$ 1.112,86\" in the Preço filter (span class text-default-400 text-sm, 14px, weight 400). claimTrue: the snapshot records computed colour rgb(161,161,170) = #a1a1aa on #ffffff, 2.56:1 (I recomputed 2.56:1), with axe's bgOverlap reason, so the sentence holds. elementFails: the live CSS gives the same class; the count is informative text (how many products the range holds), not incidental, and 2.56:1 at 14px is far below 4.5:1, so it fails 1.4.3. captureDiffers: my own (automated) fetch of the live page returns the same server-rendered markup and the same Tailwind classes; the screenshot is fully styled; the only capture oddities are the full-page stitching that paints the sticky header and filter bar mid-page and the Insider opt-in overlay, which do not change the colours measured, so no. The claim names the real failure: true positive."
+    }
+  ]
+}

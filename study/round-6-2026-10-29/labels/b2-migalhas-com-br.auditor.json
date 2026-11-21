@@ -1,0 +1,61 @@
+{
+  "page": "https://www.migalhas.com.br/quentes/467452/listas-de-boicote-a-comerciantes-podem-configurar-crime",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "7aefe1ce6b36",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the article's second-section illustration, an 878x498 collage of a hand holding a phone showing a WhatsApp group with a blurred list next to a shop front crossed by a red prohibition sign, i.e. boycott lists aimed at shops. Its alt is only the credit line \" (Imagem: Arte Migalhas)\"; the title attribute (exposed only as a description) and a visible caption div below, not associated as a figcaption, say 'Listas de boicote por motivação política podem gerar responsabilização por abusos.' claimTrue: no. The alt does not describe anything that is missing from the image. It is a credit and describes no visual content at all, so the sentence's 'describes something the image does not show' is not literally what happens. elementFails: yes. The accessible name is a photo credit, which is not a text alternative (F30). If the image is informative, the name does not convey what it shows. If it is treated as illustrative and covered by the caption, it should be ignorable (alt=\"\"), but a non-null credit is announced instead (F39's test). The title is not a sufficient technique for the short alternative, and the credit is already in the visible caption. captureDiffers: no. The live server HTML (fetched 2026-11-21) has the same img alt/title and the same img-info caption, and the screenshot shows the styled page with the image and caption where the snapshot puts them. Label: read in good faith, the claim says the alt does not match the image, which points at the real defect: the alt leaves out everything the image conveys. That makes it a true positive. The adjacent caption is a mitigating factor, but a credit-only alt is still a standard 1.1.1 failure."
+    },
+    {
+      "fingerprint": "5f008663a0ec",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is an 878x494 photo of one hand passing a blue 'Carteira de Trabalho e Previdência Social' (Brazilian work card) to another, illustrating the labour-relations section. Its alt is only the credit \" (Imagem: Magnific)\"; the title and a visible, unassociated caption below say 'Liberdade de convicção política também deve ser respeitada nas relações de trabalho.' claimTrue: no. The alt is a source credit and describes no visual content, so it does not 'describe something the image does not show'; the problem is omission, not mismatch. elementFails: yes. A credit is not a text alternative (F30): the name says nothing about the work card or the handover, which carry the employment theme, including the card's printed text. Even if the image were treated as illustrative and covered by the caption, the non-null credit alt keeps it from being ignored (F39's test). The title attribute is only a description and not a sufficient technique for the alternative. captureDiffers: no. The live server HTML has the identical img alt/title and img-info caption, and the screenshot shows the styled image and caption at the snapshot's position. Label: the claim's wording is imperfect but, read in good faith, it points at the alt failing to describe the image, which is the real failure. True positive."
+    },
+    {
+      "fingerprint": "s842776fc158",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is an inline link 'CP' in the paragraph 'Na esfera criminal, o art. 147-A do CP prevê o crime de perseguição quando alguém...'. It points to planalto.gov.br's compiled Decreto-Lei 2.848, the Código Penal, and opens in a new tab. claimTrue: no. The sentence holding the link, which is programmatically determined context, makes plain that 'CP' is the code whose art. 147-A defines a crime, i.e. the Código Penal (a standard abbreviation on a legal news site). So 'nothing around it does' is false. elementFails: no. Under 2.4.4 the link text together with its sentence and paragraph shows the purpose: open the text of the Penal Code cited for art. 147-A. That is exactly where it goes. The opening in a new window without warning is not a 2.4.4 matter. captureDiffers: no. The live server HTML has the same paragraph and link, and the screenshot shows the underlined 'CP' inside that sentence. Label: false positive. Cause: model_error, because the model had the paragraph text, including 'art. 147-A do' and 'crime de perseguição'. In the packet, the ancestor text shows 'CP' moved to the end of the paragraph, a minor collector artefact, but the context still identified the code."
+    },
+    {
+      "fingerprint": "fd3fc1b07ceb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 14x14 envelope icon (e-mail.svg, alt and title 'e-mail') inside the fifth link of the article's bottom share bar, 'Compartilhar' followed by facebook/twitter/linkedin/whatsapp/e-mail/comment icons. claimTrue: yes. The alt 'e-mail' does repeat the file name stem 'e-mail.svg', and a screen reader reads it in place of the image. elementFails: no. The file name happens to be a meaningful word: 'e-mail' is exactly what the envelope conveys, and in the 'Compartilhar' group it gives the function, share by e-mail. F30 targets file names that are not alternatives (e.g. 'img123.jpg'), not a correct description that matches a file name. The wrapping <a> has no href and is exposed as generic, which may raise 4.1.2/2.1.1 questions, but not 1.1.1. captureDiffers: no. The share bar is rendered client-side: the live server HTML has an empty app-compartilhamento-baixo, and my fetch cannot run scripts. But the snapshot is the hydrated DOM of a real browser load, and the screenshot shows the styled bar with the envelope icon at the snapshot's bounds. I found no sign of a difference. Label: false positive. The rule flagged an alt matching the file name regardless of whether it describes the image, a different test from the criterion's equivalent purpose."
+    },
+    {
+      "fingerprint": "31ca493e0c83",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the envelope icon (e-mail.svg, alt and title 'e-mail') in the fifth link of the top share bar under the article header, 'Compartilhar' followed by facebook/twitter/linkedin/whatsapp/e-mail. The crop shows a small envelope. claimTrue: yes. The alt repeats the file name stem 'e-mail' and is what a screen reader reads for the image. elementFails: no. For an envelope icon in a share group, 'e-mail' is an adequate text alternative: it conveys the image's meaning and the option's function, sharing by e-mail. A file name that is itself a correct description does not fail 1.1.1 (F30 concerns names that are not alternatives). The wrapping <a> has no href and is exposed as generic, a possible 4.1.2/2.1.1 issue outside this criterion. captureDiffers: no. The live server HTML has the same share component with loading placeholders (class 'e-mailloading') that hydrate into these icons, consistent with the snapshot. The bar is sticky ('fixed-compartilhar'), so it is blank at its static position in the stitched screenshot, but the same bar appears with its icons elsewhere in the screenshot. My fetch cannot run scripts, but nothing indicates users receive a different alt. Label: false positive, because the rule equates matching the file name with failure instead of judging equivalent purpose."
+    }
+  ]
+}

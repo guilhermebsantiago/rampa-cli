@@ -1,0 +1,373 @@
+{
+  "page": "https://sbpt.org.br/portal/congresso-da-sbpt-reune-mais-de-2-mil-participantes-apresenta-941-trabalhos-cientificos-e-homenageia-nomes-da-pneumologia-brasileira/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "se1c3b0da9ed",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the first footer social link, an icon link (Font Awesome fa-x-twitter) with aria-label=\"X\" and title=\"X\", pointing to x.com/pneumosbpt. claimTrue: the sentence says \"X\" does not tell where the link goes, but \"X\" is the official name of the social network the link opens, and its icon is that network's logo; the preceding heading (h1 \"SBPT\") supplies whose profile it is. So the claim is not true of the capture. elementFails: link text \"X\" plus the preceding heading identifies the purpose (SBPT on X), the same way \"LinkedIn\" or \"YouTube\" do for the sibling links; that the letter X is also used for close buttons does not make the purpose undeterminable here. captureDiffers: the live markup is the same. The model had the name, title and href and still judged it undescriptive: false_positive, model_error."
+    },
+    {
+      "fingerprint": "b4485f0c642c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the submenu toggle button \"Eventos e Conteúdo Científico Submenu\" in the main navigation: a <button> whose only content is a 10px chevron SVG drawn with stroke=currentcolor. claimTrue: the live global-custom-css sets \".bricks-nav-menu li button { color: #90A1B9 }\", the header is white, and #90a1b9 on #ffffff is 2.63:1, as stated; the button shows nothing but the icon (the label text is a separate link). elementFails: I looked for a reason the chevron would be exempt: it is not decorative and not duplicated by text, since the adjacent text \"Eventos e Conteúdo Científico\" is a separate href=\"#\" link and does not say there is a submenu; Understanding 1.4.11 says a menu arrow must meet 3:1 and that the arrow is what shows the drop-down functionality. The colour comes from CSS, so this is not an antialiasing artefact. 2.63:1 is below 3:1. captureDiffers: the live CSS and markup are the same and the screenshot shows the styled header. The claim names the real failure, so true_positive."
+    },
+    {
+      "fingerprint": "70b7f6fe4fde",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the submenu toggle button \"Comunicação Submenu\" in the main navigation: a <button> whose only content is a 10px chevron SVG drawn with stroke=currentcolor. claimTrue: the live global-custom-css sets \".bricks-nav-menu li button { color: #90A1B9 }\", the header is white, and #90a1b9 on #ffffff is 2.63:1, as stated; the button shows nothing but the icon (the label text is a separate link). elementFails: I looked for a reason the chevron would be exempt: it is not decorative and not duplicated by text, since the adjacent text \"Comunicação\" is a separate href=\"#\" link and does not say there is a submenu; Understanding 1.4.11 says a menu arrow must meet 3:1 and that the arrow is what shows the drop-down functionality. The colour comes from CSS, so this is not an antialiasing artefact. 2.63:1 is below 3:1. captureDiffers: the live CSS and markup are the same and the screenshot shows the styled header. The claim names the real failure, so true_positive."
+    },
+    {
+      "fingerprint": "dc33e868d65c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the breadcrumb text \"Home\" (15px, weight 400) on the blue page-title banner. claimTrue: the snapshot gives the CSS colour #f5f5f5 (#brxe-87cb07 {color: var(--bricks-color-dfbfc4)} = #f5f5f5 in the live CSS) and the pixels behind it as #0c85ca; #f5f5f5 on #0c85ca is 3.69:1, as stated. elementFails: I checked whether the background users see could be darker: the banner is background-color #0a6ab8 with an SVG background image blended in overlay mode, which lightens it to the #0c85ca visible in the screenshot. On #0a6ab8 alone the text would pass (about 5.1:1), but the image is part of the page users receive and loads normally, so the rendered background is the measured one. 15px normal text needs 4.5:1, and 3.69:1 fails. captureDiffers: the live CSS has the same banner rule and text colour, and the screenshot is fully styled. The claim names the failure, so true_positive."
+    },
+    {
+      "fingerprint": "p163223b3f02",
+      "answers": {
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the second photo in the article body (image-3, alt=\"\"), a wide shot of a packed congress hall with chest CT images on two screens, placed before the \"Programação científica\" section, with no caption. elementFails: my lean is yes, since the photo is not purely aesthetic (it shows the scientific session the next section describes) and WCAG's definition of decorative is \"serving only an aesthetic purpose, providing no information\". But it is a generic atmosphere shot whose event is described in the text, and competent auditors routinely accept alt=\"\" for such illustrative news photos, so whether it fails is a matter of reasonable disagreement. captureDiffers: the live HTML has the same img with alt=\"\" and no figcaption. Label uncertain."
+    },
+    {
+      "fingerprint": "48cf137ad08d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the breadcrumb text \"Congresso da SBPT reúne mais de 2 mil participantes, apresenta 941 trabalhos científicos e homenagei...\" (15px, weight 400) on the blue page-title banner. claimTrue: the snapshot gives the CSS colour #f5f5f5 (#brxe-87cb07 {color: var(--bricks-color-dfbfc4)} = #f5f5f5 in the live CSS) and the pixels behind it as #0c85ca; #f5f5f5 on #0c85ca is 3.69:1, as stated. elementFails: I checked whether the background users see could be darker: the banner is background-color #0a6ab8 with an SVG background image blended in overlay mode, which lightens it to the #0c85ca visible in the screenshot. On #0a6ab8 alone the text would pass (about 5.1:1), but the image is part of the page users receive and loads normally, so the rendered background is the measured one. 15px normal text needs 4.5:1, and 3.69:1 fails. captureDiffers: the live CSS has the same banner rule and text colour, and the screenshot is fully styled. The claim names the failure, so true_positive."
+    },
+    {
+      "fingerprint": "p6794a498533",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the footer link \"Anais de Congressos\" (text, aria-label and title all \"Anais de Congressos\") under the h2 \"Eventos e Científico\", leading to the site's Anais de Congressos page. elementFails: the link text alone states its purpose and matches the destination; nothing contradicts it. captureDiffers: the live markup is identical. It meets 2.4.4, so Rampa was right to report nothing: false_positive."
+    },
+    {
+      "fingerprint": "311fc7f95d2d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter e-mail field, whose placeholder \"Digite seu e-mail\" (15px, normal) is the only visible indication of what to type (there is no visible label, only an envelope icon). claimTrue: the snapshot reads the placeholder colour #dddedf from CSS on the white field; that is 1.35:1, and the screenshot shows the placeholder barely visible. elementFails: I looked for an exemption: placeholder text is not inactive, decorative or a logotype, and here it carries the field's only visible instruction, so 1.4.3's 4.5:1 applies, and 1.35:1 fails it by far. captureDiffers: the live HTML has the same input and the screenshot is styled. The claim names the failure: true_positive."
+    },
+    {
+      "fingerprint": "p42e066d420b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the first breadcrumb link \"Home\", leading to the portal home page, inside a nav labelled \"breadcrumbs\". elementFails: \"Home\" in a breadcrumb trail is a clear, conventional statement of purpose and matches the destination. captureDiffers: the live breadcrumb markup is the same. It meets 2.4.4: false_positive (Rampa correctly reported nothing)."
+    },
+    {
+      "fingerprint": "9e4f6252728b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the footer link whose visible text is \"Comissões e Departamentos\" but whose aria-label is \"Diretoria e Comissões\"; it points to /comissoes-e-departamentos/ (404 both when Rampa read it and when I checked). Another footer link (visible \"Diretoria e Conselho\", to /diretoria-em-exercicio/) carries the same aria-label. claimTrue: as captured, the accessible name \"Diretoria e Comissões\" is shared by two links with different destinations, and the preceding heading (h2 \"Institucional\") does not tell them apart. elementFails: for screen reader users the aria-label replaces the visible text, so they hear two identical names that each only half-describe their target; my lean is yes. Reasons this could be wrong hold up partly, though: Understanding 2.4.4 calls distinct text for different destinations a helpful practice, not a requirement; \"Diretoria e Comissões\" does mention commissions; the rubric counts the link's own text, which here is accurate; and the clearest failure is 2.5.3 Label in Name (visible text not in the name). captureDiffers: the live markup is the same. Auditors would reasonably disagree whether this is a 2.4.4 failure, so uncertain."
+    },
+    {
+      "fingerprint": "s06f1875a36a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h1 \"SBPT\" in the footer brand block, beside the logo and followed by \"Sociedade Brasileira de Pneumologia e Tisiologia\", the society's mission sentence and its social links, then the footer's link columns. claimTrue: the content under the heading is all about SBPT (its full name, mission, channels and institutional links), so the sentence that the heading says nothing about it is not true. elementFails: 2.4.6 asks only that headings describe their topic; \"SBPT\" names the topic of that block. Using a second h1 in a footer is a structure matter (1.3.1 best practice), not a 2.4.6 failure. captureDiffers: the live markup is the same. false_positive, model_error."
+    },
+    {
+      "fingerprint": "3ca88debccae",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a content photo (image-1, alt=\"\", no caption) of eight people posing in front of the congress backdrop, placed before the \"Especialistas internacionais\" section. claimTrue: the claim says the image conveys \"18º Congresso Brasileiro de Endoscopia Respiratória\", which the text around it does not say; but the article's first paragraph and a later paragraph both name the 18º Congresso Brasileiro de Endoscopia Respiratória, so the claim is false. elementFails: my lean is yes, for another reason: the photo shows a group of (unnamed) speakers, which is not purely aesthetic, though auditors differ on illustrative news photos. Either way, the claim does not name that failure: it points at backdrop text the page already gives. captureDiffers: the live HTML has the same img with alt=\"\". The claim's reason is wrong whether or not the photo fails, so false_positive; the model had the surrounding text and misjudged it (model_error)."
+    },
+    {
+      "fingerprint": "pff532bd288e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the GSK logo, alt=\"GSK\", the only content of a link (title \"GSK\") to br.gsk.com, in the \"Parceiros e Apoiadores\" strip. elementFails: the crop shows the GSK logotype; the alternative names the company, which is both what the logo says and where the link goes, so it serves the equivalent purpose. captureDiffers: the live img has the same alt. It meets 1.1.1: false_positive (Rampa was right to stay silent)."
+    },
+    {
+      "fingerprint": "d284e06ee119",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the footer link \"Relatórios Anuais\" (visible text and aria-label agree) to /relatorios-gerais-de-residencia-medica/, the same URL the header menu's own \"Relatórios Anuais\" item uses. claimTrue: as captured, the accessible name \"Relatórios Anuais\" is also carried by another footer link (visible \"Ligas Pneumologia\", to the academic leagues page), so two destinations share it, and the heading does not separate them. elementFails: this link's own name describes its own destination accurately; the duplicate comes from the other link's wrong aria-label, which is that link's failure. Understanding 2.4.4 treats distinct text for different destinations as helpful practice, not a requirement, so a correct link does not fail because another link is mislabelled. captureDiffers: the live markup is the same. false_positive: the checker applied a shared-text rule stricter than 2.4.4 (criterion_misapplied)."
+    },
+    {
+      "fingerprint": "s6c07b25887f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link with visible text \"Ligas Pneumologia\" but aria-label=\"Relatórios Anuais\", leading to /ligas-academicas-de-pneumologia/ (\"Ligas Acadêmicas de Pneumologia - sbpt.org.br\", 200 live). claimTrue: its accessible name is \"Relatórios Anuais\" and the destination is the academic leagues page, as stated. elementFails: the aria-label replaces the visible text in the accessible name, so screen reader users are told this link goes to annual reports (the name another link correctly uses) when it goes to the leagues page: the purpose cannot be determined from the name, it is misstated. I weighed the counter-reading that the visible text counts as the link text and is accurate; it does not reach users who get only the name, and nothing else in the context corrects it. It also fails 2.5.3 Label in Name. captureDiffers: the live markup is identical. The claim names the defect exactly: true_positive."
+    },
+    {
+      "fingerprint": "pb71a9ae1b98",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the Chiesi logo, alt=\"Chiesi\", the only content of a link (title \"Chiesi\") to chiesi.com.br in the partners strip. elementFails: the crop shows the Chiesi logotype; the alternative gives the company name, which is the logo's text and the link's destination, so it is equivalent. captureDiffers: the live img has the same alt. It meets 1.1.1: false_positive."
+    },
+    {
+      "fingerprint": "f9856b6366bd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the footer link with visible text \"Diretoria e Conselho\" and aria-label \"Diretoria e Comissões\", to /diretoria-em-exercicio/ (the board page). The link to /comissoes-e-departamentos/ has the same aria-label. claimTrue: the accessible name is shared by two links with different destinations, and the preceding heading \"Institucional\" does not tell them apart. elementFails: screen reader users hear \"Diretoria e Comissões\" for both, which overstates this link's target and does not distinguish it; my lean is yes. But the name does start with \"Diretoria\", which matches the board page; Understanding 2.4.4 treats distinct text for different destinations as advisable rather than required; the rubric counts the accurate visible text; and the clearer failure is 2.5.3 Label in Name. captureDiffers: the live markup is the same. Competent auditors would reasonably disagree on 2.4.4 here: uncertain."
+    },
+    {
+      "fingerprint": "5ee1e4f97287",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the password input (type=\"password\", placeholder \"Senha *\") in the \"Área do Associado\" login drawer, an off-canvas panel that opens from the header button. claimTrue: it asks for the member's current password and has no autocomplete attribute. elementFails: I checked for an escape: current-password is one of WCAG 2.1's listed input purposes (section 7), the field collects it for the user's own account, type=\"password\" does not identify that purpose, and neither the form nor the input sets autocomplete. The drawer being off-canvas until opened does not exempt it. captureDiffers: the live HTML has the same input with no autocomplete. true_positive."
+    },
+    {
+      "fingerprint": "c51301fccfb3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a content photo (image-2, alt=\"\", no caption) of a speaker with a microphone before an audience wearing headsets, placed before the \"Fórum NONECO debate desafios da DPOC no SUS\" section; a screen in the background shows a slide title. claimTrue: the claim quotes \"Distribuição dos 1.233.000 casos de DPOC no Brasil\"; the full-size image reads about \"Distribuição dos 1.528.085 óbitos no Brasil\" (partly lost in glare), so the figure and subject are misread and the claim is false. elementFails: my lean is yes for another reason (the photo shows the forum's opening talk and is not purely aesthetic, though auditors differ on illustrative news photos). The claim points at incidental background slide text, misstated, not at what the photo is there to show, so it does not name the failure. captureDiffers: the live img has the same alt=\"\". false_positive, model_error (misread image text)."
+    },
+    {
+      "fingerprint": "p8debc871604",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the footer link \"Missão e Valores\" under the h2 \"Institucional\", leading to the Missão e Valores page. elementFails: the link text alone states the purpose and matches the destination. captureDiffers: the live markup is the same. It meets 2.4.4: false_positive."
+    },
+    {
+      "fingerprint": "a8bf7fadbc16",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the submenu toggle button \"Institucional Submenu\" in the main navigation: a <button> whose only content is a 10px chevron SVG drawn with stroke=currentcolor. claimTrue: the live global-custom-css sets \".bricks-nav-menu li button { color: #90A1B9 }\", the header is white, and #90a1b9 on #ffffff is 2.63:1, as stated; the button shows nothing but the icon (the label text is a separate link). elementFails: I looked for a reason the chevron would be exempt: it is not decorative and not duplicated by text, since the adjacent text \"Institucional\" is a separate href=\"#\" link and does not say there is a submenu; Understanding 1.4.11 says a menu arrow must meet 3:1 and that the arrow is what shows the drop-down functionality. The colour comes from CSS, so this is not an antialiasing artefact. 2.63:1 is below 3:1. captureDiffers: the live CSS and markup are the same and the screenshot shows the styled header. The claim names the real failure, so true_positive."
+    },
+    {
+      "fingerprint": "d7a0972a46b1",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the link \"clique aqui.\" at the end of the h5 \"Para acessar o certificado de participação, clique aqui.\", to the Central de Certificados page. claimTrue: the claim says nothing around the link tells where it goes, but the same sentence (and the heading that contains it) says it is for getting the participation certificate. elementFails: the link text together with its programmatically determined context (same sentence, and the enclosing h5 as preceding heading) gives the purpose, which is what 2.4.4 requires (2.4.9 would be stricter). captureDiffers: the live markup is the same. false_positive, model_error: the context was in the packet."
+    },
+    {
+      "fingerprint": "f78296fe6f21",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a content photo (image-4, alt=\"\", no caption) of four people in front of a fern wall with an \"SBPT\" light sign; a young woman holds a certificate. It is placed before the \"Top 10\" section. claimTrue: the claim says the image shows a certificate with the words \"SBPT CONGRESSO 2023\"; there is a certificate, but at full size it reads only \"CERTIFICADO\" with illegible small print, and 2023 is not this congress, so the quoted words are invented. elementFails: my lean is yes, since the photo records a certificate presentation that no text mentions and is not purely aesthetic, though auditors differ on whether illustrative news photos need alternatives. Whether the claim names that failure is also open: it does point at the certificate, the photo's central subject, but with made-up wording. captureDiffers: the live img has the same alt=\"\". Reasonable disagreement on both counts: uncertain."
+    },
+    {
+      "fingerprint": "scb9d7492c32",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the SBPT emblem in the footer, alt=\"SBPT\", the only content of a link to the portal home page. claimTrue: the first half holds (the alt is all the link holds), but \"SBPT\" does say where it leads: to the SBPT site, whose home page it is, and the emblem itself bears the society's name. elementFails: for a logo linking to the organisation's home page, the organisation's name is an accepted functional alternative; neither 1.1.1 nor its techniques require the word \"home\". captureDiffers: the live img has the same alt. false_positive: the checker applied a stricter rule than 1.1.1 (criterion_misapplied)."
+    },
+    {
+      "fingerprint": "2ecff6f7477c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the breadcrumb text \"Notícias\" (15px, weight 400) on the blue page-title banner. claimTrue: the snapshot gives the CSS colour #f5f5f5 (#brxe-87cb07 {color: var(--bricks-color-dfbfc4)} = #f5f5f5 in the live CSS) and the pixels behind it as #0c85ca; #f5f5f5 on #0c85ca is 3.69:1, as stated. elementFails: I checked whether the background users see could be darker: the banner is background-color #0a6ab8 with an SVG background image blended in overlay mode, which lightens it to the #0c85ca visible in the screenshot. On #0a6ab8 alone the text would pass (about 5.1:1), but the image is part of the page users receive and loads normally, so the rendered background is the measured one. 15px normal text needs 4.5:1, and 3.69:1 fails. captureDiffers: the live CSS has the same banner rule and text colour, and the screenshot is fully styled. The claim names the failure, so true_positive."
+    },
+    {
+      "fingerprint": "92adc7ecfe5c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is an article paragraph in Portuguese that quotes, in an <em>, the English title of the winning paper (\"Sociodemographic and clinical characteristics of individuals exposed to smoking or biomass smoke ... a multicenter study\"). claimTrue: the only lang attribute on the page is lang=\"pt-BR\" on <html>; neither the paragraph nor the <em> has one, so the English title is exposed as pt-BR. elementFails: I looked for an exception: the title is not a proper name in the Understanding's sense (its example is a person's name), not a technical term and not vernacular, but a 24-word English clause that a Portuguese voice will mispronounce, which is what 3.1.2 exists to prevent. captureDiffers: the live HTML has the same unmarked <em>. true_positive."
+    },
+    {
+      "fingerprint": "b9b1aece8c5e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter input: type=\"email\", placeholder \"Digite seu e-mail\", aria-label \"Nome\", no autocomplete. claimTrue: its accessible name is \"Nome\", it asks for the visitor's e-mail, and autocomplete is absent, as stated. elementFails: email is a listed input purpose and a newsletter sign-up collects the user's own address; type=\"email\" sets the data format, not the autocomplete purpose (H98), and the form sets nothing either. (The wrong name \"Nome\" is a separate 2.5.3/4.1.2 issue.) captureDiffers: the live HTML has the same input (only its generated id differs, which does not matter). true_positive."
+    },
+    {
+      "fingerprint": "p66b2ca0cb88",
+      "answers": {
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is a content photo (image-6, alt=\"\", no caption) of a speaker presenting an \"Advocacy e Relações Institucionais\" slide to people at tables, between the national and international meeting sections. elementFails: my lean is yes, since the photo shows the meeting and its slide and is not purely aesthetic. But it illustrates an event the text describes, and competent auditors often accept alt=\"\" for such news photos, so whether it fails is reasonably disputed. captureDiffers: the live HTML has the same img with alt=\"\". Label uncertain."
+    },
+    {
+      "fingerprint": "3b1285dfde0a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the full-width photo (WhatsApp image, alt=\"\", no caption) of a session: a speaker at a podium, a four-person panel and the audience, in front of a backdrop reading \"42º Congresso Brasileiro de Pneumologia e Tisiologia / 18º Congresso Brasileiro de Endoscopia Respiratória\". claimTrue: the claim says the image conveys those congress names, which the text around it does not say; the article's first paragraph names exactly these two congresses, so the claim is false. elementFails: my lean is yes for another reason (the photo shows the assembly session and panel and is not purely aesthetic, though auditors differ on illustrative news photos). The claim does not name that: it points at backdrop text the page already gives. captureDiffers: the live img has the same alt=\"\". false_positive, model_error."
+    },
+    {
+      "fingerprint": "s35b59b8d854",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the icon link in the floating header (person-plus SVG) with aria-label and title \"Quero me associar\", to the membership offer on sbpt.hub.itarget.com.br. claimTrue: as captured, three links carry that name: this one and the header button go to the same offer URL, and the login drawer's link goes to another itarget URL; nothing near this one tells them apart. elementFails: \"Quero me associar\" (I want to become a member) states the link's purpose, and all three links share that purpose, joining the society, even if one uses a different system. 2.4.4 is about purpose, not identical URLs, and Understanding 2.4.4 calls distinct text for different destinations good practice, not a requirement. captureDiffers: the live markup is the same. false_positive, criterion_misapplied."
+    },
+    {
+      "fingerprint": "c00946fa036b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the \"E-mail ou CPF *\" text input of the members' login drawer (type=\"text\", placeholder only, no autocomplete). claimTrue: the claim says the field asks for \"the user's none\" and that autocomplete=\"none\" is missing; \"none\" is not an input purpose or a valid token, so that part is false (the absence of autocomplete is true). elementFails: yes, I think: the field takes the login identifier for the user's account, which is the listed purpose username, and nothing identifies it. But the claim names an empty purpose and a fix that would not satisfy 1.3.5, so whether it names this failure, rather than only pointing at a missing attribute, is open to reasonable disagreement. captureDiffers: the live HTML has the same input. uncertain."
+    },
+    {
+      "fingerprint": "s8cf19394232",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the SBPT emblem in the header, alt=\"SBPT\", the only content of a link to the portal home page, beside the visible text \"SBPT / Sociedade Brasileira de Pneumologia e Tisiologia\". claimTrue: the alt is all the link holds, but \"SBPT\" does say where it leads (the society's own site, its home page), and it matches the name on the emblem. elementFails: an organisation's name as the alternative of its home-linked logo is an accepted functional alternative; 1.1.1 does not require the word \"home\". captureDiffers: the live img has the same alt. false_positive, criterion_misapplied."
+    },
+    {
+      "fingerprint": "a79063b2352e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the first article photo (alt=\"\", no caption): the opening session, with a speaker at the podium, a panel, the audience, an \"Em memória\" tribute screen with a portrait, and the congress backdrop, placed before the \"Abertura\" section. claimTrue: the claim says the image conveys \"42º Congresso Brasileiro de Pneumologia and 18º Congresso Brasileiro de Medicina do Sono\", which the text does not say; the backdrop actually reads \"... Endoscopia ...\" (cut off), not \"Medicina do Sono\", and the first paragraph names both real congresses, so the claim is false. elementFails: my lean is yes for another reason (the photo records the opening and the in-memoriam tribute and is not purely aesthetic, though auditors differ on illustrative news photos). The claim points at misread backdrop text, not at that. captureDiffers: the live img has the same alt=\"\". false_positive, model_error."
+    },
+    {
+      "fingerprint": "df7afaaf79bd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the submenu toggle button \"Público Geral Submenu\" in the main navigation: a <button> whose only content is a 10px chevron SVG drawn with stroke=currentcolor. claimTrue: the live global-custom-css sets \".bricks-nav-menu li button { color: #90A1B9 }\", the header is white, and #90a1b9 on #ffffff is 2.63:1, as stated; the button shows nothing but the icon (the label text is a separate link). elementFails: I looked for a reason the chevron would be exempt: it is not decorative and not duplicated by text, since the adjacent text \"Público Geral\" is a separate href=\"#\" link and does not say there is a submenu; Understanding 1.4.11 says a menu arrow must meet 3:1 and that the arrow is what shows the drop-down functionality. The colour comes from CSS, so this is not an antialiasing artefact. 2.63:1 is below 3:1. captureDiffers: the live CSS and markup are the same and the screenshot shows the styled header. The claim names the real failure, so true_positive."
+    }
+  ]
+}

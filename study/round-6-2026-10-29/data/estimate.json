@@ -1,0 +1,183 @@
+{
+ "source": "study/round-5-2026-10-28 (b759128, Gemma 4 12B, --concurrency 2), docs/performance.md, docs/models.md",
+ "round5PerPage": {
+  "collectSeconds": {
+   "median": 28.0,
+   "p90": 38.0,
+   "mean": 28.4,
+   "min": 12,
+   "max": 47,
+   "sum": 681
+  },
+  "judgeSeconds": {
+   "median": 144.5,
+   "p90": 244.5,
+   "mean": 154.5,
+   "min": 17,
+   "max": 322,
+   "sum": 3709
+  },
+  "totalSeconds": {
+   "median": 173.5,
+   "p90": 282.4,
+   "mean": 182.9,
+   "min": 39,
+   "max": 350,
+   "sum": 4390
+  },
+  "modelCalls": {
+   "median": 76.0,
+   "p90": 117.0,
+   "mean": 76.8,
+   "min": 13,
+   "max": 152,
+   "sum": 1842
+  },
+  "inputTokens": {
+   "median": 72901.5,
+   "p90": 98127.8,
+   "mean": 68413.8,
+   "min": 8316,
+   "max": 123115,
+   "sum": 1641932
+  },
+  "outputTokens": {
+   "median": 7298.0,
+   "p90": 9829.1,
+   "mean": 6908.6,
+   "min": 930,
+   "max": 13294,
+   "sum": 165806
+  }
+ },
+ "fastRatio": {
+  "time": 0.389,
+  "calls": 0.33,
+  "from": "docs/performance.md, three pages, Gemma 4 12B"
+ },
+ "ministralRatio": 1.322,
+ "hours": {
+  "collection, 72 pages (network, no model)": 0.57,
+  "judgment, 72 pages, Gemma 4 12B, --concurrency 2": 3.09,
+  "ablations by replay (--no-confirm, --no-verify, --no-llm), 72 pages each": 0.18,
+  "model swap, local Ministral 3 14B, 72 pages": 4.09,
+  "T4, all 72 pages: 4 more uncached full runs (the main run is the first)": 12.36,
+  "T4, all 72 pages: 5 uncached full runs, none shared with the main run": 15.45,
+  "T4, all 72 pages: one live --fast collection": 0.45,
+  "T4, all 72 pages: 5 uncached --fast judgments": 6.01,
+  "T4, 12-page subset: 4 more uncached full runs": 2.06,
+  "T4, 12-page subset: one live --fast collection": 0.08,
+  "T4, 12-page subset: 5 uncached --fast judgments": 1.0,
+  "T4, ACT cases (outside this study): 5 uncached eval runs, full and --fast": 2.16
+ },
+ "hostedUSD": {
+  "perPageFull": [
+   0.0103,
+   0.0241
+  ],
+  "perPageFast": [
+   0.0034,
+   0.0079
+  ],
+  "swap72": [
+   0.74,
+   1.74
+  ],
+  "t4All72": [
+   4.93,
+   11.52
+  ],
+  "t4Subset12": [
+   0.82,
+   1.92
+  ]
+ },
+ "noVerifyExtrasPerPage": {
+  "discarded": 6.4,
+  "suggestions": 5.9,
+  "items72": 885
+ },
+ "labelledItems": {
+  "round5": 358,
+  "perPage": 14.9,
+  "round6Projected": 1959
+ },
+ "decidedOn36TestPages": {
+  "all24": {
+   "perPage": 2.62,
+   "median": 93.0,
+   "p05": 62.0,
+   "p95": 132.0,
+   "chanceAtLeast70": 0.884
+  },
+  "test12": {
+   "perPage": 2,
+   "median": 72.0,
+   "p05": 53.0,
+   "p95": 92.0,
+   "chanceAtLeast70": 0.58
+  }
+ },
+ "lowerBounds": {
+  "n=60 p=0.88": {
+   "wilsonLower": 0.778,
+   "withDesignEffect": 0.722
+  },
+  "n=60 p=0.9": {
+   "wilsonLower": 0.799,
+   "withDesignEffect": 0.747
+  },
+  "n=60 p=0.92": {
+   "wilsonLower": 0.819,
+   "withDesignEffect": 0.772
+  },
+  "n=70 p=0.88": {
+   "wilsonLower": 0.79,
+   "withDesignEffect": 0.736
+  },
+  "n=70 p=0.9": {
+   "wilsonLower": 0.808,
+   "withDesignEffect": 0.761
+  },
+  "n=70 p=0.92": {
+   "wilsonLower": 0.825,
+   "withDesignEffect": 0.786
+  },
+  "n=80 p=0.88": {
+   "wilsonLower": 0.785,
+   "withDesignEffect": 0.747
+  },
+  "n=80 p=0.9": {
+   "wilsonLower": 0.815,
+   "withDesignEffect": 0.772
+  },
+  "n=80 p=0.92": {
+   "wilsonLower": 0.846,
+   "withDesignEffect": 0.797
+  },
+  "n=90 p=0.88": {
+   "wilsonLower": 0.794,
+   "withDesignEffect": 0.756
+  },
+  "n=90 p=0.9": {
+   "wilsonLower": 0.821,
+   "withDesignEffect": 0.781
+  },
+  "n=90 p=0.92": {
+   "wilsonLower": 0.848,
+   "withDesignEffect": 0.806
+  },
+  "n=100 p=0.88": {
+   "wilsonLower": 0.802,
+   "withDesignEffect": 0.764
+  },
+  "n=100 p=0.9": {
+   "wilsonLower": 0.826,
+   "withDesignEffect": 0.789
+  },
+  "n=100 p=0.92": {
+   "wilsonLower": 0.85,
+   "withDesignEffect": 0.814
+  }
+ }
+}

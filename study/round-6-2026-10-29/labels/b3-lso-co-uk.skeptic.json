@@ -1,0 +1,48 @@
+{
+  "page": "https://www.lso.co.uk/contact-us/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s61d625b75eb",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the BMW logo link in the footer funders strip: an img with alt \"Principal Partner - BMW\" and a visible caption \"Principal Partner\", inside a figure, with title \"Principal Partner - BMW\" (Chrome takes its name from the title). It leads to the LSO's own Corporate Partnerships page, which I fetched: a page about sponsoring the LSO that quotes BMW Group's head of cultural engagement on the partnership. claimTrue no: the quoted text and destination title are right, but the stated mismatch does not hold, because the link text names the LSO's principal partner and the page is about the LSO's corporate partnerships. elementFails no, on balance: a link labelled as a partner credit that opens the partnerships page has a purpose users can work out, and sighted users get exactly the same logo and caption, so any remaining doubt about the destination applies to users in general, which is the criterion's exception. The other side is also reasonable: the three sibling logos open each organisation's own site, so users may expect BMW's site and not a page about becoming a sponsor. Competent auditors would reasonably disagree on this, so the label is uncertain. captureDiffers no: the live markup and the destination match the capture."
+    },
+    {
+      "fingerprint": "5941a44c6dda",
+      "answers": { "claimTrue": "yes", "elementFails": "cannot_tell", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the City of London logo link in the footer: <a title=\"City of London\"><figure><img alt=\"City of London logo\"><span class=\"u-hidden-visually\">City of London</span></figure></a>. claimTrue yes: the snapshot's CDP data gives this link role link with name \"\" and no name source, so Chrome computed no name. The skeptic reason that holds up: the markup gives the link a name through standard techniques (title attribute, image alt and visually hidden text in the link), and the accname algorithm computes one from them. Chrome's empty name looks like a quirk of the engine: in the same capture it does not take content through the figure (the BMW link gets its name from its title, without its visible caption), and here it does not use the title either. The figure's image stays exposed with its alt, so in browse mode a screen reader would probably still read \"City of London logo\", which makes \"announces only link\" an overstatement. Whether a name that is valid in the markup but empty in Chromium fails 4.1.2 is a question of accessibility support that competent auditors would answer differently, so elementFails is cannot_tell and the label is uncertain. captureDiffers no: the live HTML has the same markup, and a desktop Chrome would build the same tree."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the logo image at the top of the Cookiebot consent dialog (#CybotCookiebotDialogPoweredbyImage). The crop and screenshot show the LSO mark with the words \"London Symphony Orchestra\", and its alt is \"logo\", which Chrome exposes as the image's name. claimTrue yes: \"logo\" is a generic placeholder and says nothing about whose logo it is. I looked for a reason it could pass. No visible text in the dialog names the organisation. If the image were judged decorative, a non-null alt like this is failure F39; if it is informative, a placeholder alternative is failure F30 and the text in the image is not conveyed. So it fails 1.1.1 either way, and the claim names that defect. captureDiffers no: the live page loads Cookiebot (uc.js, blocking mode auto) for visitors who have not consented, and the live Cookiebot config for this site sets logoAltText = 'logo' with the same data-URI logo."
+    },
+    {
+      "fingerprint": "s961b9f874ee",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the \"Necessary\" checkbox (disabled and checked, shown as a toggle) in the Cookiebot dialog's \"Consent Selection\" group, next to Preferences, Statistics and Marketing. A <label for> with the visible text \"Necessary\" labels it. claimTrue no: a checkbox takes no entry, and the label does say what the control is for: consent to the Necessary cookie category, which the group name and the dialog text explain. 2.4.6 asks only that labels describe topic or purpose, and the standard category name meets that within this group. elementFails no. The claim applies a rule for text inputs (say what to enter) that 2.4.6 does not require, so the cause is criterion_misapplied. captureDiffers no: the live Cookiebot template uses the same label markup for this control."
+    },
+    {
+      "fingerprint": "98b45fac70be",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Shop\" link in the header's utility navigation. Sampling the screenshot pixels gives white text on #987d50, and the live main.css confirms it: .c-secondary-nav__item--shop{background-color:#987D50} and .c-secondary-nav--meta>li a{color:#fff}, at 1em (16px) and weight 500 at this width, which is not large text. White on #987d50 computes to 3.90:1, below the 4.5:1 that 1.4.3 requires. This is the default state, not hover or focus, and I found no text shadow, overlay or other technique that would raise the contrast. claimTrue yes and elementFails yes. captureDiffers no: the full-page screenshot draws the fixed header near the bottom, a stitching artefact, but the colours and size match the live CSS."
+    },
+    {
+      "fingerprint": "8b4e42568907",
+      "answers": { "claimTrue": "yes", "elementFails": "cannot_tell", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the Barbican resident orchestra logo link in the footer: <a title=\"Barbican resident orchestra\"><figure><img alt=\"Barbican resident orchestra\"><span class=\"u-hidden-visually\">Barbican resident orchestra</span></figure></a>. claimTrue yes: the snapshot's CDP data gives the link name \"\" with no name source. The skeptic reason that holds up: the author supplied the name three standard ways (title, image alt and hidden text), and by the accname algorithm the link has a name. Chromium's empty name is engine behaviour: it skips the figure's content and, here, also the title, while it uses the title for the Arts Council and BMW links. The image is still exposed with its alt, so in browse mode screen readers would likely read it. Whether this counts as an author failure of 4.1.2 or a browser defect is a matter competent auditors would disagree on, so elementFails is cannot_tell and the label is uncertain. captureDiffers no: the live markup is identical."
+    }
+  ]
+}

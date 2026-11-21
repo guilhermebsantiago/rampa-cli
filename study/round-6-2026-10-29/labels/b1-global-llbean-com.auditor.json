@@ -1,0 +1,292 @@
+{
+  "page": "https://global.llbean.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "95096db154bf",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Qualtrics Site Intercept slider tab control (div#slider-control-SI_..., added by a script). The snapshot shows it focusable, with click and keydown listeners, role generic and no name, so the claim holds. Qualtrics' own source (SliderModule.js and the BuildElementModule in CoreModule.js, v2.62.0, fetched from siteintercept.qualtrics.com) confirms what it does: a div with tabIndex 0 whose click and Enter/Space keydown both call toggleControl, which slides the feedback panel open and closed. It is a transparent overlay on the tab graphic, with no role and no aria-label. A scripted div that works as a toggle button with no role (and no name) fails 4.1.2 (F59). captureDiffers cannot_tell: the slider is injected by a third-party script that may be sampled or targeted, and my fetch does not run scripts, so I could not compare; nothing suggests the capture differs from what a person gets."
+    },
+    {
+      "fingerprint": "7a5f05f582ad",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the header search combobox; its placeholder 'What can we help you find?' is 13px. The live global.css sets .form-control::placeholder {color:#6c757d; opacity:1}, which is 4.69:1 on white, so the placeholder passes 1.4.3. In the screenshot the placeholder is grey text with ClearType colour fringes. Its darkest pixels (#717781) reach about 4.5:1, and #7fb6ea is a blue subpixel fringe, not the text colour; #7fb6ea on white is 2.15:1, not the 4.29:1 the message pairs it with. The claim is therefore false. The snapshot's pixelContrast took a fringe colour as the foreground, so the rule's fail rests on wrong measured data. captureDiffers no: the screenshot is styled and the live CSS matches."
+    },
+    {
+      "fingerprint": "896feb3c364f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the large hero photo (a family at a campfire). It is the only content of its own link to /llb/shop/509870/ (Gift Shop), and the link's accessible name is the photo description alone, which says nothing about the Gift Shop. The claim is true. An image that is a link's only content is functional, and its text alternative must identify the purpose (Understanding 1.1.1 on controls; G82, H30), so it fails 1.1.1. Sighted users see the gift-shop lettering and button over the photo, but those are separate links that follow ('This Holiday, Give Presence', 'HOLIDAY GIFT SHOP'). A screen reader user on this link hears only a campfire scene. captureDiffers no: the live HTML has the same alt and link."
+    },
+    {
+      "fingerprint": "33cae98160f9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a hero-grid tile photo (a small dog in a sweater beside a green and cream tote). It is the only content of a link to 'The Original Maine-Made Boat and Tote'. The claim is literally true: the alt describes the picture and does not state the destination. The alt is accurate and names the tote bag, which is also all a sighted user infers from the picture, so it arguably serves the equivalent purpose (my lean: pass). Still, it describes the image rather than the link purpose, as the WAI functional-image guidance asks for, and it leads with the dog. Competent auditors split on whether a product-description alt on an image-only product-tile link fails 1.1.1. captureDiffers no: the live alt and link are the same."
+    },
+    {
+      "fingerprint": "f47bf9e936a4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a carousel tile image in the 'Boat & Totes' link. The crop shows a canvas tote with red trim beside a seated person in plaid layers and leather moccasins: exactly what the alt says. The claim that it describes something the image does not show is false, and the text alternative is accurate. captureDiffers no: the live HTML has the same alt and image, and the screenshot is a fully styled page. The image is in a 'Can't Miss Gifts' carousel link that also holds a visible caption, so the alt is supplementary; an accurate description there does not fail 1.1.1."
+    },
+    {
+      "fingerprint": "b0177a9b5995",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a hero-grid tile photo (a red and green plaid shirt with a suede-trimmed chest pocket). It is the only content of a link to 'Shop All Flannel' (I fetched it; Rampa did not read it). The claim is literally true: the alt describes the shirt and does not state the destination. The alt is accurate and names a plaid chamois shirt, a flannel-type shirt, which is what a sighted user infers too, so it arguably identifies the purpose (my lean: pass). It describes the image rather than saying 'shop flannel', though, and auditors split on whether that fails 1.1.1 for an image-only link. captureDiffers no: the live alt and link are the same."
+    },
+    {
+      "fingerprint": "f872a642388b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is part of the Qualtrics slider: a 36x139 box at the right edge, under the transparent #slider-control overlay that is the real toggle. The snapshot shows it focusable with only a keydown listener. Qualtrics' own source (SliderModule.js and the BuildElementModule in CoreModule.js, v2.62.0, fetched from siteintercept.qualtrics.com) shows that every built creative element gets tabIndex 0 and a keydown handler (clickOnKeyDown) that only calls element.click() on Enter or Space. This element has no click handler, so it performs no function: it is a visual part of the tab, not a control. The claim's inference that it 'works as a control' is false. A focusable inert div is a needless tab stop (a focus-order concern), but it is not a user interface component missing its role under 4.1.2 or F59. captureDiffers cannot_tell: the slider is injected by a third-party script that may be sampled or targeted, and my fetch does not run scripts, so I could not compare; nothing suggests the capture differs from what a person gets."
+    },
+    {
+      "fingerprint": "8be44ba5e6ee",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the photo in the 'Outerwear' tile link; the link also has visible text 'Outerwear'. The alt says 'Two people standing outdoors wearing casual striped and color-block pullovers'. The image rendered at desktop width (the crop and the screenshot) shows four people, two adults and two children, walking by a cabin in a fair-isle sweater, a cable knit, a red plaid shirt, a puffer vest and beanies. So the claim is true: the alt describes a different picture and is not an equivalent, which fails 1.1.1. If the image is taken as decorative inside a captioned link, a wrong non-empty alt still fails, since it should then be empty. captureDiffers no: the live HTML has the same alt and the same XLarge image file."
+    },
+    {
+      "fingerprint": "2b7f2c823272",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is an image of text ('This Holiday, Give Presence' in script lettering) laid over the hero. It is the only content of a link to the Gift Shop. The claim is literally true: the image is all the link holds, and its text does not name the Gift Shop. But the alt reproduces the image's text exactly, which is the equivalent for an image of text, and it is the same link text sighted users read, so 1.1.1 is met. Whether that slogan conveys the link's purpose is a 2.4.4 question that applies to every user alike; the 'HOLIDAY GIFT SHOP' link that follows is a separate link. Asking the alt to state the destination beyond the image's own words is stricter than 1.1.1. captureDiffers no: the live alt is the same."
+    },
+    {
+      "fingerprint": "sef68ef54d8b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'DETAILS' link in the paragraph 'Ends November 24, 2026. Conditions and Exclusions Apply. DETAILS'. It has title='Terms and Conditions' and leads to the flannel promotion's Terms & Conditions page. Its enclosing paragraph (the programmatically determined context) and its title (an accessible description, H33) both say it gives the offer's conditions, so its purpose can be determined and 2.4.4 is met. The claim that nothing around it says where it goes is false; the model was given both the paragraph and the title. captureDiffers no: the live HTML is the same."
+    },
+    {
+      "fingerprint": "09ada2794b16",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter field (input#foot-email, type='text', aria-label 'Enter email address'). It collects the user's own email address, a purpose listed in WCAG 2.1 section 7 ('email'). It has no autocomplete attribute and is not even type='email', so its purpose cannot be determined programmatically: it fails 1.3.5, as the claim says. captureDiffers no: the live HTML has the same input, and no autocomplete='email' appears anywhere on the page."
+    },
+    {
+      "fingerprint": "a2dd01bcbf87",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is a full-width photo (a couple in pajamas and moccasin slippers on a leather sofa). It is the only content of a link to 'Mayes' Gift Guide'. The alt describes the scene and gives no hint of the gift guide, so the claim is true. A listener could take it for a pajamas link. The h2 'The Mayes' Gift Guide' and its button follow outside the link. A functional image whose alt does not identify its purpose fails 1.1.1 (G82, H30). captureDiffers no: the live alt and link are the same."
+    },
+    {
+      "fingerprint": "334188b8c2b5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a carousel tile image in the 'Women's Fleece' link (off-screen in the carousel at capture). The crop shows a person in a blue patterned fleece pullover and light-wash jeans, as the alt says. The claim is false, and the alternative is accurate. captureDiffers no: the live HTML has the same alt and image, and the screenshot is a fully styled page. The image is in a 'Can't Miss Gifts' carousel link that also holds a visible caption, so the alt is supplementary; an accurate description there does not fail 1.1.1."
+    },
+    {
+      "fingerprint": "7f1f0da5908a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Qualtrics slider's close button: a 30x30 div holding a close-icon img with no alt. The snapshot shows it focusable, with click and keydown listeners, role generic and no name, so the claim holds. Qualtrics' own source (SliderModule.js and the BuildElementModule in CoreModule.js, v2.62.0, fetched from siteintercept.qualtrics.com) gives it an onclick that closes the panel, plus tabIndex 0 and an Enter/Space handler. It is a scripted button with no role and no name, which fails 4.1.2 (F59). It sits off-screen while the panel is closed but stays in the tab order. captureDiffers cannot_tell: the slider is injected by a third-party script that may be sampled or targeted, and my fetch does not run scripts, so I could not compare; nothing suggests the capture differs from what a person gets."
+    },
+    {
+      "fingerprint": "44b0f1a31bc4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the Qualtrics slider's tab-graphic element: a 28x82 div holding the tab image, under the transparent #slider-control overlay that does the toggling. The snapshot shows it focusable with only a keydown listener. Qualtrics' own source (SliderModule.js and the BuildElementModule in CoreModule.js, v2.62.0, fetched from siteintercept.qualtrics.com) shows that this keydown handler only calls element.click() on Enter or Space, and the element has no click handler, so it does nothing: it is a picture holder, not a control. The claim's 'works as a control' is false. It is a needless tab stop (a focus-order concern), and its image has no alt (a 1.1.1 matter), but it is not a control missing its role under 4.1.2. captureDiffers cannot_tell: the slider is injected by a third-party script that may be sampled or targeted, and my fetch does not run scripts, so I could not compare; nothing suggests the capture differs from what a person gets."
+    },
+    {
+      "fingerprint": "86a1e5747d59",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a carousel tile image in the 'Men's Outerwear' link. The crop shows a person in a black puffer jacket and an L.L.Bean knit pom hat against a neutral backdrop, exactly as the alt says. The claim is false. captureDiffers no: the live HTML has the same alt and image, and the screenshot is a fully styled page. The image is in a 'Can't Miss Gifts' carousel link that also holds a visible caption, so the alt is supplementary; an accurate description there does not fail 1.1.1."
+    },
+    {
+      "fingerprint": "94fa690dfd2c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a carousel tile image in the 'Gift Shop' link. The crop shows a group around a campfire in the woods at dusk, roasting food, as the alt says. The claim is false, and the alternative is accurate. captureDiffers no: the live HTML has the same alt and image, and the screenshot is a fully styled page. The image is in a 'Can't Miss Gifts' carousel link that also holds a visible caption, so the alt is supplementary; an accurate description there does not fail 1.1.1."
+    },
+    {
+      "fingerprint": "b61a42783082",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a hero-grid tile photo (a folded navy patterned crewneck sweater on a red gift box). It is the only content of a link to 'Shop All Sweaters' (I fetched it; Rampa did not read it). The claim is literally true: the alt describes the photo and does not state the destination. The alt is accurate and names a sweater, which is all a sighted user infers from the picture, so it arguably identifies the purpose (my lean: pass). It describes the image rather than saying 'shop sweaters', though, and auditors split on whether that fails 1.1.1 for an image-only link. captureDiffers no: the live alt and link are the same."
+    },
+    {
+      "fingerprint": "s35843c1164b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Shop All' link at the end of the paragraph 'From unbeatably tough totes to ultra-cozy slippers, don't miss the products everyone is talking about.' It leads to the NYT Wirecutter Picks collection. The section title 'NYT Wirecutter Picks' is a styled 32px p, not a heading, so by this round's rule it is not context; the preceding heading, h2 'The Mayes' Gift Guide', is unrelated. The link's own paragraph still says what 'all' covers: the products everyone is talking about, from totes to slippers, which is what the destination collects. So the purpose can be determined from the link text with its paragraph, and nothing is mismatched: the claim is false. Separately, the unmarked section title is a 1.3.1 issue. captureDiffers no: the live HTML is the same."
+    },
+    {
+      "fingerprint": "26306a72b8c6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a carousel tile image in the 'Women's Outerwear' link. The crop shows a person in a brown puffer jacket and light pants against a neutral studio background, as the alt says. The claim is false. captureDiffers no: the live HTML has the same alt and image, and the screenshot is a fully styled page. The image is in a 'Can't Miss Gifts' carousel link that also holds a visible caption, so the alt is supplementary; an accurate description there does not fail 1.1.1."
+    },
+    {
+      "fingerprint": "b62d91970dd7",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a carousel tile image in the 'Women's Sweaters' link. The crop is a close-up of a person in a light ribbed (waffle-knit) sweater with a mock neck, as the alt says. The claim is false. captureDiffers no: the live HTML has the same alt and image, and the screenshot is a fully styled page. The image is in a 'Can't Miss Gifts' carousel link that also holds a visible caption, so the alt is supplementary; an accurate description there does not fail 1.1.1."
+    },
+    {
+      "fingerprint": "ab27612217f5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a carousel tile image in the 'Men's Sweaters' link. The crop shows a person seated on a stool in a neutral quarter-zip sweater, with a plaid shirt draped over the knee and brown leather boots, as the alt says. The claim is false. captureDiffers no: the live HTML has the same alt and image, and the screenshot is a fully styled page. The image is in a 'Can't Miss Gifts' carousel link that also holds a visible caption, so the alt is supplementary; an accurate description there does not fail 1.1.1."
+    },
+    {
+      "fingerprint": "a36d7632398b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a carousel tile image in the 'Men's Shirts' link. The crop shows a person in a plaid overshirt, a graphic tee and a knit beanie in a studio portrait, as the alt says. The claim is false. captureDiffers no: the live HTML has the same alt and image, and the screenshot is a fully styled page. The image is in a 'Can't Miss Gifts' carousel link that also holds a visible caption, so the alt is supplementary; an accurate description there does not fail 1.1.1."
+    },
+    {
+      "fingerprint": "s046b7463bf9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the 'Details' link in the header promo bar. It comes right after <strong>Timeless New England Style, Shipped at Competitive Rates.</strong> in the same div, one implicit paragraph in HTML terms, and leads to 'Shipping Information' (I fetched it; Rampa did not read it). Its title 'Details' adds nothing, but the text in the same paragraph says the details are about shipping at competitive rates. The link text with its programmatically determined context gives the purpose, so 2.4.4 is met, and the claim that nothing around it does is false. captureDiffers no: the live HTML is the same."
+    },
+    {
+      "fingerprint": "a08d1672449f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is a hero-grid tile photo (shearling-lined Bean Boot mocs). It is the only content of a link to 'Shop All Boots' (I fetched it; Rampa did not read it). The claim is literally true: the alt describes the product and does not state the destination. The alt is accurate and names Bean Boot mocs, which is what a sighted user infers from the picture, so it arguably identifies the purpose (my lean: pass). It describes the image rather than saying 'shop boots', though, and auditors split on whether that fails 1.1.1 for an image-only link. captureDiffers no: the live alt and link are the same."
+    },
+    {
+      "fingerprint": "aaf90a35612e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the Qualtrics slider's panel box: a 382x641 div, off-screen to the right while the slider is closed, that frames the survey. The snapshot shows it focusable with only a keydown listener. Qualtrics' own source (SliderModule.js and the BuildElementModule in CoreModule.js, v2.62.0, fetched from siteintercept.qualtrics.com) shows that this handler only forwards Enter or Space to element.click(), and the element has no click handler, so it is an inert container, not a control. The claim's 'works as a control' is false. Being focusable is a focus-order nuisance, not a control missing its role under 4.1.2 or F59. captureDiffers cannot_tell: the slider is injected by a third-party script that may be sampled or targeted, and my fetch does not run scripts, so I could not compare; nothing suggests the capture differs from what a person gets."
+    }
+  ]
+}

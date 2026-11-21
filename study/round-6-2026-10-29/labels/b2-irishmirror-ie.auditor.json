@@ -1,0 +1,90 @@
+{
+  "page": "https://www.irishmirror.ie/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "5a77507ad0ee",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "A teaser thumbnail in Editor's Picks, not inside a link, sitting next to an h3 link with the same headline. The crop shows a hand holding a PS5 GTA VI box. claimTrue: yes, because the alt repeats the headline and the sexologist's erectile dysfunction warning is not in the picture. elementFails: no. The alt names what the photo shows (GTA 6) and what it illustrates. WCAG 2.1 does not require an alt to describe only what is visible. Repeating the headline is redundant for screen reader users but does not fail 1.1.1. captureDiffers: no. The live HTML has the same image with the same alt, and the screenshot matches the live layout. Rampa applied a stricter rule than 1.1.1."
+    },
+    {
+      "fingerprint": "d910bed16aba",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Lead image of an Editor's Picks teaser, not linked, above an h3 link with the same headline. The crop shows a bearded man in a beanie carrying a sack beside a grey car. claimTrue: yes, because the alt is the headline (his move to a village and a quote), which the photo does not depict. elementFails: no. In a news teaser, an alt that names the story and points to its subject (the man) gives an equivalent text alternative. The only weakness is redundancy with the visible headline, which is not a 1.1.1 failure. captureDiffers: no. The live HTML still has this image (now a different size) with the same alt. Rampa required a stricter purely visual description."
+    },
+    {
+      "fingerprint": "2b40bb17818e",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Teaser thumbnail (file name garda-car-lights-stock) next to an h3 link with the same headline. It is a generic stock photo of a Garda car's blue light bar. claimTrue: yes, because the alt describes an arrest after an assault, and the image shows only police lights. elementFails: I lean no. The stock image adds nothing to the headline and the alt carries the story, so no information is lost. But unlike the other thumbnails, this alt names nothing in the picture. A strict auditor could fail it either as an informative image whose content is left out or as a decorative image that should have alt=\"\" (F39). Competent auditors would reasonably disagree. captureDiffers: no. The live HTML has the same image and alt."
+    },
+    {
+      "fingerprint": "cf9554f84f2a",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "cannot_tell" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The publisher logo at the top of the InMobi/Quantcast consent dialog ('Privacy', modal). The crop shows the 'IRISH Mirror' logo, and its alt is the template text 'Publisher Logo'. claimTrue: no, because the image is a publisher logo, so the alt does not describe something absent. It is generic. elementFails: yes. The logo conveys the publisher's name, and the alt replaces it with placeholder-like text (F30 pattern). The dialog's text names only 'Reach and across our entities', not Irish Mirror. Read in good faith, the claim points at an alternative that leaves out what the image conveys, the case the rubric says names the defect. captureDiffers: cannot_tell. The dialog is injected by script, and my fetch cannot render it. The live CMP loader config does point to the same logo file, and nothing suggests a different dialog."
+    },
+    {
+      "fingerprint": "473bf124b691",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The premium badge above the hero headline (Marius Frunza). The SVG reads 'IRISH Mirror +' and marks Irish Mirror+ subscriber content, and its alt is 'irishmirror'. claimTrue: yes, because the alt names the brand label, not what the badge conveys. elementFails: yes. The '+' (premium/paywalled status) is the badge's information, and nothing else in this card says so: the tag is 'Prostitution' and the link aria-label is the bare headline. Screen reader users hear only 'irishmirror' on the Irish Mirror's own site. captureDiffers: no. The live HTML has the same badge with alt 'irishmirror' on this article."
+    },
+    {
+      "fingerprint": "s3fef8c46da0",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'World News' link in the News submenu of the Mobile Navigation. Its href is /news/irish-news/politics/, whose title is 'Politics: the latest political news from across Ireland', and the 'Politics' item just before it has the same href. claimTrue: yes. elementFails: yes. Its context is the list item 'World News', the nested list under 'News' (H81), and the preceding heading h1 'Irish Mirror: ...'. None of these reveals that the link leads to Irish politics, so its purpose cannot be determined, and the text misstates it. At 1280px this nav is sr-only and was inert when captured (CDP ignoredReasons inertElement), even though the snapshot marks the link focusable. It is presented whenever the curtain opens (mobile), and the desktop MORE curtain carries the same mislinked item. captureDiffers: no. The live HTML has the same text and href in both menus."
+    },
+    {
+      "fingerprint": "9516a987242f",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Teaser thumbnail next to an h3 link with the same headline. The crop shows a National Lottery sign with its star mascot. claimTrue: yes, because the alt (Lottery tight-lipped on security after a scratch card scam) describes events that are not in the picture. elementFails: no. The alt names the photo's subject (the National Lottery) and the story it illustrates, an acceptable text alternative for a news teaser. The duplication with the headline is a redundancy issue, not a 1.1.1 failure. captureDiffers: no. The live HTML has the same image and alt. Rampa applied a stricter visual-description rule."
+    },
+    {
+      "fingerprint": "f19de097a546",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The premium badge on the Billy Scanlan opinion teaser (pigeon on the Luas). The SVG reads 'IRISH Mirror +', and its alt is 'irishmirror'. claimTrue: yes. elementFails: yes. The badge's information is that the column is Irish Mirror+ premium content, and the card gives it nowhere else: the label is 'OPINION', the tag is 'Luas' and the link aria-label is the headline. 'irishmirror' does not serve the equivalent purpose. captureDiffers: no. The live HTML has the same badge and alt on this column."
+    },
+    {
+      "fingerprint": "fb36efe998d4",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Teaser thumbnail next to an h3 link with the same headline. The crop shows a Dunnes Stores shopfront inside a shopping centre. claimTrue: yes, because the recall, the injury risk and the 4,600 units sold are not in the picture. elementFails: no. The alt names the photo's subject (Dunnes Stores) and the story it illustrates, an adequate alternative for a teaser image. Headline duplication is redundant but not a 1.1.1 failure. captureDiffers: no. The live HTML has the same image and alt. Rampa applied a stricter rule than 1.1.1."
+    },
+    {
+      "fingerprint": "34d3df02cc71",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "cannot_tell" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the only content of the header link to /subscribe. The link has aria-label 'Subscribe to premium membership'. The image shows an Irish-flag heart and the word 'SUBSCRIBE', and its alt is 'irishmirror'. claimTrue: yes, because the alt names a brand label, not what the image says. elementFails: I lean no. The link's aria-label overrides its content, so screen readers announce 'Subscribe to premium membership', and the image's purpose reaches users. But the image's own text alternative contradicts its visible text and stays in the accessibility tree. A strict auditor would fail it under 1.1.1, so competent auditors would reasonably disagree. captureDiffers: cannot_tell. The link is rendered client-side and is absent from the server HTML I fetched, so I could not compare."
+    },
+    {
+      "fingerprint": "fc7053e445d0",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Teaser thumbnail next to an h3 link with the same headline. The crop is a portrait of a smiling dark-haired woman. claimTrue: yes, because the health update and FND diagnosis are not visible. elementFails: no. The alt identifies who is pictured (Lisa McHugh) and the story the photo illustrates, which serves the image's purpose in a news teaser. Duplicating the headline is redundant but not a 1.1.1 failure. captureDiffers: no. The live HTML has the same image and alt. Rampa required a stricter purely visual description."
+    },
+    {
+      "fingerprint": "c01d3511e521",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The premium badge on the Editor's Picks lead teaser (American wife murderer). The SVG reads 'IRISH Mirror +', and its alt is 'irishmirror'. claimTrue: yes. elementFails: yes. The badge conveys Irish Mirror+ premium status, and 'irishmirror' does not convey it. The card's footer tag link 'Plus' hints at it, but only as a topic tag after the headline, and the badge's own alternative still misstates the image. captureDiffers: no. The live HTML has the same badge and alt on this article."
+    }
+  ]
+}

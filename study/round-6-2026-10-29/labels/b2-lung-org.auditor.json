@@ -1,0 +1,114 @@
+{
+  "page": "https://www.lung.org/blog/radon-awareness-lung-cancer-advocate",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s86fcdc8def1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the Facebook icon in the AddToAny share row under the article title (name 'Facebook' from an sr-only span). claimTrue: in the capture its href is '/#facebook', which resolves to the home page, so the sentence holds of the captured href. But the live HTML has href='#' and loads addtoany.com/menu/page.js, which writes the '/#facebook' placeholder (with target=_blank and rel=nofollow noopener, as captured) and intercepts the click to open a Facebook share window; the link never takes users to the Home page. captureDiffers: the captured DOM matches what a browser builds for users; the wrong part is the destination record, which followed the script's placeholder href. elementFails: the purpose is sharing this article on Facebook; 'Facebook' in the share list right after the article's h1 lets that be determined, so I judge it passes. A stricter auditor could fail it because the footer has another link named 'Facebook' that goes to ALA's Facebook page, but that would be a share-versus-visit ambiguity, not the Home page mismatch the claim names, so the label is false_positive either way. Cause: the destination given to the model was not where the link leads."
+    },
+    {
+      "fingerprint": "1cd78286f64a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the 'Donate Now' button-styled link in the 'Make a Donation' band. The live CSS sets .btn.secondary-btn to color #0d2354 on background #c4d600, which is 9.36:1, and the full-page screenshot shows exactly those pixels (#c4d600 sampled at the button). The page's own CSS gives the newsletter modal (modaal) an overlay of #0d2354 at opacity 0.8, and the measured colours are exactly the element's colours seen through it: #c4d600 under 80% #0d2354 gives #314743, and the navy text stays #0d2354, so the 1.53:1 is the button seen through the newsletter popup's backdrop. claimTrue: yes for the captured state with that modal open. captureDiffers: yes, the measurement comes from a transient first-visit modal state in which the content behind it is inert; users read this button at full colour once the popup is closed (and on return visits, since it sets a 365-day cookie). elementFails: no, 9.36:1 passes 1.4.3."
+    },
+    {
+      "fingerprint": "sb018b940103",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the 'Donate Now' link (CSS text-transform makes it 'DONATE NOW') under the h2 'Make a Donation' and the paragraph about tax-deductible donations. claimTrue: its href '?form=FUNLTWAXLLP' reloads the same article, so the captured destination title is the article's and the sentence holds of the capture. But the live page loads the Fundraise Up widget, which intercepts '?form=' links and opens its donation checkout, so the link does what its text says. Even read by text and context alone ('Donate Now' after the heading 'Make a Donation'), the purpose is clear. captureDiffers: the live HTML has the same link and script; nothing differs. elementFails: no. Cause: the destination record (the page refetched without the script) is not where the link leads."
+    },
+    {
+      "fingerprint": "ed62e46f077c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the h2 'Make a Donation' in the navy donation band. The live CSS sets .section-signup-donate to background #0d2354 and its h2 to color #fff, which is 15.16:1, and the full-page screenshot shows white text on #0d2354 there. The page's own CSS gives the newsletter modal (modaal) an overlay of #0d2354 at opacity 0.8, and the measured colours are exactly the element's colours seen through it: white under 80% #0d2354 gives #3d4f76, and the navy background stays #0d2354, so the 1.86:1 is the heading seen through the newsletter popup's backdrop. claimTrue: yes for the captured state with that modal open. captureDiffers: yes, a transient first-visit modal state with inert content behind it, not the heading as users read it once the popup is closed. elementFails: no."
+    },
+    {
+      "fingerprint": "pa3459698fb3",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Shop' link in the header's utility list (Events, Shop, Blog, LUNG FORCE, Help & Support), leading to shop.lung.org. Its captured name 'Shop - opens in a new tab' comes from an aria-label the UserWay script adds (the raw HTML has only the text 'Shop'); UserWay runs for ordinary visitors too, so the capture matches what users get, and the name is clear either way. elementFails: no, 'Shop' in the site's utility navigation states its purpose (the organisation's shop). Rampa reporting nothing is correct."
+    },
+    {
+      "fingerprint": "a811efededb4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter field (input type=text, name=cons_email, aria-label and placeholder 'Email Address') under 'Become a Lung Health Insider', which collects the visitor's own email address. claimTrue: it has autocomplete='off', which does not identify the purpose. elementFails: email is one of the WCAG 2.1 input purposes, and with autocomplete='off' and no 'email' token (technique H98 not used) the purpose cannot be programmatically determined, so the field fails 1.3.5. captureDiffers: the live HTML has the same input with autocomplete='off'. The claim names that failure."
+    },
+    {
+      "fingerprint": "aad26589b61b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the fixed 'Accessibility' button (UserWay trigger) at the right edge. The live CSS draws its icon as an icomoon glyph in #0d2354 on a #fff circle with a 3px #0064ff border, so the icon is 15.16:1 against the white next to it. The page's own CSS gives the newsletter modal (modaal) an overlay of #0d2354 at opacity 0.8, and the measured colours are exactly the element's colours seen through it: white under 80% #0d2354 gives #3d4f76 and the navy glyph stays #0d2354, so the 1.86:1 is the icon seen through the newsletter popup's backdrop (the screenshot also shows it dimmed under the popups). claimTrue: yes for the captured state with the modal open. captureDiffers: yes, a transient first-visit modal state in which the button behind the backdrop is inert, not the button users operate once the popup is closed. elementFails: no, the icon meets 3:1."
+    },
+    {
+      "fingerprint": "pa2f71cf8258",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Ways to Give' item in the main navigation (a span in a link to /get-involved/ways-to-give, whose page is titled 'Ways to Give'). The live HTML has the same link. elementFails: no, the text states the purpose on its own. Rampa reporting nothing is correct."
+    },
+    {
+      "fingerprint": "s0d1dfd408ce",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the Print icon in the AddToAny share row under the article title (name 'Print' from an sr-only span). claimTrue: its captured href '/#print' resolves to the home page, so the sentence holds of the captured href. But the live page has no href on this anchor in its HTML; the AddToAny script writes the '/#print' placeholder and on click opens the browser's print dialog for this article, so it never leads to the Home page. captureDiffers: the captured DOM matches what users' browsers build; the destination record followed the placeholder. elementFails: no, 'Print' in the article's share row states the purpose (print this page). Its being a link rather than a button would concern 4.1.2, not 2.4.4. Cause: the destination given to the model was not where the link leads."
+    },
+    {
+      "fingerprint": "853cf7332590",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the paragraph 'Your tax-deductible donation funds...' in the navy donation band. The live CSS sets .section-signup-donate to color #fff on #0d2354 (15.16:1), and the full-page screenshot shows white text on #0d2354 there. The page's own CSS gives the newsletter modal (modaal) an overlay of #0d2354 at opacity 0.8, and the measured colours are exactly the element's colours seen through it: white under 80% #0d2354 gives #3d4f76 on an unchanged #0d2354, so the 1.86:1 is the paragraph seen through the newsletter popup's backdrop. claimTrue: yes for the captured state with that modal open. captureDiffers: yes, a transient first-visit modal state with inert content behind it, not the text users read once the popup is closed. elementFails: no."
+    }
+  ]
+}

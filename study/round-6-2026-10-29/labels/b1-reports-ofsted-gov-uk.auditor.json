@@ -1,0 +1,105 @@
+{
+  "page": "https://reports.ofsted.gov.uk/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "se093f9dbd51",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the radio #categoryAll, visibly labelled \"All categories\" and grouped under the visible legend \"Category\"; aria-labelledby=\"category\" makes its accessible name \"Category\". For 2.4.6 the question is whether the labels describe the purpose: the legend \"Category\" over a set of provider categories says what is being chosen, and the option label \"All categories\" identifies this option, so both labels are descriptive; a radio has nothing to \"enter\", so the claim is not true of the capture as worded. The real defect, the programmatic name overriding the option label so every radio is announced as \"Category\", is a failure of 1.3.1, 4.1.2 and 2.5.3 (reported separately for 2.5.3), not of 2.4.6, which does not govern how labels are associated. The live page (fetched 2026-11-21) has the same markup for this fieldset as the snapshot, with no script that rewrites aria-labelledby, and the screenshot is fully styled and matches it, so captureDiffers is no. elementFails is no, so false_positive; the model judged a descriptive group label as vague."
+    },
+    {
+      "fingerprint": "2324c585104f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the radio #categoryAll in the Category fieldset. Its visible label, a <label for> beside it, reads \"All categories\" (seen in the screenshot), but the input also carries aria-labelledby=\"category\", which points at the legend and overrides the native label in the accessible name computation, so its name is \"Category\" (the snapshot records nameFrom aria-labelledby). \"All categories\" is not contained in \"Category\", so the claim is true of the capture, and the element fails 2.5.3 by documented failure F96 (accessible name does not contain the visible label text): a speech-input user saying the label they see will not activate it. The live page (fetched 2026-11-21) has the same markup for this fieldset as the snapshot, with no script that rewrites aria-labelledby, and the screenshot is fully styled and matches it, so captureDiffers is no. The claim names exactly this failure, so true_positive."
+    },
+    {
+      "fingerprint": "sd7726611aab",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the radio #category-2, visibly labelled \"Childcare and early education\" and grouped under the visible legend \"Category\"; aria-labelledby=\"category\" makes its accessible name \"Category\". For 2.4.6 the question is whether the labels describe the purpose: the legend \"Category\" over a set of provider categories says what is being chosen, and the option label \"Childcare and early education\" identifies this option, so both labels are descriptive; a radio has nothing to \"enter\", so the claim is not true of the capture as worded. The real defect, the programmatic name overriding the option label so every radio is announced as \"Category\", is a failure of 1.3.1, 4.1.2 and 2.5.3 (reported separately for 2.5.3), not of 2.4.6, which does not govern how labels are associated. The live page (fetched 2026-11-21) has the same markup for this fieldset as the snapshot, with no script that rewrites aria-labelledby, and the screenshot is fully styled and matches it, so captureDiffers is no. elementFails is no, so false_positive; the model judged a descriptive group label as vague."
+    },
+    {
+      "fingerprint": "48e2ec6df846",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the radio #category-4 in the Category fieldset. Its visible label, a <label for> beside it, reads \"Other organisations\" (seen in the screenshot), but the input also carries aria-labelledby=\"category\", which points at the legend and overrides the native label in the accessible name computation, so its name is \"Category\" (the snapshot records nameFrom aria-labelledby). \"Other organisations\" is not contained in \"Category\", so the claim is true of the capture, and the element fails 2.5.3 by documented failure F96 (accessible name does not contain the visible label text): a speech-input user saying the label they see will not activate it. The live page (fetched 2026-11-21) has the same markup for this fieldset as the snapshot, with no script that rewrites aria-labelledby, and the screenshot is fully styled and matches it, so captureDiffers is no. The claim names exactly this failure, so true_positive."
+    },
+    {
+      "fingerprint": "f3e969dae183",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the radio #category-3 in the Category fieldset. Its visible label, a <label for> beside it, reads \"Children's social care\" (seen in the screenshot), but the input also carries aria-labelledby=\"category\", which points at the legend and overrides the native label in the accessible name computation, so its name is \"Category\" (the snapshot records nameFrom aria-labelledby). \"Children's social care\" is not contained in \"Category\", so the claim is true of the capture, and the element fails 2.5.3 by documented failure F96 (accessible name does not contain the visible label text): a speech-input user saying the label they see will not activate it. The live page (fetched 2026-11-21) has the same markup for this fieldset as the snapshot, with no script that rewrites aria-labelledby, and the screenshot is fully styled and matches it, so captureDiffers is no. The claim names exactly this failure, so true_positive."
+    },
+    {
+      "fingerprint": "s58a2bfc6b62",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header logo img (src /images/logo.svg, alt \"Ofsted Logo\") inside the home link, whose name also includes the visually hidden text \"Ofsted homepage\". The crop and the screenshot show the Ofsted wordmark with its figures: the alternative names exactly what the image shows, so the claim that it describes something the image does not show is false of the capture. The image meets 1.1.1 (the link's purpose is also conveyed by the hidden text). The live page serves the same img and alt and the screenshot is styled and matches it, so captureDiffers is no. elementFails is no, so false_positive; the model misjudged an accurate logo alternative."
+    },
+    {
+      "fingerprint": "2e1b6d601c86",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the radio #category-1 in the Category fieldset. Its visible label, a <label for> beside it, reads \"Education and training\" (seen in the screenshot), but the input also carries aria-labelledby=\"category\", which points at the legend and overrides the native label in the accessible name computation, so its name is \"Category\" (the snapshot records nameFrom aria-labelledby). \"Education and training\" is not contained in \"Category\", so the claim is true of the capture, and the element fails 2.5.3 by documented failure F96 (accessible name does not contain the visible label text): a speech-input user saying the label they see will not activate it. The live page (fetched 2026-11-21) has the same markup for this fieldset as the snapshot, with no script that rewrites aria-labelledby, and the screenshot is fully styled and matches it, so captureDiffers is no. The claim names exactly this failure, so true_positive."
+    },
+    {
+      "fingerprint": "s529fc46cfaa",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the radio #category-4, visibly labelled \"Other organisations\" and grouped under the visible legend \"Category\"; aria-labelledby=\"category\" makes its accessible name \"Category\". For 2.4.6 the question is whether the labels describe the purpose: the legend \"Category\" over a set of provider categories says what is being chosen, and the option label \"Other organisations\" identifies this option, so both labels are descriptive; a radio has nothing to \"enter\", so the claim is not true of the capture as worded. The real defect, the programmatic name overriding the option label so every radio is announced as \"Category\", is a failure of 1.3.1, 4.1.2 and 2.5.3 (reported separately for 2.5.3), not of 2.4.6, which does not govern how labels are associated. The live page (fetched 2026-11-21) has the same markup for this fieldset as the snapshot, with no script that rewrites aria-labelledby, and the screenshot is fully styled and matches it, so captureDiffers is no. elementFails is no, so false_positive; the model judged a descriptive group label as vague."
+    },
+    {
+      "fingerprint": "fbbc36fec32d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the radio #category-2 in the Category fieldset. Its visible label, a <label for> beside it, reads \"Childcare and early education\" (seen in the screenshot), but the input also carries aria-labelledby=\"category\", which points at the legend and overrides the native label in the accessible name computation, so its name is \"Category\" (the snapshot records nameFrom aria-labelledby). \"Childcare and early education\" is not contained in \"Category\", so the claim is true of the capture, and the element fails 2.5.3 by documented failure F96 (accessible name does not contain the visible label text): a speech-input user saying the label they see will not activate it. The live page (fetched 2026-11-21) has the same markup for this fieldset as the snapshot, with no script that rewrites aria-labelledby, and the screenshot is fully styled and matches it, so captureDiffers is no. The claim names exactly this failure, so true_positive."
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "page": "https://www.cancer.ie/your-stories/amanda-broaderss-breast-cancer-story",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p4677e262c82",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the footer logo, an img with alt=\"Irish Cancer Society\" that is the only content of a link to the homepage. The crop and the screenshot show the logo as the words \"Irish Cancer Society\" with the daffodil mark, so the alt gives the visible text, and as the link's only content it names where the link goes (the organisation's home, technique H30). It meets 1.1.1. A longer name like \"Irish Cancer Society home\" would be a nice-to-have, not a requirement. The live HTML fetched now has the same img and link markup, and the screenshot is fully styled, so the capture does not differ in any way that matters here. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p55bc366722e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the link \"Terms & conditions\" in the footer's Housekeeping navigation list (Contact, Press, Jobs, Terms & conditions, Privacy, Cookies), and it goes to the site's \"Website terms and conditions\" page. The link text alone makes its purpose clear, and the nav's \"Housekeeping\" heading supports it, so it meets 2.4.4. The live HTML has the same anchor (href /website-terms-and-conditions, same text), and the screenshot shows the styled footer with the link where the snapshot puts it, so the capture does not differ. Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "09e9c5644868",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the third photo in the story, a smiling selfie of Amanda in a hotel lobby with sunglasses on her head, shown under a pull quote. Its alt is \"Amanda Broaders 3\", which is just the file name (Amanda%20Broaders%203.jpg) without the extension. On the same page, the photo from file \"Amanda Broaders 2.jpg\" has the alt \"Amanda Broaders\", so the editor did not clean this one up. The claim holds for the capture: the alt is a name plus a number, a label that does not say what the photo shows. I lean towards a failure: F30 names both file names and numbering references like \"picture 1\", \"picture 2\" as text that is not a real alternative, and the \"3\" is exactly that. If the claim is right, it names this defect in good faith. But the alt does identify the person, which many auditors treat as enough for a supplementary photo in a personal story. Others would call the image ambient. So competent auditors would reasonably disagree about whether this fails 1.1.1 or is only a quality issue, and the label is uncertain. The live HTML has the identical img and alt, and the screenshot is fully styled, so the capture does not differ."
+    },
+    {
+      "fingerprint": "p6c122196c7b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the white envelope icon in the footer contact strip: an img with role=\"presentation\" and no alt, inside span.footer__block-contact-icon. Right next to it, the visible text \"Write to us\" and the link \"Send us an email\" (mailto) carry all its meaning, so the icon is decorative. F38 says decorative images pass when they have role=\"presentation\" or alt=\"\", and this one has role=\"presentation\". The snapshot marks it presentational, so assistive technology ignores it. It meets 1.1.1. The live HTML has the same markup, and the screenshot shows the styled icon beside that text, so the capture does not differ. Rampa was right to report nothing."
+    }
+  ]
+}

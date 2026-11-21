@@ -1,0 +1,41 @@
+{
+  "page": "https://www.to.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s0fa2469cb73",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the fourth tile in the bottom row of the 'Venha, Conheça o Tocantins' tourism mosaic: <a href=\"#\"> with a CSS background photo (visite7.jpg, the same fossil-rock picture as another tile) and a span 'Bico do papagaio' that portal.css keeps at opacity 0 until hover or focus. claimTrue: in the snapshot the link goes to '#'. Its list item holds only that text, the mosaic has no heading, and the nearest heading before it is an unrelated news h4, so the sentence holds. elementFails: the live HTML and CSS are the same, and no script handles these links. Activating it only jumps to the top of the page, while its name points to the Bico do Papagaio region. The same grid has a real 'Bico do Papagaio' link to /bico-do-papagaio/188qs3gvjbwu, and three filler tiles share this placeholder text, so the link's real purpose cannot be told from its name. I lean yes. captureDiffers: the live page matches the snapshot in this section. Label: one skeptic objection still holds. The text is a specific place name that would do for a region link. The real defect is a placeholder href on a filler tile, which many auditors file as a broken link outside WCAG rather than under 2.4.4. The claim also describes the text as not saying where the link goes, not as naming a destination the link does not reach. Competent auditors would reasonably disagree on both points, so the label is uncertain."
+    },
+    {
+      "fingerprint": "paf2ea7b8797",
+      "answers": { "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the photo in li 7 of the news carousel: a Splide loop clone (class splide__slide--clone) of slide 2, with the same img and alt as the real slide. The crop shows an aerial view of Palmas. Its alt is word for word the slide's blurb ('Estado registra um dos menores diferenciais de remuneração...'), which is already inside the h1 of the same link, so a screen reader reads it twice and learns nothing about the picture. elementFails: I lean yes. If the photo is decorative, F38 expects alt=\"\". If it is informative, the alt is not an equivalent of what it shows. captureDiffers: the live HTML has the same img and alt on slide 2. Splide sets aria-hidden on off-screen clones once the carousel stops moving; the snapshot caught li 7 without it, but this happens on the live page too, and the real slide carries the same alt. Label: an objection holds. A redundant alt on a supplementary photo inside a link that already has text is widely treated as a best-practice issue rather than a 1.1.1 failure; axe's image-redundant-alt rule, for example, is tagged best-practice. Whether a news photo counts as decorative is a judgment call, so competent auditors would reasonably disagree: uncertain."
+    },
+    {
+      "fingerprint": "s729ae644c6e",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the category tag 'Cidadania e Justiça' (shown in capitals by CSS) on the second card under 'Últimas notícias': <a class=\"categoria-tag\" href=\"/noticias/225\">. claimTrue: the destination's title is indeed the generic 'Governo do Tocantins'. But the claim that the text does not match where the link leads is false. The snapshot gives the destination's heading as 'Notícias', and fetching /noticias/225 live shows a news list where every card is tagged 'Cidadania e Justiça'. That is the category's own list, which is exactly what a category tag promises. A generic page title is a 2.4.2 question for the destination page, not a 2.4.4 failure of this link. elementFails: the link text names the category it opens, so its purpose can be determined from the text; passes. captureDiffers: the live home page and the destination match the capture. Cause: Rampa had the class categoria-tag, the href /noticias/225 and the heading 'Notícias', which together show a category list, and it still read the generic title as a mismatch: model_error."
+    },
+    {
+      "fingerprint": "p036cb4aa9aa",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the photo of carousel slide 1 (#splide-news-slide01, the visible slide). The crop shows a man and a woman dancing at night with onlookers. Its alt, 'Manifestações culturais como a sússia preservam tradições afro-brasileiras e integram a identidade histórica e cultural do Tocantins', names what the photo shows (a sússia, an Afro-Brazilian dance tradition) and why it matters to the story. It differs from the headline and blurb next to it, so it is a real alternative and not a copy of the text. 1.1.1 does not require describing every person in an illustrative news photo; naming the depicted event serves the image's purpose. elementFails: no. captureDiffers: the live HTML has the same img and alt on the first slide. Rampa was right to report nothing, so the label is false_positive."
+    },
+    {
+      "fingerprint": "s44e9f34de0a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the second tile in the bottom row of the 'Venha, Conheça o Tocantins' tourism mosaic: <a href=\"#\"> with a CSS background photo (visite2.jpg, the photographer in a boat, which also illustrates another tile, as the crop shows) and a span 'Bico do papagaio' hidden at opacity 0 until hover or focus. claimTrue: in the snapshot the link goes to '#'. Its list item holds only that text, the mosaic has no heading, and the nearest heading before it is an unrelated news h4, so the sentence holds. elementFails: the live HTML and CSS are the same, and no script handles these links. Activating it only jumps to the top of the page, while its name points to the Bico do Papagaio region. The same grid has a real 'Bico do Papagaio' link to /bico-do-papagaio/188qs3gvjbwu, and three filler tiles share this placeholder text. I lean yes. captureDiffers: the live page matches the snapshot here. Label: one skeptic objection still holds. The text is a specific place name that would do for a region link. The real defect is a placeholder href on a filler tile, which many auditors treat as a broken link rather than a 2.4.4 failure. The claim also describes the text as not saying where the link goes, not as naming a destination the link does not reach. Competent auditors would reasonably disagree, so the label is uncertain."
+    }
+  ]
+}

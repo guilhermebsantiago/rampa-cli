@@ -1,0 +1,83 @@
+{
+  "page": "https://aacd.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "fcf4f84da43a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A footer certification seal (certificado-diamond.png) with alt=\"\", the second of three seals after the plain-div title 'Nossas certificações'. The seal reads 'DIAMOND / ACCREDITED / QMENTUM INTERNATIONAL'. No text on the page names this accreditation, and the image is not a link. So claimTrue is yes: it is hidden and carries information the text does not give (the quote is a Portuguese paraphrase that adds '1ª Categoria', which the seal does not print, but the substance is right). Which accreditations the organisation holds is the content of this block, so the image is informative and the null alt fails 1.1.1. The claim names exactly that failure. The live HTML fetched on 2026-11-21 has the same markup for this element, and the screenshot shows the fully styled page, so nothing that touches this claim differs (my fetch is automated too, but it matches the styled capture)."
+    },
+    {
+      "fingerprint": "13c988a5782d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The third slide of the hero carousel (Swiper, slides not aria-hidden) is a figure holding only this image, which has alt=\"\". The image is a banner of text over a photo of the hospital: 'Reforma concluída, mais conforto para você! Acesso para internação retomado pela recepção da Rua Ascendino Reis. Venha conhecer!'. The slide has no other text, caption or link, so that notice (a practical change for patients) reaches screen reader users nowhere. claimTrue is yes: the quoted text is in the image and absent from the surrounding text. An image of informative text with a null alternative fails 1.1.1, as the claim says. The slide sits off-screen in the screenshot only because the carousel was on slide 1. The live HTML fetched on 2026-11-21 has the same markup for this element, and the screenshot shows the fully styled page, so nothing that touches this claim differs (my fetch is automated too, but it matches the styled capture)."
+    },
+    {
+      "fingerprint": "3b619e7e74a6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The first of the three footer certification seals (certificado-person-centred-care.png), alt=\"\". The seal reads 'Excellence in Person Centered Care' with stars and 'Planetree Certified', so the claim's description is accurate. No nearby text names the certification; the block's only text is the label 'Nossas certificações'. That leaves a screen reader user with a label for a list they cannot hear. The seal is informative and a null alt fails 1.1.1, the failure the claim names. The live HTML fetched on 2026-11-21 has the same markup for this element, and the screenshot shows the fully styled page, so nothing that touches this claim differs (my fetch is automated too, but it matches the styled capture)."
+    },
+    {
+      "fingerprint": "001838bacf12",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "A story card: <div class=\"imagem-destaque\" role=\"link\" data-is-link=\"/institucional/nossas-historias\"> whose only content is a figure with an aria-hidden img and a figcaption 'Conheça a história da Emily'. A script adds a click handler; there is no tabindex. The snapshot's Chromium accessibility tree gives the link the name \"\" (Chromium does not take name-from-content through a figure child), so claimTrue is yes and Chromium users' assistive technology gets an unnamed link: elementFails yes as delivered in the dominant browser. But by accname 1.2 and HTML-AAM the figure contributes its figcaption, giving 'Conheça a história da Emily'. axe-core computes that name too, and browse-mode screen readers would still read the caption text inside the link. Competent auditors would split on whether this is an author failure of 4.1.2 or a browser quirk, hence uncertain. Separately, the div is not keyboard focusable (2.1.1). The live HTML fetched on 2026-11-21 has the same markup for this element, and the screenshot shows the fully styled page, so nothing that touches this claim differs (my fetch is automated too, but it matches the styled capture)."
+    },
+    {
+      "fingerprint": "241408c65d00",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Same pattern as the Emily card: <div class=\"imagem-destaque ciano\" role=\"link\" data-is-link=\"/institucional/nossas-historias\"> containing only a figure with an aria-hidden img and a figcaption 'Conheça a história do Fábio'; there is a JS click handler and no tabindex. The capture's Chromium AX tree gives the link name \"\", so the claim is true of the capture, and Chromium-based browsers expose an unnamed link (elementFails yes there). Per accname 1.2 and HTML-AAM the figure's figcaption should supply the name. axe-core would find it, and screen readers in browse mode still read the caption. So auditors would reasonably disagree on whether 4.1.2 fails; label uncertain. The element also fails 2.1.1 (not focusable). The live HTML fetched on 2026-11-21 has the same markup for this element, and the screenshot shows the fully styled page, so nothing that touches this claim differs (my fetch is automated too, but it matches the styled capture)."
+    },
+    {
+      "fingerprint": "9d010280e0db",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The third footer certification seal (certificado-melhores-empresas-para-trabalhar-saude.png), alt=\"\". The badge reads 'Melhores Empresas Para Trabalhar - Saúde / Great Place To Work / Brasil 2024', matching the claim. Nothing in the text around it says so: only the label 'Nossas certificações'. The award is information, not decoration, so hiding it with a null alt fails 1.1.1, as the claim states. The live HTML fetched on 2026-11-21 has the same markup for this element, and the screenshot shows the fully styled page, so nothing that touches this claim differs (my fetch is automated too, but it matches the styled capture)."
+    },
+    {
+      "fingerprint": "bee8639ef362",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The photo in hero slide 2, beside the h2 'Transforme vidas com um gesto.' and a donation pitch, has alt=\"Banner Home 2.2\". It shows a smiling girl with a leg orthosis walking between parallel bars in a rehabilitation gym. The alt is a CMS label, so the claim is true of the capture. If the photo is informative (it illustrates AACD's rehabilitation work), the label is no alternative (F30). If it were decorative, a non-null junk alt fails too (F39). Either way the element fails 1.1.1, and the claim names the defect. The live HTML fetched on 2026-11-21 has the same markup for this element, and the screenshot shows the fully styled page, so nothing that touches this claim differs (my fetch is automated too, but it matches the styled capture)."
+    }
+  ]
+}

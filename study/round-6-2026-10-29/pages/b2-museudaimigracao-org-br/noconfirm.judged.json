@@ -1,0 +1,519 @@
+{
+ "rampaVersion": "0.1.2",
+ "target": "https://museudaimigracao.org.br/",
+ "model": "ollama:gemma4:12b",
+ "minConfidence": "low",
+ "wcagTarget": "wcag21-aa",
+ "findings": [
+  {
+   "fingerprint": "42e976a4036a",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > a > img",
+   "message": "The text alternative \"Logo Museu da imigração\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Logo Museu da imigração",
+   "subject": "Logo Museu da imigração",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "html > body > footer > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(1) > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Logo Museu da imigração",
+    "to": "Ir para o site da Secretaria da Cultura do Estado de São Paulo",
+    "before": "<img src=\"/assets/site/imgs/icon/logos/mi-cult-rodape.png\" style=\"max-width: 151px; margin-top:5px \" class=\"img-fluid\" alt=\"Logo Museu da imigração\">",
+    "after": "<img src=\"/assets/site/imgs/icon/logos/mi-cult-rodape.png\" style=\"max-width: 151px; margin-top:5px \" class=\"img-fluid\" alt=\"Ir para o site da Secretaria da Cultura do Estado de São Paulo\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "7efb9ee89f88",
+   "criterion": "1.1.1",
+   "level": "A",
+   "source": "judgment",
+   "ref": "html > body > footer > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > a > img",
+   "message": "The text alternative \"Logo Governo do estado\" is all its link holds, and does not say where the link leads.",
+   "evidence": "Logo Governo do estado",
+   "subject": "Logo Governo do estado",
+   "claim": "missing_information",
+   "techniques": [
+    "H30"
+   ],
+   "patch": {
+    "ref": "html > body > footer > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(1) > div > div:nth-of-type(2) > a > img",
+    "kind": "set-attribute",
+    "attribute": "alt",
+    "from": "Logo Governo do estado",
+    "to": "Governo do Estado de São Paulo - Secretaria da Cultura, Economia e Indústria Criativas",
+    "before": "<img src=\"/assets/site/imgs/icon/logos/mi-governo-rodape.png\" style=\"max-width:130px; padding-top:5px;\" class=\"ing-fluid\" alt=\"Logo Governo do estado\">",
+    "after": "<img src=\"/assets/site/imgs/icon/logos/mi-governo-rodape.png\" style=\"max-width:130px; padding-top:5px;\" class=\"ing-fluid\" alt=\"Governo do Estado de São Paulo - Secretaria da Cultura, Economia e Indústria Criativas\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "c00946fa036b",
+   "criterion": "1.3.5",
+   "level": "AA",
+   "source": "judgment",
+   "ref": "#email",
+   "message": "The field \"E-mail*\" asks for the user's email address but does not identify that purpose: autocomplete=\"email\" is missing. Chromium's own form check flags this field too.",
+   "evidence": "E-mail",
+   "techniques": [
+    "H98"
+   ],
+   "patch": {
+    "ref": "#email",
+    "kind": "set-attribute",
+    "attribute": "autocomplete",
+    "to": "email",
+    "before": "<input type=\"email\" id=\"email\" name=\"email\" class=\"input-field\" data-parsley-required=\"\" data-parsley-required-message=\"Campo obrigatório. \" data-parsley-type=\"email\" data-parsley-type-message=\"E-mail inválido. \">",
+    "after": "<input type=\"email\" id=\"email\" name=\"email\" class=\"input-field\" data-parsley-required=\"\" data-parsley-required-message=\"Campo obrigatório. \" data-parsley-type=\"email\" data-parsley-type-message=\"E-mail inválido. \" autocomplete=\"email\">"
+   },
+   "confidence": "high",
+   "agreement": {
+    "votes": 1,
+    "total": 1
+   },
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "fingerprint": "d45911a49151",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "rule",
+   "ref": "html > body > main > section:nth-of-type(2) > div:nth-of-type(1) > div > a",
+   "target": "html > body > main > section:nth-of-type(2) > div:nth-of-type(1) > div > a",
+   "message": "The text \"Programação completa\" has at most 4.45:1 contrast with what is behind it (#7d7d7d on #ffffff), measured from pixels because axe-core could not decide (a pseudo-element). WCAG 1.4.3 asks for 4.5:1.",
+   "evidence": "#7d7d7d on #ffffff · 4.45:1 at best, 4.12:1 at worst · 11px, 400",
+   "subject": "Programação completa",
+   "confidence": "low",
+   "ruleId": "rampa/pixel-contrast",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html",
+   "html": "<a href=\"https://museudaimigracao.org.br/eventos\" class=\"link link-button medium-button title-link-container__button \">",
+   "experimental": true
+  },
+  {
+   "fingerprint": "67f6e1f79f6d",
+   "criterion": "4.1.2",
+   "level": "A",
+   "source": "rule",
+   "ref": "html > body > header > div:nth-of-type(2) > div > form > a",
+   "target": "html > body > header > div:nth-of-type(2) > div > form > a",
+   "message": "The browser exposes this element as a link but computes no name for it: a screen reader announces only \"link\", not what it is for. Give it a name (visible text, aria-labelledby or aria-label).",
+   "evidence": "role link · name \"\"",
+   "subject": "link",
+   "confidence": "low",
+   "ruleId": "rampa/widget-name",
+   "helpUrl": "https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html",
+   "html": "<a class=\"close-search\">",
+   "experimental": true
+  }
+ ],
+ "belowThreshold": [],
+ "beyondTarget": [],
+ "engineFindings": {
+  "findings": 11
+ },
+ "groups": [
+  {
+   "id": "g-71782c1111be",
+   "list": "findings",
+   "criterion": "1.4.3",
+   "level": "AA",
+   "source": "engine",
+   "check": "color-contrast",
+   "count": 9,
+   "members": [
+    "aa891d1b701c",
+    "4478b17b202e",
+    "b13d9d713820",
+    "0823403d804f",
+    "f61c0cb7d042",
+    "02012586b841",
+    "e9f1eda9b2fb",
+    "276b47cbdcab",
+    "17df29ba0ce6"
+   ],
+   "example": "aa891d1b701c"
+  }
+ ],
+ "needsReview": [
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > header > div:nth-of-type(3) > div > nav > div > ul:nth-of-type(1) > li:nth-of-type(1) > a",
+   "message": "The link text \"visite\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Visite o Museu\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > main > section:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(1) > div > div:nth-of-type(1) > div > a",
+   "message": "The link text \"EXPLORE\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Explore o Museu da Imigração\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > main > section:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > a",
+   "message": "The link text \"CONFIRA\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Confira a exposição Migrar: histórias compartilhadas sobre nós\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > main > section:nth-of-type(3) > div > ul > li:nth-of-type(2) > div > div > div > div > a",
+   "message": "The link text \"CONHEÇA\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Conheça o Centro de Preservação, Pesquisa e Referência (CPPR)\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(2) > ul > li:nth-of-type(1) > a",
+   "message": "The link text \"visite\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Visite o Museu\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(3) > ul > li:nth-of-type(3) > a",
+   "message": "The link text \"institucional\" does not match where the link leads: a page titled \"Inci - Museu da Imigração\".",
+   "evidence": "The model suggests: \"Inci - Instituto de preservação e difusão da história do café e da imigração\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.4",
+   "level": "A",
+   "ruleId": "judgment/2.4.4",
+   "ref": "html > body > footer > div > div:nth-of-type(2) > div > div > div > div:nth-of-type(2) > div > a:nth-of-type(3)",
+   "message": "The link text \"sic\" does not tell where the link goes, and nothing around it does.",
+   "evidence": "The model suggests: \"Site oficial do Museu da Imigração\"",
+   "model": "ollama:gemma4:12b"
+  },
+  {
+   "criterion": "2.4.6",
+   "level": "AA",
+   "ruleId": "judgment/2.4.6",
+   "ref": "html > body > main > section:nth-of-type(1) > div:nth-of-type(2) > div > div:nth-of-type(2) > div > div:nth-of-type(1) > div > h2",
+   "message": "The heading \"MIGRAR:\" says nothing about the content under it.",
+   "evidence": "The model suggests: \"Migrar para o site oficial\"",
+   "model": "ollama:gemma4:12b"
+  }
+ ],
+ "discarded": [
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > main > section:nth-of-type(1) > div:nth-of-type(1) > div > div > div > div > div:nth-of-type(1) > div:nth-of-type(1) > img",
+   "reason": "the suggested alternative keeps every word of the current one",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Foto do mapa",
+    "problem": "wrong_content",
+    "imageShows": "Um mapa de ruas mostrando a localização da Estação Brás e da Estação Bresser-Mooca, com um marcador vermelho.",
+    "suggestedAlt": "Mapa de localização mostrando as estações de metrô Brás e Bresser-Mooca.",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "1.1.1",
+   "ref": "html > body > footer > div > div:nth-of-type(3) > div > a > img",
+   "reason": "the alternative names the purpose of the link it is the only content of",
+   "output": {
+    "verdict": "fail",
+    "evidence": "Logo Digital Industry",
+    "problem": "missing_information",
+    "imageShows": "O logotipo da empresa Digital Industry ao lado do texto 'Desenvolvido por'.",
+    "suggestedAlt": "Digital Industry",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > header > div:nth-of-type(3) > div > nav > div > div > ul > li:nth-of-type(3) > a:nth-of-type(1)",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "promises": "The link text '+' and its context '+ Aa -' suggest an action to increase the font size of the page content.",
+    "leadsTo": "javascript:void(0) (an action to increase font size)",
+    "verdict": "pass",
+    "evidence": "+",
+    "problem": "none",
+    "suggestedText": "",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > header > div:nth-of-type(3) > div > nav > div > div > ul > li:nth-of-type(3) > a:nth-of-type(2)",
+   "reason": "evidence too short to be a quote",
+   "output": {
+    "promises": "The link is part of a font size control widget (+ Aa -) and is intended to decrease the font size.",
+    "leadsTo": "javascript:void(0) (action to decrease font size)",
+    "verdict": "fail",
+    "evidence": "-",
+    "problem": "generic",
+    "suggestedText": "Diminuir tamanho da fonte",
+    "confidence": "high"
+   }
+  },
+  {
+   "criterion": "2.4.4",
+   "ref": "html > body > footer > div > div:nth-of-type(1) > div:nth-of-type(5) > ul > li:nth-of-type(4) > a",
+   "reason": "mismatch on a destination whose title says nothing (the site's name, or shared by pages at other addresses)",
+   "output": {
+    "promises": "A link text 'transparência' in a list of management links (Gestão, Compras e Contratações, etc.) suggests it leads to a transparency page.",
+    "leadsTo": "A page titled 'Página inicial - Museu da Imigração'",
+    "verdict": "fail",
+    "evidence": "transparência",
+    "problem": "mismatch",
+    "suggestedText": "Página de Transparência",
+    "confidence": "high"
+   }
+  }
+ ],
+ "criteria": [
+  {
+   "criterion": "1.1.1",
+   "applicable": true,
+   "candidates": 8,
+   "judged": 8,
+   "failed": 2,
+   "passed": 4,
+   "cannotTell": 0,
+   "discarded": 2,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "1.3.5",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 1,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "2.4.2",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "2.4.4",
+   "applicable": true,
+   "candidates": 56,
+   "judged": 50,
+   "failed": 0,
+   "passed": 40,
+   "cannotTell": 0,
+   "discarded": 3,
+   "errors": 0,
+   "offlineMisses": 0,
+   "capped": 6,
+   "suggested": 7
+  },
+  {
+   "criterion": "2.4.6",
+   "applicable": true,
+   "candidates": 16,
+   "judged": 16,
+   "failed": 0,
+   "passed": 15,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "suggested": 1
+  },
+  {
+   "criterion": "3.1.1",
+   "applicable": true,
+   "candidates": 1,
+   "judged": 1,
+   "failed": 0,
+   "passed": 1,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0,
+   "decided": 1
+  },
+  {
+   "criterion": "3.1.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  },
+  {
+   "criterion": "3.3.2",
+   "applicable": true,
+   "candidates": 0,
+   "judged": 0,
+   "failed": 0,
+   "passed": 0,
+   "cannotTell": 0,
+   "discarded": 0,
+   "errors": 0,
+   "offlineMisses": 0
+  }
+ ],
+ "notes": [
+  "The model judged at most 50 candidates per criterion on this page (--max-candidates), those with a generic text first; it did not judge 6 of 56 for 2.4.4. The coverage lists them as not judged.",
+  "Not checked on a single page: 3.2.3 Consistent Navigation, 3.2.4 Consistent Identification and 3.2.6 Consistent Help compare the pages of a site, 2.4.5 Multiple Ways lists the ways to find them, and 2.4.1 Bypass Blocks needs them to tell the blocks that repeat from the content; crawl its address with --crawl or --sitemap."
+ ],
+ "errors": [],
+ "usage": {
+  "calls": 0,
+  "cachedCalls": 75,
+  "inputTokens": 70733,
+  "outputTokens": 8108,
+  "latencyMs": 0
+ },
+ "timings": {
+  "totalMs": 223,
+  "stages": [
+   {
+    "stage": "rules",
+    "ms": 17
+   },
+   {
+    "stage": "source",
+    "ms": 0
+   }
+  ],
+  "criteria": [
+   {
+    "criterion": "1.1.1",
+    "ms": 10,
+    "prepareMs": 0,
+    "candidates": 8,
+    "judged": 8,
+    "calls": 0,
+    "cachedCalls": 8
+   },
+   {
+    "criterion": "1.3.5",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 1
+   },
+   {
+    "criterion": "2.4.2",
+    "ms": 2,
+    "prepareMs": 0,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "2.4.4",
+    "ms": 14,
+    "prepareMs": 0,
+    "candidates": 56,
+    "judged": 50,
+    "calls": 0,
+    "cachedCalls": 50
+   },
+   {
+    "criterion": "2.4.6",
+    "ms": 5,
+    "prepareMs": 0,
+    "candidates": 16,
+    "judged": 16,
+    "calls": 0,
+    "cachedCalls": 16
+   },
+   {
+    "criterion": "3.1.1",
+    "ms": 136,
+    "prepareMs": 134,
+    "candidates": 1,
+    "judged": 1,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.1.2",
+    "ms": 7,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   },
+   {
+    "criterion": "3.3.2",
+    "ms": 0,
+    "prepareMs": 0,
+    "candidates": 0,
+    "judged": 0,
+    "calls": 0,
+    "cachedCalls": 0
+   }
+  ],
+  "otherMs": 30
+ },
+ "capture": {
+  "version": 1,
+  "styled": true,
+  "images": {
+   "captured": 10,
+   "notCaptured": 0,
+   "reasons": {}
+  },
+  "notJudged": [
+   {
+    "criterion": "2.4.4",
+    "candidates": 56,
+    "capped": 6
+   }
+  ]
+ },
+ "coverage": {
+  "reach": null
+ }
+}

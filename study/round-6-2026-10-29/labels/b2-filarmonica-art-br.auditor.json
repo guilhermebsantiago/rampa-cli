@@ -1,0 +1,39 @@
+{
+  "page": "https://filarmonica.art.br/fale-conosco/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sbf3640e5de0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is <h1 class=\"number\">22</h1> in the sidebar 'Próximo Concerto' box: the day of the next concert, shown in large type, with 'novembro' in a separate <small> outside the heading, then an h6 with the concert title and a 'ver mais' link. It is also the first and only h1 on the page, ahead of the h2 'Fale Conosco'. claimTrue: in the snapshot the heading's whole name is '22', and nothing in it names the concert box's topic, so the sentence holds. elementFails: G130's test asks whether each heading identifies its section. A heading list that reads 'heading level 1, 22' tells a user nothing about what follows, not even that it is a date, so the heading does not describe its topic (2.4.6). Using heading markup to make a number big is also a 1.3.1 problem, but the element is exposed as a heading, so 2.4.6 applies to it. captureDiffers: the live HTML I fetched has the same markup and the same concert (22 novembro, Concertos para a Juventude 7), and the screenshot shows the same box, so nothing differs. The claim names the real defect."
+    },
+    {
+      "fingerprint": "2e43a5325075",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the desktop footer logo strip (img.logoh, lazy-loaded from 2026_Grid_Site-v5.png) with alt=\"\". The crop shows the Lei Rouanet logo, two culture-program logos (one 'Descentra Cultura'), 'MANTENEDOR: Cultura e Turismo / Governo de Minas', and 'APOIO' logos including Amigos da Filarmônica. claimTrue: alt is empty, the element is ignored as presentation, and no footer text names these sponsors or maintainers: I found no 'Rouanet', 'Governo' or 'Mantenedor' anywhere in the snapshot text. So the sentence holds. elementFails: the image conveys information, namely who maintains and funds the orchestra (an incentive-law credit). With a null alt it has no text alternative serving the same purpose, so it fails 1.1.1. It is not decorative. The mobile variant (img.logov) also has alt=\"\" and is hidden at this width, so nothing makes up for it. captureDiffers: the snapshot's src is the lazy-load placeholder, but the live HTML is identical (same data-src, alt=\"\"), and once loaded the image shows the logos in the crop. The empty alt is the same in both, so nothing that matters differs. The claim names the failure."
+    },
+    {
+      "fingerprint": "sc796625411a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a <select> in the OneTap accessibility plugin panel (nav 'Accessibility Options', offscreen until opened). It is labelled by <label for> 'Skip To Content' and has the options Choose..., Main Content, Navigation and Footer. claimTrue: nothing is entered into a select. The label says what the control is for (jump to a part of the page), and the options say which parts, so the sentence that the label does not say what to enter does not hold for this control. elementFails: 2.4.6 asks that labels describe topic or purpose, and 'Skip To Content' describes the purpose of this destination picker, so it passes. An English label on a pt-BR page is a 3.1.2 matter, not 2.4.6. captureDiffers: the live HTML has the same label, select and options, so nothing differs. The model judged wrongly with the right context."
+    }
+  ]
+}

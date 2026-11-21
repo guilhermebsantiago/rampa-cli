@@ -1,0 +1,39 @@
+{
+  "page": "https://www.utah.gov/index.html",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s48168f81166",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the home page search field (input type=search, role searchbox), labelled by a visible <label for=homeSearch>. In the capture the label reads \"Suggested:\" and the field holds an auto-typed suggestion (\"State Parks\" in the tree, \"Jobs near me\" in the screenshot), so the sentence is true of the capture: \"Suggested:\" names the shown suggestion, not what to enter. On the live page the source label is \"Search\"; the page script (scripts.min.js, home.typer) sets it to \"Suggested:\" on load while it types rotating suggestions, and on focus it sets the label to \"Search:\" and clears the field, restoring \"Suggested:\" on blur when the field is empty. So the capture matches what users get at rest; the focus-time label is page behaviour, not a capture difference. My lean is that the element meets 2.4.6: whenever someone moves into the field to type, its label is \"Search:\", and at rest the searchbox role, the adjacent Search button and the visible suggestion make the purpose clear. But at rest, and for screen reader users reading in browse mode, the label of a text field is \"Suggested:\", which does not describe its purpose, and competent auditors would reasonably disagree on whether that resting label fails 2.4.6, so the label is uncertain. The auto-typing suggestion animation that loops without a pause control is a separate concern under 2.2.2."
+    },
+    {
+      "fingerprint": "s10db7026e18",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the last link, \"View More\", in the \"I am:\" persona group (links An outdoor person, Self Employed, Parenting Teens, Moving to Utah, Turning 18, View More), and it leads to ./services/personas.html. The link text alone is generic, but the claim that nothing around it tells where it goes is false of the capture: the heading just before it in document order is h3 \"I am:\" (#personas--home > h3, role heading, level 3), which the round counts as context (H80). With that heading, \"View More\" reads as more of the \"I am:\" persona choices, and that is where it leads: the destination (Persona Services, h1 Services and Information) opens with \"I am:\" and the full persona list (adding Visiting Utah, Needing disability assistance, In high school, Parenting young children, Retired). The link's purpose can be determined from its text and its heading, so it meets 2.4.4. The live HTML has the same structure (h3 \"I am:\" followed by div.persona-group with the same six links) and the screenshot shows the same row, so the capture does not differ. The checker had the \"I am:\" heading among the nearby headings and still said nothing around the link explains it, so the cause is model_error."
+    },
+    {
+      "fingerprint": "sb1cb46a35f9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the footer link \"Terms of Use\" (with a visually hidden \", opens in a new tab\", which matches its target=_blank) in the Utah Design System footer, linking to https://www.utah.gov/support/disclaimer.html. The destination is titled \"Disclaimer | Utah.gov\" with h1 \"Disclaimer\", as the claim says, but the claim that the link text does not match it is false: the page's content is headed by an h2 \"Utah.gov Terms of Use\" and sets out the site's terms of use (warranties, submissions, external links, copyright, assumption of risk). A footer \"Terms of Use\" link leading to the site's legal disclaimer and terms page is accurately described by its text, so its purpose can be determined from the link text and the element meets 2.4.4. The live destination still loads (200) with the same title and h1 that Rampa recorded, and the footer link in the screenshot and snapshot matches the live UDS footer markup, so the capture does not differ in a way that matters. The checker saw only the destination's title and h1, not the h2 \"Utah.gov Terms of Use\" that shows the page is the terms of use, so the cause is context_missing."
+    }
+  ]
+}

@@ -1,0 +1,252 @@
+{
+  "page": "https://sboc.org.br/noticias/sboc-marca-presenca-na-programacao-do-interonco-2026/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "ac230c2b31c8",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "[visual context] The element is the \"Leia mais\" button of card 142 (aria-label \"Leia mais sobre Assembleia Geral Ordinária da SBOC\", href 3533-assembleia-geral-ordinaria-da-sboc, the 2024 assembly). The snapshot has exactly two links with that name, this one and the other card's, to 3849 (the 12/11/2025 assembly). I fetched both: they are different articles, on the 2024 and 2025 assemblies. claimTrue no: the counts and the two places hold, but the card around the link shows its date (12 de novembro de 2024) and an excerpt that differ from the other card, so something around it does tell it apart. None of that is counted context: the date and excerpt sit in sibling elements of an article, not in the link's sentence, paragraph, list item or cell, and the heading just before it is the card's h3, which repeats the same title. In name and counted context the two links are identical. Whether that fails 2.4.4 is disputable. By G91 the text does describe the purpose (it is the headline of the article it opens), and Understanding 2.4.4 only says that different text for different destinations \"helps\"; on the stricter reading, a screen-reader user hearing two identical links cannot tell which year's article each opens, and sighted users only can through the visible date. I lean towards a failure, but competent auditors would reasonably disagree, so the label is uncertain. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "907ffd2b5ff6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "[visual context] The element is the title link inside the h3 of card 62 (href 3842-decisao-da-gincana-nacional-para-residentes, the 2025 final; tabindex -1, but still a link in the accessibility tree). The snapshot has four links with that name, the image link and title link of cards 4 and 62, to two URLs; the other is the unnumbered 2026 post (the 2026 final). I fetched both: they are different articles, on the 2025 and 2026 finals. claimTrue no: the counts and the two places hold, but the card around the link shows its date (8 de novembro de 2025) and an excerpt naming the year's congress, which differ from the other card, so something around it does tell it apart. None of that is counted context: the date and excerpt sit in sibling elements of an article, not in the link's sentence, paragraph, list item or cell, and the heading just before it is its own h3, with the same text. In name and counted context the two links are identical. Whether that fails 2.4.4 is disputable. By G91 the text does describe the purpose (it is the headline of the article it opens), and Understanding 2.4.4 only says that different text for different destinations \"helps\"; on the stricter reading, a screen-reader user hearing two identical links cannot tell which year's article each opens, and sighted users only can through the visible date. I lean towards a failure, but competent auditors would reasonably disagree, so the label is uncertain. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "be56d058efe3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the title link inside the h3 of card 189 (href 3260-galeria-de-fotos-relembre-momentos-especiais-do-esmo-summit-latin-america-2024, tabindex -1). The snapshot has three links with that name (the title links of cards 189 and 190 and the image link of card 189; card 190's image link has a placeholder image with alt=\"\" and so no name, a separate problem on another element), to 3260 and 3259. Both cards show the same date (25 de março de 2024) and the same excerpt, so claimTrue yes as worded. But I fetched both destinations: they have the same headline, date and body text (identical text hash), two copies of the same gallery post (my fetch found one image in 3260 and none in 3259, but the post is the same). The links have the same purpose, and the same text for the same purpose is what Understanding 2.4.4 asks for; there is nothing a user needs to tell apart. elementFails no. Rampa did not read the destinations and took two URLs for two purposes: false_positive, context_missing. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "pea02c2a401f",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the image that is the only content of a card's image link (tabindex -1) to the article it illustrates; the crop shows the finalists of the residents' quiz posing with a certificate on stage. Its alt, \"Decisão da Gincana Nacional para Residentes\", is the article's headline, so it names the link's destination, which is what a linked image's text alternative must convey (H30, and it avoids F89). Any text in the image is a logo or event branding, and nothing else in it carries information the link needs. The alt repeats the card's heading, which is redundant (H2 is advisory) but not a 1.1.1 failure. elementFails no, so false_positive, cause none. captureDiffers no: the live HTML has the same img and alt, and the crop shows the real picture."
+    },
+    {
+      "fingerprint": "p6734d582196",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the image that is the only content of a card's image link (tabindex -1) to the article it illustrates; the crop shows a group photo of speakers on the congress stage. Its alt, \"Cobertura completa do Congresso SBOC 2026\", is the article's headline, so it names the link's destination, which is what a linked image's text alternative must convey (H30, and it avoids F89). Any text in the image is a logo or event branding, and nothing else in it carries information the link needs. The alt repeats the card's heading, which is redundant (H2 is advisory) but not a 1.1.1 failure. elementFails no, so false_positive, cause none. captureDiffers no: the live HTML has the same img and alt, and the crop shows the real picture."
+    },
+    {
+      "fingerprint": "pabddc9077cc",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the image that is the only content of a card's image link (tabindex -1) to the article it illustrates; the crop shows a collage of six speakers at the congress. Its alt, \"Sustentabilidade do cuidado oncológico, fortalecimento da rede assistencial e defesa profissional\", is the article's headline, so it names the link's destination, which is what a linked image's text alternative must convey (H30, and it avoids F89). Any text in the image is a logo or event branding, and nothing else in it carries information the link needs. The alt repeats the card's heading, which is redundant (H2 is advisory) but not a 1.1.1 failure. elementFails no, so false_positive, cause none. captureDiffers no: the live HTML has the same img and alt, and the crop shows the real picture."
+    },
+    {
+      "fingerprint": "edbdc7f85a85",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the title link inside the h3 of card 76 (href 3828-comunicado-oficial, tabindex -1). The snapshot has four links with that name (image and title links of cards 76 and 77), to 3828 and 3829. Both cards show the same date (29 de outubro de 2025) and the same excerpt, so claimTrue yes as worded: two different URLs, and nothing around the link tells them apart. But I fetched both destinations: they have the same headline, date and body text (identical text hash), a duplicated post of the same communiqué. The links therefore have the same purpose, and the same text for the same purpose is what Understanding 2.4.4 asks for; there is nothing a user needs to tell apart. elementFails no. Rampa did not read the destinations and took two URLs for two purposes: false_positive, context_missing. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "6998ebf4c9ed",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the \"Leia mais\" button of card 190 (aria-label \"Leia mais sobre Galeria de fotos: relembre momentos especiais do ESMO Summit Latin America 2024\", href 3259-galeria-de-fotos-relembre-momentos-especiais-do-esmo-summit-latin-america-2024). The snapshot has two links with that name, to 3260 and 3259. Both cards show the same date (25 de março de 2024) and the same excerpt, so claimTrue yes as worded. But I fetched both destinations: they have the same headline, date and body text (identical text hash), two copies of the same gallery post (my fetch found one image in 3260 and none in 3259, but the post is the same). The links have the same purpose, and the same text for the same purpose is what Understanding 2.4.4 asks for; there is nothing a user needs to tell apart. elementFails no. Rampa did not read the destinations and took two URLs for two purposes: false_positive, context_missing. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "c5fac706de9f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "[visual context] The element is the title link inside the h3 of card 142 (href 3533-assembleia-geral-ordinaria-da-sboc, the 2024 assembly; tabindex -1, but still a link in the accessibility tree). The snapshot has four links with that name, the image link and title link of cards 60 and 142, to two URLs; the other is 3849 (the 12/11/2025 assembly). I fetched both: they are different articles, on the 2024 and 2025 assemblies. claimTrue no: the counts and the two places hold, but the card around the link shows its date (12 de novembro de 2024) and an excerpt that differ from the other card, so something around it does tell it apart. None of that is counted context: the date and excerpt sit in sibling elements of an article, not in the link's sentence, paragraph, list item or cell, and the heading just before it is its own h3, with the same text. In name and counted context the two links are identical. Whether that fails 2.4.4 is disputable. By G91 the text does describe the purpose (it is the headline of the article it opens), and Understanding 2.4.4 only says that different text for different destinations \"helps\"; on the stricter reading, a screen-reader user hearing two identical links cannot tell which year's article each opens, and sighted users only can through the visible date. I lean towards a failure, but competent auditors would reasonably disagree, so the label is uncertain. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "735bbccc9475",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "[visual context] The element is the title link inside the h3 of card 60 (href 3849-assembleia-geral-ordinaria-da-sboc, the 2025 assembly; tabindex -1, but still a link in the accessibility tree). The snapshot has four links with that name, the image link and title link of cards 60 and 142, to two URLs; the other is 3533 (the 12/11/2024 assembly). I fetched both: they are different articles, on the 2024 and 2025 assemblies. claimTrue no: the counts and the two places hold, but the card around the link shows its date (12 de novembro de 2025) and an excerpt that differ from the other card, so something around it does tell it apart. None of that is counted context: the date and excerpt sit in sibling elements of an article, not in the link's sentence, paragraph, list item or cell, and the heading just before it is its own h3, with the same text. In name and counted context the two links are identical. Whether that fails 2.4.4 is disputable. By G91 the text does describe the purpose (it is the headline of the article it opens), and Understanding 2.4.4 only says that different text for different destinations \"helps\"; on the stricter reading, a screen-reader user hearing two identical links cannot tell which year's article each opens, and sighted users only can through the visible date. I lean towards a failure, but competent auditors would reasonably disagree, so the label is uncertain. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "p708810b3ab1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the image that is the only content of a card's image link (tabindex -1) to the article it illustrates; the crop shows five people at the diversity workshop beside the \"Diversidade na Oncologia\" and SBOC logos. Its alt, \"Em 2º Workshop de Diversidade, SBOC amplia debate sobre equidade e inclusão na oncologia brasileira\", is the article's headline, so it names the link's destination, which is what a linked image's text alternative must convey (H30, and it avoids F89). Any text in the image is a logo or event branding, and nothing else in it carries information the link needs. The alt repeats the card's heading, which is redundant (H2 is advisory) but not a 1.1.1 failure. elementFails no, so false_positive, cause none. captureDiffers no: the live HTML has the same img and alt, and the crop shows the real picture."
+    },
+    {
+      "fingerprint": "3a4f738569cb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the \"Leia mais\" button of card 76 (aria-label \"Leia mais sobre COMUNICADO OFICIAL\", href 3828-comunicado-oficial). The snapshot has two links with that name, to 3828 and 3829. Both cards show the same date (29 de outubro de 2025) and the same excerpt, so claimTrue yes as worded: two different URLs, and nothing around the link tells them apart. But I fetched both destinations: they have the same headline, date and body text (identical text hash), a duplicated post of the same communiqué. The links therefore have the same purpose, and the same text for the same purpose is what Understanding 2.4.4 asks for; there is nothing a user needs to tell apart. elementFails no. Rampa did not read the destinations and took two URLs for two purposes: false_positive, context_missing. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "a6dc16e2cc58",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "[visual context] The element is the \"Leia mais\" button of card 62 (aria-label \"Leia mais sobre Decisão da Gincana Nacional para Residentes\", href 3842-decisao-da-gincana-nacional-para-residentes, the 2025 final). The snapshot has exactly two links with that name, this one and the other card's, to the unnumbered 2026 post (the 2026 final). I fetched both: they are different articles, on the 2025 and 2026 finals. claimTrue no: the counts and the two places hold, but the card around the link shows its date (8 de novembro de 2025) and an excerpt naming the year's congress, which differ from the other card, so something around it does tell it apart. None of that is counted context: the date and excerpt sit in sibling elements of an article, not in the link's sentence, paragraph, list item or cell, and the heading just before it is the card's h3, which repeats the same title. In name and counted context the two links are identical. Whether that fails 2.4.4 is disputable. By G91 the text does describe the purpose (it is the headline of the article it opens), and Understanding 2.4.4 only says that different text for different destinations \"helps\"; on the stricter reading, a screen-reader user hearing two identical links cannot tell which year's article each opens, and sighted users only can through the visible date. I lean towards a failure, but competent auditors would reasonably disagree, so the label is uncertain. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "81188fe8b869",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "[visual context] The element is the \"Leia mais\" button of card 4 (aria-label \"Leia mais sobre Decisão da Gincana Nacional para Residentes\", href decisao-da-gincana-nacional-para-residentes, the 2026 final). The snapshot has exactly two links with that name, this one and the other card's, to 3842 (the 2025 final). I fetched both: they are different articles, on the 2025 and 2026 finals. claimTrue no: the counts and the two places hold, but the card around the link shows its date (7 de novembro de 2026) and an excerpt naming the year's congress, which differ from the other card, so something around it does tell it apart. None of that is counted context: the date and excerpt sit in sibling elements of an article, not in the link's sentence, paragraph, list item or cell, and the heading just before it is the card's h3, which repeats the same title. In name and counted context the two links are identical. Whether that fails 2.4.4 is disputable. By G91 the text does describe the purpose (it is the headline of the article it opens), and Understanding 2.4.4 only says that different text for different destinations \"helps\"; on the stricter reading, a screen-reader user hearing two identical links cannot tell which year's article each opens, and sighted users only can through the visible date. I lean towards a failure, but competent auditors would reasonably disagree, so the label is uncertain. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "b67b6b1b040f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the image link of card 77 (href 3829-comunicado-oficial, tabindex -1); the packet gives it no name, but the snapshot's accessibility name is \"COMUNICADO OFICIAL\", computed from the img alt. The snapshot has four links with that name (image and title links of cards 76 and 77), to 3828 and 3829. Both cards show the same date (29 de outubro de 2025) and the same excerpt, so claimTrue yes as worded: two different URLs, and nothing around the link tells them apart. But I fetched both destinations: they have the same headline, date and body text (identical text hash), a duplicated post of the same communiqué. The links therefore have the same purpose, and the same text for the same purpose is what Understanding 2.4.4 asks for; there is nothing a user needs to tell apart. elementFails no. Rampa did not read the destinations and took two URLs for two purposes: false_positive, context_missing. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "a51969d93f52",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the \"Leia mais\" button of card 189 (aria-label \"Leia mais sobre Galeria de fotos: relembre momentos especiais do ESMO Summit Latin America 2024\", href 3260-galeria-de-fotos-relembre-momentos-especiais-do-esmo-summit-latin-america-2024). The snapshot has two links with that name, to 3260 and 3259. Both cards show the same date (25 de março de 2024) and the same excerpt, so claimTrue yes as worded. But I fetched both destinations: they have the same headline, date and body text (identical text hash), two copies of the same gallery post (my fetch found one image in 3260 and none in 3259, but the post is the same). The links have the same purpose, and the same text for the same purpose is what Understanding 2.4.4 asks for; there is nothing a user needs to tell apart. elementFails no. Rampa did not read the destinations and took two URLs for two purposes: false_positive, context_missing. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "p46ea48856cb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the image that is the only content of a card's image link (tabindex -1) to the article it illustrates; the crop shows a banner with the XXVII Congresso 2026 / SBOC logo and the \"O Estado da Arte da Oncologia\" artwork. Its alt, \"Congresso Brasileiro de Oncologia Clínica reúne especialistas para discutir avanços no cuidado do câncer\", is the article's headline, so it names the link's destination, which is what a linked image's text alternative must convey (H30, and it avoids F89). Any text in the image is a logo or event branding, and nothing else in it carries information the link needs. The alt repeats the card's heading, which is redundant (H2 is advisory) but not a 1.1.1 failure. elementFails no, so false_positive, cause none. captureDiffers no: the live HTML has the same img and alt, and the crop shows the real picture."
+    },
+    {
+      "fingerprint": "p0d7809f0903",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the \"Leia mais\" button of card 9, whose visible text is \"Leia mais\" and whose aria-label is \"Leia mais sobre Congresso SBOC 2026 é aberto com mensagem de inspiração, precisão e olhar para o futuro da oncologia\" (ARIA8), href to that article. The accessible name states the purpose, the visible label is part of it, and no other link on the page (snapshot, and my scan of all 1,269 cards in the live HTML) has that headline with a different destination. elementFails no, so false_positive, cause none. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "aa4d4a57c8b6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "[visual context] The element is the \"Leia mais\" button of card 60 (aria-label \"Leia mais sobre Assembleia Geral Ordinária da SBOC\", href 3849-assembleia-geral-ordinaria-da-sboc, the 2025 assembly). The snapshot has exactly two links with that name, this one and the other card's, to 3533 (the 12/11/2024 assembly). I fetched both: they are different articles, on the 2024 and 2025 assemblies. claimTrue no: the counts and the two places hold, but the card around the link shows its date (12 de novembro de 2025) and an excerpt that differ from the other card, so something around it does tell it apart. None of that is counted context: the date and excerpt sit in sibling elements of an article, not in the link's sentence, paragraph, list item or cell, and the heading just before it is the card's h3, which repeats the same title. In name and counted context the two links are identical. Whether that fails 2.4.4 is disputable. By G91 the text does describe the purpose (it is the headline of the article it opens), and Understanding 2.4.4 only says that different text for different destinations \"helps\"; on the stricter reading, a screen-reader user hearing two identical links cannot tell which year's article each opens, and sighted users only can through the visible date. I lean towards a failure, but competent auditors would reasonably disagree, so the label is uncertain. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "3e598b6c8fe4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the \"Leia mais\" button of card 77 (aria-label \"Leia mais sobre COMUNICADO OFICIAL\", href 3829-comunicado-oficial). The snapshot has two links with that name, to 3828 and 3829. Both cards show the same date (29 de outubro de 2025) and the same excerpt, so claimTrue yes as worded: two different URLs, and nothing around the link tells them apart. But I fetched both destinations: they have the same headline, date and body text (identical text hash), a duplicated post of the same communiqué. The links therefore have the same purpose, and the same text for the same purpose is what Understanding 2.4.4 asks for; there is nothing a user needs to tell apart. elementFails no. Rampa did not read the destinations and took two URLs for two purposes: false_positive, context_missing. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "p0c6a457cd9f",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the image that is the only content of a card's image link (tabindex -1) to the article it illustrates; the crop shows five people posing in front of the congress's \"O Estado da Arte\" backdrop. Its alt, \"Diversidade, liderança, comunicação e literatura ampliam o olhar sobre a oncologia no Congresso SBOC 2026\", is the article's headline, so it names the link's destination, which is what a linked image's text alternative must convey (H30, and it avoids F89). Any text in the image is a logo or event branding, and nothing else in it carries information the link needs. The alt repeats the card's heading, which is redundant (H2 is advisory) but not a 1.1.1 failure. elementFails no, so false_positive, cause none. captureDiffers no: the live HTML has the same img and alt, and the crop shows the real picture."
+    },
+    {
+      "fingerprint": "cc97b45d6b8e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the title link inside the h3 of card 77 (href 3829-comunicado-oficial, tabindex -1). The snapshot has four links with that name (image and title links of cards 76 and 77), to 3828 and 3829. Both cards show the same date (29 de outubro de 2025) and the same excerpt, so claimTrue yes as worded: two different URLs, and nothing around the link tells them apart. But I fetched both destinations: they have the same headline, date and body text (identical text hash), a duplicated post of the same communiqué. The links therefore have the same purpose, and the same text for the same purpose is what Understanding 2.4.4 asks for; there is nothing a user needs to tell apart. elementFails no. Rampa did not read the destinations and took two URLs for two purposes: false_positive, context_missing. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    },
+    {
+      "fingerprint": "0ff416b43833",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the title link inside the h3 of card 190 (href 3259-galeria-de-fotos-relembre-momentos-especiais-do-esmo-summit-latin-america-2024, tabindex -1). The snapshot has three links with that name (the title links of cards 189 and 190 and the image link of card 189; card 190's image link has a placeholder image with alt=\"\" and so no name, a separate problem on another element), to 3260 and 3259. Both cards show the same date (25 de março de 2024) and the same excerpt, so claimTrue yes as worded. But I fetched both destinations: they have the same headline, date and body text (identical text hash), two copies of the same gallery post (my fetch found one image in 3260 and none in 3259, but the post is the same). The links have the same purpose, and the same text for the same purpose is what Understanding 2.4.4 asks for; there is nothing a user needs to tell apart. elementFails no. Rampa did not read the destinations and took two URLs for two purposes: false_positive, context_missing. captureDiffers no: the live HTML I fetched has the same server-rendered card, with the same link text, aria-label, href and date; the snapshot's bounds show the cards laid out and visible; the full-page screenshot is blank below the cookie banner, a rendering artefact of a 246,424 px page, and it does not touch this DOM claim."
+    }
+  ]
+}

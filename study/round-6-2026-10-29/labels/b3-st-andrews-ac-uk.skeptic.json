@@ -1,0 +1,50 @@
+{
+  "page": "https://www.st-andrews.ac.uk/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "684fb38fb4a3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the image in the 'Making Waves: The Campaign for St Andrews' feature, a lazy-loaded img (1x1 placeholder src, data-src mw-navbox.jpg) with alt 'waves pattern on sea'. The crop the model saw, the screenshot, and the live file I downloaded all show the same thing: a close-up of sea water with bubbles and white wavy lines over it. The alt describes that image fairly, so the claim that it describes something the image does not show is false. The image may be mostly decorative, but a short, accurate alt on a branding image is not a 1.1.1 failure; F39 covers filler alts like 'spacer' or 'image', not accurate ones. The snapshot caught the img before lazy loading (1x1 bounds), but the crop and the screenshot show the loaded image, which is what users get, and the live HTML matches. So no capture difference touches the claim. The model had the right image and still judged it wrong."
+    },
+    {
+      "fingerprint": "c835738ecce5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the homepage hero image. It is a picture element whose source is st-salvators-hall-autumn-1920x600.jpg at widths of 640px and up, with st-salvators-hall-autumn-750x500.jpg as the fallback src. Its alt is 'Students sitting on the pier during golden hour at the Gaudie pier walk in St Andrews.' The crop and both live image files show St Salvator's Hall in autumn: a sandstone building, trees, a lawn, and a few students walking on a path. There is no pier, and nobody is sitting. The alt seems to be left over from an earlier hero photo. I looked for ways the image could pass. It does not pass as informative, because its text alternative describes a different scene. It does not pass as decorative either, because a decorative image would need a null alt (F39), not a misleading description. The live HTML has the same markup and alt, and the images are unchanged, so the capture does not differ. The claim names the actual defect."
+    },
+    {
+      "fingerprint": "sf01855e452a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the link 'MMS' (href mms.st-andrews.ac.uk/mms/) in the 'Current students' panel, in a list with MySaint, Moodle, Library and Semester dates. It has no title or aria-describedby. Under this round's context rule, the h3 'Current students' just before the link counts as context. MMS is the University's own name for a student system, and the link text names its destination the same way 'Moodle' and 'MySaint' do. Together with the heading, that tells a user the link opens the MMS student system, which is the link's purpose. So the claim that nothing around the link tells where it goes is not true of the capture. Asking the link to also spell out the acronym goes beyond 2.4.4; expanding abbreviations is 3.1.4, an AAA criterion. The live HTML has the same link and the same panel, so the capture does not differ."
+    },
+    {
+      "fingerprint": "5e5c406ee50f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the course search field (#txt-search-course) with the placeholder 'Search by keyword or phrase'. The live stylesheet (dpl 1.27.5 screen.css) sets .form-control placeholder color to #999 with opacity 1 and the field background to #fff. Sampling the crop's pixels gives #999999 text on #ffffff, which is 2.85:1. The text is 18px at weight 400, so it is not large text and needs 4.5:1. I looked for a reason it could pass and found none. Understanding 1.4.3 says the criterion applies to 'text in the page, including placeholder text'. The placeholder is not inactive UI, decoration or a logotype, so no exception covers it. The field's aria-label and the visible legend do not exempt the placeholder from contrast either. The live HTML and CSS match the capture, which was styled, so the capture does not differ."
+    }
+  ]
+}

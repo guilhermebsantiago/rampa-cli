@@ -1,0 +1,72 @@
+{
+  "page": "https://www.ucc.ie/en/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s6319a6d4ae9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h2 'Bring me to' over the second footer column. Under it is a list of links to Study, Research and Innovation, Discover UCC, Business and Industry Engagement and Advancement, the university's main sections, the same ones as in the header menu. claimTrue: no. The heading does say something about that content: what follows are places the links take you, and each link completes the phrase ('Bring me to Study'). elementFails: no. 2.4.6 asks a heading to describe the topic or purpose of its section, and this one states the purpose, navigating to the main sections, in an informal voice. It is not misleading, empty or a placeholder. captureDiffers: no. The live HTML has the same <a href=\"#footer2\" data-toggle=\"collapse\"><h2>Bring me to</h2></a> with the same list, and the screenshot shows the column at desktop width with its heading and links. The model had the list in the element's context and still judged the heading empty of meaning: model_error."
+    },
+    {
+      "fingerprint": "s3b5e81bc55c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the h2 'Show me' over the fourth footer column. Under it are links to Sitemap, Legal, Report Abuse, Privacy, Cookies, Acceptable Use Policy, Accessibility Statement and Report an issue with the website. claimTrue: no, though only just. The heading frames the links as pages to view, and each link completes the phrase, but it names no topic. elementFails: I lean no. It works as a sentence-starter heading in a footer link column, and 2.4.6 has no documented failure for a terse purpose heading. Still, 'Show me' says less than 'Bring me to'. It gives no hint that the section holds legal, policy and site-information links, and under G130's test (does the heading identify its section?) a competent auditor could fairly fail it as non-descriptive. Since auditors would reasonably disagree, the label is uncertain. captureDiffers: no. The live HTML has the same <a href=\"#footer4\" data-toggle=\"collapse\"><h2>Show me</h2></a> and list, and the screenshot shows the column with its heading and links."
+    },
+    {
+      "fingerprint": "sbfeaeabb61f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the page's only h1, <h1 class=\"sr-only\">UCC University College Cork</h1>. It is visually hidden and exposed to assistive technology, and it opens #main on the university's home page. claimTrue: no. On a home page the top-level heading names the site, and everything under it (the research and Irish-language carousel, study links, news, the footer) is about University College Cork. elementFails: no. Naming the organisation is the usual, descriptive h1 for an organisation's home page. It identifies what the page is, and the h2s below it describe the sections. captureDiffers: no. The live HTML has the same sr-only h1 at the same place. The model had the heading and what follows it, and judged a standard home-page h1 non-descriptive: model_error."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the logo image in the Cookiebot consent banner (#CybotCookiebotDialogPoweredbyImage). The crop and the screenshot show the UCC crest with the logotype 'UCC, Coláiste na hOllscoile Corcaigh, University College Cork, Ireland', and its alt is 'logo'. claimTrue: yes. 'logo' is a generic placeholder word. It says what kind of thing the image is, not whose logo or what text it carries. elementFails: yes. The image carries the organisation's name as image text, and 'logo' gives no equivalent of it, which is the placeholder case of failure F30. Even if the logo were taken as decorative here, a non-empty alt of 'logo' stops assistive technology from ignoring it, so it fails 1.1.1 either way. captureDiffers: no. The live Cookiebot configuration for this site (cbid e1816734-...) sets logoAltText = 'logo', the dialog template renders it into alt, and the banner shows to a first-time visitor, as the screenshot does. The claim names the real defect."
+    },
+    {
+      "fingerprint": "bcf5aba516a2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the first carousel slide's banner image ('Discover our Research'). Its alt is 'Graphic illustrating knowledge and investigation hovers above an open hand'. I downloaded both live sources (PureBannerDesktop.webp and PureBannerMobile.webp). Each shows a glowing circuit-board light bulb inside a network of lines, hovering over an open palm, so the alt is accurate. claimTrue: yes, but only of the crop the model saw. That crop is shifted about 170 px above the element's bounds. Its top third is the survey widget's buttons and white space, and it ends just below the bulb, so the hand is cut off except for a sliver. In the full screenshot at the element's bounds (y 336 to 775), the hand is visible under the bulb (mid-crossfade with the next slide). elementFails: no. The image has a text alternative that describes what it shows, which meets 1.1.1. One could argue a stock illustration like this should be marked decorative, but describing it is not a failure, and the claim does not say that. captureDiffers: yes. The crop of the element does not show the element as users see it, and that is exactly what the claim rests on. The snapshot's src and alt match the live HTML. Because the claim follows from the misaligned crop: collector_error."
+    },
+    {
+      "fingerprint": "82dac31bde1a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the second carousel slide's image, northwingogham*.webp, a photo of ogham stones along a window in UCC's North Wing. Its alt is 'A carved stone in front of a window in UCC's North Wing building'. It sits in slick's inactive slide (#slick-slide01, class 'slide slick-slide', aria-hidden=\"true\"), while slide 00 is slick-current and aria-hidden=\"false\". claimTrue: yes, but only of the crop the model saw. That crop is shifted about 170 px above the element's bounds, so its top shows the survey widget's 'Take the survey now!', 'Maybe later' and 'I'm not interested' controls, and the slide's own text says nothing of a survey. The element is also aria-hidden, as the claim says. elementFails: no. The survey banner is a separate element at the top of the page, with real text (the h2 'UCC Website User Experience Survey 2026' and real buttons), not part of this photo, which conveys nothing beyond its alt. The aria-hidden comes from the carousel hiding a slide that is not currently shown. When the slide rotates in, slick sets aria-hidden=\"false\" and the alt is exposed, so nothing the image conveys is kept from screen-reader users. captureDiffers: yes. The crop does not show this element as users receive it, and the claim rests entirely on the survey content in that crop. The live HTML has the same img, alt and slide structure. Because the claim comes only from the misaligned crop: collector_error."
+    }
+  ]
+}

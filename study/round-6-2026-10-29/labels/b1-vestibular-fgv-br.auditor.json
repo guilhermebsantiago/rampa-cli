@@ -1,0 +1,279 @@
+{
+  "page": "https://vestibular.fgv.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "ecad3f79c60e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the white h2 'Estudar na FGV' (27px, weight 700, so large text that needs 3:1) on the teal-to-blue gradient of the 'bloco-estudar' section (live CSS bg-degrade-azul, #01bfbf to #003a79). Sampling the screenshot behind the glyphs gives #01b3b9 to #01b8bb, about 2.5:1 to 2.6:1 against #ffffff, as the claim says. The live HTML and stylesheet carry the same heading and gradient, so the capture matches what users get. It fails 3:1 and the claim names that failure."
+    },
+    {
+      "fingerprint": "8ee306c752bb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the big button link 'Formas de Ingresso' (white, 16px, weight 700, uppercase), whose background is the live CSS gradient #61bdeb, #4597ca at 50%, #1f659d. Screenshot pixels behind the text run from #4091c4 to #4a9ed0, about 3.0:1 to 3.4:1 against white. 16px bold is not large text, so 4.5:1 applies and it fails. The live page has the same markup and CSS, and the claim names this failure."
+    },
+    {
+      "fingerprint": "923f3d0158d1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The input #edit-nome (visually hidden label 'Nome', placeholder 'Seu nome') in the quiz sign-up form collects the user's own name, a purpose on WCAG's Input Purposes list. It has autocomplete=\"off\" and no purpose token, in the snapshot and in the live HTML, and nothing else exposes its purpose programmatically, so it fails 1.3.5. The claim says 'first name' where 'Nome' more likely means the whole name (token 'name'), but it points at the real failure: autocomplete is off, so the purpose is not identified."
+    },
+    {
+      "fingerprint": "feb2b589c15f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the big button link 'Editais e Aditamentos' (white, 16px, weight 700) on the same live CSS gradient as the other three buttons (#61bdeb, #4597ca, #1f659d). Screenshot pixels behind the text run from #4091c4 to #4a9ed0, about 3.0:1 to 3.4:1 against white, below the 4.5:1 that 16px bold text needs. The live page matches, and the claim names the failure."
+    },
+    {
+      "fingerprint": "1098decbd01a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The image is in a slick carousel clone (class slick-cloned, aria-hidden=\"true\"), a copy of testimonial slide 12 (Anna Joppert), with alt 'Foto da ex-aluna Direito RJ'. The 'ASSISTA O VÍDEO' in the crop is not part of the image: the thumbnail file downloaded from the site has no text, and the words come from the HTML link 'Assista o vídeo' (a.btn-assista) laid over the image's lower corner. That link sits in the same slide, so the text around the image does say it, and the claim is false. Hiding a carousel clone from screen readers is correct, because the original slide shows the same image with an alt when it is current. There is no 1.1.1 failure. The claim came from a crop that included the overlaid link text, and the model also missed that the slide's own text says 'Assista o vídeo'. The live HTML has the same carousel markup."
+    },
+    {
+      "fingerprint": "b387567cb04d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The input #edit-nome shows the placeholder 'Seu nome' in #b1b1b1 (bold, 16px) on a white field. Screenshot pixels confirm #b1b1b1 glyphs on #ffffff, 2.14:1. The field's label is visually hidden, so this placeholder is its only visible label. Placeholder text is text under 1.4.3 and falls under none of its exceptions, so it needs 4.5:1 and fails. The live HTML has the same field, and the claim names the failure."
+    },
+    {
+      "fingerprint": "6d64a10a2d52",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The input #edit-e-mail shows the placeholder 'E-mail' in #b1b1b1 (bold, 16px) on a white field. Screenshot pixels confirm #b1b1b1 on #ffffff, 2.14:1. The label is visually hidden, so the placeholder is the only visible label, and as text under 1.4.3 it needs 4.5:1. It fails, the live HTML matches, and the claim names the failure."
+    },
+    {
+      "fingerprint": "0181eb6365fd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the white body paragraph 'Interação com alunos de outros países...' (16px, weight 400) in the Diferenciais column of the blue gradient section. Screenshot pixels behind it run from #0193a8 to #019dad, about 3.3:1 to 3.7:1 against white, below 4.5:1. The live CSS gradient (#01bfbf to #003a79) and markup match, and the claim names the failure."
+    },
+    {
+      "fingerprint": "pc0783549a0a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the link 'EXPERIÊNCIA FGV' (to /experiencia-fgv) in the bar 'Conheça o EXPERIÊNCIA FGV' that closes the section with the h2 'Experiência FGV', which describes the free event. The link text names the event, and the destination is that event's page (heading 'Experiência FGV'), so its purpose can be determined from the link text alone. It does not fail 2.4.4, and Rampa rightly reported nothing. The live HTML matches."
+    },
+    {
+      "fingerprint": "894ca37d60d8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the white h4 'ENADE e IGC' (20px, weight 500 in Google Sans Flex) on the blue gradient. Weight 500 is not bold, and 20px is below 24px, so this is not large text and needs 4.5:1. Screenshot pixels behind it run from #018ba4 to #018ea5, about 3.9:1 to 4.0:1, so it fails. The live page matches, and the claim names the failure."
+    },
+    {
+      "fingerprint": "b35fd0ea1e2a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the big button link 'Provas e Gabaritos do Vestibular FGV' (white, 16px, weight 700, on two lines) on the live CSS gradient #61bdeb, #4597ca, #1f659d. Screenshot pixels behind the two lines run from #3886bb to #4fa5d6, about 2.7:1 to 4.0:1 against white, below the 4.5:1 that non-large text needs. The live page matches, and the claim names the failure."
+    },
+    {
+      "fingerprint": "fb9e725636d8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The link's text is the address https://portal.fgv.br/protecao-dados-pessoais, so the claim's sentence holds. But the link sits in the sentence '...você poderá se descadastrar a qualquer momento diretamente nas mensagens recebidas ou por meio do Portal do Titular, no link https://...', in the snapshot and in the live HTML. That sentence is programmatically determined link context and gives the purpose: the FGV Portal do Titular, where you manage your personal data and unsubscribe. The address's path says the same. It passes 2.4.4. WCAG does not forbid an address as link text when the context gives the purpose, so the claim applied a stricter rule."
+    },
+    {
+      "fingerprint": "b75fb1be3046",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the white h4 'Diversidade' (20px, weight 500) on the teal gradient. It is not large text (weight 500 is not bold, and 20px is below 24px), so 4.5:1 applies. Screenshot pixels behind it run from #00a0af to #01a3b0, about 3.1:1 to 3.2:1, so it fails. It would pass 3:1 only if 500 counted as bold. The live CSS matches, and the claim names the failure."
+    },
+    {
+      "fingerprint": "4e6fcfaf1244",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The input #edit-e-mail (visually hidden label 'E-mail') in the quiz sign-up form collects the user's own email address, an Input Purposes item. It has autocomplete=\"off\", in the snapshot and in the live HTML. type=\"email\" says the value is an email address, but not that it is the user's own, and there is no 'email' token, so the purpose is not programmatically determined. It fails 1.3.5, and the claim names exactly that."
+    },
+    {
+      "fingerprint": "08f22d2e03de",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The image is the thumbnail of the YouTube video 'Campanha Vestibular FGV', alt=\"\", the only content of div.video-embed-field-launch-modal. That div opens the video in a modal on click and has no role, name or tabindex, in the snapshot and in the live HTML. The thumbnail file does contain the burned-in subtitle 'que abrem portas.', and the text around it does not, so the sentence is true of the capture. In my view the element fails 1.1.1: as the sole content of the video launcher, it is the only sign that a video is there, and screen readers get nothing. But the claim rests on an incidental subtitle fragment, not on what the image needs to convey. Competent auditors would disagree on whether that names the real defect, and on whether the failure belongs to 1.1.1 or to 2.1.1/4.1.2 for the div."
+    },
+    {
+      "fingerprint": "cb8aa6dc8dac",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the white h3 'DIFERENCIAIS' (22px, weight 500) on the teal gradient. Screenshot pixels behind it run from #00a5b1 to #01a9b3, about 2.9:1 to 3.0:1 against white. That fails 4.5:1, and it would fail even the 3:1 large-text threshold. The live CSS matches, and the claim names the failure."
+    },
+    {
+      "fingerprint": "352b880335c5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The image is in testimonial slide 12 (#slick-slide12, Anna Joppert), which slick marks aria-hidden=\"true\" only while it is not the current slide. When a user moves to it, it becomes aria-hidden=\"false\" and the image is exposed with alt 'Foto da ex-aluna Direito RJ'. The 'ASSISTA O VÍDEO' in the crop is not part of the image: the thumbnail file downloaded from the site has no text, and the words come from the HTML link 'Assista o vídeo' (a.btn-assista) laid over the image's lower corner. That link sits in the same slide, so the text around the image does say it, and the claim is false. There is no 1.1.1 failure. The claim came from a crop that included the overlaid link text, and the model also missed the adjacent 'Assista o vídeo' text. The live HTML has the same carousel."
+    },
+    {
+      "fingerprint": "bc1890559225",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the button-styled link 'EXPERIÊNCIA FGV' (16px, weight 700). The live CSS rule .btn.btn--white sets its text to #00ab86 on the white bar. Screenshot pixels confirm #00ab86 glyphs on #ffffff, 2.93:1, below 4.5:1. On hover the ::before layer fills the button with #00ab86, which leaves the same pair of colours. It fails, and the claim names the failure."
+    },
+    {
+      "fingerprint": "817a4f0608e9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header's search toggle <a class=\"form-open\"></a>: no href, no text, and a magnifier drawn as a CSS background image (ico-search-blue.png). Chrome's accessibility tree in the snapshot exposes it as a link with no name. Neither the rendered DOM nor the live HTML gives it text, aria-label or title. It is a visible control that opens the search form, so its missing name (and its link role where a button is meant) fails 4.1.2. The screenshot shows the header only as a sticky bar captured lower on the page, but the icon is there. The claim names the missing name."
+    },
+    {
+      "fingerprint": "ec0fe507e5f6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the big button link 'Locais de Prova do Vestibular FGV' (white, 16px, weight 700, on two lines) on the live CSS gradient #61bdeb, #4597ca, #1f659d. Screenshot pixels behind the text run from #3886bb to #4fa5d6, about 2.7:1 to 4.0:1 against white, below 4.5:1. The live page matches, and the claim names the failure."
+    },
+    {
+      "fingerprint": "4a6f18943c3f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The image is in testimonial slide 13 (#slick-slide13, Sara Moreira), aria-hidden=\"true\" only while it is not the current carousel slide. When shown, it is exposed with alt 'Sara Moreira' next to her quote. The 'ASSISTA O VÍDEO' in the crop is not part of the image: the thumbnail file downloaded from the site has no text, and the words come from the HTML link 'Assista o vídeo' (a.btn-assista) laid over the image's lower corner. That link sits in the same slide, so the text around the image does say it, and the claim is false. There is no 1.1.1 failure. The claim came from a crop that included the overlaid link text, and the model also missed the adjacent 'Assista o vídeo' text. The live HTML has the same carousel."
+    },
+    {
+      "fingerprint": "806d48040a48",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The image is in a slick carousel clone (class slick-cloned, aria-hidden=\"true\") of testimonial slide 13 (Sara Moreira), alt 'Sara Moreira'. The 'ASSISTA O VÍDEO' in the crop is not part of the image: the thumbnail file downloaded from the site has no text, and the words come from the HTML link 'Assista o vídeo' (a.btn-assista) laid over the image's lower corner. That link sits in the same slide, so the text around the image does say it, and the claim is false. Hiding a carousel clone is correct, because the original slide exposes the same image when current. There is no 1.1.1 failure. The claim came from a crop that included the overlaid link text, and the model also missed the slide's own 'Assista o vídeo' text."
+    },
+    {
+      "fingerprint": "p5ba7d1c7d32",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the course card link 'Inscrições abertas / Direito' (browser name 'INSCRIÇÕES ABERTAS Direito') to /cursos/sao-paulo/direito, in the column under the h3 'São Paulo'. Another 'Direito' card sits under 'Rio de Janeiro', but the preceding heading, which counts as context in this round, tells them apart, and the link text names the course. Its purpose can be determined, so it does not fail 2.4.4. The live HTML matches."
+    },
+    {
+      "fingerprint": "7311d0b9ce6e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is <a id=\"main-content\" tabindex=\"-1\"></a>, the target of the skip link 'Pular para o conteúdo principal' (the standard Drupal pattern). Chrome's tree does expose it as a focusable link with no name, so the claim's sentence holds. But it is empty, has no size and no href, sits outside the tab order and does nothing. It only receives focus from the skip link, so no user perceives it as a control, and it is not a user interface component in WCAG's sense. It does not fail 4.1.2. The rule treated any element exposed as a link as a widget that needs a name. The live HTML is the same."
+    },
+    {
+      "fingerprint": "21f77aa77568",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the white h3 'Conheça sua futura carreira' (22px, weight 500) in the blue gradient box of the Experiência FGV section. Weight 500 is not bold, and 22px is below 24px, so 4.5:1 applies. Screenshot pixels behind it run from #0482c7 to #0385c9, about 4.0:1 to 4.2:1, so it fails. The live page matches, and the claim names the failure."
+    }
+  ]
+}

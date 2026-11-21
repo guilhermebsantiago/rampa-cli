@@ -1,0 +1,28 @@
+{
+  "page": "https://www.acritica.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "c9eaa2d55064",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header's search toggle: a visually hidden (sr-only) checkbox with aria-label=\"Abrir busca\", operated through <label for=\"acritica-search-toggle\"> whose visible content at desktop width is the text \"Buscar\" plus an aria-hidden magnifier icon (the screenshot shows \"Buscar\" with the icon at the top right of the blue header). claimTrue: the snapshot shows exactly this, the aria-label overrides the label so the accessible name is \"Abrir busca\" (nameFrom aria-label), and \"Buscar\" does not occur in it; calling a checkbox a \"field\" is loose wording, not a false statement. elementFails: the component's visible label is \"Buscar\" and its accessible name \"Abrir busca\" does not contain that text (\"busca\" is a different word from \"Buscar\", and a speech user saying \"click Buscar\" targets a name that does not hold it), which is failure F96 of 2.5.3. captureDiffers: the live HTML fetched now has the same label, the same checkbox and the same aria-label, and no script changes them (the toggle works by CSS peer-checked); the screenshot is fully styled. The claim names this failure, so the label is true_positive."
+    },
+    {
+      "fingerprint": "s97def175081",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h1 of the homepage's lead story, inside the story link, \"Praia da Ponta Negra é interditada para banho em Manaus\". claimTrue: the content it heads in the snapshot and screenshot is the dek \"Interdição foi anunciada após o rio Negro atingir 15,94 metros; medida segue recomendação do Serviço Geológico do Brasil\" and the byline, which are about the same topic; what follows are three separate story links (Maria do Carmo, a car overturning, tranças afro) in a related-stories list without headings, which do not make the heading name a different topic than its own content, so the sentence does not hold. elementFails: the heading describes the story it introduces, and the destination page carries the same headline, so it meets 2.4.6; the unheaded list after it (and the use of an h1 for a teaser on a homepage) is at most a structure question, not a non-descriptive heading. captureDiffers: the live page has the same lead story, headline and dek (only the relative time moved from 5 to 6 hours). The model had the dek in the link's text and judged wrongly, so the label is false_positive with cause model_error."
+    }
+  ]
+}

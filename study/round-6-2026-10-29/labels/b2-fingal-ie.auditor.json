@@ -1,0 +1,160 @@
+{
+  "page": "https://www.fingal.ie/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sf0d45a6893a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer h2 'More' (it also labels its nav landmark) over the links Sitemap, Terms and Conditions, Privacy, Cookies and Accessibility, beside the columns 'Contact' and 'Connect With Us'. The sentence holds of the capture: 'More' names none of those topics. The live page has the same heading and links. A catch-all footer group has no single topic, and 'More' still says what it is (more site links), so I lean towards a pass; but a heading that names nothing of its content is a vague heading, and competent auditors would reasonably disagree on whether that fails 2.4.6."
+    },
+    {
+      "fingerprint": "eedd6d60ad57",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image link to the 2027 Sports Volunteer and Club Awards article. Chromium's accessibility tree (CDP) gives this card-image link role link and no name, while the img inside it has its alt as name: the img sits inside an <article class=\"media\"> element nested in the <a>, and Chrome does not take a name from the contents of an article, so the alt never reaches the link. Every other image link on the page (the logo link, for one) gets its name from its image; only the four news-card image links, all wrapped this way, have none. The live HTML has the same <a><div>...<article><picture><img alt> structure, so users of Chrome and Edge get a link with no programmatic name (voice control, link lists and focus announcements lack it), although a markup-only test (F89, axe) would pass it. The heading link below it goes to the same page but does not give this focusable link a name. The claim names exactly this missing name."
+    },
+    {
+      "fingerprint": "98537c3a61fd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image link to the R132 Bostik Junction update. Chromium's accessibility tree (CDP) gives this card-image link role link and no name, while the img inside it has its alt as name: the img sits inside an <article class=\"media\"> element nested in the <a>, and Chrome does not take a name from the contents of an article, so the alt never reaches the link. Every other image link on the page (the logo link, for one) gets its name from its image; only the four news-card image links, all wrapped this way, have none. The live HTML has the same <a><div>...<article><picture><img alt> structure, so users of Chrome and Edge get a link with no programmatic name (voice control, link lists and focus announcements lack it), although a markup-only test (F89, axe) would pass it. The heading link below it goes to the same page but does not give this focusable link a name. The claim names exactly this missing name."
+    },
+    {
+      "fingerprint": "754c3fc153ee",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Small corner image of croissants and a cup of coffee beside 'Grow Your Business', one of the section's decorative flourishes (like the headphones, succulent and binoculars). It conveys nothing about the section, so 'croissant' does not leave out what it conveys here; the sentence does not hold. The live page has the same img and alt. If the image fails 1.1.1, it is because a purely decorative image carries a non-empty alt instead of alt=\"\" (F38), which is the opposite of the claim's reason. False positive either way."
+    },
+    {
+      "fingerprint": "89675e197c56",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image link to the Fingal Inclusion Week 2026 article. Chromium's accessibility tree (CDP) gives this card-image link role link and no name, while the img inside it has its alt as name: the img sits inside an <article class=\"media\"> element nested in the <a>, and Chrome does not take a name from the contents of an article, so the alt never reaches the link. Every other image link on the page (the logo link, for one) gets its name from its image; only the four news-card image links, all wrapped this way, have none. The live HTML has the same <a><div>...<article><picture><img alt> structure, so users of Chrome and Edge get a link with no programmatic name (voice control, link lists and focus announcements lack it), although a markup-only test (F89, axe) would pass it. The heading link below it goes to the same page but does not give this focusable link a name. The claim names exactly this missing name."
+    },
+    {
+      "fingerprint": "1dd390918c5c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Thumbnail photo of an airplane landing at dusk in the ANCA news card, inside an image link that repeats the card's heading link. The alt 'ANCA Aircraft' says what the photo shows, an aircraft, tied to the ANCA story it illustrates; it is a short, adequate alternative for an illustrative thumbnail, not just a label, so the sentence does not hold. Same img and alt on the live page. The image passes 1.1.1; the link around it has no computed name in Chrome, but that is a 4.1.2 or 2.4.4 matter, reported separately."
+    },
+    {
+      "fingerprint": "ea3aeae6bd28",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Large collage (plane, people at work, office, coloured tiles) next to 'Grow Your Business'. Its alt 'right image' is a layout label or placeholder, not an alternative: F30 (text alternatives that are not alternatives). Same img and alt on the live page. Whether the collage is decorative (it should then be alt=\"\") or illustrative, the alt fails 1.1.1, and the claim, read in good faith, names that defect: the alt names a label instead of conveying the image."
+    },
+    {
+      "fingerprint": "b8c208ff1b8e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Small decorative image of green headphones beside 'Perfect Place to Live', with alt 'TEST - LICTA Left', a leftover CMS test label. Nothing in the image matches that text, so the sentence holds in substance. Same img and alt on the live page. A placeholder alt fails 1.1.1 (F30, and F38 since the image is decorative), and the claim points at that mismatch between alt and image."
+    },
+    {
+      "fingerprint": "f16d6dee3744",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "News card thumbnail: a promotional graphic whose central text is 'FINGAL INCLUSION WEEK', with photos of community groups. The alt 'Fingal Inclusion Week 26' names what the image shows, so the claim that it describes something the image does not show is false. Same img and alt on the live page. The alt is an adequate alternative for the thumbnail, so it passes 1.1.1."
+    },
+    {
+      "fingerprint": "e82626d1a3cb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image link to the ANCA Regulatory Decision article. Chromium's accessibility tree (CDP) gives this card-image link role link and no name, while the img inside it has its alt as name: the img sits inside an <article class=\"media\"> element nested in the <a>, and Chrome does not take a name from the contents of an article, so the alt never reaches the link. Every other image link on the page (the logo link, for one) gets its name from its image; only the four news-card image links, all wrapped this way, have none. The live HTML has the same <a><div>...<article><picture><img alt> structure, so users of Chrome and Edge get a link with no programmatic name (voice control, link lists and focus announcements lack it), although a markup-only test (F89, axe) would pass it. The heading link below it goes to the same page but does not give this focusable link a name. The claim names exactly this missing name."
+    },
+    {
+      "fingerprint": "3ea565d0a50f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Logo image in the Cookiebot consent dialog; the image is the Fingal County Council logo with the text 'Comhairle Contae Fhine Gall / Fingal County Council'. Its alt is 'logo', a generic placeholder (not a file name, but the sentence's 'or' holds). The live site loads the same Cookiebot banner (same cbid), and its live configuration sets logoAltText = 'logo', so first-time visitors get this alt. The screenshot does not show the dialog, but the snapshot holds it as active, and so does the live page. 'logo' does not convey the organisation's name in the image (F30), so 1.1.1 fails for the reason the claim gives."
+    },
+    {
+      "fingerprint": "bd8c9b738249",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Large collage of Fingal scenery (sunset coast, boat, lighthouse, couple on a beach, coloured tiles) beside 'Discover the Beauty of Fingal'. Its alt 'Orange right' names the tile's colour and position, a layout label rather than an alternative (F30). Same img and alt on the live page. Decorative or illustrative, the alt fails 1.1.1, and the claim names that defect."
+    },
+    {
+      "fingerprint": "49262ad6b89e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Small decorative image of a succulent seen from above, below the 'Why live here' button, one of the section's flourishes. 'flower' is a brief (loose) description of what it shows, not a label, so the sentence does not hold. Same img and alt on the live page. If it fails 1.1.1, it fails because a purely decorative image is not hidden with alt=\"\" (F38), a reason the claim does not name: the claim asks for more description, not less. False positive."
+    },
+    {
+      "fingerprint": "ee0dcd449cff",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Poster image of the lazy-loaded YouTube video 'This is Fingal', with alt=\"\", a 'Play video' button over it and an h4 'This is Fingal' below. The frame shows the words 'Fingal County Council / Our current capital programme will deliver 237 projects worth €1.57 billion', which nothing else on the page says, so the sentence holds of the capture; the live page has the same thumbnail and alt=\"\". I lean towards a failure, because a sighted user gets a fact from the poster that a screen reader user does not. But the poster is a frame of the video, which the title and button already identify, and its text is in the video itself; competent auditors would reasonably disagree on whether the poster needs a text alternative under 1.1.1."
+    }
+  ]
+}

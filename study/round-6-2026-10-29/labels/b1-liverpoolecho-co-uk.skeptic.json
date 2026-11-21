@@ -1,0 +1,220 @@
+{
+  "page": "https://www.liverpoolecho.co.uk/news/liverpool-news/anfield-street-goes-days-without-34829284",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "80e8511c10f8",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the Mantis logo image, the only content of a link to https://www.mantissolutions.com/ in the 'Similar articles to this ... Powered By' header of the recommendation widget; the browser names the link 'Mantis Logo'. The claim says the alternative does not say where the link leads, but it names Mantis, and the link goes to Mantis's own home page, so the destination is identified; the word 'Logo' is redundant, which the WAI images tutorial treats as a better-practice point, not a failure of 1.1.1. The widget is script-rendered; the live HTML holds the same mantis-ui-widget and the screenshot shows a normal render, so nothing in the capture touches this claim. Requiring 'Mantis home' instead of 'Mantis Logo' is stricter than the criterion."
+    },
+    {
+      "fingerprint": "s78850bdb960",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is an article photo of a man standing at the door of number 18; its alt, identical to the visible caption, is 'Lee said the postal service to the street has been erratic since their regular postman \"disappeared\"'. The sentence is true of the capture in that the alt reports what Lee said, which a photo cannot show. But the alt names the person the photo shows, Lee, whom the paragraph just before introduces as Lee Palmer, so it conveys the photo's main information (who is pictured); it omits only the setting. The live HTML has the same alt and caption. Caption-as-alt for a portrait that names its subject is exactly where competent auditors split between pass and fail, so the label is uncertain although I lean towards a pass. (The image sits inside a button named 'Open image viewer' by aria-label, which some screen readers read instead of the alt; that is not the claim's point.)"
+    },
+    {
+      "fingerprint": "bb5cb123409c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the teaser photo (a person walking through snow in Sefton Park) inside a recommendation card link whose aria-label is the headline \"'Coldest night' in Liverpool so far with -4C forecast overnight\"; the same headline is also visible text in the link. Its alt 'Find more about ...' is a headline, not a description of the photo, so the sentence is literally true. But the image is part of a link that already carries its purpose in text and in its accessible name: the alt states the link's function, which is what a functional image's alternative should do, and at worst it is redundant (H2), which 1.1.1 does not forbid. The crop matches the image's source file. The widget is script-rendered; the screenshot shows a normal render. Requiring a description of the photo here is stricter than the criterion."
+    },
+    {
+      "fingerprint": "653f36df82c7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 25 px Liverpool Echo square logo at the foot of the 'Southport aviary' recommendation card; it is the only content of a link to that article, whose aria-label (and the image's alt) is the headline 'Southport aviary could cost taxpayers £1.3m to keep it open'. The logo does not show the story, so the sentence is true, but this is a functional image: its alternative describes where the link goes, which serves the equivalent purpose under 1.1.1 (and the link's aria-label carries it anyway). All cards come from the same site, so the logo adds no source information the alt drops. The screenshot shows the widget normally rendered. Demanding that a link image's alt describe its pixels rather than its function is stricter than WCAG."
+    },
+    {
+      "fingerprint": "b11736a1ff15",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "yes"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the teaser photo of the 'Southport aviary' card, inside a link whose aria-label and visible text are the headline. Its source file is 3_The-birds-in-the-aviary.jpg, which I downloaded: two green parakeets on a perch inside an aviary. The crop the model saw shows something else, a video-game street scene (Hoylake Road, a phone menu overlay), which is the image of another card in the same autoplaying carousel ('Man recreating Birkenhead in GTA-inspired video game'), so the capture's crop differs from what users see at this element. Against that crop the claim is true; against the real image the alt names the aviary the photo shows. Either way the image passes: it is part of a link that states its purpose in text, and an alt naming the article is an acceptable (if redundant) alternative. The false report rests chiefly on the wrong crop."
+    },
+    {
+      "fingerprint": "c8c78fc1e189",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the header subscribe button image (Liverpool Echo liver bird plus the word 'SUBSCRIBE'), with alt 'liverpoolecho', and it is the only content of a link to /subscribe whose aria-label is 'Subscribe to premium membership' (the browser's name comes from aria-label). The sentence is true: the alt names the brand label and leaves out 'SUBSCRIBE'. But the image is a control's only content, and under 1.1.1 the control has a name that describes its purpose; screen readers announce the link as 'Subscribe to premium membership' and do not use the alt. The packet gave the checker that link name. The button is script-injected; the screenshot shows it in the header as a browser renders it. No 1.1.1 failure."
+    },
+    {
+      "fingerprint": "s8f951103b91",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the 'Business' link in the screen-reader-only mobile navigation, inside the 'News Submenu' list nested under the 'News' item, pointing to https://www.business-live.co.uk/all-about/north-west. I fetched it: 'North West - Business news, local news, expert opinion - Business Live', heading 'North West', a business news section of the publisher's sister site. The text 'Business' (with the News parent item, H81) matches that purpose, so the claim of a mismatch is false. Rampa never read the destination. The live HTML holds the same link and href."
+    },
+    {
+      "fingerprint": "p748460642c1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Sport' link in the screen-reader-only mobile navigation, pointing to https://www.liverpoolecho.co.uk/sport/, whose page is titled 'Sport: Latest Football, Boxing, Rugby League and Cricket News' with heading 'Sport'. The link text alone gives its purpose, so it meets 2.4.4 and Rampa was right to report nothing. The live HTML holds the same link."
+    },
+    {
+      "fingerprint": "saa873526d12",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is 'Things To Do' (displayed in capitals) in the primary header navigation, pointing to the /whats-on/ section, titled 'What's On: What's On in Liverpool and Merseyside'. In the capture, two visible or screen-reader-exposed 'Things To Do' links go to /whats-on/ and a 'Things to do' submenu link goes to /all-about/things-to-do-liverpool, and nothing in this link's list item or a heading tells them apart, so the sentence holds. But 2.4.4 asks whether each link's purpose can be determined, not that link texts be unique: this one plainly leads to the site's things-to-do (What's On) section, and the other destination is a things-to-do topic page, so no user is misled. The live HTML holds the same links. Treating shared text as a failure applies a stricter rule than the criterion."
+    },
+    {
+      "fingerprint": "s528aaa8d347",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the link 'Reach and across our entities' in the consent dialog's first sentence ('At Reach and across our entities we and our partners store and/or access information on a device ...'), pointing to https://www.reachplc.com/about-us/our-brands. The address is Reach plc's page listing its brands, that is, its entities, which is what the text and its sentence say; the claim of a mismatch is false. Rampa never read the destination (my own fetch hit a bot challenge, but the path is unambiguous). The dialog is the script-rendered consent wall first-time visitors get; the screenshot shows it styled as a browser shows it."
+    },
+    {
+      "fingerprint": "se35921cf3c2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the 'Terms and Conditions' link in the consent dialog ('For more information see our Terms and Conditions', in the 'Pay to remove ads' list item), pointing to /terms-conditions/. I fetched it: its <title> is the site's generic 'Liverpool Echo: Latest Liverpool and Merseyside news, sports and what's on', but its h1 is 'Terms & Conditions' and the page is the terms. The destination record Rampa used held only the generic title, no heading, and the model took the title as the page's subject; the link text matches the page, so the claim is false and the link meets 2.4.4. The dialog is the consent wall real visitors get."
+    },
+    {
+      "fingerprint": "p46864cbf2e6",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is 'Latest What's on' in the screen-reader-only mobile navigation, in the 'Things To Do Submenu' nested under 'Things To Do', pointing to /whats-on/, titled 'What's On: What's On in Liverpool and Merseyside'. Text and destination agree, so it meets 2.4.4 and Rampa was right to report nothing. The live HTML holds the same link."
+    },
+    {
+      "fingerprint": "s0219748de17",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is an article photo of Wylva Road (terraced houses, residents' bins, a parked car; source file 0_Wylva-Road-1jpeg.jpg), with alt 'Royal Mail said it is working to \"improve reliability across Liverpool\"', identical to its visible caption. The alt is a quoted company statement and says nothing about what the photo shows, so a screen reader user learns neither that it is a picture of the street nor anything in it. If the photo were decorative it should be ignorable, so a non-empty unrelated alt fails either way. I looked for a rescue: no aria-describedby or long description, the caption is the same quote, and the live HTML has the same alt. (It also sits inside a button named 'Open image viewer', which does not help.) The claim that the alt describes something the image does not show names this failure."
+    },
+    {
+      "fingerprint": "p04d2243fa92",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the masthead link to '/' with aria-label 'Go to Liverpool Echo homepage' (ARIA8), containing the Liverpool Echo logo; the destination is the home page. Its accessible name states its purpose, so it meets 2.4.4 and Rampa was right to report nothing. The live HTML holds the same link and aria-label."
+    },
+    {
+      "fingerprint": "p21e8d5f5f8a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is 'Cricket' in the 'Sport Submenu' of the screen-reader-only mobile navigation, nested under the 'Sport' item (H81), pointing to /sport/cricket/, titled 'Cricket: Cricket News from Liverpool and Merseyside'. Text and destination agree, so it meets 2.4.4 and Rampa was right to report nothing. The live HTML holds the same link."
+    },
+    {
+      "fingerprint": "p1ad98a2d0f0",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is 'News Opinion' in the 'News Submenu' of the screen-reader-only mobile navigation, pointing to /news/news-opinion/, titled 'News Opinion: Views and Opinions from Liverpool Columnists'. Text and destination agree, so it meets 2.4.4 and Rampa was right to report nothing. The live HTML holds the same link."
+    },
+    {
+      "fingerprint": "3e6f3f8ada5e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the 25 px Liverpool Echo square logo at the foot of the 'Coldest night' recommendation card, the only content of a link to that article whose aria-label and the image's alt are the headline \"'Coldest night' in Liverpool so far with -4C forecast overnight\". The logo does not show the story, so the sentence is true, but as a functional image its alternative should state where the link goes, and it does; the link's aria-label carries the same purpose. The screenshot shows the widget normally rendered. Requiring a pictorial description of a link image is stricter than 1.1.1."
+    },
+    {
+      "fingerprint": "fb859104b8e9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the logo at the top of the consent dialog: a red image with the word 'ECHO' and the liver bird, with alt 'Publisher Logo'. The image does show a publisher's logo, so the sentence is literally not true; but the alt is a generic placeholder that leaves out the only thing the image conveys, the brand 'Liverpool Echo' (its text 'ECHO'), and nothing else in the dialog names the publication (the opening sentence names Reach). That is a failure of 1.1.1 in the manner of F30, and the rubric counts a claim that the alternative 'describes something the image does not show' as naming a defect when the alternative leaves out most of what the image conveys. The dialog is the script-rendered consent wall first-time visitors get, shown styled in the screenshot; I found no reason the capture differs."
+    },
+    {
+      "fingerprint": "pd4003e97b4b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is an article photo of the 'City of Liverpool, Wylva Road L4' street sign against a mural, with alt 'Wylva Road lies just a stone's throw away from Anfield stadium'. The alt identifies what the photo shows, the Wylva Road sign, and adds context, which serves the equivalent purpose; it meets 1.1.1 and Rampa was right to report nothing. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "sffd85ef90a0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is 'Fantasy Football' in the 'Sport Submenu' of the screen-reader-only mobile navigation, pointing to /sport/football/football-news/download-fantasy-football-iteam-app-9574853. I fetched it: 'Download the Fantasy Football iTeam app', 'Create your fantasy football team now', the publisher's fantasy football game page. The text matches that purpose, so the claim of a mismatch is false and the link meets 2.4.4. Rampa never read the destination. The live HTML holds the same link."
+    }
+  ]
+}

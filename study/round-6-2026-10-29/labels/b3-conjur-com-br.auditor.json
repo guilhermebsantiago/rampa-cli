@@ -1,0 +1,123 @@
+{
+  "page": "https://conjur.com.br/2026-out-28/toffoli-suspende-julgamento-sobre-restricoes-a-buser-em-mg/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p045caeed643",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the 'Estúdio' item of the main site navigation (nav 'Menu', list item 6 of Capa, Notícias, Colunas, Artigos, Entrevistas, Estúdio, Áreas, Anuários, Loja), linking to /estudio-conjur/, whose title is 'Estúdio ConJur'. In a site menu list, the link text names the section it opens, so its purpose (go to the site's Estúdio section) is determinable from the text and its list context; 2.4.4 does not require the text to explain what the section contains. The live HTML has the same link and the screenshot shows the same styled menu, so the capture does not differ. Passes 2.4.4: false positive, cause none."
+    },
+    {
+      "fingerprint": "d3e6ede75bcd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the icon-only submit button (aria-label 'Buscar') of the header search form; its only visible content is an SVG magnifier with fill: currentColor. The live page's inline CSS gives the button color #b99c63, a transparent background and a 1px #b99c63 border, on the white header, which matches the capture and the screenshot crop (a thin gold magnifier in a gold circle). #b99c63 on #ffffff computes to 2.63:1, below the 3:1 that 1.4.11 asks for graphics required to identify a component; the magnifier is what identifies this button, and the circle border has the same colour. Only the hover/focus state (white on #1d4a7d) has enough contrast. The claim states exactly this failure: true positive."
+    },
+    {
+      "fingerprint": "s5eaf9129289",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Inline link 'deslocamento coletivo' in the sentence 'Nesse desenho, os estados conservam competência para disciplinar o deslocamento coletivo entre municípios de seus territórios', under the h2 'Competência estadual'. It leads to a related ConJur story about Buser being barred from operating an intermunicipal line beyond its authorisation. The claim reads mismatch from the difference between the anchor words and the destination title, but the link's sentence (its programmatically determined context) is about regulating collective transport between municipalities, and the destination is precisely a ruling on intermunicipal collective transport, so the purpose (more on intercity collective transport regulation) can be determined; 2.4.4 does not require the text to repeat the destination title. Some auditors are stricter with keyword links in news text, but the topical match here is direct. Live HTML identical. False positive: it applied a 'text must match the title' rule."
+    },
+    {
+      "fingerprint": "s62a23372215",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Thumbnail in the 'Leia também' related-posts card 'LONGA ESTRADA / Vista suspende análise de descumprimento de decisão pela Buser'; the image (a generic pink Buser bus photo reused for four of the six cards) sits inside the card link together with an h3 carrying the same headline. True of the capture: the alt is the headline, not a description of the bus. But for an image inside a link, the text alternative serves the equivalent purpose when it conveys the link's destination, which the headline does; the picture adds nothing beyond 'Buser', already in the text. The duplication with the h3 is a redundancy (H2 would use alt=\"\"), not a 1.1.1 failure, and the claim does not name it anyway. Live HTML identical. False positive: it demanded that the alt describe the picture."
+    },
+    {
+      "fingerprint": "7752184ecc5c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The article's in-body figure: a press photo ('Divulgação') of a pink Buser bus with the Buser logo, img alt=\"\", inside a figure with aria-describedby pointing to the figcaption 'Normas contestadas atingem a operação de plataformas como a Buser'. The claim is true of the capture: the image is hidden and no text describes a pink bus with the Buser logo. Whether that fails 1.1.1 is a judgement call. My lean is that it passes: the photo is illustrative, and what it conveys (Buser, bus charter transport) is in the caption and the first paragraph, so an empty alt is defensible under the W3C decision tree. But many competent auditors treat a captioned editorial photo as informative content that needs its own alternative, and would fail it. Live HTML identical. Uncertain by reasonable disagreement."
+    },
+    {
+      "fingerprint": "p62aad573f44",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. Thumbnail in the related-posts card 'MARCAÇÃO CERRADA / STJ libera ANTT para autuar empresas de fretamento por aplicativo'; the crop shows a pink Buser bus. The image sits inside the card link with an h3 repeating the same headline, and its alt is that headline, which conveys the link's destination, the purpose the image serves in the link. The bus adds nothing the text lacks, so no information is lost; the repetition of the headline is a redundancy, not a 1.1.1 failure. Live HTML identical. Passes: false positive, cause none."
+    },
+    {
+      "fingerprint": "pa13337cd50b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. 'Concorrencial' is a topic pill under the byline, next to 'Consumidor', after the h1 article title, linking to /areas-do-direito/concorrencial/ (Rampa got 403 there; my fetch got a Cloudflare challenge, so I could not read the destination either). On a legal news site, a term link naming an area of law (competition law) placed with the article's other topic tags has a determinable purpose: open the archive for that area. 2.4.4 is met; a bare category name is common and understood. Live HTML has the same link. False positive, cause none."
+    },
+    {
+      "fingerprint": "p9946f7c30da",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. Related-posts card link under the h4 'Leia também', whose text is the kicker 'LIVRE INICIATIVA' and the h3 headline 'STF libera operação da Buser no Paraná até julgamento pelo Plenário' (Rampa's computed name lacks a space between them; the browser name has it). It leads to the story 'Nunes Marques libera operação da Buser no Paraná até julgamento pelo Plenário do STF', so the link text alone states its purpose. Live HTML identical. Passes 2.4.4: false positive, cause none."
+    },
+    {
+      "fingerprint": "s1110ad1e811",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The header search text field (name 'q') in a form with role='search', next to the 'Buscar' button; it has no label element, and its only visible and computed label is the placeholder 'Pesquisar...' (dark #1a1a1a text, visible in the screenshot). 2.4.6 asks that labels describe topic or purpose; 'Pesquisar' (Search) in a search form says the field takes a search query, which is what to enter, so the claim does not hold and the label is descriptive. A placeholder-only label may raise 3.3.2 or 1.3.1 questions (it disappears on typing), but that is another criterion and not what the claim says. Live HTML identical. False positive: it asked more of the label than 2.4.6 does."
+    },
+    {
+      "fingerprint": "s178315b1900",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Inline link 'atendimento dos passageiros' in 'a proteção à iniciativa privada e à competição admite condicionamentos destinados à segurança e ao atendimento dos passageiros', under the h2 'Competência estadual'. It leads to a story on the TRF-1 confirming the closed-circuit obligation for Buser and charter firms in the DF. The claim is true of the capture (the anchor words do not match that title). The anchor and its sentence suggest content about passenger service, while the destination is a ruling on a regulatory condition; only a loose link ('condicionamentos') ties them, so I lean that the purpose cannot be determined and the element fails. Competent auditors, though, often accept keyword links to related stories in news prose as topically related. Live HTML identical. Uncertain by reasonable disagreement."
+    },
+    {
+      "fingerprint": "sab2d3b77877",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Thumbnail in the related-posts card 'DIREITOS FUNDAMENTAIS / Plataformas como modelo de negócios: falso dilema do transporte'; the crop is the caricature used for that column (file caricatura-ingo-sarlet-desembargador2). True of the capture: the alt is the headline, which the caricature does not show. But the image is inside the card link with the same headline in an h3, and the alt conveys the link's destination, which is the purpose the image serves there; the caricature works as the column's visual mark, already named by the 'DIREITOS FUNDAMENTAIS' kicker. An auditor might want the columnist named, but that is not needed for an equivalent link image. Live HTML identical. False positive: it demanded that the alt describe the picture."
+    }
+  ]
+}
