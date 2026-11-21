@@ -4,6 +4,13 @@ Changes to `rampa-cli`, newest first. Each released version has a `## [x.y.z] - 
 
 ## Unreleased
 
+- **Precision fixes from the sixth real-page study's test half**, chosen on its pages, so every number is in-sample (an offline replay of the third to sixth studies' recordings, no model; labels by two Claude judges):
+  - 2.4.4: a fragment of parameters (`#intid=…`) makes no other place; a link's `title` tells links that share a text apart (H33); a heading that holds the link, a `div` of up to 500 characters with words of its own, and the line of a block split by `<br>` (recorded by the collector from now on) are its context. 12 false findings and 1 uncertain lose the fact they rested on, no true one.
+  - 2.4.4: links that share a text and lead to different addresses are read first, whole groups in half the budget of 40 addresses. A pair still unread keeps its fact: 65 true and 72 false shared-text findings had an unread address. The effect needs the network and was not measured.
+  - 1.1.1: an image covered at its centre or near a corner by a popup, a banner or another layer is not captured (`covered`), nor an element with `role="img"` whose `img` never loads. Not measurable offline.
+  - 1.1.1: a claim that reads the picture of the only image of a link or button with its own `aria-label`, other than the alternative, is a suggestion. 2 false findings and 1 uncertain lose their fact, no true one.
+  - 3.1.2: text that is `aria-hidden` and out of sight has no language (lbc.co.uk's ad frames: 2 false findings).
+
 ## [0.1.2] - 2026-11-10
 
 - **Each judgment finding cites the WCAG technique or failure its claim applies** (`techniques` in JSON; a line "Reading applied: failure F30, …", "Leitura aplicada: …", in the terminal, Markdown, HTML and SARIF), from `src/core/techniques.ts`; it names a reading, not a verdict, and an offline replay of the 48 dev pages gave reports equal to the previous build's apart from the field ([notes](docs/studies/notes-technique-citation.md)).
