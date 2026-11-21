@@ -320,6 +320,7 @@ const IMAGE_SKIP_KEYS: Record<ImageSkip, MessageKey> = {
   placeholder: 'imageSkipPlaceholder',
   blank: 'imageSkipBlank',
   stacked: 'imageSkipStacked',
+  covered: 'imageSkipCovered',
   'capture-failed': 'imageSkipCaptureFailed',
   limit: 'imageSkipLimit',
 }

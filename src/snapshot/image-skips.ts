@@ -14,10 +14,12 @@ import { walkTree } from './tree.ts'
  * - placeholder: it still shows a lazy-load placeholder (a 1×1 pixel, a data: URI, a stand-in file).
  * - blank: its capture is one flat color, the same as without it.
  * - stacked: it shares its box with other images (carousel slides in one place), and its capture came out the same as theirs.
+ * - covered: other content lies over it where it sits, at its centre or near a corner: a popup, a cookie banner, a layer
+ *   fixed to the window that does not hold it.
  * - capture-failed: the screenshot could not be taken.
  * - limit: the page had more images than the collector captures.
  */
-export const IMAGE_SKIPS = ['outside-page', 'clipped', 'not-shown', 'not-loaded', 'placeholder', 'blank', 'stacked', 'capture-failed', 'limit'] as const
+export const IMAGE_SKIPS = ['outside-page', 'clipped', 'not-shown', 'not-loaded', 'placeholder', 'blank', 'stacked', 'covered', 'capture-failed', 'limit'] as const
 export type ImageSkip = (typeof IMAGE_SKIPS)[number]
 
 export function imageSkipOf(node: A11yNode): ImageSkip | undefined {
@@ -38,6 +40,7 @@ const LABELS: Record<ImageSkip, MessageKey> = {
   placeholder: 'imageSkipPlaceholder',
   blank: 'imageSkipBlank',
   stacked: 'imageSkipStacked',
+  covered: 'imageSkipCovered',
   'capture-failed': 'imageSkipCaptureFailed',
   limit: 'imageSkipLimit',
 }
