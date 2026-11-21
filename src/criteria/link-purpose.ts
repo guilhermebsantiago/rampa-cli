@@ -928,10 +928,19 @@ function sameTextLine(same: SameText): string {
 /**
  * Compares a link with the others that share its text. Links that lead elsewhere must differ in their
  * context: heading, paragraph, list item or cell, the line of a block split by <br>, header cells, description, title
- * (H33), the sections they sit in, or the list items they are nested in (H81, `nestingOf`). Two "Play" links under "Result" headings tell apart when one "Result" is
- * in the section of one example and the other in another's; two "Adhesives & Sealants" tell apart when one is a
- * department of its own and the other sits in the list nested under "Deals"; two "Facebook" links tell apart by their
- * titles "CPSC Facebook" and "CPSC Facebook en Español" (cpsc.gov's footer, the sixth real-page study).
+ * (H33), the sections they sit in, or the list items they are nested in (H81, `nestingOf`). Two "Play" links under
+ * "Result" headings tell apart when one "Result" is in the section of one example and the other in another's; two
+ * "Adhesives & Sealants" tell apart when one is a department of its own and the other sits in the list nested under
+ * "Deals"; two "Facebook" links tell apart by their titles "CPSC Facebook" and "CPSC Facebook en Español" (cpsc.gov's
+ * footer, the sixth real-page study).
+ *
+ * A link whose destination was not read (the budget of addresses ran out, the site did not answer, or the policy keeps
+ * it) is compared by its address (`placeOf`), so two addresses of one resource count as two places until both are read.
+ * Calling a claim on such a pair the model's suggestion was weighed and not adopted: of the labelled shared-text
+ * findings of the third to sixth real-page studies whose fact holds, 65 true and 72 false had a link in their group
+ * whose address was never read (joules.com's 31 true among them), against 8 true and 1 false with every address read,
+ * so an unread address says nothing about which a claim is (counted, in-sample, labels by two Claude judges). The
+ * collector reads such groups first instead (`sharedTextFirst`, src/surfaces/destinations.ts), within the same budget.
  */
 function sameTextOf(link: LinkInfo, group: readonly LinkInfo[]): SameText | undefined {
   if (group.length < 2 || link.place === undefined) return undefined
