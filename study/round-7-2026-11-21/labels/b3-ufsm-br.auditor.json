@@ -1,0 +1,82 @@
+{
+  "page": "https://www.ufsm.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s20c2f617ebc",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the \"VLibras\" text link (sign-language icon is aria-hidden) in the header accessibility list next to \"Alto Contraste\", pointing to http://www.vlibras.gov.br/, which now redirects to the gov.br page of VLibras. VLibras is the proper name of the federal Libras translation tool, and the link leads to that tool's own site, so the link text names its destination; Understanding 2.4.4 accepts the name of the destination as link text. The claim that the text does not tell where the link goes is therefore not true of the capture, and the link meets 2.4.4. The live server HTML has the same link (the snapshot adds target=\"_blank\", which does not touch the claim), so the capture does not differ in a way that matters. The model had the text and the href and misjudged a proper name as uninformative."
+    },
+    {
+      "fingerprint": "c0cffa1fe837",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the active slide link of the second \"Galerias de fotos\" carousel (Elementor), href to the full-size JPEG IC3A3677-1.jpg, opening a lightbox. Its only content is a <figure> holding an <img alt=\"Descubra UFSM (Foto: Adrieny Rosa)\"> and a <figcaption> with the same text, and no aria-label. The snapshot's CDP tree records the link with role link and name \"\" (Rampa's own computation gave the caption text), so the claim that Chromium computes no name is true of the capture; this matches Chromium's treatment of figure as a role that does not contribute name from content. The live HTML has the same markup, so Chrome users receive a nameless link (elementFails yes as received in Chrome). Label uncertain: under the accessible-name algorithm the img alt and caption inside the link would name it, other engines and common tools (axe, WAVE, ANDI) compute a name, and screen readers in browse mode read the content, so competent auditors would reasonably split on whether this is an author 4.1.2 failure or a user-agent defect."
+    },
+    {
+      "fingerprint": "sf7dc084c9d0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h5 \"JAI\" section heading. Under it are three news items about the JAI (Jornada Acadêmica Integrada, UFSM's annual academic event): \"Segundo dia da 41ª JAI reúne trabalhos...\", \"...palestra marca abertura da JAI na UFSM/FW\" and an SAE item from the same event, plus a \"+ JAI\" link to posts tagged jai; the screenshot shows the same. The heading names the topic of all the content under it, so the claim that it says nothing about that content is false, and the heading meets 2.4.6; not expanding the acronym is a matter for 3.1.4 (AAA), not 2.4.6. The live page has the same section, so no capture difference matters. The model misread a short event name as non-descriptive."
+    },
+    {
+      "fingerprint": "p20d771ec9ad",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Row with no claim. The element is the link \"Ministério da Mulher, da Família e dos Direitos Humanos\" in the gov.br bar's \"Órgãos do Governo\" list, href http://www.mdh.gov.br/. The link text names the ministry whose site the address belongs to, so its purpose can be determined from the text alone; the ministry has since been renamed, which is a content-currency issue, not a 2.4.4 failure. No other link shares the name. mdh.gov.br did not answer from here (connection timed out), but the destination is not needed to see that the text states the purpose. The bar is injected by barra.js, and the live barra.js still writes the same link, so the capture does not differ. The element meets 2.4.4, so Rampa missed nothing."
+    },
+    {
+      "fingerprint": "6b3f44e4bddd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the active slide link of the first \"Galerias de fotos\" carousel (Elementor), href to the full-size JPEG 182A1080-2.jpg, opening a lightbox. Its only content is a <figure> with <img alt=\"Descubra UFSM (Foto: Jessica Mocellin)\"> and a <figcaption> repeating that text; the link has no aria-label. The snapshot's CDP tree gives the link role link and name \"\", so the claim that the browser computes no name is true of the capture, consistent with Chromium not taking name from content through a figure. The live HTML is the same, so Chrome users get a nameless link (elementFails yes as received in Chrome). Label uncertain: by the accessible-name algorithm the alt and caption inside the link would name it, other engines and tools compute a name, and screen readers in browse mode read the content, so competent auditors would reasonably disagree on whether this is an author 4.1.2 failure or a browser defect. (The screenshot shows a later carousel position; that does not touch this claim.)"
+    },
+    {
+      "fingerprint": "s5575bd01c44",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the photo in the first \"Galerias de fotos\" carousel slide, alt \"Descubra UFSM (Foto: Jessica Mocellin)\", inside a link that opens the full-size photo, with a visible caption repeating the same words. The crop shows students around a stand with a globe and leaflets; the alt gives only the gallery series name and the photographer credit, nothing the picture shows, so the claim, read in good faith, points at the real defect: the alternative does not convey the photo's content. In a photo gallery the photos are the content, and the same title-plus-credit pattern is reused on the other slides (seven say \"Foto: Mathias Ilnicki\"), so a screen-reader user cannot tell the photos apart or learn what they show; the image fails 1.1.1. The live HTML has the same img and alt, so the capture does not differ in a way that matters (the screenshot shows a later carousel position)."
+    },
+    {
+      "fingerprint": "d2d447fe3487",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the UFSM coat-of-arms image, the only content of <a title=\"Logotipo UFSM\" href=\"/\"> (the home page). Its alt, \"Imagem do brasão composta por quatro elementos: escudo, flor de lis, archotes e lema.\", describes the emblem's parts and names neither UFSM nor the home page, so replacing the image with it (G82) does not tell users where the link goes; the claim is true of the capture. By R2, neither the title \"Logotipo UFSM\" (a description, not the image's alternative; Chrome's tree names the link from the alt and exposes the title as description) nor the adjacent \"UFSM Universidade Federal de Santa Maria\" text link to the same address cures 1.1.1: H30 requires the alternative of an image that is a link's only content to describe the link's function. The live HTML has the same markup. True positive."
+    }
+  ]
+}

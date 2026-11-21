@@ -1,0 +1,147 @@
+{
+  "page": "https://sbim.org.br/notas-tecnicas/dpnisvsams-atualizacao-da-estrategia-de-vacinacao-contra-a-mpox",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "d41b71c66790",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header SBIm logotype (the crop shows the image of text 'SBIm Sociedade Brasileira de Imunizações') is the only content of a link to home, with alt=\"Logo\". 'Logo' is a generic placeholder word: it names neither the society shown in the image nor where the link goes, so it fails H30 (the alternative of an image that is a link's only content must describe the link's function) and is the kind of placeholder F30 names. The claim's 'placeholder' names that defect (it is not the file name, but the sentence says 'or'). The live server-rendered HTML has the same img and alt, so the capture matches."
+    },
+    {
+      "fingerprint": "sb81aeb12c78",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link 'Abrir' (an img with alt=\"\" and an h5 'Abrir') opens the note 'Instrução Normativa do Calendário Nacional de Vacinação (2026)'. The page has four 'Abrir' links to four different notes, so the count holds, but 'nothing around this one tells it apart' is false: in document order each is preceded by its own card's h4 title (here the h4 'Instrução Normativa do Calendário Nacional de Vacinação (2026)' in the card's first div, before the link in the second), and the rubric counts the heading just before a link as its context. So under R1 the four links are not one set, and the link text with its preceding heading gives its purpose. The live API lists the same four notes in the same order. The heading was in the snapshot, so this is a judgment error."
+    },
+    {
+      "fingerprint": "sdeb307395fb",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A footer link under the h5 'Avisos legais' with text 'Conflitos de interesse e independência editorial', to info/legal-info/conflitos-de-interesse-e-independencia-editorial. That route renders the legal-info item whose API title is 'Conflitos de interess[e] e independência editorial', under the 'Avisos legais' banner, so the text matches the destination. 'SBIm - Sociedade Brasileira de Imunizações' is the site-wide <title> that every route of this Angular app serves (checked on several routes), so it says nothing about a mismatch. The link text describes its purpose. The live footer HTML is the same. Calling a mismatch from a generic site title is a judgment error."
+    },
+    {
+      "fingerprint": "sbadc5541fcf",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A disabled, checked checkbox in the cookie consent banner ('Este site armazena cookies em seu computador...'), labelled 'Não opcionais' beside a second checkbox 'Estatísticas'. A checkbox takes no typed entry; its label names the option, the cookie category that cannot be turned off, and inside the cookie banner that describes its purpose, which is what 2.4.6 asks. 'Does not say what to enter' does not fit the control. The banner appears in the screenshot, and the live page injects the same consent block from its scripts."
+    },
+    {
+      "fingerprint": "sb5bfbf94c14",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The main navigation link 'AÇÕES' (a list item in the menu list) goes to /campanhas. That route's page is titled 'Ações' (the route's breadcrumb label and the server-rendered h2 are both 'Ações') and lists the society's campaigns and actions. In the site's main menu the text names the one section it opens, which describes the link's purpose; Understanding 2.4.4 does not require more than that. It does not 'mean several things here'. The live menu has the same link."
+    },
+    {
+      "fingerprint": "7f20f5a7b046",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer badge (the crop shows the Vaccine Safety Net logo, 'vaccine safety net') is a plain image, not a link, with src vsn-logo.png and alt=\"vsn-logo\", the file's base name. That is F30's failure (a file name used as the text alternative). If the badge were taken as redundant with the sentence beside it ('Site integrante da Vaccine Safety Net (VSN)...'), it would need a null alt to be ignored; either way the filename alt that screen readers announce fails 1.1.1. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "sd43a0e3f536",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A footer link under the h5 'Sobre a SBIm' with text 'Diretorias e Representações', to sobre/regionais. That route opens the Institucional page and scrolls to its section-regionais, whose heading is 'Diretorias e Representações Estaduais' (server-rendered HTML of /sobre/regionais), with the map of state boards. So the text matches where it leads. The page title it was compared with is the generic site title that every route serves. The live footer has the same link."
+    },
+    {
+      "fingerprint": "p19abc080328",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The envelope icon (crop) is the only content of a header link to mailto:sbim@sbim.org.br, with alt=\"email\". Reading the icon as 'email' keeps the link's function clear (it sends an e-mail), which is what H30 asks, and the address sits in the next link, which goes to the same mailto. Two adjacent links to one target are something H2 would combine, but that is not a 1.1.1 failure. The element meets 1.1.1, so leaving it unreported was correct. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "e6c7252df896",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The search field's placeholder 'Escreva o que deseja buscar' gets its style from the component CSS input::placeholder{font-size:14px;font-weight:300;color:var(--bs-light-grey)}, with --bs-light-grey #DADADA in the live stylesheet, on the white field: 1.40:1, below 4.5:1. The darkest placeholder pixel in the screenshot is (218,219,219), which agrees. The placeholder is visible text and the only visible hint of what to type (the field has no visible label); it is not incidental and not a logo, so 1.4.3 applies. The live CSS is unchanged."
+    },
+    {
+      "fingerprint": "p8c91f938963",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A footer link in the contact list to https://www.instagram.com/sbim_nacional/ that holds the Instagram icon (alt \"Instagram\") and the visible text 'Instagram'. Its name, 'Instagram Instagram', repeats itself but still makes the purpose clear: the society's Instagram profile. No other link shares that name with a different destination in the same context (the header icon link goes to the same profile). It meets 2.4.4, so leaving it unreported was correct. The live HTML is the same."
+    },
+    {
+      "fingerprint": "s050f67c6eea",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A footer link under the h5 'Imprensa e notícias' with text 'Newsletter', to /newsletter. That route renders an h2 'Newsletter' and an h3 'Receba nossas novidades' over a sign-up form, so the text matches where it leads. 'SBIm - Sociedade Brasileira de Imunizações' is the generic title every route serves, so it shows no mismatch. The live footer has the same link."
+    },
+    {
+      "fingerprint": "630fb74b8f35",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The icon in the footer address link (to Google Maps, text 'Rua Luís Coelho, 308 – 5º andar...') is a map pin (crop; src marker-pin-white.svg), but its alt is \"Telefone\", the same alt as the phone icon on the line above. That alternative states something the image does not show and adds a wrong word to the link's name ('Telefone Rua Luís Coelho...'), so it does not serve the purpose of the image. Since the pin only repeats what the address text says, alt=\"\" would pass. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "f4b6b930643c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The footer SBIm logotype (crop: image of text 'SBIm Sociedade Brasileira de Imunizações') is a plain image, not a link, with alt=\"\". The text around it (the contact list and the menu columns) does not give the society's full name. That name appears as text only in the copyright line of the bottom bar ('©2024 - Sociedade Brasileira de Imunizações'), and the header logo's alt is just 'Logo'. A logo carries the organisation's identity, so it is not pure decoration by WCAG's definition, and that leans toward a failure. But many auditors accept a null alt on a repeated, non-functional footer logo whose name is in the footer text, so competent auditors would reasonably disagree. The live HTML has the same alt=\"\"."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "page": "https://www.purdue.edu/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "s05b415c669c",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "yes" },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is a photo in the hero's looping image marquee (second row, first copy), alt \"Purdue University astronauts speaking event.\". It was off screen when captured (bounds x=-300.5), and the crop the model saw (also the image stored in the snapshot) is the wrong region: a white band over the tops of two women's heads from another photo, so the sentence holds of the captured crop and claimTrue is yes. The real file at the same src (11_GBR_5957-1.jpg, identical src and alt in the snapshot and on the live page, fetched 2026-11-21) shows a row of astronauts, several in blue NASA flight suits, seated on a stage behind large \"YEARS OF GIANT LEAPS\" letters with a speaker at a Purdue podium. The alternative describes it accurately, so the element meets 1.1.1 and elementFails is no. The capture differs in the way that matters here (the crop of an off-screen element is not the image users see), and that wrong crop is the only reason for the finding: a collector error."
+    },
+    {
+      "fingerprint": "p134efe182b7",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the first photo of the hero marquee (two students smiling at a table with laptops), alt=\"\", so it is exposed as presentation. The marquee is an animated collage of campus photos, each duplicated for the loop, behind the H1 \"Every Giant Leap Starts with One Small Step\", with a pause button; no photo is captioned, referenced or needed to understand the page, which is the ambience case of the W3C decorative-image guidance, and an empty alt is the correct technique for a decorative image (H67/C9). That the site gives descriptive alts to most other photos in the same collage (and leaves Hovde Hall and the arch empty too) is an inconsistency, not a 1.1.1 failure of this image; some auditors might still want an alt here, but the decorative reading is concrete and holds. The live page serves the same img with alt=\"\", so the capture does not differ. Rampa reported nothing, correctly."
+    },
+    {
+      "fingerprint": "p47f8f5e5764",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the footer Snapchat icon link (accessible name \"snapchat\" from screen-reader text, icon visible in the screenshot) in the social list right after the h2 \"Follow Us\", with aria-describedby pointing to the existing \"Opens in a new tab\" span; it leads to snapchat.com/add/lifeatpurdue. The name together with the preceding heading and its list makes the purpose clear (follow Purdue on Snapchat), and no other link shares the name. The live server HTML has title=\"SnapChat\" in place of the aria-describedby the rendered DOM shows, which a script evidently swaps; my fetch was raw HTML without scripts, and either way the context only confirms the purpose, so no difference touches this. Rampa reported nothing, correctly."
+    },
+    {
+      "fingerprint": "p7ee3ef0d80c",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the main navigation link \"Become a Student\" leading to the admissions page (\"Purdue University Admissions - Become a Student\"). The text alone describes the purpose. The only other link with the same name is its copy in the hidden mobile menu, which has the same href, so the shared-name rule (R1) gives no failure. The live server HTML carries the same href and adds title=\"Become a Student\", which only repeats the text; nothing that matters differs. Rampa reported nothing, correctly."
+    }
+  ]
+}

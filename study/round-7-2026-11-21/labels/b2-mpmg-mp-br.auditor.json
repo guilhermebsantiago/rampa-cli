@@ -1,0 +1,41 @@
+{
+  "page": "https://www.mpmg.mp.br/portal/menu/conheca-o-mpmg/ouvidoria/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sbcff1f6c6ad",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link \"clique aqui.\" (to aplicacao.mpmg.mp.br/ouvidoria/service/cidadao/consulta) sits in a list item that reads \"Consulta ao andamento da manifestação: clique aqui.\", under the h2 \"Atendimento da Ouvidoria do MPMG\". claimTrue is no: the same list item, which the packet itself gives as the ancestor's name, says what the link is for, so it is not true that nothing around it does. elementFails is no: link text plus its list-item context (programmatically determined link context, G53/H77-style) identifies the purpose, checking the status of a submitted complaint, which matches the destination. It does not share its name and context with another link (the neighbouring \"clique aqui\" is in a different list item, labelled \"Registro de manifestações e denúncias on line\"), so R1 does not apply. captureDiffers is no: the live HTML fetched now has the same list item, link text and href, and the screenshot is fully styled. Rampa had the list item in its context and still judged it wrong."
+    },
+    {
+      "fingerprint": "s3df40f47caf",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page title is \"Ouvidoria | Portal\" and the page is the Ouvidoria (ombudsman) page of the MPMG portal, with the h1 \"Ouvidoria\" and content all about the Ouvidoria's channels. claimTrue is no: the title names the page's topic, so it is not true that it says nothing about this page. elementFails is no: 2.4.2 asks for a title that describes the topic or purpose, and \"Ouvidoria\" does; adding the organisation name would be better practice, but the criterion does not require the site name. captureDiffers is no: the live page fetched now has the same title."
+    },
+    {
+      "fingerprint": "s8c844ca0e65",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The footer h2 \"Visite-nos nas redes\" (Visit us on social media) is followed directly by a list of social links named Instagram, Twitter, Youtube, Spotify, Flickr, Facebook, LinkedIn, Tiktok and Whatsapp, shown as icons in the screenshot. claimTrue is no: the heading names exactly the content under it. elementFails is no: the heading describes its section, so it meets 2.4.6. captureDiffers is no: the live HTML has the same heading followed by the same #redesSociaisRodape list, and the screenshot shows the heading over the icons. Rampa had this context in the ancestor text and judged wrongly."
+    },
+    {
+      "fingerprint": "s118f400ea0d",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link \"acesse aqui\" (to aplicacao.mpmg.mp.br/ouvidoria/service/cidadao/mulher?tipo=mulher#step-1) is in the list item \"Formulário eletrônico: acesse aqui.\", right under the h2 \"Atendimento da Ouvidoria das Mulheres\". claimTrue is no: its list item and the heading just before it say what it opens. elementFails is no: the link text with its list-item context and the preceding heading tells users it opens the electronic form of the Ouvidoria das Mulheres, which is the destination. The other \"acesse aqui.\" link is in a different list item (\"Página da Ouvidoria das Mulheres\"), so they are not one set under R1. captureDiffers is no: the live HTML has the same list item, text and href, and the screenshot is styled. Rampa had the list item in its context and still judged it wrong."
+    },
+    {
+      "fingerprint": "p9d9b27de433",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the banner image \"Ouvidoria do MP.png\" under the h1 \"Ouvidoria\", with alt=\" \" and aria-hidden=\"true\". The crop and the screenshot show a blurred stock photo of a woman at a desk with a headset, a geometric pattern and the red MPMG mark, and no text or information the page does not give otherwise. It is decorative, and it is hidden from assistive technology (aria-hidden, blank alt), which is how 1.1.1 asks decorative images to be handled, so elementFails is no and Rampa was right not to report it. captureDiffers is no: the live HTML has the same img with the same attributes and source."
+    }
+  ]
+}

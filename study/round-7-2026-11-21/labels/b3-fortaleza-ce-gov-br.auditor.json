@@ -1,0 +1,379 @@
+{
+  "page": "https://www.fortaleza.ce.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "d67dfb9360ce",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link \"Notícias\" in the orange footer, 12px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    },
+    {
+      "fingerprint": "c042ac84598b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside a link that also holds the story's h3 headline, summary and date. Its alt is \"Imagem Destacada\" (\"featured image\"), a placeholder; the image shows the word \"CULTURA\" with a theatre-mask icon (an image of text giving the story's theme). Whether the image is informative (then the alt must convey it: F30, placeholder text as alternative) or redundant with the headline (then the alt must be null: F39, non-null alt like alt=\"image\"), \"Imagem Destacada\" fails 1.1.1. The theme word in the image is not given anywhere in the card's text either. The claim's wording (describes something the image does not show) is imperfect, but read in good faith it points at the real defect, an alternative that conveys nothing of the image. The live page still uses \"Imagem Destacada\" for every news thumbnail."
+    },
+    {
+      "fingerprint": "ec106d4b924f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside a link that also holds the story's h3 headline, summary and date. Its alt is \"Imagem Destacada\" (\"featured image\"), a placeholder; the image shows a man speaking with a microphone to an audience in a classroom. Whether the image is informative (then the alt must convey it: F30, placeholder text as alternative) or redundant with the headline (then the alt must be null: F39, non-null alt like alt=\"image\"), \"Imagem Destacada\" fails 1.1.1. The claim's wording (describes something the image does not show) is imperfect, but read in good faith it points at the real defect, an alternative that conveys nothing of the image. The live page still uses \"Imagem Destacada\" for every news thumbnail."
+    },
+    {
+      "fingerprint": "3a551c22429a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer h6 heading \"Links Importantes\" in the orange footer, 14px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    },
+    {
+      "fingerprint": "b4ed4bb49b8e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer h6 heading \"Links Úteis\" in the orange footer, 14px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    },
+    {
+      "fingerprint": "p699bb2ab276",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The VLibras widget's popup image (third-party widget in an open shadow root, next to the VLibras button, which has its own aria-label). Enlarged, the crop shows the avatars and the words \"Acessível com VLibras\", and the alt is \"Acessível com VLibras\": it gives the image's text and purpose, so it meets 1.1.1. The widget is not visible in the full-page screenshot (fixed position, likely shown on hover), which does not change the alternative. The widget loads the same way on the live page; nothing suggests a difference."
+    },
+    {
+      "fingerprint": "0305490cd167",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer h6 heading \"ENDEREÇO E CONTATOS\" in the orange footer, 14px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    },
+    {
+      "fingerprint": "cbb2bd6a294d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link \"A Cidade\" in the orange footer, 12px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    },
+    {
+      "fingerprint": "f650802fdfe4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer address text \"Rua São José, 01 - Centro Fortaleza-CE - CEP: 60.060-170\" in the orange footer, 12px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    },
+    {
+      "fingerprint": "cbf615997f6b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Header search field whose placeholder \"Pesquise em todo site!\" is the only visible text telling what the field is for. Sampling the screenshot gives #009d8a text on #ffffff, 3.39:1, 14px bold (normal size), below 4.5:1. Placeholder text is visible text that conveys information and the field is active, so 1.4.3 applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure."
+    },
+    {
+      "fingerprint": "s3fa4c581b95",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "bxSlider pager link \"4\" (href=\"\", shown as a dot over the featured-news carousel), which shows slide 4. Its text, its name and its context (a pager div with only the numbers, no title, no aria-label; the heading before it is a slide's news headline, hidden) do not tell that it selects a carousel slide, nor which story. Sighted users see the dots over the carousel, so the purpose is not ambiguous to users in general. It fails 2.4.4, and the claim names that. The pager is built by bxSlider in the browser; the live HTML has the same carousel and nothing suggests a different pager."
+    },
+    {
+      "fingerprint": "b0850a5ff80a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "First carousel slide: a link to the story about the requalified Praça Nossa Senhora de Guadalupe that holds only a figure with this image (a crowd with the mayor), alt \"Imagem Destacada\". Replacing the image with its alt gives a link \"Imagem Destacada\", which does not identify the destination (G82, H30). Per R2, the headline link to the same address in the slide's h2 does not cure 1.1.1: it is another control. The claim names exactly this failure. The screenshot was taken while the carousel showed slide 2 (the zoo park photo), but the snapshot and the crop are slide 1 and the live HTML has the same slide and alt, so the timing difference does not touch the claim."
+    },
+    {
+      "fingerprint": "s1d3fcbeee71",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Footer logo link to \"/\" (title is empty) holding only the white Prefeitura logo, alt \"Logo Branca - Prefeitura Municipal de Fortaleza\"; Chrome names the link with that alt. The destination is the home page of the Prefeitura Municipal de Fortaleza portal, and the alt names it: as in H30's example (\"Smallville Times\" for a linked thumbnail), a link named after the site leads to that site's home, and R2 says an alternative that names the page describes the link's purpose. The \"Logo Branca\" prefix is noise, not a failure. So the claim that it does not say where the link leads is not true, and the element meets 1.1.1. The live page has the same logo and alt."
+    },
+    {
+      "fingerprint": "3c67f316b605",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The first carousel slide's image link (a > figure > img alt=\"Imagem Destacada\"). The capture's CDP accessibility tree shows role link with no name, while the img inside is named \"Imagem Destacada\": Chromium does not take name from content through a figure, so in Chrome and Edge the link is exposed with an empty name, as the claim says. In that sense the element fails 4.1.2 for most users. But the markup is valid and the accessible name computation spec (recursive name from content) would give \"Imagem Destacada\", which other browsers and axe-core compute, so competent auditors would reasonably disagree on whether this is an author failure of 4.1.2 or a user-agent gap. Separately, the image alt fails 1.1.1/2.4.4 for not naming the story. The live HTML is the same, so the capture does not differ."
+    },
+    {
+      "fingerprint": "e8406af8e0d9",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer text (an <a> with no href) \"Fala Fortaleza: 0800.285.0880\" in the orange footer, 12px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    },
+    {
+      "fingerprint": "32f298d86f4d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link \"Fortaleza Inclusiva\" in the orange footer, 12px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    },
+    {
+      "fingerprint": "s0ec5bace951",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] Link \"A\" (href=\"#\") in the header's accessibility bar, which resets the text size between \"A-\" and \"A+\". Its list item holds only \"A\"; it has no title, aria-label or aria-describedby; no heading comes before it. The visible label \"Acessibilidade:\" is a neighbouring list item, not context under this rubric, and only the visual A- A A+ pattern tells sighted users what it does, so the purpose is not ambiguous to users in general. It fails 2.4.4, and the claim names that. The live HTML has the same links with no title or aria-label."
+    },
+    {
+      "fingerprint": "e742e4d2f2de",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link \"Política de Privacidade\" in the orange footer, 12px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    },
+    {
+      "fingerprint": "36fdec57cf00",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer text (an <a> with no href) \"Central 156\" in the orange footer, 12px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    },
+    {
+      "fingerprint": "e3dc477e3880",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside a link that also holds the story's h3 headline, summary and date. Its alt is \"Imagem Destacada\" (\"featured image\"), a placeholder; the image shows a man speaking into a microphone at an event, with a seated audience and a banner. Whether the image is informative (then the alt must convey it: F30, placeholder text as alternative) or redundant with the headline (then the alt must be null: F39, non-null alt like alt=\"image\"), \"Imagem Destacada\" fails 1.1.1. The claim's wording (describes something the image does not show) is imperfect, but read in good faith it points at the real defect, an alternative that conveys nothing of the image. The live page still uses \"Imagem Destacada\" for every news thumbnail."
+    },
+    {
+      "fingerprint": "13dec662928a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside a link that also holds the story's h3 headline, summary and date. Its alt is \"Imagem Destacada\" (\"featured image\"), a placeholder; the image shows the words \"EMPREGO E RENDA\" with a money icon (an image of text giving the story's theme). Whether the image is informative (then the alt must convey it: F30, placeholder text as alternative) or redundant with the headline (then the alt must be null: F39, non-null alt like alt=\"image\"), \"Imagem Destacada\" fails 1.1.1. The theme words are not given in the card's text. The claim's wording (describes something the image does not show) is imperfect, but read in good faith it points at the real defect, an alternative that conveys nothing of the image. The live page still uses \"Imagem Destacada\" for every news thumbnail."
+    },
+    {
+      "fingerprint": "4aeeb465db3a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside a link that also holds the story's h3 headline, summary and date. Its alt is \"Imagem Destacada\" (\"featured image\"), a placeholder; the image shows five women holding signed documents in front of a COP31 UN Climate Change Conference backdrop. Whether the image is informative (then the alt must convey it: F30, placeholder text as alternative) or redundant with the headline (then the alt must be null: F39, non-null alt like alt=\"image\"), \"Imagem Destacada\" fails 1.1.1. The claim's wording (describes something the image does not show) is imperfect, but read in good faith it points at the real defect, an alternative that conveys nothing of the image. The live page still uses \"Imagem Destacada\" for every news thumbnail."
+    },
+    {
+      "fingerprint": "s07e0e556a77",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "bxSlider pager link \"1\" (href=\"\", the active dot over the featured-news carousel), which shows slide 1. Its text, its name and its context (a pager div with only the numbers, no title, no aria-label; the heading before it is a slide's news headline, hidden) do not tell that it selects a carousel slide, nor which story. Sighted users see the dots over the carousel, so the purpose is not ambiguous to users in general. It fails 2.4.4, and the claim names that. The pager is built by bxSlider in the browser; the live HTML has the same carousel and nothing suggests a different pager."
+    },
+    {
+      "fingerprint": "4c1640158471",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link \"Identidade visual\" in the orange footer, 12px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    },
+    {
+      "fingerprint": "ee8a0f5c152a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link \"Portal\" in the orange footer, 12px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    },
+    {
+      "fingerprint": "fef0f9da0473",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside a link that also holds the story's h3 headline, summary and date. Its alt is \"Imagem Destacada\" (\"featured image\"), a placeholder; the image shows a cheering crowd raising their hands around the mayor. Whether the image is informative (then the alt must convey it: F30, placeholder text as alternative) or redundant with the headline (then the alt must be null: F39, non-null alt like alt=\"image\"), \"Imagem Destacada\" fails 1.1.1. The claim's wording (describes something the image does not show) is imperfect, but read in good faith it points at the real defect, an alternative that conveys nothing of the image. The live page still uses \"Imagem Destacada\" for every news thumbnail."
+    },
+    {
+      "fingerprint": "d8199afc6dc4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside a link that also holds the story's h3 headline, summary and date. Its alt is \"Imagem Destacada\" (\"featured image\"), a placeholder; the image shows a green \"Limpezinha\" garbage truck of the Prefeitura with workers in green uniforms. Whether the image is informative (then the alt must convey it: F30, placeholder text as alternative) or redundant with the headline (then the alt must be null: F39, non-null alt like alt=\"image\"), \"Imagem Destacada\" fails 1.1.1. The claim's wording (describes something the image does not show) is imperfect, but read in good faith it points at the real defect, an alternative that conveys nothing of the image. The live page still uses \"Imagem Destacada\" for every news thumbnail."
+    },
+    {
+      "fingerprint": "875010d96d10",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link \"Institucional\" in the orange footer, 12px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    },
+    {
+      "fingerprint": "eabedb2348a5",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside a link that also holds the story's h3 headline, summary and date. Its alt is \"Imagem Destacada\" (\"featured image\"), a placeholder; the image shows officials greeting health workers in a consulting room. Whether the image is informative (then the alt must convey it: F30, placeholder text as alternative) or redundant with the headline (then the alt must be null: F39, non-null alt like alt=\"image\"), \"Imagem Destacada\" fails 1.1.1. The claim's wording (describes something the image does not show) is imperfect, but read in good faith it points at the real defect, an alternative that conveys nothing of the image. The live page still uses \"Imagem Destacada\" for every news thumbnail."
+    },
+    {
+      "fingerprint": "05fc24c042f0",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside a link that also holds the story's h3 headline, summary and date. Its alt is \"Imagem Destacada\" (\"featured image\"), a placeholder; the image shows a performer on stage holding up a framed picture. Whether the image is informative (then the alt must convey it: F30, placeholder text as alternative) or redundant with the headline (then the alt must be null: F39, non-null alt like alt=\"image\"), \"Imagem Destacada\" fails 1.1.1. The claim's wording (describes something the image does not show) is imperfect, but read in good faith it points at the real defect, an alternative that conveys nothing of the image. The live page still uses \"Imagem Destacada\" for every news thumbnail."
+    },
+    {
+      "fingerprint": "s0fdde626b8e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "bxSlider control link \"Prev\" (href=\"\", shown as an arrow over the carousel), which shows the previous slide. Nothing in its programmatic context (a div holding \"Prev Next\", no title, no aria-label, the heading before it a hidden slide headline) says it moves a news carousel, and the text is an English abbreviation on a pt-BR page, so I lean to a 2.4.4 failure, as the claim says. But \"Prev\" does state a direction, and competent auditors often accept previous/next controls of a carousel as having a determinable purpose, so they would reasonably disagree. The control is built by bxSlider in the browser; nothing suggests the live page differs."
+    },
+    {
+      "fingerprint": "1ca171f89cb1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "News card image inside a link that also holds the story's h3 headline, summary and date. Its alt is \"Imagem Destacada\" (\"featured image\"), a placeholder; the image shows the facade of a hospital building (IJF 2). Whether the image is informative (then the alt must convey it: F30, placeholder text as alternative) or redundant with the headline (then the alt must be null: F39, non-null alt like alt=\"image\"), \"Imagem Destacada\" fails 1.1.1. The claim's wording (describes something the image does not show) is imperfect, but read in good faith it points at the real defect, an alternative that conveys nothing of the image. The live page still uses \"Imagem Destacada\" for every news thumbnail."
+    },
+    {
+      "fingerprint": "7e194766eb4c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link \"Área de Imprensa\" in the orange footer, 12px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    },
+    {
+      "fingerprint": "45974466e9cd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Footer link \"Canais\" in the orange footer, 12px bold, so normal-size text (large bold text starts at 14pt, about 18.7px). Sampling the screenshot inside its bounds gives #ffffff text on #f15a22, which computes to 3.37:1, below the 4.5:1 that 1.4.3 requires; no exception (incidental, logotype, inactive) applies. The live page (WebFetch got the real server HTML; curl got an F5 bot challenge) holds the same footer, the same news list and the same markup, and the screenshot is a fully styled render, so nothing suggests the capture differs on this point. The claim names this failure exactly."
+    }
+  ]
+}

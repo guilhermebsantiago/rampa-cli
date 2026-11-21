@@ -1,0 +1,97 @@
+{
+  "page": "https://sbim.org.br/notas-tecnicas/dpnisvsams-atualizacao-da-estrategia-de-vacinacao-contra-a-mpox",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "d41b71c66790",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header SBIm logo (logo-sbim.svg) is the only content of the link to home, with alt=\"Logo\"; the snapshot's accessibility name of the link is just \"Logo\", and the link has no aria-label or title. \"Logo\" is a generic placeholder word, like F30's \"image\" or \"picture\": put in place of the image it neither names SBIm nor says the link goes to the home page, which H30 requires for an image that is a link's only content. I looked for a way out (other text in the link, an aria-label, a title) and found none. The live server HTML has the same <a class=\"navbar-brand\" href=\"home\"><img alt=\"Logo\"></a>, so the capture matches. The claim names the real defect."
+    },
+    {
+      "fingerprint": "sb81aeb12c78",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the \"Abrir\" link (it holds an icon and an h5 \"Abrir\") on the \"Veja também\" card for \"Instrução Normativa do Calendário Nacional de Vacinação (2026)\". The page has four \"Abrir\" links, and they do go to four different note pages. But walking the snapshot in document order, the heading just before each one is its own card's h4 title, and the card template in the site's main bundle confirms this (date h5, tags, h4 title, description, then the Abrir link). Here that heading is \"Instrução Normativa do Calendário Nacional de Vacinação (2026)\", which matches the href. By this round's context rule (H80) that heading tells the four links apart, so they are not one R1 set and the link's purpose can be determined. The claim that nothing around it tells it apart is false. The screenshot shows the same rendered cards, and the template is unchanged on the live site."
+    },
+    {
+      "fingerprint": "sdeb307395fb",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is a footer link under the heading \"Avisos legais\", text \"Conflitos de interesse e independência editorial\", href info/legal-info/conflitos-de-interesse-e-independencia-editorial (with <base href=\"/\">). The title Rampa used, \"SBIm - Sociedade Brasileira de Imunizações\", is the generic title the server sends for every route of this Angular app (all 31 destinations in the snapshot have it except Notícias). The page itself is rendered client-side: the site's API (content/section/legal-info/conflitos-de-interesse-e-independencia-editorial), which the app's info component calls, returns the title \"Conflitos de interess e independência editorial\" and a text about SBIm's independence, under the breadcrumb \"Avisos legais\". The link text matches its destination, so it passes 2.4.4. Rampa never read the destination's content, only the shell title. The link and href are the same on the live page."
+    },
+    {
+      "fingerprint": "sbadc5541fcf",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the first checkbox of the cookie consent banner (checked and disabled), wrapped in a label that reads \"Não opcionais\", next to \"Estatísticas\" and below a paragraph about the site's cookies. It is a checkbox, so there is nothing to \"enter\". In its context the label names the category of cookies the box stands for (the non-optional ones, which cannot be unticked), and that is the topic or purpose 2.4.6 asks a label to describe. The claim holds the checkbox to a text-field standard that 2.4.6 does not set. The live page's cookie script builds the same markup (<label class=\"checkbox-inline\"><input name=\"necesse\" checked disabled><span>Não opcionais</span></label>), and the screenshot shows the banner."
+    },
+    {
+      "fingerprint": "sb5bfbf94c14",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is a top-level item of the main navigation list, \"AÇÕES\", href /campanhas, alongside INÍCIO, SOBRE A SBIm, EVENTOS and so on. It names a section of the site, and its destination is that section: the live /campanhas page has the banner heading \"Ações\" and filters for Campanha SBIm, Campanhas que apoiamos, Prêmio SBIm de Jornalismo and Outras Ações. A link whose text is the name of the section it opens, in the site's menu, has a determinable purpose. Nothing in the page offers another reading of \"Ações\" for this link. The live header has the same link."
+    },
+    {
+      "fingerprint": "7f20f5a7b046",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the Vaccine Safety Net badge in the footer's bottom band (vsn-logo.png, alt=\"vsn-logo\"). It is not a link, and it sits right beside the text \"Site integrante da Vaccine Safety Net (VSN) – uma rede global de sites validados pela Organização Mundial da Saúde (OMS)\". The alt is the file's base name, so the claim's sentence is true. But F30 only fails file names \"that are not valid text alternatives in their own right\", and its test asks whether the text can replace the image without losing information. Read aloud, \"vsn-logo\" says it is the VSN logo, and the next sentence spells VSN out, so nothing is lost. The badge is arguably redundant with that text, too. I lean towards a pass, but auditors split on file-name-shaped alts like this one. The live HTML is identical."
+    },
+    {
+      "fingerprint": "sd43a0e3f536",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is a footer link under the heading \"Sobre a SBIm\", text \"Diretorias e Representações\", href sobre/regionais (resolving to /sobre/regionais through <base href=\"/\">). The header menu has the same link. The destination title Rampa compared against is the generic title the server sends for every route of the app. The live /sobre/regionais page is the institutional page, and it has the section \"Diretorias e Representações Estaduais\" (\"A SBIm é uma organização presente em quase todo o território nacional, por meio de Diretorias e Representações Regionais\"). So the link text matches where it leads, and it passes 2.4.4. Rampa read only the shell title, never the content. The link is the same on the live page."
+    },
+    {
+      "fingerprint": "p19abc080328",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the envelope icon in the top bar (email-white.svg, alt=\"email\"). It is the only content of a link to mailto:sbim@sbim.org.br, which the visible address link beside it repeats. As the link's name, \"email\" describes the function of the control, writing an email to the site. That is the H30 requirement, and \"email\" (e-mail) is ordinary Portuguese usage. I found no reason it fails 1.1.1, so Rampa missed nothing. The live server HTML has the same image and alt. The href there is Cloudflare's email-protection address, which Cloudflare's decoder script turns into the mailto: the snapshot shows, so the capture matches what a browser gets."
+    },
+    {
+      "fingerprint": "e6c7252df896",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the search field in \"Veja também\". Its only visible instruction and its only name is the placeholder \"Escreva o que deseja buscar\". The live component CSS sets input::placeholder to color var(--bs-light-grey), font-size 14px, font-weight 300, and the page defines --bs-light-grey: #DADADA. On the white field that is about 1.4:1. Sampling the screenshot, the darkest glyph pixel is #dddada, 1.39:1 against white. Placeholder text is visible text that conveys information, and none of 1.4.3's exceptions applies: the field is active, the text is not decorative, and it is not part of a logo. So it needs 4.5:1. I found no technique or capture difference that rescues it."
+    },
+    {
+      "fingerprint": "p8c91f938963",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the footer Instagram link: an icon (alt \"Instagram\") and a visible label \"Instagram\", href https://www.instagram.com/sbim_nacional/, so its name comes out as \"Instagram Instagram\". On SBIm's own site, its purpose (SBIm's Instagram profile) is clear from the text. The only other link with this name, the header icon, goes to the same profile, so there is no ambiguous R1 pair. It passes 2.4.4, and Rampa missed nothing. The live footer HTML has the same link."
+    },
+    {
+      "fingerprint": "s050f67c6eea",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is a footer link under \"Imprensa e notícias\", text \"Newsletter\", href newsletter (resolving to /newsletter). The destination title Rampa compared against is the generic title the server sends for every route. The live /newsletter page has the banner heading \"Newsletter\" and a subscription form (\"Receba nossas novidades... receber notificações sobre novas edições da revista Imunizações ou da nossa newsletter\"). The link text matches its destination, so it passes 2.4.4. Rampa never read the destination's content. The link is the same on the live page."
+    },
+    {
+      "fingerprint": "630fb74b8f35",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the icon in the footer's address link (href to Google Maps). Its src is marker-pin-white.svg, and the crop shows a map pin, but its alt is \"Telefone\", copied from the phone item above it (phone-white.svg, also alt \"Telefone\"). The browser computes the link's name as \"Telefone Rua Luís Coelho, 308 – 5º andar...\", so screen reader users are told this is a phone item when it is an address. As skeptic I asked whether the icon could count as decorative, which would make its alt harmless. It cannot: a decorative image would need a null alt, and this one gives false information. Its alternative does not serve the image's purpose, so it fails 1.1.1 (F30's test). The live HTML has the same markup. The claim names the defect."
+    },
+    {
+      "fingerprint": "f4b6b930643c",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the white SBIm logo at the top left of the footer (sbim-nacional_logotipo-negativo.png, alt=\"\"). It is not a link and repeats the header logo. The claim says it conveys what the text around it does not say, but the same footer names the organisation in text (\"©2024 - Sociedade Brasileira de Imunizações | Todos os direitos reservados\", the heading \"Sobre a SBIm\"), and so does the rest of the page. A repeated branding logo whose organisation is stated in text is often treated as decorative, which makes a null alt acceptable (H67). Some auditors, though, hold that every logo is informative and needs its text. I lean towards a pass, but the point is open to reasonable disagreement. The live HTML has the same alt=\"\"."
+    }
+  ]
+}

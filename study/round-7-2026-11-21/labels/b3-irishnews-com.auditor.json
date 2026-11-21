@@ -1,0 +1,36 @@
+{
+  "page": "https://www.irishnews.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p1cbaf856aa4",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'Place a Notice' link in the header's 'Top Links' navigation, with a visually hidden 'Opens in new window'; it goes to https://secure.irishnews.com/notice. On a newspaper's site the link text alone gives its purpose: placing a notice in the paper. I opened the destination: it is the 'Family Notices - IrishNews' page whose heading is 'Create your notice', so the text matches where it leads. No other link in the snapshot has this name (the neighbouring 'Notices' link has a different name and goes to familynotices.irishnews.com), so R1 does not apply. The live page's raw HTML has the same markup as the snapshot, so nothing in the capture differs for this link. The link meets 2.4.4, and Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "pac22273d4a8",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the 'News' link at the top of a list item in the off-canvas Sections Menu flyout; its parent list item also holds the subsections Northern Ireland, Ireland, UK, World and Politics. It goes to /news, which I opened: it redirects to the News section page at /news/. In a site's section menu, 'News' tells users where the link goes. The only other link named 'News' in the snapshot (in the footer) also goes to /news, the same resource, so the shared-name rule (R1) finds nothing to fail. The live raw HTML has the same two identical 'News' links, so nothing in the capture differs. The link meets 2.4.4, and Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "p7d5cfc72a72",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is a headline link inside an h2 in a story card in the Sport section: 'The eye of the hurricane: How Crossmaglen's first Ulster title 30 years ago changed everything'. The full headline describes the story it opens, and the destination Rampa read has that same title and heading. The two other links with this name in the snapshot, and the aria-hidden image link in the same card, all go to the same article URL, so the shared-name rule (R1) finds nothing to fail. The screenshot shows the headline as rendered text, and the live raw HTML holds the same three headline links with the same href, so nothing in the capture differs. The link meets 2.4.4, and Rampa was right to report nothing."
+    }
+  ]
+}

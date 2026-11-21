@@ -1,0 +1,83 @@
+{
+  "page": "https://www.febrasgo.org.br/noticia/cancer-na-infancia-pode-deixar-marcas-na-fertilidade-e-essa-conversa-precisa-comecar-no-diagnostico/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p0ac75f6cda4",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the thumbnail of the first card in the 'Veja mais conteúdos' carousel, a stock photo of hands holding a gold childhood-cancer ribbon. It is not inside a link (the only link in the thumbnail is the separate 'Ver notícia' arrow). Its alt is the headline of the story it illustrates, and the h5 just after it repeats that headline. The alt names the subject the photo stands for, so it serves the image's purpose. The photo is not pure decoration in WCAG's sense, so F39 does not clearly apply, and repeating the heading is a redundancy (a best-practice note) rather than a 1.1.1 failure. The live HTML has the same img, alt and card structure, so the capture matches the page users get. Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "p93da7ada276",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The second carousel card's thumbnail, a stock photo of a pregnant Black woman. It is not inside a link. Its alt is the story's headline about sickle-cell disease and maternal death in Black women, and the h5 below repeats it. The alt identifies what the illustration stands for, so it serves the image's purpose. Repeating the visible heading is a redundancy, not a 1.1.1 failure, and F39 does not clearly apply to an illustrative news photo. The live HTML matches the snapshot (same src and alt). Rampa was right to stay silent."
+    },
+    {
+      "fingerprint": "pfc6fabd2c7f",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The tenth carousel card's thumbnail, a stock photo of newborn feet, in a slick slide that is offscreen and aria-hidden when captured. Slick toggles aria-hidden as the slide comes into view. Its alt is the Novembro Roxo prematurity headline, which the h5 repeats. It is not a link. As with the other cards, the alt names what the illustration stands for and is redundant with the heading, not a 1.1.1 failure. While the slide is hidden, the image is not presented to assistive technology at all. The live HTML has the same image and alt. No failure was missed."
+    },
+    {
+      "fingerprint": "p3f9198cd73a",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the header button-link 'Centro de Treinamento' to /centro-de-treinamento, whose destination is titled 'Centro de Treinamento | Febrasgo' with the same h1. The link text alone gives its purpose. For R1, no other link on the page has the exact name 'Centro de Treinamento', and the similarly named links ('... e Simulação', '... (CTS)') lead to the same page anyway. The live HTML has the same link and href. The full-page screenshot does not show the fixed header, but that does not touch the link's text or purpose. It passes 2.4.4, and Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "p6c9f8c47ba0",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the footer link 'Centro de Treinamento e Simulação (CTS)' under the h6 'Ensino', leading to the Centro de Treinamento page. The text alone describes the destination. It shares its name with no other link, and the related links go to the same address. The live footer has the same link. It passes 2.4.4."
+    },
+    {
+      "fingerprint": "s90dc0dd9994",
+      "answers": { "claimTrue": "cannot_tell", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "This is the footer legal-row link 'Cookies' to /politica-de-privacidade. The capture holds only the destination's title and h1 ('Política de privacidade'), so it cannot show whether the page is about cookies. That is why claimTrue is cannot_tell: the title part of the claim is accurate, but the mismatch it asserts cannot be checked there. I opened the destination: its document is headed 'AVISO DE PRIVACIDADE E COOKIES' and covers cookies throughout (dozens of mentions). So a user who follows 'Cookies' reaches the site's cookie notice, and the link's purpose is accurately described. It passes 2.4.4. The sibling links 'Termos de Uso', 'Acessibilidade' and 'LGPD' also point to this page and may have their own problems, but they are not this element. The live footer is unchanged. False positive: the checker lacked the destination's body content."
+    },
+    {
+      "fingerprint": "842081d282ba",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the cookie banner's 'Aceitar e continuar no site' control, which the live HTML shows as <div class=\"btn aceito\" onclick=\"AcceptCookies();\">. AcceptCookies() in main.js sets the 'privacy' cookie and hides the banner. The div has no role and no tabindex, so it is exposed as generic and is not announced as a button: that is exactly F59, a 4.1.2 failure. It is also not keyboard-operable, which is a 2.1.1 issue. main.js shows the banner whenever the 'privacy' cookie is absent, so first-time visitors get it just as the capture did. The claim names the real failure."
+    },
+    {
+      "fingerprint": "s69a0109dcdf",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'Social' is a main-navigation dropdown toggle (<a href=\"#\" data-bs-toggle=\"dropdown\">). It sits beside the other section toggles (A Febrasgo, Ensino, Publicações, Residentes...) and opens the Social submenu ('Campanhas informativas', 'Feito Para Ela'), which lives in the same list item. It does not go anywhere: its purpose is to open the 'Social' menu, and its text names that menu, so the purpose can be determined. The claim that nothing around it tells its purpose is not true of the capture: the snapshot shows the dropdown toggle and its own submenu in the same li. The real defect is 4.1.2: it is exposed as a link with no button role and no aria-expanded until Bootstrap sets it. That is not a 2.4.4 failure. The live HTML is the same. The checker had this context and judged wrongly."
+    },
+    {
+      "fingerprint": "pf364936a63d",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the footer link 'Livros' under the h6 'Publicações', leading to /livros/ ('Livros | Febrasgo', heading 'Biblioteca FEBRASGO.'). The text plus the preceding heading describe the destination. For R1, the only other 'Livros' link (in the nav's Publicações submenu) goes to the same address. The live footer is unchanged. It passes 2.4.4."
+    },
+    {
+      "fingerprint": "pb8917227c30",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the header logo, an image that is the only content of the link to the home page, with alt 'Febrasgo'. The crop shows the 'febrasgo' wordmark. The alt matches the wordmark and gives the link the name of the site it leads to, in the same way as H30's 'Smallville Times' example. The snapshot's AX tree gives the link the name 'Febrasgo' (the packet's null link name is only a gap in the packet). The live HTML is the same. It passes 1.1.1, and Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "fbf238ce71b1",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the floating contact button at the bottom right: <div class=\"btn-flutuante\" onclick=\"toggleMenuBtnFlutuante()\"> holding an untitled speech-bubble SVG. It toggles the contact menu (Associados, Cursos em GO, Comercial mailto links). It has no role, no accessible name and no tabindex, so assistive technology exposes it as a generic element and does not announce it as a button: F59, a 4.1.2 failure. It also has no name, which is another part of 4.1.2. The live HTML and main.js match the capture, and the screenshot shows the button. The claim names the missing role, which is the real failure."
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "page": "https://asthma.ie/could-it-be-severe-asthma-join-our-upcoming-free-webinar/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "pfefe51e0a62",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the YouTube icon in the footer's social list, the only content of a link to https://www.youtube.com/user/AsthmaSocietyIRL, with alt=\"youtube\" (and title \"youtube\"). By H30 and the G82 test, the alternative of an image that is all a link holds must describe the link's function; \"youtube\", read in a site footer's row of social icons, names the destination (the society's YouTube channel), which is what H30's example does with a destination name. It passes 1.1.1, so Rampa missed nothing. captureDiffers: the live page (WebFetch) has the same link, href and alt, and the screenshot is fully styled; no difference."
+    },
+    {
+      "fingerprint": "8dede20c5036",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the Department of Rural and Community Development logo in the footer funders' list, alt=\"dept-rural-dev-removebg-preview\", identical to its src file name dept-rural-dev-removebg-preview.png, so the claim holds. I looked for a reason it could pass: the next paragraph does name the Department, which would let the logo be treated as redundant, but a redundant image passes only when AT can ignore it (null alt); a file-name alternative is read aloud and is exactly failure F30 (text alternatives that are not alternatives, e.g. file names). The title repeats the same string. The live page (WebFetch) has the same alt and the screenshot shows the logo as captured, so the capture does not differ."
+    },
+    {
+      "fingerprint": "d5e78edf2aee",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer badge reading \"Charities Institute Ireland, 2026 Triple Lock Member, Promoting Trust\" (src CMYK_Cii_TRIPLE_LOCK_MASTER_White-1.svg), not a link, with alt=\"logo\". \"logo\" is not the file name but it is a generic placeholder, so the disjunctive claim holds. The badge conveys a membership/trust credential; \"logo\" says neither whose logo nor what it certifies, and no text on the page says \"Triple Lock\" (the only \"Charities Institute\" text is an unrelated award news card), so it is neither redundant nor decorative: F30 applies and 1.1.1 fails. The live page has the same alt=\"logo\" and the screenshot shows the styled footer; no capture difference."
+    },
+    {
+      "fingerprint": "e3076be38969",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image under the \"Meet our speakers\" heading, alt=\"\" (role presentation), showing three photos with names and roles: Eilís Ní Chaithnía (CEO, Asthma Society), Paula Hallahan (Respiratory Clinical Nurse Specialist), Prof Marcus Butler (Consultant Respiratory Physician). The claim holds in substance: the image is hidden and the names appear nowhere else in the snapshot (searched for Hallahan, Butler, Chaith: none) nor on the live page (WebFetch); its transcription misspells two names (\"Chaitinnia\", \"Hallchan\"), which does not change what it points at. I found no technique that would make it pass: no caption, adjacent text, long description or aria-describedby; the heading alone does not convey who speaks. An informative image of text with a null alternative fails 1.1.1. The live page has the same empty alt and the screenshot shows the image rendered as captured, so the capture does not differ."
+    },
+    {
+      "fingerprint": "sb87570f597c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the X/Twitter icon, the only content of a footer link to https://x.com/AsthmaIreland, alt and title \"twitter\". The claim that \"twitter\" does not say where the link leads is not true: it names the destination platform, and in the footer's row of social icons it identifies the link as the society's Twitter/X account; Twitter remains the widely known name of x.com. Under H30 and the G82 test (R2's first step), an alternative that names the destination describes the link's purpose, as H30's \"Smallville Times\" example does; requiring the account owner's name is beyond what 1.1.1 asks. The model had the alt and the href and judged wrongly (it reported nothing on the identical \"youtube\" icon). The live page has the same link and alt and the screenshot is styled; no capture difference."
+    }
+  ]
+}

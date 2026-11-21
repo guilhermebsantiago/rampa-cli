@@ -1,0 +1,69 @@
+{
+  "page": "https://transparencia.sesisp.org.br/sac",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s739e8861b19",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is <a href=\"#collapse_do_saiba_mais\" data-toggle=\"collapse\">Ver mais</a>, a disclosure link that expands hidden text about exercising LGPD rights, with a link to the data subject request form. It has no title and no aria-describedby. It is not inside the paragraph above it: the LGPD text is in a sibling div.card-title inside the card body, which is a neighbouring block. The heading just before it is the h2 'SAC - Serviço de Atendimento ao Cidadão', and that does not say what 'Ver mais' reveals. The card title 'Falar sobre seus dados pessoais' is a styled div.menu-title, not a heading. So under this round's context list nothing gives the purpose. Only the visual card title and the neighbouring paragraph explain the link, and that is the [visual context] case, which the rubric scores as a failure. claimTrue: the snapshot matches the sentence ('Ver mais' alone, no programmatic context that tells). captureDiffers: the live HTML fetched today is the same markup. The full-page screenshot shows the fixed header painted over the button area, but that is a stitching artefact of the image and does not touch this DOM-based claim. The claim names the real failure, so the label is true_positive."
+    },
+    {
+      "fingerprint": "s1a7946e6e5d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the header's site search box: placeholder 'Localizar', aria-label 'Título do Curso', followed by a magnifier button whose Filtrar() sends the text to /busca (a Google site search). In WCAG's definition, a label is the text presented to all users. Here that is 'Localizar' ('Find') on a field paired with a search button, which describes the field's purpose (search the site) as 2.4.6 and G131 require. 2.4.6 does not require the label to spell out the input format. claimTrue is no: in that setting, 'Localizar' does tell users to type what they want to find. The claim demands a stricter, instruction-like label. The aria-label 'Título do Curso' is a leftover that misnames the field for assistive-technology users. That is the accessible name, not the presented label, so it is a 2.5.3 Label in Name / 4.1.2 concern rather than 2.4.6, and the claim does not point at it anyway. aria-describedby points to a missing id 'basic-addon2'. The live HTML is identical to the snapshot. The element does not fail 2.4.6: false_positive."
+    },
+    {
+      "fingerprint": "saf73e2c524f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page title is 'Transparência - Sesi-SP - Serviço Social da Indústria Serviço de Atendimento ao Cidadão'. Its last part, 'Serviço de Atendimento ao Cidadão', is exactly this page's topic: it matches the breadcrumb and the h2 'SAC - Serviço de Atendimento ao Cidadão'. The site and organisation precede it. The missing separator before 'Serviço de Atendimento' is cosmetic. So the claim that the title says nothing about this page is false, and the title describes the page's topic and purpose (2.4.2 met). The live page sends the same <title>. false_positive: the model had the title and judged it wrongly."
+    },
+    {
+      "fingerprint": "pc71f6bec2cc",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the sidebar menu link 'Dados de Infraestrutura' (shown uppercase by CSS) to /dados-infraestrutura, nested under the 'Transparência' list item. I opened the destination: its h2 is 'Dados de Infraestrutura', and it lists SESI-SP's schools and service units with addresses, phones and people responsible, by year. The link text alone describes the purpose, and no other link on the page shares the name. The live markup is the same as the snapshot. It meets 2.4.4, so Rampa missed nothing."
+    },
+    {
+      "fingerprint": "p72fb82de3ec",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the top-bar link 'Acessibilidade:' with title 'Acesso à página de acessibilidade' to /acessibilidade. Visually it reads like a label for the A+/A-/Contraste controls, but its text plus the title (H33) clearly give the purpose. The destination is the site's accessibility help page: its h2 is 'Acessibilidade', with sections on font size, link navigation, Libras and NVDA. The name is unique on the page, and the live markup matches the snapshot. It meets 2.4.4, so Rampa missed nothing."
+    },
+    {
+      "fingerprint": "p699bb2ab276",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the VLibras widget's pop-up image (img#vlibras-popup, alt 'Acessível com VLibras'). The live widget script injects the same markup. The image slides out beside the VLibras button on hover or focus. The crop, enlarged, shows the VLibras avatar figure and two lines of text that read 'Acessível com VLibras', so the alt reproduces the image's text and conveys its purpose. The adjacent button has its own aria-label. The image has a text alternative that serves the equivalent purpose, so 1.1.1 is met and Rampa missed nothing."
+    }
+  ]
+}

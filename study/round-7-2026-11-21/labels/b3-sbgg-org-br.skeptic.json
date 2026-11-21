@@ -1,0 +1,132 @@
+{
+  "page": "https://sbgg.org.br/gga-passa-a-integrar-a-colecao-scielo-brasil/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "959425bf5af4",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer image link to https://itargettecnologia.com.br (the site developer's credit). The image is all the link holds, and its alt is \"itarget-icon\" (title the same); the crop shows a blue logo mark with no text. Claim: the alt contains \"itarget\", the destination's own name (the href is itargettecnologia.com.br), so it does say where the link leads in the sense of the rubric's first R2 step and H30's example (an alternative naming the destination), and the sentence is not true of the capture. Element: read as link text, \"itarget-icon\" lets users tell the link goes to iTarget, so my lean is that it meets 1.1.1, but it is the file's name with an \"-icon\" suffix, and auditors applying F30 (filenames used as alternatives) would reasonably call it a failure; that disagreement makes the label uncertain. Capture: the live HTML has the same img, alt and title."
+    },
+    {
+      "fingerprint": "4dabb2d24a4b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Italic lead sentence of the article body (em, 16px, weight 400). The live CSS gives the text-editor widget color var(--e-global-color-text), which the Elementor kit sets to #7A7A7A, on the white page; the screenshot's darkest text pixel is #7a7a7a on #ffffff. That is 4.29:1, below the 4.5:1 that 1.4.3 requires for text that is not large (16px regular is far from 18pt). I looked for a reason it could pass (a darker computed color, a large-text size, a non-white background, a background image showing behind it) and found none. Live page has the same markup and style sheet."
+    },
+    {
+      "fingerprint": "b01b28127208",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Sidebar map link (\"Fale Conosco\" block) whose only visible content is a Font Awesome map-marked-alt glyph; its name comes from screen-reader-only text. The live CSS for widget 465f527 sets the icon color to #31c5ff on a transparent background (rgba(255,255,255,0)) over the white page, and the screenshot shows #31c5ff on #ffffff, 1.99:1. With no visible text or border, the icon is the visual information that identifies the control, so 1.4.11 asks for 3:1 (G207). No logo or essential-presentation exception applies to a generic map icon. Visible and identical on the live page."
+    },
+    {
+      "fingerprint": "db89ec10fed8",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Last breadcrumb item (strong, white, 13.6px bold) in the page hero. A reason to doubt: Rampa's own screenshot shows the hero behind it at about #0b718c to #0e677f, 5.5 to 6.4:1. But the live CSS (custom CSS for section 59487b8) paints the hero with linear-gradient(270deg, #212529, #0097bd, #30b1c6) at background-size 600% and animates background-position 0% -> 100% -> 0% over 11s, infinitely. At 0%, which is where the animation starts on load and returns every cycle, the box shows the #30b1c6 end of the gradient, about #28acc2 at the center, matching the #27acc4 to #29aec5 Rampa measured (the snapshot's pixelContrast records it). White on that is about 2.6 to 2.7:1. Even #0097bd gives only 3.4:1, so for much of the cycle this small text is under 4.5:1. Understanding 1.4.3 measures contrast against the background the text is rendered over in normal usage, and in normal usage the text repeatedly sits on the light phase. The screenshot is simply a different frame of the same animation users receive, so the capture does not differ in a way that matters."
+    },
+    {
+      "fingerprint": "pe4cea74b3b8",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Sidebar link \"SBGG Artigos N° 105\" (inside an h3, under the h5 \"Artigos SBGG\"), href /sbgg-artigos-n-105/. The destination's title and heading are \"SBGG Artigos N° 105\", so the link text alone gives its purpose. It is the only link in the accessibility tree with that name, so the shared-name rule does not come into play. It meets 2.4.4, and Rampa was right to report nothing. The live page has the same link."
+    },
+    {
+      "fingerprint": "e3c1eb41e960",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The word \"saudável\" in the bold subheading \"Ciência aberta e compromisso com o envelhecimento saudável\" (strong, 16px, 700). The text-editor color is #7A7A7A (Elementor kit global text color) on white, confirmed by the screenshot pixels: 4.29:1. Bold text counts as large only from 14pt (about 18.7px), so 16px bold needs 4.5:1 and fails. I found no darker override, no non-white background and no other reason for it to pass."
+    },
+    {
+      "fingerprint": "p04f7afe6a85",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Sidebar menu link \"Releases\" in the list under the h5 \"Notícias\" (Notícias, Na mídia, Releases, Informativo, Entrevista, Livro). It goes to /123noticias/releases/, titled \"Releases - SBGG\", a list of press releases. The link text, read under the preceding heading \"Notícias\", gives that purpose. The only other \"Releases\" link (the mobile dropdown copy) is hidden and has the same href, so there is no shared-name problem. It meets 2.4.4, and Rampa was right to report nothing. The live page has the same menu."
+    },
+    {
+      "fingerprint": "c351e73efb91",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Breadcrumb link \"SBGG\" (white, 13.6px regular; widget 4839696 sets the color to #ffffff) in the hero. Same situation as the other breadcrumb items: the screenshot frame shows a darker teal (about 5.6:1), but the hero background is an infinitely animated 600% gradient running from #30b1c6 to #212529 (custom CSS on section 59487b8). It starts at the light end, where Rampa measured #2aaec5 (snapshot pixelContrast): white on that is 2.64 to 2.67:1, and the text stays under 4.5:1 for a large part of each 11s cycle. Users receive that animation, so the text fails 1.4.3 in normal usage. The screenshot frame is part of the same animation, so the capture does not differ."
+    },
+    {
+      "fingerprint": "e9a87eadae3b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Inline link \"https://ggaging.com\" at the end of the article body (16px, 400). The site's custom CSS (wp-custom-css) sets a {color:#0095bb}, and the screenshot's darkest link pixel is #0095bb on #ffffff: 3.49:1, below the 4.5:1 that 1.4.3 requires for normal-size text. Nothing makes it large text or puts it on a darker background. Same CSS on the live page."
+    },
+    {
+      "fingerprint": "be61ec8f2bc2",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Page h1 \"GGA passa a integrar a Coleção SciELO Brasil\" (white, Roboto Condensed 56px, weight 300). That is large text, so 1.4.3 asks for 3:1. A reason to doubt: in Rampa's screenshot the hero behind it runs from #067f9e to #115b70, 4.6 to 7.6:1, which passes. But the live CSS animates the hero background (linear-gradient(270deg, #212529, #0097bd, #30b1c6), 600% size, background-position 0% -> 100% -> 0%, 11s, infinite). At the starting 0% position, shown on load and again every cycle, the whole hero is light teal (#30b1c6 to about #20acc2), and white on it is 2.5 to 2.8:1, matching Rampa's measured #2eb0c6 to #22a9c3. The heading is therefore under 3:1 during part of normal use, starting at load. Users receive the same animation, so the capture's different frame does not change the claim."
+    },
+    {
+      "fingerprint": "6170da8c0143",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Breadcrumb link \"Início\" (white, 13.6px regular) in the hero. The screenshot frame behind it is about #0b728d (5.5:1), but the hero's background is the infinitely animated 600% gradient from the custom CSS on section 59487b8. It starts at, and keeps returning to, the #30b1c6 end, where Rampa measured #2aaec5 to #2baec5 (snapshot pixelContrast): white on that is 2.64 to 2.67:1. Even the gradient's middle stop #0097bd only gives 3.4:1. In normal usage this small text repeatedly falls below 4.5:1, so it fails 1.4.3. The screenshot is another frame of the same animation, not a different page."
+    },
+    {
+      "fingerprint": "s87b652053a5",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "Link \"https://ggaging.com\" ending the sentence \"Acesse a GGA e conheça as pesquisas publicadas: https://ggaging.com\" in the article body. The claim is true as a sentence: the link text is an address. But 2.4.4 does not forbid URLs as link text; it asks that the purpose be determinable from the link text together with its programmatically determined context. Here the same sentence states the purpose: go to the GGA journal and read its published research. The URL also names the journal's site (ggaging = Geriatrics, Gerontology and Aging, introduced at length in the article). The link meets 2.4.4. The checker applied a stricter rule (a URL is not a purpose) than the criterion requires. Same text on the live page."
+    },
+    {
+      "fingerprint": "0e8803895659",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Sidebar Facebook link whose only visible content is the Font Awesome facebook glyph; its name comes from screen-reader-only text. The live CSS for widget 465f527 colors the icon #31c5ff on a transparent background over the white page, and the screenshot shows #31c5ff on #ffffff, 1.99:1. The icon is the only visual information identifying the control, so 1.4.11 asks for 3:1 (G207). 1.4.11 has no logo exception, and #31c5ff is not Facebook's brand blue, so no essential-presentation argument holds. Visible and unchanged on the live page."
+    },
+    {
+      "fingerprint": "d796077fce10",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Bold subheading text \"Ciência aberta e compromisso com o envelhecimento\" (strong, 16px, 700) in the article body. Its color is the Elementor global text color #7A7A7A on white (CSS and screenshot pixels agree): 4.29:1. 16px bold is not large text (that needs 14pt bold, about 18.7px), so the threshold is 4.5:1 and it fails 1.4.3. I found no override or background that would make it pass."
+    },
+    {
+      "fingerprint": "4c98dced18cd",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Footer image under the h5 \"Fliliada a:\" (not a link). The crop shows the AMB logo with \"Associação Médica Brasileira\" beneath it; its alt and title are \"csm_logo_amb2\", the file's name. Claim: the alt does refer to what the image shows (an AMB logo), apart from the \"csm_\" prefix and \"2\" suffix, so \"describes something the image does not show\" is not accurate as worded. Element: a filename with prefix and suffix noise, where \"amb2\" is not even the plain acronym, is not a real alternative for the logo (F30). It leaves out the organisation's name, so my lean is that it fails 1.1.1. Still, the alt carries \"logo amb\" under a \"Filiada a\" heading, so auditors could reasonably differ on whether it conveys enough, and on whether this claim names the filename defect. Label uncertain. The live HTML has the same alt."
+    },
+    {
+      "fingerprint": "de0be614a776",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The article body container (text-editor widget 1c425a6, 16px, 400), whose running text is styled with var(--e-global-color-text) = #7A7A7A on white. The screenshot confirms it: darkest text pixel #7a7a7a, 4.29:1 against #ffffff. Body text at 16px needs 4.5:1, so it fails 1.4.3. The only reason I could find to doubt it, the background image axe-core mentioned, does not show behind the text in the screenshot (the background there is white), and the live CSS is the same."
+    },
+    {
+      "fingerprint": "p1858cda6184",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "16x16 author avatar (a Gravatar falling back to the SBGG default avatar) in the post meta list, alt \"RSPRESS\", next to the author name \"RSPRESS\" in the same list item. The alt identifies whose avatar it is, which is the image's purpose. Repeating the adjacent text is redundant but not a 1.1.1 failure. It meets 1.1.1, and Rampa was right to report nothing. The live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "bb970ef87ff7",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Bold subheading \"O que essa conquista representa?\" (strong, 16px, 700) in the article body, styled with the Elementor global text color #7A7A7A on white. The screenshot's darkest pixel is #7a7a7a: 4.29:1. 16px bold is below the 14pt-bold large-text threshold, so it needs 4.5:1 and fails 1.4.3. I found no override, other background or exception."
+    }
+  ]
+}

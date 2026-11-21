@@ -1,0 +1,115 @@
+{
+  "page": "https://www.oliverbonas.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "5c69cae6c4ac",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is hero tile 3's text link 'Christmas Gifts' to /christmas-gifts/all-christmas-gifts, the one link of the set that goes elsewhere. Six links on the page are named 'Christmas Gifts' (top nav, the New In mega-menu image tile, the Gifts mega-menu list item, hero tiles 1 and 3, the footer), none with a title, aria-describedby or preceding heading, so their contexts do not tell them apart. Five go to /christmas-gifts and one, hero tile 3, goes to /christmas-gifts/all-christmas-gifts, so the claim's '6 links, 2 places' holds of the capture (claimTrue yes). I opened both: /christmas-gifts is the Christmas Gifts hub (curated Christmas gift categories, a Christmas gift carousel, a link to All Christmas Gifts) and the other is its full Christmas gift product listing, a child page in the breadcrumb. Both meet the expectation the name 'Christmas Gifts' sets and give the same advertised key content, so they are equivalent resources under R1. Nothing visible tells users that the hero tile leads to a different kind of page either: it is a photo tile labelled 'Christmas Gifts', like the nav item. So the set meets fd3a94 and 2.4.4. captureDiffers: no, the live HTML has the same six links and hrefs. False positive: it counted a different URL as a different purpose (criterion_misapplied)."
+    },
+    {
+      "fingerprint": "5cfbe75f9e30",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is 'Bestsellers' in the Accessories & Bags mega-menu panel, linking to /accessories/bestsellers. The five 'Bestsellers' links in the snapshot are mega-menu items, each alone in its own list item, in panels that are not nested inside the top-level nav list items, with no title, aria-describedby or heading before them (the page has no heading before the footer), so their contexts are identical and they form one R1 set. They lead to five non-equivalent pages: New In, Clothing ('Most Wanted Fashion'), Homeware, Accessories and Gift bestsellers. The panels are clipped visually but rendered and exposed in the accessibility tree, so all five are reachable together. A sighted user sees which panel is open (under the highlighted top-level item, beside 'New In X' and 'Shop All X'), so visual information tells them apart: every link of the set fails 2.4.4 by R1. claimTrue: yes, five links, five destinations, nothing in programmatic context differs. captureDiffers: no, the live server HTML has the same menu markup and hrefs, with no aria or nesting. The claim names this failure: true positive."
+    },
+    {
+      "fingerprint": "s589199acc3d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the image tile link 'Christmas Gifts' in the New In mega-menu panel, linking to /christmas-gifts (its image is hidden in the capture, so the name is the caption). Every other link of its set goes to the same page or to its equivalent all-products listing. Six links on the page are named 'Christmas Gifts' (top nav, the New In mega-menu image tile, the Gifts mega-menu list item, hero tiles 1 and 3, the footer), none with a title, aria-describedby or preceding heading, so their contexts do not tell them apart. Five go to /christmas-gifts and one, hero tile 3, goes to /christmas-gifts/all-christmas-gifts, so the claim's '6 links, 2 places' holds of the capture (claimTrue yes). I opened both: /christmas-gifts is the Christmas Gifts hub (curated Christmas gift categories, a Christmas gift carousel, a link to All Christmas Gifts) and the other is its full Christmas gift product listing, a child page in the breadcrumb. Both meet the expectation the name 'Christmas Gifts' sets and give the same advertised key content, so they are equivalent resources under R1. Nothing visible tells users that the hero tile leads to a different kind of page either: it is a photo tile labelled 'Christmas Gifts', like the nav item. So the set meets fd3a94 and 2.4.4. captureDiffers: no, the live HTML has the same six links and hrefs. False positive: it counted a different URL as a different purpose (criterion_misapplied)."
+    },
+    {
+      "fingerprint": "3bb9bc875b77",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the footer newsletter sign-up field: input type=email name=email placeholder 'Email', with no autocomplete attribute. It collects the user's own email address, a purpose in the WCAG Input Purposes list ('email'). type=email gives the data type, not that the address is the user's, and H98's autocomplete is the documented way to meet 1.3.5, so it fails. claimTrue: yes, the attribute is missing in the captured HTML, and the snapshot records Chromium's form issue FormInputAssignedAutocompleteValueToIdOrNameAttributeError for this input. captureDiffers: no, the live server HTML has the same input without autocomplete. The claim names the failure: true positive."
+    },
+    {
+      "fingerprint": "sd0e516bdd2c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the top-nav link 'Jewellery' (/jewellery). Two links are named 'Jewellery': the top-nav item (/jewellery) and a home-page hero tile (/jewellery/all). Neither has a title, aria-describedby or preceding heading, so the context does not tell them apart and they form an R1 set (claimTrue yes: two links, two URLs). I opened both. /jewellery is the Jewellery category hub (h1 'Jewellery', jewellery sub-categories, bestseller and new-in jewellery carousels). /jewellery/all is the 'All Jewellery' product listing, a child page in the breadcrumb. Both give what the name 'Jewellery' advertises, so they are equivalent resources under R1. Nothing visible suggests a different destination either: the tile is a bracelet photo labelled 'Jewellery'. The pair meets fd3a94 and 2.4.4. captureDiffers: no, the live HTML has the same links and hrefs. False positive: it treated a different URL as a different purpose (criterion_misapplied)."
+    },
+    {
+      "fingerprint": "1c24b06b333d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the hero tile's text link 'Jewellery' (/jewellery/all), visible in white over a bracelet photo. Two links are named 'Jewellery': the top-nav item (/jewellery) and a home-page hero tile (/jewellery/all). Neither has a title, aria-describedby or preceding heading, so the context does not tell them apart and they form an R1 set (claimTrue yes: two links, two URLs). I opened both. /jewellery is the Jewellery category hub (h1 'Jewellery', jewellery sub-categories, bestseller and new-in jewellery carousels). /jewellery/all is the 'All Jewellery' product listing, a child page in the breadcrumb. Both give what the name 'Jewellery' advertises, so they are equivalent resources under R1. Nothing visible suggests a different destination either: the tile is a bracelet photo labelled 'Jewellery'. The pair meets fd3a94 and 2.4.4. captureDiffers: no, the live HTML has the same links and hrefs. False positive: it treated a different URL as a different purpose (criterion_misapplied)."
+    },
+    {
+      "fingerprint": "6797bf34e672",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is 'Bestsellers' in the Gifts mega-menu panel, linking to /gift/category/bestsellers. The five 'Bestsellers' links in the snapshot are mega-menu items, each alone in its own list item, in panels that are not nested inside the top-level nav list items, with no title, aria-describedby or heading before them (the page has no heading before the footer), so their contexts are identical and they form one R1 set. They lead to five non-equivalent pages: New In, Clothing ('Most Wanted Fashion'), Homeware, Accessories and Gift bestsellers. The panels are clipped visually but rendered and exposed in the accessibility tree, so all five are reachable together. A sighted user sees which panel is open (under the highlighted top-level item, beside 'New In X' and 'Shop All X'), so visual information tells them apart: every link of the set fails 2.4.4 by R1. claimTrue: yes, five links, five destinations, nothing in programmatic context differs. captureDiffers: no, the live server HTML has the same menu markup and hrefs, with no aria or nesting. The claim names this failure: true positive."
+    },
+    {
+      "fingerprint": "a091927a24a3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is 'Bestsellers' in the Clothing mega-menu panel, linking to /fashion/most-wanted (heading 'Clothing Bestsellers'). The five 'Bestsellers' links in the snapshot are mega-menu items, each alone in its own list item, in panels that are not nested inside the top-level nav list items, with no title, aria-describedby or heading before them (the page has no heading before the footer), so their contexts are identical and they form one R1 set. They lead to five non-equivalent pages: New In, Clothing ('Most Wanted Fashion'), Homeware, Accessories and Gift bestsellers. The panels are clipped visually but rendered and exposed in the accessibility tree, so all five are reachable together. A sighted user sees which panel is open (under the highlighted top-level item, beside 'New In X' and 'Shop All X'), so visual information tells them apart: every link of the set fails 2.4.4 by R1. claimTrue: yes, five links, five destinations, nothing in programmatic context differs. captureDiffers: no, the live server HTML has the same menu markup and hrefs, with no aria or nesting. The claim names this failure: true positive."
+    },
+    {
+      "fingerprint": "d481ecd8dedb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is 'Bestsellers' in the Homeware mega-menu panel, linking to /homeware/category/bestsellers. The five 'Bestsellers' links in the snapshot are mega-menu items, each alone in its own list item, in panels that are not nested inside the top-level nav list items, with no title, aria-describedby or heading before them (the page has no heading before the footer), so their contexts are identical and they form one R1 set. They lead to five non-equivalent pages: New In, Clothing ('Most Wanted Fashion'), Homeware, Accessories and Gift bestsellers. The panels are clipped visually but rendered and exposed in the accessibility tree, so all five are reachable together. A sighted user sees which panel is open (under the highlighted top-level item, beside 'New In X' and 'Shop All X'), so visual information tells them apart: every link of the set fails 2.4.4 by R1. claimTrue: yes, five links, five destinations, nothing in programmatic context differs. captureDiffers: no, the live server HTML has the same menu markup and hrefs, with no aria or nesting. The claim names this failure: true positive."
+    },
+    {
+      "fingerprint": "p03e89e2cb1c",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No claim. The element is the 'New In' list item in the New In mega-menu panel, linking to /new-in/all ('All New In'). 'New In' describes the purpose (new arrivals) on its own. The only other link with that name on the page, the top-nav 'New In', goes to the same /new-in/all, so there is no shared-name failure under R1. It meets 2.4.4. captureDiffers: no, the live server HTML has the same two 'New In' links to /new-in/all."
+    }
+  ]
+}

@@ -1,0 +1,252 @@
+{
+  "page": "https://correiodoestado.com.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "e722b1464104",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The header subscribe link holds <p class=\"titulo-rodape\">A S S I N E</p>: the word is typed with a space between each letter, both in the snapshot and in the live HTML. That is failure F32 of 1.3.2 (white space used to space the letters of a word), and screen readers read it letter by letter. The link's title=\"Assine\" adds a description but leaves the content unchanged. The claim names this failure."
+    },
+    {
+      "fingerprint": "sb16492d00d8",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The h4 is the headline of a news card (kicker, share icons, photo, then the headline as a link). It matches the story it links to (the destination page's h1 is the same text). The content after it in reading order is the next card (Seis aeroportos), so the sentence holds in a narrow sense. But in a card listing each headline labels its own card, and this one describes its topic accurately, so 2.4.6 is met. The live page has the same card. The checker had the card's context in its ancestors and read the layout wrongly."
+    },
+    {
+      "fingerprint": "d7c0853bc950",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"/ 2 horas\" is p.info-noticia-2 inside the 'infraestrutura' kicker link: 14px, bold inherited from the link, colour #939393 on a white card background, as the screenshot shows. #939393 on #ffffff is 3.07:1, below the 4.5:1 that 1.4.3 requires for text that is not large. The live stylesheet (build/assets/home-DmyJh9gP.css) still sets this colour on this class and the live HTML has the same markup, so the capture matches what users receive. The time of the story has moved on live; that does not affect the colour."
+    },
+    {
+      "fingerprint": "61815ddf353e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"/ 2 dias\" is p.info-noticia-3 (12px, bold, colour #b1b1b1 in the CSS) on a white background in the subscribers' section. That is 2.14:1, well below 4.5:1. The screenshot shows the light grey text. The live stylesheet (build/assets/home-DmyJh9gP.css) still sets this colour on this class and the live HTML has the same markup, so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "cc0e195bc4cb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Ensino superior' kicker is a.item-categoria.categoria-destaque. Its section class 'economia/empregos-e-carreira' is one token, so none of the section colour rules match it, and it keeps .item-categoria's #939393 at 18px bold. 18px bold is under the 14pt (18.67px) bold threshold for large text, so 4.5:1 applies, and the text has 3.07:1 on white. The screenshot shows grey 'ENSINO SUPERIOR'. The live stylesheet (build/assets/home-DmyJh9gP.css) still sets this colour on this class and the live HTML has the same markup, so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "e49f4dbe994a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'REFORMA ADMINISTRATIVA' kicker is .item-categoria.politica, coloured var(--politica) = #77A339, at 18px bold, on white. That is 2.97:1. 18px bold is not large text (14pt bold is 18.67px), so 4.5:1 applies, and the text would fail even 3:1. The live stylesheet (build/assets/home-DmyJh9gP.css) still sets this colour on this class and the live HTML has the same markup, so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "pf290c0e32cf",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the only content of a link to the Fabíola story, and its alt is that story's headline, the destination's title. Per H30 and the rubric (R2), an alternative that names the story describes the link's purpose, so 1.1.1 is met. The kicker and headline drawn over the photo in the crop are HTML text, not part of the image. Same alt on the live page."
+    },
+    {
+      "fingerprint": "pa6d5f630b44",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A photo of road machinery that is the only content of a link to the airports story. Its alt is the story's headline, which identifies the destination, so the control's name describes its purpose (H30) and 1.1.1 is met. The live page has the same alt."
+    },
+    {
+      "fingerprint": "36bc838abc26",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"/ 3 horas\" is p.info-noticia-2 inside the REFORMA ADMINISTRATIVA kicker: 14px bold, #939393 on white, 3.07:1, below 4.5:1. The screenshot shows it in grey. The live stylesheet (build/assets/home-DmyJh9gP.css) still sets this colour on this class and the live HTML has the same markup, so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "adb6515b5891",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'infraestrutura' kicker is .item-categoria.cidades, coloured var(--cidades) = #008C7E, 18px bold, on white: 4.16:1. 18px bold is just under the 18.67px bold threshold for large text, so 4.5:1 applies and the text fails. The live stylesheet (build/assets/home-DmyJh9gP.css) still sets this colour on this class and the live HTML has the same markup, so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "s3e10cad00c2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the 'Viagem Polêmica / 1 dia' kicker link of the 4th most-read story. The kicker names the story's subject (a controversial trip: the hospital manager who travelled to Japan during a strike), so it does not contradict the destination. The link also has title=\"Gestor da Santa Casa de Campo Grande viaja ao Japão durante greve e tem troca pedida\", which with the link text gives the purpose (H33, which the rubric counts). 2.4.4 is met. The live page has the same link and title. The claim compares the link text alone with the page title, which is stricter than 2.4.4."
+    },
+    {
+      "fingerprint": "p535933a1d90",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A city photo inside the 'most read' #2 link. Its alt, '4 cidades de MS estão entre as 10 mais inteligentes do Centro-Oeste', is the destination's headline, so it describes the link's purpose and 1.1.1 is met. Rampa computed the link's name as '2', but the browser's accessibility tree gives '2 4 cidades de MS...'. That does not bear on the image's alternative. Same alt on the live page."
+    },
+    {
+      "fingerprint": "scb91dd6c177",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the 'REFORMA ADMINISTRATIVA / 3 horas' kicker link of the story 'Coronel David e Mochi podem ficar com secretarias' (state secretariats being reshuffled). The kicker names the story's topic and does not contradict it. The link's title carries the exact headline, so the link text plus its description give the purpose (H33). 2.4.4 is met, and the live page has the same link and title. The claim judges the link text alone against the page title."
+    },
+    {
+      "fingerprint": "ffa1dd8aaa78",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'Assinantes' kicker is a.item-categoria with no section class: 12px bold, #939393 on white, 3.07:1, below 4.5:1. The screenshot shows grey 'ASSINANTES / 4 DIAS'. The live stylesheet (build/assets/home-DmyJh9gP.css) still sets this colour on this class and the live HTML has the same markup, so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "p8cb912a2fdf",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A columnist card (Leandro Provenzano, 'Direito em geral', the paper's logo) that is the only content of a link to the column 'Seguro que o produtor rural não pediu...'. Its alt is that headline, which identifies the destination. Under 1.1.1's control clause and H30, the name must describe the link's purpose, and it does. The columnist's name shows only in the picture, since this card's kicker reads 'assinantes', but that is not required of a control's name. Same alt on the live page."
+    },
+    {
+      "fingerprint": "s901215acab7",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "This is the 'Culinária e saúde / 2 horas' kicker link in the latest-news column, leading to a carrot recipe story. The kicker is a topic label consistent with the story, and the link's title holds the exact headline ('Aprenda a fazer receitas deliciosas utilizando cenoura como ingrediente principal'), which with the link text gives the purpose (H33). 2.4.4 is met, and the live page has the same link and title (only the age changed). The claim judges the link text alone against the page title."
+    },
+    {
+      "fingerprint": "4dd14fd43136",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The 'assinantes' kicker (a.item-categoria) is 12px bold, #939393 on white, 3.07:1, below 4.5:1. The screenshot shows the grey text under the first subscriber card. The live stylesheet (build/assets/home-DmyJh9gP.css) still sets this colour on this class and the live HTML has the same markup, so the capture matches what users receive."
+    },
+    {
+      "fingerprint": "7f715ee22a86",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"/ 11 horas\" is p.info-noticia-2 in the FELPUDA kicker: 14px bold, #939393 on white, 3.07:1, below 4.5:1. The screenshot shows it in grey. The FELPUDA card has since left the live home page, but the class and its colour in the live stylesheet are unchanged, so the change does not touch the claim. The capture matches what users received when Rampa read the page."
+    },
+    {
+      "fingerprint": "ce1d48b8d54b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer subscribe button also holds <p class=\"titulo-rodape\">A S S I N E</p>, with spaces typed between the letters. It is visible in the screenshot's footer and present in the live HTML. That is F32, a 1.3.2 failure: screen readers read the letters one by one. The title 'Assine' does not change the content. The claim names it."
+    },
+    {
+      "fingerprint": "pb3ea44205ad",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A columnist card (Juliane Penteado, 'Direito previdenciário') that is the only content of a link to her column. Its alt is the column's headline, which identifies the destination (H30), so 1.1.1 is met. Her name also appears as the visible kicker text. Same alt on the live page."
+    },
+    {
+      "fingerprint": "paa60b408138",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A photo of two men at a desk that is the only content of a link to 'Coronel David e Mochi podem ficar com secretarias'. The alt is that headline, which identifies the destination, so the control's name describes its purpose and 1.1.1 is met. Same alt on the live page."
+    },
+    {
+      "fingerprint": "pcb1e548114f",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A thumbnail of a robed judge that is the only content of a link to 'Presidente do Supremo mantém prisão de Vorcaro'. The alt is that headline, which identifies the destination (H30), so 1.1.1 is met. Same alt on the live page."
+    },
+    {
+      "fingerprint": "551846de2831",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "\"/ 1 hora\" is p.info-noticia-2 in the 'Ensino superior' kicker: 14px bold, #939393 on white, 3.07:1, below 4.5:1. The screenshot shows it in grey. The live stylesheet (build/assets/home-DmyJh9gP.css) still sets this colour on this class and the live HTML has the same markup, so the capture matches what users receive."
+    }
+  ]
+}

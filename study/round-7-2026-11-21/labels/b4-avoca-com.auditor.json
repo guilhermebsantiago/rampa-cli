@@ -1,0 +1,81 @@
+{
+  "page": "https://avoca.com/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p91c7d76a786",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the product-title text link 'Stars Align Hamper in Multicolour Stripes' in a hamper carousel card. It goes to the product page with the same title and heading, so its text alone gives its purpose. The only other link with this name is the card's image link (aria-label set to the same name), and it goes to the same address. The other Stars Align links have different names (Red Stars, Teal Stripes & Stars). It meets 2.4.4, so Rampa missing nothing here makes this row a false positive. The live HTML fetched on 2026-11-21 has the same card, href and aria-label, so the capture does not differ in any way that matters here."
+    },
+    {
+      "fingerprint": "pfcc43376e9b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the image link of the 'Stars Align Hamper in Multicolour Stripes' product card. Its aria-label, 'Stars Align Hamper in Multicolour Stripes', sets its accessible name (ARIA8) and gives the product, and it goes to that product's page (title and heading match). It is out of the tab order (tabindex=-1) but stays in the accessibility tree. Its only same-name partner is the card's title link to the same address, so R1 finds no failing pair. It meets 2.4.4, so this row is a false positive. The live HTML has the same aria-label and href, so the capture does not differ."
+    },
+    {
+      "fingerprint": "36f92257103d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Each 'Shop now' link sits in its own list item of the three-column gift list. The same li holds a visible card-title link ('Gifts for Her') to the same address (/collections/christmas-gifts-for-her), so its programmatically determined context (its list item) tells it apart from the other 'Shop now' links. The packet's ancestors show this ('Gifts for Her Shop now'). The heading just before it ('Festive Food Menu') is the same for all three, but the list item is enough, so under R1 the link is in no shared-name set and meets 2.4.4. The claim is false of the capture: its context does tell it apart, and the page has nine case-insensitive 'Shop now' links (5 slideshow, 3 here, 1 sleepwear), not five. The live HTML matches the snapshot (same li, title link and href). The screenshot leaves this section blank, a scroll-reveal artefact that does not touch this programmatic-context claim. Rampa had the list-item text and still judged wrongly, so this is model_error. Separately, the card's image link (img alt=\"\") has no accessible name, which is a 2.4.4/4.1.2 problem on a different element."
+    },
+    {
+      "fingerprint": "3ba17ab89510",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Each 'Shop now' link sits in its own list item of the three-column gift list. The same li holds a visible card-title link ('Kris Kindle Gifts') to the same address (/collections/christmas-kris-kindle), so its programmatically determined context (its list item) tells it apart from the other 'Shop now' links. The packet's ancestors show this ('Kris Kindle Gifts Shop now'). The heading just before it ('Festive Food Menu') is the same for all three, but the list item is enough, so under R1 the link is in no shared-name set and meets 2.4.4. The claim is false of the capture: its context does tell it apart, and the page has nine case-insensitive 'Shop now' links (5 slideshow, 3 here, 1 sleepwear), not five. The live HTML matches the snapshot (same li, title link and href). The screenshot leaves this section blank, a scroll-reveal artefact that does not touch this programmatic-context claim. Rampa had the list-item text and still judged wrongly, so this is model_error. Separately, the card's image link (img alt=\"\") has no accessible name, which is a 2.4.4/4.1.2 problem on a different element."
+    },
+    {
+      "fingerprint": "26132e985087",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Each 'Shop now' link sits in its own list item of the three-column gift list. The same li holds a visible card-title link ('Gifts for Him') to the same address (/collections/christmas-gifts-for-him), so its programmatically determined context (its list item) tells it apart from the other 'Shop now' links. The packet's ancestors show this ('Gifts for Him Shop now'). The heading just before it ('Festive Food Menu') is the same for all three, but the list item is enough, so under R1 the link is in no shared-name set and meets 2.4.4. The claim is false of the capture: its context does tell it apart, and the page has nine case-insensitive 'Shop now' links (5 slideshow, 3 here, 1 sleepwear), not five. The live HTML matches the snapshot (same li, title link and href). The screenshot leaves this section blank, a scroll-reveal artefact that does not touch this programmatic-context claim. Rampa had the list-item text and still judged wrongly, so this is model_error. Separately, the card's image link (img alt=\"\") has no accessible name, which is a 2.4.4/4.1.2 problem on a different element."
+    },
+    {
+      "fingerprint": "s54adbfa5740",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the h2 'Let the Christmas Magic Begin!' above a product carousel of Christmas items, all linked under /collections/christmas-gifts/: handmade chocolates, an iced Christmas cake, a Christmas pudding, an advent calendar, glass tree ornaments, a Christmas stocking, Christmas mugs and hampers. The wording is promotional, but it names the section's topic (Christmas), and that is what the content under it is. 2.4.6 asks that a heading describe the topic or purpose, not that it list the content, so the heading meets it. The claim that it 'says nothing about the content under it' is false of the capture. The live HTML has the same heading over the same collection. Rampa had the product names in context and still judged wrongly, so this is model_error."
+    },
+    {
+      "fingerprint": "fea43814ea37",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field. Its visible prompt is the placeholder, which cycles through 'Search for throws/hampers/scarves...'; the visible label is hidden. The live CSS (main.css) sets .search__input::placeholder to rgba(var(--text-color)/.5), with --text-color 65 64 66 and --search-bg-color #ececec in the header style. That blends to about #969697 on #ececec, which is 2.50:1. The darkest placeholder pixel in the screenshot is #979697 on #ececec (2.495:1). Placeholder text is visible text and fits none of the 1.4.3 exceptions (not inactive, not decorative, not incidental), so at 16px/400 it needs 4.5:1 and fails. The claim states the colours and ratio correctly; at capture the attribute held 'Search for scarve' mid-animation, but every placeholder string uses the same style. The live page has the same input and CSS, so the capture does not differ."
+    }
+  ]
+}

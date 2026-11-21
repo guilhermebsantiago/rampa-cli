@@ -1,0 +1,60 @@
+{
+  "page": "https://www.druid.ie/site-info/contact-us",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p81c0ec39684",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A mailto link whose text is the address venue@druid.ie, in the paragraph 'Druid Lane Galway Tel: 091 568 660 Email: venue@druid.ie ...' under the h2 'The Mick Lally Theatre'. The link text itself states its purpose (write to that address), and the paragraph and preceding heading say whose address it is; it is the only link with that name. It meets 2.4.4. The live HTML has the same link, text and paragraph, so the capture does not differ. No failure, so the no-claim row is a false positive."
+    },
+    {
+      "fingerprint": "s5846be21e68",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A checkbox in the CookieScript 'Cookie consent dialog' (shown on page load, bottom left in the screenshot), labelled by a <label for> 'Targeting' (shown uppercase by CSS), one of four cookie-category checkboxes (Strictly necessary, Performance, Targeting, Unclassified) under 'This website uses cookies ...'. A checkbox takes no entry: the label names the cookie category that checking it consents to, so the sentence that it 'does not say what to enter' does not hold of the capture. In that dialog the label describes the control's purpose, which is what 2.4.6 asks; the details panel also explains 'Targeting cookies are used to identify visitors between different websites'. It meets 2.4.6. The live CookieScript file (cdn.cookie-script.com, linked from the live page) still renders the same label for cookiescript_category_targeting, so the capture does not differ. The model had the dialog context and judged the label by a text-input expectation."
+    },
+    {
+      "fingerprint": "sa2a62fa6d47",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "A link 'Google LLC' in the CookieScript cookie report (Targeting table, row VISITOR_INFO1_LIVE, cell under the header 'Provider / Domain' holding 'Google LLC .youtube.com'), href https://policies.google.com/privacy, which is Google's 'Privacy Policy' page (opened, 200). The link names the cookie provider and leads to that provider's own privacy policy, so the text does match where it goes; the sentence does not hold. With its table cell and the associated 'Provider / Domain' header, the purpose (information on the provider Google LLC and its data practices) can be determined; Understanding 2.4.4 does not require naming the document. Every other 'Google LLC' link on the page has the same href, so R1 gives no failure. It meets 2.4.4 (a link naming 'privacy policy' would only matter for 2.4.9, AAA). The report sits in the collapsed 'Show details' panel both in the capture and on the live page, and the live CookieScript file has the same link and href, so the capture does not differ. The checker required the link text to name the destination document, stricter than 2.4.4."
+    },
+    {
+      "fingerprint": "s7f71545aa18",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The hero image at the top of the page (the 'Druid' logo over it in the crop is the separate site logo), a production photo from Druid's Endgame (2024; file name names Bosco Hogan and Marie Mullen): two actors in white make-up peering out of metal bins. Its alt is 'Photo by Ros Kavanagh', a photo credit; there is no caption (figure class 'no-caption'). The alternative states who took the photo, which the image does not show, and says nothing of what it shows, so the claim holds read in good faith (the rubric's own example). If the image is informative, the credit is not an alternative for its content (F30-like); if it is decorative, a non-null alt makes assistive technology announce it rather than ignore it (F39). Either way it fails 1.1.1, and the claim names that defect. The live HTML has the same img and alt, so the capture does not differ."
+    },
+    {
+      "fingerprint": "s433de18825e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "A link 'Google LLC' in the CookieScript cookie report (Performance table, row __utmb, cell under the header 'Provider / Domain' holding 'Google LLC .druid.ie'), href https://policies.google.com/privacy, Google's 'Privacy Policy' page (opened, 200). The text names the provider whose privacy policy the link opens, so it does match where the link goes; the sentence does not hold. With its table cell and the 'Provider / Domain' header, the purpose (the provider Google LLC's information on its data practices) can be determined, and 2.4.4 does not require naming the document. The other 'Google LLC' links, including the ones in identical cells of the same table, all share this href, so R1 gives no failure. It meets 2.4.4. The live CookieScript file has the same link and href, and the report is in the collapsed 'Show details' panel in both, so the capture does not differ. The checker required the text to name the destination document, stricter than 2.4.4."
+    }
+  ]
+}

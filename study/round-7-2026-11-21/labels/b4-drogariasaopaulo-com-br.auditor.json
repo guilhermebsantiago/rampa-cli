@@ -1,0 +1,377 @@
+{
+  "page": "https://www.drogariasaopaulo.com.br/medicamentos",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p089a8265bec",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link 'O que são Descontos Laboratório?' to /descontos/pbm inside the 'Desconto Laboratório' panel (role=status) of the Losartana card, under the h3 'Desconto Laboratório'. The link text alone says it explains what laboratory discounts are, and it leads to the store's Descontos page; every link with this name on the page goes to the same address, so R1 raises no failure. It meets 2.4.4. The live page serves the same panel and link (48 copies in the server HTML); the panel is in the accessibility tree but not visible in the screenshot, which does not bear on link purpose."
+    },
+    {
+      "fingerprint": "9d5650001d23",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Pregabalina 75mg Genérico EMS product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Genérico: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "4c627f3684c1",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Semavy Semaglutida product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Refrigerado: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "sfd528d75460",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The second (Sensodyne tubes) of three banner images under h2 'Promoções em Destaque'; the image (alt 'promoção') is the only content of a link to /busca?fq=H:26651, which I opened: a 'Campanha Haleon' listing of Sensodyne toothpastes and brushes. claimTrue yes: the alternative is all the link holds and 'promoção' does not say where it leads. elementFails yes: by H30/G82 (rubric R2) an image that is a link's only content needs an alternative that gives the link's purpose; 'promoção' names neither Sensodyne nor the campaign, and it also drops the image's text and brand. The heading does not cure 1.1.1. captureDiffers no: the live HTML has the same three images with alt 'promoção' and the same href. True positive."
+    },
+    {
+      "fingerprint": "sbc711c23fba",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The third ('até 40% OFF comprar agora') of three banner images under h2 'Promoções em Destaque'; the image (alt 'promoção') is the only content of a link to /busca?fq=H:26651, which I opened: a 'Campanha Haleon' listing of Sensodyne toothpastes and brushes. claimTrue yes: the alternative is all the link holds and 'promoção' does not say where it leads. elementFails yes: by H30/G82 (rubric R2) an image that is a link's only content needs an alternative that gives the link's purpose; 'promoção' names neither Sensodyne nor the campaign, and it also drops the image's text and brand. The heading does not cure 1.1.1. captureDiffers no: the live HTML has the same three images with alt 'promoção' and the same href. True positive."
+    },
+    {
+      "fingerprint": "7b5861e59af9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Pantoprazol Sódico 40mg product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Genérico: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "bdb8cacfb76e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Fluconazol 150mg product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Genérico: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "296bdee9df7d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Ozivy Semaglutida 1mg product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Refrigerado Medicamento De Refer…: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "pe0632d02b16",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Link 'O que são Descontos Laboratório?' to /descontos/pbm in the 'Desconto Laboratório' panel of the Tanduo card, under the h3 'Desconto Laboratório'. The text alone gives its purpose (an explanation of laboratory discounts), and the destination is the Descontos page; all same-named links share the same href, so no R1 failure. It meets 2.4.4. The live server HTML has the same panel and link."
+    },
+    {
+      "fingerprint": "89ede17dd0df",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Mounjaro Tirzepatida 5mg product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Refrigerado Medicamento De Refer…: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "2cc803cd9a58",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product photo with alt '887528-DSP' (file 887528-DSP.png), the only content of the card's image link to the Mounjaro Tirzepatida 2,5mg product page; the link has a title with the product name. claimTrue yes: the alt is the file's name. elementFails yes: the alt is a numeric code, a programming reference that conveys nothing (F30), and since the image is the link's only content the link's accessible name is that code (the snapshot's CDP name is '887528-DSP', name from contents, with the title only as description); by H30 and rubric R2 the title does not cure 1.1.1. captureDiffers no: the live HTML serves the same alt. True positive: the claim names the failure (a filename alternative)."
+    },
+    {
+      "fingerprint": "6cd0c0e20fd3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Tanduo Dutasterida (30 cápsulas) product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Similar: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "a3b6505b08c6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Tadalafila 5mg EMS product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Genérico: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "9671d75d2dd4",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Losartana Potássica 50mg product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Genérico: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "a192bdfd478c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Dipirona 500mg Prati Donaduzzi product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Genérico: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "67139d242bdd",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Product photo with alt '701173---Dipirona-500mg-Generico-Prati-Donaduzzi-30-Comprimidos-1.jpg', the only content of the card's image link to the Dipirona 500mg Prati Donaduzzi product page (link title holds the product name; the image had not lazy-loaded yet in the capture, src was a 1x1 placeholder, but the alt is the same once it loads). claimTrue yes: the alt is a file name, extension included. elementFails: my reading is no, narrowly: F30 fails 'filenames that are not valid text alternatives in their own right', and this one, read as the link's name, still identifies the product the photo shows and the link leads to, with noise (the numeric prefix and '.jpg'). Competent auditors would reasonably disagree: many fail any filename alt under F30 and H30. captureDiffers no: the live HTML serves the same alt. Uncertain."
+    },
+    {
+      "fingerprint": "5ccdef936734",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Semavy Semaglutida product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Refrigerado: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "c3041b471374",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Mounjaro Tirzepatida 7,5mg product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Refrigerado Medicamento De Refer…: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "485886bcf24f",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Rosuvastatina Cálcica 10mg product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Genérico: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "c6bd30523e90",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Cloridrato de Sertralina 50mg product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Genérico: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "49273db43af9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Rosuvastatina Cálcica 20mg product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Genérico: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "fb37f6d4e6e3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Glyxambi Empagliflozina product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "2103e0071a4c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product photo with alt '978663-1' (file 978663-1.jpg), the only content of the card's image link to the Semavy Semaglutida product page; the link has a title with the product name. claimTrue yes: the alt is the file's name. elementFails yes: the alt is a numeric code, a programming reference that conveys nothing (F30), and since the image is the link's only content the link's accessible name is that code (the snapshot's CDP name is '978663-1', name from contents, with the title only as description); by H30 and rubric R2 the title does not cure 1.1.1. captureDiffers no: the live HTML serves the same alt. True positive: the claim names the failure (a filename alternative)."
+    },
+    {
+      "fingerprint": "1cd18a7eae59",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Lyberdia (sponsored card) product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Preta Medicamento Similar: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "96535414a77a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Mounjaro Tirzepatida 2,5mg product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Refrigerado Medicamento De Refer…: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "1c15d67947a0",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Cetoprofeno 150mg product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Genérico: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "s30331401202",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The 'Comprar' link (accessible name 'COMPRAR', title 'Comprar') adds SKU 314625 to the cart, in the Rosuvastatina Cálcica 20mg card. There are 22 visible 'Comprar' links, each adding a different product. claimTrue no: the count holds roughly, but 'nothing around this one tells it apart' is false, since each link sits in its own list item of the results list, and that list item holds the product name. elementFails no: the list item is programmatically determined link context, so the link plus its context gives 'buy Rosuvastatina Cálcica 20mg'; under R1 links that their list item tells apart are not one set, so no other link shares this one's name and context. captureDiffers no: the live server HTML has the same card and buy-button-normal-a314625 link. False positive: the packet gave the list-item ancestor and the model judged wrongly."
+    },
+    {
+      "fingerprint": "1c2c57379d72",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Tanduo Dutasterida (90 cápsulas) product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Similar: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "2b473fe7f02e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Product photo with alt '948683-1' (file 948683-1.jpg), the only content of the card's image link to the Ozivy Semaglutida 1mg product page; the link has a title with the product name. claimTrue yes: the alt is the file's name. elementFails yes: the alt is a numeric code, a programming reference that conveys nothing (F30), and since the image is the link's only content the link's accessible name is that code (the snapshot's CDP name is '948683-1', name from contents, with the title only as description); by H30 and rubric R2 the title does not cure 1.1.1. captureDiffers no: the live HTML serves the same alt. True positive: the claim names the failure (a filename alternative)."
+    },
+    {
+      "fingerprint": "fc9f61c81273",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "Product photo with alt '116408-neosoro-adulto-solucao-nasal-30ml.jpg', the only content of the card's image link to the Neosoro Adulto solução nasal 30ml product page (link title holds the product name; the image had not lazy-loaded yet in the capture, src was a 1x1 placeholder, but the alt is the same once it loads). claimTrue yes: the alt is a file name, extension included. elementFails: my reading is no, narrowly: F30 fails 'filenames that are not valid text alternatives in their own right', and this one, read as the link's name, still identifies the product the photo shows and the link leads to, with noise (the numeric prefix and '.jpg'). Competent auditors would reasonably disagree: many fail any filename alt under F30 and H30. captureDiffers no: the live HTML serves the same alt. Uncertain."
+    },
+    {
+      "fingerprint": "pc45a3d2913f",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "In-page link 'Ir direto para a notificações' (#rnk-comp-header-notificacoes) in the skip-link list under h2 'Navegue pela página'. The text says it jumps to the notifications, and the target exists in the snapshot (div#rnk-comp-header-notificacoes with a visually hidden h2 'Notificações'). The grammar slip ('a notificações') does not obscure the purpose. It meets 2.4.4. The live server HTML has the same link and target."
+    },
+    {
+      "fingerprint": "eb4d869723d8",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Glifage XR 500mg product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento De Referência: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    },
+    {
+      "fingerprint": "s11e880ea44a",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "cannot_tell"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Price link 'A partir de R$148,70*' in p.price of the sponsored Lyberdia card, leading to the Lyberdia 30mg product page. claimTrue no: the text alone does not give the destination, but 'nothing around it does' is false, since the link's list item (the product card in the results ul) holds the product-name link 'Lyberdia Dimesilato De Lisdexanfetamina 30mg 30 Cápsulas Duras'. elementFails no: link text plus that list-item context gives the purpose, the price and details of that product, which is where it leads; no other link shares its name. captureDiffers cannot_tell: this sponsored card and its 'A partir de' price are not in the live server HTML that my scriptless fetch got (likely injected by scripts, or the ad has rotated), so I judged from the capture. False positive."
+    },
+    {
+      "fingerprint": "0eef5faf3e3c",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the div.descricao-prateleira of the Neosoro Adulto product card (one li of the results list). In the snapshot its DOM order is: product-name link, the medicine flag list (Tarja Vermelha Medicamento Similar: icons with visually hidden text), price, the heart button 'Adicionar aos Favoritos', then 'Comprar'; the flag list is positioned out of flow at the card's top right, just under the heart button, as the screenshot shows. claimTrue no: the visual/DOM positions are as stated, but the screen reader does not read the flags 'as part of another section': there is no heading or section boundary in the card, and the flags are read inside the same list item, right after the product name they qualify. elementFails no: 1.3.2 requires a correct reading sequence only where the sequence affects meaning; reading name, flags, price, favourite, buy is a correct and meaningful order, and reading the flags before the favourite button changes nothing (F1 is about positioning that changes meaning). captureDiffers no: the screenshot is a full styled render, and the live page (fetched without scripts) serves the same results list and card template; the flags and heart button are added by scripts, so the layout comparison rests on the styled capture. False positive: the rule flags any visual/DOM mismatch from absolute positioning, a stricter test than 1.3.2."
+    }
+  ]
+}

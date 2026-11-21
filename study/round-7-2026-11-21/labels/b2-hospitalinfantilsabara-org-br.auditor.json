@@ -1,0 +1,61 @@
+{
+  "page": "https://www.hospitalinfantilsabara.org.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "d849d3e4bf85",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the header search field (input type=search, aria-label 'Buscar no site', no visible label), whose placeholder is the only visible text saying what the field is for, so it is text that conveys information and 1.4.3 applies. claimTrue: the screenshot's placeholder core pixels are exactly #65758b on a field of #f9f9fa (249,249,250), 14px weight 400, which gives 4.46:1, as stated. elementFails: the live CSS sets ::placeholder to hsl(215 16% 47%) (rgb 101,117,139) on hsl(220 14% 96% / .5) over the white header; every 8-bit rendering of that pair (4.46 to 4.49:1, the WCAG luminance formula works on 8-bit values) is below 4.5:1, and the threshold is not rounded. Only unquantised HSL arithmetic reaches 4.506:1, which no browser renders, so the margin is narrow but the delivered text fails. captureDiffers: the live stylesheet has the same tokens and classes and the screenshot shows a styled page; no difference. The claim names the failure."
+    },
+    {
+      "fingerprint": "a7ea98b336f4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 7px 'min' unit under the wait-time number on the orange \"Não urgentes\" button (from-orange-400 via-orange-500 to-orange-600), in the fixed 'Prioridades de atendimento em tempo real' ribbon at the left edge. claimTrue: the snapshot's pixel measurement (axe reason bgGradient, foreground #ffffffb3 from CSS) gives 2.21:1 at best, 1.86:1 at worst, as the message says; my own check gives about 1.8 to 1.9:1 for white at 70% on #f58b37. elementFails: white at 70% opacity on these gradients is far below 4.5:1 at every stop. The live JS bundle (index-hX5rmvLY.js) and CSS (index-BA4poRdv.css) confirm the same markup: a fixed aside shown at viewports of 1026px and wider (\"hidden ... min-[1026px]:block\"), the 'min' unit rendered as <span class=\"text-[7px] uppercase tracking-[0.3em] text-white/70\"> whenever the wait has no hours, and the button gradients as Rampa measured them. The aside is absent from the full-page screenshot (a fixed element the stitched image does not show) and the capture had a Radix modal open, which is why every node carries aria-hidden; Rampa hid that overlay, which matches the page after the visitor closes the modal, so captureDiffers is no. aria-hidden does not exempt visible text from 1.4.3, and the unit label is not incidental, decorative or a logotype; repetition in the hidden expanded panel is no exemption either. At 7px (semibold) it is not large text, so 4.5:1 applies. The claim names the failure."
+    },
+    {
+      "fingerprint": "faf2e2b472d2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 7px 'min' unit under the wait-time number on the yellow \"Urgente (não-emergência)\" button (from-yellow-300 via-yellow-400 to-amber-500), in the fixed 'Prioridades de atendimento em tempo real' ribbon at the left edge. claimTrue: the snapshot's pixel measurement (axe reason bgGradient, foreground #ffffffb3 from CSS) gives 1.49:1 at best, 1.26:1 at worst, as the message says; my own check gives about 1.4:1 for white at 70% on #f3c118 (even opaque white on these yellows stays near 1.4:1). elementFails: white at 70% opacity on these gradients is far below 4.5:1 at every stop. The live JS bundle (index-hX5rmvLY.js) and CSS (index-BA4poRdv.css) confirm the same markup: a fixed aside shown at viewports of 1026px and wider (\"hidden ... min-[1026px]:block\"), the 'min' unit rendered as <span class=\"text-[7px] uppercase tracking-[0.3em] text-white/70\"> whenever the wait has no hours, and the button gradients as Rampa measured them. The aside is absent from the full-page screenshot (a fixed element the stitched image does not show) and the capture had a Radix modal open, which is why every node carries aria-hidden; Rampa hid that overlay, which matches the page after the visitor closes the modal, so captureDiffers is no. aria-hidden does not exempt visible text from 1.4.3, and the unit label is not incidental, decorative or a logotype; repetition in the hidden expanded panel is no exemption either. At 7px (semibold) it is not large text, so 4.5:1 applies. The claim names the failure."
+    },
+    {
+      "fingerprint": "c91abe9dfd1a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 7px 'min' unit under the wait-time number on the red \"Emergência\" button (from-rose-500 via-rose-500/90 to-red-600), in the fixed 'Prioridades de atendimento em tempo real' ribbon at the left edge. claimTrue: the snapshot's pixel measurement (axe reason bgGradient, foreground #ffffffb3 from CSS) gives 2.65:1 at best, 2.44:1 at worst, as the message says; my own check gives about 2.5:1 for white at 70% on #ea4a5e, and under 3:1 even on the darkest stop red-600. elementFails: white at 70% opacity on these gradients is far below 4.5:1 at every stop. The live JS bundle (index-hX5rmvLY.js) and CSS (index-BA4poRdv.css) confirm the same markup: a fixed aside shown at viewports of 1026px and wider (\"hidden ... min-[1026px]:block\"), the 'min' unit rendered as <span class=\"text-[7px] uppercase tracking-[0.3em] text-white/70\"> whenever the wait has no hours, and the button gradients as Rampa measured them. The aside is absent from the full-page screenshot (a fixed element the stitched image does not show) and the capture had a Radix modal open, which is why every node carries aria-hidden; Rampa hid that overlay, which matches the page after the visitor closes the modal, so captureDiffers is no. aria-hidden does not exempt visible text from 1.4.3, and the unit label is not incidental, decorative or a logotype; repetition in the hidden expanded panel is no exemption either. At 7px (semibold) it is not large text, so 4.5:1 applies. The claim names the failure."
+    },
+    {
+      "fingerprint": "6534c8ca0da2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the 7px 'min' unit under the wait-time number on the blue \"Sem urgência\" button (from-sky-500 via-blue-500/90 to-blue-600), in the fixed 'Prioridades de atendimento em tempo real' ribbon at the left edge. claimTrue: the snapshot's pixel measurement (axe reason bgGradient, foreground #ffffffb3 from CSS) gives 2.72:1 at best, 2.14:1 at worst, as the message says; my own check gives about 2.4:1 for white at 70% on #418eea. elementFails: white at 70% opacity on these gradients is far below 4.5:1 at every stop. The live JS bundle (index-hX5rmvLY.js) and CSS (index-BA4poRdv.css) confirm the same markup: a fixed aside shown at viewports of 1026px and wider (\"hidden ... min-[1026px]:block\"), the 'min' unit rendered as <span class=\"text-[7px] uppercase tracking-[0.3em] text-white/70\"> whenever the wait has no hours, and the button gradients as Rampa measured them. The aside is absent from the full-page screenshot (a fixed element the stitched image does not show) and the capture had a Radix modal open, which is why every node carries aria-hidden; Rampa hid that overlay, which matches the page after the visitor closes the modal, so captureDiffers is no. aria-hidden does not exempt visible text from 1.4.3, and the unit label is not incidental, decorative or a logotype; repetition in the hidden expanded panel is no exemption either. At 7px (semibold) it is not large text, so 4.5:1 applies. The claim names the failure."
+    }
+  ]
+}

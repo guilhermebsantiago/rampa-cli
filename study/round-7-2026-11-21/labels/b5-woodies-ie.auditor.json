@@ -1,0 +1,26 @@
+{
+  "page": "https://www.woodies.ie/paint-decorating",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "pe8b7166fa5e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the photo (paint fan deck, roller, brush, no text in it) that is the only content of the category-card link to /paint-decorating/decorating-tools, with alt \"Visit our Decorating Tools category\". As a control, 1.1.1 needs a name that describes its purpose (H30): replacing the image with its alternative, the link reads as going to the Decorating Tools category, which is where it leads, so the alternative identifies the destination and the image meets 1.1.1. Its wording is verbose and repeats the h3 below it, which H2 would avoid, but that is not a 1.1.1 failure. The live HTML fetched with a browser user agent carries the same img, alt and href inside the same list item with the h3 \"Decorating Tools\", and the screenshot is fully styled with this card in place, so the capture does not differ for this point. The element does not fail, so the label is false_positive (no claim: cause none)."
+    },
+    {
+      "fingerprint": "p3157ab9474b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the top-level main-navigation link with visible text \"Bathroom & Plumbing\" and aria-label \"Go to Bathroom & Plumbing\", href /bathroom-plumbing; the destination is the page titled \"Bathroom & Plumbing | Woodie's\" with that heading. The accessible name alone states the purpose and matches the destination, so it meets 2.4.4 (and its visible text is contained in the name). No other link in the snapshot or in the live HTML has the name \"Go to Bathroom & Plumbing\" or \"Bathroom & Plumbing\" (the only other link to /bathroom-plumbing is named \"Shop All\"), so R1 does not apply. The live HTML has the same markup and the screenshot shows the styled nav bar with this item, so the capture does not differ for this point. The element does not fail, so the label is false_positive (no claim: cause none)."
+    }
+  ]
+}

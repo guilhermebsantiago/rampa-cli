@@ -1,0 +1,37 @@
+{
+  "page": "https://www.strath.ac.uk/studywithus/undergraduate/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "peab9ad0831b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the card link in 'Information & advice'. Its name comes from the h3 it wraps: 'Students with disabilities or additional support needs for learning'. It goes to /studywithus/undergraduate/beforeyouapply/studentswithdisabilitiesoradditionalsupportneedsforlearning/, which I opened. That page loads (200) and its title is the same phrase, so the link text alone gives the purpose. No other link in the snapshot has this name, so R1 does not apply. The commented-out sr-only span adds nothing and takes nothing away. The live HTML has the same anchor, h3 and href as the capture, and the screenshot shows the card as captured. The card images did not load in the screenshot, but that does not touch this link. The element meets 2.4.4 and Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "sceb31d41718",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the university logo in the footer: a standalone img with alt 'University of Strathclyde', not inside a link. The image crop shows the crest beside the white text 'University of Strathclyde Glasgow', so the image does show what the alternative says and the claim is false of the capture. For a logo, giving the organisation's name is the expected text alternative (G94; Understanding 1.1.1 on logotypes), and leaving out 'Glasgow' does not drop any purpose. The live footer has the same img and alt. Only the pagespeed-rewritten src differs (png instead of webp), which does not matter. The element meets 1.1.1. The model had the crop with the visible text and still judged wrongly."
+    },
+    {
+      "fingerprint": "p26467cd4f87",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the 'Tuition fees' button link in the 'Fees & funding' section. It goes to /studywithus/feesfunding/fees/, which I opened: it loads (200) and its title is 'Fees | University of Strathclyde'. The link text alone gives the purpose. The heading just before it is the h3 'Tuition fees' with a paragraph on fee costs, which confirms the purpose. No other link in the snapshot is named 'Tuition fees', so R1 does not apply. The live HTML has the same h3, paragraphs and anchor, and the screenshot shows the button as captured. The element meets 2.4.4 and Rampa was right to report nothing."
+    }
+  ]
+}

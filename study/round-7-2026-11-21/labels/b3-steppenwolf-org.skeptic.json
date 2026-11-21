@@ -1,0 +1,39 @@
+{
+  "page": "https://www.steppenwolf.org/about-us/contact-us",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "e5f0ef52d8d2",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "collector_error",
+      "rationale": "The element is the page header's background image (class page-header__background-image, brush-stroke.webp, alt=\"\"), a dark brush-stroke texture behind the header. The words 'CONTACT US' and 'GENERAL COMMENTS & QUESTIONS' in the crop are not in the image. They are HTML text drawn over it: the h1 #page-header__title 'Contact Us' (y 188.9) and the h2 'General Comments & Questions' (y 391.3) sit inside the image's bounds, and the crop is a screenshot of those bounds, so it shows the text laid over the image. The claim is false on both counts: the image holds no such words, and the text around it does say them, since both are headings in the snapshot. A texture with no information is decorative, so alt=\"\" is the correct technique (H67, C9), and the image meets 1.1.1. The live HTML, fetched today, has the same img with alt=\"\" and the same headings, and the screenshot is fully styled, so nothing touching the claim differs. The cause is the crop: it took the element's box from the page screenshot, overlaid text included, so the heading text was read as image content (the model also ignored that the surrounding text repeats those words)."
+    },
+    {
+      "fingerprint": "s46258b542b6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the footer Quicklinks link 'Calendar' (shown as CALENDAR), href https://cart.steppenwolf.org/. Rampa did not read the destination; the 'cart' subdomain makes it look like a shopping cart. Fetched today, that address is the ticketing site's events page, titled 'Events | Steppenwolf Theatre', with the heading 'Upcoming Events' and a 'Calendar View' (Day/Week/Month) beside a List View. So 'Calendar' describes where the link goes, and the claim that it does not match is false. My curl got an Incapsula block page and WebFetch got the events page; both are automated fetches, but the events page settles the purpose. No other link on the page is named 'Calendar', so the shared-name rule (R1) does not apply. The live page's footer link has the same text and href as the snapshot, and the screenshot shows the styled footer, so the capture does not differ in any way that matters. The link meets 2.4.4. The model judged without the destination: context_missing."
+    },
+    {
+      "fingerprint": "scae661d2569",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a visually hidden h2 'You are here:' (1px wide) that heads the breadcrumb nav, which takes its name from it. The content under it is the breadcrumb trail Home > About Us > Contact Us, followed by the h1 'Contact Us'. 'You are here:' is the usual label for a breadcrumb: it says that what follows is the user's current location in the site, which is exactly that content's purpose, and read together it gives 'You are here: Home, About Us, Contact Us'. 2.4.6 asks only that headings describe their topic or purpose, not that they use a particular word such as 'Breadcrumb', so the heading meets it and the claim that it says nothing about its content is false. The live HTML has the same h2 in the same breadcrumb nav, so the capture does not differ. Rampa had the nav's text in the element's context and still judged it wrongly: model_error."
+    }
+  ]
+}

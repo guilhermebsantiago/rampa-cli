@@ -1,0 +1,26 @@
+{
+  "page": "https://www.woodies.ie/paint-decorating",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "pe8b7166fa5e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the only content of the image link to /paint-decorating/decorating-tools in the category grid (photo of a brush, roller and colour fan), with alt \"Visit our Decorating Tools category\"; the snapshot's AX tree gives the link that name. Under 1.1.1 Situation C (H30) and the G82 test, the alternative must state the control's purpose: it names the destination, and the destination page's h1 is \"Decorating Tools\", so the alternative describes the link's function and the image meets 1.1.1. I looked for reasons it could still fail (an empty or file-name alt, a crop or name the collector got wrong, a different live version) and found none. A sighted user also has the visible h3 \"Decorating Tools\" under the image, so nothing is lost. captureDiffers: the screenshot is fully styled, and the live HTML fetched on 2026-11-21 has the same anchor, href and alt; my fetch is automated too, but nothing suggests a bot-only version."
+    },
+    {
+      "fingerprint": "p3157ab9474b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the main-navigation link with visible text \"Bathroom & Plumbing\", aria-label \"Go to Bathroom & Plumbing\" and href /bathroom-plumbing. Its destination's title and heading are \"Bathroom & Plumbing\", so the link text alone gives its purpose (2.4.4 met; ARIA8). The aria-label holds the visible text, so there is no mismatch, and aria-expanded only adds that it opens a submenu. No other link in the snapshot has the same accessible name, so the shared-name test (R1) does not apply; the submenu's \"Shop All Bathroom & Plumbing\" link has another name and goes to the same page anyway. captureDiffers: the screenshot shows the styled nav bar with this item, and the live HTML fetched on 2026-11-21 has identical markup for the anchor."
+    }
+  ]
+}

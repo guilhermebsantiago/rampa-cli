@@ -1,0 +1,201 @@
+{
+  "page": "https://www.chop.edu/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "07e3dc14d296",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"Italiano\" sits in the visible list under the heading 'Language Assistance/Auxiliary Aids and Services Available'; its text is the name of the language written in Italian. Neither the link nor any ancestor carries a lang attribute in the snapshot, so it inherits the page's lang=\"en\" (claimTrue yes). I looked for an exception that would let it pass: it is not a proper name, technical term, word of indeterminate language or English vernacular, and Understanding 3.1.2's own example of alternative-language links marks each language name (e.g. Deutsch, 繁體中文) with its lang attribute, so the element fails 3.1.2 for the reason the claim gives (the suggested lang=\"it\" is the right code). The live server HTML fetched today has the same anchor with no lang attribute, and the screenshot shows the list rendered, so the capture does not differ."
+    },
+    {
+      "fingerprint": "03159235ba6c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"Polski\" sits in the visible list under the heading 'Language Assistance/Auxiliary Aids and Services Available'; its text is the name of the language written in Polish. Neither the link nor any ancestor carries a lang attribute in the snapshot, so it inherits the page's lang=\"en\" (claimTrue yes). I looked for an exception that would let it pass: it is not a proper name, technical term, word of indeterminate language or English vernacular, and Understanding 3.1.2's own example of alternative-language links marks each language name (e.g. Deutsch, 繁體中文) with its lang attribute, so the element fails 3.1.2 for the reason the claim gives (the suggested lang=\"pl\" is the right code). The live server HTML fetched today has the same anchor with no lang attribute, and the screenshot shows the list rendered, so the capture does not differ."
+    },
+    {
+      "fingerprint": "530307cdbb38",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "'Login to MyCHOP' is the white 16px/600 text of the green hero CTA card. I sampled the screenshot under the text box: the background is #648727 (most pixels) with a few #638626, which gives 4.17:1 to 4.23:1 against #ffffff, as the claim says. The live outline.js styles .card-wrapper.dark_green with linear-gradient(to right top, #648727 50%, #5e7f24 50%), confirming the gradient that stopped axe-core and the colours under the text; even the darker half (#5e7f24, 4.63:1) is not where the text sits. 16px at weight 600 is not large text (needs 18.66px bold), so 4.5:1 applies and the text fails 1.4.3. Hover only darkens the card. No reason found that it passes; capture matches the live CSS."
+    },
+    {
+      "fingerprint": "pdb322575d39",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Refer a patient' to /healthcare-professionals/patient-referral-toolkit, in a nested list under the parent list item 'Healthcare Providers' (H81) and after the heading 'Footer'. The text alone states the purpose (referring a patient, which the referral toolkit serves). No other link in the snapshot or in the live HTML has this accessible name (the mega-menu 'Refer a patient' items are a span and a toggle button, not links), so there is no shared-name set. It meets 2.4.4; Rampa was right to report nothing. Live HTML matches the capture."
+    },
+    {
+      "fingerprint": "bd7ae50d2961",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"繁體中文\" sits in the visible list under the heading 'Language Assistance/Auxiliary Aids and Services Available'; its text is the name of the language written in Traditional Chinese. Neither the link nor any ancestor carries a lang attribute in the snapshot, so it inherits the page's lang=\"en\" (claimTrue yes). I looked for an exception that would let it pass: it is not a proper name, technical term, word of indeterminate language or English vernacular, and Understanding 3.1.2's own example of alternative-language links marks each language name (e.g. Deutsch, 繁體中文) with its lang attribute, so the element fails 3.1.2 for the reason the claim gives (the suggested lang=\"zh-Hant\" is the right code). The live server HTML fetched today has the same anchor with no lang attribute, and the screenshot shows the list rendered, so the capture does not differ."
+    },
+    {
+      "fingerprint": "sa5b40381644",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "News-card image (Photo-USNews2026-HonorRoll-ColtonAvamarie) with alt 'Children holding badge', above the h3 'Children's Hospital of Philadelphia Ranked One of the Best Children's Hospitals ... U.S. News & World Report'. The crop the model saw shows exactly that: two toddlers holding a U.S. News 'Best Children's Hospitals Honor Roll' badge, so the claim that the alternative describes something the image does not show is false. The badge's text is repeated by the adjacent heading, and the short description serves the image's illustrative purpose, so it does not fail 1.1.1. Live HTML has the same img and alt. The model had the right crop and judged wrongly."
+    },
+    {
+      "fingerprint": "4ee0721a1893",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"Español\" sits in the visible list under the heading 'Language Assistance/Auxiliary Aids and Services Available'; its text is the name of the language written in Spanish. Neither the link nor any ancestor carries a lang attribute in the snapshot, so it inherits the page's lang=\"en\" (claimTrue yes). I looked for an exception that would let it pass: it is not a proper name, technical term, word of indeterminate language or English vernacular, and Understanding 3.1.2's own example of alternative-language links marks each language name (e.g. Deutsch, 繁體中文) with its lang attribute, so the element fails 3.1.2 for the reason the claim gives (the suggested lang=\"es\" is the right code). The live server HTML fetched today has the same anchor with no lang attribute, and the screenshot shows the list rendered, so the capture does not differ."
+    },
+    {
+      "fingerprint": "361aaefc498b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"Português\" sits in the visible list under the heading 'Language Assistance/Auxiliary Aids and Services Available'; its text is the name of the language written in Portuguese. Neither the link nor any ancestor carries a lang attribute in the snapshot, so it inherits the page's lang=\"en\" (claimTrue yes). I looked for an exception that would let it pass: it is not a proper name, technical term, word of indeterminate language or English vernacular, and Understanding 3.1.2's own example of alternative-language links marks each language name (e.g. Deutsch, 繁體中文) with its lang attribute, so the element fails 3.1.2 for the reason the claim gives (the suggested lang=\"pt\" is the right code). The live server HTML fetched today has the same anchor with no lang attribute, and the screenshot shows the list rendered, so the capture does not differ."
+    },
+    {
+      "fingerprint": "19b91dace51a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"Français\" sits in the visible list under the heading 'Language Assistance/Auxiliary Aids and Services Available'; its text is the name of the language written in French. Neither the link nor any ancestor carries a lang attribute in the snapshot, so it inherits the page's lang=\"en\" (claimTrue yes). I looked for an exception that would let it pass: it is not a proper name, technical term, word of indeterminate language or English vernacular, and Understanding 3.1.2's own example of alternative-language links marks each language name (e.g. Deutsch, 繁體中文) with its lang attribute, so the element fails 3.1.2 for the reason the claim gives (the suggested lang=\"fr\" is the right code). The live server HTML fetched today has the same anchor with no lang attribute, and the screenshot shows the list rendered, so the capture does not differ."
+    },
+    {
+      "fingerprint": "p8f0fad447e9",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer award badge image whose visible text is 'World's Best Specialized Hospitals 2025', the Newsweek logo and 'powered by statista'; alt 'World's Best Specialized Hospitals - 2025'. The alternative carries the award name and year, which is the information the badge exists to convey; leaving out the publisher's logo and the 'powered by' line is a completeness nicety, not a loss of the image's purpose, so I find it meets 1.1.1 (adding 'Newsweek' would be better). Not a link. Live HTML has the same img and alt."
+    },
+    {
+      "fingerprint": "c81eee23397a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"Русский\" sits in the visible list under the heading 'Language Assistance/Auxiliary Aids and Services Available'; its text is the name of the language written in Russian. Neither the link nor any ancestor carries a lang attribute in the snapshot, so it inherits the page's lang=\"en\" (claimTrue yes). I looked for an exception that would let it pass: it is not a proper name, technical term, word of indeterminate language or English vernacular, and Understanding 3.1.2's own example of alternative-language links marks each language name (e.g. Deutsch, 繁體中文) with its lang attribute, so the element fails 3.1.2 for the reason the claim gives (the suggested lang=\"ru\" is the right code). The live server HTML fetched today has the same anchor with no lang attribute, and the screenshot shows the list rendered, so the capture does not differ."
+    },
+    {
+      "fingerprint": "b7eafbbfc6cc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"한국어\" sits in the visible list under the heading 'Language Assistance/Auxiliary Aids and Services Available'; its text is the name of the language written in Korean. Neither the link nor any ancestor carries a lang attribute in the snapshot, so it inherits the page's lang=\"en\" (claimTrue yes). I looked for an exception that would let it pass: it is not a proper name, technical term, word of indeterminate language or English vernacular, and Understanding 3.1.2's own example of alternative-language links marks each language name (e.g. Deutsch, 繁體中文) with its lang attribute, so the element fails 3.1.2 for the reason the claim gives (the suggested lang=\"ko\" is the right code). The live server HTML fetched today has the same anchor with no lang attribute, and the screenshot shows the list rendered, so the capture does not differ."
+    },
+    {
+      "fingerprint": "f1c8512d5715",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"العربية\" sits in the visible list under the heading 'Language Assistance/Auxiliary Aids and Services Available'; its text is the name of the language written in Arabic. Neither the link nor any ancestor carries a lang attribute in the snapshot, so it inherits the page's lang=\"en\" (claimTrue yes). I looked for an exception that would let it pass: it is not a proper name, technical term, word of indeterminate language or English vernacular, and Understanding 3.1.2's own example of alternative-language links marks each language name (e.g. Deutsch, 繁體中文) with its lang attribute, so the element fails 3.1.2 for the reason the claim gives (the suggested lang=\"ar\" is the right code). The live server HTML fetched today has the same anchor with no lang attribute, and the screenshot shows the list rendered, so the capture does not differ."
+    },
+    {
+      "fingerprint": "6369b2c3002d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Sub-footer link 'Privacy policy' (href /privacy-policy). The snapshot has two more links named 'Privacy Policy', both in the OneTrust cookie banner paragraph, with href https://www.chop.edu/privacy-policy: the same resource once the relative URL is resolved (the snapshot's destinations list one Privacy Policy page, status 200). So three links share the name but they lead to one place, not two, and the claim is false. Under R1 a set whose links all resolve to the same resource meets the expectation; the banner links are also in a different paragraph and so not in this link's context set. The link meets 2.4.4. Live HTML has the same footer href. The checker had both hrefs and misjudged them as different places."
+    },
+    {
+      "fingerprint": "bdf2c16079d4",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"Tiếng Việt\" sits in the visible list under the heading 'Language Assistance/Auxiliary Aids and Services Available'; its text is the name of the language written in Vietnamese. Neither the link nor any ancestor carries a lang attribute in the snapshot, so it inherits the page's lang=\"en\" (claimTrue yes). I looked for an exception that would let it pass: it is not a proper name, technical term, word of indeterminate language or English vernacular, and Understanding 3.1.2's own example of alternative-language links marks each language name (e.g. Deutsch, 繁體中文) with its lang attribute, so the element fails 3.1.2 for the reason the claim gives (the suggested lang=\"vi\" is the right code). The live server HTML fetched today has the same anchor with no lang attribute, and the screenshot shows the list rendered, so the capture does not differ."
+    },
+    {
+      "fingerprint": "af26698394e9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Sub-footer link 'Terms of use' (href /terms-use). The only other link with this name is 'Terms of Use' in the OneTrust cookie banner paragraph, href https://www.chop.edu/terms-use: the same page once the relative URL is resolved (one Terms of Use destination in the snapshot). The claim that the two lead to 2 different places is false. Under R1 links resolving to the same resource meet the expectation, and the banner link's paragraph context differs anyway; the text names the purpose. It meets 2.4.4. Live HTML matches. The checker had the hrefs and judged wrongly."
+    },
+    {
+      "fingerprint": "38b1eafe17ad",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The footer link \"Deutsch\" sits in the visible list under the heading 'Language Assistance/Auxiliary Aids and Services Available'; its text is the name of the language written in German. Neither the link nor any ancestor carries a lang attribute in the snapshot, so it inherits the page's lang=\"en\" (claimTrue yes). I looked for an exception that would let it pass: it is not a proper name, technical term, word of indeterminate language or English vernacular, and Understanding 3.1.2's own example of alternative-language links marks each language name (e.g. Deutsch, 繁體中文) with its lang attribute, so the element fails 3.1.2 for the reason the claim gives (the suggested lang=\"de\" is the right code). The live server HTML fetched today has the same anchor with no lang attribute, and the screenshot shows the list rendered, so the capture does not differ."
+    },
+    {
+      "fingerprint": "p1d971c81dfd",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer badge image reading 'Magnet Recognized' and 'American Nurses Credentialing Center'; alt 'Magnet Recognized - American Nurses Credentialing Center' reproduces all of its text, which is the badge's purpose. It meets 1.1.1; Rampa was right to report nothing. Live HTML has the same img and alt."
+    }
+  ]
+}

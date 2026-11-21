@@ -1,0 +1,39 @@
+{
+  "page": "https://chesterbeatty.ie/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "sa495d643bdf",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the footer navigation link 'Accessibility' (href /visit/accessibility/). claimTrue: the snapshot's destination record for /visit/accessibility/ has the title 'Visit - Chester Beatty', heading 'Visit' and the Visit page's description, the same as /visit/, so the sentence holds for the capture. elementFails: I fetched /visit/accessibility/ live. It returns 200 with no redirect and serves the general Visit page (h1 'Visit': opening times, location, getting here, then a short 'Accessibility' card, 'Plan your accessible visit here', whose 'Find out more' link goes to /accessibility-info/). The theme JS does not scroll to that card based on the path. The real Accessibility page is /accessibility-info/ (title 'Accessibility - Chester Beatty'), which the header menu's 'Accessibility' link points to. So the footer link's name promises accessibility information, but it lands on the top of a general visitor page. My reading is that its name does not describe where it goes, so it fails 2.4.4 for the reason the claim gives. R1 does not apply: the header link sits in a different list and under different headings, so the two links are not in one set. captureDiffers: the live footer link has the same href, and the live destination matches the capture. Label: competent auditors could reasonably split on this. The destination does hold an 'Accessibility' section that leads to the information, and many would log a stale link target as a functional bug rather than a 2.4.4 failure. So the label is uncertain."
+    },
+    {
+      "fingerprint": "s8ba210850df",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the footer 'highlight' image, alt 'Image of figure detail for website, mask'. It sits inside a link (href #footerimagetext) that also holds the sr-only text 'See information about Image of figure detail for website, mask', so the image is not the link's only content and R2 does not apply. Activating the link reveals a caption box that is hidden by default (notVisible in the snapshot): 'Netsuke in shape of Noh mask, 18th or 19th century, Japan, CBL J 0193'. claimTrue: the crop and the screenshot show a carved mask, and the alt names a mask. The sentence says the alt describes something the image does not show, which is not so: 'figure detail for website' is CMS filler, not a description of an absent object. elementFails: the alt identifies the subject (a mask), which is the gist that a sighted user gets before opening the caption. The link's name tells users they can get more information, so on a normative reading the image meets 1.1.1, if poorly ('Image of' is redundant and 'figure detail for website' is meaningless). captureDiffers: the footer image rotates on each load. My live fetch of the home page happened to serve this same image with the same alt, the same sr-only text and the same hidden caption, so the capture matches. Label: competent auditors could reasonably fail this alt as placeholder text that leaves out what the object is (a netsuke Noh mask). Read in good faith, the claim would then name that defect, so the label is uncertain rather than false_positive."
+    },
+    {
+      "fingerprint": "d29963ab5924",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the second paragraph of the home page's alert box: a full Irish sentence about the Education Team's programme ('Tá an Fhoireann Oideachais ... féach an Clár Imeachtaí.'). The box then repeats the notice in English. claimTrue: in the snapshot, the p and every ancestor up to html carry no lang except html lang='en', and the text is Irish, so the sentence holds. elementFails: in the live HTML, the html element has lang='en' and it is the only lang attribute on the page. The paragraph is a plain <p> with no lang, and no script sets one (the theme's Gaeilge toggle only swaps some headings' text). A whole passage in Irish is not covered by 3.1.2's exceptions for proper names, technical terms or vernacular words, so screen readers will speak it with English pronunciation rules. The paragraph fails 3.1.2 for the reason the claim gives. captureDiffers: the live page serves the same paragraph unmarked, and the screenshot shows it rendered as captured, so the label is true_positive."
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "page": "https://mppr.mp.br/ouvidoria",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "e14c5bebf2f2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the current-page item of the breadcrumb (li.active, 'Ouvidoria-Geral do Ministério Público'), 13px normal-weight text. The snapshot records #777777 on #f5f5f5 (4.107:1), and pixels sampled from the screenshot over the item are exactly #777777 and #f5f5f5, so the claim holds. The live style sheets still set .breadcrumb{background-color:#f5f5f5} and .breadcrumb>.active{color:#777}, and the live HTML has the same breadcrumb, so the capture matches what users receive. This is informative text, not incidental or a logo, and at 13px it needs 4.5:1, so it fails 1.4.3. The page has a 'Contraste' toggle, but no high-contrast rule in the style sheets targets the breadcrumb's active item, so G174 does not evidently cure it. The claim names the real failure."
+    },
+    {
+      "fingerprint": "s784e14224c9",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link 'Clique aqui' (title 'Clique aqui') goes to the Ouvidoria Contato page. Its own paragraph reads 'Horário de atendimento ao público: Clique aqui.', under the h3 'Nossos contatos', so the link text together with its paragraph tells users the link shows the public opening hours. The destination does exactly that: its first content is 'Horário de atendimento ao público: De segunda à sexta-feira, das 12h às 19h'. The claim's 'nothing around it does' is false of the capture, which held that paragraph (with the full stop oddly moved to the front). The live HTML has the same paragraph and link. The other 'Clique aqui' links on the page sit in different paragraphs, so R1 does not group them. The link passes 2.4.4, and the model had the context and judged wrongly."
+    },
+    {
+      "fingerprint": "s092c6459457",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the page's only h1, the site logo heading, whose name is 'OUVIDORIA-GERAL DO MINISTÉRIO PÚBLICO' (sr-only) plus the visible 'Ouvidoria-Geral do Ministério Público'. This page is the Ouvidoria-Geral home page, and everything under the heading (the Ouvidoria navigation, 'Quem somos' about the Ouvidoria, its contacts and other service channels) is about the Ouvidoria-Geral, so the heading describes the topic of the content it introduces. The doubled text is redundant, but it does not make the heading non-descriptive. The claim that it says nothing about that content is false of the capture. The live HTML has the same h1. The heading passes 2.4.6."
+    },
+    {
+      "fingerprint": "p1ca9a8fb02a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the grey 'i' speech-bubble icon (the Brazilian Lei de Acesso à Informação symbol) beside the 'Serviço de Informação ao Cidadão (Lei de Acesso à Informação)' entry. It is not inside a link (confirmed in the live HTML). Its alt 'ícone Acesso à Informação' accurately names what the icon stands for. The image is redundant with the adjacent text, but the alternative is meaningful, not a placeholder like 'spacer' or 'image' (F39), so it serves an equivalent purpose and does not fail 1.1.1. The live page has the same image and alt."
+    },
+    {
+      "fingerprint": "p758fa8a0660",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The image is the footer logo, the coat of arms with the words 'Ministério Público do Estado do Paraná', and it is the only content of a link to https://mppr.mp.br/ (the MPPR portal home). Its alt 'Ministério Público do Estado do Paraná' reproduces the text in the logo and names the link's destination, as H30 asks, so the image passes 1.1.1. The live HTML has the same link, image and alt. The cookie banner covers it in the screenshot, but the crop shows the logo."
+    },
+    {
+      "fingerprint": "s75c99d8fc75",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The page title is 'Ouvidoria-Geral do Ministério Público | Ministério Público do Estado do Paraná'. The page at /ouvidoria is the home page of MPPR's Ouvidoria-Geral (who they are, how to file and track a complaint, contacts), so the title names this page's topic and its site, which is what 2.4.2 asks. The claim that it says nothing about the page is false. The live page serves the same title. The page passes 2.4.2."
+    },
+    {
+      "fingerprint": "s08b9fd907a1",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The image (a 'CN MP' logo tile) is the only content of a link to https://www.cnmp.mp.br/portal/, the portal of the Conselho Nacional do Ministério Público. Its alt 'ícone CNMP' names CNMP, the destination's organisation, so with the image replaced by its alternative (the G82/R2 test) users can tell the link goes to CNMP. The word 'ícone' is redundant, but the alternative identifies the destination as H30 asks. The claim's 'does not say where the link leads' is therefore false of the capture. The live HTML has the same link and alt. The image passes 1.1.1 on this point."
+    },
+    {
+      "fingerprint": "scea20ffc3be",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The link 'Clique aqui' goes to https://site.mppr.mp.br/sic ('SIC - Serviço de Informações ao Cidadão | MPPR'). It ends a paragraph that reads 'Bem-vindo ao canal de comunicação direta entre o Ministério Público do Paraná e o cidadão. Aqui você encontrará as principais informações de interesse público sobre a instituição e poderá fazer pedidos de acesso à informação.' That same paragraph is programmatically determined context, and it tells users the link opens the channel for public-interest information and access-to-information requests, which is what the SIC page is. The bold title link above it is in a separate paragraph, so it does not count, and it is not needed. The claim that nothing around the link tells where it goes is false of the capture. The live HTML has the same markup. The other 'Clique aqui' links are in different paragraphs, so R1 does not apply. The link passes 2.4.4."
+    },
+    {
+      "fingerprint": "p823948f02b1",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The link text 'Conselho Nacional do Ministério Público (CNMP)' goes to https://www.cnmp.mp.br/portal/ ('Conselho Nacional do Ministério Público - Início'). The link text alone names the destination, and no other link on the page shares this name, so it passes 2.4.4. In the snapshot it carries target=_blank and an empty invisible span, which a script adds; the served HTML lacks them, but neither touches 2.4.4. (A new window opening without warning is not a 2.4.4 matter.)"
+    }
+  ]
+}

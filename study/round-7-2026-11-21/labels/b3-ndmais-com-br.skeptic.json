@@ -1,0 +1,125 @@
+{
+  "page": "https://ndmais.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "pf932fc595eb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A photo (Moraes and the councilwoman) that is the only content of a carousel link to the story; its alt is the story's headline, \"Vereadora de SC diz que não atirou em Moraes porque seria presa\", the same as the link's title and the destination's subject. Replacing the image with its alt (G82/H30) tells users where the link goes, so the control's name describes its purpose and 1.1.1 is met; the headline repeated in the h2 beside it is redundancy, not a failure. captureDiffers: the live carousel has rotated to newer stories, but the same story and image appear on the live page with an alt that is again the headline, so the change does not touch this question."
+    },
+    {
+      "fingerprint": "677f6156619a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"Santa Catarina\" link in the secondary nav bar is white text (#menu-secundario ul li a: color var(--bs-white)), 16px weight 500 at desktop width, so not large text, on the bar's linear-gradient(135deg, rgb(34,202,247), rgb(155,54,247)). claimTrue: the snapshot reports 3.25:1 at best and 2.92:1 at worst behind the text, and my own sampling of the screenshot behind the label gives 2.89 to 3.33. elementFails: I looked for something that would rescue it (a text-shadow, a darker backing, a larger size) and found none in menu-secundario.css or the header styles; the gradient's lightest and darkest points under this label are both below 4.5:1, so it fails 1.4.3. captureDiffers: the live stylesheet (menu-secundario.css ver 1.0.12) and the live --gradient-start/--gradient-end values are the ones the screenshot shows. The claim names the real failure."
+    },
+    {
+      "fingerprint": "db02d9666b9f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter e-mail field (aria-label \"E-mail\") shows the placeholder \"Seu e-mail\" at 15px weight 400. claimTrue: the live newsletter-widget.css sets .nd-nl__input::placeholder { color: #8A9099 } on background #fff, which computes to 3.22:1, as the claim says. elementFails: Understanding 1.4.3 states the criterion \"applies to text in the page, including placeholder text\"; the field is active, the text is not decorative or incidental, and the placeholder is the only visible label of the field (the aria-label is not shown), so no exception applies and it fails 4.5:1. captureDiffers: the live markup and stylesheet match the capture and the screenshot."
+    },
+    {
+      "fingerprint": "ddacd46a4166",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"Economia\" link in the secondary nav bar is white text (#menu-secundario ul li a: color var(--bs-white)), 16px weight 500 at desktop width, so not large text, on the bar's linear-gradient(135deg, rgb(34,202,247), rgb(155,54,247)). claimTrue: the snapshot reports 4.10:1 at best and 3.86:1 at worst behind the text, and my own sampling of the screenshot behind the label gives 3.83 to 4.16. elementFails: I looked for something that would rescue it (a text-shadow, a darker backing, a larger size) and found none in menu-secundario.css or the header styles; the gradient's lightest and darkest points under this label are both below 4.5:1, so it fails 1.4.3. captureDiffers: the live stylesheet (menu-secundario.css ver 1.0.12) and the live --gradient-start/--gradient-end values are the ones the screenshot shows. The claim names the real failure."
+    },
+    {
+      "fingerprint": "30a3c715d9c6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The Colunistas carousel's previous button: a 36px #eeeff6 circle holding a Bootstrap Icons chevron (an icon-font glyph). claimTrue: the snapshot's pixelContrast took the foreground from pixels (foregroundFrom: pixels); in the screenshot the thin stroke is rendered as sub-pixel anti-aliased pairs #9391bf/#30b0e6, so the sentence is true of the captured rendering. elementFails: colunistas-slide-v3.css sets the button's color to var(--blue) = #0277BD on background #eeeff6, which is 4.18:1, above 3:1. Understanding 1.4.11 says to \"refer to the colors obtained from the user agent, or the underlying markup and stylesheets, rather than the non-text elements as presented on screen\", because thin lines are rendered fainter than their CSS colour, and calls such a case one that nominally passes. Measured that way the icon meets 1.4.11, so the rule applied a stricter test than the criterion. captureDiffers: the live CSS has the same colours; only the static aria-label text differs, which does not touch contrast."
+    },
+    {
+      "fingerprint": "93a698f5565c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"Brasil\" link in the secondary nav bar is white text (#menu-secundario ul li a: color var(--bs-white)), 16px weight 500 at desktop width, so not large text, on the bar's linear-gradient(135deg, rgb(34,202,247), rgb(155,54,247)). claimTrue: the snapshot reports 3.51:1 at best and 3.34:1 at worst behind the text, and my own sampling of the screenshot behind the label gives 3.31 to 3.59. elementFails: I looked for something that would rescue it (a text-shadow, a darker backing, a larger size) and found none in menu-secundario.css or the header styles; the gradient's lightest and darkest points under this label are both below 4.5:1, so it fails 1.4.3. captureDiffers: the live stylesheet (menu-secundario.css ver 1.0.12) and the live --gradient-start/--gradient-end values are the ones the screenshot shows. The claim names the real failure."
+    },
+    {
+      "fingerprint": "p9bb5a83fd3a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A thumbnail (a man speaking at a council session) that is the only content of a link to the story \"Por 7 a 0, TRE-SC livra vereadores do PL de Balneário Camboriú da cassação\"; its alt is the headline \"TRE-SC livra vereadores do PL de Balneário Camboriú da cassação\", the same as the link's title. Read as the link's text it names the story the link opens, so the control's name describes its purpose (H30) and 1.1.1 is met; repeating the h2 headline is redundancy, not a failure. captureDiffers: the live page has the same link, image and alt."
+    },
+    {
+      "fingerprint": "s07bf041f81d",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "An h2 \"Estilo de vida\" (a link to the site's /estilo-de-vida/ section) heading a home-page column. The content under it, in the snapshot and the screenshot, is lifestyle stories: a Moacir Pereira column on a church given to a community, two Moda e Beleza items (short haircuts, platinum blonde), two Comportamento items, and a \"Mais em Estilo de vida\" link. The heading names that section's topic, so the claim that it names a different topic is false and 2.4.6 is met. The A Fazenda headings the model may have read belong to the previous column, \"ND Mais Pop\". captureDiffers: the live page has the same section heading; its stories rotate but are from the same section."
+    },
+    {
+      "fingerprint": "8dcd7ab9b4d3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The newsletter name field (aria-label \"Nome\") shows the placeholder \"Seu nome\" at 15px weight 400. claimTrue: the live newsletter-widget.css sets .nd-nl__input::placeholder { color: #8A9099 } on background #fff, 3.22:1. elementFails: Understanding 1.4.3 states the criterion applies to \"text in the page, including placeholder text\"; the field is active and the placeholder is its only visible label, so none of the exceptions applies and it fails 4.5:1. captureDiffers: the live markup and stylesheet match the capture and the screenshot."
+    },
+    {
+      "fingerprint": "6343209ad2b3",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"Política\" link in the secondary nav bar is white text (#menu-secundario ul li a: color var(--bs-white)), 16px weight 500 at desktop width, so not large text, on the bar's linear-gradient(135deg, rgb(34,202,247), rgb(155,54,247)). claimTrue: the snapshot reports 3.80:1 at best and 3.60:1 at worst behind the text, and my own sampling of the screenshot behind the label gives 3.57 to 3.86. elementFails: I looked for something that would rescue it (a text-shadow, a darker backing, a larger size) and found none in menu-secundario.css or the header styles; the gradient's lightest and darkest points under this label are both below 4.5:1, so it fails 1.4.3. captureDiffers: the live stylesheet (menu-secundario.css ver 1.0.12) and the live --gradient-start/--gradient-end values are the ones the screenshot shows. The claim names the real failure."
+    },
+    {
+      "fingerprint": "d9b0a6570f4c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The \"Últimas notícias\" link in the secondary nav bar is white text (#menu-secundario ul li a: color var(--bs-white)), 16px weight 500 at desktop width, so not large text, on the bar's linear-gradient(135deg, rgb(34,202,247), rgb(155,54,247)). claimTrue: the snapshot reports 2.85:1 at best and 2.53:1 at worst behind the text, and my own sampling of the screenshot behind the label gives 2.51 to 2.90. elementFails: I looked for something that would rescue it (a text-shadow, a darker backing, a larger size) and found none in menu-secundario.css or the header styles; the gradient's lightest and darkest points under this label are both below 4.5:1, so it fails 1.4.3. captureDiffers: the live stylesheet (menu-secundario.css ver 1.0.12) and the live --gradient-start/--gradient-end values are the ones the screenshot shows. The claim names the real failure."
+    }
+  ]
+}

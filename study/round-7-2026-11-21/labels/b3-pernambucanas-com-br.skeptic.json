@@ -1,0 +1,134 @@
+{
+  "page": "https://www.pernambucanas.com.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "73521738f9df",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the image of hero carousel slide 2 of 9 (the active, visible slide at capture, not aria-hidden). It is the only content of a link to the electronics listing, and the link has no aria-label or title, so its name is the alt \"Descriptive text for the image\". The crop shows a Black Friday banner for small appliances (10x sem juros or 10% off via PIX, Compre agora). The alt is a placeholder: it describes neither the image nor where the link goes, which fails 1.1.1 under H30 and G82. I looked for a reason it could pass and found none. The live JS bundle hardcodes alt=\"Descriptive text for the image\" in the banner Image component, and the live page config still has this slide active with the same image and URL, so the capture matches what users get (only the slide on screen rotates). The claim names the failure."
+    },
+    {
+      "fingerprint": "pda9342f9b70",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Category tile image inside a link whose visible text is also \"Moda Jeans\" (link name \"Moda Jeans\", title \"Moda Jeans\", to /moda-jeans, destination \"Mundo Jeans\"). The crop shows a person in a denim jacket and jeans, which \"Moda Jeans\" fits, and the image is not the link's only content. The alt repeats the link text, which is redundant (H2 would prefer a null alt) but no documented 1.1.1 failure. The live page config has the same label, alt and URL. Passes 1.1.1."
+    },
+    {
+      "fingerprint": "6982a269f459",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Newsletter signup field (id newsletter-email, type=email, required, label \"ex.: nome@email.com\", under the heading \"Não fique de fora das novidades!\"). It collects the user's own email address, a purpose in WCAG's Input Purposes list, and has no autocomplete attribute. I checked whether anything could make it pass. type=email gives only the data format, not that the address is the user's own, and the sufficient technique H98 relies on the autocomplete token. In the live JS bundle, the CustomNewsletter component renders this input with id, type, required and label but no autoComplete, while other forms in the same bundle set autoComplete:\"email\". So the live page matches the capture. The claim names the 1.3.5 failure."
+    },
+    {
+      "fingerprint": "pa4ca771cca4",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Category tile image inside a link with the visible text \"Black Friday\" (to /black-friday, title \"Black Friday\"). The crop shows the \"BLACK FRIDAY / PERNAMBUCANAS\" badge, so the alt \"Black Friday\" gives its main text. Leaving out the brand word does not change the function, and the image is not the link's only content. The alt repeats the link text, which is redundant but not a 1.1.1 failure. The live config is unchanged. Passes 1.1.1."
+    },
+    {
+      "fingerprint": "sab4fca184cb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "This is the footer link \"Black Friday\" to /black-friday, the Black Friday 2026 landing page. It sits in a one-link list item under the visual column label \"Institucional\", which is an image and text, not a heading. Other links in the tree share the name. The category tile goes to /black-friday, the same resource. The main nav link \"Black Friday\" goes to /colecao-completa, the generic product listing for the whole catalogue, which I read as not equivalent: the nav link is the one whose name is wrong. The live page config confirms both URLs. Footer position and the main nav tell the links apart visually, so if the footer link and the nav link form one set, the footer link fails under R1. The doubt is the set. By this rubric's context list, the heading just before the footer link is the newsletter h3 \"Não fique de fora das novidades!\", while the nav link has no heading before it. Read literally, their contexts are neither the same nor identical, so the footer link would not be in a set with the nav link and would pass. Read for meaning, that unrelated heading tells nothing about either link, so they are in one set and the link fails. The equivalence of a full listing and a Black Friday landing page during Black Friday can also be argued. Competent auditors would reasonably split here, so the label is uncertain."
+    },
+    {
+      "fingerprint": "sa5421c2b79b",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Category tile image inside a link with the visible text \"Casa\" (to /casa, the home textiles listing: pillows, duvets, sheets). The crop shows an orange sofa with patterned cushions and a throw, which is home goods, so \"Casa\" (home) fits it and the category it represents. The claim that the alt describes something the image does not show is false. The image is not the link's only content, and the alt matches the visible label. The live config has the same alt and URL. Passes 1.1.1, and the model had the crop."
+    },
+    {
+      "fingerprint": "p851162d325b",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Main nav link \"Beleza\" to /beleza, the beauty listing (makeup, kits, fragrances). In a store's category menu the text alone gives its purpose. Other links named \"Beleza\" either go to the same resource (the category tile /Beleza, which loads the same page and title, and a hidden menu entry to /beleza) or have different context: the hidden Saldos submenu entry goes to /saldao filtered to beauty and sits in a nested list under its own parent item. The live config has the nav link at /beleza. Passes 2.4.4."
+    },
+    {
+      "fingerprint": "p20c124f6f99",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Category tile image inside a link with the visible text \"Saldos 70%\" (to /saldao, the clearance listing). The crop shows a \"SALDOS / PERNAMBUCANAS\" badge. The alt \"Saldos 70%\" gives the tile's function and matches the link's visible label. The image is not the link's only content, so the small difference from the pictured text (\"70%\" added, the brand dropped) costs users nothing. The live config is unchanged. Passes 1.1.1."
+    },
+    {
+      "fingerprint": "s1bb1142ba97",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Footer link \"LGPD\" to /lgpd, in the \"Atendimento e Ouvidoria\" list. The destination's title is the generic \"Pernambucanas\", which is the only thing the claim rests on. I fetched /lgpd: it is a landing page named \"LGPD\" with the text \"LGPD\" and \"Para assuntos relacionados à LGPD, enviar um e-mail para a encarregada de dados pessoais (DPO)... lgpd@pernambucanas.com.br\". The link text matches where the link leads, so the claim is false and the link passes 2.4.4. The checker had only the page's generic title, not its content."
+    },
+    {
+      "fingerprint": "seb0ce3ce8ba",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Header search field in a role=search form, aria-label \"O que você procura?\", empty placeholder. The claim says nothing on screen tells what to enter. In the snapshot, a visible span inside the field's box (bounds about 302,74, aria-hidden but displayed) reads \"Estou buscando por: air fryer\". The live JS bundle shows this rotating hint (\"Estou buscando por:\" plus a suggested term) is drawn whenever the field is empty. Next to it is a submit button with a magnifying-glass icon. A visible search hint plus the search icon tells sighted users what to enter, so the field meets 3.3.2. The button's missing accessible name is another issue. The screenshot leaves the header band blank, a screenshot artefact, but the snapshot holds the span with its bounds, and the model had that text among the ancestors."
+    },
+    {
+      "fingerprint": "88602cb0ab17",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "[visual context] The element is the whole-banner image link inside the popup dialog \"Live Sawary Jeans\". The link has aria-label \"Confira\", its image has alt=\"\", and it goes to /colecao-completa, the generic full-catalogue listing. The popup is enabled in the live config (imageOnly, shown once per session, CTA \"Confira\" to /colecao-completa). It was present in the snapshot; the collector only hid its backdrop for the screenshot. By this rubric's context list, nothing gives the purpose: no title or aria-describedby, no sentence, paragraph, list item or cell, and no heading before it in document order. The dialog's aria-label is not on the list. Even with it, \"Live Sawary Jeans\" would not say the link opens the whole catalogue. What explains the link to sighted users is the text drawn in the banner image (Pernambucanas x Sawary, nova coleção, frete grátis, per the config). \"Confira\" alone fails 2.4.4, and the claim names that."
+    },
+    {
+      "fingerprint": "sa7c504d58e3",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Category tile image inside a link with the visible text \"Beleza\" (to /Beleza, the beauty listing). The crop shows an eyeshadow palette, a body splash bottle and a lip gloss, which are beauty products, so \"Beleza\" (beauty) fits the image and its category. The claim is false. The image is not the link's only content, the alt matches the visible label, and the live config is unchanged. Passes 1.1.1."
+    }
+  ]
+}

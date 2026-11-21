@@ -134,3 +134,40 @@ main until the tool improves); every commit is local, on study/round-7-run.
        of them default-threshold judged findings, the primary population), 194 pass-sample rows (6 drawn items were
        already in a packet), 69 suggestions. judge_prompt.py --all: 116 prompt files, judge-prompts/index.json, largest
        packets first (37 items down to 1). No judge launched by the runner.
+15:05  Main session told (SendMessage) that judge-prompts/index.json is ready; T4 started (full2-full5 on the 12-page
+       subset, then the live --fast collection and fast1-fast5), GPU only, apart from packets/ and labels/.
+15:07  analyze.py and check_labels.py ran end to end on synthetic random labels over this round's packets, in a copy
+       outside the repository (0 label problems; every summary section written; its numbers not read; the copy deleted).
+16:30  T4 full mode done: full2 15:04-15:26, full3 -15:47, full4 -16:08, full5 -16:30; 12 of 12 pages in each run, every
+       run exited 0 or 1. Judges were already writing label files (launched by the main session; not read here).
+16:33  T4 live --fast collection (16:29-16:33): 12 of 12 on the first attempt, no network error in their consoles (fast
+       mode reads no link destinations). fast1-fast5 started.
+16:45  Overlap (told by the main session): from about 16:45 another agent ran the rampa-cli test suite in a separate
+       worktree (node and about 45 Edge processes): CPU at 96-100% and about 5 GB of memory free while T4's fast runs
+       (fast2 onwards) ran. Time-per-page figures of the T4 runs from 16:45 to the suite's end are affected and are
+       flagged as such; verdict stability should not be (same model, temperature 0, empty caches).
+17:12  T4 done: fast1 16:33-16:40, fast2 -16:49, fast3 -16:58, fast4 -17:05, fast5 -17:13; 12 of 12 pages complete in
+       both modes, every run exited 1. fast2 (in part) to fast5 ran during the other agent's test suite (16:45 on): their
+       times are affected. compact.py (345 compact reports), hashes.py (204 recording and screenshot files, 361 MB),
+       t4.py (data/t4.json).
+16:57  The main session reported all 116 label files written (judges launched by it, not by the runner).
+       check_labels.py: 116 files, problems 0 (16:57, and again at 17:13).
+17:13  analyze.py run (data/summary.json, data/findings.json, data/pages.json). Pre-registered result, AI-judged, held-out:
+       primary 69 TP / 24 FP / 12 uncertain of 105 default-threshold judged findings on 30 pages; precision 0.742,
+       Wilson 0.645-0.820, page bootstrap 0.552-0.932: INCONCLUSIVE by the article's rule (Wilson lower bound < 0.80);
+       93 decided (at least 70). Per criterion: 1.1.1 46/0/10, 1.3.5 11/0/0, 2.4.4 6/24/2, 3.1.2 6/0/0. Uncertain share
+       0.114 (target <= 0.15: met). Same-name link sets: 7 sets (24 findings), 1/4/2 by set; per-unit precision 0.868.
+       T4 decision level: full 0.987 (Wilson 0.980-0.992), fast 0.992 (0.985-0.996): target 0.95 met in both; prompt
+       level 0.966 and 0.943; default findings in all five 17/22 and 10/12. Time: full median 141 s a page (collection
+       plus judgment, p90 207 s); fast median 51 s from fast1 alone (before the overlap; p90 66 s), 52 s over the five
+       runs. Against the sixth study's test half (0.606): +0.136, Newcombe 0.003-0.261, unpaired page bootstrap
+       -0.118-0.417: "no measurable change" by the pre-registered two-interval rule. Not reported by axe-core on the
+       same element and criterion: 69 of 69 true findings (Wilson 0.947-1.0). Judge kappa 0.935 (judged findings 0.889).
+       Ablation counts (not labelled): --no-confirm adds 53 default findings, --no-verify adds 1, --no-llm removes all 105.
+       Recall among judged candidates (secondary): 1.1.1 0.636 (0.367-0.900), 2.4.4 0.198 (0-1.0; 2,437 of 4,911 link
+       candidates capped).
+17:14  Exploratory, asked for by the main session after the result (scripts/exploratory.py, data/exploratory.json; not
+       pre-registered): the primary measure without the judged 2.4.4 findings, 63 TP / 0 FP / 10 uncertain, precision
+       1.000, Wilson 0.943-1.000, page bootstrap 1.000-1.000. 2.4.4 counted by claim: shared text 4/18/2, generic 2/4/0,
+       mismatch 0/2/0; false-positive causes context_missing 15, model_error 9; the 24 on 7 pages, 13 on the largest one
+       (counted, not read for patterns).

@@ -1,0 +1,120 @@
+{
+  "page": "https://www.febrasgo.org.br/noticia/cancer-na-infancia-pode-deixar-marcas-na-fertilidade-e-essa-conversa-precisa-comecar-no-diagnostico/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "p0ac75f6cda4",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The element is the thumbnail of the first card in the 'Veja mais conteúdos' carousel: a stock photo (hands holding a gold awareness ribbon, no text in the image), not inside a link (the card's link is the separate arrow image 'Ver notícia'). Its alt repeats the card's h5 headline. The alternative identifies what the picture illustrates (the childhood-cancer story); repeating the adjacent headline is a redundancy, a best-practice issue, not a documented 1.1.1 failure (F30 covers file names and placeholders, F38 only purely decorative images, and a topical ribbon photo is not purely decorative). The live HTML has the same img and alt as the snapshot, so the capture does not differ. The element meets 1.1.1."
+    },
+    {
+      "fingerprint": "p93da7ada276",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. Thumbnail of the second carousel card: a stock photo of a pregnant woman with no text in it, not inside a link (the arrow 'Ver notícia' is the link). Its alt equals the card's h5 headline about sickle-cell disease and maternal death. The alternative names the subject the photo illustrates; the duplication with the headline is redundant for screen-reader users but is not a 1.1.1 failure under any documented failure, and the image is not purely decorative. Live HTML matches the snapshot's img and alt. The element meets 1.1.1."
+    },
+    {
+      "fingerprint": "pfc6fabd2c7f",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. Thumbnail of the tenth carousel card (baby's feet, no text in the image). In the capture its slick slide is off-screen (x=2647) and aria-hidden, so it is not presented to users at that moment; when the carousel brings it into view it carries alt equal to the card's h5 headline (Novembro Roxo, prematurity), which names the subject the photo illustrates. As with the other cards, the redundancy with the headline is not a 1.1.1 failure. Live HTML has the same img and alt. The element meets 1.1.1."
+    },
+    {
+      "fingerprint": "p3f9198cd73a",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. Header button-styled link 'Centro de Treinamento' to /centro-de-treinamento, which resolves (live and in Rampa's read) to 'Centro de Treinamento | Febrasgo' with h1 'Centro de Treinamento'. The text alone states the purpose. No other link shares this name with a different destination (the other training-centre links have different names and the same URL). Live header markup matches the snapshot. Meets 2.4.4."
+    },
+    {
+      "fingerprint": "p6c9f8c47ba0",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. Footer link 'Centro de Treinamento e Simulação (CTS)' under the h6 'Ensino', to /centro-de-treinamento, which resolves to the 'Centro de Treinamento' page (title and h1 checked live and in the packet). The text describes the destination. No shared-name conflict. Live footer markup matches the snapshot. Meets 2.4.4."
+    },
+    {
+      "fingerprint": "s90dc0dd9994",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "Footer link 'Cookies' to /politica-de-privacidade. The destination's title and h1 are 'Política de privacidade', as the claim says, but the page body opens with 'AVISO DE PRIVACIDADE E COOKIES - SITE' (last updated 18/06/24, so unchanged since Rampa read it) and has a long cookies section: what cookies are, which ones the site uses (tables of necessary and non-necessary cookies), third-party cookies and how to configure them. A user who follows 'Cookies' gets the site's cookie notice, so the link text describes its purpose and the claimed mismatch does not hold. Rampa judged from the destination's title only, without its content. The other footer links share the URL but have different names, so R1 does not apply. Live markup matches the snapshot. Meets 2.4.4."
+    },
+    {
+      "fingerprint": "842081d282ba",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The cookie banner's 'Aceitar e continuar no site' is <div class=\"btn aceito\" onclick=\"AcceptCookies();\"> in the live HTML: no role, no tabindex, exposed as generic. main.js shows the #privacy banner whenever the 'privacy' cookie is missing (any first visit), and the screenshot shows it on screen, so users receive it. It is a scripted control with no role, the F59 failure of 4.1.2, which is what the claim states (it is also unreachable by keyboard, a 2.1.1 issue). I looked for a role, an ARIA wrapper or a native button for the same action and found none. True positive."
+    },
+    {
+      "fingerprint": "s69a0109dcdf",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'Social' is a Bootstrap dropdown toggle in the main navigation (<a href=\"#\" data-bs-toggle=\"dropdown\">), not a navigation link: its purpose is to open the 'Social' submenu, which sits in the same list item (a 'Social' label plus 'Campanhas informativas' and 'Feito Para Ela'), hidden until opened. The text names the menu it opens, as the other top-level items (A Febrasgo, Ensino, Publicações...) do, so its purpose can be determined from the text and its list item; the claim's 'nothing around it does' is not true of the capture. The claim asks the toggle to say where it 'goes', a navigation-link test applied to a disclosure control. Its real weakness is role and state (a link used as a menu button, aria-expanded only once Bootstrap opens it), which is 4.1.2, not 2.4.4. Live markup matches the snapshot."
+    },
+    {
+      "fingerprint": "pf364936a63d",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. Footer link 'Livros' under the h6 'Publicações', to /livros/, titled 'Livros | Febrasgo' with h1 'Biblioteca FEBRASGO.' (live and in the packet). The text, with its heading, describes the destination. The only other 'Livros' link (the hidden nav dropdown) goes to the same URL. Live markup matches. Meets 2.4.4."
+    },
+    {
+      "fingerprint": "pb8917227c30",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "No-claim row. The header logo is the only content of a link to https://www.febrasgo.org.br (the home page). Its alt 'Febrasgo' matches the wordmark in the image and names the destination site, which is what H30 asks for (its example alt is the destination's name, 'Smallville Times'). The snapshot's AX tree gives the link the name 'Febrasgo' (the packet's null link name is only a missing field). Live markup is identical. Meets 1.1.1."
+    },
+    {
+      "fingerprint": "fbf238ce71b1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The floating contact button is <div class=\"btn-flutuante\" onclick=\"toggleMenuBtnFlutuante()\"> holding only an unlabelled SVG (live HTML and snapshot agree). It toggles a menu of mailto links (Associados, Cursos em GO, Comercial), so it is a user-interface control, but it has no role, no tabindex and no name; the screenshot shows it fixed on screen. A scripted div with no role is F59, a 4.1.2 failure, as the claim says (the missing name is a further 4.1.2 defect, and keyboard access fails 2.1.1). I found nothing that cures it: no role, no ARIA, no native button for the same action. True positive."
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "page": "https://www.va.gov/find-locations/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "p07bf7e1d942",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Small business programs' (href https://www.va.gov/osdbu/) in the list under the h2 'Veteran programs and services'. The destination is the VA Office of Small & Disadvantaged Business Utilization, which the link text alone describes. The only other link with this name in the snapshot is the aria-hidden copy in the mobile footer, with the same href, so R1 does not apply. The screenshot shows the styled footer as captured, and the live page's footer data (raw HTML) has the same title, href and column, so the capture does not differ. The element meets 2.4.4 and Rampa was right to report nothing."
+    },
+    {
+      "fingerprint": "pae0f794a36c",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'VA news' (href https://news.va.gov/) in the list under the h2 'Get VA updates'. Rampa did not read the destination; I opened it: 'VA News and Information', h1 'Welcome to VA News', which the link text alone describes. The only other link with this name is the aria-hidden mobile-footer copy with the same href, so no R1 issue. The live page's footer data has the same title and href, and the screenshot shows the styled footer, so the capture does not differ. The element meets 2.4.4 and nothing was missed."
+    },
+    {
+      "fingerprint": "p86cb86b700e",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Footer link 'Your VA welcome kit' (href https://www.va.gov/welcome-kit/) in the list under the h2 'More VA resources'. The destination is 'Print out your VA Welcome Kit', which the link text alone describes. The only other link with this name is the aria-hidden mobile-footer copy with the same href, so no R1 issue. The live page's footer data has the same title and href, and the screenshot shows the styled footer, so the capture does not differ. The element meets 2.4.4 and nothing was missed."
+    },
+    {
+      "fingerprint": "sff303c10176",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the Mapbox map's attribution link, visible text '© OpenStreetMap', with aria-label and title 'OpenStreetMap' and href https://www.openstreetmap.org/copyright/, placed next to '© Mapbox' and 'Improve this map' in the map's bottom-right corner (the screenshot shows it as captured). The claim says the text does not match where the link goes. That is false of the capture: the href is on openstreetmap.org, and the destination (200, 'Copyright and License | OpenStreetMap') is an OpenStreetMap page. The name 'OpenStreetMap', which the visible copyright sign reinforces, tells users the link goes to OpenStreetMap's attribution page. Understanding 2.4.4 does not require naming the exact document, so the link meets 2.4.4. Its tabindex=-1 takes it out of the tab order, but that is a keyboard issue, not 2.4.4. The screenshot is the styled page with the rendered map. The live raw HTML matches the snapshot's static content, and the map attribution is drawn on the client by Mapbox, which my fetch does not run. Nothing points to a difference that touches this claim. The href was available to the model, so this is a model error."
+    }
+  ]
+}

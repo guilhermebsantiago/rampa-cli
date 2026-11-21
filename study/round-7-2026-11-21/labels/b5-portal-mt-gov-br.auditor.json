@@ -1,0 +1,104 @@
+{
+  "page": "https://portal.mt.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "37a79f3ad6b7",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the photo on the fourth news card. It is not inside a link. It shows the Polícia Civil MT badge on the front of the Polícia Judiciária Civil building, and its alt is \"Imagem referente a notícia 4\". Strictly, the claim is not true as worded: the alt describes no scene at all, so it cannot describe something the image does not show. It is a generic numbered placeholder. The element fails 1.1.1 under F30, which covers placeholder text used as an alternative. If the photo is informative, the alt conveys none of it. If it is decorative, a non-empty alt stops assistive technology from ignoring it. Read in good faith, the claim points at that defect, as the rubric's example allows. The live JS bundle still builds this alt as `Imagem referente a notícia ${e+1}`, and the styled screenshot matches, so the capture does not differ."
+    },
+    {
+      "fingerprint": "pe09146413d4",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the Instagram icon, the only content of a link in the footer's 'Redes Sociais' nav. The link's aria-label is \"Acessar Instagram do Governo do Mato Grosso\" and the image's alt is \"Instagram do Governo do Mato Grosso\", so the alternative names where the link goes, which meets H30 and 1.1.1. The live bundle renders the same label and alt. Nothing is missed, so it does not fail."
+    },
+    {
+      "fingerprint": "8c11e3e3f13b",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the inline SVG logo in the footer (class \"logo\", g id \"logo-portalmtgovbr\"), showing the words \"MT.gov.br\". It has no title, aria-label or role, and no aria-hidden. The snapshot exposes it as an image with no name, so assistive technology gets nothing from it. That is the sense in which the claim calls it hidden: it is not aria-hidden. No text on the page says \"MT.gov.br\", so the claim holds of the capture. My lean is that it fails 1.1.1: W3C guidance treats a logotype as informative, with the logo's text as its alternative. The other side is reasonable, though. The logo sits beside the text \"GOVERNO DO ESTADO DE MATO GROSSO\", so some auditors would call it redundant and decorative, and an unnamed SVG with no role is usually skipped by screen readers. Since competent auditors could disagree, the label is uncertain. The live bundle renders the same unnamed svg."
+    },
+    {
+      "fingerprint": "135d04bbb634",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the photo on the first news card. It is not in a link. It shows seized items (guns, phones, bags) laid out in front of a Polícia Militar backdrop, and its alt is \"Imagem referente a notícia 1\". The alt describes no image content: it is a numbered placeholder, so the literal claim that it describes something absent does not hold. The element still fails 1.1.1 under F30, whether the photo is read as informative (nothing is conveyed) or as decorative (the non-empty alt cannot be ignored by assistive technology). Read in good faith, the claim names that defect. The live bundle builds the same alt."
+    },
+    {
+      "fingerprint": "84047a91fae1",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the footer link \"MT Cidadão\", href /#produtos-digitais. On this page that anchor is the 'Produtos Digitais' section. Its first item presents the MT Cidadão app: a heading, a paragraph that starts \"O MT Cidadão é um aplicativo...\", and links \"Baixar MT Cidadão na Google Play/App Store\". So the link text matches where it leads, and the claim that it does not is false. The link meets 2.4.4. Rampa seems to have had only the section heading 'Produtos Digitais', not the content that shows the section is about this app, so the cause is context_missing. The live bundle has the same footer item {title:\"MT Cidadão\",href:\"/#produtos-digitais\"} and the same section."
+    },
+    {
+      "fingerprint": "pd7ad1a501fb",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the YouTube icon, the only content of a header link to youtube.com/@secom_mt. Its alt and the link's aria-label are both \"Youtube do Governo do Mato Grosso\", which names the destination and meets H30 and 1.1.1. The live bundle renders the same. It does not fail."
+    },
+    {
+      "fingerprint": "2d470eb490f1",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is the footer link \"Nota MT\", href /#produtos-digitais. The 'Produtos Digitais' section it scrolls to presents the Nota MT app (\"Cidadania fiscal que premia você.\", a paragraph starting \"O Nota MT incentiva...\", and links \"Baixar Nota MT na Google Play/App Store\") right after MT Cidadão. The link text matches the content it leads to, so the claim is false and the link meets 2.4.4. The checker was given only the section heading, not the section's content, so the cause is context_missing. The live bundle is the same."
+    },
+    {
+      "fingerprint": "3f163cfafc45",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The element is the header logo image, showing \"govmt\", with alt \"logo\". It is the only content of a link (inside the h1) whose aria-label \"Acessar página inicial\" sets the link's name. \"logo\" is a generic placeholder, so the claim is true of the capture. My lean is that the image passes 1.1.1. The control's name comes from the aria-label and describes its purpose, and the img's alt is overridden in the link's name, so screen reader users hear \"Acessar página inicial\". Competent auditors could reasonably disagree, though: F30 names placeholder alternatives as a failure, and the alt still sits on an exposed image node and conveys nothing of the logo. So the label is uncertain. The live bundle has the same markup (aria-label \"Acessar página inicial\", alt:\"logo\")."
+    },
+    {
+      "fingerprint": "p1ebaaf53d94",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the Facebook icon, the only content of a header link to facebook.com/govmatogrosso. Its alt and the link's aria-label are both \"Facebook do Governo do Mato Grosso\", which identifies the destination, so it meets 1.1.1 under H30. The live bundle renders the same. It does not fail."
+    },
+    {
+      "fingerprint": "se1b419046af",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the first card in 'SERVIÇOS MAIS ACESSADOS'. Its text is \"1 SEGURANÇA E JUSTIÇA Baixar Carteira de Identidade Nacional (CIN) - Versão Digital\" and it links to /catalog/baixar-carteira-de-identidade-nacional-(cin)-versao-digital. That route is the SPA's catalog page for this service. The live API /v1/catalog/<slug>/load returns the service \"Baixar Carteira de Identidade Nacional (CIN) - Versão Digital\". The document title \"Portal do Governo de Mato Grosso\" is the same site-wide title on every route, so it does not contradict the link. The link text describes its purpose and meets 2.4.4, and the claim of a mismatch is false. The checker had the href slug and the description \"Catálogo de Serviços\" and still judged wrongly, so the cause is model_error. The live page has the same link."
+    },
+    {
+      "fingerprint": "pc60620b296d",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the LinkedIn icon, the only content of a header link to linkedin.com/company/govmatogrosso. Its alt and the link's aria-label are both \"LinkedIn do Governo do Mato Grosso\", which names the destination, so it meets 1.1.1 under H30. The live bundle renders the same. It does not fail."
+    },
+    {
+      "fingerprint": "7554a7bd3a09",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the photo on the third news card. It is not in a link. It shows a crowd of runners on a road through a green area, the Corrida Homens do Mato, and its alt is \"Imagem referente a notícia 3\". The alt describes nothing the image shows. It is a numbered placeholder, so the claim's literal wording (describing something absent) does not hold. The element fails 1.1.1 under F30, either way the photo is read: informative and unconveyed, or decorative and not ignorable. Read in good faith, the claim names the defect. The live bundle builds the same alt."
+    },
+    {
+      "fingerprint": "s713998640a5",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is the footer link \"Órgãos Públicos\", href /orgao. In the live bundle, /orgao is the public-bodies listing route: its breadcrumb reads 'Início > Órgãos Públicos', and it loads /v1/department, which returns the state agencies. The title \"Portal do Governo de Mato Grosso\" is the generic site-wide SPA title, so it does not contradict the link. The link text describes the destination, so it meets 2.4.4 and the claim of a mismatch is false. The checker took the generic title as the page's purpose, so the cause is model_error. The live page has the same link."
+    },
+    {
+      "fingerprint": "ce8330eaf163",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the photo on the second news card. It is not in a link. It shows a seized pistol, ammunition and phones in front of Polícia Militar Cavalaria and 26º BPM signs, and its alt is \"Imagem referente a notícia 2\". The alt is a numbered placeholder that describes no content, so the literal claim (it describes something absent) does not hold. The element fails 1.1.1 under F30: an informative photo gets no equivalent, and a decorative one gets a non-empty alt that assistive technology cannot ignore. Read in good faith, the claim names that defect. The live bundle builds the same alt, and the screenshot is fully styled."
+    }
+  ]
+}

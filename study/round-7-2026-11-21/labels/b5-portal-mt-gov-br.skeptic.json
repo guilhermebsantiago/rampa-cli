@@ -1,0 +1,156 @@
+{
+  "page": "https://portal.mt.gov.br/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "37a79f3ad6b7",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A news-card photo (not inside a link; the card's action is a separate 'Ler Notícia Completa' button) with alt \"Imagem referente a notícia 4\". The crop and screenshot show the Polícia Civil badge on the façade of the Polícia Judiciária Civil building, next to the h3 headline \"Polícia Civil cumpre ordens judiciais contra policiais envolvidos em morte de empresário em Pontes e Lacerda\". claimTrue: taken literally the sentence is off, since the alt does not describe anything at all, wrong or right; it is a positional placeholder (the live bundle builds it as `Imagem referente a notícia ${e+1}`), so 'no'. elementFails: I looked for a reason it could pass and found none. If the photo is informative, the alt conveys none of it (F30, placeholder text that is not an alternative). If it is treated as decorative because the headline carries the story, the alt should be null, and a non-null filler like this is F39. Either way it fails 1.1.1. captureDiffers: the live page is a client-rendered SPA. Its served main bundle has the same alt template and card markup, and the screenshot is fully styled, so nothing differs that matters here (the live news items rotate, but the defect is in the template). In good faith the claim points at the real defect: the alternative does not stand for what the image shows. So true_positive."
+    },
+    {
+      "fingerprint": "pe09146413d4",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A row with no claim: the footer Instagram social icon image (crop: the platform's logo glyph) with alt \"Instagram do Governo do Mato Grosso\", the only content of a link named \"Acessar Instagram do Governo do Mato Grosso\" to instagram.com/govmatogrosso. elementFails: as a control image, its alternative names the platform and the account, which is where the link goes (H30 / G82), so it meets 1.1.1. The link's name is either that alt or an aria-label of the same meaning. captureDiffers: the live bundle builds the same alt and label for this icon, and the screenshot shows the rendered icon, so no difference. The element does not fail, so Rampa missing nothing here makes the row false_positive."
+    },
+    {
+      "fingerprint": "8c11e3e3f13b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The footer's inline SVG wordmark \"MT.gov.br\" (class logo). It has no role, title, aria-label or aria-hidden, both in the snapshot and in the served bundle. Chrome exposes it as an image with no name, so a screen reader gets nothing of it. claimTrue: the gist holds. It has no name, the crop shows 'MT.gov.br', and no text on the page says 'MT.gov.br'. Strictly, it is exposed as an unnamed graphic rather than aria-hidden. elementFails: I lean yes, because an organisation's logo is normally informative and needs its name as the alternative. But there is a concrete reason the other way. The footer's adjacent text block opens with 'GOVERNO DO ESTADO DE MATO GROSSO', and the page title is 'Portal do Governo de Mato Grosso', so the identity the logo carries is already given in text. Some competent auditors would call a footer logo next to the organisation's name redundant, and an unnamed, roleless SVG is effectively skipped by screen readers. captureDiffers: no, the live bundle renders the same markup. Because auditors could reasonably split on whether the logo is informative or redundant here, the label is uncertain."
+    },
+    {
+      "fingerprint": "135d04bbb634",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A news-card photo (not inside a link; the card's action is a separate 'Ler Notícia Completa' button) with alt \"Imagem referente a notícia 1\". The crop and screenshot show Military Police branded backdrops behind a table of seized items (bags, a rifle, phones), next to the h3 headline \"Quatro homens são presos pela PM por roubo com cárcere privado em propriedade rural\". claimTrue: taken literally the sentence is off, since the alt does not describe anything at all, wrong or right; it is a positional placeholder (the live bundle builds it as `Imagem referente a notícia ${e+1}`), so 'no'. elementFails: I looked for a reason it could pass and found none. If the photo is informative, the alt conveys none of it (F30, placeholder text that is not an alternative). If it is treated as decorative because the headline carries the story, the alt should be null, and a non-null filler like this is F39. Either way it fails 1.1.1. captureDiffers: the live page is a client-rendered SPA. Its served main bundle has the same alt template and card markup, and the screenshot is fully styled, so nothing differs that matters here (the live news items rotate, but the defect is in the template). In good faith the claim points at the real defect: the alternative does not stand for what the image shows. So true_positive."
+    },
+    {
+      "fingerprint": "84047a91fae1",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A footer link 'MT Cidadão' (aria-label the same) to /#produtos-digitais, a fragment on the same page. The screenshot shows that the 'Produtos Digitais' section (h2 at y≈1943) opens with the MT Cidadão logo, a description of the app and its store links, beside Nota MT. So the link takes users to the content about MT Cidadão, and its text describes its purpose. claimTrue: the sentence says the text does not match where the link leads. The destination is the section presenting that very product, so no. elementFails: no; no other link shares the name 'MT Cidadão' (the store links are named 'Baixar MT Cidadão na ...'). captureDiffers: the live bundle gives the same href for this footer item, and the section is there, so no. Rampa compared the text only with the fragment's section name and never saw what the section holds, so this is a false positive from missing context."
+    },
+    {
+      "fingerprint": "pd7ad1a501fb",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A row with no claim: the header YouTube social icon image (crop: the platform's logo glyph) with alt \"Youtube do Governo do Mato Grosso\", the only content of a link named \"Youtube do Governo do Mato Grosso\" to youtube.com/@secom_mt. elementFails: as a control image, its alternative names the platform and the account, which is where the link goes (H30 / G82), so it meets 1.1.1. The link's name is either that alt or an aria-label of the same meaning. captureDiffers: the live bundle builds the same alt and label for this icon, and the screenshot shows the rendered icon, so no difference. The element does not fail, so Rampa missing nothing here makes the row false_positive."
+    },
+    {
+      "fingerprint": "2d470eb490f1",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "A footer link 'Nota MT' (aria-label the same) to /#produtos-digitais on the same page. The screenshot shows that the 'Produtos Digitais' section presents Nota MT (its logo, 'Cidadania fiscal que premia você', a description and app store links) beside MT Cidadão. So the link leads to the content about Nota MT, and its text describes its purpose. claimTrue: no; it is not a mismatch. elementFails: no; no other link shares its name and context. captureDiffers: the live bundle has the same href for this item, so no. Rampa judged against the section's name alone, without its content, so this is a false positive from missing context."
+    },
+    {
+      "fingerprint": "3f163cfafc45",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "The header logo image (crop: the wordmark 'govmt') with alt=\"logo\". It is the only content of a link inside the h1, and that link has aria-label=\"Acessar página inicial\" (the snapshot records nameFrom aria-label; the h1's computed name is also 'Acessar página inicial'). claimTrue: 'logo' is a generic placeholder word, so yes. elementFails: the skeptic's reason is technique ARIA8 plus Situation C of 1.1.1. The non-text content is a control, the control's name comes from the aria-label and describes its purpose (go to the home page), and the alt is not used in the link's name. So the control meets 1.1.1, and I lean 'no'. Against that, the img is still exposed as a graphic named 'logo', which a user hears when moving by graphics, and the brand text 'govmt' is not conveyed. Some competent auditors would fail alt=\"logo\" on its own (F30). captureDiffers: the live bundle has the same aria-label and alt, so no. Since competent auditors would reasonably disagree, the label is uncertain."
+    },
+    {
+      "fingerprint": "p1ebaaf53d94",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A row with no claim: the header Facebook social icon image (crop: the platform's logo glyph) with alt \"Facebook do Governo do Mato Grosso\", the only content of a link named \"Facebook do Governo do Mato Grosso\" to facebook.com/govmatogrosso. elementFails: as a control image, its alternative names the platform and the account, which is where the link goes (H30 / G82), so it meets 1.1.1. The link's name is either that alt or an aria-label of the same meaning. captureDiffers: the live bundle builds the same alt and label for this icon, and the screenshot shows the rendered icon, so no difference. The element does not fail, so Rampa missing nothing here makes the row false_positive."
+    },
+    {
+      "fingerprint": "se1b419046af",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A 'Serviços mais acessados' list link whose text is '1 SEGURANÇA E JUSTIÇA Baixar Carteira de Identidade Nacional (CIN) - Versão Digital', to /catalog/baixar-carteira-de-identidade-nacional-(cin)-versao-digital. The destination title 'Portal do Governo de Mato Grosso' is the single-page app's shared title: every internal destination in the snapshot has it. The site's own catalog API (/v1/catalog/<slug>/load) returns the service 'Baixar Carteira de Identidade Nacional (CIN) - Versão Digital' for this slug. So the link goes exactly where its text says. claimTrue: no; the text matches the destination, and only the generic document title differs. elementFails: no. captureDiffers: no difference that matters; the live route and service are the same. The href slug already matched the text, so treating a site-wide generic title as a mismatch is a model error."
+    },
+    {
+      "fingerprint": "pc60620b296d",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "A row with no claim: the header LinkedIn social icon image (crop: the platform's logo glyph) with alt \"LinkedIn do Governo do Mato Grosso\", the only content of a link named \"LinkedIn do Governo do Mato Grosso\" to linkedin.com/company/govmatogrosso. elementFails: as a control image, its alternative names the platform and the account, which is where the link goes (H30 / G82), so it meets 1.1.1. The link's name is either that alt or an aria-label of the same meaning. captureDiffers: the live bundle builds the same alt and label for this icon, and the screenshot shows the rendered icon, so no difference. The element does not fail, so Rampa missing nothing here makes the row false_positive."
+    },
+    {
+      "fingerprint": "7554a7bd3a09",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A news-card photo (not inside a link; the card's action is a separate 'Ler Notícia Completa' button) with alt \"Imagem referente a notícia 3\". The crop and screenshot show a crowd of runners on a road, next to the h3 headline \"Polícia Militar realiza 26ª edição da Corrida Homens do Mato em Cuiabá\". claimTrue: taken literally the sentence is off, since the alt does not describe anything at all, wrong or right; it is a positional placeholder (the live bundle builds it as `Imagem referente a notícia ${e+1}`), so 'no'. elementFails: I looked for a reason it could pass and found none. If the photo is informative, the alt conveys none of it (F30, placeholder text that is not an alternative). If it is treated as decorative because the headline carries the story, the alt should be null, and a non-null filler like this is F39. Either way it fails 1.1.1. captureDiffers: the live page is a client-rendered SPA. Its served main bundle has the same alt template and card markup, and the screenshot is fully styled, so nothing differs that matters here (the live news items rotate, but the defect is in the template). In good faith the claim points at the real defect: the alternative does not stand for what the image shows. So true_positive."
+    },
+    {
+      "fingerprint": "s713998640a5",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "A footer link 'Órgãos Públicos' (aria-label the same) to /orgao. That route renders the public-bodies listing: the live bundle's /orgao component has the breadcrumb 'Início > Órgãos Públicos', and the site describes it as 'Encontre informações e contatos dos órgãos públicos de Mato Grosso'. Its document title is the SPA's shared 'Portal do Governo de Mato Grosso'. claimTrue: no; the text matches the destination. elementFails: no. The only other link with this name (in the header) goes to the same /orgao. captureDiffers: no; same href and route live. The href and the text agree, and a generic title shared by every page of the app is not a mismatch, so this is a model error."
+    },
+    {
+      "fingerprint": "ce8330eaf163",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "A news-card photo (not inside a link; the card's action is a separate 'Ler Notícia Completa' button) with alt \"Imagem referente a notícia 2\". The crop and screenshot show a seized pistol, ammunition and phones in front of PM Cavalaria and 26º BPM signs, next to the h3 headline \"PM prende três homens e apreende pistola e veículo que seriam usados em homicídio\". claimTrue: taken literally the sentence is off, since the alt does not describe anything at all, wrong or right; it is a positional placeholder (the live bundle builds it as `Imagem referente a notícia ${e+1}`), so 'no'. elementFails: I looked for a reason it could pass and found none. If the photo is informative, the alt conveys none of it (F30, placeholder text that is not an alternative). If it is treated as decorative because the headline carries the story, the alt should be null, and a non-null filler like this is F39. Either way it fails 1.1.1. captureDiffers: the live page is a client-rendered SPA. Its served main bundle has the same alt template and card markup, and the screenshot is fully styled, so nothing differs that matters here (the live news items rotate, but the defect is in the template). In good faith the claim points at the real defect: the alternative does not stand for what the image shows. So true_positive."
+    }
+  ]
+}

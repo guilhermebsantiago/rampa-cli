@@ -1,0 +1,39 @@
+{
+  "page": "https://www.go.gov.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "85a3cf569461",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the voice-search button (ex-core-speech-to-text) in the search bar, in its 'permissionDenied' state: icon fa-microphone-slash, class ex-action-button--disabled, aria-label 'Permissão de acesso ao microfone não concedida'. claimTrue: the snapshot records the icon colour #939cad from CSS on #f4f4f4 and 2.51:1, which I recomputed; the screenshot shows #a6a6a6 there only because the WhatsApp dialog's backdrop (rgba(0,0,0,.32)) dims it, and 244 x 0.68 gives that grey, so the undimmed background is #f4f4f4. The icon is all the button shows. elementFails: the site's bundle (main.61fad181cecd444c56b6.js) shows this is an inactive control. startRecording runs only when state is 'ready', so in this state activating the button does nothing. The --disabled class gives it the design system's disabled colour (--ex-text-neutral-primary-disabled) and cursor:not-allowed, and its tooltip says why. Understanding 1.4.11 exempts inactive user interface components, those not available for user interaction, so the 3:1 requirement does not apply here. It does fail elsewhere: being focusable and exposed as a normal button without a disabled or aria-disabled state is a 4.1.2 matter. captureDiffers: the component starts in permissionDenied for every visitor and stays there when the user refuses the microphone, has none, or has not answered the prompt. Users who grant permission get the 'ready' icon instead, which this claim is not about. The aria-hidden on the button comes from the open WhatsApp modal, which real first-time visitors also get. False positive: the rule applied 3:1 to a component the criterion exempts."
+    },
+    {
+      "fingerprint": "b4dc7cd5c3af",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the label 'WhatsApp' of the tag (ex-tag, type icon, extended state success) at the top of the WhatsApp promo dialog (#mat-dialog-0). The page opens that dialog on load, and it sits above the backdrop, so it is not dimmed. claimTrue: the snapshot's pixelContrast gives foreground #2fbd5d (CSS), background #247865/#237864, 2.17:1, 12.25px weight 500, axe reason bgGradient. I recomputed 2.17:1, and the screenshot pixels under the text are #247865/#237865 with the glyphs no lighter than #2cab60. elementFails: it is normal-size text, so 4.5:1 applies, and the crop shows faint green on teal. None of the exceptions holds. The tag is not disabled: it uses the ex-tag--success styling, not ex-tag--disabled, so it is not an inactive component. It is not decoration either, since it labels the dialog's topic. One could read the word as a brand name under the logotype exception, but this is the design system's success-coloured tag text in the site's typeface (Poppins), not a logo, so I do not apply it. captureDiffers: I could not render the SPA (curl returns only the Angular shell), but the current bundle has the same modal template (ex-wa-modal with an ex-tag labelled WhatsApp in the success state) and the same tag colours. A first-time visitor gets the same dialog, so I found no difference that touches the claim. True positive."
+    },
+    {
+      "fingerprint": "534fede9aaa6",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "context_missing",
+      "rationale": "The element is img#vlibras-popup (alt 'Acessível com VLibras') inside the VLibras widget's shadow root, next to the VLibras button. claimTrue: in the capture it is inside #vlibras-access-wrapper with aria-hidden='true', so it is hidden from assistive technology. The image does say 'Acessível com VLibras', and no surrounding text says it; the sibling button's aria-label says much the same but is hidden too. elementFails: the VLibras plugin (vlibras.gov.br/app/vlibras-plugin.js) never sets aria-hidden. In the snapshot, app-root carries aria-hidden='true' too: the Angular Material dialog hides every sibling of its overlay from assistive technology while the WhatsApp modal is open, the standard modal pattern, and removes it on close. Outside that state the image is exposed with a fitting alt, which meets 1.1.1. Even with the modal open, the image is not displayed at rest. The plugin's CSS keeps #vlibras-access at 40px with the button absolutely positioned above the image, so the image only shows when the widget widens to 200px on hover or focus. The screenshot shows only the hand button at 10,380, and the crop is the image's own source, not what is on screen. Background content hidden while a modal is open does not make this image fail 1.1.1. The odd part is that the VLibras button floats above the backdrop while hidden, which is a 4.1.2/1.3.1 matter for the button, not this image. captureDiffers: the capture faithfully shows the modal-open state that first-time visitors also get, and nothing else differs. False positive: the checker did not know the aria-hidden came from the modal and that the image sits under the button."
+    }
+  ]
+}

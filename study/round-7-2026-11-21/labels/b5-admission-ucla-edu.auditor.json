@@ -1,0 +1,55 @@
+{
+  "page": "https://admission.ucla.edu/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "s16c35893875",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the chevron SVG (role img, aria-label and title \"Down Arrow\") inside the button placed after the \"Admitted Students\" main-menu link. The snapshot shows the button holds nothing else, and its accessible name is \"Down Arrow\", so the claim holds of the capture. The site script injects the same markup on the live page: below 1024px the button opens and closes the submenu, and at desktop width it is an inert button with tabindex -1 that is still exposed to assistive technology. Either way a screen reader hears \"Down Arrow, button\", which describes the picture and not the button's purpose (opening the Admitted Students submenu). That fails 1.1.1 for non-text content that is a control (Situation C, H30/ARIA6: the name must describe the purpose). The live markup and the styled screenshot match the capture. The claim names this failure."
+    },
+    {
+      "fingerprint": "p819b6ff32f4",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This row has no claim. The element is the footer link \"Campus Tours\" pointing to /visit/campus-tours, whose destination is titled \"Campus Tours | UCLA Undergraduate Admission\" with the heading \"Campus Tours\". The link text alone gives its purpose. The two other links named \"Campus Tours\" in the snapshot (main menu and the Get a Feel for Campus card) go to the same address, so R1 raises no shared-name issue. The live HTML has the same three links, so the element meets 2.4.4 and Rampa missed nothing."
+    },
+    {
+      "fingerprint": "46d23e2576dc",
+      "answers": { "claimTrue": "yes", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "The element is the hero carousel container. The live page's inline script deliberately sets tabindex=0, role=region and aria-label \"Hero image carousel\" on it, plus a keydown handler that moves to the previous or next slide on Left/Right Arrow. The capture shows the same focusable region with a keydown listener, so the claim's facts are true of the capture. But the element does not fail 4.1.2. It has a programmatically determined name and a WAI-ARIA role, and region is the role the ARIA Authoring Practices carousel pattern gives a carousel container. F59 fails only elements with handlers that have neither a native role nor a fitting ARIA role. Arrow keys here are an extra shortcut on a container; the slide functions are exposed as separate native buttons (Slide 1-6, Play and Pause). A button or link role, as the claim suggests, would misrepresent the container. Treating every focusable element with a keydown listener as a control that needs a widget role is stricter than the criterion."
+    },
+    {
+      "fingerprint": "s16dbbc0a82e",
+      "answers": { "claimTrue": "no", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the large image beside the \"Belonging - Find Community, Support and Collaboration\" text, with alt \"Image Collage. \". The crop and the screenshot show it really is a collage: photos of UCLA students, a dancing student, a Bruin bear drawing, and notes reading \"UCLA\", \"LOS ANGELES\" and \"WE ARE Sooo BACK\". So as worded, the claim that the alternative describes something the image does not show is false. Still, the alternative names only the image format and conveys none of what the image shows (diverse students, Los Angeles, the \"we are back\" message), so it is not an equivalent and fails 1.1.1. If the image were judged decorative, a non-null alt like this would fail too (F39). Per the rubric's good-faith reading, an alternative said to describe something the image does not show, when it leaves out most of what the image conveys, names the real defect. The live HTML still has alt=\"Image Collage. \"."
+    },
+    {
+      "fingerprint": "65fb0ad85193",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the language-switcher link to /es, whose aria-label and visible text are \"Español\". Neither it nor any ancestor has a lang attribute, so it inherits the page's lang=\"en\". The only lang=\"es\" in the live HTML is an hreflang on a head link element, which does not set the language of the text. This is exactly Understanding 3.1.2's \"Alternative language links\" example, where each link names the language in that language and carries lang. The word is not a proper name or an English vernacular word, so the exceptions do not apply. The live markup matches the capture, and the claim names the failure."
+    },
+    {
+      "fingerprint": "s551db554d4a",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the same pattern as the Admitted Students chevron. The element is the SVG with aria-label/title \"Down Arrow\" that is the only content of the button after the \"Tuition & Aid\" main-menu link, and the button's name is \"Down Arrow\", so the claim holds of the capture. The site script adds this button: it toggles the Tuition & Aid submenu on narrow viewports, and at desktop width it is inert with tabindex -1 but still exposed as a button. Its name describes the icon's look, not its purpose, which fails 1.1.1 for a control (H30/ARIA6). The live script produces the same markup, and the claim names the failure."
+    },
+    {
+      "fingerprint": "pf807d833fbf",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This row has no claim. The element is the footer link \"Privacy & Terms of Use\" to https://ucla.edu/terms-of-use/. Rampa did not read the destination, so I opened it. It redirects to www.ucla.edu/terms-of-use, titled \"Official University Privacy Policy & Terms of Use | UCLA\" with the h1 \"Privacy Policy and Terms of Use\". The link text alone describes its purpose, no other link shares the name, and the live footer has the same link, so the element meets 2.4.4."
+    }
+  ]
+}

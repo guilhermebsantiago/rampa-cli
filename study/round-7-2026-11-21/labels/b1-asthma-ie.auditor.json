@@ -1,0 +1,41 @@
+{
+  "page": "https://asthma.ie/could-it-be-severe-asthma-join-our-upcoming-free-webinar/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "pfefe51e0a62",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "This is the YouTube icon (a white play-button logo) in the footer's social links. It is all its link holds, the link goes to https://www.youtube.com/user/AsthmaSocietyIRL, and alt=\"youtube\" is the link's name. Read in place of the image, in a list of the organisation's social profiles in its own footer, \"youtube\" tells users the link goes to the organisation's YouTube channel, and no other link in the set has that name. So the image describes the link's purpose (H30, G82) and passes 1.1.1, which means Rampa was right not to report it. The live page (fetched 2026-11-21) has the same image, alt and href, and the screenshot shows a normal styled footer. The capture matches."
+    },
+    {
+      "fingerprint": "8dede20c5036",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the logo of the Department of Rural and Community Development (An Roinn Forbartha Tuaithe agus Pobail, with the harp), shown in the footer's funder strip. It is not a link. Its alt, \"dept-rural-dev-removebg-preview\", is the uploaded file's name (dept-rural-dev-removebg-preview.png) plus an image-editing tool's suffix, so the claim holds for the capture. A file name used as the text alternative is WCAG's documented failure F30. A screen reader announces the file name, \"removebg-preview\" included, instead of the department's name. The sentence below names the department, but that does not make this alternative an equivalent, and the image is not marked decorative. The live page has the same alt, and the screenshot shows the logo as captured."
+    },
+    {
+      "fingerprint": "d5e78edf2aee",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This is the footer badge \"Charities Institute Ireland – 2026 Triple Lock Member – Promoting Trust\" (file CMYK_Cii_TRIPLE_LOCK_MASTER_White-1.svg). It is not a link, and alt=\"logo\" is a generic placeholder, so the claim holds. The badge carries information (the charity's Triple Lock accreditation for 2026) that no nearby text gives, since the surrounding footer text is only navigation links and the address. A placeholder alternative is failure F30, and the image fails 1.1.1. The live page still has alt=\"logo\", and the screenshot shows the badge as in the crop."
+    },
+    {
+      "fingerprint": "e3076be38969",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "This image sits directly under the h3 \"Meet our speakers\". It shows three photos with each speaker's name and role: Eilís Ní Chaithnía, CEO, Asthma Society; Paula Hallahan, Respiratory Clinical Nurse Specialist; Prof Marcus Butler, Consultant Respiratory Physician. It has alt=\"\", so assistive technology skips it. In the snapshot's text, the heading is followed straight by \"Who should attend?\", and the speakers' names and roles appear nowhere else on the page. The image is therefore informative and its empty alternative fails 1.1.1 (F38/F65 territory, against H37/G94). The claim is right about the empty alt and the missing information. Its names are slightly misspelled (\"Chaitinnia\", \"Hallchan\"), and it lists names under a \"names and titles\" label, but it points at the real defect. The live page has the same empty alt and no speaker text, and the screenshot shows the image."
+    },
+    {
+      "fingerprint": "sb87570f597c",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "This is the X (formerly Twitter) icon in the footer's social links. It is all its link holds, the link goes to https://x.com/AsthmaIreland, and it has alt=\"twitter\" and no aria-label or title on the link. The image being all the link holds is true. That \"twitter\" does not say where the link leads is not: it names the service, which twitter.com still redirects to x.com, and in a footer list of the organisation's social profiles users can tell the link goes to the organisation's account there. The R2 pass test applies (the alternative names the destination page), as does H30. The older brand name and the X logo don't match, but that is no 1.1.1 failure because the link's purpose is still conveyed. The checker had the alt and the href and misjudged them. The live page has the same alt and href, and the screenshot shows the X icon as captured."
+    }
+  ]
+}

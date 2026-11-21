@@ -1,0 +1,34 @@
+{
+  "page": "https://institutocpfl.org.br/contato/",
+  "labeler": "skeptic",
+  "judgments": [
+    {
+      "fingerprint": "0cb1734a3394",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the sponsor logo strip above the footer (REGUA-DE-LOGOS-2026.png) with alt=\"\". The crop and the screenshot show credit labels (patrocínio, apoio, realização) and logos for Lei Rouanet, Lei de Incentivo ao Esporte, ProAC ICMS, CPFL Energia, instituto cpfl, State Grid, Governo do Estado de São Paulo, Ministério do Esporte and Ministério da Cultura. claimTrue: alt=\"\" hides it, and none of this appears in nearby text. The footer text names only the institute's address and links, and the snapshot has no text list of sponsors. elementFails: I looked for a reason it could be decorative and found none that holds. The strip tells users who sponsors, supports and carries out the work (credits that incentive laws require), so it is informative non-text content with no text alternative and no text equivalent nearby. That fails 1.1.1. The claim's summary leaves out some logos and the role labels, but read in good faith it names this failure: informative content hidden by a null alt. captureDiffers: the live HTML has the same img with alt=\"\" in the same place. The two older sponsor images are commented out there, so nothing else supplies the text."
+    },
+    {
+      "fingerprint": "7f71c0538756",
+      "answers": { "claimTrue": "yes", "elementFails": "yes", "captureDiffers": "no" },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The element is the desktop search field in the grey sub-menu bar. Its only visible label is the placeholder \"pesquise no site\": the label element has class visuallyhidden. claimTrue: pixels sampled from the screenshot are #777777 glyphs on #eeeeee, which gives 3.86:1, and the text is 12px bold, so not large text. elementFails: I tested the usual escape routes. The live CSS sets the placeholder to color #777 for .header-container--eixos .sub-menu-wrapper .form-search__input, on a transparent background over the #eee bar, so the measure is not a collector artefact. The field is active, so the inactive-component exception does not apply. The placeholder is the only visible label, so it is not incidental text. It falls short of 4.5:1 and fails 1.4.3, and the claim names exactly that. captureDiffers: the live HTML and CSS match the capture (same input, visually hidden label, same placeholder colours), and the screenshot shows the full styled layout."
+    },
+    {
+      "fingerprint": "sc61363fdb18",
+      "answers": { "claimTrue": "no", "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "The element is a static map image, the only content of a link to https://goo.gl/maps/drUk1KYbCVS2, with alt \"Mapa do instituto CPFL\". A separate \"ver no mapa\" button links to the same place from another div. I followed the short link: it redirects (302) to Google Maps, place \"Instituto CPFL\" at R. Jorge de Figueiredo Corrêa, 1632, Campinas. Under R2's first step, replace the image with its alternative: a link read as \"Mapa do instituto CPFL\" tells users it leads to a map of the Instituto CPFL, and that is what the destination is. The alternative here both describes the picture and identifies the destination, so it gives the link's purpose (H30, G82), and the link passes 1.1.1 on this point. claimTrue is no because the alternative does say where the link leads. captureDiffers: the live HTML has the same link, href and alt. The model had the alt text and judged wrongly that it does not identify the destination."
+    },
+    {
+      "fingerprint": "p8c2ae0469e5",
+      "answers": { "elementFails": "no", "captureDiffers": "no" },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "The element is the footer link \"Contato\" in the list under the heading \"institucional\". It has aria-current=\"page\" and links to https://institutocpfl.org.br/contato/, the page itself. The text alone gives its purpose: the contact page. The heading and list context support this. No other link in the snapshot shares the name \"Contato\", so R1's shared-name test does not apply. It does not fail 2.4.4, and Rampa was right to report nothing. captureDiffers: the live HTML has the same li#menu-item-37227 with the same href and aria-current."
+    }
+  ]
+}

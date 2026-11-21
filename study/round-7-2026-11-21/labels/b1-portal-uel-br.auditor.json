@@ -1,0 +1,412 @@
+{
+  "page": "https://portal.uel.br/",
+  "labeler": "auditor",
+  "judgments": [
+    {
+      "fingerprint": "4a276aaff70f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "The scroll-down arrow in the hero is <a onclick=\"scrollInto('sectionSocialMedia')\"> holding only a Font Awesome fa-angle-down icon (visible as the round arrow at about x 610, y 696 in the screenshot). Chrome exposes the clickable anchor as a link, and the captured CDP name is just the private-use glyph U+F107 from the icon's CSS ::before content, so the claim holds. There is no aria-label, title or hidden text. The live HTML is the same. An interactive control whose only name is an unspoken icon glyph has no usable name, so it fails 4.1.2 (F68), as claimed. It also has no href or tabindex, so it can't be reached by keyboard (a separate 2.1.1 issue)."
+    },
+    {
+      "fingerprint": "b45089550a61",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News link to an O Perobal story whose content is an <article> holding the h3 'HU/UEL é aprovado em todos os critérios da reavaliação do Hospital Amigo da Criança' and a summary paragraph. The captured CDP node has role link and name '', so the claim holds. Chrome does not take name-from-content text from inside the <article> wrapper: all nine links on the page with text inside an article have an empty browser name, while the card links with headings get one. The live HTML is the same, so Chrome users get an unnamed link (voice control and announcements based on the name get nothing). On the other hand, the visible headline is the link's own text. Under HTML/accname and H91 that text is the link's name, axe-core computes it, and screen readers in browse mode read the content. Competent auditors would split on whether this is an author failure of 4.1.2 or a user-agent quirk, so the label is uncertain even though my own lean is fail."
+    },
+    {
+      "fingerprint": "994b63c2caa7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image uel-estude-na-uel.png at the top of the 'Vida na UEL' card link 'Estude na UEL', alt='Card image cap' (the Bootstrap template placeholder). The crop and the screenshot show a white line icon of a book on green. The alt describes nothing the image shows, so the claim holds. Placeholder text isn't a text alternative (F30). The icon repeats the link text and should have alt='', but its placeholder is read as part of the link name instead ('Card image cap Estude na UEL'). The live HTML is the same. The claim points at that defect: fails 1.1.1."
+    },
+    {
+      "fingerprint": "8df82407da92",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News link to an O Perobal story whose content is an <article> holding the h3 'Nota Oficial' and a summary paragraph. The captured CDP node has role link and name '', so the claim holds. Chrome does not take name-from-content text from inside the <article> wrapper: all nine links on the page with text inside an article have an empty browser name, while the card links with headings get one. The live HTML is the same, so Chrome users get an unnamed link (voice control and announcements based on the name get nothing). On the other hand, the visible headline is the link's own text. Under HTML/accname and H91 that text is the link's name, axe-core computes it, and screen readers in browse mode read the content. Competent auditors would split on whether this is an author failure of 4.1.2 or a user-agent quirk, so the label is uncertain even though my own lean is fail."
+    },
+    {
+      "fingerprint": "a94d0a084edc",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News link to an O Perobal story whose content is an image with no alt attribute and an <article> holding the h3 'UEL terá estação de monitoramento por satélite com investimento em geotecnologia de R$ 5,2 milhões' and a summary paragraph. The captured CDP node has role link and name '', so the claim holds. Chrome does not take name-from-content text from inside the <article> wrapper: all nine links on the page with text inside an article have an empty browser name, while the card links with headings get one. The live HTML is the same, so Chrome users get an unnamed link (voice control and announcements based on the name get nothing). On the other hand, the visible headline is the link's own text. Under HTML/accname and H91 that text is the link's name, axe-core computes it, and screen readers in browse mode read the content. Competent auditors would split on whether this is an author failure of 4.1.2 or a user-agent quirk, so the label is uncertain even though my own lean is fail. The image's missing alt is a separate 1.1.1 issue."
+    },
+    {
+      "fingerprint": "p4efe02f3999",
+      "answers": {
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "none",
+      "rationale": "Top utility-bar link 'Ouvidoria' to sites.uel.br/ouvidoria/. Its text names the university ombudsman office, which is the destination, so its purpose is clear from the text alone. All other 'Ouvidoria' links on the page (mega-menu, mobile menu, footer card) go to the same URL, so R1 doesn't apply. The live HTML is the same. Meets 2.4.4: Rampa was right not to report it."
+    },
+    {
+      "fingerprint": "46e8b280379a",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News link to an O Perobal story whose content is an <article> holding the h3 'Universidade interrompe aulas e atividades administrativas na sexta-feira (20), feriado nacional - Dia da Consciência Negra' and a summary paragraph. The captured CDP node has role link and name '', so the claim holds. Chrome does not take name-from-content text from inside the <article> wrapper: all nine links on the page with text inside an article have an empty browser name, while the card links with headings get one. The live HTML is the same, so Chrome users get an unnamed link (voice control and announcements based on the name get nothing). On the other hand, the visible headline is the link's own text. Under HTML/accname and H91 that text is the link's name, axe-core computes it, and screen readers in browse mode read the content. Competent auditors would split on whether this is an author failure of 4.1.2 or a user-agent quirk, so the label is uncertain even though my own lean is fail."
+    },
+    {
+      "fingerprint": "b20a2d06653e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News link to an O Perobal story whose content is an <article> holding the h3 'Comitê do CNPq avalia edição 2026 do Encontro de Iniciação Científica' and a summary paragraph. The captured CDP node has role link and name '', so the claim holds. Chrome does not take name-from-content text from inside the <article> wrapper: all nine links on the page with text inside an article have an empty browser name, while the card links with headings get one. The live HTML is the same, so Chrome users get an unnamed link (voice control and announcements based on the name get nothing). On the other hand, the visible headline is the link's own text. Under HTML/accname and H91 that text is the link's name, axe-core computes it, and screen readers in browse mode read the content. Competent auditors would split on whether this is an author failure of 4.1.2 or a user-agent quirk, so the label is uncertain even though my own lean is fail."
+    },
+    {
+      "fingerprint": "d709a570791b",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Ligas Acadêmicas' (h5.card-title, 20px, not bold) in the 'Vida na UEL' card link. The theme CSS gives .card-vida-uel-content the background #04bf68, and the link text is white. Screenshot pixels in the title box are #04bf68 and #ffffff. White on #04bf68 is 2.43:1. That is below the 4.5:1 required for normal-size text, and it would fail even the 3:1 for large text. The live CSS is unchanged. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "a49408c2c663",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News link to an O Perobal story whose content is an image with no alt attribute and an <article> holding the h3 'Projeto avança debate sobre ética em pesquisa em Humanidades' and a summary paragraph. The captured CDP node has role link and name '', so the claim holds. Chrome does not take name-from-content text from inside the <article> wrapper: all nine links on the page with text inside an article have an empty browser name, while the card links with headings get one. The live HTML is the same, so Chrome users get an unnamed link (voice control and announcements based on the name get nothing). On the other hand, the visible headline is the link's own text. Under HTML/accname and H91 that text is the link's name, axe-core computes it, and screen readers in browse mode read the content. Competent auditors would split on whether this is an author failure of 4.1.2 or a user-agent quirk, so the label is uncertain even though my own lean is fail. The image's missing alt is a separate 1.1.1 issue."
+    },
+    {
+      "fingerprint": "5df26ad1de5e",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image uel-vida-na-uel.png at the top of the 'Vida na UEL' card link 'Conheça a UEL', alt='Card image cap' (the Bootstrap template placeholder). The crop and the screenshot show a white line icon of a globe on green. The alt describes nothing the image shows, so the claim holds. Placeholder text isn't a text alternative (F30). The icon repeats the link text and should have alt='', but its placeholder is read as part of the link name instead ('Card image cap Conheça a UEL'). The live HTML is the same. The claim points at that defect: fails 1.1.1."
+    },
+    {
+      "fingerprint": "284764ba66df",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Estágio' (h5.card-title, 20px, not bold) in the 'Vida na UEL' card link. The theme CSS gives .card-vida-uel-content the background #04bf68, and the link text is white. Screenshot pixels in the title box are #04bf68 and #ffffff. White on #04bf68 is 2.43:1. That is below the 4.5:1 required for normal-size text, and it would fail even the 3:1 for large text. The live CSS is unchanged. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "48a7cdae7ada",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News link to an O Perobal story whose content is an image with no alt attribute and an <article> holding the h3 'Professor divulga segundo episódio de podcast sobre ciência e pesquisa clínica' and a summary paragraph. The captured CDP node has role link and name '', so the claim holds. Chrome does not take name-from-content text from inside the <article> wrapper: all nine links on the page with text inside an article have an empty browser name, while the card links with headings get one. The live HTML is the same, so Chrome users get an unnamed link (voice control and announcements based on the name get nothing). On the other hand, the visible headline is the link's own text. Under HTML/accname and H91 that text is the link's name, axe-core computes it, and screen readers in browse mode read the content. Competent auditors would split on whether this is an author failure of 4.1.2 or a user-agent quirk, so the label is uncertain even though my own lean is fail. The image's missing alt is a separate 1.1.1 issue."
+    },
+    {
+      "fingerprint": "5f17510bc7d2",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image uel-estagio.png at the top of the 'Vida na UEL' card link 'Estágio', alt='Card image cap' (the Bootstrap template placeholder). The crop and the screenshot show a white line icon of an ID badge on green. The alt describes nothing the image shows, so the claim holds. Placeholder text isn't a text alternative (F30). The icon repeats the link text and should have alt='', but its placeholder is read as part of the link name instead ('Card image cap Estágio'). The live HTML is the same. The claim points at that defect: fails 1.1.1."
+    },
+    {
+      "fingerprint": "590987706c78",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Atléticas' (h5.card-title, 20px, not bold) in the 'Vida na UEL' card link. The theme CSS gives .card-vida-uel-content the background #04bf68, and the link text is white. Screenshot pixels in the title box are #04bf68 and #ffffff. White on #04bf68 is 2.43:1. That is below the 4.5:1 required for normal-size text, and it would fail even the 3:1 for large text. The live CSS is unchanged. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "6b7d39c42f63",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image uel-atletica.png at the top of the 'Vida na UEL' card link 'Atléticas', alt='Card image cap' (the Bootstrap template placeholder). The crop and the screenshot show a white line icon of a volleyball on green. The alt describes nothing the image shows, so the claim holds. Placeholder text isn't a text alternative (F30). The icon repeats the link text and should have alt='', but its placeholder is read as part of the link name instead ('Card image cap Atléticas'). The live HTML is the same. The claim points at that defect: fails 1.1.1."
+    },
+    {
+      "fingerprint": "s324c33dd12e",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "Top-level main-nav item 'Universidade' (CSS uppercases it to UNIVERSIDADE): href='#', aria-haspopup='true', aria-expanded='false', id menu-item-dropdown-13. It labels (aria-labelledby) the submenu in its own list item (55 anos, Conheça a UEL, Gabinete da Reitoria, ...). It doesn't lead to a page. Its purpose is to open the University submenu, and its text and its list item (programmatic context, which holds the submenu) make that clear. So 'nothing around it does' is false, and the link meets 2.4.4. Using a link with href='#' as a menu trigger is a 4.1.2 role issue, not a 2.4.4 one. The other 'Universidade' links are the same '#' menu triggers. The live HTML is the same."
+    },
+    {
+      "fingerprint": "ad536e1f4acb",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image uel-empresas-juniores.png at the top of the 'Vida na UEL' card link 'Empresas Juniores', alt='Card image cap' (the Bootstrap template placeholder). The crop and the screenshot show a white line icon of a rising bar chart on green. The alt describes nothing the image shows, so the claim holds. Placeholder text isn't a text alternative (F30). The icon repeats the link text and should have alt='', but its placeholder is read as part of the link name instead ('Card image cap Empresas Juniores'). The live HTML is the same. The claim points at that defect: fails 1.1.1."
+    },
+    {
+      "fingerprint": "f1d6c429cb4d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "tv-uel.png, alt='', shown at desktop width (d-none d-lg-block) under the YouTube embed and beside the 'VEJA MAIS' link to youtube.com/user/tvuel. The crop shows the words 'TV UEL'. The page content around it is the iframe title 'YouTube video player' and the link text 'VEJA MAIS', and neither names TV UEL. So the logo alone tells users that this block is the university's TV channel: it is informative, not decorative, and alt='' hides it. Fails 1.1.1 as claimed. The cross-origin iframe was not collected and shows blank in the screenshot. On the live page the embed shows a TV UEL video with the channel name inside the player, but that does not label the block in the page itself, so the difference doesn't change the verdict. The live HTML of the image is the same."
+    },
+    {
+      "fingerprint": "b1a5ffb01c1f",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image uel-bolsa.png at the top of the 'Vida na UEL' card link 'Bolsa Permanência', alt='Card image cap' (the Bootstrap template placeholder). The crop and the screenshot show a white line icon of a backpack on green. The alt describes nothing the image shows, so the claim holds. Placeholder text isn't a text alternative (F30). The icon repeats the link text and should have alt='', but its placeholder is read as part of the link name instead ('Card image cap Bolsa Permanência'). The live HTML is the same. The claim points at that defect: fails 1.1.1."
+    },
+    {
+      "fingerprint": "cbf991ae5987",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image uel-centros.png at the top of the 'Vida na UEL' card link 'Centros Acadêmicos', alt='Card image cap' (the Bootstrap template placeholder). The crop and the screenshot show a white line icon of a building on green. The alt describes nothing the image shows, so the claim holds. Placeholder text isn't a text alternative (F30). The icon repeats the link text and should have alt='', but its placeholder is read as part of the link name instead ('Card image cap Centros Acadêmicos'). The live HTML is the same. The claim points at that defect: fails 1.1.1."
+    },
+    {
+      "fingerprint": "b450721b3f33",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Moradia' (h5.card-title, 20px, not bold) in the 'Vida na UEL' card link. The theme CSS gives .card-vida-uel-content the background #04bf68, and the link text is white. Screenshot pixels in the title box are #04bf68 and #ffffff. White on #04bf68 is 2.43:1. That is below the 4.5:1 required for normal-size text, and it would fail even the 3:1 for large text. The live CSS is unchanged. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "40883526066d",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Bolsa Permanência' (h5.card-title, 20px, not bold) in the 'Vida na UEL' card link. The theme CSS gives .card-vida-uel-content the background #04bf68, and the link text is white. Screenshot pixels in the title box are #04bf68 and #ffffff. White on #04bf68 is 2.43:1. That is below the 4.5:1 required for normal-size text, and it would fail even the 3:1 for large text. The live CSS is unchanged. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "e4e3a51f3a84",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News link to an O Perobal story whose content is an image with no alt attribute and an <article> holding the h3 'Pesquisa inédita é publicada em revista internacional' and a summary paragraph. The captured CDP node has role link and name '', so the claim holds. Chrome does not take name-from-content text from inside the <article> wrapper: all nine links on the page with text inside an article have an empty browser name, while the card links with headings get one. The live HTML is the same, so Chrome users get an unnamed link (voice control and announcements based on the name get nothing). On the other hand, the visible headline is the link's own text. Under HTML/accname and H91 that text is the link's name, axe-core computes it, and screen readers in browse mode read the content. Competent auditors would split on whether this is an author failure of 4.1.2 or a user-agent quirk, so the label is uncertain even though my own lean is fail. The image's missing alt is a separate 1.1.1 issue."
+    },
+    {
+      "fingerprint": "e7f5be9797c1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Centros Acadêmicos' (h5.card-title, 20px, not bold) in the 'Vida na UEL' card link. The theme CSS gives .card-vida-uel-content the background #04bf68, and the link text is white. Screenshot pixels in the title box are #04bf68 and #ffffff. White on #04bf68 is 2.43:1. That is below the 4.5:1 required for normal-size text, and it would fail even the 3:1 for large text. The live CSS is unchanged. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "eb980713e7d7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image uel-moradia.png at the top of the 'Vida na UEL' card link 'Moradia', alt='Card image cap' (the Bootstrap template placeholder). The crop and the screenshot show a white line icon of a house on green. The alt describes nothing the image shows, so the claim holds. Placeholder text isn't a text alternative (F30). The icon repeats the link text and should have alt='', but its placeholder is read as part of the link name instead ('Card image cap Moradia'). The live HTML is the same. The claim points at that defect: fails 1.1.1."
+    },
+    {
+      "fingerprint": "aed0e8a81c91",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image uel-liga-academica.png at the top of the 'Vida na UEL' card link 'Ligas Acadêmicas', alt='Card image cap' (the Bootstrap template placeholder). The crop and the screenshot show a white line icon of a drawing compass on green. The alt describes nothing the image shows, so the claim holds. Placeholder text isn't a text alternative (F30). The icon repeats the link text and should have alt='', but its placeholder is read as part of the link name instead ('Card image cap Ligas Acadêmicas'). The live HTML is the same. The claim points at that defect: fails 1.1.1."
+    },
+    {
+      "fingerprint": "33b011a903fe",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Estude na UEL' (h5.card-title, 20px, not bold) in the 'Vida na UEL' card link. The theme CSS gives .card-vida-uel-content the background #04bf68, and the link text is white. Screenshot pixels in the title box are #04bf68 and #ffffff. White on #04bf68 is 2.43:1. That is below the 4.5:1 required for normal-size text, and it would fail even the 3:1 for large text. The live CSS is unchanged. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "ccaa6bfdc413",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Conheça a UEL' (h5.card-title, 20px, not bold) in the 'Vida na UEL' card link. The theme CSS gives .card-vida-uel-content the background #04bf68, and the link text is white. Screenshot pixels in the title box are #04bf68 and #ffffff. White on #04bf68 is 2.43:1. That is below the 4.5:1 required for normal-size text, and it would fail even the 3:1 for large text. The live CSS is unchanged. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "9f44187db05c",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Image uel-ru.png at the top of the 'Vida na UEL' card link 'Restaurante', alt='Card image cap' (the Bootstrap template placeholder). The crop and the screenshot show a white line icon of a fork and knife on green. The alt describes nothing the image shows, so the claim holds. Placeholder text isn't a text alternative (F30). The icon repeats the link text and should have alt='', but its placeholder is read as part of the link name instead ('Card image cap Restaurante'). The live HTML is the same. The claim points at that defect: fails 1.1.1."
+    },
+    {
+      "fingerprint": "6459e91592f7",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Restaurante' (h5.card-title, 20px, not bold) in the 'Vida na UEL' card link. The theme CSS gives .card-vida-uel-content the background #04bf68, and the link text is white. Screenshot pixels in the title box are #04bf68 and #ffffff. White on #04bf68 is 2.43:1. That is below the 4.5:1 required for normal-size text, and it would fail even the 3:1 for large text. The live CSS is unchanged. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "3fc649e9bb34",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Card title 'Empresas Juniores' (h5.card-title, 20px, not bold) in the 'Vida na UEL' card link. The theme CSS gives .card-vida-uel-content the background #04bf68, and the link text is white. Screenshot pixels in the title box are #04bf68 and #ffffff. White on #04bf68 is 2.43:1. That is below the 4.5:1 required for normal-size text, and it would fail even the 3:1 for large text. The live CSS is unchanged. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "c21f180b9673",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "model_error",
+      "rationale": "'SAIBA MAIS' link to /servicos-a-comunidade, alone in its paragraph in the SERVIÇOS À COMUNIDADE section. The heading just before it is the h3 'A UEL disponibiliza diversos serviços para a comunidade interna e externa.', which follows the h2 'SERVIÇOS À COMUNIDADE'. Together with 'Saiba mais', that heading gives the purpose: learn more about UEL's community services, and the destination is the page 'Serviços à Comunidade'. The other 'SAIBA MAIS' links follow different headings, so R1 puts them in different sets. The claim that nothing around it tells is false, and the link passes 2.4.4. The live HTML is the same."
+    },
+    {
+      "fingerprint": "b7cf039d7884",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "News link to an O Perobal story whose content is an image with no alt attribute and an <article> holding the h3 'EAIC 2026 tem mais de 800 alunos em apresentações orais de trabalhos de pesquisa' and a summary paragraph. The captured CDP node has role link and name '', so the claim holds. Chrome does not take name-from-content text from inside the <article> wrapper: all nine links on the page with text inside an article have an empty browser name, while the card links with headings get one. The live HTML is the same, so Chrome users get an unnamed link (voice control and announcements based on the name get nothing). On the other hand, the visible headline is the link's own text. Under HTML/accname and H91 that text is the link's name, axe-core computes it, and screen readers in browse mode read the content. Competent auditors would split on whether this is an author failure of 4.1.2 or a user-agent quirk, so the label is uncertain even though my own lean is fail. The image's missing alt is a separate 1.1.1 issue."
+    },
+    {
+      "fingerprint": "af121fff29e1",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "true_positive",
+      "cause": "none",
+      "rationale": "Source line 'Fonte: PROPLAN - UEL em Dados 2024' under the UEL EM DADOS heading. The live CSS sets .section-uel-em-dados .fonte to font-size .9rem (14.4px) and color #888, on a #f8f8f8 area with a 5%-opacity sketch in a ::before pseudo-element. Screenshot pixels behind the text are #f8f8f8/#f7f7f7 and the text is #888888, which gives 3.34:1. That is below 4.5:1 for small normal text. Nothing differs on the live page. Fails 1.4.3 as claimed."
+    },
+    {
+      "fingerprint": "8e3f8c0ffa82",
+      "answers": {
+        "claimTrue": "yes",
+        "elementFails": "yes",
+        "captureDiffers": "no"
+      },
+      "label": "uncertain",
+      "cause": "none",
+      "rationale": "uel-fm.png logo, alt='', shown at desktop width beside 'OUÇA MAIS' (radio.uel.br) under the radio player iframe. The crop shows the stylised 'UEL' and 'FM 107,9'. The iframe just before it is titled 'UEL FM radio player', and its own content carries 'Logo da UEL FM', so screen-reader users already get the station name. Only the frequency 107,9 is carried by the logo alone, so the claim is true. One could treat the logo as redundant branding, where alt='' is acceptable, or as informative, where the alt should be 'UEL FM 107,9'. Competent auditors would split on this, so the label is uncertain (my lean: fail). The live HTML is the same, and the blank iframe in the screenshot doesn't affect the point."
+    },
+    {
+      "fingerprint": "sd3e6e83f3b6",
+      "answers": {
+        "claimTrue": "no",
+        "elementFails": "no",
+        "captureDiffers": "no"
+      },
+      "label": "false_positive",
+      "cause": "criterion_misapplied",
+      "rationale": "'MAIS NOTÍCIAS' ('more news') at the end of the NOTÍCIAS section, linking to operobal.uel.br/, the university news site, in a new tab. The text alone gives its purpose: more news, which is what the destination is. 2.4.4 doesn't require naming the site (Understanding 2.4.4: it is not required to use the name of the document), so the claim asks for more than the criterion does. No other link shares the name. The live HTML is the same. Meets 2.4.4."
+    }
+  ]
+}
