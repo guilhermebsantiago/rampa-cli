@@ -193,6 +193,13 @@ interface LinkInfo {
   headers: string | undefined
   /** Where it leads, written the same way for every link; undefined when the markup does not say. */
   place: string | undefined
+  /** The addresses it names: its href (or where its click went) and, when that redirected, where it ended. */
+  addresses: Array<string | undefined>
+  /**
+   * Where it leads is known from what was read: a page or a file at its address, a part of this page, or, by
+   * `sharePlaces`, a link to the same address that was read.
+   */
+  read: boolean
   /** The list items it is nested in and the named lists or menus around it (`nestingOf`, H81). */
   nesting: string | undefined
   /** For a generic text, the heading of the card it sits in (`cardHeadingOf`, H80). */
@@ -261,6 +268,10 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
       if (name === '') continue
       const attributes = attributesOf(node)
       const line = lineContext(node, name)
+      const activation = scripted.get(node.ref)
+      const address = scriptedAddress(activation) ?? attributes.href
+      const destination = linkDestination(snapshot, attributes.href, activation)
+      const place = placeOf(address, base, destination)
       links.push({
         node,
         name,
@@ -271,12 +282,15 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
         heading: heading?.name,
         sections: open.filter(Boolean).join(' > '),
         headers: cellHeaders(index, node),
-        place: placeOf(scriptedAddress(scripted.get(node.ref)) ?? attributes.href, base, linkDestination(snapshot, attributes.href, scripted.get(node.ref))),
+        place,
+        addresses: [address, destination?.finalUrl],
+        read: (destination !== undefined && READ_KINDS.has(destination.kind)) || place?.startsWith('#') === true,
         nesting: nestingOf(index, node, textOfIds),
         // Read only where it can complete the text: on any other link the prompt stays as it was.
         cardHeading: genericLinkText(name) ? cardHeadingOf(index, node, heading) : undefined,
       })
     }
+    sharePlaces(links, base)
     const byText = new Map<string, LinkInfo[]>()
     for (const link of links) {
       const key = normalizeForMatch(link.name)
@@ -939,7 +953,8 @@ function sameTextLine(same: SameText): string {
  * footer, the sixth real-page study).
  *
  * A link whose destination was not read (the budget of addresses ran out, the site did not answer, or the policy keeps
- * it) is compared by its address (`placeOf`), so two addresses of one resource count as two places until both are read.
+ * it) is compared by its address (`placeOf`), so two addresses of one resource count as two places until both are read;
+ * an address read under another spelling gives it its place (`sharePlaces`).
  * Calling a claim on such a pair the model's suggestion was weighed and not adopted: of the labelled shared-text
  * findings of the third to sixth real-page studies whose fact holds, 65 true and 72 false had a link in their group
  * whose address was never read (joules.com's 31 true among them), against 8 true and 1 false with every address read,
@@ -1149,6 +1164,36 @@ function placeOf(href: string | undefined, base: string, destination: Destinatio
     url.pathname = url.pathname.replace(/\/index\.html?$/i, '/').replace(/(.)\/+$/, '$1')
   }
   return url.href
+}
+
+/** Kinds of destination that say where a link leads: what was read at its address, or a part of this page. */
+const READ_KINDS: ReadonlySet<string> = new Set(['page', 'file', 'same-page'])
+
+/**
+ * An address read under one spelling is the place of a link that names it under another and was not read itself:
+ * chop.edu's footer "Terms of use" to "/terms-use", left unread under a `<slot>` the collector took for hidden, and its
+ * cookie banner's to "https://www.chop.edu/terms-use", read as the page "Terms of Use", were two places in the seventh
+ * real-page study. Addresses are compared as `placeOf` writes one it did not read (resolved against the page, without
+ * tracking parameters or a fragment of parameters, a final slash or "index.html"): the read link's own and, when it
+ * redirected, the one it ended at. The unread link then counts as read.
+ */
+function sharePlaces(links: LinkInfo[], base: string): void {
+  const byAddress = new Map<string, string>()
+  for (const link of links) {
+    if (!link.read || link.place === undefined) continue
+    for (const address of link.addresses) {
+      const key = placeOf(address, base, undefined)
+      if (key !== undefined && !byAddress.has(key)) byAddress.set(key, link.place)
+    }
+  }
+  for (const link of links) {
+    if (link.read) continue
+    const key = placeOf(link.addresses[0], base, undefined)
+    const place = key === undefined ? undefined : byAddress.get(key)
+    if (place === undefined) continue
+    link.place = place
+    link.read = true
+  }
 }
 
 /** The id a link points to within its own page: "#part", or the page's own address with a fragment. */

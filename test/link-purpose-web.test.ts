@@ -65,6 +65,30 @@ describe.skipIf(!browser)('2.4.4 on a real page', { timeout: 30_000 }, () => {
     expect(shared.map((c) => c.context.sameText?.apart)).toEqual([true, true, true])
   })
 
+  it('reads what a slot or another element with display: contents holds as shown, and follows its links', async () => {
+    if (!browser) return
+    // chop.edu's footer in the seventh real-page study: its links sat under slots, were recorded as hidden and never followed.
+    const dir = await mkdtemp(join(tmpdir(), 'rampa-slots-'))
+    await writeFile(join(dir, 'terms.html'), '<!doctype html><html lang="en"><head><title>Terms of Use</title></head><body><h1>Terms of Use</h1></body></html>')
+    await writeFile(
+      join(dir, 'page.html'),
+      `<!doctype html><html lang="en"><body>
+        <site-footer><a id="slotted" href="terms.html">Terms of use</a></site-footer>
+        <div id="contents" style="display: contents"><a id="inside" href="terms.html">Terms</a></div>
+        <div style="display: none"><div id="gone" style="display: contents"><a id="hidden" href="terms.html">Hidden terms</a></div></div>
+        <script>customElements.define('site-footer', class extends HTMLElement { constructor() { super(); this.attachShadow({ mode: 'open' }).innerHTML = '<div><slot></slot></div>' } })</script>
+      </body></html>`,
+    )
+    const { snapshot } = await collectWeb(browser, pathToFileURL(join(dir, 'page.html')).href, { runAxe: false, locale: 'en', followLinks: { policy: 'same-origin', cache: destinationCache() } })
+    const nodes = [...walkTree(snapshot.root)]
+    const byId = (id: string) => nodes.find((node) => (node.native.attributes as Record<string, string> | undefined)?.id === id)
+    expect(nodes.find((node) => node.native.tag === 'slot')?.states).not.toContain('hidden')
+    expect(byId('contents')?.states).not.toContain('hidden')
+    expect(byId('slotted')?.states).not.toContain('hidden')
+    expect(byId('gone')?.states).toContain('hidden')
+    expect(snapshot.destinations?.['terms.html']).toMatchObject({ kind: 'page', title: 'Terms of Use' })
+  })
+
   it('follows nothing with --follow-links none', async () => {
     if (!browser) return
     const { snapshot } = await collectWeb(browser, news, { runAxe: false, locale: 'en', followLinks: { policy: 'none' } })

@@ -568,3 +568,34 @@ describe('links inside an inert element', () => {
     }
   })
 })
+
+// chop.edu in the seventh real-page study: the footer's "Terms of use" to "/terms-use", left unread because the
+// collector took the slot it sits under for hidden, and the cookie banner's to the same page by its whole address, read.
+describe('an unread link to an address read under another spelling', () => {
+  const pair = (footerHref: string, destinations: A11ySnapshot['destinations']) => ({
+    ...page([div('banner', p('notice', text('n', 'We use cookies.')), div('links', link('#banner', 'Terms of use', 'https://www.chop.example/terms-use'))), ul('footer', li('f1', link('#footer', 'Terms of use', footerHref)))], 'https://www.chop.example/'),
+    destinations,
+  })
+  const terms = { 'https://www.chop.example/terms-use': { kind: 'page' as const, title: "Terms of Use | Children's Hospital", heading: 'Terms of Use' } }
+
+  it('takes the place of the read one, so the two lead to one place and no shared-text claim rests on them', async () => {
+    for (const href of ['/terms-use', '/terms-use/', 'https://www.chop.example/terms-use?utm_source=footer']) {
+      expect(facts(pair(href, terms)).map((c) => c.sameText), href).toEqual([{ links: 2, places: 1, apart: true }, { links: 2, places: 1, apart: true }])
+      expect(await sharedFindings(pair(href, terms)), href).toEqual([])
+    }
+  })
+
+  it('takes the place of a read link that redirected from its address too', () => {
+    const snapshot = {
+      ...page([div('banner', link('#banner', 'Terms of use', '/terms')), ul('footer', li('f1', link('#footer', 'Terms of use', '/terms-use')))], 'https://www.chop.example/'),
+      destinations: { '/terms': { kind: 'page' as const, title: 'Terms of Use', heading: 'Terms of Use', finalUrl: 'https://www.chop.example/terms-use' } },
+    }
+    expect(facts(snapshot).map((c) => c.sameText?.places)).toEqual([1, 1])
+  })
+
+  it('keeps two places for another address, or when neither address was read', () => {
+    expect(facts(pair('/privacy-policy', terms)).map((c) => c.sameText?.places)).toEqual([2, 2])
+    expect(facts(pair('/terms-use', undefined)).map((c) => c.sameText?.places)).toEqual([1, 1])
+    expect(facts(pair('/terms-of-use', undefined)).map((c) => c.sameText?.places)).toEqual([2, 2])
+  })
+})
