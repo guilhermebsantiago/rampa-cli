@@ -991,3 +991,98 @@ describe('1.1.1 a social network icon whose alternative names the network', () =
     expect(report.criteria.find((c) => c.criterion === '1.1.1')).toMatchObject({ suggested: 1, confirmed: 1 })
   })
 })
+
+// liverpoolecho.co.uk in the sixth real-page study: the header's subscribe button, an SVG with alt "liverpoolecho" that is
+// all of a link labelled "Subscribe to premium membership"; and arezzo.com.br's banners, whose links repeat the alternative.
+describe('1.1.1 an image that is all of a link or button with its own aria-label', () => {
+  const page = (children: ReturnType<typeof node>[]): A11ySnapshot => ({
+    ...gallery(),
+    target: 'https://www.echo.example/',
+    locale: 'en',
+    root: node({ ref: 'html', role: 'document', lang: 'en', children }),
+  })
+  const picture = (ref: string, alt: string) =>
+    node({ ref, role: 'img', name: alt, image: PNG, bounds: { x: 0, y: 0, width: 120, height: 32 }, native: { tag: 'img', attributes: { src: 'logo.svg', alt }, html: `<img src="logo.svg" alt="${alt}">` } })
+  const control = (ref: string, role: 'link' | 'button', label: string | undefined, children: ReturnType<typeof node>[]) =>
+    node({
+      ref,
+      role,
+      name: label,
+      native: { tag: role === 'link' ? 'a' : 'button', attributes: { ...(role === 'link' ? { href: '/subscribe' } : {}), ...(label === undefined ? {} : { 'aria-label': label }) } },
+      children,
+    })
+  const echo = page([
+    control('#subscribe', 'link', 'Subscribe to premium membership', [picture('#subscribe-img', 'liverpoolecho')]),
+    control('#story', 'link', "'Coldest night' in Liverpool so far", [picture('#story-img', "'Coldest night' in Liverpool so far")]),
+    control('#menu', 'button', 'Open menu', [picture('#menu-img', 'Echo crest')]),
+    control('#plain', 'link', undefined, [picture('#plain-img', 'liverpoolecho')]),
+    control('#blank', 'link', '   ', [picture('#blank-img', 'liverpoolecho')]),
+    control('#card', 'link', 'Read the story', [picture('#card-img', 'Liverpool skyline'), node({ ref: '#card-text', text: 'Coldest night so far' })]),
+    control('#placeholder', 'link', 'Subscribe', [picture('#placeholder-img', 'img-1')]),
+    control('#code', 'link', 'ARZ - QUARTETO1 - DESK', [picture('#code-img', 'ARZ - quarteto1 -  DESK')]),
+  ])
+  const candidateOf = (ref: string) => {
+    const candidate = nonTextContent.candidates(echo, { engine: engine.engine, rules: [] }).find((c) => c.ref === ref)
+    if (!candidate) throw new Error(`no candidate ${ref}`)
+    return candidate
+  }
+  type Problem = 'wrong_content' | 'missing_information' | 'generic' | 'decorative' | 'filename_or_placeholder'
+  const grounded = (ref: string, problem: Problem) => {
+    const candidate = candidateOf(ref)
+    const answer = { verdict: 'fail' as const, evidence: candidate.context.alt, problem, imageShows: 'The word SUBSCRIBE beside a bird', suggestedAlt: 'Subscribe to premium membership', confidence: 'high' as const }
+    return groundedImage(answer, candidate.context, echo)
+  }
+
+  it('records the control and its own name, only when the image is all it holds and its aria-label says something', () => {
+    expect(candidateOf('#subscribe-img').context.namedControl).toEqual({ control: 'link', name: 'Subscribe to premium membership' })
+    expect(candidateOf('#menu-img').context.namedControl).toEqual({ control: 'button', name: 'Open menu' })
+    // An aria-label that repeats the alternative (arezzo.com.br's CMS codes in both) names the control by the same words.
+    for (const ref of ['#plain-img', '#blank-img', '#card-img', '#story-img', '#code-img']) expect(candidateOf(ref).context.namedControl, ref).toBeUndefined()
+    // Named by its image, the link holds a functional image, judged by its purpose as before.
+    expect(candidateOf('#plain-img').context.functional).toMatchObject({ control: 'link' })
+  })
+
+  it("makes every claim that reads the picture the model's suggestion, in each wording altClaim gives it", () => {
+    for (const problem of ['wrong_content', 'missing_information', 'decorative'] as const) {
+      expect(grounded('#subscribe-img', problem), problem).toBe(false)
+      expect(grounded('#menu-img', problem), problem).toBe(false)
+    }
+    // A wrong_content answer on a one-word alternative is worded "names a label": the same reading, held the same way.
+    const subscribe = candidateOf('#subscribe-img').context
+    const answer = { verdict: 'fail' as const, evidence: 'liverpoolecho', problem: 'wrong_content' as const, imageShows: 'A bird', suggestedAlt: 'Subscribe', confidence: 'high' as const }
+    expect(altClaim(answer, subscribe, { extension: true, short: true })).toBe('short_alternative')
+    expect(groundedImage(answer, subscribe, echo)).toBe(false)
+  })
+
+  it("keeps a claim on the alternative's own text, and every claim on an image the control does not name itself", () => {
+    expect(grounded('#subscribe-img', 'generic')).toBe(true)
+    expect(grounded('#placeholder-img', 'wrong_content')).toBe(true)
+    expect(grounded('#plain-img', 'wrong_content')).toBe(true)
+    expect(grounded('#card-img', 'wrong_content')).toBe(true)
+    expect(grounded('#blank-img', 'wrong_content')).toBe(true)
+    expect(grounded('#story-img', 'wrong_content')).toBe(true)
+    expect(grounded('#code-img', 'wrong_content')).toBe(true)
+  })
+
+  it('reports the claim under review with no second pass, and such a claim on a link named by its image as a finding', async () => {
+    let wordCalls = 0
+    const provider: ModelProvider = {
+      id: 'test:named',
+      async judge<T>(request: JudgeRequest<T>) {
+        const alt = /Current text alternative: "([^"]*)"/.exec(request.user)?.[1] ?? ''
+        const output = { verdict: 'fail', evidence: alt, problem: 'wrong_content', imageShows: 'The word SUBSCRIBE beside a bird', suggestedAlt: 'Subscribe to the Echo', confidence: 'high' }
+        return { output: request.schema.parse(output), inputTokens: 10, outputTokens: 5, latencyMs: 1, modelId: 'named' }
+      },
+      async word(request: WordRequest) {
+        wordCalls++
+        const word = request.system.includes('pass or fail') ? 'fail' : request.system.includes('reviewer made the claim') ? 'yes' : 'no'
+        return { word, probabilities: { [word]: 0.999 }, inputTokens: 10, outputTokens: 1, latencyMs: 1, modelId: 'named' }
+      },
+    }
+    const pair = page([control('#subscribe', 'link', 'Subscribe to premium membership', [picture('#subscribe-img', 'liverpoolecho')]), control('#plain', 'link', undefined, [picture('#plain-img', 'Echo crest')])])
+    const report = await checkSnapshot(pair, { engine: engine.engine, rules: [] }, { criteria: [nonTextContent], llm: true, provider, runs: 1, cache: memoryCache(), offline: false, locale: 'en', minConfidence: 'low', concurrency: 1 })
+    expect(report.findings.filter((f) => f.criterion === '1.1.1').map((f) => f.ref)).toEqual(['#plain-img'])
+    expect(report.needsReview?.filter((entry) => entry.criterion === '1.1.1').map((entry) => entry.ref)).toEqual(['#subscribe-img'])
+    expect(wordCalls).toBe(3)
+  })
+})
