@@ -8,6 +8,7 @@ import { resolveCriteria } from '../src/criteria/index.ts'
 import type { JudgeRequest, ModelProvider } from '../src/providers/types.ts'
 import { pixelFactOf } from '../src/snapshot/pixel-contrast.ts'
 import { walkTree } from '../src/snapshot/tree.ts'
+import { destinationCache } from '../src/surfaces/destinations.ts'
 import { collectWeb } from '../src/surfaces/web.ts'
 import { launchTestBrowser } from './browser.ts'
 
@@ -49,6 +50,9 @@ const ROUTES: Record<string, (request: import('node:http').IncomingMessage, resp
   // museudoamanha.org.br in the fourth real-page study: a site's page served with no style at all, its body text in
   // the browser's default look. Loaded once more, then read as unstyled.
   '/plain-site': (_, response) => response.end(page('Departments', '', PLAIN_SITE)),
+  // The two pages the hidden list's "Documentos" lead to, read when links are followed.
+  '/caa/documentos': (_, response) => response.end(page('Documentos do CAA', '', '<h1>Documentos do CAA</h1>')),
+  '/cav/documentos': (_, response) => response.end(page('Documentos do CAV', '', '<h1>Documentos do CAV</h1>')),
   // The same look on a page this small (an ACT test case, a fixture) is a page written without CSS: read as it is.
   '/plain-small': (_, response) => response.end(page('Departments', '', LISTING)),
   // A site's page with a style element: its styles applied, whatever its body font.
@@ -147,7 +151,8 @@ describe.skipIf(!browser)('a page read without its stylesheets', () => {
 
 describe.skipIf(!browser)('a page served with no style at all', () => {
   it("reads a site's page whose body text has the browser's default look as unstyled, after one more load", { timeout: 60_000 }, async () => {
-    const { snapshot, engine } = await collect('/plain-site', { pixelContrast: true })
+    // The links are followed, so the "Documentos" pair is read at both ends and its claim is judged first under the cap.
+    const { snapshot, engine } = await collect('/plain-site', { pixelContrast: true, followLinks: { policy: 'same-origin', cache: destinationCache() } })
     expect(requests['/plain-site']).toBe(2)
     expect(snapshot.reach?.stylesheets).toEqual({ linked: 0, applied: 0, failed: [], unstyled: true, retried: true })
     expect(snapshot.root.native.authorStyles).toBe(0)

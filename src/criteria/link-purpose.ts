@@ -144,6 +144,12 @@ export interface LinkPurposeContext {
    * read at its address, the site's own name aside (`headingNamesDestination`). For verification only.
    */
   headingNamesDestination?: boolean | undefined
+  /**
+   * Set when links that share this link's text lead elsewhere from the same context, and no such link was read together
+   * with this one: their places differ by address only, as two addresses of one page do (`pairRead`). For verification
+   * only.
+   */
+  sameTextUnread?: true | undefined
 }
 
 /** The part of the page a same-page link points to, as verification reads it. */
@@ -326,6 +332,8 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
       const partHeading = partNode?.role === 'heading' ? partNode : partNode ? headingOnlyOf(partNode) : undefined
       const rowSubject = rowSubjectOf(index, node)
       const menu = inMenu(index, node, lists)
+      const group = byText.get(normalizeForMatch(name)) ?? []
+      const sameText = sameTextOf(link, group)
       candidates.push({
         ref: node.ref,
         context: {
@@ -342,7 +350,8 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
           headers: link.headers,
           landmark: landmarkOf(index, node),
           destination: destination?.kind === 'page' || destination?.kind === 'file' ? destination : undefined,
-          sameText: sameTextOf(link, byText.get(normalizeForMatch(name)) ?? []),
+          sameText,
+          ...(sameText && sameText.places > 1 && !sameText.apart && !pairRead(link, group) ? { sameTextUnread: true as const } : {}),
           language: inheritedLang(index, node.ref, snapshot.locale) ?? node.lang ?? 'en',
           ...(activation && activationText(activation)
             ? { activation: { kind: activation.kind, url: activation.url, ...(activation.opened ? { opened: activation.opened } : {}), ...(activation.message ? { message: activation.message } : {}) } }
@@ -481,7 +490,10 @@ export const linkPurpose: Criterion<LinkPurposeContext, LinkPurposeJudgment> = {
 /** What `groundedLink` reads of a candidate. */
 export type LinkFacts = Pick<LinkPurposeContext, 'name' | 'sameText' | 'context' | 'headers' | 'description'> &
   Partial<
-    Pick<LinkPurposeContext, 'heading' | 'landmark' | 'rowSubject' | 'menu' | 'chrome' | 'target' | 'part' | 'cardHeading' | 'menuToggle' | 'headingNamesDestination' | 'destination'>
+    Pick<
+      LinkPurposeContext,
+      'heading' | 'landmark' | 'rowSubject' | 'menu' | 'chrome' | 'target' | 'part' | 'cardHeading' | 'menuToggle' | 'headingNamesDestination' | 'sameTextUnread' | 'destination'
+    >
   >
 
 /**
@@ -514,7 +526,7 @@ export function groundedLink(problem: (typeof LINK_PROBLEMS)[number], c: LinkFac
   // A raw address with a sentence of its own ("…conforme orientações previstas na página www.cnj.jus.br/comopeticionar.")
   // has a programmatically determined context that can say where it leads (G53): whether it does is the model's reading.
   if (problem === 'url_or_filename') return addressText(c.name) && !c.context && !c.description
-  if (problem === 'ambiguous') return Boolean(c.sameText && c.sameText.places > 1 && !c.sameText.apart) && !namesOwnDestination(c)
+  if (problem === 'ambiguous') return Boolean(c.sameText && c.sameText.places > 1 && !c.sameText.apart && !c.sameTextUnread) && !namesOwnDestination(c)
   if (problem === 'mismatch') return namesNoPartOf(c)
   return false
 }
@@ -984,12 +996,8 @@ function sameTextLine(same: SameText): string {
  *
  * A link whose destination was not read (the budget of addresses ran out, the site did not answer, or the policy keeps
  * it) is compared by its address (`placeOf`), so two addresses of one resource count as two places until both are read;
- * an address read under another spelling gives it its place (`sharePlaces`).
- * Calling a claim on such a pair the model's suggestion was weighed and not adopted: of the labelled shared-text
- * findings of the third to sixth real-page studies whose fact holds, 65 true and 72 false had a link in their group
- * whose address was never read (joules.com's 31 true among them), against 8 true and 1 false with every address read,
- * so an unread address says nothing about which a claim is (counted, in-sample, labels by two Claude judges). The
- * collector reads such groups first instead (`sharedTextFirst`, src/surfaces/destinations.ts), within the same budget.
+ * an address read under another spelling gives it its place (`sharePlaces`). A claim on a pair that was never read at
+ * both ends is the model's suggestion (`pairRead`).
  */
 function sameTextOf(link: LinkInfo, group: readonly LinkInfo[]): SameText | undefined {
   if (group.length < 2 || link.place === undefined) return undefined
@@ -1000,6 +1008,24 @@ function sameTextOf(link: LinkInfo, group: readonly LinkInfo[]): SameText | unde
   const key = contextKey(link)
   const apart = known.every((other) => other.place === link.place || contextKey(other) !== key)
   return { links: group.length, places, apart }
+}
+
+/**
+ * Whether the claim that a link shares its text with links that lead elsewhere rests on what was read: the link and one
+ * of those links from the same context were both read (a page or a file at the address, a part of this page, or the
+ * same address read under another spelling, `sharePlaces`). Places told apart by their addresses alone may be one page
+ * at two addresses (sboc.org.br's post published twice in the sixth real-page study; avoca.com's "SHOP NOW" in the
+ * seventh), so such a claim is the model's suggestion. It costs true findings where the budget of addresses ran out
+ * before a group's pair: replayed on the labelled shared-text findings of the third to seventh studies (in-sample, two
+ * Claude judges), it moves 60 true, 19 false and 15 uncertain (and 45 false on www.ufpe.br, already suggestions as an
+ * unstyled page); 31 of the true are joules.com's, whose groups lay past the budget. Those recordings, but the seventh's,
+ * were read before the collector read such groups first (`sharedTextFirst`, src/surfaces/destinations.ts): with that
+ * order, 18 of the 60 would have had both addresses asked for.
+ */
+function pairRead(link: LinkInfo, group: readonly LinkInfo[]): boolean {
+  if (!link.read) return false
+  const key = contextKey(link)
+  return group.some((other) => other.read && other.place !== undefined && other.place !== link.place && contextKey(other) === key)
 }
 
 /**
