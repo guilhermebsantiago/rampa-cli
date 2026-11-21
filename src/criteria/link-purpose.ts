@@ -922,10 +922,11 @@ function sameTextLine(same: SameText): string {
 
 /**
  * Compares a link with the others that share its text. Links that lead elsewhere must differ in their
- * context: paragraph, list item or cell, header cells, description, the sections they sit in, or the list items they
- * are nested in (H81, `nestingOf`). Two "Play" links under "Result" headings tell apart when one "Result" is in the
- * section of one example and the other in another's; two "Adhesives & Sealants" tell apart when one is a department
- * of its own and the other sits in the list nested under "Deals".
+ * context: paragraph, list item or cell, header cells, description, title (H33), the sections they sit in, or the list
+ * items they are nested in (H81, `nestingOf`). Two "Play" links under "Result" headings tell apart when one "Result" is
+ * in the section of one example and the other in another's; two "Adhesives & Sealants" tell apart when one is a
+ * department of its own and the other sits in the list nested under "Deals"; two "Facebook" links tell apart by their
+ * titles "CPSC Facebook" and "CPSC Facebook en Español" (cpsc.gov's footer, the sixth real-page study).
  */
 function sameTextOf(link: LinkInfo, group: readonly LinkInfo[]): SameText | undefined {
   if (group.length < 2 || link.place === undefined) return undefined
@@ -938,8 +939,14 @@ function sameTextOf(link: LinkInfo, group: readonly LinkInfo[]): SameText | unde
   return { links: group.length, places, apart }
 }
 
+/**
+ * What a link's context says, as one string to compare. The link's own title attribute counts (technique H33: it
+ * supplements the link text, and a browser gives it as the link's description); the prompt shows it in the markup.
+ */
 function contextKey(link: LinkInfo): string {
-  return normalizeForMatch([link.context, link.sections || link.heading, link.headers, link.description, link.nesting].map((part) => part ?? '').join(' | '))
+  return normalizeForMatch(
+    [link.context, link.sections || link.heading, link.headers, link.description, link.attributes.title?.trim(), link.nesting].map((part) => part ?? '').join(' | '),
+  )
 }
 
 /** Lists, menus and groups a screen reader names as it enters them, when they have a name of their own. */

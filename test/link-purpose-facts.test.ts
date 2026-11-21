@@ -420,6 +420,27 @@ describe('a fragment of parameters on a shared text', () => {
   })
 })
 
+// cpsc.gov's footer in the sixth real-page study: two lists of social links, the agency's and its Spanish accounts'.
+describe('a title on links that share a text (H33)', () => {
+  const footer = (titles: [string, string] | undefined) => {
+    const social = (ref: string, href: string, title: string | undefined) =>
+      node({ ref, role: 'link', name: 'facebook', native: { tag: 'a', attributes: { href, ...(title ? { title } : {}) } }, children: [text(`${ref}-text`, 'facebook')] })
+    return page([
+      ul('en', li('en1', social('#en', 'https://www.facebook.com/USCPSC/', titles?.[0]))),
+      ul('es', li('es1', social('#es', 'https://www.facebook.com/USCPSCenEspanol', titles?.[1]))),
+    ])
+  }
+
+  it('tells the links apart, so a model that fails both as shared reports neither', async () => {
+    expect(await sharedFindings(footer(['CPSC Facebook', 'CPSC Facebook en Español']))).toEqual([])
+  })
+
+  it('still reports them with no title, or with the same title', async () => {
+    expect(await sharedFindings(footer(undefined))).toEqual(['#en', '#es'])
+    expect(await sharedFindings(footer(['Facebook', 'Facebook']))).toEqual(['#en', '#es'])
+  })
+})
+
 // P4 of docs/studies/notes-precision-p3p4.md: a link whose text names the page it leads to rests no shared-text claim.
 describe('a shared text that names its destination', () => {
   // correio.braziliense's header menu in the third real-page study: "Direito e Justiça" to its section, and another

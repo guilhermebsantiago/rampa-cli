@@ -162,6 +162,24 @@ describe('2.4.4 links that share a text', () => {
     })
   })
 
+  it('lets the title of each link tell them apart (H33), and not a title they share', () => {
+    // cpsc.gov's footer (sixth real-page study): "facebook" to the agency's page and to its Spanish page, told apart by title.
+    const social = (titleA?: string, titleB?: string) =>
+      linkPurpose
+        .candidates(
+          snapshot([
+            list('en', item('en1', link('fb-en', 'facebook', 'https://www.facebook.com/USCPSC/', titleA ? { title: titleA } : {}))),
+            list('es', item('es1', link('fb-es', 'facebook', 'https://www.facebook.com/USCPSCenEspanol', titleB ? { title: titleB } : {}))),
+          ]),
+          noFindings,
+        )
+        .map((c) => c.context.sameText)
+    expect(social('CPSC Facebook', 'CPSC Facebook en Español')).toEqual(Array(2).fill({ links: 2, places: 2, apart: true }))
+    expect(social('CPSC Facebook', undefined)).toEqual(Array(2).fill({ links: 2, places: 2, apart: true }))
+    expect(social(undefined, undefined)).toEqual(Array(2).fill({ links: 2, places: 2, apart: false }))
+    expect(social('Facebook', ' facebook ')).toEqual(Array(2).fill({ links: 2, places: 2, apart: false }))
+  })
+
   it('reads the item a list is nested in by its text, button or link, and a submenu named by its button', () => {
     const page = snapshot([
       list(
