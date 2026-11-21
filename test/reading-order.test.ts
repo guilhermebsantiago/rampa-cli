@@ -150,6 +150,33 @@ describe('boxes CSS reorders (1.3.2, F1)', () => {
     expect(stage.findings[0]?.message).toContain('“Telephones” aparece sob “Products”, mas a marcação o põe depois de “Locations”')
   })
 
+  it('reads no price, number, link or button as a heading, however large or bold it is set', () => {
+    // amaro.com's product cards in the seventh real-page study: the price set larger, its instalments under it and the
+    // old price beside it, held in the markup as old price, instalments, price; drogariasaopaulo.com.br's cards: a bold
+    // "Adicionar aos Favoritos" button shown above the medicine's flags and held after them.
+    const card = (price: string) =>
+      container('a.card', ['order'], [
+        box('a.card > span:nth-of-type(1)', 'R$369,90', { x: 100, y: 0, width: 60, height: 18 }, { font: [14, 400] }),
+        box('a.card > span:nth-of-type(2)', '6 x de R$61,65 sem juros', { x: 0, y: 30, width: 160, height: 18 }, { font: [14, 400] }),
+        box('a.card > span:nth-of-type(3)', price, { x: 0, y: 0, width: 80, height: 24 }, { font: [20, 400] }),
+      ])
+    const favourite = (role: string) =>
+      container('div.shelf', ['absolute'], [
+        box('div.shelf > ul', 'Tarja Preta Medicamento Similar', { x: 0, y: 40, width: 200, height: 18 }, { font: [16, 400] }),
+        node({ ref: 'div.shelf > button', role, text: 'Adicionar aos Favoritos', bounds: { x: 0, y: 0, width: 200, height: 30 }, native: { tag: role === 'button' ? 'button' : 'div', font: [18, 700] } }),
+        box('div.shelf > p', 'Comprar com desconto hoje', { x: 0, y: 70, width: 200, height: 18 }, { font: [16, 400] }),
+      ])
+    for (const price of ['R$351,41', 'US$ 20', '€15', '351,41']) {
+      const [order] = readingOrders(page([card(price)]))
+      expect(order?.broken, price).toBeUndefined()
+    }
+    expect(readingOrders(page([favourite('button')]))[0]?.broken).toBeUndefined()
+    expect(runRuleChecks(page([card('R$351,41'), favourite('button')]), noEngine, 'en', [cssReadingOrderRule]).findings).toEqual([])
+    // A title set larger in the same place is a heading, as before.
+    expect(readingOrders(page([card('Sandália Rasteira')]))[0]?.broken).toMatchObject({ kind: 'heading', facts: { owner: 'Sandália Rasteira' } })
+    expect(readingOrders(page([favourite('generic')]))[0]?.broken).toMatchObject({ kind: 'heading', facts: { owner: 'Adicionar aos Favoritos' } })
+  })
+
   it('fails a heading shown above its text and read after it, and a sentence read the wrong way round', () => {
     const snapshot = page([
       container('article', ['column-reverse'], [

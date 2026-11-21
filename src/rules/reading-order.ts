@@ -485,7 +485,15 @@ function stacked(boxes: readonly OrderBox[]): boolean {
   return false
 }
 
-/** Short text set larger than the rest, or bold among regular text, heads what is below it, as a heading would. */
+/** A text that opens with a number or a currency sign ("R$351,41", "US$ 20", "€15", "6 x de…"): a value, not a title. */
+const AMOUNT = /^(?:\p{N}|\p{Lu}{0,3}\s?\p{Sc})/u
+
+/**
+ * Short text set larger than the rest, or bold among regular text, heads what is below it, as a heading would. A link,
+ * a button or another control is read for its own sake, and a price or a number is a value: neither heads anything.
+ * amaro.com's product cards (a price set larger, "R$351,41", over its instalments) and drogariasaopaulo.com.br's (a
+ * bold "Adicionar aos Favoritos" button over the medicine's flags) gave 38 false findings in the seventh real-page study.
+ */
 function emphasize(boxes: OrderBox[]): void {
   const fonts = boxes.map((box) => fontOf(box.node))
   if (fonts.some((font) => !font)) return
@@ -500,7 +508,7 @@ function emphasize(boxes: OrderBox[]): void {
   // When every box is set that way, none stands out.
   if (marked.every(Boolean) || boxes.filter((box, i) => box.heading || marked[i]).length === boxes.length) return
   boxes.forEach((box, i) => {
-    if (marked[i]) box.heading = true
+    if (marked[i] && !interactive(box) && !AMOUNT.test(box.text.trim())) box.heading = true
   })
 }
 
